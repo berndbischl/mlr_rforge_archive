@@ -11,12 +11,12 @@ setwd(project.dir)
 
 src.dir  <- file.path(project.dir, "src")
 pkg.dir  <- file.path(project.dir, "pkg")
-clr.dir  <- file.path(pkg.dir, "clr")
-r.dir    <- file.path(clr.dir, "R") 
-man.dir  <- file.path(clr.dir, "man") 
+mlr.dir  <- file.path(pkg.dir, "mlr")
+r.dir    <- file.path(mlr.dir, "R") 
+man.dir  <- file.path(mlr.dir, "man") 
 html.dir <- file.path(project.dir, "html") 
 
-cat("Building clr to :", pkg.dir, "...\n")
+cat("Building mlr to :", pkg.dir, "...\n")
 cat("Clean up:\n")
 
 if( unlink(file.path(r.dir, list.files(r.dir))) != 0) 
@@ -37,10 +37,10 @@ code.files <- file.path(src.dir, c(base.files, classif.files, regr.files))
 
 cat("Build skeleton for:\n")
 print(code.files)
-package.skeleton("clr", code_files=code.files, path = pkg.dir, namespace=FALSE, force=TRUE)
+package.skeleton("mlr", code_files=code.files, path = pkg.dir, namespace=FALSE, force=TRUE)
 
 
-desc.file <- file.path(clr.dir, "DESCRIPTION")
+desc.file <- file.path(mlr.dir, "DESCRIPTION")
 rev.nr <- get.rev.nr()
 write.desc(desc.file, rev.nr)
 
@@ -49,7 +49,7 @@ if( unlink(file.path(man.dir, list.files(man.dir, pattern=".*-class.Rd"))) != 0)
 
 
 
-roxygenize(package.dir=clr.dir, roxygen.dir=clr.dir, copy.package=FALSE, overwrite=TRUE)
+roxygenize(package.dir=mlr.dir, roxygen.dir=mlr.dir, copy.package=FALSE, overwrite=TRUE)
 
 rds <- list.files(man.dir)
 for (f in rds) {
@@ -66,13 +66,13 @@ print(cmd)
 system(cmd)
 
 setwd(pkg.dir)
-cmd <- paste("R CMD build clr")
+cmd <- paste("R CMD build mlr")
 print(cmd)
 system(cmd)
-cmd <- paste("R CMD check clr")
+cmd <- paste("R CMD check mlr")
 print(cmd)
 s <- system(cmd, intern=TRUE)
-#cmd <- paste("R CMD build --binary clr")
+#cmd <- paste("R CMD build --binary mlr")
 #print(cmd)
 #system(cmd)
 print(s)
