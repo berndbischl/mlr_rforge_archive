@@ -11,7 +11,7 @@ test.tune <- function() {
   tr <- tune.rpart(formula=formula, data=data, cp=cp, minsplit=minsplit,
     tunecontrol = tune.control(sampling = "cross", cross = folds))  
   
-  cv.instance <- e1071.cv.to.clr.cv(tr)
+  cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
   ct <- new("classif.task", wrapped.learner=new("rpart.classif"), data=data, formula=formula)
   tr2 <- tune(ct, cv.instance, ranges)

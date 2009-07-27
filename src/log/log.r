@@ -20,7 +20,7 @@ logger.define <- function(console=TRUE, file=NULL, level, global=FALSE) {
 	if (global)
 		assign("logger.def", logger.def, envir=.GlobalEnv)
 	else
-		assignInNamespace("logger.def", logger.def, ns="clr")
+		assignInNamespace("logger.def", logger.def, ns="mlr")
 	if (!is.null(file)) 
 		unlink(file)
 	return(logger.def)

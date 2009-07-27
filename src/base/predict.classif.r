@@ -79,7 +79,7 @@ setMethod(
 				logger.warn("DEBUG SEED USED!!!!!!!!!!!!!!! REALLY SURE????")
 			}
 			
-			logger.debug("Clr predict:", wl@learner.name, "with pars:")
+			logger.debug("mlr predict:", wl@learner.name, "with pars:")
 			logger.debug(wl@predict.fct.pars)
 			logger.debug("on", nrow(newdata), "examples:")
 			logger.debug(rownames(newdata))

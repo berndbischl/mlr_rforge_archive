@@ -1,6 +1,6 @@
 library(reshape)
 
-e1071.cv.to.clr.cv <- function(e1071.tune.result) {
+e1071.cv.to.mlr.cv <- function(e1071.tune.result) {
   tr <- e1071.tune.result
   inds <- tr$train.ind
   
@@ -16,7 +16,7 @@ e1071.cv.to.clr.cv <- function(e1071.tune.result) {
 }
 
 
-e1071.bs.to.clr.bs <- function(e1071.tune.result) {
+e1071.bs.to.mlr.bs <- function(e1071.tune.result) {
   tr <- e1071.tune.result
   inds <- tr$train.ind
 

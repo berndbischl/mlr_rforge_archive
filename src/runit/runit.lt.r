@@ -1,4 +1,4 @@
-test.clr.learn.task <- function() {
+test.mlr.learn.task <- function() {
 	data = testsuite.df
 	formula = testsuite.formula
 	inds <- testsuite.train.inds

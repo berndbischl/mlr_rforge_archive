@@ -29,12 +29,12 @@ testsuite.test  <- testsuite.df[testsuite.test.inds, ]
 testsuite.class.col <- 5
 
 debug.seed <- 12345
-testsuite.clr <- defineTestSuite("clr",
+testsuite.mlr <- defineTestSuite("mlr",
   dirs = ts.dirs,  
   testFileRegexp = ts.file.regexp
 )
 
-testResult <- runTestSuite(testsuite.clr)
+testResult <- runTestSuite(testsuite.mlr)
 
 
 printTextProtocol(testResult)
@@ -57,12 +57,12 @@ printTextProtocol(testResult)
 #
 #debug.seed <- 12345
 #
-#testsuite.clr <- defineTestSuite("clr",
+#testsuite.mlr <- defineTestSuite("mlr",
 #  dirs = ts.dirs,  
 #  testFileRegexp = ts.file.regexp
 #)
 #
-#testResult <- runTestSuite(testsuite.clr)
+#testResult <- runTestSuite(testsuite.mlr)
 #
 #
 #printTextProtocol(testResult)

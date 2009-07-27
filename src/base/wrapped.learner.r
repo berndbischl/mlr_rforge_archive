@@ -53,7 +53,7 @@ setMethod(
 			#if (!learner.model.S4) {
 			#  setOldClass(learner.model.class, where=.GlobalEnv)
 			#}
-			#setIs(learner.model.class, "clr.external.model")      
+			#setIs(learner.model.class, "mlr.external.model")      
 			
 			.Object@learner.name <- learner.name
 			.Object@learner.pack <- learner.pack

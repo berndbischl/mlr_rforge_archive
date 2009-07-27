@@ -108,7 +108,7 @@ cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tun
 	} else {
 		logger.debug("normal tune result:")
 		logger.debug(tr$performances)
-		cv.instance <- e1071.cv.to.clr.cv(tr)
+		cv.instance <- e1071.cv.to.mlr.cv(tr)
 		wl <- new(t.name) 
 		ct <- new("classif.task", wrapped.learner=wl, data=df, formula=formula)
 		cvr <- resample.fit(ct, cv.instance, parset=parset)
@@ -136,7 +136,7 @@ bs.test <- function(t.name, df, formula, iters=3, parset=list(), tune.train, tun
 	tr <- e1071::tune(method=tune.train, predict.func=tune.predict, train.x=formula, data=data, 
 			tunecontrol = tune.control(sampling = "bootstrap", nboot = iters, boot.size=1))
 	
-	bs.instance <- e1071.bs.to.clr.bs(tr)
+	bs.instance <- e1071.bs.to.mlr.bs(tr)
 	
 	wl <- new(t.name) 
 	ct <- new("classif.task", wrapped.learner=wl, data=df, formula=formula)
@@ -157,12 +157,12 @@ bs.test <- function(t.name, df, formula, iters=3, parset=list(), tune.train, tun
 
 #    #------------------------cv------------------------
 #
-#    cvr <- new("clr.cv.instance", size=150, folds=3)
+#    cvr <- new("mlr.cv.instance", size=150, folds=3)
 #
-#    cv <- clr.cv(ct, cv.instance=cvr)
+#    cv <- mlr.cv(ct, cv.instance=cvr)
 #
 #
-#    cva <- clr.cv.acc(cv)
+#    cva <- mlr.cv.acc(cv)
 #
 #    print(cva)
 #    print(cva$err.abs)
@@ -187,9 +187,9 @@ bs.test <- function(t.name, df, formula, iters=3, parset=list(), tune.train, tun
 #    B=30
 #
 #    set.seed(1234)
-#    bsr <- new("clr.bs.instance", size=150, B=B)
-#    bs <- clr.bs(ct, bs.instance=bsr)
-#    bsa <- clr.bs.acc(bs)
+#    bsr <- new("mlr.bs.instance", size=150, B=B)
+#    bs <- mlr.bs(ct, bs.instance=bsr)
+#    bsa <- mlr.bs.acc(bs)
 #
 #    print(bsa)
 #

@@ -54,7 +54,7 @@ setMethod(
 				set.seed(debug.seed)
 				logger.warn("DEBUG SEED USED!!!REALLY SURE?")
 			}
-			logger.debug("Clr train:", wl@learner.name, "with pars:")
+			logger.debug("mlr train:", wl@learner.name, "with pars:")
 			logger.debug(parset)
 			logger.debug("on", length(subset), "examples:")
 			logger.debug(subset)

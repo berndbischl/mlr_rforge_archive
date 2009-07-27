@@ -17,8 +17,8 @@ parallel.setup <- function(mode="local", cpus=1, level="resample", global=FALSE)
 			else	
 				sfInit(parallel=T, socketHosts=cpus)	
 		} 
-		sfLibrary(clr)	
-		ps <- getFromNamespace(".parallel.setup", "clr")
+		sfLibrary(mlr)	
+		ps <- getFromNamespace(".parallel.setup", "mlr")
 		assign(".parallel.setup", ps, envir=.GlobalEnv)
 		sfExport(".parallel.setup")
 	}
@@ -27,7 +27,7 @@ parallel.setup <- function(mode="local", cpus=1, level="resample", global=FALSE)
 	if (global)
 		assign(".parallel.setup", p, envir=.GlobalEnv)
 	else
-		assignInNamespace(".parallel.setup", p, ns="clr")
+		assignInNamespace(".parallel.setup", p, ns="mlr")
 	return(p)
 }
 
