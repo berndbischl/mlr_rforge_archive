@@ -13,7 +13,7 @@ roxygen()
 #' @param ranges [list]\cr A list of named vectors of possible values for each hyperparamter. 
 #'                         You can also pass a list of such list if it does not make sense to search a complete 
 #'                         cross-product of range values.     
-#' @param measure [character/list] \cr Name of perfomrnace measure to optimize or a list describing your own performance measure. The default is mean misclassification error. 
+#' @param measure [character/list] \cr Name of performance measure to optimize or a list describing your own performance measure. The default is mean misclassification error. 
 #' 	   
 #'             
 #' @return A list containing the best parameter set, its aggregated performance over all resampling iterations, a measure of spread and 

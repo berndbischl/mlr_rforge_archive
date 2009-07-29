@@ -43,6 +43,20 @@ setGeneric(
 )
 
 #' @export
+#' make.bs.instance generates indices which represent training and test sets. 
+#' @param size[numeric] \cr With size the training plus test set size is specified, normally it is the number of examples in the dataset. 
+#' @param iters [numeric] \cr Iters is the number of generated subsets.
+#' 
+#' @return A list with the iters-number of training set indices is returned.
+#' 
+#' @example 
+#' data(iris)
+#' rin <- make.bs.instance(iters=10, size=nrow(iris))
+#' 
+#' @seealso \code{\linkS4class{resample.fit}}
+#' 
+#' @title make.bs.instance
+
 
 setMethod(
 		f = "make.bs.instance",
