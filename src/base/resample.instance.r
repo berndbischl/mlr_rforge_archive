@@ -5,9 +5,9 @@ roxygen()
 #' Base class for specific resampling draws like cross-validation and bootstrapping.
 #' New training and test cases are generated from the data set for a number of iterations. 
 #' It mainly stores a set of integer vectors indicating the training examples for each interation.
-#' Don't create objects from this class directly but use the correpsonding subclasses.
+#' Don't create objects from this class directly but use the corresponding subclasses.
 #' For construction you can either first create a resample.desc (e.g. cv.desc) to describe 
-#' this resampling strategy and then pass this to the correponding or (more convieniently)
+#' this resampling strategy and then pass this to the corresponding or (more convieniently)
 #' invoke a direct construction method (e.g. make.cv.instance).  
 #' }
 #' 
@@ -19,9 +19,9 @@ roxygen()
 #' 
 #' \cr\cr\bold{Getter:}
 #'  \describe{	
-#'   \item{\code{data.size [single numeric]}}{Number of observations in the data}
+#'   \item{\code{data.size [single numeric]}}{Number of observations in the data.}
 #'   \item{\code{iters [single numeric]}}{Number of resampling interations.}
-#'   \item{\code{train.inds (i) [(list of) integer vector(s) ]}}{If i is a single integer, the vector of trainings indices for the ith iteration is returned. If i is an integer vector, the list of training indices for the given iterations is returned.}
+#'   \item{\code{train.inds (i) [(list of) integer vector(s) ]}}{If i is a single integer, the vector of training indices for the ith iteration is returned. If i is an integer vector, the list of training indices for the given iterations is returned.}
 #'   \item{\code{test.inds (i) [(list of) integer vector(s) ]}}{If i is a single integer, the vector of test indices for the ith iteration is returned. If i is an integer vector, the list of test indices for the given iterations is returned.}
 #'  }
 #' 
@@ -32,16 +32,16 @@ roxygen()
 #'   \item{\link{subsample.instance}}{Subsampling}
 #'  }
 #' 
-#'  @title resample.run
-#'  @note If you want to add another resampling strategy, simply inherit from resample.desc and this class and generate the training indices in the the constructor of the resample.instance according to your resampling strategy.
-#'  @seealso \link{resample.desc}, \link{}, \link{resample.fit} 
+#'  @title resample.instance
+#'  @note If you want to add another resampling strategy, simply inherit from resample.desc and this class and generate the training indices in the constructor of the resample.instance according to your resampling strategy.
+#'  @seealso \link{resample.desc}, \link{resample.fit} 
 #'  @export
 
 # todo validation for size
 setClass(
 		"resample.instance",                                                     
 		# we always have to store training inds because the order might matter
-		representation(desc = "resample.desc", size="numeric", inds="list")
+		representation(desc = "resample.desc", size = "numeric", inds = "list")
 )
 
 setMethod(
@@ -69,23 +69,24 @@ setGeneric(
 #' Construct a resample run from a resample desc. Convenience method, so you don't have to call 
 #' the specific constructors of classes inheriting from resample.desc.
 #' 
-#' @param desc [resample.desc] Object of a class inheriting from resample.desc. Describes the resampling strategy.
-#' @param size [single integer] Size of the data set to resample from. 
+#' @param desc [resample.desc] \cr Object of a class inheriting from resample.desc. Describes the resampling strategy.
+#' @param size [single integer] \cr Size of the data set to resample from. 
 #'              
 #' @return Corresponding object inheriting from resample.instance.
 #'
 #' @usage (desc, size) 
 #'
 #' @examples 
-#'   desc <- new("cv.desc", folds=10)
-#'   cvr <- (desc=desc, size=size)
+#'   desc <- new("cv.desc", folds = 10)
+#'   cvr <- (desc = desc, size = size)
 #'
 #'  @export
+
 setMethod(
 		f = "make.resample.instance",
-		signature = c(desc="resample.desc", size="numeric"),
+		signature = c(desc = "resample.desc", size = "numeric"),
 		def = function(desc, size) {
-			return(new(desc@instance.class, desc, size=size))
+			return(new(desc@instance.class, desc, size = size))
 		}
 )
 
