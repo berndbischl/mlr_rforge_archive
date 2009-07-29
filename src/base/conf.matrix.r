@@ -3,8 +3,9 @@ conf.matrix = function(learn.task, resample.instance, resample.result, relative=
 	# todo check that its classif.task!!!
 	n <- resample.result["iters"]
 	res.i <- learn.task["resampled"]
-	rin <- resample.result["resample.instance"]
+	rin <- resample.instance
 	lev <- learn.task["class.levels"]
+	print(lev)
 	trues <- c()
 	preds <- c()
 	for(i in 1:n)  {
@@ -12,6 +13,8 @@ conf.matrix = function(learn.task, resample.instance, resample.result, relative=
 		preds.i <- resample.result["fitted", i]
 		trues <- c(trues, as.character(trues.i))
 		preds <- c(preds, as.character(preds.i))
+		print(str(trues))
+		print(str(preds))
 		# todo what about remove.duplicated		
 	}
 	trues <- factor(trues, levels=lev)
