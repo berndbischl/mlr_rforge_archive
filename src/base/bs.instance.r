@@ -42,18 +42,20 @@ setGeneric(
 		}
 )
 
+#' make.bs.instance generates training and test set indices for bootstrapping. 
+#' 
+#' @param size [integer] \cr Size of the data set to resample. 
+#' @param iters [integer] \cr Number of generated subsets / resampling iterations.
+#' 
+#' @return A \code{\linkS4class{bs.instance}} object, which encapsulates the generated indices of training and test sets.
+#' 
 #' @export
-#' make.bs.instance generates indices which represent training and test sets. 
-#' @param size[numeric] \cr With size the training plus test set size is specified, normally it is the number of examples in the dataset. 
-#' @param iters [numeric] \cr Iters is the number of generated subsets.
 #' 
-#' @return A list with the iters-number of training set indices is returned.
-#' 
-#' @example 
+#' @examples 
 #' data(iris)
 #' rin <- make.bs.instance(iters=10, size=nrow(iris))
 #' 
-#' @seealso \code{\linkS4class{resample.fit}}
+#' @seealso \code{\link{resample.fit}}
 #' 
 #' @title make.bs.instance
 

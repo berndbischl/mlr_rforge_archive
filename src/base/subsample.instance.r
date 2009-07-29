@@ -28,22 +28,24 @@ setGeneric(
 		}
 )
 
+#' make.subsample.instance generates training and test set indices for subsampling. 
+#' 
+#' @param size [integer] \cr Size of the data set to resample.
+#' @param split [numeric] \cr Percentage of data used for training set. 
+#' @param iters [integer] \cr Number of generated subsets / resampling iterations.
+#' 
+#' @return A \code{\linkS4class{subsample.instance}} object, which encapsulates the generated indices of training and test sets.
+#' 
 #' @export
-#' make.subsample.instance generates indices which represent training and test sets. 
-#' @param size[numeric] \cr With size the training plus test set size is specified, normally it is the number of examples in the dataset.
-#' @param split [numeric] \cr How many percent of the whole dataset is used as training set is defined by split. 
-#' @param iters [numeric] \cr Iters is the number of generated subsets.
 #' 
-#' @return A list with the iters-number of training set indices is returned.
-#' 
-#' @example 
+#' @examples 
 #' data(iris)
 #' # split is the training set percentage
 #' rin <- make.subsample.instance(iters=10, size=nrow(iris), split=2/3)
 #' # holdout
 #' rin <- make.subsample.instance(iters=1, size=nrow(iris), split=2/3)
 #' 
-#' @seealso \code{\linkS4class{resample.fit}}
+#' @seealso \code{\link{resample.fit}}
 #' 
 #' @title make.cv.instance
 
