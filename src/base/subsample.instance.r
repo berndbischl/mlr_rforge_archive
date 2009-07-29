@@ -38,12 +38,14 @@ setGeneric(
 #' 
 #' @export
 #' 
+#' @usage make.subsample.instance(size, split, iters)
+#' 
 #' @examples 
 #' data(iris)
 #' # split is the training set percentage
-#' rin <- make.subsample.instance(iters=10, size=nrow(iris), split=2/3)
+#' rin <- make.subsample.instance(size=nrow(iris), split=2/3, iters=10)
 #' # holdout
-#' rin <- make.subsample.instance(iters=1, size=nrow(iris), split=2/3)
+#' rin <- make.subsample.instance(size=nrow(iris), split=2/3, iters=1)
 #' 
 #' @seealso \code{\link{resample.fit}}
 #' 

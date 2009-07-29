@@ -51,9 +51,11 @@ setGeneric(
 #' 
 #' @export
 #' 
+#' @usage make.bs.instance(size, iters)
+#' 
 #' @examples 
 #' data(iris)
-#' rin <- make.bs.instance(iters=10, size=nrow(iris))
+#' rin <- make.bs.instance(size=nrow(iris), iters=10)
 #' 
 #' @seealso \code{\link{resample.fit}}
 #' 

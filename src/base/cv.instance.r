@@ -39,9 +39,11 @@ setGeneric(
 #' 
 #' @export
 #' 
+#' @usage make.cv.instance(size, iters)
+#' 
 #' @examples 
 #' data(iris)
-#' rin <- make.cv.instance(iters=10, size=nrow(iris))
+#' rin <- make.cv.instance(size=nrow(iris), iters=10)
 #' 
 #' @seealso \code{\link{resample.fit}}
 #' 
