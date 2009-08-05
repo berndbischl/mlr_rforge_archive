@@ -8,6 +8,7 @@ roxygen()
 #' @slot name Name of this resampling algorithm
 #' @slot iters Number of iterations
 #' @exportClass resample.desc 
+#' @title resample.desc
 
 # todo validation for size
 setClass(
