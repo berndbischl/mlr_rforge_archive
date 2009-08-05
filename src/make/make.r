@@ -8,15 +8,15 @@ source("src/files_rd.r")
 
 
 
-make <- function(build=TRUE, check=TRUE, binary=FALSE) {
-	src.dir  <- file.path(project.dir, "src")
-	pkg.dir  <- file.path(project.dir, "pkg")
-	skel.dir  <- file.path(pkg.dir, "mlr.skel")
-	build.dir  <- file.path(pkg.dir, "mlr")
-	r.skel.dir    <- file.path(skel.dir, "R") 
-	r.build.dir    <- file.path(build.dir, "R") 
-	man.skel.dir  <- file.path(skel.dir, "man") 
-	man.build.dir  <- file.path(build.dir, "man") 
+make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
+	src.dir  <<- file.path(project.dir, "src")
+	pkg.dir  <<- file.path(project.dir, "pkg")
+	skel.dir  <<- file.path(pkg.dir, "mlr.skel")
+	build.dir  <<- file.path(pkg.dir, "mlr")
+	r.skel.dir    <<- file.path(skel.dir, "R") 
+	r.build.dir    <<- file.path(build.dir, "R") 
+	man.skel.dir  <<- file.path(skel.dir, "man") 
+	man.build.dir  <<- file.path(build.dir, "man") 
 	#html.dir <- file.path(project.dir, "html") 
 	
 	cat("Building mlr to :", pkg.dir, "...\n")
@@ -41,13 +41,14 @@ make <- function(build=TRUE, check=TRUE, binary=FALSE) {
 	
 	roxygenize(package.dir=skel.dir, roxygen.dir=build.dir, use.Rd2=TRUE, copy.package=FALSE)
 	
-	rds <- list.files(man.build.dir)
-	for (f in rds) {
-		if(!(f %in% allowed.rd.files)) {
-			file.remove(file.path(man.build.dir, f))
+	if (only.allowed.rds) {
+		rds <- list.files(man.build.dir)
+		for (f in rds) {
+			if(!(f %in% allowed.rd.files)) {
+				file.remove(file.path(man.build.dir, f))
+			}
 		}
-	}
-	
+	}	
 	file.copy(from=code.files, to=r.build.dir, overwrite = TRUE) 
 	
 #rds <- "*.Rd"
