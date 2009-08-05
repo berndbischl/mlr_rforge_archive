@@ -1,4 +1,3 @@
-#' @include task.classif.r
 #' @include train.task.r
 #' @include wrapped.model.r
 roxygen()
@@ -6,7 +5,7 @@ roxygen()
 #' @export
 setMethod(
 		f = "train",
-		signature = c(learn.task="classif.task", subset="integer", parset="list"),
+		signature = signature(learn.task="classif.task", subset="integer", parset="list"),
 		def = function(learn.task, subset, parset) {
 			wl <- learn.task@wrapped.learner
 			ps <- switch(learn.task@type,

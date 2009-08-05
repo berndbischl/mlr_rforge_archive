@@ -46,7 +46,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = "resample.instance",
+		signature = signature("resample.instance"),
 		def = function(.Object, desc, size, inds) {
 			if (missing(desc))
 				return(.Object)
@@ -84,7 +84,7 @@ setGeneric(
 
 setMethod(
 		f = "make.resample.instance",
-		signature = c(desc = "resample.desc", size = "numeric"),
+		signature = signature(desc = "resample.desc", size = "numeric"),
 		def = function(desc, size) {
 			return(new(desc@instance.class, desc, size = size))
 		}
@@ -97,7 +97,7 @@ setMethod(
 
 setMethod(
 		f = "[",
-		signature = "resample.instance",
+		signature = signature("resample.instance"),
 		def = function(x,i,j,...,drop) {
 			if (i == "data.size")
 				return(x@size)

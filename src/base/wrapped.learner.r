@@ -22,7 +22,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = "wrapped.learner",
+		signature = signature("wrapped.learner"),
 		def = function(.Object, learner.name, learner.pack, learner.model.class, learner.model.S4,
 				train.fct, train.fct.pars=list(), 
 				predict.fct=predict, predict.fct.pars=list(), 
@@ -72,7 +72,7 @@ setMethod(
 
 setMethod(
 		f = "as.character",
-		signature = "wrapped.learner",
+		signature = signature("wrapped.learner"),
 		def = function(x) {
 			return(
 					as.character(x@learner.props)					
@@ -82,7 +82,7 @@ setMethod(
 
 setMethod(
 		f = "print",
-		signature = "wrapped.learner",
+		signature = signature("wrapped.learner"),
 		def = function(x, ...) {
 			cat(as.character(x))
 		}
@@ -91,7 +91,7 @@ setMethod(
 
 setMethod(
 		f = "show",
-		signature = "wrapped.learner",
+		signature = signature("wrapped.learner"),
 		def = function(object) {
 			cat(as.character(object))
 		}

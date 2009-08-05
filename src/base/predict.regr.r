@@ -6,7 +6,7 @@ roxygen()
 
 setMethod(
 		f = "predict",
-		signature = c(object="wrapped.regr.model"),
+		signature = signature(object="wrapped.regr.model"),
 		def = function(object, newdata) {
 			
 			model <- object

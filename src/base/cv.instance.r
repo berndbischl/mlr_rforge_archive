@@ -11,11 +11,14 @@ roxygen()
 #' @export
 
 
-setClass("cv.instance", contains="resample.instance")                                                     
+setClass(
+		"cv.instance", 
+		contains = c("resample.instance")
+)                                                     
 
 setMethod(
   f = "initialize",
-  signature = "cv.instance",
+  signature = signature("cv.instance"),
   def = function(.Object, desc, size) {
     inds <- sample(1:size)
     # don't warn when we can't split evenly

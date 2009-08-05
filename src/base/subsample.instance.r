@@ -9,11 +9,14 @@ roxygen()
 #' @title subsample.instance
 #' @export
 
-setClass("subsample.instance", contains="resample.instance")                                                     
+setClass(
+		"subsample.instance", 
+		contains = c("resample.instance")
+)                                                     
 
 setMethod(
 		f = "initialize",
-		signature = "subsample.instance",
+		signature = signature("subsample.instance"),
 		def = function(.Object, desc, size) {
 			inds <- lapply(1:desc["iters"], function(x) sample(1:size, size*desc["split"]))
 			callNextMethod(.Object, desc=desc, size=size, inds=inds)

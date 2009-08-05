@@ -5,8 +5,5 @@ roxygen()
 
 setClass(
 		"wrapped.learner.regr",
-		contains = "wrapped.learner",
-		representation(
-		
-		)
+		contains = c("wrapped.learner")
 )

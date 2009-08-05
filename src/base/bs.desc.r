@@ -5,12 +5,12 @@ roxygen()
 
 
 setClass("bs.desc", 
-		contains="resample.desc"
+		contains = c("resample.desc")
 )                                                     
 
 setMethod(
 		f = "initialize",
-		signature = "bs.desc",
+		signature = signature("bs.desc"),
 		def = function(.Object, iters) {
 			callNextMethod(.Object, instance.class="bs.instance", name="bootstrap", iters=iters)
 		}
@@ -18,7 +18,7 @@ setMethod(
 
 setMethod(
 		f = "[",
-		signature = "bs.desc",
+		signature = signature("bs.desc"),
 		def = function(x,i,j,...,drop) {
 			return(callNextMethod())
 		}

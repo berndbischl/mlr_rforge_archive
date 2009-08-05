@@ -29,7 +29,7 @@
 
 setMethod(
 		f = "predict",
-		signature = c(object="wrapped.classif.model"),
+		signature = signature(object="wrapped.classif.model"),
 		def = function(object, newdata, type="default") {
 			
 			model <- object	

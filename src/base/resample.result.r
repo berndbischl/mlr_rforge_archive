@@ -10,7 +10,7 @@ setClass(
 
 setMethod(
 		f = "as.character",
-		signature = "resample.result",
+		signature = signature("resample.result"),
 		def = function(x) {
 			return(
 					paste(
@@ -26,7 +26,7 @@ setMethod(
 
 setMethod(
 		f = "print",
-		signature = "resample.result",
+		signature = signature("resample.result"),
 		def = function(x, ...) {
 			cat(as.character(x))
 		}
@@ -34,7 +34,7 @@ setMethod(
 
 setMethod(
 		f = "show",
-		signature = "resample.result",
+		signature = signature("resample.result"),
 		def = function(object) {
 			cat(as.character(object))
 		}
@@ -51,7 +51,7 @@ setMethod(
 
 setMethod(
 		f = "[",
-		signature = "resample.result",
+		signature = signature("resample.result"),
 		def = function(x,i,j,...,drop) {
 			if (i == "iters")
 				return(length(x@preds))

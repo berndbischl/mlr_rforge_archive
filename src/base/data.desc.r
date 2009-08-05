@@ -33,7 +33,7 @@ setClass(
 
 setMethod(
   f = "initialize",
-  signature = "data.desc",
+  signature = signature("data.desc"),
   def = function(.Object, df, target.name) {
       col <- which(names(df) == target.name)
       df2 <- df[,-col]
@@ -51,14 +51,14 @@ setMethod(
 
 setMethod(
   f = "print",
-  signature = "data.desc",
+  signature = signature("data.desc"),
   def = function(x, ...) {
   }
 )
 
 setMethod(
 		f = "as.character",
-		signature = "data.desc",
+		signature = signature("data.desc"),
 		def = function(x) {
 			return(
 					paste("Dataset: ", 
@@ -75,7 +75,7 @@ setMethod(
 
 setMethod(
   f = "print",
-  signature = "data.desc",
+  signature = signature("data.desc"),
   def = function(x, ...) {
     cat(as.character(x))
   }
@@ -83,7 +83,7 @@ setMethod(
 
 setMethod(
   f = "show",
-  signature = "data.desc",
+  signature = signature("data.desc"),
   def = function(object) {
     cat(as.character(object))
   }

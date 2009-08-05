@@ -43,7 +43,7 @@ setGeneric(
 
 setMethod(
 		f = "train",
-		signature = c(learn.task="learn.task", subset="integer", parset="list"),
+		signature = signature(learn.task="learn.task", subset="integer", parset="list"),
 		def = function(learn.task, subset, parset) {
 			
 					

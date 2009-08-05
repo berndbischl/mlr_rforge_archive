@@ -21,11 +21,13 @@ roxygen()
 #' @export
 
 
-setClass("bs.instance", contains="resample.instance")                                                     
+setClass(
+		"bs.instance", 
+		contains = c("resample.instance"))                                                     
 
 setMethod(
   f = "initialize",
-  signature = "bs.instance",
+  signature = signature("bs.instance"),
   def = function(.Object, desc, size) {
 	inds <- boot(1:size, R=desc["iters"], function(data,inds) inds)$t
 	inds <- as.list(as.data.frame(t(inds)))
@@ -64,7 +66,7 @@ setGeneric(
 
 setMethod(
 		f = "make.bs.instance",
-		signature = c(size="numeric", iters="numeric"),
+		signature = signature(size="numeric", iters="numeric"),
 		def = function(size, iters) {
 			desc <- new("bs.desc", iters=iters)
 			return(new("bs.instance", desc=desc, size=size))

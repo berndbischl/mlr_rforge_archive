@@ -12,7 +12,7 @@ setGeneric(
 #' @export
 setMethod(
 		f = "make.regr.task",
-		signature = c(
+		signature = signature(
 				learner = "character", 
 				formula = "formula", 
 				data = "data.frame", 

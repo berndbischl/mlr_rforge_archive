@@ -5,7 +5,7 @@ roxygen()
 
 setClass(
 		"wrapped.learner.classif",
-		contains = "wrapped.learner",
+		contains = c("wrapped.learner"),
 		representation(
 				train.par.for.classes = "list",
 				train.par.for.probs = "list",
@@ -19,7 +19,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = "wrapped.learner.classif",
+		signature = signature("wrapped.learner.classif"),
 		def = function(
 				.Object, 
 				learner.name, 

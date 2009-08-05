@@ -6,7 +6,7 @@ roxygen()
 #' @export
 setClass(
 		"regr.task",
-		contains="learn.task"
+		contains = c("learn.task")
 )
 
 
@@ -16,7 +16,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = "regr.task",
+		signature = signature("regr.task"),
 		def = function(.Object, wrapped.learner, data, weights=rep(1, nrow(data)), formula) {
 				
 			if (missing(wrapped.learner))
@@ -34,7 +34,7 @@ setMethod(
 
 setMethod(
 		f = "as.character",
-		signature = "regr.task",
+		signature = signature("regr.task"),
 		def = function(x) {
 			wl <- x@wrapped.learner
 			return(

@@ -72,7 +72,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = "learn.task",
+		signature = signature("learn.task"),
 		def = function(.Object, check.function, wrapped.learner, data, weights, formula) {
 			
 			
@@ -105,7 +105,7 @@ setMethod(
 
 setMethod(
 		f = "[",
-		signature = "learn.task",
+		signature = signature("learn.task"),
 		def = function(x,i,j,...,drop) {
 			if (i == "target.name"){
 				return(as.character(x@formula)[2])
@@ -135,7 +135,7 @@ setMethod(
 
 setMethod(
 		f = "print",
-		signature = "learn.task",
+		signature = signature("learn.task"),
 		def = function(x, ...) {
 			cat(as.character(x))
 		}
@@ -143,7 +143,7 @@ setMethod(
 
 setMethod(
 		f = "show",
-		signature = "learn.task",
+		signature = signature("learn.task"),
 		def = function(object) {
 			cat(as.character(object))
 		}

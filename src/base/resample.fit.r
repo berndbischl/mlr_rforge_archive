@@ -1,4 +1,3 @@
-#' @include task.learn.r
 #' @include resample.instance.r
 #' @include resample.result.r
 roxygen()
@@ -53,7 +52,7 @@ setGeneric(
 
 setMethod(
 		f = "resample.fit",
-		signature = c(learn.task="learn.task", resample.instance="resample.instance", parset="list", models="logical", type="character"),
+		signature = signature(learn.task="learn.task", resample.instance="resample.instance", parset="list", models="logical", type="character"),
 		def = function(learn.task, resample.instance, parset, models, type) {
 			df <- learn.task@data
 			n <- nrow(df)  

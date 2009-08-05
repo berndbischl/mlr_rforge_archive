@@ -10,7 +10,7 @@ setGeneric(
 
 setMethod(
 		f = "check.task.classif",
-		signature = c(lt="classif.task"),
+		signature = signature(lt="classif.task"),
 		def = function(lt) {
 			wl <- lt@wrapped.learner
 			ld <- wl@learner.props

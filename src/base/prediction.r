@@ -93,7 +93,7 @@ setGeneric(
 
 setMethod(
 		f = "performance",
-		signature = c(true.y="ANY", pred.y="ANY", weights="numeric", measure="list", costs="ANY"),
+		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="list", costs="ANY"),
 		def = function(true.y, pred.y, weights, measure, costs) {
 			return(measure$fun(true.y, pred.y, weights))
 		}
@@ -101,7 +101,7 @@ setMethod(
 
 setMethod(
 		f = "performance",
-		signature = c(true.y="ANY", pred.y="ANY", weights="numeric", measure="character", costs="ANY"),
+		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="character", costs="ANY"),
 		def = function(true.y, pred.y, weights, measure, costs) {
 			return(make.measure(measure)$fun(true.y, pred.y, weights))
 		}

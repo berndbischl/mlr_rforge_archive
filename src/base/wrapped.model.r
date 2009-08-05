@@ -34,12 +34,12 @@ setClass(
 
 setClass(
 		"wrapped.classif.model",
-		contains = "wrapped.model"
+		contains = c("wrapped.model")
 )
 
 setClass(
 		"wrapped.regr.model",
-		contains = "wrapped.model"
+		contains = c("wrapped.model")
 )
 
 
@@ -65,7 +65,7 @@ setClass(
 
 setMethod(
 		f = "as.character",
-		signature = "wrapped.model",
+		signature = signature("wrapped.model"),
 		def = function(x) {
 			ps <- paste(names(x@parset), x@parset, sep="=", collapse=" ")
 			return(
@@ -82,7 +82,7 @@ setMethod(
 
 setMethod(
 		f = "print",
-		signature = "wrapped.model",
+		signature = signature("wrapped.model"),
 		def = function(x, ...) {
 			cat(as.character(x))
 		}
@@ -91,7 +91,7 @@ setMethod(
 
 setMethod(
 		f = "show",
-		signature = "wrapped.model",
+		signature = signature("wrapped.model"),
 		def = function(object) {
 			cat(as.character(object))
 		}
@@ -100,7 +100,7 @@ setMethod(
 
 setMethod(
 		f = "[",
-		signature = "wrapped.model",
+		signature = signature("wrapped.model"),
 		def = function(x,i,j,...,drop) {
 			if (i == "learn.task"){
 				return(x@learn.task)
