@@ -37,6 +37,7 @@ setGeneric(
 #' @return An object of class \code{\linkS4class{resample.result}}.
 #' 
 #' @export
+#' @rdname resample.fit 
 #' 
 #' @usage resample.fit(learn.task, resample.instance, parset, models, type)
 #'
