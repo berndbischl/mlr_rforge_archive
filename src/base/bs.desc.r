@@ -1,25 +1,21 @@
 #' @include resample.desc.r
 roxygen()
 
-#' @export
-
+#' Description class for bootstrapping
+#' @exportClass bs.desc
 
 setClass("bs.desc", 
 		contains = c("resample.desc")
 )                                                     
+
+
+#' Create description object for bootstrapping
+#' @param iters Number of iterations
 
 setMethod(
 		f = "initialize",
 		signature = signature("bs.desc"),
 		def = function(.Object, iters) {
 			callNextMethod(.Object, instance.class="bs.instance", name="bootstrap", iters=iters)
-		}
-)
-
-setMethod(
-		f = "[",
-		signature = signature("bs.desc"),
-		def = function(x,i,j,...,drop) {
-			return(callNextMethod())
 		}
 )

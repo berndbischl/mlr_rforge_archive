@@ -1,13 +1,18 @@
 #' @include resample.desc.r
 roxygen()
 
-#' @export
-
+#' Description class for subsampling
+#' @exportClass subsample.desc
 
 setClass("subsample.desc", 
 		contains = c("resample.desc"),
 		representation(split = "numeric")
-)                                                     
+)               
+
+
+#' Create description object for subsampling
+#' @param Proportion of data used for training set
+#' @param iters Number of iterations
 
 setMethod(
 		f = "initialize",

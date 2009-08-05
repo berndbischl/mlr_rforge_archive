@@ -1,28 +1,21 @@
 #' @include resample.desc.r
 roxygen()
 
-#' @export
-
+#' Description class for cross-validation
+#' @exportClass cv.desc
 
 setClass("cv.desc", 
 		contains = c("resample.desc")
 )                                                     
+
+
+#' Create description object for cross-validation
+#' @param iters Number of iterations
 
 setMethod(
 		f = "initialize",
 		signature = signature("cv.desc"),
 		def = function(.Object, iters) {
 			callNextMethod(.Object, instance.class="cv.instance", name="cross-validation", iters=iters)
-		}
-)
-
-setMethod(
-		f = "[",
-		signature = signature("cv.desc"),
-		def = function(x,i,j,...,drop) {
-			if (i == "folds")
-				return(callNextMethod(x,"iters",j,drop=drop))
-			else 
-				return(callNextMethod())
 		}
 )
