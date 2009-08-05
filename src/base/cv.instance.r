@@ -45,6 +45,7 @@ setGeneric(
 #' @return A \code{\linkS4class{cv.instance}} object, which encapsulates the generated indices of training and test sets.
 #' 
 #' @export
+#' @rdname make.cv.instance 
 #' 
 #' @usage make.cv.instance(size, iters)
 #' 
@@ -53,8 +54,6 @@ setGeneric(
 #' rin <- make.cv.instance(size=nrow(iris), iters=10)
 #' 
 #' @seealso \code{\link{resample.fit}}, \code{\linkS4class{cv.instance}}
-#' 
-#' @title make.cv.instance
 
 setMethod(
 		f = "make.cv.instance",

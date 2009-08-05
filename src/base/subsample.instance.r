@@ -45,6 +45,7 @@ setGeneric(
 #' @return A \code{\linkS4class{subsample.instance}} object, which encapsulates the generated indices of training and test sets.
 #' 
 #' @export
+#' @rdname make.subsample.instance 
 #' 
 #' @usage make.subsample.instance(size, split, iters)
 #' 

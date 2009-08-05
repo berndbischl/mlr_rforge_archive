@@ -44,6 +44,7 @@ setGeneric(
 #' @return A \code{\linkS4class{bs.instance}} object, which encapsulates the generated indices of training and test sets.
 #' 
 #' @export
+#' @rdname make.bs.instance 
 #' 
 #' @usage make.bs.instance(size, iters)
 #' 
