@@ -2,7 +2,10 @@
 roxygen()
 
 #' @export
-setClass("myknn.regr", contains="wrapped.learner.regr")
+setClass(
+		myknn.regr, 
+		contains = c("wrapped.learner.regr")
+)
 
 
 #----------------- train.kknn.model ---------------------------------------------------------
@@ -27,7 +30,7 @@ predict.myknn <- function(model, newdata) {
 
 setMethod(
 		f = "initialize",
-		signature = "myknn.regr",
+		signature = signature("myknn.regr"),
 		def = function(.Object, data, formula, train.fct.pars=list(), predict.fct.pars=list()) {
 			train.fct <- train.myknn 
 			predict.fct <- predict.myknn

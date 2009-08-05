@@ -2,14 +2,17 @@
 roxygen()
 
 #' @export
-setClass("classif.rda", contains="wrapped.learner.classif")
+setClass(
+		"classif.rda", 
+		contains = c("wrapped.learner.classif")
+)
 
 
 #----------------- constructor ---------------------------------------------------------
 
 setMethod(
 		f = "initialize",
-		signature = "classif.rda",
+		signature = signature("classif.rda"),
 		def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
 			train.fct <- "rda" 
 			predict.fct <- "predict.rda"

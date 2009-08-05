@@ -1,17 +1,19 @@
 #' @include wrapped.learner.classif.r
-#' @include wrapped.model.r
 #' @include train.learner.r
 roxygen()
 
 #' @export
-setClass("kernlab.svm.classif", contains="wrapped.learner.classif")
+setClass(
+		"kernlab.svm.classif", 
+		contains = c("wrapped.learner.classif")
+)
 
 
 #----------------- constructor ---------------------------------------------------------
 
 setMethod(
 		f = "initialize",
-		signature = "kernlab.svm.classif",
+		signature = signature("kernlab.svm.classif"),
 		def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
 			train.fct <- "ksvm"
 			predict.fct <- "predict"

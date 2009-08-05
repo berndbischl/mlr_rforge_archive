@@ -2,14 +2,17 @@
 roxygen()
 
 #' @export
-setClass("randomForest.classif", contains="wrapped.learner.classif")
+setClass(
+		"randomForest.classif", 
+		contains = c("wrapped.learner.classif")
+)
 
 
 #----------------- constructor ---------------------------------------------------------
 
 setMethod(
   f = "initialize",
-  signature = "randomForest.classif",
+  signature = signature("randomForest.classif"),
     def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
     train.fct <- "randomForest"
     predict.fct <- "predict.randomForest"

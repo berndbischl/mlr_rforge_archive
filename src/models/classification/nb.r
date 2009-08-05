@@ -3,14 +3,17 @@ roxygen()
 
 
 #' @export
-setClass("classif.nb", contains="wrapped.learner.classif")
+setClass(
+		"classif.nb", 
+		contains = c("wrapped.learner.classif")
+)
 
 
 #----------------- constructor ---------------------------------------------------------
 
 setMethod(
   f = "initialize",
-  signature = "classif.nb",
+  signature = signature("classif.nb"),
     def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
     train.fct <- "naiveBayes"
     predict.fct <- "predict.naiveBayes"
