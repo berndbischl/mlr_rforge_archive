@@ -1,7 +1,6 @@
 #' @include resample.desc.r
 roxygen()
 
-#'  \describe{	
 #' Base class for specific resampling draws like cross-validation and bootstrapping.
 #' New training and test cases are generated from the data set for a number of iterations. 
 #' It mainly stores a set of integer vectors indicating the training examples for each interation.
@@ -9,33 +8,13 @@ roxygen()
 #' For construction you can either first create a resample.desc (e.g. cv.desc) to describe 
 #' this resampling strategy and then pass this to the corresponding or (more convieniently)
 #' invoke a direct construction method (e.g. make.cv.instance).  
-#' }
 #' 
-#' \cr\cr\bold{Slots:}
-#'  \describe{	
-#'   \item{\code{size [numeric]}}{Number of observations in the data}
-#'   \item{\code{inds [list]}}{List of integer vectors specifying the training cases for each iteration. Each vector might contain duplicated indices and the order matters for some classifiers.}
-#'  }
+#' @slot size [numeric] Number of observations in the data.
+#' @slot inds [list] List of integer vectors specifying the training cases for each iteration. Each vector might contain duplicated indices and the order matters for some classifiers.
 #' 
-#' \cr\cr\bold{Getter:}
-#'  \describe{	
-#'   \item{\code{data.size [single numeric]}}{Number of observations in the data.}
-#'   \item{\code{iters [single numeric]}}{Number of resampling interations.}
-#'   \item{\code{train.inds (i) [(list of) integer vector(s) ]}}{If i is a single integer, the vector of training indices for the ith iteration is returned. If i is an integer vector, the list of training indices for the given iterations is returned.}
-#'   \item{\code{test.inds (i) [(list of) integer vector(s) ]}}{If i is a single integer, the vector of test indices for the ith iteration is returned. If i is an integer vector, the list of test indices for the given iterations is returned.}
-#'  }
-#' 
-#' \cr\cr\bold{Subclasses:}
-#'  \describe{	
-#'   \item{\link{cv.instance}}{Cross-validation}
-#'   \item{\link{bs.instance}}{Bootstrapping}
-#'   \item{\link{subsample.instance}}{Subsampling}
-#'  }
-#' 
-#'  @title resample.instance
-#'  @note If you want to add another resampling strategy, simply inherit from resample.desc and this class and generate the training indices in the constructor of the resample.instance according to your resampling strategy.
-#'  @seealso \link{resample.desc}, \link{resample.fit} 
-#'  @export
+#' @note If you want to add another resampling strategy, simply inherit from resample.desc and this class and generate the training indices in the constructor of the resample.instance according to your resampling strategy.
+#' @seealso \link{resample.desc}, \link{resample.fit} 
+#' @exportClass resample.instance
 
 # todo validation for size
 setClass(
@@ -43,6 +22,12 @@ setClass(
 		# we always have to store training inds because the order might matter
 		representation(desc = "resample.desc", size = "numeric", inds = "list")
 )
+
+
+
+#' @param desc Object of a class inheriting from resample.desc. Describes the resampling strategy.
+#' @param size Size of the data set to resample from.
+#' @param inds 
 
 setMethod(
 		f = "initialize",
@@ -94,6 +79,14 @@ setMethod(
 
 #----------------- getter ---------------------------------------------------------
 
+#' Getter.
+#' @param x resample.instance object
+#' @param i
+#' @param j
+#'   \item{\code{data.size [single numeric]}}{Number of observations in the data.}
+#'   \item{\code{iters [single numeric]}}{Number of resampling interations.}
+#'   \item{\code{train.inds (i) [(list of) integer vector(s) ]}}{If i is a single integer, the vector of training indices for the ith iteration is returned. If i is an integer vector, the list of training indices for the given iterations is returned.}
+#'   \item{\code{test.inds (i) [(list of) integer vector(s) ]}}{If i is a single integer, the vector of test indices for the ith iteration is returned. If i is an integer vector, the list of test indices for the given iterations is returned.}
 
 setMethod(
 		f = "[",
