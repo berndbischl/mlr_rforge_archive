@@ -22,3 +22,16 @@ setMethod(
 			callNextMethod(.Object, instance.class="subsample.instance", name="subsampling", iters=iters)
 		}
 )
+
+#' Generates a description object for subsampling. Usually only needed in \code{\link{benchmark}} 
+#' to describe the inner resampling.
+#' @param split [numeric] \cr Proportion of data used for training set. Default is 2/3.
+#' @param iters [integer] \cr Number of generated subsets / resampling iterations.
+#' @return A code{\linkS4Class{subsample.desc}} object.
+#' @export 
+#' @seealso code{\linkS4Class{subsample.desc}}, code{\link{benchmark}}
+make.subsample.desc = function(size, split=2/3, iters) {
+	return(new("subsample.desc", split=split, iters=iters))
+}
+
+
