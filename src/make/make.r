@@ -68,11 +68,13 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
 		system(cmd)
 	}
 	if (binary) {
+		setwd(pkg.dir)
 		cmd <- paste("R CMD build --binary mlr")
 		print(cmd)
 		system(cmd)
 	}
 	if (check) {
+		setwd(pkg.dir)
 		cmd <- paste("R CMD check mlr")
 		print(cmd)
 		s <- system(cmd, intern=TRUE)
@@ -89,6 +91,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
 	setwd(project.dir)
 }
 
-make(build=T, check=T)
+make(build=T, check=T, binary=F)
+
 
 
