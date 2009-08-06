@@ -24,9 +24,9 @@ setMethod(
 #' Generates a description object for a cross-validation. Usually only needed in \code{\link{benchmark}} 
 #' to describe the inner resampling - e.g. for a double cross-validation.
 #' @param iters [integer] \cr Number of generated subsets / resampling iterations.
-#' @return A code{\linkS4Class{cv.desc}} object.
+#' @return A \code{\linkS4class{cv.desc}} object.
 #' @export 
-#' @seealso code{\linkS4Class{cv.desc}}, code{\link{benchmark}}
+#' @seealso \code{\linkS4class{cv.desc}}, \code{\link{benchmark}}
 make.cv.desc = function(size, iters) {
 	return(new("cv.desc", iters=iters))
 }
