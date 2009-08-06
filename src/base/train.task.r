@@ -15,18 +15,17 @@ setGeneric(
 
 
 
-#' Given a \code{\linkS4class{learn.task}} train creates a classification model 
-#' which can be used for predictions by predict. 
+#' Given a \code{\linkS4class{learn.task}} \code{train} creates a model for the learning machine 
+#' which can be used for predictions on new data. 
 #'
-#' @param ct [\code{\linkS4class{learn.task}}]\cr 
-#'   Specifies classifier and classification task   
-#' @param subset [integer] \cr An index vector specifying the 
-#' cases to for the training sample.(by default the complete dataset is used) 
-#' @param parset [list] \cr Contains the hyperparameters of the train function. 
-#' 	 (default is an empty list. In this case no parameters are used)
+#' @param learn.task [\code{\linkS4class{learn.task}}]\cr 
+#'        Specifies learning task.   
+#' @param subset [\code{\link{integer}}] \cr 
+#'        An index vector specifying the training cases from the data contained in the learning task. By default the complete dataset is used. 
+#' @param parset [\code{\link{list}}] \cr
+#'       Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.
 #'
-#' @return train returns an object of class "model" containing the 
-#' learn.task and the generated external classification model . 
+#' @return An object of class "model" containing the learn.task and the generated external classification model . 
 #'
 #' @export 
 #'
@@ -34,16 +33,21 @@ setGeneric(
 #'
 #' @examples 
 #' library(MASS)
-#' inds <- 2*(1:75)
+#' train.inds <- seq(1,150,2)
+#' test.inds <- seq(2,150,2)
 #'
-#' lda.learn.task <- new("t.lda", data=iris, formula=Species~.)
-#' lda.model <- train(lda.learn.task, subset=inds)
+#' ct <- make.classif.task("lda", data=iris, formula=Species~.)
+#' cm <- train(ct, subset=train.inds)
+#' ps <- predict(cm, subset=test.inds)
+#' performance()
+#' 
+#' @seealso \code{\link{predict}}, \code{\link{make.classif.task.task}}, \code{\link{make.regr.task}} 
 #' 
 #' @title train
 
 setMethod(
 		f = "train",
-		signature = signature(learn.task="learn.task", subset="integer", parset="list"),
+		signature = signature(learn.task="learn.task", subset="numeric", parset="list"),
 		def = function(learn.task, subset, parset) {
 			
 					

@@ -1,33 +1,37 @@
 #' @include resample.desc.r
 roxygen()
 
-#' Base class for specific resampling draws like cross-validation and bootstrapping.
-#' New training and test cases are generated from the data set for a number of iterations. 
-#' It mainly stores a set of integer vectors indicating the training examples for each interation.
+#' Base class for specific resampling draws like cross-validation or bootstrapping.
+#' This class encapsulates training and test sets generated from the data set for a number of iterations. 
+#' It mainly stores a set of integer vectors indicating the training examples for each iteration.
 #' Don't create objects from this class directly but use the corresponding subclasses.
-#' For construction you can either first create a resample.desc (e.g. cv.desc) to describe 
-#' this resampling strategy and then pass this to the corresponding or (more convieniently)
-#' invoke a direct construction method (e.g. make.cv.instance).  
+#' For construction simply use the factory methods of the subclasses - e.g. for cross-validation 
+#' use \code{\link{make.cv.instance}} to get a \code{\linkS4class{cv.instance}}.  
 #' 
-#' @slot size [numeric] Number of observations in the data.
-#' @slot inds [list] List of integer vectors specifying the training cases for each iteration. Each vector might contain duplicated indices and the order matters for some classifiers.
+#' @slot desc [\code{\linkS4class{resample.desc}}] \cr Description object for the resampling.
+#' @slot size [integer] \cr Number of observations in the data.
+#' @slot inds [list] \cr List of integer vectors specifying the training cases for each iteration. Each vector might contain duplicated indices and the order matters for some classifiers.
 #' 
-#' @note If you want to add another resampling strategy, simply inherit from resample.desc and this class and generate the training indices in the constructor of the resample.instance according to your resampling strategy.
-#' @seealso \link{resample.desc}, \link{resample.fit} 
+#' @note If you want to add another resampling strategy, have a look at the web documentation. 
+#' @seealso \code{\linkS4class{resample.desc}}, \code{\link{make.cv.instance}}, \code{\link{make.bs.instance}}, \code{\link{make.subsample.instance}}, \code{\link{resample.fit}} 
 #' @exportClass resample.instance
+#' @title resample.instance
+
 
 # todo validation for size
 setClass(
 		"resample.instance",                                                     
 		# we always have to store training inds because the order might matter
-		representation(desc = "resample.desc", size = "numeric", inds = "list")
+		representation(desc = "resample.desc", size = "integer", inds = "list")
 )
 
 
 
-#' @param desc Object of a class inheriting from resample.desc. Describes the resampling strategy.
-#' @param size Size of the data set to resample from.
-#' @param inds 
+#' This is mainly for internal use, you only need to use this, when you extend resample.instance to add another resampling strategy!
+#'  
+#' @param desc [\code{\linkS4class{resample.desc}}] \cr resample.desc. Describes the resampling strategy.
+#' @param size \cr Size of the data set to resample from.
+#' @param inds [list of integer vectors] \cr Indices of the trainings sets
 
 setMethod(
 		f = "initialize",
@@ -36,7 +40,9 @@ setMethod(
 			if (missing(desc))
 				return(.Object)
 			.Object@desc <- desc
-			.Object@size <- size
+			if (round(size) != size)
+				error("You passed a non-integer to arg 'size' of resample.instance!")
+			.Object@size <- as.integer(size)
 			.Object@inds <- inds
 			return(.Object)
 		}
@@ -51,21 +57,22 @@ setGeneric(
 		}
 )
 
-#' Construct a resample run from a resample desc. Convenience method, so you don't have to call 
-#' the specific constructors of classes inheriting from resample.desc.
+#' Mainly for internal use. Construct a \code{\linkS4class{resample.instance}} from a \code{\linkS4class{resample.desc}}. 
+#' Convenience method, so one doesn't have to call the specific constructors of classes inheriting from resample.desc.
 #' 
-#' @param desc [resample.desc] \cr Object of a class inheriting from resample.desc. Describes the resampling strategy.
-#' @param size [single integer] \cr Size of the data set to resample from. 
+#' @param desc [\code{\linkS4class{resample.desc}}] \cr Describes the resampling strategy.
+#' @param size [integer] \cr Size of the data set to resample from. 
 #'              
-#' @return Corresponding object inheriting from resample.instance.
-#'
-#' @usage (desc, size) 
+#' @return Object of corresponding subclass of \code{\linkS4class{resample.instance}.
+#' @export
+#' @rdname make.resample.instance
+#'	
+#' @usage make.resample.instance(desc, size) 
 #'
 #' @examples 
-#'   desc <- new("cv.desc", folds = 10)
-#'   cvr <- (desc = desc, size = size)
-#'
-#'  @export
+#'   cv.d <- new("cv.desc", folds = 10)
+#'   rin <- make.resample.instance(desc = cv.d, size = nrow(iris))
+
 
 setMethod(
 		f = "make.resample.instance",
@@ -81,12 +88,9 @@ setMethod(
 
 #' Getter.
 #' @param x resample.instance object
-#' @param i
+#' @param i [character]
+#'   \item{train.inds} If i is a single integer, the vector of training indices for the ith iteration is returned. If i is an integer vector, the list of training indices for the given iterations is returned.}
 #' @param j
-#'   \item{\code{data.size [single numeric]}}{Number of observations in the data.}
-#'   \item{\code{iters [single numeric]}}{Number of resampling interations.}
-#'   \item{\code{train.inds (i) [(list of) integer vector(s) ]}}{If i is a single integer, the vector of training indices for the ith iteration is returned. If i is an integer vector, the list of training indices for the given iterations is returned.}
-#'   \item{\code{test.inds (i) [(list of) integer vector(s) ]}}{If i is a single integer, the vector of test indices for the ith iteration is returned. If i is an integer vector, the list of test indices for the given iterations is returned.}
 
 setMethod(
 		f = "[",
