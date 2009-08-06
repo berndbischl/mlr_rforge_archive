@@ -1,16 +1,17 @@
 #' @include resample.desc.r
 roxygen()
 
-#' Description class for subsampling
+#' Description class for subsampling.
 #' @exportClass subsample.desc
 #' @title subsample.desc
+#' @seealso \code{\link{make.subsample.desc}}
 setClass("subsample.desc", 
 		contains = c("resample.desc"),
 		representation = representation(split = "numeric")
 )               
 
 
-#' Create description object for subsampling
+#' Create description object for subsampling.
 #' @param Proportion of data used for training set
 #' @param iters Number of iterations
 
@@ -25,11 +26,13 @@ setMethod(
 
 #' Generates a description object for subsampling. Usually only needed in \code{\link{benchmark}} 
 #' to describe the inner resampling.
+#' @param size [integer] \cr Size of the data set to resample.
 #' @param split [numeric] \cr Proportion of data used for training set. Default is 2/3.
 #' @param iters [integer] \cr Number of generated subsets / resampling iterations.
 #' @return A \code{\linkS4class{subsample.desc}} object.
 #' @export 
 #' @seealso \code{\linkS4class{subsample.desc}}, \code{\link{benchmark}}
+#' @title make.subsample.desc
 make.subsample.desc = function(size, split=2/3, iters) {
 	return(new("subsample.desc", split=split, iters=iters))
 }
