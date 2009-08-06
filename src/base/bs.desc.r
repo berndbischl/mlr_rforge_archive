@@ -26,6 +26,7 @@ setMethod(
 #' @return A \code{\linkS4class{bs.desc}} object.
 #' @export 
 #' @seealso \code{\linkS4class{bs.desc}}, \code{\link{benchmark}}
+#' @title bs.desc
 make.bs.desc = function(size, iters) {
 	return(new("bs.desc", iters=iters))
 }

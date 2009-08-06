@@ -30,6 +30,7 @@ setMethod(
 #' @return A \code{\linkS4class{subsample.desc}} object.
 #' @export 
 #' @seealso \code{\linkS4class{subsample.desc}}, \code{\link{benchmark}}
+#' @title subsample.desc
 make.subsample.desc = function(size, split=2/3, iters) {
 	return(new("subsample.desc", split=split, iters=iters))
 }
