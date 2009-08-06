@@ -3,6 +3,7 @@ roxygen()
 
 #' Description class for cross-validation
 #' @exportClass cv.desc
+#' @title cv.desc
 
 setClass("cv.desc", 
 		contains = c("resample.desc")
@@ -27,7 +28,6 @@ setMethod(
 #' @return A \code{\linkS4class{cv.desc}} object.
 #' @export 
 #' @seealso \code{\linkS4class{cv.desc}}, \code{\link{benchmark}}
-#' @title cv.desc
 make.cv.desc = function(size, iters) {
 	return(new("cv.desc", iters=iters))
 }
