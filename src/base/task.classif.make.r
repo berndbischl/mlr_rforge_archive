@@ -28,7 +28,17 @@ setGeneric(
 #' classification task.  
 #' 
 #' \itemize{ 
-#' 		\item{\code{\linkS4class{kernlab.svm.classif}}}{SVMs from kernlab package}  
+#' 		\item{\code{\linkS4class{adaboost}}}{Boosting from adabag package}
+#' 		\item{\code{\linkS4class{kknn.classif}}}{k-Nearest Neighbor from kknn package}
+#' 		\item{\code{\linkS4class{lda}}}{Linear Discriminant Analysis from MASS package}
+#' 		\item{\code{\linkS4class{classif.logreg}}}{Logistic Regression from stats package}
+#' 		\item{\code{\linkS4class{mda}}}{Mixture Discriminant Analysis from mda package}
+#' 		\item{\code{\linkS4class{classif.nb}}}{Naive Bayes from e1071 package}
+#' 		\item{\code{\linkS4class{qda}}}{Quadratic Discriminant Analysis from MASS package}
+#' 		\item{\code{\linkS4class{randomForest.classif}}}{Random Forest from randomForest package}
+#' 		\item{\code{\linkS4class{classif.rda}}}{Regularized Discriminant Analysis from klaR package}
+#' 		\item{\code{\linkS4class{rpart.classif}}}{Decision Tree from rpart package}
+#' 		\item{\code{\linkS4class{kernlab.svm.classif}}}{Support Vector Machines from kernlab package}  
 #' }
 #' 
 #' @param learner [\code{\link{character}}] \cr 

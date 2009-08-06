@@ -24,7 +24,9 @@ setGeneric(
 #' regression task.  
 #' 
 #' \itemize{ 
-#' 		\item{\code{\linkS4class{kernlab.svm.regr}}}{SVMs from kernlab package}  
+#' 		\item{\code{\linkS4class{blackboost.regr}}}{Gradient Boosting with Regression Trees from mboost package}
+#' 		\item{\code{\linkS4class{gbm.regr}}}{Gradient Boosting Machine from gbm package}
+#' 		\item{\code{\linkS4class{kknn.regr}}}{k-Nearest Neigbor from kknn package}
 #' }
 #' 
 #' @param learner [\code{\link{character}}] \cr
