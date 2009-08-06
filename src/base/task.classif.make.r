@@ -14,23 +14,32 @@ setGeneric(
 
 
 #' \code{make.classif.task} defines a classification task for a learner and a data set and is the starting point 
-#' for further steps like training, testing, prediciting.
+#' for further steps like training, predicting new data, resampling and tuning.
 #' 
-#' \code{make.classif.task} already performs quite a few tasks: It tries to load required package for the 
+#' \code{make.classif.task} already performs quite a few tasks: It tries to load the required package for the 
 #' learner, sets up the learner to deal with a classification problem, gathers information about the features 
 #' of the data set and the method, and compares whether they are compatible 
-#' (e.g. some methods might not handle NAs or facors). And last but not least it converts integers to numerics 
-#' and warns about this. 
+#' (e.g. some methods might not handle NAs or factors). And last but not least it might perform some data conversions 
+#' in the data.frame, like coverting integer features to numerics or integer classes to factors, but will generally  
+#' warn about this. 
 #' 
-#' @param learner [character] \cr 	Specifies the learner. The naming convention is to add the sufixes ".classif" 
-#' 									(or ".regr") to the learner name, if it can handle both types. 
-#' @param formula [formula] \cr		a symbolic description of the model to be fitted, see \link{formula}.
-#' @param data [data.frame] \cr 	an optional data frame containing the variables in the model.
-#' @param weights [numeric] \cr 	an optional vector of weights to be used in the fitting process. Should be NULL or a numeric vector.
-#' @param type [character] \cr 		specifies the type of the predicitons - either probability ("probs") 
-#' 									or class ("class").
+#' List of supported learning algorithms. The naming conventions are to add the package name as a prefix if
+#' a learner is implemented in different packages and the suffix ".regr" if it can handle more than a
+#' regresion task.  
+#' \item{\code{\linkS4class{kernlab.svm.classif}}}{SVMs from kernlab package}  
 #' 
-
+#' @param learner [\code{\link{character}}] \cr 
+#'  	  Specifies the learner. See the list below in the details section.
+#' @param formula [\code{\link{formula}}] \cr
+#'  	  A symbolic description of the model to be fitted.
+#' @param data [\code{\link{data.frame}}] \cr 	
+#'        A data frame containing the variables in the model.
+#' @param weights [\code{\link{numeric}}] \cr 	
+#'        An optional vector of weights to be used in the fitting process. Default is is a weight of 1 for every case.
+#' @param type [\code{\link{character}}] \cr 	
+#' 	      Specifies the type of the predicitons - either probabilities ("probs") or classes ("class"). Default is "class".
+#' 
+#' 
 #' 
 #' @return An object of class \code{\linkS4class{classif.task}}.
 #' 
@@ -44,7 +53,7 @@ setGeneric(
 #' # define a classification task for a decision tree (rpart) for the data set iris
 #' ct <- make.classif.task("rpart.classif", data = iris, formula = Species ~.)
 #' 
-#' @seealso \linkS4class{wrapped.learner}, \linkS4class{classif.task}, \link{train}, \link{predict}
+#' @seealso \code{\linkS4class{wrapped.learner}}, \code{\linkS4class{classif.task}}, \code{\link{train}}, \code{\link{predict}}
 #'  
 #' @title make.classif.task
 
