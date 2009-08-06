@@ -26,9 +26,14 @@ setMethod(
 
 #' Generates a description object for subsampling. Usually only needed in \code{\link{benchmark}} 
 #' to describe the inner resampling.
-#' @param size [integer] \cr Size of the data set to resample.
-#' @param split [numeric] \cr Proportion of data used for training set. Default is 2/3.
-#' @param iters [integer] \cr Number of generated subsets / resampling iterations.
+#' 
+#' @param size [\code{\link{integer}}] \cr
+#'        Size of the data set to resample.
+#' @param split [\code{\link{numeric}}] \cr 
+#'        Proportion of data used for training set. Default is 2/3.
+#' @param iters [\code{\link{integer}}] \cr 
+#'        Number of generated subsets / resampling iterations.
+#' 
 #' @return A \code{\linkS4class{subsample.desc}} object.
 #' @export 
 #' @seealso \code{\linkS4class{subsample.desc}}, \code{\link{benchmark}}
