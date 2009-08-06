@@ -23,13 +23,13 @@ roxygen()
 #'  @export
  
 setClass(
-  "wrapped.model",
-  representation(
-    learn.task = "learn.task",
-    learner.model = "ANY",
-    subset = "integer",
-    parset = "list"
-  )
+		"wrapped.model",
+		representation = representation(
+				learn.task = "learn.task",
+				learner.model = "ANY",
+				subset = "integer",
+				parset = "list"
+		)
 )
 
 setClass(

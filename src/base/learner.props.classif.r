@@ -13,7 +13,7 @@ roxygen()
 setClass(
 		"classif.props",
 		contains = c("learner.props"),
-		representation(
+		representation = representation(
 				supports.multiclass = "logical",
 				supports.probs = "logical"
 		)

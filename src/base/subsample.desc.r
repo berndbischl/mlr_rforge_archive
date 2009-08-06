@@ -6,7 +6,7 @@ roxygen()
 
 setClass("subsample.desc", 
 		contains = c("resample.desc"),
-		representation(split = "numeric")
+		representation = representation(split = "numeric")
 )               
 
 

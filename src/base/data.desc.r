@@ -19,7 +19,7 @@
 #'  @export
 setClass(
 		"data.desc",
-		representation(
+		representation = representation(
 				is.classification = "logical",	  
 				class.nr = "integer",
 				has.missing = "logical",

@@ -2,7 +2,7 @@
 
 setClass(
   "learner.failure",
-  representation(
+  representation = representation(
     msg = "character"
   )
 )

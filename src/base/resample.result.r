@@ -4,7 +4,12 @@ roxygen()
 
 setClass(
 		"resample.result",
-		representation(ri.class="character", ri.name="character", preds="list", models="list")
+		representation = representation(
+				ri.class="character", 
+				ri.name="character", 
+				preds="list", 
+				models="list"
+		)
 )
 
 

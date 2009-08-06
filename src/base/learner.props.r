@@ -16,7 +16,7 @@
 
 setClass(
 		"learner.props",
-		representation(
+		representation = representation(
 				supports.missing = "logical",
 				supports.numerics = "logical",
 				#supports.integers = "logical",

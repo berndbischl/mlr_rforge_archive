@@ -56,7 +56,7 @@ roxygen()
 
 setClass(
 		"learn.task",
-		representation(
+		representation = representation(
 				wrapped.learner = "wrapped.learner",
 				data = "data.frame",
 				weights = "numeric",

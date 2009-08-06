@@ -6,7 +6,7 @@ roxygen()
 setClass(
 		"classif.task",
 		contains = c("learn.task"),
-		representation(
+		representation = representation(
 				type = "character",
 				trafo.for.classes = "function",
 				trafo.for.probs = "function",

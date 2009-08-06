@@ -5,7 +5,7 @@ roxygen()
 
 setClass(
 		"wrapped.learner",
-		representation(
+		representation = representation(
 				learner.name = "character",
 				learner.pack = "character",
 				train.fct = "function",

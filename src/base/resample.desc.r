@@ -13,7 +13,11 @@ roxygen()
 # todo validation for size
 setClass(
 		"resample.desc",                                                     
-		representation(instance.class="character", name="character", iters="numeric")
+		representation = representation(
+				instance.class="character", 
+				name="character", 
+				iters="numeric"
+		)
 )
 
 

@@ -6,7 +6,7 @@ roxygen()
 setClass(
 		"wrapped.learner.classif",
 		contains = c("wrapped.learner"),
-		representation(
+		representation = representation(
 				train.par.for.classes = "list",
 				train.par.for.probs = "list",
 				predict.par.for.classes = "list",
