@@ -20,8 +20,8 @@ setGeneric(
 #' warn about this.
 #' 
 #' List of supported learning algorithms. The naming conventions are to add the package name as a prefix if
-#' a learner is implemented in different packages and the suffix ".classif" if it can handle more than a
-#' classification task.  
+#' a learner is implemented in different packages and the suffix ".regr" if it can handle more than a
+#' regression task.  
 #' \item{\code{\linkS4class{kernlab.svm.regr}}}{SVMs from kernlab package}  
 #' 
 #' @param learner [\code{\link{character}}] \cr
@@ -29,9 +29,9 @@ setGeneric(
 #' @param formula [\code{\link{formula}}] \cr
 #'        A symbolic description of the model to be fitted.
 #' @param data [\code{\link{data.frame}}] \cr
-#'   	  An data frame containing the variables in the model.
+#'   	  A data frame containing the variables in the model.
 #' @param weights [\code{\link{numeric}}] \cr
-#'        An optional vector of weights to be used in the fitting process. Default is is a weight of 1 for every case.
+#'        An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
 #' 
 #' @return An object of class \code{\linkS4class{regr.task}}.
 #' 
