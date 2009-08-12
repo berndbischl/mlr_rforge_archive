@@ -2,6 +2,8 @@ allowed.rd.files <<- c(
 		"learn.task.Rd",
 		"make.classif.task.Rd",
 		"make.regr.task.Rd",
+		"train.Rd",
+		"predict.Rd",
 		"performance.Rd",
 				
 		"resample.desc-class.Rd",
@@ -21,7 +23,8 @@ allowed.rd.files <<- c(
 		"make.subsample.instance.Rd",
 		
 		"resample.fit.Rd",
-		"tune.Rd"
+		"tune.Rd",
+		"bechmark.Rd"
 )		
 
 	
