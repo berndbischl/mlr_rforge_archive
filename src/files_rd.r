@@ -2,6 +2,7 @@ allowed.rd.files <<- c(
 		"learn.task.Rd",
 		"make.classif.task.Rd",
 		"make.regr.task.Rd",
+		"performance.Rd",
 				
 		"resample.desc-class.Rd",
 		"cv.desc-class.Rd",
