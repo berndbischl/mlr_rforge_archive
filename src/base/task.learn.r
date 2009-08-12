@@ -14,7 +14,6 @@ roxygen()
 #' @slot formula A symbolic description of the model to be fitted.
 #' @slot data.desc Contains logical values describing properties of the dataframe e.g. whether it has 
 #' 		characters or missing values (see desc and \code{\linkS4class{data.desc}}).
-#' @slot resampled Internal usage. Don't access 
 #' 
 #' @exportClass learn.task
 #' @title learn.task
@@ -29,8 +28,7 @@ setClass(
 				data = "data.frame",
 				weights = "numeric",
 				formula = "formula",
-				data.desc = "data.desc", 
-				resampled = "numeric"
+				data.desc = "data.desc" 
 		)
 )
 
@@ -55,7 +53,6 @@ setMethod(
 			.Object@formula <- formula
 			cn <- .Object["target.name"]
 			.Object@data.desc <- new("data.desc", data, cn)
-			.Object@resampled <- numeric(length=0)
 			
 			
 			check.result <- check.function(.Object)
@@ -122,7 +119,6 @@ setMethod(
 
 restrict.learn.task <- function(learn.task, subset) {
 	learn.task@data <- learn.task@data[subset,]
-	learn.task@resampled <- subset
 	return(learn.task)
 }
 

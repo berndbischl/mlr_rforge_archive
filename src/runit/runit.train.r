@@ -108,13 +108,13 @@ test.train <- function() {
 	checkEquals(cm6@subset, inds) 
 	
 	#-------------------------knn-------------------------------------------------
-	ct7 <- new("classif.task", wrapped.learner=new("kknn.classif"), data=data, formula=formula)
+	ct7 <- new("classif.task", wrapped.learner=new("kknn.knn.classif"), data=data, formula=formula)
 	cm7 <- train(ct7, parset = list(k=k))
 	
 	checkEquals(cm7@parset,  list(k=k))
 	checkEquals(cm7@subset, 1:nrow(data))
 	
-	ct8 <- new("classif.task", wrapped.learner=new("kknn.classif"), data=data, formula=formula)
+	ct8 <- new("classif.task", wrapped.learner=new("kknn.knn.classif"), data=data, formula=formula)
 	cm8 <- train(ct8, subset=inds, parset = list(k=k))
 	
 	checkEquals(cm8@subset, inds)

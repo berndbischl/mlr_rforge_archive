@@ -73,7 +73,8 @@ regr.files <<- c(
 		"models/regression/blackboost.r",
 		"models/regression/gbm.r",
 		"models/regression/kknn.r",
-		"models/regression/regr.myknn.r"
+		"models/regression/regr.myknn.r",
+		"models/regression/ridge.r"
 )
 
 

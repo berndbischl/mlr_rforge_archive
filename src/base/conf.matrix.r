@@ -32,7 +32,6 @@
 conf.matrix = function(learn.task, resample.instance, resample.result, relative=FALSE) {
 	# todo check that its classif.task!!!
 	n <- resample.result["iters"]
-	res.i <- learn.task["resampled"]
 	rin <- resample.instance
 	lev <- learn.task["class.levels"]
 	trues <- c()

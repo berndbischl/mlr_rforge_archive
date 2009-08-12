@@ -29,7 +29,7 @@ setGeneric(
 #' 
 #' \itemize{ 
 #' 		\item{\code{\linkS4class{adaboost}}}{Boosting from adabag package}
-#' 		\item{\code{\linkS4class{kknn.classif}}}{k-Nearest Neighbor from kknn package}
+#' 		\item{\code{\linkS4class{kknn.knn.classif}}}{k-Nearest Neighbor from kknn package}
 #' 		\item{\code{\linkS4class{lda}}}{Linear Discriminant Analysis from MASS package}
 #' 		\item{\code{\linkS4class{logreg}}}{Logistic Regression from stats package}
 #' 		\item{\code{\linkS4class{mda}}}{Mixture Discriminant Analysis from mda package}

@@ -17,6 +17,7 @@ parallel.setup(mode="local", global=TRUE)
 logger.define(level="error", global=TRUE)
 
 
+
 testsuite.df <- iris
 testsuite.formula <- Species~.
 
@@ -27,6 +28,15 @@ testsuite.train <- testsuite.df[testsuite.train.inds, ]
 testsuite.test  <- testsuite.df[testsuite.test.inds, ]
 
 testsuite.class.col <- 5
+
+
+fr <- mlbench.friedman1(150)
+fr2 <- as.data.frame(fr$x)
+fr2$y <- fr$y 
+regr.data <- fr2  
+regr.data.train <- regr.data[testsuite.train.inds, ]
+regr.data.test  <- regr.data[testsuite.test.inds, ]
+regr.formula <- y ~ . 
 
 debug.seed <- 12345
 testsuite.mlr <- defineTestSuite("mlr",

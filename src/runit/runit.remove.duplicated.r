@@ -12,7 +12,7 @@ test.remove.duplicated <- function() {
 	
 	ti <- rin["train.inds", 1]
 
-	ct <- new("classif.task", new("kknn.classif"), data=df, formula=Species~.)
+	ct <- new("classif.task", new("kknn.knn.classif"), data=df, formula=Species~.)
 	ct2 <- restrict.learn.task(ct, ti)
 	
 	cv.inst <- make.cv.instance(size=nrow(ct2@data), iters=2)

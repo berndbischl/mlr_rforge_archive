@@ -11,14 +11,30 @@ parallel.setup(global=TRUE)
 data(iris)
 
 # set up the learning task and parameter grid
-ct1 <- make.classif.task("kernlab.svm.classif", data=iris, formula=Species~.)
-ranges1 <- list(C=1:5)
-rin <- make.cv.instance(iters=10, size=nrow(iris))					
-rdesc <- make.cv.desc(iters=3)
-br <- benchmark(learn.task=ct1, ranges=ranges1, rin, rdesc)
+ 
+fr <- mlbench.friedman1(150)
+fr2 <- as.data.frame(fr$x)
+fr2$y <- fr$y 
+rd <- fr2  
 
-# result
+m <- penalized(rd$y, penalized = ~., lambda2=5, data=rd)
 
+
+
+
+#train.inds <- seq(1,150,2)
+# test.inds <- seq(2,150,2)
+#
+# ct <- make.classif.task("lda", data=iris, formula=Species~.)
+# cm <- train(ct, subset=train.inds)
+# ps <- predict(ct, cm, newdata=iris[test.inds,])
+# 
+# ct <- make.classif.task("kknn.knn.classif", data=iris, formula=Species~.)
+# cm <- train(ct, subset=train.inds, parset=list(k=3))
+# ps <- predict(ct, cm, newdata=iris[test.inds,])
+#
+## result
+#
 #print(rr)
 
 #print(resample.performance(rt,rin, rr, measure="mse"))

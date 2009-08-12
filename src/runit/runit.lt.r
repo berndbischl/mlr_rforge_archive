@@ -74,7 +74,7 @@ test.mlr.learn.task <- function() {
 #	checkEquals(ct7@predict.fct.pars, list())
 #	
 #	
-#	ct8 <- new("classif.task", new("knn.classif"), data=data, formula=formula, predict.fct.pars= list(kernel="triangular")) 
+#	ct8 <- new("classif.task", new("knn.knn.classif"), data=data, formula=formula, predict.fct.pars= list(kernel="triangular")) 
 #	
 #	
 #	checkEquals(ct8@predict.fct.pars, list(kernel="triangular")) 
