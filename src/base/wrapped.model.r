@@ -25,7 +25,9 @@ roxygen()
 setClass(
 		"wrapped.model",
 		representation = representation(
-				learn.task = "learn.task",
+				task.class = "character",
+				learner.class = "character",
+				learner.name = "character",
 				learner.model = "ANY",
 				subset = "numeric",
 				parset = "list"
@@ -70,7 +72,7 @@ setMethod(
 			ps <- paste(names(x@parset), x@parset, sep="=", collapse=" ")
 			return(
 					paste(
-							"Learner model for ", x@learn.task@wrapped.learner@learner.name, "\n",  
+							"Learner model for ", x@learner.name, "\n",  
 							"Hyperparameters: ", ps, "\n",
 							"Trained on obs: ", length(x@subset), "\n",
 							sep=""

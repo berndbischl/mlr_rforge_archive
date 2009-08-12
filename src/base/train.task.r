@@ -73,6 +73,8 @@ setMethod(
 				learner.model <- new("learner.failure", msg=msg)
 			} 
 			
-			return(new("wrapped.model", learner.model = learner.model, subset=subset, parset=parset))
-		}
+			return(new("wrapped.model", task.class = class(learn.task), learner.class = class(wl),  
+							learner.name=wl@learner.name, learner.model = learner.model, 
+							subset=subset, parset=parset))
+		} 
 )
