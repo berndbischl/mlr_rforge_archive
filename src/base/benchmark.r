@@ -107,7 +107,7 @@ benchmark.1 <- function(learn.task, outer.resampling, inner.resampling, ranges, 
 		best.pars2 <- best.pars[!is.na(best.pars)]
 		
 		cm <- train(learn.task, subset=train.i, parset=best.pars2)                
-		pred <- predict(cm, newdata=learn.task@data[test.i,]) 
+		pred <- predict(learn.task, cm, newdata=learn.task@data[test.i,]) 
 		cl <- as.character(learn.task@formula)[2]
 		test.perf <- performance(pred, learn.task@data[test.i,cl], learn.task@weights[test.i], measure)
 		result[i, "test.perf"] <- test.perf

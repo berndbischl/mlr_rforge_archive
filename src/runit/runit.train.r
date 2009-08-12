@@ -11,8 +11,6 @@ test.train <- function() {
 	ext1 <- try(lda(formula, data=data))
 	
 	
-	checkEquals(cm1@learn.task, ct1)
-	
 	checkTrue(ifelse(class(cm1@learner.model)== "learner.failure", 
 					checkTrue(class(ext1)=="try-error") , checkEqualsNumeric(cm1@learner.model$means, ext1$means)))
 	
@@ -75,8 +73,6 @@ test.train <- function() {
 	ext5 <- try(qda(formula, data=data))
 	
 	
-	checkEquals(cm5@learn.task, ct5)
-	
 	checkTrue(ifelse(class(cm5@learner.model)[1]== "learner.failure", 
 					checkTrue(class(ext5)=="try-error") , checkEqualsNumeric(cm5@learner.model$means, ext5$means)))
 	
@@ -115,7 +111,6 @@ test.train <- function() {
 	ct7 <- new("classif.task", wrapped.learner=new("kknn.classif"), data=data, formula=formula)
 	cm7 <- train(ct7, parset = list(k=k))
 	
-	checkEquals(cm7@learn.task, ct7)
 	checkEquals(cm7@parset,  list(k=k))
 	checkEquals(cm7@subset, 1:nrow(data))
 	
@@ -133,7 +128,6 @@ test.train <- function() {
 	ext9 <- try(randomForest(formula= formula, data=data, ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
 	
 	
-	checkEquals(cm9@learn.task, ct9)
 	checkEquals(cm9@parset,  list(ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
 	checkEquals(cm9@subset, 1:nrow(data))
 	

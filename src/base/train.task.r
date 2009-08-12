@@ -25,9 +25,10 @@ setGeneric(
 #' @param parset [\code{\link{list}}] \cr
 #'       Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.
 #'
-#' @return An object of class "model" containing the learn.task and the generated external classification model . 
+#' @return An object of class \code{\linkS4class{wrapped.model}} containing the generated model of the underlying learner and the paramater and index set used for training. 
 #'
-#' @export 
+#' @export
+#' @rdname train 
 #'
 #' @usage train(learn.task, subset, parset)  
 #'
@@ -38,9 +39,12 @@ setGeneric(
 #'
 #' ct <- make.classif.task("lda", data=iris, formula=Species~.)
 #' cm <- train(ct, subset=train.inds)
-#' ps <- predict(cm, subset=test.inds)
-#' performance()
+#' ps <- predict(ct, cm, newdata=iris[test.inds,])
 #' 
+#' ct <- make.classif.task("kknn.knn.classif", data=iris, formula=Species~.)
+#' cm <- train(ct, subset=train.inds, parset=list(k=3))
+#' ps <- predict(ct, cm, newdata=iris[test.inds,])
+#'  
 #' @seealso \code{\link{predict}}, \code{\link{make.classif.task.task}}, \code{\link{make.regr.task}} 
 #' 
 #' @title train
@@ -69,6 +73,6 @@ setMethod(
 				learner.model <- new("learner.failure", msg=msg)
 			} 
 			
-			return(new("wrapped.model", learn.task=learn.task, learner.model = learner.model, subset=subset, parset=parset))
+			return(new("wrapped.model", learner.model = learner.model, subset=subset, parset=parset))
 		}
 )

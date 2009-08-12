@@ -29,11 +29,10 @@
 
 setMethod(
 		f = "predict",
-		signature = signature(object="wrapped.classif.model"),
-		def = function(object, newdata, type="default") {
+		signature = signature(object="classif.task"),
+		def = function(object, model, newdata, type="default") {
 			
-			model <- object	
-			lt <- model@learn.task
+			lt <- object	
 			wl <- lt@wrapped.learner
 			
 			if (missing(newdata)) {

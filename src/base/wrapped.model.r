@@ -27,7 +27,7 @@ setClass(
 		representation = representation(
 				learn.task = "learn.task",
 				learner.model = "ANY",
-				subset = "integer",
+				subset = "numeric",
 				parset = "list"
 		)
 )

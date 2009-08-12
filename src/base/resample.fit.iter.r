@@ -5,9 +5,9 @@ resample.fit.iter <- function(learn.task, resample.instance, parset, type, i, re
 	test.i <- resample.instance["test.inds", i]
 	m <- train(learn.task, subset=train.i, parset=parset)
 	if (is(learn.task, "classif.task"))
-		p <- predict(m, newdata=learn.task@data[test.i,], type=type)
+		p <- predict(learn.task, m, newdata=learn.task@data[test.i,], type=type)
 	else 
-		p <- predict(m, newdata=learn.task@data[test.i,])
+		p <- predict(learn.task, m, newdata=learn.task@data[test.i,])
 	# faster for parallel 
 	if (!return.model)
 		m <- NULL		

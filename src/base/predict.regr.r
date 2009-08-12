@@ -6,11 +6,10 @@ roxygen()
 
 setMethod(
 		f = "predict",
-		signature = signature(object="wrapped.regr.model"),
-		def = function(object, newdata) {
+		signature = signature(object="regr.task"),
+		def = function(object, model, newdata) {
 			
-			model <- object
-			lt <- model@learn.task
+			lt <- object
 			wl <- lt@wrapped.learner
 
 			if (missing(newdata)) {

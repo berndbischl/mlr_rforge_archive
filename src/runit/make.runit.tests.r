@@ -13,7 +13,7 @@ simple.test <- function(t.name, df, formula, train.inds, old.predicts, parset=li
 	if(class(cm)[1] == "learner.failure"){
 		checkTrue(class(old.predicts)=="try-error")
 	}else{
-		cp <- predict(cm, newdata=test)
+		cp <- predict(ct, cm, newdata=test)
 		# to avoid issues with dropped levels in the class factor we only check the elemenst as charcters
 		checkEquals(as.character(cp), as.character(old.predicts))
 	}
@@ -47,7 +47,7 @@ prob.test <- function(t.name, df, formula, train.inds, old.probs, parset=list())
 	if(class(cm@learner.model)[1] == "learner.failure"){
 		checkTrue(class(old.predicts)=="try-error")
 	}else{
-		cp <- predict(cm, newdata=test, type="prob")
+		cp <- predict(ct, cm, newdata=test, type="prob")
 		
 		# to avoid issues with dropped levels in the class factor we only check the elemenst as charcters
 		checkEquals(cp, old.probs)
