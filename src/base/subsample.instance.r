@@ -36,7 +36,7 @@ setGeneric(
 		}
 )
 
-#' make.subsample.instance generates a \code{\linkS4class{subsample.instance}} object, which encapsulates the generated indices of training and test sets. 
+#' \code{make.subsample.instance} generates a \code{\linkS4class{subsample.instance}} object, which encapsulates the generated indices of training and test sets. 
 #' 
 #' @param size [integer] \cr Size of the data set to resample.
 #' @param split [numeric] \cr Proportion of data used for training set. 

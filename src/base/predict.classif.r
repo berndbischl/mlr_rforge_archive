@@ -2,11 +2,11 @@
 #' the knowledge of an existing classification model.   
 #'
 #' @param model [\code{\linkS4class{model}}] \cr 
-#'   Specifies classification task  
+#'   Specifies classification task.  
 #' @param newdata [data.frame] \cr 
-#'   Contains new observations which should be classified(by default the train data).
+#'   Contains new observations which should be classified (by default the train data).
 #'
-#' @return predict returns a prediction object containing a factor vector of 
+#' @return \code{predict} returns a prediction object containing a factor vector of 
 #' predicted classes.
 #'
 #' @export
@@ -20,10 +20,10 @@
 #'
 #' inds <- 2*(1:75)
 #' test <- iris[-inds,]
-#'
-#' lda.learn.task <- new("t.lda", data=iris, formula=Species~.)
+#' 
+#' lda.learn.task <- make.classif.task("lda", data=iris, formula=Species~.)
 #' lda.model <- train(lda.learn.task, subset=inds)
-#' lda.prediction <- predict(lda.model, newdata = test)
+#' lda.prediction <- predict(lda.learn.task, lda.model, newdata = test)
 #' 
 #'  @title predict
 

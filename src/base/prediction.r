@@ -104,9 +104,9 @@ setGeneric(
 #' 		\item{\code{mse}}{Mean squared error}
 #' } 
 #' 
-#' @param	true.y [\code{\link{any}}] \cr
+#' @param	true.y [ANY] \cr
 #' 			The data sets true labels.
-#' @param 	pred.y [\code{\link{any}}] \cr
+#' @param 	pred.y [ANY] \cr
 #' 			The predicted labels.
 #' @param 	weights [\code{\link{numeric}}] \cr
 #' 			An optional vector of weights to be used. Default is a weight of 1 for every case.
@@ -114,8 +114,10 @@ setGeneric(
 #' 			A list or a character which defines the loss function. Default is the mean misclassification error 
 #' 			("mmce") for classification tasks and the mean squared error ("mse") for regression tasks. See details
 #' 			for other loss functions.
-#' @param 	costs [\code{\link{any}}] \cr
+#' @param 	costs [ANY] \cr
 #' 			An optional possibility to specify costs, default is \code{NULL}.
+#' 
+#' @return The performance.
 #' 
 #' @export
 #' @rdname performance

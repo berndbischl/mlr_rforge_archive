@@ -45,7 +45,7 @@ setGeneric(
 #' cm <- train(ct, subset=train.inds, parset=list(k=3))
 #' ps <- predict(ct, cm, newdata=iris[test.inds,])
 #'  
-#' @seealso \code{\link{predict}}, \code{\link{make.classif.task.task}}, \code{\link{make.regr.task}} 
+#' @seealso \code{\link{predict}}, \code{\link{make.classif.task}}, \code{\link{make.regr.task}} 
 #' 
 #' @title train
 

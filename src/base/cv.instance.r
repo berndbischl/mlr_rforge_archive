@@ -37,7 +37,7 @@ setGeneric(
 	}
 )
 
-#' make.cv.instance generates a \code{\linkS4class{cv.instance}} object, which encapsulates the generated indices of training and test sets.
+#' \code{make.cv.instance} generates a \code{\linkS4class{cv.instance}} object, which encapsulates the generated indices of training and test sets.
 #' 
 #' @param size [integer] \cr Size of the data set to resample. 
 #' @param iters [integer] \cr Number of generated subsets / resampling iterations.

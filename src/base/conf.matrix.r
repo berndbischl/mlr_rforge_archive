@@ -1,4 +1,4 @@
-#' conf.matrix generates the confusion matrix, see \code{\link{errormatrix}}. 
+#' \code{conf.matrix} generates the confusion matrix, see \code{\link{errormatrix}}. 
 #' 
 #' 
 #' @param learn.task [\code{\linkS4class{learn.task}}] \cr 
@@ -13,6 +13,7 @@
 #' @return A confusion matrix.
 #' 
 #' @export
+#' @rdname conf.matrix
 #' 
 #' @usage conf.matrix(learn.task, resample.instance, resample.result, relative)
 #' 

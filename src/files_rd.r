@@ -5,6 +5,7 @@ allowed.rd.files <<- c(
 		"train.Rd",
 		"predict.Rd",
 		"performance.Rd",
+		"conf.matrix.Rd",
 				
 		"resample.desc-class.Rd",
 		"cv.desc-class.Rd",
@@ -24,7 +25,7 @@ allowed.rd.files <<- c(
 		
 		"resample.fit.Rd",
 		"tune.Rd",
-		"bechmark.Rd"
+		"benchmark.Rd"
 )		
 
 	
