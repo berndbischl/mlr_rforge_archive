@@ -25,7 +25,10 @@ allowed.rd.files <<- c(
 		
 		"resample.fit.Rd",
 		"tune.Rd",
-		"benchmark.Rd"
+		"benchmark.Rd",
+		
+		"learn.task-class.Rd",
+		"data.desc-class.Rd"
 )		
 
 	

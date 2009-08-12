@@ -1,22 +1,21 @@
-#'  \describe{	
-#' Since not all classifiers can deal with all kind of data properties of the data are compared 
-#' with the possibilities of the classifier when generating a \code{\linkS4class{learn.task}}.
-#' A data.desc object contains such data characteristics encoded by logical values.}
-#' 
-#' \cr\cr\bold{Slots:}
-#'  \describe{	
-#'   \item{\code{is.missing [logical]}}{Does the dataset have missing values?}
-#'   \item{\code{has.numerics [logical]}}{Does the dataset have numeric variables?}
-#'   \item{\code{has.integers [logical]}}{Does the dataset have integer variables?}
-#'   \item{\code{has.factors [logical]}}{Does the dataset have factor variables?}
-#'   \item{\code{supports.has [logical]}}{Does the dataset have character variables?}
-#'  }
-#' 
-#'  @note  
-#'  When a \code{\linkS4class{learn.task}} gets printed its classifier description is shown on the console.
-#' 
-#'  @title data.desc
-#'  @export
+
+#' Since not all classifiers can deal with all kind of data, the properties of the data are compared 
+#' with the supported features of the learner when a \code{\linkS4class{learn.task}} is generated.
+#' A \code{data.desc} object contains a description of these data properties.
+
+#' @slot is.classification Is the target variable categorical?
+#' @slot class.nr Does the dataset have missing values?
+#' @slot has.missing Does the dataset have missing values?
+#' @slot numerics Does the dataset have numeric variables?
+#' @slot integers Does the dataset have integer variables?
+#' @slot factors Does the dataset have factor variables?
+#' @slot characters Does the dataset have character variables?
+#' @slot obs Number of examples in dataset.
+
+#' @exportClass data.desc
+#' @title data.desc
+
+
 setClass(
 		"data.desc",
 		representation = representation(
