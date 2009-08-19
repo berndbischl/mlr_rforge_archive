@@ -6,7 +6,12 @@ simple.test <- function(t.name, df, formula, train.inds, old.predicts, parset=li
 	train <- df[inds,]
 	test <- df[-inds,]
 	wl <- new(t.name) 
-	ct <- new("classif.task", wrapped.learner=wl, data=df, formula=formula)
+	
+	if (is(wl, "wrapped.learner.classif")) {
+		ct <- new("classif.task", wrapped.learner=wl, data=df, formula=formula)
+	} else {
+		ct <- new("regr.task", wrapped.learner=wl, data=df, formula=formula)
+	}
 	
 	cm <- try(train(ct, subset=inds, parset=parset))
 	
