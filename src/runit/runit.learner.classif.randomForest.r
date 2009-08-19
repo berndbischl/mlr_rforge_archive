@@ -16,21 +16,21 @@ test.randomForest <- function() {
 	for (i in 1:length(parset.list)) {
 		
 		parset <- parset.list[[i]]
-		pars <- list(formula=testsuite.formula, data=testsuite.train)
+		pars <- list(formula=multiclass.formula, data=multiclass.train)
 		pars <- c(pars, parset)
 		set.seed(debug.seed)
 		m <- do.call(randomForest, pars)
-		p <- predict(m, newdata=testsuite.test, type="response")
-		p2 <- predict(m, newdata=testsuite.test, type="prob")
+		p <- predict(m, newdata=multiclass.test, type="response")
+		p2 <- predict(m, newdata=multiclass.test, type="prob")
 		old.predicts.list[[i]] <- p
 		old.probs.list[[i]] <- p2
 	}
 	
-	simple.test.parsets("randomForest.classif", testsuite.df, testsuite.formula, testsuite.train.inds, old.predicts.list, parset.list)
-	prob.test.parsets("randomForest.classif", testsuite.df, testsuite.formula, testsuite.train.inds, old.probs.list, parset.list)
+	simple.test.parsets("randomForest.classif", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
+	prob.test.parsets("randomForest.classif", multiclass.df, multiclass.formula, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt <- randomForest
 	
-	cv.test.parsets("randomForest.classif", testsuite.df, testsuite.formula, tune.train=tt, parset.list=parset.list)
+	cv.test.parsets("randomForest.classif", multiclass.df, multiclass.formula, tune.train=tt, parset.list=parset.list)
 }
 

@@ -70,8 +70,7 @@ prob.test.parsets <- function(t.name, df, formula, train.inds, old.probs.list, p
 
 cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tune.predict = predict) {
 	
-	data = testsuite.df
-	formula = testsuite.formula
+	data = df
 	
 	tt <- function(formula, data, subset=1:nrow(data), ...) {
 		pars <- list(formula=formula, data=data[subset, ])
@@ -130,8 +129,7 @@ cv.test.parsets <- function(t.name, df, formula, folds=3, tune.train, tune.predi
 
 bs.test <- function(t.name, df, formula, iters=3, parset=list(), tune.train, tune.predict = predict) {
 	
-	data = testsuite.df
-	formula = testsuite.formula
+	data = df
 	
 	tr <- e1071::tune(method=tune.train, predict.func=tune.predict, train.x=formula, data=data, 
 			tunecontrol = tune.control(sampling = "bootstrap", nboot = iters, boot.size=1))

@@ -3,16 +3,16 @@
 
 test.nb <- function() {
 
-  m <- naiveBayes(formula=testsuite.formula, data=testsuite.train)
-  p  <- predict(m, newdata=testsuite.test[,-testsuite.class.col])
-  p2 <- predict(m, newdata=testsuite.test[,-testsuite.class.col], type="raw")
+  m <- naiveBayes(formula=multiclass.formula, data=multiclass.train)
+  p  <- predict(m, newdata=multiclass.test[,-multiclass.class.col])
+  p2 <- predict(m, newdata=multiclass.test[,-multiclass.class.col], type="raw")
   
-  simple.test("nb", testsuite.df, testsuite.formula, testsuite.train.inds, p)
-  prob.test  ("nb", testsuite.df, testsuite.formula, testsuite.train.inds, p2)
+  simple.test("nb", multiclass.df, multiclass.formula, multiclass.train.inds, p)
+  prob.test  ("nb", multiclass.df, multiclass.formula, multiclass.train.inds, p2)
   
   tt <- "naiveBayes"
-  tp <- function(model, newdata) predict(model, newdata[,-testsuite.class.col])
+  tp <- function(model, newdata) predict(model, newdata[,-multiclass.class.col])
 
-  cv.test("nb", testsuite.df, testsuite.model, tune.train=tt, tune.predict=tp )
+  cv.test("nb", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp )
 
 }

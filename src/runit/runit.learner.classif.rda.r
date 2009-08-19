@@ -4,12 +4,12 @@
 test.rda <- function() {
 
 	set.seed(debug.seed)
-	m <- rda(formula=testsuite.formula, data=testsuite.train)
-	p <- predict(m, newdata=testsuite.test)$class
+	m <- rda(formula=multiclass.formula, data=multiclass.train)
+	p <- predict(m, newdata=multiclass.test)$class
 	
 	
-	simple.test("rda", testsuite.df, testsuite.formula, 
-			testsuite.train.inds, p)
+	simple.test("rda", multiclass.df, multiclass.formula, 
+			multiclass.train.inds, p)
 	
 	
 	parset.list <- list(
@@ -23,20 +23,20 @@ test.rda <- function() {
 	
 	for (i in 1:length(parset.list)) {
 		parset <- parset.list[[i]]
-		pars <- list(formula=testsuite.formula, data=testsuite.train)
+		pars <- list(formula=multiclass.formula, data=multiclass.train)
 		pars <- c(pars, parset)
 		set.seed(debug.seed)
 		m <- do.call(rda, pars)
-		p <- predict(m, newdata=testsuite.test)
+		p <- predict(m, newdata=multiclass.test)
 		old.predicts.list[[i]] <- p$class
 		old.probs.list[[i]] <- p$posterior
 	}
 	
-	simple.test.parsets("rda", testsuite.df, testsuite.formula, testsuite.train.inds, old.predicts.list, parset.list)
-	prob.test.parsets  ("rda", testsuite.df, testsuite.formula, testsuite.train.inds, old.probs.list, parset.list)
+	simple.test.parsets("rda", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
+	prob.test.parsets  ("rda", multiclass.df, multiclass.formula, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt <- "rda"
 	tp <- function(model, newdata) predict(model, newdata)$class
 	
-	cv.test.parsets("rda", testsuite.df, testsuite.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
+	cv.test.parsets("rda", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
 }

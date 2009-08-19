@@ -3,15 +3,15 @@
 
 test.lda <- function() {
 
-  m <- lda(formula=testsuite.formula, data=testsuite.train)
-  p <- predict(m, newdata=testsuite.test)
+  m <- lda(formula=multiclass.formula, data=multiclass.train)
+  p <- predict(m, newdata=multiclass.test)
 
-  simple.test("lda", testsuite.df, testsuite.formula, testsuite.train.inds, p$class)
-#  prob.test  ("lda", testsuite.df, testsuite.formula, testsuite.train.inds, p$posterior)
+  simple.test("lda", multiclass.df, multiclass.formula, multiclass.train.inds, p$class)
+#  prob.test  ("lda", multiclass.df, multiclass.formula, multiclass.train.inds, p$posterior)
 #  
 #  tt <- "lda"
 #  tp <- function(model, newdata) predict(model, newdata)$class
 #  
-#  cv.test("lda", testsuite.df, testsuite.formula, tune.train=tt, tune.predict=tp )
+#  cv.test("lda", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp )
 
 }

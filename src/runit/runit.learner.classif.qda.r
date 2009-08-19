@@ -3,18 +3,18 @@
 
 test.qda <- function() {
 
-  m <- try(qda(formula=testsuite.formula, data=testsuite.train))
+  m <- try(qda(formula=multiclass.formula, data=multiclass.train))
   if(class(m)!="try-error") {
-   p <- predict(m, newdata=testsuite.test) 
+   p <- predict(m, newdata=multiclass.test) 
   } else {
    p <- m 
   }
 
-  simple.test("qda", testsuite.df,testsuite.formula, testsuite.train.inds, p$class)
-  prob.test  ("qda", testsuite.df,testsuite.formula, testsuite.train.inds, p$posterior)
+  simple.test("qda", multiclass.df,multiclass.formula, multiclass.train.inds, p$class)
+  prob.test  ("qda", multiclass.df,multiclass.formula, multiclass.train.inds, p$posterior)
   
   tt <- "qda"
   tp <- function(model, newdata) predict(model, newdata)$class
 
-  cv.test("qda", testsuite.df, testsuite.formula, tune.train=tt, tune.predict=tp )
+  cv.test("qda", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp )
 }

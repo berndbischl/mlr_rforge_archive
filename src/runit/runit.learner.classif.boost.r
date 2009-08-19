@@ -13,16 +13,16 @@ test.boost <- function() {
 	for (i in 1:length(parset.list)) {
 		
 		parset <- parset.list[[i]]
-		pars <- list(formula=testsuite.formula, data=testsuite.train)
+		pars <- list(formula=multiclass.formula, data=multiclass.train)
 		pars <- c(pars, parset)
 		set.seed(debug.seed)
 		m <- do.call(adaboost.M1, pars)
-		p <- predict(m, newdata=testsuite.test)
+		p <- predict(m, newdata=multiclass.test)
 		old.predicts.list[[i]] <- as.factor(p$class)
 	}
 	
 	
-	simple.test.parsets("adaboost", testsuite.df, testsuite.formula, testsuite.train.inds, old.predicts.list, parset.list)
+	simple.test.parsets("adaboost", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
 	
 	
 	tt <- function (formula, data, subset=1:nrow(data), ...) {
@@ -31,6 +31,6 @@ test.boost <- function() {
 	
 	tp <- function(model, newdata) as.factor(predict(model, newdata)$class)
 	
-	cv.test.parsets("adaboost", testsuite.df, testsuite.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
+	cv.test.parsets("adaboost", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
 }
 
