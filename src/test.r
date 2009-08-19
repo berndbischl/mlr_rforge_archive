@@ -17,9 +17,12 @@ fr2 <- as.data.frame(fr$x)
 fr2$y <- fr$y 
 rd <- fr2  
 
-m <- penalized(rd$y, penalized = ~., lambda2=5, data=rd)
 
+xx = cvl (y ~., lambda2 = 5, data=rd, fold = 5)
 
+rt <- make.regr.task("penalized.ridge", formula=y~., data=rd)
+cv <- make.cv.instance(size=150, iters=5)
+rf <- resample.fit(rt, cv)
 
 
 #train.inds <- seq(1,150,2)

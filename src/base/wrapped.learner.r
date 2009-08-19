@@ -10,6 +10,7 @@ roxygen()
 #'  	tolerance parameter in lda.)
 #' @slot predict.fct Function used in above package to predict new data with a trained model 
 #' 		(see \code{\link{predict}}) 
+#' @slot predict.newdata.arg Name of argument for the new data frame in the underlying predict method. 
 #' @slot predict.fct.pars Named list of parameters which are fixed in the above predict.fct. See train.fct.pars 
 #' 		(example would be the method parameter in predict.lda.)
 #' @slot predict.fct.trafo A function which, when applied to an output of the predict function, returns the vector of 
@@ -36,6 +37,7 @@ setClass(
 				train.fct = "function",
 				train.fct.pars = "list",
 				predict.fct = "function",
+				predict.newdata.arg = "character",
 				predict.fct.pars = "list",
 				learner.props = "learner.props"
 		)
@@ -50,7 +52,7 @@ setMethod(
 		signature = signature("wrapped.learner"),
 		def = function(.Object, learner.name, learner.pack, learner.model.class, learner.model.S4,
 				train.fct, train.fct.pars=list(), 
-				predict.fct=predict, predict.fct.pars=list(), 
+				predict.fct=predict, predict.newdata.arg="newdata", predict.fct.pars=list(), 
 				learner.props) {
 			
 			
@@ -86,6 +88,7 @@ setMethod(
 			.Object@train.fct <- train.fct
 			.Object@train.fct.pars <- train.fct.pars
 			.Object@predict.fct <- predict.fct
+			.Object@predict.newdata.arg <- predict.newdata.arg
 			.Object@predict.fct.pars <- predict.fct.pars
 			
 			
