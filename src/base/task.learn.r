@@ -52,7 +52,7 @@ setMethod(
 			.Object@weights <- weights
 			.Object@formula <- formula
 			cn <- .Object["target.name"]
-			.Object@data.desc <- new("data.desc", data, cn)
+			.Object@data.desc <- make.data.desc(data=data, target.col=cn)
 			
 			
 			check.result <- check.function(.Object)
@@ -61,7 +61,7 @@ setMethod(
 			}
 			else {
 				.Object@data <- check.result$data
-				.Object@data.desc <- new("data.desc", .Object@data, cn)
+				.Object@data.desc <- make.data.desc(data=.Object@data, target.col=cn)
 			}
 			return(.Object)
 		}

@@ -14,16 +14,12 @@ setMethod(
 		def = function(lt) {
 			wl <- lt@wrapped.learner
 			ld <- wl@learner.props
-			dd <- lt@data.desc
 			data <- lt@data
 			msg <- ""
-			if (dd@integers > 0) {
-				logger.warn("Your data set contains integer variables. These will be converted to numerics! You should better look at those carefully and convert them yourself to either numerics or factors!")
-				data <- as.data.frame(
-						lapply(data, function (x) if(is.integer(x)) as.numeric(x) else x),
-						stringsAsFactors=FALSE	  
-				)
-			}
+			data <- prep.classif.data(data=data, data.desc=lt@data.desc, ints.as.nums=T)
+			lt@data.desc <- make.data.desc(data=data, target.col = lt@data.desc@target.col)
+			dd <- lt@data.desc
+					
 			if (dd@class.nr > 2 && !ld@supports.multiclass) {
 				msg <- paste("Data set is a multiclass-problem, but", wl@learner.name, "does not support that!")
 			}

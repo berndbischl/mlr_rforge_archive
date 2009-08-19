@@ -11,8 +11,8 @@ base.files <<- c(
 		"base/wrapped.learner.classif.r",
 		"base/wrapped.learner.regr.r",
 		
-		
 		"base/data.desc.r",
+		"base/prepare.df.r",
 		"base/task.learn.r",
 		"base/task.classif.r",
 		"base/task.classif.make.r",
@@ -61,6 +61,7 @@ classif.files <<- c(
 		"models/classification/lda.r",
 		"models/classification/logreg.r",
 		"models/classification/mda.r",
+		"models/classification/multinom.r",
 		"models/classification/nb.r",
 		"models/classification/qda.r",
 		"models/classification/randomForest.r",
@@ -73,8 +74,8 @@ regr.files <<- c(
 		"models/regression/blackboost.r",
 		"models/regression/gbm.r",
 		"models/regression/kknn.r",
-		"models/regression/regr.myknn.r",
-		"models/regression/ridge.r"
+		"models/regression/regr.myknn.r"
+#		"models/regression/ridge.r"
 )
 
 
@@ -94,6 +95,7 @@ load.all.libs <- function() {
 	library(reshape)
 	library(klaR)
 	library(snowfall)
+	library(nnet)
 }
 
 load.all.sources <- function(prefix) {

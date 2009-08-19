@@ -19,7 +19,8 @@
 setClass(
 		"data.desc",
 		representation = representation(
-				is.classification = "logical",	  
+				target.col = "integer",
+				is.classification = "logical",	 
 				class.nr = "integer",
 				has.missing = "logical",
 				numerics = "integer",
@@ -33,20 +34,48 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("data.desc"),
-  def = function(.Object, df, target.name) {
-      col <- which(names(df) == target.name)
-      df2 <- df[,-col]
-	  .Object@is.classification <- is.factor(df[, col]) 
-	  .Object@class.nr <- length(levels(df[,target.name]))
-      .Object@has.missing <- any(sapply(df, is.na))
+  def = function(.Object, data, target.col) {
+      col <- target.col
+      df2 <- data[,-col]
+	  .Object@target.col <- col 
+	  .Object@is.classification <- is.factor(data[, col]) 
+	  .Object@class.nr <- length(levels(data[, col]))
+      .Object@has.missing <- any(sapply(data, is.na))
       .Object@numerics <- sum(sapply(df2, is.numeric))
       .Object@integers <- sum(sapply(df2, is.integer))
       .Object@factors <- sum(sapply(df2, is.factor))
       .Object@characters <- sum(sapply(df2, is.character))
-	  .Object@obs <- nrow(df)
+	  .Object@obs <- nrow(data)
 	  return(.Object)
   }
 )
+
+
+setGeneric(
+		name = "make.data.desc",
+		def = function(data, target.col) {
+			standardGeneric("make.data.desc")
+		}
+)
+
+setMethod(
+		f = "make.data.desc",
+		signature = signature(data="data.frame", target.col="integer"),
+		def = function(data, target.col) {
+			new("data.desc", data=data, target.col=target.col)
+		}
+)
+
+setMethod(
+		f = "make.data.desc",
+		signature = signature(data="data.frame", target.col="character"),
+		def = function(data, target.col) {
+			i = which(colnames(data) == target.col)
+			make.data.desc(data=data, target.col=i)
+		}
+)
+
+
 
 setMethod(
   f = "print",
