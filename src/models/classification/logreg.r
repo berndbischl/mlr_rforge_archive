@@ -39,10 +39,10 @@ setMethod(
 			
 			.Object <- callNextMethod(.Object, learner.name="logreg", learner.pack="stats", 
 					learner.model.class="lm", learner.model.S4 = FALSE,
-					train.fct=train.fct, train.fct.pars=train.fct.pars, 
+					train.fct=train.fct, train.fct.pars=list(maxit=100, family=binomial), 
 					predict.fct=predict.fct, predict.fct.pars=predict.fct.pars,
 					predict.par.for.classes = list(),
-					predict.par.for.probs = list(type="prob"),
+					predict.par.for.probs = list(type="response"),
 					learner.props=desc)
 			return(.Object)
 		}
