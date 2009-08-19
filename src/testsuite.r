@@ -14,35 +14,47 @@ source("src/runit/make.runit.tests.r")
 parallel.setup(mode="local", global=TRUE)
 
 
-logger.define(level="error", global=TRUE)
+logger.define(level="debug", global=TRUE)
+
+data(Sonar)
+
+binaryclass.df <- Sonar
+binaryclass.formula <- Class~.
+binaryclass.train.inds <- c(1:50, 100:150)
+binaryclass.test.inds  <- setdiff(1:nrow(binaryclass.df), binaryclass.train.inds)
+binaryclass.train <- binaryclass.df[binaryclass.train.inds, ]
+binaryclass.test  <- binaryclass.df[binaryclass.test.inds, ]
+binaryclass.class.col <- 61
+binaryclass.class.levs <- levels(binaryclass.df[, binaryclass.class.col])
 
 
-
-testsuite.df <- iris
-testsuite.formula <- Species~.
-
-testsuite.train.inds <- c(1:30, 51:80, 101:130)
-testsuite.test.inds  <- setdiff(1:150, testsuite.train.inds)
-
-testsuite.train <- testsuite.df[testsuite.train.inds, ]
-testsuite.test  <- testsuite.df[testsuite.test.inds, ]
-
-testsuite.class.col <- 5
+multiclass.df <- iris
+multiclass.formula <- Species~.
+multiclass.train.inds <- c(1:30, 51:80, 101:130)
+multiclass.test.inds  <- setdiff(1:150, multiclass.train.inds)
+multiclass.train <- multiclass.df[multiclass.train.inds, ]
+multiclass.test  <- multiclass.df[multiclass.test.inds, ]
+multiclass.class.col <- 5
 
 
 fr <- mlbench.friedman1(150)
 fr2 <- as.data.frame(fr$x)
 fr2$y <- fr$y 
-regr.data <- fr2  
-regr.data.train <- regr.data[testsuite.train.inds, ]
-regr.data.test  <- regr.data[testsuite.test.inds, ]
+regr.df <- fr2  
 regr.formula <- y ~ . 
+regr.train.inds <- c(1:30, 51:80, 101:130)
+regr.test.inds  <- setdiff(1:150, regr.train.inds)
+regr.train <- regr.df[regr.train.inds, ]
+regr.test  <- regr.df[regr.test.inds, ]
+
+
 
 debug.seed <- 12345
 testsuite.mlr <- defineTestSuite("mlr",
   dirs = ts.dirs,  
   testFileRegexp = ts.file.regexp
 )
+
 
 testResult <- runTestSuite(testsuite.mlr)
 
