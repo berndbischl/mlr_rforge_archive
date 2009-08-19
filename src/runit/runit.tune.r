@@ -1,8 +1,8 @@
 test.tune <- function() {
 
 
-  data <- testsuite.df
-  formula <- testsuite.formula
+  data <- multiclass.df
+  formula <- multiclass.formula
   cp <- c(0.05, 0.9)
   minsplit <- c(1:3)
   ranges <- list(cp = cp, minsplit=minsplit)

@@ -1,14 +1,14 @@
 test.mlr.learn.task <- function() {
-	data = testsuite.df
-	formula = testsuite.formula
-	inds <- testsuite.train.inds
+	data = multiclass.df
+	formula = multiclass.formula
+	inds <- multiclass.train.inds
 	k <- 3
 	
 #------------------------------lda----------------------------------------------
 	
 	ct1 <- new("classif.task", new("lda"), data=data, formula=formula)
 	
-	checkEquals(ct1@formula, testsuite.formula)
+	checkEquals(ct1@formula, multiclass.formula)
 	checkEquals(ct1@data, data)
 	
 	checkEquals(ct1@wrapped.learner@learner.pack, "MASS")
@@ -29,7 +29,7 @@ test.mlr.learn.task <- function() {
 #	
 #	ct3 <- new("classif.task", new("rpart.classif", data=data, formula=formula))
 #	
-#	checkEquals(ct3@formula, testsuite.formula)
+#	checkEquals(ct3@formula, multiclass.formula)
 #	checkEquals(ct3@data, data)
 #	
 #	checkEquals(ct3@wrapped.learner@learner.pack, "rpart")
@@ -45,7 +45,7 @@ test.mlr.learn.task <- function() {
 #	
 #	ct5 <- new("classif.task", new("qda"), data=data, formula=formula)
 #	
-#	checkEquals(ct5@formula, testsuite.formula)
+#	checkEquals(ct5@formula, multiclass.formula)
 #	checkEquals(ct5@data, data)
 #	
 #	checkEquals(ct5@wrapped.learner@learner.pack, "MASS")
@@ -66,7 +66,7 @@ test.mlr.learn.task <- function() {
 #	
 #	ct7 <- new("classif.task", new("classif.knn"), data=data, formula=formula)
 #	
-#	checkEquals(ct7@formula, testsuite.formula)
+#	checkEquals(ct7@formula, multiclass.formula)
 #	checkEquals(ct7@data, data)
 #	
 #	checkEquals(ct7@wrapped.learner@learner.pack, "kknn")
@@ -84,7 +84,7 @@ test.mlr.learn.task <- function() {
 #	
 #	ct9 <- new("classif.task", new("randomForest.classif"), data=data, formula=formula)
 #	
-#	checkEquals(ct9@formula, testsuite.formula)
+#	checkEquals(ct9@formula, multiclass.formula)
 #	checkEquals(ct9@data, data)
 #	
 #	checkEquals(ct9@wrapped.learner@learner.pack, "randomForest")

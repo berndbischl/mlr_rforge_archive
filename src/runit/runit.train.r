@@ -1,8 +1,8 @@
 
 test.train <- function() {
-	data <- testsuite.df
-	formula <- testsuite.formula
-	inds <- testsuite.train.inds
+	data <- multiclass.df
+	formula <- multiclass.formula
+	inds <- multiclass.train.inds
 	k <- 3
 	
 	#----------------------------------lda----------------------------------------
