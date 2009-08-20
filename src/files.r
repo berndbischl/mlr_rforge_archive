@@ -75,7 +75,8 @@ regr.files <<- c(
 		"models/regression/gbm.r",
 		"models/regression/kknn.r",
 #		"models/regression/regr.myknn.r",
-		"models/regression/ridge.r"
+		"models/regression/ridge.r",
+		"models/regression/lasso.r"
 )
 
 
