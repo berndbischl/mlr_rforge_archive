@@ -44,12 +44,13 @@ setMethod(
 		),
 		
 		def = function(wrapped.learner, formula, data, weights, parset) {
-			f <- as.character(formula)
-			resp <- f[2]
-			pf <- as.formula(paste("~.-", resp))
-			pars <- list(data[, resp], penalized=pf, data=data)
-			pars <- c(pars, parset)
-			m <- do.call("penalized", pars)
+			# allow lambda instead of lambda1
+			ns <- names(parset)
+			i <- which(ns == "lambda")
+			if (length(i) > 0) 
+				names(parset)[i] <- "lambda1" 
+			m <- callNextMethod(wrapped.learner, formula, data, weights, parset)
+			return(m)
 		}
 )
 
