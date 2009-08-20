@@ -1,7 +1,7 @@
 Package: mlr
 Type: Package
 Title: mlr: Machine Learning in R
-Version: 0.3.6
+Version: 0.3.71
 Date: 2009-01-01
 Author: Bernd Bischl, Max Wornowizki, Katharina Borg
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
@@ -17,12 +17,13 @@ Collate: 'resample.desc.r' 'resample.instance.r' 'learner.props.r'
     'wrapped.learner.regr.r' 'blackboost.r' 'wrapped.learner.classif.r'
     'boost.r' 'bs.desc.r' 'bs.instance.r' 'task.classif.r'
     'check.task.classif.r' 'conf.matrix.r' 'cv.desc.r' 'cv.instance.r'
-    'gbm.r' 'kknn.r' 'knn.r' 'lda.r' 'learner.failure.r'
-    'learner.props.classif.r' 'learner.props.regr.r' 'log.r' 'logreg.r'
-    'mda.r' 'nb.r' 'packagedesc.r' 'parallel.r' 'task.regr.r'
-    'perf.measure.r' 'predict.classif.r' 'wrapped.model.r'
-    'predict.regr.r' 'prediction.r' 'qda.r' 'randomForest.r' 'rda.r'
-    'regr.myknn.r' 'resample.fit.iter.r' 'resample.performance.r'
-    'rpart.r' 'subsample.desc.r' 'subsample.instance.r'
-    'train.learner.r' 'svm.r' 'task.classif.make.r' 'task.regr.make.r'
-    'train.task.r' 'train.task.classif.r' 'train.task.regr.r' 'zzz.r'
+    'gbm.r' 'kknn.r' 'knn.r' 'train.learner.r' 'lasso.r' 'lda.r'
+    'learner.failure.r' 'learner.props.classif.r'
+    'learner.props.regr.r' 'log.r' 'logreg.r' 'mda.r' 'multinom.r'
+    'nb.r' 'packagedesc.r' 'parallel.r' 'task.regr.r' 'perf.measure.r'
+    'performance.r' 'predict.classif.r' 'wrapped.model.r'
+    'predict.regr.r' 'prepare.df.r' 'qda.r' 'randomForest.r' 'rda.r'
+    'resample.fit.iter.r' 'resample.performance.r' 'ridge.r' 'rpart.r'
+    'subsample.desc.r' 'subsample.instance.r' 'svm.r'
+    'task.classif.make.r' 'task.regr.make.r' 'train.task.r'
+    'train.task.classif.r' 'train.task.regr.r' 'zzz.r'

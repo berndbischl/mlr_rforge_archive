@@ -1,0 +1,116 @@
+<html><head><title>make.classif.task</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>make.classif.task(mlr)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   make.classif.task,character,formula,data.frame,numeric,character-method">
+<param name="keyword" value="R:   make.classif.task">
+<param name="keyword" value=" make.classif.task">
+</object>
+
+
+<h2>make.classif.task</h2>
+
+
+<h3>Description</h3>
+
+<p>
+<code>make.classif.task</code> defines a classification task for a learner and a data set and is the starting point 
+for further steps like training, predicting new data, resampling and tuning.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>make.classif.task(learner, formula, data, weights, type)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>learner</code></td>
+<td>
+[<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>] <br> 
+Specifies the learner. See the list below in the details section.</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+[<code><a onclick="findlink('VGAM', 'notdocumentedyet.html')" style="text-decoration: underline; color: blue; cursor: hand">formula</a></code>] <br>
+A symbolic description of the model to be fitted.</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+[<code><a onclick="findlink('base', 'data.frame.html')" style="text-decoration: underline; color: blue; cursor: hand">data.frame</a></code>] <br>      
+A data frame containing the variables in the model.</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+[<code><a onclick="findlink('base', 'numeric.html')" style="text-decoration: underline; color: blue; cursor: hand">numeric</a></code>] <br>      
+An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+[<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>] <br>       
+Specifies the type of the predictions - either probabilities ("probs") or classes ("class"). Default is "class".</td></tr>
+</table>
+
+<h3>Details</h3>
+
+<p>
+<code>make.classif.task</code> already performs quite a few tasks: It tries to load the required package for the 
+learner, sets up the learner to deal with a classification problem, gathers information about the features 
+of the data set and the method, and compares whether they are compatible 
+(e.g. some methods might not handle NAs or factors). And last but not least it might perform some data conversions 
+in the data.frame, like coverting integer features to numerics or integer classes to factors, but will generally  
+warn about this. 
+</p>
+<p>
+List of supported learning algorithms. The naming conventions are to add the package name as a prefix if
+a learner is implemented in different packages and the suffix ".classif" if it can handle more than a
+classification task.  
+</p>
+
+<ul> 
+<dt><code>adaboost</code></dt><dd>Boosting from adabag package</dd>
+<dt><code>kknn.knn.classif</code></dt><dd>k-Nearest Neighbor from kknn package</dd>
+<dt><code>lda</code></dt><dd>Linear Discriminant Analysis from MASS package</dd>
+<dt><code>logreg</code></dt><dd>Logistic Regression from stats package</dd>
+<dt><code>mda</code></dt><dd>Mixture Discriminant Analysis from mda package</dd>
+<dt><code>nb</code></dt><dd>Naive Bayes from e1071 package</dd>
+<dt><code>qda</code></dt><dd>Quadratic Discriminant Analysis from MASS package</dd>
+<dt><code>randomForest.classif</code></dt><dd>Random Forest from randomForest package</dd>
+<dt><code>rda</code></dt><dd>Regularized Discriminant Analysis from klaR package</dd>
+<dt><code>rpart.classif</code></dt><dd>Decision Tree from rpart package</dd>
+<dt><code>kernlab.svm.classif</code></dt><dd>Support Vector Machines from kernlab package</dd>  
+</ul>
+
+<h3>Value</h3>
+
+<p>
+An object of class <code>classif.task</code>.</p>
+
+<h3>See Also</h3>
+
+<p>
+<code>wrapped.learner</code>, <code>classif.task</code>, <code><a href="train.html">train</a></code>, <code><a onclick="findlink('VGAM', 'notdocumentedyet.html')" style="text-decoration: underline; color: blue; cursor: hand">predict</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>data(iris) 
+# define a classification task for a decision tree (rpart) for the data set iris
+ct &lt;- make.classif.task("rpart.classif", data = iris, formula = Species ~.)</pre>
+
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
+
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.71 <a href="00Index.html">Index</a>]</div>
+
+</body></html>

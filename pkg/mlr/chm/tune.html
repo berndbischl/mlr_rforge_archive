@@ -16,16 +16,17 @@
 <h3>Description</h3>
 
 <p>
-tune optimizes the hyperparameters of a learner for a classification or regression problem. 
+<code>tune</code> optimizes the hyperparameters of a learner for a classification or regression problem. 
 Given some ranges for one or more hyperparameters, it estimates the performance 
 of the learner for each possible combination of the proposed values by 
-using a resampling method (e.g. cross-validation) and returns the best parameter set and its performance.
+using a resampling method (e.g. cross-validation) and returns the best parameter set and its 
+performance.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre>tune(learn.task, resample.instance, ranges, measure="mmce")</pre>
+<pre>tune(learn.task, resample.instance, ranges, measure = "mmce")</pre>
 
 
 <h3>Arguments</h3>
@@ -33,27 +34,31 @@ using a resampling method (e.g. cross-validation) and returns the best parameter
 <table summary="R argblock">
 <tr valign="top"><td><code>learn.task</code></td>
 <td>
-[<code>learn.task</code>] <br>
-Specifies the learning task for the problem</td></tr>
+[<code><a href="learn.task-class.html">learn.task</a></code>] <br>
+Specifies the learning task for the problem.</td></tr>
 <tr valign="top"><td><code>resample.instance</code></td>
 <td>
-[<code>resample.instance</code>] <br>
+[<code><a href="resample.instance-class.html">resample.instance</a></code>] <br>
 Specifies the training and test indices of the resampled data.</td></tr>
 <tr valign="top"><td><code>ranges</code></td>
 <td>
-[list]<br> A list of named vectors of possible values for each hyperparamter. 
+[<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>] <br> 
+A list of named vectors of possible values for each hyperparameter. 
 You can also pass a list of such list if it does not make sense to search a complete 
 cross-product of range values.</td></tr>
 <tr valign="top"><td><code>measure</code></td>
 <td>
-[character/list] <br> Name of perfomrnace measure to optimize or a list describing your own performance measure. The default is mean misclassification error.</td></tr>
+[<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>/<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>] <br> 
+Name of performance measure to optimize or a list describing your own performance measure. 
+The default is mean misclassification error.</td></tr>
 </table>
 
 <h3>Value</h3>
 
 <p>
-A list containing the best parameter set, its aggregated performance over all resampling iterations, a measure of spread and 
-a data frame containing the same values for all evaluated combinations of parameter values.</p>
+A list containing the best parameter set, its aggregated performance over all resampling 
+iterations, a measure of spread and a data frame containing the same values for all evaluated 
+combinations of parameter values.</p>
 
 <h3>Examples</h3>
 
@@ -63,8 +68,17 @@ ranges &lt;- list(kernel="rbfdot", C=2^seq(-1,1), sigma=2^seq(-1,1))
 ri &lt;- make.cv.instance(size=nrow(iris), iters=3)  
 tune(learn.task=ct, resample.instance=ri, ranges=ranges)</pre>
 
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
 
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.6 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.71 <a href="00Index.html">Index</a>]</div>
 
 </body></html>

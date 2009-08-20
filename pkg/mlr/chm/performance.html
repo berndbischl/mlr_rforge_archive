@@ -1,0 +1,109 @@
+<html><head><title>performance</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>performance(mlr)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   performance,ANY,ANY,numeric,list,ANY-method">
+<param name="keyword" value="R:   performance">
+<param name="keyword" value=" performance">
+</object>
+
+
+<h2>performance</h2>
+
+
+<h3>Description</h3>
+
+<p>
+<code>performance</code> measures the quality of predictions w.r.t. some loss function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>performance(true.y, pred.y, weights, measure, costs)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>true.y</code></td>
+<td>
+[ANY] <br>
+The data sets true labels.</td></tr>
+<tr valign="top"><td><code>pred.y</code></td>
+<td>
+[ANY] <br>
+The predicted labels.</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+[<code><a onclick="findlink('base', 'numeric.html')" style="text-decoration: underline; color: blue; cursor: hand">numeric</a></code>] <br>
+An optional vector of weights to be used. Default is a weight of 1 for every case.</td></tr>
+<tr valign="top"><td><code>measure</code></td>
+<td>
+[<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>/ <code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>] <br>
+A list or a character which defines the loss function. Default is the mean misclassification error 
+("mmce") for classification tasks and the mean squared error ("mse") for regression tasks. See details
+for other loss functions.</td></tr>
+<tr valign="top"><td><code>costs</code></td>
+<td>
+[ANY] <br>
+An optional possibility to specify costs, default is <code>NULL</code>.</td></tr>
+</table>
+
+<h3>Details</h3>
+
+<p>
+There are some more loss functions which you can use as performance measure, they are as follows:
+For classification:
+<ul> 
+<dt><code>smce</code></dt><dd>Summed misclassification error</dd>
+</ul> 
+</p>
+<p>
+For regression:
+<ul> 
+<dt><code>sae</code></dt><dd>Sum of absolute errors</dd>
+<dt><code>mae</code></dt><dd>Median of absolute errors</dd>
+<dt><code>sse</code></dt><dd>Squared sum of errors</dd>
+<dt><code>mse</code></dt><dd>Mean squared error</dd>
+</ul>
+
+<h3>Value</h3>
+
+<p>
+The performance.</p>
+
+<h3>Examples</h3>
+
+<pre>data(iris) 
+# define a classification task for a decision tree (rpart) for the data set iris
+ct &lt;- make.classif.task("rpart.classif", data=iris, formula=Species~.)
+# specify train and test set indices
+train.set &lt;- seq(from=1L, to=150L, by=2L)
+test.set &lt;- seq(from=2L, to=150L, by=2L)
+# train a model with the train set
+m &lt;- train(ct, subset=train.set) 
+# predict the class of the test set measures 
+preds &lt;- predict(m, newdata=iris[test.set,])
+# evaluate the predictions, first with mean misclassification error as loss function (default)
+performance(true.y = iris[test.set, "Species"], pred.y = preds)         
+# and with summed misclassification error
+performance(true.y = iris[test.set, "Species"], pred.y = preds, measure="smce")</pre>
+
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
+
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.71 <a href="00Index.html">Index</a>]</div>
+
+</body></html>

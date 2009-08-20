@@ -10,6 +10,166 @@
 </OBJECT>
 <UL>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="benchmark">
+<param name="Local" value="benchmark.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="benchmark,learn.task,resample.instance,resample.desc,list,list,logical-method">
+<param name="Local" value="benchmark.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="bs.desc">
+<param name="Local" value="bs.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="bs.desc-class">
+<param name="Local" value="bs.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="bs.instance">
+<param name="Local" value="bs.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="bs.instance-class">
+<param name="Local" value="bs.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="conf.matrix">
+<param name="Local" value="conf.matrix.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="cv.desc">
+<param name="Local" value="cv.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="cv.desc-class">
+<param name="Local" value="cv.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="cv.instance">
+<param name="Local" value="cv.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="cv.instance-class">
+<param name="Local" value="cv.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="learn.task">
+<param name="Local" value="learn.task-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="learn.task-class">
+<param name="Local" value="learn.task-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.bs.desc">
+<param name="Local" value="make.bs.desc.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.bs.instance">
+<param name="Local" value="make.bs.instance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.bs.instance,numeric,numeric-method">
+<param name="Local" value="make.bs.instance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.classif.task">
+<param name="Local" value="make.classif.task.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.classif.task,character,formula,data.frame,numeric,character-method">
+<param name="Local" value="make.classif.task.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.cv.desc">
+<param name="Local" value="make.cv.desc.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.cv.instance">
+<param name="Local" value="make.cv.instance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.cv.instance,numeric,numeric-method">
+<param name="Local" value="make.cv.instance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.regr.task">
+<param name="Local" value="make.regr.task.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.regr.task,character,formula,data.frame,numeric-method">
+<param name="Local" value="make.regr.task.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.subsample.desc">
+<param name="Local" value="make.subsample.desc.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.subsample.instance">
+<param name="Local" value="make.subsample.instance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.subsample.instance,numeric,numeric,numeric-method">
+<param name="Local" value="make.subsample.instance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="performance">
+<param name="Local" value="performance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="performance,ANY,ANY,numeric,list,ANY-method">
+<param name="Local" value="performance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="resample.desc">
+<param name="Local" value="resample.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="resample.desc-class">
+<param name="Local" value="resample.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="resample.fit">
+<param name="Local" value="resample.fit.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="resample.fit,learn.task,resample.instance,list,logical,character-method">
+<param name="Local" value="resample.fit.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="resample.instance">
+<param name="Local" value="resample.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="resample.instance-class">
+<param name="Local" value="resample.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="subsample.desc">
+<param name="Local" value="subsample.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="subsample.desc-class">
+<param name="Local" value="subsample.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="subsample.instance">
+<param name="Local" value="subsample.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="subsample.instance-class">
+<param name="Local" value="subsample.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="train">
+<param name="Local" value="train.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="train,learn.task,numeric,list-method">
+<param name="Local" value="train.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="tune">
 <param name="Local" value="tune.html">
 </OBJECT>
@@ -18,6 +178,94 @@
 <param name="Name" value="Package mlr:  Titles">
 </OBJECT>
 <UL>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="benchmark">
+<param name="Local" value="benchmark.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="bs.desc">
+<param name="Local" value="bs.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="bs.instance">
+<param name="Local" value="bs.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="conf.matrix">
+<param name="Local" value="conf.matrix.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="cv.desc">
+<param name="Local" value="cv.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="cv.instance">
+<param name="Local" value="cv.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="learn.task">
+<param name="Local" value="learn.task-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.bs.desc">
+<param name="Local" value="make.bs.desc.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.bs.instance">
+<param name="Local" value="make.bs.instance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.classif.task">
+<param name="Local" value="make.classif.task.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.cv.desc">
+<param name="Local" value="make.cv.desc.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.cv.instance">
+<param name="Local" value="make.cv.instance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.regr.task">
+<param name="Local" value="make.regr.task.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.subsample.desc">
+<param name="Local" value="make.subsample.desc.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="make.subsample.instance">
+<param name="Local" value="make.subsample.instance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="performance">
+<param name="Local" value="performance.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="resample.desc">
+<param name="Local" value="resample.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="resample.fit">
+<param name="Local" value="resample.fit.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="resample.instance">
+<param name="Local" value="resample.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="subsample.desc">
+<param name="Local" value="subsample.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="subsample.instance">
+<param name="Local" value="subsample.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="train">
+<param name="Local" value="train.html">
+</OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="tune">
 <param name="Local" value="tune.html">

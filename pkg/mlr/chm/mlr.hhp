@@ -12,4 +12,23 @@ Title=R Help for package mlr
 
 [FILES]
 00Index.html
+bs.desc-class.html
+bs.instance-class.html
+cv.desc-class.html
+cv.instance-class.html
+make.bs.desc.html
+make.bs.instance.html
+make.classif.task.html
+make.cv.desc.html
+make.cv.instance.html
+make.regr.task.html
+make.subsample.desc.html
+make.subsample.instance.html
+performance.html
+resample.desc-class.html
+resample.fit.html
+resample.instance-class.html
+subsample.desc-class.html
+subsample.instance-class.html
+train.html
 tune.html
