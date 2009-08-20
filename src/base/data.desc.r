@@ -3,6 +3,7 @@
 #' with the supported features of the learner when a \code{\linkS4class{learn.task}} is generated.
 #' A \code{data.desc} object contains a description of these data properties.
 
+#' @slot target.col Column index of the response
 #' @slot is.classification Is the target variable categorical?
 #' @slot class.nr Does the dataset have missing values?
 #' @slot has.missing Does the dataset have missing values?
