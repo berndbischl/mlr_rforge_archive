@@ -14,7 +14,7 @@ source("src/runit/make.runit.tests.r")
 parallel.setup(mode="local", global=TRUE)
 
 
-logger.define(level="debug", global=TRUE)
+logger.define(level="error", global=TRUE)
 
 data(Sonar)
 

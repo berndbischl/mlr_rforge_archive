@@ -1,4 +1,5 @@
 #' @include wrapped.learner.regr.r 
+#' @include train.learner.r 
 roxygen()
 
 #' @export
