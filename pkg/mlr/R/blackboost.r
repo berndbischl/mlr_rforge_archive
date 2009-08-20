@@ -2,14 +2,17 @@
 roxygen()
 
 #' @export
-setClass("blackboost.regr", contains="wrapped.learner.regr")
+setClass(
+		"blackboost.regr", 
+		contains = c("wrapped.learner.regr")
+)
 
 
 #----------------- constructor ---------------------------------------------------------
 
 setMethod(
 		f = "initialize",
-		signature = "blackboost.regr",
+		signature = signature("blackboost.regr"),
 		def = function(.Object, data, formula, train.fct.pars=list(), predict.fct.pars=list()) {
 			train.fct <- "blackboost"
 			predict.fct <- "predict"

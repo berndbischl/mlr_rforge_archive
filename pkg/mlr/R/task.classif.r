@@ -5,8 +5,8 @@ roxygen()
 
 setClass(
 		"classif.task",
-		contains = "learn.task",
-		representation(
+		contains = c("learn.task"),
+		representation = representation(
 				type = "character",
 				trafo.for.classes = "function",
 				trafo.for.probs = "function",
@@ -24,7 +24,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = "classif.task",
+		signature = signature("classif.task"),
 		def = function(.Object, wrapped.learner, data, weights=rep(1, nrow(data)), formula, type = "class") {
 			
 			
@@ -48,7 +48,7 @@ setMethod(
 
 setMethod(
 		f = "[",
-		signature = "classif.task",
+		signature = signature("classif.task"),
 		def = function(x,i,j,...,drop) {
 
 			if (i == "class.levels") {
@@ -65,7 +65,7 @@ setMethod(
 
 setMethod(
 		f = "as.character",
-		signature = "classif.task",
+		signature = signature("classif.task"),
 		def = function(x) {
 			wl <- x@wrapped.learner
 			return(

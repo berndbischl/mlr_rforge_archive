@@ -1,12 +1,20 @@
 #' @include learner.props.r
 roxygen()
 
-
+#' @slot train.par.for.classes  
+#' @slot train.par.for.probs  
+#' @slot predict.par.for.classes  
+#' @slot predict.par.for.probs  
+#' @slot trafo.for.classes  
+#' @slot trafo.for.probs  
+#' @slot dummy.classes Does the predict function need a class column in the dataframe for prediction? 
+#' 		If TRUE but no class column is avaible in the data a null column is generated 
+#'   	 	in predict (default is FALSE). 
 
 setClass(
 		"wrapped.learner.classif",
-		contains = "wrapped.learner",
-		representation(
+		contains = c("wrapped.learner"),
+		representation = representation(
 				train.par.for.classes = "list",
 				train.par.for.probs = "list",
 				predict.par.for.classes = "list",
@@ -19,7 +27,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = "wrapped.learner.classif",
+		signature = signature("wrapped.learner.classif"),
 		def = function(
 				.Object, 
 				learner.name, 
@@ -43,7 +51,7 @@ setMethod(
 				return(.Object)
 			
 			if (is.character(trafo.for.classes) && trafo.for.classes == "default") {
-				trafo.for.classes <- function(x) {
+				trafo.for.classes <- function(x, model) {
 					if (is.factor(x)) {
 						return(x)
 					} else if (is.list(x) && "class" %in% names(x)) {
@@ -53,7 +61,7 @@ setMethod(
 				}
 			}
 			if (is.character(trafo.for.probs) && trafo.for.probs == "default") {
-				trafo.for.probs <- function(x) {
+				trafo.for.probs <- function(x, model) {
 					if (is.matrix(x)) {
 						return(x)
 					} else if (is.list(x) && "posterior" %in% names(x)) {

@@ -6,11 +6,10 @@ roxygen()
 
 setMethod(
 		f = "predict",
-		signature = c(object="wrapped.regr.model"),
-		def = function(object, newdata) {
+		signature = signature(object="regr.task"),
+		def = function(object, model, newdata) {
 			
-			model <- object
-			lt <- model@learn.task
+			lt <- object
 			wl <- lt@wrapped.learner
 
 			if (missing(newdata)) {
@@ -26,8 +25,9 @@ setMethod(
 #				return(p)
 #			}
 			
-			g.pars <- c(list(model@learner.model, newdata=newdata), wl@predict.fct.pars)
-			#print(str(g.pars))
+			g.pars <- list(model@learner.model)
+			g.pars[[wl@predict.newdata.arg]] <- newdata
+			g.pars <- c(g.pars, wl@predict.fct.pars)
 			
 			if(exists("debug.seed") && !is.null(debug.seed)) {
 				set.seed(debug.seed)

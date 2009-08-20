@@ -1,28 +1,43 @@
 #' @include resample.desc.r
 roxygen()
 
-#' @export
-
+#' Description class for cross-validation.
+#' @exportClass cv.desc
+#' @title cv.desc
+#' @seealso \code{\link{make.cv.desc}}
 
 setClass("cv.desc", 
-		contains="resample.desc"
+		contains = c("resample.desc")
 )                                                     
+
+
+#' Create description object for cross-validation.
+#' @param iters Number of iterations
 
 setMethod(
 		f = "initialize",
-		signature = "cv.desc",
+		signature = signature("cv.desc"),
 		def = function(.Object, iters) {
 			callNextMethod(.Object, instance.class="cv.instance", name="cross-validation", iters=iters)
 		}
 )
 
-setMethod(
-		f = "[",
-		signature = "cv.desc",
-		def = function(x,i,j,...,drop) {
-			if (i == "folds")
-				return(callNextMethod(x,"iters",j,drop=drop))
-			else 
-				return(callNextMethod())
-		}
-)
+
+#' Generates a description object for a cross-validation. Usually only needed in \code{\link{benchmark}} 
+#' to describe the inner resampling - e.g. for a double cross-validation.
+#' 
+#' @param size [\code{\link{integer}}] \cr 
+#'        Size of the data set to resample.
+#' @param iters [\code{\link{integer}}] \cr 
+#'        Number of generated subsets / resampling iterations.
+#' 
+#' @return A \code{\linkS4class{cv.desc}} object.
+#' @export 
+#' @seealso \code{\linkS4class{cv.desc}}, \code{\link{benchmark}}
+#' @title make.cv.desc
+make.cv.desc = function(size, iters) {
+	return(new("cv.desc", iters=iters))
+}
+
+
+

@@ -17,33 +17,49 @@ setGeneric(
 		}
 )
 
-#' benchmark conducts a benchmark experiment for a single classifier on a single
+#' \code{benchmark} conducts a benchmark experiment for a single classifier on a single
 #' data set. This consists of an inner stage and outer stage. At the outer stage a 
 #' tuning set and a test set are repeatedly formed from the data through resampling 
-#' (usually crossvalidation or bootstrapping). The respective hyperparameters of the 
-#' classfier are tuned on the tuning set again through an inner resampling process,
+#' (usually cross-validation or bootstrapping). The respective hyperparameters of the 
+#' classifier are tuned on the tuning set again through an inner resampling process,
 #' the classifier is trained on the complete tuning set with the best found 
 #' hyperparameters and the performance is measured on the test set. 
 #'    
 #' 
-#' @param learn.task [\code{\linkS4class{learn.task}}] \cr
-#'   Specifies classifier and classification task   
-#' @param ranges [list] \cr Either a list containing named range vectors for the hyperparameters 
-#'   or a list of such lists (see \code{\link{tune}}).
-#' @param measure [character] \cr A string indicating how performance is measured at the inner and outer stage. 
-#'   (default is "misclassification")  
-#' @param outer.resampling [list] \cr 
-#'   Consists of a character giving the method of the outer run and a \code{\linkS4class{resample.instance}} object specifying it . 
-#' @param all.tune.results [logical] \cr Should complete results for all inner tunings be returned? 
-#'   (default is FALSE)
+#' @param	learn.task [\code{\linkS4class{learn.task}}] \cr
+#'   		Specifies classifier and classification task   
+#' @param 	ranges [\code{\link{list}}] \cr 
+#' 			Either a list containing named range vectors for the hyperparameters or a list of 
+#' 			such lists (see \code{\link{tune}}).
+#' @param 	measure [\code{\link{character}}] \cr 
+#' 			A string indicating how performance is measured at the inner and outer stage. 
+#'   		(default is mean misclassification error ("mmce"), see \code{\link{performance}}.)  
+#' @param 	outer.resampling [\code{\link{list}}] \cr 
+#'   		Consists of a character giving the method of the outer run and a 
+#' 			\code{\linkS4class{resample.instance}} object specifying it . 
+#' @param 	all.tune.results [\code{\link{logical}}] \cr 
+#' 			Should complete results for all inner tunings be returned? (default is FALSE)
 #'              
-#' @return If all.tune.results is FALSE (default) benchmark returns a list 
+#' @return If \code{all.tune.results} is FALSE (default) benchmark returns a list 
 #'  containing the best parameter combinations, their inner run mean performance, 
 #'  the standard deviation of their inner run performance and their test performance.
-#'  If all.tune.results is TRUE the output contains additional information about all
+#'  If \code{all.tune.results} is TRUE the output contains additional information about all
 #'  tested parameters by the inner runs.
 #' 
 #' @export
+#' @rdname benchmark
+#' 
+#' @usage benchmark(learn.task, outer.resampling, inner.resampling, ranges, measure, all.tune.results)
+#' 
+#' @examples
+#' # set up the learning task and parameter grid
+#' ct <- make.classif.task("kernlab.svm.classif", data=iris, formula=Species~.)
+#' ranges <- list(kernel="polydot", degree=1:3, C=2^seq(-2,2))
+#' # create the outer cross-validation
+#' or <- make.cv.instance(iters=5, size=nrow(iris))					
+#' # describe the inner cross-validation
+#' ir <- make.cv.desc(iters=3)
+#' benchmark(learn.task=ct, ranges=ranges, outer.resampling=or, inner.resampling=ir)
 #'
 #' @title benchmark
 
@@ -107,7 +123,7 @@ benchmark.1 <- function(learn.task, outer.resampling, inner.resampling, ranges, 
 		best.pars2 <- best.pars[!is.na(best.pars)]
 		
 		cm <- train(learn.task, subset=train.i, parset=best.pars2)                
-		pred <- predict(cm, newdata=learn.task@data[test.i,]) 
+		pred <- predict(learn.task, cm, newdata=learn.task@data[test.i,]) 
 		cl <- as.character(learn.task@formula)[2]
 		test.perf <- performance(pred, learn.task@data[test.i,cl], learn.task@weights[test.i], measure)
 		result[i, "test.perf"] <- test.perf

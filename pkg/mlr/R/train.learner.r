@@ -9,9 +9,11 @@ setGeneric(
 		}
 )
 
+
+
 setMethod(
 		f = "train.learner",
-		signature = c(
+		signature = signature(
 				wrapped.learner="wrapped.learner", 
 				formula="formula", 
 				data="data.frame", 

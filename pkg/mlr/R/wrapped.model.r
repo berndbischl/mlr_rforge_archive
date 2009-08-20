@@ -23,23 +23,25 @@ roxygen()
 #'  @export
  
 setClass(
-  "wrapped.model",
-  representation(
-    learn.task = "learn.task",
-    learner.model = "ANY",
-    subset = "integer",
-    parset = "list"
-  )
+		"wrapped.model",
+		representation = representation(
+				task.class = "character",
+				learner.class = "character",
+				learner.name = "character",
+				learner.model = "ANY",
+				subset = "numeric",
+				parset = "list"
+		)
 )
 
 setClass(
 		"wrapped.classif.model",
-		contains = "wrapped.model"
+		contains = c("wrapped.model")
 )
 
 setClass(
 		"wrapped.regr.model",
-		contains = "wrapped.model"
+		contains = c("wrapped.model")
 )
 
 
@@ -65,12 +67,12 @@ setClass(
 
 setMethod(
 		f = "as.character",
-		signature = "wrapped.model",
+		signature = signature("wrapped.model"),
 		def = function(x) {
 			ps <- paste(names(x@parset), x@parset, sep="=", collapse=" ")
 			return(
 					paste(
-							"Learner model for ", x@learn.task@wrapped.learner@learner.name, "\n",  
+							"Learner model for ", x@learner.name, "\n",  
 							"Hyperparameters: ", ps, "\n",
 							"Trained on obs: ", length(x@subset), "\n",
 							sep=""
@@ -82,7 +84,7 @@ setMethod(
 
 setMethod(
 		f = "print",
-		signature = "wrapped.model",
+		signature = signature("wrapped.model"),
 		def = function(x, ...) {
 			cat(as.character(x))
 		}
@@ -91,7 +93,7 @@ setMethod(
 
 setMethod(
 		f = "show",
-		signature = "wrapped.model",
+		signature = signature("wrapped.model"),
 		def = function(object) {
 			cat(as.character(object))
 		}
@@ -100,7 +102,7 @@ setMethod(
 
 setMethod(
 		f = "[",
-		signature = "wrapped.model",
+		signature = signature("wrapped.model"),
 		def = function(x,i,j,...,drop) {
 			if (i == "learn.task"){
 				return(x@learn.task)

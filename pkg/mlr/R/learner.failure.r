@@ -1,8 +1,8 @@
 
 
 setClass(
-  Class = "learner.failure",
-  representation(
+  "learner.failure",
+  representation = representation(
     msg = "character"
   )
 )

@@ -2,11 +2,11 @@
 #' the knowledge of an existing classification model.   
 #'
 #' @param model [\code{\linkS4class{model}}] \cr 
-#'   Specifies classification task  
+#'   Specifies classification task.  
 #' @param newdata [data.frame] \cr 
-#'   Contains new observations which should be classified(by default the train data).
+#'   Contains new observations which should be classified (by default the train data).
 #'
-#' @return predict returns a prediction object containing a factor vector of 
+#' @return \code{predict} returns a prediction object containing a factor vector of 
 #' predicted classes.
 #'
 #' @export
@@ -20,20 +20,19 @@
 #'
 #' inds <- 2*(1:75)
 #' test <- iris[-inds,]
-#'
-#' lda.learn.task <- new("t.lda", data=iris, formula=Species~.)
+#' 
+#' lda.learn.task <- make.classif.task("lda", data=iris, formula=Species~.)
 #' lda.model <- train(lda.learn.task, subset=inds)
-#' lda.prediction <- predict(lda.model, newdata = test)
+#' lda.prediction <- predict(lda.learn.task, lda.model, newdata = test)
 #' 
 #'  @title predict
 
 setMethod(
 		f = "predict",
-		signature = c(object="wrapped.classif.model"),
-		def = function(object, newdata, type="default") {
+		signature = signature(object="classif.task"),
+		def = function(object, model, newdata, type="default") {
 			
-			model <- object	
-			lt <- model@learn.task
+			lt <- object	
 			wl <- lt@wrapped.learner
 			
 			if (missing(newdata)) {
@@ -89,12 +88,12 @@ setMethod(
 			logger.debug(p)
 			
 			if (type == "class") {
-				p <- wl@trafo.for.classes(p)
+				p <- wl@trafo.for.classes(p, model)
 				# the levels of the predicted classes might not be complete....
 				# be sure to add the levels at the end, otherwise data gets changed!!!
 				levels(p) <- union(levels(p), lt["class.levels"])
 			} else if (type == "prob") {
-				p <- wl@trafo.for.probs(p)
+				p <- wl@trafo.for.probs(p, model)
 			} else {
 				logger.error(paste("Unknown type", type, "in predict!"))
 			}	

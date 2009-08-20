@@ -1,27 +1,32 @@
 #' @include resample.fit.r
 roxygen()
 
-#' tune optimizes the hyperparameters of a learner for a classification or regression problem. 
+#' \code{tune} optimizes the hyperparameters of a learner for a classification or regression problem. 
 #' Given some ranges for one or more hyperparameters, it estimates the performance 
 #' of the learner for each possible combination of the proposed values by 
-#' using a resampling method (e.g. cross-validation) and returns the best parameter set and its performance. 
+#' using a resampling method (e.g. cross-validation) and returns the best parameter set and its 
+#' performance. 
 #'
 #' @param learn.task [\code{\linkS4class{learn.task}}] \cr
-#'   Specifies the learning task for the problem   
+#'   	Specifies the learning task for the problem.
 #' @param resample.instance [\code{\linkS4class{resample.instance}}] \cr
-#'   Specifies the training and test indices of the resampled data. 
-#' @param ranges [list]\cr A list of named vectors of possible values for each hyperparamter. 
-#'                         You can also pass a list of such list if it does not make sense to search a complete 
-#'                         cross-product of range values.     
-#' @param measure [character/list] \cr Name of perfomrnace measure to optimize or a list describing your own performance measure. The default is mean misclassification error. 
+#'   	Specifies the training and test indices of the resampled data. 
+#' @param ranges [\code{\link{list}}] \cr 
+#' 		A list of named vectors of possible values for each hyperparameter. 
+#'      You can also pass a list of such list if it does not make sense to search a complete 
+#'      cross-product of range values.     
+#' @param measure [\code{\link{character}}/\code{\link{list}}] \cr 
+#' 		Name of performance measure to optimize or a list describing your own performance measure. 
+#' 		The default is mean misclassification error. 
 #' 	   
 #'             
-#' @return A list containing the best parameter set, its aggregated performance over all resampling iterations, a measure of spread and 
-#' a data frame containing the same values for all evaluated combinations of parameter values. 
+#' @return A list containing the best parameter set, its aggregated performance over all resampling 
+#' iterations, a measure of spread and a data frame containing the same values for all evaluated 
+#' combinations of parameter values. 
 #' 
 #' @export
 #' 
-#' @usage tune(learn.task, resample.instance, ranges, measure="mmce")
+#' @usage tune(learn.task, resample.instance, ranges, measure = "mmce")
 #'
 #' @examples
 #' library(mlr) 

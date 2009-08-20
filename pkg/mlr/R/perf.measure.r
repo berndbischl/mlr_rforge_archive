@@ -24,7 +24,7 @@ setMethod(
 		}
 )
 
-
+#' @export
 make.measure <- function(name, aggregate=NULL, aggr.name="aggr", spread=NULL, spread.name="spread") {
 	if (name=="sae") {
 		ms <- list(fun = function(true.y, pred.y, weights) sum(abs(true.y - pred.y)),

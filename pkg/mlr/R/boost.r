@@ -2,14 +2,17 @@
 roxygen()
 
 #' @export
-setClass("adaboost", contains="wrapped.learner.classif")
+setClass(
+		"adaboost", 
+		contains = c("wrapped.learner.classif")
+)
 
 
 #----------------- constructor ---------------------------------------------------------
 
 setMethod(
   f = "initialize",
-  signature = "adaboost",
+  signature = signature("adaboost"),
     def = function(.Object, data, formula, type="class", train.fct.pars=list(), predict.fct.pars=list()) {
     train.fct <- "adaboost.M1"
     predict.fct <- "predict.boosting"

@@ -1,12 +1,12 @@
 #' @export
 setClass(
 		"regr.props",
-		contains = "learner.props"
+		contains = c("learner.props")
 )
 
 setMethod(
 		f = "as.character",
-		signature = "regr.props",
+		signature = signature("regr.props"),
 		def = function(x) {
 			return(
 					paste(
