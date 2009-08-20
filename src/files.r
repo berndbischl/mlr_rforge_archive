@@ -31,7 +31,7 @@ base.files <<- c(
 		"base/predict.classif.r",
 		"base/predict.regr.r",
 		"base/perf.measure.r",
-		"base/prediction.r",
+		"base/performance.r",
 		
 		"base/resample.desc.r",
 		"base/cv.desc.r",

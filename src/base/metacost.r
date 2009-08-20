@@ -23,7 +23,7 @@ source("src/base/data.desc.r")
 source("src/base/learn.task.r")
 source("src/base/model.r")
 source("src/base/learner.failure.r")
-source("src/base/prediction.r")
+source("src/base/performance.r")
 source("src/base/check.learn.task.r")
 
 source("src/base/resample.desc.r")
