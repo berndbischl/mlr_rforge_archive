@@ -88,12 +88,12 @@ setMethod(
 			logger.debug(p)
 			
 			if (type == "class") {
-				p <- wl@trafo.for.classes(p)
+				p <- wl@trafo.for.classes(p, model)
 				# the levels of the predicted classes might not be complete....
 				# be sure to add the levels at the end, otherwise data gets changed!!!
 				levels(p) <- union(levels(p), lt["class.levels"])
 			} else if (type == "prob") {
-				p <- wl@trafo.for.probs(p)
+				p <- wl@trafo.for.probs(p, model)
 			} else {
 				logger.error(paste("Unknown type", type, "in predict!"))
 			}	

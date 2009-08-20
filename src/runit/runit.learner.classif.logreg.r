@@ -5,17 +5,16 @@ test.logreg <- function(){
 	
 	p <- predict(m, newdata=binaryclass.test, type="response")
 	
-	#p.class <- as.factor(binaryclass.class.levs[ifelse(p > 0.5, 1, 2)])
+	p.class <- as.factor(binaryclass.class.levs[ifelse(p > 0.5, 2, 1)])
 	
+	simple.test("logreg", binaryclass.df, binaryclass.formula, binaryclass.train.inds, p.class)
 	
-#	simple.test("logreg", binaryclass.df, binaryclass.formula, binaryclass.train.inds, p.class)
-	
-	prob.test  ("logreg", binaryclass.df, binaryclass.formula, binaryclass.train.inds, p)
+#	prob.test  ("logreg", binaryclass.df, binaryclass.formula, binaryclass.train.inds, p)
 
-#	tt <- "logreg"
-#	tp <- function(model, newdata) predict(model, newdata)$class
-#
-#	cv.test("logreg", binaryclass.df, binaryclass.formula, tune.train=tt, tune.predict=tp )
+	tt <- "logreg"
+	tp <- function(model, newdata) predict(model, newdata)$class
+
+	cv.test("logreg", binaryclass.df, binaryclass.formula, tune.train=tt, tune.predict=tp )
 }
 
 

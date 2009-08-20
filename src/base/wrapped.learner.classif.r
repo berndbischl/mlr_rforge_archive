@@ -43,7 +43,7 @@ setMethod(
 				return(.Object)
 			
 			if (is.character(trafo.for.classes) && trafo.for.classes == "default") {
-				trafo.for.classes <- function(x) {
+				trafo.for.classes <- function(x, model) {
 					if (is.factor(x)) {
 						return(x)
 					} else if (is.list(x) && "class" %in% names(x)) {
@@ -53,7 +53,7 @@ setMethod(
 				}
 			}
 			if (is.character(trafo.for.probs) && trafo.for.probs == "default") {
-				trafo.for.probs <- function(x) {
+				trafo.for.probs <- function(x, model) {
 					if (is.matrix(x)) {
 						return(x)
 					} else if (is.list(x) && "posterior" %in% names(x)) {
