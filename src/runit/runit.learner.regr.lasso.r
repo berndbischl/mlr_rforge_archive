@@ -24,7 +24,7 @@ test.lasso <- function() {
 		pars <- c(pars, parset)
 		set.seed(debug.seed)
 		m <- do.call(penalized, pars)
-		p <- predict.penalized(m, newdata=regr.test)
+		p <- predict.penalized.lasso(m, newdata=regr.test)
 		old.predicts.list[[i]] <- p
 	}
 	
