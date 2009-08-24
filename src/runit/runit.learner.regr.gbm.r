@@ -1,5 +1,5 @@
 
-test.ridge <- function() {
+test.gbm <- function() {
 	
 	parset.list <- list(
 			list(),
