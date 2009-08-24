@@ -26,7 +26,7 @@ setMethod(
 			.Object <- callNextMethod(.Object, learner.name="Lasso regression", learner.pack="penalized",
 					learner.model.class="penfit", learner.model.S4 = FALSE,
 					train.fct="penalized", train.fct.pars=train.fct.pars,
-					predict.fct="predict.penalized", predict.fct.pars=predict.fct.pars,
+					predict.fct="predict.penalized.lasso", predict.fct.pars=predict.fct.pars,
 					learner.props=desc)
 			return(.Object)
 		}
@@ -56,7 +56,7 @@ setMethod(
 )
 
 
-predict.penalized <- function(model, newdata) {
+predict.penalized.lasso <- function(model, newdata) {
 	predict(model, data=newdata, penalized=newdata[,names(model@penalized)])[,1]
 }
 

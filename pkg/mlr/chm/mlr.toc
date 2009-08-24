@@ -54,6 +54,14 @@
 <param name="Local" value="cv.instance-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="data.desc">
+<param name="Local" value="data.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="data.desc-class">
+<param name="Local" value="data.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="learn.task">
 <param name="Local" value="learn.task-class.html">
 </OBJECT>
@@ -201,6 +209,10 @@
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="cv.instance">
 <param name="Local" value="cv.instance-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="data.desc">
+<param name="Local" value="data.desc-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="learn.task">

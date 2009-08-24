@@ -12,10 +12,14 @@ Title=R Help for package mlr
 
 [FILES]
 00Index.html
+benchmark.html
 bs.desc-class.html
 bs.instance-class.html
+conf.matrix.html
 cv.desc-class.html
 cv.instance-class.html
+data.desc-class.html
+learn.task-class.html
 make.bs.desc.html
 make.bs.instance.html
 make.classif.task.html
