@@ -91,7 +91,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
 	setwd(project.dir)
 }
 
-make(build=T, check=T, binary=F)
+make(build=T, check=T, binary=T)
 
 
 

@@ -3,12 +3,12 @@ roxygen()
 
 #' @export
 setClass(
-		"gbm.regr", 
+		"gbm.gbm.regr", 
 		contains = c("wrapped.learner.regr")
 )
 
 
-my.pred.gbm <- function (object, newdata, type = "link", single.tree = FALSE, ...) {
+predict.gbm.regr <- function (object, newdata, type = "link", single.tree = FALSE, ...) {
 	predict(object=object, newdata=newdata, n.trees=length(object$trees), type=type, single.tree=single.tree, ...)
 }
 	
@@ -20,10 +20,10 @@ my.pred.gbm <- function (object, newdata, type = "link", single.tree = FALSE, ..
 
 setMethod(
 		f = "initialize",
-		signature = signature("gbm.regr"),
+		signature = signature("gbm.gbm.regr"),
 		def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
 			train.fct <- "gbm"
-			predict.fct <- "my.pred.gbm"
+			predict.fct <- "predict.gbm.regr"
 			
 			desc = new("regr.props",
 					supports.missing = TRUE,

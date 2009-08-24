@@ -71,6 +71,7 @@ classif.files <<- c(
 )
 
 regr.files <<- c( 		
+		"models/regression/lm.r",
 		"models/regression/blackboost.r",
 		"models/regression/gbm.r",
 		"models/regression/kknn.r",
@@ -92,6 +93,7 @@ load.all.libs <- function() {
 	library(kknn)
 	library(randomForest)
 	library(mda)
+	library(gbm)
 	library(penalized)
 	library(mlbench)
 	library(reshape)

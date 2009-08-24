@@ -37,16 +37,23 @@ multiclass.test  <- multiclass.df[multiclass.test.inds, ]
 multiclass.class.col <- 5
 
 
-fr <- mlbench.friedman1(150)
-fr2 <- as.data.frame(fr$x)
-fr2$y <- fr$y 
-regr.df <- fr2  
-regr.formula <- y ~ . 
-regr.train.inds <- c(1:30, 51:80, 101:130)
-regr.test.inds  <- setdiff(1:150, regr.train.inds)
+#fr <- mlbench.friedman1(150)
+#fr2 <- as.data.frame(fr$x)
+#fr2$y <- fr$y 
+#regr.df <- fr2  
+#regr.formula <- y ~ . 
+#regr.train.inds <- c(1:30, 51:80, 101:130)
+#regr.test.inds  <- setdiff(1:150, regr.train.inds)
+#regr.train <- regr.df[regr.train.inds, ]
+#regr.test  <- regr.df[regr.test.inds, ]
+
+data(BostonHousing)
+regr.df <- BostonHousing  
+regr.formula <- medv ~ . 
+regr.train.inds <- seq(1, 506, 2)
+regr.test.inds  <- setdiff(1:nrow(regr.df), regr.train.inds)
 regr.train <- regr.df[regr.train.inds, ]
 regr.test  <- regr.df[regr.test.inds, ]
-
 
 
 debug.seed <- 12345
