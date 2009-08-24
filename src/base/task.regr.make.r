@@ -24,9 +24,12 @@ setGeneric(
 #' regression task.  
 #' 
 #' \itemize{ 
-#' 		\item{\code{\linkS4class{blackboost.regr}}}{Gradient Boosting with Regression Trees from mboost package}
-#' 		\item{\code{\linkS4class{gbm.regr}}}{Gradient Boosting Machine from gbm package}
-#' 		\item{\code{\linkS4class{kknn.regr}}}{k-Nearest Neigbor from kknn package}
+#' 		\item{\code{\linkS4class{stats.lm}}}{Simple linear regression from stats package}
+#' 		\item{\code{\linkS4class{penalized.rigde}}}{Ridge regression from penalized package}
+#' 		\item{\code{\linkS4class{penalized.lasso}}}{Lasso regression from penalized package}
+#' 		\item{\code{\linkS4class{kknn.kknn.regr}}}{K-Nearest-Neigbor regression from kknn package}
+#' 		\item{\code{\linkS4class{gbm.gbm.regr}}}{Gradient boosting machine from gbm package}
+#' 		\item{\code{\linkS4class{mboost.blackboost.regr}}}{Gradient boosting with regression trees from mboost package}
 #' }
 #' 
 #' @param learner [\code{\link{character}}] \cr
