@@ -21,5 +21,5 @@ test.gbm <- function() {
 		old.predicts.list[[i]] <- p
 	}
 	
-	simple.test.parsets("gbm.gbm.regr", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list)
+	simple.test.parsets("gbm.regr", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list)
 }

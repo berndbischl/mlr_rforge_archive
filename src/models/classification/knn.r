@@ -3,7 +3,7 @@ roxygen()
 
 #' @export
 setClass(
-		"kknn.knn.classif", 
+		"kknn.classif", 
 		contains = c("wrapped.learner.classif")
 )
 
@@ -35,7 +35,7 @@ predict.kknn.model <- function(model, newdata, type="class", ...) {
 
 setMethod(
   f = "initialize",
-  signature = signature("kknn.knn.classif"),
+  signature = signature("kknn.classif"),
   def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
     train.fct <- train.kknn.model 
     predict.fct <- predict.kknn.model

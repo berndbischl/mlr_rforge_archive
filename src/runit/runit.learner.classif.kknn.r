@@ -23,8 +23,8 @@ test.knn <- function() {
 	old.probs.list[[i]] <- m$prob
   }
 	
-  simple.test.parsets("kknn.knn.classif", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
-  prob.test.parsets  ("kknn.knn.classif", multiclass.df, multiclass.formula, multiclass.train.inds, old.probs.list, parset.list)
+  simple.test.parsets("kknn.classif", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
+  prob.test.parsets  ("kknn.classif", multiclass.df, multiclass.formula, multiclass.train.inds, old.probs.list, parset.list)
   
   tt <- function (formula, data, k=7) {
     return(list(formula=formula, data=data, k=k))
@@ -33,6 +33,6 @@ test.knn <- function() {
     kknn(model$formula, train=model$data, test=newdata, k=model$k)$fitted
   }
 
-  cv.test.parsets("kknn.knn.classif", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
+  cv.test.parsets("kknn.classif", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
 }
 
