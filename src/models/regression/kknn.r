@@ -3,7 +3,7 @@ roxygen()
 
 #' @export
 setClass(
-		"kknn.knn.regr", 
+		"kknn.regr", 
 		contains = c("wrapped.learner.regr")
 )
 
