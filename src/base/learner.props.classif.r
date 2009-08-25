@@ -21,22 +21,22 @@ setClass(
 
 
 
-#setMethod(
-#		f = "as.character",
-#		signature = signature("classif.props"),
-#		def = function(x) {
-#			return(
-#					paste(
-#							"Learner: \n",  
-#							"Supports multiclass: ", x@supports.multiclass, "\n",
-#							"Supported features Nums:", x@supports.numerics, " Factors:", x@supports.factors, " Chars:", x@supports.characters, "\n",
-#							"Supports missings: ", x@supports.missing, "\n", 
-#							"Supports probabilities: ", x@supports.probs, "\n", 
-#							"Supports weights: ", x@supports.weights, "\n", 
-#							sep=""
-#					)
-#			)
-#		}
-#)
+setMethod(
+		f = "as.character",
+		signature = signature("classif.props"),
+		def = function(x) {
+			return(
+					paste(
+							"Learner: \n",  
+							"Supports multiclass: ", x@supports.multiclass, "\n",
+							"Supported features Nums:", x@supports.numerics, " Factors:", x@supports.factors, " Chars:", x@supports.characters, "\n",
+							"Supports missings: ", x@supports.missing, "\n", 
+							"Supports probabilities: ", x@supports.probs, "\n", 
+							"Supports weights: ", x@supports.weights, "\n", 
+							sep=""
+					)
+			)
+		}
+)
 
 
