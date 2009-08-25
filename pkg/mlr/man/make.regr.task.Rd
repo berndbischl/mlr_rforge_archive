@@ -20,9 +20,9 @@ regression task.
 \item{\code{\linkS4class{stats.lm}}}{Simple linear regression from stats package}
 \item{\code{\linkS4class{penalized.rigde}}}{Ridge regression from penalized package}
 \item{\code{\linkS4class{penalized.lasso}}}{Lasso regression from penalized package}
-\item{\code{\linkS4class{kknn.kknn.regr}}}{K-Nearest-Neigbor regression from kknn package}
-\item{\code{\linkS4class{gbm.gbm.regr}}}{Gradient boosting machine from gbm package}
-\item{\code{\linkS4class{mboost.blackboost.regr}}}{Gradient boosting with regression trees from mboost package}
+\item{\code{\linkS4class{kknn.regr}}}{K-Nearest-Neigbor regression from kknn package}
+\item{\code{\linkS4class{gbm.regr}}}{Gradient boosting machine from gbm package}
+\item{\code{\linkS4class{blackboost.regr}}}{Gradient boosting with regression trees from mboost package}
 }}
 \value{An object of class \code{\linkS4class{regr.task}}.}
 \seealso{\code{\linkS4class{wrapped.learner}}, \code{\linkS4class{regr.task}}, \code{\link{train}}, \code{\link{predict}}}
