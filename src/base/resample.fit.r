@@ -66,7 +66,7 @@ setMethod(
 				resample.fit.iter(learn.task, resample.instance, parset, type, i, return.model=models)
 			}
 			
-			if (.parallel.setup$mode == "snowfall" && .parallel.setup$level == "resample") {
+			if (.parallel.setup$mode %in% c("snowfall", "sfCluster") && .parallel.setup$level == "resample") {
 				sfExport("parset")
 				if (!is.null(parent.frame()$caller) && !parent.frame()$caller == "tune") {
 					sfExport("learn.task")

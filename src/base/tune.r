@@ -79,7 +79,7 @@ tune.1 <- function(learn.task, resample.instance, ranges, measure) {
 		return(c(cp$aggr, cp$spread))
 	}
 	
-	if (.parallel.setup$mode == "snowfall") {
+	if (.parallel.setup$mode %in% c("snowfall", "sfCluster")) {
 		sfExport("learn.task")
 		sfExport("resample.instance")
 		if (.parallel.setup$level == "tune") {
@@ -88,7 +88,7 @@ tune.1 <- function(learn.task, resample.instance, ranges, measure) {
 		}
 	} 
 	
-	if (.parallel.setup$mode == "snowfall" && .parallel.setup$level == "tune") {
+	if (.parallel.setup$mode %in% c("snowfall", "sfCluster") && .parallel.setup$level == "tune") {
 		perf <- sfSapply(1:nrow(grid), wrapper)
 	} else {
 		perf <- sapply(1:nrow(grid), wrapper)
