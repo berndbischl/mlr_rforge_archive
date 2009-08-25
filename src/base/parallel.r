@@ -8,6 +8,9 @@ parallel.setup <- function(mode="local", cpus=1, level="resample", global=FALSE)
 	p$level = level
 	
 	if (mode %in% c("sfCluster", "snowfall")) {
+		if(!require(snowfall)) {
+			stop("Please install the snowfall package for this!")				
+		} 
 		if (mode == "sfCluster") {
 			sfInit()
 		} else if (mode == "snowfall") {
@@ -15,7 +18,7 @@ parallel.setup <- function(mode="local", cpus=1, level="resample", global=FALSE)
 			if (is.numeric(cpus))
 				sfInit(parallel=T, cpus=cpus)
 			else	
-				sfInit(parallel=T, socketHosts=cpus)	
+				sfInit(parallel=T, socketHosts=cpus)
 		} 
 		sfLibrary(mlr)	
 		ps <- getFromNamespace(".parallel.setup", "mlr")
