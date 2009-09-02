@@ -26,7 +26,18 @@ allowed.rd.files <<- c(
 		
 		"resample.fit.Rd",
 		"tune.Rd",
-		"benchmark.Rd"		
+		"benchmark.Rd",
+		
+		"adaboost-class.Rd",
+		"kknn.classif-class.Rd",
+		"logreg-class.Rd",
+		"mda-class.Rd",
+		"nnet.multinom-class.Rd",
+		"naiveBayes-class.Rd",
+		"qda-class.Rd",
+		"rpart.classif-class.Rd",
+		"kernlab.svm.classif-class.Rd",
+		"lda-class.Rd"
 )		
 
 	
