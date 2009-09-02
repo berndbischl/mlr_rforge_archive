@@ -1,5 +1,10 @@
 #' @include wrapped.learner.classif.r
+roxygen()
 
+#' Wrapped learner for Multinomial Regression from package \code{nnet} for classification problems.
+#' @title nnet.multinom
+#' @seealso \code{\link[nnet]{multinom}}
+#' @export
 setClass(
 		"nnet.multinom", 
 		contains = c("wrapped.learner.classif")

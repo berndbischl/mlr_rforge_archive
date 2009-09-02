@@ -1,16 +1,9 @@
 #' @include wrapped.learner.classif.r
 roxygen()
 
-#'  \describe{	
-#'  learn.task for classification using \code{\link[MASS]{lda}} from package MASS } 
-#' 
-#' \cr\cr\bold{Slots:}
-#'  \describe{	
-#'   \item{\code{learn.task[\linkS4class{learn.task}]}}{Specifies classifier and classification task }
-#'  }
-#' 
-#' 
-#'  @title t.lda
+#' Wrapped learner for Linear Discriminant Analysis from package \code{MASS}.
+#' @title lda
+#' @seealso \code{\link[MASS]{lda}}
 #' @export
 setClass(
 		"lda", 

@@ -1,6 +1,15 @@
 #' @include wrapped.learner.classif.r
 roxygen()
 
+#' Wrapped learner for k-Nearest Neighbor from package \code{kknn} for classification problems.
+#' @title kknn.classif
+#' @seealso \code{\link[kknn]{kknn}}
+#' 
+#' Hyperparameters:
+#' \describe{
+#' 		\item{\code{k}} {Number of neighbors considered.} 	
+#' 		\item{\code{distance}} {Parameter of Minkowski distance.}
+#' }
 #' @export
 setClass(
 		"kknn.classif", 

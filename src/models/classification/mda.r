@@ -1,7 +1,11 @@
 #' @include wrapped.learner.classif.r
 roxygen()
 
-
+#' Wrapped learner for Mixture Discriminant Analysis from package \code{mda} for classification problems.
+#' @title mda
+#' @seealso \code{\link[mda]{mda}
+#' 
+#' Optional hyperparameters:
 #' @export
 setClass(
 		"mda", 

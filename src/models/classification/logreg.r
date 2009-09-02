@@ -1,16 +1,16 @@
 #' @include wrapped.learner.classif.r
 roxygen()
 
-#'  \describe{	
-#'  learn.task for classification using \code{\link[MASS]{lda}} from package MASS } 
+#' Wrapped learner for Logistic Regression from package \code{stats} for classification problems.
+#' @title logreg
+#' @seealso \code{\link[stats]{glm}}
 #' 
-#' \cr\cr\bold{Slots:}
-#'  \describe{	
-#'   \item{\code{learn.task[\linkS4class{learn.task}]}}{Specifies classifier and classification task }
-#'  }
-#' 
-#' 
-#'  @title t.lda
+#' Common hyperparameters:
+#' \describe{
+#' 		\item{\code{start}} {Starting values for the parameters in the linear predictor.}	
+#' 		\item{\code{etastart}} {Starting values for the linear predictor.}
+#' 		\item{\code{mustart}} {Starting values for the vector of means.}
+#' }
 #' @export
 setClass(
 		"logreg", 

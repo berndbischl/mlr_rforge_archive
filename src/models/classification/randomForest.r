@@ -1,6 +1,16 @@
 #' @include wrapped.learner.classif.r 
 roxygen()
 
+#' Wrapped learner for Random Forests from package \code{randomForest} for classification problems.
+#' @title randomForest.classif
+#' @seealso \code{\link[randomForest]{randomForest}}
+#' 
+#' Hyperparameters:
+#' \describe{
+#' 		\item{\code{ntree}} {Number of trees to grow.}
+#' 		\item{\code{mtry}} {Number of variables randomly sampled as candidates at each split.}
+#' 		\item{\code{nodesize}} {Minimum size of terminal nodes.}
+#' }
 #' @export
 setClass(
 		"randomForest.classif", 
