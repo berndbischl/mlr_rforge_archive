@@ -30,8 +30,8 @@ setClass(
 #' This is mainly for internal use, you only need to use this, when you extend resample.instance to add another resampling strategy!
 #'  
 #' @param desc [\code{\linkS4class{resample.desc}}] \cr resample.desc. Describes the resampling strategy.
-#' @param size \cr Size of the data set to resample from.
-#' @param inds [list of integer vectors] \cr Indices of the trainings sets
+#' @param size [integer] \cr Size of the data set to resample from.
+#' @param inds [list of integer vectors] \cr Indices of the trainings sets.
 
 setMethod(
 		f = "initialize",
@@ -73,7 +73,6 @@ setGeneric(
 #'   cv.d <- new("cv.desc", folds = 10)
 #'   rin <- make.resample.instance(desc = cv.d, size = nrow(iris))
 
-
 setMethod(
 		f = "make.resample.instance",
 		signature = signature(desc = "resample.desc", size = "numeric"),
@@ -89,8 +88,12 @@ setMethod(
 #' Getter.
 #' @param x resample.instance object
 #' @param i [character]
-#'   \item{train.inds} If i is a single integer, the vector of training indices for the ith iteration is returned. If i is an integer vector, the list of training indices for the given iterations is returned.}
-#' @param j
+#' 	\item{data.size}{The size of the dataframe.}
+#' 	\item{name}{The name of the resample description object, i.e. the type of resampling.}
+#' 	\item{iters}{The number of resampling iterations.}
+#'  \item{train.inds}{If j is a single integer, the vector of training indices for the jth iteration is returned. If j is an integer vector, the list of training indices for the given iterations is returned. If j is missing, all indices are returned.}
+#'  \item{test.inds}{If j is a single integer, the vector of test indices for the jth iteration is returned. If j is an integer vector, the list of test indices for the given iterations is returned. If j is missing, all indices are returned.}
+#' @param j [integer] \cr See above, i == "train.inds" or i == "test.inds".
 
 setMethod(
 		f = "[",

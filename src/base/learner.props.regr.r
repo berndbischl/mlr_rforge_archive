@@ -4,6 +4,7 @@ setClass(
 		contains = c("learner.props")
 )
 
+#' Conversion to string.
 setMethod(
 		f = "as.character",
 		signature = signature("regr.props"),

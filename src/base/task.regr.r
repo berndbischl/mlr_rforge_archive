@@ -13,6 +13,8 @@ setClass(
 
 #---------------- constructor---- -----------------------------------------------------
 
+#' Constructor.
+#' @title regr.task constructor
 
 setMethod(
 		f = "initialize",
@@ -31,7 +33,7 @@ setMethod(
 		}
 )
 
-
+#' Conversion to string.
 setMethod(
 		f = "as.character",
 		signature = signature("regr.task"),

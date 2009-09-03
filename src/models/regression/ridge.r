@@ -6,7 +6,7 @@ roxygen()
 #' 
 #' \emph{Common hyperparameters:}
 #' \describe{
-#' 		\item{\code{lambda2}}{Tuning parameters for L2 penalization.}			
+#' 		\item{\code{lambda2}}{Tuning parameter for L2 penalization.}			
 #' 		\item{\code{epsilon}}{The convergence criterion.}
 #' }
 #' @title penalized.ridge

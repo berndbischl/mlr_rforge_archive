@@ -15,6 +15,10 @@ setClass(
 		contains = c("resample.instance")
 )                                                     
 
+
+#' Constructor.
+#' @title subsample.instance constructor
+
 setMethod(
 		f = "initialize",
 		signature = signature("subsample.instance"),

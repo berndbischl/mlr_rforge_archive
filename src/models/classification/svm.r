@@ -72,6 +72,8 @@ setMethod(
 
 #---------------- train -----------------------------------------------------
 
+#' Overwritten, to allow direct passing of kernel hyperparameters.
+#' Besides that, simply delegates to super method.
 #' @export
 setMethod(
 		f = "train.learner",

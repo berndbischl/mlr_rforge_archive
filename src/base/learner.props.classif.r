@@ -20,7 +20,7 @@ setClass(
 )
 
 
-
+#' Conversion to string.
 setMethod(
 		f = "as.character",
 		signature = signature("classif.props"),
