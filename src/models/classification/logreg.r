@@ -2,15 +2,15 @@
 roxygen()
 
 #' Wrapped learner for Logistic Regression from package \code{stats} for classification problems.
+#' 
+#' \emph{Common hyperparameters:}
+#' \describe{
+#' 		\item{\code{start}}{Starting values for the parameters in the linear predictor.}	
+#' 		\item{\code{etastart}}{Starting values for the linear predictor.}
+#' 		\item{\code{mustart}}{Starting values for the vector of means.}
+#' }
 #' @title logreg
 #' @seealso \code{\link[stats]{glm}}
-#' 
-#' Common hyperparameters:
-#' \describe{
-#' 		\item{\code{start}} {Starting values for the parameters in the linear predictor.}	
-#' 		\item{\code{etastart}} {Starting values for the linear predictor.}
-#' 		\item{\code{mustart}} {Starting values for the vector of means.}
-#' }
 #' @export
 setClass(
 		"logreg", 

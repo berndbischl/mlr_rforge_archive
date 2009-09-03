@@ -2,15 +2,15 @@
 roxygen()
 
 #' Wrapped learner for Regularized Discriminant Analysis from package \code{klaR} for classification problems.
-#' @title rda
-#' @seealso \code{\link[klaR]{rda}}
 #' 
-#' Hyperparameters:
+#' \emph{Common hyperparameters:}
 #' \describe{
 #' 		\item{\code{gamma}}		
 #' 		\item{\code{lambda}}	
-#' 		\item{\code{startsimplex}} {(Optional) a starting simplex for the Nelder-Mead-minimization.}	
+#' 		\item{\code{startsimplex}}{(Optional) a starting simplex for the Nelder-Mead-minimization.}	
 #' }
+#' @title rda
+#' @seealso \code{\link[klaR]{rda}}
 #' @export
 setClass(
 		"rda", 

@@ -2,10 +2,10 @@
 roxygen()
 
 #' Wrapped learner for Mixture Discriminant Analysis from package \code{mda} for classification problems.
-#' @title mda
-#' @seealso \code{\link[mda]{mda}
 #' 
-#' Optional hyperparameters:
+#' \emph{Common hyperparameters:}
+#' @title mda
+#' @seealso \code{\link[mda]{mda}}
 #' @export
 setClass(
 		"mda", 

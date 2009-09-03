@@ -3,15 +3,15 @@ roxygen()
 
 
 #' Wrapped learner for Adaboost.M1 from package \code{adabag} for classification problems.
+#' 
+#' \emph{Common hyperparameters:}
+#' \describe{
+#' 		\item{\code{minsplit}}{Minimum number of observations that must exist in a node in order for a split to be attempted.}			
+#' 		\item{\code{cp}}{Complexity parameter. Any split that does not decrease the overall lack of fit by a factor of cp is not attempted.}
+#' 		\item{\code{maxdepth}}{Maximum depth of any node of the final tree, with the root node counted as depth 0. Defaults to the number of classes.} 
+#' }
 #' @title adaboost
 #' @seealso \code{\link[adabag]{adaboost.M1}}
-#' 
-#' Common hyperparameters:
-#' \describe{
-#' 		\item{\code{minsplit}} {Minimum number of observations that must exist in a node in order for a split to be attempted.}			
-#' 		\item{\code{cp}} {Complexity parameter. Any split that does not decrease the overall lack of fit by a factor of cp is not attempted.}
-#' 		\item{\code{maxdepth}} {Maximum depth of any node of the final tree, with the root node counted as depth 0. Defaults to the number of classes.} 
-#' }
 #' @export
 setClass(
 		"adaboost", 

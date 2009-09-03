@@ -30,14 +30,23 @@ allowed.rd.files <<- c(
 		
 		"adaboost-class.Rd",
 		"kknn.classif-class.Rd",
+		"lda-class.Rd",
 		"logreg-class.Rd",
 		"mda-class.Rd",
 		"nnet.multinom-class.Rd",
 		"naiveBayes-class.Rd",
 		"qda-class.Rd",
+		"randomForest.classif-class.Rd",
+		"rda-class.Rd",
 		"rpart.classif-class.Rd",
 		"kernlab.svm.classif-class.Rd",
-		"lda-class.Rd"
+		
+		"blackboost.regr-class.Rd",
+		"gbm.regr-class.Rd",
+		"kknn.regr-class.Rd",
+		"penalized.lasso-class.Rd",
+		"stats.lm-class.Rd",
+		"penalized.ridge-class.Rd"
 )		
 
 	
