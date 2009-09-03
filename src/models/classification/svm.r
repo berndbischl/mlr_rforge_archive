@@ -37,6 +37,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title SVM Constructor
 
 setMethod(
 		f = "initialize",

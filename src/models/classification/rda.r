@@ -19,6 +19,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title RDA Constructor
 
 setMethod(
 		f = "initialize",

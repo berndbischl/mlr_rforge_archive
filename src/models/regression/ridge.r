@@ -19,6 +19,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title Ridge Regression Constructor
 
 setMethod(
 		f = "initialize",

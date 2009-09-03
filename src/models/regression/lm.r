@@ -11,6 +11,8 @@ setClass(
 )
 
 
+#' Constructor.
+#' @title LM Constructor
 
 setMethod(
 		f = "initialize",

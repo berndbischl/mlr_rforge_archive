@@ -21,6 +21,9 @@ setClass(
 
 #----------------- constructor ---------------------------------------------------------
 
+#' Constructor.
+#' @title Adaboost Constructor
+
 setMethod(
   f = "initialize",
   signature = signature("adaboost"),

@@ -21,6 +21,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title Boosting Constructor
 
 setMethod(
 		f = "initialize",

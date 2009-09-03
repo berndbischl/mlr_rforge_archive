@@ -12,6 +12,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title Naive Bayes Constructor
 
 setMethod(
   f = "initialize",

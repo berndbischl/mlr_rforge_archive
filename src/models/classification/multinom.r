@@ -14,6 +14,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title Multinomial Regression Constructor
 
 setMethod(
 		f = "initialize",

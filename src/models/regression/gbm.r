@@ -26,9 +26,8 @@ predict.gbm.regr <- function (object, newdata, type = "link", single.tree = FALS
 	
 
 #----------------- constructor ---------------------------------------------------------
-
-
-
+#' Constructor.
+#' @title GBM Constructor
 
 setMethod(
 		f = "initialize",

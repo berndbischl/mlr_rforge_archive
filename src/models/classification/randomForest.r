@@ -19,6 +19,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title Random Forest Constructor
 
 setMethod(
   f = "initialize",

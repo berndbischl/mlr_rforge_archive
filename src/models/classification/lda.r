@@ -12,6 +12,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title LDA Constructor
 
 setMethod(
 		f = "initialize",

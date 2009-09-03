@@ -37,6 +37,8 @@ predict.kknn.model2 <- function(model, newdata, ...) {
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title kNN (regression) Constructor
 
 setMethod(
 		f = "initialize",

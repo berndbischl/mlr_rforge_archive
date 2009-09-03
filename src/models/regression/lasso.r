@@ -20,6 +20,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title Lasso Regression Constructor
 
 setMethod(
 		f = "initialize",
