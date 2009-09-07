@@ -11,6 +11,7 @@ allowed.rd.files <<- c(
 		"resample.desc-class.Rd",
 		"cv.desc-class.Rd",
 		"bs.desc-class.Rd",
+		"initialize,bs.desc-method.Rd",
 		"subsample.desc-class.Rd",
 		"make.cv.desc.Rd",
 		"make.bs.desc.Rd",
@@ -25,6 +26,7 @@ allowed.rd.files <<- c(
 		"make.subsample.instance.Rd",
 		
 		"resample.fit.Rd",
+		"resample.performance.Rd",
 		"tune.Rd",
 		"benchmark.Rd",
 		
