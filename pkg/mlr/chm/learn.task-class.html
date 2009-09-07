@@ -42,7 +42,7 @@ hyperparameters and the performance is measured on the test set.</dd><dt><code><
 the <code><a href="resample.instance-class.html">resample.instance</a></code> object) <code>resample.fit</code> 
 fits the selected learner using the training sets and performs predictions for the test sets. These 
 predictions are returned - encapsulated in a <code>resample.result</code> object. 
-Optionally the fitted models are also stored.</dd><dt><code>resample.performance</code></dt><dd></dd><dt><code>initialize</code></dt><dd></dd><dt><code>[</code></dt><dd></dd><dt><code>print</code></dt><dd></dd><dt><code>show</code></dt><dd></dd><dt><code><a href="train.html">train</a></code></dt><dd><code>signature(learn.task = "learn.task", subset = "numeric", parset = "list")</code>: Given a <code><a href="learn.task-class.html">learn.task</a></code> <code>train</code> creates a model for the learning machine 
+Optionally the fitted models are also stored.</dd><dt><code><a href="resample.performance.html">resample.performance</a></code></dt><dd><code>signature(learn.task = "learn.task", resample.instance = "resample.instance", resample.result = "resample.result", measure = "list")</code>: Measures the quality of predictions w.r.t. some loss function for a resampled fit.</dd><dt><code>initialize</code></dt><dd><code>signature( = "learn.task")</code>: Constructor.</dd><dt><code>[</code></dt><dd><code>signature( = "learn.task")</code>: Getter.</dd><dt><code>print</code></dt><dd><code>signature( = "learn.task")</code>: Prints the object by calling as.character.</dd><dt><code>show</code></dt><dd><code>signature( = "learn.task")</code>: Shows the object by calling as.character.</dd><dt><code><a href="train.html">train</a></code></dt><dd><code>signature(learn.task = "learn.task", subset = "numeric", parset = "list")</code>: Given a <code><a href="learn.task-class.html">learn.task</a></code> <code>train</code> creates a model for the learning machine 
 which can be used for predictions on new data.</dd></dl>
 <script Language="JScript">
 function findlink(pkg, fn) {
@@ -55,6 +55,6 @@ location.href = link;
 </script>
 
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.89 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.96 <a href="00Index.html">Index</a>]</div>
 
 </body></html>

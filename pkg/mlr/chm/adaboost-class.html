@@ -1,0 +1,64 @@
+<html><head><title>adaboost</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>adaboost-class(mlr)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   adaboost-class">
+<param name="keyword" value="R:   adaboost">
+<param name="keyword" value=" adaboost">
+</object>
+
+
+<h2>adaboost</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Wrapped learner for Adaboost.M1 from package <code>adabag</code> for classification problems.
+</p>
+
+
+<h3>Details</h3>
+
+<p>
+<EM>Common hyperparameters:</EM>
+<dl>
+<dt><code>minsplit</code></dt><dd>Minimum number of observations that must exist in a node in order for a split to be attempted.</dd>                  
+<dt><code>cp</code></dt><dd>Complexity parameter. Any split that does not decrease the overall lack of fit by a factor of cp is not attempted.</dd>
+<dt><code>maxdepth</code></dt><dd>Maximum depth of any node of the final tree, with the root node counted as depth 0. Defaults to the number of classes.</dd> 
+</dl>
+
+<h3>Extends</h3>
+
+<p>
+<code>wrapped.learner.classif</code>
+</p>
+
+
+<h3>Methods</h3>
+
+<dl><dt><code>initialize</code></dt><dd><code>signature( = "adaboost")</code>: Constructor.</dd></dl>
+
+<h3>See Also</h3>
+
+<p>
+<code><a onclick="findlink('adabag', 'adaboost.M1.html')" style="text-decoration: underline; color: blue; cursor: hand">adaboost.M1</a></code>
+</p>
+
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
+
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.96 <a href="00Index.html">Index</a>]</div>
+
+</body></html>

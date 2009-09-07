@@ -29,6 +29,26 @@
 <h3>Arguments</h3>
 
 <table summary="R argblock">
+<tr valign="top"><td><code>learner</code></td>
+<td>
+[<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>] <br> 
+Specifies the learner. See the list below in the details section.</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+[<code><a onclick="findlink('VGAM', 'notdocumentedyet.html')" style="text-decoration: underline; color: blue; cursor: hand">formula</a></code>] <br>
+A symbolic description of the model to be fitted.</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+[<code><a onclick="findlink('base', 'data.frame.html')" style="text-decoration: underline; color: blue; cursor: hand">data.frame</a></code>] <br>      
+A data frame containing the variables in the model.</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+[<code><a onclick="findlink('base', 'numeric.html')" style="text-decoration: underline; color: blue; cursor: hand">numeric</a></code>] <br>      
+An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+[<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>] <br>       
+Specifies the type of the predictions - either probabilities ("probs") or classes ("class"). Default is "class".</td></tr>
 <tr valign="top"><td><code>true.y</code></td>
 <td>
 [ANY] <br>
@@ -58,18 +78,18 @@ An optional possibility to specify costs, default is <code>NULL</code>.</td></tr
 <p>
 There are some more loss functions which you can use as performance measure, they are as follows:
 For classification:
-<ul> 
+<dl> 
 <dt><code>smce</code></dt><dd>Summed misclassification error</dd>
-</ul> 
+</dl> 
 </p>
 <p>
 For regression:
-<ul> 
+<dl> 
 <dt><code>sae</code></dt><dd>Sum of absolute errors</dd>
 <dt><code>mae</code></dt><dd>Median of absolute errors</dd>
 <dt><code>sse</code></dt><dd>Squared sum of errors</dd>
 <dt><code>mse</code></dt><dd>Mean squared error</dd>
-</ul>
+</dl>
 
 <h3>Value</h3>
 
@@ -104,6 +124,6 @@ location.href = link;
 </script>
 
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.89 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.96 <a href="00Index.html">Index</a>]</div>
 
 </body></html>

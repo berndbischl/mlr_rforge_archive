@@ -1,0 +1,85 @@
+<html><head><title>kernlab.svm.classif</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>kernlab.svm.classif-class(mlr)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   kernlab.svm.classif-class">
+<param name="keyword" value="R:   kernlab.svm.classif">
+<param name="keyword" value=" kernlab.svm.classif">
+</object>
+
+
+<h2>kernlab.svm.classif</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Wrapped learner for Support Vector Machines from package <code>kernlab</code> for classification problems.
+</p>
+
+
+<h3>Details</h3>
+
+<p>
+<EM>General hyperparameters:</EM>
+<dl>
+<dt><code>C</code></dt><dd>Cost of constraints violation (default: 1), this is the 'C'-constant of the regularization term in the Lagrange formulation.</dd>
+</dl>
+<EM>Kernel hyperparameters, sorted by kernel type:</EM>
+<dl>
+<dt><code>rbfdot</code></dt><dd><code>sigma</code>: inverse kernel width</dd>
+<dt><code>laplacedot</code></dt><dd><code>sigma</code>: inverse kernel width</dd>
+<dt><code>polydot</code></dt><dd><code>degree</code>: degree of the polynomial, <br> 
+<code>scale</code>: scaling parameter of the polynomial, <br> 
+<code>offset</code>: offset used in the polynomial</dd>
+<dt><code>tanhdot</code></dt><dd><code>scale</code>: scaling parameter of the tangent kernel, <br> 
+<code>offset</code>: offset used in the hyperbolic tangent kernel</dd>
+<dt><code>besseldot</code></dt><dd><code>sigma</code>: inverse kernel width, <br> 
+<code>ordner</code>: order of the Bessel function, <br>
+<code>degree</code>: degree of the Bessel function</dd>
+<dt><code>anovadot</code></dt><dd><code>sigma</code>: inverse kernel width, <br> 
+<code>degree</code>: degree of the ANOVA kernel function</dd>
+<dt><code>stringdot</code></dt><dd><code>length</code>: length of the strings considered, <br>
+<code>lambda</code>: the decay factor, <br> 
+<code>normalized</code>: logical parameter determining if the kernel evaluations should be normalized.</dd> 
+</dl>
+<p>
+The kernel type and the hyperparameters are specified in <code>parset</code>.
+</p>
+
+
+<h3>Extends</h3>
+
+<p>
+<code>wrapped.learner.classif</code>
+</p>
+
+
+<h3>Methods</h3>
+
+<dl><dt><code>initialize</code></dt><dd><code>signature( = "kernlab.svm.classif")</code>: Constructor.</dd><dt><code>train.learner</code></dt><dd><code>signature(wrapped.learner = "kernlab.svm.classif", formula = "formula", data = "data.frame", weights = "numeric", parset = "list")</code>: Overwritten, to allow direct passing of kernel hyperparameters.
+Besides that, simply delegates to super method.</dd></dl>
+
+<h3>See Also</h3>
+
+<p>
+<code><a onclick="findlink('kernlab', 'ksvm.html')" style="text-decoration: underline; color: blue; cursor: hand">ksvm</a></code>, <code><a onclick="findlink('kernlab', 'dots.html')" style="text-decoration: underline; color: blue; cursor: hand">dots</a></code>
+</p>
+
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
+
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.96 <a href="00Index.html">Index</a>]</div>
+
+</body></html>

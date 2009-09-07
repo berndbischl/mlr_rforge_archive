@@ -19,6 +19,7 @@ conf.matrix.html
 cv.desc-class.html
 cv.instance-class.html
 data.desc-class.html
+initialize,bs.desc-method.html
 learn.task-class.html
 make.bs.desc.html
 make.bs.instance.html
@@ -32,6 +33,7 @@ performance.html
 resample.desc-class.html
 resample.fit.html
 resample.instance-class.html
+resample.performance.html
 subsample.desc-class.html
 subsample.instance-class.html
 train.html
