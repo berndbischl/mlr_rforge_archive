@@ -1,6 +1,15 @@
 #' @include wrapped.learner.classif.r
 roxygen()
 
+#' Wrapped learner for k-Nearest Neighbor from package \code{kknn} for classification problems.
+#' 
+#' \emph{Common hyperparameters:}
+#' \describe{
+#' 		\item{\code{k}}{Number of neighbors considered.} 	
+#' 		\item{\code{distance}}{Parameter of Minkowski distance.}
+#' }
+#' @title kknn.classif
+#' @seealso \code{\link[kknn]{kknn}}
 #' @export
 setClass(
 		"kknn.classif", 
@@ -32,6 +41,8 @@ predict.kknn.model <- function(model, newdata, type="class", ...) {
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title kNN (classification) Constructor
 
 setMethod(
   f = "initialize",

@@ -15,6 +15,8 @@ setClass(
 		"bs.instance", 
 		contains = c("resample.instance"))                                                     
 
+#' Constructor.
+#' @title bs.instance constructor
 
 setMethod(
   f = "initialize",

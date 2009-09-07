@@ -1,6 +1,16 @@
 #' @include wrapped.learner.classif.r 
 roxygen()
 
+#' Wrapped learner for Regularized Discriminant Analysis from package \code{klaR} for classification problems.
+#' 
+#' \emph{Common hyperparameters:}
+#' \describe{
+#' 		\item{\code{gamma}}		
+#' 		\item{\code{lambda}}	
+#' 		\item{\code{startsimplex}}{(Optional) a starting simplex for the Nelder-Mead-minimization.}	
+#' }
+#' @title rda
+#' @seealso \code{\link[klaR]{rda}}
 #' @export
 setClass(
 		"rda", 
@@ -9,6 +19,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title RDA Constructor
 
 setMethod(
 		f = "initialize",

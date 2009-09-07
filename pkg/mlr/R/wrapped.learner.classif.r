@@ -25,6 +25,9 @@ setClass(
 		)
 )
 
+#' Constructor.
+#' @title wrapped.learner.classif constructor
+
 setMethod(
 		f = "initialize",
 		signature = signature("wrapped.learner.classif"),

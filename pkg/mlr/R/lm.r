@@ -1,6 +1,9 @@
 #' @include wrapped.learner.regr.r 
 roxygen()
 
+#' Wrapped learner for Linear Models from package \code{stats} for regression problems.
+#' @title stats.lm
+#' @seealso \code{\link[stats]{lm}}
 #' @export
 setClass(
 		"stats.lm", 
@@ -8,6 +11,8 @@ setClass(
 )
 
 
+#' Constructor.
+#' @title LM Constructor
 
 setMethod(
 		f = "initialize",

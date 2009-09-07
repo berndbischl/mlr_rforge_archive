@@ -16,6 +16,9 @@ setClass(
 		contains = c("resample.instance")
 )                                                     
 
+#' Constructor.
+#' @title cv.instance constructor
+
 setMethod(
   f = "initialize",
   signature = signature("cv.instance"),

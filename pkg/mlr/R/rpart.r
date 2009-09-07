@@ -1,6 +1,11 @@
 #' @include wrapped.learner.classif.r
 roxygen()
 
+#' Wrapped learner for Classification Trees from package \code{rpart}.
+#' 
+#' \emph{Common hyperparameters:}
+#' @title rpart.classif
+#' @seealso \code{\link[rpart]{rpart}}
 #' @export
 setClass(
 		"rpart.classif", 
@@ -9,6 +14,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title rpart Constructor
 
 setMethod(
 		f = "initialize",

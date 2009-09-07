@@ -1,7 +1,11 @@
 #' @include wrapped.learner.classif.r
 roxygen()
 
-
+#' Wrapped learner for Mixture Discriminant Analysis from package \code{mda} for classification problems.
+#' 
+#' \emph{Common hyperparameters:}
+#' @title mda
+#' @seealso \code{\link[mda]{mda}}
 #' @export
 setClass(
 		"mda", 
@@ -10,6 +14,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title MDA Constructor
 
 setMethod(
   f = "initialize",

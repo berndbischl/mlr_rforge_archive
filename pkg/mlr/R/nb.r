@@ -1,7 +1,9 @@
 #' @include wrapped.learner.classif.r 
 roxygen()
 
-
+#' Wrapped learner for Naive Bayes from package \code{e1071} for classification problems.
+#' @title naiveBayes
+#' @seealso \code{\link[e1071]{naiveBayes}}
 #' @export
 setClass(
 		"naiveBayes", 
@@ -10,6 +12,8 @@ setClass(
 
 
 #----------------- constructor ---------------------------------------------------------
+#' Constructor.
+#' @title Naive Bayes Constructor
 
 setMethod(
   f = "initialize",

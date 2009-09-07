@@ -12,7 +12,7 @@ setClass(
 		)
 )
 
-
+#' Conversion to string.
 setMethod(
 		f = "as.character",
 		signature = signature("resample.result"),
@@ -28,7 +28,7 @@ setMethod(
 		}
 )
 
-
+#' Prints the object by calling as.character.
 setMethod(
 		f = "print",
 		signature = signature("resample.result"),
@@ -37,6 +37,7 @@ setMethod(
 		}
 )
 
+#' Shows the object by calling as.character.
 setMethod(
 		f = "show",
 		signature = signature("resample.result"),
