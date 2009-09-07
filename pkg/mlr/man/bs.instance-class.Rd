@@ -6,5 +6,5 @@
 They indicate the training part of data for different instances of bs.}
 \note{Normally you don't want to use the S4 constructor, but instead \code{\link{make.bs.instance}}.}
 \section{Extends}{\code{\linkS4class{resample.instance}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,bs.instance-method]{initialize}}}{}}}
+\section{Methods}{\describe{\item{\code{\link[=initialize,bs.instance-method]{initialize}}}{\code{signature( = "bs.instance")}: Constructor.}}}
 

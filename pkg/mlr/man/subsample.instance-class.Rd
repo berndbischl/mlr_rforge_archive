@@ -6,5 +6,5 @@
 They indicate the training part of data for different instances of subsample.}
 \note{Normally you don't want to use the S4 constructor, but instead \code{\link{make.subsample.instance}}.}
 \section{Extends}{\code{\linkS4class{resample.instance}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,subsample.instance-method]{initialize}}}{}}}
+\section{Methods}{\describe{\item{\code{\link[=initialize,subsample.instance-method]{initialize}}}{\code{signature( = "subsample.instance")}: Constructor.}}}
 

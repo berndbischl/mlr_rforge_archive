@@ -6,19 +6,29 @@
 \description{\code{performance} measures the quality of predictions w.r.t. some loss function.}
 \details{There are some more loss functions which you can use as performance measure, they are as follows:
 For classification:
-\itemize{ 
+\describe{ 
 \item{\code{smce}}{Summed misclassification error}
 } 
 
 For regression:
-\itemize{ 
+\describe{ 
 \item{\code{sae}}{Sum of absolute errors}
 \item{\code{mae}}{Median of absolute errors}
 \item{\code{sse}}{Squared sum of errors}
 \item{\code{mse}}{Mean squared error}
 }}
 \value{The performance.}
-\arguments{\item{true.y}{[ANY] \cr
+\arguments{\item{learner}{[\code{\link{character}}] \cr 
+Specifies the learner. See the list below in the details section.}
+\item{formula}{[\code{\link{formula}}] \cr
+A symbolic description of the model to be fitted.}
+\item{data}{[\code{\link{data.frame}}] \cr 	
+A data frame containing the variables in the model.}
+\item{weights}{[\code{\link{numeric}}] \cr 	
+An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.}
+\item{type}{[\code{\link{character}}] \cr 	
+Specifies the type of the predictions - either probabilities ("probs") or classes ("class"). Default is "class".}
+\item{true.y}{[ANY] \cr
 The data sets true labels.}
 \item{pred.y}{[ANY] \cr
 The predicted labels.}
