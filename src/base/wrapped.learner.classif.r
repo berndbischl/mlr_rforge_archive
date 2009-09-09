@@ -1,6 +1,7 @@
 #' @include learner.props.r
 roxygen()
 
+#' Wrapped.learner.classif ---text!----
 #' @slot train.par.for.classes  
 #' @slot train.par.for.probs  
 #' @slot predict.par.for.classes  
@@ -10,6 +11,8 @@ roxygen()
 #' @slot dummy.classes Does the predict function need a class column in the dataframe for prediction? 
 #' 		If TRUE but no class column is avaible in the data a null column is generated 
 #'   	 	in predict (default is FALSE). 
+#' 
+#' @title wrapped.learner.classif
 
 setClass(
 		"wrapped.learner.classif",

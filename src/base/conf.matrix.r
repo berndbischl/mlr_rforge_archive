@@ -1,4 +1,4 @@
-#' \code{conf.matrix} generates the confusion matrix, see \code{\link{errormatrix}}. 
+#' \code{conf.matrix} generates the confusion matrix, see \code{\link[klaR]{errormatrix}}. 
 #' 
 #' 
 #' @param learn.task [\code{\linkS4class{learn.task}}] \cr 
@@ -24,7 +24,7 @@
 #' fit <- resample.fit(ct, resample.instance = rin)
 #' conf.matrix(learn.task = ct, resample.instance = rin, resample.result = fit, relative = FALSE)
 #' 
-#' @seealso \code{\link{errormatrix}}
+#' @seealso \code{\link[klaR]{errormatrix}}
 #' 
 #' @title conf.matrix
 

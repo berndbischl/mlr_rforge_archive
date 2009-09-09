@@ -13,9 +13,9 @@ roxygen()
 #' @slot inds [list] \cr List of integer vectors specifying the training cases for each iteration. Each vector might contain duplicated indices and the order matters for some classifiers.
 #' 
 #' @note If you want to add another resampling strategy, have a look at the web documentation. 
+#' @title resample.instance
 #' @seealso \code{\linkS4class{resample.desc}}, \code{\link{make.cv.instance}}, \code{\link{make.bs.instance}}, \code{\link{make.subsample.instance}}, \code{\link{resample.fit}} 
 #' @exportClass resample.instance
-#' @title resample.instance
 
 
 # todo validation for size

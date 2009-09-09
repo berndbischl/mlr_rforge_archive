@@ -1,6 +1,7 @@
 #' @include learner.props.r
 roxygen()
 
+#' Wrapped.learner ---text!----
 #' @slot learner.name Name of the learning method
 #' @slot learner.pack R package where learner is defined
 #' @slot train.fct Function used in above package to train a regular model in the package (see \code{\link{train}})
