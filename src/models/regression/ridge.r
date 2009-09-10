@@ -25,7 +25,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("penalized.ridge"),
-		def = function(.Object, data, formula, train.fct.pars=list(), predict.fct.pars=list()) {
+		def = function(.Object, data, formula) {
+
 			desc = new("regr.props",
 					supports.missing = TRUE,
 					supports.numerics = TRUE,
@@ -35,9 +36,7 @@ setMethod(
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="ridge regression", learner.pack="penalized",
-					learner.model.class="penfit", learner.model.S4 = FALSE,
-					train.fct="penalized", train.fct.pars=train.fct.pars,
-					predict.fct="predict.penalized.ridge", predict.fct.pars=predict.fct.pars,
+					train.fct="penalized", predict.fct="predict.penalized.ridge", 
 					learner.props=desc)
 			return(.Object)
 		}

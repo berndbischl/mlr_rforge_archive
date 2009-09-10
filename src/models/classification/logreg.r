@@ -26,9 +26,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("logreg"),
-		def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
-			train.fct <- "glm" 
-			predict.fct <- "predict" 
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = FALSE,
@@ -41,9 +39,7 @@ setMethod(
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="logreg", learner.pack="stats", 
-					learner.model.class="lm", learner.model.S4 = FALSE,
-					train.fct=train.fct, train.fct.pars=list(maxit=100, family=binomial), 
-					predict.fct=predict.fct, predict.fct.pars=predict.fct.pars,
+					train.fct="glm",  
 					predict.par.for.classes = list(),
 					predict.par.for.probs = list(type="response"),
 					trafo.for.probs = function(x, wrapped.model) {
@@ -66,6 +62,7 @@ setMethod(
 						return(p)
 					},
 					learner.props=desc)
+			.Object <- set.train.par(.Object, maxit=100, family=binomial)
 			return(.Object)
 		}
 )

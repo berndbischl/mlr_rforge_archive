@@ -31,9 +31,7 @@ predict.myknn <- function(model, newdata) {
 setMethod(
 		f = "initialize",
 		signature = signature("myknn.regr"),
-		def = function(.Object, data, formula, train.fct.pars=list(), predict.fct.pars=list()) {
-			train.fct <- train.myknn 
-			predict.fct <- predict.myknn
+		def = function(.Object, data, formula) {
 			
 			desc = new("method.desc",
 					supports.missing = TRUE,
@@ -44,10 +42,8 @@ setMethod(
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="myknn", learner.pack="yaImpute",
-					learner.model.class="myknn", learner.model.S4 = FALSE,
-					train.fct=train.fct, train.fct.pars=train.fct.pars,
-					predict.fct=predict.fct, predict.fct.pars=predict.fct.pars,
-					desc, data = data, formula=formula)
+					train.fct=train.myknn, predict.fct=predict.myknn,
+					learner.props=desc)
 			return(.Object)
 		}
 )

@@ -18,7 +18,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("loclda"),
-		def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
+		def = function(.Object) {
 			train.fct <- "loclda" 
 			predict.fct <- "predict" 
 			
@@ -33,9 +33,7 @@ setMethod(
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="Localized LDA", learner.pack="klaR", 
-					learner.model.class="loclda", learner.model.S4 = FALSE,
-					train.fct=train.fct, train.fct.pars=train.fct.pars, 
-					predict.fct=predict.fct, predict.fct.pars=predict.fct.pars,
+					train.fct="loclda",  
 					learner.props=desc)
 			
 			return(.Object)

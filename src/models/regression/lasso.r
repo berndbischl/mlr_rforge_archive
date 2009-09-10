@@ -26,7 +26,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("penalized.lasso"),
-		def = function(.Object, data, formula, train.fct.pars=list(), predict.fct.pars=list()) {
+		def = function(.Object, data, formula) {
+			
 			desc = new("regr.props",
 					supports.missing = TRUE,
 					supports.numerics = TRUE,
@@ -36,9 +37,7 @@ setMethod(
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="Lasso regression", learner.pack="penalized",
-					learner.model.class="penfit", learner.model.S4 = FALSE,
-					train.fct="penalized", train.fct.pars=train.fct.pars,
-					predict.fct="predict.penalized.lasso", predict.fct.pars=predict.fct.pars,
+					train.fct="penalized", predict.fct="predict.penalized.lasso", 
 					learner.props=desc)
 			return(.Object)
 		}

@@ -47,9 +47,7 @@ predict.kknn.model <- function(model, newdata, type="class", ...) {
 setMethod(
   f = "initialize",
   signature = signature("kknn.classif"),
-  def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
-    train.fct <- train.kknn.model 
-    predict.fct <- predict.kknn.model
+  def = function(.Object) {
      
     desc <- new("classif.props",
       supports.multiclass = TRUE,
@@ -62,9 +60,7 @@ setMethod(
 	)
       
     .Object <- callNextMethod(.Object, learner.name="knn", learner.pack="kknn", 
-      learner.model.class="kknn", learner.model.S4 = FALSE,
-      train.fct=train.fct, train.fct.pars=train.fct.pars, 
-      predict.fct=predict.fct, predict.fct.pars=predict.fct.pars, 
+      train.fct=train.kknn.model , predict.fct=predict.kknn.model,  
 	  learner.props=desc)
     return(.Object)
   }
