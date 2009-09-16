@@ -12,17 +12,11 @@ test.mlr.learn.task <- function() {
 	checkEquals(ct1@data, data)
 	
 	checkEquals(ct1@wrapped.learner@learner.pack, "MASS")
-	checkEquals(ct1@wrapped.learner@train.fct.pars, list())
-	checkEquals(ct1@wrapped.learner@predict.fct.pars, list())
 	
 	wl <- new("lda")
-	wl@train.fct.pars <- list(tol=0.5)
-	wl@predict.fct.pars <- list(dimen=2)
 	
 	ct2 <- new("classif.task", wl, data=data, formula=formula) 
 	
-	checkEquals(ct2@wrapped.learner@train.fct.pars, list(tol=0.5))
-	checkEquals(ct2@wrapped.learner@predict.fct.pars, list(dimen=2)) 
 	
 #-----------------------------rpart---------------------------------------------  
 #	
