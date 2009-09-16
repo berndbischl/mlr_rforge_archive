@@ -1,0 +1,53 @@
+<html><head><title>Wrapped...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>wrapped.learner-class(mlr)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   wrapped.learner-class">
+<param name="keyword" value="R:   wrapped.learner">
+<param name="keyword" value=" Wrapped...">
+</object>
+
+
+<h2>Wrapped...</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Wrapped.learner &mdash;text!&mdash;-
+</p>
+
+
+<h3>Slots</h3>
+
+<dl><dt><code>learner.name</code>:</dt><dd>(<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>) Name of the learning method</dd><dt><code>learner.pack</code>:</dt><dd>(<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>) R package where learner is defined</dd><dt><code>train.fct</code>:</dt><dd>(<code><a onclick="findlink('base', 'function.html')" style="text-decoration: underline; color: blue; cursor: hand">function</a></code>) Function used in above package to train a regular model in the package (see <code><a onclick="findlink('caret', 'train.html')" style="text-decoration: underline; color: blue; cursor: hand">train</a></code>)</dd><dt><code>train.fct.pars</code>:</dt><dd>(<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>) Named list of parameters which are fixed in the above train.fct. NB: These are _NOT_ 
+hyperparamters of the classifier but rather parameters which are fixed for the whole 
+experiment and should be fixed at the beginning for convenience (Example would be the 
+tolerance parameter in lda.)</dd><dt><code>predict.fct</code>:</dt><dd>(<code><a onclick="findlink('base', 'function.html')" style="text-decoration: underline; color: blue; cursor: hand">function</a></code>) Function used in above package to predict new data with a trained model 
+(see <code><a onclick="findlink('VGAM', 'notdocumentedyet.html')" style="text-decoration: underline; color: blue; cursor: hand">predict</a></code>)</dd><dt><code>predict.newdata.arg</code>:</dt><dd>(<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>) Name of argument for the new data frame in the underlying predict method.</dd><dt><code>predict.fct.pars</code>:</dt><dd>(<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>) Named list of parameters which are fixed in the above predict.fct. See train.fct.pars 
+(example would be the method parameter in predict.lda.)</dd><dt><code>learner.props</code>:</dt><dd>(<code><a href="learner.props-class.html">learner.props</a></code>) Properties of the learner</dd></dl>
+
+<h3>Methods</h3>
+
+<dl><dt><code>train.learner</code></dt><dd></dd><dt><code><a href="initialize,wrapped.learner-method.html">initialize</a></code></dt><dd><code>signature( = "wrapped.learner")</code>: Constructor.</dd><dt><code><a href="as.character,wrapped.learner-method.html">as.character</a></code></dt><dd><code>signature( = "wrapped.learner")</code>: Conversion to string.</dd><dt><code><a href="print,wrapped.learner-method.html">print</a></code></dt><dd><code>signature( = "wrapped.learner")</code>: Prints the object by calling as.character.</dd><dt><code><a href="show,wrapped.learner-method.html">show</a></code></dt><dd><code>signature( = "wrapped.learner")</code>: Shows the object by calling as.character.</dd><dt><code>set.train.par</code></dt><dd><code>signature( = "wrapped.learner")</code>: Set a parameter for the underlying train function of a wrapped learner. 
+This is not meant for hyperparamters, pass these through the usual parset argument, but rather to
+fix (somewhat techical) arguments which stay the same for the whole experiment. You should not have to use this too often.</dd><dt><code>set.predict.par</code></dt><dd><code>signature( = "wrapped.learner")</code>: Set a parameter for the underlying predict function of a wrapped learner. 
+Used to fix (somewhat techical) arguments which stay the same for the whole experiment. Y
+You should not have to use this too often.</dd></dl>
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
+
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.115 <a href="00Index.html">Index</a>]</div>
+
+</body></html>

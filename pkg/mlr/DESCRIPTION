@@ -1,7 +1,7 @@
 Package: mlr
 Type: Package
 Title: mlr: Machine Learning in R
-Version: 0.3.100
+Version: 0.3.115
 Date: 2009-01-01
 Author: Bernd Bischl, Max Wornowizki, Katharina Borg
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
@@ -11,20 +11,21 @@ LazyLoad: yes
 Depends: R (>= 2.8.0), utils, methods, reshape, roxygen, stats, boot,
     e1071, klaR
 Suggests: MASS, kernlab, rpart, randomForest, adabag, kknn, snowfall
-Collate: 'resample.desc.r' 'resample.instance.r' 'learner.props.r'
-    'wrapped.learner.r' 'data.desc.r' 'task.learn.r'
+Collate: 'learner.props.r' 'wrapped.learner.r' 'train.learner.r'
+    'wrapped.learner.classif.r' 'ada.r' 'resample.desc.r'
+    'resample.instance.r' 'data.desc.r' 'task.learn.r'
     'resample.result.r' 'resample.fit.r' 'tune.r' 'benchmark.r'
-    'wrapped.learner.regr.r' 'blackboost.r' 'wrapped.learner.classif.r'
-    'boost.r' 'bs.desc.r' 'bs.instance.r' 'task.classif.r'
-    'check.task.classif.r' 'conf.matrix.r' 'cv.desc.r' 'cv.instance.r'
-    'gbm.r' 'kknn.r' 'knn.r' 'train.learner.r' 'lasso.r' 'lda.r'
-    'learner.failure.r' 'learner.props.classif.r'
-    'learner.props.regr.r' 'lm.r' 'log.r' 'logreg.r' 'mda.r'
-    'multinom.r' 'nb.r' 'packagedesc.r' 'parallel.r' 'task.regr.r'
+    'wrapped.learner.regr.r' 'blackboost.r' 'boost.r' 'bs.desc.r'
+    'bs.instance.r' 'task.classif.r' 'check.task.classif.r'
+    'conf.matrix.r' 'cv.desc.r' 'cv.instance.r' 'gbm.r' 'kknn.r'
+    'knn.r' 'lasso.r' 'lda.r' 'learner.failure.r'
+    'learner.props.classif.r' 'learner.props.regr.r' 'lm.r' 'loclda.r'
+    'log.r' 'logreg.r' 'mda.r' 'multinom.r' 'nb.r' 'novars.model.r'
+    'packagedesc.r' 'parallel.r' 'pattern.search.r' 'task.regr.r'
     'perf.measure.r' 'performance.r' 'predict.classif.r'
     'wrapped.model.r' 'predict.regr.r' 'prepare.df.r' 'qda.r'
     'randomForest.r' 'rda.r' 'resample.fit.iter.r'
     'resample.performance.r' 'ridge.r' 'rpart.r' 'subsample.desc.r'
     'subsample.instance.r' 'svm.r' 'task.classif.make.r'
     'task.regr.make.r' 'train.task.r' 'train.task.classif.r'
-    'train.task.regr.r' 'zzz.r'
+    'train.task.regr.r' 'tune.ps.r' 'zzz.r'

@@ -27,7 +27,7 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("adaboost"),
-    def = function(.Object, data, formula, type="class", train.fct.pars=list(), predict.fct.pars=list()) {
+    def = function(.Object, data, formula, type="class") {
     train.fct <- "adaboost.M1"
     predict.fct <- "predict.boosting"
 
@@ -43,9 +43,7 @@ setMethod(
       
       
     .Object <- callNextMethod(.Object, learner.name="boost", learner.pack="adabag",
-      learner.model.class="boosting", learner.model.S4 = FALSE,
-      train.fct=train.fct, train.fct.pars=train.fct.pars,
-      predict.fct=predict.fct, predict.fct.pars=predict.fct.pars,
+      train.fct="adaboost.M1",
       learner.props=desc, dummy.classes=TRUE)
     return(.Object)
   }

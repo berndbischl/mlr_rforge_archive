@@ -43,9 +43,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("kernlab.svm.classif"),
-		def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
-			train.fct <- "ksvm"
-			predict.fct <- "predict"
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -58,9 +56,7 @@ setMethod(
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="svm", learner.pack="kernlab",
-					learner.model.class="ksvm", learner.model.S4 = TRUE,
-					train.fct=train.fct, train.fct.pars=train.fct.pars,
-					predict.fct=predict.fct, predict.fct.pars=predict.fct.pars,
+					train.fct="ksvm", 
 					train.par.for.classes =list(),
 					train.par.for.probs =list(prob.model=TRUE),
 					predict.par.for.classes =list(type="response"),

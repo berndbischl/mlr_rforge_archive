@@ -18,9 +18,7 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("naiveBayes"),
-    def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
-    train.fct <- "naiveBayes"
-    predict.fct <- "predict.naiveBayes"
+    def = function(.Object) {
 
      desc = new("classif.props",
       supports.multiclass = TRUE,
@@ -33,10 +31,8 @@ setMethod(
     )
       
       
-    .Object <- callNextMethod(.Object, learner.name="nb", learner.pack="e1071",
-      learner.model.class="naiveBayes", learner.model.S4 = FALSE,
-      train.fct=train.fct, train.fct.pars=train.fct.pars,
-      predict.fct=predict.fct, predict.fct.pars=predict.fct.pars,
+    .Object <- callNextMethod(.Object, learner.name="Naive Bayes", learner.pack="e1071",
+      train.fct="naiveBayes",
 	  predict.par.for.classes =list(type="class"),
 	  predict.par.for.probs =list(type="raw"),
 	  learner.props=desc)

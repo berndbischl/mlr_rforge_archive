@@ -2,9 +2,9 @@
 \alias{conf.matrix}
 \title{conf.matrix}
 \usage{conf.matrix(learn.task, resample.instance, resample.result, relative)}
-\description{\code{conf.matrix} generates the confusion matrix, see \code{\link{errormatrix}}.}
+\description{\code{conf.matrix} generates the confusion matrix, see \code{\link[klaR]{errormatrix}}.}
 \value{A confusion matrix.}
-\seealso{\code{\link{errormatrix}}}
+\seealso{\code{\link[klaR]{errormatrix}}}
 \arguments{\item{learn.task}{[\code{\linkS4class{learn.task}}] \cr 
 Specifies the learning task for the problem.}
 \item{resample.instance}{[\code{\linkS4class{resample.instance}}] \cr

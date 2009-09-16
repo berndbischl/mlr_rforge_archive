@@ -7,11 +7,13 @@ roxygen()
 
 setGeneric(
 		name = "resample.fit",
-		def = function(learn.task, resample.instance, parset, models, type) {
+		def = function(learn.task, resample.instance, parset, vars, models, type) {
 			if (missing(type))
 				type <- "class"
 			if (missing(parset))
 				parset <- list()
+			if (missing(vars))
+				vars <- learn.task["input.names"]
 			if (missing(models))
 				models <- FALSE
 			standardGeneric("resample.fit")
@@ -31,8 +33,8 @@ setGeneric(
 #' @param parset [\code{\link{list}}]\cr A list of named elements which specify the hyperparameters of the learner.     
 #' @param models [\code{\link{logical}}] \cr If TRUE a list of the fitted models is included in the result.
 #' @param type [\code{\link{character}}] \cr 
-#' 		Only used for classification tasks; specifies the type of the predicitons -
-#' 		either probability ("probs") or class ("class").
+#' 		Only used for classification tasks; specifies the type of predictions -
+#' 		either probability ("prob") or class ("class").
 #' 	   
 #'             
 #' @return An object of class \code{\linkS4class{resample.result}}.
@@ -54,8 +56,8 @@ setGeneric(
 
 setMethod(
 		f = "resample.fit",
-		signature = signature(learn.task="learn.task", resample.instance="resample.instance", parset="list", models="logical", type="character"),
-		def = function(learn.task, resample.instance, parset, models, type) {
+		signature = signature(learn.task="learn.task", resample.instance="resample.instance", parset="list", vars="character", models="logical", type="character"),
+		def = function(learn.task, resample.instance, parset, vars, models, type) {
 			df <- learn.task@data
 			n <- nrow(df)  
 			ps <- list()
@@ -63,7 +65,7 @@ setMethod(
 			iters <- resample.instance["iters"]
 			
 			wrapper <- function(i) {
-				resample.fit.iter(learn.task, resample.instance, parset, type, i, return.model=models)
+				resample.fit.iter(learn.task, resample.instance, parset, vars, type, i, return.model=models)
 			}
 			
 			if (.parallel.setup$mode %in% c("snowfall", "sfCluster") && .parallel.setup$level == "resample") {

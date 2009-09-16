@@ -1,6 +1,5 @@
 \name{train}
-\alias{train,learn.task,numeric,list-method}
-\alias{train}
+\alias{train.generic}
 \title{train}
 \usage{train(learn.task, subset, parset)}
 \description{Given a \code{\linkS4class{learn.task}} \code{train} creates a model for the learning machine 
@@ -13,6 +12,8 @@ Specifies learning task.}
 An index vector specifying the training cases from the data contained in the learning task. By default the complete dataset is used.}
 \item{parset}{[\code{\link{list}}] \cr
 Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.}
+\item{vars}{[\code{\link{character}}] \cr
+Vector of variable names to use in training the model. Default is to use all variables.}
 }
 \examples{library(MASS)
 train.inds <- seq(1,150,2)

@@ -1,5 +1,5 @@
 \name{resample.fit}
-\alias{resample.fit,learn.task,resample.instance,list,logical,character-method}
+\alias{resample.fit,learn.task,resample.instance,list,character,logical,character-method}
 \alias{resample.fit}
 \title{resample.fit}
 \usage{resample.fit(learn.task, resample.instance, parset, models, type)}
@@ -16,8 +16,8 @@ Specifies the training and test indices of the resampled data.}
 \item{parset}{[\code{\link{list}}]\cr A list of named elements which specify the hyperparameters of the learner.}
 \item{models}{[\code{\link{logical}}] \cr If TRUE a list of the fitted models is included in the result.}
 \item{type}{[\code{\link{character}}] \cr 
-Only used for classification tasks; specifies the type of the predicitons -
-either probability ("probs") or class ("class").}
+Only used for classification tasks; specifies the type of predictions -
+either probability ("prob") or class ("class").}
 }
 \examples{library(mlr) 
 ct1 <- make.classif.task("lda", data=iris, formula=Species~.)

@@ -18,6 +18,30 @@
 <param name="Local" value="adaboost-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="as.character">
+<param name="Local" value="as.character,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="as.character">
+<param name="Local" value="as.character,wrapped.learner-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="as.character">
+<param name="Local" value="as.character,wrapped.model-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="as.character,data.desc-method">
+<param name="Local" value="as.character,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="as.character,wrapped.learner-method">
+<param name="Local" value="as.character,wrapped.learner-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="as.character,wrapped.model-method">
+<param name="Local" value="as.character,wrapped.model-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="benchmark">
 <param name="Local" value="benchmark.html">
 </OBJECT>
@@ -87,11 +111,219 @@
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="initialize">
+<param name="Local" value="initialize,adaboost-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,blackboost.regr-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
 <param name="Local" value="initialize,bs.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,bs.instance-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,cv.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,cv.instance-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,gbm.regr-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,kernlab.svm.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,kknn.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,kknn.regr-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,lda-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,logreg-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,mda-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,naiveBayes-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,nnet.multinom-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,penalized.lasso-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,penalized.ridge-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,qda-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,randomForest.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,rda-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,rpart.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,stats.lm-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,subsample.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,subsample.instance-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,wrapped.learner-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize">
+<param name="Local" value="initialize,wrapped.learner.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,adaboost-method">
+<param name="Local" value="initialize,adaboost-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,blackboost.regr-method">
+<param name="Local" value="initialize,blackboost.regr-method.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="initialize,bs.desc-method">
 <param name="Local" value="initialize,bs.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,bs.instance-method">
+<param name="Local" value="initialize,bs.instance-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,cv.desc-method">
+<param name="Local" value="initialize,cv.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,cv.instance-method">
+<param name="Local" value="initialize,cv.instance-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,data.desc-method">
+<param name="Local" value="initialize,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,gbm.regr-method">
+<param name="Local" value="initialize,gbm.regr-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,kernlab.svm.classif-method">
+<param name="Local" value="initialize,kernlab.svm.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,kknn.classif-method">
+<param name="Local" value="initialize,kknn.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,kknn.regr-method">
+<param name="Local" value="initialize,kknn.regr-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,lda-method">
+<param name="Local" value="initialize,lda-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,logreg-method">
+<param name="Local" value="initialize,logreg-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,mda-method">
+<param name="Local" value="initialize,mda-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,naiveBayes-method">
+<param name="Local" value="initialize,naiveBayes-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,nnet.multinom-method">
+<param name="Local" value="initialize,nnet.multinom-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,penalized.lasso-method">
+<param name="Local" value="initialize,penalized.lasso-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,penalized.ridge-method">
+<param name="Local" value="initialize,penalized.ridge-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,qda-method">
+<param name="Local" value="initialize,qda-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,randomForest.classif-method">
+<param name="Local" value="initialize,randomForest.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,rda-method">
+<param name="Local" value="initialize,rda-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,rpart.classif-method">
+<param name="Local" value="initialize,rpart.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,stats.lm-method">
+<param name="Local" value="initialize,stats.lm-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,subsample.desc-method">
+<param name="Local" value="initialize,subsample.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,subsample.instance-method">
+<param name="Local" value="initialize,subsample.instance-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,wrapped.learner-method">
+<param name="Local" value="initialize,wrapped.learner-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="initialize,wrapped.learner.classif-method">
+<param name="Local" value="initialize,wrapped.learner.classif-method.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="kernlab.svm.classif">
@@ -132,6 +364,14 @@
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="learn.task-class">
 <param name="Local" value="learn.task-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="learner.props">
+<param name="Local" value="learner.props-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="learner.props-class">
+<param name="Local" value="learner.props-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="logreg">
@@ -242,6 +482,38 @@
 <param name="Local" value="performance.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="print">
+<param name="Local" value="print,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="print">
+<param name="Local" value="print,learner.props-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="print">
+<param name="Local" value="print,wrapped.learner-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="print">
+<param name="Local" value="print,wrapped.model-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="print,data.desc-method">
+<param name="Local" value="print,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="print,learner.props-method">
+<param name="Local" value="print,learner.props-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="print,wrapped.learner-method">
+<param name="Local" value="print,wrapped.learner-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="print,wrapped.model-method">
+<param name="Local" value="print,wrapped.model-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="qda">
 <param name="Local" value="qda-class.html">
 </OBJECT>
@@ -278,7 +550,7 @@
 <param name="Local" value="resample.fit.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
-<param name="Name" value="resample.fit,learn.task,resample.instance,list,logical,character-method">
+<param name="Name" value="resample.fit,learn.task,resample.instance,list,character,logical,character-method">
 <param name="Local" value="resample.fit.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
@@ -306,6 +578,38 @@
 <param name="Local" value="rpart.classif-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="show">
+<param name="Local" value="show,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="show">
+<param name="Local" value="show,learner.props-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="show">
+<param name="Local" value="show,wrapped.learner-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="show">
+<param name="Local" value="show,wrapped.model-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="show,data.desc-method">
+<param name="Local" value="show,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="show,learner.props-method">
+<param name="Local" value="show,learner.props-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="show,wrapped.learner-method">
+<param name="Local" value="show,wrapped.learner-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="show,wrapped.model-method">
+<param name="Local" value="show,wrapped.model-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="stats.lm">
 <param name="Local" value="stats.lm-class.html">
 </OBJECT>
@@ -330,16 +634,68 @@
 <param name="Local" value="subsample.instance-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
-<param name="Name" value="train">
+<param name="Name" value="train.generic">
 <param name="Local" value="train.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
-<param name="Name" value="train,learn.task,numeric,list-method">
-<param name="Local" value="train.html">
+<param name="Name" value="train.learner">
+<param name="Local" value="train.learner,kernlab.svm.classif,formula,data.frame,numeric,list-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="train.learner">
+<param name="Local" value="train.learner,penalized.lasso,formula,data.frame,numeric,list-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="train.learner">
+<param name="Local" value="train.learner,penalized.ridge,formula,data.frame,numeric,list-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="train.learner,kernlab.svm.classif,formula,data.frame,numeric,list-method">
+<param name="Local" value="train.learner,kernlab.svm.classif,formula,data.frame,numeric,list-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="train.learner,penalized.lasso,formula,data.frame,numeric,list-method">
+<param name="Local" value="train.learner,penalized.lasso,formula,data.frame,numeric,list-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="train.learner,penalized.ridge,formula,data.frame,numeric,list-method">
+<param name="Local" value="train.learner,penalized.ridge,formula,data.frame,numeric,list-method.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="tune">
 <param name="Local" value="tune.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.learner">
+<param name="Local" value="wrapped.learner-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.learner-class">
+<param name="Local" value="wrapped.learner-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.learner.classif">
+<param name="Local" value="wrapped.learner.classif-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.learner.classif-class">
+<param name="Local" value="wrapped.learner.classif-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.learner.regr">
+<param name="Local" value="wrapped.learner.regr-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.learner.regr-class">
+<param name="Local" value="wrapped.learner.regr-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.model">
+<param name="Local" value="wrapped.model-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.model-class">
+<param name="Local" value="wrapped.model-class.html">
 </OBJECT>
 </UL>
 <LI> <OBJECT type="text/sitemap">
@@ -351,12 +707,20 @@
 <param name="Local" value="adaboost-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Adaboost Constructor">
+<param name="Local" value="initialize,adaboost-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="benchmark">
 <param name="Local" value="benchmark.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="blackboost.regr">
 <param name="Local" value="blackboost.regr-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Boosting Constructor">
+<param name="Local" value="initialize,blackboost.regr-method.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="bs.desc">
@@ -367,12 +731,28 @@
 <param name="Local" value="bs.instance-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="bs.instance constructor">
+<param name="Local" value="initialize,bs.instance-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="conf.matrix">
 <param name="Local" value="conf.matrix.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Conversion to string.">
+<param name="Local" value="as.character,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="Create description object for bootstrapping.">
 <param name="Local" value="initialize,bs.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Create description object for cross-validation.">
+<param name="Local" value="initialize,cv.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Create description object for subsampling.">
+<param name="Local" value="initialize,subsample.desc-method.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="cv.desc">
@@ -383,8 +763,24 @@
 <param name="Local" value="cv.instance-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="cv.instance constructor">
+<param name="Local" value="initialize,cv.instance-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="data.desc">
 <param name="Local" value="data.desc-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="data.desc constructor">
+<param name="Local" value="initialize,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Displays the object...">
+<param name="Local" value="show,learner.props-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="GBM Constructor">
+<param name="Local" value="initialize,gbm.regr-method.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="gbm.regr">
@@ -403,12 +799,36 @@
 <param name="Local" value="kknn.regr-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="kNN (classification) Constructor">
+<param name="Local" value="initialize,kknn.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="kNN (regression) Constructor">
+<param name="Local" value="initialize,kknn.regr-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Lasso Regression Constructor">
+<param name="Local" value="initialize,penalized.lasso-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="lda">
 <param name="Local" value="lda-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="LDA Constructor">
+<param name="Local" value="initialize,lda-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="learn.task">
 <param name="Local" value="learn.task-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="LM Constructor">
+<param name="Local" value="initialize,stats.lm-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Logistic Regression Constructor">
+<param name="Local" value="initialize,logreg-method.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="logreg">
@@ -451,12 +871,36 @@
 <param name="Local" value="mda-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="MDA Constructor">
+<param name="Local" value="initialize,mda-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Multinomial Regression Constructor">
+<param name="Local" value="initialize,nnet.multinom-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Naive Bayes Constructor">
+<param name="Local" value="initialize,naiveBayes-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="naiveBayes">
 <param name="Local" value="naiveBayes-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="nnet.multinom">
 <param name="Local" value="nnet.multinom-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Overwritten, to allow "lambda" instead of "lambda1" as parameter name.">
+<param name="Local" value="train.learner,penalized.lasso,formula,data.frame,numeric,list-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Overwritten, to allow "lambda" instead of "lambda2" as parameter name.">
+<param name="Local" value="train.learner,penalized.ridge,formula,data.frame,numeric,list-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Overwritten, to allow direct passing of kernel hyperparameters.">
+<param name="Local" value="train.learner,kernlab.svm.classif,formula,data.frame,numeric,list-method.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="penalized.lasso">
@@ -471,8 +915,24 @@
 <param name="Local" value="performance.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Prints the object by calling as...">
+<param name="Local" value="print,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Prints the object...">
+<param name="Local" value="print,learner.props-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="qda">
 <param name="Local" value="qda-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="QDA Constructor">
+<param name="Local" value="initialize,qda-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Random Forest Constructor">
+<param name="Local" value="initialize,randomForest.classif-method.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="randomForest.classif">
@@ -481,6 +941,10 @@
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="rda">
 <param name="Local" value="rda-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="RDA Constructor">
+<param name="Local" value="initialize,rda-method.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="resample.desc">
@@ -495,8 +959,24 @@
 <param name="Local" value="resample.instance-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Ridge Regression Constructor">
+<param name="Local" value="initialize,penalized.ridge-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="rpart Constructor">
+<param name="Local" value="initialize,rpart.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="rpart.classif">
 <param name="Local" value="rpart.classif-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Shows the object by calling as...">
+<param name="Local" value="show,data.desc-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Since not all classifiers can deal with all kind of data properties of the data are compared...">
+<param name="Local" value="learner.props-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="stats.lm">
@@ -511,12 +991,44 @@
 <param name="Local" value="subsample.instance-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
+<param name="Name" value="subsample.instance constructor">
+<param name="Local" value="initialize,subsample.instance-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="SVM Constructor">
+<param name="Local" value="initialize,kernlab.svm.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="train">
 <param name="Local" value="train.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="tune">
 <param name="Local" value="tune.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Wrapped...">
+<param name="Local" value="wrapped.learner-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.learner constructor">
+<param name="Local" value="initialize,wrapped.learner-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.learner.classif">
+<param name="Local" value="wrapped.learner.classif-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.learner.classif constructor">
+<param name="Local" value="initialize,wrapped.learner.classif-method.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.learner.regr">
+<param name="Local" value="wrapped.learner.regr-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="wrapped.model">
+<param name="Local" value="wrapped.model-class.html">
 </OBJECT>
 </UL>
 </UL>

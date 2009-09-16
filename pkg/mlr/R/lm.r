@@ -17,9 +17,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("stats.lm"),
-		def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
-			train.fct <- "lm"
-			predict.fct <- predict
+		def = function(.Object) {
 			
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -30,9 +28,7 @@ setMethod(
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="Linear Regression", learner.pack="stats",
-					learner.model.class="lm", learner.model.S4 = FALSE,
-					train.fct=train.fct, train.fct.pars=list(),
-					predict.fct=predict.fct, predict.fct.pars=predict.fct.pars,
+					train.fct=lm, 
 					learner.props=desc)
 			return(.Object)
 		}

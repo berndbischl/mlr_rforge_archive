@@ -26,7 +26,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("penalized.lasso"),
-		def = function(.Object, data, formula, train.fct.pars=list(), predict.fct.pars=list()) {
+		def = function(.Object, data, formula) {
+			
 			desc = new("regr.props",
 					supports.missing = TRUE,
 					supports.numerics = TRUE,
@@ -36,15 +37,24 @@ setMethod(
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="Lasso regression", learner.pack="penalized",
-					learner.model.class="penfit", learner.model.S4 = FALSE,
-					train.fct="penalized", train.fct.pars=train.fct.pars,
-					predict.fct="predict.penalized.lasso", predict.fct.pars=predict.fct.pars,
+					train.fct="penalized", predict.fct="predict.penalized.lasso", 
 					learner.props=desc)
 			return(.Object)
 		}
 )
 
+
+#' Overwritten, to allow "lambda" instead of "lambda1" as parameter name.
+#' Besides that, simply delegates to super method.
+#' 
+#' @param wrapped.learner Object of class \code{\linkS4class{wrapped.learner}}.
+#' @param formula A symbolic description of the model to be fitted.
+#' @param data Dataframe which includes all the data for the task.
+#' @param weights An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
+#' @param parset Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.
+#' 
 #' @export
+
 setMethod(
 		f = "train.learner",
 		

@@ -20,8 +20,8 @@ setClass(
 )
 
 
-predict.gbm.regr <- function (object, newdata, type = "link", single.tree = FALSE, ...) {
-	predict(object=object, newdata=newdata, n.trees=length(object$trees), type=type, single.tree=single.tree, ...)
+predict.gbm.regr <- function (object, newdata, ...) {
+	predict(object=object, newdata=newdata, n.trees=length(object$trees), ...)
 }
 	
 
@@ -32,9 +32,7 @@ predict.gbm.regr <- function (object, newdata, type = "link", single.tree = FALS
 setMethod(
 		f = "initialize",
 		signature = signature("gbm.regr"),
-		def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
-			train.fct <- "gbm"
-			predict.fct <- "predict.gbm.regr"
+		def = function(.Object) {
 			
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -45,10 +43,11 @@ setMethod(
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm",
-					learner.model.class="gbm", learner.model.S4 = FALSE,
-					train.fct=train.fct, train.fct.pars=list(distribution="gaussian", verbose=FALSE),
-					predict.fct=predict.fct, predict.fct.pars=predict.fct.pars,
+					train.fct="gbm", predict.fct="predict.gbm.regr", 
 					learner.props=desc)
+			
+			.Object <- set.train.par(.Object, distribution="gaussian", verbose=FALSE)
+			.Object <- set.predict.par(.Object, type="link", single.tree = FALSE)
 			return(.Object)
 		}
 )

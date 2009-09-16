@@ -43,9 +43,7 @@ predict.kknn.model2 <- function(model, newdata, ...) {
 setMethod(
 		f = "initialize",
 		signature = signature("kknn.regr"),
-		def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
-			train.fct <- train.kknn.model2 
-			predict.fct <- predict.kknn.model2
+		def = function(.Object) {
 			
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -56,9 +54,7 @@ setMethod(
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="KKNN", learner.pack="kknn",
-					learner.model.class="kknn", learner.model.S4 = FALSE,
-					train.fct=train.fct, train.fct.pars=train.fct.pars,
-					predict.fct=predict.fct, predict.fct.pars=predict.fct.pars,
+					train.fct=train.kknn.model2, predict.fct=predict.kknn.model2,
 					learner.props=desc)
 			
 			return(.Object)

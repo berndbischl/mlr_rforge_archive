@@ -18,9 +18,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("lda"),
-		def = function(.Object, train.fct.pars=list(), predict.fct.pars=list()) {
-			train.fct <- "lda" 
-			predict.fct <- "predict.lda" 
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -33,9 +31,7 @@ setMethod(
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="LDA", learner.pack="MASS", 
-					learner.model.class="lda", learner.model.S4 = FALSE,
-					train.fct=train.fct, train.fct.pars=train.fct.pars, 
-					predict.fct=predict.fct, predict.fct.pars=predict.fct.pars,
+					train.fct="lda",  
 					learner.props=desc)
 
 			return(.Object)
