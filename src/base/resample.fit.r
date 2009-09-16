@@ -33,8 +33,8 @@ setGeneric(
 #' @param parset [\code{\link{list}}]\cr A list of named elements which specify the hyperparameters of the learner.     
 #' @param models [\code{\link{logical}}] \cr If TRUE a list of the fitted models is included in the result.
 #' @param type [\code{\link{character}}] \cr 
-#' 		Only used for classification tasks; specifies the type of the predicitons -
-#' 		either probability ("probs") or class ("class").
+#' 		Only used for classification tasks; specifies the type of predictions -
+#' 		either probability ("prob") or class ("class").
 #' 	   
 #'             
 #' @return An object of class \code{\linkS4class{resample.result}}.

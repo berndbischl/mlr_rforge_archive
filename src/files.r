@@ -7,6 +7,7 @@ base.files <<- c(
 		"base/learner.props.classif.r",
 		"base/learner.props.regr.r",
 
+		"base/novars.model.r",
 		"base/wrapped.learner.r",
 		"base/wrapped.learner.classif.r",
 		"base/wrapped.learner.regr.r",
@@ -51,22 +52,26 @@ base.files <<- c(
 		"base/conf.matrix.r",
 		
 		"base/tune.r",
+		"base/pattern.search.r",
+		"base/tune.ps.r",
 		"base/benchmark.r",
 		"base/parallel.r"
 )
 
 classif.files <<- c( 		
-		"models/classification/boost.r",
 		"models/classification/knn.r",
 		"models/classification/lda.r",
-		"models/classification/logreg.r",
+		"models/classification/qda.r",
+		"models/classification/rda.r",
 		"models/classification/mda.r",
+		"models/classification/loclda.r",
+		"models/classification/logreg.r",
 		"models/classification/multinom.r",
 		"models/classification/nb.r",
-		"models/classification/qda.r",
-		"models/classification/randomForest.r",
-		"models/classification/rda.r",
 		"models/classification/rpart.r",
+		"models/classification/randomForest.r",
+		"models/classification/boost.r",
+		"models/classification/ada.r",
 		"models/classification/svm.r"
 )
 

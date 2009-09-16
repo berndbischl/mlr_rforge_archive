@@ -32,7 +32,7 @@ setMethod(
 		signature = signature(object="novars.model.classif"),
 		def = function(object, newdata, type="class") {
 			probs <- as.numeric(table(object@targets)) / length(object@targets)
-			if (type == "probs")
+			if (type == "prob")
 				return(probs)
 			sample(levels(object@targets), nrow(newdata), replace=TRUE, prob=probs)
 		}

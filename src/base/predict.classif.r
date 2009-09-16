@@ -5,6 +5,8 @@
 #'   Specifies classification task.  
 #' @param newdata [data.frame] \cr 
 #'   Contains new observations which should be classified (by default the train data).
+#' @param type [\code{\link{character}}] \cr 
+#' 		Specifies the type of predictions -	either probability ("prob") or class ("class").
 #'
 #' @return \code{predict} returns a prediction object containing a factor vector of 
 #' predicted classes.
