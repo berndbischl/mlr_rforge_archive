@@ -1,4 +1,5 @@
 #' @include wrapped.learner.classif.r
+#' @include train.learner.r
 roxygen()
 
 #' Wrapped learner for boosting a binary response from package \code{ada}.
