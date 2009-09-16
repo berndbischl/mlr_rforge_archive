@@ -8,9 +8,9 @@ roxygen()
 #' For construction simply use the factory methods of the subclasses - e.g. for cross-validation 
 #' use \code{\link{make.cv.instance}} to get a \code{\linkS4class{cv.instance}}.  
 #' 
-#' @slot desc [\code{\linkS4class{resample.desc}}] \cr Description object for the resampling.
-#' @slot size [integer] \cr Number of observations in the data.
-#' @slot inds [list] \cr List of integer vectors specifying the training cases for each iteration. Each vector might contain duplicated indices and the order matters for some classifiers.
+#' @slot desc Description object for resampling strategy
+#' @slot size Number of observations in data
+#' @slot inds List of integer vectors specifying the training cases for each iteration. Each vector might contain duplicated indices and the order matters for some classifiers.
 #' 
 #' @note If you want to add another resampling strategy, have a look at the web documentation. 
 #' @exportClass resample.instance
@@ -22,7 +22,11 @@ roxygen()
 setClass(
 		"resample.instance",                                                     
 		# we always have to store training inds because the order might matter
-		representation(desc = "resample.desc", size = "integer", inds = "list")
+		representation = representation(
+				desc = "resample.desc", 
+				size = "integer", 
+				inds = "list"
+		)
 )
 
 
