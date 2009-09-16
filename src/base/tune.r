@@ -89,7 +89,7 @@ tune.1 <- function(learn.task, resample.instance, ranges, measure) {
 	} 
 	
 	if (.parallel.setup$mode %in% c("snowfall", "sfCluster") && .parallel.setup$level == "tune") {
-		perf <- sfSapply(1:nrow(grid), wrapper)
+		perf <- sfClusterApplyLB(1:nrow(grid), wrapper)
 	} else {
 		perf <- sapply(1:nrow(grid), wrapper)
 	}

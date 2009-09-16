@@ -5,15 +5,15 @@ roxygen()
 #' @export
 setMethod(
 		f = "train",
-		signature = signature(learn.task="classif.task", subset="integer", parset="list"),
-		def = function(learn.task, subset, parset) {
+		signature = signature(learn.task="classif.task", subset="numeric", parset="list", vars="character"),
+		def = function(learn.task, subset, parset, vars) {
 			wl <- learn.task@wrapped.learner
-			ps <- switch(learn.task@type,
-					"class" = wl@train.par.for.classes,
-					"prob"  = wl@train.par.for.probs
-			)
-			parset <- c(parset, ps)
-			m <- callNextMethod(learn.task, subset, parset)
+			if (learn.task@type == "prob") {
+				wl <- do.call(set.train.par, c(list(wl), wl@train.par.for.probs))
+			} else { 
+				wl <- do.call(set.train.par, c(list(wl), wl@train.par.for.classes))
+			}
+			m <- train.generic(learn.task, wl ,subset, parset, vars)
 			class(m) <- "wrapped.classif.model"
 			return(m)
 		}

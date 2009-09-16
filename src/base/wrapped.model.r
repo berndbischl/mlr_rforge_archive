@@ -10,13 +10,14 @@ roxygen()
 #' @slot learner.class [character] Specifies learner class
 #' @slot learner.name [character] Name of the learning method
 #' @slot learner.model [external.model] External model from existing R packages like lda, rpart, etc
-#' @slot subset [integer] An index vector specifying the cases of the training sample. 
+#' @slot subset [integer] An index vector specifying the cases of the training sample that were used for the model. 
+#' @slot vars [charactter] Vector specifying the variables which were used to build the model. 
 #' @slot parset [list] Contains the hyperparameters of the train function. If empty no parameters were used.
 #' 
-#'  @examples  see \link{train}
+#' @examples  see \link{train}
 #' 
-#'  @title wrapped.model
-#'  @importFrom stats predict
+#' @title wrapped.model
+#' @importFrom stats predict
  
 setClass(
 		"wrapped.model",
@@ -26,6 +27,7 @@ setClass(
 				learner.name = "character",
 				learner.model = "ANY",
 				subset = "numeric",
+				vars = "character",
 				parset = "list"
 		)
 )
@@ -43,20 +45,6 @@ setClass(
 
 
 #---------------- predict --------------------------------------------
-
-
-
-#setGeneric(
-#  name = "predict",
-#  def = function(model, newdata, ...) {
-#    if (missing(newdata)) {
-#      tmp <- model@learn.task
-#      newdata <- tmp@data[model@subset,]
-#    }
-#    standardGeneric("predict")
-#  }
-#)
-
 
 
 

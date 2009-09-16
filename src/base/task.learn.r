@@ -51,9 +51,12 @@ setMethod(
 			.Object@data <- data
 			.Object@weights <- weights
 			.Object@formula <- formula
-			cn <- .Object["target.name"]
-			.Object@data.desc <- make.data.desc(data=data, target.col=cn)
+			tn <- .Object["target.name"]
+			if (!(tn %in% colnames(data))) {
+				stop(paste("Colimn names of data.frame don't contain target var: ", tn))
+			}
 			
+			.Object@data.desc <- make.data.desc(data=data, target.col=tn)
 			
 			check.result <- check.function(.Object)
 			if (check.result$msg != "") {
@@ -61,7 +64,7 @@ setMethod(
 			}
 			else {
 				.Object@data <- check.result$data
-				.Object@data.desc <- make.data.desc(data=.Object@data, target.col=cn)
+				.Object@data.desc <- make.data.desc(data=.Object@data, target.col=tn)
 			}
 			return(.Object)
 		}
@@ -124,7 +127,6 @@ setMethod(
 		}
 )
 
-
 #---------------- restrict.learn.task -----------------------------------------------------
 
 restrict.learn.task <- function(learn.task, subset) {
@@ -132,5 +134,56 @@ restrict.learn.task <- function(learn.task, subset) {
 	return(learn.task)
 }
 
+
+#' Set a parameter for the underlying train function of a wrapped learner. 
+#' This is not meant for hyperparamters, pass these through the usual parset argument, but rather to
+#' fix (somewhat techical) arguments which stay the same for the whole experiment. You should not have to use this too often.
+#'   
+#' @param object [\code{\linkS4class{learn.task}}] \cr
+#'   	Learn task that conatins the wrapped learner.
+#' 
+#' All additional arguments have to be named.
+#' 
+#' @return learn.task object with changed parameters for train function of the wrapped learner.
+#' 
+#' @usage set.train.par(wrapped.learner, ...)
+#'
+#' @title set.train.par
+
+
+#' Shows the object by calling as.character.
+setMethod(
+		f = "set.train.par",
+		signature = signature("learn.task"),
+		def = function(object, ...) {
+			object@wrapped.learner <- set.train.par(object@wrapped.learner, ...) 
+			return(object) 
+		}
+)
+
+
+#' Set a parameter for the underlying predict function of a wrapped learner. 
+#' Used to fix (somewhat techical) arguments which stay the same for the whole experiment. Y
+#' You should not have to use this too often.
+#'   
+#' @param object [\code{\linkS4class{learn.task}}] \cr
+#'   	Learn task that conatins the wrapped learner.
+#' 
+#' All additional arguments have to be named.
+#' 
+#' @return learn.task object with changed parameters for predict function of the wrapped learner.
+#' 
+#' @usage set.predict.par(wrapped.learner, ...)
+#'
+#' @title set.predict.par
+
+setMethod(
+		f = "set.predict.par",
+		signature = signature("learn.task"),
+		def = function(object, ...) {
+			object@wrapped.learner <- set.predict.par(object@wrapped.learner, ...) 
+			return(object) 
+		}
+)
 
 

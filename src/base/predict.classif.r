@@ -38,7 +38,7 @@ setMethod(
 			if (missing(newdata)) {
 				newdata <- lt@data[model@subset,]
 			}
-			
+					
 			g <- wl@predict.fct
 			cn <- lt["target.name"]
 			
@@ -77,29 +77,36 @@ setMethod(
 				set.seed(debug.seed)
 				logger.warn("DEBUG SEED USED!!!!!!!!!!!!!!! REALLY SURE????")
 			}
-			
-			logger.debug("mlr predict:", wl@learner.name, "with pars:")
-			logger.debug(wl@predict.fct.pars)
-			logger.debug("on", nrow(newdata), "examples:")
-			logger.debug(rownames(newdata))
-			
-			p <- do.call(g, g.pars)
-			logger.debug("raw prediction:")
-			logger.debug(p)
-			
-			if (type == "class") {
-				p <- wl@trafo.for.classes(p, model)
-				# the levels of the predicted classes might not be complete....
-				# be sure to add the levels at the end, otherwise data gets changed!!!
-				levels(p) <- union(levels(p), lt["class.levels"])
-			} else if (type == "prob") {
-				p <- wl@trafo.for.probs(p, model)
+		
+			# if there are no vars in the model, directly predict with our dummy model
+			if (is(model@learner.model, "novars.model.classif")) {
+				p <- predict(model@learner.model, newdata, type)
+				logger.debug("prediction with no vars model:")
+				logger.debug(p)
 			} else {
-				logger.error(paste("Unknown type", type, "in predict!"))
-			}	
+				logger.debug("mlr predict:", wl@learner.name, "with pars:")
+				logger.debug(wl@predict.fct.pars)
+				logger.debug("on", nrow(newdata), "examples:")
+				logger.debug(rownames(newdata))
+				p <- do.call(g, g.pars)
+				logger.debug("raw prediction:")
+				logger.debug(p)
+				if (type == "class") {
+					p <- wl@trafo.for.classes(p, model)
+				} else if (type == "prob") {
+					p <- wl@trafo.for.probs(p, model)
+				} else {
+					logger.error(paste("Unknown type", type, "in predict!"))
+				}
+				logger.debug("tranformed prediction:")
+				logger.debug(p)
+			} 
 			
-			logger.debug("tranformed prediction:")
-			logger.debug(p)
+			# the levels of the predicted classes might not be complete....
+			# be sure to add the levels at the end, otherwise data gets changed!!!
+			if (type == "class") {
+				levels(p) <- union(levels(p), lt["class.levels"])
+			}				
 			return(p)
 		}
 )

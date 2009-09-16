@@ -1,4 +1,5 @@
 #' @include learner.props.r
+#' @include wrapped.learner.r
 roxygen()
 
 #' Wrapped.learner.regr ---text!----
