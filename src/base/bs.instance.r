@@ -17,6 +17,7 @@ setClass(
 
 #' Constructor.
 #' @title bs.instance constructor
+#' @rdname bs.instance-class
 
 setMethod(
   f = "initialize",

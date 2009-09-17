@@ -43,6 +43,7 @@ predict.kknn.model <- function(model, newdata, type="class", ...) {
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title kNN (classification) Constructor
+#' @rdname kknn.classif-class
 
 setMethod(
   f = "initialize",

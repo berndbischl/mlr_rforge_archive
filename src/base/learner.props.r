@@ -28,7 +28,7 @@ setClass(
 
 #' Displays the object
 #' @param object The object
-#' @export
+#' @rdname learner.props-class
 setMethod(
 		f = "show",
 		signature = signature("learner.props"),
@@ -40,7 +40,7 @@ setMethod(
 
 #' Prints the object
 #' @param object The object
-#' @export
+#' @rdname learner.props-class
 setMethod(
 		f = "print",
 		signature = signature("learner.props"),

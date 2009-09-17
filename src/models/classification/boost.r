@@ -23,6 +23,7 @@ setClass(
 
 #' Constructor.
 #' @title Adaboost Constructor
+#' @rdname adaboost-class
 
 setMethod(
   f = "initialize",

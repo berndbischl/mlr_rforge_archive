@@ -12,6 +12,7 @@ setClass("bs.desc",
 
 #' Create description object for bootstrapping.
 #' @param iters Number of iterations
+#' @rdname bs.desc-class
 
 setMethod(
 		f = "initialize",

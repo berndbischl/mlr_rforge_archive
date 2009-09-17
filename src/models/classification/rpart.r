@@ -16,6 +16,7 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title rpart Constructor
+#' @rdname rpart.classif-class
 
 setMethod(
 		f = "initialize",

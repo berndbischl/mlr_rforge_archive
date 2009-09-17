@@ -18,6 +18,7 @@ setClass(
 
 #' Constructor.
 #' @title subsample.instance constructor
+#' @rdname subsample.instance-class
 
 setMethod(
 		f = "initialize",

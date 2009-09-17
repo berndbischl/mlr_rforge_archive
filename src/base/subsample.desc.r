@@ -14,6 +14,7 @@ setClass("subsample.desc",
 #' Create description object for subsampling.
 #' @param Proportion of data used for training set
 #' @param iters Number of iterations
+#' @rdname subsample.desc-class
 
 setMethod(
 		f = "initialize",

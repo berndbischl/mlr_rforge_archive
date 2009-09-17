@@ -21,6 +21,7 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title Random Forest Constructor
+#' @rdname randomForest.classif-class
 
 setMethod(
   f = "initialize",

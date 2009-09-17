@@ -21,6 +21,7 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title Ridge Regression Constructor
+#' @rdname penalized.ridge-class
 
 setMethod(
 		f = "initialize",
@@ -54,6 +55,7 @@ setMethod(
 #' @param parset Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.
 #' 
 #' @export
+#' @rdname penalized.ridge-class
 
 setMethod(
 		f = "train.learner",

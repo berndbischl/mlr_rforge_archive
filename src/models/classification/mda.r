@@ -16,6 +16,7 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title MDA Constructor
+#' @rdname mda-class
 
 setMethod(
   f = "initialize",

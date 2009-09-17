@@ -34,6 +34,7 @@ setClass(
 
 #' Constructor.
 #' @title data.desc constructor
+#' @rdname data.desc-class
 
 setMethod(
   f = "initialize",
@@ -81,6 +82,8 @@ setMethod(
 
 
 #' Conversion to string.
+#' @rdname data.desc-class
+
 setMethod(
 		f = "as.character",
 		signature = signature("data.desc"),
@@ -99,6 +102,8 @@ setMethod(
 
 
 #' Prints the object by calling as.character.
+#' @rdname data.desc-class
+
 setMethod(
   f = "print",
   signature = signature("data.desc"),
@@ -108,6 +113,8 @@ setMethod(
 )
 
 #' Shows the object by calling as.character.
+#' @rdname data.desc-class
+
 setMethod(
   f = "show",
   signature = signature("data.desc"),

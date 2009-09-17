@@ -36,6 +36,7 @@ setClass(
 #' @param desc [\code{\linkS4class{resample.desc}}] \cr resample.desc. Describes the resampling strategy.
 #' @param size [integer] \cr Size of the data set to resample from.
 #' @param inds [list of integer vectors] \cr Indices of the trainings sets.
+#' @rdname resample.instance-class
 
 setMethod(
 		f = "initialize",

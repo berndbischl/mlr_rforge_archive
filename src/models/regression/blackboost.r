@@ -23,6 +23,7 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title Boosting Constructor
+#' @rdname blackboost.regr-class
 
 setMethod(
 		f = "initialize",

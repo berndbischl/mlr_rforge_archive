@@ -13,6 +13,7 @@ setClass(
 
 #' Constructor.
 #' @title LM Constructor
+#' @rdname stats.lm-class
 
 setMethod(
 		f = "initialize",

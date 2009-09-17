@@ -28,6 +28,7 @@ setClass(
 )
 
 #' Conversion to string.
+#' @rdname resample.result-class
 setMethod(
 		f = "as.character",
 		signature = signature("resample.result"),
@@ -44,6 +45,7 @@ setMethod(
 )
 
 #' Prints the object by calling as.character.
+#' @rdname resample.result-class
 setMethod(
 		f = "print",
 		signature = signature("resample.result"),
@@ -53,6 +55,7 @@ setMethod(
 )
 
 #' Shows the object by calling as.character.
+#' @rdname resample.result-class
 setMethod(
 		f = "show",
 		signature = signature("resample.result"),
@@ -69,7 +72,7 @@ setMethod(
 
 #----------------- getter ---------------------------------------------------------
 
-
+#' @rdname resample.result-class
 setMethod(
 		f = "[",
 		signature = signature("resample.result"),
