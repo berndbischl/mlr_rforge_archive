@@ -5,6 +5,11 @@ allowed.rd.files <<- c(
 			"print,data.desc-method.Rd",
 			"show,data.desc-method.Rd",
 		"learn.task-class.Rd",
+			"initialize,learn.task-method.Rd",
+			"print,learn.task-method.Rd",
+			"show,learn.task-method.Rd",
+			"set.train.par,learn.task-method.Rd",
+			"set.predict.par,learn.task-method.Rd",
 		"learner.props-class.Rd",
 			"print,learner.props-method.Rd",
 			"show,learner.props-method.Rd",
@@ -28,6 +33,7 @@ allowed.rd.files <<- c(
 		
 		"resample.instance-class.Rd",
 			"make.resample.instance,resample.desc,numeric-method.Rd",
+			"initialize,resample.instance-method.Rd",
 		"cv.instance-class.Rd",
 			"initialize,cv.instance-method.Rd",
 		"bs.instance-class.Rd",
@@ -37,6 +43,10 @@ allowed.rd.files <<- c(
 		"make.cv.instance.Rd",
 		"make.bs.instance.Rd",
 		"make.subsample.instance.Rd",
+		"resample.result-class.Rd",
+			"as.character,resample.result-method.Rd",
+			"print,resample.result-method.Rd",
+			"show,resample.result-method.Rd",
 		
 		"wrapped.learner.classif-class.Rd",
 			"initialize,wrapped.learner.classif-method.Rd",
@@ -50,7 +60,6 @@ allowed.rd.files <<- c(
 			"as.character,wrapped.model-method.Rd",
 			"print,wrapped.model-method.Rd",
 			"show,wrapped.model-method.Rd",
-		
 		
 		"resample.fit.Rd",
 		"resample.performance.Rd",
