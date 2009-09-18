@@ -26,9 +26,11 @@ setClass(
 #' Getter.
 #' @param x resample.desc object
 #' @param i 
+#' describe{
 #' 	\item{instance.class}{S4 class name of the corresponding resample.instance}
 #' 	\item{name}{Name of this resampling algorithm}
-#' 	\item{iters}{Number of iterations} 
+#' 	\item{iters}{Number of iterations}
+#' } 
 #' @rdname resample.desc-class
 
 setMethod(

@@ -21,8 +21,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title Logistic Regression Constructor
-#' @rdname logreg-class
-
 setMethod(
 		f = "initialize",
 		signature = signature("logreg"),

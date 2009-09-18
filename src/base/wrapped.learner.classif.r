@@ -31,7 +31,6 @@ setClass(
 
 #' Constructor.
 #' @title wrapped.learner.classif constructor
-#' @rdname wrapped.learner.classif-class
 
 setMethod(
 		f = "initialize",

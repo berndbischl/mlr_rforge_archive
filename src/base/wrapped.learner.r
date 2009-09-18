@@ -37,8 +37,6 @@ setClass(
 
 #' Constructor.
 #' @title wrapped.learner constructor
-#' @rdname wrapped.learner-class
-
 setMethod(
 		f = "initialize",
 		signature = signature("wrapped.learner"),
@@ -80,7 +78,6 @@ setMethod(
 )
 
 #' Conversion to string.
-#' @rdname wrapped.learner-class
 setMethod(
 		f = "as.character",
 		signature = signature("wrapped.learner"),
@@ -92,7 +89,6 @@ setMethod(
 )
 
 #' Prints the object by calling as.character.
-#' @rdname wrapped.learner-class
 setMethod(
 		f = "print",
 		signature = signature("wrapped.learner"),
@@ -102,7 +98,6 @@ setMethod(
 )
 
 #' Shows the object by calling as.character.
-#' @rdname wrapped.learner-class
 setMethod(
 		f = "show",
 		signature = signature("wrapped.learner"),

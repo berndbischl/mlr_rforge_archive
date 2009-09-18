@@ -14,8 +14,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title QDA Constructor
-#' @rdname qda-class
-
 setMethod(
   f = "initialize",
   signature = signature("qda"),

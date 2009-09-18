@@ -35,7 +35,6 @@ setClass(
 
 #' Constructor.
 #' @title learn.task constructor
-#' @rdname learn.task-class
 
 setMethod(
 		f = "initialize",
@@ -79,7 +78,6 @@ setMethod(
 #'   \item{targets}{If j is missing all target values are returned. Otherwise they are indexed by j.}
 #'   \item{input.names}{The names of the input variables.}
 #' @param j [integer] \cr See above, i == "targets".
-#' @rdname learn.task-class
 
 
 setMethod(
@@ -112,7 +110,6 @@ setMethod(
 
 
 #' Prints the object by calling as.character.
-#' @rdname learn.task-class
 setMethod(
 		f = "print",
 		signature = signature("learn.task"),
@@ -122,7 +119,6 @@ setMethod(
 )
 
 #' Shows the object by calling as.character.
-#' @rdname learn.task-class
 setMethod(
 		f = "show",
 		signature = signature("learn.task"),
@@ -156,7 +152,6 @@ restrict.learn.task <- function(learn.task, subset) {
 
 
 #' Shows the object by calling as.character.
-#' @rdname learn.task-class
 setMethod(
 		f = "set.train.par",
 		signature = signature("learn.task"),
@@ -181,7 +176,6 @@ setMethod(
 #' @usage set.predict.par(wrapped.learner, ...)
 #'
 #' @title set.predict.par
-#' @rdname learn.task-class
 
 setMethod(
 		f = "set.predict.par",

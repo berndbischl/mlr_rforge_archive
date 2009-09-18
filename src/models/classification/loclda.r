@@ -14,9 +14,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title loclda Constructor
-#' @rdname logreg-class
-
-
 setMethod(
 		f = "initialize",
 		signature = signature("loclda"),

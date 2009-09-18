@@ -14,8 +14,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title Naive Bayes Constructor
-#' @rdname naiveBayes-class
-
 setMethod(
   f = "initialize",
   signature = signature("naiveBayes"),

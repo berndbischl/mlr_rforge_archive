@@ -14,8 +14,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title LDA Constructor
-#' @rdname lda-class
-
 setMethod(
 		f = "initialize",
 		signature = signature("lda"),

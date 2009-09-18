@@ -18,7 +18,6 @@ setClass(
 
 #' Constructor.
 #' @title cv.instance constructor
-#' @rdname cv.instance-class
 
 setMethod(
   f = "initialize",

@@ -49,7 +49,6 @@ setClass(
 
 
 #' Conversion to string.
-#' @rdname wrapped.model-class
 setMethod(
 		f = "as.character",
 		signature = signature("wrapped.model"),
@@ -67,7 +66,6 @@ setMethod(
 )
 
 #' Prints the object by calling as.character.
-#' @rdname wrapped.model-class
 setMethod(
 		f = "print",
 		signature = signature("wrapped.model"),
@@ -77,7 +75,6 @@ setMethod(
 )
 
 #' Shows the object by calling as.character.
-#' @rdname wrapped.model-class
 setMethod(
 		f = "show",
 		signature = signature("wrapped.model"),
@@ -87,7 +84,6 @@ setMethod(
 )
 
 
-#' @rdname wrapped.model-class
 setMethod(
 		f = "[",
 		signature = signature("wrapped.model"),

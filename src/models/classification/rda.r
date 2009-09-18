@@ -21,8 +21,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title RDA Constructor
-#' @rdname rda-class
-
 setMethod(
 		f = "initialize",
 		signature = signature("rda"),

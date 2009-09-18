@@ -22,8 +22,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title Lasso Regression Constructor
-#' @rdname penalized.lasso-class
-
 setMethod(
 		f = "initialize",
 		signature = signature("penalized.lasso"),
@@ -55,8 +53,6 @@ setMethod(
 #' @param parset Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.
 #' 
 #' @export
-#' @rdname penalized.lasso-class
-
 setMethod(
 		f = "train.learner",
 		

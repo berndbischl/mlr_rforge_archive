@@ -39,8 +39,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title SVM Constructor
-#' @rdname kernlab.svm.classif-class
-
 setMethod(
 		f = "initialize",
 		signature = signature("kernlab.svm.classif"),
@@ -79,8 +77,6 @@ setMethod(
 #' @param parset Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.
 #' 
 #' @export
-#' @rdname kernlab.svm.classif-class
-
 setMethod(
 		f = "train.learner",
 		

@@ -23,8 +23,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title Boosting Constructor
-#' @rdname blackboost.regr-class
-
 setMethod(
 		f = "initialize",
 		signature = signature("blackboost.regr"),
