@@ -1,22 +1,18 @@
 #' @include learner.props.r
 roxygen()
 
-#' Wrapped.learner ---text!----
-#' @slot learner.name Name of the learning method
-#' @slot learner.pack R package where learner is defined
-#' @slot train.fct Function used in above package to train a regular model in the package (see \code{\link{train}})
-#' @slot train.fct.pars Named list of parameters which are fixed in the above train.fct. NB: These are _NOT_ 
-#' 		hyperparamters of the classifier but rather parameters which are fixed for the whole 
-#' 		experiment and should be fixed at the beginning for convenience (Example would be the 
-#'  	tolerance parameter in lda.)
+#' Wraps an already implemented learning method from R to make it accesible to mlr.
+#' 
+#' Also inlcudes a properties object to describe the features of the learner.     
+#' @slot learner.name Descriptive name of the learning method
+#' @slot learner.pack R package where learner is implemented
+#' @slot train.fct Function used in above package to train a regular model in the package
+#' @slot train.fct.pars Named list of parameters which are fixed in the above train.fct and used at every internal call.
 #' @slot predict.fct Function used in above package to predict new data with a trained model 
-#' 		(see \code{\link{predict}}) 
 #' @slot predict.newdata.arg Name of argument for the new data frame in the underlying predict method. 
-#' @slot predict.fct.pars Named list of parameters which are fixed in the above predict.fct. See train.fct.pars 
-#' 		(example would be the method parameter in predict.lda.)
+#' @slot predict.fct.pars Named list of parameters which are fixed in the above predict.fct and used at every internal call.
 #' @slot learner.props Properties of the learner 
-
-
+#' @title wrapped.learner.classif
 
 setClass(
 		"wrapped.learner",
