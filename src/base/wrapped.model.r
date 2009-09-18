@@ -87,7 +87,7 @@ setMethod(
 #' Getter.
 #' @param x wrapped.model object
 #' @param i [character]
-#' describe{
+#' \describe{
 #'   \item{learn.task}{The learning task.}
 #'   \item{subset}{An index vector specifying the cases of the training sample that were used for the model.}
 #'   \item{parset}{Contains the hyperparameters of the train function.}

@@ -92,7 +92,7 @@ setMethod(
 #' Getter.
 #' @param x resample.instance object
 #' @param i [character]
-#' describe{
+#' \describe{
 #' 	\item{data.size}{The size of the dataframe.}
 #' 	\item{name}{The name of the resample description object, i.e. the type of resampling.}
 #' 	\item{iters}{The number of resampling iterations.}

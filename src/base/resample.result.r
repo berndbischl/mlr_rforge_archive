@@ -64,7 +64,7 @@ setMethod(
 #' Getter.
 #' @param x resample.result object
 #' @param i [character]
-#' describe{
+#' \describe{
 #'   \item{iters}{Number of predictions.}
 #'   \item{fitted}{If j is missing all fitted values are returned. Otherwise they are indexed by j.}
 #' }
