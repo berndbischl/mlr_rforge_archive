@@ -73,10 +73,12 @@ setMethod(
 #' Getter.
 #' @param x learn.task object
 #' @param i [character]
+#' describe{
 #'   \item{target.name}{The name of the target variable.}
 #'   \item{target.col}{The column number of the target variable.}
 #'   \item{targets}{If j is missing all target values are returned. Otherwise they are indexed by j.}
 #'   \item{input.names}{The names of the input variables.}
+#' }
 #' @param j [integer] \cr See above, i == "targets".
 
 
