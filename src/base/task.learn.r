@@ -2,11 +2,10 @@
 #' @include wrapped.learner.r
 roxygen()
 
-#' A learning task is the general description object for a machine learning experiment, which contains 
-#' all initial setup for a learning task. It mainly includes the type of the learning task (e.g. lda), 
+#' A learning task is the general description object for a machine learning experiment. 
+#' It mainly includes the type of the learning task (e.g. lda), 
 #' a dataframe and a formula. As this is just an abstract base class, 
-#' you should not instantiate it directly but rather inherit from it in the learn.task classes of
-#' your specific classifiers. 
+#' you should not instantiate it directly but use the inheriting classes and their factory methods.
 #' 
 #' @slot wrapped.learner Object of class \code{\linkS4class{wrapped.learner}}.
 #' @slot data Dataframe which includes all the data for the task.
@@ -16,6 +15,7 @@ roxygen()
 #' 		characters or missing values (see desc and \code{\linkS4class{data.desc}}).
 #' 
 #' @exportClass learn.task
+#' @seealso classif.task regr.task
 #' @title learn.task
 
 
@@ -80,7 +80,6 @@ setMethod(
 #'   \item{input.names}{The names of the input variables.}
 #' }
 #' @param j [integer] \cr See above, i == "targets".
-
 
 setMethod(
 		f = "[",
