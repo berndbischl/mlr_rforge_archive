@@ -6,6 +6,7 @@ roxygen()
 #' @seealso \code{\link[stats]{lm}}
 #' @export
 setClass(
+		# name lm is sealed
 		"stats.lm", 
 		contains = c("wrapped.learner.regr")
 )
