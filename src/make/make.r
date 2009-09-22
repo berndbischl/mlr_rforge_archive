@@ -2,6 +2,7 @@ library(roxygen)
 source("src/make/config.r")
 source("src/make/desc.r")
 source("src/make/rev.nr.r")
+source("src/make/remove.r")
 source("src/files.r")
 source("src/files_rd.r")
 
@@ -50,6 +51,8 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
 		for (f in rds) {
 			if(!(f %in% allowed.rd.files)) {
 				file.remove(file.path(man.build.dir, f))
+			} else {
+				remove.exp(file.path(man.build.dir, f))
 			}
 		}
 	}	
