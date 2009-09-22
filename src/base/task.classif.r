@@ -1,7 +1,7 @@
 #' @include task.learn.r
 roxygen()
 
-#' General description object for a classification experiment.  
+#' General description object for a classification experiment.   
 #' Instantiate it by using its factory method.
 #' 
 #' @slot type "class" if you generally want to predict classes or "prob" for probabilities. Default is "class" 
