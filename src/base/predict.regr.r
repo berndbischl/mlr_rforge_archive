@@ -2,7 +2,30 @@
 #' @include wrapped.model.r
 roxygen()
 
-
+#' Predicts the target values of a new data set based on 
+#' an already fitted wrapped.model of a regression task.   
+#' 
+#' See documentation super method. 
+#' 
+#' @return A vector of numeric values.   
+#'
+#' @export
+#' 
+#' @usage predict(object, model, newdata)
+#'
+#' @seealso \code{\link{predict,learn.task-method}}
+#'
+#' @examples
+#' 
+#' data(BostonHousing)
+#' inds <- seq(1, nrow(BostonHousing), 2)
+#' test <- BostonHousing[-inds,]
+#' 
+#' rt <- make.regr.task("lm", data=iris, formula=medv~.)
+#' model <- train(rt, subset=inds)
+#' predict(rt, model, newdata = test)
+#' 
+#' @title predict
 
 setMethod(
 		f = "predict",

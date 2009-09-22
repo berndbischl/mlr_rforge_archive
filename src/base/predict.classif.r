@@ -1,34 +1,31 @@
-#' Predicts the class memberships for the observations of a new dataset based on 
-#' the knowledge of an existing classification model.   
-#'
-#' @param model [\code{\linkS4class{model}}] \cr 
-#'   Specifies classification task.  
-#' @param newdata [data.frame] \cr 
-#'   Contains new observations which should be classified (by default the train data).
+#' Predicts the target classes of a new data set based on 
+#' an already fitted wrapped.model of a classifcation task.   
+#' 
+#' See documentation super method. 
+#' 
 #' @param type [\code{\link{character}}] \cr 
-#' 		Specifies the type of predictions -	either probability ("prob") or class ("class").
+#' 		Specifies the type of predictions -	either probability ("prob") or class ("class"). 
+#'       Default is "default", which uses the type specified in the classification task.
 #'
-#' @return \code{predict} returns a prediction object containing a factor vector of 
-#' predicted classes.
+#' @return Either a factor of predicted classes or a a matrix of probabilities. The rows correspond to the 
+#'      predicted observations and the columns to the classes. Each column has the name of its respective class.   
 #'
 #' @export
 #' 
-#' @usage predict(model, newdata)
+#' @usage predict(object, model, newdata, type="default")
 #'
-#' @seealso \code{\link{train}}
+#' @seealso \code{\link{predict,learn.task-method}}
 #'
 #' @examples
-#' library(MASS)
-#'
+#' 
 #' inds <- 2*(1:75)
 #' test <- iris[-inds,]
 #' 
-#' lda.learn.task <- make.classif.task("lda", data=iris, formula=Species~.)
-#' lda.model <- train(lda.learn.task, subset=inds)
-#' lda.prediction <- predict(lda.learn.task, lda.model, newdata = test)
+#' ct <- make.classif.task("lda", data=iris, formula=Species~.)
+#' model <- train(ct, subset=inds)
+#' predict(ct, model, newdata = test)
 #' 
-#'  @title predict
-
+#' @title predict
 setMethod(
 		f = "predict",
 		signature = signature(object="classif.task"),
