@@ -29,6 +29,7 @@ base.files <<- c(
 		"base/train.task.classif.r",
 		"base/train.task.regr.r",
 		
+		"base/predict.r",
 		"base/predict.classif.r",
 		"base/predict.regr.r",
 		"base/perf.measure.r",
