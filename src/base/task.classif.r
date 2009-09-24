@@ -57,7 +57,7 @@ setMethod(
 #'   \item{class.nr}{Number of different classes.}
 #' }
 #' @rdname getter,classif.task-method
-#' @aliases classif.task-getter 
+#' @aliases classif.task.getter getter,classif.task-method
 #' @seealso \code{\link{getter,learn.task-method}}
 #' @title Getter for classif.task
 

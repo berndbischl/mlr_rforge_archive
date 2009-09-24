@@ -82,7 +82,7 @@ setMethod(
 #' @param j [integer] \cr See above, i == "targets".
 #' 
 #' @rdname getter,learn.task-method
-#' @aliases learn.task-getter 
+#' @aliases learn.task.getter getter,learn.task-method
 #' @title Getter for learn.task
 
 setMethod(

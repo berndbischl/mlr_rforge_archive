@@ -95,7 +95,7 @@ setMethod(
 #' }
 #' 
 #' @rdname getter,wrapped.model-method
-#' @aliases wrapped.model-getter 
+#' @aliases wrapped.model.getter getter,wrapped.model-method
 #' @title Getter for wrapped.model
 
 setMethod(

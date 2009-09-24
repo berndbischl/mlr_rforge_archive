@@ -71,7 +71,7 @@ setMethod(
 #' @param j [integer] \cr See above, i == "fitted".
 #' 
 #' @rdname getter,resample.result-method
-#' @aliases resample.result-getter 
+#' @aliases resample.result.getter getter,resample.result-method
 #' @title Getter for resample.result
 
 setMethod(

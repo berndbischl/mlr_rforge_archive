@@ -32,7 +32,7 @@ setClass(
 #' 	\item{iters}{Number of iterations}
 #' } 
 #' @rdname getter,resample.desc-method
-#' @aliases resample.desk-getter 
+#' @aliases resample.desk.getter getter,resample.desc-method
 #' @title Getter for resample.desc
 
 setMethod(

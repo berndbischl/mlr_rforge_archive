@@ -102,7 +102,7 @@ setMethod(
 #' @param j [integer] \cr See above, i == "train.inds" or i == "test.inds".
 #' 
 #' @rdname getter,resample.instance-method
-#' @aliases resample.instance-getter 
+#' @aliases resample.instance.getter getter,resample.instance-method
 #' @title Getter for resample.instance
 
 setMethod(
