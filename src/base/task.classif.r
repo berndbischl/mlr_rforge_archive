@@ -56,7 +56,9 @@ setMethod(
 #'   \item{class.levels}{All possible class values.}
 #'   \item{class.nr}{Number of different classes.}
 #' }
-#' @seealso [,learn.task-class
+#' @rdname getter,classif.task-method
+#' @aliases classif.task-getter 
+#' @seealso getter,learn.task
 
 setMethod(
 		f = "[",
