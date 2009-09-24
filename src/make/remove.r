@@ -3,10 +3,14 @@ remove.patterns <<- c(
 		"\\\\alias\\{initialize\\}",
 		"\\\\alias\\{as.character\\}",
 		"\\\\alias\\{show\\}",
+		"\\\\alias\\{predict\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=make.default.measure.*make.default.measure\\}\\}\\}\\{\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=train,classif.task.*train\\}\\}\\}\\{\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=train,regr.task.*train\\}\\}\\}\\{\\}",
 
+		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,penalized.lasso,formula,data.frame,numeric,list-method.*train.learner\\}\\}\\}",
+		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,penalized.ridge,formula,data.frame,numeric,list-method.*train.learner\\}\\}\\}",
+		
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,lda-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,qda-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,rda-method.*Constructor.\\}",
@@ -18,7 +22,7 @@ remove.patterns <<- c(
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,randomForest.classif-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,adaboost-method.*Constructor.\\}",
 		
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,stats.lm-method.*Constructor.\\}",
+		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,lm-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,penalized.ridge-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,penalized.lasso-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kknn.regr-method.*Constructor.\\}",
@@ -44,7 +48,7 @@ remove.patterns <<- c(
 remove.exp <-function(file) {
 	x <- paste(readLines(file), collapse="###")
 	for (pattern in remove.patterns) {
-		x <- gsub(pattern, "" ,x)
+		x <- sub(pattern, "" ,x)
 	}
 	x <- strsplit(x, "###")[[1]]
 	writeLines(x, file)
