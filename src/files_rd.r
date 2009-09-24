@@ -82,6 +82,7 @@ allowed.rd.files <<- c(
 		"resample.fit.Rd",
 		"resample.performance.Rd",
 		"tune.Rd",
+		"combine.ranges.Rd",
 		"benchmark.Rd",
 		
 		"adaboost-class.Rd",

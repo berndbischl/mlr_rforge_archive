@@ -111,7 +111,7 @@ setGeneric(
 )
 
 #' Set a parameter for the underlying train function of a wrapped learner. 
-#' This is not meant for hyperparamters, pass these through the usual parset argument, but rather to
+#' This is not meant for hyperparamters, pass these through the usual \code{parset} argument, but rather to
 #' fix (somewhat techical) arguments which stay the same for the whole experiment. You should not have to use this too often.
 #'   
 #' @param wrapped.learner [\code{\linkS4class{wrapped.learner}}] \cr
@@ -147,7 +147,7 @@ setGeneric(
 )
 
 #' Set a parameter for the underlying predict function of a wrapped learner. 
-#' Used to fix (somewhat techical) arguments which stay the same for the whole experiment. Y
+#' Used to fix (somewhat techical) arguments which stay the same for the whole experiment.
 #' You should not have to use this too often.
 #'   
 #' @param object [\code{\linkS4class{wrapped.learner}}] \cr
