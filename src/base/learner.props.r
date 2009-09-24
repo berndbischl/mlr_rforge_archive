@@ -26,7 +26,7 @@ setClass(
 		)
 )
 
-#' Displays the object
+#' Shows the object by calling as.character.
 #' @param object The object
 setMethod(
 		f = "show",
@@ -37,7 +37,7 @@ setMethod(
 )
 
 
-#' Prints the object
+#' Prints the object by calling as.character.
 #' @param object The object
 setMethod(
 		f = "print",

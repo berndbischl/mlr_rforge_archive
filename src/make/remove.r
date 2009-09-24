@@ -29,9 +29,11 @@ remove.patterns <<- c(
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kknn.regr-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kknn.regr-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,blackboost.regr-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,gbm.regr-method.*Constructor.\\}"
+		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,gbm.regr-method.*Constructor.\\}",
 
-		
+		"\\\\item\\{\\\\code\\{\\\\link\\[=show,.*Shows the object by calling as.character.\\}",
+		"\\\\item\\{\\\\code\\{\\\\link\\[=print,.*Prints the object by calling as.character.\\}"
+
 #initialize,adaboost-method"                                                                                       
 #[15] "       missing link(s):  initialize,blackboost.regr-method"                                                                                
 #[16] "       missing link(s):  predict,classif.task-method initialize,classif.task-method [,classif.task-method as.character,classif.task-method"
