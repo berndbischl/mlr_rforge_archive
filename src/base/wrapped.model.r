@@ -88,9 +88,12 @@ setMethod(
 #' @param x wrapped.model object
 #' @param i [\code{\link{character}}]
 #' \describe{
-#'   \item{learn.task}{The learning task.}
-#'   \item{subset}{An index vector specifying the cases of the training sample that were used for the model.}
-#'   \item{parset}{Contains the hyperparameters of the train function.}
+#'	 \item{task.class}{Learning task class}
+#' 	 \item{learner.class}{Learner class}
+#' 	 \item{learner.name}{Name of the learning method}
+#' 	 \item{vars}{Variables used to build the model.} 
+#'   \item{subset}{Indices of used training cases in fit.}
+#'   \item{parset}{Selected hyperparameters for model.}
 #'   \item{learner.model}{External model from existing R packages like lda, rpart, etc.}
 #' }
 #' 
@@ -102,21 +105,9 @@ setMethod(
 		f = "[",
 		signature = signature("wrapped.model"),
 		def = function(x,i,j,...,drop) {
-			if (i == "learn.task"){
-				return(x@learn.task)
-			}
-			if (i == "subset"){
-				return(x@subset)
-			}
-			if (i == "parset"){
-				return(x@parset)
-			}
-			if (i == "learner.model"){
-				return(x@learner.model)
-			}
-			
-			y <- x@learn.task[i,j,...,drop]
-			return(y)
+			return(
+					eval(substitute("@"(x, slot), list(slot=i)))
+			)
 		}
 )
 

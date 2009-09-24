@@ -170,7 +170,7 @@ setMethod(
 #' You should not have to use this too often.
 #'   
 #' @param object [\code{\linkS4class{learn.task}}] \cr
-#'   	Learn task that conatins the wrapped learner.
+#'   	Learn task that contains the wrapped learner.
 #' 
 #' All additional arguments have to be named.
 #' 

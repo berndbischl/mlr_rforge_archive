@@ -12,7 +12,7 @@ roxygen()
 #' @param resample.instance [\code{\linkS4class{resample.instance}}] \cr
 #'   	Specifies the training and test indices of the resampled data. 
 #' @param ranges [\code{\link{list}}] \cr 
-#' 		A list of named vectors of possible values for each hyperparameter. 
+#' 		A list of named vectors/lists of possible values for each hyperparameter. 
 #'      You can also pass a list of such ranges by using [\code{\link{combine.ranges}}] 
 #'      in the rare case when it does not make sense to search a complete cross-product of range values.     
 #' @param measure [\code{\link{character}}/\code{\link{list}}] \cr 

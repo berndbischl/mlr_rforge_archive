@@ -74,7 +74,7 @@ setGeneric(
 #' @usage make.resample.instance(desc, size) 
 #'
 #' @examples 
-#'   cv.d <- new("cv.desc", folds = 10)
+#'   cv.d <- new("cv.desc", iters = 10)
 #'   rin <- make.resample.instance(desc = cv.d, size = nrow(iris))
 
 setMethod(
@@ -85,6 +85,41 @@ setMethod(
 		}
 )
 
+
+#' Conversion to string.
+setMethod(
+		f = "as.character",
+		signature = signature("resample.instance"),
+		def = function(x) {
+			return(
+					paste(
+							"Instance for ", x@desc@name,  " with ", length(x@inds), " iterations and ", x@size, " cases\n",
+							paste(capture.output(str(x@inds)), collapse="\n"), 
+							"\n", sep=""
+					)
+			)
+		}
+)
+
+
+
+#' Prints the object by calling as.character.
+setMethod(
+		f = "print",
+		signature = signature("resample.instance"),
+		def = function(x, ...) {
+			cat(as.character(x))
+		}
+)
+
+#' Shows the object by calling as.character.
+setMethod(
+		f = "show",
+		signature = signature("resample.instance"),
+		def = function(object) {
+			cat(as.character(object))
+		}
+)
 
 
 #----------------- getter ---------------------------------------------------------
