@@ -121,7 +121,7 @@ setGeneric(
 #' 
 #' @return Wrapped.learner object with changed paramters for train function.
 #' 
-#' @usage set.train.par(wrapped.learner, ...)
+#' @usage set.train.par(object, ...)
 #'
 #' @title set.train.par
 #' @rdname set.train.par
@@ -157,7 +157,7 @@ setGeneric(
 #' 
 #' @return Wrapped.learner object with changed paramters for predict function.
 #' 
-#' @usage set.predict.par(wrapped.learner, ...)
+#' @usage set.predict.par(object, ...)
 #'
 #' @title set.predict.par
 #' @rdname set.predict.par

@@ -17,7 +17,7 @@ roxygen()
 #'
 #' @export
 #'
-#' @usage train(learn.task, subset, parset)  
+#' @usage train(learn.task, subset, parset, vars)  
 #'
 #' @examples 
 #' library(MASS)

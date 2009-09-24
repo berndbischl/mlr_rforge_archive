@@ -26,7 +26,7 @@ roxygen()
 #' 
 #' @export
 #' 
-#' @usage tune(learn.task, resample.instance, ranges, measure = "mmce")
+#' @usage tune(learn.task, resample.instance, ranges, measure)
 #'
 #' @examples
 #' library(mlr) 
