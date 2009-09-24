@@ -69,6 +69,10 @@ setMethod(
 #'   \item{fitted}{If j is missing all fitted values are returned. Otherwise they are indexed by j.}
 #' }
 #' @param j [integer] \cr See above, i == "fitted".
+#' 
+#' @rdname getter,resample.result-method
+#' @aliases resample.result-getter 
+
 setMethod(
 		f = "[",
 		signature = signature("resample.result"),

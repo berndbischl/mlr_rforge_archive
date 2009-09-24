@@ -1,22 +1,6 @@
 #' @include task.learn.r
 roxygen()
 
-
-setGeneric(
-		name = "train",
-		def = function(learn.task, subset, parset, vars) {
-			if (missing(subset))
-				subset <- 1:nrow(learn.task@data)
-			if (missing(parset))
-				parset <- list()
-			if (missing(vars))
-				vars <- learn.task["input.names"]
-			standardGeneric("train")
-		}
-)
-
-
-
 #' Given a \code{\linkS4class{learn.task}} \code{train} creates a model for the learning machine 
 #' which can be used for predictions on new data. 
 #'
@@ -32,7 +16,6 @@ setGeneric(
 #' @return An object of class \code{\linkS4class{wrapped.model}} containing the generated model of the underlying learner and the paramater and index set used for training. 
 #'
 #' @export
-#' @rdname train 
 #'
 #' @usage train(learn.task, subset, parset)  
 #'
@@ -52,6 +35,21 @@ setGeneric(
 #' @seealso \code{\link{predict}}, \code{\link{make.classif.task}}, \code{\link{make.regr.task}} 
 #' 
 #' @title train
+
+setGeneric(
+		name = "train",
+		def = function(learn.task, subset, parset, vars) {
+			if (missing(subset))
+				subset <- 1:nrow(learn.task@data)
+			if (missing(parset))
+				parset <- list()
+			if (missing(vars))
+				vars <- learn.task["input.names"]
+			standardGeneric("train")
+		}
+)
+
+
 
 train.generic <- function(learn.task, wrapped.learner, subset, parset, vars) {
 	

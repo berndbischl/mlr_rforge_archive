@@ -31,7 +31,8 @@ setClass(
 #' 	\item{name}{Name of this resampling algorithm}
 #' 	\item{iters}{Number of iterations}
 #' } 
-#' @rdname resample.desc-class
+#' @rdname getter,resample.desc-method
+#' @aliases resample.desk-getter 
 
 setMethod(
 		f = "[",

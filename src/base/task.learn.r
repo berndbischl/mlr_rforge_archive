@@ -80,6 +80,9 @@ setMethod(
 #'   \item{input.names}{The names of the input variables.}
 #' }
 #' @param j [integer] \cr See above, i == "targets".
+#' 
+#' @rdname getter,learn.task-method
+#' @aliases learn.task-getter 
 
 setMethod(
 		f = "[",
@@ -151,8 +154,6 @@ restrict.learn.task <- function(learn.task, subset) {
 #'
 #' @title set.train.par
 
-
-#' Shows the object by calling as.character.
 setMethod(
 		f = "set.train.par",
 		signature = signature("learn.task"),

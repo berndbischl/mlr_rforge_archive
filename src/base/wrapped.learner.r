@@ -12,7 +12,7 @@ roxygen()
 #' @slot predict.newdata.arg Name of argument for the new data frame in the underlying predict method. 
 #' @slot predict.fct.pars Named list of parameters which are fixed in the above predict.fct and used at every internal call.
 #' @slot learner.props Properties of the learner 
-#' @title wrapped.learner.classif
+#' @title wrapped.learner
 
 setClass(
 		"wrapped.learner",
@@ -124,9 +124,9 @@ setGeneric(
 #' @usage set.train.par(wrapped.learner, ...)
 #'
 #' @title set.train.par
+#' @rdname set.train.par
 
 
-#' Shows the object by calling as.character.
 setMethod(
 		f = "set.train.par",
 		signature = signature("wrapped.learner"),
@@ -160,8 +160,7 @@ setGeneric(
 #' @usage set.predict.par(wrapped.learner, ...)
 #'
 #' @title set.predict.par
-
-#' Shows the object by calling as.character.
+#' @rdname set.predict.par
 
 setMethod(
 		f = "set.predict.par",

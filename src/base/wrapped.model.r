@@ -94,6 +94,9 @@ setMethod(
 #'   \item{learner.model}{External model from existing R packages like lda, rpart, etc.}
 #' }
 #' @param j [integer] 
+#' 
+#' @rdname getter,wrapped.model-method
+#' @aliases wrapped.model-getter 
 
 setMethod(
 		f = "[",
