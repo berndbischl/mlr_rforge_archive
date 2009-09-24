@@ -4,6 +4,7 @@ remove.patterns <<- c(
 		"\\\\alias\\{as.character\\}",
 		"\\\\alias\\{show\\}",
 		"\\\\alias\\{predict\\}",
+		"\\\\alias\\{\\[\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=make.default.measure.*make.default.measure\\}\\}\\}\\{\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=train,classif.task.*train\\}\\}\\}\\{\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=train,regr.task.*train\\}\\}\\}\\{\\}",
