@@ -52,6 +52,9 @@ base.files <<- c(
 		"base/resample.performance.r",
 		"base/conf.matrix.r",
 		
+		
+		"base/check.ranges.r",
+		"base/combine.ranges.r",
 		"base/tune.r",
 		"base/pattern.search.r",
 		"base/tune.ps.r",
