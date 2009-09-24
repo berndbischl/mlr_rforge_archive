@@ -7,7 +7,7 @@
 #' 		Specifies the type of predictions -	either probability ("prob") or class ("class"). 
 #'       Default is "default", which uses the type specified in the classification task.
 #'
-#' @return Either a factor of predicted classes or a a matrix of probabilities. The rows correspond to the 
+#' @return Either a factor of predicted classes or a matrix of probabilities. The rows correspond to the 
 #'      predicted observations and the columns to the classes. Each column has the name of its respective class.   
 #'
 #' @export

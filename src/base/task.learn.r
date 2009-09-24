@@ -83,6 +83,7 @@ setMethod(
 #' 
 #' @rdname getter,learn.task-method
 #' @aliases learn.task-getter 
+#' @title Getter for learn.task
 
 setMethod(
 		f = "[",

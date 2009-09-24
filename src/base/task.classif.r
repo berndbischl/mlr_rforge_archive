@@ -58,7 +58,8 @@ setMethod(
 #' }
 #' @rdname getter,classif.task-method
 #' @aliases classif.task-getter 
-#' @seealso getter,learn.task
+#' @seealso \code{\link{getter,learn.task-method}}
+#' @title Getter for classif.task
 
 setMethod(
 		f = "[",

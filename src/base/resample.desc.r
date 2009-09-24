@@ -33,6 +33,7 @@ setClass(
 #' } 
 #' @rdname getter,resample.desc-method
 #' @aliases resample.desk-getter 
+#' @title Getter for resample.desc
 
 setMethod(
 		f = "[",

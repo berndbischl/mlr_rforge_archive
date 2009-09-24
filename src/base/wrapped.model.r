@@ -7,12 +7,12 @@ roxygen()
 #' the classification model, the used hyperparameters and a vector specifying the cases of the training sample. 
 #' 
 #' @slot task.class [\code{\link{learn.task}}] Specifies learning task
-#' @slot learner.class [character] Specifies learner class
-#' @slot learner.name [character] Name of the learning method
+#' @slot learner.class [\code{\link{character}}] Specifies learner class
+#' @slot learner.name [\code{\link{character}}] Name of the learning method
 #' @slot learner.model [external.model] External model from existing R packages like lda, rpart, etc
-#' @slot subset [integer] An index vector specifying the cases of the training sample that were used for the model. 
-#' @slot vars [charactter] Vector specifying the variables which were used to build the model. 
-#' @slot parset [list] Contains the hyperparameters of the train function. If empty no parameters were used.
+#' @slot subset [\code{\link{integer}}] An index vector specifying the cases of the training sample that were used for the model. 
+#' @slot vars [\code{\link{charactter}}] Vector specifying the variables which were used to build the model. 
+#' @slot parset [\code{\link{list}}] Contains the hyperparameters of the train function. If empty no parameters were used.
 #' 
 #' @examples  see \link{train}
 #' 
@@ -86,17 +86,17 @@ setMethod(
 
 #' Getter.
 #' @param x wrapped.model object
-#' @param i [character]
+#' @param i [\code{\link{character}}]
 #' \describe{
 #'   \item{learn.task}{The learning task.}
 #'   \item{subset}{An index vector specifying the cases of the training sample that were used for the model.}
 #'   \item{parset}{Contains the hyperparameters of the train function.}
 #'   \item{learner.model}{External model from existing R packages like lda, rpart, etc.}
 #' }
-#' @param j [integer] 
 #' 
 #' @rdname getter,wrapped.model-method
 #' @aliases wrapped.model-getter 
+#' @title Getter for wrapped.model
 
 setMethod(
 		f = "[",

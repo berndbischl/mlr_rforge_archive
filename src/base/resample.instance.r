@@ -103,6 +103,7 @@ setMethod(
 #' 
 #' @rdname getter,resample.instance-method
 #' @aliases resample.instance-getter 
+#' @title Getter for resample.instance
 
 setMethod(
 		f = "[",

@@ -72,6 +72,7 @@ setMethod(
 #' 
 #' @rdname getter,resample.result-method
 #' @aliases resample.result-getter 
+#' @title Getter for resample.result
 
 setMethod(
 		f = "[",

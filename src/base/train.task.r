@@ -28,7 +28,7 @@ roxygen()
 #' cm <- train(ct, subset=train.inds)
 #' ps <- predict(ct, cm, newdata=iris[test.inds,])
 #' 
-#' ct <- make.classif.task("kknn.knn.classif", data=iris, formula=Species~.)
+#' ct <- make.classif.task("kknn.classif", data=iris, formula=Species~.)
 #' cm <- train(ct, subset=train.inds, parset=list(k=3))
 #' ps <- predict(ct, cm, newdata=iris[test.inds,])
 #'  

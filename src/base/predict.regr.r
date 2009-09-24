@@ -13,7 +13,7 @@ roxygen()
 #' 
 #' @usage predict(object, model, newdata)
 #'
-#' @seealso \code{\link{predict,learn.task-method}}
+#' @seealso \code{\link{predict}}
 #'
 #' @examples
 #' 
@@ -21,7 +21,7 @@ roxygen()
 #' inds <- seq(1, nrow(BostonHousing), 2)
 #' test <- BostonHousing[-inds,]
 #' 
-#' rt <- make.regr.task("lm", data=iris, formula=medv~.)
+#' rt <- make.regr.task("stats.lm", data=BostonHousing, formula=medv~.)
 #' model <- train(rt, subset=inds)
 #' predict(rt, model, newdata = test)
 #' 
