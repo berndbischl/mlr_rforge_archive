@@ -35,6 +35,7 @@ roxygen()
 #' @seealso \code{\link{predict}}, \code{\link{make.classif.task}}, \code{\link{make.regr.task}} 
 #' 
 #' @title train
+#' @rdname train
 
 setGeneric(
 		name = "train",
