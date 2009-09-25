@@ -17,15 +17,13 @@
 <h3>Description</h3>
 
 <p>
-Wrapped.learner.classif &mdash;text!&mdash;-
+Wraps an already implemented classification method from R to make it accesible to mlr.
 </p>
 
 
 <h3>Slots</h3>
 
-<dl><dt><code>train.par.for.classes</code>:</dt><dd>(<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>)</dd><dt><code>train.par.for.probs</code>:</dt><dd>(<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>)</dd><dt><code>predict.par.for.classes</code>:</dt><dd>(<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>)</dd><dt><code>predict.par.for.probs</code>:</dt><dd>(<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>)</dd><dt><code>trafo.for.classes</code>:</dt><dd>(<code><a onclick="findlink('base', 'function.html')" style="text-decoration: underline; color: blue; cursor: hand">function</a></code>)</dd><dt><code>trafo.for.probs</code>:</dt><dd>(<code><a onclick="findlink('base', 'function.html')" style="text-decoration: underline; color: blue; cursor: hand">function</a></code>)</dd><dt><code>dummy.classes</code>:</dt><dd>(<code><a onclick="findlink('base', 'logical.html')" style="text-decoration: underline; color: blue; cursor: hand">logical</a></code>) Does the predict function need a class column in the dataframe for prediction? 
-If TRUE but no class column is avaible in the data a null column is generated 
-in predict (default is FALSE).</dd></dl>
+<dl><dt><code>train.par.for.classes</code>:</dt><dd>(<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>) List of parameters to train a model for class predictions. Will be added to train.fct.pars in this case.</dd><dt><code>train.par.for.probs</code>:</dt><dd>(<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>) List of parameters to train a model for probability predictions. Will be added to train.fct.pars in this case.</dd><dt><code>predict.par.for.classes</code>:</dt><dd>(<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>) List of parameters to predict a model for class predictions. Will be added to predict.fct.pars in this case.</dd><dt><code>predict.par.for.probs</code>:</dt><dd>(<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>) List of parameters to predict a model for probability predictions. Will be added to predict.fct.pars in this case.</dd><dt><code>trafo.for.classes</code>:</dt><dd>(<code><a onclick="findlink('base', 'function.html')" style="text-decoration: underline; color: blue; cursor: hand">function</a></code>) Function to transform the raw predictions to classes</dd><dt><code>trafo.for.probs</code>:</dt><dd>(<code><a onclick="findlink('base', 'function.html')" style="text-decoration: underline; color: blue; cursor: hand">function</a></code>) Function to transform the raw predictions to probabilities</dd><dt><code>dummy.classes</code>:</dt><dd>(<code><a onclick="findlink('base', 'logical.html')" style="text-decoration: underline; color: blue; cursor: hand">logical</a></code>) Does the predict function need a class column in the newdata dataframe for prediction? If TRUE but no class column is avaible in the data a null column is internally generated (default is FALSE).</dd></dl>
 
 <h3>Extends</h3>
 
@@ -48,6 +46,6 @@ location.href = link;
 </script>
 
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.115 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.170 <a href="00Index.html">Index</a>]</div>
 
 </body></html>

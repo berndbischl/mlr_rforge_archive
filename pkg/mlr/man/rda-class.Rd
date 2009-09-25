@@ -5,11 +5,9 @@
 \description{Wrapped learner for Regularized Discriminant Analysis from package \code{klaR} for classification problems.}
 \details{\emph{Common hyperparameters:}
 \describe{
-\item{\code{gamma}}		
-\item{\code{lambda}}	
-\item{\code{startsimplex}}{(Optional) a starting simplex for the Nelder-Mead-minimization.}	
+\item{\code{gamma}}{See details in \code{klaR}.}		
+\item{\code{lambda}}{See details in \code{klaR}.}	
 }}
 \seealso{\code{\link[klaR]{rda}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,rda-method]{initialize}}}{\code{signature( = "rda")}: Constructor.}}}
-
+\section{Methods}{\describe{}}

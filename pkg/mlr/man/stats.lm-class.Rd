@@ -6,4 +6,3 @@
 \seealso{\code{\link[stats]{lm}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.regr}}}
 \section{Methods}{\describe{\item{\code{\link[=initialize,stats.lm-method]{initialize}}}{\code{signature( = "stats.lm")}: Constructor.}}}
-

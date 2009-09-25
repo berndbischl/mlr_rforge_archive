@@ -11,4 +11,3 @@
 }
 \examples{data(iris)
 rin <- make.bs.instance(size=nrow(iris), iters=10)}
-

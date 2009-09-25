@@ -7,4 +7,3 @@
 \seealso{\code{\link[nnet]{multinom}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
 \section{Methods}{\describe{\item{\code{\link[=initialize,nnet.multinom-method]{initialize}}}{\code{signature( = "nnet.multinom")}: Constructor.}}}
-

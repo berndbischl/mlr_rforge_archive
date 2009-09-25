@@ -10,5 +10,4 @@
 }}
 \seealso{\code{\link[kknn]{kknn}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.regr}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,kknn.regr-method]{initialize}}}{\code{signature( = "kknn.regr")}: Constructor.}}}
-
+\section{Methods}{\describe{}}

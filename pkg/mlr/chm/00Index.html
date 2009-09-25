@@ -10,7 +10,7 @@
 <param name="keyword" value=".. contents">
 </object>
 
-<h2>Help pages for package &lsquo;mlr&rsquo; version 0.3.115</h2>
+<h2>Help pages for package &lsquo;mlr&rsquo; version 0.3.170</h2>
 
 <p align="center">
 <a href="#A">A</a>
@@ -29,6 +29,7 @@
 <a href="#S">S</a>
 <a href="#T">T</a>
 <a href="#W">W</a>
+<a href="#misc">misc</a>
 </p>
 
 
@@ -39,13 +40,13 @@
 <td>adaboost</td></tr>
 <tr><td width="25%"><a href="adaboost-class.html">adaboost-class</a></td>
 <td>adaboost</td></tr>
-<tr><td width="25%"><a href="as.character,data.desc-method.html">as.character</a></td>
-<td>Conversion to string.</td></tr>
-<tr><td width="25%"><a href="as.character,wrapped.learner-method.html">as.character</a></td>
-<td>Conversion to string.</td></tr>
-<tr><td width="25%"><a href="as.character,wrapped.model-method.html">as.character</a></td>
+<tr><td width="25%"><a href="as.character,classif.task-method.html">as.character,classif.task-method</a></td>
 <td>Conversion to string.</td></tr>
 <tr><td width="25%"><a href="as.character,data.desc-method.html">as.character,data.desc-method</a></td>
+<td>Conversion to string.</td></tr>
+<tr><td width="25%"><a href="as.character,regr.task-method.html">as.character,regr.task-method</a></td>
+<td>Conversion to string.</td></tr>
+<tr><td width="25%"><a href="as.character,resample.result-method.html">as.character,resample.result-method</a></td>
 <td>Conversion to string.</td></tr>
 <tr><td width="25%"><a href="as.character,wrapped.learner-method.html">as.character,wrapped.learner-method</a></td>
 <td>Conversion to string.</td></tr>
@@ -77,6 +78,14 @@
 <h2><a name="C">-- C --</a></h2>
 
 <table width="100%">
+<tr><td width="25%"><a href="classif.task-class.html">classif.task</a></td>
+<td>classif.task</td></tr>
+<tr><td width="25%"><a href="classif.task-class.html">classif.task-class</a></td>
+<td>classif.task</td></tr>
+<tr><td width="25%"><a href="getter,classif.task-method.html">classif.task.getter</a></td>
+<td>Getter for classif.task</td></tr>
+<tr><td width="25%"><a href="combine.ranges.html">combine.ranges</a></td>
+<td>combine.ranges</td></tr>
 <tr><td width="25%"><a href="conf.matrix.html">conf.matrix</a></td>
 <td>conf.matrix</td></tr>
 <tr><td width="25%"><a href="cv.desc-class.html">cv.desc</a></td>
@@ -105,65 +114,23 @@
 <td>gbm.regr</td></tr>
 <tr><td width="25%"><a href="gbm.regr-class.html">gbm.regr-class</a></td>
 <td>gbm.regr</td></tr>
+<tr><td width="25%"><a href="getter,classif.task-method.html">getter,classif.task-method</a></td>
+<td>Getter for classif.task</td></tr>
+<tr><td width="25%"><a href="getter,learn.task-method.html">getter,learn.task-method</a></td>
+<td>Getter for learn.task</td></tr>
+<tr><td width="25%"><a href="getter,resample.desc-method.html">getter,resample.desc-method</a></td>
+<td>Getter for resample.desc</td></tr>
+<tr><td width="25%"><a href="getter,resample.instance-method.html">getter,resample.instance-method</a></td>
+<td>Getter for resample.instance</td></tr>
+<tr><td width="25%"><a href="getter,resample.result-method.html">getter,resample.result-method</a></td>
+<td>Getter for resample.result</td></tr>
+<tr><td width="25%"><a href="getter,wrapped.model-method.html">getter,wrapped.model-method</a></td>
+<td>Getter for wrapped.model</td></tr>
 </table>
 
 <h2><a name="I">-- I --</a></h2>
 
 <table width="100%">
-<tr><td width="25%"><a href="initialize,adaboost-method.html">initialize</a></td>
-<td>Adaboost Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,blackboost.regr-method.html">initialize</a></td>
-<td>Boosting Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,bs.desc-method.html">initialize</a></td>
-<td>Create description object for bootstrapping.</td></tr>
-<tr><td width="25%"><a href="initialize,bs.instance-method.html">initialize</a></td>
-<td>bs.instance constructor</td></tr>
-<tr><td width="25%"><a href="initialize,cv.desc-method.html">initialize</a></td>
-<td>Create description object for cross-validation.</td></tr>
-<tr><td width="25%"><a href="initialize,cv.instance-method.html">initialize</a></td>
-<td>cv.instance constructor</td></tr>
-<tr><td width="25%"><a href="initialize,data.desc-method.html">initialize</a></td>
-<td>data.desc constructor</td></tr>
-<tr><td width="25%"><a href="initialize,gbm.regr-method.html">initialize</a></td>
-<td>GBM Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,kernlab.svm.classif-method.html">initialize</a></td>
-<td>SVM Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,kknn.classif-method.html">initialize</a></td>
-<td>kNN (classification) Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,kknn.regr-method.html">initialize</a></td>
-<td>kNN (regression) Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,lda-method.html">initialize</a></td>
-<td>LDA Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,logreg-method.html">initialize</a></td>
-<td>Logistic Regression Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,mda-method.html">initialize</a></td>
-<td>MDA Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,naiveBayes-method.html">initialize</a></td>
-<td>Naive Bayes Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,nnet.multinom-method.html">initialize</a></td>
-<td>Multinomial Regression Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,penalized.lasso-method.html">initialize</a></td>
-<td>Lasso Regression Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,penalized.ridge-method.html">initialize</a></td>
-<td>Ridge Regression Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,qda-method.html">initialize</a></td>
-<td>QDA Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,randomForest.classif-method.html">initialize</a></td>
-<td>Random Forest Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,rda-method.html">initialize</a></td>
-<td>RDA Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,rpart.classif-method.html">initialize</a></td>
-<td>rpart Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,stats.lm-method.html">initialize</a></td>
-<td>LM Constructor</td></tr>
-<tr><td width="25%"><a href="initialize,subsample.desc-method.html">initialize</a></td>
-<td>Create description object for subsampling.</td></tr>
-<tr><td width="25%"><a href="initialize,subsample.instance-method.html">initialize</a></td>
-<td>subsample.instance constructor</td></tr>
-<tr><td width="25%"><a href="initialize,wrapped.learner-method.html">initialize</a></td>
-<td>wrapped.learner constructor</td></tr>
-<tr><td width="25%"><a href="initialize,wrapped.learner.classif-method.html">initialize</a></td>
-<td>wrapped.learner.classif constructor</td></tr>
 <tr><td width="25%"><a href="initialize,adaboost-method.html">initialize,adaboost-method</a></td>
 <td>Adaboost Constructor</td></tr>
 <tr><td width="25%"><a href="initialize,blackboost.regr-method.html">initialize,blackboost.regr-method</a></td>
@@ -172,6 +139,8 @@
 <td>Create description object for bootstrapping.</td></tr>
 <tr><td width="25%"><a href="initialize,bs.instance-method.html">initialize,bs.instance-method</a></td>
 <td>bs.instance constructor</td></tr>
+<tr><td width="25%"><a href="initialize,classif.task-method.html">initialize,classif.task-method</a></td>
+<td>classif.task constructor</td></tr>
 <tr><td width="25%"><a href="initialize,cv.desc-method.html">initialize,cv.desc-method</a></td>
 <td>Create description object for cross-validation.</td></tr>
 <tr><td width="25%"><a href="initialize,cv.instance-method.html">initialize,cv.instance-method</a></td>
@@ -188,6 +157,10 @@
 <td>kNN (regression) Constructor</td></tr>
 <tr><td width="25%"><a href="initialize,lda-method.html">initialize,lda-method</a></td>
 <td>LDA Constructor</td></tr>
+<tr><td width="25%"><a href="initialize,learn.task-method.html">initialize,learn.task-method</a></td>
+<td>learn.task constructor</td></tr>
+<tr><td width="25%"><a href="initialize,loclda-method.html">initialize,loclda-method</a></td>
+<td>loclda Constructor</td></tr>
 <tr><td width="25%"><a href="initialize,logreg-method.html">initialize,logreg-method</a></td>
 <td>Logistic Regression Constructor</td></tr>
 <tr><td width="25%"><a href="initialize,mda-method.html">initialize,mda-method</a></td>
@@ -206,6 +179,10 @@
 <td>Random Forest Constructor</td></tr>
 <tr><td width="25%"><a href="initialize,rda-method.html">initialize,rda-method</a></td>
 <td>RDA Constructor</td></tr>
+<tr><td width="25%"><a href="initialize,regr.task-method.html">initialize,regr.task-method</a></td>
+<td>regr.task constructor</td></tr>
+<tr><td width="25%"><a href="initialize,resample.instance-method.html">initialize,resample.instance-method</a></td>
+<td>This is mainly for internal use, you only need to use this, when you extend resample...</td></tr>
 <tr><td width="25%"><a href="initialize,rpart.classif-method.html">initialize,rpart.classif-method</a></td>
 <td>rpart Constructor</td></tr>
 <tr><td width="25%"><a href="initialize,stats.lm-method.html">initialize,stats.lm-method</a></td>
@@ -248,10 +225,16 @@
 <td>learn.task</td></tr>
 <tr><td width="25%"><a href="learn.task-class.html">learn.task-class</a></td>
 <td>learn.task</td></tr>
+<tr><td width="25%"><a href="getter,learn.task-method.html">learn.task.getter</a></td>
+<td>Getter for learn.task</td></tr>
 <tr><td width="25%"><a href="learner.props-class.html">learner.props</a></td>
-<td>Since not all classifiers can deal with all kind of data properties of the data are compared...</td></tr>
+<td>Description object for the features of a learning algorithm.</td></tr>
 <tr><td width="25%"><a href="learner.props-class.html">learner.props-class</a></td>
-<td>Since not all classifiers can deal with all kind of data properties of the data are compared...</td></tr>
+<td>Description object for the features of a learning algorithm.</td></tr>
+<tr><td width="25%"><a href="loclda-class.html">loclda</a></td>
+<td>loclda</td></tr>
+<tr><td width="25%"><a href="loclda-class.html">loclda-class</a></td>
+<td>loclda</td></tr>
 <tr><td width="25%"><a href="logreg-class.html">logreg</a></td>
 <td>logreg</td></tr>
 <tr><td width="25%"><a href="logreg-class.html">logreg-class</a></td>
@@ -281,6 +264,10 @@
 <td>make.regr.task</td></tr>
 <tr><td width="25%"><a href="make.regr.task.html">make.regr.task,character,formula,data.frame,numeric-method</a></td>
 <td>make.regr.task</td></tr>
+<tr><td width="25%"><a href="make.resample.instance.html">make.resample.instance</a></td>
+<td>Mainly for internal use.</td></tr>
+<tr><td width="25%"><a href="make.resample.instance.html">make.resample.instance,resample.desc,numeric-method</a></td>
+<td>Mainly for internal use.</td></tr>
 <tr><td width="25%"><a href="make.subsample.desc.html">make.subsample.desc</a></td>
 <td>make.subsample.desc</td></tr>
 <tr><td width="25%"><a href="make.subsample.instance.html">make.subsample.instance</a></td>
@@ -319,24 +306,16 @@
 <td>penalized.ridge</td></tr>
 <tr><td width="25%"><a href="performance.html">performance</a></td>
 <td>performance</td></tr>
-<tr><td width="25%"><a href="performance.html">performance,ANY,ANY,numeric,list,ANY-method</a></td>
+<tr><td width="25%"><a href="performance.html">performance,ANY,ANY,numeric,list-method</a></td>
 <td>performance</td></tr>
-<tr><td width="25%"><a href="print,data.desc-method.html">print</a></td>
-<td>Prints the object by calling as...</td></tr>
-<tr><td width="25%"><a href="print,learner.props-method.html">print</a></td>
-<td>Prints the object...</td></tr>
-<tr><td width="25%"><a href="print,wrapped.learner-method.html">print</a></td>
-<td>Prints the object by calling as...</td></tr>
-<tr><td width="25%"><a href="print,wrapped.model-method.html">print</a></td>
-<td>Prints the object by calling as...</td></tr>
-<tr><td width="25%"><a href="print,data.desc-method.html">print,data.desc-method</a></td>
-<td>Prints the object by calling as...</td></tr>
-<tr><td width="25%"><a href="print,learner.props-method.html">print,learner.props-method</a></td>
-<td>Prints the object...</td></tr>
-<tr><td width="25%"><a href="print,wrapped.learner-method.html">print,wrapped.learner-method</a></td>
-<td>Prints the object by calling as...</td></tr>
-<tr><td width="25%"><a href="print,wrapped.model-method.html">print,wrapped.model-method</a></td>
-<td>Prints the object by calling as...</td></tr>
+<tr><td width="25%"><a href="predict.html">predict</a></td>
+<td>predict</td></tr>
+<tr><td width="25%"><a href="predict,classif.task-method.html">predict,classif.task-method</a></td>
+<td>predict</td></tr>
+<tr><td width="25%"><a href="predict.html">predict,learn.task-method</a></td>
+<td>predict</td></tr>
+<tr><td width="25%"><a href="predict,regr.task-method.html">predict,regr.task-method</a></td>
+<td>predict</td></tr>
 </table>
 
 <h2><a name="Q">-- Q --</a></h2>
@@ -359,10 +338,16 @@
 <td>rda</td></tr>
 <tr><td width="25%"><a href="rda-class.html">rda-class</a></td>
 <td>rda</td></tr>
+<tr><td width="25%"><a href="regr.task-class.html">regr.task</a></td>
+<td>classif.task</td></tr>
+<tr><td width="25%"><a href="regr.task-class.html">regr.task-class</a></td>
+<td>classif.task</td></tr>
 <tr><td width="25%"><a href="resample.desc-class.html">resample.desc</a></td>
 <td>resample.desc</td></tr>
 <tr><td width="25%"><a href="resample.desc-class.html">resample.desc-class</a></td>
 <td>resample.desc</td></tr>
+<tr><td width="25%"><a href="getter,resample.desc-method.html">resample.desk.getter</a></td>
+<td>Getter for resample.desc</td></tr>
 <tr><td width="25%"><a href="resample.fit.html">resample.fit</a></td>
 <td>resample.fit</td></tr>
 <tr><td width="25%"><a href="resample.fit.html">resample.fit,learn.task,resample.instance,list,character,logical,character-method</a></td>
@@ -371,10 +356,18 @@
 <td>resample.instance</td></tr>
 <tr><td width="25%"><a href="resample.instance-class.html">resample.instance-class</a></td>
 <td>resample.instance</td></tr>
+<tr><td width="25%"><a href="getter,resample.instance-method.html">resample.instance.getter</a></td>
+<td>Getter for resample.instance</td></tr>
 <tr><td width="25%"><a href="resample.performance.html">resample.performance</a></td>
 <td>performance</td></tr>
 <tr><td width="25%"><a href="resample.performance.html">resample.performance,learn.task,resample.instance,resample.result,list-method</a></td>
 <td>performance</td></tr>
+<tr><td width="25%"><a href="resample.result-class.html">resample.result</a></td>
+<td>resample.result</td></tr>
+<tr><td width="25%"><a href="resample.result-class.html">resample.result-class</a></td>
+<td>resample.result</td></tr>
+<tr><td width="25%"><a href="getter,resample.result-method.html">resample.result.getter</a></td>
+<td>Getter for resample.result</td></tr>
 <tr><td width="25%"><a href="rpart.classif-class.html">rpart.classif</a></td>
 <td>rpart.classif</td></tr>
 <tr><td width="25%"><a href="rpart.classif-class.html">rpart.classif-class</a></td>
@@ -384,22 +377,28 @@
 <h2><a name="S">-- S --</a></h2>
 
 <table width="100%">
-<tr><td width="25%"><a href="show,data.desc-method.html">show</a></td>
-<td>Shows the object by calling as...</td></tr>
-<tr><td width="25%"><a href="show,learner.props-method.html">show</a></td>
-<td>Displays the object...</td></tr>
-<tr><td width="25%"><a href="show,wrapped.learner-method.html">show</a></td>
-<td>Shows the object by calling as...</td></tr>
-<tr><td width="25%"><a href="show,wrapped.model-method.html">show</a></td>
-<td>Shows the object by calling as...</td></tr>
-<tr><td width="25%"><a href="show,data.desc-method.html">show,data.desc-method</a></td>
-<td>Shows the object by calling as...</td></tr>
-<tr><td width="25%"><a href="show,learner.props-method.html">show,learner.props-method</a></td>
-<td>Displays the object...</td></tr>
-<tr><td width="25%"><a href="show,wrapped.learner-method.html">show,wrapped.learner-method</a></td>
-<td>Shows the object by calling as...</td></tr>
-<tr><td width="25%"><a href="show,wrapped.model-method.html">show,wrapped.model-method</a></td>
-<td>Shows the object by calling as...</td></tr>
+<tr><td width="25%"><a href="set.predict.par.html">set.predict.par</a></td>
+<td>set.predict.par,learn.task-method</td></tr>
+<tr><td width="25%"><a href="set.predict.par.html">set.predict.par</a></td>
+<td>set.predict.par,learn.task-method</td></tr>
+<tr><td width="25%"><a href="set.predict.par.html">set.predict.par,learn.task-method</a></td>
+<td>set.predict.par,learn.task-method</td></tr>
+<tr><td width="25%"><a href="set.predict.par.html">set.predict.par,wrapped.learner-method</a></td>
+<td>set.predict.par,learn.task-method</td></tr>
+<tr><td width="25%"><a href="set.predict.par.html">set.predict.par-methods</a></td>
+<td>set.predict.par,learn.task-method</td></tr>
+<tr><td width="25%"><a href="set.train.par.html">set.train.par</a></td>
+<td>set.train.par,learn.task-method</td></tr>
+<tr><td width="25%"><a href="set.train.par.html">set.train.par</a></td>
+<td>set.train.par,learn.task-method</td></tr>
+<tr><td width="25%"><a href="set.train.par.html">set.train.par</a></td>
+<td>set.train.par,learn.task-method</td></tr>
+<tr><td width="25%"><a href="set.train.par.html">set.train.par,learn.task-method</a></td>
+<td>set.train.par,learn.task-method</td></tr>
+<tr><td width="25%"><a href="set.train.par.html">set.train.par,wrapped.learner-method</a></td>
+<td>set.train.par,learn.task-method</td></tr>
+<tr><td width="25%"><a href="set.train.par.html">set.train.par-methods</a></td>
+<td>set.train.par,learn.task-method</td></tr>
 <tr><td width="25%"><a href="stats.lm-class.html">stats.lm</a></td>
 <td>stats.lm</td></tr>
 <tr><td width="25%"><a href="stats.lm-class.html">stats.lm-class</a></td>
@@ -417,20 +416,20 @@
 <h2><a name="T">-- T --</a></h2>
 
 <table width="100%">
-<tr><td width="25%"><a href="train.html">train.generic</a></td>
+<tr><td width="25%"><a href="train.html">train</a></td>
 <td>train</td></tr>
-<tr><td width="25%"><a href="train.learner,kernlab.svm.classif,formula,data.frame,numeric,list-method.html">train.learner</a></td>
-<td>Overwritten, to allow direct passing of kernel hyperparameters.</td></tr>
-<tr><td width="25%"><a href="train.learner,penalized.lasso,formula,data.frame,numeric,list-method.html">train.learner</a></td>
-<td>Overwritten, to allow "lambda" instead of "lambda1" as parameter name.</td></tr>
-<tr><td width="25%"><a href="train.learner,penalized.ridge,formula,data.frame,numeric,list-method.html">train.learner</a></td>
-<td>Overwritten, to allow "lambda" instead of "lambda2" as parameter name.</td></tr>
+<tr><td width="25%"><a href="train.html">train-methods</a></td>
+<td>train</td></tr>
+<tr><td width="25%"><a href="train.learner,wrapped.learner,formula,data.frame,numeric,list-method.html">train.learner</a></td>
+<td>train.learner</td></tr>
 <tr><td width="25%"><a href="train.learner,kernlab.svm.classif,formula,data.frame,numeric,list-method.html">train.learner,kernlab.svm.classif,formula,data.frame,numeric,list-method</a></td>
 <td>Overwritten, to allow direct passing of kernel hyperparameters.</td></tr>
 <tr><td width="25%"><a href="train.learner,penalized.lasso,formula,data.frame,numeric,list-method.html">train.learner,penalized.lasso,formula,data.frame,numeric,list-method</a></td>
 <td>Overwritten, to allow "lambda" instead of "lambda1" as parameter name.</td></tr>
 <tr><td width="25%"><a href="train.learner,penalized.ridge,formula,data.frame,numeric,list-method.html">train.learner,penalized.ridge,formula,data.frame,numeric,list-method</a></td>
 <td>Overwritten, to allow "lambda" instead of "lambda2" as parameter name.</td></tr>
+<tr><td width="25%"><a href="train.learner,wrapped.learner,formula,data.frame,numeric,list-method.html">train.learner,wrapped.learner,formula,data.frame,numeric,list-method</a></td>
+<td>train.learner</td></tr>
 <tr><td width="25%"><a href="tune.html">tune</a></td>
 <td>tune</td></tr>
 </table>
@@ -439,9 +438,9 @@
 
 <table width="100%">
 <tr><td width="25%"><a href="wrapped.learner-class.html">wrapped.learner</a></td>
-<td>Wrapped...</td></tr>
+<td>wrapped.learner</td></tr>
 <tr><td width="25%"><a href="wrapped.learner-class.html">wrapped.learner-class</a></td>
-<td>Wrapped...</td></tr>
+<td>wrapped.learner</td></tr>
 <tr><td width="25%"><a href="wrapped.learner.classif-class.html">wrapped.learner.classif</a></td>
 <td>wrapped.learner.classif</td></tr>
 <tr><td width="25%"><a href="wrapped.learner.classif-class.html">wrapped.learner.classif-class</a></td>
@@ -454,5 +453,24 @@
 <td>wrapped.model</td></tr>
 <tr><td width="25%"><a href="wrapped.model-class.html">wrapped.model-class</a></td>
 <td>wrapped.model</td></tr>
+<tr><td width="25%"><a href="getter,wrapped.model-method.html">wrapped.model.getter</a></td>
+<td>Getter for wrapped.model</td></tr>
+</table>
+
+<h2><a name="misc">-- misc --</a></h2>
+
+<table width="100%">
+<tr><td width="25%"><a href="getter,classif.task-method.html">[,classif.task-method</a></td>
+<td>Getter for classif.task</td></tr>
+<tr><td width="25%"><a href="getter,learn.task-method.html">[,learn.task-method</a></td>
+<td>Getter for learn.task</td></tr>
+<tr><td width="25%"><a href="getter,resample.desc-method.html">[,resample.desc-method</a></td>
+<td>Getter for resample.desc</td></tr>
+<tr><td width="25%"><a href="getter,resample.instance-method.html">[,resample.instance-method</a></td>
+<td>Getter for resample.instance</td></tr>
+<tr><td width="25%"><a href="getter,resample.result-method.html">[,resample.result-method</a></td>
+<td>Getter for resample.result</td></tr>
+<tr><td width="25%"><a href="getter,wrapped.model-method.html">[,wrapped.model-method</a></td>
+<td>Getter for wrapped.model</td></tr>
 </table>
 </body></html>

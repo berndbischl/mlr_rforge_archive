@@ -13,5 +13,4 @@
 }}
 \seealso{\code{\link[mboost]{blackboost}}, \code{\link[mboost]{boost_control}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.regr}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,blackboost.regr-method]{initialize}}}{\code{signature( = "blackboost.regr")}: Constructor.}}}
-
+\section{Methods}{\describe{}}

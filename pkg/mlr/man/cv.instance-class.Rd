@@ -7,4 +7,3 @@ They indicate the training part of data for different instances of cv.}
 \note{Normally you don't want to use the S4 constructor, but instead \code{\link{make.cv.instance}}.}
 \section{Extends}{\code{\linkS4class{resample.instance}}}
 \section{Methods}{\describe{\item{\code{\link[=initialize,cv.instance-method]{initialize}}}{\code{signature( = "cv.instance")}: Constructor.}}}
-

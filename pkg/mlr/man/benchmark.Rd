@@ -16,16 +16,17 @@ the standard deviation of their inner run performance and their test performance
 If \code{all.tune.results} is TRUE the output contains additional information about all
 tested parameters by the inner runs.}
 \arguments{\item{learn.task}{[\code{\linkS4class{learn.task}}] \cr
-Specifies classifier and classification task}
+Learning task.}
 \item{ranges}{[\code{\link{list}}] \cr 
-Either a list containing named range vectors for the hyperparameters or a list of 
-such lists (see \code{\link{tune}}).}
-\item{measure}{[\code{\link{character}}] \cr 
-A string indicating how performance is measured at the inner and outer stage. 
-(default is mean misclassification error ("mmce"), see \code{\link{performance}}.)}
-\item{outer.resampling}{[\code{\link{list}}] \cr 
-Consists of a character giving the method of the outer run and a 
-\code{\linkS4class{resample.instance}} object specifying it .}
+List of named range vectors/list for hyperparameters used in tuning 
+(see \code{\link{tune}}).}
+\item{measure}{[\code{\link{character}}/\code{\link{list}}] \cr 
+Name of performance measure to optimize or a list describing your own performance measure. 
+The default is mean misclassification error.}
+\item{outer.resampling}{[\code{\link{resample.instance}}] \cr 
+Specifies the training and test indices of the resampled data used in outer stage.}
+\item{inner.resampling}{[\code{\link{resample.desc}}] \cr 
+Describes resampling method to be used in inner stage.}
 \item{all.tune.results}{[\code{\link{logical}}] \cr 
 Should complete results for all inner tunings be returned? (default is FALSE)}
 }
@@ -37,4 +38,3 @@ or <- make.cv.instance(iters=5, size=nrow(iris))
 # describe the inner cross-validation
 ir <- make.cv.desc(iters=3)
 benchmark(learn.task=ct, ranges=ranges, outer.resampling=or, inner.resampling=ir)}
-

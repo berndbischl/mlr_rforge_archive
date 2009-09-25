@@ -2,7 +2,7 @@
 \alias{resample.performance,learn.task,resample.instance,resample.result,list-method}
 \alias{resample.performance}
 \title{performance}
-\usage{performance(learn.task, resample.instance, resample.result, measure)}
+\usage{resample.performance(learn.task, resample.instance, resample.result, measure)}
 \description{Measures the quality of predictions w.r.t. some loss function for a resampled fit.}
 \value{A list with the following entries:
 \item{\code{values}}{Numeric vector of estimated performances for the resampling iterations.}
@@ -28,4 +28,3 @@ rf <- resample.fit(rt, cv.i)
 resample.performance(rt, cv.i, rf)
 # median of absolute errors
 resample.performance(rt, cv.i, rf, measure="mae")}
-

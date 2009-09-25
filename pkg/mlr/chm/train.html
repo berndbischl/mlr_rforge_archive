@@ -5,7 +5,8 @@
 <body>
 
 <table width="100%"><tr><td>train(mlr)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
-<param name="keyword" value="R:   train.generic">
+<param name="keyword" value="R:   train-methods">
+<param name="keyword" value="R:   train">
 <param name="keyword" value=" train">
 </object>
 
@@ -23,7 +24,7 @@ which can be used for predictions on new data.
 
 <h3>Usage</h3>
 
-<pre>train(learn.task, subset, parset)</pre>
+<pre>train(learn.task, subset, parset, vars)</pre>
 
 
 <h3>Arguments</h3>
@@ -55,7 +56,7 @@ An object of class <code><a href="wrapped.model-class.html">wrapped.model</a></c
 <h3>See Also</h3>
 
 <p>
-<code><a onclick="findlink('VGAM', 'notdocumentedyet.html')" style="text-decoration: underline; color: blue; cursor: hand">predict</a></code>, <code><a href="make.classif.task.html">make.classif.task</a></code>, <code><a href="make.regr.task.html">make.regr.task</a></code>
+<code><a href="predict.html">predict</a></code>, <code><a href="make.classif.task.html">make.classif.task</a></code>, <code><a href="make.regr.task.html">make.regr.task</a></code>
 </p>
 
 
@@ -69,7 +70,7 @@ ct &lt;- make.classif.task("lda", data=iris, formula=Species~.)
 cm &lt;- train(ct, subset=train.inds)
 ps &lt;- predict(ct, cm, newdata=iris[test.inds,])
 
-ct &lt;- make.classif.task("kknn.knn.classif", data=iris, formula=Species~.)
+ct &lt;- make.classif.task("kknn.classif", data=iris, formula=Species~.)
 cm &lt;- train(ct, subset=train.inds, parset=list(k=3))
 ps &lt;- predict(ct, cm, newdata=iris[test.inds,])</pre>
 
@@ -84,6 +85,6 @@ location.href = link;
 </script>
 
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.115 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.170 <a href="00Index.html">Index</a>]</div>
 
 </body></html>

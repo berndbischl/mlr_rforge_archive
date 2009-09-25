@@ -12,4 +12,3 @@ Size of the data set to resample.}
 \item{iters}{[\code{\link{integer}}] \cr 
 Number of generated subsets / resampling iterations.}
 }
-

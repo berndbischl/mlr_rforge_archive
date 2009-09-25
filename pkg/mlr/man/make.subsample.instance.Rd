@@ -15,4 +15,3 @@
 rin <- make.subsample.instance(size=nrow(iris), split=2/3, iters=10)
 # holdout
 rin <- make.subsample.instance(size=nrow(iris), split=2/3, iters=1)}
-

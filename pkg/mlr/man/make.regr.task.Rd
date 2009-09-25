@@ -18,7 +18,7 @@ regression task.
 
 \itemize{ 
 \item{\code{\linkS4class{stats.lm}}}{Simple linear regression from stats package}
-\item{\code{\linkS4class{penalized.rigde}}}{Ridge regression from penalized package}
+\item{\code{\linkS4class{penalized.ridge}}}{Ridge regression from penalized package}
 \item{\code{\linkS4class{penalized.lasso}}}{Lasso regression from penalized package}
 \item{\code{\linkS4class{kknn.regr}}}{K-Nearest-Neigbor regression from kknn package}
 \item{\code{\linkS4class{gbm.regr}}}{Gradient boosting machine from gbm package}
@@ -39,4 +39,3 @@ An optional vector of weights to be used in the fitting process. Default is a we
 data(BostonHousing)
 # define a regression task for a Gradient Boosting Machine for regression for the data set BostonHousing
 rt <- make.regr.task("gbm.regr", data = BostonHousing, formula = medv~.)}
-

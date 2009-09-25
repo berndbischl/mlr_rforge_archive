@@ -1,0 +1,55 @@
+<html><head><title>Mainly for internal use.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>make.resample.instance(mlr)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   make.resample.instance,resample.desc,numeric-method">
+<param name="keyword" value="R:   make.resample.instance">
+<param name="keyword" value=" Mainly for internal use.">
+</object>
+
+
+<h2>Mainly for internal use.</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Mainly for internal use. Construct a <code><a href="resample.instance-class.html">resample.instance</a></code> from a <code><a href="resample.desc-class.html">resample.desc</a></code>. 
+Convenience method, so one doesn't have to call the specific constructors of classes inheriting from resample.desc.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>make.resample.instance(desc, size)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>desc</code></td>
+<td>
+[<code><a href="resample.desc-class.html">resample.desc</a></code>] <br> Describes the resampling strategy.</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+[integer] <br> Size of the data set to resample from.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+Object of corresponding subclass of <code><a href="resample.instance-class.html">resample.instance</a></code>.</p>
+
+<h3>Examples</h3>
+
+<pre>cv.d &lt;- new("cv.desc", iters = 10)
+rin &lt;- make.resample.instance(desc = cv.d, size = nrow(iris))</pre>
+
+
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.170 <a href="00Index.html">Index</a>]</div>
+
+</body></html>

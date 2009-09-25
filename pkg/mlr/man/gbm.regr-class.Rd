@@ -13,5 +13,4 @@
 }}
 \seealso{\code{\link[gbm]{gbm}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.regr}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,gbm.regr-method]{initialize}}}{\code{signature( = "gbm.regr")}: Constructor.}}}
-
+\section{Methods}{\describe{}}

@@ -1,7 +1,7 @@
 \name{tune}
 \alias{tune}
 \title{tune}
-\usage{tune(learn.task, resample.instance, ranges, measure = "mmce")}
+\usage{tune(learn.task, resample.instance, ranges, measure)}
 \description{\code{tune} optimizes the hyperparameters of a learner for a classification or regression problem. 
 Given some ranges for one or more hyperparameters, it estimates the performance 
 of the learner for each possible combination of the proposed values by 
@@ -15,9 +15,9 @@ Specifies the learning task for the problem.}
 \item{resample.instance}{[\code{\linkS4class{resample.instance}}] \cr
 Specifies the training and test indices of the resampled data.}
 \item{ranges}{[\code{\link{list}}] \cr 
-A list of named vectors of possible values for each hyperparameter. 
-You can also pass a list of such list if it does not make sense to search a complete 
-cross-product of range values.}
+A list of named vectors/lists of possible values for each hyperparameter. 
+You can also pass a list of such ranges by using [\code{\link{combine.ranges}}] 
+in the rare case when it does not make sense to search a complete cross-product of range values.}
 \item{measure}{[\code{\link{character}}/\code{\link{list}}] \cr 
 Name of performance measure to optimize or a list describing your own performance measure. 
 The default is mean misclassification error.}
@@ -27,4 +27,3 @@ ct <- make.classif.task(learner="kernlab.svm.classif", data=iris, formula=Specie
 ranges <- list(kernel="rbfdot", C=2^seq(-1,1), sigma=2^seq(-1,1))
 ri <- make.cv.instance(size=nrow(iris), iters=3)  
 tune(learn.task=ct, resample.instance=ri, ranges=ranges)}
-

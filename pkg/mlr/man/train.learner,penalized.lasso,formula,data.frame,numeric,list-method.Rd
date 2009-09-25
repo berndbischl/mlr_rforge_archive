@@ -1,6 +1,6 @@
 \name{train.learner,penalized.lasso,formula,data.frame,numeric,list-method}
 \alias{train.learner,penalized.lasso,formula,data.frame,numeric,list-method}
-\alias{train.learner}
+
 \title{Overwritten, to allow "lambda" instead of "lambda1" as parameter name.}
 \description{Overwritten, to allow "lambda" instead of "lambda1" as parameter name.
 Besides that, simply delegates to super method.}
@@ -10,4 +10,3 @@ Besides that, simply delegates to super method.}
 \item{weights}{An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.}
 \item{parset}{Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.}
 }
-

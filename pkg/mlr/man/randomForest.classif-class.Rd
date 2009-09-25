@@ -11,5 +11,4 @@
 }}
 \seealso{\code{\link[randomForest]{randomForest}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,randomForest.classif-method]{initialize}}}{\code{signature( = "randomForest.classif")}: Constructor.}}}
-
+\section{Methods}{\describe{}}

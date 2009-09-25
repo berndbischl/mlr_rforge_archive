@@ -1,8 +1,8 @@
 \name{performance}
-\alias{performance,ANY,ANY,numeric,list,ANY-method}
+\alias{performance,ANY,ANY,numeric,list-method}
 \alias{performance}
 \title{performance}
-\usage{performance(true.y, pred.y, weights, measure, costs)}
+\usage{performance(true.y, pred.y, weights, measure)}
 \description{\code{performance} measures the quality of predictions w.r.t. some loss function.}
 \details{There are some more loss functions which you can use as performance measure, they are as follows:
 For classification:
@@ -18,17 +18,7 @@ For regression:
 \item{\code{mse}}{Mean squared error}
 }}
 \value{The performance.}
-\arguments{\item{learner}{[\code{\link{character}}] \cr 
-Specifies the learner. See the list below in the details section.}
-\item{formula}{[\code{\link{formula}}] \cr
-A symbolic description of the model to be fitted.}
-\item{data}{[\code{\link{data.frame}}] \cr 	
-A data frame containing the variables in the model.}
-\item{weights}{[\code{\link{numeric}}] \cr 	
-An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.}
-\item{type}{[\code{\link{character}}] \cr 	
-Specifies the type of the predictions - either probabilities ("prob") or classes ("class"). Default is "class".}
-\item{true.y}{[ANY] \cr
+\arguments{\item{true.y}{[ANY] \cr
 The data sets true labels.}
 \item{pred.y}{[ANY] \cr
 The predicted labels.}
@@ -38,8 +28,6 @@ An optional vector of weights to be used. Default is a weight of 1 for every cas
 A list or a character which defines the loss function. Default is the mean misclassification error 
 ("mmce") for classification tasks and the mean squared error ("mse") for regression tasks. See details
 for other loss functions.}
-\item{costs}{[ANY] \cr
-An optional possibility to specify costs, default is \code{NULL}.}
 }
 \examples{data(iris) 
 # define a classification task for a decision tree (rpart) for the data set iris
@@ -55,4 +43,3 @@ preds <- predict(m, newdata=iris[test.set,])
 performance(true.y = iris[test.set, "Species"], pred.y = preds)		
 # and with summed misclassification error
 performance(true.y = iris[test.set, "Species"], pred.y = preds, measure="smce")}
-

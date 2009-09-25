@@ -5,5 +5,4 @@
 \description{Wrapped learner for Linear Discriminant Analysis from package \code{MASS}.}
 \seealso{\code{\link[MASS]{lda}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,lda-method]{initialize}}}{\code{signature( = "lda")}: Constructor.}}}
-
+\section{Methods}{\describe{}}

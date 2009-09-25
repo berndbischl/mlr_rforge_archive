@@ -6,4 +6,3 @@
 \seealso{\code{\link{make.bs.desc}}}
 \section{Extends}{\code{\linkS4class{resample.desc}}}
 \section{Methods}{\describe{\item{\code{\link[=initialize,bs.desc-method]{initialize}}}{\code{signature( = "bs.desc")}: Create description object for bootstrapping.}}}
-

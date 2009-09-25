@@ -14,4 +14,3 @@ Proportion of data used for training set. Default is 2/3.}
 \item{iters}{[\code{\link{integer}}] \cr 
 Number of generated subsets / resampling iterations.}
 }
-

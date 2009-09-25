@@ -1,7 +1,8 @@
 \name{train}
-\alias{train.generic}
+\alias{train-methods}
+\alias{train}
 \title{train}
-\usage{train(learn.task, subset, parset)}
+\usage{train(learn.task, subset, parset, vars)}
 \description{Given a \code{\linkS4class{learn.task}} \code{train} creates a model for the learning machine 
 which can be used for predictions on new data.}
 \value{An object of class \code{\linkS4class{wrapped.model}} containing the generated model of the underlying learner and the paramater and index set used for training.}
@@ -23,7 +24,6 @@ ct <- make.classif.task("lda", data=iris, formula=Species~.)
 cm <- train(ct, subset=train.inds)
 ps <- predict(ct, cm, newdata=iris[test.inds,])
 
-ct <- make.classif.task("kknn.knn.classif", data=iris, formula=Species~.)
+ct <- make.classif.task("kknn.classif", data=iris, formula=Species~.)
 cm <- train(ct, subset=train.inds, parset=list(k=3))
 ps <- predict(ct, cm, newdata=iris[test.inds,])}
-

@@ -11,5 +11,4 @@
 }}
 \seealso{\code{\link[stats]{glm}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,logreg-method]{initialize}}}{\code{signature( = "logreg")}: Constructor.}}}
-
+\section{Methods}{\describe{}}

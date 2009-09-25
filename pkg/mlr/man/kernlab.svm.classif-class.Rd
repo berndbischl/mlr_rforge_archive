@@ -30,4 +30,3 @@ The kernel type and the hyperparameters are specified in \code{parset}.}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
 \section{Methods}{\describe{\item{\code{\link[=initialize,kernlab.svm.classif-method]{initialize}}}{\code{signature( = "kernlab.svm.classif")}: Constructor.}\item{\code{\link[=train.learner,kernlab.svm.classif,formula,data.frame,numeric,list-method]{train.learner}}}{\code{signature(wrapped.learner = "kernlab.svm.classif", formula = "formula", data = "data.frame", weights = "numeric", parset = "list")}: Overwritten, to allow direct passing of kernel hyperparameters.
 Besides that, simply delegates to super method.}}}
-

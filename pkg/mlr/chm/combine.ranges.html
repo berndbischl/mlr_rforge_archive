@@ -1,0 +1,64 @@
+<html><head><title>combine.ranges</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>combine.ranges(mlr)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   combine.ranges">
+<param name="keyword" value=" combine.ranges">
+</object>
+
+
+<h2>combine.ranges</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Convenience function for <code><a href="tune.html">tune</a></code> to combine different <code>ranges</code> lists (i.e. lists of named vectors/lists 
+of possible hyperparameter values).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>combine.ranges(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+Lists of ranges.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+A list of <code>ranges</code></p>
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="tune.html">tune</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>library(mlbench)
+data(Sonar)
+cv.i &lt;- make.cv.instance(size = nrow(Sonar), iters = 2)
+ct &lt;- make.classif.task("kernlab.svm.classif", data = Sonar, formula = Class~.)
+r1 &lt;- list(kernel = "polydot", C = c(1,2), degree = c(2,3))
+r2 &lt;- list(kernel = "rbfdot", C = c(1,2), sigma = c(4,6))
+tr &lt;- tune(ct, cv.i, ranges = combine.ranges(r1,r2))</pre>
+
+
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.170 <a href="00Index.html">Index</a>]</div>
+
+</body></html>

@@ -10,7 +10,7 @@ For construction simply use the factory methods of the subclasses - e.g. for cro
 use \code{\link{make.cv.instance}} to get a \code{\linkS4class{cv.instance}}.}
 \note{If you want to add another resampling strategy, have a look at the web documentation.}
 \seealso{\code{\linkS4class{resample.desc}}, \code{\link{make.cv.instance}}, \code{\link{make.bs.instance}}, \code{\link{make.subsample.instance}}, \code{\link{resample.fit}}}
-\section{Slots}{\describe{\item{\code{desc}:}{}\item{\code{size}:}{}\item{\code{inds}:}{}}}
+\section{Slots}{\describe{\item{\code{desc}:}{(\code{\link{resample.desc}}) Description object for resampling strategy}\item{\code{size}:}{(\code{\link{integer}}) Number of observations in data}\item{\code{inds}:}{(\code{\link{list}}) List of integer vectors specifying the training cases for each iteration. Each vector might contain duplicated indices and the order matters for some classifiers.}}}
 \section{Methods}{\describe{\item{\code{\link[=benchmark,learn.task,resample.instance,resample.desc,list,list,logical-method]{benchmark}}}{\code{signature(learn.task = "learn.task", outer.resampling = "resample.instance", inner.resampling = "resample.desc", ranges = "list", measure = "list", all.tune.results = "logical")}: \code{benchmark} conducts a benchmark experiment for a single classifier on a single
 data set. This consists of an inner stage and outer stage. At the outer stage a 
 tuning set and a test set are repeatedly formed from the data through resampling 
@@ -22,4 +22,3 @@ the \code{\linkS4class{resample.instance}} object) \code{resample.fit}
 fits the selected learner using the training sets and performs predictions for the test sets. These 
 predictions are returned - encapsulated in a \code{\link{resample.result}} object. 
 Optionally the fitted models are also stored.}\item{\code{\link[=initialize,resample.instance-method]{initialize}}}{\code{signature( = "resample.instance")}: This is mainly for internal use, you only need to use this, when you extend resample.instance to add another resampling strategy!}\item{\code{\link[=[,resample.instance-method]{[}}}{\code{signature( = "resample.instance")}: Getter.}\item{\code{\link[=resample.performance,learn.task,resample.instance,resample.result,list-method]{resample.performance}}}{\code{signature(learn.task = "learn.task", resample.instance = "resample.instance", resample.result = "resample.result", measure = "list")}: Measures the quality of predictions w.r.t. some loss function for a resampled fit.}}}
-

@@ -38,22 +38,25 @@ hyperparameters and the performance is measured on the test set.
 <tr valign="top"><td><code>learn.task</code></td>
 <td>
 [<code><a href="learn.task-class.html">learn.task</a></code>] <br>
-Specifies classifier and classification task</td></tr>
+Learning task.</td></tr>
 <tr valign="top"><td><code>ranges</code></td>
 <td>
 [<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>] <br> 
-Either a list containing named range vectors for the hyperparameters or a list of 
-such lists (see <code><a href="tune.html">tune</a></code>).</td></tr>
+List of named range vectors/list for hyperparameters used in tuning 
+(see <code><a href="tune.html">tune</a></code>).</td></tr>
 <tr valign="top"><td><code>measure</code></td>
 <td>
-[<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>] <br> 
-A string indicating how performance is measured at the inner and outer stage. 
-(default is mean misclassification error ("mmce"), see <code><a href="performance.html">performance</a></code>.)</td></tr>
+[<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>/<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>] <br> 
+Name of performance measure to optimize or a list describing your own performance measure. 
+The default is mean misclassification error.</td></tr>
 <tr valign="top"><td><code>outer.resampling</code></td>
 <td>
-[<code><a onclick="findlink('base', 'list.html')" style="text-decoration: underline; color: blue; cursor: hand">list</a></code>] <br> 
-Consists of a character giving the method of the outer run and a 
-<code><a href="resample.instance-class.html">resample.instance</a></code> object specifying it .</td></tr>
+[<code><a href="resample.instance-class.html">resample.instance</a></code>] <br> 
+Specifies the training and test indices of the resampled data used in outer stage.</td></tr>
+<tr valign="top"><td><code>inner.resampling</code></td>
+<td>
+[<code><a href="resample.desc-class.html">resample.desc</a></code>] <br> 
+Describes resampling method to be used in inner stage.</td></tr>
 <tr valign="top"><td><code>all.tune.results</code></td>
 <td>
 [<code><a onclick="findlink('base', 'logical.html')" style="text-decoration: underline; color: blue; cursor: hand">logical</a></code>] <br> 
@@ -91,6 +94,6 @@ location.href = link;
 </script>
 
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.115 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.170 <a href="00Index.html">Index</a>]</div>
 
 </body></html>

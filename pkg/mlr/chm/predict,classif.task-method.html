@@ -1,0 +1,94 @@
+<html><head><title>predict</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>predict,classif.task-method(mlr)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   predict,classif.task-method">
+<param name="keyword" value=" predict">
+</object>
+
+
+<h2>predict</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Predicts the target classes of a new data set based on 
+an already fitted wrapped.model of a classifcation task.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>## S4 method for signature 'classif.task':
+predict(object, model, newdata, type="default")</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+[<code><a href="learn.task-class.html">learn.task</a></code>] <br> 
+Learning task</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+[<code><a href="wrapped.model-class.html">wrapped.model</a></code>] <br> 
+Wrapped model, trained from learn task</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+[<code><a onclick="findlink('base', 'data.frame.html')" style="text-decoration: underline; color: blue; cursor: hand">data.frame</a></code>] <br> 
+Contains new observations which should be predicted (by default the train data of the wrapped model).</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+[<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>] <br> 
+Specifies the type of predictions -     either probability ("prob") or class ("class"). 
+Default is "default", which uses the type specified in the classification task.</td></tr>
+</table>
+
+<h3>Details</h3>
+
+<p>
+See documentation super method.
+</p>
+
+
+<h3>Value</h3>
+
+<p>
+Either a factor of predicted classes or a matrix of probabilities. The rows correspond to the 
+predicted observations and the columns to the classes. Each column has the name of its respective class.</p>
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="predict.html">predict,learn.task-method</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>inds &lt;- 2*(1:75)
+test &lt;- iris[-inds,]
+
+ct &lt;- make.classif.task("lda", data=iris, formula=Species~.)
+model &lt;- train(ct, subset=inds)
+predict(ct, model, newdata = test)</pre>
+
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
+
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.170 <a href="00Index.html">Index</a>]</div>
+
+</body></html>

@@ -10,5 +10,4 @@
 }}
 \seealso{\code{\link[kknn]{kknn}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,kknn.classif-method]{initialize}}}{\code{signature( = "kknn.classif")}: Constructor.}}}
-
+\section{Methods}{\describe{}}

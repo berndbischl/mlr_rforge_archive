@@ -5,7 +5,7 @@
 <body>
 
 <table width="100%"><tr><td>performance(mlr)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
-<param name="keyword" value="R:   performance,ANY,ANY,numeric,list,ANY-method">
+<param name="keyword" value="R:   performance,ANY,ANY,numeric,list-method">
 <param name="keyword" value="R:   performance">
 <param name="keyword" value=" performance">
 </object>
@@ -23,32 +23,12 @@
 
 <h3>Usage</h3>
 
-<pre>performance(true.y, pred.y, weights, measure, costs)</pre>
+<pre>performance(true.y, pred.y, weights, measure)</pre>
 
 
 <h3>Arguments</h3>
 
 <table summary="R argblock">
-<tr valign="top"><td><code>learner</code></td>
-<td>
-[<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>] <br> 
-Specifies the learner. See the list below in the details section.</td></tr>
-<tr valign="top"><td><code>formula</code></td>
-<td>
-[<code><a onclick="findlink('VGAM', 'notdocumentedyet.html')" style="text-decoration: underline; color: blue; cursor: hand">formula</a></code>] <br>
-A symbolic description of the model to be fitted.</td></tr>
-<tr valign="top"><td><code>data</code></td>
-<td>
-[<code><a onclick="findlink('base', 'data.frame.html')" style="text-decoration: underline; color: blue; cursor: hand">data.frame</a></code>] <br>      
-A data frame containing the variables in the model.</td></tr>
-<tr valign="top"><td><code>weights</code></td>
-<td>
-[<code><a onclick="findlink('base', 'numeric.html')" style="text-decoration: underline; color: blue; cursor: hand">numeric</a></code>] <br>      
-An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.</td></tr>
-<tr valign="top"><td><code>type</code></td>
-<td>
-[<code><a onclick="findlink('base', 'character.html')" style="text-decoration: underline; color: blue; cursor: hand">character</a></code>] <br>       
-Specifies the type of the predictions - either probabilities ("prob") or classes ("class"). Default is "class".</td></tr>
 <tr valign="top"><td><code>true.y</code></td>
 <td>
 [ANY] <br>
@@ -67,10 +47,6 @@ An optional vector of weights to be used. Default is a weight of 1 for every cas
 A list or a character which defines the loss function. Default is the mean misclassification error 
 ("mmce") for classification tasks and the mean squared error ("mse") for regression tasks. See details
 for other loss functions.</td></tr>
-<tr valign="top"><td><code>costs</code></td>
-<td>
-[ANY] <br>
-An optional possibility to specify costs, default is <code>NULL</code>.</td></tr>
 </table>
 
 <h3>Details</h3>
@@ -124,6 +100,6 @@ location.href = link;
 </script>
 
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.115 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.170 <a href="00Index.html">Index</a>]</div>
 
 </body></html>

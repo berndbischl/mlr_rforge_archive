@@ -11,5 +11,4 @@
 }}
 \seealso{\code{\link[adabag]{adaboost.M1}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,adaboost-method]{initialize}}}{\code{signature( = "adaboost")}: Constructor.}}}
-
+\section{Methods}{\describe{}}

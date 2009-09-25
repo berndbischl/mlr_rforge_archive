@@ -14,4 +14,3 @@ classifier are tuned on the tuning set again through an inner resampling process
 the classifier is trained on the complete tuning set with the best found 
 hyperparameters and the performance is measured on the test set.}\item{\code{\link[=[,resample.desc-method]{[}}}{\code{signature( = "resample.desc")}: Getter.}\item{\code{\link[=make.resample.instance,resample.desc,numeric-method]{make.resample.instance}}}{\code{signature(desc = "resample.desc", size = "numeric")}: Mainly for internal use. Construct a \code{\linkS4class{resample.instance}} from a \code{\linkS4class{resample.desc}}. 
 Convenience method, so one doesn't have to call the specific constructors of classes inheriting from resample.desc.}}}
-
