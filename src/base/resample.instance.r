@@ -67,7 +67,7 @@ setGeneric(
 #' @param desc [\code{\linkS4class{resample.desc}}] \cr Describes the resampling strategy.
 #' @param size [integer] \cr Size of the data set to resample from. 
 #'              
-#' @return Object of corresponding subclass of \code{\linkS4class{resample.instance}.
+#' @return Object of corresponding subclass of \code{\linkS4class{resample.instance}}.
 #' @export
 #' @rdname make.resample.instance
 #'	

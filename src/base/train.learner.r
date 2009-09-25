@@ -1,7 +1,6 @@
 #' @include wrapped.learner.r
 roxygen()
 
-#' @export
 setGeneric(
 		name = "train.learner",
 		def = function(wrapped.learner, formula, data, weights, parset) {
@@ -10,6 +9,23 @@ setGeneric(
 )
 
 
+
+#' Mainly for internal use. Trains a wrapped learner on a giving training set, 
+#' possibly w.r.t. some hyperparamters and case weights. 
+#' @param wrapped.learner [\code{\link{wrapped.learner}}] \cr  
+#'        Wrapped learner from this package. 
+#' @param formula [\code{\link{formula}}] \cr
+#' 		  Specifies inputs and output.
+#' @param data [\code{\link{data.frame}}] \cr
+#' 		  Training set
+#' @param weights [\code{\link{numeric}}] \cr
+#' 		  Optional case weights, default is 1.
+#' @param parset [\code{\link{numeric}}] \cr
+#' 		  Named list of hyperparameters. Default is empty list.  
+#' @return Model of the underlying learner.
+#' @export 
+#' @aliases train.learner 
+#' @title train.learner 
 
 setMethod(
 		f = "train.learner",

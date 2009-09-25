@@ -7,11 +7,18 @@ roxygen()
 #' 
 #' See documentation super method. 
 #' 
+#' @param object [\code{\linkS4class{learn.task}}] \cr 
+#'  Learning task
+#' @param model [\code{\linkS4class{wrapped.model}}] \cr 
+#'   Wrapped model, trained from learn task  
+#' @param newdata [\code{\link{data.frame}}] \cr 
+#'   Contains new observations which should be predicted (by default the train data of the wrapped model).
+#' 
 #' @return A vector of numeric values.   
 #'
 #' @export
 #' 
-#' @usage predict(object, model, newdata)
+#' @usage \S4method{predict}{regr.task}(object, model, newdata)
 #'
 #' @seealso \code{\link{predict}}
 #'

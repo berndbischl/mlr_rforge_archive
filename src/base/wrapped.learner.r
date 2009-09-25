@@ -114,14 +114,13 @@ setGeneric(
 #' This is not meant for hyperparamters, pass these through the usual \code{parset} argument, but rather to
 #' fix (somewhat techical) arguments which stay the same for the whole experiment. You should not have to use this too often.
 #'   
-#' @param wrapped.learner [\code{\linkS4class{wrapped.learner}}] \cr
+#' @param object [\code{\linkS4class{wrapped.learner}}] \cr
 #'   	Wrapping object for the underlying learner.
-#' 
-#' All additional arguments have to be named.
+#' @param \ldots Parameters to fix in underlying train function. Have to be named.
 #' 
 #' @return Wrapped.learner object with changed paramters for train function.
 #' 
-#' @usage set.train.par(object, ...)
+#' @usage set.train.par(object, \ldots)
 #'
 #' @title set.train.par
 #' @rdname set.train.par
@@ -152,12 +151,11 @@ setGeneric(
 #'   
 #' @param object [\code{\linkS4class{wrapped.learner}}] \cr
 #'   	Wrapping object for the underlying learner.
-#' 
-#' All additional arguments have to be named.
+#' @param \ldots Parameters to fix in underlying predict function. Have to be named.
 #' 
 #' @return Wrapped.learner object with changed paramters for predict function.
 #' 
-#' @usage set.predict.par(object, ...)
+#' @usage set.predict.par(object, \ldots)
 #'
 #' @title set.predict.par
 #' @rdname set.predict.par

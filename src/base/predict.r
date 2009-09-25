@@ -10,7 +10,7 @@
 #'
 #' @return Object containing the predicted targets. See inherited methods. 
 #'
-#' @usage predict(object, model, newdata)
+#' @usage \S4method{predict}{learn.task}(object, model, newdata)
 #' 
 #' @seealso \code{\link{train}}, \code{\link{predict,classif.task-method}}, \code{\link{predict,regr.task-method}}, \code{\link{performance}}
 #' 

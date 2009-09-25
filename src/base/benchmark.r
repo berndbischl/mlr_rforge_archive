@@ -26,19 +26,20 @@ setGeneric(
 #' hyperparameters and the performance is measured on the test set. 
 #'    
 #' 
-#' @param	learn.task [\code{\linkS4class{learn.task}}] \cr
-#'   		Specifies classifier and classification task   
+#' @param learn.task [\code{\linkS4class{learn.task}}] \cr
+#'    Learning task.   
 #' @param 	ranges [\code{\link{list}}] \cr 
-#' 			Either a list containing named range vectors for the hyperparameters or a list of 
-#' 			such lists (see \code{\link{tune}}).
-#' @param 	measure [\code{\link{character}}] \cr 
-#' 			A string indicating how performance is measured at the inner and outer stage. 
-#'   		(default is mean misclassification error ("mmce"), see \code{\link{performance}}.)  
-#' @param 	outer.resampling [\code{\link{list}}] \cr 
-#'   		Consists of a character giving the method of the outer run and a 
-#' 			\code{\linkS4class{resample.instance}} object specifying it . 
+#'    List of named range vectors/list for hyperparameters used in tuning 
+#' 	  (see \code{\link{tune}}).
+#' @param measure [\code{\link{character}}/\code{\link{list}}] \cr 
+#'    Name of performance measure to optimize or a list describing your own performance measure. 
+#' 	  The default is mean misclassification error. 
+#' @param outer.resampling [\code{\link{resample.instance}}] \cr 
+#'   	Specifies the training and test indices of the resampled data used in outer stage. 
+#' @param inner.resampling [\code{\link{resample.desc}}] \cr 
+#'    Describes resampling method to be used in inner stage. 
 #' @param 	all.tune.results [\code{\link{logical}}] \cr 
-#' 			Should complete results for all inner tunings be returned? (default is FALSE)
+#' 	  Should complete results for all inner tunings be returned? (default is FALSE)
 #'              
 #' @return If \code{all.tune.results} is FALSE (default) benchmark returns a list 
 #'  containing the best parameter combinations, their inner run mean performance, 

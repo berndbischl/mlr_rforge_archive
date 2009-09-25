@@ -146,14 +146,14 @@ restrict.learn.task <- function(learn.task, subset) {
 #'   
 #' @param object [\code{\linkS4class{learn.task}}] \cr
 #'   	Learn task that contains the wrapped learner.
-#' 
-#' All additional arguments have to be named.
+#' @param \ldots Parameters to fix in underlying train function. Have to be named.
 #' 
 #' @return learn.task object with changed parameters for train function of the wrapped learner.
 #' 
-#' @usage set.train.par(object, ...)
+#' @usage set.train.par(object, \ldots)
 #'
 #' @title set.train.par
+#' @aliases set.train.par
 
 setMethod(
 		f = "set.train.par",
@@ -171,15 +171,14 @@ setMethod(
 #'   
 #' @param object [\code{\linkS4class{learn.task}}] \cr
 #'   	Learn task that contains the wrapped learner.
-#' @param ... Parameters to fix in underlying predict function.
-#' 
-#' All additional arguments have to be named.
+#' @param \ldots Parameters to fix in underlying predict function. Have to be named.
 #' 
 #' @return learn.task object with changed parameters for predict function of the wrapped learner.
 #' 
-#' @usage set.predict.par(object, ...)
+#' @usage set.predict.par(object, \ldots)
 #'
 #' @title set.predict.par
+#' @aliases set.predict.par
 
 setMethod(
 		f = "set.predict.par",

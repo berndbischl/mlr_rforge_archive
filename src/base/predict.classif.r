@@ -3,17 +3,22 @@
 #' 
 #' See documentation super method. 
 #' 
+#' @param object [\code{\linkS4class{learn.task}}] \cr 
+#'        Learning task
+#' @param model [\code{\linkS4class{wrapped.model}}] \cr 
+#'        Wrapped model, trained from learn task  
+#' @param newdata [\code{\link{data.frame}}] \cr 
+#'        Contains new observations which should be predicted (by default the train data of the wrapped model).
 #' @param type [\code{\link{character}}] \cr 
-#' 		Specifies the type of predictions -	either probability ("prob") or class ("class"). 
-#'       Default is "default", which uses the type specified in the classification task.
+#' 		  Specifies the type of predictions -	either probability ("prob") or class ("class"). 
+#'        Default is "default", which uses the type specified in the classification task.
 #'
 #' @return Either a factor of predicted classes or a matrix of probabilities. The rows correspond to the 
 #'      predicted observations and the columns to the classes. Each column has the name of its respective class.   
 #'
 #' @export
 #' 
-#' @usage predict(object, model, newdata, type="default")
-#'
+#' @usage \S4method{predict}{classif.task}(object, model, newdata, type="default")
 #' @seealso \code{\link{predict,learn.task-method}}
 #'
 #' @examples

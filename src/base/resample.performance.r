@@ -33,7 +33,7 @@ setGeneric(
 #' @export
 #' @rdname resample.performance
 #' 
-#' @usage performance(learn.task, resample.instance, resample.result, measure)
+#' @usage resample.performance(learn.task, resample.instance, resample.result, measure)
 #'
 #' @examples
 #' library(mlbench)
