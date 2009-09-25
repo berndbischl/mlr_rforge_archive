@@ -4,7 +4,11 @@ remove.patterns <<- c(
 		"\\\\alias\\{as.character\\}",
 		"\\\\alias\\{show\\}",
 		"\\\\alias\\{predict\\}",
+		"\\\\alias\\{set.train.par\\}",
+		"\\\\alias\\{set.predict.par\\}",
+		"\\\\alias\\{train.learner\\}",
 		"\\\\alias\\{\\[\\}",
+		
 		"\\\\item\\{\\\\code\\{\\\\link\\[=make.default.measure.*make.default.measure\\}\\}\\}\\{\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=train,classif.task.*train\\}\\}\\}\\{\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=train,regr.task.*train\\}\\}\\}\\{\\}",
@@ -30,7 +34,8 @@ remove.patterns <<- c(
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kknn.regr-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,blackboost.regr-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,gbm.regr-method.*Constructor.\\}",
-
+		
+		"\\\\item\\{\\\\code\\{\\\\link\\[=as.character,.*Conversion to string.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=show,.*Shows the object by calling as.character.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=print,.*Prints the object by calling as.character.\\}"
 
@@ -41,7 +46,7 @@ remove.patterns <<- c(
 #[18] "       missing link(s):  initialize,kernlab.svm.classif-method train.learner,kernlab.svm.classif,formula,data.frame,numeric,list-method"   
 #[20] "       missing link(s):  initialize,kknn.regr-method"                                                                                      
 #[22] "       missing link(s):  [,learn.task-method"                                                                                              
-#[24] "       missing link(s):  penalized.rigde-class"                                                                                            
+#[24] "       missing link(s):  penalized.ridge-class"                                                                                            
 #[27] "       missing link(s):  initialize,nnet.multinom-method"                                                                                  
 #[28] "       missing link(s):  initialize,penalized.lasso-method train.learner,penalized.lasso,formula,data.frame,numeric,list-method"           
 #[29] "       missing link(s):  initialize,penalized.ridge-method train.learner,penalized.ridge,formula,data.frame,numeric,list-method"           

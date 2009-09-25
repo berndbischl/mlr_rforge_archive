@@ -2,7 +2,7 @@
 
 setGeneric(
 		name = "performance",
-		def = function(true.y, pred.y, weights, measure, costs) {
+		def = function(true.y, pred.y, weights, measure) {
 			if(missing(weights)) {
 				weights <- rep(1, length(true.y))
 			}
@@ -12,8 +12,6 @@ setGeneric(
 				if (is.numeric(true.y))
 					measure <- make.measure("mse")
 			}
-			if(missing(costs))
-				costs <- NULL 
 			standardGeneric("performance")
 		}
 )
@@ -45,15 +43,13 @@ setGeneric(
 #' 			A list or a character which defines the loss function. Default is the mean misclassification error 
 #' 			("mmce") for classification tasks and the mean squared error ("mse") for regression tasks. See details
 #' 			for other loss functions.
-#' @param 	costs [ANY] \cr
-#' 			An optional possibility to specify costs, default is \code{NULL}.
 #' 
 #' @return The performance.
 #' 
 #' @export
 #' @rdname performance
 #' 
-#' @usage performance(true.y, pred.y, weights, measure, costs)
+#' @usage performance(true.y, pred.y, weights, measure)
 #'
 #' @examples
 #' data(iris) 
@@ -75,16 +71,16 @@ setGeneric(
 
 setMethod(
 		f = "performance",
-		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="list", costs="ANY"),
-		def = function(true.y, pred.y, weights, measure, costs) {
+		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="list"),
+		def = function(true.y, pred.y, weights, measure) {
 			return(measure$fun(true.y, pred.y, weights))
 		}
 )
 
 setMethod(
 		f = "performance",
-		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="character", costs="ANY"),
-		def = function(true.y, pred.y, weights, measure, costs) {
+		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="character"),
+		def = function(true.y, pred.y, weights, measure) {
 			return(make.measure(measure)$fun(true.y, pred.y, weights))
 		}
 )

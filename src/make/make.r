@@ -19,6 +19,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
 	r.rox.dir    <<- file.path(rox.dir, "R") 
 	man.build.dir  <<- file.path(build.dir, "man") 
 	man.rox.dir  <<- file.path(rox.dir, "man") 
+	data.build.dir  <<- file.path(build.dir, "data") 
 	#html.dir <- file.path(project.dir, "html") 
 	
 	cat("Building mlr to :", pkg.dir, "...\n")
@@ -57,6 +58,10 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
 		}
 	}	
 	
+	if( unlink(file.path(data.build.dir, list.files(data.build.dir))) != 0) 
+		stop("could not data dir!")		
+	
+	
 #rds <- "*.Rd"
 #wd <- getwd()
 #setwd(man.dir)
@@ -94,7 +99,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
 	setwd(project.dir)
 }
 
-make(build=T, check=T, binary=T)
+make(build=F, check=T, binary=F)
 
 
 
