@@ -77,9 +77,9 @@ setMethod(
 				logger.error(paste("Unknown type", type, "in predict!"))
 			}	
 			
-			if(exists("debug.seed") && !is.null(debug.seed)) {
-				set.seed(debug.seed)
-				logger.warn("DEBUG SEED USED!!!!!!!!!!!!!!! REALLY SURE????")
+			if(!is.null(.mlr.local$debug.seed)) {
+				set.seed(.mlr.local$debug.seed)
+				logger.warn("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 			}
 		
 			# if there are no vars in the model, directly predict with our dummy model

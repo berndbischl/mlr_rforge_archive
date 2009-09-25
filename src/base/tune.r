@@ -96,16 +96,18 @@ tune.1 <- function(learn.task, resample.instance, ranges, measure) {
 		return(c(cp$aggr, cp$spread))
 	}
 	
-	if (.parallel.setup$mode %in% c("snowfall", "sfCluster")) {
+	.ps <- .mlr.local$parallel.setup
+	
+	if (.ps$mode %in% c("snowfall", "sfCluster")) {
 		sfExport("learn.task")
 		sfExport("resample.instance")
-		if (.parallel.setup$level == "tune") {
+		if (.ps$level == "tune") {
 			sfExport("parsets")
 			sfExport("measure")
 		}
 	} 
 	
-	if (.parallel.setup$mode %in% c("snowfall", "sfCluster") && .parallel.setup$level == "tune") {
+	if (.ps$mode %in% c("snowfall", "sfCluster") && .ps$level == "tune") {
 		perf <- sfClusterApplyLB(1:nrow(grid.indices), wrapper)
 	} else {
 		perf <- sapply(1:nrow(grid.indices), wrapper)

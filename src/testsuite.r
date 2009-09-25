@@ -56,7 +56,9 @@ regr.train <- regr.df[regr.train.inds, ]
 regr.test  <- regr.df[regr.test.inds, ]
 
 
-debug.seed <- 12345
+.mlr.local$debug.seed <- 12345
+debug.seed <<- .mlr.local$debug.seed
+
 testsuite.mlr <- defineTestSuite("mlr",
   dirs = ts.dirs,  
   testFileRegexp = ts.file.regexp

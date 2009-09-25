@@ -58,9 +58,9 @@ train.generic <- function(learn.task, wrapped.learner, subset, parset, vars) {
 	tn <- learn.task["target.name"]
 	data.subset <- learn.task@data[subset, c(vars, tn), drop=FALSE]
 	ws <- learn.task@weights[subset]
-	if(exists("debug.seed") && !is.null(debug.seed)) {
-		set.seed(debug.seed)
-		logger.warn("DEBUG SEED USED!!!REALLY SURE?")
+	if(!is.null(.mlr.local$debug.seed)) {
+		set.seed(.mlr.local$debug.seed)
+		logger.warn("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 	}
 	logger.debug("mlr train:", wl@learner.name, "with pars:")
 	logger.debug(parset)

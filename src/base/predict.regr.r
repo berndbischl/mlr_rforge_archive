@@ -59,9 +59,9 @@ setMethod(
 			g.pars[[wl@predict.newdata.arg]] <- newdata
 			g.pars <- c(g.pars, wl@predict.fct.pars)
 			
-			if(exists("debug.seed") && !is.null(debug.seed)) {
-				set.seed(debug.seed)
-				logger.warn("DEBUG SEED USED!!!!!!!!!!!!!!! REALLY SURE????")
+			if(!is.null(.mlr.local$debug.seed)) {
+				set.seed(.mlr.local$debug.seed)
+				logger.warn("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 			}
 			
 			logger.debug("Regr. predict:", wl@learner.name, "with pars:")
