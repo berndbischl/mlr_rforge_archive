@@ -15,7 +15,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title Ada constructor
-
 setMethod(
 		f = "initialize",
 		signature = signature("ada"),

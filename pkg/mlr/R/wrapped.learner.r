@@ -1,22 +1,18 @@
 #' @include learner.props.r
 roxygen()
 
-#' Wrapped.learner ---text!----
-#' @slot learner.name Name of the learning method
-#' @slot learner.pack R package where learner is defined
-#' @slot train.fct Function used in above package to train a regular model in the package (see \code{\link{train}})
-#' @slot train.fct.pars Named list of parameters which are fixed in the above train.fct. NB: These are _NOT_ 
-#' 		hyperparamters of the classifier but rather parameters which are fixed for the whole 
-#' 		experiment and should be fixed at the beginning for convenience (Example would be the 
-#'  	tolerance parameter in lda.)
+#' Wraps an already implemented learning method from R to make it accesible to mlr.
+#' 
+#' Also inlcudes a properties object to describe the features of the learner.     
+#' @slot learner.name Descriptive name of the learning method
+#' @slot learner.pack R package where learner is implemented
+#' @slot train.fct Function used in above package to train a regular model in the package
+#' @slot train.fct.pars Named list of parameters which are fixed in the above train.fct and used at every internal call.
 #' @slot predict.fct Function used in above package to predict new data with a trained model 
-#' 		(see \code{\link{predict}}) 
 #' @slot predict.newdata.arg Name of argument for the new data frame in the underlying predict method. 
-#' @slot predict.fct.pars Named list of parameters which are fixed in the above predict.fct. See train.fct.pars 
-#' 		(example would be the method parameter in predict.lda.)
+#' @slot predict.fct.pars Named list of parameters which are fixed in the above predict.fct and used at every internal call.
 #' @slot learner.props Properties of the learner 
-
-
+#' @title wrapped.learner
 
 setClass(
 		"wrapped.learner",
@@ -37,7 +33,6 @@ setClass(
 
 #' Constructor.
 #' @title wrapped.learner constructor
-
 setMethod(
 		f = "initialize",
 		signature = signature("wrapped.learner"),
@@ -107,6 +102,21 @@ setMethod(
 		}
 )
 
+#' Set a parameter for the underlying train function of a wrapped learner. 
+#' This is not meant for hyperparameters, pass these through the usual parset argument, but rather to
+#' fix (somewhat technical) arguments which stay the same for the whole experiment. You should not have to use this too often.
+#'   
+#' @param object [\code{\linkS4class{learn.task}}] \cr
+#'   	Learn task that contains the wrapped learner.
+#' @param \ldots Parameters to fix in underlying train function. Have to be named.
+#' 
+#' @return learn.task object with changed parameters for train function of the wrapped learner.
+#' 
+#' @usage set.train.par(object, \ldots)
+#'
+#' @title set.train.par
+#' @aliases set.train.par
+#' @rdname set.train.par
 
 setGeneric(
 		name = "set.train.par",
@@ -115,23 +125,8 @@ setGeneric(
 		}
 )
 
-#' Set a parameter for the underlying train function of a wrapped learner. 
-#' This is not meant for hyperparamters, pass these through the usual parset argument, but rather to
-#' fix (somewhat techical) arguments which stay the same for the whole experiment. You should not have to use this too often.
-#'   
-#' @param wrapped.learner [\code{\linkS4class{wrapped.learner}}] \cr
-#'   	Wrapping object for the underlying learner.
-#' 
-#' All additional arguments have to be named.
-#' 
-#' @return Wrapped.learner object with changed paramters for train function.
-#' 
-#' @usage set.train.par(wrapped.learner, ...)
-#'
-#' @title set.train.par
-
-
-#' Shows the object by calling as.character.
+#' @export
+#' @rdname set.train.par
 setMethod(
 		f = "set.train.par",
 		signature = signature("wrapped.learner"),
@@ -144,6 +139,22 @@ setMethod(
 )
 
 
+#' Set a parameter for the underlying predict function of a wrapped learner. 
+#' Used to fix (somewhat techical) arguments which stay the same for the whole experiment.
+#' You should not have to use this too often.
+#'   
+#' @param object [\code{\linkS4class{wrapped.learner}}] \cr
+#'   	Wrapping object for the underlying learner.
+#' @param \ldots Parameters to fix in underlying predict function. Have to be named.
+#' 
+#' @return Wrapped.learner object with changed paramters for predict function.
+#' 
+#' @usage set.predict.par(object, \ldots)
+#'
+#' @title set.predict.par
+#' @rdname set.predict.par
+#' @export 
+
 setGeneric(
 		name = "set.predict.par",
 		def = function(object, ...) {
@@ -151,22 +162,8 @@ setGeneric(
 		}
 )
 
-#' Set a parameter for the underlying predict function of a wrapped learner. 
-#' Used to fix (somewhat techical) arguments which stay the same for the whole experiment. Y
-#' You should not have to use this too often.
-#'   
-#' @param object [\code{\linkS4class{wrapped.learner}}] \cr
-#'   	Wrapping object for the underlying learner.
-#' 
-#' All additional arguments have to be named.
-#' 
-#' @return Wrapped.learner object with changed paramters for predict function.
-#' 
-#' @usage set.predict.par(wrapped.learner, ...)
-#'
-#' @title set.predict.par
-
-#' Shows the object by calling as.character.
+#' @export 
+#' @rdname set.predict.par
 
 setMethod(
 		f = "set.predict.par",

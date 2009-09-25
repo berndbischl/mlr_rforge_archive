@@ -16,29 +16,28 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title MDA Constructor
-
 setMethod(
-  f = "initialize",
-  signature = signature("mda"),
-  def = function(.Object) {
-	  
-	  desc = new("classif.props",
-			  supports.multiclass = TRUE,
-			  supports.missing = FALSE,
-			  supports.numerics = TRUE,
-			  supports.factors = TRUE,
-			  supports.characters = FALSE,
-			  supports.probs = FALSE,
-			  supports.weights = FALSE
-	  )
-	  
-	  .Object <- callNextMethod(.Object, learner.name="mda", learner.pack="mda",
-			  train.fct="mda",
-			  predict.par.for.classes =list(type="class"),
-			  predict.par.for.probs =list(type="posterior"),
-			  learner.props=desc)
-	  return(.Object)
-  }
+		f = "initialize",
+		signature = signature("mda"),
+		def = function(.Object) {
+			
+			desc = new("classif.props",
+					supports.multiclass = TRUE,
+					supports.missing = FALSE,
+					supports.numerics = TRUE,
+					supports.factors = TRUE,
+					supports.characters = FALSE,
+					supports.probs = FALSE,
+					supports.weights = FALSE
+			)
+			
+			.Object <- callNextMethod(.Object, learner.name="mda", learner.pack="mda",
+					train.fct="mda",
+					predict.par.for.classes =list(type="class"),
+					predict.par.for.probs =list(type="posterior"),
+					learner.props=desc)
+			return(.Object)
+		}
 )
 
 

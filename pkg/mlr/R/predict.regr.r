@@ -2,7 +2,37 @@
 #' @include wrapped.model.r
 roxygen()
 
-
+#' Predicts the target values of a new data set based on 
+#' an already fitted wrapped.model of a regression task.   
+#' 
+#' See documentation super method. 
+#' 
+#' @param object [\code{\linkS4class{learn.task}}] \cr 
+#'  Learning task
+#' @param model [\code{\linkS4class{wrapped.model}}] \cr 
+#'   Wrapped model, trained from learn task  
+#' @param newdata [\code{\link{data.frame}}] \cr 
+#'   Contains new observations which should be predicted (by default the train data of the wrapped model).
+#' 
+#' @return A vector of numeric values.   
+#'
+#' @export
+#' 
+#' @usage \S4method{predict}{regr.task}(object, model, newdata)
+#'
+#' @seealso \code{\link{predict}}
+#'
+#' @examples
+#' 
+#' data(BostonHousing)
+#' inds <- seq(1, nrow(BostonHousing), 2)
+#' test <- BostonHousing[-inds,]
+#' 
+#' rt <- make.regr.task("stats.lm", data=BostonHousing, formula=medv~.)
+#' model <- train(rt, subset=inds)
+#' predict(rt, model, newdata = test)
+#' 
+#' @title predict
 
 setMethod(
 		f = "predict",
@@ -29,9 +59,9 @@ setMethod(
 			g.pars[[wl@predict.newdata.arg]] <- newdata
 			g.pars <- c(g.pars, wl@predict.fct.pars)
 			
-			if(exists("debug.seed") && !is.null(debug.seed)) {
-				set.seed(debug.seed)
-				logger.warn("DEBUG SEED USED!!!!!!!!!!!!!!! REALLY SURE????")
+			if(!is.null(.mlr.local$debug.seed)) {
+				set.seed(.mlr.local$debug.seed)
+				logger.warn("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 			}
 			
 			logger.debug("Regr. predict:", wl@learner.name, "with pars:")

@@ -21,35 +21,29 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title Random Forest Constructor
-
 setMethod(
-  f = "initialize",
-  signature = signature("randomForest.classif"),
-    def = function(.Object) {
-    
-     desc = new("classif.props",
-      supports.multiclass = TRUE,
-      supports.missing = TRUE,
-      supports.numerics = TRUE,
-      supports.factors = TRUE,
-      supports.characters = TRUE,
-      supports.probs = TRUE,
-	  supports.weights = TRUE
-    )
-      
-    .Object <- callNextMethod(.Object, learner.name="randomForest", learner.pack="randomForest",
-      train.fct="randomForest", 
-	  predict.par.for.classes =list(type="response"),
-	  predict.par.for.probs =list(type="prob"),
-	  learner.props=desc)
-    return(.Object)
-  }
+		f = "initialize",
+		signature = signature("randomForest.classif"),
+		def = function(.Object) {
+			
+			desc = new("classif.props",
+					supports.multiclass = TRUE,
+					supports.missing = TRUE,
+					supports.numerics = TRUE,
+					supports.factors = TRUE,
+					supports.characters = TRUE,
+					supports.probs = TRUE,
+					supports.weights = TRUE
+			)
+			
+			.Object <- callNextMethod(.Object, learner.name="randomForest", learner.pack="randomForest",
+					train.fct="randomForest", 
+					predict.par.for.classes =list(type="response"),
+					predict.par.for.probs =list(type="prob"),
+					learner.props=desc)
+			return(.Object)
+		}
 )
-
-
-
-
-
 
 
 

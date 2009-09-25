@@ -2,6 +2,20 @@
 #' @include resample.instance.r
 roxygen()
 
+#' \code{resample.result} contains the results of a resampling process, mainly the list of predicitions and - 
+#' if saved - the list of fitted models. 
+#' 
+#' @slot ri.class	Class of resample.instance
+#' @slot ri.name	Name of resample.instance
+#' @slot preds		List of predictions, i.e. list of factors or list of matrices for classification respectivly regression.
+#' @slot models		List of the fitted models.
+#' 
+#' @exportClass resample.result
+#' @seealso \code{\linkS4class{resample.desc}}, \code{\linkS4class{resample.instance}}, 
+#' 			\code{\link{make.cv.instance}}, \code{\link{make.bs.instance}}, 
+#' 			\code{\link{make.subsample.instance}}, \code{\link{resample.fit}}
+#' @title resample.result
+
 setClass(
 		"resample.result",
 		representation = representation(
@@ -47,13 +61,18 @@ setMethod(
 )
 
 
-
-
-
-
-
-#----------------- getter ---------------------------------------------------------
-
+#' Getter.
+#' @param x resample.result object
+#' @param i [character]
+#' \describe{
+#'   \item{iters}{Number of predictions.}
+#'   \item{fitted}{If j is missing all fitted values are returned. Otherwise they are indexed by j.}
+#' }
+#' @param j [integer] \cr See above, i == "fitted".
+#' 
+#' @rdname getter,resample.result-method
+#' @aliases resample.result.getter getter,resample.result-method
+#' @title Getter for resample.result
 
 setMethod(
 		f = "[",

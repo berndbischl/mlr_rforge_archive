@@ -1,7 +1,6 @@
 
+.mlr.local <- new.env()
 
-logger.def <- list()
-.parallel.setup <- list() 
 
 .onLoad <- function(libname, pkgname) {
 	logger.define(level="warn")

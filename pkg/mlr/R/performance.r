@@ -2,7 +2,7 @@
 
 setGeneric(
 		name = "performance",
-		def = function(true.y, pred.y, weights, measure, costs) {
+		def = function(true.y, pred.y, weights, measure) {
 			if(missing(weights)) {
 				weights <- rep(1, length(true.y))
 			}
@@ -12,8 +12,6 @@ setGeneric(
 				if (is.numeric(true.y))
 					measure <- make.measure("mse")
 			}
-			if(missing(costs))
-				costs <- NULL 
 			standardGeneric("performance")
 		}
 )
@@ -35,16 +33,6 @@ setGeneric(
 #' } 
 #' 
 
-#' @param learner [\code{\link{character}}] \cr 
-#'  	  Specifies the learner. See the list below in the details section.
-#' @param formula [\code{\link{formula}}] \cr
-#'  	  A symbolic description of the model to be fitted.
-#' @param data [\code{\link{data.frame}}] \cr 	
-#'        A data frame containing the variables in the model.
-#' @param weights [\code{\link{numeric}}] \cr 	
-#'        An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
-#' @param type [\code{\link{character}}] \cr 	
-#' 	      Specifies the type of the predictions - either probabilities ("prob") or classes ("class"). Default is "class".
 #' @param	true.y [ANY] \cr
 #' 			The data sets true labels.
 #' @param 	pred.y [ANY] \cr
@@ -55,15 +43,13 @@ setGeneric(
 #' 			A list or a character which defines the loss function. Default is the mean misclassification error 
 #' 			("mmce") for classification tasks and the mean squared error ("mse") for regression tasks. See details
 #' 			for other loss functions.
-#' @param 	costs [ANY] \cr
-#' 			An optional possibility to specify costs, default is \code{NULL}.
 #' 
 #' @return The performance.
 #' 
 #' @export
 #' @rdname performance
 #' 
-#' @usage performance(true.y, pred.y, weights, measure, costs)
+#' @usage performance(true.y, pred.y, weights, measure)
 #'
 #' @examples
 #' data(iris) 
@@ -85,16 +71,16 @@ setGeneric(
 
 setMethod(
 		f = "performance",
-		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="list", costs="ANY"),
-		def = function(true.y, pred.y, weights, measure, costs) {
+		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="list"),
+		def = function(true.y, pred.y, weights, measure) {
 			return(measure$fun(true.y, pred.y, weights))
 		}
 )
 
 setMethod(
 		f = "performance",
-		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="character", costs="ANY"),
-		def = function(true.y, pred.y, weights, measure, costs) {
+		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="character"),
+		def = function(true.y, pred.y, weights, measure) {
 			return(make.measure(measure)$fun(true.y, pred.y, weights))
 		}
 )

@@ -43,7 +43,6 @@ predict.kknn.model <- function(model, newdata, type="class", ...) {
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title kNN (classification) Constructor
-
 setMethod(
   f = "initialize",
   signature = signature("kknn.classif"),

@@ -28,7 +28,6 @@ predict.gbm.regr <- function (object, newdata, ...) {
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title GBM Constructor
-
 setMethod(
 		f = "initialize",
 		signature = signature("gbm.regr"),

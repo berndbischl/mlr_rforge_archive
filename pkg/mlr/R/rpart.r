@@ -16,7 +16,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title rpart Constructor
-
 setMethod(
 		f = "initialize",
 		signature = signature("rpart.classif"),

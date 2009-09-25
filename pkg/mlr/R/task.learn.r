@@ -2,11 +2,10 @@
 #' @include wrapped.learner.r
 roxygen()
 
-#' A learning task is the general description object for a machine learning experiment, which contains 
-#' all initial setup for a learning task. It mainly includes the type of the learning task (e.g. lda), 
+#' A learning task is the general description object for a machine learning experiment. 
+#' It mainly includes the type of the learning task (e.g. lda), 
 #' a dataframe and a formula. As this is just an abstract base class, 
-#' you should not instantiate it directly but rather inherit from it in the learn.task classes of
-#' your specific classifiers. 
+#' you should not instantiate it directly but use the inheriting classes and their factory methods.
 #' 
 #' @slot wrapped.learner Object of class \code{\linkS4class{wrapped.learner}}.
 #' @slot data Dataframe which includes all the data for the task.
@@ -16,6 +15,7 @@ roxygen()
 #' 		characters or missing values (see desc and \code{\linkS4class{data.desc}}).
 #' 
 #' @exportClass learn.task
+#' @seealso classif.task regr.task
 #' @title learn.task
 
 
@@ -73,12 +73,17 @@ setMethod(
 #' Getter.
 #' @param x learn.task object
 #' @param i [character]
+#' \describe{
 #'   \item{target.name}{The name of the target variable.}
 #'   \item{target.col}{The column number of the target variable.}
 #'   \item{targets}{If j is missing all target values are returned. Otherwise they are indexed by j.}
 #'   \item{input.names}{The names of the input variables.}
+#' }
 #' @param j [integer] \cr See above, i == "targets".
-
+#' 
+#' @rdname getter,learn.task-method
+#' @aliases learn.task.getter getter,learn.task-method
+#' @title Getter for learn.task
 
 setMethod(
 		f = "[",
@@ -135,23 +140,8 @@ restrict.learn.task <- function(learn.task, subset) {
 }
 
 
-#' Set a parameter for the underlying train function of a wrapped learner. 
-#' This is not meant for hyperparamters, pass these through the usual parset argument, but rather to
-#' fix (somewhat techical) arguments which stay the same for the whole experiment. You should not have to use this too often.
-#'   
-#' @param object [\code{\linkS4class{learn.task}}] \cr
-#'   	Learn task that conatins the wrapped learner.
-#' 
-#' All additional arguments have to be named.
-#' 
-#' @return learn.task object with changed parameters for train function of the wrapped learner.
-#' 
-#' @usage set.train.par(wrapped.learner, ...)
-#'
-#' @title set.train.par
-
-
-#' Shows the object by calling as.character.
+#' @export
+#' @rdname set.train.par
 setMethod(
 		f = "set.train.par",
 		signature = signature("learn.task"),
@@ -162,20 +152,8 @@ setMethod(
 )
 
 
-#' Set a parameter for the underlying predict function of a wrapped learner. 
-#' Used to fix (somewhat techical) arguments which stay the same for the whole experiment. Y
-#' You should not have to use this too often.
-#'   
-#' @param object [\code{\linkS4class{learn.task}}] \cr
-#'   	Learn task that conatins the wrapped learner.
-#' 
-#' All additional arguments have to be named.
-#' 
-#' @return learn.task object with changed parameters for predict function of the wrapped learner.
-#' 
-#' @usage set.predict.par(wrapped.learner, ...)
-#'
-#' @title set.predict.par
+#' @export
+#' @rdname set.predict.par
 
 setMethod(
 		f = "set.predict.par",

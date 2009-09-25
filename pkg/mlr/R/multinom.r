@@ -16,7 +16,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title Multinomial Regression Constructor
-
 setMethod(
 		f = "initialize",
 		signature = signature("nnet.multinom"),

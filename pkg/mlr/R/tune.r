@@ -12,9 +12,9 @@ roxygen()
 #' @param resample.instance [\code{\linkS4class{resample.instance}}] \cr
 #'   	Specifies the training and test indices of the resampled data. 
 #' @param ranges [\code{\link{list}}] \cr 
-#' 		A list of named vectors of possible values for each hyperparameter. 
-#'      You can also pass a list of such list if it does not make sense to search a complete 
-#'      cross-product of range values.     
+#' 		A list of named vectors/lists of possible values for each hyperparameter. 
+#'      You can also pass a list of such ranges by using [\code{\link{combine.ranges}}] 
+#'      in the rare case when it does not make sense to search a complete cross-product of range values.     
 #' @param measure [\code{\link{character}}/\code{\link{list}}] \cr 
 #' 		Name of performance measure to optimize or a list describing your own performance measure. 
 #' 		The default is mean misclassification error. 
@@ -26,7 +26,7 @@ roxygen()
 #' 
 #' @export
 #' 
-#' @usage tune(learn.task, resample.instance, ranges, measure = "mmce")
+#' @usage tune(learn.task, resample.instance, ranges, measure)
 #'
 #' @examples
 #' library(mlr) 
@@ -43,33 +43,50 @@ tune <- function(learn.task, resample.instance, ranges, measure) {
 		measure <- make.default.measure(learn.task)
 	if (is.character(measure))
 		measure <- make.measure(measure)
-	# if ranges are list of lists 
-	if(all(sapply(ranges, is.list))) {
-		trs <- lapply(ranges, function(r) tune.1(learn.task=learn.task, resample.instance=resample.instance, ranges=r, measure=measure))
-		perf <- Reduce(rbind.fill, trs)
+	# if theres more than one ranges 
+	if(all((names(ranges) == "ranges"))) {
+		trs <- lapply(ranges, function(r) {tune.1(learn.task=learn.task, resample.instance=resample.instance, ranges=r, measure=measure)})
+		trs2 <- lapply(1:length(ranges), function(i) make.tune.result(trs[[i]], measure, ranges[[i]]))
+		ps <- lapply(trs2, function(x) x$performances)
+		bps <- sapply(trs2, function(x) x$best.performance)
+		bss <- sapply(trs2, function(x) x$best.spread)
+		bpars <- lapply(trs2, function(x) x$best.parameters)
+		i <- which.min(bps)
+		perf <- Reduce(rbind.fill, ps)
+		# reorder
+		cn <- colnames(perf)
+		perf <- perf[, c(setdiff(cn, c(measure$aggr.name, measure$spread.name)), measure$aggr.name, measure$spread.name)]
+		return(list(best.parameters=bpars[[i]], best.performance=bps[i], best.spread=bss[i], performances = perf))
 	}else {
 		perf <- tune.1(learn.task=learn.task, resample.instance=resample.instance, ranges=ranges, measure=measure)
+		return()  
 	}
-	return(make.tune.result(perf, measure))  
 }
 
 
 
-row2parset <- function (row){
-	row <- as.list(row)
-	row <- lapply(row, function(x) {
-				x.n <- suppressWarnings(as.numeric(x))
-				ifelse(is.na(x.n), as.character(x), x.n)
-			})
+row2parset <- function (indices.row, ranges){
+	indices.row <- as.integer(indices.row)
+	result <- as.list(rep(0,length(indices.row)))
+	names(result) <- names(ranges)
+	for (i in 1:length(indices.row)) {
+		result[[i]] <- (ranges[[i]])[[indices.row[i]]]
+	}
+	return(result)
 }
 
 tune.1 <- function(learn.task, resample.instance, ranges, measure) {
-	grid <- expand.grid(ranges, KEEP.OUT.ATTRS = FALSE)
-	# expand grid converts char vectors to factors
-	for (i in 1:ncol(grid))
-		if(is.factor(grid[,i])) grid[,i] <- as.character(grid[,i])
+	check.ranges(ranges)
 	
-	parsets <- lapply(1:nrow(grid), function(i) row2parset(grid[i,,drop=F]))	
+	cr <- convert.ranges(ranges)
+	grid.labels <- expand.grid(cr$labels, KEEP.OUT.ATTRS = FALSE)
+	grid.indices <- expand.grid(cr$indices, KEEP.OUT.ATTRS = FALSE)
+		
+	# expand grid converts char vectors to factors
+#	for (i in 1:ncol(grid.labels))
+#		if(is.factor(grid.labels[,i])) grid[,i] <- as.character(grid[,i])
+	
+	parsets <- lapply(1:nrow(grid.indices), function(i) row2parset(grid.indices[i,,drop=F], ranges))	
 	
 	
 	wrapper <- function(i) {
@@ -79,46 +96,61 @@ tune.1 <- function(learn.task, resample.instance, ranges, measure) {
 		return(c(cp$aggr, cp$spread))
 	}
 	
-	if (.parallel.setup$mode %in% c("snowfall", "sfCluster")) {
+	.ps <- .mlr.local$parallel.setup
+	
+	if (.ps$mode %in% c("snowfall", "sfCluster")) {
 		sfExport("learn.task")
 		sfExport("resample.instance")
-		if (.parallel.setup$level == "tune") {
+		if (.ps$level == "tune") {
 			sfExport("parsets")
 			sfExport("measure")
 		}
 	} 
 	
-	if (.parallel.setup$mode %in% c("snowfall", "sfCluster") && .parallel.setup$level == "tune") {
-		perf <- sfClusterApplyLB(1:nrow(grid), wrapper)
+	if (.ps$mode %in% c("snowfall", "sfCluster") && .ps$level == "tune") {
+		perf <- sfClusterApplyLB(1:nrow(grid.indices), wrapper)
 	} else {
-		perf <- sapply(1:nrow(grid), wrapper)
+		perf <- sapply(1:nrow(grid.indices), wrapper)
 	}
-	
-	performances <- grid
+	performances <- grid.indices
 	performances$aggr <- perf[1,] 
 	performances$spread <- perf[2,]
+	#print(performances)
 	return(performances)
 }
 
-make.tune.result <- function(perf, measure) {
+make.tune.result <- function(perf, measure, ranges) {
+	cr <- convert.ranges(ranges)
 	if (measure$minimize)
 		best.i <- which.min(perf$aggr)
 	else
-		best.i <- which.max(perf$aggr) 
+		best.i <- which.max(perf$aggr)
 	cn <- colnames(perf)
 	cn <- setdiff(cn, c("aggr", "spread"))
-	best.parameters <- row2parset(perf[best.i, cn, drop=F])
+	perf2 <- perf[,cn, drop=FALSE]
+	best.parameters <- row2parset(perf[best.i, cn, drop=F], ranges)
 	best.performance <- perf[best.i, "aggr"] 
 	best.spread <- perf[best.i, "spread"] 
 	# put aggr/spread at end
-	perf <- perf[, c(cn, "aggr", "spread")]
+	perf2 <- sapply(1:ncol(perf2), function(i) cr$labels[[i]][perf[,cn[i]]])
+	perf2 <- as.data.frame(perf2)
+	colnames(perf2) <- cn
+	perf2 <- cbind(perf2, perf[,c("aggr", "spread")])
 	# more informative names 
 #	ag <- paste("aggr=", measure$aggr.name, sep="") 
 #	sp <- paste("spread=", measure$spread.name, sep="")
 	ag <- measure$aggr.name 
 	sp <- measure$spread.name
-	colnames(perf)[ncol(perf)-1] <- ag
-	colnames(perf)[ncol(perf)]   <- sp
-	return(list(best.parameters=best.parameters, best.performance=best.performance, best.spread=best.spread, performances = perf))
+	colnames(perf2)[ncol(perf)-1] <- ag
+	colnames(perf2)[ncol(perf)]   <- sp
+	return(list(best.parameters=best.parameters, best.performance=best.performance, best.spread=best.spread, performances = perf2))
 }
+
+convert.ranges <- function(ranges) {
+	indices <- lapply(ranges, function(x) 1:length(x))
+	labels <- lapply(ranges, function(x) if(length(names(x)) > 0) {return(names(x))} else {as.character(x)})
+	return(list(indices=indices, labels=labels))
+}
+
+
 

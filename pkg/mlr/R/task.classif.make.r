@@ -33,7 +33,7 @@ setGeneric(
 #' 		\item{\code{\linkS4class{lda}}}{Linear Discriminant Analysis from MASS package}
 #' 		\item{\code{\linkS4class{logreg}}}{Logistic Regression from stats package}
 #' 		\item{\code{\linkS4class{mda}}}{Mixture Discriminant Analysis from mda package}
-#' 		\item{\code{\linkS4class{nb}}}{Naive Bayes from e1071 package}
+#' 		\item{\code{\linkS4class{naiveBayes}}}{Naive Bayes from e1071 package}
 #' 		\item{\code{\linkS4class{qda}}}{Quadratic Discriminant Analysis from MASS package}
 #' 		\item{\code{\linkS4class{randomForest.classif}}}{Random Forest from randomForest package}
 #' 		\item{\code{\linkS4class{rda}}}{Regularized Discriminant Analysis from klaR package}

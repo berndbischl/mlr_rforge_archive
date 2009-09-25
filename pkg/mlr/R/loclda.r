@@ -14,7 +14,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title loclda Constructor
-
 setMethod(
 		f = "initialize",
 		signature = signature("loclda"),

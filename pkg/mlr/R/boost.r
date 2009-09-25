@@ -23,30 +23,29 @@ setClass(
 
 #' Constructor.
 #' @title Adaboost Constructor
-
 setMethod(
-  f = "initialize",
-  signature = signature("adaboost"),
-    def = function(.Object, data, formula, type="class") {
-    train.fct <- "adaboost.M1"
-    predict.fct <- "predict.boosting"
-
-     desc = new("classif.props",
-      supports.multiclass = TRUE,
-      supports.missing = TRUE,
-      supports.numerics = TRUE,
-      supports.factors = TRUE,
-      supports.characters = TRUE,
-      supports.probs = FALSE,
-	  supports.weights = FALSE
-    )
-      
-      
-    .Object <- callNextMethod(.Object, learner.name="boost", learner.pack="adabag",
-      train.fct="adaboost.M1",
-      learner.props=desc, dummy.classes=TRUE)
-    return(.Object)
-  }
+		f = "initialize",
+		signature = signature("adaboost"),
+		def = function(.Object, data, formula, type="class") {
+			train.fct <- "adaboost.M1"
+			predict.fct <- "predict.boosting"
+			
+			desc = new("classif.props",
+					supports.multiclass = TRUE,
+					supports.missing = TRUE,
+					supports.numerics = TRUE,
+					supports.factors = TRUE,
+					supports.characters = TRUE,
+					supports.probs = FALSE,
+					supports.weights = FALSE
+			)
+			
+			
+			.Object <- callNextMethod(.Object, learner.name="boost", learner.pack="adabag",
+					train.fct="adaboost.M1",
+					learner.props=desc, dummy.classes=TRUE)
+			return(.Object)
+		}
 )
 
 

@@ -2,8 +2,13 @@
 roxygen()
 
 
+#' General description object for a regression experiment.  
+#' Instantiate it by using its factory method.
+#' 
+#' @exportClass classif.task
+#' @title classif.task
+#' @seealso learn.task make.regr.task
 
-#' @export
 setClass(
 		"regr.task",
 		contains = c("learn.task")

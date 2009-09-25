@@ -2,16 +2,15 @@
 #' @include wrapped.learner.r
 roxygen()
 
-#' Wrapped.learner.classif ---text!----
-#' @slot train.par.for.classes  
-#' @slot train.par.for.probs  
-#' @slot predict.par.for.classes  
-#' @slot predict.par.for.probs  
-#' @slot trafo.for.classes  
-#' @slot trafo.for.probs  
-#' @slot dummy.classes Does the predict function need a class column in the dataframe for prediction? 
-#' 		If TRUE but no class column is avaible in the data a null column is generated 
-#'   	 	in predict (default is FALSE). 
+#' Wraps an already implemented classification method from R to make it accesible to mlr.
+#' 
+#' @slot train.par.for.classes List of parameters to train a model for class predictions. Will be added to train.fct.pars in this case.
+#' @slot train.par.for.probs List of parameters to train a model for probability predictions. Will be added to train.fct.pars in this case.
+#' @slot predict.par.for.classes List of parameters to predict a model for class predictions. Will be added to predict.fct.pars in this case.
+#' @slot predict.par.for.probs List of parameters to predict a model for probability predictions. Will be added to predict.fct.pars in this case.
+#' @slot trafo.for.classes Function to transform the raw predictions to classes
+#' @slot trafo.for.probs  Function to transform the raw predictions to probabilities
+#' @slot dummy.classes Does the predict function need a class column in the newdata dataframe for prediction? If TRUE but no class column is avaible in the data a null column is internally generated (default is FALSE). 
 #' 
 #' @title wrapped.learner.classif
 

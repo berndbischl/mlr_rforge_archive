@@ -30,7 +30,8 @@ setGeneric(
 #'   Specifies the learning task for the problem.
 #' @param resample.instance [\code{\linkS4class{resample.instance}}] \cr
 #'   Specifies the training and test indices of the resampled data. 
-#' @param parset [\code{\link{list}}]\cr A list of named elements which specify the hyperparameters of the learner.     
+#' @param parset [\code{\link{list}}]\cr A list of named elements which specify the hyperparameters of the learner.
+#' @param vars [\code{\link{character}}] \cr Vector of variable names to use in training the model. Default is to use all variables.
 #' @param models [\code{\link{logical}}] \cr If TRUE a list of the fitted models is included in the result.
 #' @param type [\code{\link{character}}] \cr 
 #' 		Only used for classification tasks; specifies the type of predictions -
@@ -42,7 +43,7 @@ setGeneric(
 #' @export
 #' @rdname resample.fit 
 #' 
-#' @usage resample.fit(learn.task, resample.instance, parset, models, type)
+#' @usage resample.fit(learn.task, resample.instance, parset, vars, models, type)
 #'
 #' @examples
 #' library(mlr) 
@@ -68,7 +69,8 @@ setMethod(
 				resample.fit.iter(learn.task, resample.instance, parset, vars, type, i, return.model=models)
 			}
 			
-			if (.parallel.setup$mode %in% c("snowfall", "sfCluster") && .parallel.setup$level == "resample") {
+			.ps <- .mlr.local$parallel.setup
+			if (.ps$mode %in% c("snowfall", "sfCluster") && .ps$level == "resample") {
 				sfExport("parset")
 				if (!is.null(parent.frame()$caller) && !parent.frame()$caller == "tune") {
 					sfExport("learn.task")

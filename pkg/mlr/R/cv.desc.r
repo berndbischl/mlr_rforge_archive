@@ -13,7 +13,6 @@ setClass("cv.desc",
 
 #' Create description object for cross-validation.
 #' @param iters Number of iterations
-
 setMethod(
 		f = "initialize",
 		signature = signature("cv.desc"),

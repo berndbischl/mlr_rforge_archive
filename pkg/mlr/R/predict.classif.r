@@ -1,34 +1,36 @@
-#' Predicts the class memberships for the observations of a new dataset based on 
-#' the knowledge of an existing classification model.   
-#'
-#' @param model [\code{\linkS4class{model}}] \cr 
-#'   Specifies classification task.  
-#' @param newdata [data.frame] \cr 
-#'   Contains new observations which should be classified (by default the train data).
+#' Predicts the target classes of a new data set based on 
+#' an already fitted wrapped.model of a classifcation task.   
+#' 
+#' See documentation super method. 
+#' 
+#' @param object [\code{\linkS4class{learn.task}}] \cr 
+#'        Learning task
+#' @param model [\code{\linkS4class{wrapped.model}}] \cr 
+#'        Wrapped model, trained from learn task  
+#' @param newdata [\code{\link{data.frame}}] \cr 
+#'        Contains new observations which should be predicted (by default the train data of the wrapped model).
 #' @param type [\code{\link{character}}] \cr 
-#' 		Specifies the type of predictions -	either probability ("prob") or class ("class").
+#' 		  Specifies the type of predictions -	either probability ("prob") or class ("class"). 
+#'        Default is "default", which uses the type specified in the classification task.
 #'
-#' @return \code{predict} returns a prediction object containing a factor vector of 
-#' predicted classes.
+#' @return Either a factor of predicted classes or a matrix of probabilities. The rows correspond to the 
+#'      predicted observations and the columns to the classes. Each column has the name of its respective class.   
 #'
 #' @export
 #' 
-#' @usage predict(model, newdata)
-#'
-#' @seealso \code{\link{train}}
+#' @usage \S4method{predict}{classif.task}(object, model, newdata, type="default")
+#' @seealso \code{\link{predict,learn.task-method}}
 #'
 #' @examples
-#' library(MASS)
-#'
+#' 
 #' inds <- 2*(1:75)
 #' test <- iris[-inds,]
 #' 
-#' lda.learn.task <- make.classif.task("lda", data=iris, formula=Species~.)
-#' lda.model <- train(lda.learn.task, subset=inds)
-#' lda.prediction <- predict(lda.learn.task, lda.model, newdata = test)
+#' ct <- make.classif.task("lda", data=iris, formula=Species~.)
+#' model <- train(ct, subset=inds)
+#' predict(ct, model, newdata = test)
 #' 
-#'  @title predict
-
+#' @title predict
 setMethod(
 		f = "predict",
 		signature = signature(object="classif.task"),
@@ -75,9 +77,9 @@ setMethod(
 				logger.error(paste("Unknown type", type, "in predict!"))
 			}	
 			
-			if(exists("debug.seed") && !is.null(debug.seed)) {
-				set.seed(debug.seed)
-				logger.warn("DEBUG SEED USED!!!!!!!!!!!!!!! REALLY SURE????")
+			if(!is.null(.mlr.local$debug.seed)) {
+				set.seed(.mlr.local$debug.seed)
+				logger.warn("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 			}
 		
 			# if there are no vars in the model, directly predict with our dummy model

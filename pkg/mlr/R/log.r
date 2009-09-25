@@ -1,8 +1,5 @@
 # todo: can we log where the current log was generated, like in which method (automatically)?
 
-#' @importFrom utils assignInNamespace
-
-
 logger.errorhandler <- function() {
 	s <- geterrmessage()
 	logger.error(s)
@@ -16,11 +13,9 @@ logger.define <- function(console=TRUE, file=NULL, level, global=FALSE) {
 	logger.def$console <- console
 	logger.def$file <- file
 	logger.def$global.level <- level
-	# i dont know why i need to do this. otherwise R CMD check wont accept the example code
-	if (global)
-		assign("logger.def", logger.def, envir=.GlobalEnv)
-	else
-		assignInNamespace("logger.def", logger.def, ns="mlr")
+
+	.mlr.local$logger.def <- logger.def
+	
 	if (!is.null(file)) 
 		unlink(file)
 	return(logger.def)
@@ -60,6 +55,7 @@ logger.print <- function(level, ...) {
 	
 	#cat("level: ", level, "\n")
 	#cat("global.level: ", logger.def$global.level, "\n")
+	logger.def <- .mlr.local$logger.def
 	global.level <- switch(logger.def$global.level,
 			error = 4,
 			warn = 3,
@@ -81,22 +77,18 @@ logger.print <- function(level, ...) {
 }
 
 
-#' @export
 logger.error <- function(...) {
 	logger.print(level="error", ...)
 }
 
-#' @export
 logger.warn <- function(...) {
 	logger.print(level="warn", ...)
 }
 
-#' @export
 logger.info <- function(...) {
 	logger.print(level="info", ...)
 }
 
-#' @export
 logger.debug <- function(...) {
 	logger.print(level="debug", ...)
 }

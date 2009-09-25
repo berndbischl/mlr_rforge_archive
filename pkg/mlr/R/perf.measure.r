@@ -46,7 +46,7 @@ make.measure <- function(name, aggregate=NULL, aggr.name="aggr", spread=NULL, sp
 				aggregate = mean, aggr.name="mean", spread=sd, spread.name="sd", minimize=TRUE)
 	} else if (name=="mber") {
 		ms <- list(fun = function(true.y, pred.y, weights) {
-					em <- errormatrix(true.y, pred.y, realtive=TRUE)
+					em <- errormatrix(true.y, pred.y, relative =TRUE)
 					n <- ncol(em)
 					return(sum(em[1:(n-1), n]))
 				},

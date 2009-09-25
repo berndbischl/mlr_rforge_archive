@@ -8,9 +8,9 @@ roxygen()
 #' For construction simply use the factory methods of the subclasses - e.g. for cross-validation 
 #' use \code{\link{make.cv.instance}} to get a \code{\linkS4class{cv.instance}}.  
 #' 
-#' @slot desc [\code{\linkS4class{resample.desc}}] \cr Description object for the resampling.
-#' @slot size [integer] \cr Number of observations in the data.
-#' @slot inds [list] \cr List of integer vectors specifying the training cases for each iteration. Each vector might contain duplicated indices and the order matters for some classifiers.
+#' @slot desc Description object for resampling strategy
+#' @slot size Number of observations in data
+#' @slot inds List of integer vectors specifying the training cases for each iteration. Each vector might contain duplicated indices and the order matters for some classifiers.
 #' 
 #' @note If you want to add another resampling strategy, have a look at the web documentation. 
 #' @exportClass resample.instance
@@ -22,7 +22,11 @@ roxygen()
 setClass(
 		"resample.instance",                                                     
 		# we always have to store training inds because the order might matter
-		representation(desc = "resample.desc", size = "integer", inds = "list")
+		representation = representation(
+				desc = "resample.desc", 
+				size = "integer", 
+				inds = "list"
+		)
 )
 
 
@@ -63,14 +67,14 @@ setGeneric(
 #' @param desc [\code{\linkS4class{resample.desc}}] \cr Describes the resampling strategy.
 #' @param size [integer] \cr Size of the data set to resample from. 
 #'              
-#' @return Object of corresponding subclass of \code{\linkS4class{resample.instance}.
+#' @return Object of corresponding subclass of \code{\linkS4class{resample.instance}}.
 #' @export
 #' @rdname make.resample.instance
 #'	
 #' @usage make.resample.instance(desc, size) 
 #'
 #' @examples 
-#'   cv.d <- new("cv.desc", folds = 10)
+#'   cv.d <- new("cv.desc", iters = 10)
 #'   rin <- make.resample.instance(desc = cv.d, size = nrow(iris))
 
 setMethod(
@@ -82,18 +86,59 @@ setMethod(
 )
 
 
+#' Conversion to string.
+setMethod(
+		f = "as.character",
+		signature = signature("resample.instance"),
+		def = function(x) {
+			return(
+					paste(
+							"Instance for ", x@desc@name,  " with ", length(x@inds), " iterations and ", x@size, " cases\n",
+							paste(capture.output(str(x@inds)), collapse="\n"), 
+							"\n", sep=""
+					)
+			)
+		}
+)
+
+
+
+#' Prints the object by calling as.character.
+setMethod(
+		f = "print",
+		signature = signature("resample.instance"),
+		def = function(x, ...) {
+			cat(as.character(x))
+		}
+)
+
+#' Shows the object by calling as.character.
+setMethod(
+		f = "show",
+		signature = signature("resample.instance"),
+		def = function(object) {
+			cat(as.character(object))
+		}
+)
+
 
 #----------------- getter ---------------------------------------------------------
 
 #' Getter.
 #' @param x resample.instance object
 #' @param i [character]
+#' \describe{
 #' 	\item{data.size}{The size of the dataframe.}
 #' 	\item{name}{The name of the resample description object, i.e. the type of resampling.}
 #' 	\item{iters}{The number of resampling iterations.}
 #'  \item{train.inds}{If j is a single integer, the vector of training indices for the jth iteration is returned. If j is an integer vector, the list of training indices for the given iterations is returned. If j is missing, all indices are returned.}
 #'  \item{test.inds}{If j is a single integer, the vector of test indices for the jth iteration is returned. If j is an integer vector, the list of test indices for the given iterations is returned. If j is missing, all indices are returned.}
+#' }
 #' @param j [integer] \cr See above, i == "train.inds" or i == "test.inds".
+#' 
+#' @rdname getter,resample.instance-method
+#' @aliases resample.instance.getter getter,resample.instance-method
+#' @title Getter for resample.instance
 
 setMethod(
 		f = "[",

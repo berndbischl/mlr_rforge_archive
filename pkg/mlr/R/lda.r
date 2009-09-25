@@ -14,7 +14,6 @@ setClass(
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
 #' @title LDA Constructor
-
 setMethod(
 		f = "initialize",
 		signature = signature("lda"),
@@ -33,7 +32,7 @@ setMethod(
 			.Object <- callNextMethod(.Object, learner.name="LDA", learner.pack="MASS", 
 					train.fct="lda",  
 					learner.props=desc)
-
+			
 			return(.Object)
 		}
 )

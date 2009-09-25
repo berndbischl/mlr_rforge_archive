@@ -81,6 +81,7 @@ setMethod(
 
 
 #' Conversion to string.
+
 setMethod(
 		f = "as.character",
 		signature = signature("data.desc"),
@@ -99,6 +100,7 @@ setMethod(
 
 
 #' Prints the object by calling as.character.
+
 setMethod(
   f = "print",
   signature = signature("data.desc"),
@@ -108,6 +110,7 @@ setMethod(
 )
 
 #' Shows the object by calling as.character.
+
 setMethod(
   f = "show",
   signature = signature("data.desc"),

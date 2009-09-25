@@ -1,19 +1,21 @@
 #' @include task.learn.r
 roxygen()
 
+#' General description object for a classification experiment.   
+#' Instantiate it by using its factory method.
+#' 
+#' @slot type "class" if you generally want to predict classes or "prob" for probabilities. Default is "class" 
+#' 
+#' @exportClass classif.task
+#' @title classif.task
+#' @seealso make.regr.task 
 
 
 setClass(
 		"classif.task",
 		contains = c("learn.task"),
 		representation = representation(
-				type = "character",
-				trafo.for.classes = "function",
-				trafo.for.probs = "function",
-				train.par.for.classes = "list",
-				train.par.for.probs = "list",
-				predict.par.for.classes = "list",
-				predict.par.for.probs = "list"
+				type = "character"
 		)
 )
 
@@ -47,6 +49,17 @@ setMethod(
 		}
 )
 
+#' Getter.
+#' @param x classif.task object
+#' @param i [character]
+#' \describe{
+#'   \item{class.levels}{All possible class values.}
+#'   \item{class.nr}{Number of different classes.}
+#' }
+#' @rdname getter,classif.task-method
+#' @aliases classif.task.getter getter,classif.task-method
+#' @seealso \code{\link{getter,learn.task-method}}
+#' @title Getter for classif.task
 
 setMethod(
 		f = "[",

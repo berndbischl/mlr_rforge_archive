@@ -33,7 +33,7 @@ setGeneric(
 #' @export
 #' @rdname resample.performance
 #' 
-#' @usage performance(learn.task, resample.instance, resample.result, measure)
+#' @usage resample.performance(learn.task, resample.instance, resample.result, measure)
 #'
 #' @examples
 #' library(mlbench)
@@ -61,7 +61,7 @@ setMethod(
 				trues.i <- get.test.targets(learn.task, rin, i)
 				preds.i <- resample.result["fitted", i]
 				w.i <- learn.task@weights[rin["test.inds", i]]
-				perf[i] <- performance(preds.i, trues.i, w.i, measure, costs=costs)
+				perf[i] <- performance(preds.i, trues.i, w.i, measure)
 			}
 			
 			perf.aggr = measure$aggregate(perf)
