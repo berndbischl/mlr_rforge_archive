@@ -50,8 +50,6 @@ setGeneric(
 #' @export
 #' @rdname benchmark
 #' 
-#' @usage benchmark(learn.task, outer.resampling, inner.resampling, ranges, measure, all.tune.results)
-#' 
 #' @examples
 #' # set up the learning task and parameter grid
 #' ct <- make.classif.task("kernlab.svm.classif", data=iris, formula=Species~.)

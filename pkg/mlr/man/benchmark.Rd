@@ -2,7 +2,6 @@
 \alias{benchmark,learn.task,resample.instance,resample.desc,list,list,logical-method}
 \alias{benchmark}
 \title{benchmark}
-\usage{benchmark(learn.task, outer.resampling, inner.resampling, ranges, measure, all.tune.results)}
 \description{\code{benchmark} conducts a benchmark experiment for a single classifier on a single
 data set. This consists of an inner stage and outer stage. At the outer stage a 
 tuning set and a test set are repeatedly formed from the data through resampling 

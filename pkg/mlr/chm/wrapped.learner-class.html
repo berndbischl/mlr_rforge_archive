@@ -35,7 +35,12 @@ Also inlcudes a properties object to describe the features of the learner.
 <h3>Methods</h3>
 
 <dl><dt><code><a href="train.learner,wrapped.learner,formula,data.frame,numeric,list-method.html">train.learner</a></code></dt><dd><code>signature(wrapped.learner = "wrapped.learner", formula = "formula", data = "data.frame", weights = "numeric", parset = "list")</code>: Mainly for internal use. Trains a wrapped learner on a giving training set, 
-possibly w.r.t. some hyperparamters and case weights.</dd><dt><code><a href="initialize,wrapped.learner-method.html">initialize</a></code></dt><dd><code>signature( = "wrapped.learner")</code>: Constructor.</dd><dt><code><a href="set.train.par.html">set.train.par</a></code></dt><dd></dd><dt><code><a href="set.predict.par.html">set.predict.par</a></code></dt><dd></dd></dl>
+possibly w.r.t. some hyperparamters and case weights.</dd><dt><code><a href="initialize,wrapped.learner-method.html">initialize</a></code></dt><dd><code>signature( = "wrapped.learner")</code>: Constructor.</dd><dt><code><a href="set.train.par.html">set.train.par</a></code></dt><dd><code>signature( = "wrapped.learner")</code>: Set a parameter for the underlying train function of a 
+[<code><a href="wrapped.learner-class.html">wrapped.learner</a></code>].
+This is not meant for hyperparameters, pass these through the usual parset argument, but rather to
+fix (somewhat technical) arguments which stay the same for the whole experiment. You should not have to use this too often.</dd><dt><code><a href="set.predict.par.html">set.predict.par</a></code></dt><dd><code>signature( = "wrapped.learner")</code>: Set a parameter for the underlying predict function of a wrapped learner. 
+Used to fix (somewhat techical) arguments which stay the same for the whole experiment.
+You should not have to use this too often.</dd></dl>
 <script Language="JScript">
 function findlink(pkg, fn) {
 var Y, link;
@@ -47,6 +52,6 @@ location.href = link;
 </script>
 
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.170 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.174 <a href="00Index.html">Index</a>]</div>
 
 </body></html>

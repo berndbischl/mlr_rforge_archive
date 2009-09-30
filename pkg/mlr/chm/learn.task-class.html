@@ -42,7 +42,13 @@ an already fitted <code><a href="wrapped.model-class.html">wrapped.model</a></co
 the <code><a href="resample.instance-class.html">resample.instance</a></code> object) <code>resample.fit</code> 
 fits the selected learner using the training sets and performs predictions for the test sets. These 
 predictions are returned - encapsulated in a <code><a href="resample.result-class.html">resample.result</a></code> object. 
-Optionally the fitted models are also stored.</dd><dt><code><a href="resample.performance.html">resample.performance</a></code></dt><dd><code>signature(learn.task = "learn.task", resample.instance = "resample.instance", resample.result = "resample.result", measure = "list")</code>: Measures the quality of predictions w.r.t. some loss function for a resampled fit.</dd><dt><code><a href="initialize,learn.task-method.html">initialize</a></code></dt><dd><code>signature( = "learn.task")</code>: Constructor.</dd><dt><code><a href="getter,learn.task-method.html">[</a></code></dt><dd><code>signature( = "learn.task")</code>: Getter.</dd><dt><code><a href="set.train.par.html">set.train.par</a></code></dt><dd></dd><dt><code><a href="set.predict.par.html">set.predict.par</a></code></dt><dd></dd></dl>
+Optionally the fitted models are also stored.</dd><dt><code><a href="resample.performance.html">resample.performance</a></code></dt><dd><code>signature(learn.task = "learn.task", resample.instance = "resample.instance", resample.result = "resample.result", measure = "list")</code>: Measures the quality of predictions w.r.t. some loss function for a resampled fit.</dd><dt><code><a href="initialize,learn.task-method.html">initialize</a></code></dt><dd><code>signature( = "learn.task")</code>: Constructor.</dd><dt><code><a href="getter,learn.task-method.html">[</a></code></dt><dd><code>signature( = "learn.task")</code>: Getter.</dd><dt><code><a href="set.train.par.html">set.train.par</a></code></dt><dd><code>signature( = "learn.task")</code>: Set a parameter for the underlying train function of a [<code><a href="wrapped.learner-class.html">wrapped.learner</a></code>] 
+in a [<code><a href="learn.task-class.html">learn.task</a></code>]. 
+This is not meant for hyperparameters, pass these through the usual parset argument, but rather to
+fix (somewhat technical) arguments which stay the same for the whole experiment. You should not have to use this too often.</dd><dt><code><a href="set.train.par.html">set.predict.par</a></code></dt><dd><code>signature( = "learn.task")</code>: Set a parameter for the underlying train function of a [<code><a href="wrapped.learner-class.html">wrapped.learner</a></code>] 
+in a [<code><a href="learn.task-class.html">learn.task</a></code>]. 
+This is not meant for hyperparameters, pass these through the usual parset argument, but rather to
+fix (somewhat technical) arguments which stay the same for the whole experiment. You should not have to use this too often.</dd></dl>
 
 <h3>See Also</h3>
 
@@ -61,6 +67,6 @@ location.href = link;
 </script>
 
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.170 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.174 <a href="00Index.html">Index</a>]</div>
 
 </body></html>

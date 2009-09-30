@@ -566,12 +566,8 @@
 <param name="Local" value="set.predict.par.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
-<param name="Name" value="set.predict.par">
-<param name="Local" value="set.predict.par.html">
-</OBJECT>
-<LI> <OBJECT type="text/sitemap">
 <param name="Name" value="set.predict.par,learn.task-method">
-<param name="Local" value="set.predict.par.html">
+<param name="Local" value="set.train.par.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="set.predict.par,wrapped.learner-method">
@@ -580,10 +576,6 @@
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="set.predict.par-methods">
 <param name="Local" value="set.predict.par.html">
-</OBJECT>
-<LI> <OBJECT type="text/sitemap">
-<param name="Name" value="set.train.par">
-<param name="Local" value="set.train.par.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
 <param name="Name" value="set.train.par">
@@ -1051,11 +1043,11 @@
 <param name="Local" value="rpart.classif-class.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
-<param name="Name" value="set.predict.par,learn.task-method">
+<param name="Name" value="set.predict.par">
 <param name="Local" value="set.predict.par.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">
-<param name="Name" value="set.train.par,learn.task-method">
+<param name="Name" value="set.train.par">
 <param name="Local" value="set.train.par.html">
 </OBJECT>
 <LI> <OBJECT type="text/sitemap">

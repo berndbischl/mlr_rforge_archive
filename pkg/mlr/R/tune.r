@@ -58,8 +58,8 @@ tune <- function(learn.task, resample.instance, ranges, measure) {
 		perf <- perf[, c(setdiff(cn, c(measure$aggr.name, measure$spread.name)), measure$aggr.name, measure$spread.name)]
 		return(list(best.parameters=bpars[[i]], best.performance=bps[i], best.spread=bss[i], performances = perf))
 	}else {
-		perf <- tune.1(learn.task=learn.task, resample.instance=resample.instance, ranges=ranges, measure=measure)
-		return()  
+		tr <- tune.1(learn.task=learn.task, resample.instance=resample.instance, ranges=ranges, measure=measure)
+		return(make.tune.result(tr, measure, ranges))
 	}
 }
 
@@ -115,7 +115,7 @@ tune.1 <- function(learn.task, resample.instance, ranges, measure) {
 	performances <- grid.indices
 	performances$aggr <- perf[1,] 
 	performances$spread <- perf[2,]
-	#print(performances)
+#	print(performances)
 	return(performances)
 }
 

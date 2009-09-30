@@ -102,21 +102,15 @@ setMethod(
 		}
 )
 
-#' Set a parameter for the underlying train function of a wrapped learner. 
+#' Set a parameter for the underlying train function of a 
+#' [\code{\linkS4class{wrapped.learner}}] or - for convienience - a [\code{\linkS4class{learn.task}}].
 #' This is not meant for hyperparameters, pass these through the usual parset argument, but rather to
 #' fix (somewhat technical) arguments which stay the same for the whole experiment. You should not have to use this too often.
-#'   
-#' @param object [\code{\linkS4class{learn.task}}] \cr
-#'   	Learn task that contains the wrapped learner.
-#' @param \ldots Parameters to fix in underlying train function. Have to be named.
-#' 
-#' @return learn.task object with changed parameters for train function of the wrapped learner.
 #' 
 #' @usage set.train.par(object, \ldots)
-#'
 #' @title set.train.par
-#' @aliases set.train.par
 #' @rdname set.train.par
+#' @export 
 
 setGeneric(
 		name = "set.train.par",
@@ -124,9 +118,20 @@ setGeneric(
 			standardGeneric("set.train.par")
 		}
 )
-
-#' @export
+#' Set a parameter for the underlying train function of a 
+#' [\code{\linkS4class{wrapped.learner}}].
+#' This is not meant for hyperparameters, pass these through the usual parset argument, but rather to
+#' fix (somewhat technical) arguments which stay the same for the whole experiment. You should not have to use this too often.
+#' 
+#' @param object [\code{\linkS4class{wrapped.learner}}] \cr
+#'   	Learn task that contains the wrapped learner.
+#' @param \ldots Parameters to fix in underlying train function. Have to be named.
+#' 
+#' @return \code{\linkS4class{wrapped.learner}} object with changed parameters for train function of the wrapped learner.
+#'
 #' @rdname set.train.par
+#' @export 
+
 setMethod(
 		f = "set.train.par",
 		signature = signature("wrapped.learner"),
@@ -138,6 +143,24 @@ setMethod(
 		}
 )
 
+
+#' Set a parameter for the underlying predict function of a 
+#' [\code{\linkS4class{wrapped.learner}}] or - for convienience - a [\code{\linkS4class{learn.task}}].
+#' Used to fix (somewhat techical) arguments which stay the same for the whole experiment.
+#' You should not have to use this too often.
+#' 
+#' @usage set.predict.par(object, \ldots)
+#' @title set.predict.par
+#' @rdname set.predict.par
+#' @export 
+
+
+setGeneric(
+		name = "set.predict.par",
+		def = function(object, ...) {
+			standardGeneric("set.predict.par")
+		}
+)
 
 #' Set a parameter for the underlying predict function of a wrapped learner. 
 #' Used to fix (somewhat techical) arguments which stay the same for the whole experiment.
@@ -154,16 +177,6 @@ setMethod(
 #' @title set.predict.par
 #' @rdname set.predict.par
 #' @export 
-
-setGeneric(
-		name = "set.predict.par",
-		def = function(object, ...) {
-			standardGeneric("set.predict.par")
-		}
-)
-
-#' @export 
-#' @rdname set.predict.par
 
 setMethod(
 		f = "set.predict.par",
