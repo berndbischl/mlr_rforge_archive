@@ -58,9 +58,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
 		}
 	}	
 	
-	if( unlink(file.path(data.build.dir, list.files(data.build.dir))) != 0) 
-		stop("could not data dir!")		
-	
+	unlink(data.build.dir, recursive=TRUE)
 	
 #rds <- "*.Rd"
 #wd <- getwd()
@@ -99,7 +97,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
 	setwd(project.dir)
 }
 
-make(build=F, check=T, binary=F)
+make(build=T, check=T, binary=T)
 
 
 
