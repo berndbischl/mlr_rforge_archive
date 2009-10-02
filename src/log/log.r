@@ -6,19 +6,19 @@ logger.errorhandler <- function() {
 }
 
 #' @export
-logger.define <- function(console=TRUE, file=NULL, level, global=FALSE) {
+logger.setup <- function(console=TRUE, file=NULL, level) {
 	options(warn=1)
 	options(error=logger.errorhandler)
-	logger.def <- list()
-	logger.def$console <- console
-	logger.def$file <- file
-	logger.def$global.level <- level
+	logger.setup <- list()
+	logger.setup$console <- console
+	logger.setup$file <- file
+	logger.setup$global.level <- level
 
-	.mlr.local$logger.def <- logger.def
+	.mlr.local$logger.setup <- logger.setup
 	
 	if (!is.null(file)) 
 		unlink(file)
-	return(logger.def)
+	return(logger.setup)
 }
 
 logger.print.stuff <- function(prefix, ...) {
@@ -54,9 +54,9 @@ logger.print <- function(level, ...) {
 			debug = 1)
 	
 	#cat("level: ", level, "\n")
-	#cat("global.level: ", logger.def$global.level, "\n")
-	logger.def <- .mlr.local$logger.def
-	global.level <- switch(logger.def$global.level,
+	#cat("global.level: ", logger.setup$global.level, "\n")
+	logger.setup <- .mlr.local$logger.setup
+	global.level <- switch(logger.setup$global.level,
 			error = 4,
 			warn = 3,
 			info = 2,
@@ -64,8 +64,8 @@ logger.print <- function(level, ...) {
 	
 	
 	if (level >= global.level) {
-		if (!is.null(logger.def$file)) { 
-			sink(file=logger.def$file, append=TRUE)
+		if (!is.null(logger.setup$file)) { 
+			sink(file=logger.setup$file, append=TRUE)
 			logger.print.stuff(prefix, ...)  
 			sink()
 		}

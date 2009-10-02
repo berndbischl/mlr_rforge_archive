@@ -11,10 +11,10 @@ source("src/runit/make.runit.tests.r")
 
 
 
-parallel.setup(mode="local", global=TRUE)
+parallel.setup(mode="local")
 
 
-logger.define(level="error", global=TRUE)
+logger.setup(level="error")
 
 data(Sonar)
 

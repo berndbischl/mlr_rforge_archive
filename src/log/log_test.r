@@ -1,6 +1,6 @@
 source("src/log.r")
 
-logger.define(level="debug", file="c:/log.txt")
+logger.setup(level="debug", file="c:/log.txt")
 warning("blubb")
 
 

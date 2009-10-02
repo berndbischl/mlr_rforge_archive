@@ -58,8 +58,8 @@ tune <- function(learn.task, resample.instance, ranges, measure) {
 		perf <- perf[, c(setdiff(cn, c(measure$aggr.name, measure$spread.name)), measure$aggr.name, measure$spread.name)]
 		return(list(best.parameters=bpars[[i]], best.performance=bps[i], best.spread=bss[i], performances = perf))
 	}else {
-		perf <- tune.1(learn.task=learn.task, resample.instance=resample.instance, ranges=ranges, measure=measure)
-		return()  
+		tr <- tune.1(learn.task=learn.task, resample.instance=resample.instance, ranges=ranges, measure=measure)
+		return(make.tune.result(tr, measure, ranges))
 	}
 }
 
@@ -91,9 +91,9 @@ tune.1 <- function(learn.task, resample.instance, ranges, measure) {
 	
 	wrapper <- function(i) {
 		caller <- "tune"
-		resample.result <- resample.fit(learn.task, resample.instance, parsets[[i]])
+		st <- system.time(resample.result <- resample.fit(learn.task, resample.instance, parsets[[i]]))
 		cp <- resample.performance(learn.task=learn.task, resample.instance=resample.instance, resample.result=resample.result, measure=measure)
-		return(c(cp$aggr, cp$spread))
+		return(c(cp$aggr, cp$spread, st["elapsed"]))
 	}
 	
 	.ps <- .mlr.local$parallel.setup
@@ -110,12 +110,15 @@ tune.1 <- function(learn.task, resample.instance, ranges, measure) {
 	if (.ps$mode %in% c("snowfall", "sfCluster") && .ps$level == "tune") {
 		perf <- sfClusterApplyLB(1:nrow(grid.indices), wrapper)
 	} else {
-		perf <- sapply(1:nrow(grid.indices), wrapper)
+		perf <- lapply(1:nrow(grid.indices), wrapper)
 	}
+	perf <- Reduce(rbind, perf)
+	colnames(perf) <- c("aggr", "spread", "time")
+	rownames(perf) <- NULL
 	performances <- grid.indices
-	performances$aggr <- perf[1,] 
-	performances$spread <- perf[2,]
-	#print(performances)
+	performances$aggr <- perf[,1] 
+	performances$spread <- perf[,2]
+	performances$time <- perf[,3]
 	return(performances)
 }
 
@@ -126,7 +129,7 @@ make.tune.result <- function(perf, measure, ranges) {
 	else
 		best.i <- which.max(perf$aggr)
 	cn <- colnames(perf)
-	cn <- setdiff(cn, c("aggr", "spread"))
+	cn <- setdiff(cn, c("aggr", "spread", "time"))
 	perf2 <- perf[,cn, drop=FALSE]
 	best.parameters <- row2parset(perf[best.i, cn, drop=F], ranges)
 	best.performance <- perf[best.i, "aggr"] 
@@ -135,14 +138,14 @@ make.tune.result <- function(perf, measure, ranges) {
 	perf2 <- sapply(1:ncol(perf2), function(i) cr$labels[[i]][perf[,cn[i]]])
 	perf2 <- as.data.frame(perf2)
 	colnames(perf2) <- cn
-	perf2 <- cbind(perf2, perf[,c("aggr", "spread")])
+	perf2 <- cbind(perf2, perf[,c("aggr", "spread", "time")])
 	# more informative names 
 #	ag <- paste("aggr=", measure$aggr.name, sep="") 
 #	sp <- paste("spread=", measure$spread.name, sep="")
 	ag <- measure$aggr.name 
 	sp <- measure$spread.name
-	colnames(perf2)[ncol(perf)-1] <- ag
-	colnames(perf2)[ncol(perf)]   <- sp
+	colnames(perf2)[ncol(perf)-2] <- ag
+	colnames(perf2)[ncol(perf)-1]   <- sp
 	return(list(best.parameters=best.parameters, best.performance=best.performance, best.spread=best.spread, performances = perf2))
 }
 
