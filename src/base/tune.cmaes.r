@@ -1,10 +1,5 @@
-
-tune.cmaes <- function(learn.task, resample.instance, measure, init, lower, upper) {
-	
-	wrapper <- function(parset) {
-		resample.result <- resample.fit(learn.task, resample.instance, parset)
-		cp <- resample.performance(resample.result, measure=measure)
-		return(cp$mean)
-	}
-	cma.es(init, wrapper, lower, upper)
+cmaes.wrapper <- function(f, start, lower, upper, control) {
+	res <- cma.es(par=start, fn=f, lower=lower, upper=upper, control=control)
+	par <- as.list(res$par)
+	list(par=par, val=res$val)
 }
