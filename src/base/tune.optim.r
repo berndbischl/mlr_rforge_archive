@@ -30,6 +30,9 @@ tune.optim <- function(learn.task, resample.instance, measure,
 	if(method == "cmaes")
 		optim.func <- cmaes.wrapper
 	
+	if(method == "subplex")
+		optim.func <- subplex.wrapper
+	
 	start2 <- as.numeric(start) 
 	names(start2) <- names(start) 
 	or <- optim.func(f=tune.wrapper, start=start2, lower=lower, upper=upper, control=control)

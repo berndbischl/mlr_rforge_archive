@@ -56,8 +56,12 @@ base.files <<- c(
 		"base/check.ranges.r",
 		"base/combine.ranges.r",
 		"base/tune.r",
+		"base/tune.cmaes.r",
+		"base/tune.optim.r",
+		"base/tune.subplex.r",
 		"base/pattern.search.r",
 		"base/tune.ps.r",
+		
 		"base/benchmark.r",
 		"base/parallel.r"
 )
