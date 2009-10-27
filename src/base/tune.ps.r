@@ -4,5 +4,5 @@ ps.wrapper <- function(f, start, lower, upper, control) {
 	else
 		ps <- pattern.search(f=f, start=start, lower=lower, upper=upper, control=control)
 	par <- as.list(ps$par)
-	list(par=par, val=ps$val)
+	list(par=par, val=ps$val, path=ps$path)
 }

@@ -1,7 +1,7 @@
 #' Internal function for tune.optim
 #' one resampling + performance eval
 #' @param p passed from optimisation function, we have to change the type to a named list
-
+#' @export 
 
 tune.optim <- function(learn.task, resample.instance, measure,
 		method, start, lower=rep(-Inf, length(start)),	upper=rep(Inf, length(start)),
@@ -36,6 +36,7 @@ tune.optim <- function(learn.task, resample.instance, measure,
 	start2 <- as.numeric(start) 
 	names(start2) <- names(start) 
 	or <- optim.func(f=tune.wrapper, start=start2, lower=lower, upper=upper, control=control)
+	names(or$par) = names(start) 
 	or$n.eval <- n.eval
 	return(or)			
 }

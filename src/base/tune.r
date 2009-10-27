@@ -30,7 +30,7 @@ roxygen()
 #'
 #' @examples
 #' library(mlr) 
-#' ct <- make.classif.task(learner="kernlab.svm.classif", data=iris, formula=Species~.)
+#' ct <- make.classif.task(learner="kernlab.svm.classif", data=iris, target="Species")
 #' ranges <- list(kernel="rbfdot", C=2^seq(-1,1), sigma=2^seq(-1,1))
 #' ri <- make.cv.instance(size=nrow(iris), iters=3)  
 #' tune(learn.task=ct, resample.instance=ri, ranges=ranges)
