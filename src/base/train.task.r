@@ -24,11 +24,11 @@ roxygen()
 #' train.inds <- seq(1,150,2)
 #' test.inds <- seq(2,150,2)
 #'
-#' ct <- make.classif.task("lda", data=iris, formula=Species~.)
+#' ct <- make.classif.task("lda", data=iris, target="Species")
 #' cm <- train(ct, subset=train.inds)
 #' ps <- predict(ct, cm, newdata=iris[test.inds,])
 #' 
-#' ct <- make.classif.task("kknn.classif", data=iris, formula=Species~.)
+#' ct <- make.classif.task("kknn.classif", data=iris, target="Species")
 #' cm <- train(ct, subset=train.inds, parset=list(k=3))
 #' ps <- predict(ct, cm, newdata=iris[test.inds,])
 #'  
@@ -60,28 +60,28 @@ train.generic <- function(learn.task, wrapped.learner, subset, parset, vars) {
 	ws <- learn.task@weights[subset]
 	if(!is.null(.mlr.local$debug.seed)) {
 		set.seed(.mlr.local$debug.seed)
-		logger.warn("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
+		warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 	}
 	logger.debug("mlr train:", wl@learner.name, "with pars:")
 	logger.debug(parset)
 	logger.debug("on", length(subset), "examples:")
 	logger.debug(subset)
-	
-	if (length(vars) > 0)
-		learner.model <- train.learner(wrapped.learner=wl, formula=learn.task@formula, data=data.subset, weights=ws, parset=parset)
-	else {
-		if (is(learn.task, "classif.task"))
+	if (is(learn.task, "classif.task")) {
+		if (length(vars) > 0) {
+			learner.model <- train.learner(wrapped.learner=wl, target=learn.task@target, data=data.subset, weights=ws, costs=learn.task@costs, parset=parset)
+		} else {			
 			learner.model <- new("novars.model.classif", targets=data.subset[, tn])
-		else if (is(learn.task, "regr.task"))
+		}
+	}else if (is(learn.task, "regr.task")) {
+		if (length(vars) > 0) 
+			learner.model <- train.learner(wrapped.learner=wl, target=learn.task@target, data=data.subset, weights=ws, parset=parset)
+		else			
 			learner.model <- new("novars.model.regr", targets=data.subset[, tn])
-		else
-			stop("Novars model not implemented for this task!")
 	}
-	
-	
+
 	if(class(learner.model)[1]=="try-error") {
 		msg <- as.character(learner.model)
-		logger.warn("Could not train the method: ", msg)	
+		warning("Could not train the method: ", msg)	
 		learner.model <- new("learner.failure", msg=msg)
 	} 
 	

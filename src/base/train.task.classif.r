@@ -13,7 +13,7 @@ setMethod(
 			} else { 
 				wl <- do.call(set.train.par, c(list(wl), wl@train.par.for.classes))
 			}
-			m <- train.generic(learn.task, wl ,subset, parset, vars)
+			m <- train.generic(learn.task, wl, subset, parset, vars)
 			class(m) <- "wrapped.classif.model"
 			return(m)
 		}

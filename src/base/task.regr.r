@@ -24,7 +24,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.task"),
-		def = function(.Object, wrapped.learner, data, weights=rep(1, nrow(data)), formula) {
+		def = function(.Object, wrapped.learner, data, weights=rep(1, nrow(data)), target) {
 				
 			if (missing(wrapped.learner))
 				return(.Object)
@@ -33,7 +33,7 @@ setMethod(
 					wrapped.learner = wrapped.learner,
 					data=data,	
 					weights=weights,
-					formula=formula
+					target=target
 			)
 		}
 )

@@ -15,7 +15,8 @@ setClass(
 		"classif.task",
 		contains = c("learn.task"),
 		representation = representation(
-				type = "character"
+				type = "character",
+				costs = "matrix"
 		)
 )
 
@@ -29,7 +30,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
-		def = function(.Object, wrapped.learner, data, weights=rep(1, nrow(data)), formula, type = "class") {
+		def = function(.Object, wrapped.learner, data, weights=rep(1, nrow(data)), target, type = "class") {
 			
 			
 			#todo: check for classif. learner
@@ -44,7 +45,7 @@ setMethod(
 					wrapped.learner = wrapped.learner, 
 					data=data,	
 					weights=weights,
-					formula=formula
+					target=target
 			)
 		}
 )

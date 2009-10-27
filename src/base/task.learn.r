@@ -4,13 +4,13 @@ roxygen()
 
 #' A learning task is the general description object for a machine learning experiment. 
 #' It mainly includes the type of the learning task (e.g. lda), 
-#' a dataframe and a formula. As this is just an abstract base class, 
+#' a dataframe and a target. As this is just an abstract base class, 
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
 #' 
 #' @slot wrapped.learner Object of class \code{\linkS4class{wrapped.learner}}.
 #' @slot data Dataframe which includes all the data for the task.
 #' @slot weights An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
-#' @slot formula A symbolic description of the model to be fitted.
+#' @slot target Name of the target variable.
 #' @slot data.desc Contains logical values describing properties of the dataframe e.g. whether it has 
 #' 		characters or missing values (see desc and \code{\linkS4class{data.desc}}).
 #' 
@@ -25,7 +25,7 @@ setClass(
 				wrapped.learner = "wrapped.learner",
 				data = "data.frame",
 				weights = "numeric",
-				formula = "formula",
+				target = "character",
 				data.desc = "data.desc" 
 		)
 )
@@ -39,7 +39,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, check.function, wrapped.learner, data, weights, formula) {
+		def = function(.Object, check.function, wrapped.learner, data, weights, target) {
 			
 			
 			# constructor is called in setClass of inheriting classes 
@@ -50,10 +50,10 @@ setMethod(
 			.Object@wrapped.learner <- wrapped.learner
 			.Object@data <- data
 			.Object@weights <- weights
-			.Object@formula <- formula
+			.Object@target <- target
 			tn <- .Object["target.name"]
 			if (!(tn %in% colnames(data))) {
-				stop(paste("Colimn names of data.frame don't contain target var: ", tn))
+				stop(paste("Column names of data.frame don't contain target var: ", tn))
 			}
 			
 			.Object@data.desc <- make.data.desc(data=data, target.col=tn)
@@ -90,7 +90,7 @@ setMethod(
 		signature = signature("learn.task"),
 		def = function(x,i,j,...,drop) {
 			if (i == "target.name"){
-				return(as.character(x@formula)[2])
+				return(x@target)
 			}
 			if (i == "target.col"){
 				return(which(colnames(x@data) == x["target.name"]))
@@ -102,7 +102,7 @@ setMethod(
 				return(x@data[j, x["target.name"]])
 			}
 			if (i == "input.names"){
-				return(attr(terms(x@formula, data=x@data), "term.labels"))
+				return(setdiff(colnames(x@data), x["target.name"]))
 			}
 			
 			#if nothing special return slot
