@@ -1,8 +1,10 @@
 source("src/files.r")
 load.all.libs()
 load.all.sources("src")
-logger.setup(level="error")
 parallel.setup()
+
+#library(mlr)
+logger.setup(level="warn")
 
 
 # Four datasets are tested: Iris, BreastCancer, Glass, Liver
@@ -26,27 +28,30 @@ parallel.setup()
 # Dataset BreastCancer
 #-------------------------
 
+set.seed(1)
 library(mlbench)
 data(BreastCancer)
 mydata <- na.omit(BreastCancer[,-1])
 
 ct <- make.classif.task("kernlab.svm.classif", data=mydata, formula=Class~.)
-subs.i <- make.subsample.instance(size=nrow(mydata), iters=20, split=2/3)
+subs.i <- make.subsample.instance(size=nrow(mydata), iters=3, split=2/3)
 #control = pattern.control(maxit=20)
 n <- 5
-erg <- numeric(n)
 lower=c(0,0)
-i <- 0
-C <- runif(n, min=0, max=1000)
-sigma <- runif(n, min=0, max=1000)
-repeat{
-	i <- i+1
-	if(i==n) break
+C <- sample(log10(1:1000), 1)
+sigma <- sample(log10(1:1000), 1)
+results <- list()
+
+i=1
+#for (i in 1:n) {
 	start <- list(C=C[i], sigma=sigma[i])
-	erg[i] <- tune.optim(ct, subs.i, method="pattern", start=start, lower=lower)
-}	
+	r <- tune.optim(ct, subs.i, method="cmaes", start=start, lower=lower, control=pattern.control(maxit=10))
+	results <- c(results, list(r))
+#}	
 
-
+res.i = make.subsample.instance(size=nrow(mydata), iters=30, split=2/3)
+rf = resample.fit(ct, res.i, parset=results[[1]]$par)
+print(resample.performance(ct, res.i, rf))
 
 
 
