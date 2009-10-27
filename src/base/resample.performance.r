@@ -39,7 +39,7 @@ setGeneric(
 #' library(mlbench)
 #' data(BostonHousing) 
 #' # define a regression task for the Boston Housing problem with a simple linear modell
-#' rt <- make.regr.task("lm", data=iris, formula=medv~.)
+#' rt <- make.regr.task("lm", data=iris, target="medv")
 #' # do 3-fold crossvalidation
 #' cv.i <- make.cv.instance(size=nrow(BostonHousing), iters=3) 
 #' rf <- resample.fit(rt, cv.i)

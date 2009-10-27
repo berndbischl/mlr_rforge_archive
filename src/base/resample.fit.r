@@ -47,8 +47,8 @@ setGeneric(
 #'
 #' @examples
 #' library(mlr) 
-#' ct1 <- make.classif.task("lda", data=iris, formula=Species~.)
-#' ct2 <- make.classif.task("rpart.classif", data=iris, formula=Species~.)
+#' ct1 <- make.classif.task("lda", data=iris, target="Species")
+#' ct2 <- make.classif.task("rpart.classif", data=iris, target="Species")
 #' rin <- make.cv.instance(iters=3, size=nrow(iris))
 #' f1 <- resample.fit(ct1, resample.instance=rin)	
 #' f2 <- resample.fit(ct2, resample.instance=rin, parset=list(minsplit=10, cp=0.03))
