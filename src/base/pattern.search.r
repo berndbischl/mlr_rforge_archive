@@ -1,3 +1,4 @@
+#' @export
 pattern.control <- function(delta=1, delta.min=10^(-3), maxit=100) {
 	list(delta=delta, delta.min=delta.min, maxit=maxit)	
 }
@@ -64,6 +65,8 @@ pattern.search <- function(f, start,
 			} else {
 				f_corners[i] <- visited[j,"val"]
 			}
+			# maybe we changed the corner
+			corners[i,] <- corner
 		}
 		# Is the minimum value of the function of all corners smaller than the value of the function in the center,
 		# choose this corner as new center
@@ -91,7 +94,7 @@ pattern.search <- function(f, start,
 	result$val <- f_center[1:(k+1)]
 	par <- as.numeric(result[k+1,1:n, drop=TRUE])
 	names(par) <- names(start)
-	val <- result[k+1,n+1]
+	val <- result[k+1, "val"]
 	return(list(par=par, val=val, path=result, n.eval=vis.n))
 }
 
