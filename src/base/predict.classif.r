@@ -26,7 +26,7 @@
 #' inds <- 2*(1:75)
 #' test <- iris[-inds,]
 #' 
-#' ct <- make.classif.task("lda", data=iris, formula=Species~.)
+#' ct <- make.classif.task("lda", data=iris, target="Species")
 #' model <- train(ct, subset=inds)
 #' predict(ct, model, newdata = test)
 #' 
@@ -79,7 +79,7 @@ setMethod(
 			
 			if(!is.null(.mlr.local$debug.seed)) {
 				set.seed(.mlr.local$debug.seed)
-				logger.warn("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
+				warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 			}
 		
 			# if there are no vars in the model, directly predict with our dummy model
@@ -96,9 +96,9 @@ setMethod(
 				logger.debug("raw prediction:")
 				logger.debug(p)
 				if (type == "class") {
-					p <- wl@trafo.for.classes(p, model)
+					p <- wl@trafo.for.classes(p, object, model)
 				} else if (type == "prob") {
-					p <- wl@trafo.for.probs(p, model)
+					p <- wl@trafo.for.probs(p, object, model)
 				} else {
 					logger.error(paste("Unknown type", type, "in predict!"))
 				}

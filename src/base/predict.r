@@ -19,11 +19,11 @@
 #' train.inds <- seq(1,150,2)
 #' test.inds <- seq(2,150,2)
 #'
-#' ct <- make.classif.task("lda", data=iris, formula=Species~.)
+#' ct <- make.classif.task("lda", data=iris, target="Species")
 #' cm <- train(ct, subset=train.inds)
 #' ps <- predict(ct, cm, newdata=iris[test.inds,])
 #' 
-#' ct <- make.classif.task("kknn.classif", data=iris, formula=Species~.)
+#' ct <- make.classif.task("kknn.classif", data=iris, target="Species")
 #' cm <- train(ct, subset=train.inds, parset=list(k=3))
 #' ps <- predict(ct, cm, newdata=iris[test.inds,])
 #' 

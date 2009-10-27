@@ -28,7 +28,7 @@ roxygen()
 #' inds <- seq(1, nrow(BostonHousing), 2)
 #' test <- BostonHousing[-inds,]
 #' 
-#' rt <- make.regr.task("stats.lm", data=BostonHousing, formula=medv~.)
+#' rt <- make.regr.task("stats.lm", data=BostonHousing, target="medv")
 #' model <- train(rt, subset=inds)
 #' predict(rt, model, newdata = test)
 #' 
@@ -61,7 +61,7 @@ setMethod(
 			
 			if(!is.null(.mlr.local$debug.seed)) {
 				set.seed(.mlr.local$debug.seed)
-				logger.warn("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
+				warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 			}
 			
 			logger.debug("Regr. predict:", wl@learner.name, "with pars:")

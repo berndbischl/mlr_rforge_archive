@@ -54,7 +54,7 @@ setGeneric(
 #' @examples
 #' data(iris) 
 #' # define a classification task for a decision tree (rpart) for the data set iris
-#' ct <- make.classif.task("rpart.classif", data=iris, formula=Species~.)
+#' ct <- make.classif.task("rpart.classif", data=iris, target="Species")
 #' # specify train and test set indices
 #' train.set <- seq(from=1L, to=150L, by=2L)
 #' test.set <- seq(from=2L, to=150L, by=2L)

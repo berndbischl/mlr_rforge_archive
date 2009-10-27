@@ -54,7 +54,7 @@ setGeneric(
 #' 
 #' @examples
 #' # set up the learning task and parameter grid
-#' ct <- make.classif.task("kernlab.svm.classif", data=iris, formula=Species~.)
+#' ct <- make.classif.task("kernlab.svm.classif", data=iris, target="Species")
 #' ranges <- list(kernel="polydot", degree=1:3, C=2^seq(-2,2))
 #' # create the outer cross-validation
 #' or <- make.cv.instance(iters=5, size=nrow(iris))					
@@ -125,7 +125,7 @@ benchmark.1 <- function(learn.task, outer.resampling, inner.resampling, ranges, 
 		
 		cm <- train(learn.task, subset=train.i, parset=best.pars2)                
 		pred <- predict(learn.task, cm, newdata=learn.task@data[test.i,]) 
-		cl <- as.character(learn.task@formula)[2]
+		cl <- learn.task["target.name"]
 		test.perf <- performance(pred, learn.task@data[test.i,cl], learn.task@weights[test.i], measure)
 		result[i, "test.perf"] <- test.perf
 	}
