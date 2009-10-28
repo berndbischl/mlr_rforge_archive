@@ -20,7 +20,9 @@ test.randomForest <- function() {
 		pars <- c(pars, parset)
 		set.seed(debug.seed)
 		m <- do.call(randomForest, pars)
+		set.seed(debug.seed)
 		p <- predict(m, newdata=multiclass.test, type="response")
+		set.seed(debug.seed)
 		p2 <- predict(m, newdata=multiclass.test, type="prob")
 		old.predicts.list[[i]] <- p
 		old.probs.list[[i]] <- p2
