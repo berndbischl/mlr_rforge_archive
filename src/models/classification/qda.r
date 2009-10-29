@@ -15,26 +15,59 @@ setClass(
 #' Constructor.
 #' @title QDA Constructor
 setMethod(
-  f = "initialize",
-  signature = signature("qda"),
-    def = function(.Object, data, formula, type="class") {
-
-     desc = new("classif.props",
-      supports.multiclass = TRUE,
-      supports.missing = TRUE,
-      supports.numerics = TRUE,
-      supports.factors = TRUE,
-      supports.characters = TRUE,
-      supports.probs = TRUE,
-	  supports.weights = FALSE
-    )
-      
-    .Object <- callNextMethod(.Object, learner.name="qda", learner.pack="MASS",
-      train.fct="qda", 
-      learner.props=desc)
-    return(.Object)
-  }
+		f = "initialize",
+		signature = signature("qda"),
+		def = function(.Object, data, target, type="class") {
+			
+			desc = new("classif.props",
+					supports.multiclass = TRUE,
+					supports.missing = TRUE,
+					supports.numerics = TRUE,
+					supports.factors = TRUE,
+					supports.characters = TRUE,
+					supports.probs = TRUE,
+					supports.weights = FALSE,
+					supports.costs = FALSE 
+			)
+			
+			callNextMethod(.Object, learner.name="qda", learner.pack="MASS", learner.props=desc)
+		}
 )
 
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				wrapped.learner="qda", 
+				target="character", 
+				data="data.frame", 
+				weights="numeric", 
+				costs="matrix", 
+				type = "character" 
+		),
+		
+		def = function(wrapped.learner, target, data, weights, costs, type,  ...) {
+			f = as.formula(paste(target, "~."))
+			qda(f, data=data, ...)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				wrapped.learner = "qda", 
+				task = "classif.task", 
+				wrapped.model = "wrapped.model", 
+				newdata = "data.frame", 
+				type = "character" 
+		),
+		
+		def = function(wrapped.learner, task, wrapped.model, newdata, type, ...) {
+			p <- predict(wrapped.model["learner.model"], newdata=newdata, ...)
+			if(type=="class")
+				return(p$class)
+			else
+				return(p$posterior)
+		}
+)	
 
 
