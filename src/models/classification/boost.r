@@ -26,7 +26,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("adaboost"),
-		def = function(.Object, data, target, type="class") {
+		def = function(.Object) {
 			train.fct <- "adaboost.M1"
 			predict.fct <- "predict.boosting"
 			
@@ -48,34 +48,34 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				wrapped.learner="adaboost", 
-				target="character", 
-				data="data.frame", 
-				weights="numeric", 
-				costs="matrix", 
-				type = "character" 
+				.wrapped.learner="adaboost", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
 		),
 		
-		def = function(wrapped.learner, target, data, weights, costs, type,  ...) {
-			f = as.formula(paste(target, "~."))
-			adaboost.M1(f, data=data, ...)
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			adaboost.M1(f, data=.data, ...)
 		}
 )
 
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				wrapped.learner = "adaboost", 
-				task = "classif.task", 
-				wrapped.model = "wrapped.model", 
-				newdata = "data.frame", 
-				type = "character" 
+				.wrapped.learner = "adaboost", 
+				.task = "classif.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
 		),
 		
-		def = function(wrapped.learner, task, wrapped.model, newdata, type, ...) {
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
 			# stupid adaboost
-			newdata[, task["target"]] <- factor(rep(1, nrow(newdata)), levels=task["class.levels"])
-			p = predict(wrapped.model["learner.model"], newdata=newdata, ...)
+			.newdata[, .task["target"]] <- factor(rep(1, nrow(.newdata)), levels=.task["class.levels"])
+			p = predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
 			return(as.factor(p$class))
 		}
 )	

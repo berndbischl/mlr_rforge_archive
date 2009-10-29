@@ -38,33 +38,33 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				wrapped.learner="lda", 
-				target="character", 
-				data="data.frame", 
-				weights="numeric", 
-				costs="matrix", 
-				type = "character" 
+				.wrapped.learner="lda", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
 		),
 		
-		def = function(wrapped.learner, target, data, weights, costs, type,  ...) {
-			f = as.formula(paste(target, "~."))
-			lda(f, data=data, ...)
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			lda(f, data=.data, ...)
 		}
 )
 
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				wrapped.learner = "lda", 
-				task = "classif.task", 
-				wrapped.model = "wrapped.model", 
-				newdata = "data.frame", 
-				type = "character" 
+				.wrapped.learner = "lda", 
+				.task = "classif.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
 		),
 		
-		def = function(wrapped.learner, task, wrapped.model, newdata, type, ...) {
-			p <- predict(wrapped.model["learner.model"], newdata=newdata, ...)
-			if(type=="class")
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+			p <- predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+			if(.type=="class")
 				return(p$class)
 			else
 				return(p$posterior)

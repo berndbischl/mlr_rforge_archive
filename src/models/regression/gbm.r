@@ -20,9 +20,6 @@ setClass(
 )
 
 
-predict.gbm.regr <- function (object, newdata, ...) {
-	predict(object=object, newdata=newdata, n.trees=length(object$trees), ...)
-}
 	
 
 #----------------- constructor ---------------------------------------------------------
@@ -41,15 +38,47 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm",
-					train.fct="gbm", predict.fct="predict.gbm.regr", 
-					learner.props=desc)
-			
+			.Object <- callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm", learner.props=desc)
 			.Object <- set.train.par(.Object, distribution="gaussian", verbose=FALSE)
 			.Object <- set.predict.par(.Object, type="link", single.tree = FALSE)
 			return(.Object)
 		}
 )
+
+
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				.wrapped.learner="gbm.regr", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="missing", 
+				.type = "missing" 
+		),
+		
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			gbm(f, data=.data, weights=.weights, ...)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "gbm.regr", 
+				.task = "regr.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "missing" 
+		),
+		
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+			m <- .wrapped.model["learner.model"]
+			predict(m, newdata=.newdata, n.trees=length(m$trees), ...)
+		}
+)	
+
 
 
 

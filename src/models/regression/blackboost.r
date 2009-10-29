@@ -26,13 +26,51 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("blackboost.regr"),
-		def = function(.Object, data, formula) {
+		def = function(.Object, data, target) {
 			
-			.Object <- callNextMethod(.Object, learner.name="blackboost", learner.pack="mboost",
-					train.fct="blackboost")
-			return(.Object)
+			desc = new("regr.props",
+					supports.missing = FALSE,
+					supports.numerics = TRUE,
+					supports.factors = TRUE,
+					supports.characters = FALSE,
+					supports.weights = TRUE
+			)
+			
+			callNextMethod(.Object, learner.name="blackboost", learner.pack="mboost", learner.props=desc)
 		}
 )
+
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				.wrapped.learner="blackboost.regr", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="missing", 
+				.type = "missing" 
+		),
+		
+		def = function(.wrapped.learner, .targetvar, .data, .weights, ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			blackboost(f, data=.data, weights=.weights, ...)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "blackboost.regr", 
+				.task = "regr.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "missing" 
+		),
+		
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, ...) {
+			predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+		}
+)	
 
 
 

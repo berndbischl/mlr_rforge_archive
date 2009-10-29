@@ -20,7 +20,7 @@ setMethod(
 		f = "initialize",
 		signature = signature("nnet.multinom"),
 		def = function(.Object) {
-
+			
 			#checked:
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -29,14 +29,50 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
-					supports.weights = TRUE
+					supports.weights = TRUE,
+					supports.costs = FALSE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name = "Multinomial regression", learner.pack = "nnet", 
-					train.fct = "multinom", 
-					predict.par.for.classes = list(),
-					predict.par.for.probs = list(type="probs"),
-					learner.props = desc)
-			return(.Object)
+			callNextMethod(.Object, learner.name = "Multinomial regression", learner.pack = "nnet", learner.props = desc)
 		}
 )
+
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				.wrapped.learner="nnet.multinom", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			multinom(f, data=.data, weights=.weights, ...)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "nnet.multinom", 
+				.task = "classif.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+			.type <- ifelse(.type=="class", "class", "raw")
+			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+		}
+)	
+
+
+
+
+
+
+

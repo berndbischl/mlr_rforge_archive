@@ -43,38 +43,38 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				wrapped.learner="kknn.classif", 
-				target="character", 
-				data="data.frame", 
-				weights="numeric", 
-				costs="matrix", 
-				type = "character" 
+				.wrapped.learner="kknn.classif", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
 		),
 		
-		def = function(wrapped.learner, target, data, weights, costs, type,  ...) {
-			list(target=target, data=data, parset=list(...))
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			list(target=.targetvar, data=.data, parset=list(...))
 		}
 )
 
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				wrapped.learner = "kknn.classif", 
-				task = "classif.task", 
-				wrapped.model = "wrapped.model", 
-				newdata = "data.frame", 
-				type = "character" 
+				.wrapped.learner = "kknn.classif", 
+				.task = "classif.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
 		),
 		
-		def = function(wrapped.learner, task, wrapped.model, newdata, type, ...) {
-			m <- wrapped.model["learner.model"]
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+			m <- .wrapped.model["learner.model"]
 			f <- as.formula(paste(m$target, "~."))
 			# this is stupid but kknn forces it....
-			newdata[, m$target] <- 0
-			pars <- list(formula=f, train=m$data, test=newdata)  
+			.newdata[, m$target] <- 0
+			pars <- list(formula=f, train=m$data, test=.newdata)  
 			pars <- c(pars, m$parset, list(...))
 			m <- do.call(kknn, pars)
-			if (type=="class")
+			if (.type=="class")
 				return(m$fitted.values)
 			else 
 				return(m$prob)

@@ -38,33 +38,33 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				wrapped.learner="naiveBayes", 
-				target="character", 
-				data="data.frame", 
-				weights="numeric", 
-				costs="matrix", 
-				type = "character" 
+				.wrapped.learner="naiveBayes", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
 		),
 		
-		def = function(wrapped.learner, target, data, weights, costs, type,  ...) {
-			f = as.formula(paste(target, "~."))
-			naiveBayes(f, data=data, ...)
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			naiveBayes(f, data=.data, ...)
 		}
 )
 
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				wrapped.learner = "naiveBayes", 
-				task = "classif.task", 
-				wrapped.model = "wrapped.model", 
-				newdata = "data.frame", 
-				type = "character" 
+				.wrapped.learner = "naiveBayes", 
+				.task = "classif.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
 		),
 		
-		def = function(wrapped.learner, task, wrapped.model, newdata, type, ...) {
-			type <- ifelse(type=="class", "class", "raw")
-			predict(wrapped.model["learner.model"], newdata=newdata, type=type, ...)
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+			.type <- ifelse(.type=="class", "class", "raw")
+			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	
 

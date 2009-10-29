@@ -28,18 +28,46 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = FALSE,
-					supports.weights = FALSE
+					supports.weights = FALSE,
+					supports.costs = FALSE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="mda", learner.pack="mda",
-					train.fct="mda",
-					predict.par.for.classes =list(type="class"),
-					predict.par.for.probs =list(type="posterior"),
-					learner.props=desc)
-			return(.Object)
+			callNextMethod(.Object, learner.name="mda", learner.pack="mda", learner.props=desc)
 		}
 )
 
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				.wrapped.learner="mda", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			mda(f, data=.data, ...)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "mda", 
+				.task = "classif.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+			.type <- ifelse(.type=="class", "class", "posterior")
+			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+		}
+)	
 
 
 

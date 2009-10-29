@@ -25,7 +25,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("penalized.lasso"),
-		def = function(.Object, data, formula) {
+		def = function(.Object, data, target) {
 			
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -35,50 +35,54 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="Lasso regression", learner.pack="penalized",
-					train.fct="penalized", predict.fct="predict.penalized.lasso", 
-					learner.props=desc)
-			return(.Object)
+			callNextMethod(.Object, learner.name="Lasso regression", learner.pack="penalized", learner.props=desc)
 		}
 )
 
 
 #' Overwritten, to allow "lambda" instead of "lambda1" as parameter name.
-#' Besides that, simply delegates to super method.
-#' 
-#' @param wrapped.learner Object of class \code{\linkS4class{wrapped.learner}}.
-#' @param formula A symbolic description of the model to be fitted.
-#' @param data Dataframe which includes all the data for the task.
-#' @param weights An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
-#' @param parset Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.
-#' 
-#' @export
+
 setMethod(
 		f = "train.learner",
-		
-		signature = c(
-				wrapped.learner="penalized.lasso", 
-				formula="formula", 
-				data="data.frame", 
-				weights="numeric", 
-				parset="list"
+		signature = signature(
+				.wrapped.learner="penalized.lasso", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="missing", 
+				.type = "missing" 
 		),
 		
-		def = function(wrapped.learner, formula, data, weights, parset) {
-			# allow lambda instead of lambda1
-			ns <- names(parset)
-			i <- which(ns == "lambda")
-			if (length(i) > 0) 
-				names(parset)[i] <- "lambda1" 
-			m <- callNextMethod(wrapped.learner, formula, data, weights, parset)
-			return(m)
+		def = function(.wrapped.learner, .targetvar, .data, .weights, ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			args = list(...)
+			i = which(names(args) == "lambda") 
+			if (length(i) > 0) {
+				names(args)[i] = "lambda1"
+			}
+			pars <- list(f, data=.data)
+			pars <- c(pars, args)
+			do.call(penalized, pars)
 		}
 )
 
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "penalized.lasso", 
+				.task = "regr.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "missing" 
+		),
+		
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, ...) {
+			m <- .wrapped.model["learner.model"]
+			.newdata[, .task["target"]] <- 0
+			predict(m, data=.newdata,  ...)[,"mu"]
+		}
+)	
 
-predict.penalized.lasso <- function(model, newdata) {
-	predict(model, data=newdata, penalized=newdata[,names(model@penalized)])[,1]
-}
 
 
 

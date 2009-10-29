@@ -27,7 +27,8 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
-					supports.weights = FALSE
+					supports.weights = TRUE,
+					supports.costs = TRUE
 			)
 			
 			.Object <- callNextMethod(.Object, learner.name="Ada boosting", learner.pack="ada", 
@@ -45,14 +46,15 @@ setMethod(
 		f = "train.learner",
 		
 		signature = c(
-				wrapped.learner="ada", 
-				formula="formula", 
-				data="data.frame", 
-				weights="numeric", 
-				parset="list"
+				.wrapped.learner="ada", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.parset="list"
 		),
 		
-		def = function(wrapped.learner, formula, data, weights, parset) {
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .parset) {
 			
 			k <- parset$kernel
 			parset.names <- names(parset)
@@ -96,11 +98,92 @@ setMethod(
 			
 			parset <- change.parset(parset, kpar)
 			
-			m <- callNextMethod(wrapped.learner, formula, data, weights, parset)
+			m <- callNextMethod(wrapped.learner, target, data, weights, parset)
 			return(m)
 		}
 )
 
+#' Overwritten, to allow direct passing of kernel hyperparameters.
+
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				.wrapped.learner="kernlab.svm.classif", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			kpar = list()
+			args = list(...)
+			args.names <- names(args)
+			
+			make.kpar <- function(kernel.pars, kernel.name) {
+				kpar <- list()
+				for (p in kernel.pars) {
+					if (p %in% args.names)
+						kpar[[p]] <- args[[p]]
+				}
+				if (kernel.name %in% c("rbfdot", "laplacedot") && 
+						(is.null(kpar$sigma) || kpar$sigma=="automatic")) {
+					return("automatic")
+				} else {
+					return(kpar)
+				}
+			}
+			
+			change.parset <- function(parset, kpar) {
+				for (p in names(kpar))
+					parset[p] <- NULL
+				parset$kpar = kpar
+				return(parset)
+			}
+			
+			if (!("kernel" %in% args.names)) 
+				kernel <- "rbfdot" 
+			else
+				kernel <- args$kernel
+			
+			if (kernel == "rbfdot" || kernel == "laplacedot") 
+				kpar <- make.kpar("sigma", kernel)
+			if (kernel == "polydot") 
+				kpar <- make.kpar(c("degree", "offset", "scale"), kernel)
+			if (kernel == "tanhdot") 
+				kpar <- make.kpar(c("offset", "scale"), kernel)
+			if (kernel == "besseldot") 
+				kpar <- make.kpar(c("degree", "sigma", "order"), kernel)
+			if (kernel == "anovadot") 
+				kpar <- make.kpar(c("degree", "sigma"), kernel)
+			if (kernel == "anovadot") 
+				kpar <- make.kpar(c("length", "lambda", "normalized"), kernel)
+			
+			parset = list(f, data=.data, prob.model = (.type == "prob"), fit=FALSE)
+			parset = c(parset, args)
+			parset <- change.parset(parset, kpar)
+			
+			do.call(ksvm, parset)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "kernlab.svm.classif", 
+				.task = "classif.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+			.type <- ifelse(.type=="class", "response", "probabilities")
+			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+		}
+)	
 
 
 

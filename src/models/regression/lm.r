@@ -27,13 +27,41 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="Linear Regression", learner.pack="stats",
-					train.fct=lm, 
-					learner.props=desc)
-			return(.Object)
+			callNextMethod(.Object, learner.name="Linear Regression", learner.pack="stats", learner.props=desc)
 		}
 )
 
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				.wrapped.learner="stats.lm", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="missing", 
+				.type = "missing" 
+		),
+		
+		def = function(.wrapped.learner, .targetvar, .data, .weights, ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			lm(f, data=.data, weights=.weights, ...)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "stats.lm", 
+				.task = "regr.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "missing" 
+		),
+		
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, ...) {
+			predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+		}
+)	
 
 
 

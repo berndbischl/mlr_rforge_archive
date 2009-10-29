@@ -67,16 +67,16 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				wrapped.learner="kernlab.svm.classif", 
-				target="character", 
-				data="data.frame", 
-				weights="numeric", 
-				costs="matrix", 
-				type = "character" 
+				.wrapped.learner="kernlab.svm.classif", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
 		),
 		
-		def = function(wrapped.learner, target, data, weights, costs, type,  ...) {
-			f = as.formula(paste(target, "~."))
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
 			kpar = list()
 			args = list(...)
 			args.names <- names(args)
@@ -120,7 +120,7 @@ setMethod(
 			if (kernel == "anovadot") 
 				kpar <- make.kpar(c("length", "lambda", "normalized"), kernel)
 			
-			parset = list(f, data=data, prob.model = (type == "prob"), fit=FALSE)
+			parset = list(f, data=.data, prob.model = (.type == "prob"), fit=FALSE)
 			parset = c(parset, args)
 			parset <- change.parset(parset, kpar)
 
@@ -131,16 +131,16 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				wrapped.learner = "kernlab.svm.classif", 
-				task = "classif.task", 
-				wrapped.model = "wrapped.model", 
-				newdata = "data.frame", 
-				type = "character" 
+				.wrapped.learner = "kernlab.svm.classif", 
+				.task = "classif.task", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
 		),
 		
-		def = function(wrapped.learner, task, wrapped.model, newdata, type, ...) {
-			type <- ifelse(type=="class", "response", "probabilities")
-			predict(wrapped.model["learner.model"], newdata=newdata, type=type, ...)
+		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+			.type <- ifelse(.type=="class", "response", "probabilities")
+			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	
 

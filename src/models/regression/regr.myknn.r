@@ -10,16 +10,16 @@ setClass(
 
 #----------------- train.kknn.model ---------------------------------------------------------
 
-train.myknn <- function(formula, data, k=1, fun=mean) {
-	list(formula=formula, data=data, k=k, fun=fun)
+train.myknn <- function(target, data, k=1, fun=mean) {
+	list(target=target, data=data, k=k, fun=fun)
 }
 
 predict.myknn <- function(model, newdata) {
 	k = model$k
-	mf.train <- model.frame(model$formula, data=model$data) 
-	mm.train <- model.matrix(model$formula, data=mf.train) 
+	mf.train <- model.frame(model$target, data=model$data) 
+	mm.train <- model.matrix(model$target, data=mf.train) 
 	y <- esponse(mf.train)
-	mm.test <- model.matrix(terms(model$formula, data=newdata), data=newdata) 
+	mm.test <- model.matrix(terms(model$target, data=newdata), data=newdata) 
 	nns <- ann(mm.train, mm.test, k=k)$knnIndexDist[,1:k, drop=FALSE]
 	p <- apply(nns, 1, function(x) model$fun(y[x]) ) 
 	
@@ -31,7 +31,7 @@ predict.myknn <- function(model, newdata) {
 setMethod(
 		f = "initialize",
 		signature = signature("myknn.regr"),
-		def = function(.Object, data, formula) {
+		def = function(.Object, data, target) {
 			
 			desc = new("method.desc",
 					supports.missing = TRUE,
