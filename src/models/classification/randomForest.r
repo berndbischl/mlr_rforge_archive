@@ -33,17 +33,52 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = TRUE,
 					supports.probs = TRUE,
-					supports.weights = TRUE
+					supports.weights = FALSE,
+					supports.costs = FALSE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="randomForest", learner.pack="randomForest",
-					train.fct="randomForest", 
-					predict.par.for.classes =list(type="response"),
-					predict.par.for.probs =list(type="prob"),
-					learner.props=desc)
-			return(.Object)
+			callNextMethod(.Object, learner.name="randomForest", learner.pack="randomForest", learner.props=desc)
 		}
 )
+
+
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				wrapped.learner="randomForest.classif", 
+				target="character", 
+				data="data.frame", 
+				weights="numeric", 
+				costs="matrix", 
+				type = "character" 
+		),
+		
+		def = function(wrapped.learner, target, data, weights, costs, type,  ...) {
+			f = as.formula(paste(target, "~."))
+			randomForest(f, data=data, ...)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				wrapped.learner = "randomForest.classif", 
+				task = "classif.task", 
+				wrapped.model = "wrapped.model", 
+				newdata = "data.frame", 
+				type = "character" 
+		),
+		
+		def = function(wrapped.learner, task, wrapped.model, newdata, type, ...) {
+			type <- ifelse(type=="class", "response", "prob")
+			predict(wrapped.model["learner.model"], newdata=newdata, type=type, ...)
+		}
+)	
+
+
+
+
+
 
 
 
