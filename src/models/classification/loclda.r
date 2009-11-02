@@ -38,7 +38,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="lda", 
+				.wrapped.learner="loclda", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
