@@ -82,7 +82,9 @@ cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tun
 		logger.debug("on", length(subset), "examples:")
 		logger.debug(subset)
 		set.seed(debug.seed)
-		m <- do.call(tune.train, pars)
+		capture.output(
+			m <- do.call(tune.train, pars)
+		)
 		return(m)
 	}
 	
