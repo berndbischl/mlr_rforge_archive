@@ -31,17 +31,6 @@ setClass(
 		)
 )
 
-setClass(
-		"wrapped.classif.model",
-		contains = c("wrapped.model")
-)
-
-setClass(
-		"wrapped.regr.model",
-		contains = c("wrapped.model")
-)
-
-
 
 #---------------- predict --------------------------------------------
 

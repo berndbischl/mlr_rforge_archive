@@ -6,11 +6,8 @@ roxygen()
 #' Also inlcudes a properties object to describe the features of the learner.     
 #' @slot learner.name Descriptive name of the learning method
 #' @slot learner.pack R package where learner is implemented
-#' @slot train.fct Function used in above package to train a regular model in the package
-#' @slot train.fct.pars Named list of parameters which are fixed in the above train.fct and used at every internal call.
-#' @slot predict.fct Function used in above package to predict new data with a trained model 
-#' @slot predict.newdata.arg Name of argument for the new data frame in the underlying predict method. 
-#' @slot predict.fct.pars Named list of parameters which are fixed in the above predict.fct and used at every internal call.
+#' @slot train.fct.pars Named list of parameters which are fixed in an internal call to the underlying train function of the learner.
+#' @slot predict.fct.pars Named list of parameters which are fixed in an internal call to the underlying predict function of the learner.
 #' @slot learner.props Properties of the learner 
 #' @title wrapped.learner
 
@@ -19,10 +16,7 @@ setClass(
 		representation = representation(
 				learner.name = "character",
 				learner.pack = "character",
-				train.fct = "function",
 				train.fct.pars = "list",
-				predict.fct = "function",
-				predict.newdata.arg = "character",
 				predict.fct.pars = "list",
 				learner.props = "learner.props"
 		)
@@ -47,25 +41,11 @@ setMethod(
 			if(!require(learner.pack, character.only=TRUE)) {
 				stop(paste("Learn.task for", learner.name, "could not be constructed! package", learner.pack, "missing!"))
 			}
-			
-			if (is.character(train.fct)) {
-				train.fct <- tryCatch(
-						eval(substitute(getFromNamespace(x, learner.pack), list(x=train.fct))),
-						error=function(e) eval(substitute(get(x), list(x=train.fct))))
-			}
-			if (is.character(predict.fct)) {
-				predict.fct <- tryCatch(
-						eval(substitute(getFromNamespace(x, learner.pack), list(x=predict.fct))),
-						error=function(e) eval(substitute(get(x), list(x=predict.fct))))
-			}
 
 			.Object@learner.name <- learner.name
 			.Object@learner.pack <- learner.pack
 			
-			.Object@train.fct <- train.fct
 			.Object@train.fct.pars <- list()
-			.Object@predict.fct <- predict.fct
-			.Object@predict.newdata.arg <- predict.newdata.arg
 			.Object@predict.fct.pars <- list()
 			
 			.Object@learner.props <- learner.props
