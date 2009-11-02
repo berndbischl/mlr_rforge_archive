@@ -14,7 +14,7 @@ test.logreg <- function(){
 
 	tt <- function(formula, data) {glm(formula, data=data, family=binomial, maxit=500)}
 	tp <- function(model, newdata) {
-		p <- predict(model, newdata)
+		p <- predict(model, newdata, type="response")
 		as.factor(binaryclass.class.levs[ifelse(p > 0.5, 2, 1)])
 	}
 

@@ -16,7 +16,10 @@ test.gbm <- function() {
 		pars <- list(regr.formula, data=regr.train, distribution="gaussian")
 		pars <- c(pars, parset)
 		set.seed(debug.seed)
-		m <- do.call(gbm, pars)
+		capture.output(
+			m <- do.call(gbm, pars)
+		)
+		set.seed(debug.seed)
 		p <- predict(m, newdata=regr.test, n.trees=length(m$trees))
 		old.predicts.list[[i]] <- p
 	}

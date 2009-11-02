@@ -1,5 +1,5 @@
 
-test.knn <- function() {
+test.knn.classif <- function() {
 
   parset.list <- list(
     list(),

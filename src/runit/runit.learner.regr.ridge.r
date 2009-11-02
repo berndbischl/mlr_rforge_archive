@@ -23,9 +23,12 @@ test.ridge <- function() {
 		pars <- list(regr.formula, data=regr.train)
 		pars <- c(pars, parset)
 		set.seed(debug.seed)
-		m <- do.call(penalized, pars)
-		p <- predict.penalized.ridge(m, newdata=regr.test)
-		old.predicts.list[[i]] <- p
+		capture.output(
+			m <- do.call(penalized, pars)
+		)	
+		set.seed(debug.seed)
+		p <- predict(m, data=regr.test)
+		old.predicts.list[[i]] <- p[,"mu"]
 	}
 	
 	simple.test.parsets("penalized.ridge", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list)
