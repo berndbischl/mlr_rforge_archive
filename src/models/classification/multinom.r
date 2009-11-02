@@ -65,7 +65,7 @@ setMethod(
 		),
 		
 		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="class", "class", "raw")
+			.type <- ifelse(.type=="class", "class", "probs")
 			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	
