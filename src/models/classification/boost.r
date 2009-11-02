@@ -66,15 +66,14 @@ setMethod(
 		f = "predict.learner",
 		signature = signature(
 				.wrapped.learner = "adaboost", 
-				.task = "classif.task", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
 			# stupid adaboost
-			.newdata[, .task["target"]] <- factor(rep(1, nrow(.newdata)), levels=.task["class.levels"])
+			.newdata[, .wrapped.model["target"]] <- factor(rep(1, nrow(.newdata)), levels=.wrapped.model["class.levels"])
 			p = predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
 			return(as.factor(p$class))
 		}

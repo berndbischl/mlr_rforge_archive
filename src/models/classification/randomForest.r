@@ -63,13 +63,12 @@ setMethod(
 		f = "predict.learner",
 		signature = signature(
 				.wrapped.learner = "randomForest.classif", 
-				.task = "classif.task", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
 			.type <- ifelse(.type=="class", "response", "prob")
 			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}

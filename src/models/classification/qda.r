@@ -55,13 +55,12 @@ setMethod(
 		f = "predict.learner",
 		signature = signature(
 				.wrapped.learner = "qda", 
-				.task = "classif.task", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
 			p <- predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
 			if(.type=="class")
 				return(p$class)

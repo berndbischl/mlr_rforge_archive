@@ -67,13 +67,12 @@ setMethod(
 		f = "predict.learner",
 		signature = signature(
 				.wrapped.learner = "gbm.regr", 
-				.task = "regr.task", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),
 		
-		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
 			m <- .wrapped.model["learner.model"]
 			predict(m, newdata=.newdata, n.trees=length(m$trees), ...)
 		}

@@ -62,13 +62,12 @@ setMethod(
 		f = "predict.learner",
 		signature = signature(
 				.wrapped.learner = "kknn.regr", 
-				.task = "regr.task", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),
 		
-		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, ...) {
+		def = function(.wrapped.learner, .wrapped.model, .newdata, ...) {
 			m <- .wrapped.model["learner.model"]
 			f <- as.formula(paste(m$target, "~."))
 			# this is stupid but kknn forces it....

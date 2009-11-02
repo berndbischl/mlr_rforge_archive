@@ -71,15 +71,14 @@ setMethod(
 		f = "predict.learner",
 		signature = signature(
 				.wrapped.learner = "penalized.ridge", 
-				.task = "regr.task", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),
 		
-		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, ...) {
+		def = function(.wrapped.learner, .wrapped.model, .newdata, ...) {
 			m <- .wrapped.model["learner.model"]
-			.newdata[, .task["target"]] <- 0
+			.newdata[, wrapped.model["target"]] <- 0
 			predict(m, data=.newdata,  ...)[,"mu"]
 		}
 )	

@@ -52,13 +52,12 @@ setMethod(
 		f = "predict.learner",
 		signature = signature(
 				.wrapped.learner = "stats.lm", 
-				.task = "regr.task", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),
 		
-		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, ...) {
+		def = function(.wrapped.learner, .wrapped.model, .newdata, ...) {
 			predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
 		}
 )	

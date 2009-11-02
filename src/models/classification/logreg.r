@@ -62,24 +62,23 @@ setMethod(
 		f = "predict.learner",
 		signature = signature(
 				.wrapped.learner = "logreg", 
-				.task = "classif.task", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .task, .wrapped.model, .newdata, .type, ...) {
+		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
 			
 			x <- predict(.wrapped.model["learner.model"], newdata=.newdata, type="response", ...)
 			
 			if (.type == "prob") {
 				y <- matrix(0, ncol=2, nrow=length(.newdata))
-				colnames(y) <- .task["class.levels"]
+				colnames(y) <- .wrapped.model["class.levels"]
 				y[,1] <- x
 				y[,2] <- 1-x
 				return(y)
 			} else {
-				levs <- .task["class.levels"]
+				levs <- .wrapped.model["class.levels"]
 				p <- as.factor(ifelse(x > 0.5, levs[2], levs[1]))
 				names(p) <- NULL
 				return(p)

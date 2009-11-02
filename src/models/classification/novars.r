@@ -1,24 +1,16 @@
 #' @include wrapped.learner.classif.r
 roxygen()
 
-#' Wrapped learner for Classification Trees from package \code{rpart}.
-#' 
-#' \emph{Common hyperparameters:}
-#' @title rpart.classif
-#' @seealso \code{\link[rpart]{rpart}}
-#' @export
 setClass(
-		"rpart.classif", 
+		"novars.classif", 
 		contains = c("wrapped.learner.classif")
 )
 
 
 #----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title rpart Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("rpart.classif"),
+		signature = signature("novars.classif"),
 		def = function(.Object) {
 			
 			desc = new("classif.props",
@@ -26,12 +18,12 @@ setMethod(
 					supports.missing = TRUE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
-					supports.characters = FALSE,
+					supports.characters = TRUE,
 					supports.probs = TRUE,
-					supports.weights = TRUE,
-					supports.costs = TRUE
+					supports.weights = TRUE
 			)
-			callNextMethod(.Object, learner.name="RPART", learner.pack="rpart",	learner.props=desc)
+			
+			callNextMethod(.Object, learner.name="NoVars", learner.pack="mlr", learner.props=desc)
 		}
 )
 
@@ -39,7 +31,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="rpart.classif", 
+				.wrapped.learner="novars.classif", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -48,24 +40,29 @@ setMethod(
 		),
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			rpart(f, data=.data, weights=.weights, parms=list(loss=.costs), ...)
+			list(targets=.data[, .targetvar])
 		}
 )
 
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "rpart.classif", 
+				.wrapped.learner = "novars.classif", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+			m <- wrapped.model["learner.model"]
+			if(.type=="class")
+				as.factor(sample(m@targets, nrow(.newdata)))	
+			else
+				as.numeric(table(m@targets)) / length(m@targets)
 		}
 )	
+
+
 
 
 
