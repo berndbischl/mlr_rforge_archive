@@ -27,7 +27,7 @@ setMethod(
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
-					supports.probs = FALSE,
+					supports.probs = TRUE,
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)
