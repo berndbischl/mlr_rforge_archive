@@ -1,7 +1,4 @@
 
-# !!!! MDA calls kmeans which in turn means (i think), we CANNOT properly set the debug seed, as kmeans does not use it correctly
-
-
 test.mda <- function() {
 	
 	parset.list <- list(

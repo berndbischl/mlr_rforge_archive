@@ -5,7 +5,7 @@ test.resample.result = function() {
 	rin2 <- make.cv.instance(size=nrow(multiclass.df), iters=7)
 	rin3 <- make.subsample.instance(size=nrow(multiclass.df), iters=2)
 	
-	ct <- new("classif.task", new("lda"), data=multiclass.df, formula=multiclass.formula)
+	ct <- make.classif.task("lda", data=multiclass.df, formula=multiclass.formula)
 	
 	result1 <- resample.fit(ct, rin1)       
 	result2 <- resample.fit(ct, rin2)       

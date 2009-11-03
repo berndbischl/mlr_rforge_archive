@@ -13,7 +13,7 @@ test.tune <- function() {
   
   cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
-  ct <- new("classif.task", wrapped.learner=new("rpart.classif"), data=data, formula=formula)
+  ct <- make.classif.task("rpart.classif", data=data, formula=formula)
   tr2 <- tune(ct, cv.instance, ranges)
   
   for(i in 1:nrow(tr$performances)) {
