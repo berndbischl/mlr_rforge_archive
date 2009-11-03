@@ -7,7 +7,6 @@ base.files <<- c(
 		"base/learner.props.classif.r",
 		"base/learner.props.regr.r",
 		
-		"base/novars.model.r",
 		"base/wrapped.learner.r",
 		"base/wrapped.learner.classif.r",
 		"base/wrapped.learner.regr.r",
@@ -26,12 +25,14 @@ base.files <<- c(
 		
 		"base/train.learner.r",
 		"base/train.task.r",
-		"base/train.task.classif.r",
-		"base/train.task.regr.r",
+#		"base/train.task.classif.r",
+#		"base/train.task.regr.r",
 		
-		"base/predict.r",
-		"base/predict.classif.r",
-		"base/predict.regr.r",
+		"base/predict.learner.r",
+		"base/predict.task.r",
+#		"base/predict.r",
+#		"base/predict.classif.r",
+#		"base/predict.regr.r",
 		"base/perf.measure.r",
 		"base/performance.r",
 		
@@ -67,6 +68,7 @@ base.files <<- c(
 )
 
 classif.files <<- c( 		
+		"models/classification/novars.r",
 		"models/classification/knn.r",
 		"models/classification/lda.r",
 		"models/classification/qda.r",
@@ -79,8 +81,9 @@ classif.files <<- c(
 		"models/classification/rpart.r",
 		"models/classification/randomForest.r",
 		"models/classification/boost.r",
-		"models/classification/ada.r",
+#		"models/classification/ada.r",
 		"models/classification/svm.r"
+#		"models/classification/metacost.r"
 )
 
 regr.files <<- c( 		
@@ -88,7 +91,7 @@ regr.files <<- c(
 		"models/regression/blackboost.r",
 		"models/regression/gbm.r",
 		"models/regression/kknn.r",
-#		"models/regression/regr.myknn.r",
+##		"models/regression/regr.myknn.r",
 		"models/regression/ridge.r",
 		"models/regression/lasso.r"
 )
