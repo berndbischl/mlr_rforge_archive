@@ -54,11 +54,14 @@ setMethod(
 		),
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			m <- wrapped.model["learner.model"]
+			m <- .wrapped.model["learner.model"]
+			tab <- prop.table(table(m$targets))
+			probs <- as.numeric(tab) 
+			
 			if(.type=="class")
-				as.factor(sample(m@targets, nrow(.newdata)))	
+				sample(as.factor(names(tab)), nrow(.newdata), prob=probs, replace=TRUE)	
 			else
-				as.numeric(table(m@targets)) / length(m@targets)
+				probs
 		}
 )	
 

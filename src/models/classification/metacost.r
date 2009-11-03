@@ -73,7 +73,7 @@ setMethod(
 				else
 					inds = res.i["test.inds", i]
 				
-				ps <- predict(ct, models[[i]], newdata=ct@data[inds,], type=type)
+				ps <- predict(models[[i]], newdata=ct@data[inds,], type=type)
 				if (!wrapped.learner@base.probs)
 					ps <- dummy[ps,]
 				if (i==1)
