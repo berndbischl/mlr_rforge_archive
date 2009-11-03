@@ -17,6 +17,7 @@ test.boost <- function() {
 		pars <- c(pars, parset)
 		set.seed(debug.seed)
 		m <- do.call(adaboost.M1, pars)
+		set.seed(debug.seed)
 		p <- predict(m, newdata=multiclass.test)
 		old.predicts.list[[i]] <- as.factor(p$class)
 	}
