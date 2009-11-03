@@ -5,7 +5,7 @@ roxygen()
 
 setGeneric(
 		name = "resample.performance",
-		def = function(learn.task, resample.instance, resample.result, measure) {
+		def = function(learn.task, resample.result, measure) {
 			if (missing(measure))
 				measure <- make.default.measure(learn.task)
 			if (is.character(measure))
@@ -18,8 +18,6 @@ setGeneric(
 #' 
 #' @param learn.task [\code{\linkS4class{learn.task}}] \cr
 #'   	Specifies the learning task for the problem.
-#' @param resample.instance [\code{\linkS4class{resample.instance}}] \cr
-#'   	Specifies the training and test indices of the resampled data. 
 #' @param resample.result [\code{\linkS4class{resample.result}}] \cr
 #' @param measure [\code{\link{character}}/\code{\link{list}}] \cr 
 #' 		Name of performance measure to optimize or a list describing your own performance measure. 
@@ -33,7 +31,7 @@ setGeneric(
 #' @export
 #' @rdname resample.performance
 #' 
-#' @usage resample.performance(learn.task, resample.instance, resample.result, measure)
+#' @usage resample.performance(learn.task, resample.result, measure)
 #'
 #' @examples
 #' library(mlbench)
@@ -44,18 +42,18 @@ setGeneric(
 #' cv.i <- make.cv.instance(size=nrow(BostonHousing), iters=3) 
 #' rf <- resample.fit(rt, cv.i)
 #' # mean squared error 
-#' resample.performance(rt, cv.i, rf)
+#' resample.performance(rt, rf)
 #' # median of absolute errors
-#' resample.performance(rt, cv.i, rf, measure="mae")		
+#' resample.performance(rt, rf, measure="mae")		
 #' 
 #' @title performance
 
 setMethod(
 		f = "resample.performance",
-		signature = c(learn.task="learn.task", resample.instance="resample.instance", resample.result="resample.result", measure="list"),
-		def = function(learn.task, resample.instance, resample.result, measure) {
+		signature = c(learn.task="learn.task", resample.result="resample.result", measure="list"),
+		def = function(learn.task, resample.result, measure) {
 			n <- resample.result["iters"]
-			rin <- resample.instance
+			rin <- resample.result["instance"]
 			perf <- numeric(n)
 			for(i in 1:n)  {
 				trues.i <- get.test.targets(learn.task, rin, i)

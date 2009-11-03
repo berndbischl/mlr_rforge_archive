@@ -92,7 +92,7 @@ tune.1 <- function(learn.task, resample.instance, ranges, measure) {
 	wrapper <- function(i) {
 		caller <- "tune"
 		st <- system.time(resample.result <- resample.fit(learn.task, resample.instance, parsets[[i]]))
-		cp <- resample.performance(learn.task=learn.task, resample.instance=resample.instance, resample.result=resample.result, measure=measure)
+		cp <- resample.performance(learn.task=learn.task, resample.result=resample.result, measure=measure)
 		return(c(cp$aggr, cp$spread, st["elapsed"]))
 	}
 	

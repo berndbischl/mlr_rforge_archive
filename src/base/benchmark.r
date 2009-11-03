@@ -73,8 +73,8 @@ setMethod(
 		def = function(learn.task, outer.resampling, inner.resampling, ranges, measure, all.tune.results) {
 			if (length(ranges) == 0) {
 				logger.debug("Ranges empty, so just normal resample.fit.")
-				rr <- resample.fit(learn.task=learn.task, resample.instance=outer.resampling)
-				rp <- resample.performance(learn.task, outer.resampling, rr, measure=measure)
+				rr <- resample.fit(learn.task=learn.task, resampling=outer.resampling)
+				rp <- resample.performance(learn.task, rr, measure=measure)
 				return(data.frame(test.perf=rp$values))
 			}
 			

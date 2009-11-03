@@ -86,7 +86,7 @@ setMethod(
 				ms = lapply(rs, function(x) x$model)
 			else
 				ms = list()
-			return(new("resample.result", ri.name=resample.instance["name"], ri.class=class(resample.instance), preds=ps, models=ms))
+			return(new("resample.result", instance=resample.instance, preds=ps, models=ms))
 		}
 )
 

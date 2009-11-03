@@ -15,7 +15,7 @@ tune.optim <- function(learn.task, resample.instance, measure,
 		parset <- as.list(p)
 		names(parset) <- names(start)
 		rr <- resample.fit(learn.task, resample.instance, parset)
-		cp <- resample.performance(learn.task, resample.instance, rr, measure)
+		cp <- resample.performance(learn.task, rr, measure)
 		z = cp$aggr
 		n.eval <<- n.eval + 1
 		logger.debug("parset ", as.character(parset))
