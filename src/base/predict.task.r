@@ -31,6 +31,14 @@
 #' model <- train(ct, subset=inds)
 #' predict(model, newdata = test)
 #' 
+#' data(BostonHousing)
+#' inds <- seq(1, nrow(BostonHousing), 2)
+#' test <- BostonHousing[-inds,]
+#' 
+#' rt <- make.regr.task("stats.lm", data=BostonHousing, target="medv")
+#' model <- train(rt, subset=inds)
+#' predict(model, newdata = test)
+#' 
 #' @title predict
 setMethod(
 		f = "predict",
