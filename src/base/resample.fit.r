@@ -7,7 +7,7 @@ roxygen()
 
 setGeneric(
 		name = "resample.fit",
-		def = function(learn.task, resample.instance, parset, vars, models, type) {
+		def = function(learn.task, resampling, parset, vars, models, type) {
 			if (missing(type))
 				type <- "class"
 			if (missing(parset))
@@ -28,7 +28,7 @@ setGeneric(
 #'
 #' @param learn.task [\code{\linkS4class{learn.task}}] \cr
 #'   Specifies the learning task for the problem.
-#' @param resample.instance [\code{\linkS4class{resample.instance}}] \cr
+#' @param resampling [\code{\linkS4class{resample.instance}}] \cr
 #'   Specifies the training and test indices of the resampled data. 
 #' @param parset [\code{\link{list}}]\cr A list of named elements which specify the hyperparameters of the learner.
 #' @param vars [\code{\link{character}}] \cr Vector of variable names to use in training the model. Default is to use all variables.
@@ -57,12 +57,13 @@ setGeneric(
 
 setMethod(
 		f = "resample.fit",
-		signature = signature(learn.task="learn.task", resample.instance="resample.instance", parset="list", vars="character", models="logical", type="character"),
-		def = function(learn.task, resample.instance, parset, vars, models, type) {
+		signature = signature(learn.task="learn.task", resampling="resample.instance", parset="list", vars="character", models="logical", type="character"),
+		def = function(learn.task, resampling, parset, vars, models, type) {
 			df <- learn.task@data
 			n <- nrow(df)  
 			ps <- list()
 			ms <- list()
+			resample.instance <- resampling
 			iters <- resample.instance["iters"]
 			
 			wrapper <- function(i) {
@@ -89,5 +90,14 @@ setMethod(
 		}
 )
 
+
+setMethod(
+		f = "resample.fit",
+		signature = signature(learn.task="learn.task", resampling="resample.desc", parset="list", vars="character", models="logical", type="character"),
+		def = function(learn.task, resampling, parset, vars, models, type) {
+			i <- make.resample.instance(resampling, size=nrow(learn.task["data"]))
+			resample.fit(learn.task, i, parset, vars, models, type)
+		}
+)
 
 
