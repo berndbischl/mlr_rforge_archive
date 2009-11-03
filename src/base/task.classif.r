@@ -30,7 +30,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
-		def = function(.Object, wrapped.learner, data, weights=rep(1, nrow(data)), target, type = "class") {
+		def = function(.Object, wrapped.learner, target, data, weights, costs, type = "class") {
 			
 			
 			#todo: check for classif. learner
@@ -39,7 +39,8 @@ setMethod(
 				return(.Object)
 			
 			.Object@type <- type
-
+			.Object@costs <- costs
+			
 			callNextMethod(.Object, 
 					check.function = check.task.classif, 
 					wrapped.learner = wrapped.learner, 

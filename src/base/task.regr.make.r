@@ -2,7 +2,11 @@
 
 setGeneric(
 		name = "make.regr.task",
-		def = function(learner, formula, data, weights) {
+		def = function(learner, target, formula, data, weights) {
+			if (is.character(learner))
+				learner <- new(learner)
+			if (!is(learner, "wrapped.learner.regr"))
+				stop("Trying to constuct a regr.task from a non regression learner: ", class(learner))
 			if (missing(weights))
 				weights <- rep(1, nrow(data))
 			standardGeneric("make.regr.task")
@@ -34,8 +38,8 @@ setGeneric(
 #' 
 #' @param learner [\code{\link{character}}] \cr
 #'  	  Specifies the learner. See the list below in the details section.
-#' @param formula [\code{\link{formula}}] \cr
-#'        A symbolic description of the model to be fitted.
+#' @param target [\code{\link{character}}] \cr
+#'        Name of the target variable.
 #' @param data [\code{\link{data.frame}}] \cr
 #'   	  A data frame containing the variables in the model.
 #' @param weights [\code{\link{numeric}}] \cr
@@ -46,13 +50,13 @@ setGeneric(
 #' @export
 #' @rdname make.regr.task
 #' 
-#' @usage make.regr.task(learner, formula, data, weights)
+#' @usage make.regr.task(learner, target, data, weights)
 #'
 #' @examples
 #' library(mlbench)
 #' data(BostonHousing)
 #' # define a regression task for a Gradient Boosting Machine for regression for the data set BostonHousing
-#' rt <- make.regr.task("gbm.regr", data = BostonHousing, formula = medv~.)
+#' rt <- make.regr.task("gbm.regr", data = BostonHousing, target = "medv")
 #' 
 #' @seealso \code{\linkS4class{wrapped.learner}}, \code{\linkS4class{regr.task}}, \code{\link{train}}, \code{\link{predict}}
 #' 
@@ -62,15 +66,38 @@ setGeneric(
 setMethod(
 		f = "make.regr.task",
 		signature = signature(
-				learner = "character", 
-				formula = "formula", 
+				learner = "wrapped.learner.regr", 
+				target = "character",
+				formula = "missing",
+				data = "data.frame", 
+				weights = "numeric" 
+		),
+		
+		def = function(learner, target, data, weights) {
+			ct <- new("regr.task", wrapped.learner=learner, target=target, data=data, weights=weights)
+			return(ct)
+		}
+)
+
+
+
+setMethod(
+		f = "make.regr.task",
+		signature = signature(
+				learner = "wrapped.learner.regr", 
+				target = "missing",
+				formula = "formula",
 				data = "data.frame", 
 				weights = "numeric" 
 		),
 		
 		def = function(learner, formula, data, weights) {
-			wl <- new(learner)
-			rt <- new("regr.task", wrapped.learner=wl, formula=formula, data=data, weights=weights)
-			return(rt)
+			data2 <- model.frame(formula, data=data)
+			target <- as.character(formula)[2]
+			ct <- new("regr.task", wrapped.learner=learner, target=target, data=data2, weights=weights)
+			return(ct)
 		}
 )
+
+
+

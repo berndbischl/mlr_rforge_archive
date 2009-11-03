@@ -3,11 +3,24 @@ roxygen()
 
 setGeneric(
 		name = "make.classif.task",
-		def = function(learner, formula, data, weights, type) {
+		def = function(learner, target, formula, data, weights, costs, type) {
+			if (is.character(learner))
+				learner <- new(learner)
+			if (!is(learner, "wrapped.learner.classif"))
+				stop("Trying to constuct a classif.task from a non classification learner: ", class(learner))
+			
 			if (missing(weights))
 				weights <- rep(1, nrow(data))
 			if (missing(type))
 				type <- "class"
+			if (missing(costs)) {
+				if (missing(target))
+					tn <- as.character(formula)[2]
+				else
+					tn <- target						
+				n <- length(levels(data[,tn]))
+				costs <- matrix(1,n,n) - diag(1,n)
+			}		
 			standardGeneric("make.classif.task")
 		}
 )
@@ -43,12 +56,14 @@ setGeneric(
 #' 
 #' @param learner [\code{\link{character}}] \cr 
 #'  	  Specifies the learner. See the list below in the details section.
-#' @param formula [\code{\link{formula}}] \cr
-#'  	  A symbolic description of the model to be fitted.
+#' @param target [\code{\link{character}}] \cr
+#'  	  Name of the target variable.
 #' @param data [\code{\link{data.frame}}] \cr 	
 #'        A data frame containing the variables in the model.
 #' @param weights [\code{\link{numeric}}] \cr 	
 #'        An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
+#' @param costs [\code{\link{matrix}}] \cr 	
+#'        A optional matrix of misclassification costs to be used in the fitting process. Default is zero-one loss.
 #' @param type [\code{\link{character}}] \cr 	
 #' 	      Specifies the type of the predictions - either probabilities ("prob") or classes ("class"). Default is "class".
 #' 
@@ -59,12 +74,12 @@ setGeneric(
 #' @export
 #' @rdname make.classif.task
 #' 
-#' @usage make.classif.task(learner, formula, data, weights, type)
+#' @usage make.classif.task(learner, target, data, weights, type)
 #'
 #' @examples
 #' data(iris) 
 #' # define a classification task for a decision tree (rpart) for the data set iris
-#' ct <- make.classif.task("rpart.classif", data = iris, formula = Species ~.)
+#' ct <- make.classif.task("rpart.classif", data = iris, target = "Species")
 #' 
 #' @seealso \code{\linkS4class{wrapped.learner}}, \code{\linkS4class{classif.task}}, \code{\link{train}}, \code{\link{predict}}
 #'  
@@ -74,16 +89,41 @@ setGeneric(
 setMethod(
 		f = "make.classif.task",
 		signature = signature(
-				learner = "character", 
-				formula = "formula", 
+				learner = "wrapped.learner.classif", 
+				target = "character",
+				formula = "missing",
 				data = "data.frame", 
 				weights = "numeric", 
+				costs = "matrix", 
 				type = "character"
 		),
 		
-		def = function(learner, formula, data, weights, type) {
-			wl <- new(learner)
-			ct <- new("classif.task", wrapped.learner=wl, formula=formula, data=data, weights=weights, type=type)
+		def = function(learner, target, data, weights, costs, type) {
+			ct <- new("classif.task", wrapped.learner=learner, target=target, data=data, weights=weights, costs=costs, type=type)
 			return(ct)
 		}
 )
+
+setMethod(
+		f = "make.classif.task",
+		signature = signature(
+				learner = "wrapped.learner.classif", 
+				target = "missing",
+				formula = "formula",
+				data = "data.frame", 
+				weights = "numeric", 
+				costs = "matrix", 
+				type = "character"
+		),
+		
+		def = function(learner, formula, data, weights, costs, type) {
+			data2 <- model.frame(formula, data=data)
+			target <- as.character(formula)[2]
+			ct <- new("classif.task", wrapped.learner=learner, target=target, data=data2, weights=weights, costs=costs, type=type)
+			return(ct)
+		}
+)
+
+
+
+
