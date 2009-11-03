@@ -77,7 +77,7 @@ setMethod(
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, ...) {
 			m <- .wrapped.model["learner.model"]
-			.newdata[, wrapped.model["target"]] <- 0
+			.newdata[, .wrapped.model["target"]] <- 0
 			predict(m, data=.newdata,  ...)[,"mu"]
 		}
 )	
