@@ -4,7 +4,7 @@ roxygen()
 
 #' Mainly for internal use. Trains a wrapped learner on a giving training set, 
 #' w.r.t. some hyperparamters, case weights and costs.
-#' You jhave to implement this method if you want to add another learner to this package. 
+#' You have to implement this method if you want to add another learner to this package. 
 #' @param .wrapped.learner [\code{\link{wrapped.learner}}] \cr  
 #'        Wrapped learner from this package. 
 #' @param .targetvar [\code{\link{character}}] \cr
