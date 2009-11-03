@@ -73,7 +73,7 @@ setMethod(
 			ps <- paste(names(x@parset), x@parset, sep="=", collapse=" ")
 			return(
 					paste(
-							"Learner model for ", x@learner.name, "\n",  
+							"Learner model for ", x@wrapped.learner@learner.name, "\n",  
 							"Hyperparameters: ", ps, "\n",
 							"Trained on obs: ", length(x@subset), "\n",
 							sep=""
