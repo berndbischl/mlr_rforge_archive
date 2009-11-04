@@ -30,7 +30,6 @@ setClass(
 		)
 )
 
-
 #' Wrapped model for classification task.  
 #' 
 #' @slot class.levels Levels of the target factor. 
@@ -61,7 +60,6 @@ setClass(
 )
 
 
-#---------------- predict --------------------------------------------
 
 
 
@@ -71,11 +69,14 @@ setMethod(
 		signature = signature("wrapped.model"),
 		def = function(x) {
 			ps <- paste(names(x@parset), x@parset, sep="=", collapse=" ")
+			f = x["fail"]
+			f = ifelse(is.null(f), "", paste("Training failed:", f))
 			return(
 					paste(
 							"Learner model for ", x@wrapped.learner@learner.name, "\n",  
 							"Hyperparameters: ", ps, "\n",
 							"Trained on obs: ", length(x@subset), "\n",
+							f,
 							sep=""
 					)
 			)
@@ -105,13 +106,8 @@ setMethod(
 #' @param x wrapped.model object
 #' @param i [\code{\link{character}}]
 #' \describe{
-#'	 \item{task.class}{Learning task class}
-#' 	 \item{learner.class}{Learner class}
-#' 	 \item{learner.name}{Name of the learning method}
-#' 	 \item{vars}{Variables used to build the model.} 
-#'   \item{subset}{Indices of used training cases in fit.}
-#'   \item{parset}{Selected hyperparameters for model.}
-#'   \item{learner.model}{External model from existing R packages like lda, rpart, etc.}
+#'	 \item{<slot>}{A slot of the class.}
+#' 	 \iterm{fail}{Generally NULL but if the training failed, the error message of the underlying train function.}
 #' }
 #' 
 #' @rdname getter,wrapped.model-method
@@ -122,11 +118,19 @@ setMethod(
 		f = "[",
 		signature = signature("wrapped.model"),
 		def = function(x,i,j,...,drop) {
+			if (i == "fail"){
+				if (is(x@learner.model, "learner.failure"))
+					return(x@learner.model@msg)
+				else
+					return(NULL)
+			}
 			return(
 					eval(substitute("@"(x, slot), list(slot=i)))
 			)
 		}
 )
+
+
 
 
 
