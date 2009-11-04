@@ -119,7 +119,7 @@ cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tun
 			lt <- make.regr.task(learner=wl, data=df, formula=formula)
 		}
 		cvr <- resample.fit(lt, cv.instance, parset=parset)
-		cva <- resample.performance(lt, cv.instance, cvr)
+		cva <- resample.performance(lt, cvr)
 		checkEqualsNumeric(cva$aggr, tr$performances[1,2])
 		checkEqualsNumeric(cva$spread, tr$performances[1,3])
 	}
@@ -148,7 +148,7 @@ bs.test <- function(t.name, df, formula, iters=3, parset=list(), tune.train, tun
 	
 	bsr <- resample.fit(ct, bs.instance)
 	
-	bsp <- resample.performance(ct, bs.instance, bsr)
+	bsp <- resample.performance(ct, bsr)
 	
 	checkEqualsNumeric(bsp$aggr, tr$performances[1,2])
 	checkEqualsNumeric(bsp$spread, tr$performances[1,3])
