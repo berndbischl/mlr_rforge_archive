@@ -27,7 +27,6 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Learner: \n",  
 							"Supports multiclass: ", x@supports.multiclass, "\n",
 							"Supported features Nums:", x@supports.numerics, " Factors:", x@supports.factors, " Chars:", x@supports.characters, "\n",
 							"Supports missings: ", x@supports.missing, "\n", 
