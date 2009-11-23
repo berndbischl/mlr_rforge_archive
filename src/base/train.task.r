@@ -39,7 +39,9 @@ roxygen()
 
 setGeneric(
 		name = "train",
-		def = function(learn.task, subset, parset, vars) {
+		def = function(learner, learn.task, subset, parset, vars) {
+			if (is.character(learner))
+				learner <- new(learner)
 			if (missing(subset))
 				subset <- 1:nrow(learn.task@data)
 			if (missing(parset))
@@ -53,8 +55,14 @@ setGeneric(
 )
 
 
-train.task2 <- function(learn.task, subset, parset, vars, extra.train.pars, model.class, extra.model.pars, novars.class) {
-	wl <- learn.task@wrapped.learner
+train.task2 <- function(learner, learn.task, subset, parset, vars, extra.train.pars, model.class, extra.model.pars, novars.class, check.fct) {
+	
+	check.result <- check.fct(learn.task, learner)
+	if (check.result$msg != "") {
+		stop(check.result$msg)
+	}
+	
+	wl <- learner
 	tn <- learn.task["target.name"]
 	# reduce data to subset and selected vars
 	data.subset <- learn.task@data[subset, c(vars, tn), drop=FALSE]
@@ -108,15 +116,19 @@ setMethod(
 		f = "train",
 		
 		signature = signature(
+				learner="wrapped.learner.classif", 
 				learn.task="classif.task", 
 				subset="numeric", 
 				parset="list", 
 				vars="character"),
 		
-		def = function(learn.task, subset, parset, vars) {
+		def = function(learner, learn.task, subset, parset, vars) {
 			extra.train.pars = list(.costs = learn.task@costs, .type = learn.task@type)
 			extra.model.pars = list(class.levels = learn.task["class.levels"], type = learn.task@type)
-			train.task2(learn.task, subset, parset, vars, extra.train.pars, "wrapped.model.classif", extra.model.pars, "novars.classif")
+			train.task2(learner, learn.task, subset, parset, vars, 
+					extra.train.pars, "wrapped.model.classif", extra.model.pars, "novars.classif",
+					check.task.classif
+			)
 		}
 )
 
@@ -125,12 +137,13 @@ setMethod(
 		f = "train",
 		
 		signature = signature(
+				learner="wrapped.learner.regr", 
 				learn.task="regr.task", 
 				subset="numeric", 
 				parset="list", 
 				vars="character"),
 		
-		def = function(learn.task, subset, parset, vars) {
+		def = function(learner, learn.task, subset, parset, vars) {
 			extra.train.pars = list()
 			extra.model.pars = list()
 			train.task2(learn.task, subset, parset, vars, extra.train.pars, "wrapped.model.regr", extra.model.pars, "novars.regr")
