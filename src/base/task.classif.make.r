@@ -3,11 +3,11 @@ roxygen()
 
 setGeneric(
 		name = "make.classif.task",
-		def = function(learner, target, formula, data, weights, costs, type) {
-			if (is.character(learner))
-				learner <- new(learner)
-			if (!is(learner, "wrapped.learner.classif"))
-				stop("Trying to constuct a classif.task from a non classification learner: ", class(learner))
+		def = function(target, formula, data, weights, costs, type) {
+#			if (is.character(learner))
+#				learner <- new(learner)
+#			if (!is(learner, "wrapped.learner.classif"))
+#				stop("Trying to constuct a classif.task from a non classification learner: ", class(learner))
 			
 			if (missing(weights))
 				weights <- rep(1, nrow(data))
@@ -26,7 +26,7 @@ setGeneric(
 )
 
 
-#' \code{make.classif.task} defines a classification task for a learner and a data set and is the starting point 
+#' \code{make.classif.task} defines a classification task for a data set and is the starting point 
 #' for further steps like training, predicting new data, resampling and tuning.
 #' 
 #' \code{make.classif.task} already performs quite a few tasks: It tries to load the required package for the 
@@ -54,8 +54,6 @@ setGeneric(
 #' 		\item{\code{\linkS4class{kernlab.svm.classif}}}{Support Vector Machines from kernlab package}  
 #' }
 #' 
-#' @param learner [\code{\link{character}}] \cr 
-#'  	  Specifies the learner. See the list below in the details section.
 #' @param target [\code{\link{character}}] \cr
 #'  	  Name of the target variable.
 #' @param data [\code{\link{data.frame}}] \cr 	
@@ -74,14 +72,14 @@ setGeneric(
 #' @export
 #' @rdname make.classif.task
 #' 
-#' @usage make.classif.task(learner, target, data, weights, type)
+#' @usage make.classif.task(target, data, weights, type)
 #'
 #' @examples
 #' data(iris) 
 #' # define a classification task for a decision tree (rpart) for the data set iris
 #' ct <- make.classif.task("rpart.classif", data = iris, target = "Species")
 #' 
-#' @seealso \code{\linkS4class{wrapped.learner}}, \code{\linkS4class{classif.task}}, \code{\link{train}}, \code{\link{predict}}
+#' @seealso \code{\linkS4class{classif.task}}, \code{\link{train}}, \code{\link{predict}}
 #'  
 #' @title make.classif.task
 
@@ -89,7 +87,6 @@ setGeneric(
 setMethod(
 		f = "make.classif.task",
 		signature = signature(
-				learner = "wrapped.learner.classif", 
 				target = "character",
 				formula = "missing",
 				data = "data.frame", 
@@ -98,8 +95,8 @@ setMethod(
 				type = "character"
 		),
 		
-		def = function(learner, target, data, weights, costs, type) {
-			ct <- new("classif.task", wrapped.learner=learner, target=target, data=data, weights=weights, costs=costs, type=type)
+		def = function(target, data, weights, costs, type) {
+			ct <- new("classif.task", target=target, data=data, weights=weights, costs=costs, type=type)
 			return(ct)
 		}
 )
@@ -107,7 +104,6 @@ setMethod(
 setMethod(
 		f = "make.classif.task",
 		signature = signature(
-				learner = "wrapped.learner.classif", 
 				target = "missing",
 				formula = "formula",
 				data = "data.frame", 
@@ -116,10 +112,10 @@ setMethod(
 				type = "character"
 		),
 		
-		def = function(learner, formula, data, weights, costs, type) {
+		def = function(formula, data, weights, costs, type) {
 			data2 <- model.frame(formula, data=data)
 			target <- as.character(formula)[2]
-			ct <- new("classif.task", wrapped.learner=learner, target=target, data=data2, weights=weights, costs=costs, type=type)
+			ct <- new("classif.task", target=target, data=data2, weights=weights, costs=costs, type=type)
 			return(ct)
 		}
 )
