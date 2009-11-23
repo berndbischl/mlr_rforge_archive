@@ -30,24 +30,16 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
-		def = function(.Object, wrapped.learner, target, data, weights, costs, type = "class") {
+		def = function(.Object, target, data, weights, costs, type = "class") {
 			
 			
-			#todo: check for classif. learner
-			
-			if (missing(wrapped.learner))
+			if (missing(data))
 				return(.Object)
 			
 			.Object@type <- type
 			.Object@costs <- costs
 			
-			callNextMethod(.Object, 
-					check.function = check.task.classif, 
-					wrapped.learner = wrapped.learner, 
-					data=data,	
-					weights=weights,
-					target=target
-			)
+			callNextMethod(.Object, data=data, weights=weights,	target=target, prep.fct=prep.classif.data)
 		}
 )
 
@@ -84,12 +76,11 @@ setMethod(
 		f = "as.character",
 		signature = signature("classif.task"),
 		def = function(x) {
-			wl <- x@wrapped.learner
 			return(
 					paste(
-							"Classification task for ", wl@learner.name, " from package ", wl@learner.pack, "\n\n",
+							"Classification problem\n",
 							as.character(x@data.desc), "\n",
-							as.character(wl@learner.props), sep=""
+							sep=""
 					)
 			)
 		}
