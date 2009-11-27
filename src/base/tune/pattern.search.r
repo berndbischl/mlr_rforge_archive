@@ -23,7 +23,6 @@ pattern.search <- function(f, control) {
 	Nmax <- control$maxit
 	delta <- control$delta
 	
-	
 	# n: number of parameters
 	n <- length(start)
 	center <- matrix(0, ncol=n, nrow=(Nmax+1))

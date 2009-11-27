@@ -1,4 +1,4 @@
-tune.grid <- function(learner, task, resampling, loss, control, eval.fun) {
+tune.grid <- function(learner, task, resampling, loss, control) {
 	ranges = control$ranges
 	# if theres more than one ranges 
 	if(all((names(ranges) == "ranges"))) {
@@ -38,44 +38,27 @@ tune.1 <- function(learner, task, resampling, ranges, loss) {
 	cr <- convert.ranges(ranges)
 	grid.labels <- expand.grid(cr$labels, KEEP.OUT.ATTRS = FALSE)
 	grid.indices <- expand.grid(cr$indices, KEEP.OUT.ATTRS = FALSE)
-		
+	
 	# expand grid converts char vectors to factors
 #	for (i in 1:ncol(grid.labels))
 #		if(is.factor(grid.labels[,i])) grid[,i] <- as.character(grid[,i])
 	
 	parsets <- lapply(1:nrow(grid.indices), function(i) row2parset(grid.indices[i,,drop=F], ranges))	
 	
-	wrapper <- function(i) {
-		caller <- "tune"
-		st <- system.time(result <- resample.fit(learner, task, resampling, parsets[[i]]))
-		cp <- resample.performance(task, result, loss=loss)
-		return(c(cp$aggr1, cp$spread, st["elapsed"]))
-	}
+#	if (.ps$mode %in% c("snowfall", "sfCluster")) {
+#		sfExport("learner")
+#		sfExport("task")
+#		sfExport("resample.instance")
+#		if (.ps$level == "tune") {
+#			sfExport("parsets")
+#			sfExport("measure")
+#		}
+#	} 
 	
-	.ps <- .mlr.local$parallel.setup
-	
-	if (.ps$mode %in% c("snowfall", "sfCluster")) {
-		sfExport("learner")
-		sfExport("task")
-		sfExport("resample.instance")
-		if (.ps$level == "tune") {
-			sfExport("parsets")
-			sfExport("measure")
-		}
-	} 
-	
-	if (.ps$mode %in% c("snowfall", "sfCluster") && .ps$level == "tune") {
-		perf <- sfClusterApplyLB(1:nrow(grid.indices), wrapper)
-	} else {
-		perf <- lapply(1:nrow(grid.indices), wrapper)
-	}
-	perf <- Reduce(rbind, perf)
-	colnames(perf) <- c("aggr", "spread", "time")
-	rownames(perf) <- NULL
+	perf = eval.parsets(parsets, names(ranges), resampling)
+
 	performances <- grid.indices
-	performances$aggr <- perf[,1] 
-	performances$spread <- perf[,2]
-	performances$time <- perf[,3]
+	performances[, c("aggr", "spread", "time")]  <- perf[,1:3] 
 	return(performances)
 }
 
