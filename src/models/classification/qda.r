@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r
-roxygen()
+
 
 #' Wrapped learner for Quadratic Discriminant Analysis from package \code{MASS} for classification problems.
 #' @title qda

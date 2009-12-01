@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r 
-roxygen()
+
 
 #' Wrapped learner for Random Forests from package \code{randomForest} for classification problems.
 #' 

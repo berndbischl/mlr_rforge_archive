@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r
-roxygen()
+
 
 #' Wrapped learner for Multinomial Regression from package \code{nnet} for classification problems.
 #' 

@@ -1,6 +1,7 @@
 #' @include wrapped.learner.classif.r
 #' @include train.learner.r
-roxygen()
+myrox()
+
 
 #' Wrapped learner for boosting a binary response from package \code{ada}.
 #' @title ada

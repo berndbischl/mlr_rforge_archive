@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r
-roxygen()
+
 
 #' Wrapped learner for Localized Linear Discriminant Analysis from package \code{MASS}.
 #' @title loclda

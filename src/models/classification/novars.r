@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r
-roxygen()
+
 
 setClass(
 		"novars.classif", 
