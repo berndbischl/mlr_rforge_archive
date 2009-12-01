@@ -1,5 +1,5 @@
 #' @include wrapped.learner.regr.r 
-roxygen()
+myrox()
 
 #' Wrapped learner for Boosting with Regression Trees from package \code{mboost} for regression problems.
 #' 

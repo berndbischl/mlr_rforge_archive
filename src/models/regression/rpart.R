@@ -1,5 +1,5 @@
 #' @include wrapped.learner.regr.r
-roxygen()
+myrox()
 
 #' Wrapped learner for Regression Trees from package \code{rpart}.
 #' 

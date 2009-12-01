@@ -1,5 +1,5 @@
 #' @include wrapped.learner.regr.r 
-roxygen()
+myrox()
 
 #' Wrapped learner for Gradient Boosting Machine from package \code{gbm} for regression problems.
 #' 

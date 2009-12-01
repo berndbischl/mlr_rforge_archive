@@ -1,5 +1,5 @@
 #' @include wrapped.learner.regr.r 
-roxygen()
+myrox()
 
 #' Wrapped learner for Random Forests from package \code{randomForest} for regression problems.
 #' 

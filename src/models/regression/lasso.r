@@ -1,6 +1,6 @@
 #' @include wrapped.learner.regr.r 
 #' @include train.learner.r 
-roxygen()
+myrox()
 
 #' Wrapped learner for Lasso Regression from package \code{penalized} for regression problems.
 #' 

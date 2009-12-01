@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r 
-
+myrox()
 
 #' Wrapped learner for Naive Bayes from package \code{e1071} for classification problems.
 #' @title naiveBayes

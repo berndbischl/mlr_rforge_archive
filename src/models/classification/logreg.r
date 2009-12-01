@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r
-
+myrox()
 
 #' Wrapped learner for Logistic Regression from package \code{stats} for classification problems.
 #' 
