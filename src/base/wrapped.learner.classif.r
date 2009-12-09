@@ -1,4 +1,3 @@
-#' @include learner.props.r
 #' @include wrapped.learner.r
 roxygen()
 
