@@ -1,7 +1,7 @@
 #' @include task.classif.r
 roxygen()
 
-check.task.classif <- function(lt, learner) {
+check.task <- function(lt, learner) {
 	wl <- learner
 	ld <- wl@learner.props
 	data <- lt@data
@@ -25,3 +25,17 @@ check.task.classif <- function(lt, learner) {
 	}
 	return(list(msg=msg))
 }
+
+check.task.classif <- function(lt, learner) {
+	msg <- check.task(lt, learner)
+
+	ld <- learner@learner.props
+	dd <- lt@data.desc
+	
+	if (dd@class.nr > 2 && !ld@supports.multiclass) {
+		msg <- paste("Data set is a multiclass-problem, but", learner@learner.name, "does not support that!")
+	}
+	return(list(msg=msg))
+}
+
+
