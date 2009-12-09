@@ -1,7 +1,7 @@
-base.files <<- c( 		
+base.files <<- c(
 		"log/log.r",
-		"base/packagedesc.r",
-		"base/zzz.r",
+#		"base/packagedesc.r",
+		"base/aaa.r",
 		
 		"base/learner.props.r",
 		"base/learner.props.classif.r",
@@ -10,6 +10,7 @@ base.files <<- c(
 		"base/wrapped.learner.r",
 		"base/wrapped.learner.classif.r",
 		"base/wrapped.learner.regr.r",
+		"base/wrapped.learner.make.r",
 		
 		"base/data.desc.r",
 		"base/prepare.df.r",
@@ -25,46 +26,43 @@ base.files <<- c(
 		
 		"base/train.learner.r",
 		"base/train.task.r",
-#		"base/train.task.classif.r",
-#		"base/train.task.regr.r",
 		
 		"base/predict.learner.r",
-		"base/predict.task.r",
-#		"base/predict.r",
-#		"base/predict.classif.r",
-#		"base/predict.regr.r",
-		"base/perf.measure.r",
+		"base/predict.r",
+		"base/loss.r",
 		"base/performance.r",
 		
-		"base/resample.desc.r",
-		"base/cv.desc.r",
-		"base/bs.desc.r",
-		"base/subsample.desc.r",
-		
-		"base/resample.instance.r",
-		"base/cv.instance.r",
-		"base/bs.instance.r",
-		"base/subsample.instance.r",
-		
-		
-		"base/resample.result.r",
-		"base/resample.fit.r",
-		"base/resample.fit.iter.r",
-		"base/resample.performance.r",
+		"base/resample/resample.desc.r",
+		"base/resample/resample.instance.r",
+		"base/resample/cv.desc.r",
+		"base/resample/bs.desc.r",
+		"base/resample/subsample.desc.r",
+		"base/resample/cv.instance.r",
+		"base/resample/bs.instance.r",
+		"base/resample/subsample.instance.r",
+		"base/resample/resample.result.r",
+		"base/resample/resample.fit.r",
+		"base/resample/resample.fit.iter.r",
+		"base/resample/resample.performance.r",
+
 		"base/conf.matrix.r",
 		
 		
-		"base/check.ranges.r",
-		"base/combine.ranges.r",
-		"base/tune.r",
-		"base/tune.cmaes.r",
-		"base/tune.optim.r",
-		"base/tune.subplex.r",
-		"base/pattern.search.r",
-		"base/tune.ps.r",
+		"base/tune/check.ranges.r",
+		"base/tune/combine.ranges.r",
+		"base/tune/tune.r",
+		"base/tune/tune.grid.r",
+#		"base/tune/tune.cmaes.r",
+		"base/tune/pattern.search.r",
+		"base/tune/tune.ps.r",
+		"base/tune/tune.wrapper.r",
 		
-		"base/benchmark.r",
-		"base/parallel.r"
+		"base/benchmark/benchmark.r",
+		"base/benchmark/benchexp.r",
+		
+		"base/parallel/export.r",
+		"base/parallel/eval.r",
+		"base/parallel/parallel.r"
 )
 
 classif.files <<- c( 		

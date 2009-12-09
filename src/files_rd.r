@@ -76,6 +76,7 @@ allowed.rd.files <<- c(
 #			"print,wrapped.model-method.Rd",
 #			"show,wrapped.model-method.Rd",
 			"getter,wrapped.model-method.Rd",
+		"make.learner.Rd",
 		"set.train.par.Rd",
 		"set.predict.par.Rd",
 
