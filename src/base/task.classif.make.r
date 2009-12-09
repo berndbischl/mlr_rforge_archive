@@ -72,7 +72,7 @@ setGeneric(
 #' @export
 #' @rdname make.classif.task
 #' 
-#' @usage make.classif.task(target, data, weights, type)
+#' @usage make.classif.task(target, formula, data, weights, costs, type)
 #'
 #' @examples
 #' data(iris) 
