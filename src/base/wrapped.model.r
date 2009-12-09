@@ -1,4 +1,4 @@
-#' @include task.learn.r
+#' @include wrapped.learner.r
 roxygen()
 
 
@@ -107,7 +107,7 @@ setMethod(
 #' @param i [\code{\link{character}}]
 #' \describe{
 #'	 \item{<slot>}{A slot of the class.}
-#' 	 \iterm{fail}{Generally NULL but if the training failed, the error message of the underlying train function.}
+#' 	 \item{fail}{Generally NULL but if the training failed, the error message of the underlying train function.}
 #' }
 #' 
 #' @rdname getter,wrapped.model-method
