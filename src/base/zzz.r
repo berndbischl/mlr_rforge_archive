@@ -2,6 +2,7 @@
 
 
 .mlr.local <- new.env()
+roxygen <- function() NULL
 
 #' @export .mlr.local
 .onLoad <- function(libname, pkgname) {
