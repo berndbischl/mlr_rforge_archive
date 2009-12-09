@@ -1,7 +1,3 @@
-#' @include wrapped.learner.r
-roxygen()
-
-
 #' Mainly for internal use. Trains a wrapped learner on a giving training set, 
 #' w.r.t. some hyperparamters, case weights and costs.
 #' You have to implement this method if you want to add another learner to this package. 
@@ -31,3 +27,4 @@ setGeneric(
 			standardGeneric("train.learner")
 		}
 )
+

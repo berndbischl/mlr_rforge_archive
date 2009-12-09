@@ -1,3 +1,6 @@
+#' @include wrapped.model.r
+roxygen()
+
 #' Mainly for internal use. Predicts new data with wrapped.model. 
 #' You have to implement this method if you want to add another learner to this package. 
 #' @param .wrapped.learner [\code{\link{wrapped.learner}}] \cr  

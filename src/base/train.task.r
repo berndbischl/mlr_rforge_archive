@@ -4,7 +4,9 @@ roxygen()
 #' Given a \code{\linkS4class{learn.task}} \code{train} creates a model for the learning machine 
 #' which can be used for predictions on new data. 
 #'
-#' @param learn.task [\code{\linkS4class{learn.task}}]\cr 
+#' @param learner [\code{\linkS4class{wrapped.learner}} or \code{\link{character}}]\cr 
+#'        Learning algorithm.   
+#' @param task [\code{\linkS4class{learn.task}}]\cr 
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 
 #'        An index vector specifying the training cases from the data contained in the learning task. By default the complete dataset is used. 
@@ -17,7 +19,7 @@ roxygen()
 #'
 #' @export
 #'
-#' @usage train(learn.task, subset, parset, vars)  
+#' @usage train(learner, task, subset, parset, vars)  
 #'
 #' @examples 
 #' library(MASS)
@@ -39,15 +41,15 @@ roxygen()
 
 setGeneric(
 		name = "train",
-		def = function(learner, learn.task, subset, parset, vars) {
+		def = function(learner, task, subset, parset, vars) {
 			if (is.character(learner))
 				learner <- new(learner)
 			if (missing(subset))
-				subset <- 1:nrow(learn.task@data)
+				subset <- 1:nrow(task@data)
 			if (missing(parset))
 				parset <- list()
 			if (missing(vars))
-				vars <- learn.task["input.names"]
+				vars <- task["input.names"]
 			if (length(vars) == 0)
 				vars <- character(0)
 			standardGeneric("train")
@@ -55,18 +57,18 @@ setGeneric(
 )
 
 
-train.task2 <- function(learner, learn.task, subset, parset, vars, extra.train.pars, model.class, extra.model.pars, novars.class, check.fct) {
+train.task2 <- function(learner, task, subset, parset, vars, extra.train.pars, model.class, extra.model.pars, novars.class, check.fct) {
 	
-	check.result <- check.fct(learn.task, learner)
+	check.result <- check.fct(task, learner)
 	if (check.result$msg != "") {
 		stop(check.result$msg)
 	}
 	
 	wl <- learner
-	tn <- learn.task["target.name"]
+	tn <- task["target.name"]
 	# reduce data to subset and selected vars
-	data.subset <- learn.task@data[subset, c(vars, tn), drop=FALSE]
-	ws <- learn.task@weights[subset]
+	data.subset <- task@data[subset, c(vars, tn), drop=FALSE]
+	ws <- task@weights[subset]
 	
 	logger.debug("mlr train:", wl@learner.name, "with pars:")
 	logger.debug(parset)
@@ -104,7 +106,7 @@ train.task2 <- function(learner, learn.task, subset, parset, vars, extra.train.p
 		learner.model <- new("learner.failure", msg=msg)
 	} 
 
-	pars = list(model.class, task.class = class(learn.task), wrapped.learner = wl,  
+	pars = list(model.class, task.class = class(task), wrapped.learner = wl,  
 			learner.model = learner.model, target=tn, subset=subset, parset=parset, vars=vars)
 	pars = c(pars, extra.model.pars)
 	do.call("new", pars)
@@ -117,15 +119,15 @@ setMethod(
 		
 		signature = signature(
 				learner="wrapped.learner.classif", 
-				learn.task="classif.task", 
+				task="classif.task", 
 				subset="numeric", 
 				parset="list", 
 				vars="character"),
 		
-		def = function(learner, learn.task, subset, parset, vars) {
-			extra.train.pars = list(.costs = learn.task@costs, .type = learn.task@type)
-			extra.model.pars = list(class.levels = learn.task["class.levels"], type = learn.task@type)
-			train.task2(learner, learn.task, subset, parset, vars, 
+		def = function(learner, task, subset, parset, vars) {
+			extra.train.pars = list(.costs = task@costs, .type = task@type)
+			extra.model.pars = list(class.levels = task["class.levels"], type = task@type)
+			train.task2(learner, task, subset, parset, vars, 
 					extra.train.pars, "wrapped.model.classif", extra.model.pars, "novars.classif",
 					check.task.classif
 			)
@@ -138,15 +140,18 @@ setMethod(
 		
 		signature = signature(
 				learner="wrapped.learner.regr", 
-				learn.task="regr.task", 
+				task="regr.task", 
 				subset="numeric", 
 				parset="list", 
 				vars="character"),
 		
-		def = function(learner, learn.task, subset, parset, vars) {
+		def = function(learner, task, subset, parset, vars) {
 			extra.train.pars = list()
 			extra.model.pars = list()
-			train.task2(learn.task, subset, parset, vars, extra.train.pars, "wrapped.model.regr", extra.model.pars, "novars.regr")
+			train.task2(learner, task, subset, parset, vars, 
+					extra.train.pars, "wrapped.model.regr", extra.model.pars, "novars.regr",
+					check.task
+			)
 		}
 )
 

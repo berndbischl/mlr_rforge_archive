@@ -1,4 +1,5 @@
 #' @include task.regr.r
+roxygen()
 
 setGeneric(
 		name = "make.regr.task",
@@ -48,7 +49,7 @@ setGeneric(
 #' @export
 #' @rdname make.regr.task
 #' 
-#' @usage make.regr.task(target, data, weights)
+#' @usage make.regr.task(target, formula, data, weights)
 #'
 #' @examples
 #' library(mlbench)

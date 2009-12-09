@@ -44,8 +44,7 @@ prep.data = function(data, target, data.desc,
 prep.classif.data <- function(data, target, data.desc, 
 		ints.as.nums = TRUE, ints.as.factors=FALSE, chars.as.factors = TRUE, 
 		drop.class.levels=TRUE)   {
-	
-	
+
 	if (missing(data.desc))
 		data.desc <- make.data.desc(data, target)
 	
@@ -60,6 +59,8 @@ prep.classif.data <- function(data, target, data.desc,
 			stop("Unsuitable target col. for classification data!")				
 		}
 	}	
+	
+	targets = data[, target]
 	
 	# drop unused class levels
 	if (drop.class.levels) {
@@ -76,3 +77,15 @@ prep.classif.data <- function(data, target, data.desc,
 			ints.as.nums, ints.as.factors, chars.as.factors)
 }
 	
+prep.regr.data <- function(data, target, data.desc, 
+		ints.as.nums = TRUE, ints.as.factors=FALSE, chars.as.factors = TRUE)   {
+	
+	if (missing(data.desc))
+		data.desc <- make.data.desc(data, target)
+
+	prep.data(data=data, target=target, data.desc=data.desc, 
+			ints.as.nums, ints.as.factors, chars.as.factors)
+	
+}
+
+

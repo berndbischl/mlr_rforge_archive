@@ -5,6 +5,7 @@ roxygen()
 #' Instantiate it by using its factory method.
 #' 
 #' @slot type "class" if you generally want to predict classes or "prob" for probabilities. Default is "class" 
+#' @slot costs Matrix of misclassification costs. Default is zero-one loss. 
 #' 
 #' @exportClass classif.task
 #' @title classif.task

@@ -1,5 +1,9 @@
 #' @include learner.props.r
 roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include predict.learner.r
+roxygen()
 
 #' Wraps an already implemented learning method from R to make it accesible to mlr.
 #' 
@@ -41,7 +45,7 @@ setMethod(
 			if(learner.pack != "mlr" && !require(learner.pack, character.only=TRUE)) {
 				stop(paste("Learn.task for", learner.name, "could not be constructed! package", learner.pack, "missing!"))
 			}
-
+			
 			.Object@learner.name <- learner.name
 			.Object@learner.pack <- learner.pack
 			
@@ -59,10 +63,10 @@ setMethod(
 		signature = signature("wrapped.learner"),
 		def = function(x) {
 			return(paste( 
-					"Classification learner ", x@learner.name, " from package ", x@learner.pack, "\n\n",					
-					as.character(x@learner.props), 
-					sep =""					
-			))
+							"Classification learner ", x@learner.name, " from package ", x@learner.pack, "\n\n",					
+							as.character(x@learner.props), 
+							sep =""					
+					))
 		}
 )
 
@@ -111,8 +115,8 @@ setMethod(
 		def = function(learner, ...) {
 			pars <- list(...)
 			pn <- names(pars)
-			object@train.fct.pars[pn] <- pars
-			return(object)
+			learner@train.fct.pars[pn] <- pars
+			return(learner)
 		}
 )
 
@@ -130,7 +134,7 @@ setMethod(
 
 setGeneric(
 		name = "set.predict.par",
-		def = function(object, ...) {
+		def = function(learner, ...) {
 			standardGeneric("set.predict.par")
 		}
 )
@@ -154,12 +158,13 @@ setGeneric(
 setMethod(
 		f = "set.predict.par",
 		signature = signature("wrapped.learner"),
-		def = function(object, ...) {
+		def = function(learner, ...) {
 			pars <- list(...)
 			pn <- names(pars)
-			object@predict.fct.pars[pn] <- pars
-			return(object)
+			learner@predict.fct.pars[pn] <- pars
+			return(learner)
 		}
 )
+
 
 
