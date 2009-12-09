@@ -43,6 +43,9 @@ setMethod(
 			if(missing(data))
 				return(.Object)					
 			
+			msg = check.task(data=data, target=target)
+			if (msg != "")
+				stop(msg)
 			.Object@data <- prep.fct(data, target)
 			.Object@weights <- weights
 			.Object@target <- target
