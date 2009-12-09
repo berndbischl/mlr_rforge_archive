@@ -28,7 +28,7 @@ setMethod(
 				
 			if (missing(data))
 				return(.Object)
-			callNextMethod(.Object,	data=data, weights=weights,	target=target)
+			callNextMethod(.Object, data=data, weights=weights,	target=target, prep.fct=prep.regr.data)
 		}
 )
 
