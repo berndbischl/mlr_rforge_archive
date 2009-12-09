@@ -14,14 +14,11 @@ setGeneric(
 			if (missing(type))
 				type <- "class"
 			if (missing(costs)) {
-				if (missing(target))
-					tn <- as.character(formula)[2]
-				else
-					tn <- target						
-				n <- length(levels(data[,tn]))
-				costs <- matrix(1,n,n) - diag(1,n)
+				# we set costs in constructor after data preparation
+				costs=matrix(0,0,0)
 			}		
-			standardGeneric("make.classif.task")
+			x=standardGeneric("make.classif.task")
+			return(x)
 		}
 )
 

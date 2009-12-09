@@ -40,7 +40,13 @@ setMethod(
 			.Object@type <- type
 			.Object@costs <- costs
 			
-			callNextMethod(.Object, data=data, weights=weights,	target=target, prep.fct=prep.classif.data)
+			.Object = callNextMethod(.Object, data=data, weights=weights, target=target, prep.fct=prep.classif.data)
+			# costs are set to default after data prep
+			if (identical(dim(.Object@costs), c(0L,0L))) {
+				n <- .Object["class.nr"]
+				.Object@costs <- matrix(1,n,n) - diag(1,n)
+			}
+			return(.Object)
 		}
 )
 
