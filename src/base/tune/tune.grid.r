@@ -4,10 +4,11 @@ tune.grid <- function(learner, task, resampling, loss, control) {
 	if(all((names(ranges) == "ranges"))) {
 		trs <- lapply(ranges, function(r) {tune.1(learner, task, resampling, r, loss)})
 		trs2 <- lapply(1:length(ranges), function(i) make.tune.result(trs[[i]], loss, ranges[[i]]))
-		ps <- lapply(trs2, function(x) x$performances)
-		bps <- sapply(trs2, function(x) x$best.performance)
-		bss <- sapply(trs2, function(x) x$best.spread)
-		bpars <- lapply(trs2, function(x) x$best.parameters)
+		ps <- lapply(trs2, function(x) x$all.perfs)
+		bps <- sapply(trs2, function(x) x$perf)
+		bss <- sapply(trs2, function(x) x$spread)
+		bpars <- lapply(trs2, function(x) x$par)
+		print(bps)
 		i <- which.min(bps)
 		perf <- Reduce(rbind.fill, ps)
 		# reorder

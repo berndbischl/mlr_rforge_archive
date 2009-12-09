@@ -2,12 +2,11 @@
 roxygen()
 
 
-
 setGeneric(
 		name = "resample.performance",
-		def = function(learn.task, resample.result, loss, aggr1, aggr2, spread) {
+		def = function(task, result, loss, aggr1, aggr2, spread) {
 			if (missing(loss))
-				loss <- default.loss(learn.task)
+				loss <- default.loss(task)
 			if (is.character(loss))
 				loss <- make.loss(loss)
 			if (missing(aggr1))
@@ -22,9 +21,9 @@ setGeneric(
 
 #' Measures the quality of predictions w.r.t. some loss function for a resampled fit.
 #' 
-#' @param learn.task [\code{\linkS4class{learn.task}}] \cr
+#' @param task [\code{\linkS4class{learn.task}}] \cr
 #'   	Specifies the learning task for the problem.
-#' @param resample.result [\code{\linkS4class{resample.result}}] \cr
+#' @param result [\code{\linkS4class{resample.result}}] \cr
 #' @param measure [\code{\link{character}}/\code{\link{list}}] \cr 
 #' 		Name of performance measure to optimize or a list describing your own performance measure. 
 #' 		The default is mean misclassification error for classification or MSE for regression. 
@@ -37,7 +36,7 @@ setGeneric(
 #' @export
 #' @rdname resample.performance
 #' 
-#' @usage resample.performance(learn.task, resample.result, measure)
+#' @usage resample.performance(task, result, loss, aggr1, aggr2, spread)
 #'
 #' @examples
 #' library(mlbench)
@@ -56,16 +55,16 @@ setGeneric(
 
 setMethod(
 		f = "resample.performance",
-		signature = c(learn.task="learn.task", resample.result="resample.result", loss="loss", aggr1="function", aggr2="function", spread="function"),
-		def = function(learn.task, resample.result, loss, aggr1, aggr2, spread) {
-			n <- resample.result["iters"]
-			rin <- resample.result["instance"]
+		signature = c(task="learn.task", result="resample.result", loss="loss", aggr1="function", aggr2="function", spread="function"),
+		def = function(task, result, loss, aggr1, aggr2, spread) {
+			n <- result["iters"]
+			rin <- result["instance"]
 			vals <- list()
 			aggrs <- numeric(n)
 			for(i in 1:n)  {
-				trues.i <- get.test.targets(learn.task, rin, i)
-				preds.i <- resample.result["fitted", i]
-				w.i <- learn.task@weights[rin["test.inds", i]]
+				trues.i <- get.test.targets(task, rin, i)
+				preds.i <- result["fitted", i]
+				w.i <- task@weights[rin["test.inds", i]]
 				p <- performance(preds.i, trues.i, w.i, loss, aggr2)
 				vals[[i]] = p$vals
 				aggrs[i] = p$aggr

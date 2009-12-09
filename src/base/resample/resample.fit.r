@@ -28,16 +28,21 @@ setGeneric(
 #' predictions are returned - encapsulated in a \code{\link{resample.result}} object. 
 #' Optionally the fitted models are also stored.
 #'
+#' @param learner [\code{\linkS4class{wrapped.learner}} or \code{\link{character}}]\cr 
+#     Learning algorithm.   
 #' @param task [\code{\linkS4class{task}}] \cr
-#'   Specifies the learning task for the problem.
+#'    Specifies the learning task for the problem.
 #' @param resampling [\code{\linkS4class{resample.instance}}] \cr
-#'   Specifies the training and test indices of the resampled data. 
+#'    Specifies the training and test indices of the resampled data. 
 #' @param parset [\code{\link{list}}]\cr A list of named elements which specify the hyperparameters of the learner.
 #' @param vars [\code{\link{character}}] \cr Vector of variable names to use in training the model. Default is to use all variables.
 #' @param models [\code{\link{logical}}] \cr If TRUE a list of the fitted models is included in the result.
 #' @param type [\code{\link{character}}] \cr 
 #' 		Only used for classification tasks; specifies the type of predictions -
 #' 		either probability ("prob") or class ("class").
+#' @param extract [\code{\link{function}}] \cr 
+#' 		Function used to extract information from fitted models, e.g. can be used to save the complete list of fitted models. 
+#'      Default is to extract nothing. 
 #' 	   
 #'             
 #' @return An object of class \code{\linkS4class{resample.result}}.
@@ -45,7 +50,7 @@ setGeneric(
 #' @export
 #' @rdname resample.fit 
 #' 
-#' @usage resample.fit(task, resample.instance, parset, vars, models, type)
+#' @usage resample.fit(learner, task, resampling, parset, vars, type, extract)
 #'
 #' @examples
 #' library(mlr) 

@@ -12,7 +12,7 @@ export <- function(name, obj) {
 	assign(name, obj, envir = .GlobalEnv)
 	if (.mlr.local$parallel.setup$mode != "local") {
 		if (is(obj, "wrapped.learner")) {
-			sfClusterEval(obj@learner.pack ,character.only=TRUE)
+			sfClusterEval(require(obj@learner.pack ,character.only=TRUE))
 		}
 		sfExport(name)
 	}

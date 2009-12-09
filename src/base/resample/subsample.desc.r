@@ -1,6 +1,7 @@
 #' @include resample.desc.r
 roxygen()
 
+
 #' Description class for subsampling.
 #' @exportClass subsample.desc
 #' @title subsample.desc

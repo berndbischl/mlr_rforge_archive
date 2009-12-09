@@ -7,7 +7,7 @@ roxygen()
 #' 
 #' @slot instance	Resample instance used to produce the result
 #' @slot preds		List of predictions, i.e. list of factors or list of matrices for classification respectivly regression.
-#' @slot models		List of the fitted models.
+#' @slot extracted	List of extracted informations from the models. Could also be the complete fitted models. 
 #' 
 #' @exportClass resample.result
 #' @seealso \code{\linkS4class{resample.desc}}, \code{\linkS4class{resample.instance}}, 
