@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r
-myrox()
+roxygen()
 
 #' Wrapped learner for Adaboost.M1 from package \code{adabag} for classification problems.
 #' 

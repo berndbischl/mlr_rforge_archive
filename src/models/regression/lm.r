@@ -1,5 +1,6 @@
-#' @include wrapped.learner.regr.r 
-myrox()
+#' @include wrapped.learner.regr.r
+roxygen()
+
 
 #' Wrapped learner for Linear Models from package \code{stats} for regression problems.
 #' @title stats.lm

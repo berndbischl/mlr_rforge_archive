@@ -1,6 +1,5 @@
 #' @include wrapped.learner.classif.r
-#' @include train.learner.r
-myrox()
+roxygen()
 
 #' Wrapped learner for Support Vector Machines from package \code{kernlab} for classification problems.
 #' 

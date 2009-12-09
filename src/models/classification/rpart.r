@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r
-myrox()
+roxygen()
 
 #' Wrapped learner for Classification Trees from package \code{rpart}.
 #' 
@@ -49,7 +49,8 @@ setMethod(
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			rpart(f, data=.data, weights=.weights, parms=list(loss=.costs), ...)
+			#rpart(f, data=.data, weights=.weights, parms=list(loss=.costs), ...)
+			rpart(f, data=.data, ...)
 		}
 )
 

@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r
-myrox()
+roxygen()
 
 #' Wrapped learner for Mixture Discriminant Analysis from package \code{mda} for classification problems.
 #' 

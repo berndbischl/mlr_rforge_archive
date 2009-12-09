@@ -1,6 +1,6 @@
-#' @include wrapped.learner.regr.r 
-#' @include train.learner.r 
-myrox()
+#' @include wrapped.learner.regr.r
+roxygen()
+
 
 #' Wrapped learner for Ridge Regression from package \code{penalized} for regression problems.
 #' 

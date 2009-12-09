@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r
-myrox()
+roxygen()
 
 #' Wrapped learner for k-Nearest Neighbor from package \code{kknn} for classification problems.
 #' 

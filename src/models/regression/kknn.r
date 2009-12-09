@@ -1,5 +1,5 @@
-#' @include wrapped.learner.regr.r 
-myrox()
+#' @include wrapped.learner.regr.r
+roxygen()
 
 #' Wrapped learner for k-Nearest Neighbor from package \code{kknn} for regression problems.
 #' 

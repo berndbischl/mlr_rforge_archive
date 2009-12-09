@@ -1,5 +1,5 @@
 #' @include wrapped.learner.classif.r 
-myrox()
+roxygen()
 
 #' Wrapped learner for Regularized Discriminant Analysis from package \code{klaR} for classification problems.
 #' 

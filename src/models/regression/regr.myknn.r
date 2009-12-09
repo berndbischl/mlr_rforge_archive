@@ -1,5 +1,5 @@
-#' @include wrapped.learner.regr.r 
-
+#' @include wrapped.learner.regr.r
+roxygen()
 
 #' @export
 setClass(
