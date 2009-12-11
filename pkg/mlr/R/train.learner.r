@@ -1,60 +1,30 @@
-#' @include wrapped.learner.r
-roxygen()
-
-setGeneric(
-		name = "train.learner",
-		def = function(wrapped.learner, formula, data, weights, parset) {
-			standardGeneric("train.learner")
-		}
-)
-
-
-
 #' Mainly for internal use. Trains a wrapped learner on a giving training set, 
-#' possibly w.r.t. some hyperparamters and case weights. 
-#' @param wrapped.learner [\code{\link{wrapped.learner}}] \cr  
+#' w.r.t. some hyperparamters, case weights and costs.
+#' You have to implement this method if you want to add another learner to this package. 
+#' @param .wrapped.learner [\code{\link{wrapped.learner}}] \cr  
 #'        Wrapped learner from this package. 
-#' @param formula [\code{\link{formula}}] \cr
-#' 		  Specifies inputs and output.
-#' @param data [\code{\link{data.frame}}] \cr
-#' 		  Training set
+#' @param .targetvar [\code{\link{character}}] \cr
+#' 		  Name of the target variable.
+#' @param .data [\code{\link{data.frame}}] \cr
+#' 		  Complete training set.
 #' @param weights [\code{\link{numeric}}] \cr
-#' 		  Optional case weights, default is 1.
-#' @param parset [\code{\link{numeric}}] \cr
-#' 		  Named list of hyperparameters. Default is empty list.  
+#' 		  Case weights, default is 1, which means every case is assigned equal weight.
+#' 		  If your learner does not support this, simply ignore this argument.  
+#' @param costs [\code{\link{matrix}}] \cr
+#' 		  Misclassification costs, which should be used during training. 
+#' 		  If your learner does not support this, simply ignore this argument.  
+#' @param ...
+#' 		  Additional parameters, which need to be passed to the underlying train function.
+#' 		    
 #' @return Model of the underlying learner.
 #' @export 
 #' @aliases train.learner 
 #' @title train.learner 
 
-setMethod(
-		f = "train.learner",
-		signature = signature(
-				wrapped.learner="wrapped.learner", 
-				formula="formula", 
-				data="data.frame", 
-				weights="numeric", 
-				parset="list"
-		),
-		
-		def = function(wrapped.learner, formula, data, weights, parset) {
-
-			wl <- wrapped.learner
-			g <- wl@train.fct
-			
-			g.pars <- list(formula, data=data)
-			g.pars <- c(g.pars, wl@train.fct.pars)
-			# let hyperparamters overwrite train.fct.pars
-			for (i in seq(1, along=parset)) {
-				pn <- names(parset)[i] 
-				g.pars[pn] <- parset[i]
-			}
-			
-			if (wl@learner.props@supports.weights) {
-				g.pars$weights = weights 
-			}		
-			
-			m <- do.call(g, g.pars) 		
-			return(m)
+setGeneric(
+		name = "train.learner",
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type, ...) {
+			standardGeneric("train.learner")
 		}
 )
+

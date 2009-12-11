@@ -5,6 +5,7 @@ roxygen()
 #' Instantiate it by using its factory method.
 #' 
 #' @slot type "class" if you generally want to predict classes or "prob" for probabilities. Default is "class" 
+#' @slot costs Matrix of misclassification costs. Default is zero-one loss. 
 #' 
 #' @exportClass classif.task
 #' @title classif.task
@@ -15,7 +16,8 @@ setClass(
 		"classif.task",
 		contains = c("learn.task"),
 		representation = representation(
-				type = "character"
+				type = "character",
+				costs = "matrix"
 		)
 )
 
@@ -29,23 +31,22 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
-		def = function(.Object, wrapped.learner, data, weights=rep(1, nrow(data)), formula, type = "class") {
+		def = function(.Object, target, data, weights, costs, type = "class") {
 			
 			
-			#todo: check for classif. learner
-			
-			if (missing(wrapped.learner))
+			if (missing(data))
 				return(.Object)
 			
 			.Object@type <- type
-
-			callNextMethod(.Object, 
-					check.function = check.task.classif, 
-					wrapped.learner = wrapped.learner, 
-					data=data,	
-					weights=weights,
-					formula=formula
-			)
+			.Object@costs <- costs
+			
+			.Object = callNextMethod(.Object, data=data, weights=weights, target=target, prep.fct=prep.classif.data)
+			# costs are set to default after data prep
+			if (identical(dim(.Object@costs), c(0L,0L))) {
+				n <- .Object["class.nr"]
+				.Object@costs <- matrix(1,n,n) - diag(1,n)
+			}
+			return(.Object)
 		}
 )
 
@@ -82,12 +83,11 @@ setMethod(
 		f = "as.character",
 		signature = signature("classif.task"),
 		def = function(x) {
-			wl <- x@wrapped.learner
 			return(
 					paste(
-							"Classification task for ", wl@learner.name, " from package ", wl@learner.pack, "\n\n",
+							"Classification problem\n",
 							as.character(x@data.desc), "\n",
-							as.character(wl@learner.props), sep=""
+							sep=""
 					)
 			)
 		}

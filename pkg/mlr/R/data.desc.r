@@ -38,8 +38,8 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("data.desc"),
-  def = function(.Object, data, target.col) {
-      col <- target.col
+  def = function(.Object, data, target) {
+      col <- which(colnames(data) == target)
       df2 <- data[,-col]
 	  .Object@target.col <- col 
 	  .Object@is.classification <- is.factor(data[, col]) 
@@ -57,25 +57,17 @@ setMethod(
 
 setGeneric(
 		name = "make.data.desc",
-		def = function(data, target.col) {
+		def = function(data, target) {
 			standardGeneric("make.data.desc")
 		}
 )
 
-setMethod(
-		f = "make.data.desc",
-		signature = signature(data="data.frame", target.col="integer"),
-		def = function(data, target.col) {
-			new("data.desc", data=data, target.col=target.col)
-		}
-)
 
 setMethod(
 		f = "make.data.desc",
-		signature = signature(data="data.frame", target.col="character"),
-		def = function(data, target.col) {
-			i = which(colnames(data) == target.col)
-			make.data.desc(data=data, target.col=i)
+		signature = signature(data="data.frame", target="character"),
+		def = function(data, target) {
+			new("data.desc", data, target)
 		}
 )
 
@@ -87,12 +79,12 @@ setMethod(
 		signature = signature("data.desc"),
 		def = function(x) {
 			return(
-					paste("Dataset: ", 
-							ifelse(x@is.classification, "Classification", "Regression"), " problem\n",
-							ifelse(x@is.classification, paste("Classes:", x@class.nr, "\n"), ""),
+					paste( 
+							ifelse(x@is.classification, paste("Classes:", x@class.nr, "\n")),
 							"Features Nums:", x@numerics, " Ints:", x@integers, " Factors:", x@factors, " Chars:", x@characters, "\n",
 							"Observations: ", x@obs , "\n",
-							"Missings: ", x@has.missing, "\n", sep=""
+							"Missings: ", x@has.missing, "\n", 
+							sep=""
 					)
 			)
 		}

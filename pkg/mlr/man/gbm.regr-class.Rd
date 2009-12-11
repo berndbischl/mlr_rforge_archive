@@ -13,4 +13,4 @@
 }}
 \seealso{\code{\link[gbm]{gbm}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.regr}}}
-\section{Methods}{\describe{}}
+\section{Methods}{\describe{{}{}}}

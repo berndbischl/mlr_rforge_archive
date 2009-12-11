@@ -5,10 +5,9 @@ roxygen()
 #' \code{resample.result} contains the results of a resampling process, mainly the list of predicitions and - 
 #' if saved - the list of fitted models. 
 #' 
-#' @slot ri.class	Class of resample.instance
-#' @slot ri.name	Name of resample.instance
+#' @slot instance	Resample instance used to produce the result
 #' @slot preds		List of predictions, i.e. list of factors or list of matrices for classification respectivly regression.
-#' @slot models		List of the fitted models.
+#' @slot extracted	List of extracted informations from the models. Could also be the complete fitted models. 
 #' 
 #' @exportClass resample.result
 #' @seealso \code{\linkS4class{resample.desc}}, \code{\linkS4class{resample.instance}}, 
@@ -19,10 +18,9 @@ roxygen()
 setClass(
 		"resample.result",
 		representation = representation(
-				ri.class="character", 
-				ri.name="character", 
+				instance="resample.instance", 
 				preds="list", 
-				models="list"
+				extracted="list"
 		)
 )
 
@@ -33,8 +31,8 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Resampling result for ", x@ri.name, " with ", x["iters"], " iterations\n",
-							"Learner models were ", ifelse(length(x@models)==0,"not", ""), " saved\n\n",
+							"Resampling result for ", x@instance["name"], " with ", x["iters"], " iterations\n",
+							#"Learner models were ", ifelse(length(x@models)==0,"not", ""), " saved\n\n",
 							paste(capture.output(str(x@preds)), collapse="\n"), 
 							"\n", sep=""
 					)

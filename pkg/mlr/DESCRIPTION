@@ -1,31 +1,31 @@
 Package: mlr
 Type: Package
 Title: mlr: Machine Learning in R
-Version: 0.3.174
+Version: 0.3.270
 Date: 2009-01-01
 Author: Bernd Bischl, Max Wornowizki, Katharina Borg
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
 Description: no
 License: GPL (>= 2)
 LazyLoad: yes
-Depends: R (>= 2.8.0), utils, methods, reshape, roxygen, stats, boot,
-    e1071, klaR, mlbench
-Suggests: MASS, kernlab, rpart, randomForest, adabag, kknn, snowfall
-Collate: 'learner.props.r' 'wrapped.learner.r' 'train.learner.r'
-    'wrapped.learner.classif.r' 'ada.r' 'resample.desc.r'
-    'resample.instance.r' 'data.desc.r' 'task.learn.r'
-    'resample.result.r' 'resample.fit.r' 'tune.r' 'benchmark.r'
-    'wrapped.learner.regr.r' 'blackboost.r' 'boost.r' 'bs.desc.r'
+Depends: R (>= 2.8.0), methods, reshape, boot, klaR
+Suggests: MASS, kernlab, rpart, randomForest, adabag, kknn, snowfall,
+    mlbench
+Collate: 'aaa.r' 'benchexp.r' 'train.learner.r' 'learner.props.r'
+    'wrapped.learner.r' 'wrapped.model.r' 'predict.learner.r'
+    'resample.desc.r' 'resample.instance.r' 'wrapped.learner.regr.r'
+    'wrapped.learner.classif.r' 'tune.wrapper.r' 'data.desc.r'
+    'task.learn.r' 'benchmark.r' 'blackboost.r' 'boost.r' 'bs.desc.r'
     'bs.instance.r' 'check.ranges.r' 'task.classif.r'
-    'check.task.classif.r' 'combine.ranges.r' 'conf.matrix.r'
-    'cv.desc.r' 'cv.instance.r' 'gbm.r' 'kknn.r' 'knn.r' 'lasso.r'
-    'lda.r' 'learner.failure.r' 'learner.props.classif.r'
-    'learner.props.regr.r' 'lm.r' 'loclda.r' 'log.r' 'logreg.r' 'mda.r'
-    'multinom.r' 'nb.r' 'novars.model.r' 'packagedesc.r' 'parallel.r'
-    'pattern.search.r' 'task.regr.r' 'perf.measure.r' 'performance.r'
-    'predict.classif.r' 'predict.r' 'wrapped.model.r' 'predict.regr.r'
-    'prepare.df.r' 'qda.r' 'randomForest.r' 'rda.r'
-    'resample.fit.iter.r' 'resample.performance.r' 'ridge.r' 'rpart.r'
-    'subsample.desc.r' 'subsample.instance.r' 'svm.r'
-    'task.classif.make.r' 'task.regr.make.r' 'train.task.r'
-    'train.task.classif.r' 'train.task.regr.r' 'tune.ps.r' 'zzz.r'
+    'check.task.learner.r' 'check.task.r' 'combine.ranges.r'
+    'conf.matrix.r' 'cv.desc.r' 'cv.instance.r' 'eval.r' 'export.r'
+    'gbm.r' 'kknn.r' 'knn.r' 'lasso.r' 'lda.r' 'learner.failure.r'
+    'learner.props.classif.r' 'learner.props.regr.r' 'lm.r' 'loclda.r'
+    'log.r' 'logreg.r' 'task.regr.r' 'loss.r' 'mda.r' 'multinom.r'
+    'nb.r' 'novars.r' 'parallel.r' 'pattern.search.r' 'performance.r'
+    'predict.r' 'prepare.df.r' 'qda.r' 'randomForest.r' 'rda.r'
+    'resample.fit.iter.r' 'resample.result.r' 'resample.fit.r'
+    'resample.performance.r' 'ridge.r' 'rpart.r' 'subsample.desc.r'
+    'subsample.instance.r' 'svm.r' 'task.classif.make.r'
+    'task.regr.make.r' 'train.task.r' 'tune.grid.r' 'tune.ps.r'
+    'tune.r' 'wrapped.learner.make.r'

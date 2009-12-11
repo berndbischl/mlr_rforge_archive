@@ -1,6 +1,3 @@
-#' @include resample.instance.r
-roxygen()
-
 #' Base class for description of resampling algorithms.
 #' A description of a resampling algorithm contains all necessary information to provide a resampling.instance, 
 #' when given the size of the data set.

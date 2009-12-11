@@ -2,15 +2,20 @@
 
 setGeneric(
 		name = "performance",
-		def = function(true.y, pred.y, weights, measure) {
+		def = function(true.y, pred.y, weights, loss, aggr) {
 			if(missing(weights)) {
 				weights <- rep(1, length(true.y))
 			}
-			if(missing(measure)) {
+			if(missing(loss)) {
 				if (is.factor(true.y))
-					measure <- make.measure("mmce")
+					loss="zero-one"
 				if (is.numeric(true.y))
-					measure <- make.measure("mse")
+					loss="squared"
+			}
+			if (is.character(loss))
+				loss = make.loss(loss)
+			if(missing(aggr)) {
+				aggr = mean
 			}
 			standardGeneric("performance")
 		}
@@ -49,12 +54,12 @@ setGeneric(
 #' @export
 #' @rdname performance
 #' 
-#' @usage performance(true.y, pred.y, weights, measure)
+#' @usage performance(true.y, pred.y, weights, loss, aggr)
 #'
 #' @examples
 #' data(iris) 
 #' # define a classification task for a decision tree (rpart) for the data set iris
-#' ct <- make.classif.task("rpart.classif", data=iris, formula=Species~.)
+#' ct <- make.classif.task("rpart.classif", data=iris, target="Species")
 #' # specify train and test set indices
 #' train.set <- seq(from=1L, to=150L, by=2L)
 #' test.set <- seq(from=2L, to=150L, by=2L)
@@ -71,17 +76,10 @@ setGeneric(
 
 setMethod(
 		f = "performance",
-		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="list"),
-		def = function(true.y, pred.y, weights, measure) {
-			return(measure$fun(true.y, pred.y, weights))
-		}
-)
-
-setMethod(
-		f = "performance",
-		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", measure="character"),
-		def = function(true.y, pred.y, weights, measure) {
-			return(make.measure(measure)$fun(true.y, pred.y, weights))
+		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", loss="loss", aggr="function"),
+		def = function(true.y, pred.y, weights, loss, aggr) {
+			ls = loss@fun(true.y, pred.y, weights)
+			return(list(aggr=aggr(ls), vals=ls))
 		}
 )
 

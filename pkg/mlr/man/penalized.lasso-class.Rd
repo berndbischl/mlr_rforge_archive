@@ -11,5 +11,4 @@
 }}
 \seealso{\code{\link[penalized]{penalized}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.regr}}}
-\section{Methods}{\describe{{\code{signature(wrapped.learner = "penalized.lasso", formula = "formula", data = "data.frame", weights = "numeric", parset = "list")}: Overwritten, to allow "lambda" instead of "lambda1" as parameter name.
-Besides that, simply delegates to super method.}}}
+\section{Methods}{\describe{{\code{signature(.wrapped.learner = "penalized.lasso", .targetvar = "character", .data = "data.frame", .weights = "numeric", .costs = "missing", .type = "missing")}: Overwritten, to allow "lambda" instead of "lambda1" as parameter name.}{}}}

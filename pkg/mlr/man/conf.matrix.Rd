@@ -15,7 +15,7 @@ Result of \code{\link{resample.fit}}, i.e. the perfomed predictions.}
 If TRUE rows are normalized to show relative frequencies.}
 }
 \examples{data(iris)
-ct <- make.classif.task("lda", data=iris, formula=Species~.)
+ct <- make.classif.task("lda", data=iris, target="Species")
 rin <- make.cv.instance(size=nrow(iris), iters=10)
 fit <- resample.fit(ct, resample.instance = rin)
 conf.matrix(learn.task = ct, resample.instance = rin, resample.result = fit, relative = FALSE)}

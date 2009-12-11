@@ -1,12 +1,11 @@
 #' @include learner.props.r
 roxygen()
 
-#' Since not all classifiers can deal with all kind of data properties of the data are compared 
-#' with the possibilities of the classifier when a \code{\linkS4class{learn.task}} is generated. 
-#' A classif.props object describes such classifier possibilities by logical values.
-#'
-#' @slot supports.multiclass bla
-#' @slot supports.probs bla
+#' Description object for the features of a learning algorithm.
+#' 
+#' @slot supports.multiclass Are multiclass problems ok?
+#' @slot supports.probs Can probabilities be predicted?
+#' @slot supports.costs Does the learner support cost-sensitive learning?
 #' 
 #' @exportClass classif.props
 
@@ -15,7 +14,8 @@ setClass(
 		contains = c("learner.props"),
 		representation = representation(
 				supports.multiclass = "logical",
-				supports.probs = "logical"
+				supports.probs = "logical",
+				supports.costs = "logical"
 		)
 )
 
@@ -27,12 +27,12 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Learner: \n",  
 							"Supports multiclass: ", x@supports.multiclass, "\n",
 							"Supported features Nums:", x@supports.numerics, " Factors:", x@supports.factors, " Chars:", x@supports.characters, "\n",
 							"Supports missings: ", x@supports.missing, "\n", 
 							"Supports probabilities: ", x@supports.probs, "\n", 
 							"Supports weights: ", x@supports.weights, "\n", 
+							"Supports costs: ", x@supports.costs, "\n", 
 							sep=""
 					)
 			)

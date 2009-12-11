@@ -28,16 +28,48 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = TRUE,
 					supports.probs = TRUE,
-					supports.weights = FALSE
+					supports.weights = FALSE,
+					supports.costs = FALSE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="Localized LDA", learner.pack="klaR", 
-					train.fct="loclda",  
-					learner.props=desc)
-			
-			return(.Object)
+			callNextMethod(.Object, learner.name="Localized LDA", learner.pack="klaR", learner.props=desc)
 		}
 )
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				.wrapped.learner="loclda", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			loclda(f, data=.data, ...)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "loclda", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+			p <- predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+			if(.type=="class")
+				return(p$class)
+			else
+				return(p$posterior)
+		}
+)	
+
 
 
 

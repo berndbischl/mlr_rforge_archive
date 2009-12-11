@@ -31,18 +31,50 @@ setMethod(
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
-					supports.probs = FALSE,
-					supports.weights = FALSE			
+					supports.probs = TRUE,
+					supports.weights = FALSE,			
+					supports.costs = FALSE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="rda", learner.pack="klaR", 
-					train.fct="rda", 
-					learner.props=desc)
-			return(.Object)
+			callNextMethod(.Object, learner.name="rda", learner.pack="klaR", learner.props=desc)
 		}
 )
 
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				.wrapped.learner="rda", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type="character" 
+		),
+		
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type, ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			rda(f, data=.data, ...)
+		}
+)
 
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "rda", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+			p <- predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+			if (.type=="class")
+				return(p$class)
+			else
+				return(p$posterior)
+			
+		}
+)	
 
 
 

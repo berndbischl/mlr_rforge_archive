@@ -8,12 +8,7 @@
 \arguments{\item{x}{wrapped.model object}
 \item{i}{[\code{\link{character}}]
 \describe{
-\item{task.class}{Learning task class}
-\item{learner.class}{Learner class}
-\item{learner.name}{Name of the learning method}
-\item{vars}{Variables used to build the model.} 
-\item{subset}{Indices of used training cases in fit.}
-\item{parset}{Selected hyperparameters for model.}
-\item{learner.model}{External model from existing R packages like lda, rpart, etc.}
+\item{<slot>}{A slot of the class.}
+\item{fail}{Generally NULL but if the training failed, the error message of the underlying train function.}
 }}
 }

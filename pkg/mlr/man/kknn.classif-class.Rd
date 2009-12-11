@@ -10,4 +10,4 @@
 }}
 \seealso{\code{\link[kknn]{kknn}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
-\section{Methods}{\describe{}}
+\section{Methods}{\describe{{}{}}}

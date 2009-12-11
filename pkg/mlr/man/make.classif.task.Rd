@@ -1,9 +1,9 @@
 \name{make.classif.task}
-\alias{make.classif.task,character,formula,data.frame,numeric,character-method}
+\alias{make.classif.task,character,missing,data.frame,numeric,matrix,character-method}
 \alias{make.classif.task}
 \title{make.classif.task}
-\usage{make.classif.task(learner, formula, data, weights, type)}
-\description{\code{make.classif.task} defines a classification task for a learner and a data set and is the starting point 
+\usage{make.classif.task(target, formula, data, weights, costs, type)}
+\description{\code{make.classif.task} defines a classification task for a data set and is the starting point 
 for further steps like training, predicting new data, resampling and tuning.}
 \details{\code{make.classif.task} already performs quite a few tasks: It tries to load the required package for the 
 learner, sets up the learner to deal with a classification problem, gathers information about the features 
@@ -30,18 +30,18 @@ classification task.
 \item{\code{\linkS4class{kernlab.svm.classif}}}{Support Vector Machines from kernlab package}  
 }}
 \value{An object of class \code{\linkS4class{classif.task}}.}
-\seealso{\code{\linkS4class{wrapped.learner}}, \code{\linkS4class{classif.task}}, \code{\link{train}}, \code{\link{predict}}}
-\arguments{\item{learner}{[\code{\link{character}}] \cr 
-Specifies the learner. See the list below in the details section.}
-\item{formula}{[\code{\link{formula}}] \cr
-A symbolic description of the model to be fitted.}
+\seealso{\code{\linkS4class{classif.task}}, \code{\link{train}}, \code{\link{predict}}}
+\arguments{\item{target}{[\code{\link{character}}] \cr
+Name of the target variable.}
 \item{data}{[\code{\link{data.frame}}] \cr 	
 A data frame containing the variables in the model.}
 \item{weights}{[\code{\link{numeric}}] \cr 	
 An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.}
+\item{costs}{[\code{\link{matrix}}] \cr 	
+A optional matrix of misclassification costs to be used in the fitting process. Default is zero-one loss.}
 \item{type}{[\code{\link{character}}] \cr 	
 Specifies the type of the predictions - either probabilities ("prob") or classes ("class"). Default is "class".}
 }
 \examples{data(iris) 
 # define a classification task for a decision tree (rpart) for the data set iris
-ct <- make.classif.task("rpart.classif", data = iris, formula = Species ~.)}
+ct <- make.classif.task("rpart.classif", data = iris, target = "Species")}

@@ -6,4 +6,4 @@
 \details{\emph{Common hyperparameters:}}
 \seealso{\code{\link[rpart]{rpart}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
-\section{Methods}{\describe{}}
+\section{Methods}{\describe{{}{}}}

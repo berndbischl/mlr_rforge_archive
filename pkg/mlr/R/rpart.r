@@ -28,15 +28,44 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
-					supports.weights = TRUE
+					supports.weights = TRUE,
+					supports.costs = TRUE
 			)
-			.Object <- callNextMethod(.Object, learner.name="RPART", learner.pack="rpart",
-					train.fct="rpart", 
-					learner.props=desc)
-			return(.Object)
+			callNextMethod(.Object, learner.name="RPART", learner.pack="rpart",	learner.props=desc)
 		}
 )
 
+
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				.wrapped.learner="rpart.classif", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			rpart(f, data=.data, weights=.weights, parms=list(loss=.costs), ...)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "rpart.classif", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+		}
+)	
 
 
 

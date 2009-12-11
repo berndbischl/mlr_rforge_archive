@@ -2,12 +2,14 @@
 \alias{train-methods}
 \alias{train}
 \title{train}
-\usage{train(learn.task, subset, parset, vars)}
+\usage{train(learner, task, subset, parset, vars)}
 \description{Given a \code{\linkS4class{learn.task}} \code{train} creates a model for the learning machine 
 which can be used for predictions on new data.}
 \value{An object of class \code{\linkS4class{wrapped.model}} containing the generated model of the underlying learner and the paramater and index set used for training.}
 \seealso{\code{\link{predict}}, \code{\link{make.classif.task}}, \code{\link{make.regr.task}}}
-\arguments{\item{learn.task}{[\code{\linkS4class{learn.task}}]\cr 
+\arguments{\item{learner}{[\code{\linkS4class{wrapped.learner}} or \code{\link{character}}]\cr 
+Learning algorithm.}
+\item{task}{[\code{\linkS4class{learn.task}}]\cr 
 Specifies learning task.}
 \item{subset}{[\code{\link{integer}}] \cr 
 An index vector specifying the training cases from the data contained in the learning task. By default the complete dataset is used.}
@@ -20,10 +22,10 @@ Vector of variable names to use in training the model. Default is to use all var
 train.inds <- seq(1,150,2)
 test.inds <- seq(2,150,2)
 
-ct <- make.classif.task("lda", data=iris, formula=Species~.)
+ct <- make.classif.task("lda", data=iris, target="Species")
 cm <- train(ct, subset=train.inds)
-ps <- predict(ct, cm, newdata=iris[test.inds,])
+ps <- predict(cm, newdata=iris[test.inds,])
 
-ct <- make.classif.task("kknn.classif", data=iris, formula=Species~.)
+ct <- make.classif.task("kknn.classif", data=iris, target="Species")
 cm <- train(ct, subset=train.inds, parset=list(k=3))
-ps <- predict(ct, cm, newdata=iris[test.inds,])}
+ps <- predict(cm, newdata=iris[test.inds,])}

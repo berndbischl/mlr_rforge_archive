@@ -1,7 +1,8 @@
 \name{benchmark}
-\alias{benchmark,learn.task,resample.instance,resample.desc,list,list,logical-method}
+\alias{benchmark,wrapped.learner,learn.task,resample.instance-method}
 \alias{benchmark}
 \title{benchmark}
+\usage{benchmark(learner, task, resampling)}
 \description{\code{benchmark} conducts a benchmark experiment for a single classifier on a single
 data set. This consists of an inner stage and outer stage. At the outer stage a 
 tuning set and a test set are repeatedly formed from the data through resampling 
@@ -30,7 +31,7 @@ Describes resampling method to be used in inner stage.}
 Should complete results for all inner tunings be returned? (default is FALSE)}
 }
 \examples{# set up the learning task and parameter grid
-ct <- make.classif.task("kernlab.svm.classif", data=iris, formula=Species~.)
+ct <- make.classif.task("kernlab.svm.classif", data=iris, target="Species")
 ranges <- list(kernel="polydot", degree=1:3, C=2^seq(-2,2))
 # create the outer cross-validation
 or <- make.cv.instance(iters=5, size=nrow(iris))					

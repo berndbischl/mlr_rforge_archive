@@ -13,4 +13,4 @@
 }}
 \seealso{\code{\link[mboost]{blackboost}}, \code{\link[mboost]{boost_control}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.regr}}}
-\section{Methods}{\describe{}}
+\section{Methods}{\describe{{}{}}}

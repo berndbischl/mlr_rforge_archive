@@ -11,4 +11,4 @@
 }}
 \seealso{\code{\link[randomForest]{randomForest}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
-\section{Methods}{\describe{}}
+\section{Methods}{\describe{{}{}}}

@@ -1,18 +1,15 @@
-#' @include tune.r
-roxygen()
-
+#' @include task.learn.r
+#' @include tune.wrapper.r
 
 setGeneric(
 		name = "benchmark",
-		def = function(learn.task, outer.resampling, inner.resampling, ranges, measure, all.tune.results) {
-			if (missing(ranges))
-				ranges <- list()
-			if (missing(inner.resampling))
-				inner.resampling <- new("cv.desc", folds=5)
-			if (missing(measure))
-				measure <- make.default.measure(learn.task)
-			if (missing(all.tune.results))
-				all.tune.results <- FALSE
+		def = function(learner, task, resampling) {
+			if (is.character(learner)) {
+				learner = new(learner)
+			}
+			if (is(resampling, "resample.desc")) {
+				resampling = make.resample.instance(resampling, nrow(task["data"]))
+			}
 			standardGeneric("benchmark")
 		}
 )
@@ -50,9 +47,11 @@ setGeneric(
 #' @export
 #' @rdname benchmark
 #' 
+#' @usage benchmark(learner, task, resampling)
+#' 
 #' @examples
 #' # set up the learning task and parameter grid
-#' ct <- make.classif.task("kernlab.svm.classif", data=iris, formula=Species~.)
+#' ct <- make.classif.task("kernlab.svm.classif", data=iris, target="Species")
 #' ranges <- list(kernel="polydot", degree=1:3, C=2^seq(-2,2))
 #' # create the outer cross-validation
 #' or <- make.cv.instance(iters=5, size=nrow(iris))					
@@ -65,76 +64,31 @@ setGeneric(
 setMethod(
 		f = "benchmark",
 		
-		signature = c(learn.task="learn.task", outer.resampling="resample.instance", inner.resampling = "resample.desc", 
-				ranges="list", measure="list", all.tune.results="logical"),
+		signature = c(learner="wrapped.learner", task="learn.task", resampling="resample.instance"),
 		
-		def = function(learn.task, outer.resampling, inner.resampling, ranges, measure, all.tune.results) {
-			if (length(ranges) == 0) {
-				logger.debug("Ranges empty, so just normal resample.fit.")
-				rr <- resample.fit(learn.task=learn.task, resample.instance=outer.resampling)
-				rp <- resample.performance(learn.task, outer.resampling, rr, measure=measure)
-				return(data.frame(test.perf=rp$values))
+		def = function(learner, task, resampling) {
+			if (is(learner, "tune.wrapper")) {
+				extract = function(x) {
+					m = x["learner.model"]
+					list(tuned.par=attr(m, "tuned.par"), tuned.perf=attr(m, "tuned.perf"))
+				}
+				rr <- resample.fit(learner, task, resampling, extract=extract)
+				ex = rr@extracted
+				ns = names(ex[[1]]$tuned.par)
+				result = data.frame(matrix(nrow=resampling["iters"], ncol=length(ns)))
+				colnames(result) = ns
+				for (i in 1:length(ex)) {
+					result[i, ns] = ex[[i]]$tuned.par
+					result[i, "tune.perf"] = ex[[i]]$tuned.perf
+				}
+			} else {
+				result = data.frame(matrix(nrow=resampling["iters"], ncol=0))
+				rr <- resample.fit(learner, task, resampling)
 			}
-			
-			if (all(sapply(ranges, is.list))) {
-				logger.debug("Ranges is list of lists, call benchmark.1 repeatedly.")
-				tune.results = NULL
-				bs <- lapply(ranges, function(r) benchmark.1(learn.task, outer.resampling, inner.resampling, r, measure, all.tune.results))
-				
-				if (!all.tune.results)
-					fun <- function(a,b) rbind.fill(a,b)
-				else 
-					fun <- function(a,b) list(performances=rbind.fill(a$perf, b$perf), c(a$tune, b$tune))
-				result <- Reduce(fun, bs)
-				return(result)
-			}
-			return(benchmark.1(learn.task, outer.resampling, inner.resampling, ranges, measure, all.tune.results))			
+			rp <- resample.performance(task, rr)
+			result[, "test.perf"] = rp$aggr2
+			return(result)
 		}
 )
-
-
-benchmark.1 <- function(learn.task, outer.resampling, inner.resampling, ranges, measure, all.tune.results) {
-	
-	
-	rin <- outer.resampling
-	tune.result <- list()
-	# make empty df with cols the same as the names of the ranges
-	ns <- names(ranges)
-	result <- data.frame(matrix(nrow=0,ncol=length(ns)))
-	colnames(result) <- ns
-	
-	for (i in 1:rin["iters"]) {
-		train.i <- rin["train.inds", i]
-		test.i <- rin["test.inds", i]
-		ct2 <- restrict.learn.task(learn.task, train.i)
-		ir = make.resample.instance(desc=inner.resampling, size=length(train.i))            
-		tune.result[[i]] <- tune(ct2, ir, ranges, measure)
-		best.pars <- tune.result[[i]]$best.parameters
-		
-		result[i,names(best.pars)] <- best.pars     
-		
-		
-		result[i, "tune.perf.aggr"] <- tune.result[[i]]$best.performance
-		result[i, "tune.perf.spread"] <- tune.result[[i]]$best.spread
-		
-		
-		# there might be NAs if tune was called with a list of list of ranges
-		best.pars2 <- best.pars[!is.na(best.pars)]
-		
-		cm <- train(learn.task, subset=train.i, parset=best.pars2)                
-		pred <- predict(learn.task, cm, newdata=learn.task@data[test.i,]) 
-		cl <- as.character(learn.task@formula)[2]
-		test.perf <- performance(pred, learn.task@data[test.i,cl], learn.task@weights[test.i], measure)
-		result[i, "test.perf"] <- test.perf
-	}
-	
-	if (all.tune.results)
-		r <- list(performances = result, tune.results = tune.result)
-	else
-		r <- result
-	return(r)
-}
-
-
 
 

@@ -1,16 +1,14 @@
 #' @include data.desc.r
-#' @include wrapped.learner.r
 roxygen()
 
-#' A learning task is the general description object for a machine learning experiment. 
-#' It mainly includes the type of the learning task (e.g. lda), 
-#' a dataframe and a formula. As this is just an abstract base class, 
+#' A learning task is a general description object for a machine learning experiment. 
+#' It wraps the data source and specifies - through its subclasses - the type of the task (e.g. classification or regression), 
+#' the target variable, the loss function and other details of the problem. As this is just an abstract base class, 
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
 #' 
-#' @slot wrapped.learner Object of class \code{\linkS4class{wrapped.learner}}.
 #' @slot data Dataframe which includes all the data for the task.
 #' @slot weights An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
-#' @slot formula A symbolic description of the model to be fitted.
+#' @slot target Name of the target variable.
 #' @slot data.desc Contains logical values describing properties of the dataframe e.g. whether it has 
 #' 		characters or missing values (see desc and \code{\linkS4class{data.desc}}).
 #' 
@@ -22,11 +20,10 @@ roxygen()
 setClass(
 		"learn.task",
 		representation = representation(
-				wrapped.learner = "wrapped.learner",
 				data = "data.frame",
-				weights = "numeric",
-				formula = "formula",
-				data.desc = "data.desc" 
+				target = "character",
+				data.desc = "data.desc", 
+				weights = "numeric"
 		)
 )
 
@@ -39,33 +36,24 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, check.function, wrapped.learner, data, weights, formula) {
-			
+		def = function(.Object, data, target, weights, prep.fct) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
-			if(missing(wrapped.learner))
+			if(missing(data))
 				return(.Object)					
 			
-			.Object@wrapped.learner <- wrapped.learner
-			.Object@data <- data
+			msg = check.task(data=data, target=target)
+			if (msg != "")
+				stop(msg)
+			.Object@data <- prep.fct(data, target)
 			.Object@weights <- weights
-			.Object@formula <- formula
-			tn <- .Object["target.name"]
-			if (!(tn %in% colnames(data))) {
-				stop(paste("Colimn names of data.frame don't contain target var: ", tn))
+			.Object@target <- target
+			if (!(target %in% colnames(data))) {
+				stop(paste("Column names of data.frame don't contain target var: ", tn))
 			}
+			.Object@data.desc <- make.data.desc(data, target)
 			
-			.Object@data.desc <- make.data.desc(data=data, target.col=tn)
-			
-			check.result <- check.function(.Object)
-			if (check.result$msg != "") {
-				stop(check.result$msg)
-			}
-			else {
-				.Object@data <- check.result$data
-				.Object@data.desc <- make.data.desc(data=.Object@data, target.col=tn)
-			}
 			return(.Object)
 		}
 )
@@ -90,7 +78,7 @@ setMethod(
 		signature = signature("learn.task"),
 		def = function(x,i,j,...,drop) {
 			if (i == "target.name"){
-				return(as.character(x@formula)[2])
+				return(x@target)
 			}
 			if (i == "target.col"){
 				return(which(colnames(x@data) == x["target.name"]))
@@ -102,7 +90,7 @@ setMethod(
 				return(x@data[j, x["target.name"]])
 			}
 			if (i == "input.names"){
-				return(attr(terms(x@formula, data=x@data), "term.labels"))
+				return(setdiff(colnames(x@data), x["target.name"]))
 			}
 			
 			#if nothing special return slot
@@ -138,54 +126,5 @@ restrict.learn.task <- function(learn.task, subset) {
 	learn.task@data <- learn.task@data[subset,]
 	return(learn.task)
 }
-
-
-#' Set a parameter for the underlying train function of a [\code{\linkS4class{wrapped.learner}}] 
-#' in a [\code{\linkS4class{learn.task}}]. 
-#' This is not meant for hyperparameters, pass these through the usual parset argument, but rather to
-#' fix (somewhat technical) arguments which stay the same for the whole experiment. You should not have to use this too often.
-#' @param object [\code{\linkS4class{learn.task}}] \cr
-#'   	Learn task that contains the wrapped learner.
-#' @param \ldots Parameters to fix in underlying train function. Have to be named.
-#' 
-#' @return \code{\linkS4class{learn.task}} object with changed parameters for train function of the wrapped learner.
-#'
-#' @title set.train.par
-#' @rdname set.train.par
-#' @export 
-
-setMethod(
-		f = "set.train.par",
-		signature = signature("learn.task"),
-		def = function(object, ...) {
-			object@wrapped.learner <- set.train.par(object@wrapped.learner, ...) 
-			return(object) 
-		}
-)
-
-#' Set a parameter for the underlying train function of a [\code{\linkS4class{wrapped.learner}}] 
-#' in a [\code{\linkS4class{learn.task}}]. 
-#' This is not meant for hyperparameters, pass these through the usual parset argument, but rather to
-#' fix (somewhat technical) arguments which stay the same for the whole experiment. You should not have to use this too often.
-#' @param object [\code{\linkS4class{learn.task}}] \cr
-#'   	Learn task that contains the wrapped learner.
-#' @param \ldots Parameters to fix in underlying train function. Have to be named.
-#' 
-#' @return \code{\linkS4class{learn.task}} object with changed parameters for train function of the wrapped learner.
-#'
-#' @rdname set.train.par
-#' @export 
-
-#' @export
-#' @rdname set.predict.par
-
-setMethod(
-		f = "set.predict.par",
-		signature = signature("learn.task"),
-		def = function(object, ...) {
-			object@wrapped.learner <- set.predict.par(object@wrapped.learner, ...) 
-			return(object) 
-		}
-)
 
 

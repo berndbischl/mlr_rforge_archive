@@ -1,7 +1,6 @@
 #' @include wrapped.learner.classif.r
 roxygen()
 
-
 #' Wrapped learner for Adaboost.M1 from package \code{adabag} for classification problems.
 #' 
 #' \emph{Common hyperparameters:}
@@ -26,7 +25,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("adaboost"),
-		def = function(.Object, data, formula, type="class") {
+		def = function(.Object) {
 			train.fct <- "adaboost.M1"
 			predict.fct <- "predict.boosting"
 			
@@ -37,17 +36,47 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = TRUE,
 					supports.probs = FALSE,
-					supports.weights = FALSE
+					supports.weights = FALSE,
+					supports.costs = FALSE
 			)
 			
-			
-			.Object <- callNextMethod(.Object, learner.name="boost", learner.pack="adabag",
-					train.fct="adaboost.M1",
-					learner.props=desc, dummy.classes=TRUE)
-			return(.Object)
+			callNextMethod(.Object, learner.name="boost", learner.pack="adabag", learner.props=desc)
 		}
 )
 
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				.wrapped.learner="adaboost", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			adaboost.M1(f, data=.data, ...)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "adaboost", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+			# stupid adaboost
+			.newdata[, .wrapped.model["target"]] <- factor(rep(1, nrow(.newdata)), levels=.wrapped.model["class.levels"])
+			p = predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+			return(as.factor(p$class))
+		}
+)	
 
 
 

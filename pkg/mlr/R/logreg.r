@@ -33,36 +33,57 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
-					supports.weights = TRUE
+					supports.weights = TRUE,
+					supports.costs = FALSE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="logreg", learner.pack="stats", 
-					train.fct="glm",  
-					predict.par.for.classes = list(),
-					predict.par.for.probs = list(type="response"),
-					trafo.for.probs = function(x, wrapped.model) {
-						m <- wrapped.model@learner.model												
-						y <- matrix(0, ncol=2, nrow=length(x))
-						resp <- model.response(model.frame(m$formula, m$data))
-						levs <- levels(resp)
-						colnames(y) <- levs
-						y[,1] <- 1-x
-						y[,2] <- x
-						return(y)
-					},
-					trafo.for.classes = function(x, wrapped.model) {
-						m <- wrapped.model@learner.model												
-						y <- matrix(0, ncol=2, nrow=length(x))
-						resp <- model.response(model.frame(m$formula, m$data))
-						levs <- levels(resp)
-						p <- as.factor(ifelse(x >= 0.5, levs[2], levs[1]))
-						names(p) <- NULL
-						return(p)
-					},
-					learner.props=desc)
-			.Object <- set.train.par(.Object, maxit=100, family=binomial)
-			return(.Object)
+			callNextMethod(.Object, learner.name="logreg", learner.pack="stats", learner.props=desc)
 		}
 )
+
+setMethod(
+		f = "train.learner",
+		signature = signature(
+				.wrapped.learner="logreg", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="matrix", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			glm(f, family="binomial", data=.data, ...)
+		}
+)
+
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "logreg", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "character" 
+		),
+		
+		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+			
+			x <- predict(.wrapped.model["learner.model"], newdata=.newdata, type="response", ...)
+			
+			if (.type == "prob") {
+				y <- matrix(0, ncol=2, nrow=length(.newdata))
+				colnames(y) <- .wrapped.model["class.levels"]
+				y[,1] <- x
+				y[,2] <- 1-x
+				return(y)
+			} else {
+				levs <- .wrapped.model["class.levels"]
+				p <- as.factor(ifelse(x > 0.5, levs[2], levs[1]))
+				names(p) <- NULL
+				return(p)
+			}
+		}
+)	
 
 

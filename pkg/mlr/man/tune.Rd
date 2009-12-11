@@ -1,29 +1,41 @@
 \name{tune}
 \alias{tune}
 \title{tune}
-\usage{tune(learn.task, resample.instance, ranges, measure)}
-\description{\code{tune} optimizes the hyperparameters of a learner for a classification or regression problem. 
-Given some ranges for one or more hyperparameters, it estimates the performance 
-of the learner for each possible combination of the proposed values by 
-using a resampling method (e.g. cross-validation) and returns the best parameter set and its 
+\usage{learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I)}
+\description{Optimizes the hyperparameters of a learner for a classification or regression problem.
+Allows for different optimization methods, commonly grid search is used but other search techniques
+are available as well.  
+Given some ranges for one or more hyperparameters, it estimates the performance
+of the learner for each possible combination of the proposed values by
+using a resampling method (e.g. cross-validation) and returns the best parameter set and its
 performance.}
-\value{A list containing the best parameter set, its aggregated performance over all resampling 
-iterations, a measure of spread and a data frame containing the same values for all evaluated 
-combinations of parameter values.}
-\arguments{\item{learn.task}{[\code{\linkS4class{learn.task}}] \cr
-Specifies the learning task for the problem.}
-\item{resample.instance}{[\code{\linkS4class{resample.instance}}] \cr
-Specifies the training and test indices of the resampled data.}
-\item{ranges}{[\code{\link{list}}] \cr 
-A list of named vectors/lists of possible values for each hyperparameter. 
-You can also pass a list of such ranges by using [\code{\link{combine.ranges}}] 
-in the rare case when it does not make sense to search a complete cross-product of range values.}
-\item{measure}{[\code{\link{character}}/\code{\link{list}}] \cr 
-Name of performance measure to optimize or a list describing your own performance measure. 
-The default is mean misclassification error.}
+\value{A list. Might contain some additional information from the optimizer and at least:
+\item{par}{Named list of best found hyperparamters.}
+\item{perf}{Best found performance value.}
+\item{model}{Fitted model on complete data set - if requested.}}
+\arguments{\item{learner}{[\code{\linkS4class{wrapped.learner}}] \cr
+Learning method.}
+\item{task}{[\code{\linkS4class{learn.task}}] \cr
+Learning task.}
+\item{resample.instance}{[\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
+Resampling strategy to evaluate points in hyperparameter space.}
+\item{fixed}{[\code{\link{list}}] \cr
+Named list of hyperparameter values which are kept fixed during the optimization. Default is list().}
+\item{method}{[\code{\link{character}}] \cr
+Search method. Currently supported are "grid", "pattern", "cmaes".}
+\item{control\cr}{Control object for search method.}
+\item{loss}{[\code{\linkS4class{loss}}] or [\code{\link{character}}]\cr
+Loss to use for tuning. Default is "zero-one" for classification and "squared" error for regression.}
+\item{model}{[\code{\link{logical}}]\cr
+Should a final model be fitted on the complete data with the best found hyperparameters?}
+\item{scale}{[\code{\link{function}}]
+A function to scale the hyperparamters. E.g. maybe you want to optimize in some log-space.
+Has to take a single, numerical vector and return a scaled one. Default is identity function.}
 }
-\examples{library(mlr) 
-ct <- make.classif.task(learner="kernlab.svm.classif", data=iris, formula=Species~.)
-ranges <- list(kernel="rbfdot", C=2^seq(-1,1), sigma=2^seq(-1,1))
-ri <- make.cv.instance(size=nrow(iris), iters=3)  
-tune(learn.task=ct, resample.instance=ri, ranges=ranges)}
+\examples{library(mlr)
+ct <- make.classif.task(data=iris, target="Species")
+fixed = list(kernel="rbfdot")
+r <- list(C=2^(-1:1), sigma=2^(-1:1))
+control = list(ranges=r) 
+res <- make.cv.instance(size=nrow(iris), iters=3)
+tune("kernlab.svm.classif", ct, res, control=ctrl)}

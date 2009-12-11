@@ -4,7 +4,9 @@ roxygen()
 #' Given a \code{\linkS4class{learn.task}} \code{train} creates a model for the learning machine 
 #' which can be used for predictions on new data. 
 #'
-#' @param learn.task [\code{\linkS4class{learn.task}}]\cr 
+#' @param learner [\code{\linkS4class{wrapped.learner}} or \code{\link{character}}]\cr 
+#'        Learning algorithm.   
+#' @param task [\code{\linkS4class{learn.task}}]\cr 
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 
 #'        An index vector specifying the training cases from the data contained in the learning task. By default the complete dataset is used. 
@@ -17,20 +19,20 @@ roxygen()
 #'
 #' @export
 #'
-#' @usage train(learn.task, subset, parset, vars)  
+#' @usage train(learner, task, subset, parset, vars)  
 #'
 #' @examples 
 #' library(MASS)
 #' train.inds <- seq(1,150,2)
 #' test.inds <- seq(2,150,2)
 #'
-#' ct <- make.classif.task("lda", data=iris, formula=Species~.)
+#' ct <- make.classif.task("lda", data=iris, target="Species")
 #' cm <- train(ct, subset=train.inds)
-#' ps <- predict(ct, cm, newdata=iris[test.inds,])
+#' ps <- predict(cm, newdata=iris[test.inds,])
 #' 
-#' ct <- make.classif.task("kknn.classif", data=iris, formula=Species~.)
+#' ct <- make.classif.task("kknn.classif", data=iris, target="Species")
 #' cm <- train(ct, subset=train.inds, parset=list(k=3))
-#' ps <- predict(ct, cm, newdata=iris[test.inds,])
+#' ps <- predict(cm, newdata=iris[test.inds,])
 #'  
 #' @seealso \code{\link{predict}}, \code{\link{make.classif.task}}, \code{\link{make.regr.task}} 
 #' 
@@ -39,53 +41,117 @@ roxygen()
 
 setGeneric(
 		name = "train",
-		def = function(learn.task, subset, parset, vars) {
+		def = function(learner, task, subset, parset, vars) {
+			if (is.character(learner))
+				learner <- new(learner)
 			if (missing(subset))
-				subset <- 1:nrow(learn.task@data)
+				subset <- 1:nrow(task@data)
 			if (missing(parset))
 				parset <- list()
 			if (missing(vars))
-				vars <- learn.task["input.names"]
+				vars <- task["input.names"]
+			if (length(vars) == 0)
+				vars <- character(0)
 			standardGeneric("train")
 		}
 )
 
 
-
-train.generic <- function(learn.task, wrapped.learner, subset, parset, vars) {
+train.task2 <- function(learner, task, subset, parset, vars, extra.train.pars, model.class, extra.model.pars, novars.class, check.fct) {
 	
-	wl <- wrapped.learner
-	tn <- learn.task["target.name"]
-	data.subset <- learn.task@data[subset, c(vars, tn), drop=FALSE]
-	ws <- learn.task@weights[subset]
-	if(!is.null(.mlr.local$debug.seed)) {
-		set.seed(.mlr.local$debug.seed)
-		logger.warn("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
+	check.result <- check.fct(task, learner)
+	if (check.result$msg != "") {
+		stop(check.result$msg)
 	}
+	
+	wl <- learner
+	tn <- task["target.name"]
+	# reduce data to subset and selected vars
+	data.subset <- task@data[subset, c(vars, tn), drop=FALSE]
+	ws <- task@weights[subset]
+	
 	logger.debug("mlr train:", wl@learner.name, "with pars:")
 	logger.debug(parset)
 	logger.debug("on", length(subset), "examples:")
 	logger.debug(subset)
 	
-	if (length(vars) > 0)
-		learner.model <- train.learner(wrapped.learner=wl, formula=learn.task@formula, data=data.subset, weights=ws, parset=parset)
-	else {
-		if (is(learn.task, "classif.task"))
-			learner.model <- new("novars.model.classif", targets=data.subset[, tn])
-		else if (is(learn.task, "regr.task"))
-			learner.model <- new("novars.model.regr", targets=data.subset[, tn])
-		else
-			stop("Novars model not implemented for this task!")
+	# no vars? then use no vars model
+	if (length(vars) == 0) {
+		wl = new(novars.class)
 	}
 	
+	# make pars list for train call
+	pars <- list(.wrapped.learner=wl, .target=tn, .data=data.subset, .weights=ws)
+	pars <- c(pars, extra.train.pars, wl@train.fct.pars)
+	# let hyperparamters overwrite pars
+	for (i in seq(1, along=parset)) {
+		pn <- names(parset)[i] 
+		pars[pn] <- parset[i]
+	}
 	
-	if(class(learner.model)[1]=="try-error") {
+	# set the seed
+	if(!is.null(.mlr.local$debug.seed)) {
+		set.seed(.mlr.local$debug.seed)
+		warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
+	}
+	or <- capture.output(
+		learner.model <- try(do.call(train.learner, pars))
+	)
+	logger.debug(or)
+	
+	# if error happened we use a failure model
+	if(is(learner.model, "try-error")) {
 		msg <- as.character(learner.model)
-		logger.warn("Could not train the method: ", msg)	
+		warning("Could not train the learner: ", msg)	
 		learner.model <- new("learner.failure", msg=msg)
 	} 
+
+	pars = list(model.class, task.class = class(task), wrapped.learner = wl,  
+			learner.model = learner.model, target=tn, subset=subset, parset=parset, vars=vars)
+	pars = c(pars, extra.model.pars)
+	do.call("new", pars)
+}
 	
-	return(new("wrapped.model", task.class = class(learn.task), learner.class = class(wl),  
-					learner.name=wl@learner.name, learner.model = learner.model, 
-					subset=subset, parset=parset, vars=vars))
-} 
+
+#' @export
+setMethod(
+		f = "train",
+		
+		signature = signature(
+				learner="wrapped.learner.classif", 
+				task="classif.task", 
+				subset="numeric", 
+				parset="list", 
+				vars="character"),
+		
+		def = function(learner, task, subset, parset, vars) {
+			extra.train.pars = list(.costs = task@costs, .type = task@type)
+			extra.model.pars = list(class.levels = task["class.levels"], type = task@type)
+			train.task2(learner, task, subset, parset, vars, 
+					extra.train.pars, "wrapped.model.classif", extra.model.pars, "novars.classif",
+					check.task.learner.classif
+			)
+		}
+)
+
+#' @export
+setMethod(
+		f = "train",
+		
+		signature = signature(
+				learner="wrapped.learner.regr", 
+				task="regr.task", 
+				subset="numeric", 
+				parset="list", 
+				vars="character"),
+		
+		def = function(learner, task, subset, parset, vars) {
+			extra.train.pars = list()
+			extra.model.pars = list()
+			train.task2(learner, task, subset, parset, vars, 
+					extra.train.pars, "wrapped.model.regr", extra.model.pars, "novars.regr",
+					check.task.learner
+			)
+		}
+)
+

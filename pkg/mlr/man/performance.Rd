@@ -1,8 +1,8 @@
 \name{performance}
-\alias{performance,ANY,ANY,numeric,list-method}
+\alias{performance,ANY,ANY,numeric,loss,function-method}
 \alias{performance}
 \title{performance}
-\usage{performance(true.y, pred.y, weights, measure)}
+\usage{performance(true.y, pred.y, weights, loss, aggr)}
 \description{\code{performance} measures the quality of predictions w.r.t. some loss function.}
 \details{There are some more loss functions which you can use as performance measure, they are as follows:
 For classification:
@@ -31,7 +31,7 @@ for other loss functions.}
 }
 \examples{data(iris) 
 # define a classification task for a decision tree (rpart) for the data set iris
-ct <- make.classif.task("rpart.classif", data=iris, formula=Species~.)
+ct <- make.classif.task("rpart.classif", data=iris, target="Species")
 # specify train and test set indices
 train.set <- seq(from=1L, to=150L, by=2L)
 test.set <- seq(from=2L, to=150L, by=2L)

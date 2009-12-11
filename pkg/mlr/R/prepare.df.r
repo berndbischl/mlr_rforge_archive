@@ -1,5 +1,5 @@
 
-prep.data = function(data, target.col, data.desc, 
+prep.data = function(data, target, data.desc, 
 		ints.as.nums = TRUE, ints.as.factors=FALSE, chars.as.factors = TRUE)   {
 	
 	if (identical(ints.as.nums, TRUE) && identical(ints.as.factors, TRUE)) {
@@ -41,38 +41,51 @@ prep.data = function(data, target.col, data.desc,
 	return(data)    
 }
 
-prep.classif.data <- function(data, target.col, data.desc, 
+prep.classif.data <- function(data, target, data.desc, 
 		ints.as.nums = TRUE, ints.as.factors=FALSE, chars.as.factors = TRUE, 
 		drop.class.levels=TRUE)   {
-	
-	
+
 	if (missing(data.desc))
-		data.desc <- make.data.desc(data=data, target.col=target.col)
-	if(missing(target.col)) 
-		target.col <- data.desc@target.col	
+		data.desc <- make.data.desc(data, target)
+	
+	targets = data[, target]
 	
 	#convert target to factor
-	if (!is.factor(data[, target.col])) {
-		if(is.integer(data[, target.col]) || is.character(data[, target.col])) {
+	if (!is.factor(targets)) {
+		if(is.integer(data[, target]) || is.character(targets)) {
 			warning("Converting target col. to factor.")
-			data[, target.col] = as.factor(data[, target.col])
+			data[, target] = as.factor(targets)
 		} else {
 			stop("Unsuitable target col. for classification data!")				
 		}
 	}	
 	
+	targets = data[, target]
+	
 	# drop unused class levels
 	if (drop.class.levels) {
-		before.drop <- levels(data[,target.col])
-		data[, target.col] <- (data[,target.col])[, drop=TRUE]
-		after.drop <- levels(data[,target.col])
+		before.drop <- levels(targets)
+		data[, target] <- targets[, drop=TRUE]
+		after.drop <- levels(data[, target])
 		data.desc@class.nr <- length(after.drop) 
 				if(!identical(before.drop, after.drop)) {
 			warning(paste("Empty levels were dropped from class col.:", 
 							setdiff(before.drop, after.drop)))
 		}	
 	}
-	prep.data(data=data, target.col=target.col, data.desc=data.desc, 
+	prep.data(data=data, target=target, data.desc=data.desc, 
 			ints.as.nums, ints.as.factors, chars.as.factors)
 }
 	
+prep.regr.data <- function(data, target, data.desc, 
+		ints.as.nums = TRUE, ints.as.factors=FALSE, chars.as.factors = TRUE)   {
+	
+	if (missing(data.desc))
+		data.desc <- make.data.desc(data, target)
+
+	prep.data(data=data, target=target, data.desc=data.desc, 
+			ints.as.nums, ints.as.factors, chars.as.factors)
+	
+}
+
+

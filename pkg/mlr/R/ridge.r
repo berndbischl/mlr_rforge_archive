@@ -1,6 +1,6 @@
-#' @include wrapped.learner.regr.r 
-#' @include train.learner.r 
+#' @include wrapped.learner.regr.r
 roxygen()
+
 
 #' Wrapped learner for Ridge Regression from package \code{penalized} for regression problems.
 #' 
@@ -24,7 +24,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("penalized.ridge"),
-		def = function(.Object, data, formula) {
+		def = function(.Object, data, target) {
 
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -34,51 +34,52 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="ridge regression", learner.pack="penalized",
-					train.fct="penalized", predict.fct="predict.penalized.ridge", 
-					learner.props=desc)
-			return(.Object)
+			callNextMethod(.Object, learner.name="ridge regression", learner.pack="penalized", learner.props=desc)
 		}
 )
+
 
 
 
 #' Overwritten, to allow "lambda" instead of "lambda2" as parameter name.
-#' Besides that, simply delegates to super method.
-#' 
-#' @param wrapped.learner Object of class \code{\linkS4class{wrapped.learner}}.
-#' @param formula A symbolic description of the model to be fitted.
-#' @param data Dataframe which includes all the data for the task.
-#' @param weights An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
-#' @param parset Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.
-#' 
-#' @export
+
 setMethod(
 		f = "train.learner",
-		
-		signature = c(
-				wrapped.learner="penalized.ridge", 
-				formula="formula", 
-				data="data.frame", 
-				weights="numeric", 
-				parset="list"
+		signature = signature(
+				.wrapped.learner="penalized.ridge", 
+				.targetvar="character", 
+				.data="data.frame", 
+				.weights="numeric", 
+				.costs="missing", 
+				.type = "missing" 
 		),
 		
-		def = function(wrapped.learner, formula, data, weights, parset) {
-			# allow lambda instead of lambda2
-			ns <- names(parset)
-			i <- which(ns == "lambda")
-			if (length(i) > 0) 
-				names(parset)[i] <- "lambda2" 
-			m <- callNextMethod(wrapped.learner, formula, data, weights, parset)
-			return(m)
+		def = function(.wrapped.learner, .targetvar, .data, .weights, ...) {
+			f = as.formula(paste(.targetvar, "~."))
+			args = list(...)
+			i = which(names(args) == "lambda") 
+			if (length(i) > 0) {
+				names(args)[i] = "lambda2"
+			}
+			pars <- list(f, data=.data)
+			pars <- c(pars, args)
+			do.call(penalized, pars)
 		}
 )
 
-
-predict.penalized.ridge <- function(model, newdata) {
-	predict(model, data=newdata, penalized=newdata[,names(model@penalized)])[,1]
-}
-
-
+setMethod(
+		f = "predict.learner",
+		signature = signature(
+				.wrapped.learner = "penalized.ridge", 
+				.wrapped.model = "wrapped.model", 
+				.newdata = "data.frame", 
+				.type = "missing" 
+		),
+		
+		def = function(.wrapped.learner, .wrapped.model, .newdata, ...) {
+			m <- .wrapped.model["learner.model"]
+			.newdata[, .wrapped.model["target"]] <- 0
+			predict(m, data=.newdata,  ...)[,"mu"]
+		}
+)	
 
