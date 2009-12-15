@@ -9,10 +9,8 @@ setGeneric(
 			if (is.factor(pred.y))
 				pred.y = as.character(pred.y)
 			
-			if (!is.character(true.y))
-				stop(paste("true.y has wrong type:", class(true.y)))
-			if (!is.character(pred.y))
-				stop(paste("pred.y has wrong type:", class(pred.y)))
+			if (class(true.y) != class(pred.y))
+				stop(paste("true.y and pred.y have incompatible types:", class(true.y), class(pred.y)))
 			
 			if(missing(weights)) {
 				weights <- rep(1, length(true.y))
