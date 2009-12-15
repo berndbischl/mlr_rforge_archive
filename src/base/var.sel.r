@@ -23,7 +23,6 @@ forward.sel.1 <- function(learn.task, resample.instance, parset, measure, vars) 
 		vars2 = c(vars, v)
 		#f = paste(vars2, collapse="+")
 		#df2 <- learn.task@data[,c(vars2,y)]
-		#f = as.formula(paste(y, "~."))
 		t2 <- learn.task
 		t2@data <- learn.task@data[,c(vars2,y)]
 		print(system.time(rf <- resample.fit(t2, resample.instance=resample.instance, parset=parset)))
