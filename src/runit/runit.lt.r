@@ -6,17 +6,11 @@ test.mlr.learn.task <- function() {
 	
 #------------------------------lda----------------------------------------------
 	
-	ct1 <- make.classif.task("lda", data=data, formula=formula)
+	ct1 <- make.classif.task(data=data, formula=formula)
 	
 	checkEquals(ct1["target"], "Species")
 	checkEquals(ct1["targets"], data$Species)
 	checkEquals(ct1@data, model.frame(formula, data))
-	
-	checkEquals(ct1@wrapped.learner@learner.pack, "MASS")
-	
-	wl <- new("lda")
-	
-	ct2 <- make.classif.task(wl, data=data, formula=formula) 
 	
 	
 #-----------------------------rpart---------------------------------------------  

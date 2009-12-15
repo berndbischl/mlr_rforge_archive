@@ -39,8 +39,8 @@ test.lasso <- function() {
 	cv.i <- make.cv.instance(size=nrow(regr.df), iters=folds)
 	for (i in 1:folds)
 		cv.i@inds[[i]] <- setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
-	ct <- make.regr.task("penalized.lasso", formula=regr.formula, data=regr.df)
-	rf <- resample.fit(ct, cv.i, parset=list(lambda=0.3))
+	ct <- make.regr.task(formula=regr.formula, data=regr.df)
+	rf <- resample.fit("penalized.lasso", ct, cv.i, parset=list(lambda=0.3))
 #	print(rf@preds[[1]])
 	for (i in 1:folds) {
 		test.i <- cv.i["test.inds", i]

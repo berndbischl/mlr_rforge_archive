@@ -1,24 +1,37 @@
 test.benchmark <- function() {
 	
-	# check empty ranges 
-	ct <- make.classif.task("rpart.classif", data=iris, formula=Species ~.)
-	outer.instance <- make.cv.instance(size=nrow(iris), iters=2) 
-	inner.instance <- new("cv.desc", iters=3)
-	cbr <- benchmark(ct, outer.resampling=outer.instance, inner.resampling=inner.instance)
-	
-	
-	# normal benchmark
-	ct <- make.classif.task("rpart.classif", data=iris, formula=Species ~.)
-	ranges <- list(minsplit=3:7, cp=seq(0.1, 0.5, by=0.1))
-	outer.instance <- make.cv.instance(size=nrow(iris), iters=2) 
-	inner.instance <- new("cv.desc", iters=3)
-	cbr <- benchmark(ct, ranges=ranges, outer.resampling=outer.instance, inner.resampling=inner.instance)
 
-	# complete results
-	ct <- make.classif.task("kernlab.svm.classif", data=iris, formula=Species ~.)
-	C.seq <- c(0.5, 1, 2)
-	ranges <- list(C=C.seq, kernel=c("polydot"), degree=1)
-	outer.instance <- make.cv.instance(size=nrow(iris), iters=2) 
-	inner.instance <- new("cv.desc", iters=3)
-	cbr <- benchmark(ct, ranges=ranges, outer.resampling=outer.instance, inner.resampling=inner.instance, all.tune.results=T)
+	ct <- make.classif.task(data=iris, target="Species")
+	outer <- make.cv.instance(size=nrow(iris), iters=5) 
+	inner <- new("cv.desc", iters=3)
+	
+	# check empty ranges 
+	cbr <- benchmark("rpart.classif", ct, outer)
+
+	# normal benchmark - one par
+	ranges <- list(minsplit=seq(3,10,2))
+	wl = make.tune.wrapper("rpart.classif", resampling=inner, method="grid", control=list(ranges=ranges))
+	cbr <- benchmark(wl, ct, outer)
+	cat("\n")
+	print(cbr)
+
+	# normal benchmark - 2 par
+	ranges <- list(minsplit=seq(3,10,2), cp=c(0.1, 0.11 , 0.09))
+	wl = make.tune.wrapper("rpart.classif", resampling=inner, method="grid", control=list(ranges=ranges))
+	cbr <- benchmark(wl, ct, outer)
+	cat("\n")
+	print(cbr)
+
+
+	
+#	wl = new("rpart.classif")
+#	wl = make.tune.wrapper(wl)
+#	ranges <- list(minsplit=3:7, cp=seq(0.1, 0.5, by=0.1))
+#	cbr <- benchmark(wl, ct, outer, inner=inner)
+#	
+	
+#	# complete results
+#	C.seq <- c(0.5, 1, 2)
+#	ranges <- list(C=C.seq, kernel=c("polydot"), degree=1)
+#	cbr <- benchmark("kernlab.svm.classif", ct, outer, inner=inner, all.tune.results=T)
 }

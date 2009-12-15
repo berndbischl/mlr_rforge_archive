@@ -7,11 +7,11 @@ simple.test <- function(t.name, df, formula, train.inds, old.predicts, parset=li
 	wl <- new(t.name) 
 	
 	if (is(wl, "wrapped.learner.classif")) {
-		ct <- make.classif.task(learner=wl, data=df, formula=formula)
+		ct <- make.classif.task(data=df, formula=formula)
 	} else {
-		ct <- make.regr.task(learner=wl, data=df, formula=formula)
+		ct <- make.regr.task(data=df, formula=formula)
 	}
-	cm <- try(train(ct, subset=inds, parset=parset))
+	cm <- try(train(t.name, ct, subset=inds, parset=parset))
 	if(class(cm)[1] == "learner.failure"){
 		checkTrue(class(old.predicts)=="try-error")
 	}else{
@@ -41,10 +41,9 @@ prob.test <- function(t.name, df, formula, train.inds, old.probs, parset=list())
 	train <- df[inds,]
 	test <- df[-inds,]
 	
-	wl <- new(t.name) 
-	ct <- make.classif.task(learner=wl, data=df, formula=formula, type="prob")
+	ct <- make.classif.task(data=df, formula=formula, type="prob")
 	
-	cm <- try(train(ct, subset=inds, parset=parset))
+	cm <- try(train(t.name, ct, subset=inds, parset=parset))
 	
 	if(class(cm@learner.model)[1] == "learner.failure"){
 		checkTrue(class(old.predicts)=="try-error")
@@ -114,13 +113,13 @@ cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tun
 		cv.instance <- e1071.cv.to.mlr.cv(tr)
 		wl <- new(t.name) 
 		if (is(wl, "wrapped.learner.classif")) {
-			lt <- make.classif.task(learner=wl, data=df, formula=formula)
+			lt <- make.classif.task(data=df, formula=formula)
 		} else {
-			lt <- make.regr.task(learner=wl, data=df, formula=formula)
+			lt <- make.regr.task(data=df, formula=formula)
 		}
-		cvr <- resample.fit(lt, cv.instance, parset=parset)
+		cvr <- resample.fit(t.name, lt, cv.instance, parset=parset)
 		cva <- resample.performance(lt, cvr)
-		checkEqualsNumeric(cva$aggr, tr$performances[1,2])
+		checkEqualsNumeric(cva$aggr1, tr$performances[1,2])
 		checkEqualsNumeric(cva$spread, tr$performances[1,3])
 	}
 }
@@ -144,13 +143,13 @@ bs.test <- function(t.name, df, formula, iters=3, parset=list(), tune.train, tun
 	
 	bs.instance <- e1071.bs.to.mlr.bs(tr)
 	
-	ct <- make.classif.task(learner=t.name, data=df, formula=formula)
+	ct <- make.classif.task(data=df, formula=formula)
 	
-	bsr <- resample.fit(ct, bs.instance)
+	bsr <- resample.fit(t.name, ct, bs.instance)
 	
 	bsp <- resample.performance(ct, bsr)
 	
-	checkEqualsNumeric(bsp$aggr, tr$performances[1,2])
+	checkEqualsNumeric(bsp$aggr1, tr$performances[1,2])
 	checkEqualsNumeric(bsp$spread, tr$performances[1,3])
 }
 

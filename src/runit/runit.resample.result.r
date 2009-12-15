@@ -5,11 +5,11 @@ test.resample.result = function() {
 	rin2 <- make.cv.instance(size=nrow(multiclass.df), iters=7)
 	rin3 <- make.subsample.instance(size=nrow(multiclass.df), iters=2)
 	
-	ct <- make.classif.task("lda", data=multiclass.df, formula=multiclass.formula)
+	ct <- make.classif.task(data=multiclass.df, formula=multiclass.formula)
 	
-	result1 <- resample.fit(ct, rin1)       
-	result2 <- resample.fit(ct, rin2)       
-	result3 <- resample.fit(ct, rin3)       
+	result1 <- resample.fit("lda", ct, rin1)       
+	result2 <- resample.fit("lda", ct, rin2)       
+	result3 <- resample.fit("lda", ct, rin3)       
 	
 	checkEquals(result1["iters"], 4)
 	checkEquals(result2["iters"], 7)

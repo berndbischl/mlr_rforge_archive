@@ -6,8 +6,8 @@ test.train <- function() {
 	k <- 3
 	
 	#----------------------------------lda----------------------------------------
-	ct1 <- make.classif.task("lda", data=data, formula=formula)
-	cm1 <- train(ct1)
+	ct1 <- make.classif.task(data=data, formula=formula)
+	cm1 <- train("lda", ct1)
 	ext1 <- try(lda(formula, data=data))
 	
 	
@@ -21,8 +21,8 @@ test.train <- function() {
 	
 	checkEquals(cm1@subset, 1:nrow(data))
 	
-	ct2 <- make.classif.task("lda", data=data, formula=formula)
-	cm2 <- train(ct2, subset=inds)
+	ct2 <- make.classif.task(data=data, formula=formula)
+	cm2 <- train("lda", ct2, subset=inds)
 	ext2 <- lda(formula, data=data[inds,])
 	
 	checkTrue(ifelse(class(cm2@learner.model)[1]== "learner.failure", 
@@ -34,8 +34,8 @@ test.train <- function() {
 	checkEquals(cm2@subset, inds)
 	
 	#------------------------------rpart------------------------------------------
-	ct3 <- make.classif.task("rpart.classif", data=data, formula=formula)
-	cm3 <- train(ct3, subset=inds ,parset=list(minsplit=10, cp= 0.005))
+	ct3 <- make.classif.task(data=data, formula=formula)
+	cm3 <- train("rpart.classif", ct3, subset=inds ,parset=list(minsplit=10, cp= 0.005))
 	ext3 <- try(rpart(formula = formula, data = data[inds,], minsplit=10, cp= 0.005))
 	
 	checkEquals(cm3@subset, inds) 
@@ -68,8 +68,8 @@ test.train <- function() {
 	
 	
 	#--------------------------------qda------------------------------------------
-	ct5 <- make.classif.task("qda", data=data, formula=formula)
-	cm5 <- train(ct5)
+	ct5 <- make.classif.task(data=data, formula=formula)
+	cm5 <- train("qda", ct5)
 	ext5 <- try(qda(formula, data=data))
 	
 	
@@ -88,8 +88,8 @@ test.train <- function() {
 	
 	
 	
-	ct6 <- make.classif.task("qda", data=data, formula=formula)
-	cm6 <- train(ct6, subset=inds)
+	ct6 <- make.classif.task(data=data, formula=formula)
+	cm6 <- train("qda", ct6, subset=inds)
 	ext6 <- try(qda(formula, data=data[inds,]))
 	
 	
@@ -108,21 +108,21 @@ test.train <- function() {
 	checkEquals(cm6@subset, inds) 
 	
 	#-------------------------knn-------------------------------------------------
-	ct7 <- make.classif.task("kknn.classif", data=data, formula=formula)
-	cm7 <- train(ct7, parset = list(k=k))
+	ct7 <- make.classif.task(data=data, formula=formula)
+	cm7 <- train("kknn.classif", ct7, parset = list(k=k))
 	
 	checkEquals(cm7@parset,  list(k=k))
 	checkEquals(cm7@subset, 1:nrow(data))
 	
-	ct8 <- make.classif.task("kknn.classif", data=data, formula=formula)
-	cm8 <- train(ct8, subset=inds, parset = list(k=k))
+	ct8 <- make.classif.task(data=data, formula=formula)
+	cm8 <- train("kknn.classif", ct8, subset=inds, parset = list(k=k))
 	
 	checkEquals(cm8@subset, inds)
 	
 	
 	#-------------------------randomForest----------------------------------------
-	ct9 <- make.classif.task("randomForest.classif", data=data, formula=formula)
-	cm9 <- train(ct9, parset = list(ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
+	ct9 <- make.classif.task(data=data, formula=formula)
+	cm9 <- train("randomForest.classif", ct9, parset = list(ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
 	
 	set.seed(debug.seed)                   
 	ext9 <- try(randomForest(formula= formula, data=data, ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
@@ -158,8 +158,8 @@ test.train <- function() {
 #  checkEquals(cm9@learner.model$forest, ext9$forest)
 	
 	
-	ct10 <- make.classif.task("randomForest.classif", data=data, formula=formula)
-	cm10 <- train(ct10,subset=inds, parset = list(ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
+	ct10 <- make.classif.task(data=data, formula=formula)
+	cm10 <- train("randomForest.classif", ct10,subset=inds, parset = list(ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
 	
 	set.seed(debug.seed)                   
 	ext10 <- try(randomForest(formula= formula, data=data[inds,], ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
