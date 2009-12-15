@@ -17,8 +17,7 @@ setGeneric(
 				# we set costs in constructor after data preparation
 				costs=matrix(0,0,0)
 			}		
-			x=standardGeneric("make.classif.task")
-			return(x)
+			standardGeneric("make.classif.task")
 		}
 )
 
