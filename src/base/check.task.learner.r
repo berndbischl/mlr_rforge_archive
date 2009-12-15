@@ -27,7 +27,7 @@ check.task.learner <- function(lt, learner) {
 }
 
 check.task.learner.classif <- function(lt, learner) {
-	msg <- check.task(lt, learner)
+	msg <- check.task.learner(lt, learner)
 
 	ld <- learner@learner.props
 	dd <- lt@data.desc
