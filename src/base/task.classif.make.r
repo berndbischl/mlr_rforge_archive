@@ -37,21 +37,25 @@ setGeneric(
 #' classification task.  
 #' 
 #' \itemize{ 
-#' 		\item{\code{\linkS4class{adaboost}}}{Boosting from adabag package}
-#' 		\item{\code{\linkS4class{kknn.classif}}}{k-Nearest Neighbor from kknn package}
-#' 		\item{\code{\linkS4class{lda}}}{Linear Discriminant Analysis from MASS package}
-#' 		\item{\code{\linkS4class{logreg}}}{Logistic Regression from stats package}
-#' 		\item{\code{\linkS4class{mda}}}{Mixture Discriminant Analysis from mda package}
-#' 		\item{\code{\linkS4class{naiveBayes}}}{Naive Bayes from e1071 package}
-#' 		\item{\code{\linkS4class{qda}}}{Quadratic Discriminant Analysis from MASS package}
-#' 		\item{\code{\linkS4class{randomForest.classif}}}{Random Forest from randomForest package}
-#' 		\item{\code{\linkS4class{rda}}}{Regularized Discriminant Analysis from klaR package}
-#' 		\item{\code{\linkS4class{rpart.classif}}}{Decision Tree from rpart package}
-#' 		\item{\code{\linkS4class{kernlab.svm.classif}}}{Support Vector Machines from kernlab package}  
+#' 		\item{\code{\linkS4class{adaboost}}}{ Boosting from adabag package}
+#' 		\item{\code{\linkS4class{kknn.classif}}}{ k-Nearest Neighbor from kknn package}
+#' 		\item{\code{\linkS4class{lda}}}{ Linear Discriminant Analysis from MASS package}
+#' 		\item{\code{\linkS4class{logreg}}}{ Logistic Regression from stats package}
+#' 		\item{\code{\linkS4class{mda}}}{ Mixture Discriminant Analysis from mda package}
+#' 		\item{\code{\linkS4class{naiveBayes}}}{ Naive Bayes from e1071 package}
+#' 		\item{\code{\linkS4class{qda}}}{ Quadratic Discriminant Analysis from MASS package}
+#' 		\item{\code{\linkS4class{randomForest.classif}}}{ Random Forest from randomForest package}
+#' 		\item{\code{\linkS4class{rda}}}{ Regularized Discriminant Analysis from klaR package}
+#' 		\item{\code{\linkS4class{rpart.classif}}}{ Decision Tree from rpart package}
+#' 		\item{\code{\linkS4class{kernlab.svm.classif}}}{ Support Vector Machines from kernlab package}  
 #' }
 #' 
 #' @param target [\code{\link{character}}] \cr
 #'  	  Name of the target variable.
+#' @param formula [\code{\link{formula}}] \cr
+#'        Instead of specifying the target, you can use the formula interface. 
+#'        If you are using just a subset of the variables of transformations of the variables, this will built a new internal 
+#'        data frame by calling \code{\link{model.frame}}.
 #' @param data [\code{\link{data.frame}}] \cr 	
 #'        A data frame containing the variables in the model.
 #' @param weights [\code{\link{numeric}}] \cr 	
