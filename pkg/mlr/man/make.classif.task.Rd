@@ -17,22 +17,26 @@ a learner is implemented in different packages and the suffix ".classif" if it c
 classification task.  
 
 \itemize{ 
-\item{\code{\linkS4class{adaboost}}}{Boosting from adabag package}
-\item{\code{\linkS4class{kknn.classif}}}{k-Nearest Neighbor from kknn package}
-\item{\code{\linkS4class{lda}}}{Linear Discriminant Analysis from MASS package}
-\item{\code{\linkS4class{logreg}}}{Logistic Regression from stats package}
-\item{\code{\linkS4class{mda}}}{Mixture Discriminant Analysis from mda package}
-\item{\code{\linkS4class{naiveBayes}}}{Naive Bayes from e1071 package}
-\item{\code{\linkS4class{qda}}}{Quadratic Discriminant Analysis from MASS package}
-\item{\code{\linkS4class{randomForest.classif}}}{Random Forest from randomForest package}
-\item{\code{\linkS4class{rda}}}{Regularized Discriminant Analysis from klaR package}
-\item{\code{\linkS4class{rpart.classif}}}{Decision Tree from rpart package}
-\item{\code{\linkS4class{kernlab.svm.classif}}}{Support Vector Machines from kernlab package}  
+\item{\code{\linkS4class{adaboost}}}{ Boosting from adabag package}
+\item{\code{\linkS4class{kknn.classif}}}{ k-Nearest Neighbor from kknn package}
+\item{\code{\linkS4class{lda}}}{ Linear Discriminant Analysis from MASS package}
+\item{\code{\linkS4class{logreg}}}{ Logistic Regression from stats package}
+\item{\code{\linkS4class{mda}}}{ Mixture Discriminant Analysis from mda package}
+\item{\code{\linkS4class{naiveBayes}}}{ Naive Bayes from e1071 package}
+\item{\code{\linkS4class{qda}}}{ Quadratic Discriminant Analysis from MASS package}
+\item{\code{\linkS4class{randomForest.classif}}}{ Random Forest from randomForest package}
+\item{\code{\linkS4class{rda}}}{ Regularized Discriminant Analysis from klaR package}
+\item{\code{\linkS4class{rpart.classif}}}{ Decision Tree from rpart package}
+\item{\code{\linkS4class{kernlab.svm.classif}}}{ Support Vector Machines from kernlab package}  
 }}
 \value{An object of class \code{\linkS4class{classif.task}}.}
 \seealso{\code{\linkS4class{classif.task}}, \code{\link{train}}, \code{\link{predict}}}
 \arguments{\item{target}{[\code{\link{character}}] \cr
 Name of the target variable.}
+\item{formula}{[\code{\link{formula}}] \cr
+Instead of specifying the target, you can use the formula interface. 
+If you are using just a subset of the variables of transformations of the variables, this will built a new internal 
+data frame by calling \code{\link{model.frame}}.}
 \item{data}{[\code{\link{data.frame}}] \cr 	
 A data frame containing the variables in the model.}
 \item{weights}{[\code{\link{numeric}}] \cr 	

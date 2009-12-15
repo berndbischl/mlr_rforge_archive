@@ -17,17 +17,21 @@ a learner is implemented in different packages and the suffix ".regr" if it can 
 regression task.  
 
 \itemize{ 
-\item{\code{\linkS4class{stats.lm}}}{Simple linear regression from stats package}
-\item{\code{\linkS4class{penalized.ridge}}}{Ridge regression from penalized package}
-\item{\code{\linkS4class{penalized.lasso}}}{Lasso regression from penalized package}
-\item{\code{\linkS4class{kknn.regr}}}{K-Nearest-Neigbor regression from kknn package}
-\item{\code{\linkS4class{gbm.regr}}}{Gradient boosting machine from gbm package}
-\item{\code{\linkS4class{blackboost.regr}}}{Gradient boosting with regression trees from mboost package}
+\item{\code{\linkS4class{stats.lm}}}{ Simple linear regression from stats package}
+\item{\code{\linkS4class{penalized.ridge}}}{ Ridge regression from penalized package}
+\item{\code{\linkS4class{penalized.lasso}}}{ Lasso regression from penalized package}
+\item{\code{\linkS4class{kknn.regr}}}{ K-Nearest-Neigbor regression from kknn package}
+\item{\code{\linkS4class{gbm.regr}}}{ Gradient boosting machine from gbm package}
+\item{\code{\linkS4class{blackboost.regr}}}{ Gradient boosting with regression trees from mboost package}
 }}
 \value{An object of class \code{\linkS4class{regr.task}}.}
 \seealso{\code{\linkS4class{regr.task}}, \code{\link{train}}, \code{\link{predict}}}
 \arguments{\item{target}{[\code{\link{character}}] \cr
 Name of the target variable.}
+\item{formula}{[\code{\link{formula}}] \cr
+Instead of specifying the target, you can use the formula interface. 
+If you are using just a subset of the variables of transformations of the variables, this will built a new internal 
+data frame by calling \code{\link{model.frame}}.}
 \item{data}{[\code{\link{data.frame}}] \cr
 A data frame containing the variables in the model.}
 \item{weights}{[\code{\link{numeric}}] \cr

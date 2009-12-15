@@ -3,11 +3,20 @@
 setGeneric(
 		name = "performance",
 		def = function(true.y, pred.y, weights, loss, aggr) {
+			
+			if (is.factor(true.y))
+				true.y = as.character(true.y)
+			if (is.factor(pred.y))
+				pred.y = as.character(pred.y)
+			
+			if (class(true.y) != class(pred.y))
+				stop(paste("true.y and pred.y have incompatible types:", class(true.y), class(pred.y)))
+			
 			if(missing(weights)) {
 				weights <- rep(1, length(true.y))
 			}
 			if(missing(loss)) {
-				if (is.factor(true.y))
+				if (is.character(true.y))
 					loss="zero-one"
 				if (is.numeric(true.y))
 					loss="squared"
