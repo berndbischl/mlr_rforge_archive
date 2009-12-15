@@ -48,12 +48,14 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
 	
 	
 	if (only.allowed.rds) {
-		rds <- list.files(man.build.dir)
+		rds <- list.files(man.build.dir, all=T)
 		for (f in rds) {
-			if(!(f %in% allowed.rd.files)) {
-				file.remove(file.path(man.build.dir, f))
-			} else {
-				remove.exp(file.path(man.build.dir, f))
+			if (f != "." && f != ".." && f != ".svn") {
+				if(!(f %in% allowed.rd.files)) {
+					file.remove(file.path(man.build.dir, f))
+				} else {
+					remove.exp(file.path(man.build.dir, f))
+				}
 			}
 		}
 	}	
