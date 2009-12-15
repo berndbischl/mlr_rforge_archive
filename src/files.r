@@ -19,13 +19,14 @@ base.files <<- c(
 		"base/task.classif.make.r",
 		"base/task.regr.r",
 		"base/task.regr.make.r",
-		"base/check.task.classif.r",
+		"base/check.task.r",
 		
 		"base/wrapped.model.r",
 		"base/learner.failure.r",
 		
 		"base/train.learner.r",
 		"base/train.task.r",
+		"base/check.task.learner.r",
 		
 		"base/predict.learner.r",
 		"base/predict.r",
