@@ -129,7 +129,7 @@ setMethod(
 			extra.model.pars = list(class.levels = task["class.levels"], type = task@type)
 			train.task2(learner, task, subset, parset, vars, 
 					extra.train.pars, "wrapped.model.classif", extra.model.pars, "novars.classif",
-					check.task.classif
+					check.task.learner.classif
 			)
 		}
 )
@@ -150,7 +150,7 @@ setMethod(
 			extra.model.pars = list()
 			train.task2(learner, task, subset, parset, vars, 
 					extra.train.pars, "wrapped.model.regr", extra.model.pars, "novars.regr",
-					check.task
+					check.task.learner
 			)
 		}
 )
