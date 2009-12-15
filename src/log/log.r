@@ -7,7 +7,12 @@ logger.errorhandler <- function() {
 
 #' @export
 logger.setup <- function(console=TRUE, file=NULL, level) {
-	options(warn=1)
+	if (level=="error") {
+		options(warn=-1)
+	} else {
+		options(warn=1)
+	}
+		
 	options(error=logger.errorhandler)
 	logger.setup <- list()
 	logger.setup$console <- console
@@ -15,7 +20,7 @@ logger.setup <- function(console=TRUE, file=NULL, level) {
 	logger.setup$global.level <- level
 
 	.mlr.local$logger.setup <- logger.setup
-	
+		
 	if (!is.null(file)) 
 		unlink(file)
 	return(logger.setup)
@@ -49,7 +54,6 @@ logger.print <- function(level, ...) {
 	prefix = paste("[", level, "]", sep="")
 	level <- switch(level,
 			error = 4,
-			warn = 3,
 			info = 2,
 			debug = 1)
 	
@@ -70,19 +74,12 @@ logger.print <- function(level, ...) {
 			sink()
 		}
 		logger.print.stuff(prefix, ...)
-		if (level == "warn") {
-			warning(...)
-		}
 	}
 }
 
 
 logger.error <- function(...) {
 	logger.print(level="error", ...)
-}
-
-logger.warn <- function(...) {
-	logger.print(level="warn", ...)
 }
 
 logger.info <- function(...) {
