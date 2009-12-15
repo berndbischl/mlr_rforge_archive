@@ -80,7 +80,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste( 
-							ifelse(x@is.classification, paste("Classes:", x@class.nr, "\n")),
+							ifelse(x@is.classification, paste("Classes:", x@class.nr, "\n"), ""),
 							"Features Nums:", x@numerics, " Ints:", x@integers, " Factors:", x@factors, " Chars:", x@characters, "\n",
 							"Observations: ", x@obs , "\n",
 							"Missings: ", x@has.missing, "\n", 
