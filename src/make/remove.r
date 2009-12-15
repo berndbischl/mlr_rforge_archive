@@ -13,8 +13,10 @@ remove.patterns <<- c(
 		"\\\\item\\{\\\\code\\{\\\\link\\[=train,classif.task.*train\\}\\}\\}\\{\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=train,regr.task.*train\\}\\}\\}\\{\\}",
 
-		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,penalized.lasso,formula,data.frame,numeric,list-method.*train.learner\\}\\}\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,penalized.ridge,formula,data.frame,numeric,list-method.*train.learner\\}\\}\\}",
+		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,.*train.learner\\}\\}\\}",
+		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,.*train.learner\\}\\}\\}",
+		"\\\\item\\{\\\\code\\{\\\\link\\[=predict.learner,.*predict.learner\\}\\}\\}",
+		"\\\\item\\{\\\\code\\{\\\\link\\[=predict.learner,.*predict.learner\\}\\}\\}",
 		
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,lda-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,qda-method.*Constructor.\\}",
