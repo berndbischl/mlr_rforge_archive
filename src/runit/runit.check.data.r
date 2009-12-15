@@ -8,6 +8,10 @@ test.check.data <- function() {
 	
 	mydata = binaryclass.df
 	colnames(mydata)[1] = "foo(bar)"
-	ct <- make.classif.task(data=mydata, target=binraryclass.target)
-	
+	checkException(
+			ct <- make.classif.task(data=mydata, target=binaryclass.target),
+			silent=TRUE
+	)
+	s = geterrmessage()
+	checkTrue(length(grep("Column names should not contain", s)) >0 )
 }
