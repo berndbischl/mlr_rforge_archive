@@ -7,7 +7,7 @@
 #' 		    
 #' @return Control structure for tuning.
 #' @export 
-#' @title grid.control 
+#' @title Control for grid search tuning 
 
 grid.control <- function(ranges) {
 	list(ranges=ranges)	

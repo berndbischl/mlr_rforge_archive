@@ -48,7 +48,7 @@ roxygen()
 #' res <- make.cv.instance(size=nrow(iris), iters=3)
 #' tune("kernlab.svm.classif", ct, res, control=ctrl)
 #'  
-#' @title tune
+#' @title Hyperparameter tuning
 
 
 tune <- function(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I) {	

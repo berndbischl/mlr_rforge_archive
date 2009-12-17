@@ -15,7 +15,7 @@
 
 #' @return Control structure for tuning.
 #' @export 
-#' @title ps.control 
+#' @title Control for pattern search tuning 
 
 ps.control <- function(
 		start,

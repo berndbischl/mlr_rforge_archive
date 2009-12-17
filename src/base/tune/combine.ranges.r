@@ -13,7 +13,7 @@
 #' 	tr <- tune(ct, cv.i, ranges = combine.ranges(r1,r2))
 #' 
 #' @seealso \code{\link{tune}}
-#' @title combine.ranges
+#' @title Combine non-orthogonal ranges
 
 
 combine.ranges <- function(...) {
