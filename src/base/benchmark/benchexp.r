@@ -5,8 +5,6 @@
 #' @param learners [\code{\link{list}} of \code{\linkS4class{wrapped.learner}} or \code{\link{character}}] \cr
 #' 		  Defines the learning algorithms which should be compared.
 #' @param task [\code{\linkS4class{learn.task}}] \cr
-#'   	  Specifies the learning task for the problem.
-#' @param task [\code{\linkS4class{learn.task}}] \cr
 #'        Learning task.
 #' @param resampling [\code{\linkS4class{resample.desc}} or \code{\linkS4class{resample.instance}}] \cr
 #'        Resampling strategy. 
@@ -20,7 +18,7 @@
 #' @seealso \code{\link{benchmark}}, \code{\link{make.tune.wrapper}} 
 #' @export 
 #' @aliases bench.exp 
-#' @title bench.exp 
+#' @title Bencnmark experiment for multiple learners 
 #'
 #' @examples
 #' ct <- make.classif.task(data=iris, target="Species")
