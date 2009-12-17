@@ -54,6 +54,8 @@ base.files <<- c(
 		"base/tune/tune.r",
 		"base/tune/tune.grid.r",
 #		"base/tune/tune.cmaes.r",
+		"base/tune/control.grid.r",
+		"base/tune/control.ps.r",
 		"base/tune/pattern.search.r",
 		"base/tune/tune.ps.r",
 		"base/tune/tune.wrapper.r",
