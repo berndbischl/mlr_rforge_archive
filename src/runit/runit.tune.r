@@ -14,7 +14,7 @@ test.tune <- function() {
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
 	ct <- make.classif.task(data=data, formula=formula)
-	tr2 <- tune("rpart.classif", ct, cv.instance, method="grid", control=list(ranges=ranges))
+	tr2 <- tune("rpart.classif", ct, cv.instance, method="grid", control=grid.control(ranges=ranges))
 	
 	for(i in 1:nrow(tr$performances)) {
 		cp <- tr$performances[i,"cp"]
@@ -25,7 +25,7 @@ test.tune <- function() {
 	}
 	
 	# check pattern search
-	control=pattern.control(start=list(C=0, sigma=0))
+	control = control.ps(start=list(C=0, sigma=0))
 	tr3 <- tune("kernlab.svm.classif", ct, cv.instance, method="pattern", control=control, scale=function(x)10^x)
 	print(tr3)
 	
