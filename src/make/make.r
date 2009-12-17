@@ -9,7 +9,7 @@ source("src/files_rd.r")
 
 
 
-make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
+make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, install=FALSE) {
 	src.dir  <<- file.path(project.dir, "src")
 	pkg.dir  <<- file.path(project.dir, "pkg")
 	
@@ -96,10 +96,22 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE) {
 			print("make:failed")
 		}
 	}
+	
+	
+	if (install) {
+		fs = sort(list.files(pkg.dir, pattern="mlr.*tar.gz"))
+		f = fs[length(fs)]
+		f = file.path(pkg.dir, f)
+		paste("Installing", f, "\n")
+		cmd <- paste("R CMD INSTALL", f)
+		print(cmd)
+		system(cmd)
+	}
 	setwd(project.dir)
+	
 }
 
-make(build=T, check=T, binary=T)
+make(build=T, check=F, binary=F, install=T)
 
 
 
