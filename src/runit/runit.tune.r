@@ -25,7 +25,7 @@ test.tune <- function() {
 	}
 	
 	# check pattern search
-	control = control.ps(start=list(C=0, sigma=0))
+	control = ps.control(start=list(C=0, sigma=0))
 	tr3 <- tune("kernlab.svm.classif", ct, cv.instance, method="pattern", control=control, scale=function(x)10^x)
 	print(tr3)
 	
