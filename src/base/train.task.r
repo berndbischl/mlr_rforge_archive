@@ -26,12 +26,12 @@ roxygen()
 #' train.inds <- seq(1,150,2)
 #' test.inds <- seq(2,150,2)
 #'
-#' ct <- make.classif.task("lda", data=iris, target="Species")
-#' cm <- train(ct, subset=train.inds)
+#' ct <- make.classif.task(data=iris, target="Species")
+#' cm <- train("lda", ct, subset=train.inds)
 #' ps <- predict(cm, newdata=iris[test.inds,])
 #' 
-#' ct <- make.classif.task("kknn.classif", data=iris, target="Species")
-#' cm <- train(ct, subset=train.inds, parset=list(k=3))
+#' ct <- make.classif.task(data=iris, target="Species")
+#' cm <- train("kknn.classif", ct, subset=train.inds, parset=list(k=3))
 #' ps <- predict(cm, newdata=iris[test.inds,])
 #'  
 #' @seealso \code{\link{predict}}, \code{\link{make.classif.task}}, \code{\link{make.regr.task}} 

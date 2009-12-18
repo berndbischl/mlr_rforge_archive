@@ -106,8 +106,11 @@ setGeneric(
 #' 
 #' @return \code{\linkS4class{wrapped.learner}} object with changed parameters for train function of the wrapped learner.
 #'
+#' @usage set.train.par(learner, \ldots)
+#' 
 #' @rdname set.train.par
 #' @export 
+#' @title Set parameter for training
 
 setMethod(
 		f = "set.train.par",
@@ -119,17 +122,6 @@ setMethod(
 			return(learner)
 		}
 )
-
-
-#' Set a parameter for the underlying predict function of a 
-#' [\code{\linkS4class{wrapped.learner}}] or - for convienience - a [\code{\linkS4class{learn.task}}].
-#' Used to fix (somewhat techical) arguments which stay the same for the whole experiment.
-#' You should not have to use this too often.
-#' 
-#' @usage set.predict.par(object, \ldots)
-#' @title set.predict.par
-#' @rdname set.predict.par
-#' @export 
 
 
 setGeneric(
@@ -149,9 +141,9 @@ setGeneric(
 #' 
 #' @return Wrapped.learner object with changed paramters for predict function.
 #' 
-#' @usage set.predict.par(object, \ldots)
+#' @usage set.predict.par(learner, \ldots)
 #'
-#' @title set.predict.par
+#' @title Set parameter for prediction
 #' @rdname set.predict.par
 #' @export 
 

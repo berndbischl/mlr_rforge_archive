@@ -22,11 +22,17 @@ setGeneric(
 #' Measures the quality of predictions w.r.t. some loss function for a resampled fit.
 #' 
 #' @param task [\code{\linkS4class{learn.task}}] \cr
-#'   	Specifies the learning task for the problem.
+#'        Learn task.   	
 #' @param result [\code{\linkS4class{resample.result}}] \cr
-#' @param measure [\code{\link{character}}/\code{\link{list}}] \cr 
-#' 		Name of performance measure to optimize or a list describing your own performance measure. 
-#' 		The default is mean misclassification error for classification or MSE for regression. 
+#'        Result from call to \code{\link{resample.fit}}.
+#' @param loss [\code{\linkS4class{learn.task}}] \cr
+#'        Learn task.   	
+#' @param aggr1 [\code{\link{function}}] \cr
+#'        Function used to aggregate performance values on test sets. Default is mean.   	
+#' @param aggr2 [\code{\link{function}}] \cr
+#'        Function used to aggregate indiviual losses of test cases to form a single test set performance value per test set. Default is mean.   	
+#' @param spread [\code{\linkS4class{learn.task}}] \cr
+#'        Function to calculate spread of performance values of test sets. Default is standard deviation (sd).   	
 #' 
 #' @return A list with the following entries:
 #' 		\item{\code{values}}{Numeric vector of estimated performances for the resampling iterations.}
@@ -42,16 +48,16 @@ setGeneric(
 #' library(mlbench)
 #' data(BostonHousing) 
 #' # define a regression task for the Boston Housing problem with a simple linear modell
-#' rt <- make.regr.task("lm", data=iris, target="medv")
+#' rt <- make.regr.task(data=BostonHousing, target="medv")
 #' # do 3-fold crossvalidation
 #' cv.i <- make.cv.instance(size=nrow(BostonHousing), iters=3) 
-#' rf <- resample.fit(rt, cv.i)
+#' rf <- resample.fit("stats.lm", rt, cv.i)
 #' # mean squared error 
 #' resample.performance(rt, rf)
-#' # median of absolute errors
-#' resample.performance(rt, rf, measure="mae")		
+#' # median of absolute errors on test sets, aggregated by mean
+#' resample.performance(rt, rf, loss="abs")		
 #' 
-#' @title performance
+#' @title Performance of a resample.fit
 
 setMethod(
 		f = "resample.performance",

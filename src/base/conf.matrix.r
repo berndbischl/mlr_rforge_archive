@@ -19,10 +19,10 @@
 #' 
 #' @examples 
 #' data(iris)
-#' ct <- make.classif.task("lda", data=iris, target="Species")
-#' rin <- make.cv.instance(size=nrow(iris), iters=10)
-#' fit <- resample.fit(ct, resample.instance = rin)
-#' conf.matrix(learn.task = ct, resample.instance = rin, resample.result = fit, relative = FALSE)
+#' ct <- make.classif.task(data=iris, target="Species")
+#' res <- make.cv.instance(size=nrow(iris), iters=10)
+#' fit <- resample.fit("lda", ct, resampling = res)
+#' conf.matrix(learn.task = ct, resample.instance = res, resample.result = fit, relative = FALSE)
 #' 
 #' @seealso \code{\link[klaR]{errormatrix}}
 #' 

@@ -31,16 +31,16 @@ roxygen()
 #' inds <- 2*(1:75)
 #' test <- iris[-inds,]
 #' 
-#' ct <- make.classif.task("lda", data=iris, target="Species")
-#' model <- train(ct, subset=inds)
+#' ct <- make.classif.task(data=iris, target="Species")
+#' model <- train("lda", ct, subset=inds)
 #' predict(model, newdata = test)
 #' 
 #' data(BostonHousing)
 #' inds <- seq(1, nrow(BostonHousing), 2)
 #' test <- BostonHousing[-inds,]
 #' 
-#' rt <- make.regr.task("stats.lm", data=BostonHousing, target="medv")
-#' model <- train(rt, subset=inds)
+#' rt <- make.regr.task(data=BostonHousing, target="medv")
+#' model <- train(("stats.lm", rt, subset=inds)
 #' predict(model, newdata = test)
 #' 
 #' @title predict

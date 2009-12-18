@@ -13,9 +13,7 @@ roxygen()
 #' @slot vars Vector specifying the variables which were used to build the model. 
 #' @slot parset Contains the hyperparameters of the train function. If empty no parameters were used.
 #' 
-#' @examples  see \link{train}
-#' 
-#' @title wrapped.model
+#' @title Induced model of learner
  
 setClass(
 		"wrapped.model",

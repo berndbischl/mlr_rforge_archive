@@ -8,7 +8,7 @@
 #'    Named vector for upper boundary constraints. Default is -Inf.
 #' @param delta [\code{\link{numeric}}] \cr
 #'    Initial step size.   
-#' @param delta [\code{\link{numeric}}] \cr
+#' @param delta.min [\code{\link{numeric}}] \cr
 #'    Minimal step size. Default is 10^-3.   
 #' @param maxit [\code{\link{integer}}] \cr
 #'    Maximal number of iterations. Default is 100   

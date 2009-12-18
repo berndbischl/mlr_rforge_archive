@@ -76,10 +76,10 @@ setGeneric(
 #'
 #' @examples
 #' data(iris) 
-#' # define a classification task for a decision tree (rpart) for the data set iris
-#' ct <- make.classif.task("rpart.classif", data = iris, target = "Species")
+#' # define a classification task for iris data set
+#' ct <- make.classif.task(data = iris, target = "Species")
 #' 
-#' @seealso \code{\linkS4class{classif.task}}, \code{\link{train}}, \code{\link{predict}}
+#' @seealso \code{\linkS4class{classif.task}}
 #'  
 #' @title make.classif.task
 

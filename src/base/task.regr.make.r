@@ -58,10 +58,10 @@ setGeneric(
 #' @examples
 #' library(mlbench)
 #' data(BostonHousing)
-#' # define a regression task for a Gradient Boosting Machine for regression for the data set BostonHousing
-#' rt <- make.regr.task("gbm.regr", data = BostonHousing, target = "medv")
+#' # define a regression for the data set BostonHousing
+#' rt <- make.regr.task(data = BostonHousing, target = "medv")
 #' 
-#' @seealso \code{\linkS4class{regr.task}}, \code{\link{train}}, \code{\link{predict}}
+#' @seealso \code{\linkS4class{regr.task}}
 #' 
 #' @title make.regr.task
 

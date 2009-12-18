@@ -37,16 +37,13 @@ roxygen()
 #' 
 #' @export
 #'
-#' @usage learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I)
+#' @usage tune(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I)
 #'
 #' @examples
-#' library(mlr)
 #' ct <- make.classif.task(data=iris, target="Species")
-#' fixed = list(kernel="rbfdot")
 #' r <- list(C=2^(-1:1), sigma=2^(-1:1))
-#' control = list(ranges=r) 
 #' res <- make.cv.instance(size=nrow(iris), iters=3)
-#' tune("kernlab.svm.classif", ct, res, control=ctrl)
+#' tune("kernlab.svm.classif", ct, res, control=grid.control(ranges=r))
 #'  
 #' @title Hyperparameter tuning
 
