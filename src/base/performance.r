@@ -55,6 +55,8 @@ setGeneric(
 #' 			An optional vector of weights to be used. Default is a weight of 1 for every case.
 #' @param 	loss [\code{\linkS4Class{loss}} or \code{\link{character}}] \cr
 #' 			Loss function. Default is "zero-one" for classifictaion and "squared" for regression.
+#' @param 	aggr [\code{\link{function}}] \cr
+#' 			Function to aggregate individual loss values to a single one. Default is mean.
 #' 
 #' @return The performance.
 #' 

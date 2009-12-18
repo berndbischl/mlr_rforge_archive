@@ -14,13 +14,13 @@ roxygen()
 #'    Learning method.
 #' @param task [\code{\linkS4class{learn.task}}] \cr
 #'    Learning task.   
-#' @param resample.instance [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
+#' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'    Resampling strategy to evaluate points in hyperparameter space.
 #' @param fixed [\code{\link{list}}] \cr
 #'    Named list of hyperparameter values which are kept fixed during the optimization. Default is list().   
 #' @param method [\code{\link{character}}] \cr
 #'    Search method. Currently supported are "grid", "pattern", "cmaes".   
-#' @param control\cr
+#' @param control \cr
 #'    Control object for search method.   
 #' @param loss [\code{\linkS4class{loss}}] or [\code{\link{character}}]\cr
 #'    Loss to use for tuning. Default is "zero-one" for classification and "squared" error for regression.

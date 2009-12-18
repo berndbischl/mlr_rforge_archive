@@ -100,7 +100,7 @@ setGeneric(
 #' This is not meant for hyperparameters, pass these through the usual parset argument, but rather to
 #' fix (somewhat technical) arguments which stay the same for the whole experiment. You should not have to use this too often.
 #' 
-#' @param object [\code{\linkS4class{wrapped.learner}}] \cr
+#' @param learner [\code{\linkS4class{wrapped.learner}}] \cr
 #'   	The learner.
 #' @param \ldots Parameters to fix in underlying train function. Have to be named.
 #' 
@@ -135,7 +135,7 @@ setGeneric(
 #' Used to fix (somewhat techical) arguments which stay the same for the whole experiment.
 #' You should not have to use this too often.
 #'   
-#' @param object [\code{\linkS4class{wrapped.learner}}] \cr
+#' @param learner [\code{\linkS4class{wrapped.learner}}] \cr
 #'   	Wrapping object for the underlying learner.
 #' @param \ldots Parameters to fix in underlying predict function. Have to be named.
 #' 
