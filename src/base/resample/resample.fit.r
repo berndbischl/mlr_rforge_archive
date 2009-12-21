@@ -60,7 +60,6 @@ setGeneric(
 )
 
 #' @export
-
 setMethod(
 		f = "resample.fit",
 		signature = signature(learner="wrapped.learner", task="learn.task", resampling="resample.instance", 

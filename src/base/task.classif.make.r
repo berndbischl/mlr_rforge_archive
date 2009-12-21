@@ -1,27 +1,6 @@
 #' @include task.classif.r
 roxygen()
 
-setGeneric(
-		name = "make.classif.task",
-		def = function(target, formula, data, weights, costs, type) {
-#			if (is.character(learner))
-#				learner <- new(learner)
-#			if (!is(learner, "wrapped.learner.classif"))
-#				stop("Trying to constuct a classif.task from a non classification learner: ", class(learner))
-			
-			if (missing(weights))
-				weights <- rep(1, nrow(data))
-			if (missing(type))
-				type <- "class"
-			if (missing(costs)) {
-				# we set costs in constructor after data preparation
-				costs=matrix(0,0,0)
-			}		
-			standardGeneric("make.classif.task")
-		}
-)
-
-
 #' \code{make.classif.task} defines a classification task for a data set and is the starting point 
 #' for further steps like training, predicting new data, resampling and tuning.
 #' 
@@ -81,8 +60,31 @@ setGeneric(
 #' 
 #' @seealso \code{\linkS4class{classif.task}}
 #'  
-#' @title make.classif.task
+#' @title Contruct classification task
 
+
+setGeneric(
+		name = "make.classif.task",
+		def = function(target, formula, data, weights, costs, type) {
+#			if (is.character(learner))
+#				learner <- new(learner)
+#			if (!is(learner, "wrapped.learner.classif"))
+#				stop("Trying to constuct a classif.task from a non classification learner: ", class(learner))
+			
+			if (missing(weights))
+				weights <- rep(1, nrow(data))
+			if (missing(type))
+				type <- "class"
+			if (missing(costs)) {
+				# we set costs in constructor after data preparation
+				costs=matrix(0,0,0)
+			}		
+			standardGeneric("make.classif.task")
+		}
+)
+
+
+#' @export
 
 setMethod(
 		f = "make.classif.task",
@@ -100,6 +102,8 @@ setMethod(
 			return(ct)
 		}
 )
+
+#' @export
 
 setMethod(
 		f = "make.classif.task",

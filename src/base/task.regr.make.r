@@ -1,19 +1,6 @@
 #' @include task.regr.r
 roxygen()
 
-setGeneric(
-		name = "make.regr.task",
-		def = function(target, formula, data, weights) {
-#			if (is.character(learner))
-#				learner <- new(learner)
-#			if (!is(learner, "wrapped.learner.regr"))
-#				stop("Trying to constuct a regr.task from a non regression learner: ", class(learner))
-			if (missing(weights))
-				weights <- rep(1, nrow(data))
-			standardGeneric("make.regr.task")
-		}
-)
-
 #' \code{make.regr.task} defines a regression task for a learner and a data set and is the starting point 
 #' for further steps like training, predicting new data, resampling and tuning.
 #' 
@@ -63,7 +50,23 @@ setGeneric(
 #' 
 #' @seealso \code{\linkS4class{regr.task}}
 #' 
-#' @title make.regr.task
+#' @title Contruct regression task
+
+
+setGeneric(
+		name = "make.regr.task",
+		def = function(target, formula, data, weights) {
+#			if (is.character(learner))
+#				learner <- new(learner)
+#			if (!is(learner, "wrapped.learner.regr"))
+#				stop("Trying to constuct a regr.task from a non regression learner: ", class(learner))
+			if (missing(weights))
+				weights <- rep(1, nrow(data))
+			standardGeneric("make.regr.task")
+		}
+)
+
+#' @export
 
 
 setMethod(
@@ -82,6 +85,7 @@ setMethod(
 )
 
 
+#' @export
 
 setMethod(
 		f = "make.regr.task",
