@@ -11,7 +11,7 @@ roxygen()
 #' 		\item{\code{shrinkage}}{Shrinkage parameter applied to each tree in the expansion. Also known as the learning rate or step-size reduction.}			
 #' 		\item{\code{bag.fraction}}{Fraction of the training set observations randomly selected to propose the next tree in the expansion.}
 #' }
-#' @title gbm.regr
+#' @title Gradient boosting machine for regression
 #' @seealso \code{\link[gbm]{gbm}}
 #' @export
 setClass(
