@@ -1,11 +1,11 @@
-test.aschar <- function() {
+test.tostring <- function() {
 
 	ct <- make.classif.task(data=binaryclass.df, target=binaryclass.target)
-	as.character(ct)
+	to.string(ct)
 	
 	rt <- make.regr.task(data=regr.df, target=regr.target)
-	as.character(rt)
+	to.string(rt)
 	
 	wl = make.learner("lda")
-	as.character(wl)
+	to.string(wl)
 }
