@@ -22,7 +22,7 @@ setClass(
 
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("classif.props"),
 		def = function(x) {
 			return(

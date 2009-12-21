@@ -27,7 +27,7 @@ setMethod(
 		f = "show",
 		signature = signature("learner.props"),
 		def = function(object) {
-			cat(as.character(object))
+			cat(to.string(object))
 		}
 )
 
@@ -38,6 +38,6 @@ setMethod(
 		f = "print",
 		signature = signature("learner.props"),
 		def = function(x, ...) {
-			cat(as.character(x))
+			cat(to.string(x))
 		}
 )

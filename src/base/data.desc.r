@@ -75,7 +75,7 @@ setMethod(
 #' Conversion to string.
 
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("data.desc"),
 		def = function(x) {
 			return(
@@ -97,7 +97,7 @@ setMethod(
   f = "print",
   signature = signature("data.desc"),
   def = function(x, ...) {
-    cat(as.character(x))
+    cat(to.string(x))
   }
 )
 
@@ -107,6 +107,6 @@ setMethod(
   f = "show",
   signature = signature("data.desc"),
   def = function(object) {
-    cat(as.character(object))
+    cat(to.string(object))
   }
 )

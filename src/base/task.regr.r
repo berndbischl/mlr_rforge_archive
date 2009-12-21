@@ -34,13 +34,13 @@ setMethod(
 
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("regr.task"),
 		def = function(x) {
 			return(
 					paste(
 							"Regression problem\n",
-							as.character(x@data.desc), "\n",
+							to.string(x@data.desc), "\n",
 							sep=""
 					)
 			)

@@ -4,6 +4,8 @@ roxygen()
 roxygen()
 #' @include predict.learner.r
 roxygen()
+#' @include to.string.r
+roxygen()
 
 #' Wraps an already implemented learning method from R to make it accesible to mlr.
 #' 
@@ -59,12 +61,12 @@ setMethod(
 
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("wrapped.learner"),
 		def = function(x) {
 			return(paste( 
 							"Classification learner ", x@learner.name, " from package ", x@learner.pack, "\n\n",					
-							as.character(x@learner.props), 
+							to.string(x@learner.props), 
 							sep =""					
 					))
 		}
@@ -75,7 +77,7 @@ setMethod(
 		f = "print",
 		signature = signature("wrapped.learner"),
 		def = function(x, ...) {
-			cat(as.character(x))
+			cat(to.string(x))
 		}
 )
 
@@ -84,7 +86,7 @@ setMethod(
 		f = "show",
 		signature = signature("wrapped.learner"),
 		def = function(object) {
-			cat(as.character(object))
+			cat(to.string(object))
 		}
 )
 

@@ -88,7 +88,7 @@ setMethod(
 
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("resample.instance"),
 		def = function(x) {
 			return(
@@ -108,7 +108,7 @@ setMethod(
 		f = "print",
 		signature = signature("resample.instance"),
 		def = function(x, ...) {
-			cat(as.character(x))
+			cat(to.string(x))
 		}
 )
 
@@ -117,7 +117,7 @@ setMethod(
 		f = "show",
 		signature = signature("resample.instance"),
 		def = function(object) {
-			cat(as.character(object))
+			cat(to.string(object))
 		}
 )
 

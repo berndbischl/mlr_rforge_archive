@@ -80,13 +80,13 @@ setMethod(
 
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("classif.task"),
 		def = function(x) {
 			return(
 					paste(
 							"Classification problem\n",
-							as.character(x@data.desc), "\n",
+							to.string(x@data.desc), "\n",
 							sep=""
 					)
 			)

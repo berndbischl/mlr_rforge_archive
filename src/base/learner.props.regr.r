@@ -6,7 +6,7 @@ setClass(
 
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("regr.props"),
 		def = function(x) {
 			return(

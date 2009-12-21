@@ -107,7 +107,7 @@ setMethod(
 		f = "print",
 		signature = signature("learn.task"),
 		def = function(x, ...) {
-			cat(as.character(x))
+			cat(to.string(x))
 		}
 )
 
@@ -116,7 +116,7 @@ setMethod(
 		f = "show",
 		signature = signature("learn.task"),
 		def = function(object) {
-			cat(as.character(object))
+			cat(to.string(object))
 		}
 )
 

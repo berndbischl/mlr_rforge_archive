@@ -63,7 +63,7 @@ setClass(
 
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("wrapped.model"),
 		def = function(x) {
 			ps <- paste(names(x@parset), x@parset, sep="=", collapse=" ")
@@ -86,7 +86,7 @@ setMethod(
 		f = "print",
 		signature = signature("wrapped.model"),
 		def = function(x, ...) {
-			cat(as.character(x))
+			cat(to.string(x))
 		}
 )
 
@@ -95,7 +95,7 @@ setMethod(
 		f = "show",
 		signature = signature("wrapped.model"),
 		def = function(object) {
-			cat(as.character(object))
+			cat(to.string(object))
 		}
 )
 
