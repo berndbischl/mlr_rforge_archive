@@ -34,7 +34,7 @@ setClass(
 #' This is mainly for internal use, you only need to use this, when you extend resample.instance to add another resampling strategy!
 #'  
 #' @param desc [\code{\linkS4class{resample.desc}}] \cr resample.desc. Describes the resampling strategy.
-#' @param size [integer] \cr Size of the data set to resample from.
+#' @param size [integer] \cr Number of observations to resample from.
 #' @param inds [list of integer vectors] \cr Indices of the trainings sets.
 
 setMethod(
@@ -65,7 +65,7 @@ setGeneric(
 #' Convenience method, so one doesn't have to call the specific constructors of classes inheriting from resample.desc.
 #' 
 #' @param desc [\code{\linkS4class{resample.desc}}] \cr Describes the resampling strategy.
-#' @param size [integer] \cr Size of the data set to resample from. 
+#' @param size [integer] \cr Number of observations to resample from. 
 #'              
 #' @return Object of corresponding subclass of \code{\linkS4class{resample.instance}}.
 #' @export
@@ -128,7 +128,7 @@ setMethod(
 #' @param x resample.instance object
 #' @param i [character]
 #' \describe{
-#' 	\item{data.size}{The size of the dataframe.}
+#' 	\item{size}{Number of observations.}
 #' 	\item{name}{The name of the resample description object, i.e. the type of resampling.}
 #' 	\item{iters}{The number of resampling iterations.}
 #'  \item{train.inds}{If j is a single integer, the vector of training indices for the jth iteration is returned. If j is an integer vector, the list of training indices for the given iterations is returned. If j is missing, all indices are returned.}
@@ -144,7 +144,7 @@ setMethod(
 		f = "[",
 		signature = signature("resample.instance"),
 		def = function(x,i,j,...,drop) {
-			if (i == "data.size")
+			if (i == "size")
 				return(x@size)
 			
 			if (i == "name")
@@ -165,7 +165,7 @@ setMethod(
 			}
 			
 			if (i == "test.inds") {
-				size <- x["data.size"]
+				size <- x["size"]
 				inds <- x@inds[j]
 				if (length(j) == 1) {
 					return( (1:size)[-inds[[1]]] )
