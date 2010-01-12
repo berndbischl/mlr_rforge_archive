@@ -32,7 +32,6 @@ setGeneric(
 #'              
 #' @return Data frame of tuning and test results. 
 #' 
-#' @export
 #' @rdname benchmark
 #' 
 #' @usage benchmark(learner, task, resampling)
@@ -72,9 +71,12 @@ setMethod(
 				result = data.frame(matrix(nrow=resampling["iters"], ncol=0))
 				rr <- resample.fit(learner, task, resampling)
 			}
-			rp <- resample.performance(task, rr)
+			rp = resample.performance(task, rr)
+			cm = NA
+			if (is(task, "classif.task"))			
+				cm = conf.matrix(task, rr)
 			result[, "test.perf"] = rp$aggr2
-			return(result)
+			return(list(result=result, conf.mat=cm))
 		}
 )
 

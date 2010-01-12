@@ -1,4 +1,4 @@
-#' Complete benchmark experiment for a single learn task.
+#' Complete benchmark experiment for a learn task.
 #' Allows you to compare a list of learning algorithms by measuring the test error w.r.t. to a given resampling strategy.  
 #' Experiments are paired, meaning always the same training / test sets are used for the different learners.  
 #' 
@@ -33,13 +33,39 @@
 #' @title bench.exp
 
 bench.exp <- function(learners, task, resampling) {
+	if (length(learners) == 1) {
+		learners = list(learners)
+	}
 	learners = as.list(learners)
 	bs = matrix(-1, nrow=resampling["iters"], ncol=length(learners))
+	learner.names <- sapply(learners, function(x) { 
+		if(is(x, "character"))
+			return(x)
+		if(is(x, "tune.wrapper"))
+			x = x@base.learner
+		return(class(x))
+	})
+	colnames(bs) = learner.names
+	tuned = as.list(rep(NA, length(learners)))
+	cms = as.list(rep(NA, length(learners)))
 	for (i in 1:length(learners)) {
 		wl = learners[[i]]
-		tp = benchmark(wl, task, resampling)$test.perf
-		bs[,i] = tp		
+		bm = benchmark(wl, task, resampling)
+		bs[,i] = bm$result$test.perf
+		if (is(wl, "tune.wrapper"))
+			tuned[[i]] = bm$result
+		if (is(task, "classif.task"))
+			cms[[i]] = bm$conf
 	}
-	#bs = as.bench(list(bs))
-	return(bs)
-}
+	names(tuned) = learner.names
+	names(cms) = learner.names
+	# reduce to non-list for convenience
+	if (length(learners) == 1) {
+		tuned=tuned[[1]] 
+		cms=cms[[1]]
+	}
+	if (is(task, "classif.task"))
+		return(list(perf = bs, tuned.pars=tuned, conf.mat=cms))
+	else
+		return(list(perf = bs, tuned.pars=tuned))
+	}
