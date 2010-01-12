@@ -47,14 +47,21 @@ setGeneric(
 		def = function(learner, task, resampling, parset, vars, type, extract) {
 			if (is.character(learner))
 				learner = new(learner)
-			if (missing(type))
-				type <- "class"
+			n = nrow(task["data"])
+			if (is(resampling, "resample.desc"))
+				resampling = make.resample.instance(resampling, size=n)
+			r = resampling["size"]
+			if (n != r)
+				stop(paste("Size of data set:", n, "and resampling instance:", r, "differ!"))
 			if (missing(parset))
 				parset <- list()
 			if (missing(vars))
 				vars <- task["input.names"]
+			if (missing(type))
+				type <- "class"
 			if (missing(extract))
 				extract <- function(x){}
+
 			standardGeneric("resample.fit")
 		}
 )
@@ -99,7 +106,6 @@ setMethod(
 		f = "resample.fit",
 		signature = signature(learner="wrapped.learner", task="learn.task", resampling="resample.desc", parset="list", vars="character", type="character", extract="function"),
 		def = function(learner, task, resampling, parset, vars, type, extract) {
-			i <- make.resample.instance(resampling, size=nrow(task["data"]))
 			resample.fit(learner, task, i, parset, vars, type, extract)
 		}
 )
