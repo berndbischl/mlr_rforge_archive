@@ -37,6 +37,8 @@ roxygen()
 #'        data frame by calling \code{\link{model.frame}}.
 #' @param data [\code{\link{data.frame}}] \cr 	
 #'        A data frame containing the variables in the model.
+#' @param excluded [\code{\link{character}}]
+#'        Names of inputs, which should be generally disregarded, e.g. IDs, etc. Default is zero-length vector. 
 #' @param weights [\code{\link{numeric}}] \cr 	
 #'        An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
 #' @param costs [\code{\link{matrix}}] \cr 	
@@ -65,12 +67,14 @@ roxygen()
 
 setGeneric(
 		name = "make.classif.task",
-		def = function(target, formula, data, weights, costs, type) {
+		def = function(target, formula, data, excluded, weights, costs, type) {
 #			if (is.character(learner))
 #				learner <- new(learner)
 #			if (!is(learner, "wrapped.learner.classif"))
 #				stop("Trying to constuct a classif.task from a non classification learner: ", class(learner))
 			
+			if (missing(excluded))
+				excluded = character(0)
 			if (missing(weights))
 				weights <- rep(1, nrow(data))
 			if (missing(type))
@@ -92,13 +96,14 @@ setMethod(
 				target = "character",
 				formula = "missing",
 				data = "data.frame", 
+				excluded = "character",
 				weights = "numeric", 
 				costs = "matrix", 
 				type = "character"
 		),
 		
-		def = function(target, data, weights, costs, type) {
-			ct <- new("classif.task", target=target, data=data, weights=weights, costs=costs, type=type)
+		def = function(target, data, excluded, weights, costs, type) {
+			ct <- new("classif.task", target=target, data=data, excluded=excluded, weights=weights, costs=costs, type=type)
 			return(ct)
 		}
 )
@@ -111,15 +116,16 @@ setMethod(
 				target = "missing",
 				formula = "formula",
 				data = "data.frame", 
+				excluded = "character",
 				weights = "numeric", 
 				costs = "matrix", 
 				type = "character"
 		),
 		
-		def = function(formula, data, weights, costs, type) {
+		def = function(formula, data, excluded, weights, costs, type) {
 			data2 <- model.frame(formula, data=data)
 			target <- as.character(formula)[2]
-			ct <- new("classif.task", target=target, data=data2, weights=weights, costs=costs, type=type)
+			ct <- new("classif.task", target=target, data=data2, excluded, weights=weights, costs=costs, type=type)
 			return(ct)
 		}
 )

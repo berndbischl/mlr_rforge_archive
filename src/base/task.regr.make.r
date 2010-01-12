@@ -32,6 +32,8 @@ roxygen()
 #'        data frame by calling \code{\link{model.frame}}.
 #' @param data [\code{\link{data.frame}}] \cr
 #'   	  A data frame containing the variables in the model.
+#' @param excluded [\code{\link{character}}]
+#'        Names of inputs, which should be generally disregarded, e.g. IDs, etc. Default is zero-length vector. 
 #' @param weights [\code{\link{numeric}}] \cr
 #'        An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
 #' 
@@ -55,11 +57,13 @@ roxygen()
 
 setGeneric(
 		name = "make.regr.task",
-		def = function(target, formula, data, weights) {
+		def = function(target, formula, data, excluded, weights) {
 #			if (is.character(learner))
 #				learner <- new(learner)
 #			if (!is(learner, "wrapped.learner.regr"))
 #				stop("Trying to constuct a regr.task from a non regression learner: ", class(learner))
+			if (missing(excluded))
+				excluded <- character(0)
 			if (missing(weights))
 				weights <- rep(1, nrow(data))
 			standardGeneric("make.regr.task")
@@ -75,11 +79,12 @@ setMethod(
 				target = "character",
 				formula = "missing",
 				data = "data.frame", 
+				excluded = "character",
 				weights = "numeric" 
 		),
 		
-		def = function(target, data, weights) {
-			ct <- new("regr.task", target=target, data=data, weights=weights)
+		def = function(target, data, excluded, weights) {
+			ct <- new("regr.task", target=target, data=data, excluded=excluded, weights=weights)
 			return(ct)
 		}
 )
@@ -93,13 +98,14 @@ setMethod(
 				target = "missing",
 				formula = "formula",
 				data = "data.frame", 
+				excluded = "character",
 				weights = "numeric" 
 		),
 		
-		def = function(formula, data, weights) {
+		def = function(formula, data, excluded, weights) {
 			data2 <- model.frame(formula, data=data)
 			target <- as.character(formula)[2]
-			ct <- new("regr.task", target=target, data=data2, weights=weights)
+			ct <- new("regr.task", target=target, data=data2, excluded=excluded, weights=weights)
 			return(ct)
 		}
 )
