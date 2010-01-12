@@ -24,11 +24,11 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.task"),
-		def = function(.Object, data, weights=rep(1, nrow(data)), target) {
+		def = function(.Object, data, weights=rep(1, nrow(data)), target, excluded) {
 				
 			if (missing(data))
 				return(.Object)
-			callNextMethod(.Object, data=data, weights=weights,	target=target, prep.fct=prep.regr.data)
+			callNextMethod(.Object, data=data, weights=weights,	target=target, excluded=excluded, prep.fct=prep.regr.data)
 		}
 )
 
