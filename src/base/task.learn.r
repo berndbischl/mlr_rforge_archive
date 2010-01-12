@@ -7,10 +7,11 @@ roxygen()
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
 #' 
 #' @slot data Dataframe which includes all the data for the task.
-#' @slot weights An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
 #' @slot target Name of the target variable.
+#' @slot excluded Names of inputs, which should be generally disregarded, e.g. IDs, etc.
 #' @slot data.desc Contains logical values describing properties of the dataframe e.g. whether it has 
 #' 		characters or missing values (see desc and \code{\linkS4class{data.desc}}).
+#' @slot weights An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
 #' 
 #' @exportClass learn.task
 #' @seealso classif.task regr.task
@@ -22,6 +23,7 @@ setClass(
 		representation = representation(
 				data = "data.frame",
 				target = "character",
+				excluded = "character",
 				data.desc = "data.desc", 
 				weights = "numeric"
 		)
@@ -36,7 +38,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, data, target, weights, prep.fct) {
+		def = function(.Object, data, target, excluded, weights, prep.fct) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
@@ -52,6 +54,7 @@ setMethod(
 			if (!(target %in% colnames(data))) {
 				stop(paste("Column names of data.frame don't contain target var: ", tn))
 			}
+			.Object@excluded <- excluded
 			.Object@data.desc <- make.data.desc(data, target)
 			
 			return(.Object)
