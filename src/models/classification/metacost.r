@@ -47,7 +47,7 @@ setMethod(
 			
 			ct <- make.classif.task(class(wrapped.learner@learner), data=data, target=target)
 			
-			N <- nrow(ct["data"])
+			N <- ct["size"]
 					
 			# maybe allow to draw smaller bs sample with n elements
 			res.i = make.bs.instance(size=N, iters=wrapped.learner@iters)
@@ -73,7 +73,7 @@ setMethod(
 				else
 					inds = res.i["test.inds", i]
 				
-				ps <- predict(models[[i]], newdata=ct@data[inds,], type=type)
+				ps <- predict(models[[i]], newdata=ct["data", inds], type=type)
 				if (!wrapped.learner@base.probs)
 					ps <- dummy[ps,]
 				if (i==1)

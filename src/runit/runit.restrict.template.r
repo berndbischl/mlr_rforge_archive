@@ -9,6 +9,6 @@ test.restrict.learn.task = function() {
 	ct2 <- restrict.learn.task(ct, inds2)
 	ct3 <- restrict.learn.task(ct, inds3)
 	
-	checkEquals(model.frame(multiclass.formula, multiclass.df[inds2,]), ct2@data)
-	checkEquals(model.frame(multiclass.formula, multiclass.df[inds3,]), ct3@data)
+	checkEquals(model.frame(multiclass.formula, multiclass.df[inds2,])[,1:5], ct2["data"])
+	checkEquals(model.frame(multiclass.formula, multiclass.df[inds3,])[,1:5], ct3["data"])
 }

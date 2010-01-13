@@ -1,12 +1,12 @@
 
 
-sel.control <- function(compare="diff", eps=0.01, steps=Inf) {
-	list(compare=compare, eps=eps, steps=steps)
+sel.control <- function(compare="diff", alpha=0.01, steps=Inf) {
+	list(compare=compare, alpha=alpha, steps=steps)
 }
 
 forward.sel <- function(learn.task, resample.desc, ranges=list(), control=sel.control()) {
 	is <- learn.task["input.names"]
-	rin <- make.resample.instance(size=nrow(learn.task@data), desc=resample.desc)
+	rin <- make.resample.instance(size=learn.task["size"], desc=resample.desc)
 	state <- eval.state(learn.task, rin, vars=character(0))
 			
 	while (TRUE) {
@@ -14,7 +14,7 @@ forward.sel <- function(learn.task, resample.desc, ranges=list(), control=sel.co
 		logger.debug(state$vars)
 		logger.debug(state$perf$aggr)
 		not.used <- setdiff(is, state$vars)
-		rin <- make.resample.instance(size=nrow(learn.task@data), desc=resample.desc)
+		rin <- make.resample.instance(size=learn.task["size"], desc=resample.desc)
 		best.kid.state <- NA 
 		for (v in not.used) {
 			print(v)
@@ -29,12 +29,24 @@ forward.sel <- function(learn.task, resample.desc, ranges=list(), control=sel.co
 			m1 <- mean(state$perf$values)
 			m2 <- mean(best.kid.state$perf$values)
 			d <- m1 - m2
-			if (d > eps)
+			impove <- (d > constrol$alpha)
+			if (d > constrol$alpha)
 				state <- best.kid.state
 			else 
 				break
+		} else if (compare == "t-test") {
+			test <- t.test(state$perf$values, 
+					best.kid.state$perf$values, 
+					alternative="greater",
+					alpha=control$alpha)
+			impove <- (test$p.value < alpha)
+		} 
+		
+		if (improve) {
+			state <- best.kid.state
+		} else {
+			break
 		}
-		return(state)
 #		alpha <- 0.15
 #		test <- wilcox.test(state$perf$values, 
 #				best.kid.state$perf$values, 
@@ -58,13 +70,13 @@ forward.sel <- function(learn.task, resample.desc, ranges=list(), control=sel.co
 
 backward.sel <- function(learn.task, steps=1, resample.desc, ranges=list(), eps=0.001) {
 	is <- learn.task["input.names"]
-	rin <- make.resample.instance(size=nrow(learn.task@data), desc=resample.desc)
+	rin <- make.resample.instance(size=learn.task["size"]), desc=resample.desc)
 	state <- eval.state(learn.task, rin, vars=is)
 
 	while (TRUE) {
 		print("current:")
 		print(state)
-		rin <- make.resample.instance(size=nrow(learn.task@data), desc=resample.desc)
+		rin <- make.resample.instance(size=learn.task["size"], desc=resample.desc)
 		best.kid.state <- NA 
 		for (v in state$vars) {
 			new.vars <- setdiff(state$vars, v)
@@ -86,7 +98,7 @@ backward.sel <- function(learn.task, steps=1, resample.desc, ranges=list(), eps=
 
 eval.state <- function(learn.task, resample.instance, vars) {
 	rf <- resample.fit(learn.task, resample.instance, vars=vars)
-	rp <- resample.performance(learn.task, resample.instance, rf)
+	rp <- resample.performance(learn.task, rf)
 	return(list(vars=vars, perf=rp))
 }
 
