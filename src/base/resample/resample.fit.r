@@ -47,7 +47,7 @@ setGeneric(
 		def = function(learner, task, resampling, parset, vars, type, extract) {
 			if (is.character(learner))
 				learner = new(learner)
-			n = nrow(task["data"])
+			n = task["size"]
 			if (is(resampling, "resample.desc"))
 				resampling = make.resample.instance(resampling, size=n)
 			r = resampling["size"]
@@ -72,8 +72,7 @@ setMethod(
 		signature = signature(learner="wrapped.learner", task="learn.task", resampling="resample.instance", 
 				parset="list", vars="character", type="character", extract="function"),
 		def = function(learner, task, resampling, parset, vars, type, extract) {
-			df <- task@data
-			n <- nrow(df)  
+			n = task["size"]
 			resample.instance <- resampling
 			iters <- resample.instance["iters"]
 			
