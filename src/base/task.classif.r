@@ -73,7 +73,8 @@ setMethod(
 			if (i == "class.nr") {
 				return(length(levels(x["targets"])))
 			}
-			callNextMethod()
+			# otherwise drop gets lost. bug in S4
+			callNextMethod(x,i,j,...,drop=drop)
 		}
 )
 

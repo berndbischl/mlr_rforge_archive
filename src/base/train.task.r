@@ -45,7 +45,7 @@ setGeneric(
 			if (is.character(learner))
 				learner <- new(learner)
 			if (missing(subset))
-				subset <- 1:nrow(task@data)
+				subset <- 1:task["size"]
 			if (missing(parset))
 				parset <- list()
 			if (missing(vars))
@@ -67,7 +67,7 @@ train.task2 <- function(learner, task, subset, parset, vars, extra.train.pars, m
 	wl <- learner
 	tn <- task["target.name"]
 	# reduce data to subset and selected vars
-	data.subset <- task@data[subset, c(vars, tn), drop=FALSE]
+	data.subset <- task["data", subset, select=c(vars, tn), drop=F]
 	ws <- task@weights[subset]
 	
 	logger.debug("mlr train:", wl@learner.name, "with pars:")

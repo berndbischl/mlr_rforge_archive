@@ -45,17 +45,15 @@ setMethod(
 			if(missing(data))
 				return(.Object)					
 			
-			msg = check.task(data=data, target=target)
+			msg = check.task(data, target=target)
 			if (msg != "")
 				stop(msg)
-			.Object@data <- prep.fct(data, target)
+			.Object@data <- prep.fct(data, target, excluded)
 			.Object@weights <- weights
 			.Object@target <- target
-			if (!(target %in% colnames(data))) {
-				stop(paste("Column names of data.frame don't contain target var: ", tn))
-			}
+
 			.Object@excluded <- excluded
-			.Object@data.desc <- make.data.desc(data, target)
+			.Object@data.desc <- make.data.desc(.Object["data"], target)
 			
 			return(.Object)
 		}
@@ -80,6 +78,8 @@ setMethod(
 		f = "[",
 		signature = signature("learn.task"),
 		def = function(x,i,j,...,drop) {
+			args = list(...)
+			argnames = names(args)
 			if (i == "target.name"){
 				return(x@target)
 			}
@@ -93,7 +93,24 @@ setMethod(
 				return(x@data[j, x["target.name"]])
 			}
 			if (i == "input.names"){
-				return(setdiff(colnames(x@data), x["target.name"]))
+				return(setdiff(colnames(x@data), c(x@excluded, x["target.name"])))
+			}
+			
+			if (i == "size"){
+				return(nrow(x@data))
+			}
+			if (i == "data"){
+				if (missing(j))
+					j = 1:nrow(x@data)
+				if ("excluded" %in% argnames)
+					v = colnames(x@data)
+				else 
+					v = setdiff(colnames(x@data), x@excluded)
+				if ("select" %in% argnames)
+					v = args$select
+				if (missing(drop))
+					drop = (length(v) == 1)
+				return(x@data[j, v, drop=drop])				
 			}
 			
 			#if nothing special return slot

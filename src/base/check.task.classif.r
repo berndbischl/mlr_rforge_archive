@@ -1,7 +1,7 @@
 #' @include task.classif.r
 roxygen()
 
-check.task.learner <- function(lt, learner) {
+check.task <- function(lt, learner) {
 	wl <- learner
 	ld <- wl@learner.props
 	data <- lt["data"]
@@ -26,8 +26,8 @@ check.task.learner <- function(lt, learner) {
 	return(list(msg=msg))
 }
 
-check.task.learner.classif <- function(lt, learner) {
-	msg <- check.task.learner(lt, learner)
+check.task.classif <- function(lt, learner) {
+	msg <- check.task(lt, learner)
 
 	ld <- learner@learner.props
 	dd <- lt@data.desc
