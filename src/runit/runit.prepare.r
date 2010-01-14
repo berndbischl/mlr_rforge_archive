@@ -13,7 +13,6 @@ test.prepare <- function(){
 		
 		ints2factors <- prep.data(data = test.dataset, target = "ints",  
 				ints.as.nums = FALSE, ints.as.factors=TRUE, chars.as.factors = TRUE)
-		print(str(ints2factors[,1]))
 		checkTrue(is.factor(ints2factors[,1]))
 		
 		chars2factors <- prep.data(data = test.dataset, target = "chars", 
