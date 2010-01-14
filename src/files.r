@@ -2,6 +2,7 @@ base.files <<- c(
 		"log/log.r",
 #		"base/packagedesc.r",
 		"base/aaa.r",
+		"base/to.string.r",
 		
 		"base/learner.props.r",
 		"base/learner.props.classif.r",
@@ -62,6 +63,8 @@ base.files <<- c(
 		
 		"base/benchmark/benchmark.r",
 		"base/benchmark/benchexp.r",
+		"base/benchmark/benchresult.r",
+		"base/benchmark/bench.add.r",
 		
 		"base/parallel/export.r",
 		"base/parallel/eval.r",
