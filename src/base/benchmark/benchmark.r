@@ -7,9 +7,6 @@ setGeneric(
 			if (is.character(learner)) {
 				learner = new(learner)
 			}
-			if (is(resampling, "resample.desc")) {
-				resampling = make.resample.instance(resampling, nrow(task["data"]))
-			}
 			standardGeneric("benchmark")
 		}
 )

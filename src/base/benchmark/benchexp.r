@@ -15,7 +15,7 @@
 #' 
 #' @note You can also get automatic, internal tuning by using \code{\link{make.tune.wrapper}} with your learner. 
 #' 
-#' @seealso \code{\link{benchmark}}, \code{\link{make.tune.wrapper}} 
+#' @seealso \code{\link{bench.add}}, \code{\link{make.tune.wrapper}} 
 #' @export 
 #' @aliases bench.exp 
 #' @title Bencnmark experiment for multiple learners 
@@ -29,14 +29,17 @@
 #' learners <- c("lda", "qda", svm.tuner)
 #' res <- make.cv.instance(iters=5, size=nrow(iris))
 #' bench.exp(learners, ct, res)
-#'  
-#' @title bench.exp
+  
 
 bench.exp <- function(learners, task, resampling) {
-	if (length(learners) == 1) {
+	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
 	}
 	learners = as.list(learners)
+	if (is(resampling, "resample.desc")) {
+		resampling = make.resample.instance(resampling, task["size"])
+	}
+	
 	bs = matrix(-1, nrow=resampling["iters"], ncol=length(learners))
 	learner.names <- sapply(learners, function(x) { 
 		if(is(x, "character"))
@@ -59,13 +62,6 @@ bench.exp <- function(learners, task, resampling) {
 	}
 	names(tuned) = learner.names
 	names(cms) = learner.names
-	# reduce to non-list for convenience
-	if (length(learners) == 1) {
-		tuned=tuned[[1]] 
-		cms=cms[[1]]
-	}
-	if (is(task, "classif.task"))
-		return(list(perf = bs, tuned.pars=tuned, conf.mat=cms))
-	else
-		return(list(perf = bs, tuned.pars=tuned))
-	}
+
+	return(new("bench.result", perf = bs, tuned.pars=tuned, conf.mats=cms, resampling=resampling))
+}
