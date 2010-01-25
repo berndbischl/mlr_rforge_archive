@@ -19,7 +19,7 @@
 #' data(iris)
 #' ct <- make.classif.task(data=iris, target="Species")
 #' res <- make.cv.instance(size=nrow(iris), iters=3)
-#' fit <- resample.fit("lda", ct, res)
+#' rf <- resample.fit("lda", ct, res)
 #' conf.matrix(ct, rf)
 #' 
 #' @seealso \code{\link[klaR]{errormatrix}}
