@@ -59,6 +59,21 @@ setMethod(
 		}
 )
 
+setMethod(
+		f = "[",
+		signature = signature("wrapped.learner"),
+		def = function(x,i,j,...,drop) {
+			if (i == "short.name"){
+				return(x@learner.name)
+			}
+			return(
+					eval(substitute("@"(x, slot), list(slot=i)))
+			)
+		}
+)
+
+
+
 #' Conversion to string.
 setMethod(
 		f = "to.string",
