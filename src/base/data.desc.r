@@ -24,6 +24,8 @@ setClass(
 				is.classification = "logical",	 
 				class.nr = "integer",
 				has.missing = "logical",
+				rows.with.missings = "integer",
+				cols.with.missings = "integer",
 				numerics = "integer",
 				integers = "integer",
 				factors = "integer",
@@ -45,7 +47,10 @@ setMethod(
 	  .Object@is.classification <- is.factor(data[, col]) 
 	  .Object@class.nr <- length(levels(data[, col]))
       .Object@has.missing <- any(sapply(data, is.na))
-      .Object@numerics <- sum(sapply(df2, is.numeric))
+	  .Object@rows.with.missings <- sum(apply(df2, 1, function(x) any(is.na(x))))
+	  .Object@cols.with.missings <- sum(apply(df2, 2, function(x) any(is.na(x))))
+	  .Object@has.missing <- any(sapply(data, is.na))
+	  .Object@numerics <- sum(sapply(df2, is.numeric))
       .Object@integers <- sum(sapply(df2, is.integer))
       .Object@factors <- sum(sapply(df2, is.factor))
       .Object@characters <- sum(sapply(df2, is.character))
@@ -80,10 +85,10 @@ setMethod(
 		def = function(x) {
 			return(
 					paste( 
-							ifelse(x@is.classification, paste("Classes:", x@class.nr, "\n"), ""),
 							"Features Nums:", x@numerics, " Ints:", x@integers, " Factors:", x@factors, " Chars:", x@characters, "\n",
 							"Observations: ", x@obs , "\n",
 							"Missings: ", x@has.missing, "\n", 
+							ifelse(x@has.missing, paste("in", x@rows.with.missings, "observations and", x@cols.with.missings, "features\n"), ""), 
 							sep=""
 					)
 			)
