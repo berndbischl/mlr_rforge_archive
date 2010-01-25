@@ -29,14 +29,16 @@ roxygen()
 #' 		\item{\code{\linkS4class{kernlab.svm.classif}}}{ Support Vector Machines from kernlab package}  
 #' }
 #' 
+#' @param name [\code{\link{character}}] \cr
+#'   	  Name of task / data set to be used string representations later on. Default is empty string.
+#' @param data [\code{\link{data.frame}}] \cr 	
+#'        A data frame containing the variables in the model.
 #' @param target [\code{\link{character}}] \cr
 #'  	  Name of the target variable.
 #' @param formula [\code{\link{formula}}] \cr
 #'        Instead of specifying the target, you can use the formula interface. 
 #'        If you are using just a subset of the variables of transformations of the variables, this will built a new internal 
 #'        data frame by calling \code{\link{model.frame}}.
-#' @param data [\code{\link{data.frame}}] \cr 	
-#'        A data frame containing the variables in the model.
 #' @param excluded [\code{\link{character}}]
 #'        Names of inputs, which should be generally disregarded, e.g. IDs, etc. Default is zero-length vector. 
 #' @param weights [\code{\link{numeric}}] \cr 	
@@ -53,7 +55,7 @@ roxygen()
 #' @export
 #' @rdname make.classif.task
 #' 
-#' @usage make.classif.task(target, formula, data, weights, costs, type)
+#' @usage make.classif.task(name, data, target, formula, excluded, weights, costs, type)
 #'
 #' @examples
 #' data(iris) 
@@ -67,12 +69,13 @@ roxygen()
 
 setGeneric(
 		name = "make.classif.task",
-		def = function(target, formula, data, excluded, weights, costs, type) {
+		def = function(name, data, target, formula, excluded, weights, costs, type) {
 #			if (is.character(learner))
 #				learner <- new(learner)
 #			if (!is(learner, "wrapped.learner.classif"))
 #				stop("Trying to constuct a classif.task from a non classification learner: ", class(learner))
-			
+			if(missing(name))
+				name=""
 			if (missing(excluded))
 				excluded = character(0)
 			if (missing(weights))
@@ -93,17 +96,18 @@ setGeneric(
 setMethod(
 		f = "make.classif.task",
 		signature = signature(
+				name = "character",
+				data = "data.frame", 
 				target = "character",
 				formula = "missing",
-				data = "data.frame", 
 				excluded = "character",
 				weights = "numeric", 
 				costs = "matrix", 
 				type = "character"
-		),
+			),
 		
-		def = function(target, data, excluded, weights, costs, type) {
-			ct <- new("classif.task", target=target, data=data, excluded=excluded, weights=weights, costs=costs, type=type)
+		def = function(name, data, target, excluded, weights, costs, type) {
+			ct <- new("classif.task", name=name, target=target, data=data, excluded=excluded, weights=weights, costs=costs, type=type)
 			return(ct)
 		}
 )
@@ -113,19 +117,20 @@ setMethod(
 setMethod(
 		f = "make.classif.task",
 		signature = signature(
+				name = "character",
+				data = "data.frame", 
 				target = "missing",
 				formula = "formula",
-				data = "data.frame", 
 				excluded = "character",
 				weights = "numeric", 
 				costs = "matrix", 
 				type = "character"
 		),
 		
-		def = function(formula, data, excluded, weights, costs, type) {
+		def = function(name, data, formula, excluded, weights, costs, type) {
 			data2 <- model.frame(formula, data=data)
 			target <- as.character(formula)[2]
-			ct <- new("classif.task", target=target, data=data2, excluded, weights=weights, costs=costs, type=type)
+			ct <- new("classif.task", name=name, target=target, data=data2, excluded, weights=weights, costs=costs, type=type)
 			return(ct)
 		}
 )

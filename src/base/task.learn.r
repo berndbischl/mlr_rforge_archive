@@ -6,6 +6,7 @@ roxygen()
 #' the target variable, the loss function and other details of the problem. As this is just an abstract base class, 
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
 #' 
+#' @slot name Name of task / data set to be used string representations later on.
 #' @slot data Dataframe which includes all the data for the task.
 #' @slot target Name of the target variable.
 #' @slot excluded Names of inputs, which should be generally disregarded, e.g. IDs, etc.
@@ -21,6 +22,7 @@ roxygen()
 setClass(
 		"learn.task",
 		representation = representation(
+				name = "character",
 				data = "data.frame",
 				target = "character",
 				excluded = "character",
@@ -38,7 +40,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, data, target, excluded, weights, prep.fct) {
+		def = function(.Object, name, data, target, excluded, weights, prep.fct) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
@@ -48,6 +50,7 @@ setMethod(
 			msg = check.task(data, target=target)
 			if (msg != "")
 				stop(msg)
+			.Object@name <- name
 			.Object@data <- prep.fct(data, target, excluded)
 			.Object@weights <- weights
 			.Object@target <- target

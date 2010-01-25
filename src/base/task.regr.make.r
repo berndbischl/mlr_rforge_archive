@@ -24,6 +24,8 @@ roxygen()
 #' 		\item{\code{\linkS4class{blackboost.regr}}}{ Gradient boosting with regression trees from mboost package}
 #' }
 #' 
+#' @param name [\code{\link{character}}] \cr
+#'   	  Name of task / data set to be used string representations later on. Default is empty string.
 #' @param target [\code{\link{character}}] \cr
 #'        Name of the target variable.
 #' @param formula [\code{\link{formula}}] \cr
@@ -42,7 +44,7 @@ roxygen()
 #' @export
 #' @rdname make.regr.task
 #' 
-#' @usage make.regr.task(target, formula, data, weights)
+#' @usage make.regr.task(name, target, formula, data, excluded, weights)
 #'
 #' @examples
 #' library(mlbench)
@@ -57,11 +59,13 @@ roxygen()
 
 setGeneric(
 		name = "make.regr.task",
-		def = function(target, formula, data, excluded, weights) {
+		def = function(name, data, target, formula, excluded, weights) {
 #			if (is.character(learner))
 #				learner <- new(learner)
 #			if (!is(learner, "wrapped.learner.regr"))
 #				stop("Trying to constuct a regr.task from a non regression learner: ", class(learner))
+			if(missing(name))
+				name=""
 			if (missing(excluded))
 				excluded <- character(0)
 			if (missing(weights))
@@ -76,15 +80,16 @@ setGeneric(
 setMethod(
 		f = "make.regr.task",
 		signature = signature(
+				name = "character",
+				data = "data.frame", 
 				target = "character",
 				formula = "missing",
-				data = "data.frame", 
 				excluded = "character",
 				weights = "numeric" 
 		),
 		
-		def = function(target, data, excluded, weights) {
-			ct <- new("regr.task", target=target, data=data, excluded=excluded, weights=weights)
+		def = function(name, data, target, excluded, weights) {
+			ct <- new("regr.task", name=name, target=target, data=data, excluded=excluded, weights=weights)
 			return(ct)
 		}
 )
@@ -102,10 +107,10 @@ setMethod(
 				weights = "numeric" 
 		),
 		
-		def = function(formula, data, excluded, weights) {
+		def = function(name, data, formula, excluded, weights) {
 			data2 <- model.frame(formula, data=data)
 			target <- as.character(formula)[2]
-			ct <- new("regr.task", target=target, data=data2, excluded=excluded, weights=weights)
+			ct <- new("regr.task", name=name, target=target, data=data2, excluded=excluded, weights=weights)
 			return(ct)
 		}
 )

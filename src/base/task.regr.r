@@ -24,11 +24,11 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.task"),
-		def = function(.Object, data, weights=rep(1, nrow(data)), target, excluded) {
+		def = function(.Object, name, data, weights=rep(1, nrow(data)), target, excluded) {
 				
 			if (missing(data))
 				return(.Object)
-			callNextMethod(.Object, data=data, weights=weights,	target=target, excluded=excluded, prep.fct=prep.regr.data)
+			callNextMethod(.Object, name=name, data=data, weights=weights,	target=target, excluded=excluded, prep.fct=prep.regr.data)
 		}
 )
 
@@ -39,7 +39,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Regression problem\n",
+							"Regression problem ", x@name, "\n",
 							to.string(x@data.desc), "\n",
 							sep=""
 					)
