@@ -7,6 +7,9 @@
 #' @slot is.classification Is the target variable categorical?
 #' @slot class.nr Does the dataset have missing values?
 #' @slot has.missing Does the dataset have missing values?
+#' @slot rows.with.missings Number of rows with NAs
+#' @slot cols.with.missings Number of columns with NAs
+#' @slot has.missing Does the dataset have missing values?
 #' @slot numerics Does the dataset have numeric variables?
 #' @slot integers Does the dataset have integer variables?
 #' @slot factors Does the dataset have factor variables?
