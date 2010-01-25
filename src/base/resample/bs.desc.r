@@ -21,8 +21,7 @@ setMethod(
 		}
 )
 
-#' Generates a description object for a bootstrap. Usually only needed in \code{\link{benchmark}} 
-#' to describe the inner resampling.
+#' Generates a description object for a bootstrap. 
 #' 
 #' @param size [\code{\link{integer}}] \cr 
 #'        Size of the data set to resample.
@@ -31,8 +30,8 @@ setMethod(
 #' 
 #' @return A \code{\linkS4class{bs.desc}} object.
 #' @export 
-#' @seealso \code{\linkS4class{bs.desc}}, \code{\link{benchmark}}
-#' @title make.bs.desc
+#' @seealso \code{\linkS4class{bs.desc}}
+#' @title Construct bootstrap description
 make.bs.desc = function(size, iters) {
 	return(new("bs.desc", iters=iters))
 }

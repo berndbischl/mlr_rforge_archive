@@ -22,8 +22,7 @@ setMethod(
 )
 
 
-#' Generates a description object for a cross-validation. Usually only needed in \code{\link{benchmark}} 
-#' to describe the inner resampling - e.g. for a double cross-validation.
+#' Generates a description object for a cross-validation. 
 #' 
 #' @param size [\code{\link{integer}}] \cr 
 #'        Size of the data set to resample.
@@ -32,8 +31,8 @@ setMethod(
 #' 
 #' @return A \code{\linkS4class{cv.desc}} object.
 #' @export 
-#' @seealso \code{\linkS4class{cv.desc}}, \code{\link{benchmark}}
-#' @title make.cv.desc
+#' @seealso \code{\linkS4class{cv.desc}}
+#' @title Construct cross-validation description
 make.cv.desc = function(size, iters) {
 	return(new("cv.desc", iters=iters))
 }

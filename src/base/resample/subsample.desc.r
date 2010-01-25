@@ -25,8 +25,7 @@ setMethod(
 		}
 )
 
-#' Generates a description object for subsampling. Usually only needed in \code{\link{benchmark}} 
-#' to describe the inner resampling.
+#' Generates a description object for subsampling. 
 #' 
 #' @param size [\code{\link{integer}}] \cr
 #'        Size of the data set to resample.
@@ -37,8 +36,8 @@ setMethod(
 #' 
 #' @return A \code{\linkS4class{subsample.desc}} object.
 #' @export 
-#' @seealso \code{\linkS4class{subsample.desc}}, \code{\link{benchmark}}
-#' @title make.subsample.desc
+#' @seealso \code{\linkS4class{subsample.desc}}
+#' @title Construct subsampling description
 make.subsample.desc = function(size, split=2/3, iters) {
 	return(new("subsample.desc", split=split, iters=iters))
 }

@@ -35,7 +35,7 @@ setMethod(
 
 setGeneric(
 	name = "make.cv.instance",
-	def = function(size, iters) {
+	def = function(task, iters) {
 		standardGeneric("make.cv.instance")
 	}
 )
@@ -61,10 +61,10 @@ setGeneric(
 
 setMethod(
 		f = "make.cv.instance",
-		signature = c(size="numeric", iters="numeric"),
-		def = function(size, iters) {
+		signature = c(task="learn.task", iters="numeric"),
+		def = function(task, iters) {
 			desc <- new("cv.desc", iters=iters)
-			return(new("cv.instance", desc=desc, size=size))
+			return(new("cv.instance", desc=desc, size=task["size"]))
 		}
 )
 
