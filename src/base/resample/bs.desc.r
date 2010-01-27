@@ -21,18 +21,4 @@ setMethod(
 		}
 )
 
-#' Generates a description object for a bootstrap. 
-#' 
-#' @param size [\code{\link{integer}}] \cr 
-#'        Size of the data set to resample.
-#' @param iters [\code{\link{integer}}] \cr 
-#'              Number of generated subsets / resampling iterations.
-#' 
-#' @return A \code{\linkS4class{bs.desc}} object.
-#' @export 
-#' @seealso \code{\linkS4class{bs.desc}}
-#' @title Construct bootstrap description
-make.bs.desc = function(size, iters) {
-	return(new("bs.desc", iters=iters))
-}
 

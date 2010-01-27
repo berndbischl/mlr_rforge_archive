@@ -33,38 +33,3 @@ setMethod(
 )
 
 
-setGeneric(
-	name = "make.cv.instance",
-	def = function(task, iters) {
-		standardGeneric("make.cv.instance")
-	}
-)
-
-#' \code{make.cv.instance} generates a \code{\linkS4class{cv.instance}} object, which encapsulates the generated indices of training and test sets.
-#' 
-#' @param size [integer] \cr Size of the data set to resample. 
-#' @param iters [integer] \cr Number of generated subsets / resampling iterations.
-#' 
-#' @return A \code{\linkS4class{cv.instance}} object, which encapsulates the generated indices of training and test sets.
-#' 
-#' @export
-#' @rdname make.cv.instance 
-#' 
-#' @usage make.cv.instance(size, iters)
-#' 
-#' @examples 
-#' data(iris)
-#' rin <- make.cv.instance(size=nrow(iris), iters=10)
-#' 
-#' @seealso \code{\link{resample.fit}}, \code{\linkS4class{cv.instance}}
-#' @title make.cv.instance
-
-setMethod(
-		f = "make.cv.instance",
-		signature = c(task="learn.task", iters="numeric"),
-		def = function(task, iters) {
-			desc <- new("cv.desc", iters=iters)
-			return(new("cv.instance", desc=desc, size=task["size"]))
-		}
-)
-

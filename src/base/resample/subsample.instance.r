@@ -23,53 +23,10 @@ setMethod(
 		f = "initialize",
 		signature = signature("subsample.instance"),
 		def = function(.Object, desc, size) {
+			if (missing(desc))
+				return(.Object)
 			inds <- lapply(1:desc["iters"], function(x) sample(1:size, size*desc["split"]))
 			callNextMethod(.Object, desc=desc, size=size, inds=inds)
 		}
 )
 
-
-setGeneric(
-		name = "make.subsample.instance",
-		def = function(size, split, iters) {
-			if (missing(split))
-				split = 2/3
-			if (missing(iters))
-				iters = 1
-			standardGeneric("make.subsample.instance")
-		}
-)
-
-#' \code{make.subsample.instance} generates a \code{\linkS4class{subsample.instance}} object, which encapsulates the generated indices of training and test sets. 
-#' 
-#' @param size [integer] \cr Size of the data set to resample.
-#' @param split [numeric] \cr Proportion of data used for training set. 
-#' @param iters [integer] \cr Number of generated subsets / resampling iterations.
-#' 
-#' @return A \code{\linkS4class{subsample.instance}} object, which encapsulates the generated indices of training and test sets.
-#' 
-#' @export
-#' @rdname make.subsample.instance 
-#' 
-#' @usage make.subsample.instance(size, split, iters)
-#' 
-#' @examples 
-#' data(iris)
-#' # split is the training set percentage
-#' rin <- make.subsample.instance(size=nrow(iris), split=2/3, iters=10)
-#' # holdout
-#' rin <- make.subsample.instance(size=nrow(iris), split=2/3, iters=1)
-#' 
-#' @seealso \code{\link{resample.fit}}, \code{\linkS4class{subsample.instance}}
-#' 
-#' @title make.subsample.instance
-
-
-setMethod(
-		f = "make.subsample.instance",
-		signature = c(size="numeric", split="numeric", iters="numeric"),
-		def = function(size, split, iters) {
-			desc <- new("subsample.desc", iters=iters, split=split)
-			return(new("subsample.instance", desc=desc, size=size))
-		}
-)
