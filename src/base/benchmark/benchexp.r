@@ -31,37 +31,53 @@
 #' bench.exp(learners, ct, res)
   
 
-bench.exp <- function(learners, task, resampling) {
+bench.exp <- function(learners, tasks, resampling) {
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
 	}
+	if (!is.list(tasks)) {
+		tasks = list(tasks)
+	}
 	learners = as.list(learners)
-	if (is(resampling, "resample.desc")) {
-		resampling = make.resample.instance(resampling, task["size"])
-	}
+	n = length(learners)
+	#bs = array(-1, nrow=resampling["iters"], ncol=n)
+	## add dim for every loss ?? hmm, those are not always the same size...
+	dims = c(resampling["iters"], n, 1, length(tasks))
+	bs = array(dim = dims)
 	
-	bs = matrix(-1, nrow=resampling["iters"], ncol=length(learners))
-	learner.names <- sapply(learners, function(x) { 
-		if(is(x, "character"))
-			return(x)
-		if(is(x, "tune.wrapper"))
-			x = x@base.learner
-		return(class(x))
-	})
-	colnames(bs) = learner.names
-	tuned = as.list(rep(NA, length(learners)))
-	cms = as.list(rep(NA, length(learners)))
-	for (i in 1:length(learners)) {
-		wl = learners[[i]]
-		bm = benchmark(wl, task, resampling)
-		bs[,i] = bm$result$test.perf
-		if (is(wl, "tune.wrapper"))
-			tuned[[i]] = bm$result
-		if (is(task, "classif.task"))
-			cms[[i]] = bm$conf
+	learner.names = character()
+	task.names = sapply(tasks, function(x) x["name"])	
+	resamplings = list()
+	tuned = list()
+	cms = list()
+	for (j in 1:length(tasks)) {
+		task = tasks[[j]]
+		if (is(resampling, "resample.desc")) {
+			resamplings[[j]] = make.resample.instance(resampling, task["size"])
+		}
+		tuned[[j]] = as.list(rep(NA, n))
+		cms[[j]] = as.list(rep(NA, n))
+		for (i in 1:length(learners)) {
+			wl = learners[[i]]
+			if (is.character(wl))
+				wl = make.learner(wl)
+			learner.names[i] = wl["short.name"]
+			bm = benchmark(wl, task, resamplings[[j]])
+			bs[,i,1,j] = bm$result$test.perf
+			if (is(wl, "tune.wrapper"))
+				tuned[[j]][[i]] = bm$result
+			if (is(task, "classif.task"))
+				cms[[j]][[i]] = bm$conf
+			else
+				cms[[j]][[i]] = NA
+		}
+		names(tuned[[j]]) = learner.names
+		names(cms[[j]]) = learner.names
+		
 	}
-	names(tuned) = learner.names
-	names(cms) = learner.names
-
-	return(new("bench.result", perf = bs, tuned.pars=tuned, conf.mats=cms, resampling=resampling))
+	dimnames(bs) = list(1:resampling["iters"], learner.names, NULL, task.names)
+	names(tuned) = task.names
+	names(cms) = task.names
+	
+	return(new("bench.result", perf = bs, tuned.pars=tuned, conf.mats=cms, resamplings=resamplings))
 }

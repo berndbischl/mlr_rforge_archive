@@ -2,10 +2,10 @@
 setClass(
 		"bench.result",                                                     
 		representation = representation(
-				perf = "matrix", 
+				perf = "array", 
 				tuned.pars = "list", 
 				conf.mats = "list",
-				resampling = "resample.instance"
+				resamplings = "list"
 		)
 )
 
@@ -30,11 +30,11 @@ setMethod(
 		f = "[",
 		signature = signature("bench.result"),
 		def = function(x,i,j,...,drop) {
-			if (i == "perf"){
-				if (missing(j))
-					j = 1:ncol(perf)
-				return(x@perf[,j])
-			}
+#			if (i == "perf"){
+#				if (missing(j))
+#					j = 1:ncol(perf)
+#				return(x@perf[,j])
+#			}
 			if (i == "tuned.pars"){
 				if (missing(j))
 					j = 1:ncol(x@perf)
@@ -69,7 +69,8 @@ setMethod(
 		f = "to.string",
 		signature = signature("bench.result"),
 		def = function(x) {
-			ms = paste(capture.output(colMeans(x@perf)), collapse="\n")
+			ms = apply(x@perf, c(2,4), mean)
+			ms = paste(capture.output(ms), collapse="\n")
 			return(
 					
 					paste( 
