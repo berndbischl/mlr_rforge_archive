@@ -1,19 +1,18 @@
 test.predict <- function() {
 	
+	inds = multiclass.train.inds
 	data = multiclass.df
 	formula = multiclass.formula
-	inds <- multiclass.train.inds
 	
-	ct2 <- make.classif.task(data=data, formula=formula)
-	cm2 <- train("lda", ct2, subset=inds)
+	
+	cm2 <- train("lda", multiclass.task, subset=inds)
 	cp2 <- predict(cm2, newdata=data[inds,])
 	ext2 <- lda(formula, data=data[inds,])
 	pred2 <- predict(ext2,newdata=data[inds,])$class
 	
 	checkEquals(cp2, pred2)
 	
-	ct3 <- make.classif.task(data=data, formula=formula)
-	cm3 <- train("lda", ct2, subset=inds)
+	cm3 <- train("lda", multiclass.task, subset=inds)
 	cp3 <- predict(cm2, newdata=data[-inds,])
 	ext3 <- lda(formula, data=data[inds,])
 	pred3 <- predict(ext2,newdata=data[-inds,])$class

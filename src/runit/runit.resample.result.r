@@ -1,9 +1,9 @@
 
 
 test.resample.result = function() {
-	rin1 <- make.bs.instance(size=nrow(multiclass.df), iters=4)
-	rin2 <- make.cv.instance(size=nrow(multiclass.df), iters=7)
-	rin3 <- make.subsample.instance(size=nrow(multiclass.df), iters=2)
+	rin1 <- make.res.instance("bs", multiclass.task, iters=4)
+	rin2 <- make.res.instance("cv", multiclass.task, iters=7)
+	rin3 <- make.res.instance("subsample", multiclass.task, iters=2)
 	
 	ct <- make.classif.task(data=multiclass.df, formula=multiclass.formula)
 	

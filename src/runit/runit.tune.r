@@ -1,20 +1,17 @@
 test.tune <- function() {
 	
 	
-	data <- multiclass.df
-	formula <- multiclass.formula
 	cp <- c(0.05, 0.9)
 	minsplit <- c(1:3)
 	ranges <- list(cp = cp, minsplit=minsplit)
 	folds = 3
 	
-	tr <- tune.rpart(formula=formula, data=data, cp=cp, minsplit=minsplit,
+	tr <- tune.rpart(formula=multiclass.formula, data=multiclass.df, cp=cp, minsplit=minsplit,
 			tunecontrol = tune.control(sampling = "cross", cross = folds))  
 	
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
-	ct <- make.classif.task(data=data, formula=formula)
-	tr2 <- tune("rpart.classif", ct, cv.instance, method="grid", control=grid.control(ranges=ranges))
+	tr2 <- tune("rpart.classif", multiclass.task, cv.instance, method="grid", control=grid.control(ranges=ranges))
 	
 	for(i in 1:nrow(tr$performances)) {
 		cp <- tr$performances[i,"cp"]
@@ -26,8 +23,8 @@ test.tune <- function() {
 	
 	# check pattern search
 	control = ps.control(start=list(C=0, sigma=0))
-	tr3 <- tune("kernlab.svm.classif", ct, cv.instance, method="pattern", control=control, scale=function(x)10^x)
-	print(tr3)
+	tr3 <- tune("kernlab.svm.classif", multiclass.task, cv.instance, method="pattern", control=control, scale=function(x)10^x)
+#	print(tr3)
 	
 #  rpart.learn.task <- new("t.rpart", data=data, formula=formula)
 #  rpart.tuned <- tune.cv(rpart.learn.task, cv.instance, ranges)

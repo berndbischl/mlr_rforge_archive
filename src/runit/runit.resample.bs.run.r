@@ -1,6 +1,6 @@
 
 test.bs.instance = function() {
-  rin <- make.bs.instance(size=25, iters=3)
+  rin <- make.res.instance("bs", size=25, iters=3)
   
   iters <- rin["iters"]
   checkEquals(iters, 3)

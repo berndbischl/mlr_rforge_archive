@@ -38,11 +38,10 @@ test.ridge <- function() {
 	#extra cv test	
 	folds=5
 	cvl.res <- cvl(regr.formula, data=regr.df, lambda2=0.3, fold=folds)
-	cv.i <- make.cv.instance(size=nrow(regr.df), iters=folds)
+	cv.i <- make.res.instance("cv", regr.task, iters=folds)
 	for (i in 1:folds)
 		cv.i@inds[[i]] <- setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
-	ct <- make.regr.task(formula=regr.formula, data=regr.df)
-	rf <- resample.fit("penalized.ridge", ct, cv.i, parset=list(lambda=0.3))
+	rf <- resample.fit("penalized.ridge", regr.task, cv.i, parset=list(lambda=0.3))
 	for (i in 1:folds) {
 		test.i <- cv.i["test.inds", i]
 		rf.p <- rf@preds[[i]]

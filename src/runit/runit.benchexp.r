@@ -1,22 +1,19 @@
 test.benchexp <- function() {
 	
-	outer = make.cv.desc(iters=2)
-	inner = make.cv.desc(iters=2)
-	
-	ct = make.classif.task(data=multiclass.df, target=multiclass.target)
+	outer = make.res.desc("cv", iters=2)
+	inner = make.res.desc("cv", iters=2)
 	
 	r = list(minsplit=seq(3,10,2))
 	rpart.tuner = make.tune.wrapper("rpart.classif", resampling=inner, control=grid.control(ranges=r))
 	learners = list("lda", rpart.tuner)
 
-	bench.exp("lda", ct, resampling=outer)
+	bench.exp("lda", multiclass.task, resampling=outer)
 	wl = make.learner("lda")
-	be = bench.exp(wl, ct, resampling=outer)
-	be = bench.exp(rpart.tuner, ct, resampling=outer)
-	be = bench.exp(learners, ct, resampling=outer)
+	be = bench.exp(wl,  multiclass.task, resampling=outer)
+	be = bench.exp(rpart.tuner,  multiclass.task, resampling=outer)
+	be = bench.exp(learners, multiclass.task, resampling=outer)
 	print(be)	
 	
-	rt = make.regr.task(data=regr.df, target=regr.target)
-	be = bench.exp("stats.lm", rt, resampling=outer)
+	be = bench.exp("stats.lm", regr.task, resampling=outer)
 	print(be)
 }

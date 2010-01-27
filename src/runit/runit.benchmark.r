@@ -2,7 +2,7 @@ test.benchmark <- function() {
 	
 
 	ct <- make.classif.task(data=iris, target="Species")
-	outer <- make.cv.instance(size=nrow(iris), iters=5) 
+	outer <- make.res.instance("cv", ct, iters=5) 
 	inner <- new("cv.desc", iters=3)
 	
 	# check empty ranges 

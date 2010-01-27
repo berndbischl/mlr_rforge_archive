@@ -7,7 +7,7 @@ e1071.cv.to.mlr.cv <- function(e1071.tune.result) {
   size <- max(melt.list(inds)$value)
   folds <- length(inds)
 
-  cv.instance <- make.cv.instance(size=size, iters=folds)
+  cv.instance <- make.res.instance("cv", size=size, iters=folds)
 
   for (i in 1:folds)
     cv.instance@inds[[i]] = inds[[i]]
@@ -23,7 +23,7 @@ e1071.bs.to.mlr.bs <- function(e1071.tune.result) {
   size <- length(inds[[1]])
   iters <- length(inds)
   
-  bs.instance <- make.bs.instance(size=size, iters=iters)
+  bs.instance <- make.res.instance("bs", size=size, iters=iters)
 
   for (i in 1:iters)
 	bs.instance@inds[[i]] = inds[[i]]

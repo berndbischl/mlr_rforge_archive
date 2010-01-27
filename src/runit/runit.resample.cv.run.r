@@ -1,6 +1,6 @@
 
 test.cv.instance = function() {
-  rin <- make.cv.instance(size=25, iters=3)
+  rin <- make.res.instance("cv", size=25, iters=3)
 
   folds <- rin["iters"]
   checkEquals(folds, 3)

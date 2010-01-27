@@ -1,10 +1,9 @@
 test.tostring <- function() {
 
 	ct <- make.classif.task(data=binaryclass.df, target=binaryclass.target)
-	to.string(ct)
+	to.string(binaryclass.task)
 	
-	rt <- make.regr.task(data=regr.df, target=regr.target)
-	to.string(rt)
+	to.string(regr.task)
 	
 	wl = make.learner("lda")
 	to.string(wl)
