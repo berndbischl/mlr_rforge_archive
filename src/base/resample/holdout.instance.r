@@ -1,4 +1,4 @@
-#' @include resample.instance.r
+#' @include subsample.instance.r
 #' @include holdout.desc.r
 roxygen()
 

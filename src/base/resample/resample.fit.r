@@ -1,4 +1,11 @@
 #' @include resample.instance.r
+roxygen()
+#' @include resample.instance.make.r
+roxygen()
+#' @include resample.desc.r
+roxygen()
+#' @include resample.desc.make.r
+roxygen()
 #' @include resample.result.r
 roxygen()
 
@@ -35,7 +42,7 @@ roxygen()
 #'
 #' @examples
 #' ct <- make.classif.task(data=iris, target="Species")
-#' res <- make.cv.instance(iters=3, size=nrow(iris))
+#' res <- make.res.instance(task=ct, iters=3)
 #' f1 <- resample.fit("rpart.classif", ct, res)	
 #' f2 <- resample.fit("rpart.classif", ct, res, parset=list(minsplit=10, cp=0.03))
 #'  
@@ -49,7 +56,7 @@ setGeneric(
 				learner = new(learner)
 			n = task["size"]
 			if (is(resampling, "resample.desc"))
-				resampling = make.resample.instance(resampling, size=n)
+				resampling = new(resampling@instance.class, resampling, size=n)
 			r = resampling["size"]
 			if (n != r)
 				stop(paste("Size of data set:", n, "and resampling instance:", r, "differ!"))

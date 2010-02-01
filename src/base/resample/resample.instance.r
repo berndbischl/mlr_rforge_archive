@@ -5,8 +5,8 @@ roxygen()
 #' This class encapsulates training and test sets generated from the data set for a number of iterations. 
 #' It mainly stores a set of integer vectors indicating the training examples for each iteration.
 #' Don't create objects from this class directly but use the corresponding subclasses.
-#' For construction simply use the factory methods of the subclasses - e.g. for cross-validation 
-#' use \code{\link{make.cv.instance}} to get a \code{\linkS4class{cv.instance}}.  
+#' For construction simply use the factory method \code{\link{make.res.instance}} 
+#' to get a \code{\linkS4class{cv.instance}}.  
 #' 
 #' @slot desc Description object for resampling strategy
 #' @slot size Number of observations in data
@@ -14,7 +14,7 @@ roxygen()
 #' 
 #' @note If you want to add another resampling strategy, have a look at the web documentation. 
 #' @exportClass resample.instance
-#' @seealso \code{\linkS4class{resample.desc}}, \code{\link{make.cv.instance}}, \code{\link{make.bs.instance}}, \code{\link{make.subsample.instance}}, \code{\link{resample.fit}} 
+#' @seealso \code{\linkS4class{resample.desc}}, \code{\link{make.res.instance}}, \code{\link{resample.fit}} 
 #' @title resample.instance
 
 

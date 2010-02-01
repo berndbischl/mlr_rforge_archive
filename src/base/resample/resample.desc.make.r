@@ -12,7 +12,6 @@
 #' 
 #' @return A \code{\linkS4class{subsample.desc}} object.
 #' @export 
-#' @seealso \code{\linkS4class{subsample.desc}}
 #' @title Construct subsampling description
 
 

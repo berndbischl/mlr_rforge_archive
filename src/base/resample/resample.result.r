@@ -11,8 +11,8 @@ roxygen()
 #' 
 #' @exportClass resample.result
 #' @seealso \code{\linkS4class{resample.desc}}, \code{\linkS4class{resample.instance}}, 
-#' 			\code{\link{make.cv.instance}}, \code{\link{make.bs.instance}}, 
-#' 			\code{\link{make.subsample.instance}}, \code{\link{resample.fit}}
+#' 			\code{\link{make.res.instance}},  
+#' 			\code{\link{resample.fit}}
 #' @title resample.result
 
 setClass(

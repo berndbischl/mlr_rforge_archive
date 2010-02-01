@@ -1,4 +1,4 @@
-#' @include resample.desc.r
+#' @include subsample.desc.r
 roxygen()
 
 

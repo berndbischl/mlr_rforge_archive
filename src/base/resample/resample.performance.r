@@ -50,7 +50,7 @@ setGeneric(
 #' # define a regression task for the Boston Housing problem with a simple linear modell
 #' rt <- make.regr.task(data=BostonHousing, target="medv")
 #' # do 3-fold crossvalidation
-#' cv.i <- make.cv.instance(size=nrow(BostonHousing), iters=3) 
+#' cv.i <- make.res.instance(rt, iters=3) 
 #' rf <- resample.fit("stats.lm", rt, cv.i)
 #' # mean squared error 
 #' resample.performance(rt, rf)

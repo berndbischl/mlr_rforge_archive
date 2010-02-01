@@ -4,7 +4,7 @@ roxygen()
 #' Description class for cross-validation.
 #' @exportClass cv.desc
 #' @title cv.desc
-#' @seealso \code{\link{make.cv.desc}}
+#' @seealso \code{\link{make.res.desc}}
 
 setClass("cv.desc", 
 		contains = c("resample.desc")
