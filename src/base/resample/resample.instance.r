@@ -54,12 +54,12 @@ setMethod(
 
 
 
-setGeneric(
-		name = "make.resample.instance",
-		def = function(desc, size) {
-			standardGeneric("make.resample.instance")
-		}
-)
+#setGeneric(
+#		name = "make.resample.instance",
+#		def = function(desc, size) {
+#			standardGeneric("make.resample.instance")
+#		}
+#)
 
 
 

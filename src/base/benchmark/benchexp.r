@@ -11,7 +11,7 @@
 #' 
 #' @return A matrix of test error. Columns correspond to learners, row to the iteration of the resampling strategy.
 #' 
-#' @usage bench.exp(learners, task, resampling)
+#' @usage bench.exp(learners, tasks, resampling)
 #' 
 #' @note You can also get automatic, internal tuning by using \code{\link{make.tune.wrapper}} with your learner. 
 #' 

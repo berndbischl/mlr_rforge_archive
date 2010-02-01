@@ -5,7 +5,7 @@ roxygen()
 #' Description class for subsampling.
 #' @exportClass subsample.desc
 #' @title subsample.desc
-#' @seealso \code{\link{make.subsample.desc}}
+#' @seealso \code{\link{make.res.desc}}
 setClass("subsample.desc", 
 		contains = c("resample.desc"),
 		representation = representation(split = "numeric")

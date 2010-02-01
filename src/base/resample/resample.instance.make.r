@@ -13,6 +13,7 @@
 #' 
 #' @return A \code{\linkS4class{resample.instance}} object.
 #' @export 
+#' @rdname make.res.instance
 #' @title Construct resampling instance
 
 setGeneric(

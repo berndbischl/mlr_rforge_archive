@@ -4,7 +4,7 @@ roxygen()
 #' Description class for bootstrapping.
 #' @exportClass bs.desc
 #' @title bs.desc
-#' @seealso \code{\link{make.bs.desc}}
+#' @seealso \code{\link{make.res.desc}}
 setClass("bs.desc", 
 		contains = c("resample.desc")
 )                                                     

@@ -42,7 +42,7 @@ roxygen()
 #'
 #' @examples
 #' ct <- make.classif.task(data=iris, target="Species")
-#' res <- make.res.instance(task=ct, iters=3)
+#' res <- make.res.instance("cv", task=ct, iters=3)
 #' f1 <- resample.fit("rpart.classif", ct, res)	
 #' f2 <- resample.fit("rpart.classif", ct, res, parset=list(minsplit=10, cp=0.03))
 #'  
