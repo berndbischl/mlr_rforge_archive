@@ -28,4 +28,4 @@
 The kernel type and the hyperparameters are specified in \code{parset}.}
 \seealso{\code{\link[kernlab]{ksvm}}, \code{\link[kernlab]{dots}}}
 \section{Extends}{\code{\linkS4class{wrapped.learner.classif}}}
-\section{Methods}{\describe{\item{\code{\link[=initialize,kernlab.svm.classif-method]{initialize}}}{\code{signature( = "kernlab.svm.classif")}: Constructor.}{\code{signature(.wrapped.learner = "kernlab.svm.classif", .targetvar = "character", .data = "data.frame", .weights = "numeric", .costs = "matrix", .type = "character")}: Overwritten, to allow direct passing of kernel hyperparameters.}{}}}
+\section{Methods}{\describe{{\code{signature(.wrapped.learner = "kernlab.svm.classif", .targetvar = "character", .data = "data.frame", .weights = "numeric", .costs = "matrix", .type = "character")}: Overwritten, to allow direct passing of kernel hyperparameters.}{}}}

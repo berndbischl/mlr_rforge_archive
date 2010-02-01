@@ -1,8 +1,8 @@
 \name{make.classif.task}
-\alias{make.classif.task,character,missing,data.frame,numeric,matrix,character-method}
+\alias{make.classif.task-methods}
 \alias{make.classif.task}
-\title{make.classif.task}
-\usage{make.classif.task(target, formula, data, weights, costs, type)}
+\title{Contruct classification task}
+\usage{make.classif.task(name, data, target, formula, excluded, weights, costs, type)}
 \description{\code{make.classif.task} defines a classification task for a data set and is the starting point 
 for further steps like training, predicting new data, resampling and tuning.}
 \details{\code{make.classif.task} already performs quite a few tasks: It tries to load the required package for the 
@@ -30,15 +30,19 @@ classification task.
 \item{\code{\linkS4class{kernlab.svm.classif}}}{ Support Vector Machines from kernlab package}  
 }}
 \value{An object of class \code{\linkS4class{classif.task}}.}
-\seealso{\code{\linkS4class{classif.task}}, \code{\link{train}}, \code{\link{predict}}}
-\arguments{\item{target}{[\code{\link{character}}] \cr
+\seealso{\code{\linkS4class{classif.task}}}
+\arguments{\item{name}{[\code{\link{character}}] \cr
+Name of task / data set to be used string representations later on. Default is empty string.}
+\item{data}{[\code{\link{data.frame}}] \cr 	
+A data frame containing the variables in the model.}
+\item{target}{[\code{\link{character}}] \cr
 Name of the target variable.}
 \item{formula}{[\code{\link{formula}}] \cr
 Instead of specifying the target, you can use the formula interface. 
 If you are using just a subset of the variables of transformations of the variables, this will built a new internal 
 data frame by calling \code{\link{model.frame}}.}
-\item{data}{[\code{\link{data.frame}}] \cr 	
-A data frame containing the variables in the model.}
+\item{excluded}{[\code{\link{character}}]
+Names of inputs, which should be generally disregarded, e.g. IDs, etc. Default is zero-length vector.}
 \item{weights}{[\code{\link{numeric}}] \cr 	
 An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.}
 \item{costs}{[\code{\link{matrix}}] \cr 	
@@ -47,5 +51,5 @@ A optional matrix of misclassification costs to be used in the fitting process. 
 Specifies the type of the predictions - either probabilities ("prob") or classes ("class"). Default is "class".}
 }
 \examples{data(iris) 
-# define a classification task for a decision tree (rpart) for the data set iris
-ct <- make.classif.task("rpart.classif", data = iris, target = "Species")}
+# define a classification task for iris data set
+ct <- make.classif.task(data = iris, target = "Species")}

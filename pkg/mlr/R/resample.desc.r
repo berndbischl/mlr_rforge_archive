@@ -43,3 +43,41 @@ setMethod(
 		}
 )
 
+#' Conversion to string.
+setMethod(
+		f = "to.string",
+		signature = signature("resample.desc"),
+		def = function(x) {
+			return(
+					paste(
+							"Description for ", x@name,  " with ", x@iters, " iterations.\n",
+							sep=""
+					)
+			)
+		}
+)
+
+
+
+#' Prints the object by calling as.character.
+setMethod(
+		f = "print",
+		signature = signature("resample.desc"),
+		def = function(x, ...) {
+			cat(to.string(x))
+		}
+)
+
+#' Shows the object by calling as.character.
+setMethod(
+		f = "show",
+		signature = signature("resample.desc"),
+		def = function(object) {
+			cat(to.string(object))
+		}
+)
+
+
+
+
+

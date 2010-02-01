@@ -6,11 +6,13 @@ roxygen()
 #' the target variable, the loss function and other details of the problem. As this is just an abstract base class, 
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
 #' 
+#' @slot name Name of task / data set to be used string representations later on.
 #' @slot data Dataframe which includes all the data for the task.
-#' @slot weights An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
 #' @slot target Name of the target variable.
+#' @slot excluded Names of inputs, which should be generally disregarded, e.g. IDs, etc.
 #' @slot data.desc Contains logical values describing properties of the dataframe e.g. whether it has 
 #' 		characters or missing values (see desc and \code{\linkS4class{data.desc}}).
+#' @slot weights An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
 #' 
 #' @exportClass learn.task
 #' @seealso classif.task regr.task
@@ -20,8 +22,10 @@ roxygen()
 setClass(
 		"learn.task",
 		representation = representation(
+				name = "character",
 				data = "data.frame",
 				target = "character",
+				excluded = "character",
 				data.desc = "data.desc", 
 				weights = "numeric"
 		)
@@ -36,23 +40,23 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, data, target, weights, prep.fct) {
+		def = function(.Object, name, data, target, excluded, weights, prep.fct) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
 			if(missing(data))
 				return(.Object)					
 			
-			msg = check.task(data=data, target=target)
+			msg = check.task(data, target=target)
 			if (msg != "")
 				stop(msg)
-			.Object@data <- prep.fct(data, target)
+			.Object@name <- name
+			.Object@data <- prep.fct(data, target, excluded)
 			.Object@weights <- weights
 			.Object@target <- target
-			if (!(target %in% colnames(data))) {
-				stop(paste("Column names of data.frame don't contain target var: ", tn))
-			}
-			.Object@data.desc <- make.data.desc(data, target)
+
+			.Object@excluded <- excluded
+			.Object@data.desc <- make.data.desc(.Object["data"], target)
 			
 			return(.Object)
 		}
@@ -77,6 +81,8 @@ setMethod(
 		f = "[",
 		signature = signature("learn.task"),
 		def = function(x,i,j,...,drop) {
+			args = list(...)
+			argnames = names(args)
 			if (i == "target.name"){
 				return(x@target)
 			}
@@ -90,7 +96,24 @@ setMethod(
 				return(x@data[j, x["target.name"]])
 			}
 			if (i == "input.names"){
-				return(setdiff(colnames(x@data), x["target.name"]))
+				return(setdiff(colnames(x@data), c(x@excluded, x["target.name"])))
+			}
+			
+			if (i == "size"){
+				return(nrow(x@data))
+			}
+			if (i == "data"){
+				if (missing(j))
+					j = 1:nrow(x@data)
+				if ("excluded" %in% argnames)
+					v = colnames(x@data)
+				else 
+					v = setdiff(colnames(x@data), x@excluded)
+				if ("select" %in% argnames)
+					v = args$select
+				if (missing(drop))
+					drop = (length(v) == 1)
+				return(x@data[j, v, drop=drop])				
 			}
 			
 			#if nothing special return slot
@@ -107,7 +130,7 @@ setMethod(
 		f = "print",
 		signature = signature("learn.task"),
 		def = function(x, ...) {
-			cat(as.character(x))
+			cat(to.string(x))
 		}
 )
 
@@ -116,7 +139,7 @@ setMethod(
 		f = "show",
 		signature = signature("learn.task"),
 		def = function(object) {
-			cat(as.character(object))
+			cat(to.string(object))
 		}
 )
 

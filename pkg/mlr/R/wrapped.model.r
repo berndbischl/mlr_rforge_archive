@@ -13,9 +13,7 @@ roxygen()
 #' @slot vars Vector specifying the variables which were used to build the model. 
 #' @slot parset Contains the hyperparameters of the train function. If empty no parameters were used.
 #' 
-#' @examples  see \link{train}
-#' 
-#' @title wrapped.model
+#' @title Induced model of learner
  
 setClass(
 		"wrapped.model",
@@ -65,7 +63,7 @@ setClass(
 
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("wrapped.model"),
 		def = function(x) {
 			ps <- paste(names(x@parset), x@parset, sep="=", collapse=" ")
@@ -88,7 +86,7 @@ setMethod(
 		f = "print",
 		signature = signature("wrapped.model"),
 		def = function(x, ...) {
-			cat(as.character(x))
+			cat(to.string(x))
 		}
 )
 
@@ -97,7 +95,7 @@ setMethod(
 		f = "show",
 		signature = signature("wrapped.model"),
 		def = function(object) {
-			cat(as.character(object))
+			cat(to.string(object))
 		}
 )
 

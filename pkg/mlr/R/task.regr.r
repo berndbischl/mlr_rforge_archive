@@ -24,23 +24,23 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.task"),
-		def = function(.Object, data, weights=rep(1, nrow(data)), target) {
+		def = function(.Object, name, data, weights=rep(1, nrow(data)), target, excluded) {
 				
 			if (missing(data))
 				return(.Object)
-			callNextMethod(.Object, data=data, weights=weights,	target=target, prep.fct=prep.regr.data)
+			callNextMethod(.Object, name=name, data=data, weights=weights,	target=target, excluded=excluded, prep.fct=prep.regr.data)
 		}
 )
 
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("regr.task"),
 		def = function(x) {
 			return(
 					paste(
-							"Regression problem\n",
-							as.character(x@data.desc), "\n",
+							"Regression problem ", x@name, "\n",
+							to.string(x@data.desc), "\n",
 							sep=""
 					)
 			)

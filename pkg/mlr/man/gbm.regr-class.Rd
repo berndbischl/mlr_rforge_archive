@@ -1,7 +1,7 @@
 \name{gbm.regr-class}
 \alias{gbm.regr-class}
 \alias{gbm.regr}
-\title{gbm.regr}
+\title{Gradient boosting machine for regression}
 \description{Wrapped learner for Gradient Boosting Machine from package \code{gbm} for regression problems.}
 \details{\emph{Common hyperparameters:}
 \describe{

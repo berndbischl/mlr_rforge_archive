@@ -4,6 +4,8 @@ roxygen()
 roxygen()
 #' @include predict.learner.r
 roxygen()
+#' @include to.string.r
+roxygen()
 
 #' Wraps an already implemented learning method from R to make it accesible to mlr.
 #' 
@@ -57,14 +59,29 @@ setMethod(
 		}
 )
 
+setMethod(
+		f = "[",
+		signature = signature("wrapped.learner"),
+		def = function(x,i,j,...,drop) {
+			if (i == "short.name"){
+				return(x@learner.name)
+			}
+			return(
+					eval(substitute("@"(x, slot), list(slot=i)))
+			)
+		}
+)
+
+
+
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("wrapped.learner"),
 		def = function(x) {
 			return(paste( 
 							"Classification learner ", x@learner.name, " from package ", x@learner.pack, "\n\n",					
-							as.character(x@learner.props), 
+							to.string(x@learner.props), 
 							sep =""					
 					))
 		}
@@ -75,7 +92,7 @@ setMethod(
 		f = "print",
 		signature = signature("wrapped.learner"),
 		def = function(x, ...) {
-			cat(as.character(x))
+			cat(to.string(x))
 		}
 )
 
@@ -84,7 +101,7 @@ setMethod(
 		f = "show",
 		signature = signature("wrapped.learner"),
 		def = function(object) {
-			cat(as.character(object))
+			cat(to.string(object))
 		}
 )
 
@@ -100,14 +117,17 @@ setGeneric(
 #' This is not meant for hyperparameters, pass these through the usual parset argument, but rather to
 #' fix (somewhat technical) arguments which stay the same for the whole experiment. You should not have to use this too often.
 #' 
-#' @param object [\code{\linkS4class{wrapped.learner}}] \cr
+#' @param learner [\code{\linkS4class{wrapped.learner}}] \cr
 #'   	The learner.
 #' @param \ldots Parameters to fix in underlying train function. Have to be named.
 #' 
 #' @return \code{\linkS4class{wrapped.learner}} object with changed parameters for train function of the wrapped learner.
 #'
+#' @usage set.train.par(learner, \ldots)
+#' 
 #' @rdname set.train.par
 #' @export 
+#' @title Set parameter for training
 
 setMethod(
 		f = "set.train.par",
@@ -121,17 +141,6 @@ setMethod(
 )
 
 
-#' Set a parameter for the underlying predict function of a 
-#' [\code{\linkS4class{wrapped.learner}}] or - for convienience - a [\code{\linkS4class{learn.task}}].
-#' Used to fix (somewhat techical) arguments which stay the same for the whole experiment.
-#' You should not have to use this too often.
-#' 
-#' @usage set.predict.par(object, \ldots)
-#' @title set.predict.par
-#' @rdname set.predict.par
-#' @export 
-
-
 setGeneric(
 		name = "set.predict.par",
 		def = function(learner, ...) {
@@ -143,15 +152,15 @@ setGeneric(
 #' Used to fix (somewhat techical) arguments which stay the same for the whole experiment.
 #' You should not have to use this too often.
 #'   
-#' @param object [\code{\linkS4class{wrapped.learner}}] \cr
+#' @param learner [\code{\linkS4class{wrapped.learner}}] \cr
 #'   	Wrapping object for the underlying learner.
 #' @param \ldots Parameters to fix in underlying predict function. Have to be named.
 #' 
 #' @return Wrapped.learner object with changed paramters for predict function.
 #' 
-#' @usage set.predict.par(object, \ldots)
+#' @usage set.predict.par(learner, \ldots)
 #'
-#' @title set.predict.par
+#' @title Set parameter for prediction
 #' @rdname set.predict.par
 #' @export 
 

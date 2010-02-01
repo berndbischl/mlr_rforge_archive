@@ -31,7 +31,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
-		def = function(.Object, target, data, weights, costs, type = "class") {
+		def = function(.Object, name, target, data, excluded, weights, costs, type = "class") {
 			
 			
 			if (missing(data))
@@ -40,7 +40,7 @@ setMethod(
 			.Object@type <- type
 			.Object@costs <- costs
 			
-			.Object = callNextMethod(.Object, data=data, weights=weights, target=target, prep.fct=prep.classif.data)
+			.Object = callNextMethod(.Object, name=name, data=data, weights=weights, target=target, excluded=excluded, prep.fct=prep.classif.data)
 			# costs are set to default after data prep
 			if (identical(dim(.Object@costs), c(0L,0L))) {
 				n <- .Object["class.nr"]
@@ -73,20 +73,24 @@ setMethod(
 			if (i == "class.nr") {
 				return(length(levels(x["targets"])))
 			}
-			callNextMethod()
+			# otherwise drop gets lost. bug in S4
+			callNextMethod(x,i,j,...,drop=drop)
 		}
 )
 
 
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("classif.task"),
 		def = function(x) {
 			return(
 					paste(
-							"Classification problem\n",
-							as.character(x@data.desc), "\n",
+							"Classification problem ", x@name, "\n",
+							to.string(x@data.desc),
+							"Classes:", x["class.nr"],
+							paste(capture.output(table(x["targets"])), collapse="\n"),
+							"\n",
 							sep=""
 					)
 			)

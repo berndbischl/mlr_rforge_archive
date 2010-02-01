@@ -1,9 +1,9 @@
 # todo: can we log where the current log was generated, like in which method (automatically)?
 
-logger.errorhandler <- function() {
-	s <- geterrmessage()
-	logger.error(s)
-}
+#logger.errorhandler <- function() {
+#	s <- geterrmessage()
+#	logger.error(s)
+#}
 
 #' @export
 logger.setup <- function(console=TRUE, file=NULL, level) {
@@ -13,7 +13,7 @@ logger.setup <- function(console=TRUE, file=NULL, level) {
 		options(warn=1)
 	}
 		
-	options(error=logger.errorhandler)
+	#options(error=logger.errorhandler)
 	logger.setup <- list()
 	logger.setup$console <- console
 	logger.setup$file <- file
@@ -78,9 +78,9 @@ logger.print <- function(level, ...) {
 }
 
 
-logger.error <- function(...) {
-	logger.print(level="error", ...)
-}
+#logger.error <- function(...) {
+#	logger.print(level="error", ...)
+#}
 
 logger.info <- function(...) {
 	logger.print(level="info", ...)

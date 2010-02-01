@@ -1,13 +1,3 @@
-#' @export
-pattern.control <- function(
-		start,
-		lower=rep(-Inf, length(start)),	
-		upper=rep(Inf, length(start)), 
-		delta=1, 
-		delta.min=10^(-3), 
-		maxit=100) {
-	list(start=unlist(start), lower=unlist(lower), upper=unlist(upper), delta=delta, delta.min=delta.min, maxit=maxit)	
-}
 
 # f: function to be optimized (depending on "center"!)
 # delta: factor which denotes the expansion of the pattern; step size

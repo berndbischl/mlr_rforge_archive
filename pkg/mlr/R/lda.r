@@ -21,10 +21,10 @@ setMethod(
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
-					supports.missing = TRUE,
+					supports.missing = FALSE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
-					supports.characters = TRUE,
+					supports.characters = FALSE,
 					supports.probs = TRUE,
 					supports.weights = FALSE,
 					supports.costs = FALSE

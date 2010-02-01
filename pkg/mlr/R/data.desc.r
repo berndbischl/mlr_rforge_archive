@@ -7,6 +7,9 @@
 #' @slot is.classification Is the target variable categorical?
 #' @slot class.nr Does the dataset have missing values?
 #' @slot has.missing Does the dataset have missing values?
+#' @slot rows.with.missings Number of rows with NAs
+#' @slot cols.with.missings Number of columns with NAs
+#' @slot has.missing Does the dataset have missing values?
 #' @slot numerics Does the dataset have numeric variables?
 #' @slot integers Does the dataset have integer variables?
 #' @slot factors Does the dataset have factor variables?
@@ -24,6 +27,8 @@ setClass(
 				is.classification = "logical",	 
 				class.nr = "integer",
 				has.missing = "logical",
+				rows.with.missings = "integer",
+				cols.with.missings = "integer",
 				numerics = "integer",
 				integers = "integer",
 				factors = "integer",
@@ -45,7 +50,10 @@ setMethod(
 	  .Object@is.classification <- is.factor(data[, col]) 
 	  .Object@class.nr <- length(levels(data[, col]))
       .Object@has.missing <- any(sapply(data, is.na))
-      .Object@numerics <- sum(sapply(df2, is.numeric))
+	  .Object@rows.with.missings <- sum(apply(df2, 1, function(x) any(is.na(x))))
+	  .Object@cols.with.missings <- sum(apply(df2, 2, function(x) any(is.na(x))))
+	  .Object@has.missing <- any(sapply(data, is.na))
+	  .Object@numerics <- sum(sapply(df2, is.numeric))
       .Object@integers <- sum(sapply(df2, is.integer))
       .Object@factors <- sum(sapply(df2, is.factor))
       .Object@characters <- sum(sapply(df2, is.character))
@@ -75,15 +83,15 @@ setMethod(
 #' Conversion to string.
 
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("data.desc"),
 		def = function(x) {
 			return(
 					paste( 
-							ifelse(x@is.classification, paste("Classes:", x@class.nr, "\n"), ""),
 							"Features Nums:", x@numerics, " Ints:", x@integers, " Factors:", x@factors, " Chars:", x@characters, "\n",
 							"Observations: ", x@obs , "\n",
 							"Missings: ", x@has.missing, "\n", 
+							ifelse(x@has.missing, paste("in", x@rows.with.missings, "observations and", x@cols.with.missings, "features\n"), ""), 
 							sep=""
 					)
 			)
@@ -97,7 +105,7 @@ setMethod(
   f = "print",
   signature = signature("data.desc"),
   def = function(x, ...) {
-    cat(as.character(x))
+    cat(to.string(x))
   }
 )
 
@@ -107,6 +115,6 @@ setMethod(
   f = "show",
   signature = signature("data.desc"),
   def = function(object) {
-    cat(as.character(object))
+    cat(to.string(object))
   }
 )

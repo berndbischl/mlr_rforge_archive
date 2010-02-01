@@ -14,13 +14,13 @@ roxygen()
 #'    Learning method.
 #' @param task [\code{\linkS4class{learn.task}}] \cr
 #'    Learning task.   
-#' @param resample.instance [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
+#' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'    Resampling strategy to evaluate points in hyperparameter space.
 #' @param fixed [\code{\link{list}}] \cr
 #'    Named list of hyperparameter values which are kept fixed during the optimization. Default is list().   
 #' @param method [\code{\link{character}}] \cr
 #'    Search method. Currently supported are "grid", "pattern", "cmaes".   
-#' @param control\cr
+#' @param control 
 #'    Control object for search method.   
 #' @param loss [\code{\linkS4class{loss}}] or [\code{\link{character}}]\cr
 #'    Loss to use for tuning. Default is "zero-one" for classification and "squared" error for regression.
@@ -37,18 +37,15 @@ roxygen()
 #' 
 #' @export
 #'
-#' @usage learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I)
+#' @usage tune(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I)
 #'
 #' @examples
-#' library(mlr)
 #' ct <- make.classif.task(data=iris, target="Species")
-#' fixed = list(kernel="rbfdot")
 #' r <- list(C=2^(-1:1), sigma=2^(-1:1))
-#' control = list(ranges=r) 
-#' res <- make.cv.instance(size=nrow(iris), iters=3)
-#' tune("kernlab.svm.classif", ct, res, control=ctrl)
+#' res <- make.res.desc("cv", iters=3)
+#' tune("kernlab.svm.classif", ct, res, control=grid.control(ranges=r))
 #'  
-#' @title tune
+#' @title Hyperparameter tuning
 
 
 tune <- function(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I) {	

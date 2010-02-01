@@ -11,8 +11,8 @@ roxygen()
 #' 
 #' @exportClass resample.result
 #' @seealso \code{\linkS4class{resample.desc}}, \code{\linkS4class{resample.instance}}, 
-#' 			\code{\link{make.cv.instance}}, \code{\link{make.bs.instance}}, 
-#' 			\code{\link{make.subsample.instance}}, \code{\link{resample.fit}}
+#' 			\code{\link{make.res.instance}},  
+#' 			\code{\link{resample.fit}}
 #' @title resample.result
 
 setClass(
@@ -26,7 +26,7 @@ setClass(
 
 #' Conversion to string.
 setMethod(
-		f = "as.character",
+		f = "to.string",
 		signature = signature("resample.result"),
 		def = function(x) {
 			return(
@@ -45,7 +45,7 @@ setMethod(
 		f = "print",
 		signature = signature("resample.result"),
 		def = function(x, ...) {
-			cat(as.character(x))
+			cat(to.string(x))
 		}
 )
 
@@ -54,7 +54,7 @@ setMethod(
 		f = "show",
 		signature = signature("resample.result"),
 		def = function(object) {
-			cat(as.character(object))
+			cat(to.string(object))
 		}
 )
 

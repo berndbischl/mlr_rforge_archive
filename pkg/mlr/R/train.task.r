@@ -26,12 +26,12 @@ roxygen()
 #' train.inds <- seq(1,150,2)
 #' test.inds <- seq(2,150,2)
 #'
-#' ct <- make.classif.task("lda", data=iris, target="Species")
-#' cm <- train(ct, subset=train.inds)
+#' ct <- make.classif.task(data=iris, target="Species")
+#' cm <- train("lda", ct, subset=train.inds)
 #' ps <- predict(cm, newdata=iris[test.inds,])
 #' 
-#' ct <- make.classif.task("kknn.classif", data=iris, target="Species")
-#' cm <- train(ct, subset=train.inds, parset=list(k=3))
+#' ct <- make.classif.task(data=iris, target="Species")
+#' cm <- train("kknn.classif", ct, subset=train.inds, parset=list(k=3))
 #' ps <- predict(cm, newdata=iris[test.inds,])
 #'  
 #' @seealso \code{\link{predict}}, \code{\link{make.classif.task}}, \code{\link{make.regr.task}} 
@@ -45,7 +45,7 @@ setGeneric(
 			if (is.character(learner))
 				learner <- new(learner)
 			if (missing(subset))
-				subset <- 1:nrow(task@data)
+				subset <- 1:task["size"]
 			if (missing(parset))
 				parset <- list()
 			if (missing(vars))
@@ -67,7 +67,7 @@ train.task2 <- function(learner, task, subset, parset, vars, extra.train.pars, m
 	wl <- learner
 	tn <- task["target.name"]
 	# reduce data to subset and selected vars
-	data.subset <- task@data[subset, c(vars, tn), drop=FALSE]
+	data.subset <- task["data", subset, select=c(vars, tn), drop=F]
 	ws <- task@weights[subset]
 	
 	logger.debug("mlr train:", wl@learner.name, "with pars:")

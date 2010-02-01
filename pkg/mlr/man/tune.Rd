@@ -1,7 +1,7 @@
 \name{tune}
 \alias{tune}
-\title{tune}
-\usage{learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I)}
+\title{Hyperparameter tuning}
+\usage{tune(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I)}
 \description{Optimizes the hyperparameters of a learner for a classification or regression problem.
 Allows for different optimization methods, commonly grid search is used but other search techniques
 are available as well.  
@@ -17,13 +17,13 @@ performance.}
 Learning method.}
 \item{task}{[\code{\linkS4class{learn.task}}] \cr
 Learning task.}
-\item{resample.instance}{[\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
+\item{resampling}{[\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 Resampling strategy to evaluate points in hyperparameter space.}
 \item{fixed}{[\code{\link{list}}] \cr
 Named list of hyperparameter values which are kept fixed during the optimization. Default is list().}
 \item{method}{[\code{\link{character}}] \cr
 Search method. Currently supported are "grid", "pattern", "cmaes".}
-\item{control\cr}{Control object for search method.}
+\item{control}{Control object for search method.}
 \item{loss}{[\code{\linkS4class{loss}}] or [\code{\link{character}}]\cr
 Loss to use for tuning. Default is "zero-one" for classification and "squared" error for regression.}
 \item{model}{[\code{\link{logical}}]\cr
@@ -32,10 +32,7 @@ Should a final model be fitted on the complete data with the best found hyperpar
 A function to scale the hyperparamters. E.g. maybe you want to optimize in some log-space.
 Has to take a single, numerical vector and return a scaled one. Default is identity function.}
 }
-\examples{library(mlr)
-ct <- make.classif.task(data=iris, target="Species")
-fixed = list(kernel="rbfdot")
+\examples{ct <- make.classif.task(data=iris, target="Species")
 r <- list(C=2^(-1:1), sigma=2^(-1:1))
-control = list(ranges=r) 
-res <- make.cv.instance(size=nrow(iris), iters=3)
-tune("kernlab.svm.classif", ct, res, control=ctrl)}
+res <- make.res.desc("cv", iters=3)
+tune("kernlab.svm.classif", ct, res, control=grid.control(ranges=r))}

@@ -1,19 +1,6 @@
 #' @include task.regr.r
 roxygen()
 
-setGeneric(
-		name = "make.regr.task",
-		def = function(target, formula, data, weights) {
-#			if (is.character(learner))
-#				learner <- new(learner)
-#			if (!is(learner, "wrapped.learner.regr"))
-#				stop("Trying to constuct a regr.task from a non regression learner: ", class(learner))
-			if (missing(weights))
-				weights <- rep(1, nrow(data))
-			standardGeneric("make.regr.task")
-		}
-)
-
 #' \code{make.regr.task} defines a regression task for a learner and a data set and is the starting point 
 #' for further steps like training, predicting new data, resampling and tuning.
 #' 
@@ -37,6 +24,8 @@ setGeneric(
 #' 		\item{\code{\linkS4class{blackboost.regr}}}{ Gradient boosting with regression trees from mboost package}
 #' }
 #' 
+#' @param name [\code{\link{character}}] \cr
+#'   	  Name of task / data set to be used string representations later on. Default is empty string.
 #' @param target [\code{\link{character}}] \cr
 #'        Name of the target variable.
 #' @param formula [\code{\link{formula}}] \cr
@@ -45,6 +34,8 @@ setGeneric(
 #'        data frame by calling \code{\link{model.frame}}.
 #' @param data [\code{\link{data.frame}}] \cr
 #'   	  A data frame containing the variables in the model.
+#' @param excluded [\code{\link{character}}]
+#'        Names of inputs, which should be generally disregarded, e.g. IDs, etc. Default is zero-length vector. 
 #' @param weights [\code{\link{numeric}}] \cr
 #'        An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
 #' 
@@ -53,35 +44,58 @@ setGeneric(
 #' @export
 #' @rdname make.regr.task
 #' 
-#' @usage make.regr.task(target, formula, data, weights)
+#' @usage make.regr.task(name, data, target, formula, excluded, weights)
 #'
 #' @examples
 #' library(mlbench)
 #' data(BostonHousing)
-#' # define a regression task for a Gradient Boosting Machine for regression for the data set BostonHousing
-#' rt <- make.regr.task("gbm.regr", data = BostonHousing, target = "medv")
+#' # define a regression for the data set BostonHousing
+#' rt <- make.regr.task(data = BostonHousing, target = "medv")
 #' 
-#' @seealso \code{\linkS4class{regr.task}}, \code{\link{train}}, \code{\link{predict}}
+#' @seealso \code{\linkS4class{regr.task}}
 #' 
-#' @title make.regr.task
+#' @title Contruct regression task
+
+
+setGeneric(
+		name = "make.regr.task",
+		def = function(name, data, target, formula, excluded, weights) {
+#			if (is.character(learner))
+#				learner <- new(learner)
+#			if (!is(learner, "wrapped.learner.regr"))
+#				stop("Trying to constuct a regr.task from a non regression learner: ", class(learner))
+			if(missing(name))
+				name=""
+			if (missing(excluded))
+				excluded <- character(0)
+			if (missing(weights))
+				weights <- rep(1, nrow(data))
+			standardGeneric("make.regr.task")
+		}
+)
+
+#' @export
 
 
 setMethod(
 		f = "make.regr.task",
 		signature = signature(
+				name = "character",
+				data = "data.frame", 
 				target = "character",
 				formula = "missing",
-				data = "data.frame", 
+				excluded = "character",
 				weights = "numeric" 
 		),
 		
-		def = function(target, data, weights) {
-			ct <- new("regr.task", target=target, data=data, weights=weights)
+		def = function(name, data, target, excluded, weights) {
+			ct <- new("regr.task", name=name, target=target, data=data, excluded=excluded, weights=weights)
 			return(ct)
 		}
 )
 
 
+#' @export
 
 setMethod(
 		f = "make.regr.task",
@@ -89,13 +103,14 @@ setMethod(
 				target = "missing",
 				formula = "formula",
 				data = "data.frame", 
+				excluded = "character",
 				weights = "numeric" 
 		),
 		
-		def = function(formula, data, weights) {
+		def = function(name, data, formula, excluded, weights) {
 			data2 <- model.frame(formula, data=data)
 			target <- as.character(formula)[2]
-			ct <- new("regr.task", target=target, data=data2, weights=weights)
+			ct <- new("regr.task", name=name, target=target, data=data2, excluded=excluded, weights=weights)
 			return(ct)
 		}
 )
