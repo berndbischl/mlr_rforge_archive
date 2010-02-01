@@ -44,7 +44,7 @@ roxygen()
 #' @export
 #' @rdname make.regr.task
 #' 
-#' @usage make.regr.task(name, target, formula, data, excluded, weights)
+#' @usage make.regr.task(name, data, target, formula, excluded, weights)
 #'
 #' @examples
 #' library(mlbench)

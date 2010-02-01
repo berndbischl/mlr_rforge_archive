@@ -18,7 +18,7 @@
 #' @examples 
 #' data(iris)
 #' ct <- make.classif.task(data=iris, target="Species")
-#' res <- make.cv.instance(size=nrow(iris), iters=3)
+#' res <- make.res.desc("cv", iters=3)
 #' rf <- resample.fit("lda", ct, res)
 #' conf.matrix(ct, rf)
 #' 

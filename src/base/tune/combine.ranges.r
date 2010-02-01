@@ -7,7 +7,7 @@
 #' library(mlbench)
 #' data(Sonar)
 #' ct <- make.classif.task(data = Sonar, target = "Class")
-#' cv.i <- make.cv.instance(size = nrow(Sonar), iters = 2)
+#' cv.i <- make.res.desc("cv", iters = 2)
 #' r1 <- list(kernel = "polydot", C = c(1,2), degree = c(2,3))
 #' r2 <- list(kernel = "rbfdot", C = c(1,2), sigma = c(4,6))
 #' con = grid.control(ranges=combine.ranges(r1,r2))

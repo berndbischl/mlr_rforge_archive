@@ -42,7 +42,7 @@ roxygen()
 #' @examples
 #' ct <- make.classif.task(data=iris, target="Species")
 #' r <- list(C=2^(-1:1), sigma=2^(-1:1))
-#' res <- make.cv.instance(size=nrow(iris), iters=3)
+#' res <- make.res.desc("cv", iters=3)
 #' tune("kernlab.svm.classif", ct, res, control=grid.control(ranges=r))
 #'  
 #' @title Hyperparameter tuning
