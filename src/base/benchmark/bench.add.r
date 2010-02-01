@@ -16,12 +16,6 @@
 #' @export 
 #' @title Add learner to benchmark experiment 
 #'
-#' @examples
-#' ct <- make.classif.task(data=iris, target="Species")
-#' learners <- c("lda", "qda")
-#' res <- make.cv.instance(iters=5, size=nrow(iris))
-#' be <- bench.exp(learners, ct, res)
-#' be <- bench.add("rpart.classif", task=ct, result=be)
 
 
 bench.add <- function(learner, task, result) {

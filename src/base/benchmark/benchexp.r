@@ -24,10 +24,10 @@
 #' ct <- make.classif.task(data=iris, target="Species")
 #' # very small grid for svm hyperpars 
 #' r <- list(C=2^seq(-1,1), sigma=2^seq(-1,1))
-#' inner.res <- make.cv.desc(iters=3)   
+#' inner.res <- make.res.desc("cv", iters=3)   
 #' svm.tuner <- make.tune.wrapper("kernlab.svm.classif", method="grid", resampling=inner.res, control=grid.control(ranges=r))
 #' learners <- c("lda", "qda", svm.tuner)
-#' res <- make.cv.instance(iters=5, size=nrow(iris))
+#' res <- make.res.desc("cv", iters=5)
 #' bench.exp(learners, ct, res)
   
 
@@ -53,7 +53,7 @@ bench.exp <- function(learners, tasks, resampling) {
 	for (j in 1:length(tasks)) {
 		task = tasks[[j]]
 		if (is(resampling, "resample.desc")) {
-			resamplings[[j]] = make.resample.instance(resampling, task["size"])
+			resamplings[[j]] = new(resampling@instance.class, resampling, task["size"])
 		}
 		tuned[[j]] = as.list(rep(NA, n))
 		cms[[j]] = as.list(rep(NA, n))
