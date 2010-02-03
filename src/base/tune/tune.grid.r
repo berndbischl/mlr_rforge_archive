@@ -1,4 +1,4 @@
-tune.grid <- function(learner, task, resampling, loss, control) {
+tune.grid <- function(learner, task, resampling, loss, control, fixed, scale) {
 	ranges = control$ranges
 	# if theres more than one ranges 
 	if(all((names(ranges) == "ranges"))) {
@@ -16,7 +16,7 @@ tune.grid <- function(learner, task, resampling, loss, control) {
 		perf <- perf[, c(setdiff(cn, c("mean", "sd")), "mean", "sd")]
 		return(list(best.parameters=bpars[[i]], best.performance=bps[i], best.spread=bss[i], performances = perf))
 	}else {
-		tr <- tune.1(learner, task, resampling, ranges, loss)
+		tr <- tune.1(learner, task, resampling, ranges, loss, fixed, scale)
 		return(make.tune.result(tr, loss, ranges))
 	}
 }
@@ -33,7 +33,7 @@ row2parset <- function (indices.row, ranges){
 	return(result)
 }
 
-tune.1 <- function(learner, task, resampling, ranges, loss) {
+tune.1 <- function(learner, task, resampling, ranges, loss, fixed, scale) {
 	check.ranges(ranges)
 
 	cr <- convert.ranges(ranges)
@@ -56,7 +56,8 @@ tune.1 <- function(learner, task, resampling, ranges, loss) {
 #		}
 #	} 
 	
-	perf = eval.parsets(parsets, names(ranges), resampling)
+	
+	perf = eval.parsets(learner=learner, task=task, resampling=resampling, loss=loss, pars=parsets, fixed=fixed, scale=scale, names=names(ranges))
 
 	performances <- grid.indices
 	performances[, c("aggr", "spread", "time")]  <- perf[,1:3] 

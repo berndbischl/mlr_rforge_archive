@@ -64,8 +64,8 @@ tune <- function(learner, task, resampling, fixed=list(), method="grid", control
 	if(method == "cmaes")
 		optim.func <- tune.cmaes
 	
-	export.tune(learner, task, fixed, loss, scale)
-	or <- optim.func(learner, task, resampling, loss, control)
+	#export.tune(learner, task, fixed, loss, scale)
+	or <- optim.func(learner=learner, task=task, resampling=resampling, loss=loss, control=control, fixed=fixed, scale=scale)
 	or$par = scale(or$par)
 	if (model) {
 		parset = c(fixed, or$par)
