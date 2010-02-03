@@ -83,7 +83,7 @@ setMethod(
 			resample.instance <- resampling
 			iters <- resample.instance["iters"]
 			
-			rs = mylapply(1:iters, resample.fit.iter, learner=learner, task=task, rin=resample.instance, parset=parset, vars=vars, type=type, extract=extract)
+			rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, rin=resample.instance, parset=parset, vars=vars, type=type, extract=extract)
 
 			ps = lapply(rs, function(x) x$pred)
 			es = lapply(rs, function(x) x$extracted)

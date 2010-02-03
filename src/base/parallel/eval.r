@@ -31,7 +31,7 @@ eval.parset <- function(learner, task, resampling, loss, fixed, p, scale, names)
 }
 
 eval.parsets <- function(learner, task, resampling, loss, fixed, pars, scale, names) {
-	zs = mylapply(pars, eval.parset, learner=learner, task=task, resampling=resampling, loss=loss, fixed=fixed, scale=scale, names=names) 
+	zs = mylapply(pars, eval.parset, from="tune", learner=learner, task=task, resampling=resampling, loss=loss, fixed=fixed, scale=scale, names=names) 
 	z = t(as.data.frame(zs))
 	colnames(z) = c("aggr", "spread", "time")
 	rownames(z) = NULL
