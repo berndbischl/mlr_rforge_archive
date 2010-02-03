@@ -1,3 +1,18 @@
+
+#' @export
+resample.fit.iter <- function(learner, task, rin, parset, vars, type, i, extract) {
+	train.i <- rin["train.inds", i]
+	test.i <- rin["test.inds", i]
+	m <- train(learner, task, subset=train.i, parset=parset, vars=vars)
+	if (is(task, "classif.task"))
+		p <- predict(m, newdata=task["data", test.i], type=type)
+	else 
+		p <- predict(m, newdata=task["data", test.i])
+	# faster for parallel
+	ex = extract(m)
+	return(list(pred=p, extracted=ex))	
+}
+
 eval.parset <- function(p, names, resampling) {
 	parset.scaled   <- as.list(.mlr.scale(p))
 	names(parset.scaled) <- names
