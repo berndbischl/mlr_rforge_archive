@@ -43,11 +43,7 @@ setMethod(
 			
 			if (missing(learner.name))
 				return(.Object)
-			
-			if(learner.pack != "mlr" && !require(learner.pack, character.only=TRUE)) {
-				stop(paste("Learn.task for", learner.name, "could not be constructed! package", learner.pack, "missing!"))
-			}
-			
+						
 			.Object@learner.name <- learner.name
 			.Object@learner.pack <- learner.pack
 			

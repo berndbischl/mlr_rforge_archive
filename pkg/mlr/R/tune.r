@@ -37,7 +37,7 @@ roxygen()
 #' 
 #' @export
 #'
-#' @usage tune(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I)
+#' @usage tune(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=identity)
 #'
 #' @examples
 #' ct <- make.classif.task(data=iris, target="Species")
@@ -48,7 +48,7 @@ roxygen()
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I) {	
+tune <- function(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=identity) {	
 	if (missing(loss))
 		loss = default.loss(task)
 	if (is.character(loss))
@@ -64,9 +64,9 @@ tune <- function(learner, task, resampling, fixed=list(), method="grid", control
 	if(method == "cmaes")
 		optim.func <- tune.cmaes
 	
-	export.tune(learner, task, fixed, loss, scale)
-	or <- optim.func(learner, task, resampling, loss, control)
-	or$par = scale(or$par)
+	#export.tune(learner, task, fixed, loss, scale)
+	or <- optim.func(learner=learner, task=task, resampling=resampling, loss=loss, control=control, fixed=fixed, scale=scale)
+	or$par = scale.par(scale, or$par)
 	if (model) {
 		parset = c(fixed, or$par)
 		or$model = train(learner, task, parset=parset) 	
@@ -74,3 +74,13 @@ tune <- function(learner, task, resampling, fixed=list(), method="grid", control
 	
 	return(or)			
 }
+
+
+scale.par <- function(f, p) {
+	if (identical(f, identity))
+		return(as.list(p))
+	else
+		return(as.list(f(unlist(p))))
+	
+}
+

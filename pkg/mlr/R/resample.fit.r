@@ -83,22 +83,8 @@ setMethod(
 			resample.instance <- resampling
 			iters <- resample.instance["iters"]
 			
-			wrapper <- function(i) {
-				resample.fit.iter(learner, task, resample.instance, parset, vars, type, i, extract=extract)
-			}
-			
-			.ps <- .mlr.local$parallel.setup
-			if (.ps$mode %in% c("snowfall", "sfCluster") && .ps$level == "resample") {
-				sfExport("parset")
-				if (!is.null(parent.frame()$caller) && !parent.frame()$caller == "tune") {
-					sfExport("learner")
-					sfExport("task")
-					sfExport("resample.instance")
-				}
-				rs <- sfClusterApplyLB(1:iters, wrapper)
-			} else {
-				rs <- lapply(1:iters, wrapper)
-			}
+			rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, rin=resample.instance, parset=parset, vars=vars, type=type, extract=extract)
+
 			ps = lapply(rs, function(x) x$pred)
 			es = lapply(rs, function(x) x$extracted)
 			

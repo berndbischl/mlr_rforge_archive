@@ -1,5 +1,5 @@
-tune.ps <- function(learner, task, resampling, loss, control) {
-	g = function(p) eval.parset(p, names(control$start), resampling)[1]
+tune.ps <- function(learner, task, resampling, loss, control, fixed, scale) {
+	g = function(p) eval.parset(learner=learner, task=task, resampling=resampling, loss=loss, fixed=fixed, p, scale=scale, names=names(control$start))[1]
 	ps = pattern.search(f=g, control=control)
 	
 #	

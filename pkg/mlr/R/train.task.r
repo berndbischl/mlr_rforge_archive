@@ -43,7 +43,7 @@ setGeneric(
 		name = "train",
 		def = function(learner, task, subset, parset, vars) {
 			if (is.character(learner))
-				learner <- new(learner)
+				learner <- make.learner(learner)
 			if (missing(subset))
 				subset <- 1:task["size"]
 			if (missing(parset))
@@ -58,6 +58,10 @@ setGeneric(
 
 
 train.task2 <- function(learner, task, subset, parset, vars, extra.train.pars, model.class, extra.model.pars, novars.class, check.fct) {
+
+	if(learner@learner.pack != "mlr" && !require(learner@learner.pack, character.only=TRUE)) {
+		stop(paste("Learner", learner@learner.name, "could not be constructed! package", learner.pack, "missing!"))
+	}
 	
 	check.result <- check.fct(task, learner)
 	if (check.result$msg != "") {

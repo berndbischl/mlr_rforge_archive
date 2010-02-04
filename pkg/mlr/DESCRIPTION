@@ -1,7 +1,7 @@
 Package: mlr
 Type: Package
 Title: mlr: Machine Learning in R
-Version: 0.3.337
+Version: 0.3.347
 Date: 2009-01-01
 Author: Bernd Bischl, Max Wornowizki, Katharina Borg
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
@@ -25,10 +25,10 @@ Collate: 'aaa.r' 'bench.add.r' 'benchexp.r' 'to.string.r'
     'holdout.instance.r' 'kknn.r' 'knn.r' 'lasso.r' 'lda.r'
     'learner.failure.r' 'learner.props.classif.r'
     'learner.props.regr.r' 'lm.r' 'loclda.r' 'log.r' 'logreg.r'
-    'task.regr.r' 'loss.r' 'mda.r' 'multinom.r' 'nb.r' 'novars.r'
-    'parallel.r' 'pattern.search.r' 'performance.r' 'predict.r'
-    'prepare.df.r' 'qda.r' 'randomForest.r' 'rda.r'
-    'resample.desc.make.r' 'resample.fit.iter.r' 'resample.result.r'
+    'task.regr.r' 'loss.r' 'mda.r' 'multinom.r' 'mylapply.r' 'nb.r'
+    'novars.r' 'parallel.r' 'pattern.search.r' 'performance.r'
+    'predict.r' 'prepare.df.r' 'qda.r' 'randomForest.r' 'rda.r'
+    'resample.desc.make.r' 'resample.result.r'
     'resample.instance.make.r' 'resample.fit.r'
     'resample.performance.r' 'ridge.r' 'rpart.r' 'svm.r'
     'task.classif.make.r' 'task.regr.make.r' 'train.task.r'
