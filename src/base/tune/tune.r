@@ -37,7 +37,7 @@ roxygen()
 #' 
 #' @export
 #'
-#' @usage tune(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I)
+#' @usage tune(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=identity)
 #'
 #' @examples
 #' ct <- make.classif.task(data=iris, target="Species")
@@ -48,7 +48,7 @@ roxygen()
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=I) {	
+tune <- function(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=identity) {	
 	if (missing(loss))
 		loss = default.loss(task)
 	if (is.character(loss))
@@ -77,7 +77,7 @@ tune <- function(learner, task, resampling, fixed=list(), method="grid", control
 
 
 scale.par <- function(f, p) {
-	if (identical(f, I))
+	if (identical(f, identity))
 		return(as.list(p))
 	else
 		return(as.list(f(unlist(p))))
