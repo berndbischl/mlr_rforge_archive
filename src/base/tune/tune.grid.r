@@ -2,7 +2,7 @@ tune.grid <- function(learner, task, resampling, loss, control, fixed, scale) {
 	ranges = control$ranges
 	# if theres more than one ranges 
 	if(all((names(ranges) == "ranges"))) {
-		trs <- lapply(ranges, function(r) {tune.1(learner, task, resampling, r, loss)})
+		trs <- lapply(ranges, function(r) {tune.1(learner=learner, task=task, resampling=resampling, ranges=r, loss=loss, fixed=fixed, scale=scale)})
 		trs2 <- lapply(1:length(ranges), function(i) make.tune.result(trs[[i]], loss, ranges[[i]]))
 		ps <- lapply(trs2, function(x) x$all.perfs)
 		bps <- sapply(trs2, function(x) x$perf)
