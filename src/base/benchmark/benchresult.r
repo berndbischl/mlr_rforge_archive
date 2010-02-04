@@ -69,13 +69,16 @@ setMethod(
 		f = "to.string",
 		signature = signature("bench.result"),
 		def = function(x) {
-			ms = apply(x@perf, c(2,4), mean)
+			#ms = apply(x@perf, c(2,4), )
+			#sds = apply(x@perf, c(2,4), sd)
+			ms = t(apply(x@perf, c(2,4), function(x) c(mean(x), sd(x)))[,,1])
+			colnames(ms) = c("mean", "sd")
 			ms = paste(capture.output(ms), collapse="\n")
 			return(
 					
 					paste( 
 							"Benchmark result\n",
-							"Mean values:\n",
+							#"Mean values:\n",
 							ms, "\n",
 							sep=""
 					)
