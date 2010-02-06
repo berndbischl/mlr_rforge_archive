@@ -60,10 +60,6 @@ roxygen()
 setGeneric(
 		name = "make.regr.task",
 		def = function(name, data, target, formula, excluded, weights) {
-#			if (is.character(learner))
-#				learner <- new(learner)
-#			if (!is(learner, "wrapped.learner.regr"))
-#				stop("Trying to constuct a regr.task from a non regression learner: ", class(learner))
 			if(missing(name))
 				name=""
 			if (missing(excluded))

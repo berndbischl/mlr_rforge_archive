@@ -5,7 +5,7 @@ setGeneric(
 		name = "benchmark",
 		def = function(learner, task, resampling) {
 			if (is.character(learner)) {
-				learner = new(learner)
+				learner = make.learner(learner, task)
 			}
 			standardGeneric("benchmark")
 		}

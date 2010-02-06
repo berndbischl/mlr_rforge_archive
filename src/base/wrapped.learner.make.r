@@ -1,6 +1,6 @@
 setGeneric(
 		name = "make.learner",
-		def = function(name) {
+		def = function(name, task) {
 			standardGeneric("make.learner")
 		}
 )
@@ -29,13 +29,15 @@ setGeneric(
 #' 
 #' @param name [\code{\link{character}}] \cr
 #'  	  Name of the learning algorithm.
+#' @param task [\code{\link{character}}] \cr
+#'  	  Name of the learning algorithm.
 #' 
 #' @return An object of class \code{\linkS4class{wrapped.learner}}.
 #' 
 #' @export
 #' @rdname make.learner
 #' 
-#' @usage make.learner(name)
+#' @usage make.learner(name, task)
 #'  
 #' @title make.learner
 
@@ -43,11 +45,61 @@ setGeneric(
 setMethod(
 		f = "make.learner",
 		signature = signature(
-				name = "character"
+				name = "character",
+				task = "missing"
+		),
+		
+		def = function(name, task) {
+			return(new(name))
+		}
+)
+
+
+setMethod(
+		f = "make.learner",
+		signature = signature(
+				name = "character",
+				task = "missing"
 		),
 		
 		def = function(name) {
 			return(new(name))
+		}
+)
+
+#' @export 
+setMethod(
+		f = "make.learner",
+		signature = signature(
+				name = "character",
+				task = "classif.task"
+		),
+		
+		def = function(name, task) {
+			if (extends(name, "wrapped.learner.classif"))
+				return(new(name))
+			name2 = paste(name, "classif", sep=".")
+			if (extends(name2, "wrapped.learner.classif"))
+				return(new(name2))
+			stop("Cannot find corresponding learner class for name: ", name)
+		}
+)
+
+#' @export 
+setMethod(
+		f = "make.learner",
+		signature = signature(
+				name = "character",
+				task = "regr.task"
+		),
+		
+		def = function(name, task) {
+			if (extends(name, "wrapped.learner.regr"))
+				return(new(name))
+			name2 = paste(name, "regr", sep=".")
+			if (extends(name2, "wrapped.learner.regr"))
+				return(new(name2))
+			stop("Cannot find corresponding learner class for name: ", name)
 		}
 )
 

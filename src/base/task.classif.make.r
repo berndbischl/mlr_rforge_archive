@@ -70,10 +70,6 @@ roxygen()
 setGeneric(
 		name = "make.classif.task",
 		def = function(name, data, target, formula, excluded, weights, costs, type) {
-#			if (is.character(learner))
-#				learner <- new(learner)
-#			if (!is(learner, "wrapped.learner.classif"))
-#				stop("Trying to constuct a classif.task from a non classification learner: ", class(learner))
 			if(missing(name))
 				name=""
 			if (missing(excluded))

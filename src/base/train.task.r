@@ -43,7 +43,7 @@ setGeneric(
 		name = "train",
 		def = function(learner, task, subset, parset, vars) {
 			if (is.character(learner))
-				learner <- make.learner(learner)
+				learner <- make.learner(learner, task)
 			if (missing(subset))
 				subset <- 1:task["size"]
 			if (missing(parset))
@@ -99,7 +99,7 @@ train.task2 <- function(learner, task, subset, parset, vars, extra.train.pars, m
 		warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 	}
 	or <- capture.output(
-		learner.model <- try(do.call(train.learner, pars))
+		learner.model <- try(do.call(train.learner, pars), silent=TRUE)
 	)
 	logger.debug(or)
 	

@@ -53,7 +53,7 @@ setGeneric(
 		name = "resample.fit",
 		def = function(learner, task, resampling, parset, vars, type, extract) {
 			if (is.character(learner))
-				learner = new(learner)
+				learner = make.learner(learner, task)
 			n = task["size"]
 			if (is(resampling, "resample.desc"))
 				resampling = new(resampling@instance.class, resampling, size=n)
@@ -84,7 +84,7 @@ setMethod(
 			iters <- resample.instance["iters"]
 			
 			rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, rin=resample.instance, parset=parset, vars=vars, type=type, extract=extract)
-
+		
 			ps = lapply(rs, function(x) x$pred)
 			es = lapply(rs, function(x) x$extracted)
 			

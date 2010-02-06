@@ -49,7 +49,7 @@ setMethod(
 #' @export 
 make.tune.wrapper <- function(learner, resampling, fixed=list(), method="grid", control) {
 	if (is.character(learner))
-		learner = new(learner)
+		learner = make.learner(learner)
 	if (is(learner, "wrapped.learner.classif"))
 		tt = new("tune.wrapper.classif", learner, resampling, fixed, method, control)
 	else		
