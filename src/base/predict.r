@@ -68,13 +68,18 @@ setMethod(
 			logger.debug("on", nrow(newdata), "examples:")
 			logger.debug(rownames(newdata))
 			
+			if (is(model, "wrapped.model.classif")) {
+				levs = model["class.levels"]
+			}
+			
 			# was there an error in building the model? --> return NAs
 			if(is(model["learner.model"], "learner.failure")) {
 				if (is(model, "wrapped.model.classif")) {
 					if (type=="class") {
-						p <- factor(rep(NA, nrow(newdata)), levels=model["class.levels"])
+						p <- factor(rep(NA, nrow(newdata)), levels=levs)
 					} else if (type=="prob") {
-						p = matrix(NA, nrow=nrow(newdata), colnames=model["class.levels"])
+						p = matrix(NA, nrow=nrow(newdata), ncol=length(levs))
+						colnames(p) = levs
 					}
 				} else {
 					p = as.numeric(rep(NA, nrow(newdata)))
@@ -101,11 +106,11 @@ setMethod(
 						# be sure to add the levels at the end, otherwise data gets changed!!!
 						if (!is.factor(p))
 							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
-						levels(p) <- union(levels(p), model["class.levels"])
+						levels(p) <- union(levels(p), levs)
 					} else if (type=="prob") {
 						if (!is.matrix(p))
 							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
-						if (any(sort(colnames(p)) != sort(model["class.levels"])))
+						if (any(sort(colnames(p)) != sort(levs)))
 							stop("predict.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
 					} else {
 						stop(paste("Unknown type", type, "in predict!"))
