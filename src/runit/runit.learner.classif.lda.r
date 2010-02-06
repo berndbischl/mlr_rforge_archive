@@ -16,4 +16,12 @@ test.lda <- function() {
 	
 	cv.test("lda", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp )
 	
+	# test with constant col to produce an error in lda 
+	mc2 = transform(multiclass.df, bam=1)
+	ct = make.classif.task(data=data, target=multiclass.target)
+	res = make.res.desc("cv", iters=2)
+	rf = resample.fit("lda", ct, resampling=res, type="class")
+	rf = resample.fit("lda", ct, resampling=res, type="prob")
+	
+	
 }

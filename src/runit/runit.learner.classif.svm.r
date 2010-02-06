@@ -27,4 +27,5 @@ test.svm <- function() {
 	}
 	
 	cv.test("kernlab.svm.classif", multiclass.df, multiclass.formula, tune.train=tt, parset=list(kernel="polydot", degree=3, offset=2, scale=1.5))
+	
 }
