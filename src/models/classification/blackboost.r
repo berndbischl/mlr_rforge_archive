@@ -1,27 +1,26 @@
 #' @include wrapped.learner.classif.r
 roxygen()
 
-#' Wrapped learner for Multinomial Regression from package \code{nnet} for classification problems.
+#' Wrapped learner for Classification Trees from package \code{rpart}.
 #' 
 #' \emph{Common hyperparameters:}
-#' @title nnet.multinom
-#' @seealso \code{\link[nnet]{multinom}}
+#' @title rpart.classif
+#' @seealso \code{\link[rpart]{rpart}}
 #' @export
 setClass(
-		"nnet.multinom", 
+		"blackboost.classif", 
 		contains = c("wrapped.learner.classif")
 )
 
 
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
-#' @title Multinomial Regression Constructor
+#' @title rpart Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("nnet.multinom"),
+		signature = signature("blackboost.classif"),
 		def = function(.Object) {
 			
-			#checked:
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
 					supports.missing = TRUE,
@@ -30,17 +29,17 @@ setMethod(
 					supports.characters = FALSE,
 					supports.probs = TRUE,
 					supports.weights = TRUE,
-					supports.costs = FALSE
+					supports.costs = TRUE
 			)
-			
-			callNextMethod(.Object, learner.name = "Multinomial regression", learner.pack = "nnet", learner.props = desc)
+			callNextMethod(.Object, learner.name="blackboost", learner.pack="mboost",	learner.props=desc)
 		}
 )
+
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="nnet.multinom", 
+				.wrapped.learner="blackboost.classif", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -50,32 +49,24 @@ setMethod(
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			multinom(f, data=.data, weights=.weights, ...)
+			blackboost(f, family=AdaExp(), data=.data, weights=.weights, ...)
 		}
 )
 
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "nnet.multinom", 
+				.wrapped.learner = "blackboost.classif", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="class", "class", "probs")
-			levs = .wrapped.model["class.levels"]
-			p = predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
-			if (.type == "probs" && length(levs)==2) {
-				p = matrix(c(1-p, p), ncol=2, byrow=FALSE)
-				colnames(p) = levs
-			} 
-			return(p)
+			.type <- ifelse(.type=="class", "class", "response")
+			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	
-
-
 
 
 
