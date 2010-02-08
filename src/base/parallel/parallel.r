@@ -1,7 +1,7 @@
 
 #' @export 
 
-parallel.setup <- function(mode="local", cpus=1, level="resample") {
+parallel.setup <- function(mode="local", cpus=1, level="resample", ...) {
 	p <- list()
 	p$mode = mode
 	p$level = level
@@ -11,13 +11,14 @@ parallel.setup <- function(mode="local", cpus=1, level="resample") {
 			stop("Please install the snowfall package for this!")				
 		} 
 		if (mode == "sfCluster") {
-			sfInit()
+			sfInit(...)
 		} else if (mode == "snowfall") {
 			sfStop()
+			sfSetMaxCPUs(cpus)
 			if (is.numeric(cpus))
-				sfInit(parallel=T, cpus=cpus)
+				sfInit(parallel=T, cpus=cpus, ...)
 			else	
-				sfInit(parallel=T, socketHosts=cpus)
+				sfInit(parallel=T, socketHosts=cpus, ...)
 		} 
 		sfClusterEval("require(mlr)")	
 		assign(".mlr.local.tmp" , .mlr.local, envir=.GlobalEnv)
@@ -28,6 +29,7 @@ parallel.setup <- function(mode="local", cpus=1, level="resample") {
 		sfClusterEval("init.slave()")	
 #		ps <- getFromNamespace(".parallel.setup", "mlr")
 #		assign(".parallel.setup", ps, envir=.GlobalEnv)
+		sfClusterSetupRNG()
 	}
 	
 	.mlr.local$parallel.setup <- p
@@ -36,7 +38,7 @@ parallel.setup <- function(mode="local", cpus=1, level="resample") {
 
 init.slave <- function() {
 	.mlr.local$parallel.setup <- .mlr.local.tmp$parallel.setup 
-	.mlr.local$logger.setup <- .mlr.local.tmp$parallel.setup 
+	.mlr.local$logger.setup <- .mlr.local.tmp$logger.setup 
 }
 
 
