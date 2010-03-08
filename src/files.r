@@ -35,18 +35,23 @@ base.files <<- c(
 		"base/performance.r",
 		
 		"base/resample/resample.desc.r",
+		"base/resample/resample.desc.make.r",
 		"base/resample/resample.instance.r",
+		"base/resample/resample.instance.make.r",
 		"base/resample/cv.desc.r",
 		"base/resample/bs.desc.r",
 		"base/resample/subsample.desc.r",
+		"base/resample/holdout.desc.r",
 		"base/resample/cv.instance.r",
 		"base/resample/bs.instance.r",
 		"base/resample/subsample.instance.r",
+		"base/resample/holdout.instance.r",
 		"base/resample/resample.result.r",
 		"base/resample/resample.fit.r",
-		"base/resample/resample.fit.iter.r",
 		"base/resample/resample.performance.r",
-
+		"base/binary.r",
+		
+		
 		"base/conf.matrix.r",
 		
 		
@@ -68,6 +73,7 @@ base.files <<- c(
 		
 		"base/parallel/export.r",
 		"base/parallel/eval.r",
+		"base/parallel/mylapply.r",
 		"base/parallel/parallel.r"
 )
 
@@ -85,7 +91,8 @@ classif.files <<- c(
 		"models/classification/rpart.r",
 		"models/classification/randomForest.r",
 		"models/classification/boost.r",
-#		"models/classification/ada.r",
+		"models/classification/ada.r",
+		"models/classification/blackboost.r",
 		"models/classification/svm.r"
 #		"models/classification/metacost.r"
 )
@@ -112,6 +119,8 @@ load.all.libs <- function() {
 	library(adabag)
 	library(kknn)
 	library(randomForest)
+	library(ada)
+	library(mboost)
 	library(mda)
 	library(gbm)
 	library(penalized)

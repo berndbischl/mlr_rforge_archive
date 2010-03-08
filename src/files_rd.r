@@ -42,7 +42,6 @@ allowed.rd.files <<- c(
 			"initialize,subsample.desc-method.Rd",
 		"make.cv.desc.Rd",
 		"make.bs.desc.Rd",
-		"make.subsample.desc.Rd",
 		
 		"resample.instance-class.Rd",
 			"initialize,resample.instance-method.Rd",
@@ -53,10 +52,9 @@ allowed.rd.files <<- c(
 			"initialize,bs.instance-method.Rd",
 		"subsample.instance-class.Rd",
 			"initialize,subsample.instance-method.Rd",
-		"make.resample.instance.Rd",
+		"make.res.instance.Rd",
 		"make.cv.instance.Rd",
 		"make.bs.instance.Rd",
-		"make.subsample.instance.Rd",
 		"resample.result-class.Rd",
 #			"as.character,resample.result-method.Rd",
 #			"print,resample.result-method.Rd",
@@ -87,8 +85,8 @@ allowed.rd.files <<- c(
 		"grid.control.Rd",
 		"ps.control.Rd",
 		
-		"benchmark.Rd",
 		"bench.exp.Rd",
+		"bench.add.Rd",
 		
 		"naiveBayes-class.Rd",
 #			"initialize,naiveBayes-method.Rd",
