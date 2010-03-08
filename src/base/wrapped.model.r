@@ -69,11 +69,15 @@ setMethod(
 			ps <- paste(names(x@parset), x@parset, sep="=", collapse=" ")
 			f = x["fail"]
 			f = ifelse(is.null(f), "", paste("Training failed:", f))
+			tp = x["tuned.par"]
+			tp = ifelse(is.null(tp), "", paste("Tuned:", paste(names(tp), tp, sep="=", collapse=" "), "\n"))
+			
 			return(
 					paste(
 							"Learner model for ", x@wrapped.learner@learner.name, "\n",  
-							"Hyperparameters: ", ps, "\n",
 							"Trained on obs: ", length(x@subset), "\n",
+							"Hyperparameters: ", ps, "\n",
+							tp,
 							f,
 							sep=""
 					)
@@ -119,6 +123,18 @@ setMethod(
 			if (i == "fail"){
 				if (is(x@learner.model, "learner.failure"))
 					return(x@learner.model@msg)
+				else
+					return(NULL)
+			}
+			if (i == "tuned.par"){
+				if (is(x@wrapped.learner, "tune.wrapper"))
+					return(attr(x["learner.model"], "tuned.par"))
+				else
+					return(NULL)
+			}
+			if (i == "tuned.perf"){
+				if (is(x@wrapped.learner, "tune.wrapper"))
+					return(attr(x["learner.model"], "tuned.perf"))
 				else
 					return(NULL)
 			}

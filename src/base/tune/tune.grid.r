@@ -8,13 +8,12 @@ tune.grid <- function(learner, task, resampling, loss, control, fixed, scale) {
 		bps <- sapply(trs2, function(x) x$perf)
 		bss <- sapply(trs2, function(x) x$spread)
 		bpars <- lapply(trs2, function(x) x$par)
-		print(bps)
 		i <- which.min(bps)
 		perf <- Reduce(rbind.fill, ps)
 		# reorder
 		cn <- colnames(perf)
 		perf <- perf[, c(setdiff(cn, c("mean", "sd")), "mean", "sd")]
-		return(list(best.parameters=bpars[[i]], best.performance=bps[i], best.spread=bss[i], performances = perf))
+		return(list(par=bpars[[i]], perf=bps[i], all.perfs = perf))
 	}else {
 		tr <- tune.1(learner, task, resampling, ranges, loss, fixed, scale)
 		return(make.tune.result(tr, loss, ranges))

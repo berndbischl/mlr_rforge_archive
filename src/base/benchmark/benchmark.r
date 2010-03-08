@@ -19,8 +19,7 @@ setMethod(
 		def = function(learner, task, resampling) {
 			if (is(learner, "tune.wrapper")) {
 				extract = function(x) {
-					m = x["learner.model"]
-					list(tuned.par=attr(m, "tuned.par"), tuned.perf=attr(m, "tuned.perf"))
+					list(tuned.par=x["tuned.par"], tuned.perf=x["tuned.perf"])
 				}
 				rr <- resample.fit(learner, task, resampling, extract=extract)
 				ex = rr@extracted
