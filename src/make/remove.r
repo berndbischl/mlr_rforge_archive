@@ -40,7 +40,7 @@ remove.patterns <<- c(
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,blackboost.regr-method.*Constructor.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,gbm.regr-method.*Constructor.\\}",
 		
-		"\\\\item\\{\\\\code\\{\\\\link\\[=as.character,.*Conversion to string.\\}",
+		"\\\\item\\{\\\\code\\{\\\\link\\[=to.string,.*\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=show,.*Shows the object by calling as.character.\\}",
 		"\\\\item\\{\\\\code\\{\\\\link\\[=print,.*Prints the object by calling as.character.\\}"
 
