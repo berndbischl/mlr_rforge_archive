@@ -18,7 +18,7 @@ setMethod(
 		f = "initialize",
 		signature = signature("metacost"),
 		def = function(.Object, learner, iters, base.probs, all) {
-			.Object@learner <- new(learner) 
+			.Object@learner <- make.learner(learner) 
 			.Object@iters <- iters 
 			.Object@base.probs <- base.probs
 			.Object@all <- all 

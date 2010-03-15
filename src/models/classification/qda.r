@@ -17,7 +17,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("qda"),
-		def = function(.Object, data, target, type="class") {
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -26,6 +26,7 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = TRUE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = FALSE,
 					supports.costs = FALSE 
 			)
@@ -62,7 +63,7 @@ setMethod(
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
 			p <- predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
-			if(.type=="class")
+			if(.type=="response")
 				return(p$class)
 			else
 				return(p$posterior)

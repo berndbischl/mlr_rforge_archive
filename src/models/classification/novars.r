@@ -20,6 +20,7 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = TRUE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = TRUE
 			)
 			
@@ -58,7 +59,7 @@ setMethod(
 			tab <- prop.table(table(m$targets))
 			probs <- as.numeric(tab) 
 			
-			if(.type=="class")
+			if(.type=="response")
 				sample(as.factor(names(tab)), nrow(.newdata), prob=probs, replace=TRUE)	
 			else
 				probs

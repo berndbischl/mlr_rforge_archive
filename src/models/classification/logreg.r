@@ -33,6 +33,7 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = TRUE,
 					supports.costs = FALSE
 			)

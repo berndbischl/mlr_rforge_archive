@@ -50,6 +50,7 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = TRUE,
 					supports.probs = TRUE,
+					supports.decision = TRUE,
 					supports.weights = FALSE,	
 					supports.costs = FALSE 
 			)
@@ -119,7 +120,9 @@ setMethod(
 			if (kernel == "anovadot") 
 				kpar <- make.kpar(c("length", "lambda", "normalized"), kernel)
 			
-			parset = list(f, data=.data, prob.model = (.type == "prob"), fit=FALSE)
+			
+			
+			parset = list(f, data=.data, prob.model = "prob" %in% .type, fit=FALSE)
 			parset = c(parset, args)
 			parset <- change.parset(parset, kpar)
 
@@ -137,7 +140,7 @@ setMethod(
 		),
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="class", "response", "probabilities")
+			.type <- switch(.type, prob="probabilities", decision="decision", "response")
 			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	

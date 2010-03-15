@@ -27,6 +27,7 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = TRUE,
 					supports.costs = TRUE
 			)
@@ -87,8 +88,11 @@ setMethod(
 		),
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="class", "vector", "prob")
-			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+			.type <- ifelse(.type=="response", "vector", "prob")
+			p = predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+			if (.type == "prob")
+				colnames(p) = .wrapped.model["class.levels"] 
+			return(p)
 		}
 )	
 

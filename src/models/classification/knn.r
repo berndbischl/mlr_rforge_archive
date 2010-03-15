@@ -32,6 +32,7 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = TRUE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)
@@ -73,7 +74,7 @@ setMethod(
 			pars <- list(formula=f, train=m$data, test=.newdata)  
 			pars <- c(pars, m$parset, list(...))
 			m <- do.call(kknn, pars)
-			if (.type=="class")
+			if (.type=="response")
 				return(m$fitted.values)
 			else 
 				return(m$prob)

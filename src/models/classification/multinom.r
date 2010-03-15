@@ -29,6 +29,7 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = TRUE,
 					supports.costs = FALSE
 			)
@@ -64,7 +65,7 @@ setMethod(
 		),
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="class", "class", "probs")
+			.type <- ifelse(.type=="response", "class", "probs")
 			levs = .wrapped.model["class.levels"]
 			p = predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
 			if (.type == "probs" && length(levs)==2) {

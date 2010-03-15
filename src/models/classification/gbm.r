@@ -1,52 +1,46 @@
-#' @include wrapped.learner.classif.r 
+#' @include wrapped.learner.classif.r
 roxygen()
 
-#' Wrapped learner for Random Forests from package \code{randomForest} for classification problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{ntree}}{Number of trees to grow.}
-#' 		\item{\code{mtry}}{Number of variables randomly sampled as candidates at each split.}
-#' 		\item{\code{nodesize}}{Minimum size of terminal nodes.}
-#' }
-#' @title randomForest.classif
-#' @seealso \code{\link[randomForest]{randomForest}}
-#' @export
 setClass(
-		"randomForest.classif", 
+		"gbm.classif", 
 		contains = c("wrapped.learner.classif")
 )
 
 
+################ TO DO : TEST!!!!!!!
+
 #----------------- constructor ---------------------------------------------------------
 #' Constructor.
-#' @title Random Forest Constructor
+#' @title GBM Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("randomForest.classif"),
+		signature = signature("gbm.classif"),
 		def = function(.Object) {
 			
 			desc = new("classif.props",
-					supports.multiclass = TRUE,
+					supports.multiclass = FALSE,
 					supports.missing = FALSE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
-					supports.characters = TRUE,
+					supports.characters = FALSE,
 					supports.probs = TRUE,
 					supports.decision = FALSE,
 					supports.weights = FALSE,
 					supports.costs = FALSE
-			)
-			
-			callNextMethod(.Object, learner.name="randomForest", learner.pack="randomForest", learner.props=desc)
+			)			
+			.Object <- callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm", learner.props=desc)
+			.Object <- set.train.par(.Object, distribution="adaboost", verbose=FALSE)
+			.Object <- set.predict.par(.Object, type="link", single.tree = FALSE)
+			return(.Object)
 		}
 )
+
 
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="randomForest.classif", 
+				.wrapped.learner="gbm.classif", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -56,30 +50,28 @@ setMethod(
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			randomForest(f, data=.data, ...)
+			gbm(f, data=.data, weights=.weights, ...)
 		}
 )
 
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "randomForest.classif", 
+				.wrapped.learner = "gbm.classif", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="response", "response", "prob")
-			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+			m <- .wrapped.model["learner.model"]
+			predict(m, newdata=.newdata, n.trees=length(m$trees), ...)
 		}
 )	
 
-
-
-
-
-
-
+library(mlbench)
+data(BreastCancer)
+ct = make.classif.task(data=na.omit(BreastCancer), target="Class", excluded="Id")
+m = train("gbm.classif", task=ct)
 
 

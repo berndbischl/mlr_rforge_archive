@@ -26,6 +26,7 @@ setMethod(
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)
@@ -63,7 +64,7 @@ setMethod(
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
 			p <- predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
-			if(.type=="class")
+			if(.type=="response")
 				return(p$class)
 			else
 				return(p$posterior)
