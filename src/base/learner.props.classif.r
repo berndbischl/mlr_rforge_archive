@@ -15,6 +15,7 @@ setClass(
 		representation = representation(
 				supports.multiclass = "logical",
 				supports.probs = "logical",
+				supports.decision = "logical",
 				supports.costs = "logical"
 		)
 )
@@ -31,6 +32,7 @@ setMethod(
 							"Supported features Nums:", x@supports.numerics, " Factors:", x@supports.factors, " Chars:", x@supports.characters, "\n",
 							"Supports missings: ", x@supports.missing, "\n", 
 							"Supports probabilities: ", x@supports.probs, "\n", 
+							"Supports decsion values: ", x@supports.decision, "\n", 
 							"Supports weights: ", x@supports.weights, "\n", 
 							"Supports costs: ", x@supports.costs, "\n", 
 							sep=""

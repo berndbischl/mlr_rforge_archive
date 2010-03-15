@@ -2,30 +2,48 @@
 
 setGeneric(
 		name = "performance",
-		def = function(true.y, pred.y, weights, loss, aggr) {
+		def = function(pred, task, measures=default.measures(task), losses=c()) {
 			
-			if (is.factor(true.y))
-				true.y = as.character(true.y)
-			if (is.factor(pred.y))
-				pred.y = as.character(pred.y)
+#			if (is.factor(true.y))
+#				true.y = as.character(true.y)
+#			if (is.factor(pred.y))
+#				pred.y = as.character(pred.y)
 			
-			if (class(true.y) != class(pred.y))
-				stop(paste("true.y and pred.y have incompatible types:", class(true.y), class(pred.y)))
+#			if (class(true.y) != class(pred.y))
+#				stop(paste("true.y and pred.y have incompatible types:", class(true.y), class(pred.y)))
 			
-			if(missing(weights)) {
-				weights <- rep(1, length(true.y))
-			}
-			if(missing(loss)) {
-				if (is.character(true.y))
-					loss="zero-one"
-				if (is.numeric(true.y))
-					loss="squared"
-			}
-			if (is.character(loss))
-				loss = make.loss(loss)
-			if(missing(aggr)) {
-				aggr = mean
-			}
+#			if(missing(weights)) {
+#				weights <- rep(1, length(true.y))
+#			}
+#			if (missing(losses)) {
+#				losses = list()
+#			}
+#			
+#			if (missing(measures)) {
+#				if (is.character(true.y))
+#					losses = "mce"
+#				if (is.numeric(true.y))
+#					losses = "rmse"
+#			}
+#			
+#			if (length(losses) > 0) {
+#				losses = lapply(losses, function(x) {
+#					if (is.character(x))
+#						return(make.loss(x))
+#					else
+#						return(x)
+#				})
+#			}
+#			
+#			if (length(measures) > 0) {
+#				measures = lapply(measures, function(x) {
+#					if (is.character(x))
+#						return(make.measure(x))
+#					else
+#						return(x)
+#				})
+#			}
+	
 			standardGeneric("performance")
 		}
 )
@@ -82,10 +100,29 @@ setGeneric(
 
 setMethod(
 		f = "performance",
-		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", loss="loss", aggr="function"),
-		def = function(true.y, pred.y, weights, loss, aggr) {
-			ls = loss@fun(true.y, pred.y, weights)
-			return(list(aggr=aggr(ls), vals=ls))
+		signature = signature(pred="prediction", task="learn.task", measures="vector", losses="vector"),
+		def = function(pred, task, measures, losses) {
+			print(measures)
+			measures = lapply(measures, make.measure)
+			losses = lapply(losses, make.loss)
+			
+			ms = sapply(measures, function(f) f(pred@trues, pred@response, weights))
+			ls = sapply(losses, function(f) f@fun(pred@trues, pred@response, weights))
+			
+			ls = as.data.frame(ls)
+			g = function(x) {
+				n = attr(x, "name")
+				if (is.null(n)) 
+					return(NA)
+				else 
+					return(n)
+			}
+			names(ms) = sapply(measures, g)
+			colnames(ls) = sapply(losses, g)
+			
+			if (length(losses) > 0)
+				return(list(measures=ms, losses=ls))
+			return(list(measures=ms))
 		}
 )
 

@@ -31,7 +31,7 @@ setClass(
 #' Wrapped model for classification task.  
 #' 
 #' @slot class.levels Levels of the target factor. 
-#' @slot type Indicates, whether the default is to predict classes or probabilities ("class" or "prob").  
+#' @slot type Indicates, whether the default is to predict classes or probabilities ("response" or "prob").  
 #' 
 #' @examples  see \link{train}
 #' 

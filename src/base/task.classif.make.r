@@ -45,8 +45,6 @@ roxygen()
 #'        An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
 #' @param costs [\code{\link{matrix}}] \cr 	
 #'        A optional matrix of misclassification costs to be used in the fitting process. Default is zero-one loss.
-#' @param type [\code{\link{character}}] \cr 	
-#' 	      Specifies the type of the predictions - either probabilities ("prob") or classes ("class"). Default is "class".
 #' 
 #' 
 #' 
@@ -55,7 +53,7 @@ roxygen()
 #' @export
 #' @rdname make.classif.task
 #' 
-#' @usage make.classif.task(name, data, target, formula, excluded, weights, costs, type)
+#' @usage make.classif.task(name, data, target, formula, excluded, weights, costs)
 #'
 #' @examples
 #' data(iris) 
@@ -69,15 +67,13 @@ roxygen()
 
 setGeneric(
 		name = "make.classif.task",
-		def = function(name, data, target, formula, excluded, weights, costs, type) {
+		def = function(name, data, target, formula, excluded, weights, costs) {
 			if(missing(name))
 				name=""
 			if (missing(excluded))
 				excluded = character(0)
 			if (missing(weights))
 				weights <- rep(1, nrow(data))
-			if (missing(type))
-				type <- "class"
 			if (missing(costs)) {
 				# we set costs in constructor after data preparation
 				costs=matrix(0,0,0)
@@ -98,12 +94,11 @@ setMethod(
 				formula = "missing",
 				excluded = "character",
 				weights = "numeric", 
-				costs = "matrix", 
-				type = "character"
+				costs = "matrix" 
 			),
 		
-		def = function(name, data, target, excluded, weights, costs, type) {
-			ct <- new("classif.task", name=name, target=target, data=data, excluded=excluded, weights=weights, costs=costs, type=type)
+		def = function(name, data, target, excluded, weights, costs) {
+			ct <- new("classif.task", name=name, target=target, data=data, excluded=excluded, weights=weights, costs=costs)
 			return(ct)
 		}
 )
@@ -119,14 +114,13 @@ setMethod(
 				formula = "formula",
 				excluded = "character",
 				weights = "numeric", 
-				costs = "matrix", 
-				type = "character"
+				costs = "matrix" 
 		),
 		
-		def = function(name, data, formula, excluded, weights, costs, type) {
+		def = function(name, data, formula, excluded, weights, costs) {
 			data2 <- model.frame(formula, data=data)
 			target <- as.character(formula)[2]
-			ct <- new("classif.task", name=name, target=target, data=data2, excluded, weights=weights, costs=costs, type=type)
+			ct <- new("classif.task", name=name, target=target, data=data2, excluded, weights=weights, costs=costs)
 			return(ct)
 		}
 )

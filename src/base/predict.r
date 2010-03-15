@@ -11,8 +11,8 @@ roxygen()
 #' @param newdata [\code{\link{data.frame}}] \cr 
 #'        Contains new observations which should be predicted (by default the train data of the wrapped model).
 #' @param type [\code{\link{character}}] \cr 
-#' 		  Specifies the type of predictions for classification - either probability ("prob") or class ("class"). 
-#'        If not given, the type specified in the classification task is used (which is per default "class").
+#' 		  Specifies the type of predictions for classification - either probability ("prob") or class ("response"). 
+#'        If not given, the type specified in the classification task is used (which is per default "response").
 #' 		  Ignored in case of regression.
 #' 
 #'
@@ -48,18 +48,37 @@ roxygen()
 setMethod(
 		f = "predict",
 		signature = signature(object="wrapped.model"),
-		def = function(object, newdata, type) {
+		def = function(object, task, newdata, subset, type) {
+			
+			if (!missing(task) && !missing(newdata)) 
+				stop("Pass either a task object or a newdata data.frame to predict, but not both!")
+			
+			if (missing(newdata)) {
+				if (missing(subset))
+					subset = 1:task["size"]
+				newdata = task["data", subset]
+			}
 			
 			model <- object
 			wl <- model@wrapped.learner
 			
+			cns = colnames(newdata)
+			tn = task["target"]
+			if (tn %in% cns)
+				trues = newdata[, tn]
+			else
+				trues = NA
+			
 			# drop target col
-			newdata <- newdata[, -which(colnames(newdata) == model["target"])]					
+			newdata <- newdata[, -which(cns == tn)]					
 			if (is(model, "wrapped.model.classif")) {
 				if (missing(type))
-					type = model["type"]
-				if (type == "prob" && !wl@learner.props@supports.probs) {
+					type = task["type"]
+				if ("prob" %in% type && !wl@learner.props@supports.probs) {
 					stop("Trying to predict probs, but ", wl@learner.name, " does not support that!")
+				}
+				if ("decision" %in% type && !wl@learner.props@supports.decision) {
+					stop("Trying to predict decision values, but ", wl@learner.name, " does not support that!")
 				}
 			}
 
@@ -71,18 +90,19 @@ setMethod(
 			if (is(model, "wrapped.model.classif")) {
 				levs = model["class.levels"]
 			}
+
+			
+			
 			
 			# was there an error in building the model? --> return NAs
 			if(is(model["learner.model"], "learner.failure")) {
 				if (is(model, "wrapped.model.classif")) {
-					if (type=="class") {
-						p <- factor(rep(NA, nrow(newdata)), levels=levs)
-					} else if (type=="prob") {
-						p = matrix(NA, nrow=nrow(newdata), ncol=length(levs))
-						colnames(p) = levs
-					}
+					response = factor(rep(NA, nrow(newdata)), levels=levs)
+					mm = matrix(NA, nrow=nrow(newdata), ncol=length(levs))
+					colnames(mm) = levs
+					prob = decision = mm; 
 				} else {
-					p = as.numeric(rep(NA, nrow(newdata)))
+					response = as.numeric(rep(NA, nrow(newdata)))
 				}
 			} else {
 				pars <- list(
@@ -90,42 +110,54 @@ setMethod(
 						.wrapped.model = model, 
 						.newdata=newdata
 				)
-				if (is(model, "wrapped.model.classif"))
-					pars$.type = type
 				pars <- c(pars, wl@predict.fct.pars) 
 				
 				if(!is.null(.mlr.local$debug.seed)) {
 					set.seed(.mlr.local$debug.seed)
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
-				p <- do.call(predict.learner, pars)
+				response = NA
+				prob = decision = as.matrix(NA)
+				for (tt in type) {
 				
-				if (is(model, "wrapped.model.classif")) {
-					if (type=="class") {
-						# the levels of the predicted classes might not be complete....
-						# be sure to add the levels at the end, otherwise data gets changed!!!
-						if (!is.factor(p))
-							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
-						levels(p) <- union(levels(p), levs)
-					} else if (type=="prob") {
-						if (!is.matrix(p))
-							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
-						if (any(sort(colnames(p)) != sort(levs)))
-							stop("predict.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
-					} else {
-						stop(paste("Unknown type", type, "in predict!"))
-					}	
-				} else if (is(model, "wrapped.model.regr")) {
-					if (class(p) != "numeric")
-						stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
+					if (is(model, "wrapped.model.classif"))
+						pars$.type = tt
+					p <- do.call(predict.learner, pars)
+					
+					if (is(model, "wrapped.model.classif")) {
+						if (tt == "response") {
+							# the levels of the predicted classes might not be complete....
+							# be sure to add the levels at the end, otherwise data gets changed!!!
+							if (!is.factor(p))
+								stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
+							levels(p) <- union(levels(p), levs)
+						} else if (tt %in% c("prob")) {
+							if (!is.matrix(p))
+								stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
+							if (any(sort(colnames(p)) != sort(levs)))
+								stop("predict.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
+						} else if (tt %in% c("decision")) {
+							if (!is.matrix(p))
+								stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
+						} else {
+							stop(paste("Unknown type", tt, "in predict!"))
+						}	
+					} else if (is(model, "wrapped.model.regr")) {
+						if (class(p) != "numeric")
+							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
+					}
+					logger.debug("prediction:")
+					logger.debug(p)
+					if (tt == "response") 
+						response = p
+					if (tt == "prob") 
+						prob = p
+					if (tt == "decision") 
+						decision = p
 				}
-			}			
-			logger.debug("prediction:")
-			logger.debug(p)
-			return(p)
-			
-			
- 
+			}
+			pred = new("prediction", response=response, prob=prob, decision=decision, trues=trues)
+			return(pred)
 		}
 )
 

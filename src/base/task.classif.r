@@ -4,7 +4,6 @@ roxygen()
 #' General description object for a classification experiment.   
 #' Instantiate it by using its factory method.
 #' 
-#' @slot type "class" if you generally want to predict classes or "prob" for probabilities. Default is "class" 
 #' @slot costs Matrix of misclassification costs. Default is zero-one loss. 
 #' 
 #' @exportClass classif.task
@@ -16,7 +15,6 @@ setClass(
 		"classif.task",
 		contains = c("learn.task"),
 		representation = representation(
-				type = "character",
 				costs = "matrix"
 		)
 )
@@ -31,13 +29,12 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
-		def = function(.Object, name, target, data, excluded, weights, costs, type = "class") {
+		def = function(.Object, name, target, data, excluded, weights, costs) {
 			
 			
 			if (missing(data))
 				return(.Object)
 			
-			.Object@type <- type
 			.Object@costs <- costs
 			
 			.Object = callNextMethod(.Object, name=name, data=data, weights=weights, target=target, excluded=excluded, prep.fct=prep.classif.data)

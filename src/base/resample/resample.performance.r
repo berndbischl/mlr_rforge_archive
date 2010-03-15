@@ -4,17 +4,13 @@ roxygen()
 
 setGeneric(
 		name = "resample.performance",
-		def = function(task, result, loss, aggr1, aggr2, spread) {
-			if (missing(loss))
-				loss <- default.loss(task)
-			if (is.character(loss))
-				loss <- make.loss(loss)
-			if (missing(aggr1))
-				aggr1=mean
-			if (missing(aggr2))
-				aggr2=mean
-			if (missing(spread))
-				spread=sd
+		def = function(task, result, measures, losses) {
+			if (missing(measures))
+				measures = default.measures(task)
+			if (missing(losses))
+				losses = list()
+			measures = lapply(measures, make.measure)
+			losses = lapply(losses, make.loss)
 			standardGeneric("resample.performance")
 		}
 )
@@ -61,29 +57,31 @@ setGeneric(
 
 setMethod(
 		f = "resample.performance",
-		signature = c(task="learn.task", result="resample.result", loss="loss", aggr1="function", aggr2="function", spread="function"),
-		def = function(task, result, loss, aggr1, aggr2, spread) {
+		signature = c(task="learn.task", result="resample.result", measures="list", losses="list"),
+		def = function(task, result, measures, losses) {
 			n <- result["iters"]
 			rin <- result["instance"]
-			vals <- list()
-			aggrs <- numeric(n)
-			for(i in 1:n)  {
-				trues.i <- get.test.targets(task, rin, i)
-				preds.i <- result["fitted", i]
-				w.i <- task@weights[rin["test.inds", i]]
-				p <- performance(preds.i, trues.i, w.i, loss, aggr2)
-				vals[[i]] = p$vals
-				aggrs[i] = p$aggr
-			}
-						
-			perf.aggr = aggr1(aggrs)
-			perf.spread = ifelse(is.na(perf.aggr), NA, spread(aggrs))
-			res <- list(aggr1=perf.aggr, spread=perf.spread, aggr2=aggrs, vals=vals)
-			#ag <- measure$aggr.name 
-			#sp <- measure$spread.name
-			#names(res)[[2]] <- ag
-			#names(res)[[3]] <- sp
-			return(res)
+			is = 1:n
+			ts = lapply(is, function(i) get.test.targets(task, rin, i))
+			ps = lapply(is, function(i) result["fitted", i])
+			ws = lapply(is, function(i) task@weights[rin["test.inds", i]])
+			perfs = lapply(is, function(i) performance(ts[[i]], ps[[i]], ws[[i]], measures, losses))
+			#print(perfs)
+
+			ms = lapply(perfs, function (x) x$measures)
+			aggr = list(mean, median)
+			ms = Reduce(rbind, ms)
+			rownames(ms) = is
+			ms2 = lapply(aggr, function(f) apply(ms, 2, f))
+			ms2 = Reduce(rbind, ms2)
+			rownames(ms2) = c("mean", "median")
+			ms = rbind(ms2, ms)
+
+			ls = lapply(perfs, function (x) x$losses)
+			ls = Reduce(rbind, ls)
+			
+			#p = performance(trues, preds, weights, measures, losses)
+			return(list(ms, ls))
 		}
 )
 

@@ -27,7 +27,7 @@ roxygen()
 #'        Vector of variable names to use in training the model. Default is to use all variables.
 #' @param type [\code{\link{character}}] \cr 
 #' 		Only used for classification tasks; specifies the type of predictions -
-#' 		either probability ("prob") or class ("class").
+#' 		either probability ("prob") or class ("response").
 #' @param extract [\code{\link{function}}] \cr 
 #' 		Function used to extract information from fitted models, e.g. can be used to save the complete list of fitted models. 
 #'      Default is to extract nothing. 
