@@ -44,7 +44,7 @@ test.ridge <- function() {
 	rf <- resample.fit("penalized.ridge", regr.task, cv.i, parset=list(lambda=0.3))
 	for (i in 1:folds) {
 		test.i <- cv.i["test.inds", i]
-		rf.p <- rf@preds[[i]]
+		rf.p <- rf@preds[[i]]["response"]
 		names(rf.p) <- NULL
 		checkEquals(rf.p, cvl.res$predictions[test.i])		
 	}

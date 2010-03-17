@@ -17,7 +17,7 @@ simple.test <- function(t.name, df, formula, train.inds, old.predicts, parset=li
 	}else{
 		cp <- predict(cm, newdata=test)
 		# to avoid issues with dropped levels in the class factor we only check the elemenst as charcters
-		checkEquals(as.character(cp), as.character(old.predicts))
+		checkEquals(as.character(cp@response), as.character(old.predicts))
 	}
 }
 
@@ -41,9 +41,9 @@ prob.test <- function(t.name, df, formula, train.inds, old.probs, parset=list())
 	train <- df[inds,]
 	test <- df[-inds,]
 	
-	ct <- make.classif.task(data=df, formula=formula, type="prob")
+	ct <- make.classif.task(data=df, formula=formula)
 	
-	cm <- try(train(t.name, ct, subset=inds, parset=parset))
+	cm <- try(train(t.name, ct, subset=inds, parset=parset, type="prob"))
 	
 	if(class(cm@learner.model)[1] == "learner.failure"){
 		checkTrue(class(old.predicts)=="try-error")
@@ -51,7 +51,7 @@ prob.test <- function(t.name, df, formula, train.inds, old.probs, parset=list())
 		cp <- predict(cm, newdata=test, type="prob")
 		
 		# to avoid issues with dropped levels in the class factor we only check the elemenst as charcters
-		checkEquals(cp, old.probs)
+		checkEquals(cp@prob, old.probs)
 	}
 }
 
@@ -119,8 +119,15 @@ cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tun
 		}
 		cvr <- resample.fit(t.name, lt, cv.instance, parset=parset)
 		cva <- resample.performance(lt, cvr)
-		checkEqualsNumeric(cva$aggr1, tr$performances[1,2])
-		checkEqualsNumeric(cva$spread, tr$performances[1,3])
+		#print(tr$performances)
+		#print(cva$measures)
+		if (is(lt, "classif.task")) { 
+			checkEqualsNumeric(cva$measures["mean", "mmce"], tr$performances[1,2])
+			checkEqualsNumeric(cva$measures["sd",   "mmce"], tr$performances[1,3])
+		} else {
+			checkEqualsNumeric(cva$measures["mean", "mse"], tr$performances[1,2])
+			checkEqualsNumeric(cva$measures["sd",   "mse"], tr$performances[1,3])
+		}
 	}
 }
 
@@ -149,8 +156,13 @@ bs.test <- function(t.name, df, formula, iters=3, parset=list(), tune.train, tun
 	
 	bsp <- resample.performance(ct, bsr)
 	
-	checkEqualsNumeric(bsp$aggr1, tr$performances[1,2])
-	checkEqualsNumeric(bsp$spread, tr$performances[1,3])
+	if (is(ct, "classif.task")) { 
+		checkEqualsNumeric(bsp$measures["mean", "mmce"], tr$performances[1,2])
+		checkEqualsNumeric(bsp$measures["sd",   "mmce"], tr$performances[1,3])
+	} else {
+		checkEqualsNumeric(bsp$measures["mean", "mse"], tr$performances[1,2])
+		checkEqualsNumeric(bsp$measures["sd",   "mse"], tr$performances[1,3])
+	}
 }
 
 

@@ -10,7 +10,9 @@ test.benchexp <- function() {
 	bench.exp("lda", multiclass.task, resampling=outer)
 	wl = make.learner("lda")
 	be = bench.exp(wl,  multiclass.task, resampling=outer)
+	print(be)	
 	be = bench.exp(rpart.tuner,  multiclass.task, resampling=outer)
+	print(be)	
 	be = bench.exp(learners, multiclass.task, resampling=outer)
 	print(be)	
 	
