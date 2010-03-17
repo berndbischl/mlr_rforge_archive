@@ -64,8 +64,18 @@ setMethod(
 		),
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="response", "class", "response")
-			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+			.type <- ifelse(.type=="response", "class", "link")
+			#.wrapped.model["learner.model"]
+			p = predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+			if (.type == "prob") {
+				y <- matrix(0, ncol=2, nrow=length(.newdata))
+				colnames(y) <- .wrapped.model["class.levels"]
+				y[,1] <- x
+				y[,2] <- 1-x
+				return(y)
+			} else {
+				return(p)
+			}
 		}
 )	
 

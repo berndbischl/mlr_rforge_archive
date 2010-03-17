@@ -64,6 +64,7 @@ setMethod(
 		),
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+			.type = switch(.type, prob="prob", "class")
 			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	
