@@ -4,12 +4,15 @@ roxygen()
 
 setGeneric(
 		name = "resample.performance",
-		def = function(task, result, measures, losses) {
+		def = function(task, result, measures, losses, aggr) {
 			if (missing(measures))
 				measures = default.measures(task)
 			if (missing(losses))
 				losses = list()
-			measures = lapply(measures, make.measure)
+			if (missing(aggr)) {
+				aggr=default.aggr(task)
+			}
+			measures = make.measures(measures)
 			losses = lapply(losses, make.loss)
 			standardGeneric("resample.performance")
 		}
@@ -57,31 +60,26 @@ setGeneric(
 
 setMethod(
 		f = "resample.performance",
-		signature = c(task="learn.task", result="resample.result", measures="list", losses="list"),
-		def = function(task, result, measures, losses) {
+		signature = c(task="learn.task", result="resample.result", measures="list", losses="list", aggr="list"),
+		def = function(task, result, measures, losses, aggr) {
 			n <- result["iters"]
 			rin <- result["instance"]
 			is = 1:n
-			ts = lapply(is, function(i) get.test.targets(task, rin, i))
-			ps = lapply(is, function(i) result["fitted", i])
-			ws = lapply(is, function(i) task@weights[rin["test.inds", i]])
-			perfs = lapply(is, function(i) performance(ts[[i]], ps[[i]], ws[[i]], measures, losses))
-			#print(perfs)
-
-			ms = lapply(perfs, function (x) x$measures)
-			aggr = list(mean, median)
-			ms = Reduce(rbind, ms)
-			rownames(ms) = is
+			perfs = lapply(result@preds, function(p) performance(p, task=task, measures=measures, losses=losses))
+			ms = Reduce(rbind, lapply(perfs, function(x) x$measure))
 			ms2 = lapply(aggr, function(f) apply(ms, 2, f))
 			ms2 = Reduce(rbind, ms2)
-			rownames(ms2) = c("mean", "median")
-			ms = rbind(ms2, ms)
+			ms = as.data.frame(rbind(ms2, ms))
+			colnames(ms) = names(measures)
+			rownames(ms) = c(names(aggr), is)
 
 			ls = lapply(perfs, function (x) x$losses)
-			ls = Reduce(rbind, ls)
+			ls = as.data.frame(Reduce(rbind, ls))
 			
-			#p = performance(trues, preds, weights, measures, losses)
-			return(list(ms, ls))
+			if (nrow(ls) > 0)
+				return(list(measures=ms, losses=ls))
+			return(
+				list(measures=ms))
 		}
 )
 

@@ -65,7 +65,7 @@ setGeneric(
 			if (missing(vars))
 				vars <- task["input.names"]
 			if (missing(type))
-				type <- "class"
+				type = "response"
 			if (missing(extract))
 				extract <- function(x){}
 

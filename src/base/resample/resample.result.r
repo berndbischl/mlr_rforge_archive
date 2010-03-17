@@ -79,20 +79,33 @@ setMethod(
 			if (i == "iters")
 				return(length(x@preds))
 			
-			if (i == "fitted") {
+			if (i == "response") {
 				if (missing(j)) {
-					return(x["fitted", 1:x["iters"]])
+					return(x["response", 1:x["iters"]])
 				} else if(length(j) == 1) {
-					return(x@preds[[j]])
+					return(x@preds[[j]]["response"])
 				}
 				else {
-					return(lapply(j, function(k) x["fitted", k]))
+					return(lapply(j, function(k) x["response", k]))
 				}
 			}
 			#if nothing special return slot
 			return(
 					eval(substitute("@"(x, slot), list(slot=i)))
 			)
+		}
+)
+
+
+
+
+setMethod(
+		f = "as.data.frame",
+		signature = signature("resample.result"),
+		def = function(x, row.names = NULL, optional = FALSE,...) {
+			xs = lapply(x@preds, as.data.frame)
+			xs = Reduce(rbind, xs)
+			return(xs)
 		}
 )
 
