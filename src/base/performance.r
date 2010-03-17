@@ -3,47 +3,6 @@
 setGeneric(
 		name = "performance",
 		def = function(pred, task, measures=default.measures(task), losses=c()) {
-			
-#			if (is.factor(true.y))
-#				true.y = as.character(true.y)
-#			if (is.factor(pred.y))
-#				pred.y = as.character(pred.y)
-			
-#			if (class(true.y) != class(pred.y))
-#				stop(paste("true.y and pred.y have incompatible types:", class(true.y), class(pred.y)))
-			
-#			if(missing(weights)) {
-#				weights <- rep(1, length(true.y))
-#			}
-#			if (missing(losses)) {
-#				losses = list()
-#			}
-#			
-#			if (missing(measures)) {
-#				if (is.character(true.y))
-#					losses = "mce"
-#				if (is.numeric(true.y))
-#					losses = "rmse"
-#			}
-#			
-#			if (length(losses) > 0) {
-#				losses = lapply(losses, function(x) {
-#					if (is.character(x))
-#						return(make.loss(x))
-#					else
-#						return(x)
-#				})
-#			}
-#			
-#			if (length(measures) > 0) {
-#				measures = lapply(measures, function(x) {
-#					if (is.character(x))
-#						return(make.measure(x))
-#					else
-#						return(x)
-#				})
-#			}
-	
 			standardGeneric("performance")
 		}
 )
@@ -102,13 +61,15 @@ setMethod(
 		f = "performance",
 		signature = signature(pred="prediction", task="learn.task", measures="vector", losses="vector"),
 		def = function(pred, task, measures, losses) {
-			print(measures)
-			measures = lapply(measures, make.measure)
+			measures = make.measures(measures)
 			losses = lapply(losses, make.loss)
 			
-			ms = sapply(measures, function(f) f(pred@trues, pred@response, weights))
-			ls = sapply(losses, function(f) f@fun(pred@trues, pred@response, weights))
+			ms = sapply(measures, function(f) f(pred@target, pred@response, weights))
+			ls = sapply(losses, function(f) f(pred@target, pred@response, weights))
 			
+#			if(length(ms[[1]]) != 1)
+#				stop("Measure has to return a scalar value!")
+				
 			ls = as.data.frame(ls)
 			g = function(x) {
 				n = attr(x, "name")

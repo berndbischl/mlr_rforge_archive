@@ -1,56 +1,22 @@
 #' @include task.classif.r
 #' @include task.regr.r
 
-setClass(
-		"loss",
-		representation = representation(
-				name = "character",
-				fun = "function",
-				aggregate = "function",
-				aggr.name = "character",
-				spread = "function",
-				spread.name = "character"
-		)
-)
 
 
-setClass(
-		"mce.costs",
-		contains = c("loss"),
-		representation = representation(
-				costs = "matrix"
-		)
-)
-
-make.loss <- function(name, aggregate=NULL, aggr.name="aggr", spread=NULL, spread.name="spread") {
-	if (name=="squared") {
-		ms <- new("loss", name=name, fun=function(true.y, pred.y, weights) (true.y - pred.y)^2, 
-				aggregate=mean, aggr.name="mean", spread=sd, spread.name="sd")
-	} else if (name=="abs") {
-		ms <- new("loss", name=name, fun=function(true.y, pred.y, weights) abs(true.y - pred.y), 
-				aggregate=median, aggr.name="median", spread=IQR, spread.name="IQR")
-	} else if (name=="zero-one") {
-		ms <- new("loss", name=name, fun=function(true.y, pred.y, weights) as.numeric(true.y != pred.y), 
-				aggregate=mean, aggr.name="mean", spread=sd, spread.name="sd")
-	} else if (name=="mber") {
-		ms <- list(fun = function(true.y, pred.y, weights) {
-					em <- errormatrix(true.y, pred.y, relative =TRUE)
-					n <- ncol(em)
-					return(sum(em[1:(n-1), n]))
-				},
-				aggregate = mean, aggr.name="mean", spread=sd, spread.name="sd", minimize=TRUE)
-	} else {
+make.loss <- function(name) {
+	if (is.function(name))
+		return(name)
+	if (name=="squared") 
+		fun=function(true.y, pred.y, weights) (true.y - pred.y)^2 
+	else if (name=="abs") 
+		fun=function(true.y, pred.y, weights) abs(true.y - pred.y) 
+	else if (name=="zero-one") 
+		fun=function(true.y, pred.y, weights) as.numeric(true.y != pred.y) 
+	else 	
 		stop(paste("Loss", name, "does not exist!"))
-	}
-	if (!is.null(aggregate)) {
-		ms$aggregate <- aggregate
-		ms$aggr.name <- aggr.name
-	}
-	if (!is.null(spread)) {
-		ms$spread <- spread
-		ms$spread.ane <- spread.name
-	}
-	return(ms)
+	
+	attr(fun, "name") = name
+	return(fun)
 }
 
 setGeneric(

@@ -87,7 +87,10 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	}
 	
 	# make pars list for train call
-	pars <- list(.wrapped.learner=wl, .target=tn, .data=data.subset, .weights=ws, .type=type)
+	pars = list(.wrapped.learner=wl, .target=tn, .data=data.subset, .weights=ws)
+	if (is(task, "classif.task"))
+		pars$.type = type
+	
 	pars <- c(pars, extra.train.pars, wl@train.fct.pars)
 	# let hyperparamters overwrite pars
 	for (i in seq(1, along=parset)) {

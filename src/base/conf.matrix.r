@@ -36,7 +36,7 @@ conf.matrix = function(task, result, relative=FALSE) {
 	preds <- c()
 	for(i in 1:n)  {
 		trues.i <- get.test.targets(task, rin, i)
-		preds.i <- result["fitted", i]
+		preds.i <- result["response", i]
 		trues <- c(trues, as.character(trues.i))
 		preds <- c(preds, as.character(preds.i))
 		# todo what about remove.duplicated		

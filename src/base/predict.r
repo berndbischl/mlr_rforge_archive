@@ -58,12 +58,14 @@ setMethod(
 					subset = 1:task["size"]
 				newdata = task["data", subset]
 			}
+			if (missing(type))
+				type = "response"
 			
 			model <- object
 			wl <- model@wrapped.learner
 			
 			cns = colnames(newdata)
-			tn = task["target"]
+			tn = model["target"]
 			if (tn %in% cns)
 				trues = newdata[, tn]
 			else
@@ -72,8 +74,6 @@ setMethod(
 			# drop target col
 			newdata <- newdata[, -which(cns == tn)]					
 			if (is(model, "wrapped.model.classif")) {
-				if (missing(type))
-					type = task["type"]
 				if ("prob" %in% type && !wl@learner.props@supports.probs) {
 					stop("Trying to predict probs, but ", wl@learner.name, " does not support that!")
 				}
@@ -117,7 +117,7 @@ setMethod(
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
 				response = NA
-				prob = decision = as.matrix(NA)
+				prob = decision = NA
 				for (tt in type) {
 				
 					if (is(model, "wrapped.model.classif"))
@@ -156,7 +156,11 @@ setMethod(
 						decision = p
 				}
 			}
-			pred = new("prediction", response=response, prob=prob, decision=decision, trues=trues)
+			if (missing(subset))
+				ids = 1:nrow(newdata)
+			else
+				ids = subset
+			pred = new("prediction", id=ids, response=response, prob=prob, decision=decision, target=trues)
 			return(pred)
 		}
 )
