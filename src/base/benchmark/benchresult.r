@@ -2,7 +2,8 @@
 setClass(
 		"bench.result",                                                     
 		representation = representation(
-				perf = "array", 
+				perf = "array",
+				aggr = "list",
 				tuned.pars = "list", 
 				conf.mats = "list",
 				resamplings = "list"
@@ -69,10 +70,29 @@ setMethod(
 		f = "to.string",
 		signature = signature("bench.result"),
 		def = function(x) {
-			#ms = apply(x@perf, c(2,4), )
-			#sds = apply(x@perf, c(2,4), sd)
-			ms = t(apply(x@perf, c(2,4), function(x) c(mean(x), sd(x)))[,,1])
-			colnames(ms) = c("mean", "sd")
+			pp = x@perf
+			dims = dim(pp)
+			n = dims[4]
+			m = dims[2]
+			aggr = x@aggr
+			dims2 = dims[-1]
+			dims2[2] = dims2[2]*length(aggr)
+			
+			dimns = dimnames(pp)[-1]
+			# combine aggr names with measure names
+			dimns[[2]] = sapply(names(aggr), function(a) paste(a, dimns[[2]], sep="."))
+			ms = array(0, dim=dims2, dimnames=dimns)
+			# tasks
+			for (i in 1:n) {
+				# learners
+				for (j in 1:m) {
+					mm = matrix(pp[,j,,i], nrow=dims[1], ncol=dims[3])
+					mm = lapply(aggr, function(f) apply(mm, 2, f))
+					mm = Reduce(c, mm)
+					mm = as.numeric(mm)
+					ms[j,,i] = mm
+				}
+			}
 			ms = paste(capture.output(ms), collapse="\n")
 			return(
 					

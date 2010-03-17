@@ -31,7 +31,8 @@
 #' bench.exp(learners, ct, res)
   
 
-bench.exp <- function(learners, tasks, resampling) {
+bench.exp <- function(learners, tasks, resampling, measures, aggr) {
+	
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
 	}
@@ -40,10 +41,22 @@ bench.exp <- function(learners, tasks, resampling) {
 	}
 	learners = as.list(learners)
 	n = length(learners)
+	
+	if (missing(measures))
+		measures = default.measures(tasks[[1]])
+	measures = make.measures(measures)
+	if (missing(aggr))
+		aggr = default.aggr(tasks[[1]])
+	
+	
+	
 	#bs = array(-1, nrow=resampling["iters"], ncol=n)
 	## add dim for every loss ?? hmm, those are not always the same size...
-	dims = c(resampling["iters"], n, 1, length(tasks))
-	bs = array(dim = dims)
+	if (length(tasks) > 1 && is(resampling, "resample.instance")) {
+		stop("Cannot pass a resample.instance with more than 1 task. Use a resample.desc!")
+	}
+	dims = c(resampling["iters"], n, length(measures), length(tasks))
+	bs = array(0, dim = dims)
 	
 	learner.names = character()
 	task.names = sapply(tasks, function(x) x["name"])	
@@ -54,7 +67,9 @@ bench.exp <- function(learners, tasks, resampling) {
 		task = tasks[[j]]
 		if (is(resampling, "resample.desc")) {
 			resamplings[[j]] = new(resampling@instance.class, resampling, task["size"])
-		}
+		} else {
+			resamplings[[j]] = resampling
+		}		
 		tuned[[j]] = as.list(rep(NA, n))
 		cms[[j]] = as.list(rep(NA, n))
 		for (i in 1:length(learners)) {
@@ -62,8 +77,11 @@ bench.exp <- function(learners, tasks, resampling) {
 			if (is.character(wl))
 				wl = make.learner(wl, task)
 			learner.names[i] = wl["short.name"]
-			bm = benchmark(wl, task, resamplings[[j]])
-			bs[,i,1,j] = bm$result$test.perf
+			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, aggr=aggr)
+			rr = bm$result
+			# remove aggregated values
+			rr = rr[-(1:length(aggr)), names(measures)]
+			bs[,i,,j] = as.matrix(rr)
 			if (is(wl, "tune.wrapper"))
 				tuned[[j]][[i]] = bm$result
 			if (is(task, "classif.task"))
@@ -75,9 +93,8 @@ bench.exp <- function(learners, tasks, resampling) {
 		names(cms[[j]]) = learner.names
 		
 	}
-	dimnames(bs) = list(1:resampling["iters"], learner.names, NULL, task.names)
+	dimnames(bs) = list(1:resampling["iters"], learner.names, names(measures), task.names)
 	names(tuned) = task.names
 	names(cms) = task.names
-	
-	return(new("bench.result", perf = bs, tuned.pars=tuned, conf.mats=cms, resamplings=resamplings))
+	return(new("bench.result", perf = bs, tuned.pars=tuned, conf.mats=cms, resamplings=resamplings, aggr=aggr))
 }
