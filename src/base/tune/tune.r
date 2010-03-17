@@ -48,11 +48,13 @@ roxygen()
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=identity) {	
-	if (missing(loss))
-		loss = default.loss(task)
-	if (is.character(loss))
-		loss <- make.loss(loss)
+tune <- function(learner, task, resampling, fixed=list(), method="grid", control=NULL, measures, aggr, model=F, scale=identity) {	
+	if (missing(measures))
+		measures = default.measures(task)
+	measures = make.measures(measures)
+	
+	if (missing(aggr))
+		aggr = default.aggr(task)
 	
 	
 	if (method == "grid")
@@ -65,7 +67,7 @@ tune <- function(learner, task, resampling, fixed=list(), method="grid", control
 		optim.func <- tune.cmaes
 	
 	#export.tune(learner, task, fixed, loss, scale)
-	or <- optim.func(learner=learner, task=task, resampling=resampling, loss=loss, control=control, fixed=fixed, scale=scale)
+	or <- optim.func(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, control=control, fixed=fixed, scale=scale)
 	or$par = scale.par(scale, or$par)
 	if (model) {
 		parset = c(fixed, or$par)
