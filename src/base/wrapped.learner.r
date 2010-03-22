@@ -36,7 +36,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("wrapped.learner"),
-		def = function(.Object, learner.name, learner.pack, learner.props, parset) {
+		def = function(.Object, learner.name, learner.pack, learner.props, parset=list()) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!

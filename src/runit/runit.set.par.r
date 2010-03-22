@@ -2,7 +2,7 @@
 
 test.set.par <- function() {
 	ct <- make.classif.task(data=iris, target="Species")
-	wl <- new("lda")
+	wl <- new("lda", parset=list())
 	wl <- set.train.par(wl, prior=c(0.4,0.6,0))
 	m1 <- train(wl, ct)
 	m2 <- lda(Species~., data=iris, prior = c(0.4,0.6,0))
