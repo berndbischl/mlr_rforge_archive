@@ -76,8 +76,11 @@ setGeneric(
 				weights <- rep(1, nrow(data))
 			if (missing(costs)) {
 				# we set costs in constructor after data preparation
-				costs=matrix(0,0,0)
-			}		
+				costs = as.matrix(NA)
+			}
+
+#			if (missing(positive))
+#				positive = as.character(NA)
 			standardGeneric("make.classif.task")
 		}
 )
@@ -94,12 +97,13 @@ setMethod(
 				formula = "missing",
 				excluded = "character",
 				weights = "numeric", 
-				costs = "matrix" 
-			),
+				costs = "matrix"
+	),
 		
 		def = function(name, data, target, excluded, weights, costs) {
-			ct <- new("classif.task", name=name, target=target, data=data, excluded=excluded, weights=weights, costs=costs)
-			return(ct)
+			return(
+					new("classif.task", name=name, target=target, data=data, excluded=excluded, weights=weights, costs=costs)
+			)
 		}
 )
 
@@ -120,8 +124,9 @@ setMethod(
 		def = function(name, data, formula, excluded, weights, costs) {
 			data2 <- model.frame(formula, data=data)
 			target <- as.character(formula)[2]
-			ct <- new("classif.task", name=name, target=target, data=data2, excluded, weights=weights, costs=costs)
-			return(ct)
+			return(
+				new("classif.task", name=name, target=target, data=data2, excluded=excluded, weights=weights, costs=costs)
+			)	
 		}
 )
 

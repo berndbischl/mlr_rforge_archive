@@ -89,6 +89,9 @@ setMethod(
 					return(lapply(j, function(k) x["response", k]))
 				}
 			}
+			if (i == "all") {
+				return(as.data.frame(x))
+			}
 			#if nothing special return slot
 			return(
 					eval(substitute("@"(x, slot), list(slot=i)))

@@ -28,7 +28,14 @@ setMethod(
 				
 			if (missing(data))
 				return(.Object)
-			callNextMethod(.Object, name=name, data=data, weights=weights,	target=target, excluded=excluded, prep.fct=prep.regr.data)
+			
+			
+			check.task(data, target)
+			data = prep.data(data, target, excluded)			
+			dd = new("data.desc", data=data, target=target)
+			td = new("task.desc", target=target, positive=as.character(NA), excluded=excluded, weights=weights, costs=as.matrix(NA))			
+			
+			callNextMethod(.Object, name=name, data=data, data.desc=dd, task.desc=td)
 		}
 )
 

@@ -8,10 +8,10 @@ check.task <- function(lt, learner) {
 	msg <- ""
 	dd <- lt@data.desc
 	
-	if (dd@class.nr > 2 && !ld@supports.multiclass) {
+	if (dd["class.nr"] > 2 && !ld@supports.multiclass) {
 		msg <- paste("Data set is a multiclass-problem, but", wl@learner.name, "does not support that!")
 	}
-	if (dd@has.missing && !ld@supports.missing) {
+	if (dd["has.missing"] && !ld@supports.missing) {
 		msg <- paste("Data set has missing values, but", wl@learner.name, "does not support that!")
 	}
 	if (dd@numerics > 0 && !ld@supports.numerics) {
@@ -32,7 +32,7 @@ check.task.classif <- function(lt, learner) {
 	ld <- learner@learner.props
 	dd <- lt@data.desc
 	
-	if (dd@class.nr > 2 && !ld@supports.multiclass) {
+	if (dd["class.nr"] > 2 && !ld@supports.multiclass) {
 		msg <- paste("Data set is a multiclass-problem, but", learner@learner.name, "does not support that!")
 	}
 	return(list(msg=msg))

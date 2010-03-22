@@ -22,18 +22,18 @@
 
 setClass(
 		"data.desc",
+		contains = c("object"),
 		representation = representation(
-				target.col = "integer",
-				is.classification = "logical",	 
-				class.nr = "integer",
-				has.missing = "logical",
+				target = "character",
+				obs = "integer",
 				rows.with.missings = "integer",
 				cols.with.missings = "integer",
 				numerics = "integer",
 				integers = "integer",
 				factors = "integer",
 				characters = "integer",
-				obs = "integer"
+				is.classification = "logical",	 
+				classes = "character"
 		)
 )
 
@@ -46,38 +46,48 @@ setMethod(
   def = function(.Object, data, target) {
       col <- which(colnames(data) == target)
       df2 <- data[,-col]
-	  .Object@target.col <- col 
-	  .Object@is.classification <- is.factor(data[, col]) 
-	  .Object@class.nr <- length(levels(data[, col]))
-      .Object@has.missing <- any(sapply(data, is.na))
+	  .Object@target = target 
+	  .Object@obs = nrow(data)
+	  .Object@is.classification <- is.factor(data[, col])
 	  .Object@rows.with.missings <- sum(apply(df2, 1, function(x) any(is.na(x))))
 	  .Object@cols.with.missings <- sum(apply(df2, 2, function(x) any(is.na(x))))
-	  .Object@has.missing <- any(sapply(data, is.na))
 	  .Object@numerics <- sum(sapply(df2, is.numeric))
       .Object@integers <- sum(sapply(df2, is.integer))
       .Object@factors <- sum(sapply(df2, is.factor))
       .Object@characters <- sum(sapply(df2, is.character))
-	  .Object@obs <- nrow(data)
+	  if(.Object@is.classification)	
+	  	.Object@classes = levels(data[, col])
 	  return(.Object)
   }
 )
 
 
-setGeneric(
-		name = "make.data.desc",
-		def = function(data, target) {
-			standardGeneric("make.data.desc")
-		}
-)
-
 
 setMethod(
-		f = "make.data.desc",
-		signature = signature(data="data.frame", target="character"),
-		def = function(data, target) {
-			new("data.desc", data, target)
+		f = "[",
+		signature = signature("data.desc"),
+		def = function(x,i,j,...,drop) {
+			
+			if (i == "size") {
+				return(x@obs)
+			}
+			if (i == "class.levels") {
+				return(x@classes)
+			}
+			if (i == "class.nr") {
+				return(length(x["class.levels"]))
+			}
+			if (i == "is.binary") {
+				return(x["class.nr"] == 2)
+			}
+			if (i == "has.missing") {
+				return(x@rows.with.missings > 0)
+			}
+			callNextMethod()
 		}
 )
+
+
 
 
 #' Conversion to string.
@@ -90,8 +100,8 @@ setMethod(
 					paste( 
 							"Features Nums:", x@numerics, " Ints:", x@integers, " Factors:", x@factors, " Chars:", x@characters, "\n",
 							"Observations: ", x@obs , "\n",
-							"Missings: ", x@has.missing, "\n", 
-							ifelse(x@has.missing, paste("in", x@rows.with.missings, "observations and", x@cols.with.missings, "features\n"), ""), 
+							"Missings: ", x["has.missing"], "\n", 
+							ifelse(x["has.missing"], paste("in", x@rows.with.missings, "observations and", x@cols.with.missings, "features\n"), ""), 
 							sep=""
 					)
 			)

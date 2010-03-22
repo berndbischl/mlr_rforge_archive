@@ -17,46 +17,27 @@ roxygen()
  
 setClass(
 		"wrapped.model",
+		contains = c("object"),
 		representation = representation(
-				task.class = "character",
 				wrapped.learner = "wrapped.learner",
 				learner.model = "ANY",
-				target = "character",
+				data.desc = "data.desc",
+				task.desc = "task.desc",
 				subset = "numeric",
 				vars = "character",
 				parset = "list"
 		)
 )
 
-#' Wrapped model for classification task.  
-#' 
-#' @slot class.levels Levels of the target factor. 
-#' @slot type Indicates, whether the default is to predict classes or probabilities ("response" or "prob").  
-#' 
-#' @examples  see \link{train}
-#' 
-#' @title wrapped.model.classif
-
 setClass(
 		"wrapped.model.classif",
-		contains = c("wrapped.model"),
-		representation = representation(
-				class.levels = "character",
-				type = "character"
-		)
+		contains = c("wrapped.model")
 )
-
-#' Wrapped model for regression task.  
-#' 
-#' @examples  see \link{train}
-#' 
-#' @title wrapped.model.classif
 
 setClass(
 		"wrapped.model.regr",
 		contains = c("wrapped.model")
 )
-
 
 
 
@@ -138,9 +119,14 @@ setMethod(
 				else
 					return(NULL)
 			}
-			return(
-					eval(substitute("@"(x, slot), list(slot=i)))
-			)
+			y = x@task.desc[i]
+			if (!is.null(y))
+				return(y)
+			y = x@data.desc[i]
+			if (!is.null(y))
+				return(y)
+			
+			callNextMethod()
 		}
 )
 

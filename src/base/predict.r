@@ -63,9 +63,11 @@ setMethod(
 			
 			model <- object
 			wl <- model@wrapped.learner
+			td = model@task.desc
+			dd = model@data.desc
 			
 			cns = colnames(newdata)
-			tn = model["target"]
+			tn = td["target"]
 			if (tn %in% cns)
 				trues = newdata[, tn]
 			else
@@ -88,7 +90,7 @@ setMethod(
 			logger.debug(rownames(newdata))
 			
 			if (is(model, "wrapped.model.classif")) {
-				levs = model["class.levels"]
+				levs = dd["class.levels"]
 			}
 
 			

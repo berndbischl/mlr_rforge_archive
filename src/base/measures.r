@@ -25,6 +25,12 @@ make.measure <- function(name) {
 		x = mce
 	else if (name=="smce") 
 		x = sme
+	else if (name=="tpr") 
+		x = tpr
+	else if (name=="fpr") 
+		x = fpr
+	
+	
 	else if (name=="sse") 
 		x = sse
 	else if (name=="mse") 
@@ -75,6 +81,20 @@ sme = function(trues, preds, weights, task) {
 mcesd = function(trues, preds, weights, task) {
 	sd(as.character(trues) != as.character(preds)) 
 }
+
+tpr = function(trues, preds, weights, task) {
+	sum(trues == preds & trues == task["positive"]) / sum(trues == task["positive"])  
+}
+
+tpr = function(trues, preds, weights, task) {
+	sum(trues == preds & trues == task["positive"]) / sum(trues == task["positive"])  
+}
+
+fpr = function(trues, preds, weights, task) {
+	sum(trues != preds & trues == task["negative"]) / sum(trues == task["negative"])  
+}
+
+
 
 
 

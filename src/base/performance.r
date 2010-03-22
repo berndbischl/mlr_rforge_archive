@@ -64,8 +64,8 @@ setMethod(
 			measures = make.measures(measures)
 			losses = lapply(losses, make.loss)
 			
-			ms = sapply(measures, function(f) f(pred@target, pred@response, weights))
-			ls = sapply(losses, function(f) f(pred@target, pred@response, weights))
+			ms = sapply(measures, function(f) f(pred@target, pred@response, weights, task))
+			ls = sapply(losses, function(f) f(pred@target, pred@response, weights, task))
 			
 #			if(length(ms[[1]]) != 1)
 #				stop("Measure has to return a scalar value!")

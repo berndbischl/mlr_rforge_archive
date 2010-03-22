@@ -21,13 +21,12 @@ roxygen()
 
 setClass(
 		"learn.task",
+		contains = c("object"),
 		representation = representation(
 				name = "character",
 				data = "data.frame",
-				target = "character",
-				excluded = "character",
-				data.desc = "data.desc", 
-				weights = "numeric"
+				data.desc = "data.desc",
+				task.desc = "task.desc"
 		)
 )
 
@@ -40,23 +39,21 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, name, data, target, excluded, weights, prep.fct) {
+		def = function(.Object, name, data, data.desc, task.desc) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
 			if(missing(data))
 				return(.Object)					
 			
-			msg = check.task(data, target=target)
-			if (msg != "")
-				stop(msg)
-			.Object@name <- name
-			.Object@data <- prep.fct(data, target, excluded)
-			.Object@weights <- weights
-			.Object@target <- target
 
-			.Object@excluded <- excluded
-			.Object@data.desc <- make.data.desc(.Object["data"], target)
+
+			.Object@name = name
+			.Object@data = data
+			.Object@data.desc = data.desc
+			.Object@task.desc = task.desc
+			
+#			.Object@data.desc <- make.data.desc(.Object["data"], target)
 			
 			return(.Object)
 		}
@@ -83,43 +80,43 @@ setMethod(
 		def = function(x,i,j,...,drop) {
 			args = list(...)
 			argnames = names(args)
-			if (i == "target.name"){
-				return(x@target)
-			}
-			if (i == "target.col"){
-				return(which(colnames(x@data) == x["target.name"]))
-			}
 			
+			dd = x@data.desc
+			td = x@task.desc
+			
+			if (i == "target.name") {
+				return(td["target"])
+			}
 			if (i == "targets") {
 				if (missing(j))
 					j = 1:nrow(x@data)
 				return(x@data[j, x["target.name"]])
 			}
 			if (i == "input.names"){
-				return(setdiff(colnames(x@data), c(x@excluded, x["target.name"])))
+				return(setdiff(colnames(x@data), c(x["excluded"], x["target.name"])))
 			}
 			
-			if (i == "size"){
-				return(nrow(x@data))
-			}
 			if (i == "data"){
 				if (missing(j))
 					j = 1:nrow(x@data)
 				if ("excluded" %in% argnames)
 					v = colnames(x@data)
 				else 
-					v = setdiff(colnames(x@data), x@excluded)
+					v = setdiff(colnames(x@data), x["excluded"])
 				if ("select" %in% argnames)
 					v = args$select
 				if (missing(drop))
 					drop = (length(v) == 1)
 				return(x@data[j, v, drop=drop])				
 			}
+			y = td[i]
+			if (!is.null(y))
+				return(y)
+			y = dd[i]
+			if (!is.null(y))
+				return(y)
 			
-			#if nothing special return slot
-			return(
-					eval(substitute("@"(x, slot), list(slot=i)))
-			)
+			callNextMethod()
 		}
 )
 

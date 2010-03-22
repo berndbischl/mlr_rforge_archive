@@ -13,10 +13,7 @@ roxygen()
 
 setClass(
 		"classif.task",
-		contains = c("learn.task"),
-		representation = representation(
-				costs = "matrix"
-		)
+		contains = c("learn.task")
 )
 
 
@@ -35,15 +32,34 @@ setMethod(
 			if (missing(data))
 				return(.Object)
 			
-			.Object@costs <- costs
+			check.task(data, target)
+			data = prep.classif.data(data, target, excluded)			
+			dd = new("data.desc", data=data, target=target)
 			
-			.Object = callNextMethod(.Object, name=name, data=data, weights=weights, target=target, excluded=excluded, prep.fct=prep.classif.data)
-			# costs are set to default after data prep
-			if (identical(dim(.Object@costs), c(0L,0L))) {
-				n <- .Object["class.nr"]
-				.Object@costs <- matrix(1,n,n) - diag(1,n)
+			n = dd["class.nr"]
+			levs = dd["class.levels"]
+			
+			# init costs
+			if (dim(costs)==c(1,1) && is.na(costs)) {
+				costs = matrix(1,n,n) - diag(1,n)
 			}
-			return(.Object)
+			
+			# init positive
+			positive = as.character(NA)
+			if (n == 2) {
+				if (is.na(positive))
+					positive = levs[1] 					
+				else {
+					if (!(positive %in% levs))
+						stop(paste("Trying to set a positive class", .Object@positive, "which is not a value of the target variable:", paste(levs, collapse=",")))
+				}
+			} else {
+				if (!is.na(positive))
+					stop("Cannot set a positive class for a multiclass problem!")
+			}
+			td = new("task.desc", target=target, positive=positive, excluded=excluded, weights=weights, costs=costs)			
+
+			callNextMethod(.Object, name=name, data=data, data.desc=dd, task.desc=td)
 		}
 )
 
@@ -64,12 +80,20 @@ setMethod(
 		signature = signature("classif.task"),
 		def = function(x,i,j,...,drop) {
 
-			if (i == "class.levels") {
-				return(levels(x["targets"]))
-			}
-			if (i == "class.nr") {
-				return(length(levels(x["targets"])))
-			}
+#			if (i == "class.levels") {
+#				return(levels(x["targets"]))
+#			}
+#			if (i == "class.nr") {
+#				return(length(levels(x["targets"])))
+#			}
+#			if (i == "is.binary") {
+#				return(x["class.nr"] == 2)
+#			}
+#			if (i == "negative") {
+#				if (x["is.binary"])
+#					return(setdiff(x["class.levels"], x["positive"]))
+#				return(NA)
+#			}
 			# otherwise drop gets lost. bug in S4
 			callNextMethod(x,i,j,...,drop=drop)
 		}
@@ -88,6 +112,7 @@ setMethod(
 							"Classes:", x["class.nr"],
 							paste(capture.output(table(x["targets"])), collapse="\n"),
 							"\n",
+							ifelse(x["is.binary"], paste("Positive class:", x["positive"], "\n"), ""),
 							sep=""
 					)
 			)

@@ -59,7 +59,7 @@ setGeneric(
 )
 
 
-train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, model.class, extra.model.pars, novars.class, check.fct) {
+train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, model.class, novars.class, check.fct) {
 
 	if(learner@learner.pack != "mlr" && !require(learner@learner.pack, character.only=TRUE)) {
 		stop(paste("Learner", learner@learner.name, "could not be constructed! package", learner.pack, "missing!"))
@@ -74,7 +74,7 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	tn <- task["target.name"]
 	# reduce data to subset and selected vars
 	data.subset <- task["data", subset, select=c(vars, tn), drop=F]
-	ws <- task@weights[subset]
+	ws <- task["weights"][subset]
 	
 	logger.debug("mlr train:", wl@learner.name, "with pars:")
 	logger.debug(parset)
@@ -115,9 +115,8 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 		learner.model <- new("learner.failure", msg=msg)
 	} 
 
-	pars = list(model.class, task.class = class(task), wrapped.learner = wl,  
-			learner.model = learner.model, target=tn, subset=subset, parset=parset, vars=vars)
-	pars = c(pars, extra.model.pars)
+	pars = list(model.class, wrapped.learner = wl, learner.model = learner.model, 
+			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, parset=parset, vars=vars)
 	do.call("new", pars)
 }
 	
@@ -136,10 +135,9 @@ setMethod(
 		),
 		
 		def = function(learner, task, subset, parset, vars, type) {
-			extra.train.pars = list(.costs = task@costs)
-			extra.model.pars = list(class.levels = task["class.levels"])
+			extra.train.pars = list(.costs = task["costs"])
 			train.task2(learner, task, subset, parset, vars, type, 
-					extra.train.pars, "wrapped.model.classif", extra.model.pars, "novars.classif",
+					extra.train.pars, "wrapped.model.classif", "novars.classif",
 					check.task.learner.classif
 			)
 		}
@@ -160,9 +158,8 @@ setMethod(
 		
 		def = function(learner, task, subset, parset, vars, type) {
 			extra.train.pars = list()
-			extra.model.pars = list()
 			train.task2(learner, task, subset, parset, vars, type, 
-					extra.train.pars, "wrapped.model.regr", extra.model.pars, "novars.regr",
+					extra.train.pars, "wrapped.model.regr", "novars.regr",
 					check.task.learner
 			)
 		}
