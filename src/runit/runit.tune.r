@@ -42,18 +42,11 @@ test.tune <- function() {
 	res = make.res.desc("cv", iters=2)
 	inner = make.res.desc("cv", iters=2)
 	
-	tr = tune("kernlab.svm.classif", multiclass.task, res, control=control, fixed=list(type="spoc-svc"))
-	
-	wl = make.learner("kernlab.svm.classif")			
-	set.train.par(wl, type="spoc-svc")
+	wl = make.learner("kernlab.svm.classif", type="spoc-svc")
 	tr = tune(wl, multiclass.task, res, control=control)
-	
-	svm.tuner <- make.tune.wrapper("kernlab.svm.classif", resampling=inner, control=grid.control(ranges=r), fixed=list(type="spoc-svc"))
-	bench.exp(svm.tuner, multiclass.task, resampling=res)
 	
 	svm.tuner <- make.tune.wrapper(wl, resampling=inner, control=grid.control(ranges=r))
 	bench.exp(svm.tuner, multiclass.task, resampling=res)
-	
 
 }
 
