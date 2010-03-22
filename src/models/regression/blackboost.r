@@ -26,7 +26,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("blackboost.regr"),
-		def = function(.Object, ...) {
+		def = function(.Object, parset) {
 			
 			desc = new("regr.props",
 					supports.missing = FALSE,
@@ -36,7 +36,7 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
-			callNextMethod(.Object, learner.name="blackboost", learner.pack="mboost", learner.props=desc, ...)
+			callNextMethod(.Object, learner.name="blackboost", learner.pack="mboost", learner.props=desc, parset=parset)
 		}
 )
 

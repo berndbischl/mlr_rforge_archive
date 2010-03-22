@@ -28,7 +28,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("gbm.regr"),
-		def = function(.Object, ...) {
+		def = function(.Object, parset) {
 			
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -38,7 +38,7 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm", learner.props=desc, ...)
+			.Object <- callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm", learner.props=desc, parset=parset)
 			.Object <- set.train.par(.Object, distribution="gaussian", verbose=FALSE)
 			.Object <- set.predict.par(.Object, type="link", single.tree = FALSE)
 			return(.Object)

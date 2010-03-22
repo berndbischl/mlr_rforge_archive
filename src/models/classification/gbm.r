@@ -15,7 +15,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("gbm.classif"),
-		def = function(.Object, ...) {
+		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
 					supports.multiclass = FALSE,
@@ -28,7 +28,7 @@ setMethod(
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)			
-			callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm", learner.props=desc, ...)
+			callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm", learner.props=desc, parset=parset)
 		}
 )
 

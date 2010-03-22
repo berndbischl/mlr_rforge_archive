@@ -24,7 +24,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("randomForest.regr"),
-		def = function(.Object, ...) {
+		def = function(.Object, parset) {
 			
 			desc = new("regr.props",
 					supports.missing = FALSE,
@@ -34,7 +34,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="randomForest", learner.pack="randomForest", learner.props=desc, ...)
+			callNextMethod(.Object, learner.name="randomForest", learner.pack="randomForest", learner.props=desc, parset=parset)
 		}
 )
 

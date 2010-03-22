@@ -19,7 +19,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("mda"),
-		def = function(.Object, ...) {
+		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -33,7 +33,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="mda", learner.pack="mda", learner.props=desc, ...)
+			callNextMethod(.Object, learner.name="mda", learner.pack="mda", learner.props=desc, parset=parset)
 		}
 )
 

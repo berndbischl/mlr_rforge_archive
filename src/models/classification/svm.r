@@ -41,7 +41,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("kernlab.svm.classif"),
-		def = function(.Object, ...) {
+		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -55,7 +55,7 @@ setMethod(
 					supports.costs = FALSE 
 			)
 			
-			callNextMethod(.Object, learner.name="svm", learner.pack="kernlab", learner.props=desc, ...)
+			callNextMethod(.Object, learner.name="svm", learner.pack="kernlab", learner.props=desc, parset=parset)
 		}
 )
 

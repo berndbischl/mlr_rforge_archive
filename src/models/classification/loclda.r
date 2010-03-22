@@ -17,7 +17,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("loclda"),
-		def = function(.Object, ...) {
+		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="Localized LDA", learner.pack="klaR", learner.props=desc, ...)
+			callNextMethod(.Object, learner.name="Localized LDA", learner.pack="klaR", learner.props=desc, parset=parset)
 		}
 )
 setMethod(

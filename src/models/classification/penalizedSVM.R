@@ -29,7 +29,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("svm.fs.classif"),
-		def = function(.Object, ...) {
+		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -43,7 +43,7 @@ setMethod(
 					supports.costs = FALSE 
 			)
 			
-			callNextMethod(.Object, learner.name="svm.fs", learner.pack="penalizedSVM", learner.props=desc, ...)
+			callNextMethod(.Object, learner.name="svm.fs", learner.pack="penalizedSVM", learner.props=desc, parset=parset)
 		}
 
 setMethod(

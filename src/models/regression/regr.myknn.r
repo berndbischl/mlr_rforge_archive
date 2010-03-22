@@ -41,7 +41,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="myknn", learner.pack="yaImpute", learner.props=desc, ...)
+			.Object <- callNextMethod(.Object, learner.name="myknn", learner.pack="yaImpute", learner.props=desc, parset=parset)
 			return(.Object)
 		}
 )

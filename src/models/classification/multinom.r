@@ -19,7 +19,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("nnet.multinom"),
-		def = function(.Object, ...) {
+		def = function(.Object, parset) {
 			
 			#checked:
 			desc = new("classif.props",
@@ -34,7 +34,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name = "Multinomial regression", learner.pack = "nnet", learner.props = desc)
+			callNextMethod(.Object, learner.name = "Multinomial regression", learner.pack = "nnet", learner.props = desc, parset=parset)
 		}
 )
 

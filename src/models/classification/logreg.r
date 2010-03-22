@@ -24,7 +24,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("logreg"),
-		def = function(.Object, ...) {
+		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
 					supports.multiclass = FALSE,
@@ -38,7 +38,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="logreg", learner.pack="stats", learner.props=desc, ...)
+			callNextMethod(.Object, learner.name="logreg", learner.pack="stats", learner.props=desc, parset=parset)
 		}
 )
 
