@@ -50,7 +50,8 @@ setMethod(
 		f = "default.loss",
 		signature = c(learn.task="classif.task"),
 		def = function(learn.task) {
-			return(make.loss("zero-one"))
+			return(list())
+			#return(make.loss("zero-one"))
 		}
 )
 
@@ -58,7 +59,8 @@ setMethod(
 		f = "default.loss",
 		signature = c(learn.task="regr.task"),
 		def = function(learn.task) {
-			return(make.loss("squared"))
+			return(list())
+			#return(make.loss("squared"))
 		}
 )
 
