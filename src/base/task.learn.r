@@ -3,16 +3,8 @@ roxygen()
 
 #' A learning task is a general description object for a machine learning experiment. 
 #' It wraps the data source and specifies - through its subclasses - the type of the task (e.g. classification or regression), 
-#' the target variable, the loss function and other details of the problem. As this is just an abstract base class, 
+#' the target variable and other details of the problem. As this is just an abstract base class, 
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
-#' 
-#' @slot name Name of task / data set to be used string representations later on.
-#' @slot data Dataframe which includes all the data for the task.
-#' @slot target Name of the target variable.
-#' @slot excluded Names of inputs, which should be generally disregarded, e.g. IDs, etc.
-#' @slot data.desc Contains logical values describing properties of the dataframe e.g. whether it has 
-#' 		characters or missing values (see desc and \code{\linkS4class{data.desc}}).
-#' @slot weights An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
 #' 
 #' @exportClass learn.task
 #' @seealso classif.task regr.task

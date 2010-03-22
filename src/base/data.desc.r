@@ -1,23 +1,4 @@
 
-#' Since not all classifiers can deal with all kind of data, the properties of the data are compared 
-#' with the supported features of the learner when a \code{\linkS4class{learn.task}} is generated.
-#' A \code{data.desc} object contains a description of these data properties.
-#' 
-#' @slot target.col Column index of the response
-#' @slot is.classification Is the target variable categorical?
-#' @slot class.nr Does the dataset have missing values?
-#' @slot has.missing Does the dataset have missing values?
-#' @slot rows.with.missings Number of rows with NAs
-#' @slot cols.with.missings Number of columns with NAs
-#' @slot has.missing Does the dataset have missing values?
-#' @slot numerics Does the dataset have numeric variables?
-#' @slot integers Does the dataset have integer variables?
-#' @slot factors Does the dataset have factor variables?
-#' @slot characters Does the dataset have character variables?
-#' @slot obs Number of examples in dataset.
-#' 
-#' @exportClass data.desc
-#' @title data.desc
 
 
 setClass(
@@ -37,8 +18,6 @@ setClass(
 		)
 )
 
-#' Constructor.
-#' @title data.desc constructor
 
 setMethod(
   f = "initialize",
@@ -109,7 +88,6 @@ setMethod(
 )
 
 
-#' Prints the object by calling as.character.
 
 setMethod(
   f = "print",
@@ -119,7 +97,6 @@ setMethod(
   }
 )
 
-#' Shows the object by calling as.character.
 
 setMethod(
   f = "show",

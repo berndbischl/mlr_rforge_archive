@@ -1,13 +1,6 @@
 #' @include learner.props.r
 roxygen()
 
-#' Description object for the features of a learning algorithm.
-#' 
-#' @slot supports.multiclass Are multiclass problems ok?
-#' @slot supports.probs Can probabilities be predicted?
-#' @slot supports.costs Does the learner support cost-sensitive learning?
-#' 
-#' @exportClass classif.props
 
 setClass(
 		"classif.props",
@@ -21,7 +14,6 @@ setClass(
 )
 
 
-#' Conversion to string.
 setMethod(
 		f = "to.string",
 		signature = signature("classif.props"),
