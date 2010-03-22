@@ -2,25 +2,29 @@ base.files <<- c(
 		"log/log.r",
 #		"base/packagedesc.r",
 		"base/aaa.r",
+		"base/helpers.r",
 		"base/to.string.r",
+		"base/object.r",
 		
 		"base/learner.props.r",
 		"base/learner.props.classif.r",
 		"base/learner.props.regr.r",
-		
-		"base/wrapped.learner.r",
-		"base/wrapped.learner.classif.r",
-		"base/wrapped.learner.regr.r",
-		"base/wrapped.learner.make.r",
-		
+			
 		"base/data.desc.r",
 		"base/prepare.df.r",
+		"base/task.desc.r",
 		"base/task.learn.r",
 		"base/task.classif.r",
 		"base/task.classif.make.r",
 		"base/task.regr.r",
 		"base/task.regr.make.r",
 		"base/check.task.r",
+		
+		"base/wrapped.learner.r",
+		"base/wrapped.learner.classif.r",
+		"base/wrapped.learner.regr.r",
+		"base/wrapped.learner.make.r",
+		
 		
 		"base/wrapped.model.r",
 		"base/learner.failure.r",
@@ -30,9 +34,11 @@ base.files <<- c(
 		"base/check.task.learner.r",
 		
 		"base/predict.learner.r",
+		"base/prediction.r",
 		"base/predict.r",
 		"base/loss.r",
 		"base/performance.r",
+		"base/measures.r",
 		
 		"base/resample/resample.desc.r",
 		"base/resample/resample.desc.make.r",
@@ -49,7 +55,6 @@ base.files <<- c(
 		"base/resample/resample.result.r",
 		"base/resample/resample.fit.r",
 		"base/resample/resample.performance.r",
-		"base/binary.r",
 		
 		
 		"base/conf.matrix.r",
