@@ -3,7 +3,6 @@ setClass(
 		"bench.result",                                                     
 		representation = representation(
 				perf = "array",
-				aggr = "list",
 				tuned.pars = "list", 
 				conf.mats = "list",
 				resamplings = "list"
@@ -31,32 +30,57 @@ setMethod(
 		f = "[",
 		signature = signature("bench.result"),
 		def = function(x,i,j,...,drop) {
-#			if (i == "perf"){
-#				if (missing(j))
-#					j = 1:ncol(perf)
-#				return(x@perf[,j])
-#			}
-			if (i == "tuned.pars"){
-				if (missing(j))
-					j = 1:ncol(x@perf)
-				if (length(j) == 1)
-					return(x@tuned.pars[[j]])
-				else
-					return(x@tuned.pars[j])
-			}
-			if (i == "conf.mats"){
-				if (missing(j))
-					j = 1:ncol(x@perf)
-				if (length(j) == 1)
-					return(x@conf.mats[[j]])
-				else
-					return(x@conf.mats[j])
+			
+			args = list(...)
+			arg.names = names(args)
+			
+			task = args$task
+			if (is.null(task))
+				task = dimnames(x@perf)[[4]]
+			learner = args$learner
+			if (is.null(learner))
+				learner = dimnames(x@perf)[[2]]
+			measure = args$measure
+			if (is.null(measure))
+				measure = dimnames(x@perf)[[3]]
+			iter = args$iter
+			if (is.null(iter))
+				iter = dimnames(x@perf)[[1]]
+			aggr = args$aggr
+			if (is.null(aggr))
+				aggr=list() 
+			else {
+				ns = names(aggr)
+				if (is.null(ns) || any(ns == ""))
+					stop("Aggregation functions have to be passed as a list with names!")
 			}
 			
-			#if nothing special return slot
-			return(
-					eval(substitute("@"(x, slot), list(slot=i)))
-			)
+			if (!missing(i)) {
+				if (i == "tuned.pars"){
+					if (missing(j))
+						j = 1:ncol(x@perf)
+					if (length(j) == 1)
+						return(x@tuned.pars[[j]])
+					else
+						return(x@tuned.pars[j])
+				}
+				if (i == "conf.mats"){
+					if (missing(j))
+						j = 1:ncol(x@perf)
+					if (length(j) == 1)
+						return(x@conf.mats[[j]])
+					else
+						return(x@conf.mats[j])
+				}
+			}
+			p = x@perf[iter, learner, measure, task, drop=FALSE]
+			if (length(aggr) > 0) {
+				p = lapply(aggr, function(f) apply(p, c(2,3,4), f))
+				p = Reduce(function(v,w) abind(v,w, along=2), p)
+				# combine aggr names with measure names
+				dimnames(p)[[2]] = sapply(names(aggr), function(a) paste(a, measure, sep="."))
+			}
+			return(p)
 		}
 )
 
@@ -70,39 +94,8 @@ setMethod(
 		f = "to.string",
 		signature = signature("bench.result"),
 		def = function(x) {
-			pp = x@perf
-			dims = dim(pp)
-			n = dims[4]
-			m = dims[2]
-			aggr = x@aggr
-			dims2 = dims[-1]
-			dims2[2] = dims2[2]*length(aggr)
-			
-			dimns = dimnames(pp)[-1]
-			# combine aggr names with measure names
-			dimns[[2]] = sapply(names(aggr), function(a) paste(a, dimns[[2]], sep="."))
-			ms = array(0, dim=dims2, dimnames=dimns)
-			# tasks
-			for (i in 1:n) {
-				# learners
-				for (j in 1:m) {
-					mm = matrix(pp[,j,,i], nrow=dims[1], ncol=dims[3])
-					mm = lapply(aggr, function(f) apply(mm, 2, f))
-					mm = Reduce(c, mm)
-					mm = as.numeric(mm)
-					ms[j,,i] = mm
-				}
-			}
-			ms = paste(capture.output(ms), collapse="\n")
-			return(
-					
-					paste( 
-							"Benchmark result\n",
-							#"Mean values:\n",
-							ms, "\n",
-							sep=""
-					)
-			)
+			p = x[aggr=list(mean=mean, sd=sd)]
+			p = paste(capture.output(p), collapse="\n")
 		}
 )
 

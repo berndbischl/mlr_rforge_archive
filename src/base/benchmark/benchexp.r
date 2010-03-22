@@ -31,7 +31,7 @@
 #' bench.exp(learners, ct, res)
   
 
-bench.exp <- function(learners, tasks, resampling, measures, aggr) {
+bench.exp <- function(learners, tasks, resampling, measures) {
 	
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
@@ -45,8 +45,6 @@ bench.exp <- function(learners, tasks, resampling, measures, aggr) {
 	if (missing(measures))
 		measures = default.measures(tasks[[1]])
 	measures = make.measures(measures)
-	if (missing(aggr))
-		aggr = default.aggr(tasks[[1]])
 	
 	
 	
@@ -77,10 +75,10 @@ bench.exp <- function(learners, tasks, resampling, measures, aggr) {
 			if (is.character(wl))
 				wl = make.learner(wl, task)
 			learner.names[i] = wl["short.name"]
-			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, aggr=aggr)
+			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures)
 			rr = bm$result
 			# remove aggregated values
-			rr = rr[-(1:length(aggr)), names(measures)]
+			#rr = rr[-(1:length(aggr)), names(measures)]
 			bs[,i,,j] = as.matrix(rr)
 			if (is(wl, "tune.wrapper"))
 				tuned[[j]][[i]] = bm$result
@@ -96,5 +94,5 @@ bench.exp <- function(learners, tasks, resampling, measures, aggr) {
 	dimnames(bs) = list(1:resampling["iters"], learner.names, names(measures), task.names)
 	names(tuned) = task.names
 	names(cms) = task.names
-	return(new("bench.result", perf = bs, tuned.pars=tuned, conf.mats=cms, resamplings=resamplings, aggr=aggr))
+	return(new("bench.result", perf = bs, tuned.pars=tuned, conf.mats=cms, resamplings=resamplings))
 }
