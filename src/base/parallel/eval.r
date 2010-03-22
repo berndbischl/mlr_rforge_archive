@@ -14,9 +14,11 @@ resample.fit.iter <- function(learner, task, rin, vars, type, i, extract) {
 }
 
 eval.parset <- function(learner, task, resampling, measures, aggr, p, scale, names) {
+	if (is.character(learner))
+		learner = make.learner(learner, task=task)
 	parset.scaled = scale.par(scale, p)
 	names(parset.scaled) <- names
-	wl@train.fct.pars = c(wl@train.fct.pars, parset.scaled) 
+	learner@train.fct.pars = c(learner@train.fct.pars, parset.scaled) 
 	st <- system.time(
 			rr <- resample.fit(learner, task, resampling)
 	)
