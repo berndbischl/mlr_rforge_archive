@@ -2,12 +2,14 @@ setClass(
 		"task.desc",
 		contains = c("object"),
 		representation = representation(
+				task.class = "character",
 				target = "character",
 				excluded = "character",
 				weights = "numeric",
 				costs = "matrix",
-				positive = "character"
-		)
+				positive = "character",
+				negative = "character"
+	)
 )
 
 setMethod(

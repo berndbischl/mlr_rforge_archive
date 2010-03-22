@@ -2,36 +2,27 @@
 roxygen()
 
 
-setGeneric(
-		name = "resample.performance",
-		def = function(task, result, measures, losses, aggr) {
-			if (missing(measures))
-				measures = default.measures(task)
-			if (missing(losses))
-				losses = list()
-			if (missing(aggr)) {
-				aggr=default.aggr(task)
-			}
-			measures = make.measures(measures)
-			losses = lapply(losses, make.loss)
-			standardGeneric("resample.performance")
-		}
-)
+#setGeneric(
+#		name = "resample.performance",
+#		def = function(result, measures, losses, aggr) {
+#			if (missing(measures))
+#				measures = default.measures(result@preds[[1]]@task.desc)
+#			if (missing(losses))
+#				losses = list()
+#			measures = make.measures(measures)
+#			losses = lapply(losses, make.loss)
+#			standardGeneric("resample.performance")
+#		}
+#)
 
 #' Measures the quality of predictions w.r.t. some loss function for a resampled fit.
 #' 
-#' @param task [\code{\linkS4class{learn.task}}] \cr
-#'        Learn task.   	
 #' @param result [\code{\linkS4class{resample.result}}] \cr
 #'        Result from call to \code{\link{resample.fit}}.
-#' @param loss [\code{\linkS4class{learn.task}}] \cr
-#'        Learn task.   	
 #' @param aggr1 [\code{\link{function}}] \cr
 #'        Function used to aggregate performance values on test sets. Default is mean.   	
 #' @param aggr2 [\code{\link{function}}] \cr
 #'        Function used to aggregate indiviual losses of test cases to form a single test set performance value per test set. Default is mean.   	
-#' @param spread [\code{\linkS4class{learn.task}}] \cr
-#'        Function to calculate spread of performance values of test sets. Default is standard deviation (sd).   	
 #' 
 #' @return A list with the following entries:
 #' 		\item{\code{values}}{Numeric vector of estimated performances for the resampling iterations.}
@@ -41,7 +32,7 @@ setGeneric(
 #' @export
 #' @rdname resample.performance
 #' 
-#' @usage resample.performance(task, result, loss, aggr1, aggr2, spread)
+#' @usage resample.performance( result, loss, aggr1, aggr2, spread)
 #'
 #' @examples
 #' library(mlbench)
@@ -59,21 +50,23 @@ setGeneric(
 #' @title Performance of a resample.fit
 
 setMethod(
-		f = "resample.performance",
-		signature = c(task="learn.task", result="resample.result", measures="list", losses="list", aggr="list"),
-		def = function(task, result, measures, losses, aggr) {
-			n <- result["iters"]
-			rin <- result["instance"]
+		f = "performance",
+		signature = c(x="resample.result", measures="list", losses="list", aggr="list"),
+		def = function(x, measures, losses, aggr) {
+			n <- x["iters"]
+			rin <- x["instance"]
 			is = 1:n
-			perfs = lapply(result@preds, function(p) performance(p, task=task, measures=measures, losses=losses))
+			perfs = lapply(x@preds, function(p) performance(p, measures=measures, losses=losses))
 			ms = Reduce(rbind, lapply(perfs, function(x) x$measure))
 			ms2 = lapply(aggr, function(f) apply(ms, 2, f))
 			ms2 = Reduce(rbind, ms2)
-			ms = as.data.frame(rbind(ms2, ms))
+			ms = as.data.frame(rbind(ms, ms2))
 			colnames(ms) = names(measures)
-			rownames(ms) = c(names(aggr), is)
+			rownames(ms) = c(is, names(aggr))
 
-			ls = lapply(perfs, function (x) x$losses)
+			ls = lapply(is, function (i) {
+				cbind(iter=i, perfs[[i]]$losses)
+			} )
 			ls = as.data.frame(Reduce(rbind, ls))
 			
 			if (nrow(ls) > 0)

@@ -10,8 +10,6 @@ roxygen()
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 
 #'        An index vector specifying the training cases from the data contained in the learning task. By default the complete dataset is used. 
-#' @param parset [\code{\link{list}}] \cr
-#'       Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.
 #' @param vars [\code{\link{character}}] \cr
 #'       Vector of variable names to use in training the model. Default is to use all variables.
 #'
@@ -19,7 +17,7 @@ roxygen()
 #'
 #' @export
 #'
-#' @usage train(learner, task, subset, parset, vars)  
+#' @usage train(learner, task, subset, vars)  
 #'
 #' @examples 
 #' library(MASS)
@@ -41,13 +39,11 @@ roxygen()
 
 setGeneric(
 		name = "train",
-		def = function(learner, task, subset, parset, vars, type) {
+		def = function(learner, task, subset, vars, type) {
 			if (is.character(learner))
 				learner <- make.learner(learner, task)
 			if (missing(subset))
 				subset <- 1:task["size"]
-			if (missing(parset))
-				parset <- list()
 			if (missing(vars))
 				vars <- task["input.names"]
 			if (length(vars) == 0)
@@ -59,7 +55,7 @@ setGeneric(
 )
 
 
-train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, model.class, novars.class, check.fct) {
+train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, model.class, novars.class, check.fct) {
 
 	if(learner@learner.pack != "mlr" && !require(learner@learner.pack, character.only=TRUE)) {
 		stop(paste("Learner", learner@learner.name, "could not be constructed! package", learner.pack, "missing!"))
@@ -72,6 +68,7 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	
 	wl <- learner
 	tn <- task["target.name"]
+	parset = wl@train.fct.pars
 	# reduce data to subset and selected vars
 	data.subset <- task["data", subset, select=c(vars, tn), drop=F]
 	ws <- task["weights"][subset]
@@ -129,14 +126,13 @@ setMethod(
 				learner="wrapped.learner.classif", 
 				task="classif.task", 
 				subset="numeric", 
-				parset="list", 
 				vars="character",
 				type="character"
 		),
 		
-		def = function(learner, task, subset, parset, vars, type) {
+		def = function(learner, task, subset, vars, type) {
 			extra.train.pars = list(.costs = task["costs"])
-			train.task2(learner, task, subset, parset, vars, type, 
+			train.task2(learner, task, subset, vars, type, 
 					extra.train.pars, "wrapped.model.classif", "novars.classif",
 					check.task.learner.classif
 			)
@@ -151,14 +147,13 @@ setMethod(
 				learner="wrapped.learner.regr", 
 				task="regr.task", 
 				subset="numeric", 
-				parset="list", 
 				vars="character",
 				type="character"				
 		),
 		
-		def = function(learner, task, subset, parset, vars, type) {
+		def = function(learner, task, subset, vars, type) {
 			extra.train.pars = list()
-			train.task2(learner, task, subset, parset, vars, type, 
+			train.task2(learner, task, subset, vars, type, 
 					extra.train.pars, "wrapped.model.regr", "novars.regr",
 					check.task.learner
 			)

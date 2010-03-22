@@ -1,8 +1,8 @@
-tune.grid <- function(learner, task, resampling, measures, aggr, control, fixed, scale) {
+tune.grid <- function(learner, task, resampling, measures, aggr, control, scale) {
 	ranges = control$ranges
 	# if theres more than one ranges 
 	if(all((names(ranges) == "ranges"))) {
-		trs <- lapply(ranges, function(r) {tune.1(learner=learner, task=task, resampling=resampling, ranges=r, measures=measures, aggr=aggr, fixed=fixed, scale=scale)})
+		trs <- lapply(ranges, function(r) {tune.1(learner=learner, task=task, resampling=resampling, ranges=r, measures=measures, aggr=aggr, scale=scale)})
 		trs2 <- lapply(1:length(ranges), function(i) make.tune.result(trs[[i]], measures, ranges[[i]]))
 		ps <- lapply(trs2, function(x) x$all.perfs)
 		bps <- sapply(trs2, function(x) x$perf)
@@ -15,14 +15,14 @@ tune.grid <- function(learner, task, resampling, measures, aggr, control, fixed,
 		perf = perf[, c(par.names, setdiff(cn, par.names))]
 		return(list(par=bpars[[i]], perf=bps[i], all.perfs = perf))
 	}else {
-		tr <- tune.1(learner, task, resampling, ranges, measures, aggr, fixed, scale)
+		tr <- tune.1(learner, task, resampling, ranges, measures, aggr, scale)
 		return(make.tune.result(tr, measures, ranges))
 	}
 }
 
 
 
-tune.1 <- function(learner, task, resampling, ranges, measures, aggr, fixed, scale) {
+tune.1 <- function(learner, task, resampling, ranges, measures, aggr, scale) {
 	check.ranges(ranges)
 
 	grid = expand.grid(ranges, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
@@ -39,7 +39,7 @@ tune.1 <- function(learner, task, resampling, ranges, measures, aggr, fixed, sca
 #	} 
 	
 	
-	perf = eval.parsets(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, pars=parsets, fixed=fixed, scale=scale, names=names(ranges))
+	perf = eval.parsets(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, pars=parsets, scale=scale, names=names(ranges))
 	return(perf)
 }
 

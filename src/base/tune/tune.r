@@ -16,8 +16,6 @@ roxygen()
 #'    Learning task.   
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'    Resampling strategy to evaluate points in hyperparameter space.
-#' @param fixed [\code{\link{list}}] \cr
-#'    Named list of hyperparameter values which are kept fixed during the optimization. Default is list().   
 #' @param method [\code{\link{character}}] \cr
 #'    Search method. Currently supported are "grid", "pattern", "cmaes".   
 #' @param control 
@@ -37,7 +35,7 @@ roxygen()
 #' 
 #' @export
 #'
-#' @usage tune(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=identity)
+#' @usage tune(learner, task, resampling, method="grid", control=NULL, loss, model=F, scale=identity)
 #'
 #' @examples
 #' ct <- make.classif.task(data=iris, target="Species")
@@ -48,7 +46,7 @@ roxygen()
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, fixed=list(), method="grid", control=NULL, measures, aggr, model=F, scale=identity) {	
+tune <- function(learner, task, resampling, method="grid", control=NULL, measures, aggr, model=F, scale=identity) {	
 	if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
@@ -66,12 +64,12 @@ tune <- function(learner, task, resampling, fixed=list(), method="grid", control
 	if(method == "cmaes")
 		optim.func <- tune.cmaes
 	
-	#export.tune(learner, task, fixed, loss, scale)
-	or <- optim.func(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, control=control, fixed=fixed, scale=scale)
+	#export.tune(learner, task, loss, scale)
+	or <- optim.func(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, control=control, scale=scale)
 	or$par = scale.par(scale, or$par)
 	if (model) {
-		parset = c(fixed, or$par)
-		or$model = train(learner, task, parset=parset) 	
+		wl@train.fct.pars = c(wl@train.fct.pars, or$par)
+		or$model = train(learner, task) 	
 	}
 	
 	return(or)			

@@ -3,15 +3,35 @@
 
 
 
+make.losses = function(xs) {
+	if (length(xs)==0)
+		return(list())
+	ys = list()
+	for (i in 1:length(xs)) {
+		x = xs[[i]] 
+		if (is.function(x))
+			y = x
+		else if (is.character(x))
+			y =make.loss(x)
+		ys[[i]] = y
+		nn = names(xs)[i]
+		if (is.null(nn))
+			nn = attr(y, "name")
+		if (is.null(nn))
+			stop("No name for measure!")
+		names(ys)[i] = nn
+	}
+	return(ys)	
+}
+
+
 make.loss <- function(name) {
-	if (is.function(name))
-		return(name)
 	if (name=="squared") 
-		fun=function(true.y, pred.y, weights) (true.y - pred.y)^2 
+		fun=function(true.y, pred.y, weights, task.desc, data.desc) (true.y - pred.y)^2 
 	else if (name=="abs") 
-		fun=function(true.y, pred.y, weights) abs(true.y - pred.y) 
+		fun=function(true.y, pred.y, weights, task.desc, data.desc) abs(true.y - pred.y) 
 	else if (name=="zero-one") 
-		fun=function(true.y, pred.y, weights) as.numeric(true.y != pred.y) 
+		fun=function(true.y, pred.y, weights, task.desc, data.desc) as.numeric(true.y != pred.y) 
 	else 	
 		stop(paste("Loss", name, "does not exist!"))
 	

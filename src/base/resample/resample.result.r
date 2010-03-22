@@ -18,6 +18,8 @@ roxygen()
 setClass(
 		"resample.result",
 		representation = representation(
+				task.desc="task.desc", 
+				data.desc="data.desc", 
 				instance="resample.instance", 
 				preds="list", 
 				extracted="list"

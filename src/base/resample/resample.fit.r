@@ -21,8 +21,6 @@ roxygen()
 #'        Learning task.
 #' @param resampling [\code{\linkS4class{resample.desc}} or \code{\linkS4class{resample.instance}}] \cr
 #'        Resampling strategy. 
-#' @param parset [\code{\link{list}}]\cr 
-#'        A list of named elements which specify the hyperparameters of the learner.
 #' @param vars [\code{\link{character}}] \cr 
 #'        Vector of variable names to use in training the model. Default is to use all variables.
 #' @param type [\code{\link{character}}] \cr 
@@ -38,20 +36,19 @@ roxygen()
 #' @export
 #' @rdname resample.fit 
 #' 
-#' @usage resample.fit(learner, task, resampling, parset, vars, type, extract)
+#' @usage resample.fit(learner, task, resampling, vars, type, extract)
 #'
 #' @examples
 #' ct <- make.classif.task(data=iris, target="Species")
 #' res <- make.res.instance("cv", task=ct, iters=3)
 #' f1 <- resample.fit("rpart.classif", ct, res)	
-#' f2 <- resample.fit("rpart.classif", ct, res, parset=list(minsplit=10, cp=0.03))
 #'  
 #' @title resample.fit
 
 
 setGeneric(
 		name = "resample.fit",
-		def = function(learner, task, resampling, parset, vars, type, extract) {
+		def = function(learner, task, resampling, vars, type, extract) {
 			if (is.character(learner))
 				learner = make.learner(learner, task)
 			n = task["size"]
@@ -60,8 +57,6 @@ setGeneric(
 			r = resampling["size"]
 			if (n != r)
 				stop(paste("Size of data set:", n, "and resampling instance:", r, "differ!"))
-			if (missing(parset))
-				parset <- list()
 			if (missing(vars))
 				vars <- task["input.names"]
 			if (missing(type))
@@ -77,18 +72,18 @@ setGeneric(
 setMethod(
 		f = "resample.fit",
 		signature = signature(learner="wrapped.learner", task="learn.task", resampling="resample.instance", 
-				parset="list", vars="character", type="character", extract="function"),
-		def = function(learner, task, resampling, parset, vars, type, extract) {
+				vars="character", type="character", extract="function"),
+		def = function(learner, task, resampling, vars, type, extract) {
 			n = task["size"]
 			resample.instance <- resampling
 			iters <- resample.instance["iters"]
 			
-			rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, rin=resample.instance, parset=parset, vars=vars, type=type, extract=extract)
+			rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, rin=resample.instance, vars=vars, type=type, extract=extract)
 		
 			ps = lapply(rs, function(x) x$pred)
 			es = lapply(rs, function(x) x$extracted)
 			
-			return(new("resample.result", instance=resample.instance, preds=ps, extracted=es))
+			return(new("resample.result", task.desc=task@task.desc, data.desc=task@data.desc, instance=resample.instance, preds=ps, extracted=es))
 		}
 )
 
@@ -96,9 +91,9 @@ setMethod(
 
 setMethod(
 		f = "resample.fit",
-		signature = signature(learner="wrapped.learner", task="learn.task", resampling="resample.desc", parset="list", vars="character", type="character", extract="function"),
-		def = function(learner, task, resampling, parset, vars, type, extract) {
-			resample.fit(learner, task, i, parset, vars, type, extract)
+		signature = signature(learner="wrapped.learner", task="learn.task", resampling="resample.desc", vars="character", type="character", extract="function"),
+		def = function(learner, task, resampling, vars, type, extract) {
+			resample.fit(learner, task, i, vars, type, extract)
 		}
 )
 

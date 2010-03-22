@@ -85,8 +85,7 @@ setMethod(
 		),
 		
 		def = function(name, data, target, excluded, weights) {
-			ct <- new("regr.task", name=name, target=target, data=data, excluded=excluded, weights=weights)
-			return(ct)
+			new("regr.task", name=name, target=target, data=data, excluded=excluded, weights=weights)
 		}
 )
 
@@ -106,8 +105,7 @@ setMethod(
 		def = function(name, data, formula, excluded, weights) {
 			data2 <- model.frame(formula, data=data)
 			target <- as.character(formula)[2]
-			ct <- new("regr.task", name=name, target=target, data=data2, excluded=excluded, weights=weights)
-			return(ct)
+			new("regr.task", name=name, target=target, data=data2, excluded=excluded, weights=weights)
 		}
 )
 

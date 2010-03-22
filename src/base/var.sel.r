@@ -24,7 +24,7 @@ forward.sel.1 <- function(learn.task, resample.instance, parset, measure, vars) 
 		t2 <- learn.task
 		t2@data <- learn.task["data", select=c(vars2,y)]
 		print(system.time(rf <- resample.fit(t2, resample.instance=resample.instance, parset=parset)))
-		perf <- resample.performance(rf, measure=measure)
+		perf <- performance(rf, measure=measure)
 		if (perf$mean < best.perf) {
 			best.perf <- perf$mean
 			best.var <- v

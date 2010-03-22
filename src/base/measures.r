@@ -35,8 +35,6 @@ make.measure <- function(name) {
 		x = sse
 	else if (name=="mse") 
 		x = mse
-	else if (name=="rmse") 
-		x = rmse
 	attr(x, "name") = name
 	return(x)
 }
@@ -44,24 +42,29 @@ make.measure <- function(name) {
 
 setGeneric(
 		name = "default.measures",
-		def = function(learn.task) {
+		def = function(x) {
 			standardGeneric("default.measures")
 		}
 )
 
-setMethod(
-		f = "default.measures",
-		signature = c(learn.task="classif.task"),
-		def = function(learn.task) {
-			return(c("mmce"))
-		}
-)
 
 setMethod(
 		f = "default.measures",
-		signature = c(learn.task="regr.task"),
-		def = function(learn.task) {
-			return(c("mse"))
+		signature = c(x="task.desc"),
+		def = function(x) {
+			if (x@task.class == "classif.task")
+				return(make.measures("mmce"))
+			else 
+				return(make.measures("mse"))
+		}
+)
+
+
+setMethod(
+		f = "default.measures",
+		signature = c(x="learn.task"),
+		def = function(x) {
+			default.measures(x@task.desc)
 		}
 )
 
@@ -70,44 +73,34 @@ default.aggr = function(task) {
 	return(list(mean=mean, sd=sd)) 
 }
 
-mce = function(trues, preds, weights, task) {
+mce = function(trues, preds, weights, task.desc, data.desc) {
 	mean(as.character(trues) != as.character(preds)) 
 }
 
-sme = function(trues, preds, weights, task) {
+sme = function(trues, preds, weights, task.desc, data.desc) {
 	sum(as.character(trues) != as.character(preds)) 
 }
 
-mcesd = function(trues, preds, weights, task) {
+mcesd = function(trues, preds, weights, task.desc, data.desc) {
 	sd(as.character(trues) != as.character(preds)) 
 }
 
-tpr = function(trues, preds, weights, task) {
-	sum(trues == preds & trues == task["positive"]) / sum(trues == task["positive"])  
+tpr = function(trues, preds, weights, task.desc, data.desc) {
+	sum(trues == preds & trues == task.desc["positive"]) / sum(trues == task.desc["positive"])  
 }
 
-tpr = function(trues, preds, weights, task) {
-	sum(trues == preds & trues == task["positive"]) / sum(trues == task["positive"])  
-}
-
-fpr = function(trues, preds, weights, task) {
-	sum(trues != preds & trues == task["negative"]) / sum(trues == task["negative"])  
+fpr = function(trues, preds, weights, task.desc, data.desc) {
+	sum(trues != preds & trues == task.desc["negative"]) / sum(trues == task.desc["negative"])  
 }
 
 
 
 
-
-
-rmse = function(trues, preds, weights, task) {
-	sqrt(mean((trues - preds)^2)) 
-}
-
-sse = function(trues, preds, weights, task) {
+sse = function(trues, preds, weights, task.desc, data.desc) {
 	sum((trues - preds)^2) 
 }
 
-mse = function(trues, preds, weights, task) {
+mse = function(trues, preds, weights, task.desc, data.desc) {
 	mean((trues - preds)^2) 
 }
 

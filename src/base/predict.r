@@ -162,7 +162,7 @@ setMethod(
 				ids = 1:nrow(newdata)
 			else
 				ids = subset
-			pred = new("prediction", id=ids, response=response, prob=prob, decision=decision, target=trues)
+			pred = new("prediction", data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, target=trues)
 			return(pred)
 		}
 )

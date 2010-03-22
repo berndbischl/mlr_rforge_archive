@@ -42,7 +42,7 @@ setMethod(
 				result = data.frame(matrix(nrow=resampling["iters"]+length(aggr), ncol=0))
 				rr <- resample.fit(learner, task, resampling)
 			}
-			rp = resample.performance(task, rr, measures=measures, aggr=aggr)
+			rp = performance(rr, measures=measures, aggr=aggr)
 			cm = NA
 			if (is(task, "classif.task"))			
 				cm = conf.matrix(task, rr)

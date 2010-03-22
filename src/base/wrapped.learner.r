@@ -36,7 +36,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("wrapped.learner"),
-		def = function(.Object, learner.name, learner.pack, train.fct, predict.fct=predict, predict.newdata.arg="newdata", learner.props) {
+		def = function(.Object, learner.name, learner.pack, learner.props, ...) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
@@ -47,7 +47,7 @@ setMethod(
 			.Object@learner.name <- learner.name
 			.Object@learner.pack <- learner.pack
 			
-			.Object@train.fct.pars <- list()
+			.Object@train.fct.pars = list(...)
 			.Object@predict.fct.pars <- list()
 			
 			.Object@learner.props <- learner.props
@@ -75,9 +75,11 @@ setMethod(
 		f = "to.string",
 		signature = signature("wrapped.learner"),
 		def = function(x) {
+			ps = paste(names(x@train.fct.pars), x@train.fct.pars, sep="=", collapse=" ")
 			return(paste( 
 							"Classification learner ", x@learner.name, " from package ", x@learner.pack, "\n\n",					
-							to.string(x@learner.props), 
+							to.string(x@learner.props), "\n",
+							"Hyperparameters: ", ps, "\n",
 							sep =""					
 					))
 		}

@@ -2,7 +2,16 @@
 
 setGeneric(
 		name = "performance",
-		def = function(pred, task, measures=default.measures(task), losses=c()) {
+		def = function(x, measures, losses, aggr) {
+			if (missing(measures))
+				measures=default.measures(x@task.desc)
+			measures = make.measures(measures)
+			if (missing(losses))
+				losses=list()
+			losses = make.losses(losses)
+			if (is(x, "resample.result") && missing(aggr))
+				aggr = default.aggr(x@task.desc)
+			
 			standardGeneric("performance")
 		}
 )
@@ -59,18 +68,19 @@ setGeneric(
 
 setMethod(
 		f = "performance",
-		signature = signature(pred="prediction", task="learn.task", measures="vector", losses="vector"),
-		def = function(pred, task, measures, losses) {
-			measures = make.measures(measures)
-			losses = lapply(losses, make.loss)
-			
-			ms = sapply(measures, function(f) f(pred@target, pred@response, weights, task))
-			ls = sapply(losses, function(f) f(pred@target, pred@response, weights, task))
-			
+		signature = signature(x="prediction", measures="list", losses="list", aggr="missing"),
+		def = function(x, measures, losses) {
+			td = x@task.desc
+			dd = x@data.desc
+			ms = sapply(measures, function(f) f(x@target, x@response, weights, td, dd))
+			ls = lapply(losses, function(f) cbind(
+						x@id,		
+						f(x@target, x@response, weights, td, dd)
+			))
 #			if(length(ms[[1]]) != 1)
 #				stop("Measure has to return a scalar value!")
 				
-			ls = as.data.frame(ls)
+			ls = as.data.frame(Reduce(rbind, ls))
 			g = function(x) {
 				n = attr(x, "name")
 				if (is.null(n)) 
@@ -79,7 +89,8 @@ setMethod(
 					return(n)
 			}
 			names(ms) = sapply(measures, g)
-			colnames(ls) = sapply(losses, g)
+			if (length(losses) > 0)
+				colnames(ls) = c("id", sapply(losses, g))
 			
 			if (length(losses) > 0)
 				return(list(measures=ms, losses=ls))

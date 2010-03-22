@@ -34,7 +34,7 @@ setMethod(
 			
 			check.task(data, target)
 			data = prep.classif.data(data, target, excluded)			
-			dd = new("data.desc", data=data, target=target)
+			dd = new("data.desc", data=data, target=target, excluded=excluded)
 			
 			n = dd["class.nr"]
 			levs = dd["class.levels"]
@@ -45,19 +45,21 @@ setMethod(
 			}
 			
 			# init positive
-			positive = as.character(NA)
+			pos = neg = as.character(NA)
 			if (n == 2) {
-				if (is.na(positive))
-					positive = levs[1] 					
+				if (is.na(pos)) {
+					pos = levs[1] 					
+					neg = levs[2]
+				}
 				else {
-					if (!(positive %in% levs))
+					if (!(pos %in% levs))
 						stop(paste("Trying to set a positive class", .Object@positive, "which is not a value of the target variable:", paste(levs, collapse=",")))
 				}
 			} else {
-				if (!is.na(positive))
+				if (!is.na(pos))
 					stop("Cannot set a positive class for a multiclass problem!")
 			}
-			td = new("task.desc", target=target, positive=positive, excluded=excluded, weights=weights, costs=costs)			
+			td = new("task.desc", task.class="classif.task", target=target, positive=pos, negative=neg, excluded=excluded, weights=weights, costs=costs)			
 
 			callNextMethod(.Object, name=name, data=data, data.desc=dd, task.desc=td)
 		}

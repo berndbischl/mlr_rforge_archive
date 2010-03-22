@@ -22,12 +22,13 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("data.desc"),
-  def = function(.Object, data, target) {
-      col <- which(colnames(data) == target)
-      df2 <- data[,-col]
+  def = function(.Object, data, target, excluded) {
+	  i = which(colnames(data) %in% c(target, excluded))
+	  df2 = data[, -i]
+	  
 	  .Object@target = target 
 	  .Object@obs = nrow(data)
-	  .Object@is.classification <- is.factor(data[, col])
+	  .Object@is.classification <- is.factor(data[, target])
 	  .Object@rows.with.missings <- sum(apply(df2, 1, function(x) any(is.na(x))))
 	  .Object@cols.with.missings <- sum(apply(df2, 2, function(x) any(is.na(x))))
 	  .Object@numerics <- sum(sapply(df2, is.numeric))
@@ -35,7 +36,7 @@ setMethod(
       .Object@factors <- sum(sapply(df2, is.factor))
       .Object@characters <- sum(sapply(df2, is.character))
 	  if(.Object@is.classification)	
-	  	.Object@classes = levels(data[, col])
+	  	.Object@classes = levels(data[, target])
 	  return(.Object)
   }
 )

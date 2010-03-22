@@ -1,6 +1,6 @@
 setGeneric(
 		name = "make.learner",
-		def = function(name, task) {
+		def = function(name, task, ...) {
 			standardGeneric("make.learner")
 		}
 )
@@ -49,7 +49,7 @@ setMethod(
 				task = "missing"
 		),
 		
-		def = function(name, task) {
+		def = function(name, task, ...) {
 			return(new(name))
 		}
 )
@@ -62,8 +62,8 @@ setMethod(
 				task = "missing"
 		),
 		
-		def = function(name) {
-			return(new(name))
+		def = function(name, ...) {
+			return(new(name, ...))
 		}
 )
 
@@ -75,7 +75,7 @@ setMethod(
 				task = "classif.task"
 		),
 		
-		def = function(name, task) {
+		def = function(name, task, ...) {
 			if (extends(name, "wrapped.learner.classif"))
 				return(new(name))
 			name2 = paste(name, "classif", sep=".")
@@ -93,7 +93,7 @@ setMethod(
 				task = "regr.task"
 		),
 		
-		def = function(name, task) {
+		def = function(name, task, ...) {
 			if (extends(name, "wrapped.learner.regr"))
 				return(new(name))
 			name2 = paste(name, "regr", sep=".")

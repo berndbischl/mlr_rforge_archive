@@ -1,3 +1,4 @@
+#' @include object.r
 #' @include wrapped.learner.r
 roxygen()
 

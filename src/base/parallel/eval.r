@@ -1,9 +1,9 @@
 
 #' @export
-resample.fit.iter <- function(learner, task, rin, parset, vars, type, i, extract) {
+resample.fit.iter <- function(learner, task, rin, vars, type, i, extract) {
 	train.i <- rin["train.inds", i]
 	test.i <- rin["test.inds", i]
-	m <- train(learner, task, subset=train.i, parset=parset, vars=vars)
+	m <- train(learner, task, subset=train.i, vars=vars)
 	if (is(task, "classif.task"))
 		p <- predict(m, task=task, subset=test.i, type=type)
 	else 
@@ -13,15 +13,14 @@ resample.fit.iter <- function(learner, task, rin, parset, vars, type, i, extract
 	return(list(pred=p, extracted=ex))	
 }
 
-eval.parset <- function(learner, task, resampling, measures, aggr, fixed, p, scale, names) {
+eval.parset <- function(learner, task, resampling, measures, aggr, p, scale, names) {
 	parset.scaled = scale.par(scale, p)
-	
 	names(parset.scaled) <- names
-	parset = c(fixed, parset.scaled)
+	wl@train.fct.pars = c(wl@train.fct.pars, parset.scaled) 
 	st <- system.time(
-			rr <- resample.fit(learner, task, resampling, parset)
+			rr <- resample.fit(learner, task, resampling)
 	)
-	rp <- resample.performance(task, rr, measures=measures, aggr=aggr)
+	rp <- performance(rr, measures=measures, aggr=aggr)
 	logger.debug("parset ", as.character(parset))
 	#logger.debug("mean error = ", rp$aggr1)
 	#logger.debug("Number of evaluations: ", n.eval)
@@ -36,8 +35,8 @@ eval.parset <- function(learner, task, resampling, measures, aggr, fixed, p, sca
 	return(mm)
 }
 
-eval.parsets <- function(learner, task, resampling, measures, aggr, fixed, pars, scale, names) {
-	ms = mylapply(pars, eval.parset, from="tune", learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, fixed=fixed, scale=scale, names=names)
+eval.parsets <- function(learner, task, resampling, measures, aggr, pars, scale, names) {
+	ms = mylapply(pars, eval.parset, from="tune", learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, scale=scale, names=names)
 	ps = par.list.to.df(pars)
 	ms = Reduce(rbind, ms)
 	y = cbind(ps, ms)

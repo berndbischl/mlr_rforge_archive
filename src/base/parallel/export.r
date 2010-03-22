@@ -15,10 +15,9 @@
 #}
 
 
-export.tune <- function(learner, task, fixed, loss, scale) {
+export.tune <- function(learner, task, loss, scale) {
 	export(".mlr.learner", learner)
 	export(".mlr.task", task)
-	export(".mlr.fixed", fixed)
 	export(".mlr.loss", loss)
 	export(".mlr.scale", scale)
 }

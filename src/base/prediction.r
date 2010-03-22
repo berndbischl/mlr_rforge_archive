@@ -1,6 +1,8 @@
 setClass(
 		"prediction",
 		representation = representation(
+				data.desc = "data.desc",
+				task.desc = "task.desc",
 				id = "integer",
 				response = "ANY",
 				target = "ANY",
