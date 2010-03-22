@@ -15,7 +15,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("gbm.classif"),
-		def = function(.Object) {
+		def = function(.Object, ...) {
 			
 			desc = new("classif.props",
 					supports.multiclass = FALSE,
@@ -28,10 +28,7 @@ setMethod(
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)			
-			.Object <- callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm", learner.props=desc)
-			.Object <- set.train.par(.Object, distribution="adaboost", verbose=FALSE)
-			.Object <- set.predict.par(.Object, type="link", single.tree = FALSE)
-			return(.Object)
+			callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm", learner.props=desc, ...)
 		}
 )
 
@@ -50,7 +47,7 @@ setMethod(
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			gbm(f, data=.data, weights=.weights, ...)
+			gbm(f, data=.data, weights=.weights, distribution="adabost", verbose=FALSE, ...)
 		}
 )
 
@@ -65,7 +62,7 @@ setMethod(
 		
 		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
 			m <- .wrapped.model["learner.model"]
-			predict(m, newdata=.newdata, n.trees=length(m$trees), ...)
+			predict(m, newdata=.newdata, type="link", n.trees=length(m$trees), single.tree=FALSE, ...)
 		}
 )	
 

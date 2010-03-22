@@ -17,7 +17,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("qda"),
-		def = function(.Object) {
+		def = function(.Object, ...) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE 
 			)
 			
-			callNextMethod(.Object, learner.name="qda", learner.pack="MASS", learner.props=desc)
+			callNextMethod(.Object, learner.name="qda", learner.pack="MASS", learner.props=desc, ...)
 		}
 )
 

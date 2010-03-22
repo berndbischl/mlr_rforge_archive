@@ -25,9 +25,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("adaboost"),
-		def = function(.Object) {
-			train.fct <- "adaboost.M1"
-			predict.fct <- "predict.boosting"
+		def = function(.Object, ...) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -41,7 +39,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="boost", learner.pack="adabag", learner.props=desc)
+			callNextMethod(.Object, learner.name="boost", learner.pack="adabag", learner.props=desc, ...)
 		}
 )
 

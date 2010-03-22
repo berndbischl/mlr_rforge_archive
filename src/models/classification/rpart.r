@@ -19,7 +19,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("rpart.classif"),
-		def = function(.Object) {
+		def = function(.Object, ...) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -32,7 +32,7 @@ setMethod(
 					supports.weights = TRUE,
 					supports.costs = TRUE
 			)
-			callNextMethod(.Object, learner.name="RPART", learner.pack="rpart",	learner.props=desc)
+			callNextMethod(.Object, learner.name="RPART", learner.pack="rpart",	learner.props=desc, ...)
 		}
 )
 
@@ -50,6 +50,8 @@ setMethod(
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
+			print("in rpart")
+			print(list(...))
 			rpart(f, data=.data, weights=.weights, parms=list(loss=.costs), ...)
 		}
 )

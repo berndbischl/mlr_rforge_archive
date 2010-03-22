@@ -19,7 +19,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("rpart.regr"),
-		def = function(.Object) {
+		def = function(.Object, ...) {
 			
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -28,7 +28,7 @@ setMethod(
 					supports.characters = FALSE,
 					supports.weights = TRUE
 			)
-			callNextMethod(.Object, learner.name="RPART", learner.pack="rpart",	learner.props=desc)
+			callNextMethod(.Object, learner.name="RPART", learner.pack="rpart",	learner.props=desc, ...)
 		}
 )
 

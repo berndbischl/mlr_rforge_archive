@@ -18,7 +18,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("stats.lm"),
-		def = function(.Object) {
+		def = function(.Object, ...) {
 			
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -28,7 +28,7 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
-			callNextMethod(.Object, learner.name="Linear Regression", learner.pack="stats", learner.props=desc)
+			callNextMethod(.Object, learner.name="Linear Regression", learner.pack="stats", learner.props=desc, ...)
 		}
 )
 

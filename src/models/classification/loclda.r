@@ -17,9 +17,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("loclda"),
-		def = function(.Object) {
-			train.fct <- "loclda" 
-			predict.fct <- "predict" 
+		def = function(.Object, ...) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -33,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="Localized LDA", learner.pack="klaR", learner.props=desc)
+			callNextMethod(.Object, learner.name="Localized LDA", learner.pack="klaR", learner.props=desc, ...)
 		}
 )
 setMethod(

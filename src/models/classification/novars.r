@@ -11,7 +11,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("novars.classif"),
-		def = function(.Object) {
+		def = function(.Object, ...) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -24,7 +24,7 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
-			callNextMethod(.Object, learner.name="NoVars", learner.pack="mlr", learner.props=desc)
+			callNextMethod(.Object, learner.name="NoVars", learner.pack="mlr", learner.props=desc, ...)
 		}
 )
 

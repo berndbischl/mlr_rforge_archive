@@ -23,7 +23,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("kknn.classif"),
-		def = function(.Object) {
+		def = function(.Object, ...) {
 			
 			desc <- new("classif.props",
 					supports.multiclass = TRUE,
@@ -37,7 +37,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="knn", learner.pack="kknn", learner.props=desc)
+			callNextMethod(.Object, learner.name="knn", learner.pack="kknn", learner.props=desc, ...)
 		}
 )
 

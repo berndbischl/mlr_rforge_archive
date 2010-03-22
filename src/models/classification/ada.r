@@ -18,7 +18,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("ada"),
-		def = function(.Object) {
+		def = function(.Object, ...) {
 			
 			desc = new("classif.props",
 					supports.multiclass = FALSE,
@@ -32,9 +32,7 @@ setMethod(
 					supports.costs = TRUE
 			)
 			
-			.Object <- callNextMethod(.Object, learner.name="Ada boosting", learner.pack="ada", 
-					train.fct="ada",  
-					learner.props=desc)
+			.Object <- callNextMethod(.Object, learner.name="Ada boosting", learner.pack="ada", learner.props=desc, ...)
 			
 			return(.Object)
 		}
@@ -43,7 +41,7 @@ setMethod(
 setMethod(
 		f = "initialize",
 		signature = signature("ada"),
-		def = function(.Object) {
+		def = function(.Object, ...) {
 			
 			desc = new("classif.props",
 					supports.multiclass = FALSE,
@@ -56,7 +54,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="ada", learner.pack="ada", learner.props=desc)
+			callNextMethod(.Object, learner.name="ada", learner.pack="ada", learner.props=desc, ...)
 		}
 )
 

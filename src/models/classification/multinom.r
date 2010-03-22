@@ -19,7 +19,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("nnet.multinom"),
-		def = function(.Object) {
+		def = function(.Object, ...) {
 			
 			#checked:
 			desc = new("classif.props",
