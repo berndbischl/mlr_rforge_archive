@@ -55,7 +55,7 @@ setMethod(
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			glm(f, family="binomial", data=.data, ...)
+			glm(f, family="binomial", data=.data, model=FALSE, ...)
 		}
 )
 
