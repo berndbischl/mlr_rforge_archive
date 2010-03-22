@@ -1,9 +1,36 @@
-setGeneric(
-		name = "make.learner",
-		def = function(name, task, ...) {
-			standardGeneric("make.learner")
+#' @export 
+make.learner = function(name, task, ...) {
+	parset = list(...)
+	name2 = NULL
+	if (!missing(task)) {
+		if (is(task, "classif.task")) {
+			if (!extends(name, "wrapped.learner.classif")) {
+				name = paste(name, "classif", sep=".")
+				if (extends(n, "wrapped.learner.classif"))
+					name2 = n
+			} else {
+				name2 = name
+			}
+		} else if (is(task, "regr.task")){
+			if (!extends(name, "wrapped.learner.regr")) {
+				n = paste(name, "regr", sep=".")
+				if (extends(n, "wrapped.learner.regr"))
+					name = n
+			} else {
+				name2 = name
+			}
 		}
-)
+	} else {
+		if (extends(name, "wrapped.learner"))
+			name2 = name
+	}
+	if (!is.null(name2))
+		return(new(name2, parset=parset))
+	else 
+		stop("Cannot find corresponding learner class for name: ", name)
+}
+
+
 
 
 
@@ -42,64 +69,4 @@ setGeneric(
 #' @title make.learner
 
 
-setMethod(
-		f = "make.learner",
-		signature = signature(
-				name = "character",
-				task = "missing"
-		),
-		
-		def = function(name, task, ...) {
-			return(new(name))
-		}
-)
-
-
-setMethod(
-		f = "make.learner",
-		signature = signature(
-				name = "character",
-				task = "missing"
-		),
-		
-		def = function(name, ...) {
-			return(new(name, ...))
-		}
-)
-
-#' @export 
-setMethod(
-		f = "make.learner",
-		signature = signature(
-				name = "character",
-				task = "classif.task"
-		),
-		
-		def = function(name, task, ...) {
-			if (extends(name, "wrapped.learner.classif"))
-				return(new(name))
-			name2 = paste(name, "classif", sep=".")
-			if (extends(name2, "wrapped.learner.classif"))
-				return(new(name2))
-			stop("Cannot find corresponding learner class for name: ", name)
-		}
-)
-
-#' @export 
-setMethod(
-		f = "make.learner",
-		signature = signature(
-				name = "character",
-				task = "regr.task"
-		),
-		
-		def = function(name, task, ...) {
-			if (extends(name, "wrapped.learner.regr"))
-				return(new(name))
-			name2 = paste(name, "regr", sep=".")
-			if (extends(name2, "wrapped.learner.regr"))
-				return(new(name2))
-			stop("Cannot find corresponding learner class for name: ", name)
-		}
-)
 
