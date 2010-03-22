@@ -21,6 +21,9 @@ setMethod(
 		signature = c(learner="wrapped.learner", task="learn.task", resampling="resample.instance", measures="list"),
 		
 		def = function(learner, task, resampling, measures) {
+			if(task["name"] == "" || is.null(task["name"]) || is.null(task["name"]))
+				stop("Every task in a benchmark experiment has to be named!")
+			
 			if (is(learner, "tune.wrapper")) {
 				extract = function(x) {
 					list(tuned.par=x["tuned.par"], tuned.perf=x["tuned.perf"])

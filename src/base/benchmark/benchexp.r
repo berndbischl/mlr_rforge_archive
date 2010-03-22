@@ -77,8 +77,8 @@ bench.exp <- function(learners, tasks, resampling, measures) {
 			learner.names[i] = wl["short.name"]
 			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures)
 			rr = bm$result
-			# remove aggregated values
-			#rr = rr[-(1:length(aggr)), names(measures)]
+			# remove tune perf
+			rr = rr[, names(measures)]
 			bs[,i,,j] = as.matrix(rr)
 			if (is(wl, "tune.wrapper"))
 				tuned[[j]][[i]] = bm$result

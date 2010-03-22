@@ -6,16 +6,16 @@ make.learner = function(name, task, ...) {
 		if (is(task, "classif.task")) {
 			if (!extends(name, "wrapped.learner.classif")) {
 				name = paste(name, "classif", sep=".")
-				if (extends(n, "wrapped.learner.classif"))
-					name2 = n
+				if (extends(name, "wrapped.learner.classif"))
+					name2 = name
 			} else {
 				name2 = name
 			}
 		} else if (is(task, "regr.task")){
 			if (!extends(name, "wrapped.learner.regr")) {
 				n = paste(name, "regr", sep=".")
-				if (extends(n, "wrapped.learner.regr"))
-					name = n
+				if (extends(name, "wrapped.learner.regr"))
+					name2 = name
 			} else {
 				name2 = name
 			}
