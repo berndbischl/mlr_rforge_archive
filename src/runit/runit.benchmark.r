@@ -1,7 +1,7 @@
 test.benchmark <- function() {
 	
 
-	ct <- make.classif.task(data=iris, target="Species")
+	ct <- make.classif.task("iris", data=iris, target="Species")
 	outer <- make.res.instance("cv", ct, iters=5) 
 	inner <- new("cv.desc", iters=3)
 	
