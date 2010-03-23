@@ -32,7 +32,7 @@ setMethod(
 					supports.weights = TRUE,
 					supports.costs = TRUE
 			)
-			callNextMethod(.Object, learner.name="RPART", learner.pack="rpart",	learner.props=desc, parset=parset)
+			callNextMethod(.Object, learner.name="RPart", learner.pack="rpart",	learner.props=desc, parset=parset)
 		}
 )
 

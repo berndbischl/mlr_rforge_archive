@@ -34,7 +34,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name = "Multinomial regression", learner.pack = "nnet", learner.props = desc, parset=parset)
+			callNextMethod(.Object, learner.name = "MultiReg", learner.pack = "nnet", learner.props = desc, parset=parset)
 		}
 )
 

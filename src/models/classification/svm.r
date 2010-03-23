@@ -55,7 +55,7 @@ setMethod(
 					supports.costs = FALSE 
 			)
 			
-			callNextMethod(.Object, learner.name="svm", learner.pack="kernlab", learner.props=desc, parset=parset)
+			callNextMethod(.Object, learner.name="SVM", learner.pack="kernlab", learner.props=desc, parset=parset)
 		}
 )
 
@@ -77,56 +77,34 @@ setMethod(
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
+			pm = "prob" %in% .type 
+			
 			kpar = list()
 			args = list(...)
 			args.names <- names(args)
 			
-			make.kpar <- function(kernel.pars, kernel.name) {
-				kpar <- list()
-				for (p in kernel.pars) {
-					if (p %in% args.names)
-						kpar[[p]] <- args[[p]]
-				}
-				if (kernel.name %in% c("rbfdot", "laplacedot") && 
-						(is.null(kpar$sigma) || kpar$sigma=="automatic")) {
-					return("automatic")
-				} else {
-					return(kpar)
+#			print(str(args))
+#			cat("\n")
+			kernel.par.names = c("degree", "offset", "scale", "sigma", "order", "length", "lambda")
+			kernel.par.names = c(kernel.par.names, paste("kpar", 0:9, sep=""))
+			
+			kpar = list()
+			for (k in kernel.par.names) {
+				x = args[[k]]
+				if (!is.null(x)) {
+					kpar[[k]] = x
+					args[[k]] = NULL
 				}
 			}
 			
-			change.parset <- function(parset, kpar) {
-				for (p in names(kpar))
-					parset[p] <- NULL
-				parset$kpar = kpar
-				return(parset)
-			}
+			kargs = list(f, data=.data, prob.model = pm, fit=FALSE, kpar=kpar) 
 			
-			if (!("kernel" %in% args.names)) 
-				kernel <- "rbfdot" 
-			else
-				kernel <- args$kernel
-				
-			if (kernel == "rbfdot" || kernel == "laplacedot") 
-				kpar <- make.kpar("sigma", kernel)
-			if (kernel == "polydot") 
-				kpar <- make.kpar(c("degree", "offset", "scale"), kernel)
-			if (kernel == "tanhdot") 
-				kpar <- make.kpar(c("offset", "scale"), kernel)
-			if (kernel == "besseldot") 
-				kpar <- make.kpar(c("degree", "sigma", "order"), kernel)
-			if (kernel == "anovadot") 
-				kpar <- make.kpar(c("degree", "sigma"), kernel)
-			if (kernel == "anovadot") 
-				kpar <- make.kpar(c("length", "lambda", "normalized"), kernel)
-			
-			
-			
-			parset = list(f, data=.data, prob.model = "prob" %in% .type, fit=FALSE)
-			parset = c(parset, args)
-			parset <- change.parset(parset, kpar)
-
-			do.call(ksvm, parset)
+			# there's a strange behaviour in r semantics here wgich forces this, see do.call and the comment about substitute
+			if (!is.null(args$kernel) && is.function(args$kernel) && !is(args$kernel,"kernel")) {
+				args$kernel = do.call(args$kernel, kpar)	
+			} 
+			kargs = c(kargs, args)
+			do.call(ksvm, kargs)
 		}
 )
 
