@@ -73,7 +73,7 @@ setMethod(
 			x <- predict(.wrapped.model["learner.model"], newdata=.newdata, type="response", ...)
 			
 			if (.type == "prob") {
-				y <- matrix(0, ncol=2, nrow=length(.newdata))
+				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
 				colnames(y) <- .wrapped.model["class.levels"]
 				y[,1] <- x
 				y[,2] <- 1-x

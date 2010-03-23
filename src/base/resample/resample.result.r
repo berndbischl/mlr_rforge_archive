@@ -2,7 +2,8 @@
 #' @include resample.instance.r
 roxygen()
 
-#' export
+#' @exportClass resample.result 
+
 setClass(
 		"resample.result",
 		representation = representation(
@@ -77,7 +78,7 @@ setMethod(
 )
 
 
-#' export
+#' @export
 
 setMethod(
 		f = "as.data.frame",
