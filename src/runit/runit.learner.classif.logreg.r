@@ -6,8 +6,8 @@ test.logreg <- function(){
 	p <- predict(m, newdata=binaryclass.test, type="response")
 	
 	p.prob = matrix(-1, ncol=2, nrow=nrow(binaryclass.test))
-	p.prob[,1] = p
-	p.prob[,2] = 1-p
+	p.prob[,1] = 1-p
+	p.prob[,2] = p
 	colnames(p.prob) = levels(binaryclass.test[,binaryclass.target])
 	p.class <- as.factor(binaryclass.class.levs[ifelse(p > 0.5, 2, 1)])
 	

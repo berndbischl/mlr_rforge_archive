@@ -75,8 +75,8 @@ setMethod(
 			if (.type == "prob") {
 				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
 				colnames(y) <- .wrapped.model["class.levels"]
-				y[,1] <- x
-				y[,2] <- 1-x
+				y[,1] <- 1-x
+				y[,2] <- x
 				return(y)
 			} else {
 				levs <- .wrapped.model["class.levels"]
