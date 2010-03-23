@@ -77,7 +77,7 @@ setMethod(
 )
 
 
-
+#' export
 
 setMethod(
 		f = "as.data.frame",
