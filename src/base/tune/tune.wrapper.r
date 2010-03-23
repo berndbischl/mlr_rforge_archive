@@ -41,6 +41,7 @@ setMethod(
 			.Object@method = method
 			.Object@resampling = resampling
 			.Object@control = control
+			.Object@scale = scale
 			callNextMethod(.Object, learner.name=paste("tuned",bl@learner.name,sep="-"), learner.pack="mlr", learner.props=bl@learner.props)
 		}
 )
@@ -49,6 +50,8 @@ setMethod(
 make.tune.wrapper <- function(learner, resampling, method="grid", control, scale) {
 	if (is.character(learner))
 		learner = make.learner(learner)
+	if (missing(scale))
+		scale = identity
 	if (is(learner, "wrapped.learner.classif"))
 		tt = new("tune.wrapper.classif", learner, resampling, method, control, scale)
 	else		
