@@ -12,7 +12,7 @@ test.ada <- function() {
 	
 	simple.test("ada", binaryclass.df, binaryclass.formula, binaryclass.train.inds, p.class)
 	
-	colnames(p) = levels(binaryclass.df[, binaryclass.target])
+	p = p[,1]
 	prob.test("ada", binaryclass.df, binaryclass.formula, binaryclass.train.inds, p)
 	
    # more tests!!!!	

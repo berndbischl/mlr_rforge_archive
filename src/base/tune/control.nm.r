@@ -1,3 +1,5 @@
+#' @export 
+
 nm.control <- function(start, ...) {
 	x = list(...)
 	y = list(start=unlist(start))

@@ -27,7 +27,7 @@ test.multinom <- function() {
 	p = predict(m, newdata=binaryclass.df, type=c("response", "prob"))
 	rr = p["response"]
 	pp = p["prob"]
-	i = max.col(pp)
-	labs = as.factor(colnames(pp)[i]) 
+	i = as.integer(pp < 0.5) + 1
+	labs = as.factor(binaryclass.task["classes"][i]) 
 	checkEquals(rr, labs)	
 }

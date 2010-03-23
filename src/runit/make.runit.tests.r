@@ -50,8 +50,9 @@ prob.test <- function(t.name, df, formula, train.inds, old.probs, parset=list())
 		checkTrue(class(old.predicts)=="try-error")
 	}else{
 		cp <- predict(cm, newdata=test, type="prob")
-		
-		# to avoid issues with dropped levels in the class factor we only check the elemenst as charcters
+		# dont need names for num vector, 2 classes
+		if (is.numeric(old.probs))
+			names(old.probs) = NULL
 		checkEquals(cp@prob, old.probs)
 	}
 }

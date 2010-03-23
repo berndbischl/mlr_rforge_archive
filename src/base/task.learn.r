@@ -15,7 +15,6 @@ setClass(
 		"learn.task",
 		contains = c("object"),
 		representation = representation(
-				name = "character",
 				data = "data.frame",
 				data.desc = "data.desc",
 				task.desc = "task.desc"
@@ -31,7 +30,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, name, data, data.desc, task.desc) {
+		def = function(.Object, data, data.desc, task.desc) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
@@ -40,7 +39,6 @@ setMethod(
 			
 
 
-			.Object@name = name
 			.Object@data = data
 			.Object@data.desc = data.desc
 			.Object@task.desc = task.desc

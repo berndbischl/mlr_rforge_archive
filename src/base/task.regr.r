@@ -33,10 +33,10 @@ setMethod(
 			check.task(data, target)
 			data = prep.data(data, target, excluded)			
 			dd = new("data.desc", data=data, target=target, excluded=excluded)
-			td = new("task.desc", task.class="regr.task", target=target, positive=as.character(NA), negative=as.character(NA), 
+			td = new("task.desc", task.class="regr.task", name=name, target=target, positive=as.character(NA), negative=as.character(NA), 
 					excluded=excluded, weights=weights, costs=as.matrix(NA))			
 			
-			callNextMethod(.Object, name=name, data=data, data.desc=dd, task.desc=td)
+			callNextMethod(.Object, data=data, data.desc=dd, task.desc=td)
 		}
 )
 
@@ -47,7 +47,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Regression problem ", x@name, "\n",
+							"Regression problem ", x["name"], "\n",
 							to.string(x@data.desc), "\n",
 							sep=""
 					)

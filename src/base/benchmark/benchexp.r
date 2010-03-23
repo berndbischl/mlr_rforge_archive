@@ -31,7 +31,7 @@
 #' bench.exp(learners, ct, res)
   
 
-bench.exp <- function(learners, tasks, resampling, measures) {
+bench.exp <- function(learners, tasks, resampling, measures, type="response") {
 	
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
@@ -61,6 +61,9 @@ bench.exp <- function(learners, tasks, resampling, measures) {
 	resamplings = list()
 	tuned = list()
 	cms = list()
+	rfs = list()
+	tds = list()
+	dds = list()
 	for (j in 1:length(tasks)) {
 		task = tasks[[j]]
 		if (is(resampling, "resample.desc")) {
@@ -70,12 +73,15 @@ bench.exp <- function(learners, tasks, resampling, measures) {
 		}		
 		tuned[[j]] = as.list(rep(NA, n))
 		cms[[j]] = as.list(rep(NA, n))
+		rfs[[j]] = as.list(rep(NA, n))
+		tds[[j]] = task@task.desc
+		dds[[j]] = task@data.desc
 		for (i in 1:length(learners)) {
 			wl = learners[[i]]
 			if (is.character(wl))
 				wl = make.learner(wl, task)
 			learner.names[i] = wl["short.name"]
-			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures)
+			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, type=type)
 			rr = bm$result
 			# remove tune perf
 			rr = rr[, names(measures)]
@@ -86,13 +92,14 @@ bench.exp <- function(learners, tasks, resampling, measures) {
 				cms[[j]][[i]] = bm$conf
 			else
 				cms[[j]][[i]] = NA
+			rfs[[j]][[i]] = bm$resample.fit
 		}
 		names(tuned[[j]]) = learner.names
 		names(cms[[j]]) = learner.names
-		
+		names(rfs[[j]]) = learner.names
 	}
 	dimnames(bs) = list(1:resampling["iters"], learner.names, names(measures), task.names)
 	names(tuned) = task.names
 	names(cms) = task.names
-	return(new("bench.result", perf = bs, tuned.pars=tuned, conf.mats=cms, resamplings=resamplings))
+	return(new("bench.result", task.descs=tds, data.descs=dds, resamplings=resamplings, perf = bs, tuned.pars=tuned, conf.mats=cms, resample.fits=rfs))
 }

@@ -2,10 +2,13 @@
 setClass(
 		"bench.result",                                                     
 		representation = representation(
+				task.descs = "list",
+				data.descs = "list",
+				resamplings = "list",
 				perf = "array",
 				tuned.pars = "list", 
 				conf.mats = "list",
-				resamplings = "list"
+				resample.fits = "list"
 		)
 )
 
@@ -119,3 +122,31 @@ setMethod(
 			cat(to.string(object))
 		}
 )
+
+#' @export
+
+as.ROCR.preds = function(x) {
+	if(!require(ROCR)) {
+		stop(paste("Package ROCR is missing!"))
+	}
+	rfs = x@resample.fits
+	res = list()
+	for (i in 1:length(rfs)) {
+		td = x@task.descs[[i]]
+		dd = x@data.descs[[i]]
+		if(dd["class.nr"] != 2) {
+			stop("Task", td["name"], "has more than 2 classes!")
+		}
+		res2 = list()
+		for (j in 1:length(rfs[[i]])) {
+			rf = as.data.frame(rfs[[i]][[j]])
+			res2[[j]] = prediction(predictions=rf$prob, rf$target)
+		}
+		res[[i]] = res2
+	}
+} 
+
+
+
+
+

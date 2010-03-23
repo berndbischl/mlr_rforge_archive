@@ -138,6 +138,8 @@ setMethod(
 								stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
 							if (any(sort(colnames(p)) != sort(levs)))
 								stop("predict.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
+							if (dd["class.nr"] == 2)
+								p = p[,td["positive"]]
 						} else if (tt %in% c("decision")) {
 							if (!is.matrix(p))
 								stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")

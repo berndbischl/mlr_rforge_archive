@@ -67,7 +67,7 @@ roxygen()
 
 setGeneric(
 		name = "make.classif.task",
-		def = function(name, data, target, formula, excluded, weights, costs) {
+		def = function(name, data, target, formula, excluded, weights, costs, positive) {
 			if(missing(name))
 				name=""
 			if (missing(excluded))
@@ -78,9 +78,8 @@ setGeneric(
 				# we set costs in constructor after data preparation
 				costs = as.matrix(NA)
 			}
-
-#			if (missing(positive))
-#				positive = as.character(NA)
+			if (missing(positive))
+				positive = as.character(NA)
 			standardGeneric("make.classif.task")
 		}
 )
@@ -97,12 +96,13 @@ setMethod(
 				formula = "missing",
 				excluded = "character",
 				weights = "numeric", 
-				costs = "matrix"
-	),
+				costs = "matrix",
+				positive = "character" 
+		),
 		
-		def = function(name, data, target, excluded, weights, costs) {
+		def = function(name, data, target, excluded, weights, costs, positive) {
 			return(
-					new("classif.task", name=name, target=target, data=data, excluded=excluded, weights=weights, costs=costs)
+					new("classif.task", name=name, target=target, data=data, excluded=excluded, weights=weights, costs=costs, positive=positive)
 			)
 		}
 )
@@ -118,14 +118,15 @@ setMethod(
 				formula = "formula",
 				excluded = "character",
 				weights = "numeric", 
-				costs = "matrix" 
+				costs = "matrix", 
+				positive = "character" 
 		),
 		
-		def = function(name, data, formula, excluded, weights, costs) {
+		def = function(name, data, formula, excluded, weights, costs, positive) {
 			data2 <- model.frame(formula, data=data)
 			target <- as.character(formula)[2]
 			return(
-				new("classif.task", name=name, target=target, data=data2, excluded=excluded, weights=weights, costs=costs)
+				new("classif.task", name=name, target=target, data=data2, excluded=excluded, weights=weights, costs=costs, positive=positive)
 			)	
 		}
 )

@@ -3,12 +3,8 @@ test.logreg <- function(){
 	# "did not converge":
 	m <- glm(formula=binaryclass.formula, data=binaryclass.train, family=binomial) 
 	
-	p <- predict(m, newdata=binaryclass.test, type="response")
-	
-	p.prob = matrix(-1, ncol=2, nrow=nrow(binaryclass.test))
-	p.prob[,1] = 1-p
-	p.prob[,2] = p
-	colnames(p.prob) = levels(binaryclass.test[,binaryclass.target])
+	p = predict(m, newdata=binaryclass.test, type="response")
+	p.prob = 1-p
 	p.class <- as.factor(binaryclass.class.levs[ifelse(p > 0.5, 2, 1)])
 	
 	simple.test("logreg", binaryclass.df, binaryclass.formula, binaryclass.train.inds, p.class)

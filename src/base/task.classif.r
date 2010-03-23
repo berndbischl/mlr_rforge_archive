@@ -26,7 +26,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
-		def = function(.Object, name, target, data, excluded, weights, costs) {
+		def = function(.Object, name, target, data, excluded, weights, costs, positive) {
 			
 			
 			if (missing(data))
@@ -45,7 +45,8 @@ setMethod(
 			}
 			
 			# init positive
-			pos = neg = as.character(NA)
+			pos = positive 
+			neg = as.character(NA)
 			if (n == 2) {
 				if (is.na(pos)) {
 					pos = levs[1] 					
@@ -59,9 +60,9 @@ setMethod(
 				if (!is.na(pos))
 					stop("Cannot set a positive class for a multiclass problem!")
 			}
-			td = new("task.desc", task.class="classif.task", target=target, positive=pos, negative=neg, excluded=excluded, weights=weights, costs=costs)			
+			td = new("task.desc", task.class="classif.task", name=name, target=target, positive=pos, negative=neg, excluded=excluded, weights=weights, costs=costs)			
 
-			callNextMethod(.Object, name=name, data=data, data.desc=dd, task.desc=td)
+			callNextMethod(.Object, data=data, data.desc=dd, task.desc=td)
 		}
 )
 
@@ -109,7 +110,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Classification problem ", x@name, "\n",
+							"Classification problem ", x["name"], "\n",
 							to.string(x@data.desc),
 							"Classes:", x["class.nr"],
 							paste(capture.output(table(x["targets"])), collapse="\n"),
