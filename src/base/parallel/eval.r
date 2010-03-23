@@ -18,11 +18,13 @@ eval.parset <- function(learner, task, resampling, measures, aggr, p, scale, nam
 		learner = make.learner(learner, task=task)
 	parset.scaled = scale.par(scale, p)
 	names(parset.scaled) <- names
-	learner@train.fct.pars = c(learner@train.fct.pars, parset.scaled) 
+	learner@train.fct.pars = c(learner@train.fct.pars, parset.scaled)
 	st <- system.time(
 			rr <- resample.fit(learner, task, resampling)
 	)
 	rp <- performance(rr, measures=measures, aggr=aggr)
+	.mlr.local$n.eval <<- .mlr.local$n.eval+1 
+	#print(.mlr.local$n.eval)
 	logger.debug("parset ", as.character(parset))
 	#logger.debug("mean error = ", rp$aggr1)
 	#logger.debug("Number of evaluations: ", n.eval)

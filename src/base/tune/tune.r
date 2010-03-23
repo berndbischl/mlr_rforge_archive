@@ -54,19 +54,18 @@ tune <- function(learner, task, resampling, method="grid", control=NULL, measure
 	if (missing(aggr))
 		aggr = default.aggr(task)
 	
-	
-	if (method == "grid")
-		optim.func <- tune.grid
-	
-	if (method == "pattern")
-		optim.func <- tune.ps
-	
-	if(method == "cmaes")
-		optim.func <- tune.cmaes
-	
+	optim.func = switch(method,
+			grid = tune.grid,
+			pattern = tune.ps,
+			cmaes = tune.cmaes,
+			neldermead= tune.nm
+	)		
+
+	.mlr.local$n.eval <<- 0
 	#export.tune(learner, task, loss, scale)
 	or <- optim.func(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, control=control, scale=scale)
 	or$par = scale.par(scale, or$par)
+	or$n.eval = .mlr.local$n.eval
 	if (model) {
 		wl@train.fct.pars = c(wl@train.fct.pars, or$par)
 		or$model = train(learner, task) 	

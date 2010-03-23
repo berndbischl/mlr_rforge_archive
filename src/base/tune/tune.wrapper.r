@@ -12,7 +12,8 @@ setClass(
 				base.learner = "wrapped.learner",
 				method = "character",
 				resampling = "resample.desc",
-				control = "ANY"
+				control = "ANY",
+				scale = "function"
 		)
 )
 
@@ -32,7 +33,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("tune.wrapper"),
-		def = function(.Object, base.learner, resampling, method, control) {
+		def = function(.Object, base.learner, resampling, method, control, scale) {
 			if (missing(base.learner))
 				return(.Object)
 			bl = base.learner
@@ -45,13 +46,13 @@ setMethod(
 )
 
 #' @export 
-make.tune.wrapper <- function(learner, resampling, method="grid", control) {
+make.tune.wrapper <- function(learner, resampling, method="grid", control, scale) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	if (is(learner, "wrapped.learner.classif"))
-		tt = new("tune.wrapper.classif", learner, resampling, method, control)
+		tt = new("tune.wrapper.classif", learner, resampling, method, control, scale)
 	else		
-		tt = new("tune.wrapper.regr", learner, resampling, method, control)
+		tt = new("tune.wrapper.regr", learner, resampling, method, control, scale)
 	return(tt)
 }
 
@@ -75,7 +76,7 @@ setMethod(
 				f = make.regr.task
 			
 			lt = f(data=.data, target=.targetvar)					
-			tr = tune(bl, lt, resampling=wl@resampling, method=wl@method, control=wl@control, model=TRUE)
+			tr = tune(bl, lt, resampling=wl@resampling, method=wl@method, control=wl@control, model=TRUE, scale=wl@scale)
 			m = tr$model["learner.model"]
 			attr(m, "tuned.par") = tr$par
 			attr(m, "tuned.perf") = tr$perf
