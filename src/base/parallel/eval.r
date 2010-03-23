@@ -34,7 +34,10 @@ eval.parset <- function(learner, task, resampling, measures, aggr, p, scale, nam
 	mm = reshape(mm, ids=row.names(mm), times=names(mm), varying=list(names(mm)), direction="long")
 	if(length(measures)==1)
 		rownames(mm) = paste(names(aggr), names(measures), sep=".")
-		
+	
+	feval = get(".mlr.feval", envir=.GlobalEnv) 
+	assign(".mlr.feval", feval+1, envir=.GlobalEnv)
+	
 	mm = t(mm[,2, drop=FALSE])
 	return(mm)
 }

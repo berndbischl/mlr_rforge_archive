@@ -46,7 +46,7 @@ roxygen()
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, method="grid", control=NULL, measures, aggr, model=F, scale=identity) {	
+tune <- function(learner, task, resampling, method="grid", control=NULL, measures, aggr, model=F, scale=identity) {
 	if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
@@ -58,16 +58,28 @@ tune <- function(learner, task, resampling, method="grid", control=NULL, measure
 			grid = tune.grid,
 			pattern = tune.ps,
 			cmaes = tune.cmaes,
-			neldermead= tune.nm
+			neldermead= tune.nm,
+			stop(paste("Method", method, "does not exist!"))
 	)		
 
+	if (is.null(control)) {
+		stop("You have to pass a control object!")
+	}
+	if ((method == "grid"       && !is(control, "grid.control")) ||
+		(method == "pattern"    && !is(control, "ps.control")) ||
+		(method == "cmaes"       && !is(control, "cmaes.control")) ||
+		(method == "neldermead" && !is(control, "nm.control"))) {
+			stop(paste("Method is '", method, "'. You have passed a control object of the wrong type: ", class(control), sep=""))
+	}
+	assign(".mlr.feval", 0, envir=.GlobalEnv)
+	
 	#.mlr.local$n.eval <<- 0
 	#export.tune(learner, task, loss, scale)
 	or <- optim.func(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, control=control, scale=scale)
 	or$par = scale.par(scale, or$par)
 	#or$n.eval = .mlr.local$n.eval
 	if (model) {
-		wl@train.fct.pars = c(wl@train.fct.pars, or$par)
+		learner@train.fct.pars = c(learner@train.fct.pars, or$par)
 		or$model = train(learner, task) 	
 	}
 	

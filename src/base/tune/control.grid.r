@@ -10,5 +10,7 @@
 #' @title Control for grid search tuning 
 
 grid.control <- function(ranges) {
-	list(ranges=ranges)	
+	x = list(ranges=ranges)
+	class(x) = "grid.control"
+	return(x)
 }

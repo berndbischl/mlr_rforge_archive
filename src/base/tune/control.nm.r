@@ -1,5 +1,7 @@
 nm.control <- function(start, ...) {
-	xs = list(...)
-	ys = list(start=unlist(start))
-	c(ys, xs)
+	x = list(...)
+	y = list(start=unlist(start))
+	y = c(y, x)
+	class(y) = "nm.control"
+	return(y)
 }

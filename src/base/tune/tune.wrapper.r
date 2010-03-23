@@ -53,9 +53,9 @@ make.tune.wrapper <- function(learner, resampling, method="grid", control, scale
 	if (missing(scale))
 		scale = identity
 	if (is(learner, "wrapped.learner.classif"))
-		tt = new("tune.wrapper.classif", learner, resampling, method, control, scale)
+		tt = new("tune.wrapper.classif", base.learner=learner, resampling=resampling, method=method, control=control, scale=scale)
 	else		
-		tt = new("tune.wrapper.regr", learner, resampling, method, control, scale)
+		tt = new("tune.wrapper.regr", base.learner=learner, resampling=resampling, method=method, control=control, scale=scale)
 	return(tt)
 }
 
@@ -78,8 +78,8 @@ setMethod(
 			else if (is(bl, "wrapped.learner.regr"))
 				f = make.regr.task
 			
-			lt = f(data=.data, target=.targetvar)					
-			tr = tune(bl, lt, resampling=wl@resampling, method=wl@method, control=wl@control, model=TRUE, scale=wl@scale)
+			lt = f(data=.data, target=.targetvar)	
+			tr = tune(bl, task=lt, resampling=wl@resampling, method=wl@method, control=wl@control, model=TRUE, scale=wl@scale)
 			m = tr$model["learner.model"]
 			attr(m, "tuned.par") = tr$par
 			attr(m, "tuned.perf") = tr$perf

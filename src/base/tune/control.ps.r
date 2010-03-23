@@ -24,5 +24,7 @@ ps.control <- function(
 		delta=1, 
 		delta.min=10^(-3), 
 		maxit=100) {
-	list(start=unlist(start), lower=unlist(lower), upper=unlist(upper), delta=delta, delta.min=delta.min, maxit=maxit)	
+	x = list(start=unlist(start), lower=unlist(lower), upper=unlist(upper), delta=delta, delta.min=delta.min, maxit=maxit)
+	class(x) = "ps.control"
+	return(x)
 }
