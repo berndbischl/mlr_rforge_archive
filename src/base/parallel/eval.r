@@ -35,7 +35,9 @@ eval.parset <- function(learner, task, resampling, measures, aggr, p, scale, nam
 	if(length(measures)==1)
 		rownames(mm) = paste(names(aggr), names(measures), sep=".")
 	
-	feval = get(".mlr.feval", envir=.GlobalEnv) 
+	feval = try(get(".mlr.feval", envir=.GlobalEnv))
+	if (is(feval, "try-error"))
+		feval=0
 	assign(".mlr.feval", feval+1, envir=.GlobalEnv)
 	
 	mm = t(mm[,2, drop=FALSE])
