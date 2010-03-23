@@ -61,11 +61,11 @@ tune <- function(learner, task, resampling, method="grid", control=NULL, measure
 			neldermead= tune.nm
 	)		
 
-	.mlr.local$n.eval <<- 0
+	#.mlr.local$n.eval <<- 0
 	#export.tune(learner, task, loss, scale)
 	or <- optim.func(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, control=control, scale=scale)
 	or$par = scale.par(scale, or$par)
-	or$n.eval = .mlr.local$n.eval
+	#or$n.eval = .mlr.local$n.eval
 	if (model) {
 		wl@train.fct.pars = c(wl@train.fct.pars, or$par)
 		or$model = train(learner, task) 	
