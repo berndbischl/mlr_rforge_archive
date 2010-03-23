@@ -23,7 +23,7 @@ eval.parset <- function(learner, task, resampling, measures, aggr, p, scale, nam
 			rr <- resample.fit(learner, task, resampling)
 	)
 	rp <- performance(rr, measures=measures, aggr=aggr)
-	.mlr.local$n.eval <<- .mlr.local$n.eval+1 
+	#.mlr.local$n.eval <<- .mlr.local$n.eval+1 
 	#print(.mlr.local$n.eval)
 	logger.debug("parset ", as.character(parset))
 	#logger.debug("mean error = ", rp$aggr1)
