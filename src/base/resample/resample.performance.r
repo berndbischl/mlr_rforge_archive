@@ -69,7 +69,7 @@ setMethod(
 			} )
 			ls = as.data.frame(Reduce(rbind, ls))
 			
-			if (nrow(ls) > 0)
+			if (length(losses) > 0)
 				return(list(measures=ms, losses=ls))
 			return(
 				list(measures=ms))
