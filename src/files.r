@@ -67,9 +67,15 @@ base.files <<- c(
 #		"base/tune/tune.cmaes.r",
 		"base/tune/control.grid.r",
 		"base/tune/control.ps.r",
+		"base/tune/control.nm.r",
 		"base/tune/pattern.search.r",
 		"base/tune/tune.ps.r",
+		"base/tune/tune.nm.r",
 		"base/tune/tune.wrapper.r",
+		
+		"base/varsel/varsel.seq.r",
+		"base/varsel/varsel.r",
+		
 		
 		"base/benchmark/benchmark.r",
 		"base/benchmark/benchexp.r",
@@ -114,6 +120,7 @@ regr.files <<- c(
 
 
 load.all.libs <- function() {
+	library(abind)
 	library(RUnit)
 	library(MASS)
 	library(rpart)
