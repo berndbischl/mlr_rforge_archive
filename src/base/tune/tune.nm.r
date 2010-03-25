@@ -3,7 +3,7 @@ tune.nm <- function(learner, task, resampling, measures, aggr, control, scale) {
 	ns = names(control$start)
 	
 	g = function(p) {
-		x = eval.rf.perf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, parset=p, scale=scale, names=ns)
+		x = eval.rf.perf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, parset=p, ps.scale=scale, ps.names=ns, vars=NULL)
 		x[1]
 	}
 	

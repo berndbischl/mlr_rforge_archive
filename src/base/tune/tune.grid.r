@@ -39,7 +39,7 @@ tune.1 <- function(learner, task, resampling, ranges, measures, aggr, scale) {
 #	} 
 	
 	
-	perf = eval.parsets(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, pars=parsets, scale=scale, names=names(ranges))
+	perf = eval.parsets(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, pars=parsets, ps.scale=scale, ps.names=names(ranges))
 	return(perf)
 }
 

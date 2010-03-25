@@ -13,12 +13,19 @@ resample.fit.iter <- function(learner, task, rin, vars, type, i, extract) {
 	return(list(pred=p, extracted=ex))	
 }
 
-eval.rf <- function(learner, task, resampling, measures, aggr, parset, scale, names, vars) {
+eval.rf <- function(learner, task, resampling, measures, aggr, parset, ps.scale, ps.names, vars) {
 	if (is.character(learner))
 		learner = make.learner(learner, task=task)
-	if (!missing(parset)) {
-		parset = scale.par(scale, parset)
-		names(parset) = names
+	if (!is.null(parset)) {
+		if (!is.null(ps.scale)) 
+			parset = scale.par(ps.scale, parset)
+		if (!is.null(ps.names)) 
+			names(parset) = ps.names
+	} else {
+		parset = list()
+	}
+	if (is.null(vars)) {
+		vars = task["input.names"]
 	}
 	st <- system.time(
 			rr <- resample.fit(learner, task, resampling, parset=parset, vars=vars)
@@ -38,8 +45,8 @@ eval.rf <- function(learner, task, resampling, measures, aggr, parset, scale, na
 	return(rp)
 }
 
-eval.rf.perf <- function(learner, task, resampling, measures, aggr, parset, scale, names, vars) {
-	rp = eval.rf(learner, task, resampling, measures, aggr, parset, scale, names, vars)
+eval.rf.perf <- function(learner, task, resampling, measures, aggr, parset, ps.scale, ps.names, vars) {
+	rp = eval.rf(learner, task, resampling, measures, aggr, parset, ps.scale, ps.names, vars)
 		
 	mm = rp$measures[names(aggr), names(measures), drop=FALSE]
 	mm = reshape(mm, ids=row.names(mm), times=names(mm), varying=list(names(mm)), direction="long")
@@ -50,9 +57,9 @@ eval.rf.perf <- function(learner, task, resampling, measures, aggr, parset, scal
 }
 
 
-eval.parsets <- function(learner, task, resampling, measures, aggr, pars, scale, names) {
-	ms = mylapply(xs=pars, from="tune", f=function(p) 
-		eval.rf.perf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, parset=p, scale=scale, names=names))
+eval.parsets <- function(learner, task, resampling, measures, aggr, pars, ps.scale, ps.names) {
+	ms = mylapply(xs=pars, from="tune", f=eval.rf.perf, 
+			learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, ps.scale=ps.scale, ps.names=ps.names, vars=NULL)
 	ps = par.list.to.df(pars)
 	ms = Reduce(rbind, ms)
 	y = cbind(ps, ms)
@@ -60,8 +67,8 @@ eval.parsets <- function(learner, task, resampling, measures, aggr, pars, scale,
 }
 
 eval.varsets <- function(learner, task, resampling, measures, aggr, varsets) {
-	ms = mylapply(xs=varsets, from="varsel", f=function(v) 
-		eval.rf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, vars=v))
+	ms = mylapply(xs=pars, from="tune", f=eval.rf, 
+			learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, parset=NULL, ps.scale=NULL, ps.names=NULL)
 	#ps = par.list.to.df(pars)
 	#ms = Reduce(rbind, ms)
 	#y = cbind(ps, ms)
