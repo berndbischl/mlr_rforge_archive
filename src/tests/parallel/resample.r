@@ -10,19 +10,26 @@ res = make.res.desc("cv", iters=10)
 wl = make.learner("randomForest.classif", ntree=200)
 
 parallel.setup(mode="local")
-st = system.time({
-	rf = resample.fit(wl, ct, res)
+st1 = system.time({
+	rf1 = resample.fit(wl, ct, res)
 })
-print(st)
-print(performance(rf)$measures["mean",])
 
 
 parallel.setup(mode="sfCluster", level="resample")
-st = system.time({
-			rf = resample.fit(wl, ct, res)
-		})
-print(st)
-print(performance(rf)$measures["mean",])
+st2 = system.time({
+	rf2 = resample.fit(wl, ct, res)
+})
+
+
+print(st1)
+print(performance(rf1)$measures["mean",])
+#user  system elapsed
+#64.568   1.188  65.775
+
+print(st2)
+print(performance(rf2)$measures["mean",])
+#user  system elapsed
+#0.616   0.044   9.594
 
 
 
