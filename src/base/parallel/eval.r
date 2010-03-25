@@ -13,19 +13,20 @@ resample.fit.iter <- function(learner, task, rin, vars, type, i, extract) {
 	return(list(pred=p, extracted=ex))	
 }
 
-eval.parset <- function(learner, task, resampling, measures, aggr, p, scale, names) {
+eval.rf <- function(learner, task, resampling, measures, aggr, parset, scale, names, vars) {
 	if (is.character(learner))
 		learner = make.learner(learner, task=task)
-	parset.scaled = scale.par(scale, p)
-	names(parset.scaled) <- names
-	learner@train.fct.pars = c(learner@train.fct.pars, parset.scaled)
+	if (!missing(parset)) {
+		parset = scale.par(scale, parset)
+		names(parset) = names
+	}
 	st <- system.time(
-			rr <- resample.fit(learner, task, resampling)
+			rr <- resample.fit(learner, task, resampling, parset=parset, vars=vars)
 	)
 	rp <- performance(rr, measures=measures, aggr=aggr)
 	#.mlr.local$n.eval <<- .mlr.local$n.eval+1 
 	#print(.mlr.local$n.eval)
-	logger.debug("parset ", as.character(parset))
+	#logger.debug("parset ", as.character(parset))
 	#logger.debug("mean error = ", rp$aggr1)
 	#logger.debug("Number of evaluations: ", n.eval)
 	
@@ -45,12 +46,24 @@ eval.parset <- function(learner, task, resampling, measures, aggr, p, scale, nam
 }
 
 eval.parsets <- function(learner, task, resampling, measures, aggr, pars, scale, names) {
-	ms = mylapply(pars, eval.parset, from="tune", learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, scale=scale, names=names)
+	ms = mylapply(xs=pars, from="tune", f=function(p) 
+		eval.rf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, parset=p, scale=scale, names=names))
 	ps = par.list.to.df(pars)
 	ms = Reduce(rbind, ms)
 	y = cbind(ps, ms)
 	return(y)
 }
+
+eval.varsets <- function(learner, task, resampling, measures, aggr, vars) {
+	ms = mylapply(xs=pars, from="tune", f=function(v) 
+		eval.rf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, vars=v))
+	#ps = par.list.to.df(pars)
+	#ms = Reduce(rbind, ms)
+	#y = cbind(ps, ms)
+	return(ms)
+}
+
+
 
 par.list.to.df = function(xs) {
 	y = Map(function(x) as.data.frame(x, stringsAsFactors=FALSE), xs)

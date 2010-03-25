@@ -48,7 +48,7 @@ roxygen()
 
 setGeneric(
 		name = "resample.fit",
-		def = function(learner, task, resampling, vars, type, extract) {
+		def = function(learner, task, resampling, parset, vars, type, extract) {
 			if (is.character(learner))
 				learner = make.learner(learner, task)
 			n = task["size"]
@@ -57,6 +57,8 @@ setGeneric(
 			r = resampling["size"]
 			if (n != r)
 				stop(paste("Size of data set:", n, "and resampling instance:", r, "differ!"))
+			if (missing(parset))
+				parset = list()
 			if (missing(vars))
 				vars <- task["input.names"]
 			if (missing(type))
@@ -72,11 +74,13 @@ setGeneric(
 setMethod(
 		f = "resample.fit",
 		signature = signature(learner="wrapped.learner", task="learn.task", resampling="resample.instance", 
-				vars="character", type="character", extract="function"),
-		def = function(learner, task, resampling, vars, type, extract) {
+				parset="list", vars="character", type="character", extract="function"),
+		def = function(learner, task, resampling, parset, vars, type, extract) {
 			n = task["size"]
 			resample.instance <- resampling
 			iters <- resample.instance["iters"]
+			
+			learner@train.fct.pars = c(learner@train.fct.pars, parset)
 			
 			rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, rin=resample.instance, vars=vars, type=type, extract=extract)
 		
@@ -91,9 +95,10 @@ setMethod(
 
 setMethod(
 		f = "resample.fit",
-		signature = signature(learner="wrapped.learner", task="learn.task", resampling="resample.desc", vars="character", type="character", extract="function"),
-		def = function(learner, task, resampling, vars, type, extract) {
-			resample.fit(learner, task, i, vars, type, extract)
+		signature = signature(learner="wrapped.learner", task="learn.task", resampling="resample.desc", 
+				parset="list", vars="character", type="character", extract="function"),
+		def = function(learner, task, resampling, parset, vars, type, extract) {
+			resample.fit(learner, task, i, parset, vars, type, extract)
 		}
 )
 
