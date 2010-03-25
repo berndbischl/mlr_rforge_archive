@@ -6,6 +6,7 @@ parallel.setup <- function(mode="local", cpus=1, level="resample", ...) {
 	p$mode = mode
 	p$level = level
 	p$cpus = cpus
+	.mlr.local$parallel.setup <- p
 	
 	if (mode %in% c("sfCluster", "snowfall")) {
 		if(!require(snowfall)) {
@@ -25,33 +26,26 @@ parallel.setup <- function(mode="local", cpus=1, level="resample", ...) {
 		x = sfClusterEval(require(mlr))
 		if (!all(unlist(x)))
 			stop("Could not load mlr on every node!")
-		assign(".mlr.local.tmp" , .mlr.local, envir=.GlobalEnv)
-						
-		sfExport(".mlr.local.tmp")
-		rm(.mlr.local.tmp,  envir=.GlobalEnv)
-
-		sfClusterEval(init.slave())	
-#		ps <- getFromNamespace(".parallel.setup", "mlr")
-#		assign(".parallel.setup", ps, envir=.GlobalEnv)
+		
+		# we cannot export from package env
+		# assign to global env
+		assign(".mlr.local", .mlr.local, envir=.GlobalEnv)			
+		# export and delete
+		sfExport(".mlr.local")
+		rm(.mlr.local, envir=.GlobalEnv)
+		# set mode to local on slave so he does not parallelize 
+		sfClusterEval(.mlr.local$parallel.setup$mode <- "local")
+		# init random 
 		sfClusterSetupRNG()
 	} else if (mode == "multicore") {
 		if(!require(multicore)) {
-			stop("Please install the multicore package for this!")				
+			stop("Please install the multicore package for this!")
+			# todo set mode to local
 		}
-	}
-	
-	.mlr.local$parallel.setup <- p
-	
-	if (!(mode %in% c("local", "multicore", "snowfall", "sfCluster"))) {
+	} else if (!(mode %in% c("local", "multicore", "snowfall", "sfCluster"))) {
 		.mlr.local$parallel.setup$mode <- "local"
 		stop("Unknown parallel model: ", mode)
 	}
-}
-
-
-init.slave <- function() {
-	.mlr.local$parallel.setup <- .mlr.local.tmp$parallel.setup 
-	.mlr.local$logger.setup <- .mlr.local.tmp$logger.setup 
 }
 
 
