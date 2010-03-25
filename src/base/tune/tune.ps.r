@@ -1,5 +1,5 @@
 tune.ps <- function(learner, task, resampling, measures, aggr, control, scale) {
-	g = function(p) eval.rf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, parset=p, scale=scale, names=names(control$start))[1]
+	g = function(p) eval.rf.perf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, parset=p, scale=scale, names=names(control$start))[1]
 	ps = pattern.search(f=g, control=control)
 	
 #	

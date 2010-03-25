@@ -30,32 +30,37 @@ eval.rf <- function(learner, task, resampling, measures, aggr, parset, scale, na
 	#logger.debug("mean error = ", rp$aggr1)
 	#logger.debug("Number of evaluations: ", n.eval)
 	
-	
-	mm = rp$measures[names(aggr), names(measures), drop=FALSE]
-	mm = reshape(mm, ids=row.names(mm), times=names(mm), varying=list(names(mm)), direction="long")
-	if(length(measures)==1)
-		rownames(mm) = paste(names(aggr), names(measures), sep=".")
-	
 	feval = try(get(".mlr.feval", envir=.GlobalEnv))
 	if (is(feval, "try-error"))
 		feval=0
 	assign(".mlr.feval", feval+1, envir=.GlobalEnv)
 	
+	return(rp)
+}
+
+eval.rf.perf <- function(learner, task, resampling, measures, aggr, parset, scale, names, vars) {
+	rp = eval.rf(learner, task, resampling, measures, aggr, parset, scale, names, vars)
+		
+	mm = rp$measures[names(aggr), names(measures), drop=FALSE]
+	mm = reshape(mm, ids=row.names(mm), times=names(mm), varying=list(names(mm)), direction="long")
+	if(length(measures)==1)
+		rownames(mm) = paste(names(aggr), names(measures), sep=".")
 	mm = t(mm[,2, drop=FALSE])
 	return(mm)
 }
 
+
 eval.parsets <- function(learner, task, resampling, measures, aggr, pars, scale, names) {
 	ms = mylapply(xs=pars, from="tune", f=function(p) 
-		eval.rf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, parset=p, scale=scale, names=names))
+		eval.rf.perf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, parset=p, scale=scale, names=names))
 	ps = par.list.to.df(pars)
 	ms = Reduce(rbind, ms)
 	y = cbind(ps, ms)
 	return(y)
 }
 
-eval.varsets <- function(learner, task, resampling, measures, aggr, vars) {
-	ms = mylapply(xs=pars, from="tune", f=function(v) 
+eval.varsets <- function(learner, task, resampling, measures, aggr, varsets) {
+	ms = mylapply(xs=varsets, from="varsel", f=function(v) 
 		eval.rf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, vars=v))
 	#ps = par.list.to.df(pars)
 	#ms = Reduce(rbind, ms)
