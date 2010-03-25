@@ -15,7 +15,7 @@ write.desc <- function(desc.path, rev.nr) {
 		"Description: no\n",
 		"License: GPL (>= 2)\n",
 		"LazyLoad: yes\n",
-		"Depends: R (>= 2.8.0), methods, reshape, boot, klaR\n",
+		"Depends: R (>= 2.8.0), methods, reshape, abind, boot, klaR\n",
 		"Suggests: MASS, e1071, kernlab, rpart, randomForest, adabag, kknn, snowfall, mlbench\n",
 		sep=""
 	)
