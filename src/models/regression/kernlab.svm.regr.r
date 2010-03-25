@@ -1,7 +1,7 @@
 #' @include wrapped.learner.regr.r
 roxygen()
 
-#' @export
+#' @export 
 setClass(
 		"kernlab.svm.regr", 
 		contains = c("wrapped.learner.regr")

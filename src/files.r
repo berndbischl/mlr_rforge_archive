@@ -104,7 +104,7 @@ classif.files <<- c(
 		"models/classification/boost.r",
 		"models/classification/ada.r",
 		"models/classification/blackboost.r",
-		"models/classification/svm.r",
+		"models/classification/kernlab.svm.classif.r",
 		"models/classification/nnet.r"
 #		"models/classification/metacost.r"
 )
@@ -117,7 +117,7 @@ regr.files <<- c(
 ##		"models/regression/regr.myknn.r",
 		"models/regression/ridge.r",
 		"models/regression/lasso.r",
-		"models/regression/svm.r"
+		"models/regression/kernlab.svm.regr.r"
 )
 
 
