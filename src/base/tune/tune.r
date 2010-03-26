@@ -54,6 +54,10 @@ tune <- function(learner, task, resampling, method="grid", control=NULL, measure
 	if (missing(aggr))
 		aggr = default.aggr(task)
 	
+	if (method == "cmaes" && !require(cmaes)) {
+		stop("You have to install the package cmaes for this!")
+	}
+	
 	optim.func = switch(method,
 			grid = tune.grid,
 			pattern = tune.ps,
@@ -61,7 +65,7 @@ tune <- function(learner, task, resampling, method="grid", control=NULL, measure
 			neldermead= tune.nm,
 			stop(paste("Method", method, "does not exist!"))
 	)		
-
+	
 	if (is.null(control)) {
 		stop("You have to pass a control object!")
 	}
@@ -75,7 +79,8 @@ tune <- function(learner, task, resampling, method="grid", control=NULL, measure
 	
 	#.mlr.local$n.eval <<- 0
 	#export.tune(learner, task, loss, scale)
-	or <- optim.func(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, control=control, scale=scale)
+	or = optim.func(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, control=control, scale=scale)
+	or$par = as.list(or$par)
 	or$par = scale.par(scale, or$par)
 	#or$n.eval = .mlr.local$n.eval
 	if (model) {
