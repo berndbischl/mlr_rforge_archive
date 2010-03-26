@@ -94,7 +94,8 @@ setMethod(
 			}
 
 			
-			
+			response = NA
+			prob = decision = NA
 			
 			# was there an error in building the model? --> return NAs
 			if(is(model["learner.model"], "learner.failure")) {
@@ -118,8 +119,6 @@ setMethod(
 					set.seed(.mlr.local$debug.seed)
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
-				response = NA
-				prob = decision = NA
 				for (tt in type) {
 				
 					if (is(model, "wrapped.model.classif"))
