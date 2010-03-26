@@ -28,3 +28,9 @@ st3 = system.time({
 
 print(c(st1[3], st2[3], st3[3]))
 print(c(tr1$perf, tr2$perf, tr3$perf))
+
+# elapsed elapsed elapsed
+# 108.643  18.096  22.776
+# [1] 0.02938596 0.02947368 0.02710526
+
+
