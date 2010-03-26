@@ -76,7 +76,8 @@ setMethod(
 		signature = signature("wrapped.learner"),
 		def = function(x) {
 			ps = paste(names(x@train.fct.pars), x@train.fct.pars, sep="=", collapse=" ")
-			return(paste( 
+			return(paste(
+							#todo regression. also check when applied to task!!
 							"Classification learner ", x@learner.name, " from package ", x@learner.pack, "\n\n",					
 							to.string(x@learner.props), "\n",
 							"Hyperparameters: ", ps, "\n",

@@ -75,6 +75,8 @@ setMethod(
 				.type = "character" 
 		),
 		
+		# todo custom kernel. freezes? check mailing list
+		# todo unify cla + regr, test all sigma stuff
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			pm = "prob" %in% .type 
@@ -83,10 +85,8 @@ setMethod(
 			args = list(...)
 			args.names <- names(args)
 			
-#			print(str(args))
-#			cat("\n")
 			kernel.par.names = c("degree", "offset", "scale", "sigma", "order", "length", "lambda")
-			kernel.par.names = c(kernel.par.names, paste("kpar", 0:9, sep=""))
+#			kernel.par.names = c(kernel.par.names, paste("kpar", 0:9, sep=""))
 			
 			kpar = list()
 			for (k in kernel.par.names) {
@@ -97,12 +97,16 @@ setMethod(
 				}
 			}
 			
-			kargs = list(f, data=.data, prob.model = pm, fit=FALSE, kpar=kpar) 
+
+			kargs = list(f, data=.data, prob.model = pm, fit=FALSE) 
+			if (length(kpar) > 0)
+				kargs$kpar = kpar
 			
-			# there's a strange behaviour in r semantics here wgich forces this, see do.call and the comment about substitute
-			if (!is.null(args$kernel) && is.function(args$kernel) && !is(args$kernel,"kernel")) {
-				args$kernel = do.call(args$kernel, kpar)	
-			} 
+#			# there's a strange behaviour in r semantics here wgich forces this, see do.call and the comment about substitute
+#			if (!is.null(args$kernel) && is.function(args$kernel) && !is(args$kernel,"kernel")) {
+#				args$kernel = do.call(args$kernel, kpar)	
+#			} 
+			
 			kargs = c(kargs, args)
 			do.call(ksvm, kargs)
 		}

@@ -62,7 +62,9 @@ setMethod(
 				}
 			}
 			
-			kargs = list(f, data=.data, kpar=kpar) 
+			kargs = list(f, data=.data)
+			if (length(kpar) > 0)
+	 			kargs$kpar = kpar
 			kargs = c(kargs, args)
 			do.call(ksvm, kargs)
 		}
