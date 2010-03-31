@@ -53,7 +53,17 @@ prob.test <- function(t.name, df, formula, train.inds, old.probs, parset=list())
 		# dont need names for num vector, 2 classes
 		if (is.numeric(old.probs))
 			names(old.probs) = NULL
-		checkEquals(cp@prob, old.probs)
+		else 
+			old.probs = as.matrix(old.probs)
+		
+		p = cp["prob"]
+		if (is.data.frame(p))
+			p = as.matrix(p)
+		# we change names a bit so dont check them
+		colnames(p) = NULL
+		colnames(old.probs) = NULL
+		class(old.probs) = NULL
+		checkEquals(p, old.probs)
 	}
 }
 

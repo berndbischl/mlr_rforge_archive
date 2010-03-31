@@ -85,13 +85,12 @@ setMethod(
 				}
 			}
 			p = x@perf[c(iter, "combine"), learner, measure, task, drop=FALSE]
-			print(str(p))
 			if (length(aggr) > 0) {
-				p = lapply(aggr, function(f) {
-						if (attr(f, "name") == "combine")
+				p = lapply(names(aggr), function(nn) {
+						if (nn == "combine")
 							g = function(y) y[length(y)]
 						else 
-							g = function(y) f(y[1:(length(y))-1])
+							g = function(y) aggr[[nn]](y[1:(length(y))-1])
 						apply(p, c(2,3,4), g)
 				}) 
 				p = Reduce(function(v,w) abind(v,w, along=2), p)
