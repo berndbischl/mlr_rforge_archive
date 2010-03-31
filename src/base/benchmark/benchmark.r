@@ -46,7 +46,7 @@ benchmark = function(learner, task, resampling, measures, type="response") {
 	rp = performance(rr, measures=measures, aggr=list())
 	cm = NA
 	if (is(task, "classif.task"))			
-		cm = conf.matrix(task, rr)
+		cm = conf.matrix(rr)
 	ms = rp$measures
 	result = cbind(result, ms)
 	rownames(result) = rownames(ms)

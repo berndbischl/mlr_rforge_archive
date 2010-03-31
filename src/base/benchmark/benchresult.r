@@ -51,12 +51,8 @@ setMethod(
 				iter = dimnames(x@perf)[[1]]
 			aggr = args$aggr
 			if (is.null(aggr))
-				aggr=list() 
-			else {
-				ns = names(aggr)
-				if (is.null(ns) || any(ns == ""))
-					stop("Aggregation functions have to be passed as a list with names!")
-			}
+				aggr=default.aggr()
+			aggr = make.aggrs(aggr)
 			
 			if (!missing(i)) {
 				if (i == "tuned.pars"){
@@ -67,13 +63,10 @@ setMethod(
 					else
 						return(x@tuned.pars[j])
 				}
-				if (i == "conf.mats"){
-					if (missing(j))
-						j = 1:ncol(x@perf)
-					if (length(j) == 1)
-						return(x@conf.mats[[j]])
-					else
-						return(x@conf.mats[j])
+				if (i == "conf.mat"){
+					xs = x@conf.mats[task]
+					xs = lapply(xs, function(y) y[learner])
+					return(xs)
 				}
 			}
 			p = x@perf[iter, learner, measure, task, drop=FALSE]
