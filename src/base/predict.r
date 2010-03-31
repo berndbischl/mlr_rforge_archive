@@ -166,8 +166,7 @@ setMethod(
 			weights = NULL
 			if (!missing(task))
 				weights = task["weights"][ids]
-			pred = new("prediction", data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, target=trues, weights=weights)
-			return(pred)
+			make.prediction(data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, target=trues, weights=weights)
 		}
 )
 

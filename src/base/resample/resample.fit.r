@@ -87,7 +87,7 @@ setMethod(
 			ps = lapply(rs, function(x) x$pred)
 			es = lapply(rs, function(x) x$extracted)
 			
-			return(new("resample.prediction", task.desc=task@task.desc, data.desc=task@data.desc, instance=resample.instance, preds=ps, extracted=es))
+			return(new("resample.prediction", instance=resample.instance, preds=ps, extracted=es))
 		}
 )
 

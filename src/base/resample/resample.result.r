@@ -8,7 +8,6 @@ setClass(
 		"resample.prediction",
 		contains = c("prediction"),
 		representation = representation(
-				iter = "integer",
 				instance="resample.instance", 
 				extracted="list"
 		)
@@ -18,14 +17,14 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("resample.prediction"),
-		def = function(.Object, task.desc, data.desc, instance, preds, extracted) {
+		def = function(.Object, instance, preds, extracted) {
+			p1 = preds[[1]]
 			.Object@instance = instance
 			.Object@extracted = extracted
-			es = sapply(preds, function(x) length(x@response))
-			.Object@iter = rep(1:length(preds), times=es)
-			p = Reduce(c, preds)
-			p1 = preds[[1]]
-			callNextMethod(.Object, task.desc=p1@task.desc, data.desc=p1@data.desc, id=p@id, response=p@response, prob=p@prob, decision=p@decision, target=p@target, weights=p@weights)
+			df = Reduce(function(a,b) rbind(a, b@df), preds, init=data.frame())
+			es = sapply(preds, function(x) nrow(x@df))
+			df$iter = rep(1:length(preds), times=es)
+			callNextMethod(.Object, p1@data.desc, p1@task.desc, df)
 		}
 )
 
@@ -72,11 +71,7 @@ setMethod(
 		def = function(x,i,j,...,drop) {
 			if (i == "iters")
 				return(x@instance["iters"])
-			
-			#if nothing special return slot
-			return(
-					eval(substitute("@"(x, slot), list(slot=i)))
-			)
+			callNextMethod()
 		}
 )
 
@@ -86,9 +81,10 @@ setMethod(
 		signature = signature("resample.prediction"),
 		def = function(x, all.names = FALSE, ...) {
 			preds = list()
+			df = x@df
 			for (i in 1:x@instance["iters"]) {
-				j = which(x@iter == i)
-				preds[[i]] = new("prediction", task.desc=x@task.desc, data.desc=x@data.desc, id=x@id[j], response=x@response[j], prob=x@prob[j,], decision=x@decision[j,], target=x@target[j], weights=x@weights[j])
+				j = which(df$iter == i)
+				preds[[i]] = new("prediction", task.desc=x@task.desc, data.desc=x@data.desc, df=df[j,])
 			}
 			return(preds)
 		}

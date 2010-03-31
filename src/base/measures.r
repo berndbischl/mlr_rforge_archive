@@ -136,82 +136,82 @@ default.aggr = function(task) {
 ### classification
 
 
-acc = function(trues, preds, weights, task.desc, data.desc) {
-	mean(as.character(trues) == as.character(preds)) 
+acc = function(x) {
+	mean(as.character(x["target"]) == as.character(x["response"])) 
 }
-mce = function(trues, preds, weights, task.desc, data.desc) {
-	mean(as.character(trues) != as.character(preds)) 
+mce = function(x) {
+	mean(as.character(x["target"]) != as.character(x["response"])) 
 }
-sme = function(trues, preds, weights, task.desc, data.desc) {
-	sum(as.character(trues) != as.character(preds)) 
+sme = function(x) {
+	sum(as.character(x["target"]) != as.character(x["response"])) 
 }
 
-mcesd = function(trues, preds, weights, task.desc, data.desc) {
-	sd(as.character(trues) != as.character(preds)) 
+mcesd = function(x) {
+	sd(as.character(x["target"]) != as.character(x["response"])) 
 }
 
 ### binary
 
 
 
-tp = function(trues, preds, weights, task.desc, data.desc) {
-	sum(trues == preds & preds == task.desc["positive"])  
+tp = function(x) {
+	sum(x["target"] == x["response"] & x["response"] == pred@task.desc["positive"])  
 }
-tn = function(trues, preds, weights, task.desc, data.desc) {
-	sum(trues == preds & preds == task.desc["negative"])  
+tn = function(x) {
+	sum(x["target"] == x["response"] & x["response"] == pred@task.desc["negative"])  
 }
-fp = function(trues, preds, weights, task.desc, data.desc) {
-	sum(trues != preds & preds == task.desc["positive"])  
+fp = function(x) {
+	sum(x["target"] != x["response"] & x["response"] == pred@task.desc["positive"])  
 }
-fn = function(trues, preds, weights, task.desc, data.desc) {
-	sum(trues != preds & preds == task.desc["negative"])  
-}
-
-
-
-
-tpr = function(trues, preds, weights, task.desc, data.desc) {
-	tp(trues, preds, weights, task.desc, data.desc) / sum(trues == task.desc["positive"])  
-}
-fpr = function(trues, preds, weights, task.desc, data.desc) {
-	fp(trues, preds, weights, task.desc, data.desc) / sum(trues == task.desc["negative"])  
-}
-tnr = function(trues, preds, weights, task.desc, data.desc) {
-	1 - fpr(trues, preds, weights, task.desc, data.desc)  
-}
-fnr = function(trues, preds, weights, task.desc, data.desc) {
-	1 - tpr(trues, preds, weights, task.desc, data.desc)  
+fn = function(x) {
+	sum(x["target"] != x["response"] & x["response"] == pred@task.desc["negative"])  
 }
 
 
-ppv = function(trues, preds, weights, task.desc, data.desc) {
-	tp(trues, preds, weights, task.desc, data.desc) / sum(preds == task.desc["positive"])  
+
+
+tpr = function(x) {
+	tp(x) / sum(x["target"] == pred@task.desc["positive"])  
 }
-npv = function(trues, preds, weights, task.desc, data.desc) {
-	tn(trues, preds, weights, task.desc, data.desc) / sum(preds == task.desc["negative"])  
+fpr = function(x) {
+	fp(x) / sum(x["target"] == pred@task.desc["negative"])  
 }
-fdr = function(trues, preds, weights, task.desc, data.desc) {
-	fp(trues, preds, weights, task.desc, data.desc) / sum(preds == task.desc["positive"])  
+tnr = function(x) {
+	1 - fpr(x)  
 }
-mcc = function(trues, preds, weights, task.desc, data.desc) {
-	print(table(trues, preds))
-	(tp(trues, preds, weights, task.desc, data.desc) * tn(trues, preds, weights, task.desc, data.desc) -
-	fp(trues, preds, weights, task.desc, data.desc) * fn(trues, preds, weights, task.desc, data.desc)) /
-	sqrt(prod(table(trues, preds)))
+fnr = function(x) {
+	1 - tpr(x)  
 }
-f1 = function(trues, preds, weights, task.desc, data.desc) {
-	2 * tp(trues, preds, weights, task.desc, data.desc) /
-	(sum(trues == task.desc["positive"]) + sum(preds == task.desc["positive"]))  
+
+
+ppv = function(x) {
+	tp(x) / sum(x["response"] == pred@task.desc["positive"])  
+}
+npv = function(x) {
+	tn(x) / sum(x["response"] == pred@task.desc["negative"])  
+}
+fdr = function(x) {
+	fp(x) / sum(x["response"] == pred@task.desc["positive"])  
+}
+mcc = function(x) {
+	print(table(x["target"], x["response"]))
+	(tp(x) * tn(x) -
+	fp(x) * fn(x)) /
+	sqrt(prod(table(x["target"], x["response"])))
+}
+f1 = function(x) {
+	2 * tp(x) /
+	(sum(x["target"] == pred@task.desc["positive"]) + sum(x["response"] == pred@task.desc["positive"]))  
 }
 
 ### regression
 
 
-sse = function(trues, preds, weights, task.desc, data.desc) {
-	sum((trues - preds)^2) 
+sse = function(x) {
+	sum((x["target"] - x["response"])^2) 
 }
 
-mse = function(trues, preds, weights, task.desc, data.desc) {
-	mean((trues - preds)^2) 
+mse = function(x) {
+	mean((x["target"] - x["response"])^2) 
 }
 
