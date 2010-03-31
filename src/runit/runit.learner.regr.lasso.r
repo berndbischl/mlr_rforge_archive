@@ -44,7 +44,8 @@ test.lasso <- function() {
 #	print(rf@preds[[1]])
 	for (i in 1:folds) {
 		test.i <- cv.i["test.inds", i]
-		rf.p <- rf@preds[[i]]["response"]
+		xs = as.list(rf)
+		rf.p = xs[[i]]["response"]
 		names(rf.p) <- NULL
 		checkEquals(rf.p, cvl.res$predictions[test.i])		
 	}

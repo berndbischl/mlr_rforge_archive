@@ -19,6 +19,9 @@ test.predict <- function() {
 	
 	checkEquals(cp3["response"], pred3)
 	
+	
+	cp4 = c(cp2, cp3)
+	
 	# find a good test for pred.fct.pars....  
 	
 }
