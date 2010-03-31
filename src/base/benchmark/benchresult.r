@@ -34,21 +34,36 @@ setMethod(
 		signature = signature("bench.result"),
 		def = function(x,i,j,...,drop) {
 			
+			if (!missing(i)) {
+				if (i == "iter") {
+					return(dim(x@perf)[1] - 1)
+				}
+				if (i == "learners") {
+					return(dimnames(x@perf)[[2]])
+				}
+				if (i == "measures") {
+					return(dimnames(x@perf)[[3]])
+				}
+				if (i == "tasks") {
+					return(dimnames(x@perf)[[4]])
+				}
+			}
+			
 			args = list(...)
 			arg.names = names(args)
 			
 			task = args$task
 			if (is.null(task))
-				task = dimnames(x@perf)[[4]]
+				task = x["tasks"]
 			learner = args$learner
 			if (is.null(learner))
-				learner = dimnames(x@perf)[[2]]
+				learner = x["learners"]
 			measure = args$measure
 			if (is.null(measure))
-				measure = dimnames(x@perf)[[3]]
+				measure = x["measures"]
 			iter = args$iter
 			if (is.null(iter))
-				iter = dimnames(x@perf)[[1]]
+				iter = 1:x["iter"]
 			aggr = args$aggr
 			if (is.null(aggr))
 				aggr=default.aggr()
@@ -69,9 +84,16 @@ setMethod(
 					return(xs)
 				}
 			}
-			p = x@perf[iter, learner, measure, task, drop=FALSE]
+			p = x@perf[c(iter, "combine"), learner, measure, task, drop=FALSE]
+			print(str(p))
 			if (length(aggr) > 0) {
-				p = lapply(aggr, function(f) apply(p, c(2,3,4), f))
+				p = lapply(aggr, function(f) {
+						if (attr(f, "name") == "combine")
+							g = function(y) y[length(y)]
+						else 
+							g = function(y) f(y[1:(length(y))-1])
+						apply(p, c(2,3,4), g)
+				}) 
 				p = Reduce(function(v,w) abind(v,w, along=2), p)
 				# combine aggr names with measure names
 				dimnames(p)[[2]] = sapply(names(aggr), function(a) paste(a, measure, sep="."))

@@ -155,26 +155,26 @@ mcesd = function(x) {
 
 
 tp = function(x) {
-	sum(x["target"] == x["response"] & x["response"] == pred@task.desc["positive"])  
+	sum(x["target"] == x["response"] & x["response"] == x@task.desc["positive"])  
 }
 tn = function(x) {
-	sum(x["target"] == x["response"] & x["response"] == pred@task.desc["negative"])  
+	sum(x["target"] == x["response"] & x["response"] == x@task.desc["negative"])  
 }
 fp = function(x) {
-	sum(x["target"] != x["response"] & x["response"] == pred@task.desc["positive"])  
+	sum(x["target"] != x["response"] & x["response"] == x@task.desc["positive"])  
 }
 fn = function(x) {
-	sum(x["target"] != x["response"] & x["response"] == pred@task.desc["negative"])  
+	sum(x["target"] != x["response"] & x["response"] == x@task.desc["negative"])  
 }
 
 
 
 
 tpr = function(x) {
-	tp(x) / sum(x["target"] == pred@task.desc["positive"])  
+	tp(x) / sum(x["target"] == x@task.desc["positive"])  
 }
 fpr = function(x) {
-	fp(x) / sum(x["target"] == pred@task.desc["negative"])  
+	fp(x) / sum(x["target"] == x@task.desc["negative"])  
 }
 tnr = function(x) {
 	1 - fpr(x)  
@@ -185,23 +185,22 @@ fnr = function(x) {
 
 
 ppv = function(x) {
-	tp(x) / sum(x["response"] == pred@task.desc["positive"])  
+	tp(x) / sum(x["response"] == x@task.desc["positive"])  
 }
 npv = function(x) {
-	tn(x) / sum(x["response"] == pred@task.desc["negative"])  
+	tn(x) / sum(x["response"] == x@task.desc["negative"])  
 }
 fdr = function(x) {
-	fp(x) / sum(x["response"] == pred@task.desc["positive"])  
+	fp(x) / sum(x["response"] == x@task.desc["positive"])  
 }
 mcc = function(x) {
-	print(table(x["target"], x["response"]))
 	(tp(x) * tn(x) -
 	fp(x) * fn(x)) /
 	sqrt(prod(table(x["target"], x["response"])))
 }
 f1 = function(x) {
 	2 * tp(x) /
-	(sum(x["target"] == pred@task.desc["positive"]) + sum(x["response"] == pred@task.desc["positive"]))  
+	(sum(x["target"] == x@task.desc["positive"]) + sum(x["response"] == x@task.desc["positive"]))  
 }
 
 ### regression

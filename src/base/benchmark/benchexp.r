@@ -53,7 +53,7 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response") {
 	if (length(tasks) > 1 && is(resampling, "resample.instance")) {
 		stop("Cannot pass a resample.instance with more than 1 task. Use a resample.desc!")
 	}
-	dims = c(resampling["iters"], n, length(measures), length(tasks))
+	dims = c(resampling["iters"]+1, n, length(measures), length(tasks))
 	bs = array(0, dim = dims)
 	
 	learner.names = character()
@@ -98,7 +98,7 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response") {
 		names(cms[[j]]) = learner.names
 		names(rfs[[j]]) = learner.names
 	}
-	dimnames(bs) = list(1:resampling["iters"], learner.names, names(measures), task.names)
+	dimnames(bs) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures), task.names)
 	names(tuned) = task.names
 	names(cms) = task.names
 	return(new("bench.result", task.descs=tds, data.descs=dds, resamplings=resamplings, perf = bs, tuned.pars=tuned, conf.mats=cms, resample.fits=rfs))
