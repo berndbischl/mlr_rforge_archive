@@ -50,9 +50,9 @@ tune <- function(learner, task, resampling, method="grid", control=NULL, measure
 	if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
-	
 	if (missing(aggr))
 		aggr = default.aggr(task)
+	aggr = make.aggrs(aggr)
 	
 	if (method == "cmaes" && !require(cmaes)) {
 		stop("You have to install the package cmaes for this!")
