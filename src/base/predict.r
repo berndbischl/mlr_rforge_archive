@@ -171,7 +171,7 @@ setMethod(
 			if (!missing(task))
 				weights = task["weights"][ids]
 			make.prediction(data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, target=trues, weights=weights, 
-					time.train=m["time"], time.predict=time.predict)
+					time.train=model["time"], time.predict=time.predict)
 		}
 )
 
