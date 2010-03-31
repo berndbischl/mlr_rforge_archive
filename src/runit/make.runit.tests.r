@@ -17,7 +17,7 @@ simple.test <- function(t.name, df, formula, train.inds, old.predicts, parset=li
 	}else{
 		cp <- predict(cm, newdata=test)
 		# to avoid issues with dropped levels in the class factor we only check the elemenst as charcters
-		checkEquals(as.character(cp@response), as.character(old.predicts))
+		checkEquals(as.character(cp["response"]), as.character(old.predicts))
 	}
 }
 
