@@ -17,7 +17,7 @@
 #' 		  Additional parameters, which need to be passed to the underlying train function.
 #' 		    
 #' @return Model of the underlying learner.
-#' @export 
+#' @exportMethod train.learner
 #' @aliases train.learner 
 #' @title train.learner 
 

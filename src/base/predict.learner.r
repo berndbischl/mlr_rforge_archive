@@ -16,7 +16,7 @@ roxygen()
 #' 		  Additional parameters, which need to be passed to the underlying train function.
 #' 		    
 #' @return Model of the underlying learner.
-#' @export 
+#' @exportMethod predict.learner
 #' @aliases train.learner 
 #' @title train.learner 
 

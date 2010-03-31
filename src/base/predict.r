@@ -71,7 +71,7 @@ setMethod(
 			if (tn %in% cns)
 				trues = newdata[, tn]
 			else
-				trues = NA
+				trues = NULL
 			
 			# drop target col
 			newdata <- newdata[, -which(cns == tn)]					
@@ -94,8 +94,8 @@ setMethod(
 			}
 
 			
-			response = NA
-			prob = decision = NA
+			response = NULL
+			prob = decision = NULL
 			
 			# was there an error in building the model? --> return NAs
 			if(is(model["learner.model"], "learner.failure")) {
@@ -159,11 +159,14 @@ setMethod(
 						decision = p
 				}
 			}
-			if (missing(subset))
-				ids = 1:nrow(newdata)
+			if (missing(task))
+				ids = NULL
 			else
 				ids = subset
-			pred = new("prediction", data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, target=trues)
+			weights = NULL
+			if (!missing(task))
+				weights = task["weights"][ids]
+			pred = new("prediction", data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, target=trues, weights=weights)
 			return(pred)
 		}
 )

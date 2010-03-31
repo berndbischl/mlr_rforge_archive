@@ -27,21 +27,6 @@
 #' @title Confusion matrix
 
 
-conf.matrix = function(task, result, relative=FALSE) {
-	# todo check that its classif.task!!!
-	n <- result["iters"]
-	rin <- result["instance"]
-	lev <- task["class.levels"]
-	trues <- c()
-	preds <- c()
-	for(i in 1:n)  {
-		trues.i <- get.test.targets(task, rin, i)
-		preds.i <- result["response", i]
-		trues <- c(trues, as.character(trues.i))
-		preds <- c(preds, as.character(preds.i))
-		# todo what about remove.duplicated		
-	}
-	trues <- factor(trues, levels=lev)
-	preds <- factor(preds, levels=lev)
-	return(errormatrix(trues, preds, relative=relative))
+conf.matrix = function(result, relative=FALSE) {
+	return(errormatrix(result["target"], result["response"], relative=relative))
 }

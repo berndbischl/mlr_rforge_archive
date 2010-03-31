@@ -9,9 +9,9 @@ setGeneric(
 			if (missing(losses))
 				losses=list()
 			losses = make.losses(losses)
-			if (is(x, "resample.result") && missing(aggr))
+			if(missing(aggr))
 				aggr = default.aggr(x@task.desc)
-			
+			aggr = make.aggrs(aggr)
 			standardGeneric("performance")
 		}
 )
@@ -68,18 +68,17 @@ setGeneric(
 
 setMethod(
 		f = "performance",
-		signature = signature(x="prediction", measures="list", losses="list", aggr="missing"),
-		def = function(x, measures, losses) {
+		signature = signature(x="prediction", measures="list", losses="list", aggr="list"),
+		def = function(x, measures, losses, aggr) {
 			td = x@task.desc
 			dd = x@data.desc
-			ms = sapply(measures, function(f) f(x@target, x@response, weights, td, dd))
+			ms = sapply(measures, function(f) f(x@target, x@response, x@weights, td, dd))
 			ls = lapply(losses, function(f) cbind(
 						x@id,		
 						f(x@target, x@response, weights, td, dd)
 			))
 #			if(length(ms[[1]]) != 1)
 #				stop("Measure has to return a scalar value!")
-				
 			ls = as.data.frame(Reduce(rbind, ls))
 			g = function(x) {
 				n = attr(x, "name")
