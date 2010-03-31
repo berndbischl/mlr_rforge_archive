@@ -18,7 +18,8 @@ setClass(
 				task.desc = "task.desc",
 				subset = "numeric",
 				vars = "character",
-				parset = "list"
+				parset = "list",
+				time = "numeric"
 		)
 )
 

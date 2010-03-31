@@ -96,6 +96,7 @@ setMethod(
 			
 			response = NULL
 			prob = decision = NULL
+			time.predict = as.numeric(NA)
 			
 			# was there an error in building the model? --> return NAs
 			if(is(model["learner.model"], "learner.failure")) {
@@ -119,45 +120,48 @@ setMethod(
 					set.seed(.mlr.local$debug.seed)
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
-				for (tt in type) {
-				
-					if (is(model, "wrapped.model.classif"))
-						pars$.type = tt
-					p <- do.call(predict.learner, pars)
+				st = system.time({
+					for (tt in type) {
 					
-					if (is(model, "wrapped.model.classif")) {
-						if (tt == "response") {
-							# the levels of the predicted classes might not be complete....
-							# be sure to add the levels at the end, otherwise data gets changed!!!
-							if (!is.factor(p))
-								stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
-							levels(p) <- union(levels(p), levs)
-						} else if (tt %in% c("prob")) {
-							if (!is.matrix(p))
-								stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
-							if (any(sort(colnames(p)) != sort(levs)))
-								stop("predict.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
-							if (dd["class.nr"] == 2)
-								p = p[,td["positive"]]
-						} else if (tt %in% c("decision")) {
-							if (!is.matrix(p))
-								stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
-						} else {
-							stop(paste("Unknown type", tt, "in predict!"))
-						}	
-					} else if (is(model, "wrapped.model.regr")) {
-						if (class(p) != "numeric")
-							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
+						if (is(model, "wrapped.model.classif"))
+							pars$.type = tt
+						p <- do.call(predict.learner, pars)
+						
+						if (is(model, "wrapped.model.classif")) {
+							if (tt == "response") {
+								# the levels of the predicted classes might not be complete....
+								# be sure to add the levels at the end, otherwise data gets changed!!!
+								if (!is.factor(p))
+									stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
+								levels(p) <- union(levels(p), levs)
+							} else if (tt %in% c("prob")) {
+								if (!is.matrix(p))
+									stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
+								if (any(sort(colnames(p)) != sort(levs)))
+									stop("predict.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
+								if (dd["class.nr"] == 2)
+									p = p[,td["positive"]]
+							} else if (tt %in% c("decision")) {
+								if (!is.matrix(p))
+									stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
+							} else {
+								stop(paste("Unknown type", tt, "in predict!"))
+							}	
+						} else if (is(model, "wrapped.model.regr")) {
+							if (class(p) != "numeric")
+								stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
+						}
+						logger.debug("prediction:")
+						logger.debug(p)
+						if (tt == "response") 
+							response = p
+						if (tt == "prob") 
+							prob = p
+						if (tt == "decision") 
+							decision = p
 					}
-					logger.debug("prediction:")
-					logger.debug(p)
-					if (tt == "response") 
-						response = p
-					if (tt == "prob") 
-						prob = p
-					if (tt == "decision") 
-						decision = p
-				}
+				})
+				time.predict = st[3]
 			}
 			if (missing(task))
 				ids = NULL
@@ -166,7 +170,8 @@ setMethod(
 			weights = NULL
 			if (!missing(task))
 				weights = task["weights"][ids]
-			make.prediction(data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, target=trues, weights=weights)
+			make.prediction(data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, target=trues, weights=weights, 
+					time.train=m["time"], time.predict=time.predict)
 		}
 )
 

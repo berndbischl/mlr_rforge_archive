@@ -100,20 +100,27 @@ train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, mod
 		set.seed(.mlr.local$debug.seed)
 		warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 	}
-	or <- capture.output(
-		learner.model <- try(do.call(train.learner, pars), silent=TRUE)
-	)
+	
+	st = system.time({
+		or <- capture.output(
+			learner.model <- try(do.call(train.learner, pars), silent=TRUE)
+		)
+	})
 	logger.debug(or)
+	time.train = st[3]
 	
 	# if error happened we use a failure model
 	if(is(learner.model, "try-error")) {
 		msg <- as.character(learner.model)
 		warning("Could not train the learner: ", msg)	
 		learner.model <- new("learner.failure", msg=msg)
+		time.train = as.numeric(NA)
 	} 
 
 	pars = list(model.class, wrapped.learner = wl, learner.model = learner.model, 
-			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, parset=parset, vars=vars)
+			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, parset=parset, vars=vars,
+			time = time.train
+	)
 	do.call("new", pars)
 }
 	

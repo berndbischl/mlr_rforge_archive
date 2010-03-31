@@ -50,7 +50,7 @@ setMethod(
 			ms2 = lapply(aggr, function(f) apply(ms, 2, f))
 			j = which(names(aggr) == "combine")
 			if (length(j) > 0) {
-				ms2[[j]] = callNextMethod(x=x, measures=measures, losses=losses, aggr=aggr)$measures
+				ms2[[j]] = callNextMethod(x=x, measures=measures, losses=list(), aggr=list())$measures
 			}
 			ms2 = Reduce(rbind, ms2)
 			ms = as.data.frame(rbind(ms, ms2))

@@ -3,7 +3,9 @@ setClass(
 		representation = representation(
 				df = "data.frame",
 				data.desc = "data.desc",
-				task.desc = "task.desc"
+				task.desc = "task.desc",
+				time.train = "numeric",
+				time.predict = "numeric"
 		)
 )
 
@@ -11,18 +13,20 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("prediction"),
-		def = function(.Object, data.desc, task.desc, df) {
+		def = function(.Object, data.desc, task.desc, df, time.train, time.predict) {
 			if (missing(df))
 				return(.Object)
 			.Object@df = df			
 			.Object@data.desc = data.desc			
 			.Object@task.desc = task.desc			
+			.Object@time.train = time.train			
+			.Object@time.predict = time.predict			
 			return(.Object)
 		}
 )
 
 
-make.prediction = function(data.desc, task.desc, id, target, response, weights, prob, decision) {
+make.prediction = function(data.desc, task.desc, id, target, response, weights, prob, decision, time.train, time.predict) {
 	xs = list()
 	# if null no col in df present
 	xs[["id"]] = response
@@ -32,7 +36,7 @@ make.prediction = function(data.desc, task.desc, id, target, response, weights, 
 	xs[["prob"]] = prob
 	xs[["decision"]] = decision
 	df = as.data.frame(xs)
-	new("prediction", data.desc, task.desc, df)
+	new("prediction", data.desc, task.desc, df, time.train, time.predict)
 }
 
 

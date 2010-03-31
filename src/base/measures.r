@@ -91,6 +91,13 @@ make.measure <- function(name) {
 	else if (name=="mse") 
 		x = mse
 
+	else if (name=="time") 
+		x = time.all
+	else if (name=="time.train") 
+		x = time.train
+	else if (name=="time.predict") 
+		x = time.predict
+	
 	else 
 		stop("Requested unknown measure: ", name)
 	
@@ -212,5 +219,24 @@ sse = function(x) {
 
 mse = function(x) {
 	mean((x["target"] - x["response"])^2) 
+}
+
+
+### time
+
+time.all = function(x) {
+	time.train(x) + time.predict(x)  
+}
+time.train = function(x) {
+	if (is(x, "resample.prediction"))
+		NA
+	else
+		x["time.train"]  
+}
+time.predict = function(x) {
+	if (is(x, "resample.prediction"))
+		NA
+	else
+		x["time.predict"]  
 }
 

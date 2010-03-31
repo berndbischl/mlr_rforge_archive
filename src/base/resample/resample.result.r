@@ -21,10 +21,12 @@ setMethod(
 			p1 = preds[[1]]
 			.Object@instance = instance
 			.Object@extracted = extracted
+			tt = sapply(preds, function(x) x["time.train"])
+			tp = sapply(preds, function(x) x["time.predict"])
 			df = Reduce(function(a,b) rbind(a, b@df), preds, init=data.frame())
 			es = sapply(preds, function(x) nrow(x@df))
 			df$iter = rep(1:length(preds), times=es)
-			callNextMethod(.Object, p1@data.desc, p1@task.desc, df)
+			callNextMethod(.Object, p1@data.desc, p1@task.desc, df, tt, tp)
 		}
 )
 
@@ -84,7 +86,7 @@ setMethod(
 			df = x@df
 			for (i in 1:x@instance["iters"]) {
 				j = which(df$iter == i)
-				preds[[i]] = new("prediction", task.desc=x@task.desc, data.desc=x@data.desc, df=df[j,])
+				preds[[i]] = new("prediction", task.desc=x@task.desc, data.desc=x@data.desc, df=df[j,], x@time.train[i], x@time.predict[i])
 			}
 			return(preds)
 		}
