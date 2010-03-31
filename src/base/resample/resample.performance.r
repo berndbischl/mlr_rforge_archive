@@ -2,18 +2,6 @@
 roxygen()
 
 
-#setGeneric(
-#		name = "resample.performance",
-#		def = function(result, measures, losses, aggr) {
-#			if (missing(measures))
-#				measures = default.measures(result@preds[[1]]@task.desc)
-#			if (missing(losses))
-#				losses = list()
-#			measures = make.measures(measures)
-#			losses = lapply(losses, make.loss)
-#			standardGeneric("resample.performance")
-#		}
-#)
 
 #' Measures the quality of predictions w.r.t. some loss function for a resampled fit.
 #' 
@@ -51,19 +39,23 @@ roxygen()
 
 setMethod(
 		f = "performance",
-		signature = c(x="resample.result", measures="list", losses="list", aggr="list"),
+		signature = c(x="resample.prediction", measures="list", losses="list", aggr="list"),
 		def = function(x, measures, losses, aggr) {
 			n <- x["iters"]
 			rin <- x["instance"]
 			is = 1:n
-			perfs = lapply(x@preds, function(p) performance(p, measures=measures, losses=losses))
+			ps = as.list(x)
+			perfs = lapply(ps, function(p) performance(p, measures=measures, losses=losses))
 			ms = Reduce(rbind, lapply(perfs, function(x) x$measure))
 			ms2 = lapply(aggr, function(f) apply(ms, 2, f))
+			j = which(names(aggr) == "combine")
+			if (length(j) > 0) {
+				ms2[[j]] = callNextMethod(x=x, measures=measures, losses=losses, aggr=aggr)$measures
+			}
 			ms2 = Reduce(rbind, ms2)
 			ms = as.data.frame(rbind(ms, ms2))
 			colnames(ms) = names(measures)
 			rownames(ms) = c(is, names(aggr))
-
 			ls = lapply(is, function (i) {
 				cbind(iter=i, perfs[[i]]$losses)
 			} )

@@ -2,29 +2,45 @@
 #' @include resample.instance.r
 roxygen()
 
-#' @exportClass resample.result 
+#' @exportClass resample.prediction
 
 setClass(
-		"resample.result",
+		"resample.prediction",
+		contains = c("prediction"),
 		representation = representation(
-				task.desc="task.desc", 
-				data.desc="data.desc", 
+				iter = "integer",
 				instance="resample.instance", 
-				preds="list", 
 				extracted="list"
 		)
 )
 
+
+setMethod(
+		f = "initialize",
+		signature = signature("resample.prediction"),
+		def = function(.Object, task.desc, data.desc, instance, preds, extracted) {
+			.Object@instance = instance
+			.Object@extracted = extracted
+			es = sapply(preds, function(x) length(x@response))
+			.Object@iter = rep(1:length(preds), times=es)
+			p = Reduce(c, preds)
+			p1 = preds[[1]]
+			callNextMethod(.Object, task.desc=p1@task.desc, data.desc=p1@data.desc, id=p@id, response=p@response, prob=p@prob, decision=p@decision, target=p@target, weights=p@weights)
+		}
+)
+
+
+
 #' Conversion to string.
 setMethod(
 		f = "to.string",
-		signature = signature("resample.result"),
+		signature = signature("resample.prediction"),
 		def = function(x) {
 			return(
 					paste(
 							"Resampling result for ", x@instance["name"], " with ", x["iters"], " iterations\n",
 							#"Learner models were ", ifelse(length(x@models)==0,"not", ""), " saved\n\n",
-							paste(capture.output(str(x@preds)), collapse="\n"), 
+							#paste(capture.output(str(x@preds)), collapse="\n"), 
 							"\n", sep=""
 					)
 			)
@@ -34,7 +50,7 @@ setMethod(
 #' Prints the object by calling as.character.
 setMethod(
 		f = "print",
-		signature = signature("resample.result"),
+		signature = signature("resample.prediction"),
 		def = function(x, ...) {
 			cat(to.string(x))
 		}
@@ -43,7 +59,7 @@ setMethod(
 #' Shows the object by calling as.character.
 setMethod(
 		f = "show",
-		signature = signature("resample.result"),
+		signature = signature("resample.prediction"),
 		def = function(object) {
 			cat(to.string(object))
 		}
@@ -52,24 +68,11 @@ setMethod(
 
 setMethod(
 		f = "[",
-		signature = signature("resample.result"),
+		signature = signature("resample.prediction"),
 		def = function(x,i,j,...,drop) {
 			if (i == "iters")
-				return(length(x@preds))
+				return(x@instance["iters"])
 			
-			if (i == "response") {
-				if (missing(j)) {
-					return(x["response", 1:x["iters"]])
-				} else if(length(j) == 1) {
-					return(x@preds[[j]]["response"])
-				}
-				else {
-					return(lapply(j, function(k) x["response", k]))
-				}
-			}
-			if (i == "all") {
-				return(as.data.frame(x))
-			}
 			#if nothing special return slot
 			return(
 					eval(substitute("@"(x, slot), list(slot=i)))
@@ -78,15 +81,16 @@ setMethod(
 )
 
 
-#' @export
-
 setMethod(
-		f = "as.data.frame",
-		signature = signature("resample.result"),
-		def = function(x, row.names = NULL, optional = FALSE,...) {
-			xs = lapply(x@preds, as.data.frame)
-			xs = Reduce(rbind, xs)
-			return(xs)
+		f = "as.list",
+		signature = signature("resample.prediction"),
+		def = function(x, all.names = FALSE, ...) {
+			preds = list()
+			for (i in 1:x@instance["iters"]) {
+				j = which(x@iter == i)
+				preds[[i]] = new("prediction", task.desc=x@task.desc, data.desc=x@data.desc, id=x@id[j], response=x@response[j], prob=x@prob[j,], decision=x@decision[j,], target=x@target[j], weights=x@weights[j])
+			}
+			return(preds)
 		}
 )
 
