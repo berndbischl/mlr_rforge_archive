@@ -12,6 +12,6 @@ varsel.random = function(learner, task, resampling, measures, aggr, method, cont
 	}
 	
 	es = eval.states(learner, task, resampling, measures, aggr, states)
-	bs = s.best(es, control, measures, aggr)
+	bs = select.best.state(es, control, measures, aggr)
 	list(best=bs, path=es)
 }	
