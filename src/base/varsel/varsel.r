@@ -1,4 +1,5 @@
 
+#' @export
 
 varsel <- function(learner, task, resampling, method="forward", control=NULL, measures, aggr, model=F) {
 	if (missing(measures))
