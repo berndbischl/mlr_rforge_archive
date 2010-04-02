@@ -43,7 +43,7 @@ benchmark = function(learner, task, resampling, measures, type="response") {
 		result = data.frame(matrix(nrow=resampling["iters"]+1, ncol=0))
 		rr <- resample.fit(learner, task, resampling, type=type)
 	}
-	rp = performance(rr, measures=measures, aggr=list("combine"))
+	rp = performance(rr, measures=measures, aggr=list("combine"), task=task)
 	cm = NA
 	if (is(task, "classif.task"))			
 		cm = conf.matrix(rr)

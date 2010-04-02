@@ -180,7 +180,7 @@ eval.states = function(learner, task, resampling, measures, aggr, states) {
 
 eval.state <- function(learner, task, resampling, measures, aggr, vars) {
 	rf = resample.fit(learner=learner, task=task, resampling=resampling, vars=vars)
-	rp = performance(rf, measures=measures, aggr=aggr)
+	rp = performance(rf, measures=measures, aggr=aggr, task=task)
 	return(list(vars=vars, rp=rp))
 }
 

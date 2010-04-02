@@ -28,5 +28,5 @@
 
 
 conf.matrix = function(result, relative=FALSE) {
-	return(errormatrix(result["target"], result["response"], relative=relative))
+	return(errormatrix(result["truth"], result["response"], relative=relative))
 }

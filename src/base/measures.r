@@ -34,6 +34,10 @@ make.measures = function(xs) {
 	if (length(xs)==0)
 		return(list())
 	ys = list()
+	# single function to list
+	if (is.function(xs)) {
+		xs = list(xs)
+	}
 	for (i in 1:length(xs)) {
 		x = xs[[i]] 
 		if (is.function(x))
@@ -45,7 +49,7 @@ make.measures = function(xs) {
 		if (is.null(nn))
 			nn = attr(y, "name")
 		if (is.null(nn))
-			stop("No name for measure!")
+			stop("No name for measure! Set an attribute 'name' on the measure or pass measures as a named list!")
 		names(ys)[i] = nn
 	}
 	return(ys)	
@@ -109,7 +113,7 @@ make.measure <- function(name) {
 
 setGeneric(
 		name = "default.measures",
-		def = function(x) {
+		def = function(x, task) {
 			standardGeneric("default.measures")
 		}
 )
@@ -118,7 +122,7 @@ setGeneric(
 setMethod(
 		f = "default.measures",
 		signature = c(x="task.desc"),
-		def = function(x) {
+		def = function(x, task) {
 			if (x@task.class == "classif.task")
 				return(make.measures("mmce"))
 			else 
@@ -130,7 +134,7 @@ setMethod(
 setMethod(
 		f = "default.measures",
 		signature = c(x="learn.task"),
-		def = function(x) {
+		def = function(x, task) {
 			default.measures(x@task.desc)
 		}
 )
@@ -143,97 +147,97 @@ default.aggr = function(task) {
 ### classification
 
 
-acc = function(x) {
-	mean(as.character(x["target"]) == as.character(x["response"])) 
+acc = function(x, task) {
+	mean(as.character(x["truth"]) == as.character(x["response"])) 
 }
-mce = function(x) {
-	mean(as.character(x["target"]) != as.character(x["response"])) 
+mce = function(x, task) {
+	mean(as.character(x["truth"]) != as.character(x["response"])) 
 }
-sme = function(x) {
-	sum(as.character(x["target"]) != as.character(x["response"])) 
+sme = function(x, task) {
+	sum(as.character(x["truth"]) != as.character(x["response"])) 
 }
 
-mcesd = function(x) {
-	sd(as.character(x["target"]) != as.character(x["response"])) 
+mcesd = function(x, task) {
+	sd(as.character(x["truth"]) != as.character(x["response"])) 
 }
 
 ### binary
 
 
 
-tp = function(x) {
-	sum(x["target"] == x["response"] & x["response"] == x@task.desc["positive"])  
+tp = function(x, task) {
+	sum(x["truth"] == x["response"] & x["response"] == x@task.desc["positive"])  
 }
-tn = function(x) {
-	sum(x["target"] == x["response"] & x["response"] == x@task.desc["negative"])  
+tn = function(x, task) {
+	sum(x["truth"] == x["response"] & x["response"] == x@task.desc["negative"])  
 }
-fp = function(x) {
-	sum(x["target"] != x["response"] & x["response"] == x@task.desc["positive"])  
+fp = function(x, task) {
+	sum(x["truth"] != x["response"] & x["response"] == x@task.desc["positive"])  
 }
-fn = function(x) {
-	sum(x["target"] != x["response"] & x["response"] == x@task.desc["negative"])  
+fn = function(x, task) {
+	sum(x["truth"] != x["response"] & x["response"] == x@task.desc["negative"])  
 }
 
 
 
 
-tpr = function(x) {
-	tp(x) / sum(x["target"] == x@task.desc["positive"])  
+tpr = function(x, task) {
+	tp(x) / sum(x["truth"] == x@task.desc["positive"])  
 }
-fpr = function(x) {
-	fp(x) / sum(x["target"] == x@task.desc["negative"])  
+fpr = function(x, task) {
+	fp(x) / sum(x["truth"] == x@task.desc["negative"])  
 }
-tnr = function(x) {
+tnr = function(x, task) {
 	1 - fpr(x)  
 }
-fnr = function(x) {
+fnr = function(x, task) {
 	1 - tpr(x)  
 }
 
 
-ppv = function(x) {
+ppv = function(x, task) {
 	tp(x) / sum(x["response"] == x@task.desc["positive"])  
 }
-npv = function(x) {
+npv = function(x, task) {
 	tn(x) / sum(x["response"] == x@task.desc["negative"])  
 }
-fdr = function(x) {
+fdr = function(x, task) {
 	fp(x) / sum(x["response"] == x@task.desc["positive"])  
 }
-mcc = function(x) {
+mcc = function(x, task) {
 	(tp(x) * tn(x) -
 	fp(x) * fn(x)) /
-	sqrt(prod(table(x["target"], x["response"])))
+	sqrt(prod(table(x["truth"], x["response"])))
 }
-f1 = function(x) {
+f1 = function(x, task) {
 	2 * tp(x) /
-	(sum(x["target"] == x@task.desc["positive"]) + sum(x["response"] == x@task.desc["positive"]))  
+	(sum(x["truth"] == x@task.desc["positive"]) + sum(x["response"] == x@task.desc["positive"]))  
 }
 
 ### regression
 
 
-sse = function(x) {
-	sum((x["target"] - x["response"])^2) 
+sse = function(x, task) {
+	sum((x["truth"] - x["response"])^2) 
 }
 
-mse = function(x) {
-	mean((x["target"] - x["response"])^2) 
+mse = function(x, task) {
+	mean((x["truth"] - x["response"])^2) 
 }
 
 
 ### time
 
-time.all = function(x) {
+time.all = function(x, task) {
 	time.train(x) + time.predict(x)  
 }
-time.train = function(x) {
+time.train = function(x, task) {
 	if (is(x, "resample.prediction"))
 		NA
 	else
 		x["time.train"]  
 }
-time.predict = function(x) {
+time.predict = function(x, task) {
 	if (is(x, "resample.prediction"))
 		NA
 	else

@@ -26,12 +26,12 @@ setMethod(
 )
 
 
-make.prediction = function(data.desc, task.desc, id, target, response, weights, prob, decision, time.train, time.predict) {
+make.prediction = function(data.desc, task.desc, id, truth, response, weights, prob, decision, time.train, time.predict) {
 	xs = list()
 	# if null no col in df present
-	xs[["id"]] = response
+	xs[["id"]] = id
 	xs[["response"]] = response
-	xs[["target"]] = target
+	xs[["truth"]] = truth
 	xs[["weights"]] = weights
 	xs[["prob"]] = prob
 	xs[["decision"]] = decision
@@ -49,8 +49,8 @@ setMethod(
 				return(x@df$id)
 			if (i == "response")
 				return(x@df$response)
-			if (i == "target")
-				return(x@df$target)
+			if (i == "truth")
+				return(x@df$truth)
 			if (i == "prob") {
 				cns = colnames(x@df)
 				return(x@df[, grep("^prob", cns)])

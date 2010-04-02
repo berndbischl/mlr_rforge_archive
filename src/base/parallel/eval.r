@@ -30,7 +30,7 @@ eval.rf <- function(learner, task, resampling, measures, aggr, parset, ps.scale,
 	st <- system.time(
 			rr <- resample.fit(learner, task, resampling, parset=parset, vars=vars)
 	)
-	rp <- performance(rr, measures=measures, aggr=aggr)
+	rp <- performance(rr, measures=measures, aggr=aggr, task=task)
 	#.mlr.local$n.eval <<- .mlr.local$n.eval+1 
 	#print(.mlr.local$n.eval)
 	#logger.debug("parset ", as.character(parset))

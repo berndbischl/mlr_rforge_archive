@@ -2,7 +2,7 @@
 
 setGeneric(
 		name = "performance",
-		def = function(x, measures, losses, aggr) {
+		def = function(x, measures, aggr, losses, task) {
 			if (missing(measures))
 				measures=default.measures(x@task.desc)
 			measures = make.measures(measures)
@@ -68,14 +68,14 @@ setGeneric(
 
 setMethod(
 		f = "performance",
-		signature = signature(x="prediction", measures="list", losses="list", aggr="list"),
-		def = function(x, measures, losses, aggr) {
+		signature = signature(x="prediction", measures="list", aggr="list", losses="list"),
+		def = function(x, measures, aggr, losses, task) {
 			td = x@task.desc
 			dd = x@data.desc
-			ms = sapply(measures, function(f) f(x))
+			ms = sapply(measures, function(f) f(x, task=task))
 			ls = lapply(losses, function(f) cbind(
 						x@id,		
-						f(x["target"], x["response"], x["weights"], td, dd)
+						f(x["truth"], x["response"], x["weights"], td, dd)
 			))
 #			if(length(ms[[1]]) != 1)
 #				stop("Measure has to return a scalar value!")

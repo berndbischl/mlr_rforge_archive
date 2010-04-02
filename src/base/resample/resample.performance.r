@@ -40,12 +40,12 @@ roxygen()
 setMethod(
 		f = "performance",
 		signature = c(x="resample.prediction", measures="list", losses="list", aggr="list"),
-		def = function(x, measures, losses, aggr) {
+		def = function(x, measures, aggr, losses, task) {
 			n <- x["iters"]
 			rin <- x["instance"]
 			is = 1:n
 			ps = as.list(x)
-			perfs = lapply(ps, function(p) performance(p, measures=measures, losses=losses))
+			perfs = lapply(ps, function(p) performance(p, measures=measures, losses=losses, task=task))
 			ms = Reduce(rbind, lapply(perfs, function(x) x$measure))
 			# ensure a matrix if we just get a single row in ms
 			if (!is.matrix(ms))
@@ -53,7 +53,7 @@ setMethod(
 			ms2 = lapply(aggr, function(f) apply(ms, 2, f))
 			j = which(names(aggr) == "combine")
 			if (length(j) > 0) {
-				ms2[[j]] = callNextMethod(x=x, measures=measures, losses=list(), aggr=list())$measures
+				ms2[[j]] = callNextMethod(x=x, measures=measures, losses=list(), aggr=list(), task=task)$measures
 			}
 			ms2 = Reduce(rbind, ms2)
 			ms = as.data.frame(rbind(ms, ms2))

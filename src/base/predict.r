@@ -69,9 +69,9 @@ setMethod(
 			cns = colnames(newdata)
 			tn = td["target"]
 			if (tn %in% cns)
-				trues = newdata[, tn]
+				truth = newdata[, tn]
 			else
-				trues = NULL
+				truth = NULL
 			
 			# drop target col
 			newdata <- newdata[, -which(cns == tn)]					
@@ -170,7 +170,7 @@ setMethod(
 			weights = NULL
 			if (!missing(task))
 				weights = task["weights"][ids]
-			make.prediction(data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, target=trues, weights=weights, 
+			make.prediction(data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, truth=truth, weights=weights, 
 					time.train=model["time"], time.predict=time.predict)
 		}
 )
