@@ -67,12 +67,9 @@ eval.parsets <- function(learner, task, resampling, measures, aggr, pars, ps.sca
 }
 
 eval.varsets <- function(learner, task, resampling, measures, aggr, varsets) {
-	ms = mylapply(xs=pars, from="tune", f=eval.rf, 
+	rps = mylapply(xs=varsets, from="varsel", f=eval.rf, 
 			learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, parset=NULL, ps.scale=NULL, ps.names=NULL)
-	#ps = par.list.to.df(pars)
-	#ms = Reduce(rbind, ms)
-	#y = cbind(ps, ms)
-	return(ms)
+	return(rps)
 }
 
 

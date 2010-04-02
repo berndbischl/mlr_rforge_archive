@@ -44,6 +44,7 @@ setMethod(
 			n <- x["iters"]
 			rin <- x["instance"]
 			is = 1:n
+			# todo: better use split here?
 			ps = as.list(x)
 			perfs = lapply(ps, function(p) performance(p, measures=measures, losses=losses, task=task))
 			ms = Reduce(rbind, lapply(perfs, function(x) x$measure))
