@@ -4,8 +4,8 @@ test.mlr.learn.task <- function() {
 	
 	checkEquals(ct1["target"], "Species")
 	checkEquals(ct1["targets"], multiclass.df[,multiclass.target])
-#	mf = model.frame(multiclass.formula, multiclass.df)[,1:5]
-#	checkEquals(ct1["data"], mf)
 	
-	
+	ct = binaryclass.task
+	pn = c(ct["positive"], ct["negative"])
+	checkEquals(sort(ct["classes"]), sort(pn))
 }
