@@ -50,12 +50,12 @@ setMethod(
 			if (n == 2) {
 				if (is.na(pos)) {
 					pos = levs[1] 					
-					neg = levs[2]
 				}
 				else {
 					if (!(pos %in% levs))
 						stop(paste("Trying to set a positive class", .Object@positive, "which is not a value of the target variable:", paste(levs, collapse=",")))
 				}
+				neg = setdiff(levs, pos)
 			} else {
 				if (!is.na(pos))
 					stop("Cannot set a positive class for a multiclass problem!")
