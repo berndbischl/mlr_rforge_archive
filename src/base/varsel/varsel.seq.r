@@ -8,13 +8,9 @@
 # be sel best usw.
 
 
-sel.control <- function(compare="diff", alpha=0.01, beta=0.01, steps=Inf) {
-	list(compare=compare, alpha=alpha, beta=beta, steps=steps, minimize=TRUE)
-}
 
 
-
-varsel.seq = function(learner, task, resampling, measures, aggr, method, control=sel.control()) {
+varsel.seq = function(learner, task, resampling, measures, aggr, method, control=varsel.control()) {
 	all.vars = task["input.names"]
 	
 	
@@ -80,19 +76,12 @@ seq.step = function(learner, task, resampling, measures, aggr, control, forward,
 	new.states = gen.new.states(state$vars, not.used)
 	if (length(new.states) == 0)
 		return(NULL)
-	states = list()
 	vals = list()
-	
 		
-	es = eval.varsets(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, varsets=new.states)
+	es = eval.states(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, varsets=new.states)
 	
-	for (i in 1:length(new.states)) {
-		new.vars = new.states[[i]]
-		states[[i]] = eval.state(learner, task, resampling, measures, aggr, new.vars)
-		vals[[i]] = compare(state, states[[i]], control, measures, aggr)
-	}
 	print(unlist(vals))
-	select.best(states, vals, control, forward)
+	select.best(es, vals, control, forward)
 }
 
 gen.new.states.sfs = function(vars, not.used) {
@@ -116,72 +105,5 @@ gen.new.states.sbs = function(vars, not.used) {
 }
 
 
-get.perf = function(state, measures, aggr) {
-	rp = state$rp
-	m = names(measures)[1]
-	a = names(aggr)[1]		
-	rp$measures[a, m]
-}
-
-
-
-compare.diff = function(state1, state2, control, measures, aggr) {
-	m1 = get.perf(state1, measures, aggr)
-	m2 = get.perf(state2, measures, aggr)
-	m1 - m2
-}
-
-select.best.diff = function(states, vals, control, forward) {
-	if (control$minimize)
-		i = which.max(vals)
-	else 
-		i = which.min(vals)
-	d = vals[[i]]
-	if (forward && d > control$alpha)
-		return(states[[i]])
-	if (!forward && d > control$beta)
-		return(states[[i]])
-	return(NULL)
-}
-
-
-#backward.sel <- function(learn.task, steps=1, resample.desc, ranges=list(), eps=0.001) {
-#	is <- learn.task["input.names"]
-#	rin <- make.resample.instance(size=learn.task["size"]), desc=resample.desc)
-#state <- eval.state(learn.task, rin, vars=is)
-#
-#while (TRUE) {
-#	print("current:")
-#	print(state)
-#	rin <- make.resample.instance(size=learn.task["size"], desc=resample.desc)
-#	best.kid.state <- NA 
-#	for (v in state$vars) {
-#		new.vars <- setdiff(state$vars, v)
-#		new.state <- eval.state(learn.task, rin, vars=new.vars)
-#		if (is.na(best.kid.state) || best.kid.state$perf > new.state$perf) {
-#			best.kid.state <- new.state
-#		}
-#	}
-#	print(best.kid.state)
-#	if (best.kid.state$perf - state$perf < eps) {
-#		state <- best.kid.state
-#	} else {
-#		break
-#	}
-#}
-#return(state)
-#}
-
-
-eval.states = function(learner, task, resampling, measures, aggr, states) {
-	mylapply	
-}
-
-
-eval.state <- function(learner, task, resampling, measures, aggr, vars) {
-	rf = resample.fit(learner=learner, task=task, resampling=resampling, vars=vars)
-	rp = performance(rf, measures=measures, aggr=aggr, task=task)
-	return(list(vars=vars, rp=rp))
-}
 
 
