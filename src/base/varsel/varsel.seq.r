@@ -70,7 +70,7 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 		}
 		
 	}
-	return(best=state, path=path)
+	return(list(best=state, path=path))
 }
 
 seq.step = function(learner, task, resampling, measures, aggr, control, forward, all.vars, state, gen.new.states, compare) {

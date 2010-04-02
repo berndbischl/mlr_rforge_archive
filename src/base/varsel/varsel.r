@@ -19,6 +19,8 @@ varsel <- function(learner, task, resampling, method="forward", control=NULL, me
 			stop(paste("Method", method, "does not exist!"))
 	)
 	
+	assign(".mlr.feval", 0, envir=.GlobalEnv)
+	
 	op = sel.func(learner=learner, task=task, resampling=resampling, 
 			measures=measures, aggr=aggr, method=method, control=control) 
 	
