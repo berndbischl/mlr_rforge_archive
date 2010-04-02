@@ -47,6 +47,9 @@ setMethod(
 			ps = as.list(x)
 			perfs = lapply(ps, function(p) performance(p, measures=measures, losses=losses))
 			ms = Reduce(rbind, lapply(perfs, function(x) x$measure))
+			# ensure a matrix if we just get a single row in ms
+			if (!is.matrix(ms))
+				ms = as.matrix(t(ms))
 			ms2 = lapply(aggr, function(f) apply(ms, 2, f))
 			j = which(names(aggr) == "combine")
 			if (length(j) > 0) {
