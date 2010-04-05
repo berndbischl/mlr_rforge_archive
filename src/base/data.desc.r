@@ -1,4 +1,5 @@
-
+#' @include object.r
+roxygen()
 
 
 setClass(

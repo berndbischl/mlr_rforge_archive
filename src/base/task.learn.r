@@ -1,4 +1,8 @@
+#' @include object.r
+roxygen()
 #' @include data.desc.r
+roxygen()
+#' @include task.desc.r
 roxygen()
 
 #' A learning task is a general description object for a machine learning experiment. 

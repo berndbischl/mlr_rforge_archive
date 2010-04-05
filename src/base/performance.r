@@ -1,4 +1,5 @@
-
+#' @include prediction.r
+roxygen()
 
 setGeneric(
 		name = "performance",

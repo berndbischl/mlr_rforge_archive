@@ -1,4 +1,5 @@
 #' @include object.r
+roxygen()
 #' @include wrapped.learner.r
 roxygen()
 

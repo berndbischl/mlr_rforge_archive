@@ -1,10 +1,6 @@
+#' @include object.r
+roxygen()
 #' @include learner.props.r
-roxygen()
-#' @include train.learner.r
-roxygen()
-#' @include predict.learner.r
-roxygen()
-#' @include to.string.r
 roxygen()
 
 #' Wraps an already implemented learning method from R to make it accesible to mlr.
@@ -19,6 +15,7 @@ roxygen()
 
 setClass(
 		"wrapped.learner",
+		contains = c("object"),
 		representation = representation(
 				learner.name = "character",
 				learner.pack = "character",

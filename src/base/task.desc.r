@@ -1,3 +1,7 @@
+#' @include object.r
+roxygen()
+
+
 setClass(
 		"task.desc",
 		contains = c("object"),
