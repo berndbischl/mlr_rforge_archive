@@ -1,17 +1,16 @@
 #' Complete benchmark experiment to compare different learning algorithms 
 #' accros one or more tasks w.r.t. to a given resampling strategy.  
 #' Experiments are paired, meaning always the same training / test sets are used for the different learners.  
-#' 
+ 
 #' @param learners [character vector | wrapped.learner | list of the previous two] \cr
 #' 		  Defines the learning algorithms which should be compared.
 #' @param tasks [learn.task | list of the previous] \cr
 #'        Defines the tasks.
-#' @param measures 
+#' @param measures [see measures]
 #'        Performance measures. 
-#' @param type
+#' @param type [string] \cr
 #'        Classification: "response" | "prob" | "decision" 
-#' 
-#' @return [\code{\linkS4class{bench.result}}.
+#' @return \code{\linkS4class{bench.result}}.
 #' 
 #' @usage bench.exp(learners, tasks, resampling, measures, type="response")
 #' 
@@ -21,17 +20,8 @@
 #' @export 
 #' @aliases bench.exp 
 #' @title Benchmark experiment for multiple learners and tasks. 
-#'
-#' @examples
-#' ct <- make.classif.task(data=iris, target="Species")
-#' # very small grid for svm hyperpars 
-#' r <- list(C=2^seq(-1,1), sigma=2^seq(-1,1))
-#' inner.res <- make.res.desc("cv", iters=3)   
-#' svm.tuner <- make.tune.wrapper("kernlab.svm.classif", method="grid", resampling=inner.res, control=grid.control(ranges=r))
-#' learners <- c("lda", "qda", svm.tuner)
-#' res <- make.res.desc("cv", iters=5)
-#' bench.exp(learners, ct, res)
-  
+
+
 
 bench.exp <- function(learners, tasks, resampling, measures, type="response") {
 	
