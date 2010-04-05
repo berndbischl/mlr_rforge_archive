@@ -1,5 +1,12 @@
-#' @include wrapped.learner.classif.r 
+#' @include wrapped.learner.classif.r
 roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include predict.learner.r
+roxygen()
+
 
 #' Wrapped learner for Naive Bayes from package \code{e1071} for classification problems.
 #' @title naiveBayes

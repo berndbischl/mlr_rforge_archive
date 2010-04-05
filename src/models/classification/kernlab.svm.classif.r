@@ -1,5 +1,12 @@
 #' @include wrapped.learner.classif.r
 roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include predict.learner.r
+roxygen()
+
 
 #' Wrapped learner for Support Vector Machines from package \code{kernlab} for classification problems.
 #' 
