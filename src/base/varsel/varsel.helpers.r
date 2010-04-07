@@ -10,13 +10,15 @@ get.perf = function(state, measures, aggr) {
 
 # evals a single set of vars and return the corresponding state
 eval.state <- function(learner, task, resampling, measures, aggr, vars) {
-	rp = eval.rf(learner, task, resampling, measures, aggr, parset=NULL, ps.scale=NULL, ps.names=NULL, vars=vars) 
+	rp = eval.rf(learner, task, resampling, measures, aggr, parset=NULL, ps.scale=NULL, ps.names=NULL, vars=vars)
+	assign(".mlr.vareval", get(".mlr.vareval", envir=.GlobalEnv)+1, envir=.GlobalEnv)
 	return(list(vars=vars, rp=rp))
 }
 
 # evals a set of var-lists and return the corresponding states
 eval.states = function(learner, task, resampling, measures, aggr, varsets) {
 	rps = eval.varsets(learner, task, resampling, measures, aggr, varsets)
+	assign(".mlr.vareval", get(".mlr.vareval", envir=.GlobalEnv)+length(varsets), envir=.GlobalEnv)
 	mapply(function(a,b) list(vars=a, rp=b), varsets, rps, SIMPLIFY=FALSE)
 }
 
