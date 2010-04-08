@@ -1,15 +1,19 @@
 #' Complete benchmark experiment to compare different learning algorithms 
-#' accros one or more tasks w.r.t. to a given resampling strategy.  
+#' across one or more tasks w.r.t. to a given resampling strategy.  
 #' Experiments are paired, meaning always the same training / test sets are used for the different learners.  
  
 #' @param learners [character vector | wrapped.learner | list of the previous two] \cr
 #' 		  Defines the learning algorithms which should be compared.
 #' @param tasks [learn.task | list of the previous] \cr
 #'        Defines the tasks.
+#' @param resampling [resampling desc | resampling instance | list of the previous two] \cr
+#'        Defines the resampling strategies for the tasks.
 #' @param measures [see measures]
 #'        Performance measures. 
-#' @param type [string] \cr
-#'        Classification: "response" | "prob" | "decision" 
+#' @param type [character] \cr
+#'        Classification: vector of "response" | "prob" | "decision", specifying the types to predict.
+#'        Default is "response".
+#' 		  Ignored for regression.	 
 #' @return \code{\linkS4class{bench.result}}.
 #' 
 #' @usage bench.exp(learners, tasks, resampling, measures, type="response")

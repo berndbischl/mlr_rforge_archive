@@ -39,8 +39,9 @@ roxygen()
 
 setMethod(
 		f = "performance",
-		signature = c(x="resample.prediction", measures="list", losses="list", aggr="list"),
-		def = function(x, measures, aggr, losses, task) {
+		signature = c(pred="resample.prediction", measures="list", losses="list", aggr="list"),
+		def = function(pred, measures, aggr, losses, task) {
+			x = pred
 			n <- x["iters"]
 			rin <- x["instance"]
 			is = 1:n

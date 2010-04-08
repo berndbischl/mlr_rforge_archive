@@ -1,3 +1,10 @@
+#' Result from \code{\link{predict}}.    
+#' 
+#' @exportClass prediction
+#' @title Prediction.
+#' @seealso \code{\link{performance}}
+
+
 setClass(
 		"prediction",
 		representation = representation(

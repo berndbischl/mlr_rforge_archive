@@ -1,4 +1,12 @@
-#' @export 
+#' Create learner object. 
+#' 
+#' @param name [string] \cr
+#'   Name of learner.
+#' 
+#' @return \code{\linkS4class{wrapped.learner}}.
+#' 
+#' @export
+#' 
 make.learner = function(name, task, ...) {
 	parset = list(...)
 	name2 = NULL

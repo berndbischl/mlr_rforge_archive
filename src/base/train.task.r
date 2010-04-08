@@ -1,40 +1,30 @@
 #' @include task.learn.r
 roxygen()
 
-#' Given a \code{\linkS4class{learn.task}} \code{train} creates a model for the learning machine 
+#' Given a \code{\linkS4class{learn.task}}, creates a model for the learning machine 
 #' which can be used for predictions on new data. 
 #'
-#' @param learner [\code{\linkS4class{wrapped.learner}} or \code{\link{character}}]\cr 
-#'        Learning algorithm.   
+#' @param learner [\code{\linkS4class{wrapped.learner}} or string]\cr 
+#'        Learning algorithm. See learners.  
 #' @param task [\code{\linkS4class{learn.task}}]\cr 
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 
-#'        An index vector specifying the training cases from the data contained in the learning task. By default the complete dataset is used. 
+#'        An index vector specifying the training cases to be used for fitting. By default the complete dataset is used. 
 #' @param vars [\code{\link{character}}] \cr
-#'       Vector of variable names to use in training the model. Default is to use all variables.
+#'       Vector of variable names to use in training the model. Default is to use all variables, except the excluded in the task.
+#' @param type [string] \cr
+#'        Classification: "response" | "prob" | "decision", specifying the type to predict later.
+#' 		  Default is "response". Very rarely you have to set this during training as well, as the fitted models differ.	 
 #'
-#' @return An object of class \code{\linkS4class{wrapped.model}} containing the generated model of the underlying learner and the paramater and index set used for training. 
+#' @return An object of class \code{\linkS4class{wrapped.model}}. 
 #'
 #' @export
 #'
-#' @usage train(learner, task, subset, vars)  
+#' @usage train(learner, task, subset, vars, type)  
 #'
-#' @examples 
-#' library(MASS)
-#' train.inds <- seq(1,150,2)
-#' test.inds <- seq(2,150,2)
-#'
-#' ct <- make.classif.task(data=iris, target="Species")
-#' cm <- train("lda", ct, subset=train.inds)
-#' ps <- predict(cm, newdata=iris[test.inds,])
+#' @seealso \code{\link{predict}} 
 #' 
-#' ct <- make.classif.task(data=iris, target="Species")
-#' cm <- train("kknn.classif", ct, subset=train.inds, parset=list(k=3))
-#' ps <- predict(cm, newdata=iris[test.inds,])
-#'  
-#' @seealso \code{\link{predict}}, \code{\link{make.classif.task}}, \code{\link{make.regr.task}} 
-#' 
-#' @title train
+#' @title Training a learning algorithm.
 #' @rdname train
 
 setGeneric(

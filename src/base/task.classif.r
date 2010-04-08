@@ -4,11 +4,9 @@ roxygen()
 #' General description object for a classification experiment.   
 #' Instantiate it by using its factory method.
 #' 
-#' @slot costs Matrix of misclassification costs. Default is zero-one loss. 
-#' 
 #' @exportClass classif.task
-#' @title classif.task
-#' @seealso make.regr.task 
+#' @title Classification task.
+#' @seealso \code{\link{make.classif.task}}
 
 
 setClass(

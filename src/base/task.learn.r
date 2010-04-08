@@ -11,7 +11,7 @@ roxygen()
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
 #' 
 #' @exportClass learn.task
-#' @seealso classif.task regr.task make.classif.task make.regr.task
+#' @seealso \code{\link{make.regr.task}} \code{\link{make.regr.task}}
 #' @title learn.task
 
 

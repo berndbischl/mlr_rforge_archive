@@ -1,49 +1,32 @@
 #' include wrapped.model.r
 roxygen()
 
-#' Predicts the target classes of a new data set based on 
-#' an already fitted wrapped.model of a classifcation task.   
-#' 
-#' See documentation super method. 
+#' Use a \code{\linkS4class{wrapped.model}} to predict the target variable of new data. 
 #' 
 #' @param object [\code{\linkS4class{wrapped.model}}] \cr 
 #'        Wrapped model, trained from learn task  
+#' @param task [\code{\linkS4class{learn.task}}]\cr 
+#'        Specifies learning task. If this is passed, data from this task is predicted.   
+#' @param subset [integer] \cr 
+#'        Index vector to subset the data in the task to use for prediction. 
 #' @param newdata [\code{\link{data.frame}}] \cr 
-#'        Contains new observations which should be predicted (by default the train data of the wrapped model).
-#' @param type [\code{\link{character}}] \cr 
-#' 		  Specifies the type of predictions for classification - either probability ("prob") or class ("response"). 
-#'        If not given, the type specified in the classification task is used (which is per default "response").
-#' 		  Ignored in case of regression.
-#' 
+#'        New observations which should be predicted. 
+#' @param type [character] \cr
+#'        Classification: vector of "response" | "prob" | "decision", specifying the types to predict.
+#'        Default is "response".
+#' 		  Ignored for regression.	 
 #'
-#' @return For classification: Either a factor of predicted classes or a matrix of probabilities. The rows correspond to the 
-#'      predicted observations and the columns to the classes. Each column has the name of its respective class. 
-#'      For regression: A numeric vector of predictions.    
+#' @return An object of class \code{\linkS4class{prediction}}.
 #'
 #' @export
 #' @importFrom stats predict
 #' 
-#' @usage \S4method{predict}{classif.task}(object, model, newdata, type="default")
-#' @seealso \code{\link{predict,learn.task-method}}
+#' @usage predict(object, task, subset, type)
+#' @usage predict(object, newdata, type)
+#' 
+#' @seealso \code{\link{train}
 #'
-#' @examples
-#' 
-#' inds <- 2*(1:75)
-#' test <- iris[-inds,]
-#' 
-#' ct <- make.classif.task(data=iris, target="Species")
-#' model <- train("lda", ct, subset=inds)
-#' predict(model, newdata = test)
-#' 
-#' data(BostonHousing)
-#' inds <- seq(1, nrow(BostonHousing), 2)
-#' test <- BostonHousing[-inds,]
-#' 
-#' rt <- make.regr.task(data=BostonHousing, target="medv")
-#' model <- train(("stats.lm", rt, subset=inds)
-#' predict(model, newdata = test)
-#' 
-#' @title predict
+#' @title Predict new data.
 
 setMethod(
 		f = "predict",
