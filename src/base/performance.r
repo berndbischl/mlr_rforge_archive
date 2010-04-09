@@ -51,8 +51,7 @@ setMethod(
 			dd = x@data.desc
 			ms = sapply(measures, function(f) f(x, task=task))
 			ls = lapply(losses, function(f) cbind(
-						x@id,		
-						f(x["truth"], x["response"], x["weights"], td, dd)
+						x["id"], f(x["truth"], x["response"], x["weights"], td, dd)
 			))
 #			if(length(ms[[1]]) != 1)
 #				stop("Measure has to return a scalar value!")

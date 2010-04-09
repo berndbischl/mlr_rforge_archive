@@ -51,7 +51,7 @@ setMethod(
 				}
 				else {
 					if (!(pos %in% levs))
-						stop(paste("Trying to set a positive class", .Object@positive, "which is not a value of the target variable:", paste(levs, collapse=",")))
+						stop(paste("Trying to set a positive class", pos, "which is not a value of the target variable:", paste(levs, collapse=",")))
 				}
 				neg = setdiff(levs, pos)
 			} else {

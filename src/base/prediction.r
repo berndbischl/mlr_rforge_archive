@@ -73,12 +73,12 @@ setMethod(
 		}
 )
 
-
+#' @export
 setMethod(
 		f = "as.data.frame",
 		signature = signature("prediction"),
 		def = function(x, row.names = NULL, optional = FALSE,...) {
-			return(df)
+			return(x@df)
 		}
 )
 
