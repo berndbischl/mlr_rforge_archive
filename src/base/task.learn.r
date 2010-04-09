@@ -93,7 +93,7 @@ setMethod(
 			}
 			
 			if (i == "has.weights"){
-				return(length(weights) > 0)
+				return(length(x["weights"]) > 0)
 			}
 			
 			if (i == "data"){

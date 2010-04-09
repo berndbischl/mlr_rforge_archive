@@ -61,7 +61,12 @@ train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, mod
 	parset = wl@train.fct.pars
 	# reduce data to subset and selected vars
 	data.subset <- task["data", subset, select=c(vars, tn), drop=F]
-	ws <- task["weights"][subset]
+	
+	# todo: maybe don't pass weights for performance reasons when none set?
+	if (task["has.weights"])
+		ws = task["weights"][subset]
+	else
+		ws = rep(1, length(subset)) 
 	
 	logger.debug("mlr train:", wl@learner.name, "with pars:")
 	logger.debug(parset)
