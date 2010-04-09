@@ -3,7 +3,7 @@ base.files <<- c(
 #		"base/packagedesc.r",
 		"base/aaa.r",
 		"base/helpers.r",
-		"base/to.string.r",
+#		"base/to.string.r",
 		"base/object.r",
 		
 		"base/learner.props.r",
@@ -74,6 +74,9 @@ base.files <<- c(
 		"base/tune/tune.nm.r",
 		"base/tune/tune.wrapper.r",
 		
+		"base/varsel/varsel.helpers.r",
+		"base/varsel/varsel.control.r",
+		"base/varsel/varsel.random.r",
 		"base/varsel/varsel.seq.r",
 		"base/varsel/varsel.r",
 		
@@ -101,13 +104,14 @@ classif.files <<- c(
 		"models/classification/multinom.r",
 		"models/classification/nb.r",
 		"models/classification/rpart.r",
+		"models/classification/j48.r",
 		"models/classification/randomForest.r",
 		"models/classification/boost.r",
 		"models/classification/ada.r",
 		"models/classification/blackboost.r",
 		"models/classification/kernlab.svm.classif.r",
 		"models/classification/nnet.r"
-#		"models/classification/metacost.r"
+##		"models/classification/metacost.r"
 )
 
 regr.files <<- c( 		
@@ -115,7 +119,6 @@ regr.files <<- c(
 		"models/regression/blackboost.r",
 		"models/regression/gbm.r",
 		"models/regression/kknn.r",
-##		"models/regression/regr.myknn.r",
 		"models/regression/ridge.r",
 		"models/regression/lasso.r",
 		"models/regression/kernlab.svm.regr.r"
@@ -144,6 +147,7 @@ load.all.libs <- function() {
 	library(klaR)
 	library(snowfall)
 	library(nnet)
+	library(RWeka)
 }
 
 load.all.sources <- function(prefix) {
