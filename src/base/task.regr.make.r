@@ -40,7 +40,7 @@ setGeneric(
 			if (missing(excluded))
 				excluded <- character(0)
 			if (missing(weights))
-				weights <- rep(1, nrow(data))
+				weights = numeric(0)
 			standardGeneric("make.regr.task")
 		}
 )

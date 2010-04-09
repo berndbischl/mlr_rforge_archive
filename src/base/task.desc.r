@@ -10,7 +10,6 @@ setClass(
 				name = "character",
 				target = "character",
 				excluded = "character",
-				weights = "numeric",
 				costs = "matrix",
 				positive = "character",
 				negative = "character"

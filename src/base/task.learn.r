@@ -20,6 +20,7 @@ setClass(
 		contains = c("object"),
 		representation = representation(
 				data = "data.frame",
+				weights = "numeric",
 				data.desc = "data.desc",
 				task.desc = "task.desc"
 		)
@@ -34,7 +35,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, data, data.desc, task.desc) {
+		def = function(.Object, data, weights, data.desc, task.desc) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
@@ -44,6 +45,7 @@ setMethod(
 
 
 			.Object@data = data
+			.Object@weights = weights
 			.Object@data.desc = data.desc
 			.Object@task.desc = task.desc
 			
@@ -88,6 +90,10 @@ setMethod(
 			}
 			if (i == "input.names"){
 				return(setdiff(colnames(x@data), c(x["excluded"], x["target.name"])))
+			}
+			
+			if (i == "has.weights"){
+				return(length(weights) > 0)
 			}
 			
 			if (i == "data"){

@@ -150,10 +150,8 @@ setMethod(
 				ids = NULL
 			else
 				ids = subset
-			weights = NULL
-			if (!missing(task))
-				weights = task["weights"][ids]
-			make.prediction(data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, truth=truth, weights=weights, 
+			
+			make.prediction(data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, truth=truth,  
 					time.train=model["time"], time.predict=time.predict)
 		}
 )

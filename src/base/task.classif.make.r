@@ -44,7 +44,7 @@ setGeneric(
 			if (missing(excluded))
 				excluded = character(0)
 			if (missing(weights))
-				weights <- rep(1, nrow(data))
+				weights = numeric(0) 
 			if (missing(costs)) {
 				# we set costs in constructor after data preparation
 				costs = as.matrix(NA)

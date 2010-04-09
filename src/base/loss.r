@@ -27,11 +27,11 @@ make.losses = function(xs) {
 
 make.loss <- function(name) {
 	if (name=="squared") 
-		fun=function(true.y, pred.y, weights, task.desc, data.desc) (true.y - pred.y)^2 
+		fun=function(pred, task) (pred["truth"] - pred["response"])^2 
 	else if (name=="abs") 
-		fun=function(true.y, pred.y, weights, task.desc, data.desc) abs(true.y - pred.y) 
+		fun=function(pred, task) abs(pred["truth"] - pred["response"]) 
 	else if (name=="zero-one") 
-		fun=function(true.y, pred.y, weights, task.desc, data.desc) as.numeric(true.y != pred.y) 
+		fun=function(pred, task) as.numeric(pred["truth"] != pred["response"]) 
 	else 	
 		stop(paste("Loss", name, "does not exist!"))
 	

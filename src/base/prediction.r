@@ -33,13 +33,12 @@ setMethod(
 )
 
 
-make.prediction = function(data.desc, task.desc, id, truth, response, weights, prob, decision, time.train, time.predict) {
+make.prediction = function(data.desc, task.desc, id, truth, response, prob, decision, time.train, time.predict) {
 	xs = list()
 	# if null no col in df present
 	xs[["id"]] = id
 	xs[["response"]] = response
 	xs[["truth"]] = truth
-	xs[["weights"]] = weights
 	xs[["prob"]] = prob
 	xs[["decision"]] = decision
 	df = as.data.frame(xs)
