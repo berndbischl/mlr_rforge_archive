@@ -14,11 +14,7 @@ setClass(
 )
 
 
-################ TO DO : TEST!!!!!!!
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title GBM Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("gbm.classif"),
@@ -40,6 +36,7 @@ setMethod(
 )
 
 
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
@@ -58,6 +55,8 @@ setMethod(
 		}
 )
 
+#' @rdname predict.learner
+
 setMethod(
 		f = "predict.learner",
 		signature = signature(
@@ -72,10 +71,5 @@ setMethod(
 			predict(m, newdata=.newdata, type="link", n.trees=length(m$trees), single.tree=FALSE, ...)
 		}
 )	
-
-library(mlbench)
-data(BreastCancer)
-ct = make.classif.task(data=na.omit(BreastCancer), target="Class", excluded="Id")
-m = train("gbm.classif", task=ct)
 
 

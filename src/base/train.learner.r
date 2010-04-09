@@ -17,9 +17,10 @@
 #' 		  Additional parameters, which need to be passed to the underlying train function.
 #' 		    
 #' @return Model of the underlying learner.
-#' @exportMethod train.learner
-#' @aliases train.learner 
-#' @title train.learner 
+#' 
+#' @export
+#' @rdname train.learner
+#' @title Internal training method for learner. 
 
 setGeneric(
 		name = "train.learner",

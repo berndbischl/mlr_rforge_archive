@@ -8,21 +8,12 @@ roxygen()
 roxygen()
 
 
-#' Wrapped learner for Multinomial Regression from package \code{nnet} for classification problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' @title nnet.multinom
-#' @seealso \code{\link[nnet]{multinom}}
-#' @export
 setClass(
 		"nnet.multinom", 
 		contains = c("wrapped.learner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Multinomial Regression Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("nnet.multinom"),
@@ -45,6 +36,8 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
+
 setMethod(
 		f = "train.learner",
 		signature = signature(
@@ -61,6 +54,8 @@ setMethod(
 			multinom(f, data=.data, weights=.weights, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

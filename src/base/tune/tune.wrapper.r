@@ -59,6 +59,8 @@ make.tune.wrapper <- function(learner, resampling, method="grid", control, scale
 	return(tt)
 }
 
+#' @rdname train.learner
+
 setMethod(
 		f = "train.learner",
 		signature = signature(
@@ -86,6 +88,8 @@ setMethod(
 			return(m)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

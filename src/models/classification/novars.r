@@ -14,7 +14,6 @@ setClass(
 )
 
 
-#----------------- constructor ---------------------------------------------------------
 setMethod(
 		f = "initialize",
 		signature = signature("novars.classif"),
@@ -35,6 +34,7 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
@@ -51,6 +51,8 @@ setMethod(
 			list(targets=.data[, .targetvar])
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

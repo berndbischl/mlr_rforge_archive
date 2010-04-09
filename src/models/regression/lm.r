@@ -2,10 +2,6 @@
 roxygen()
 
 
-#' Wrapped learner for Linear Models from package \code{stats} for regression problems.
-#' @title stats.lm
-#' @seealso \code{\link[stats]{lm}}
-#' @export
 setClass(
 		# name lm is sealed
 		"stats.lm", 
@@ -13,8 +9,6 @@ setClass(
 )
 
 
-#' Constructor.
-#' @title LM Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("stats.lm"),
@@ -32,6 +26,8 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
+
 setMethod(
 		f = "train.learner",
 		signature = signature(
@@ -48,6 +44,8 @@ setMethod(
 			lm(f, data=.data, weights=.weights, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

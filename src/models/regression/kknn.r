@@ -1,16 +1,6 @@
 #' @include wrapped.learner.regr.r
 roxygen()
 
-#' Wrapped learner for k-Nearest Neighbor from package \code{kknn} for regression problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{k}}{Number of neighbors considered.} 	
-#' 		\item{\code{distance}}{Parameter of Minkowski distance.}
-#' }
-#' @title kknn.regr
-#' @seealso \code{\link[kknn]{kknn}}
-#' @export
 setClass(
 		"kknn.regr", 
 		contains = c("wrapped.learner.regr")
@@ -22,9 +12,6 @@ predict.kknn.model2 <- function(model, newdata, ...) {
 }
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title kNN (regression) Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("kknn.regr"),
@@ -42,6 +29,8 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
+
 setMethod(
 		f = "train.learner",
 		signature = signature(
@@ -57,6 +46,8 @@ setMethod(
 			list(target=.targetvar, data=.data, parset=list(...))
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

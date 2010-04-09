@@ -8,21 +8,12 @@ roxygen()
 roxygen()
 
 
-#' Wrapped learner for Classification Trees from package \code{rpart}.
-#' 
-#' \emph{Common hyperparameters:}
-#' @title rpart.classif
-#' @seealso \code{\link[rpart]{rpart}}
-#' @export
 setClass(
 		"blackboost.classif", 
 		contains = c("wrapped.learner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title rpart Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("blackboost.classif"),
@@ -43,6 +34,7 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
@@ -61,6 +53,8 @@ setMethod(
 		}
 )
 
+#' @rdname predict.learner
+
 setMethod(
 		f = "predict.learner",
 		signature = signature(
@@ -77,8 +71,8 @@ setMethod(
 			if (.type == "prob") {
 				y <- matrix(0, ncol=2, nrow=length(.newdata))
 				colnames(y) <- .wrapped.model["class.levels"]
-				y[,1] <- x
-				y[,2] <- 1-x
+				y[,1] <- p
+				y[,2] <- 1-p
 				return(y)
 			} else {
 				return(p)

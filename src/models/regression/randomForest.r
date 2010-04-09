@@ -1,26 +1,12 @@
 #' @include wrapped.learner.regr.r
 roxygen()
 
-#' Wrapped learner for Random Forests from package \code{randomForest} for regression problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{ntree}}{Number of trees to grow.}
-#' 		\item{\code{mtry}}{Number of variables randomly sampled as candidates at each split.}
-#' 		\item{\code{nodesize}}{Minimum size of terminal nodes.}
-#' }
-#' @title randomForest.regr
-#' @seealso \code{\link[randomForest]{randomForest}}
-#' @export
 setClass(
 		"randomForest.regr", 
 		contains = c("wrapped.learner.regr")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Random Forest Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("randomForest.regr"),
@@ -38,6 +24,7 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
@@ -55,6 +42,8 @@ setMethod(
 			randomForest(f, data=.data, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

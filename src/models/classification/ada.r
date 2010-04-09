@@ -8,19 +8,12 @@ roxygen()
 roxygen()
 
 
-#' Wrapped learner for boosting a binary response from package \code{ada}.
-#' @title ada
-#' @seealso \code{\link[ada]{ada}}
-#' @export
 setClass(
 		"ada", 
 		contains = c("wrapped.learner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Ada constructor
 setMethod(
 		f = "initialize",
 		signature = signature("ada"),
@@ -65,6 +58,8 @@ setMethod(
 )
 
 
+#' @rdname train.learner
+
 setMethod(
 		f = "train.learner",
 		signature = signature(
@@ -81,6 +76,8 @@ setMethod(
 			ada(f, data=.data, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

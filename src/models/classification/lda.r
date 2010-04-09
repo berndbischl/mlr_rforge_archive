@@ -8,19 +8,12 @@ roxygen()
 roxygen()
 
 
-#' Wrapped learner for Linear Discriminant Analysis from package \code{MASS}.
-#' @title lda
-#' @seealso \code{\link[MASS]{lda}}
-#' @export
 setClass(
 		"lda", 
 		contains = c("wrapped.learner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title LDA Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("lda"),
@@ -42,6 +35,7 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
@@ -59,6 +53,8 @@ setMethod(
 			lda(f, data=.data, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

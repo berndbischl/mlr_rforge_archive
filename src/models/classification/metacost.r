@@ -36,6 +36,7 @@ setMethod(
 #	
 #}
 
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",

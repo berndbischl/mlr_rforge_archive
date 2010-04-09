@@ -7,25 +7,12 @@ roxygen()
 #' @include predict.learner.r
 roxygen()
 
-#' Wrapped learner for Regularized Discriminant Analysis from package \code{klaR} for classification problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{gamma}}{See details in \code{klaR}.}		
-#' 		\item{\code{lambda}}{See details in \code{klaR}.}	
-#' }
-#' @title rda
-#' @seealso \code{\link[klaR]{rda}}
-#' @export
 setClass(
 		"rda", 
 		contains = c("wrapped.learner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title RDA Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("rda"),
@@ -47,6 +34,8 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
+
 setMethod(
 		f = "train.learner",
 		signature = signature(
@@ -63,6 +52,8 @@ setMethod(
 			rda(f, data=.data, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

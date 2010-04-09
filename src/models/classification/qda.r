@@ -8,19 +8,12 @@ roxygen()
 roxygen()
 
 
-#' Wrapped learner for Quadratic Discriminant Analysis from package \code{MASS} for classification problems.
-#' @title qda
-#' @seealso \code{\link[MASS]{qda}}
-#' @export
 setClass(
 		"qda", 
 		contains = c("wrapped.learner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title QDA Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("qda"),
@@ -42,6 +35,8 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
+
 setMethod(
 		f = "train.learner",
 		signature = signature(
@@ -58,6 +53,8 @@ setMethod(
 			qda(f, data=.data, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

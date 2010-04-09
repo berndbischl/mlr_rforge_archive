@@ -2,26 +2,12 @@
 roxygen()
 
 
-#' Wrapped learner for Lasso Regression from package \code{penalized} for regression problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{lambda1}}{Tuning parameter for L1 penalization.}			
-#' 		\item{\code{steps}}{If greater than 1, the algorithm will fit the model for a range of steps lambda1-values, starting from the maximal value down to the value of lambda1 specified.}
-#' 		\item{\code{epsilon}}{The convergence criterion.}
-#' }
-#' @title penalized.lasso
-#' @seealso \code{\link[penalized]{penalized}}
-#' @export
 setClass(
 		"penalized.lasso", 
 		contains = c("wrapped.learner.regr")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Lasso Regression Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("penalized.lasso"),
@@ -39,8 +25,7 @@ setMethod(
 		}
 )
 
-
-#' Overwritten, to allow "lambda" instead of "lambda1" as parameter name.
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
@@ -65,6 +50,8 @@ setMethod(
 			do.call(penalized, pars)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

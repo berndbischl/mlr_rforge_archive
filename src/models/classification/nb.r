@@ -8,19 +8,12 @@ roxygen()
 roxygen()
 
 
-#' Wrapped learner for Naive Bayes from package \code{e1071} for classification problems.
-#' @title naiveBayes
-#' @seealso \code{\link[e1071]{naiveBayes}}
-#' @export
 setClass(
 		"naiveBayes", 
 		contains = c("wrapped.learner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Naive Bayes Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("naiveBayes"),
@@ -42,6 +35,7 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
@@ -59,6 +53,8 @@ setMethod(
 			naiveBayes(f, data=.data, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

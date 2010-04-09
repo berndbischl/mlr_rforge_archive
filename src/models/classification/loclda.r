@@ -7,19 +7,12 @@ roxygen()
 #' @include predict.learner.r
 roxygen()
 
-#' Wrapped learner for Localized Linear Discriminant Analysis from package \code{MASS}.
-#' @title loclda
-#' @seealso \code{\link[klaR]{loclda}}
-#' @export
 setClass(
 		"loclda", 
 		contains = c("wrapped.learner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title loclda Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("loclda"),
@@ -40,6 +33,9 @@ setMethod(
 			callNextMethod(.Object, learner.name="Localized LDA", learner.pack="klaR", learner.props=desc, parset=parset)
 		}
 )
+
+#' @rdname train.learner
+
 setMethod(
 		f = "train.learner",
 		signature = signature(
@@ -56,6 +52,8 @@ setMethod(
 			loclda(f, data=.data, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

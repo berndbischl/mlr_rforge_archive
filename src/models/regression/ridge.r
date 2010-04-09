@@ -2,25 +2,12 @@
 roxygen()
 
 
-#' Wrapped learner for Ridge Regression from package \code{penalized} for regression problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{lambda2}}{Tuning parameter for L2 penalization.}			
-#' 		\item{\code{epsilon}}{The convergence criterion.}
-#' }
-#' @title penalized.ridge
-#' @seealso \code{\link[penalized]{penalized}}
-#' @export
 setClass(
 		"penalized.ridge", 
 		contains = c("wrapped.learner.regr")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Ridge Regression Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("penalized.ridge"),
@@ -40,8 +27,8 @@ setMethod(
 
 
 
+#' @rdname train.learner
 
-#' Overwritten, to allow "lambda" instead of "lambda2" as parameter name.
 
 setMethod(
 		f = "train.learner",
@@ -66,6 +53,9 @@ setMethod(
 			do.call(penalized, pars)
 		}
 )
+
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

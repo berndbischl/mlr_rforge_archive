@@ -1,16 +1,14 @@
 #' @include wrapped.learner.regr.r
 roxygen()
 
-#' @export 
+  
 setClass(
 		"kernlab.svm.regr", 
 		contains = c("wrapped.learner.regr")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title SVM Constructor
+
 setMethod(
 		f = "initialize",
 		signature = signature("kernlab.svm.regr"),
@@ -28,10 +26,7 @@ setMethod(
 		}
 )
 
-#---------------- train -----------------------------------------------------
-
-
-#' Overwritten, to allow direct passing of kernel hyperparameters.
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
@@ -70,6 +65,7 @@ setMethod(
 		}
 )
 
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

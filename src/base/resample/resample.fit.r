@@ -31,19 +31,14 @@ roxygen()
 #'      Default is to extract nothing. 
 #' 	   
 #'             
-#' @return An object of class \code{\linkS4class{resample.result}}.
+#' @return \code{\linkS4class{resample.prediction}}.
 #' 
 #' @export
 #' @rdname resample.fit 
 #' 
 #' @usage resample.fit(learner, task, resampling, vars, type, extract)
 #'
-#' @examples
-#' ct <- make.classif.task(data=iris, target="Species")
-#' res <- make.res.instance("cv", task=ct, iters=3)
-#' f1 <- resample.fit("rpart.classif", ct, res)	
-#'  
-#' @title resample.fit
+#' @title Fit models according to a resampling strategy.
 
 
 setGeneric(

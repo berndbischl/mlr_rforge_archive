@@ -8,26 +8,12 @@ roxygen()
 roxygen()
 
 
-#' Wrapped learner for Logistic Regression from package \code{stats} for classification problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{start}}{Starting values for the parameters in the linear predictor.}	
-#' 		\item{\code{etastart}}{Starting values for the linear predictor.}
-#' 		\item{\code{mustart}}{Starting values for the vector of means.}
-#' }
-#' @title logreg
-#' @seealso \code{\link[stats]{glm}}
-#' @export
 setClass(
 		"logreg", 
 		contains = c("wrapped.learner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Logistic Regression Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("logreg"),
@@ -49,6 +35,9 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
+
+
 setMethod(
 		f = "train.learner",
 		signature = signature(
@@ -65,6 +54,8 @@ setMethod(
 			glm(f, family="binomial", data=.data, model=FALSE, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

@@ -16,9 +16,10 @@ roxygen()
 #' 		  Additional parameters, which need to be passed to the underlying train function.
 #' 		    
 #' @return Model of the underlying learner.
-#' @exportMethod predict.learner
-#' @aliases train.learner 
-#' @title train.learner 
+#' 
+#' @export
+#' @rdname predict.learner
+#' @title Internal prediction method for learner. 
 
 setGeneric(
 		name = "predict.learner",

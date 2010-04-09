@@ -8,21 +8,12 @@ roxygen()
 roxygen()
 
 
-#' Wrapped learner for Mixture Discriminant Analysis from package \code{mda} for classification problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' @title mda
-#' @seealso \code{\link[mda]{mda}}
-#' @export
 setClass(
 		"mda", 
 		contains = c("wrapped.learner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title MDA Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("mda"),
@@ -44,6 +35,9 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
+
+
 setMethod(
 		f = "train.learner",
 		signature = signature(
@@ -60,6 +54,8 @@ setMethod(
 			mda(f, data=.data, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

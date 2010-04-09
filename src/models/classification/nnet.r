@@ -8,19 +8,12 @@ roxygen()
 roxygen()
 
 
-#' Wrapped learner for neural network from package \code{nnet}.
-#' @title NNet
-#' @seealso \code{\link[nnet]{nnet}}
-#' @export
 setClass(
 		"nnet.nn.classif", 
 		contains = c("wrapped.learner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title NNet Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("nnet.nn.classif"),
@@ -42,6 +35,7 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
@@ -62,6 +56,8 @@ setMethod(
 				nnet(f, data=.data, weights=.weights, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",

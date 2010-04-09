@@ -1,21 +1,12 @@
 #' @include wrapped.learner.regr.r
 roxygen()
 
-#' Wrapped learner for Regression Trees from package \code{rpart}.
-#' 
-#' \emph{Common hyperparameters:}
-#' @title rpart.regr
-#' @seealso \code{\link[rpart]{rpart}}
-#' @export
 setClass(
 		"rpart.regr", 
 		contains = c("wrapped.learner.regr")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title rpart Constructor
 setMethod(
 		f = "initialize",
 		signature = signature("rpart.regr"),
@@ -32,6 +23,7 @@ setMethod(
 		}
 )
 
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
@@ -49,6 +41,8 @@ setMethod(
 			rpart(f, data=.data, weights=.weights, ...)
 		}
 )
+
+#' @rdname predict.learner
 
 setMethod(
 		f = "predict.learner",
