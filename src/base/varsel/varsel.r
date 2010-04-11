@@ -17,6 +17,7 @@ varsel <- function(learner, task, resampling, method="forward", control=NULL, me
 			sfbs = varsel.seq,
 			random = varsel.random,
 			bestcor = varsel.bestcor,
+			hybrid = varsel.hybrid,
 			mrmr = varsel.mrmr,
 			stop(paste("Method", method, "does not exist!"))
 	)
