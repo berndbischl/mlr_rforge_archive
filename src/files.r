@@ -1,6 +1,6 @@
 base.files <<- c(
 		"log/log.r",
-#		"base/packagedesc.r",
+##		"base/packagedesc.r",
 		"base/aaa.r",
 		"base/helpers.r",
 #		"base/to.string.r",
@@ -15,15 +15,15 @@ base.files <<- c(
 		"base/task.desc.r",
 		"base/task.learn.r",
 		"base/task.classif.r",
-		"base/task.classif.make.r",
 		"base/task.regr.r",
-		"base/task.regr.make.r",
+		"base/task.make.r",
 		"base/check.task.r",
 		
 		"base/wrapped.learner.r",
 		"base/wrapped.learner.classif.r",
 		"base/wrapped.learner.regr.r",
 		"base/wrapped.learner.make.r",
+		"base/learners.r",
 		
 		
 		"base/wrapped.model.r",
@@ -52,7 +52,7 @@ base.files <<- c(
 		"base/resample/bs.instance.r",
 		"base/resample/subsample.instance.r",
 		"base/resample/holdout.instance.r",
-		"base/resample/resample.result.r",
+		"base/resample/resample.prediction.r",
 		"base/resample/resample.fit.r",
 		"base/resample/resample.performance.r",
 		
@@ -77,6 +77,7 @@ base.files <<- c(
 		"base/varsel/varsel.helpers.r",
 		"base/varsel/varsel.control.r",
 		"base/varsel/varsel.random.r",
+		"base/varsel/varsel.hybrid.r",
 		"base/varsel/varsel.seq.r",
 		"base/varsel/varsel.r",
 		
@@ -84,7 +85,7 @@ base.files <<- c(
 		"base/benchmark/benchmark.r",
 		"base/benchmark/benchexp.r",
 		"base/benchmark/benchresult.r",
-		"base/benchmark/bench.add.r",
+#		"base/benchmark/bench.add.r",
 		
 		"base/parallel/export.r",
 		"base/parallel/eval.r",

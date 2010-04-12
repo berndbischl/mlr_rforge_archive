@@ -1,108 +1,53 @@
 allowed.rd.files <<- c( 		
+		"undocumented.Rd",
+		"object.Rd",
+		"to.string.Rd",
+
 		"learn.task-class.Rd",
 		"classif.task-class.Rd",
 		"regr.task-class.Rd",
-		"make.classif.task.Rd",
-		"make.regr.task.Rd",
+		"make.task.Rd",
+		"make.task.Rd",
 		
-#		"train.learner,wrapped.learner,formula,data.frame,numeric,list-method.Rd",
-
+		"train.learner.Rd",
+		"predict.learner.Rd",
+		
 		"wrapped.learner-class.Rd",
 #		"wrapped.learner.regr-class.Rd",
 #		"wrapped.learner.classif-class.Rd",
 		"make.learner.Rd",
-		
+		"learners.Rd",
 		
 		"train.Rd",
 		"wrapped.model-class.Rd",
 		"predict.Rd",
 		"prediction-class.Rd",
 		
-#			"predict,classif.task-method.Rd",
-#			"predict,regr.task-method.Rd",
 		"performance.Rd",
 		"conf.matrix.Rd",
-#				
-#		"resample.desc-class.Rd",
-#			"getter,resample.desc-method.Rd",
-#		"cv.desc-class.Rd",
-#			"initialize,cv.desc-method.Rd",
-#		"bs.desc-class.Rd",
-#			"initialize,bs.desc-method.Rd",
-#		"subsample.desc-class.Rd",
-#			"initialize,subsample.desc-method.Rd",
-#		
-#		"resample.instance-class.Rd",
-#		"cv.instance-class.Rd",
-#			"initialize,cv.instance-method.Rd",
-#		"bs.instance-class.Rd",
-#			"initialize,bs.instance-method.Rd",
-#		"subsample.instance-class.Rd",
-#			"initialize,subsample.instance-method.Rd",
-#		"make.res.instance.Rd",
-#		"make.cv.instance.Rd",
-#		"make.bs.instance.Rd",
-#		"resample.result-class.Rd",
-##			"as.character,resample.result-method.Rd",
-##			"print,resample.result-method.Rd",
-##			"show,resample.result-method.Rd",
-#			"getter,resample.result-method.Rd",
-#		
+		"aggregations.Rd",
+		"measures.Rd",
+		
+		"make.res.instance.Rd",
+		"make.res.desc.Rd",
+		"resample.desc-class.Rd",
+		"resample.instance-class.Rd",
+		"resample.fit.Rd",
+		"resample.prediction-class.Rd",
+		
+		
 #		"set.train.par.Rd",
 #		"set.predict.par.Rd",
 #
-#		"resample.fit.Rd",
-#		"resample.performance.Rd",
 #		"tune.Rd",
 #		"combine.ranges.Rd",
 #		"grid.control.Rd",
 #		"ps.control.Rd",
 #		
-		"bench.exp.Rd"
+		"bench.exp.Rd",
+		"bench.result-class.Rd"
 #		"bench.add.Rd",
-#		
-#		"naiveBayes-class.Rd",
-##			"initialize,naiveBayes-method.Rd",
-#		"kknn.classif-class.Rd",
-##			"initialize,kknn.classif-method.Rd",
-#		"logreg-class.Rd",
-##			"initialize,logreg-method.Rd",
-#		"nnet.multinom-class.Rd",
-##			"initialize,nnet.multinom-method.Rd",
-#		"lda-class.Rd",
-##			"initialize,lda-method.Rd",
-#		"qda-class.Rd",
-##			"initialize,qda-method.Rd",
-#		"rda-class.Rd",
-##			"initialize,rda-method.Rd",
-#		"mda-class.Rd",
-##			"initialize,mda-method.Rd",
-#		"loclda-class.Rd",
-##			"initialize,loclda-method.Rd",
-#		"rpart.classif-class.Rd",
-##			"initialize,rpart.classif-method.Rd",
-#		"randomForest.classif-class.Rd",
-##			"initialize,randomForest.classif-method.Rd",
-#		"adaboost-class.Rd",
-##			"initialize,adaboost-method.Rd",
-#		"kernlab.svm.classif-class.Rd",
-##			"initialize,kernlab.svm.classif-method.Rd",
-##			"train.learner,kernlab.svm.classif,formula,data.frame,numeric,list-method.Rd",
-#		
-#		"blackboost.regr-class.Rd",
-##			"initialize,blackboost.regr-method.Rd",
-#		"gbm.regr-class.Rd",
-##			"initialize,gbm.regr-method.Rd",
-#		"kknn.regr-class.Rd",
-##			"initialize,kknn.regr-method.Rd",
-#		"penalized.lasso-class.Rd",
-##			"initialize,penalized.lasso-method.Rd",
-##			"train.learner,penalized.lasso,formula,data.frame,numeric,list-method.Rd",
-#		"stats.lm-class.Rd",
-##			"initialize,stats.lm-method.Rd",
-#		"penalized.ridge-class.Rd"
-##			"initialize,penalized.ridge-method.Rd",
-##			"train.learner,penalized.ridge,formula,data.frame,numeric,list-method.Rd"
+		
 )		
 
 	
