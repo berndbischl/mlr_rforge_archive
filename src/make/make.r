@@ -69,7 +69,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	##print(cmd)
 	##system(cmd)
 #
-	if (build) {
+	if (build || install) {
 		setwd(pkg.dir)
 		cmd <- paste("R CMD build mlr")
 		print(cmd)
@@ -111,7 +111,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	
 }
 
-make(build=T, check=F, binary=F, install=T)
+make(build=F, check=F, binary=T, install=F)
 
 
 

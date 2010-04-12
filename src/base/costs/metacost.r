@@ -7,7 +7,7 @@
 #		f = "train.learner",
 #		
 #		signature = c(
-#				wrapped.learner="kernlab.svm.classif", 
+#				wrapped.learner="classif.ksvm", 
 #				target="character", 
 #				data="data.frame", 
 #				weights="numeric", 
@@ -16,7 +16,7 @@
 #		
 #			
 #			# try to predict probs if supported
-#			ct <- make.classif.task(wrapped.learner, data=data, target=target)
+#			ct <- make.task(wrapped.learner, data=data, target=target)
 #			
 #			N <- nrow(ct["data"])
 #			lev <- ct["class.levels"]

@@ -132,11 +132,11 @@ cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tun
 		cvr <- resample.fit(wl, lt, cv.instance)
 		cva <- performance(cvr)
 		if (is(lt, "classif.task")) { 
-			checkEqualsNumeric(cva$agg["mean", "mmce"], tr$performances[1,2])
-			checkEqualsNumeric(cva$agg["sd",   "mmce"], tr$performances[1,3])
+			checkEqualsNumeric(cva$aggr["mean", "mmce"], tr$performances[1,2])
+			checkEqualsNumeric(cva$aggr["sd",   "mmce"], tr$performances[1,3])
 		} else {
-			checkEqualsNumeric(cva$agg["mean", "mse"], tr$performances[1,2])
-			checkEqualsNumeric(cva$agg["sd",   "mse"], tr$performances[1,3])
+			checkEqualsNumeric(cva$aggr["mean", "mse"], tr$performances[1,2])
+			checkEqualsNumeric(cva$aggr["sd",   "mse"], tr$performances[1,3])
 		}
 	}
 }
@@ -167,11 +167,11 @@ bs.test <- function(t.name, df, formula, iters=3, parset=list(), tune.train, tun
 	bsp <- performance(bsr)
 	
 	if (is(ct, "classif.task")) { 
-		checkEqualsNumeric(bsp$agg["mean", "mmce"], tr$performances[1,2])
-		checkEqualsNumeric(bsp$agg["sd",   "mmce"], tr$performances[1,3])
+		checkEqualsNumeric(bsp$aggr["mean", "mmce"], tr$performances[1,2])
+		checkEqualsNumeric(bsp$aggr["sd",   "mmce"], tr$performances[1,3])
 	} else {
-		checkEqualsNumeric(bsp$agg["mean", "mse"], tr$performances[1,2])
-		checkEqualsNumeric(bsp$agg["sd",   "mse"], tr$performances[1,3])
+		checkEqualsNumeric(bsp$aggr["mean", "mse"], tr$performances[1,2])
+		checkEqualsNumeric(bsp$aggr["sd",   "mse"], tr$performances[1,3])
 	}
 }
 

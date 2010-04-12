@@ -31,8 +31,6 @@ roxygen()
 #' @param extract [\code{\link{function}}] \cr 
 #' 		Function used to extract information from fitted models, e.g. can be used to save the complete list of fitted models. 
 #'      Default is to extract nothing. 
-#' 	   
-#'             
 #' @return \code{\linkS4class{resample.prediction}}.
 #' 
 #' @export

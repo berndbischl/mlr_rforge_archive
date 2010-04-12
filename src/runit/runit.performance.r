@@ -31,7 +31,7 @@ test.performance <- function() {
 	# losses
 	
 	p = performance(rf, measures="mmce", losses="zero-one")
-	checkEquals(p$agg["combine", "mmce"], mean(p$losses[,"zero-one"]))
+	checkEquals(p$aggr["combine", "mmce"], mean(p$losses[,"zero-one"]))
 	
 	m = train("classif.lda", task=multiclass.task)
 	pred = predict(m, newdata=multiclass.df)

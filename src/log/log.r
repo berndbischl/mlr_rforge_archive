@@ -5,7 +5,6 @@
 #	logger.error(s)
 #}
 
-#' @export
 logger.setup <- function(console=TRUE, file=NULL, level) {
 	if (level=="error") {
 		options(warn=-1)

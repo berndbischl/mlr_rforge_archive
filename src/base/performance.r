@@ -1,7 +1,7 @@
 #' @include prediction.r
 roxygen()
 
-#' Measures the quality of predictions w.r.t. some loss function.
+#' Measures the quality of predictions w.r.t. some performance measures or loss functions.
 #' 
 #' @param pred [\code{\linkS4class{prediction}}] \cr
 #' 		  Prediction object to evaluate.
@@ -15,8 +15,8 @@ roxygen()
 #' @param task [\code{\linkS4class{learn.task}}]\cr 
 #'        Optionally specifies learning task, very rarely needed.
 #' 
-#' @return A list with with possibly two named components: "measures" is a data.frame of performance values. 
-#'         "losses" is a data.frame of losses. 
+#' @return A list with with possibly three named components: "measures" is a data.frame of performance values,
+#' 		   "aggr" a data.frame of aggregated values, "losses" a data.frame of losses. 
 #' 
 #' @exportMethod performance
 #' @rdname performance

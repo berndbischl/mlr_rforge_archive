@@ -31,7 +31,7 @@ benchmark = function(learner, task, resampling, measures, type="response") {
 		rr <- resample.fit(learner, task, resampling, extract=extract, type=type)
 		ex = rr@extracted
 		ns = names(ex[[1]]$tuned.par)
-		result = data.frame(matrix(nrow=resampling["iters"]+1, ncol=length(ns)))
+		result = data.frame(matrix(nrow=resampling["iters"], ncol=length(ns)))
 		colnames(result) = ns
 		for (i in 1:length(ex)) {
 			result[i, ns] = ex[[i]]$tuned.par
@@ -40,7 +40,7 @@ benchmark = function(learner, task, resampling, measures, type="response") {
 		#replicate(length(aggr), result <<- rbind(NA, result))
 		
 	} else {
-		result = data.frame(matrix(nrow=resampling["iters"]+1, ncol=0))
+		result = data.frame(matrix(nrow=resampling["iters"], ncol=0))
 		rr <- resample.fit(learner, task, resampling, type=type)
 	}
 	rp = performance(rr, measures=measures, aggr=list("combine"), task=task)

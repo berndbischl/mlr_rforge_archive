@@ -1,48 +1,51 @@
 
-remove.patterns <<- c(
-		"\\\\alias\\{initialize\\}",
-		"\\\\alias\\{as.character\\}",
-		"\\\\alias\\{show\\}",
-		"\\\\alias\\{predict\\}",
-		"\\\\alias\\{set.train.par\\}",
-		"\\\\alias\\{set.predict.par\\}",
-		"\\\\alias\\{train.learner\\}",
-		"\\\\alias\\{\\[\\}",
-		
-		"\\\\item\\{\\\\code\\{\\\\link\\[=make.default.measure.*make.default.measure\\}\\}\\}\\{\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=train,classif.task.*train\\}\\}\\}\\{\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=train,regr.task.*train\\}\\}\\}\\{\\}",
 
-		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,.*train.learner\\}\\}\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,.*train.learner\\}\\}\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=predict.learner,.*predict.learner\\}\\}\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=predict.learner,.*predict.learner\\}\\}\\}",
-		
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,lda-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,qda-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,rda-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,mda-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,loclda-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,logreg-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,multinom-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kknn.classif-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,naiveBayes-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,rpart.classif-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,randomForest.classif-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,adaboost-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kernlab.svm.classif-method.*Constructor.\\}",
-		
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,stats.lm-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,penalized.ridge-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,penalized.lasso-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kknn.regr-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kknn.regr-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,blackboost.regr-method.*Constructor.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,gbm.regr-method.*Constructor.\\}",
-		
-		"\\\\item\\{\\\\code\\{\\\\link\\[=to.string,.*\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=show,.*Shows the object by calling as.character.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=print,.*Prints the object by calling as.character.\\}"
+remove.patterns <<- c(
+		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,.*Constructor.\\}",
+		"\\\\alias\\{\\[\\}"
+				
+#		"\\\\alias\\{initialize\\}",
+#		"\\\\alias\\{as.character\\}",
+#		"\\\\alias\\{show\\}",
+#		"\\\\alias\\{predict\\}",
+#		"\\\\alias\\{set.train.par\\}",
+#		"\\\\alias\\{set.predict.par\\}",
+#		"\\\\alias\\{train.learner\\}",
+#		
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=make.default.measure.*make.default.measure\\}\\}\\}\\{\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=train,classif.task.*train\\}\\}\\}\\{\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=train,regr.task.*train\\}\\}\\}\\{\\}",
+#
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,.*train.learner\\}\\}\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,.*train.learner\\}\\}\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=predict.learner,.*predict.learner\\}\\}\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=predict.learner,.*predict.learner\\}\\}\\}",
+#		
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,lda-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,qda-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,rda-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,mda-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,loclda-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,logreg-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,multinom-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kknn.classif-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,naiveBayes-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,rpart.classif-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,randomForest.classif-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,adaboost-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kernlab.svm.classif-method.*Constructor.\\}",
+#		
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,stats.lm-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,penalized.ridge-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,penalized.lasso-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kknn.regr-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,kknn.regr-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,blackboost.regr-method.*Constructor.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,gbm.regr-method.*Constructor.\\}",
+#		
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=to.string,.*\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=show,.*Shows the object by calling as.character.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=print,.*Prints the object by calling as.character.\\}"
 
 #initialize,adaboost-method"                                                                                       
 #[15] "       missing link(s):  initialize,blackboost.regr-method"                                                                                
