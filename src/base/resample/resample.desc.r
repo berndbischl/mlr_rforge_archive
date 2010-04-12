@@ -9,7 +9,8 @@
 
 # todo validation for size
 setClass(
-		"resample.desc",                                                     
+		"resample.desc", 
+		contains = c("object"),
 		representation = representation(
 				instance.class="character", 
 				name="character", 
@@ -28,9 +29,7 @@ setClass(
 #' 	\item{name}{Name of this resampling algorithm}
 #' 	\item{iters}{Number of iterations}
 #' } 
-#' @rdname getter,resample.desc-method
-#' @aliases resample.desk.getter getter,resample.desc-method
-#' @title Getter for resample.desc
+#' @rdname resample.desc-class
 
 setMethod(
 		f = "[",
@@ -43,7 +42,9 @@ setMethod(
 		}
 )
 
-#' Conversion to string.
+
+#' @rdname to.string
+
 setMethod(
 		f = "to.string",
 		signature = signature("resample.desc"),
@@ -57,25 +58,6 @@ setMethod(
 		}
 )
 
-
-
-#' Prints the object by calling as.character.
-setMethod(
-		f = "print",
-		signature = signature("resample.desc"),
-		def = function(x, ...) {
-			cat(to.string(x))
-		}
-)
-
-#' Shows the object by calling as.character.
-setMethod(
-		f = "show",
-		signature = signature("resample.desc"),
-		def = function(object) {
-			cat(to.string(object))
-		}
-)
 
 
 

@@ -5,7 +5,7 @@
 
 benchmark = function(learner, task, resampling, measures, type="response") {
 	if (is.character(learner)) {
-		learner = make.learner(learner, task)
+		learner = make.learner(learner)
 	}
 	if("prob" %in% type && !learner@learner.props@supports.probs) {
 		type = setdiff(type, "prob")

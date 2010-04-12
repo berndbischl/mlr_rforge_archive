@@ -13,6 +13,7 @@ setClass(
 		)
 )
 
+#' Constructor.
 
 setMethod(
 		f = "initialize",
@@ -32,7 +33,9 @@ setMethod(
 
 
 
-#' Conversion to string.
+
+#' @rdname to.string
+
 setMethod(
 		f = "to.string",
 		signature = signature("resample.prediction"),
@@ -48,23 +51,8 @@ setMethod(
 		}
 )
 
-#' Prints the object by calling as.character.
-setMethod(
-		f = "print",
-		signature = signature("resample.prediction"),
-		def = function(x, ...) {
-			cat(to.string(x))
-		}
-)
-
-#' Shows the object by calling as.character.
-setMethod(
-		f = "show",
-		signature = signature("resample.prediction"),
-		def = function(object) {
-			cat(to.string(object))
-		}
-)
+#' Getter
+#' @rdname resample.prediction-class
 
 
 setMethod(

@@ -1,6 +1,10 @@
 
+#' Container for the results of a benchmark experiment.
+#' @exportClass bench.result
+
 setClass(
-		"bench.result",                                                     
+		"bench.result",
+		contains = c("object"),
 		representation = representation(
 				task.descs = "list",
 				data.descs = "list",
@@ -25,9 +29,7 @@ setClass(
 #' }
 #' @param j [integer or character] \cr Select subset of learners.
 #' 
-#' @rdname getter,learn.task-method
-#' @aliases learn.task.getter getter,learn.task-method
-#' @title Getter for learn.task
+#' @rdname bench.result-class
 
 setMethod(
 		f = "[",
@@ -105,7 +107,8 @@ setMethod(
 
 
 
-#' Conversion to string.
+
+#' @rdname to.string
 
 setMethod(
 		f = "to.string",
@@ -117,25 +120,6 @@ setMethod(
 )
 
 
-#' Prints the object by calling as.character.
-
-setMethod(
-		f = "print",
-		signature = signature("bench.result"),
-		def = function(x, ...) {
-			cat(to.string(x))
-		}
-)
-
-#' Shows the object by calling as.character.
-
-setMethod(
-		f = "show",
-		signature = signature("bench.result"),
-		def = function(object) {
-			cat(to.string(object))
-		}
-)
 
 #' @export
 

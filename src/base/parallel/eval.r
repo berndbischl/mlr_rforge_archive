@@ -1,5 +1,4 @@
 
-#' @export
 resample.fit.iter <- function(learner, task, rin, vars, type, i, extract) {
 	train.i <- rin["train.inds", i]
 	test.i <- rin["test.inds", i]
@@ -15,7 +14,7 @@ resample.fit.iter <- function(learner, task, rin, vars, type, i, extract) {
 
 eval.rf <- function(learner, task, resampling, measures, aggr, parset, ps.scale, ps.names, vars) {
 	if (is.character(learner))
-		learner = make.learner(learner, task=task)
+		learner = make.learner(learner)
 	if (!is.null(parset)) {
 		if (!is.null(ps.scale)) 
 			parset = scale.par(ps.scale, parset)
@@ -37,10 +36,11 @@ eval.rf <- function(learner, task, resampling, measures, aggr, parset, ps.scale,
 	#logger.debug("mean error = ", rp$aggr1)
 	#logger.debug("Number of evaluations: ", n.eval)
 	
-	feval = try(get(".mlr.feval", envir=.GlobalEnv))
-	if (is(feval, "try-error"))
-		feval=0
-	assign(".mlr.feval", feval+1, envir=.GlobalEnv)
+	# do this sepaarately for tune and varsel
+	#	feval = try(get(".mlr.feval", envir=.GlobalEnv))
+#	if (is(feval, "try-error"))
+#		feval=0
+#	assign(".mlr.feval", feval+1, envir=.GlobalEnv)
 	
 	return(rp)
 }

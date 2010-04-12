@@ -20,7 +20,8 @@ roxygen()
 
 # todo validation for size
 setClass(
-		"resample.instance",                                                     
+		"resample.instance",   
+		contains = c("object"), 
 		# we always have to store training inds because the order might matter
 		representation = representation(
 				desc = "resample.desc", 
@@ -30,12 +31,7 @@ setClass(
 )
 
 
-
-#' This is mainly for internal use, you only need to use this, when you extend resample.instance to add another resampling strategy!
-#'  
-#' @param desc [\code{\linkS4class{resample.desc}}] \cr resample.desc. Describes the resampling strategy.
-#' @param size [integer] \cr Number of observations to resample from.
-#' @param inds [list of integer vectors] \cr Indices of the trainings sets.
+#' Constructor.
 
 setMethod(
 		f = "initialize",
@@ -63,7 +59,9 @@ setMethod(
 
 
 
-#' Conversion to string.
+
+#' @rdname to.string
+
 setMethod(
 		f = "to.string",
 		signature = signature("resample.instance"),
@@ -80,25 +78,6 @@ setMethod(
 
 
 
-#' Prints the object by calling as.character.
-setMethod(
-		f = "print",
-		signature = signature("resample.instance"),
-		def = function(x, ...) {
-			cat(to.string(x))
-		}
-)
-
-#' Shows the object by calling as.character.
-setMethod(
-		f = "show",
-		signature = signature("resample.instance"),
-		def = function(object) {
-			cat(to.string(object))
-		}
-)
-
-
 #----------------- getter ---------------------------------------------------------
 
 #' Getter.
@@ -113,9 +92,7 @@ setMethod(
 #' }
 #' @param j [integer] \cr See above, i == "train.inds" or i == "test.inds".
 #' 
-#' @rdname getter,resample.instance-method
-#' @aliases resample.instance.getter getter,resample.instance-method
-#' @title Getter for resample.instance
+#' @rdname resample.instance-class
 
 setMethod(
 		f = "[",

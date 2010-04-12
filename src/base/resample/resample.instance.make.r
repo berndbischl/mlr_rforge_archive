@@ -1,7 +1,7 @@
 
 #' Generates an instance object for a resampling strategy. 
 #' 
-#' @param method [\code{\link{integer}}] \cr
+#' @param x [\code{\link{integer}}] \cr
 #'        
 #' @param task [\code{\link{integer}}] \cr
 #'        Data of task to resample from.
@@ -18,31 +18,58 @@
 
 setGeneric(
 		name = "make.res.instance",
-		def = function(method, task, size, ...) {
+		def = function(x, task, size, ...) {
 			standardGeneric("make.res.instance")
 		}
 )
 
 #' @export 
+#' @rdname make.res.instance
 
 
 setMethod(
 		f = "make.res.instance",
-		signature = c(method="character", task="missing", size="numeric"),
-		def = function(method, task, size, ...) {
-			desc = make.res.desc(method, ...)
-			cc = paste(method, "instance", sep=".")
+		signature = c(x="character", task="missing", size="numeric"),
+		def = function(x, task, size, ...) {
+			desc = make.res.desc(x, ...)
+			cc = paste(x, "instance", sep=".")
 			return(new(cc, desc=desc, size=size))
 		}
 )
 
 #' @export 
+#' @rdname make.res.instance
 
 setMethod(
 		f = "make.res.instance",
-		signature = c(method="character", task="learn.task", size="missing"),
-		def = function(method, task, size, ...) {
-			make.res.instance(method, size=task["size"], ...)
+		signature = c(x="character", task="learn.task", size="missing"),
+		def = function(x, task, size, ...) {
+			desc = make.res.desc(x, ...)
+			cc = paste(x, "instance", sep=".")
+			new(cc, desc=desc, size=task["size"])
+		}
+)
+
+
+#' @export 
+#' @rdname make.res.instance
+
+setMethod(
+		f = "make.res.instance",
+		signature = c(x="resample.desc", task="missing", size="numeric"),
+		def = function(x, task, size, ...) {
+			new(x@instance.class, desc=x, size=size)
+		}
+)
+
+#' @export 
+#' @rdname make.res.instance
+
+setMethod(
+		f = "make.res.instance",
+		signature = c(x="resample.desc", task="learn.task", size="missing"),
+		def = function(x, task, size, ...) {
+			new(x@instance.class, desc=x, size=task["size"])
 		}
 )
 
