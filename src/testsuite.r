@@ -24,7 +24,7 @@ binaryclass.train <- binaryclass.df[binaryclass.train.inds, ]
 binaryclass.test  <- binaryclass.df[binaryclass.test.inds, ]
 binaryclass.class.col <- 61
 binaryclass.class.levs <- levels(binaryclass.df[, binaryclass.class.col])
-binaryclass.task = make.classif.task("binary", data=binaryclass.df, target=binaryclass.target)  
+binaryclass.task = make.task("binary", data=binaryclass.df, target=binaryclass.target)  
 
 multiclass.df <- iris
 multiclass.formula <- Species~.
@@ -34,7 +34,7 @@ multiclass.test.inds  <- setdiff(1:150, multiclass.train.inds)
 multiclass.train <- multiclass.df[multiclass.train.inds, ]
 multiclass.test  <- multiclass.df[multiclass.test.inds, ]
 multiclass.class.col <- 5
-multiclass.task = make.classif.task("multiclass", data=multiclass.df, target=multiclass.target)  
+multiclass.task = make.task("multiclass", data=multiclass.df, target=multiclass.target)  
 
 data(BostonHousing)
 regr.df <- BostonHousing  
@@ -44,7 +44,7 @@ regr.train.inds <- seq(1, 506, 3)
 regr.test.inds  <- setdiff(1:nrow(regr.df), regr.train.inds)
 regr.train <- regr.df[regr.train.inds, ]
 regr.test  <- regr.df[regr.test.inds, ]
-regr.task <- make.regr.task("regrtask", data=BostonHousing, target="medv")  
+regr.task <- make.task("regrtask", data=BostonHousing, target="medv")  
 
 
 .mlr.local$debug.seed <- 12345
