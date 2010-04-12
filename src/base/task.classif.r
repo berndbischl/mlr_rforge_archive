@@ -6,7 +6,7 @@ roxygen()
 #' 
 #' @exportClass classif.task
 #' @title Classification task.
-#' @seealso \code{\link{make.classif.task}}
+#' @seealso \code{\link{make.task}}
 
 
 setClass(
@@ -30,7 +30,6 @@ setMethod(
 			if (missing(data))
 				return(.Object)
 			
-			check.task(data, target)
 			data = prep.classif.data(data, target, excluded)			
 			dd = new("data.desc", data=data, target=target, excluded=excluded)
 			

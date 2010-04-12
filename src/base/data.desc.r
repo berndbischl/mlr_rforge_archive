@@ -42,8 +42,6 @@ setMethod(
   }
 )
 
-#' @rdname undocumented
-
 setMethod(
 		f = "[",
 		signature = signature("data.desc"),

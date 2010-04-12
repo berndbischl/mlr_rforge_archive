@@ -1,3 +1,31 @@
+#' List of performance measures.
+#' 
+#' \itemize{ 
+#' 		\item{mmce}{ Mean misclassification error}
+#' 		\item{acc}{ Accuracy}
+#' 		\item{tp}{ True positives}
+#' 		\item{tpr}{ True positive rate}
+#' 		\item{fp}{ False positives}
+#' 		\item{fpr}{ False positive rate}
+#' 		\item{time.train}{ Time of fitting the model}
+#' 		\item{time.predict}{ Time of predicting test set}
+#' 		\item{time}{ time.train + train.predict}
+#' }
+#' 
+#' \itemize{ 
+#' 		\item{sse}{ Sum of squared errors}
+#' 		\item{mse}{ Mean of squared error}
+#' }
+#'  
+#' @title Performance measures.
+measures = function() {}
+
+
+#' Aggregation functions.
+#' @title Aggregation functions.
+aggregations = function() {}
+
+
 make.aggrs = function(xs) {
 	if (length(xs)==0)
 		return(list())

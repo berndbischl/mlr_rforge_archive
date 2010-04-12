@@ -25,66 +25,13 @@ roxygen()
 #' @return An object of class \code{\linkS4class{regr.task}}.
 #' 
 #' @export
-#' @rdname make.regr.task
+#' @rdname make.task
 #' 
-#' @usage make.regr.task(name, data, target, formula, excluded, weights)
+#' @usage make.task(name, data, target, formula, excluded, weights)
 #'
 #' @title Contruct regression task.
 
 
 setGeneric(
-		name = "make.regr.task",
+		name = "make.task",
 		def = function(name, data, target, formula, excluded, weights) {
-			if(missing(name))
-				name=""
-			if (missing(excluded))
-				excluded <- character(0)
-			if (missing(weights))
-				weights = numeric(0)
-			standardGeneric("make.regr.task")
-		}
-)
-
-#' @export
-#' @rdname make.regr.task
-
-
-setMethod(
-		f = "make.regr.task",
-		signature = signature(
-				name = "character",
-				data = "data.frame", 
-				target = "character",
-				formula = "missing",
-				excluded = "character",
-				weights = "numeric" 
-		),
-		
-		def = function(name, data, target, excluded, weights) {
-			new("regr.task", name=name, target=target, data=data, excluded=excluded, weights=weights)
-		}
-)
-
-
-#' @export
-#' @rdname make.regr.task
-
-setMethod(
-		f = "make.regr.task",
-		signature = signature(
-				target = "missing",
-				formula = "formula",
-				data = "data.frame", 
-				excluded = "character",
-				weights = "numeric" 
-		),
-		
-		def = function(name, data, formula, excluded, weights) {
-			data2 <- model.frame(formula, data=data)
-			target <- as.character(formula)[2]
-			new("regr.task", name=name, target=target, data=data2, excluded=excluded, weights=weights)
-		}
-)
-
-
-

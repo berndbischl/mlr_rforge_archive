@@ -7,9 +7,9 @@ simple.test <- function(t.name, df, formula, train.inds, old.predicts, parset=li
 	
 	wl = do.call("make.learner", c(t.name, parset))
 	if (is(wl, "wrapped.learner.classif")) {
-		ct <- make.classif.task(data=df, formula=formula)
+		ct <- make.task(data=df, formula=formula)
 	} else {
-		ct <- make.regr.task(data=df, formula=formula)
+		ct <- make.task(data=df, formula=formula)
 	}
 	cm <- try(train(wl, ct, subset=inds))
 	if(class(cm)[1] == "learner.failure"){
@@ -41,7 +41,7 @@ prob.test <- function(t.name, df, formula, train.inds, old.probs, parset=list())
 	train <- df[inds,]
 	test <- df[-inds,]
 	
-	ct <- make.classif.task(data=df, formula=formula)
+	ct <- make.task(data=df, formula=formula)
 	
 	wl = do.call("make.learner", c(t.name, parset))
 	cm <- try(train(wl, ct, subset=inds, type="prob"))
@@ -125,18 +125,18 @@ cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tun
 		cv.instance <- e1071.cv.to.mlr.cv(tr)
 		wl = do.call("make.learner", c(t.name, parset))
 		if (is(wl, "wrapped.learner.classif")) {
-			lt <- make.classif.task(data=df, formula=formula)
+			lt <- make.task(data=df, formula=formula)
 		} else {
-			lt <- make.regr.task(data=df, formula=formula)
+			lt <- make.task(data=df, formula=formula)
 		}
 		cvr <- resample.fit(wl, lt, cv.instance)
 		cva <- performance(cvr)
 		if (is(lt, "classif.task")) { 
-			checkEqualsNumeric(cva$measures["mean", "mmce"], tr$performances[1,2])
-			checkEqualsNumeric(cva$measures["sd",   "mmce"], tr$performances[1,3])
+			checkEqualsNumeric(cva$agg["mean", "mmce"], tr$performances[1,2])
+			checkEqualsNumeric(cva$agg["sd",   "mmce"], tr$performances[1,3])
 		} else {
-			checkEqualsNumeric(cva$measures["mean", "mse"], tr$performances[1,2])
-			checkEqualsNumeric(cva$measures["sd",   "mse"], tr$performances[1,3])
+			checkEqualsNumeric(cva$agg["mean", "mse"], tr$performances[1,2])
+			checkEqualsNumeric(cva$agg["sd",   "mse"], tr$performances[1,3])
 		}
 	}
 }
@@ -160,18 +160,18 @@ bs.test <- function(t.name, df, formula, iters=3, parset=list(), tune.train, tun
 	
 	bs.instance <- e1071.bs.to.mlr.bs(tr)
 	
-	ct <- make.classif.task(data=df, formula=formula)
+	ct <- make.task(data=df, formula=formula)
 	
 	bsr <- resample.fit(t.name, ct, bs.instance)
 	
 	bsp <- performance(bsr)
 	
 	if (is(ct, "classif.task")) { 
-		checkEqualsNumeric(bsp$measures["mean", "mmce"], tr$performances[1,2])
-		checkEqualsNumeric(bsp$measures["sd",   "mmce"], tr$performances[1,3])
+		checkEqualsNumeric(bsp$agg["mean", "mmce"], tr$performances[1,2])
+		checkEqualsNumeric(bsp$agg["sd",   "mmce"], tr$performances[1,3])
 	} else {
-		checkEqualsNumeric(bsp$measures["mean", "mse"], tr$performances[1,2])
-		checkEqualsNumeric(bsp$measures["sd",   "mse"], tr$performances[1,3])
+		checkEqualsNumeric(bsp$agg["mean", "mse"], tr$performances[1,2])
+		checkEqualsNumeric(bsp$agg["sd",   "mse"], tr$performances[1,3])
 	}
 }
 

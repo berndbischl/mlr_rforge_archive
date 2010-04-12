@@ -7,6 +7,7 @@
 
 setClass(
 		"prediction",
+		contains = c("object"),
 		representation = representation(
 				df = "data.frame",
 				data.desc = "data.desc",
@@ -48,6 +49,16 @@ make.prediction = function(data.desc, task.desc, id, truth, response, prob, deci
 
 
 #' Getter.
+#' @param x learn.task object
+#' @param i [character]
+#' \describe{
+#'   \item{id}{ Vector of index numbers of predicted cases from the task.}
+#'   \item{response}{ Predicted response values.}
+#'   \item{prob}{ Predicted probabilities.}
+#'   \item{decision}{ Predicted decision values.}
+#'   \item{truth}{ True target values.}
+#' }
+#' 
 #' @rdname prediction-class
 
 

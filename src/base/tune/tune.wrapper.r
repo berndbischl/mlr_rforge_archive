@@ -76,9 +76,9 @@ setMethod(
 			wl = .wrapped.learner
 			bl = wl@base.learner
 			if (is(bl, "wrapped.learner.classif"))
-				f = make.classif.task
+				f = make.task
 			else if (is(bl, "wrapped.learner.regr"))
-				f = make.regr.task
+				f = make.task
 			
 			lt = f(data=.data, target=.targetvar)	
 			tr = tune(bl, task=lt, resampling=wl@resampling, method=wl@method, control=wl@control, model=TRUE, scale=wl@scale)

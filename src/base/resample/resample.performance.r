@@ -23,18 +23,26 @@ setMethod(
 				ms2[[j]] = callNextMethod(pred=pred, measures=measures, losses=list(), aggr=list(), task=task)$measures
 			}
 			ms2 = Reduce(rbind, ms2)
-			ms = as.data.frame(rbind(ms, ms2))
+			if (!is.matrix(ms2))
+				ms2 = as.matrix(t(ms2))
 			colnames(ms) = names(measures)
-			rownames(ms) = c(is, names(aggr))
+			colnames(ms2) = names(measures)
+			rownames(ms) = c(is)
+			rownames(ms2) = names(aggr)
+			
 			ls = lapply(is, function (i) {
 				cbind(iter=i, perfs[[i]]$losses)
 			} )
 			ls = as.data.frame(Reduce(rbind, ls))
 			
+			ms = as.data.frame(ms)
+			ms2 = as.data.frame(ms2)
+			
+			
 			if (length(losses) > 0)
-				return(list(measures=ms, losses=ls))
+				return(list(measures=ms, agg=ms2, losses=ls))
 			return(
-				list(measures=ms))
+				list(measures=ms, agg=ms2))
 		}
 )
 

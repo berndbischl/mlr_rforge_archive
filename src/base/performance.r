@@ -5,23 +5,25 @@ roxygen()
 #' 
 #' @param pred [\code{\linkS4class{prediction}}] \cr
 #' 		  Prediction object to evaluate.
-#' @param measures [see measures]
+#' @param measures [see \code{\link{measures}}]
 #'        Performance measures. 
-#' @param aggr [see measures]
+#' @param aggr [see \code{\link{aggregations}}]
 #'        Aggregation functions. 
-#' @param losses [see measures]
+#' 		  Ignored if not a \code{\linkS4class{resample.prediction}}
+#' @param losses [see \code{\link{losses}}]
 #'        Loss functions. 
 #' @param task [\code{\linkS4class{learn.task}}]\cr 
 #'        Optionally specifies learning task, very rarely needed.
 #' 
-#' @return The performance.
+#' @return A list with with possibly two named components: "measures" is a data.frame of performance values. 
+#'         "losses" is a data.frame of losses. 
 #' 
-#' @export
+#' @exportMethod performance
 #' @rdname performance
 #' 
 #' @usage performance(pred, measures, aggr, losses, task)
 #'
-#' @title Measure performance of prediction.
+#' @title Measure performance and losses of prediction.
 
 
 

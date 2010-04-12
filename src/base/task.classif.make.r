@@ -29,15 +29,15 @@ roxygen()
 #' @return An object of class \code{\linkS4class{classif.task}}.
 #' 
 #' @export
-#' @rdname make.classif.task
+#' @rdname make.task
 #' 
-#' @usage make.classif.task(name, data, target, formula, excluded, weights, costs, positive)
+#' @usage make.task(name, data, target, formula, excluded, weights, costs, positive)
 #'
 #' @title Contruct classification task.
 
 
 setGeneric(
-		name = "make.classif.task",
+		name = "make.task",
 		def = function(name, data, target, formula, excluded, weights, costs, positive) {
 			if(missing(name))
 				name=""
@@ -51,16 +51,16 @@ setGeneric(
 			}
 			if (missing(positive))
 				positive = as.character(NA)
-			standardGeneric("make.classif.task")
+			standardGeneric("make.task")
 		}
 )
 
 
 #' @export
-#' @rdname make.classif.task
+#' @rdname make.task
 
 setMethod(
-		f = "make.classif.task",
+		f = "make.task",
 		signature = signature(
 				name = "character",
 				data = "data.frame", 
@@ -80,10 +80,10 @@ setMethod(
 )
 
 #' @export
-#' @rdname make.classif.task
+#' @rdname make.task
 
 setMethod(
-		f = "make.classif.task",
+		f = "make.task",
 		signature = signature(
 				name = "character",
 				data = "data.frame", 

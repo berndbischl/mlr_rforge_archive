@@ -7,7 +7,7 @@ roxygen()
 #' 
 #' @exportClass regr.task
 #' @title Regression task.
-#' @seealso \code{\link{make.regr.task}}
+#' @seealso \code{\link{make.task}}
 
 setClass(
 		"regr.task",
@@ -30,7 +30,6 @@ setMethod(
 				return(.Object)
 			
 			
-			check.task(data, target)
 			data = prep.data(data, target, excluded)			
 			dd = new("data.desc", data=data, target=target, excluded=excluded)
 			td = new("task.desc", task.class="regr.task", name=name, target=target, positive=as.character(NA), negative=as.character(NA), 

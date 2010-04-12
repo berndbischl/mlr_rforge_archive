@@ -1,6 +1,6 @@
 test.check.data <- function() {
 	checkException(
-			ct <- make.classif.task(data=binaryclass.df, target= "foo"), 
+			ct <- make.task(data=binaryclass.df, target= "foo"), 
 			silent=TRUE
 	)
 	s = geterrmessage()
@@ -9,7 +9,7 @@ test.check.data <- function() {
 	mydata = binaryclass.df
 	colnames(mydata)[1] = "foo(bar)"
 	checkException(
-			ct <- make.classif.task(data=mydata, target=binaryclass.target),
+			ct <- make.task(data=mydata, target=binaryclass.target),
 			silent=TRUE
 	)
 	s = geterrmessage()
