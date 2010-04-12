@@ -18,7 +18,7 @@
 #' 		    
 #' @return Model of the underlying learner.
 #' 
-#' @export
+#' @exportMethod train.learner
 #' @rdname train.learner
 #' @title Internal training method for learner. 
 

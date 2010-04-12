@@ -1,31 +1,26 @@
 #' include wrapped.model.r
 roxygen()
 
-#' Use a \code{\linkS4class{wrapped.model}} to predict the target variable of new data. 
+#' Predict the target variable of new data using a fitted model. 
 #' 
 #' @param object [\code{\linkS4class{wrapped.model}}] \cr 
-#'        Wrapped model, trained from learn task  
+#'        Wrapped model, trained from a learn task.  
 #' @param task [\code{\linkS4class{learn.task}}]\cr 
 #'        Specifies learning task. If this is passed, data from this task is predicted.   
 #' @param subset [integer] \cr 
 #'        Index vector to subset the data in the task to use for prediction. 
 #' @param newdata [\code{\link{data.frame}}] \cr 
-#'        New observations which should be predicted. 
+#'        New observations which should be predicted. Alternatively pass this instead of task. 
 #' @param type [character] \cr
 #'        Classification: vector of "response" | "prob" | "decision", specifying the types to predict.
 #'        Default is "response".
 #' 		  Ignored for regression.	 
-#'
-#' @return An object of class \code{\linkS4class{prediction}}.
+#' @return \code{\linkS4class{prediction}}.
 #'
 #' @export
+#' @rdname predict
 #' @importFrom stats predict
-#' 
-#' @usage predict(object, task, subset, type)
-#' @usage predict(object, newdata, type)
-#' 
-#' @seealso \code{\link{train}
-#'
+#' @seealso \code{\link{train}}
 #' @title Predict new data.
 
 setMethod(

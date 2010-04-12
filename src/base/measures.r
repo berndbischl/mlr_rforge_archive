@@ -111,33 +111,15 @@ make.measure <- function(name) {
 
 
 
-setGeneric(
-		name = "default.measures",
-		def = function(x, task) {
-			standardGeneric("default.measures")
-		}
-)
+default.measures = function(x) {
+	if (is(x, "learn.task"))
+		x = x@task.desc	
+	if (x@task.class == "classif.task")
+		return(make.measures("mmce"))
+	else 
+		return(make.measures("mse"))
+}
 
-
-setMethod(
-		f = "default.measures",
-		signature = c(x="task.desc"),
-		def = function(x, task) {
-			if (x@task.class == "classif.task")
-				return(make.measures("mmce"))
-			else 
-				return(make.measures("mse"))
-		}
-)
-
-
-setMethod(
-		f = "default.measures",
-		signature = c(x="learn.task"),
-		def = function(x, task) {
-			default.measures(x@task.desc)
-		}
-)
 
 
 default.aggr = function(task) {

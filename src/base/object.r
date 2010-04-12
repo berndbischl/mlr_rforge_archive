@@ -15,7 +15,10 @@ setMethod(
 		}
 )
 
-# if as.character is used this is exported automatically and clutters up docs.... :(
+
+#' General method to convert object to strings.
+#' @rdname to.string 
+
 setGeneric(
 		name = "to.string",
 		def = function(x) {
@@ -23,11 +26,31 @@ setGeneric(
 		}
 )
 
+#' @rdname to.string
+
 setMethod(
 		f = "to.string",
 		signature = signature("object"),
 		def = function(x) {
 			return(class(x))
+		}
+)
+
+#' Prints the object by calling as.character.
+setMethod(
+		f = "print",
+		signature = signature("object"),
+		def = function(x, ...) {
+			cat(to.string(x))
+		}
+)
+
+#' Shows the object by calling as.character.
+setMethod(
+		f = "show",
+		signature = signature("object"),
+		def = function(object) {
+			cat(to.string(object))
 		}
 )
 

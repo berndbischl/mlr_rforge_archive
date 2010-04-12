@@ -16,6 +16,7 @@ setClass(
 		)
 )
 
+#' Constructor.
 
 setMethod(
 		f = "initialize",
@@ -46,6 +47,9 @@ make.prediction = function(data.desc, task.desc, id, truth, response, prob, deci
 }
 
 
+#' Getter.
+#' @rdname prediction-class
+
 
 setMethod(
 		f = "[",
@@ -72,12 +76,31 @@ setMethod(
 		}
 )
 
+#'  Convert to data.frame
+#' @rdname prediction-class 
 #' @export
 setMethod(
 		f = "as.data.frame",
 		signature = signature("prediction"),
 		def = function(x, row.names = NULL, optional = FALSE,...) {
 			return(x@df)
+		}
+)
+
+
+#' @rdname to.string
+
+setMethod(
+		f = "to.string",
+		signature = signature("prediction"),
+		def = function(x) {
+			return(
+					paste(
+							"Prediction\n",
+							paste(capture.output(str(as.data.frame(x))), collapse="\n"), 
+							"\n", sep=""
+					)
+			)
 		}
 )
 

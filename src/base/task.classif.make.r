@@ -57,6 +57,7 @@ setGeneric(
 
 
 #' @export
+#' @rdname make.classif.task
 
 setMethod(
 		f = "make.classif.task",
@@ -79,6 +80,7 @@ setMethod(
 )
 
 #' @export
+#' @rdname make.classif.task
 
 setMethod(
 		f = "make.classif.task",

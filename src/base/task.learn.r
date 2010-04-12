@@ -30,7 +30,6 @@ setClass(
 #---------------- constructor---- -----------------------------------------------------
 
 #' Constructor.
-#' @title learn.task constructor
 
 setMethod(
 		f = "initialize",
@@ -66,9 +65,7 @@ setMethod(
 #' }
 #' @param j [integer] \cr See above, i == "targets".
 #' 
-#' @rdname getter,learn.task-method
-#' @aliases learn.task.getter getter,learn.task-method
-#' @title Getter for learn.task
+#' @rdname learn.task-class
 
 setMethod(
 		f = "[",
@@ -121,24 +118,6 @@ setMethod(
 )
 
 
-
-#' Prints the object by calling as.character.
-setMethod(
-		f = "print",
-		signature = signature("learn.task"),
-		def = function(x, ...) {
-			cat(to.string(x))
-		}
-)
-
-#' Shows the object by calling as.character.
-setMethod(
-		f = "show",
-		signature = signature("learn.task"),
-		def = function(object) {
-			cat(to.string(object))
-		}
-)
 
 #---------------- restrict.learn.task -----------------------------------------------------
 

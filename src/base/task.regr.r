@@ -40,7 +40,9 @@ setMethod(
 		}
 )
 
-#' Conversion to string.
+
+#' @rdname to.string
+
 setMethod(
 		f = "to.string",
 		signature = signature("regr.task"),

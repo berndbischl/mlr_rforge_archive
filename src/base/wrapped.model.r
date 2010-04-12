@@ -37,7 +37,9 @@ setClass(
 
 
 
-#' Conversion to string.
+
+#' @rdname to.string
+
 setMethod(
 		f = "to.string",
 		signature = signature("wrapped.model"),
@@ -61,24 +63,6 @@ setMethod(
 		}
 )
 
-#' Prints the object by calling as.character.
-setMethod(
-		f = "print",
-		signature = signature("wrapped.model"),
-		def = function(x, ...) {
-			cat(to.string(x))
-		}
-)
-
-#' Shows the object by calling as.character.
-setMethod(
-		f = "show",
-		signature = signature("wrapped.model"),
-		def = function(object) {
-			cat(to.string(object))
-		}
-)
-
 
 #' Getter.
 #' @param x wrapped.model object
@@ -88,9 +72,7 @@ setMethod(
 #' 	 \item{fail}{Generally NULL but if the training failed, the error message of the underlying train function.}
 #' }
 #' 
-#' @rdname getter,wrapped.model-method
-#' @aliases wrapped.model.getter getter,wrapped.model-method
-#' @title Getter for wrapped.model
+#' @rdname wrapped.model-class
 
 setMethod(
 		f = "[",

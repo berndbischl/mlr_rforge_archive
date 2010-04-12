@@ -46,6 +46,7 @@ setGeneric(
 )
 
 #' @export
+#' @rdname make.regr.task
 
 
 setMethod(
@@ -66,6 +67,7 @@ setMethod(
 
 
 #' @export
+#' @rdname make.regr.task
 
 setMethod(
 		f = "make.regr.task",

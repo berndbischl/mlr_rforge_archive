@@ -41,6 +41,7 @@ setGeneric(
 		}
 )
 
+#' @rdname performance
 
 setMethod(
 		f = "performance",

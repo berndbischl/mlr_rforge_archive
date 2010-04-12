@@ -16,6 +16,8 @@ setClass(
 	)
 )
 
+#' @rdname undocumented
+
 setMethod(
 		f = "[",
 		signature = signature("task.desc"),

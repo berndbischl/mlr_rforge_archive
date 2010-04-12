@@ -1,7 +1,8 @@
-
+#' @include object.r
 
 setClass(
 		"learner.props",
+		contains = c("object"),
 		representation = representation(
 				supports.missing = "logical",
 				supports.numerics = "logical",
@@ -12,19 +13,3 @@ setClass(
 		)
 )
 
-setMethod(
-		f = "show",
-		signature = signature("learner.props"),
-		def = function(object) {
-			cat(to.string(object))
-		}
-)
-
-
-setMethod(
-		f = "print",
-		signature = signature("learner.props"),
-		def = function(x, ...) {
-			cat(to.string(x))
-		}
-)

@@ -13,6 +13,7 @@ setClass(
 		)
 )
 
+#' @rdname to.string
 
 setMethod(
 		f = "to.string",

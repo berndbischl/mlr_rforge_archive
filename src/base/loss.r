@@ -39,31 +39,10 @@ make.loss <- function(name) {
 	return(fun)
 }
 
-setGeneric(
-		name = "default.loss",
-		def = function(learn.task) {
-			standardGeneric("default.loss")
-		}
-)
 
-setMethod(
-		f = "default.loss",
-		signature = c(learn.task="classif.task"),
-		def = function(learn.task) {
-			return(list())
-			#return(make.loss("zero-one"))
-		}
-)
-
-setMethod(
-		f = "default.loss",
-		signature = c(learn.task="regr.task"),
-		def = function(learn.task) {
-			return(list())
-			#return(make.loss("squared"))
-		}
-)
-
+default.loss = function() {
+	return(list())
+}
 
 
 

@@ -1,10 +1,14 @@
-#' @export
+#' @include learner.props.r
+roxygen()
+
 setClass(
 		"regr.props",
 		contains = c("learner.props")
 )
 
-#' Conversion to string.
+
+#' @rdname to.string
+
 setMethod(
 		f = "to.string",
 		signature = signature("regr.props"),

@@ -42,7 +42,7 @@ setMethod(
   }
 )
 
-
+#' @rdname undocumented
 
 setMethod(
 		f = "[",
@@ -71,8 +71,8 @@ setMethod(
 
 
 
-#' Conversion to string.
 
+#' @rdname to.string
 setMethod(
 		f = "to.string",
 		signature = signature("data.desc"),
@@ -91,19 +91,3 @@ setMethod(
 
 
 
-setMethod(
-  f = "print",
-  signature = signature("data.desc"),
-  def = function(x, ...) {
-    cat(to.string(x))
-  }
-)
-
-
-setMethod(
-  f = "show",
-  signature = signature("data.desc"),
-  def = function(object) {
-    cat(to.string(object))
-  }
-)

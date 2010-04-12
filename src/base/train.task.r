@@ -24,14 +24,14 @@ roxygen()
 #'
 #' @seealso \code{\link{predict}} 
 #' 
-#' @title Training a learning algorithm.
+#' @title Train a learning algorithm.
 #' @rdname train
 
 setGeneric(
 		name = "train",
 		def = function(learner, task, subset, vars, type) {
 			if (is.character(learner))
-				learner <- make.learner(learner, task)
+				learner <- make.learner(learner)
 			if (missing(subset))
 				subset <- 1:task["size"]
 			if (missing(vars))
@@ -47,8 +47,9 @@ setGeneric(
 
 train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, model.class, novars.class, check.fct) {
 
+	
 	if(learner@learner.pack != "mlr" && !require(learner@learner.pack, character.only=TRUE)) {
-		stop(paste("Learner", learner@learner.name, "could not be constructed! package", learner.pack, "missing!"))
+		stop(paste("Learner", learner@learner.name, "could not be constructed! package", learner@learner.pack, "missing!"))
 	}
 	
 	check.result <- check.fct(task, learner)
@@ -84,11 +85,6 @@ train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, mod
 		pars$.type = type
 	
 	pars <- c(pars, extra.train.pars, wl@train.fct.pars)
-	# let hyperparamters overwrite pars
-	for (i in seq(1, along=parset)) {
-		pn <- names(parset)[i] 
-		pars[pn] <- parset[i]
-	}
 	
 	# set the seed
 	if(!is.null(.mlr.local$debug.seed)) {
@@ -121,6 +117,7 @@ train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, mod
 	
 
 #' @export
+#' @rdname train 
 setMethod(
 		f = "train",
 		
@@ -142,6 +139,7 @@ setMethod(
 )
 
 #' @export
+#' @rdname train 
 setMethod(
 		f = "train",
 		

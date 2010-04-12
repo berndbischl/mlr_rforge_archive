@@ -65,16 +65,14 @@ setMethod(
 )
 
 #' Getter.
+#' 
 #' @param x classif.task object
 #' @param i [character]
 #' \describe{
 #'   \item{class.levels}{All possible class values.}
 #'   \item{class.nr}{Number of different classes.}
 #' }
-#' @rdname getter,classif.task-method
-#' @aliases classif.task.getter getter,classif.task-method
-#' @seealso \code{\link{getter,learn.task-method}}
-#' @title Getter for classif.task
+#' @rdname classif.task-class
 
 setMethod(
 		f = "[",
@@ -101,7 +99,8 @@ setMethod(
 )
 
 
-#' Conversion to string.
+
+#' @rdname to.string
 setMethod(
 		f = "to.string",
 		signature = signature("classif.task"),
