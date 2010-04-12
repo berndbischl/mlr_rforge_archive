@@ -9,14 +9,14 @@ roxygen()
 
 
 setClass(
-		"qda", 
+		"classif.qda", 
 		contains = c("wrapped.learner.classif")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("qda"),
+		signature = signature("classif.qda"),
 		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE 
 			)
 			
-			callNextMethod(.Object, learner.name="qda", learner.pack="MASS", learner.props=desc, parset=parset)
+			callNextMethod(.Object, learner.name="QDA", learner.pack="MASS", learner.props=desc, parset=parset)
 		}
 )
 
@@ -40,7 +40,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="qda", 
+				.wrapped.learner="classif.qda", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -59,7 +59,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "qda", 
+				.wrapped.learner = "classif.qda", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 

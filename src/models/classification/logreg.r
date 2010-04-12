@@ -9,14 +9,14 @@ roxygen()
 
 
 setClass(
-		"logreg", 
+		"classif.logreg", 
 		contains = c("wrapped.learner.classif")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("logreg"),
+		signature = signature("classif.logreg"),
 		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
@@ -41,7 +41,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="logreg", 
+				.wrapped.learner="classif.logreg", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -60,7 +60,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "logreg", 
+				.wrapped.learner = "classif.logreg", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 

@@ -10,14 +10,14 @@ roxygen()
 # checked props
 
 setClass(
-		"J48.classif", 
+		"classif.J48", 
 		contains = c("wrapped.learner.classif")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("J48.classif"),
+		signature = signature("classif.J48"),
 		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
@@ -41,7 +41,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="J48.classif", 
+				.wrapped.learner="classif.J48", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -61,7 +61,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "J48.classif", 
+				.wrapped.learner = "classif.J48", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 

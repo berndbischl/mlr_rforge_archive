@@ -4,14 +4,14 @@ roxygen()
 
 setClass(
 		# name lm is sealed
-		"stats.lm", 
+		"regr.lm", 
 		contains = c("wrapped.learner.regr")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("stats.lm"),
+		signature = signature("regr.lm"),
 		def = function(.Object, parset) {
 			
 			desc = new("regr.props",
@@ -31,7 +31,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="stats.lm", 
+				.wrapped.learner="regr.lm", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -50,7 +50,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "stats.lm", 
+				.wrapped.learner = "regr.lm", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 

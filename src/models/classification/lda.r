@@ -9,14 +9,14 @@ roxygen()
 
 
 setClass(
-		"lda", 
+		"classif.lda", 
 		contains = c("wrapped.learner.classif")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("lda"),
+		signature = signature("classif.lda"),
 		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
@@ -40,7 +40,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="lda", 
+				.wrapped.learner="classif.lda", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -59,7 +59,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "lda", 
+				.wrapped.learner = "classif.lda", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 

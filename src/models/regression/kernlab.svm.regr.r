@@ -3,7 +3,7 @@ roxygen()
 
   
 setClass(
-		"kernlab.svm.regr", 
+		"regr.ksvm", 
 		contains = c("wrapped.learner.regr")
 )
 
@@ -11,7 +11,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("kernlab.svm.regr"),
+		signature = signature("regr.ksvm"),
 		def = function(.Object, parset) {
 			
 			desc = new("regr.props",
@@ -31,7 +31,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="kernlab.svm.regr", 
+				.wrapped.learner="regr.ksvm", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -70,7 +70,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "kernlab.svm.regr", 
+				.wrapped.learner = "regr.ksvm", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 

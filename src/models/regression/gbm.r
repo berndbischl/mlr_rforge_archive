@@ -3,7 +3,7 @@ roxygen()
 
 
 setClass(
-		"gbm.regr", 
+		"regr.gbm", 
 		contains = c("wrapped.learner.regr")
 )
 
@@ -12,7 +12,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("gbm.regr"),
+		signature = signature("regr.gbm"),
 		def = function(.Object, parset) {
 			
 			desc = new("regr.props",
@@ -23,9 +23,9 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
+			if (is.null(parset$distribution))
+				parset$distribution = "gaussian"
 			.Object <- callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm", learner.props=desc, parset=parset)
-			.Object <- set.train.par(.Object, distribution="gaussian", verbose=FALSE)
-			.Object <- set.predict.par(.Object, type="link", single.tree = FALSE)
 			return(.Object)
 		}
 )
@@ -35,7 +35,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="gbm.regr", 
+				.wrapped.learner="regr.gbm", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -54,7 +54,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "gbm.regr", 
+				.wrapped.learner = "regr.gbm", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 

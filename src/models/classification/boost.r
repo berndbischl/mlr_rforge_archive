@@ -8,14 +8,14 @@ roxygen()
 roxygen()
 
 setClass(
-		"adaboost", 
+		"classif.adaboost.M1", 
 		contains = c("wrapped.learner.classif")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("adaboost"),
+		signature = signature("classif.adaboost.M1"),
 		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
@@ -30,7 +30,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="boost", learner.pack="adabag", learner.props=desc, parset=parset)
+			callNextMethod(.Object, learner.name="AdaBoostM1", learner.pack="adabag", learner.props=desc, parset=parset)
 		}
 )
 
@@ -39,7 +39,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="adaboost", 
+				.wrapped.learner="classif.adaboost.M1", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -58,7 +58,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "adaboost", 
+				.wrapped.learner = "classif.adaboost.M1", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 

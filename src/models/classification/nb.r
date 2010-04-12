@@ -9,14 +9,14 @@ roxygen()
 
 
 setClass(
-		"naiveBayes", 
+		"classif.naiveBayes", 
 		contains = c("wrapped.learner.classif")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("naiveBayes"),
+		signature = signature("classif.naiveBayes"),
 		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
@@ -40,7 +40,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="naiveBayes", 
+				.wrapped.learner="classif.naiveBayes", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -59,7 +59,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "naiveBayes", 
+				.wrapped.learner = "classif.naiveBayes", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 

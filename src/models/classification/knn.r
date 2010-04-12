@@ -8,14 +8,14 @@ roxygen()
 roxygen()
 
 setClass(
-		"kknn.classif", 
+		"classif.kknn", 
 		contains = c("wrapped.learner.classif")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("kknn.classif"),
+		signature = signature("classif.kknn"),
 		def = function(.Object, parset) {
 			
 			desc <- new("classif.props",
@@ -39,7 +39,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="kknn.classif", 
+				.wrapped.learner="classif.kknn", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -57,7 +57,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "kknn.classif", 
+				.wrapped.learner = "classif.kknn", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 

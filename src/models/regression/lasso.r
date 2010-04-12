@@ -3,14 +3,14 @@ roxygen()
 
 
 setClass(
-		"penalized.lasso", 
+		"regr.lasso", 
 		contains = c("wrapped.learner.regr")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("penalized.lasso"),
+		signature = signature("regr.lasso"),
 		def = function(.Object, parset) {
 			
 			desc = new("regr.props",
@@ -30,7 +30,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="penalized.lasso", 
+				.wrapped.learner="regr.lasso", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -56,7 +56,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "penalized.lasso", 
+				.wrapped.learner = "regr.lasso", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 

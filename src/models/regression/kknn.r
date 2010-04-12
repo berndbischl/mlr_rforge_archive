@@ -2,7 +2,7 @@
 roxygen()
 
 setClass(
-		"kknn.regr", 
+		"regr.kknn", 
 		contains = c("wrapped.learner.regr")
 )
 
@@ -14,7 +14,7 @@ predict.kknn.model2 <- function(model, newdata, ...) {
 
 setMethod(
 		f = "initialize",
-		signature = signature("kknn.regr"),
+		signature = signature("regr.kknn"),
 		def = function(.Object, parset) {
 			
 			desc = new("regr.props",
@@ -34,7 +34,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="kknn.regr", 
+				.wrapped.learner="regr.kknn", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -52,7 +52,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "kknn.regr", 
+				.wrapped.learner = "regr.kknn", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 

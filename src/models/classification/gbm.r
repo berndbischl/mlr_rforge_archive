@@ -9,7 +9,7 @@ roxygen()
 
 
 setClass(
-		"gbm.classif", 
+		"classif.gbm", 
 		contains = c("wrapped.learner.classif")
 )
 
@@ -17,7 +17,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("gbm.classif"),
+		signature = signature("classif.gbm"),
 		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
@@ -31,6 +31,8 @@ setMethod(
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)			
+			if (is.null(parset$distribution))
+				parset$distribution = "adaboost"
 			callNextMethod(.Object, learner.name="Gradient Boosting Machine", learner.pack="gbm", learner.props=desc, parset=parset)
 		}
 )
@@ -41,7 +43,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="gbm.classif", 
+				.wrapped.learner="classif.gbm", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -51,7 +53,7 @@ setMethod(
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			gbm(f, data=.data, weights=.weights, distribution="adabost", verbose=FALSE, ...)
+			gbm(f, data=.data, weights=.weights, verbose=FALSE, ...)
 		}
 )
 
@@ -60,7 +62,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "gbm.classif", 
+				.wrapped.learner = "classif.gbm", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 

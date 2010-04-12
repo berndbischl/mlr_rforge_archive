@@ -2,14 +2,14 @@
 roxygen()
 
 setClass(
-		"blackboost.regr", 
+		"regr.blackboost", 
 		contains = c("wrapped.learner.regr")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("blackboost.regr"),
+		signature = signature("regr.blackboost"),
 		def = function(.Object, parset) {
 			
 			desc = new("regr.props",
@@ -29,7 +29,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="blackboost.regr", 
+				.wrapped.learner="regr.blackboost", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -48,7 +48,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "blackboost.regr", 
+				.wrapped.learner = "regr.blackboost", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 

@@ -9,14 +9,14 @@ roxygen()
 
 
 setClass(
-		"kernlab.svm.classif", 
+		"classif.ksvm", 
 		contains = c("wrapped.learner.classif")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("kernlab.svm.classif"),
+		signature = signature("classif.ksvm"),
 		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
@@ -41,7 +41,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="kernlab.svm.classif", 
+				.wrapped.learner="classif.ksvm", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -91,7 +91,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "kernlab.svm.classif", 
+				.wrapped.learner = "classif.ksvm", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 

@@ -9,14 +9,14 @@ roxygen()
 
 
 setClass(
-		"nnet.multinom", 
+		"classif.multinom", 
 		contains = c("wrapped.learner.classif")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("nnet.multinom"),
+		signature = signature("classif.multinom"),
 		def = function(.Object, parset) {
 			
 			#checked:
@@ -41,7 +41,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="nnet.multinom", 
+				.wrapped.learner="classif.multinom", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -60,7 +60,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "nnet.multinom", 
+				.wrapped.learner = "classif.multinom", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 

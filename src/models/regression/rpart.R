@@ -2,14 +2,14 @@
 roxygen()
 
 setClass(
-		"rpart.regr", 
+		"regr.rpart", 
 		contains = c("wrapped.learner.regr")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("rpart.regr"),
+		signature = signature("regr.rpart"),
 		def = function(.Object, parset) {
 			
 			desc = new("regr.props",
@@ -28,7 +28,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="rpart.regr", 
+				.wrapped.learner="regr.rpart", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -47,7 +47,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "rpart.regr", 
+				.wrapped.learner = "regr.rpart", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
