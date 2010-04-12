@@ -1,8 +1,8 @@
 
-resample.fit.iter <- function(learner, task, rin, vars, type, i, extract) {
+resample.fit.iter <- function(learner, task, rin, parset, vars, type, i, extract) {
 	train.i <- rin["train.inds", i]
 	test.i <- rin["test.inds", i]
-	m <- train(learner, task, subset=train.i, vars=vars)
+	m <- train(learner, task, subset=train.i, parset=parset, vars=vars)
 	if (is(task, "classif.task"))
 		p <- predict(m, task=task, subset=test.i, type=type)
 	else 
@@ -48,7 +48,7 @@ eval.rf <- function(learner, task, resampling, measures, aggr, parset, ps.scale,
 eval.rf.perf <- function(learner, task, resampling, measures, aggr, parset, ps.scale, ps.names, vars) {
 	rp = eval.rf(learner, task, resampling, measures, aggr, parset, ps.scale, ps.names, vars)
 		
-	mm = rp$measures[names(aggr), names(measures), drop=FALSE]
+	mm = rp$aggr
 	mm = reshape(mm, ids=row.names(mm), times=names(mm), varying=list(names(mm)), direction="long")
 	if(length(measures)==1)
 		rownames(mm) = paste(names(aggr), names(measures), sep=".")

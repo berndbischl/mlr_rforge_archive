@@ -22,15 +22,15 @@ roxygen()
 #' @param resampling [\code{\linkS4class{resample.desc}} or \code{\linkS4class{resample.instance}}] \cr
 #'        Resampling strategy. 
 #' @param parset [list] \cr 
-#'        Named list of hyperparamter values. Will overwrite the one specified in the learner object. Default is empty list().
+#'        Named list of hyperparameter values. Will overwrite the ones specified in the learner object. Default is empty list.
 #' @param vars [\code{\link{character}}] \cr 
 #'        Vector of variable names to use in training the model. Default is to use all variables.
 #' @param type [\code{\link{character}}] \cr 
-#' 		Only used for classification tasks; specifies the type of predictions -
-#' 		either probability ("prob") or class ("response").
+#' 		  Only used for classification tasks; specifies the type of predictions -
+#' 		  either probability ("prob") or class ("response").
 #' @param extract [\code{\link{function}}] \cr 
-#' 		Function used to extract information from fitted models, e.g. can be used to save the complete list of fitted models. 
-#'      Default is to extract nothing. 
+#' 		  Function used to extract information from fitted models, e.g. can be used to save the complete list of fitted models. 
+#'        Default is to extract nothing. 
 #' @return \code{\linkS4class{resample.prediction}}.
 #' 
 #' @export
@@ -74,13 +74,7 @@ setMethod(
 			resample.instance <- resampling
 			iters <- resample.instance["iters"]
 			
-			# let parset overwrite pars in learner
-			for (i in seq(1, along=parset)) {
-				pn <- names(parset)[i] 
-				learner@train.fct.pars[pn] = parset[i]
-			}
-			
-			rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, rin=resample.instance, vars=vars, type=type, extract=extract)
+			rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, rin=resample.instance, parset=parset, vars=vars, type=type, extract=extract)
 		
 			ps = lapply(rs, function(x) x$pred)
 			es = lapply(rs, function(x) x$extracted)

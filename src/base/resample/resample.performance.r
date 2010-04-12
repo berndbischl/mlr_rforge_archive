@@ -40,9 +40,9 @@ setMethod(
 			
 			
 			if (length(losses) > 0)
-				return(list(measures=ms, agg=ms2, losses=ls))
+				return(list(measures=ms, aggr=ms2, losses=ls))
 			return(
-				list(measures=ms, agg=ms2))
+				list(measures=ms, aggr=ms2))
 		}
 )
 

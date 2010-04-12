@@ -10,6 +10,8 @@ roxygen()
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 
 #'        An index vector specifying the training cases to be used for fitting. By default the complete dataset is used. 
+#' @param parset [list] \cr 
+#'        Named list of hyperparameter values. Will overwrite the ones specified in the learner object. Default is empty list.
 #' @param vars [\code{\link{character}}] \cr
 #'       Vector of variable names to use in training the model. Default is to use all variables, except the excluded in the task.
 #' @param type [string] \cr
@@ -29,9 +31,11 @@ roxygen()
 
 setGeneric(
 		name = "train",
-		def = function(learner, task, subset, vars, type) {
+		def = function(learner, task, subset, parset, vars, type) {
 			if (is.character(learner))
 				learner <- make.learner(learner)
+			if (missing(parset))
+				parset = list()
 			if (missing(subset))
 				subset <- 1:task["size"]
 			if (missing(vars))
@@ -45,7 +49,7 @@ setGeneric(
 )
 
 
-train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, model.class, novars.class, check.fct) {
+train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, model.class, novars.class, check.fct) {
 
 	
 	if(learner@learner.pack != "mlr" && !require(learner@learner.pack, character.only=TRUE)) {
@@ -59,7 +63,15 @@ train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, mod
 	
 	wl <- learner
 	tn <- task["target.name"]
-	parset = wl@train.fct.pars
+	
+	ps2 = wl@train.fct.pars
+	# let parset overwrite pars in learner
+	for (i in seq(1, along=parset)) {
+		pn <- names(parset)[i] 
+		ps2[pn] = parset[i]
+	}
+	
+	
 	# reduce data to subset and selected vars
 	data.subset <- task["data", subset, select=c(vars, tn), drop=F]
 	
@@ -70,7 +82,7 @@ train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, mod
 		ws = rep(1, length(subset)) 
 	
 	logger.debug("mlr train:", wl@learner.name, "with pars:")
-	logger.debug(parset)
+	logger.debug(ps2)
 	logger.debug("on", length(subset), "examples:")
 	logger.debug(subset)
 	
@@ -84,7 +96,7 @@ train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, mod
 	if (is(task, "classif.task"))
 		pars$.type = type
 	
-	pars <- c(pars, extra.train.pars, wl@train.fct.pars)
+	pars <- c(pars, extra.train.pars, ps2)
 	
 	# set the seed
 	if(!is.null(.mlr.local$debug.seed)) {
@@ -109,7 +121,7 @@ train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, mod
 	} 
 
 	pars = list(model.class, wrapped.learner = wl, learner.model = learner.model, 
-			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, parset=parset, vars=vars,
+			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, parset=ps2, vars=vars,
 			time = time.train
 	)
 	do.call("new", pars)
@@ -125,13 +137,14 @@ setMethod(
 				learner="wrapped.learner.classif", 
 				task="classif.task", 
 				subset="numeric", 
+				parset="list",
 				vars="character",
 				type="character"
 		),
 		
-		def = function(learner, task, subset, vars, type) {
+		def = function(learner, task, subset, parset, vars, type) {
 			extra.train.pars = list(.costs = task["costs"])
-			train.task2(learner, task, subset, vars, type, 
+			train.task2(learner, task, subset, parset, vars, type, 
 					extra.train.pars, "wrapped.model.classif", "novars.classif",
 					check.task.learner.classif
 			)
@@ -147,13 +160,14 @@ setMethod(
 				learner="wrapped.learner.regr", 
 				task="regr.task", 
 				subset="numeric", 
+				parset="list",
 				vars="character",
 				type="character"				
 		),
 		
-		def = function(learner, task, subset, vars, type) {
+		def = function(learner, task, subset, parset, vars, type) {
 			extra.train.pars = list()
-			train.task2(learner, task, subset, vars, type, 
+			train.task2(learner, task, subset, parset, vars, type, 
 					extra.train.pars, "wrapped.model.regr", "novars.regr",
 					check.task.learner
 			)

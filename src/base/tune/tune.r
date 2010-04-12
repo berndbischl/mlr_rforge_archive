@@ -78,8 +78,7 @@ tune <- function(learner, task, resampling, method="grid", control=NULL, measure
 	or$par = scale.par(scale, or$par)
 	#or$n.eval = .mlr.local$n.eval
 	if (model) {
-		learner@train.fct.pars = c(learner@train.fct.pars, or$par)
-		or$model = train(learner, task) 	
+		or$model = train(learner, task, parset=or$par) 	
 	}
 	
 	return(or)			
