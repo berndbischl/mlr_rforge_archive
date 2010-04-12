@@ -29,8 +29,8 @@ test.lasso <- function() {
 		p <- predict(m, data=regr.test)
 		old.predicts.list[[i]] <- p[,"mu"]
 	}
-	simple.test.parsets("penalized.lasso", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list)
-	simple.test.parsets("penalized.lasso", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list2)
+	simple.test.parsets("regr.lasso", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list)
+	simple.test.parsets("regr.lasso", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list2)
 	
 	
 	#extra cv test	
@@ -39,7 +39,7 @@ test.lasso <- function() {
 	cv.i <- make.res.instance("cv", regr.task, iters=folds)
 	for (i in 1:folds)
 		cv.i@inds[[i]] <- setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
-	wl = make.learner("penalized.lasso", lambda=0.3)
+	wl = make.learner("regr.lasso", lambda=0.3)
 	rf <- resample.fit(wl, regr.task, cv.i)
 #	print(rf@preds[[1]])
 	for (i in 1:folds) {

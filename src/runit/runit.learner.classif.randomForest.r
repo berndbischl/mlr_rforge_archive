@@ -28,11 +28,11 @@ test.randomForest <- function() {
 		old.probs.list[[i]] <- p2
 	}
 	
-	simple.test.parsets("randomForest.classif", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
-	prob.test.parsets("randomForest.classif", multiclass.df, multiclass.formula, multiclass.train.inds, old.probs.list, parset.list)
+	simple.test.parsets("classif.randomForest", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
+	prob.test.parsets("classif.randomForest", multiclass.df, multiclass.formula, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt <- randomForest
 	
-	cv.test.parsets("randomForest.classif", multiclass.df, multiclass.formula, tune.train=tt, parset.list=parset.list)
+	cv.test.parsets("classif.randomForest", multiclass.df, multiclass.formula, tune.train=tt, parset.list=parset.list)
 }
 

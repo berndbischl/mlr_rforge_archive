@@ -5,6 +5,6 @@ test.tostring <- function() {
 	
 	to.string(regr.task)
 	
-	wl = make.learner("lda")
+	wl = make.learner("classif.lda")
 	to.string(wl)
 }

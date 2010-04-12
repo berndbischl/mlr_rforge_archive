@@ -5,14 +5,14 @@ test.predict <- function() {
 	formula = multiclass.formula
 	
 	
-	cm2 <- train("lda", multiclass.task, subset=inds)
+	cm2 <- train("classif.lda", multiclass.task, subset=inds)
 	cp2 <- predict(cm2, newdata=data[inds,])
 	ext2 <- lda(formula, data=data[inds,])
 	pred2 <- predict(ext2,newdata=data[inds,])$class
 	
 	checkEquals(cp2["response"], pred2)
 	
-	cm3 <- train("lda", multiclass.task, subset=inds)
+	cm3 <- train("classif.lda", multiclass.task, subset=inds)
 	cp3 <- predict(cm3, newdata=data[multiclass.test.inds,])
 	ext3 <- lda(formula, data=data[inds,])
 	pred3 <- predict(ext3,newdata=data[multiclass.test.inds,])$class
@@ -24,7 +24,13 @@ test.predict <- function() {
 	checkEquals(cp4["truth"], data[multiclass.test.inds, multiclass.target])
 	checkEquals(cp4["id"], multiclass.test.inds)
 	
-	
-	# find a good test for pred.fct.pars....  
-	
+	df3 = as.data.frame(cp3)
+	df4 = as.data.frame(cp4)
+
+	checkEquals(df3$truth, df4$truth)
+	checkEquals(df3$response, df4$response)
+	cn3 = colnames(df3)
+	cn4 = colnames(df4)
+	checkEquals(cn3, c("response", "truth"))
+	checkEquals(cn4, c("id", "response", "truth"))
 }

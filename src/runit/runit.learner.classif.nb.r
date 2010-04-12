@@ -7,12 +7,12 @@ test.nb <- function() {
   p  <- predict(m, newdata=multiclass.test[,-multiclass.class.col])
   p2 <- predict(m, newdata=multiclass.test[,-multiclass.class.col], type="raw")
   
-  simple.test("naiveBayes", multiclass.df, multiclass.formula, multiclass.train.inds, p)
-  prob.test  ("naiveBayes", multiclass.df, multiclass.formula, multiclass.train.inds, p2)
+  simple.test("classif.naiveBayes", multiclass.df, multiclass.formula, multiclass.train.inds, p)
+  prob.test  ("classif.naiveBayes", multiclass.df, multiclass.formula, multiclass.train.inds, p2)
   
   tt <- "naiveBayes"
   tp <- function(model, newdata) predict(model, newdata[,-multiclass.class.col])
 
-  cv.test("naiveBayes", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp )
+  cv.test("classif.naiveBayes", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp )
 
 }

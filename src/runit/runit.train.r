@@ -7,7 +7,7 @@
 #	
 #	#----------------------------------lda----------------------------------------
 #	ct1 <- make.classif.task(data=data, formula=formula)
-#	cm1 <- train("lda", ct1)
+#	cm1 <- train("classif.lda", ct1)
 #	ext1 <- try(lda(formula, data=data))
 #	
 #	
@@ -22,7 +22,7 @@
 #	checkEquals(cm1@subset, 1:nrow(data))
 #	
 #	ct2 <- make.classif.task(data=data, formula=formula)
-#	cm2 <- train("lda", ct2, subset=inds)
+#	cm2 <- train("classif.lda", ct2, subset=inds)
 #	ext2 <- lda(formula, data=data[inds,])
 #	
 #	checkTrue(ifelse(class(cm2@learner.model)[1]== "learner.failure", 
@@ -35,7 +35,7 @@
 #	
 #	#------------------------------rpart------------------------------------------
 #	ct3 <- make.classif.task(data=data, formula=formula)
-#	cm3 <- train("rpart.classif", ct3, subset=inds ,parset=list(minsplit=10, cp= 0.005))
+#	cm3 <- train("classif.rpart", ct3, subset=inds ,parset=list(minsplit=10, cp= 0.005))
 #	ext3 <- try(rpart(formula = formula, data = data[inds,], minsplit=10, cp= 0.005))
 #	
 #	checkEquals(cm3@subset, inds) 
@@ -109,20 +109,20 @@
 #	
 #	#-------------------------knn-------------------------------------------------
 #	ct7 <- make.classif.task(data=data, formula=formula)
-#	cm7 <- train("kknn.classif", ct7, parset = list(k=k))
+#	cm7 <- train("classif.kknn", ct7, parset = list(k=k))
 #	
 #	checkEquals(cm7@parset,  list(k=k))
 #	checkEquals(cm7@subset, 1:nrow(data))
 #	
 #	ct8 <- make.classif.task(data=data, formula=formula)
-#	cm8 <- train("kknn.classif", ct8, subset=inds, parset = list(k=k))
+#	cm8 <- train("classif.kknn", ct8, subset=inds, parset = list(k=k))
 #	
 #	checkEquals(cm8@subset, inds)
 #	
 #	
 #	#-------------------------randomForest----------------------------------------
 #	ct9 <- make.classif.task(data=data, formula=formula)
-#	cm9 <- train("randomForest.classif", ct9, parset = list(ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
+#	cm9 <- train("classif.randomForest", ct9, parset = list(ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
 #	
 #	set.seed(debug.seed)                   
 #	ext9 <- try(randomForest(formula= formula, data=data, ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
@@ -159,7 +159,7 @@
 #	
 #	
 #	ct10 <- make.classif.task(data=data, formula=formula)
-#	cm10 <- train("randomForest.classif", ct10,subset=inds, parset = list(ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
+#	cm10 <- train("classif.randomForest", ct10,subset=inds, parset = list(ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))
 #	
 #	set.seed(debug.seed)                   
 #	ext10 <- try(randomForest(formula= formula, data=data[inds,], ntree= 100, mtry= floor(sqrt((ncol(data) - 1 )))))

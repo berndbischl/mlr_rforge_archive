@@ -11,7 +11,7 @@ test.tune <- function() {
 	
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
-	tr2 <- tune("rpart.classif", multiclass.task, cv.instance, method="grid", control=grid.control(ranges=ranges))
+	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, method="grid", control=grid.control(ranges=ranges))
 	
 	for(i in 1:nrow(tr$performances)) {
 		cp <- tr$performances[i,"cp"]
@@ -25,11 +25,11 @@ test.tune <- function() {
 
 	# check grid and scale
 	control = grid.control(ranges=list(C=-1:1, sigma=-1:1))
-	tune("kernlab.svm.classif", multiclass.task, cv.instance, method="grid", control=control, scale=function(x)10^x)
+	tune("classif.ksvm", multiclass.task, cv.instance, method="grid", control=control, scale=function(x)10^x)
 	
 	# check pattern search
 	control = ps.control(start=list(C=0, sigma=0))
-	tr3 <- tune("kernlab.svm.classif", multiclass.task, cv.instance, method="pattern", control=control, scale=function(x)10^x)
+	tr3 <- tune("classif.ksvm", multiclass.task, cv.instance, method="pattern", control=control, scale=function(x)10^x)
 
 	#complex test for tuning
 	
@@ -42,7 +42,7 @@ test.tune <- function() {
 	res = make.res.desc("cv", iters=2)
 	inner = make.res.desc("cv", iters=2)
 	
-	wl = make.learner("kernlab.svm.classif", type="spoc-svc")
+	wl = make.learner("classif.ksvm", type="spoc-svc")
 	tr = tune(wl, multiclass.task, res, control=control)
 	
 	svm.tuner <- make.tune.wrapper(wl, resampling=inner, control=grid.control(ranges=r))

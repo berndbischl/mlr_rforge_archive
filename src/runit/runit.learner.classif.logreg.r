@@ -7,10 +7,10 @@ test.logreg <- function(){
 	p.prob = 1-p
 	p.class <- as.factor(binaryclass.class.levs[ifelse(p > 0.5, 2, 1)])
 	
-	simple.test("logreg", binaryclass.df, binaryclass.formula, binaryclass.train.inds, p.class)
+	simple.test("classif.logreg", binaryclass.df, binaryclass.formula, binaryclass.train.inds, p.class)
 	
 	
-	prob.test("logreg", binaryclass.df, binaryclass.formula, binaryclass.train.inds, p.prob)
+	prob.test("classif.logreg", binaryclass.df, binaryclass.formula, binaryclass.train.inds, p.prob)
 	
 	tt <- function(formula, data) {glm(formula, data=data, family=binomial)}
 	tp <- function(model, newdata) {
@@ -18,7 +18,7 @@ test.logreg <- function(){
 		as.factor(binaryclass.class.levs[ifelse(p > 0.5, 2, 1)])
 	}
 
-	cv.test("logreg", binaryclass.df, binaryclass.formula, tune.train=tt, tune.predict=tp )
+	cv.test("classif.logreg", binaryclass.df, binaryclass.formula, tune.train=tt, tune.predict=tp )
 }
 
 

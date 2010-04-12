@@ -24,14 +24,14 @@ test.mda <- function() {
 		old.probs.list[[i]] <- p2
 	}
 	
-	simple.test.parsets("mda", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
-	prob.test.parsets  ("mda", multiclass.df, multiclass.formula, multiclass.train.inds, old.probs.list, parset.list)
+	simple.test.parsets("classif.mda", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
+	prob.test.parsets  ("classif.mda", multiclass.df, multiclass.formula, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt <- "mda"
 	tp <- function(model, newdata) predict(model, newdata)
 	
-	cv.test.parsets("mda", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
-	cv.test("mda", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp, parset=list(subclasses=17))
+	cv.test.parsets("classif.mda", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
+	cv.test("classif.mda", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp, parset=list(subclasses=17))
 	
 }
 

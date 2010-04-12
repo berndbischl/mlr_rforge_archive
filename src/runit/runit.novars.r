@@ -1,4 +1,4 @@
 test.novars <- function() {
-	m <- train("lda", multiclass.task, vars=c())
+	m <- train("classif.lda", multiclass.task, vars=c())
 	p <- predict(m, newdata=multiclass.df)
 }

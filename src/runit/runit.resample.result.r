@@ -1,15 +1,15 @@
 
 
-test.resample.result = function() {
+test.resample.prediction = function() {
 	rin1 <- make.res.instance("bs", multiclass.task, iters=4)
 	rin2 <- make.res.instance("cv", multiclass.task, iters=7)
 	rin3 <- make.res.instance("subsample", multiclass.task, iters=2)
 	
 	ct <- make.classif.task(data=multiclass.df, formula=multiclass.formula)
 	
-	result1 <- resample.fit("lda", ct, rin1)       
-	result2 <- resample.fit("lda", ct, rin2)       
-	result3 <- resample.fit("lda", ct, rin3)       
+	result1 <- resample.fit("classif.lda", ct, rin1)       
+	result2 <- resample.fit("classif.lda", ct, rin2)       
+	result3 <- resample.fit("classif.lda", ct, rin3)       
 	
 	checkEquals(result1["iters"], 4)
 	checkEquals(result2["iters"], 7)
