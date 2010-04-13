@@ -9,7 +9,7 @@
 
 
 
-
+# todo: maxit
 varsel.seq = function(learner, task, resampling, measures, aggr, method, control=varsel.control()) {
 	all.vars = task["input.names"]
 	path = list()
@@ -30,9 +30,9 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 			stop(paste("Unknown method:", method))
 	) 
 	
-	state = eval.state(learner, task, resampling, measures, aggr, vars=start.vars)
+	state = eval.state(learner, task, resampling, measures, aggr, vars=start.vars, event="start")
 	
-	path[[length(path)+1]] = state		
+	path = add.path(path, state, accept=T)		
 	
 	compare = compare.diff
 	
@@ -44,15 +44,15 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 		#print("current:")
 		#print(state$vars)
 		#cat("forward:", forward, "\n")
-		s = seq.step(learner, task, resampling, measures, aggr, control, forward, all.vars, state, gen.new.states, compare)	
+		s = seq.step(learner, task, resampling, measures, aggr, control, forward, 
+				all.vars, state, gen.new.states, compare, path)	
+		path = s$path
 		#print(s$rp$measures["mean", "mmce"])
-		if (is.null(s)) {
+		if (is.null(s$state)) {
 			break;
 		} else {
-			state = s
+			state = s$state
 		}
-		
-		path[[length(path)+1]] = state		
 		
 		while (method %in% c("sffs", "sfbs")) {
 			#cat("forward:", !forward, "\n")
@@ -60,33 +60,38 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 					sffs = gen.new.states.sbs,
 					sfbs = gen.new.states.sfs
 			) 
-			s = seq.step(learner, task, resampling, measures, aggr, control, !forward, all.vars, state, gns, compare)	
-			if (is.null(s)) {
+			s = seq.step(learner, task, resampling, measures, aggr, control, !forward, 
+					all.vars, state, gns, compare, path)
+			path = s$path
+			if (is.null(s$state)) {
 				break;
 			} else {
-				state = s
+				state = s$state
 			}
-			path[[length(path)+1]] = state		
 		}
-		
 	}
-	return(list(best=state, path=path))
+	list(opt=make.path.el(state), path = path) 
 }
 
-seq.step = function(learner, task, resampling, measures, aggr, control, forward, all.vars, state, gen.new.states, compare) {
+seq.step = function(learner, task, resampling, measures, aggr, control, forward, all.vars, state, gen.new.states, compare, path) {
 	not.used = setdiff(all.vars, state$vars)
 	new.states = gen.new.states(state$vars, not.used)
 	if (length(new.states) == 0)
 		return(NULL)
 	vals = list()
 		
-	es = eval.states(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, varsets=new.states)
+	event = ifelse(forward, "forward", "backward")
+	
+	es = eval.states(learner=learner, task=task, resampling=resampling, 
+			measures=measures, aggr=aggr, varsets=new.states, event=event)
 	#print(unlist(vals))
 	
 	s = select.best.state(es, control, measures, aggr)
-	if (compare(state, s, control, measures, aggr, forward))
-		return(s)
-	return(NULL)
+	thresh = ifelse(forward, control$alpha, control$beta)
+	if (!compare(state, s, control, measures, aggr, thresh))
+		s = NULL
+	path = add.path.els(path, es, s)
+	return(list(path=path, state=s))
 }
 
 gen.new.states.sfs = function(vars, not.used) {

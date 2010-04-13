@@ -7,14 +7,13 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 	cors = abs(cor(data, data))
 	diag(cors) = NA
 	m = length(all.vars) 
-	p = 1 / m
+	p = control$delta
 	
 	start = all.vars[as.logical(rbinom(m, 1, 0.5))]
 	cat("start:", start, "\n")
-	state <<- eval.state(learner, task, resampling, measures, aggr, vars=start)
-	path[[1]] = state
-	names(path)[1] = "start"
-	print(get.perf(state, measures, aggr))
+	state = eval.state(learner, task, resampling, measures, aggr, vars=start, "start")
+	path = add.path(path, state, T)		
+	#print(get.perf(state))
 	# use alpha for mut
 	ctrl2 = control
 	ctrl2$alpha = 0
@@ -27,21 +26,23 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 		vs.bin = all.vars %in% state$vars
 		print(vs.bin)
 		while (.mlr.vareval < control$maxit) {
+			probs = as.numeric(vs.bin)
+			
 			mut = as.logical(rbinom(m, 1, p))
 			cat("mut:", mut, "\n")
 			# xor
 			new.bin = (vs.bin != mut)
 			new.vars = all.vars[new.bin]
 			#print(new.bin)
-			cat("new.vars:", new.vars, "\n")
-			new.state = eval.state(learner, task, resampling, measures, aggr, vars=new.vars)
-			print(get.perf(new.state, measures, aggr))
-			if (compare.diff(state, new.state, ctrl2, measures, aggr, forward=T) 
-					&& length(new.state$vars) > 0) {
+			#cat("new.vars:", new.vars, "\n")
+			new.state = eval.state(learner, task, resampling, measures, aggr, vars=new.vars, "mutate")
+			#print(get.perf(new.state))
+			cc = compare.diff(state, new.state, ctrl2, measures, aggr, threshold=control$gamma)	&& 
+					(length(new.state$vars) > 0)
+			path = add.path(path, new.state, cc)		
+			if (cc) {
 				print("accept")
 				state=new.state
-				path[[length(path)+1]] = state
-				names(path)[length(path)] = "mut"
 				break
 			}
 		}
@@ -70,13 +71,14 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 					new.vars = c(state$vars, v)
 				}
 				cat("newvars:", new.vars, "\n")
-				new.state = eval.state(learner, task, resampling, measures, aggr, vars=new.vars)
-				print(get.perf(new.state, measures, aggr))
-				if (compare.diff(state, new.state, control, measures, aggr, forward=(op=="plus"))) {
+				new.state = eval.state(learner, task, resampling, measures, aggr, vars=new.vars, op)
+				#print(get.perf(new.state))
+				thresh = ifelse(op=="plus", control$alpha, control$beta)
+				cc = compare.diff(state, new.state, control, measures, aggr, thresh)
+				path = add.path(path, new.state, cc)							
+				if (cc) {
 					print("accept")
 					state=new.state
-					path[[length(path)+1]] = state
-					names(path)[length(path)] = op
 					found = T
 				} else {
 					if (!found)
@@ -91,7 +93,7 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 			op = setdiff(names(failed), op)
 		}
 	} # end big loop	
-	return(path)		
+	list(opt=make.path.el(state), path = path) 
 }	
 	
 	
