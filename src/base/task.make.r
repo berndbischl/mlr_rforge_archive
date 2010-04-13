@@ -23,21 +23,21 @@ roxygen()
 #' @param weights [\code{\link{numeric}}] \cr 	
 #'        An optional vector of weights to be used in the fitting process. Default is not to use weights.
 #' @param costs [\code{\link{matrix}}] \cr 	
-#'        A optional matrix of misclassification costs to be used in the fitting process.
+#'        An optional matrix of misclassification costs to be used in the fitting process.
 #' 		  Ignored for regression.	
 #' @param positive [string] \cr 	
 #'        Positive class for binary classification. Default is the first factor level of the target attribute. 
 #' 		  Ignored for regression.	
 #' 
 #' 
-#' @return An object of class \code{\linkS4class{classif.task}}.
+#' @return \code{\linkS4class{learn.task}}.
 #' 
 #' @export
 #' @rdname make.task
 #' 
 #' @usage make.task(name, data, target, formula, excluded, weights, costs, positive)
 #'
-#' @title Contruct learning task.
+#' @title Construct learning task.
 
 
 make.task = function(name, data, target, formula, excluded, weights, costs, positive) {

@@ -5,7 +5,7 @@ roxygen()
 
 #' Wraps an already implemented learning method from R to make it accesible to mlr.
 #' 
-#' Also inlcudes a properties object to describe the features of the learner.     
+#' Also includes a properties object to describe the features of the learner.     
 
 #' @title Base class for inducers. 
 

@@ -5,7 +5,7 @@ roxygen()
 
 
 #' Result from \code{\link{train}}. It internally stores the underlying fitted model,
-#' the used hyperparameters, the ids of the used subset and the used variables.    
+#' the used hyperparameters, the IDs of the used subset and the used variables.    
 #' 
 #' @title Induced model of learner.
  

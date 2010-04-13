@@ -25,7 +25,7 @@ setClass(
 #' @param i [character]
 #' \describe{
 #'   \item{perf}{Performance matrix.}
-#'   \item{tuned.pars}{Values of tuned paramters. NA if no tuning was done.}
+#'   \item{tuned.pars}{Values of tuned parameters. NA if no tuning was done.}
 #'   \item{conf.mats}{Confusion matrices - only for classification.}
 #' }
 #' @param j [integer or character] \cr Select subset of learners.

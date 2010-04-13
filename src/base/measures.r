@@ -1,20 +1,20 @@
 #' List of performance measures.
 #' 
 #' \itemize{ 
-#' 		\item{mmce}{ Mean misclassification error}
-#' 		\item{acc}{ Accuracy}
-#' 		\item{tp}{ True positives}
-#' 		\item{tpr}{ True positive rate}
-#' 		\item{fp}{ False positives}
-#' 		\item{fpr}{ False positive rate}
-#' 		\item{time.train}{ Time of fitting the model}
-#' 		\item{time.predict}{ Time of predicting test set}
-#' 		\item{time}{ time.train + train.predict}
+#' 		\item{\bold{mmce}}{\cr Mean misclassification error}
+#' 		\item{\bold{acc}}{\cr Accuracy}
+#' 		\item{\bold{tp}}{\cr True positives}
+#' 		\item{\bold{tpr}}{\cr True positive rate}
+#' 		\item{\bold{fp}}{\cr False positives}
+#' 		\item{\bold{fpr}}{\cr False positive rate}
+#' 		\item{\bold{time.train}}{\cr Time of fitting the model}
+#' 		\item{\bold{time.predict}}{\cr Time of predicting test set}
+#' 		\item{\bold{time}}{\cr time.train + train.predict}
 #' }
 #' 
 #' \itemize{ 
-#' 		\item{sse}{ Sum of squared errors}
-#' 		\item{mse}{ Mean of squared error}
+#' 		\item{\bold{sse}}{\cr Sum of squared errors}
+#' 		\item{\bold{mse}}{\cr Mean of squared errors}
 #' }
 #'  
 #' @title Performance measures.

@@ -1,30 +1,31 @@
 #' List of supported learning algorithms. 
 #' 
 #' \itemize{ 
-#' 		\item{classif.kknn}{ k-Nearest Neighbor from kknn package: \code{\link[kknn]{kknn}}}
-#' 		\item{classif.naiveBayes}{ Naive Bayes from e1071 package: \code{\link[e1071]{naiveBayes}}}
-#' 		\item{classif.lda}{ Linear Discriminant Analysis from MASS package: \code{\link[MASS]{lda}}}
-#' 		\item{classif.qda}{ Quadratic Discriminant Analysis from MASS package: \code{\link[MASS]{qda}}}
-#' 		\item{classif.rda}{ Regularized Discriminant Analysis from klaR package: \code{\link[klaR]{rda}}}
-#' 		\item{classif.mda}{ Mixture Discriminant Analysis from mda package: \code{\link[mda]{mda}}}
-#' 		\item{classif.logreg}{ Logistic Regression from stats package: \code{\link[stats]{lm}}}
-#' 		\item{classif.rpart}{ Decision Tree from rpart package: \code{\link[rpart]{rpart}}}
-#' 		\item{classif.randomForest}{ Random Forest from randomForest package: \code{\link[randomForest]{randomForest}}}
-#' 		\item{classif.adabag}{ Boosting from adabag package: \code{\link[adabag]{adabag}}}
-#' 		\item{classif.gbm}{ Gradient boosting machine from gbm package: \code{\link[gbm]{gbm}}}
-#' 		\item{classif.ksvm}{ Support Vector Machines from kernlab package: \code{\link[kernlab]{ksvm}}}  
-#' 		\item{classif.nnet}{ Neural Network from nnet package: \code{\link[nnet]{nnet}}}  
+#' 		\item{\bold{classif.kknn}}{\cr k-Nearest Neighbor from kknn package: \code{\link[kknn]{kknn}}}
+#' 		\item{\bold{classif.naiveBayes}}{\cr Naive Bayes from e1071 package: \code{\link[e1071]{naiveBayes}}}
+#' 		\item{\bold{classif.lda}}{\cr Linear Discriminant Analysis from MASS package: \code{\link[MASS]{lda}}}
+#' 		\item{\bold{classif.qda}}{\cr Quadratic Discriminant Analysis from MASS package: \code{\link[MASS]{qda}}}
+#' 		\item{\bold{classif.rda}}{\cr Regularized Discriminant Analysis from klaR package: \code{\link[klaR]{rda}}}
+#' 		\item{\bold{classif.mda}}{\cr Mixture Discriminant Analysis from mda package: \code{\link[mda]{mda}}}
+#' 		\item{\bold{classif.logreg}}{\cr Logistic Regression from stats package: \code{\link[stats]{lm}}}
+#' 		\item{\bold{classif.rpart}}{\cr Decision Tree from rpart package: \code{\link[rpart]{rpart}}}
+#' 		\item{\bold{classif.randomForest}}{\cr Random Forest from randomForest package: \code{\link[randomForest]{randomForest}}}
+#' 		\item{\bold{classif.ada}}{\cr Boosting from ada package: \code{\link[ada]{ada}}}
+#' 		\item{\bold{classif.adaboost.M1}}{\cr Boosting from adabag package: \code{\link[adabag]{adabag}}}
+#' 		\item{\bold{classif.gbm}}{\cr Gradient boosting machine from gbm package: \code{\link[gbm]{gbm}}}
+#' 		\item{\bold{classif.ksvm}}{\cr Support Vector Machines from kernlab package: \code{\link[kernlab]{ksvm}}}  
+#' 		\item{\bold{classif.nnet}}{\cr Neural Network from nnet package: \code{\link[nnet]{nnet}}}  
 #' }
 #' 
 #' \itemize{ 
-#' 		\item{regr.lm}{ Simple linear regression from stats package: \code{\link[stats]{errormatrix}}}
-#' 		\item{regr.ridge}{ Ridge regression from penalized package: \code{\link[penalized]{penalized}}}
-#' 		\item{regr.lasso}{ Lasso regression from penalized package: \code{\link[penalized]{penalized}}}
-#' 		\item{regr.kknn}{ K-Nearest-Neigbor regression from kknn package: \code{\link[kknn]{kknn}}}
-#' 		\item{regr.gbm}{ Gradient boosting machine from gbm package: \code{\link[gbm]{gbm}}}
-#' 		\item{regr.blackboost}{ Gradient boosting with regression trees from mboost package: \code{\link[mboost]{blackboost}}}
-#' 		\item{classif.ksvm}{ Support Vector Machines from kernlab package: \code{\link[kernlab]{ksvm}}}  
-#' 		\item{regr.nnet}{ Neural Network from nnet package: \code{\link[nnet]{nnet}}}  
+#' 		\item{\bold{regr.lm}}{\cr Simple linear regression from stats package: \code{\link[stats]{errormatrix}}}
+#' 		\item{\bold{regr.ridge}}{\cr Ridge regression from penalized package: \code{\link[penalized]{penalized}}}
+#' 		\item{\bold{regr.lasso}}{\cr Lasso regression from penalized package: \code{\link[penalized]{penalized}}}
+#' 		\item{\bold{regr.kknn}}{\cr K-Nearest-Neighbor regression from kknn package: \code{\link[kknn]{kknn}}}
+#' 		\item{\bold{regr.gbm}}{\cr Gradient boosting machine from gbm package: \code{\link[gbm]{gbm}}}
+#' 		\item{\bold{regr.blackboost}}{\cr Gradient boosting with regression trees from mboost package: \code{\link[mboost]{blackboost}}}
+#' 		\item{\bold{regr.ksvm}}{\cr Support Vector Machines from kernlab package: \code{\link[kernlab]{ksvm}}}  
+#' 		\item{\bold{regr.nnet}}{\cr Neural Network from nnet package: \code{\link[nnet]{nnet}}}  
 #' }
 #'  
 #' @title Implemented inducers.
