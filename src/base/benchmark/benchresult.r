@@ -10,14 +10,15 @@ setClass(
 				data.descs = "list",
 				resamplings = "list",
 				perf = "list",
-				tuned.pars = "list", 
+				predictions = "list",
 				conf.mats = "list",
-				resample.fits = "list"
+				models = "list",
+				tune.pars = "list", 
+				tune.paths = "list", 
+				varsel.vars = "list", 
+				varsel.paths = "list" 
 		)
 )
-
-
-
 
 #' Getter.
 #' @param x bench.result object

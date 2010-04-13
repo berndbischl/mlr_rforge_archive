@@ -27,7 +27,9 @@
 
 
 
-bench.exp <- function(learners, tasks, resampling, measures, type="response", predictions=FALSE) {
+bench.exp <- function(learners, tasks, resampling, measures, type="response", 
+		conf.mats=TRUE, predictions=FALSE, models=FALSE, 
+		tune.pars=TRUE, tune.paths=FALSE, varsel.pars=TRUE, varsel.paths=FALSE)  {
 	
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
@@ -55,11 +57,9 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response", pr
 	learner.names = character()
 	task.names = sapply(tasks, function(x) x["name"])	
 	resamplings = list()
-	tuned = list()
-	cms = list()
-	rfs = list()
-	tds = list()
-	dds = list()
+	tds = dds = rfs =  mods = cms = list()
+	t.pars = t.paths = v.aprs = v.paths = list()
+	
 	for (j in 1:length(tasks)) {
 		bs[[j]] = array(0, dim = dims)		
 		task = tasks[[j]]
@@ -86,21 +86,40 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response", pr
 			bs[[j]][,i,] = as.matrix(rr)
 			if (is(wl, "tune.wrapper"))
 				tuned[[j]][[i]] = bm$result
-			if (is(task, "classif.task"))
-				cms[[j]][[i]] = bm$conf
-			else
-				cms[[j]][[i]] = NA
 			if (predictions)
 				rfs[[j]][[i]] = bm$resample.fit
+			if (models)
+				mods[[j]][[i]] = bm$resample.fit
+			if (conf.mats) {
+				if (is(task, "classif.task"))
+					cms[[j]][[i]] = bm$conf
+				else
+					cms[[j]][[i]] = NA
+			}
 		}
 		dimnames(bs[[j]]) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures))
 		names(tuned[[j]]) = learner.names
-		names(cms[[j]]) = learner.names
 		if (predictions)
 			names(rfs[[j]]) = learner.names
+		if (models)
+			names(mods[[j]]) = learner.names
+		if (conf.mats)
+			names(cms[[j]]) = learner.names
+		if (tune.pars)
+			names(t.pars[[j]]) = learner.names
+		if (tune.paths)
+			names(t.paths[[j]]) = learner.names
+		if (varsel.pars)
+			names(v.pars[[j]]) = learner.names
+		if (varsel.paths)
+			names(v.paths[[j]]) = learner.names
 	}
 	names(bs) = task.names
 	names(tuned) = task.names
 	names(cms) = task.names
-	return(new("bench.result", task.descs=tds, data.descs=dds, resamplings=resamplings, perf = bs, tuned.pars=tuned, conf.mats=cms, resample.fits=rfs))
+	return(new("bench.result", task.descs=tds, data.descs=dds, resamplings=resamplings, perf = bs, 
+					predictions=rfs, conf.mats=cms, models=mods,
+					tune.pars = t.pars, tune.paths = t.paths,
+					varsel.pars = v.pars, varsel.paths = v.paths
+	))
 }

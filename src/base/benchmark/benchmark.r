@@ -3,7 +3,7 @@
 
 
 
-benchmark = function(learner, task, resampling, measures, type="response") {
+benchmark = function(learner, task, resampling, measures, type="response", models) {
 	if (is.character(learner)) {
 		learner = make.learner(learner)
 	}
@@ -51,6 +51,6 @@ benchmark = function(learner, task, resampling, measures, type="response") {
 	ms = rbind(rp$measures, rp$aggr)
 	result = cbind(result, ms)
 	rownames(result) = rownames(ms)
-	return(list(result=result, conf.mat=cm, resample.fit=rr))
+	return(list(result=result, conf.mat=cm, resample.fit=rr, models=mods))
 }
 
