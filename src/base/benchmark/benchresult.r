@@ -9,7 +9,7 @@ setClass(
 				task.descs = "list",
 				data.descs = "list",
 				resamplings = "list",
-				perf = "array",
+				perf = "list",
 				tuned.pars = "list", 
 				conf.mats = "list",
 				resample.fits = "list"
@@ -37,17 +37,17 @@ setMethod(
 		def = function(x,i,j,...,drop) {
 			
 			if (!missing(i)) {
-				if (i == "iter") {
-					return(dim(x@perf)[1] - 1)
+				if (i == "iters") {
+					return(lapply(x@perf, function(y) return(dim(y)[1] - 1)))
 				}
 				if (i == "learners") {
-					return(dimnames(x@perf)[[2]])
+					return(lapply(x@perf, function(y) dimnames(y)[[2]]))
 				}
 				if (i == "measures") {
-					return(dimnames(x@perf)[[3]])
+					return(lapply(x@perf, function(y) dimnames(y)[[3]]))
 				}
 				if (i == "tasks") {
-					return(dimnames(x@perf)[[4]])
+					return(names(x@perf))
 				}
 			}
 			
@@ -65,10 +65,10 @@ setMethod(
 				measure = x["measures"]
 			iter = args$iter
 			if (is.null(iter))
-				iter = 1:x["iter"]
+				iter = lapply(x["iters"], function(y) 1:y)
 			aggr = args$aggr
 			if (is.null(aggr))
-				aggr=default.aggr()
+				aggr=list()
 			aggr = make.aggrs(aggr)
 			
 			if (!missing(i)) {
@@ -86,18 +86,33 @@ setMethod(
 					return(xs)
 				}
 			}
-			p = x@perf[c(iter, "combine"), learner, measure, task, drop=FALSE]
+			
+			# reduce to selected tasks
+			p = x@perf[task]
+			# reduce to selected elements
+			if (is.null(aggr$combine))
+				g = function(arr, is, ls, ms) arr[is, ls, ms, drop=FALSE]
+			else			
+				g = function(arr, is, ls, ms) arr[c(is, "combine"), ls, ms, drop=FALSE]
+			p = Map(g, p, iter, learner, measure)
+			# aggregate
 			if (length(aggr) > 0) {
-				p = lapply(names(aggr), function(nn) {
+				g = function(arr) {
+					lapply(names(aggr), function(nn) {
 						if (nn == "combine")
-							g = function(y) y[length(y)]
+							h = function(y) y[length(y)]
 						else 
-							g = function(y) aggr[[nn]](y[1:(length(y))-1])
-						apply(p, c(2,3,4), g)
-				}) 
-				p = Reduce(function(v,w) abind(v,w, along=2), p)
+							h = function(y) aggr[[nn]](y[1:(length(y))-1])
+						t(apply(arr, c(2,3), h))
+					})
+				}	
+				p = lapply(p, g) 
+				# put all aggr. values as columns together
+				p = lapply(p, function(arrs) Reduce(rbind, arrs))
 				# combine aggr names with measure names
-				dimnames(p)[[2]] = sapply(names(aggr), function(a) paste(a, measure, sep="."))
+				for (k in 1:length(task)) {
+					rownames(p[[k]]) = sapply(names(aggr), function(a) paste(a, measure[[k]], sep="."))
+				}
 			}
 			return(p)
 		}
@@ -154,7 +169,7 @@ as.ROCR.preds = function(x) {
 } 
 
 
-
+### todo: pretty print method for this case: only aggregated values, always the same learners
 
 
 

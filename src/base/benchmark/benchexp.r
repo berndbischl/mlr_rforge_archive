@@ -27,7 +27,7 @@
 
 
 
-bench.exp <- function(learners, tasks, resampling, measures, type="response") {
+bench.exp <- function(learners, tasks, resampling, measures, type="response", predictions=FALSE) {
 	
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
@@ -49,8 +49,8 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response") {
 	if (length(tasks) > 1 && is(resampling, "resample.instance")) {
 		stop("Cannot pass a resample.instance with more than 1 task. Use a resample.desc!")
 	}
-	dims = c(resampling["iters"]+1, n, length(measures), length(tasks))
-	bs = array(0, dim = dims)
+	dims = c(resampling["iters"]+1, n, length(measures))
+	bs = list()
 	
 	learner.names = character()
 	task.names = sapply(tasks, function(x) x["name"])	
@@ -61,6 +61,7 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response") {
 	tds = list()
 	dds = list()
 	for (j in 1:length(tasks)) {
+		bs[[j]] = array(0, dim = dims)		
 		task = tasks[[j]]
 		if (is(resampling, "resample.desc")) {
 			resamplings[[j]] = new(resampling@instance.class, resampling, task["size"])
@@ -69,7 +70,8 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response") {
 		}		
 		tuned[[j]] = as.list(rep(NA, n))
 		cms[[j]] = as.list(rep(NA, n))
-		rfs[[j]] = as.list(rep(NA, n))
+		if (predictions)
+			rfs[[j]] = as.list(rep(NA, n))
 		tds[[j]] = task@task.desc
 		dds[[j]] = task@data.desc
 		for (i in 1:length(learners)) {
@@ -81,20 +83,23 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response") {
 			rr = bm$result
 			# remove tune perf
 			rr = rr[, names(measures)]
-			bs[,i,,j] = as.matrix(rr)
+			bs[[j]][,i,] = as.matrix(rr)
 			if (is(wl, "tune.wrapper"))
 				tuned[[j]][[i]] = bm$result
 			if (is(task, "classif.task"))
 				cms[[j]][[i]] = bm$conf
 			else
 				cms[[j]][[i]] = NA
-			rfs[[j]][[i]] = bm$resample.fit
+			if (predictions)
+				rfs[[j]][[i]] = bm$resample.fit
 		}
+		dimnames(bs[[j]]) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures))
 		names(tuned[[j]]) = learner.names
 		names(cms[[j]]) = learner.names
-		names(rfs[[j]]) = learner.names
+		if (predictions)
+			names(rfs[[j]]) = learner.names
 	}
-	dimnames(bs) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures), task.names)
+	names(bs) = task.names
 	names(tuned) = task.names
 	names(cms) = task.names
 	return(new("bench.result", task.descs=tds, data.descs=dds, resamplings=resamplings, perf = bs, tuned.pars=tuned, conf.mats=cms, resample.fits=rfs))
