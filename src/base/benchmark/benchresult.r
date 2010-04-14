@@ -11,12 +11,10 @@ setClass(
 				resamplings = "list",
 				perf = "list",
 				predictions = "list",
-				conf.mats = "list",
 				models = "list",
-				tune.pars = "list", 
-				tune.paths = "list", 
-				varsel.vars = "list", 
-				varsel.paths = "list" 
+				conf.mats = "list",
+				opt.pars = "list", 
+				opt.paths = "list" 
 		)
 )
 

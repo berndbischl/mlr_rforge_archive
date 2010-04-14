@@ -4,7 +4,7 @@ tune.grid <- function(learner, task, resampling, measures, aggr, control, scale)
 	if(all((names(ranges) == "ranges"))) {
 		trs <- lapply(ranges, function(r) {tune.1(learner=learner, task=task, resampling=resampling, ranges=r, measures=measures, aggr=aggr, scale=scale)})
 		trs2 <- lapply(1:length(ranges), function(i) make.tune.result(trs[[i]], measures, ranges[[i]]))
-		ps <- lapply(trs2, function(x) x$all.perfs)
+		ps <- lapply(trs2, function(x) x$path)
 		bps <- sapply(trs2, function(x) x$perf)
 		bpars <- lapply(trs2, function(x) x$par)
 		i <- which.min(bps)
@@ -13,7 +13,7 @@ tune.grid <- function(learner, task, resampling, measures, aggr, control, scale)
 		par.names = Reduce(union, lapply(ranges, function(x) names(x)))
 		cn = colnames(perf)
 		perf = perf[, c(par.names, setdiff(cn, par.names))]
-		return(list(par=bpars[[i]], perf=bps[i], all.perfs = perf))
+		return(list(par=bpars[[i]], perf=bps[i], path = perf))
 	}else {
 		tr <- tune.1(learner, task, resampling, ranges, measures, aggr, scale)
 		return(make.tune.result(tr, measures, ranges))
@@ -48,7 +48,7 @@ make.tune.result <- function(perf, measures, ranges) {
 	best.i = which.min(perf[, n+1])
 	best.parameters <- perf[best.i, 1:n, drop=F]
 	best.performance <- perf[best.i, n+1] 
-	return(list(par=best.parameters, perf=best.performance, all.perfs = perf))
+	return(list(par=best.parameters, perf=best.performance, path = perf))
 }
 
 

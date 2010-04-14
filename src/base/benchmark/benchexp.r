@@ -29,7 +29,7 @@
 
 bench.exp <- function(learners, tasks, resampling, measures, type="response", 
 		conf.mats=TRUE, predictions=FALSE, models=FALSE, 
-		tune.pars=TRUE, tune.paths=FALSE, varsel.pars=TRUE, varsel.paths=FALSE)  {
+		opt.pars=TRUE, opt.paths=FALSE)  {
 	
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
@@ -57,21 +57,22 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response",
 	learner.names = character()
 	task.names = sapply(tasks, function(x) x["name"])	
 	resamplings = list()
-	tds = dds = rfs =  mods = cms = list()
-	t.pars = t.paths = v.aprs = v.paths = list()
+	tds = dds = rfs = cms = mods = list()
+	o.pars = o.paths = list()
 	
 	for (j in 1:length(tasks)) {
 		bs[[j]] = array(0, dim = dims)		
 		task = tasks[[j]]
+		rfs[[j]] = list()
+		cms[[j]] = list()
+		mods[[j]] = list()
+		o.pars[[j]] = list()
+		o.paths[[j]] = list()
 		if (is(resampling, "resample.desc")) {
 			resamplings[[j]] = new(resampling@instance.class, resampling, task["size"])
 		} else {
 			resamplings[[j]] = resampling
 		}		
-		tuned[[j]] = as.list(rep(NA, n))
-		cms[[j]] = as.list(rep(NA, n))
-		if (predictions)
-			rfs[[j]] = as.list(rep(NA, n))
 		tds[[j]] = task@task.desc
 		dds[[j]] = task@data.desc
 		for (i in 1:length(learners)) {
@@ -79,47 +80,36 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response",
 			if (is.character(wl))
 				wl = make.learner(wl)
 			learner.names[i] = wl["short.name"]
-			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, type=type)
+			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, type=type, models=models,
+				opt.pars = opt.pars, opt.paths=opt.paths)
 			rr = bm$result
+			rf = bm$resample.fit
 			# remove tune perf
 			rr = rr[, names(measures)]
 			bs[[j]][,i,] = as.matrix(rr)
-			if (is(wl, "tune.wrapper"))
-				tuned[[j]][[i]] = bm$result
-			if (predictions)
-				rfs[[j]][[i]] = bm$resample.fit
-			if (models)
-				mods[[j]][[i]] = bm$resample.fit
-			if (conf.mats) {
-				if (is(task, "classif.task"))
-					cms[[j]][[i]] = bm$conf
-				else
-					cms[[j]][[i]] = NA
-			}
+			
+			if(predictions)	rfs[[j]][[i]] = rf else	rfs[[j]][[i]] = list(NULL)
+			if(is(task, "classif.task") && conf.mats) cms[[j]][[i]] = bm$conf else cms[[j]][[i]] = list(NULL)
+			if(models)	mods[[j]][[i]] = bm$models else	mods[[j]][[i]] = list(NULL)
+			if(opt.pars && is(wl, "tune.wrapper")) o.pars[[j]][[i]] = bm$opt.pars else o.pars[[j]][[i]] = list(NULL)
+			if(opt.paths && is(wl, "tune.wrapper")) o.paths[[j]][[i]] = bm$opt.paths else o.paths[[j]][[i]] = list(NULL)
 		}
 		dimnames(bs[[j]]) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures))
-		names(tuned[[j]]) = learner.names
-		if (predictions)
-			names(rfs[[j]]) = learner.names
-		if (models)
-			names(mods[[j]]) = learner.names
-		if (conf.mats)
-			names(cms[[j]]) = learner.names
-		if (tune.pars)
-			names(t.pars[[j]]) = learner.names
-		if (tune.paths)
-			names(t.paths[[j]]) = learner.names
-		if (varsel.pars)
-			names(v.pars[[j]]) = learner.names
-		if (varsel.paths)
-			names(v.paths[[j]]) = learner.names
+
+		names(rfs[[j]]) = learner.names
+		names(cms[[j]]) = learner.names
+		names(mods[[j]]) = learner.names
+		names(o.pars[[j]]) = learner.names
+		names(o.paths[[j]]) = learner.names
 	}
 	names(bs) = task.names
-	names(tuned) = task.names
+	names(rfs) = task.names
 	names(cms) = task.names
+	names(mods) = task.names
+	names(o.pars) = task.names
+	names(o.paths) = task.names
 	return(new("bench.result", task.descs=tds, data.descs=dds, resamplings=resamplings, perf = bs, 
 					predictions=rfs, conf.mats=cms, models=mods,
-					tune.pars = t.pars, tune.paths = t.paths,
-					varsel.pars = v.pars, varsel.paths = v.paths
+					opt.pars = o.pars, opt.paths = o.paths
 	))
 }

@@ -5,7 +5,7 @@ roxygen()
 #' which can be used for predictions on new data. 
 #'
 #' @param learner [\code{\linkS4class{wrapped.learner}} or string]\cr 
-#'        Learning algorithm. See learners.  
+#'        Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{learn.task}}]\cr 
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 

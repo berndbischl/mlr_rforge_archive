@@ -4,29 +4,26 @@ roxygen()
 
 #' Optimizes the hyperparameters of a learner for a classification or regression problem.
 #' Allows for different optimization methods, commonly grid search is used but other search techniques
-#' are available as well.  
-#' Given some ranges for one or more hyperparameters, it estimates the performance
-#' of the learner for each possible combination of the proposed values by
-#' using a resampling method (e.g. cross-validation) and returns the best parameter set and its
-#' performance.
+#' are available as well.
+#' The specific details of the search algorithm are set by passing a control object.   
 #'
-#' @param learner [\code{\linkS4class{wrapped.learner}}] \cr
-#'    Learning method.
+#' @param learner [\code{\linkS4class{wrapped.learner}} or string]\cr 
+#'        Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{learn.task}}] \cr
-#'    Learning task.   
+#'        Learning task.   
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
-#'    Resampling strategy to evaluate points in hyperparameter space.
+#'        Resampling strategy to evaluate points in hyperparameter space.
 #' @param method [\code{\link{character}}] \cr
-#'    Search method. Currently supported are "grid", "pattern", "cmaes".   
+#'        Search method. Currently supported are "grid", "pattern", "cmaes".   
 #' @param control 
-#'    Control object for search method.   
+#'        Control object for search method.   
 #' @param loss [\code{\linkS4class{loss}}] or [\code{\link{character}}]\cr
-#'    Loss to use for tuning. Default is "zero-one" for classification and "squared" error for regression.
+#'        Loss to use for tuning. Default is "zero-one" for classification and "squared" error for regression.
 #' @param model [\code{\link{logical}}]\cr
-#'    Should a final model be fitted on the complete data with the best found hyperparameters?
+#'        Should a final model be fitted on the complete data with the best found hyperparameters?
 #' @param scale [\code{\link{function}}]
-#'    A function to scale the hyperparamters. E.g. maybe you want to optimize in some log-space.
-#'    Has to take a single, numerical vector and return a scaled one. Default is identity function.
+#'        A function to scale the hyperparamters. E.g. maybe you want to optimize in some log-space.
+#'        Has to take a single, numerical vector and return a scaled one. Default is identity function.
 #' 
 #' @return A list. Might contain some additional information from the optimizer and at least:
 #'   \item{par}{Named list of best found hyperparamters.}
