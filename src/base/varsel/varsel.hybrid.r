@@ -10,7 +10,7 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 	p = control$delta
 	
 	start = all.vars[as.logical(rbinom(m, 1, 0.5))]
-	cat("start:", start, "\n")
+	#cat("start:", start, "\n")
 	state = eval.state(learner, task, resampling, measures, aggr, vars=start, "start")
 	path = add.path(path, state, T)		
 	#print(get.perf(state))
@@ -24,12 +24,12 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 		
 		# mutate til successful
 		vs.bin = all.vars %in% state$vars
-		print(vs.bin)
+		#print(vs.bin)
 		while (.mlr.vareval < control$maxit) {
-			probs = as.numeric(vs.bin)
+			probs = abs(as.numeric(vs.bin) - control$delta) * 16 / m
 			
-			mut = as.logical(rbinom(m, 1, p))
-			cat("mut:", mut, "\n")
+			mut = as.logical(rbinom(m, 1, prob=probs))
+			#cat("mut:", mut, "\n")
 			# xor
 			new.bin = (vs.bin != mut)
 			new.vars = all.vars[new.bin]
@@ -41,7 +41,7 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 					(length(new.state$vars) > 0)
 			path = add.path(path, new.state, cc)		
 			if (cc) {
-				print("accept")
+				#print("accept")
 				state=new.state
 				break
 			}
@@ -55,29 +55,29 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 			# try minus or plus repeatedly
 			found = F
 			while (.mlr.vareval < control$maxit) {
-				print(op)
+				#print(op)
 				if (op == "minus") {
 					cors2 = cors[state$vars, state$vars, drop=F]
 					meancor = rowMeans(cors2, na.rm=T)
-					cat("mc:", meancor, "\n")
+					#cat("mc:", meancor, "\n")
 					v = names(which.max(meancor))
 					new.vars = setdiff(state$vars, v)
 				} else {
 					not.used = setdiff(all.vars, state$vars)
 					cors2 = cors[not.used, state$vars, drop=F]
 					meancor = rowMeans(cors2)
-					cat("mc:", meancor, "\n")
+					#cat("mc:", meancor, "\n")
 					v = names(which.min(meancor))
 					new.vars = c(state$vars, v)
 				}
-				cat("newvars:", new.vars, "\n")
+				#cat("newvars:", new.vars, "\n")
 				new.state = eval.state(learner, task, resampling, measures, aggr, vars=new.vars, op)
 				#print(get.perf(new.state))
 				thresh = ifelse(op=="plus", control$alpha, control$beta)
 				cc = compare.diff(state, new.state, control, measures, aggr, thresh)
 				path = add.path(path, new.state, cc)							
 				if (cc) {
-					print("accept")
+					#print("accept")
 					state=new.state
 					found = T
 				} else {
