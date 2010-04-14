@@ -25,7 +25,7 @@ setMethod(
   signature = signature("data.desc"),
   def = function(.Object, data, target, excluded) {
 	  i = which(colnames(data) %in% c(target, excluded))
-	  df2 = data[, -i]
+	  df2 = data[, -i, drop=F]
 	  
 	  .Object@target = target 
 	  .Object@obs = nrow(data)
