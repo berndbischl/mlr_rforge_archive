@@ -15,6 +15,10 @@ test.benchexp <- function() {
 	print(be)	
 	be = bench.exp(learners, multiclass.task, resampling=outer)
 	print(be)	
+	x = be["perf", learner=c("LDA", "tuned-RPart")]
+	checkTrue(is.list(x))
+	checkEquals(length(x), 1)
+	checkEquals(dim[x[[1]]], c(2, 2, 1))	
 	
 	be = bench.exp("regr.lm", regr.task, resampling=outer)
 	print(be)

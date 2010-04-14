@@ -16,9 +16,9 @@ test.tune <- function() {
 	for(i in 1:nrow(tr$performances)) {
 		cp <- tr$performances[i,"cp"]
 		ms <- tr$performances[i,"minsplit"]
-		j <- which(tr2$all.perfs$cp == cp & tr2$all.perfs$minsplit == ms )
-		checkEqualsNumeric(tr$performances[i,"error"], tr2$all.perfs[j,"mean.mmce"])    
-		checkEqualsNumeric(tr$performances[i,"dispersion"], tr2$all.perfs[j,"sd.mmce"])    
+		j <- which(tr2$path$cp == cp & tr2$path$minsplit == ms )
+		checkEqualsNumeric(tr$performances[i,"error"], tr2$path[j,"mean.mmce"])    
+		checkEqualsNumeric(tr$performances[i,"dispersion"], tr2$path[j,"sd.mmce"])    
 	}
 	
 	
