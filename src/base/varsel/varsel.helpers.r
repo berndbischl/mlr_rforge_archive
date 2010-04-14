@@ -2,24 +2,29 @@
 
 # get a single perf value for a state: first measure, aggregated by first aggr function
 get.perf = function(state) {
-	state$perf[1]
+	state$rp$aggr[1,1]
 }
 
-# get all aggr. perf values for a state: first measure, aggregated by first aggr function
-get.perfs = function(state) {
-	state$perf
+# get all aggr. perf values for a state in a vector
+flat.perfs = function(state) {
+	mm = state$rp$aggr
+	# todo: bad code, must be shorter!
+	mm2 = reshape(mm, ids=row.names(mm), times=names(mm), varying=list(names(mm)), direction="long")
+	if(length(measures)==1)
+		rownames(mm2) = paste(rownames(mm), colnames(mm), sep=".")
+	mm2 = t(mm2[,2, drop=FALSE])
+	ns =  colnames(mm2)
+	mm2 = as.numeric(mm2)
+	names(mm2) = ns
+	return(mm2)	
 }
 
 make.path.el = function(es, accept=0) {
-	list(vars = es$vars, perf = get.perfs(es), evals=es$evals, event=es$event, accept=accept)
+	list(vars = es$vars, perf = flat.perfs(es), evals=es$evals, event=es$event, accept=accept)
 }
 
 make.es = function(vars, rp, measures, aggr, evals, event) {
-	m = names(measures)
-	a = names(aggr)	
-	y = rp$agg[a, m]
-	names(y) = sapply(names(aggr), function(a1) paste(a1, m, sep="."))	
-	return(list(vars=vars, rp=rp, perf=y, evals=evals, event=event))
+	return(list(vars=vars, rp=rp, evals=evals, event=event))
 }
 
 add.path = function(path, es, accept) {
@@ -74,7 +79,7 @@ compare.diff = function(state1, state2, control, measures, aggr, threshold) {
 
 # select the best state from a list by using get.perf
 select.best.state = function(states, control, measures, aggr) {
-	perfs = lapply(states, get.perf)
+	perfs = sapply(states, get.perf)
 	if (control$minimize)
 		i = which.min(perfs)
 	else 
