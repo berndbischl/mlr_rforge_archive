@@ -34,8 +34,8 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 				if (mean.succ < 0.1)
 					flip.rate = flip.rate*1.2
 			}
-			if (flip.rate > m)
-				flip.rate = m
+			if (flip.rate > m/2)
+				flip.rate = m/2
 			probs = abs(as.numeric(vs.bin) - p01) * flip.rate / m
 			mut = as.logical(rbinom(m, 1, prob=probs))
 			#cat("mut:", mut, "\n")
