@@ -7,7 +7,7 @@ varsel.bestcor = function(learner, task, resampling, measures, aggr, method, con
 	state = eval.state(learner, task, resampling, measures, aggr, vars=start.vars, event="start")
 	
 	path = add.path(path, state, T)		
-	data = task["data"]
+	data = na.omit(task["data"])
 	not.used = all.vars
 	cors = abs(cor(data[, all.vars], data[, task["target"]])) 
 	o = order(cors, decreasing=T)

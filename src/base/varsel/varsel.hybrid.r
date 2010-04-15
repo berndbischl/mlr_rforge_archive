@@ -3,7 +3,8 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 	
 	path = list()
 	all.vars = task["input.names"]
-	data = task["data"][,all.vars]
+	# delete NAs for cors
+	data = na.omit(task["data"][,all.vars])
 	cors = abs(cor(data, data))
 	diag(cors) = NA
 	m = length(all.vars) 

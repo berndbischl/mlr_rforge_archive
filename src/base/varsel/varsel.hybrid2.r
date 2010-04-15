@@ -3,8 +3,8 @@ varsel.hybrid2 = function(learner, task, resampling, measures, aggr, method, con
 	
 	path = list()
 	all.vars = task["input.names"]
-	data = task["data"][,all.vars]
-	cors.y = abs(cor(data, task["targets"]))[,1]
+	data = na.omit(task["data"])
+	cors.y = abs(cor(data[,all.vars], data[,task["target"]]))[,1]
 	m = length(all.vars) 
 	flip.rate = control$epsilon
 	p01 = control$delta
