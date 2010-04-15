@@ -88,11 +88,11 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response",
 			rr = rr[, names(measures)]
 			bs[[j]][,i,] = as.matrix(rr)
 			
-			if(predictions)	rfs[[j]][[i]] = rf else	rfs[[j]][[i]] = list(NULL)
-			if(is(task, "classif.task") && conf.mats) cms[[j]][[i]] = bm$conf else cms[[j]][[i]] = list(NULL)
-			if(models)	mods[[j]][[i]] = bm$models else	mods[[j]][[i]] = list(NULL)
-			if(opt.pars && is(wl, "tune.wrapper")) o.pars[[j]][[i]] = bm$opt.pars else o.pars[[j]][[i]] = list(NULL)
-			if(opt.paths && is(wl, "tune.wrapper")) o.paths[[j]][[i]] = bm$opt.paths else o.paths[[j]][[i]] = list(NULL)
+			if(predictions)	rfs[[j]][[i]] = rf else	rfs[[j]][i] = list(NULL)
+			if(is(task, "classif.task") && conf.mats) cms[[j]][[i]] = bm$conf else cms[[j]][i] = list(NULL)
+			if(models)	mods[[j]][[i]] = bm$models else	mods[[j]][i] = list(NULL)
+			if(opt.pars && is(wl, "tune.wrapper")) o.pars[[j]][[i]] = bm$opt.pars else o.pars[[j]][i] = list(NULL)
+			if(opt.paths && is(wl, "tune.wrapper")) o.paths[[j]][[i]] = bm$opt.paths else o.paths[[j]][i] = list(NULL)
 		}
 		dimnames(bs[[j]]) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures))
 
