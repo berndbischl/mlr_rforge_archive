@@ -42,7 +42,7 @@ setMethod(
 			.Object@resampling = resampling
 			.Object@control = control
 			.Object@scale = scale
-			callNextMethod(.Object, learner.name=paste("tuned",bl@learner.name,sep="-"), learner.pack="mlr", learner.props=bl@learner.props)
+			callNextMethod(.Object, id=bl@id, pack="mlr", props=bl@props)
 		}
 )
 

@@ -54,15 +54,15 @@ setMethod(
 			# drop target col
 			newdata <- newdata[, -which(cns == tn)]					
 			if (is(model, "wrapped.model.classif")) {
-				if ("prob" %in% type && !wl@learner.props@supports.probs) {
-					stop("Trying to predict probs, but ", wl@learner.name, " does not support that!")
+				if ("prob" %in% type && !wl@props@supports.probs) {
+					stop("Trying to predict probs, but ", wl["id"], " does not support that!")
 				}
-				if ("decision" %in% type && !wl@learner.props@supports.decision) {
-					stop("Trying to predict decision values, but ", wl@learner.name, " does not support that!")
+				if ("decision" %in% type && !wl@props@supports.decision) {
+					stop("Trying to predict decision values, but ", wl["id"], " does not support that!")
 				}
 			}
 
-			logger.debug("mlr predict:", wl@learner.name, "with pars:")
+			logger.debug("mlr predict:", wl["id"], "with pars:")
 			logger.debug(wl@predict.fct.pars)
 			logger.debug("on", nrow(newdata), "examples:")
 			logger.debug(rownames(newdata))

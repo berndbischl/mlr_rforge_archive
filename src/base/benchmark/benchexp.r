@@ -79,7 +79,7 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response",
 			wl = learners[[i]]
 			if (is.character(wl))
 				wl = make.learner(wl)
-			learner.names[i] = wl["short.name"]
+			learner.names[i] = wl["id"]
 			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, type=type, models=models,
 				opt.pars = opt.pars, opt.paths=opt.paths)
 			rr = bm$result

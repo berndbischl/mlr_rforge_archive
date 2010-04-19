@@ -7,13 +7,13 @@ benchmark = function(learner, task, resampling, measures, type="response", model
 	if (is.character(learner)) {
 		learner = make.learner(learner)
 	}
-	if("prob" %in% type && !learner@learner.props@supports.probs) {
+	if("prob" %in% type && !learner@props@supports.probs) {
 		type = setdiff(type, "prob")
-		warning(paste("Learner", learner@learner.name, "does not support probs, won't be predicted."))
+		warning(paste("Learner", learner["id"], "does not support probs, won't be predicted."))
 	}
-	if("decision" %in% type && !learner@learner.props@supports.decision) {
+	if("decision" %in% type && !learner@props@supports.decision) {
 		type = setdiff(type, "decision")
-		warning(paste("Learner", learner@learner.name, "does not support decision values, won't be predicted."))
+		warning(paste("Learner", learner["id"], "does not support decision values, won't be predicted."))
 	}
 	type = union(type, "response")
 	

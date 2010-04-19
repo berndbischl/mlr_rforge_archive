@@ -52,8 +52,8 @@ setGeneric(
 train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, model.class, novars.class, check.fct) {
 
 	
-	if(learner@learner.pack != "mlr" && !require(learner@learner.pack, character.only=TRUE)) {
-		stop(paste("Learner", learner@learner.name, "could not be constructed! package", learner@learner.pack, "missing!"))
+	if(learner@pack != "mlr" && !require(learner@pack, character.only=TRUE)) {
+		stop(paste("Learner", learner["id"], "could not be constructed! package", learner@pack, "missing!"))
 	}
 	
 	check.result <- check.fct(task, learner)
@@ -84,7 +84,7 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	else
 		ws = rep(1, length(subset)) 
 	
-	logger.debug("mlr train:", wl@learner.name, "with pars:")
+	logger.debug("mlr train:", wl["id"], "with pars:")
 	logger.debug(ps2)
 	logger.debug("on", length(subset), "examples:")
 	logger.debug(subset)
