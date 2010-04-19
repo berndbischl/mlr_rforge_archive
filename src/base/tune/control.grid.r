@@ -9,8 +9,8 @@
 #' @export 
 #' @title Control for grid search tuning 
 
-grid.control <- function(ranges) {
-	x = list(ranges=ranges)
+grid.control <- function(ranges, minimize=TRUE, scale=identity) {
+	x = list(ranges=ranges, minimize=minimize, scale=scale)
 	class(x) = "grid.control"
 	return(x)
 }

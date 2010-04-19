@@ -1,4 +1,4 @@
-tune.grid <- function(learner, task, resampling, measures, aggr, control, scale) {
+tune.grid <- function(learner, task, resampling, measures, aggr, control) {
 	ranges = control$ranges
 	# if theres more than one ranges 
 	if(all((names(ranges) == "ranges"))) {
@@ -15,19 +15,25 @@ tune.grid <- function(learner, task, resampling, measures, aggr, control, scale)
 		perf = perf[, c(par.names, setdiff(cn, par.names))]
 		return(list(par=bpars[[i]], perf=bps[i], path = perf))
 	}else {
-		tr <- tune.1(learner, task, resampling, ranges, measures, aggr, scale)
-		return(make.tune.result(tr, measures, ranges))
+		tune.1(learner, task, resampling, ranges, measures, aggr, control)
 	}
 }
 
 
 
-tune.1 <- function(learner, task, resampling, ranges, measures, aggr, scale) {
+tune.1 <- function(learner, task, resampling, ranges, measures, aggr, control) {
 	check.ranges(ranges)
 
 	grid = expand.grid(ranges, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
-	parsets <- lapply(1:nrow(grid), function(i) as.list(grid[i,,drop=FALSE]))	
+	parsets = lapply(1:nrow(grid), function(i) as.list(grid[i,,drop=FALSE]))	
+
+	es = eval.states.tune(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, 
+			pars=parsets, ps.scale=control$scale, ps.names=names(ranges), event="grid")
 	
+	bs = select.best.state(es, control)
+	path = add.path.els.tune(path=list(), ess=es, best=bs)
+	new("opt.result", opt=make.path.el(bs),  path=path)
+
 #	if (.ps$mode %in% c("snowfall", "sfCluster")) {
 #		sfExport("learner")
 #		sfExport("task")
@@ -37,18 +43,6 @@ tune.1 <- function(learner, task, resampling, ranges, measures, aggr, scale) {
 #			sfExport("measure")
 #		}
 #	} 
-	
-	
-	perf = eval.parsets(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, pars=parsets, ps.scale=scale, ps.names=names(ranges))
-	return(perf)
-}
-
-make.tune.result <- function(perf, measures, ranges) {
-	n = length(ranges)
-	best.i = which.min(perf[, n+1])
-	best.parameters <- perf[best.i, 1:n, drop=F]
-	best.performance <- perf[best.i, n+1] 
-	return(list(par=best.parameters, perf=best.performance, path = perf))
 }
 
 

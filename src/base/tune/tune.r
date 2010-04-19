@@ -37,7 +37,7 @@ roxygen()
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, method="grid", control=NULL, measures, aggr, model=F, scale=identity) {
+tune <- function(learner, task, resampling, method="grid", control=NULL, measures, aggr, model=F) {
 	if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
@@ -66,16 +66,15 @@ tune <- function(learner, task, resampling, method="grid", control=NULL, measure
 		(method == "neldermead" && !is(control, "nm.control"))) {
 			stop(paste("Method is '", method, "'. You have passed a control object of the wrong type: ", class(control), sep=""))
 	}
-	assign(".mlr.feval", 0, envir=.GlobalEnv)
+	assign(".mlr.tuneeval", 0, envir=.GlobalEnv)
 	
 	#.mlr.local$n.eval <<- 0
 	#export.tune(learner, task, loss, scale)
-	or = optim.func(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, control=control, scale=scale)
-	or$par = as.list(or$par)
-	or$par = scale.par(scale, or$par)
-	#or$n.eval = .mlr.local$n.eval
+	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures, aggr=aggr)
+
+	#or$par = scale.par(scale, or$par)
 	if (model) {
-		or$model = train(learner, task, parset=or$par) 	
+		or@model = train(learner, task, parset=or$par) 	
 	}
 	
 	return(or)			

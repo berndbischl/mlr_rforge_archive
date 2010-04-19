@@ -23,8 +23,12 @@ ps.control <- function(
 		upper=rep(Inf, length(start)), 
 		delta=1, 
 		delta.min=10^(-3), 
-		maxit=100) {
-	x = list(start=unlist(start), lower=unlist(lower), upper=unlist(upper), delta=delta, delta.min=delta.min, maxit=maxit)
+		maxit=100,
+		minimize=TRUE,
+		scale=identity
+) {
+	x = list(start=unlist(start), lower=unlist(lower), upper=unlist(upper), delta=delta, delta.min=delta.min, maxit=maxit,
+			minimize=minimize, scale=scale)
 	class(x) = "ps.control"
 	return(x)
 }
