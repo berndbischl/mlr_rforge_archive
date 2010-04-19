@@ -30,7 +30,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="Localized LDA", learner.pack="klaR", learner.props=desc, parset=parset)
+			callNextMethod(.Object, id="Localized LDA", pack="klaR", props=desc, parset=parset)
 		}
 )
 

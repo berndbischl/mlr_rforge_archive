@@ -21,7 +21,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="ridge regression", learner.pack="penalized", learner.props=desc, parset=parset)
+			callNextMethod(.Object, id="ridge regression", pack="penalized", props=desc, parset=parset)
 		}
 )
 

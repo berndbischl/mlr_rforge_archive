@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE 
 			)
 			
-			callNextMethod(.Object, learner.name="SVM", learner.pack="kernlab", learner.props=desc, parset=parset)
+			callNextMethod(.Object, id="SVM", pack="kernlab", props=desc, parset=parset)
 		}
 )
 

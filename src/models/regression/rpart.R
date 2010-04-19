@@ -19,7 +19,7 @@ setMethod(
 					supports.characters = FALSE,
 					supports.weights = TRUE
 			)
-			callNextMethod(.Object, learner.name="RPART", learner.pack="rpart",	learner.props=desc, parset=parset)
+			callNextMethod(.Object, id="RPART", pack="rpart",	props=desc, parset=parset)
 		}
 )
 

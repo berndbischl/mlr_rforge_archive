@@ -30,7 +30,7 @@ setMethod(
 					supports.weights = TRUE,
 					supports.costs = TRUE
 			)
-			callNextMethod(.Object, learner.name="blackboost", learner.pack="mboost", learner.props=desc, parset=parset)
+			callNextMethod(.Object, id="blackboost", pack="mboost", props=desc, parset=parset)
 		}
 )
 

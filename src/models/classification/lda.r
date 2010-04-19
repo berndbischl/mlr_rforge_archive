@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="LDA", learner.pack="MASS", learner.props=desc, parset=parset)
+			callNextMethod(.Object, id="LDA", pack="MASS", props=desc, parset=parset)
 		}
 )
 

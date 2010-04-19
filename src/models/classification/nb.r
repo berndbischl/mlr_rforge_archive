@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="Naive Bayes", learner.pack="e1071", learner.props=desc, parset=parset)
+			callNextMethod(.Object, id="Naive Bayes", pack="e1071", props=desc, parset=parset)
 		}
 )
 

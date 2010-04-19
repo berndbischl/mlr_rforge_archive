@@ -21,7 +21,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="Lasso regression", learner.pack="penalized", learner.props=desc, parset=parset)
+			callNextMethod(.Object, id="Lasso regression", pack="penalized", props=desc, parset=parset)
 		}
 )
 

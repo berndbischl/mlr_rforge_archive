@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE 
 			)
 			
-			callNextMethod(.Object, learner.name="svm.fs", learner.pack="penalizedSVM", learner.props=desc, parset=parset)
+			callNextMethod(.Object, id="svm.fs", pack="penalizedSVM", props=desc, parset=parset)
 		}
 )
 

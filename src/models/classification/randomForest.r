@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="RForest", learner.pack="randomForest", learner.props=desc, parset=parset)
+			callNextMethod(.Object, id="RForest", pack="randomForest", props=desc, parset=parset)
 		}
 )
 

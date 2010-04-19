@@ -22,7 +22,7 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
-			callNextMethod(.Object, learner.name="Linear Regression", learner.pack="stats", learner.props=desc, parset=parset)
+			callNextMethod(.Object, id="Linear Regression", pack="stats", props=desc, parset=parset)
 		}
 )
 

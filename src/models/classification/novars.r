@@ -30,7 +30,7 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
-			callNextMethod(.Object, learner.name="NoVars", learner.pack="mlr", learner.props=desc)
+			callNextMethod(.Object, id="NoVars", pack="mlr", props=desc)
 		}
 )
 
