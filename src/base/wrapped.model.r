@@ -52,7 +52,7 @@ setMethod(
 			
 			return(
 					paste(
-							"Learner model for ", x@wrapped.learner@learner.name, "\n",  
+							"Learner model for ", x@wrapped.learner@label, "\n",  
 							"Trained on obs: ", length(x@subset), "\n",
 							"Hyperparameters: ", ps, "\n",
 							tp,

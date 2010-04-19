@@ -7,7 +7,8 @@ setClass(
 		contains = c("object"),
 		representation = representation(
 				task.class = "character",
-				name = "character",
+				id = "character",
+				label = "character",
 				target = "character",
 				excluded = "character",
 				costs = "matrix",

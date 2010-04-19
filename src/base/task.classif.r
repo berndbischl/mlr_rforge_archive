@@ -24,7 +24,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
-		def = function(.Object, name, target, data, excluded, weights, costs, positive) {
+		def = function(.Object, id, label, target, data, excluded, weights, costs, positive) {
 			
 			
 			if (missing(data))
@@ -57,7 +57,7 @@ setMethod(
 				if (!is.na(pos))
 					stop("Cannot set a positive class for a multiclass problem!")
 			}
-			td = new("task.desc", task.class="classif.task", name=name, target=target, positive=pos, negative=neg, excluded=excluded, costs=costs)			
+			td = new("task.desc", task.class="classif.task", id=id, label=label, target=target, positive=pos, negative=neg, excluded=excluded, costs=costs)			
 
 			callNextMethod(.Object, data=data, weights=weights, data.desc=dd, task.desc=td)
 		}

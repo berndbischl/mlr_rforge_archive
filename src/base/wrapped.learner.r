@@ -13,11 +13,12 @@ setClass(
 		"wrapped.learner",
 		contains = c("object"),
 		representation = representation(
-				learner.name = "character",
-				learner.pack = "character",
+				id = "character",
+				label = "character",
+				pack = "character",
 				train.fct.pars = "list",
 				predict.fct.pars = "list",
-				learner.props = "learner.props"
+				props = "learner.props"
 		)
 )
 
@@ -29,21 +30,25 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("wrapped.learner"),
-		def = function(.Object, learner.name, learner.pack, learner.props, parset=list()) {
+		def = function(.Object, id, label, pack, props, parset=list()) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
 			
-			if (missing(learner.name))
+			if (missing(props))
 				return(.Object)
 						
-			.Object@learner.name <- learner.name
-			.Object@learner.pack <- learner.pack
+			if (!missing(id))
+				.Object@id = id
+			else
+				.Object@id = class(.Object) 
+			.Object@label = label
+			.Object@pack = pack
 			
 			.Object@train.fct.pars = parset
-			.Object@predict.fct.pars <- list()
+			.Object@predict.fct.pars = list()
 			
-			.Object@learner.props <- learner.props
+			.Object@props = props
 			return(.Object)
 		}
 )
@@ -56,12 +61,7 @@ setMethod(
 		f = "[",
 		signature = signature("wrapped.learner"),
 		def = function(x,i,j,...,drop) {
-			if (i == "short.name"){
-				return(x@learner.name)
-			}
-			return(
-					eval(substitute("@"(x, slot), list(slot=i)))
-			)
+			callNextMethod()
 		}
 )
 
@@ -77,8 +77,8 @@ setMethod(
 			ps = paste(names(x@train.fct.pars), x@train.fct.pars, sep="=", collapse=" ")
 			return(paste(
 							#todo regression. also check when applied to task!!
-							"Classification learner ", x@learner.name, " from package ", x@learner.pack, "\n\n",					
-							to.string(x@learner.props), "\n",
+							"Classification learner ", x@label, " from package ", x@pack, "\n\n",					
+							to.string(x@props), "\n",
 							"Hyperparameters: ", ps, "\n",
 							sep =""					
 					))

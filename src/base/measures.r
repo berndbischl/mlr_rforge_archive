@@ -151,7 +151,7 @@ default.measures = function(x) {
 
 
 default.aggr = function(task) {
-	return(list("combine", "mean", "sd")) 
+	return(list("mean", "sd")) 
 }
 
 ### classification

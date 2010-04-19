@@ -8,7 +8,9 @@ roxygen()
 #' It might perform some data conversions in the data.frame, like coverting integer features to numerics, 
 #' but will generally warn about this. 
 #' 
-#' @param name [string] \cr
+#' @param id [string] \cr
+#'   	  Name of task to be used string representations later on. Default is empty string.
+#' @param label [string] \cr
 #'   	  Name of task to be used string representations later on. Default is empty string.
 #' @param data [\code{\link{data.frame}}] \cr 	
 #'        A data frame containing the variables for the modelling.
@@ -40,7 +42,7 @@ roxygen()
 #' @title Construct learning task.
 
 
-make.task = function(name, data, target, formula, excluded, weights, costs, positive) {
+make.task = function(id, label, data, target, formula, excluded, weights, costs, positive) {
 			
 			if (missing(target)) {
 				target = as.character(formula)[2]
@@ -55,8 +57,10 @@ make.task = function(name, data, target, formula, excluded, weights, costs, posi
 			else 
 				stop("Cannot infer the type of task from the target data type. Please transform it!")
 			
-			if(missing(name))
-				name=""
+			if(missing(id))
+				id = deparse(substitute(data))
+			if(missing(label))
+				label = id
 			if (missing(excluded))
 				excluded = character(0)
 			if (missing(weights))
@@ -69,9 +73,9 @@ make.task = function(name, data, target, formula, excluded, weights, costs, posi
 				positive = as.character(NA)
 			
 			if (type == "classif") {
-				new("classif.task", name=name, target=target, data=data, excluded=excluded, weights=weights, costs=costs, positive=positive)
+				new("classif.task", id=id, label=label, target=target, data=data, excluded=excluded, weights=weights, costs=costs, positive=positive)
 			} else {
-				new("regr.task", name=name, target=target, data=data, excluded=excluded, weights=weights)
+				new("regr.task", id=id, label=label, target=target, data=data, excluded=excluded, weights=weights)
 			}
 }
 
