@@ -59,6 +59,8 @@ setMethod(
 			learner = args$learner
 			if (is.null(learner))
 				learner = x["learners"]
+			else if (is.character(learner))
+				learner = lapply(1:length(task), function(y) learner)
 			measure = args$measure
 			if (is.null(measure))
 				measure = x["measures"]
@@ -93,7 +95,7 @@ setMethod(
 				g = function(arr, is, ls, ms) arr[is, ls, ms, drop=FALSE]
 			else			
 				g = function(arr, is, ls, ms) arr[c(is, "combine"), ls, ms, drop=FALSE]
-			p = Map(g, p, iter, learner, measure)
+			p = Map(g, p, is=iter, learner, ms=measure)
 			# aggregate
 			if (length(aggr) > 0) {
 				g = function(arr) {
@@ -169,7 +171,6 @@ as.ROCR.preds = function(x) {
 
 
 ### todo: pretty print method for this case: only aggregated values, always the same learners
-
 
 
 
