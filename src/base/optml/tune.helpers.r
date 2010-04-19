@@ -1,11 +1,3 @@
-#eval.parsets <- function(learner, task, resampling, measures, aggr, pars, ps.scale, ps.names) {
-#	ms = mylapply(xs=pars, from="tune", f=eval.rf.perf, 
-#			learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, ps.scale=ps.scale, ps.names=ps.names, vars=NULL)
-#	ps = par.list.to.df(pars)
-#	ms = Reduce(rbind, ms)
-#	y = cbind(ps, ms)
-#	return(y)
-#}
 
 eval.parsets = function(learner, task, resampling, measures, aggr, pars, ps.scale, ps.names) {
 	rps = mylapply(xs=pars, from="tune", f=eval.rf, 
@@ -19,7 +11,7 @@ eval.states.tune = function(learner, task, resampling, measures, aggr, pars, eve
 }
 
 
-add.path.els.tune = function(global.eval.var, path, ess, best) {
+add.path.els.tune = function(path, ess, best) {
 	add.path.els(".mlr.tuneeval", path, ess, best)	
 } 
 

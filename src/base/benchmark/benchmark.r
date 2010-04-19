@@ -21,9 +21,6 @@ benchmark = function(learner, task, resampling, measures, type="response", model
 		measures = default.measures(task)
 	measures = make.measures(measures)
 	
-	if(task["name"] == "" || is.null(task["name"]) || is.null(task["name"]))
-		stop("Every task in a benchmark experiment has to be named!")
-	
 	if (is(learner, "tune.wrapper")) {
 		if (models) 
 			extract = function(x) {
@@ -33,7 +30,7 @@ benchmark = function(learner, task, resampling, measures, type="response", model
 			extract = function(x) {
 				list(tuned.par=x["tuned.par"], tuned.perf=x["tuned.perf"])
 			}
-		rr <- resample.fit(learner, task, resampling, extract=extract, type=type)
+		rr = resample.fit(learner, task, resampling, extract=extract, type=type)
 		ex = rr@extracted
 		ns = names(ex[[1]]$tuned.par)
 		result = data.frame(matrix(nrow=resampling["iters"]+1, ncol=length(ns)))

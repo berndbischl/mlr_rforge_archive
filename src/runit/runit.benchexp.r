@@ -1,7 +1,7 @@
 test.benchexp <- function() {
 	
-	outer = make.res.desc("cv", iters=2)
-	inner = make.res.desc("cv", iters=2)
+	outer = make.res.desc("cv", iters=4)
+	inner = make.res.desc("cv", iters=4)
 	
 	r = list(minsplit=seq(3,10,2))
 	rpart.tuner = make.tune.wrapper("classif.rpart", resampling=inner, control=grid.control(ranges=r))

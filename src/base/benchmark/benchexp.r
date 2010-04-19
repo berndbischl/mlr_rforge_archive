@@ -26,7 +26,7 @@
 #' @title Benchmark experiment for multiple learners and tasks. 
 
 
-
+# todo: check unique ids
 bench.exp <- function(learners, tasks, resampling, measures, type="response", 
 		conf.mats=TRUE, predictions=FALSE, models=FALSE, 
 		opt.pars=TRUE, opt.paths=FALSE)  {

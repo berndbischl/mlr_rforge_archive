@@ -72,9 +72,10 @@ tune <- function(learner, task, resampling, method="grid", control=NULL, measure
 	#export.tune(learner, task, loss, scale)
 	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures, aggr=aggr)
 
-	#or$par = scale.par(scale, or$par)
+	
+	or@opt$par = scale.par(control$scale, or@opt$par)
 	if (model) {
-		or@model = train(learner, task, parset=or$par) 	
+		or@model = train(learner, task, parset=or["par"]) 	
 	}
 	
 	return(or)			

@@ -7,7 +7,7 @@ test.check.data <- function() {
 	checkTrue(length(grep("foo", s)) >0 )
 	
 	mydata = binaryclass.df
-	colnames(mydata)[1] = "foo(bar)"
+	colnames(mydata)[1] = "foo[bar]"
 	checkException(
 			ct <- make.task(data=mydata, target=binaryclass.target),
 			silent=TRUE
