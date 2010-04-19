@@ -59,7 +59,7 @@ benchmark = function(learner, task, resampling, measures, type="response", model
 	rownames(result) = rownames(ms)
 	mods = NULL
 	if (models) 
-		mods = lapply(rr@extracted, function(x) x$model)
+		mods = lapply(rr@extracted, function(x) x@model)
 	o.pars = NULL
 	if (opt.pars) 
 		o.pars = lapply(rr@extracted, function(x) x$tuned.par)

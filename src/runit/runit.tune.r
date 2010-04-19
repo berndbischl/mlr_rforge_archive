@@ -11,25 +11,36 @@ test.tune <- function() {
 	
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
-	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, method="grid", control=grid.control(ranges=ranges))
+	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, method="grid", control=grid.control(ranges=ranges), model=T)
+	
+	# todo test scale with tune.e1071 and scaled grid!
 	
 	for(i in 1:nrow(tr$performances)) {
 		cp <- tr$performances[i,"cp"]
 		ms <- tr$performances[i,"minsplit"]
-		j <- which(tr2$path$cp == cp & tr2$path$minsplit == ms )
-		checkEqualsNumeric(tr$performances[i,"error"], tr2$path[j,"mean.mmce"])    
-		checkEqualsNumeric(tr$performances[i,"dispersion"], tr2$path[j,"sd.mmce"])    
+		pp = tr2["path", as.data.frame=T]
+		j <- which(pp$cp == cp & pp$minsplit == ms )
+		checkEqualsNumeric(tr$performances[i,"error"], pp[j,"mean.mmce"])    
+		checkEqualsNumeric(tr$performances[i,"dispersion"], pp[j,"sd.mmce"])    
 	}
 	
 	
 
 	# check grid and scale
-	control = grid.control(ranges=list(C=-1:1, sigma=-1:1))
-	tune("classif.ksvm", multiclass.task, cv.instance, method="grid", control=control, scale=function(x)10^x)
+	control = grid.control(ranges=list(C=-1:1, sigma=-1:1), scale=function(x)10^x)
+	tune("classif.ksvm", multiclass.task, cv.instance, method="grid", control=control)
+	
+	# tune wrapper
+	res = make.res.desc("cv", iters=2)
+	ranges = list(minsplit=seq(3,10,2))
+	wl = make.tune.wrapper("classif.rpart", resampling=inner, control=grid.control(ranges=ranges))
+	m = train(wl,  multiclass.task)
+	# todo check opt. parameter is same as with tune
+	
 	
 	# check pattern search
-	control = ps.control(start=list(C=0, sigma=0))
-	tr3 <- tune("classif.ksvm", multiclass.task, cv.instance, method="pattern", control=control, scale=function(x)10^x)
+	control = ps.control(start=list(C=0, sigma=0), scale=function(x)10^x)
+	tr3 <- tune("classif.ksvm", multiclass.task, resampling=cv.instance, method="pattern", control=control)
 
 	#complex test for tuning
 	
@@ -39,7 +50,6 @@ test.tune <- function() {
 	r2 <- list(kernel="rbfdot", sigma=1:2)
 	r <- combine.ranges(r1, r2)
 	control = grid.control(ranges=r)
-	res = make.res.desc("cv", iters=2)
 	inner = make.res.desc("cv", iters=2)
 	
 	wl = make.learner("classif.ksvm", type="spoc-svc")

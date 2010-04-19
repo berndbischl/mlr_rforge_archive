@@ -82,9 +82,9 @@ setMethod(
 			
 			lt = f(data=.data, target=.targetvar)	
 			tr = tune(bl, task=lt, resampling=wl@resampling, method=wl@method, control=wl@control, model=TRUE)
-			m = tr$model["learner.model"]
-			attr(m, "tuned.par") = tr$par
-			attr(m, "tuned.perf") = tr$perf
+			m = tr@model["learner.model"]
+			attr(m, "tuned.par") = tr["par"]
+			attr(m, "tuned.perf") = tr["perf"]
 			return(m)
 		}
 )
