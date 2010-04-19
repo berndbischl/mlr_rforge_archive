@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, id="RForest", pack="randomForest", props=desc, parset=parset)
+			callNextMethod(.Object, label="RForest", pack="randomForest", props=desc, parset=parset)
 		}
 )
 

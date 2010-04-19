@@ -21,7 +21,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, id="ridge regression", pack="penalized", props=desc, parset=parset)
+			callNextMethod(.Object, label="ridge regression", pack="penalized", props=desc, parset=parset)
 		}
 )
 

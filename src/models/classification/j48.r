@@ -31,7 +31,7 @@ setMethod(
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)
-			callNextMethod(.Object, id="J48", pack="RWeka", props=desc, parset=parset)
+			callNextMethod(.Object, label="J48", pack="RWeka", props=desc, parset=parset)
 		}
 )
 

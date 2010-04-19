@@ -32,7 +32,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name = "MultiReg", learner.pack = "nnet", learner.props = desc, parset=parset)
+			callNextMethod(.Object, label="MultiReg", pack="nnet", props=desc, parset=parset)
 		}
 )
 

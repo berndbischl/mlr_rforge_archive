@@ -30,7 +30,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, id="AdaBoostM1", pack="adabag", props=desc, parset=parset)
+			callNextMethod(.Object, label="AdaBoostM1", pack="adabag", props=desc, parset=parset)
 		}
 )
 

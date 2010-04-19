@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, id="logreg", pack="stats", props=desc, parset=parset)
+			callNextMethod(.Object, label="logreg", pack="stats", props=desc, parset=parset)
 		}
 )
 

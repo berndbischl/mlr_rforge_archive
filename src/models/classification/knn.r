@@ -30,7 +30,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, id="knn", pack="kknn", props=desc, parset=parset)
+			callNextMethod(.Object, label="knn", pack="kknn", props=desc, parset=parset)
 		}
 )
 

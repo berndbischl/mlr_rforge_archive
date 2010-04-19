@@ -25,7 +25,7 @@ setMethod(
 			
 			if (is.null(parset$distribution))
 				parset$distribution = "gaussian"
-			.Object <- callNextMethod(.Object, id="Gradient Boosting Machine", pack="gbm", props=desc, parset=parset)
+			.Object <- callNextMethod(.Object, label="Gradient Boosting Machine", pack="gbm", props=desc, parset=parset)
 			return(.Object)
 		}
 )

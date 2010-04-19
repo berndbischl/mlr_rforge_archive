@@ -30,7 +30,7 @@ setMethod(
 					supports.weights = TRUE,
 					supports.costs = TRUE
 			)
-			callNextMethod(.Object, id="RPart", pack="rpart",	props=desc, parset=parset)
+			callNextMethod(.Object, label="RPart", pack="rpart",	props=desc, parset=parset)
 		}
 )
 

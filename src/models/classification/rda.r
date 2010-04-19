@@ -30,7 +30,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, id="rda", pack="klaR", props=desc, parset=parset)
+			callNextMethod(.Object, label="rda", pack="klaR", props=desc, parset=parset)
 		}
 )
 

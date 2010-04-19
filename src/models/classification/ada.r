@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = TRUE
 			)
 			
-			.Object <- callNextMethod(.Object, id="Ada boosting", pack="ada", props=desc, parset=parset)
+			.Object <- callNextMethod(.Object, label="Ada boosting", learner.pack="ada", props=desc, parset=parset)
 			
 			return(.Object)
 		}
@@ -53,7 +53,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, id="ada", pack="ada", props=desc, parset=parset)
+			callNextMethod(.Object, label="ada", pack="ada", props=desc, parset=parset)
 		}
 )
 

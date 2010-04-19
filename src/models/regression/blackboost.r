@@ -20,7 +20,7 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
-			callNextMethod(.Object, id="blackboost", pack="mboost", props=desc, parset=parset)
+			callNextMethod(.Object, label="blackboost", pack="mboost", props=desc, parset=parset)
 		}
 )
 

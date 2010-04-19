@@ -33,7 +33,7 @@ setMethod(
 			)			
 			if (is.null(parset$distribution))
 				parset$distribution = "adaboost"
-			callNextMethod(.Object, id="Gradient Boosting Machine", pack="gbm", props=desc, parset=parset)
+			callNextMethod(.Object, label="Gradient Boosting Machine", pack="gbm", props=desc, parset=parset)
 		}
 )
 

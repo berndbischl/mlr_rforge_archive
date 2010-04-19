@@ -25,7 +25,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, id="KKNN", pack="kknn", props=desc, parset=parset)
+			callNextMethod(.Object, label="KKNN", pack="kknn", props=desc, parset=parset)
 		}
 )
 

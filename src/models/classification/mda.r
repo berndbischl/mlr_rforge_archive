@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, id="mda", pack="mda", props=desc, parset=parset)
+			callNextMethod(.Object, label="mda", pack="mda", props=desc, parset=parset)
 		}
 )
 

@@ -20,7 +20,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, id="randomForest", pack="randomForest", props=desc, parset=parset)
+			callNextMethod(.Object, label="randomForest", pack="randomForest", props=desc, parset=parset)
 		}
 )
 

@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, id="NNet", pack="nnet", props=desc, parset=parset)
+			callNextMethod(.Object, label="NNet", pack="nnet", props=desc, parset=parset)
 		}
 )
 
