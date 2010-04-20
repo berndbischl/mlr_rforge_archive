@@ -1,9 +1,9 @@
 test.weights <- function() {
 	
-#	m = train("regr.lm", task=regr.task)
-#	pred = predict(m, newdata=regr.df)
-#	p = performance
-#	df = as.data.frame(p)
+	m = train("stat.lm", task=regr.task)
+	pred = predict(m, newdata=regr.df)
+	p = performance
+	df = as.data.frame(p)
 
 	#	cp = predict(cm5, task=ct5, subset=30:100)
 #	cp["weights"] = 30:100
