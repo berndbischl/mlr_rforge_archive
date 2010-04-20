@@ -6,6 +6,9 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 	# delete NAs for cors
 	data = na.omit(task["data"][,all.vars])
 	cors = abs(cor(data, data))
+	# NA can occur if var. is constant, set cor to 1 then, var useless
+	# so we dont select it 
+	cors[(is.na(cors))]=1
 	diag(cors) = NA
 	m = length(all.vars) 
 	flip.rate = control$epsilon

@@ -5,6 +5,8 @@ varsel.hybrid2 = function(learner, task, resampling, measures, aggr, method, con
 	all.vars = task["input.names"]
 	data = na.omit(task["data"])
 	cors.y = abs(cor(data[,all.vars], data[,task["target"]]))[,1]
+	# NA can occur if var. is constant, set cor to 0 then, var useless
+	cors.y[is.na(cors.y)] = 0
 	m = length(all.vars) 
 	flip.rate = control$epsilon
 	p01 = control$delta
