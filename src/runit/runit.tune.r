@@ -33,7 +33,7 @@ test.tune <- function() {
 	# tune wrapper
 	res = make.res.desc("cv", iters=2)
 	ranges = list(minsplit=seq(3,10,2))
-	wl = make.tune.wrapper("classif.rpart", resampling=inner, control=grid.control(ranges=ranges))
+	wl = make.tune.wrapper("classif.rpart", resampling=res, control=grid.control(ranges=ranges))
 	m = train(wl,  multiclass.task)
 	# todo check opt. parameter is same as with tune
 	

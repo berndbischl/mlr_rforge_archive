@@ -34,7 +34,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("tune.wrapper"),
-		def = function(.Object, base.learner, id, label, resampling, method, control) {
+		def = function(.Object, base.learner, id, label, resampling, method, control, measures, aggr) {
 			if (missing(base.learner))
 				return(.Object)
 			bl = base.learner
@@ -42,6 +42,8 @@ setMethod(
 			.Object@method = method
 			.Object@resampling = resampling
 			.Object@control = control
+			.Object@measures = measures
+			.Object@aggr = aggr
 			callNextMethod(.Object, id=id, label=label, pack="mlr", props=bl@props)
 		}
 )
@@ -85,6 +87,12 @@ make.tune.wrapper <- function(learner, id, label, resampling, method="grid", con
 		id = learner["id"]
 	if (missing(label))
 		label = id
+	if (missing(measures))
+		measures = default.measures(learner)
+	measures = make.measures(measures)
+	if (missing(aggr))
+		aggr = default.aggr()
+	aggr = make.aggrs(aggr)
 	if (is(learner, "wrapped.learner.classif"))
 		tt = new("tune.wrapper.classif", id=id, label=label, base.learner=learner, resampling=resampling, 
 				method=method, control=control, measures=measures, aggr=aggr)

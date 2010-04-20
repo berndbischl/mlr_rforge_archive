@@ -142,7 +142,7 @@ make.measure <- function(name) {
 default.measures = function(x) {
 	if (is(x, "learn.task"))
 		x = x@task.desc	
-	if (x@task.class == "classif.task")
+	if (is(x, "wrapped.learner.classif") || x@task.class == "classif.task")
 		return(make.measures("mmce"))
 	else 
 		return(make.measures("mse"))
