@@ -40,9 +40,9 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 	
 	while (TRUE) {
 		logger.debug("current:")
-		logger.debug(state$vars)
+		logger.debug(state$par)
 		#print("current:")
-		#print(state$vars)
+		#print(state$par)
 		#cat("forward:", forward, "\n")
 		s = seq.step(learner, task, resampling, measures, aggr, control, forward, 
 				all.vars, state, gen.new.states, compare, path)	
@@ -74,8 +74,8 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 }
 
 seq.step = function(learner, task, resampling, measures, aggr, control, forward, all.vars, state, gen.new.states, compare, path) {
-	not.used = setdiff(all.vars, state$vars)
-	new.states = gen.new.states(state$vars, not.used)
+	not.used = setdiff(all.vars, state$par)
+	new.states = gen.new.states(state$par, not.used)
 	if (length(new.states) == 0)
 		return(NULL)
 	vals = list()

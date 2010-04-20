@@ -25,7 +25,7 @@ varsel.hybrid2 = function(learner, task, resampling, measures, aggr, method, con
 	while (.mlr.vareval < control$maxit) {
 		
 		# mutate til successful
-		vs.bin = all.vars %in% state$vars
+		vs.bin = all.vars %in% state$par
 		#print(vs.bin)
 		while (.mlr.vareval < control$maxit) {
 			greedy = (rbinom(1, 1, prob.greedy) == 1)
@@ -50,7 +50,7 @@ varsel.hybrid2 = function(learner, task, resampling, measures, aggr, method, con
 			op = ifelse(greedy, "mut.greedy", "mut.normal")
 			new.state = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, op)
 			cc = compare.diff(state, new.state, control, measures, aggr, threshold=control$gamma)	&& 
-					(length(new.state$vars) > 0)
+					(length(new.state$par) > 0)
 			path = add.path.varsel(path, new.state, cc)
 			if (!greedy)
 				mut.succ = c(mut.succ, as.numeric(cc))

@@ -27,7 +27,7 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 	while (.mlr.vareval < control$maxit) {
 		
 		# mutate til successful
-		vs.bin = all.vars %in% state$vars
+		vs.bin = all.vars %in% state$par
 		#print(vs.bin)
 		while (.mlr.vareval < control$maxit) {
 			# we look back win.size mutations and maybe adapt the step.size
@@ -51,7 +51,7 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 			new.state = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, "mutate")
 			#print(get.perf(new.state))
 			cc = compare.diff(state, new.state, control, measures, aggr, threshold=control$gamma)	&& 
-					(length(new.state$vars) > 0)
+					(length(new.state$par) > 0)
 			path = add.path.varsel(path, new.state, cc)
 			mut.succ = c(mut.succ, as.numeric(cc))
 			if (cc) {
@@ -71,18 +71,18 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 			while (.mlr.vareval < control$maxit) {
 				#print(op)
 				if (op == "minus") {
-					cors2 = cors[state$vars, state$vars, drop=F]
+					cors2 = cors[state$par, state$par, drop=F]
 					meancor = rowMeans(cors2, na.rm=T)
 					#cat("mc:", meancor, "\n")
 					v = names(which.max(meancor))
-					new.vars = setdiff(state$vars, v)
+					new.vars = setdiff(state$par, v)
 				} else {
-					not.used = setdiff(all.vars, state$vars)
-					cors2 = cors[not.used, state$vars, drop=F]
+					not.used = setdiff(all.vars, state$par)
+					cors2 = cors[not.used, state$par, drop=F]
 					meancor = rowMeans(cors2)
 					#cat("mc:", meancor, "\n")
 					v = names(which.min(meancor))
-					new.vars = c(state$vars, v)
+					new.vars = c(state$par, v)
 				}
 				#cat("newvars:", new.vars, "\n")
 				new.state = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, op)

@@ -15,13 +15,13 @@ varsel.bestcor = function(learner, task, resampling, measures, aggr, method, con
 	#print(cors)
 	while (TRUE) {
 		#print("current:")
-		#print(state$vars)
+		#print(state$par)
 		found = FALSE
 		for (i in seq(along.with=not.used)) {
 			#print(.mlr.vareval)
 			v = not.used[i]
 			#cat(v, "\n")
-			new.vars = c(state$vars, v)
+			new.vars = c(state$par, v)
 			if (.mlr.vareval >= control$maxit)
 				break
 			s = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, "forward")
