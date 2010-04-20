@@ -22,7 +22,7 @@ roxygen()
 #'
 #' @export
 #'
-#' @usage train(learner, task, subset, vars, type)  
+#' @usage train(learner, task, subset, parset, vars, type)  
 #'
 #' @seealso \code{\link{predict}} 
 #' 

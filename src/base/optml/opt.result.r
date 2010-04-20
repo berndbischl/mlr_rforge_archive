@@ -1,4 +1,9 @@
 
+# A list. Might contain some additional information from the optimizer and at least:
+#'   \item{par}{Named list of best found hyperparamters.}
+#'   \item{perf}{Best found performance value.}
+#'   \item{model}{Fitted model on complete data set - if requested.}
+
 setClass(
 		"opt.result",
 		contains = c("object"),

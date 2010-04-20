@@ -19,7 +19,7 @@
 #' }
 #' 
 #' \itemize{ 
-#' 		\item{\bold{regr.lm}}{\cr Simple linear regression from stats package: \code{\link[stats]{errormatrix}}}
+#' 		\item{\bold{regr.lm}}{\cr Simple linear regression from stats package: \code{\link[stats]{lm}}}
 #' 		\item{\bold{regr.ridge}}{\cr Ridge regression from penalized package: \code{\link[penalized]{penalized}}}
 #' 		\item{\bold{regr.lasso}}{\cr Lasso regression from penalized package: \code{\link[penalized]{penalized}}}
 #' 		\item{\bold{regr.kknn}}{\cr K-Nearest-Neighbor regression from kknn package: \code{\link[kknn]{kknn}}}

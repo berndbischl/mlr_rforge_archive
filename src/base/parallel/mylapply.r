@@ -1,16 +1,19 @@
 
 
 warn.wrapper = function(x, f, ...) {
-	.mlr.slave.warnings <<- character(0)
+	assign(".mlr.slave.warnings", character(0), envir = .GlobalEnv)
+	
 	withCallingHandlers({
 				y = f(x, ...)
 			}, 
 			warning = function(w) {
-				.mlr.slave.warnings <<- c(.mlr.slave.warnings, w)
+				sws = get(".mlr.slave.warnings", envir = .GlobalEnv) 
+				assign(".mlr.slave.warnings", c(sws, w), envir = .GlobalEnv)
 			}
 	)
-	if (length(.mlr.slave.warnings) > 0)
-		attr(y, ".mlr.slave.warnings") = .mlr.slave.warnings
+	sws = get(".mlr.slave.warnings", envir = .GlobalEnv) 
+	if (length(sws) > 0)
+		attr(y, ".mlr.slave.warnings") = sws
 	return(y)
 }
 

@@ -24,12 +24,12 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 	
 	# big loop for mut + local
 	mut.succ = c()
-	while (.mlr.vareval < control$maxit) {
+	while (get(".mlr.vareval", envir= .GlobalEnv) < control$maxit) {
 		
 		# mutate til successful
 		vs.bin = all.vars %in% state$par
 		#print(vs.bin)
-		while (.mlr.vareval < control$maxit) {
+		while (get(".mlr.vareval", envir= .GlobalEnv) < control$maxit) {
 			# we look back win.size mutations and maybe adapt the step.size
 			if (length(mut.succ) > win.size) {
 				mean.succ = mean(mut.succ[(length(mut.succ)-win.size+1):length(mut.succ)])
@@ -65,10 +65,10 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 		
 		op = sample(c("plus", "minus"), 1)
 		failed = c(plus=F, minus=F)
-		while (.mlr.vareval < control$maxit) {
+		while (get(".mlr.vareval", envir= .GlobalEnv) < control$maxit) {
 			# try minus or plus repeatedly
 			found = F
-			while (.mlr.vareval < control$maxit) {
+			while (get(".mlr.vareval", envir= .GlobalEnv) < control$maxit) {
 				#print(op)
 				if (op == "minus") {
 					cors2 = cors[state$par, state$par, drop=F]

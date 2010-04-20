@@ -55,10 +55,12 @@ base.files <<- c(
 		"base/resample/resample.prediction.r",
 		"base/resample/resample.fit.r",
 		"base/resample/resample.performance.r",
-		
-		
 		"base/conf.matrix.r",
 		
+		"base/optml/opt.result.r",
+		"base/optml/optml.helpers.r",
+		"base/optml/tune.helpers.r",
+		"base/optml/varsel.helpers.r",
 		
 		"base/tune/check.ranges.r",
 		"base/tune/combine.ranges.r",
@@ -74,7 +76,7 @@ base.files <<- c(
 		"base/tune/tune.nm.r",
 		"base/tune/tune.wrapper.r",
 		
-		"base/varsel/varsel.helpers.r",
+#		"base/varsel/varsel.helpers.r",
 		"base/varsel/varsel.control.r",
 		"base/varsel/varsel.random.r",
 		"base/varsel/varsel.bestcor.r",

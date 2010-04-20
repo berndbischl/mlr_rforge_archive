@@ -6,6 +6,8 @@ roxygen()
 #' Allows for different optimization methods, commonly grid search is used but other search techniques
 #' are available as well.
 #' The specific details of the search algorithm are set by passing a control object.   
+#' 
+#' The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal hyperparamters.
 #'
 #' @param learner [\code{\linkS4class{wrapped.learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
@@ -14,30 +16,28 @@ roxygen()
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'        Resampling strategy to evaluate points in hyperparameter space.
 #' @param method [\code{\link{character}}] \cr
-#'        Search method. Currently supported are "grid", "pattern", "cmaes".   
+#'        Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "nm".   
 #' @param control 
 #'        Control object for search method.   
-#' @param loss [\code{\linkS4class{loss}}] or [\code{\link{character}}]\cr
-#'        Loss to use for tuning. Default is "zero-one" for classification and "squared" error for regression.
+#' @param measures [see \code{\link{measures}}]
+#'        Performance measures. 
+#' @param aggr [see \code{\link{aggregations}}]
+#'        Aggregation functions. 
 #' @param model [\code{\link{logical}}]\cr
 #'        Should a final model be fitted on the complete data with the best found hyperparameters?
-#' @param scale [\code{\link{function}}]
-#'        A function to scale the hyperparamters. E.g. maybe you want to optimize in some log-space.
-#'        Has to take a single, numerical vector and return a scaled one. Default is identity function.
 #' 
-#' @return A list. Might contain some additional information from the optimizer and at least:
-#'   \item{par}{Named list of best found hyperparamters.}
-#'   \item{perf}{Best found performance value.}
-#'   \item{model}{Fitted model on complete data set - if requested.}
+#' @return \code{\linkS4class{opt.result}}.
 #' 
 #' @export
 #'
-#' @usage tune(learner, task, resampling, method="grid", control=NULL, loss, model=F, scale=identity)
-#'  
+#' @usage tune(learner, task, resampling, method="grid", control, measures, aggr, model=F)
+#'
+#' @seealso \code{\link{grid.control}}, \code{\link{ps.control}}, \code{\link{cmaes.control}}, \code{\link{nm.control}}
+#'   
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, method="grid", control=NULL, measures, aggr, model=F) {
+tune <- function(learner, task, resampling, method="grid", control, measures, aggr, model=F) {
 	if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
@@ -57,7 +57,7 @@ tune <- function(learner, task, resampling, method="grid", control=NULL, measure
 			stop(paste("Method", method, "does not exist!"))
 	)		
 	
-	if (is.null(control)) {
+	if (missing(control)) {
 		stop("You have to pass a control object!")
 	}
 	if ((method == "grid"       && !is(control, "grid.control")) ||

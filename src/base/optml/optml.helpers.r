@@ -1,3 +1,6 @@
+# todo: the global eval vars are very bad, think about parallel! 
+
+
 #state: list(vars, rp) 
 
 # get a single perf value for a state: first measure, aggregated by first aggr function

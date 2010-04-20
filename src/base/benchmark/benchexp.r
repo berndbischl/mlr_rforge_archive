@@ -2,21 +2,37 @@
 #' across one or more tasks w.r.t. a given resampling strategy.  
 #' Experiments are paired, meaning always the same training / test sets are used for the different learners.  
  
-#' @param learners [character vector | \code{\link{wrapped.learner} | list of the previous two] \cr
+#' @param learners [character vector | \code{\link{wrapped.learner}} | list of the previous two] \cr
 #' 		  Defines the learning algorithms which should be compared.
-#' @param tasks [\code{\link{learn.task} | list of the previous] \cr
+#' @param tasks [\code{\link{learn.task}} | list of the previous] \cr
 #'        Defines the tasks.
 #' @param resampling [resampling desc | resampling instance | list of the previous two] \cr
 #'        Defines the resampling strategies for the tasks.
-#' @param measures [see \code{\link{measures}]
+#' @param measures [see \code{\link{measures}}]
 #'        Performance measures. 
 #' @param type [character] \cr
 #'        Classification: vector of "response" | "prob" | "decision", specifying the types to predict.
 #'        Default is "response".
 #' 		  Ignored for regression.	 
+#' @param conf.mats [logical] \cr
+#'        Should confusion matrices be stored?
+#'        Default is TRUE.
+#' 		  Ignored for regression.	 
+#' @param predictions [logical] \cr
+#'        Should all predictions be stored?
+#'        Default is FALSE.
+#' @param models [logical] \cr
+#'        Should all fitted models be stored?
+#'        Default is FALSE.
+#' @param opts [logical] \cr
+#'        Should optimzed hyperparameters or variables be stored?
+#'        Default is TRUE.
+#' @param paths [logical] \cr
+#'        Should the optimization paths be stored?
+#'        Default is FALSE.
 #' @return \code{\linkS4class{bench.result}}.
 #' 
-#' @usage bench.exp(learners, tasks, resampling, measures, type="response")
+#' @usage bench.exp(learners, tasks, resampling, measures, type="response", conf.mats=TRUE, predictions=FALSE, models=FALSE, opts=TRUE, paths=FALSE)
 #' 
 #' @note You can also get automatic, internal tuning by using \code{\link{make.tune.wrapper}} with your learner. 
 #' 

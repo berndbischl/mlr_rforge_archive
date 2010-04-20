@@ -8,10 +8,10 @@ roxygen()
 #' It might perform some data conversions in the data.frame, like coverting integer features to numerics, 
 #' but will generally warn about this. 
 #' 
-#' @param id [string] \cr
-#'   	  Name of task to be used string representations later on. Default is empty string.
-#' @param label [string] \cr
-#'   	  Name of task to be used string representations later on. Default is empty string.
+#' @param id [string]\cr 
+#'        Id string for object. Used to select the object from a named list, etc.  
+#' @param label [string]\cr 
+#'        Label string for object. Used in plots, etc.  
 #' @param data [\code{\link{data.frame}}] \cr 	
 #'        A data frame containing the variables for the modelling.
 #' @param target [string] \cr
@@ -37,7 +37,7 @@ roxygen()
 #' @export
 #' @rdname make.task
 #' 
-#' @usage make.task(name, data, target, formula, excluded, weights, costs, positive)
+#' @usage make.task(id, label, data, target, formula, excluded, weights, costs, positive)
 #'
 #' @title Construct learning task.
 

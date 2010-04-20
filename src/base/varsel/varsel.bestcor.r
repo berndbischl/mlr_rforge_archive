@@ -22,7 +22,7 @@ varsel.bestcor = function(learner, task, resampling, measures, aggr, method, con
 			v = not.used[i]
 			#cat(v, "\n")
 			new.vars = c(state$par, v)
-			if (.mlr.vareval >= control$maxit)
+			if (get(".mlr.vareval", envir= .GlobalEnv) >= control$maxit)
 				break
 			s = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, "forward")
 			cc = compare.diff(state, s, control, measures, aggr, control$alpha)
