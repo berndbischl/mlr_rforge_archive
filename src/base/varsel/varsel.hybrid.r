@@ -15,8 +15,8 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 	
 	start = all.vars[as.logical(rbinom(m, 1, 0.5))]
 	#cat("start:", start, "\n")
-	state = eval.state(learner, task, resampling, measures, aggr, vars=start, "start")
-	path = add.path(path, state, T)		
+	state = eval.state.varsel(learner, task, resampling, measures, aggr, par=start, "start")
+	path = add.path.varsel(path, state, T)		
 	#print(get.perf(state))
 	
 	# big loop for mut + local
@@ -45,11 +45,11 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 			new.vars = all.vars[new.bin]
 			#print(new.bin)
 			#cat("new.vars:", new.vars, "\n")
-			new.state = eval.state(learner, task, resampling, measures, aggr, vars=new.vars, "mutate")
+			new.state = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, "mutate")
 			#print(get.perf(new.state))
 			cc = compare.diff(state, new.state, control, measures, aggr, threshold=control$gamma)	&& 
 					(length(new.state$vars) > 0)
-			path = add.path(path, new.state, cc)
+			path = add.path.varsel(path, new.state, cc)
 			mut.succ = c(mut.succ, as.numeric(cc))
 			if (cc) {
 				#print("accept")
@@ -82,11 +82,11 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 					new.vars = c(state$vars, v)
 				}
 				#cat("newvars:", new.vars, "\n")
-				new.state = eval.state(learner, task, resampling, measures, aggr, vars=new.vars, op)
+				new.state = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, op)
 				#print(get.perf(new.state))
 				thresh = ifelse(op=="plus", control$alpha, control$beta)
 				cc = compare.diff(state, new.state, control, measures, aggr, thresh)
-				path = add.path(path, new.state, cc)							
+				path = add.path.varsel(path, new.state, cc)							
 				if (cc) {
 					#print("accept")
 					state=new.state
@@ -104,7 +104,7 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, method, cont
 			op = setdiff(names(failed), op)
 		}
 	} # end big loop	
-	list(opt=make.path.el(state), path = path) 
+	new("opt.result", opt=make.path.el(state), path=path) 
 }	
 	
 	

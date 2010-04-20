@@ -4,9 +4,9 @@ varsel.bestcor = function(learner, task, resampling, measures, aggr, method, con
 	path = list()
 	
 	start.vars = character(0)	
-	state = eval.state(learner, task, resampling, measures, aggr, vars=start.vars, event="start")
+	state = eval.state.varsel(learner, task, resampling, measures, aggr, par=start.vars, event="start")
 	
-	path = add.path(path, state, T)		
+	path = add.path.varsel(path, state, T)		
 	data = na.omit(task["data"])
 	not.used = all.vars
 	cors = abs(cor(data[, all.vars], data[, task["target"]])) 
@@ -24,9 +24,9 @@ varsel.bestcor = function(learner, task, resampling, measures, aggr, method, con
 			new.vars = c(state$vars, v)
 			if (.mlr.vareval >= control$maxit)
 				break
-			s = eval.state(learner, task, resampling, measures, aggr, vars=new.vars, "forward")
+			s = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, "forward")
 			cc = compare.diff(state, s, control, measures, aggr, control$alpha)
-			path = add.path(path, s, accept=cc)		
+			path = add.path.varsel(path, s, accept=cc)		
 			if (cc) {
 				state = s
 				not.used = not.used[-i]
@@ -37,7 +37,7 @@ varsel.bestcor = function(learner, task, resampling, measures, aggr, method, con
 		if (!found)
 			break
 	}
-	list(opt=make.path.el(state), path = path) 
+	new("opt.result", opt=make.path.el(state), path=path)
 }
 
 

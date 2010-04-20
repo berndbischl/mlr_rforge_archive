@@ -43,12 +43,16 @@ add.path.els = function(global.eval.var, path, ess, best) {
 } 
 
 
-# evals a single set of vars and return the corresponding state
-eval.state <- function(global.eval.var, learner, task, resampling, measures, aggr, par, event) {
-	rp = eval.rf(learner, task, resampling, measures, aggr, parset=NULL, ps.scale=NULL, ps.names=NULL, par=par)
+eval.state = function(type, global.eval.var, learner, task, resampling, measures, aggr, par, event, ...) {
+	if (type == "varsel")
+		rp = eval.rf(learner, task, resampling, measures, aggr, 
+				parset=NULL, ps.scale=NULL, ps.names=NULL, vars=par)
+	else
+		rp = eval.rf(learner, task, resampling, measures, aggr, 
+				vars=NULL, parset=par, ...)
 	evals = get(global.eval.var, envir=.GlobalEnv)+1
 	assign(global.eval.var, evals, envir=.GlobalEnv)
-	make.es(par=par, rp=rp, measures=measures, aggr=aggr, evals=evals, event=event)
+	make.es(par=par, rp=rp, evals=evals, event=event)
 }
 
 # evals a set of var-lists and return the corresponding states

@@ -30,9 +30,9 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 			stop(paste("Unknown method:", method))
 	) 
 	
-	state = eval.state(learner, task, resampling, measures, aggr, vars=start.vars, event="start")
+	state = eval.state.varsel(learner, task, resampling, measures, aggr, par=start.vars, event="start")
 	
-	path = add.path(path, state, accept=T)		
+	path = add.path.varsel(path, state, accept=T)		
 	
 	compare = compare.diff
 	
@@ -70,7 +70,7 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 			}
 		}
 	}
-	list(opt=make.path.el(state), path = path) 
+	new("opt.result", opt=make.path.el(state), path=path)
 }
 
 seq.step = function(learner, task, resampling, measures, aggr, control, forward, all.vars, state, gen.new.states, compare, path) {
@@ -82,15 +82,15 @@ seq.step = function(learner, task, resampling, measures, aggr, control, forward,
 		
 	event = ifelse(forward, "forward", "backward")
 	
-	es = eval.states(learner=learner, task=task, resampling=resampling, 
-			measures=measures, aggr=aggr, varsets=new.states, event=event)
+	es = eval.states.varsel(learner=learner, task=task, resampling=resampling, 
+			measures=measures, aggr=aggr, pars=new.states, event=event)
 	#print(unlist(vals))
 	
-	s = select.best.state(es, control, measures, aggr)
+	s = select.best.state(es, control)
 	thresh = ifelse(forward, control$alpha, control$beta)
 	if (!compare(state, s, control, measures, aggr, thresh))
 		s = NULL
-	path = add.path.els(path, es, s)
+	path = add.path.els.varsel(path, es, s)
 	return(list(path=path, state=s))
 }
 

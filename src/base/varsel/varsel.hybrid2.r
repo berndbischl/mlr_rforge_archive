@@ -14,8 +14,8 @@ varsel.hybrid2 = function(learner, task, resampling, measures, aggr, method, con
 	
 	start = all.vars[as.logical(rbinom(m, 1, 0.5))]
 	#cat("start:", start, "\n")
-	state = eval.state(learner, task, resampling, measures, aggr, vars=start, "start")
-	path = add.path(path, state, T)		
+	state = eval.state.varsel(learner, task, resampling, measures, aggr, par=start, "start")
+	path = add.path.varsel(path, state, T)		
 	#print(get.perf(state))
 	
 	# big loop for mut + local
@@ -46,10 +46,10 @@ varsel.hybrid2 = function(learner, task, resampling, measures, aggr, method, con
 			new.bin = (vs.bin != mut)
 			new.vars = all.vars[new.bin]
 			op = ifelse(greedy, "mut.greedy", "mut.normal")
-			new.state = eval.state(learner, task, resampling, measures, aggr, vars=new.vars, op)
+			new.state = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, op)
 			cc = compare.diff(state, new.state, control, measures, aggr, threshold=control$gamma)	&& 
 					(length(new.state$vars) > 0)
-			path = add.path(path, new.state, cc)
+			path = add.path.varsel(path, new.state, cc)
 			if (!greedy)
 				mut.succ = c(mut.succ, as.numeric(cc))
 			if (cc) {
@@ -58,7 +58,7 @@ varsel.hybrid2 = function(learner, task, resampling, measures, aggr, method, con
 			}
 		}
 	} # end big loop	
-	list(opt=make.path.el(state), path = path) 
+	new("opt.result", opt=make.path.el(state), path=path) 
 }	
 
 
