@@ -10,6 +10,7 @@ parallel.setup <- function(mode="local", cpus=1, level="resample", ...) {
 	
 	if (mode %in% c("sfCluster", "snowfall")) {
 		if(!require(snowfall)) {
+			.mlr.local$parallel.setup$mode = "local"
 			stop("Please install the snowfall package for this!")				
 		} 
 		if (mode == "sfCluster") {
@@ -24,9 +25,10 @@ parallel.setup <- function(mode="local", cpus=1, level="resample", ...) {
 		} 
 		# todo check version on nodes!
 		x = sfClusterEval(require(mlr))
-		if (!all(unlist(x)))
+		if (!all(unlist(x))) {
+			.mlr.local$parallel.setup$mode = "local"
 			stop("Could not load mlr on every node!")
-		
+		}
 		# we cannot export from package env
 		# assign to global env
 		assign(".mlr.local", .mlr.local, envir=.GlobalEnv)			
@@ -39,11 +41,11 @@ parallel.setup <- function(mode="local", cpus=1, level="resample", ...) {
 		sfClusterSetupRNG()
 	} else if (mode == "multicore") {
 		if(!require(multicore)) {
+			.mlr.local$parallel.setup$mode = "local"
 			stop("Please install the multicore package for this!")
-			# todo set mode to local
 		}
 	} else if (!(mode %in% c("local", "multicore", "snowfall", "sfCluster"))) {
-		.mlr.local$parallel.setup$mode <- "local"
+		.mlr.local$parallel.setup$mode = "local"
 		stop("Unknown parallel model: ", mode)
 	}
 }
