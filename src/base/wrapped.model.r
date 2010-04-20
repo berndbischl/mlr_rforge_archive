@@ -84,17 +84,23 @@ setMethod(
 				else
 					return(NULL)
 			}
-			if (i == "tuned.par"){
+			if (i == "opt"){
 				if (is(x@wrapped.learner, "tune.wrapper"))
-					return(attr(x["learner.model"], "tuned.par"))
+					return(attr(x["learner.model"], "opt"))
 				else
 					return(NULL)
 			}
-			if (i == "tuned.perf"){
+			if (i == "path"){
 				if (is(x@wrapped.learner, "tune.wrapper"))
-					return(attr(x["learner.model"], "tuned.perf"))
+					return(attr(x["learner.model"], "path"))
 				else
 					return(NULL)
+			}
+			if (i == "tuned.par"){
+				return(x["opt"]$par)
+			}
+			if (i == "tuned.perf"){
+				return(x["opt"]$perf)
 			}
 			y = x@task.desc[i]
 			if (!is.null(y))

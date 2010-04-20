@@ -3,7 +3,7 @@
 
 
 
-benchmark = function(learner, task, resampling, measures, type="response", models, opt.pars, opt.paths) {
+benchmark = function(learner, task, resampling, measures, type="response", models, opts, paths) {
 	if (is.character(learner)) {
 		learner = make.learner(learner)
 	}
@@ -23,32 +23,22 @@ benchmark = function(learner, task, resampling, measures, type="response", model
 	
 	if (is(learner, "tune.wrapper")) {
 		if (models) 
-			extract = function(x) {
-				list(model=x, tuned.par=x["tuned.par"], tuned.perf=x["tuned.perf"])
-			}
+			extract = function(x) list(model=x, opt=x["opt"], path=x["path"])
 		else 
-			extract = function(x) {
-				list(tuned.par=x["tuned.par"], tuned.perf=x["tuned.perf"])
-			}
-		rr = resample.fit(learner, task, resampling, extract=extract, type=type)
-		ex = rr@extracted
-		ns = names(ex[[1]]$tuned.par)
-		result = data.frame(matrix(nrow=resampling["iters"]+1, ncol=length(ns)))
-		colnames(result) = ns
-		for (i in 1:length(ex)) {
-			result[i, ns] = ex[[i]]$tuned.par
-			result[i, "tune.perf"] = ex[[i]]$tuned.perf
-		}
-		#replicate(length(aggr), result <<- rbind(NA, result))
-		
+			extract = function(x) list(opt=x["opt"], path=x["path"])
 	} else {
-		if (models) 
+		if (models)	
 			extract = function(x) {list(model=x)} 
 		else 
 			extract = function(x) {}
-		result = data.frame(matrix(nrow=resampling["iters"]+1, ncol=0))
-		rr = resample.fit(learner, task, resampling, type=type, extract=extract)
 	}
+
+	
+	rr = resample.fit(learner, task, resampling, extract=extract, type=type)
+	result = data.frame(matrix(nrow=resampling["iters"]+1, ncol=0))
+	ex = rr@extracted
+	
+	
 	rp = performance(rr, measures=measures, aggr=list("combine"), task=task)
 	cm = NULL
 	if (is(task, "classif.task"))			
@@ -59,13 +49,13 @@ benchmark = function(learner, task, resampling, measures, type="response", model
 	rownames(result) = rownames(ms)
 	mods = NULL
 	if (models) 
-		mods = lapply(rr@extracted, function(x) x@model)
-	o.pars = NULL
-	if (opt.pars) 
-		o.pars = lapply(rr@extracted, function(x) x$tuned.par)
-	o.paths = NULL
-	if (opt.paths) 
-		o.paths = lapply(rr@extracted, function(x) x$path)
-	return(list(result=result, conf.mat=cm, resample.fit=rr, models=mods, opt.pars=o.pars, opt.paths=o.paths))
+		mods = lapply(rr@extracted, function(x) x$model)
+	os = NULL
+	if (opts) 
+		os = lapply(rr@extracted, function(x) x$opt)
+	ps = NULL
+	if (paths) 
+		ps = lapply(rr@extracted, function(x) x$path)
+	return(list(result=result, conf.mat=cm, resample.fit=rr, models=mods, opts=os, paths=ps))
 }
 

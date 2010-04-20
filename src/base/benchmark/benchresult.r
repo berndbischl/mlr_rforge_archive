@@ -13,8 +13,8 @@ setClass(
 				predictions = "list",
 				models = "list",
 				conf.mats = "list",
-				opt.pars = "list", 
-				opt.paths = "list" 
+				opts = "list", 
+				paths = "list" 
 		)
 )
 

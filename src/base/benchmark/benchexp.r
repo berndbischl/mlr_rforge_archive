@@ -29,7 +29,7 @@
 # todo: check unique ids
 bench.exp <- function(learners, tasks, resampling, measures, type="response", 
 		conf.mats=TRUE, predictions=FALSE, models=FALSE, 
-		opt.pars=TRUE, opt.paths=FALSE)  {
+		opts=TRUE, paths=FALSE)  {
 	
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
@@ -55,10 +55,10 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response",
 	bs = list()
 	
 	learner.names = character()
-	task.names = sapply(tasks, function(x) x["name"])	
+	task.names = sapply(tasks, function(x) x["id"])	
 	resamplings = list()
 	tds = dds = rfs = cms = mods = list()
-	o.pars = o.paths = list()
+	os = ps = list()
 	
 	for (j in 1:length(tasks)) {
 		bs[[j]] = array(0, dim = dims)		
@@ -66,8 +66,8 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response",
 		rfs[[j]] = list()
 		cms[[j]] = list()
 		mods[[j]] = list()
-		o.pars[[j]] = list()
-		o.paths[[j]] = list()
+		os[[j]] = list()
+		ps[[j]] = list()
 		if (is(resampling, "resample.desc")) {
 			resamplings[[j]] = new(resampling@instance.class, resampling, task["size"])
 		} else {
@@ -81,7 +81,7 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response",
 				wl = make.learner(wl)
 			learner.names[i] = wl["id"]
 			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, type=type, models=models,
-				opt.pars = opt.pars, opt.paths=opt.paths)
+				opts = opts, paths=paths)
 			rr = bm$result
 			rf = bm$resample.fit
 			# remove tune perf
@@ -91,25 +91,25 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response",
 			if(predictions)	rfs[[j]][[i]] = rf else	rfs[[j]][i] = list(NULL)
 			if(is(task, "classif.task") && conf.mats) cms[[j]][[i]] = bm$conf else cms[[j]][i] = list(NULL)
 			if(models)	mods[[j]][[i]] = bm$models else	mods[[j]][i] = list(NULL)
-			if(opt.pars && is(wl, "tune.wrapper")) o.pars[[j]][[i]] = bm$opt.pars else o.pars[[j]][i] = list(NULL)
-			if(opt.paths && is(wl, "tune.wrapper")) o.paths[[j]][[i]] = bm$opt.paths else o.paths[[j]][i] = list(NULL)
+			if(opts && is(wl, "tune.wrapper")) os[[j]][[i]] = bm$opts else os[[j]][i] = list(NULL)
+			if(paths && is(wl, "tune.wrapper")) ps[[j]][[i]] = bm$paths else ps[[j]][i] = list(NULL)
 		}
 		dimnames(bs[[j]]) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures))
 
 		names(rfs[[j]]) = learner.names
 		names(cms[[j]]) = learner.names
 		names(mods[[j]]) = learner.names
-		names(o.pars[[j]]) = learner.names
-		names(o.paths[[j]]) = learner.names
+		names(os[[j]]) = learner.names
+		names(ps[[j]]) = learner.names
 	}
 	names(bs) = task.names
 	names(rfs) = task.names
 	names(cms) = task.names
 	names(mods) = task.names
-	names(o.pars) = task.names
-	names(o.paths) = task.names
+	names(os) = task.names
+	names(ps) = task.names
 	return(new("bench.result", task.descs=tds, data.descs=dds, resamplings=resamplings, perf = bs, 
 					predictions=rfs, conf.mats=cms, models=mods,
-					opt.pars = o.pars, opt.paths = o.paths
+					opts = os, paths = ps
 	))
 }
