@@ -21,10 +21,11 @@
 measures = function() {}
 
 
-#' Aggregation functions.
+#' Aggregation functions. You can use any function in R which reduces a numerical vector to simple real number. 
+#' Refer to the functions either by using an R function variable of by using a string denoting the function. 
+#' You can use multiple aggregation functions if you pass a list or vector of the former.  
 #' @title Aggregation functions.
 aggregations = function() {}
-
 
 make.aggrs = function(xs) {
 	if (length(xs)==0)
@@ -32,8 +33,11 @@ make.aggrs = function(xs) {
 	ys = list()
 	for (i in 1:length(xs)) {
 		x = xs[[i]] 
-		if (is.function(x))
+		if (is.function(x)) {
 			y = x
+			if (is.null(attr(y, "name")))
+				attr(y, "name") = deparse(substitute(x))
+		}
 		else if (is.character(x)) {
 			if (x == "combine") {
 				y = function(...) NA
@@ -89,6 +93,8 @@ make.measure <- function(name) {
 		x = acc
 	else if (name %in% c("mmce")) 
 		x = mce
+	else if (name %in% c("costs")) 
+		x = costs
 	
 	else if (name=="tp") 
 		x = tp
@@ -171,6 +177,17 @@ mcesd = function(x, task) {
 	sd(as.character(x["truth"]) != as.character(x["response"])) 
 }
 
+costs = function(x, task) {
+	cm = x@task.desc@costs
+	if (all(dim(cm) == 0))
+		stop("No costs were defined in task!")
+	cc = function(truth, pred) {
+		cm[truth, pred]
+	}
+	m = Reduce(sum, Map(cc, x["truth"], x["response"]))
+}
+
+
 ### binary
 
 
@@ -223,6 +240,10 @@ f1 = function(x, task) {
 	2 * tp(x) /
 	(sum(x["truth"] == x@task.desc["positive"]) + sum(x["response"] == x@task.desc["positive"]))  
 }
+
+
+
+
 
 ### regression
 

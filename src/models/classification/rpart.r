@@ -50,7 +50,10 @@ setMethod(
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			rpart(f, data=.data, weights=.weights, parms=list(loss=.costs), ...)
+			if (!all(dim(.costs)) == 0)
+				rpart(f, data=.data, weights=.weights, parms=list(loss=.costs), ...)
+			else
+				rpart(f, data=.data, weights=.weights, ...)
 		}
 )
 

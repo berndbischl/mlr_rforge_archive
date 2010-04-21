@@ -1,8 +1,12 @@
+#' Container for results of hyperparameter tuning or variable selection.    
+#' Conatins the found optimal paramteter vector, its performance values and the optimization path
+#' which lead there.
+#' It might also optionally contain a learner model, which was fitted by using the optimal parameters. 
+#' 
+#' @exportClass opt.result
+#' @title Optimization result.
+#' @seealso \code{\link{tune}}, \code{\link{varsel}} 
 
-#' A list. Might contain some additional information from the optimizer and at least:
-#'   \item{par}{Named list of best found hyperparameters.}
-#'   \item{perf}{Best found performance value.}
-#'   \item{model}{Fitted model on complete data set - if requested.}
 
 setClass(
 		"opt.result",
@@ -19,8 +23,8 @@ setClass(
 #' @param x object
 #' @param i [character]
 #' \describe{
-#'   \item{class.levels}{All possible class values.}
-#'   \item{class.nr}{Number of different classes.}
+#'   \item{opt}{ List with following elements: 'par' is named list of hyperparamter values or character vector of variables, 'perf' are the performance values of the optimum, 'evals' is the number of function nevaluation needed to find it.}
+#'   \item{path}{ Optimization path. List of elements which have the same structure as 'opt'.}
 #' }
 #' @rdname opr.result-class
 

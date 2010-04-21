@@ -33,7 +33,7 @@ setMethod(
 			data = prep.data(data, target, excluded)			
 			dd = new("data.desc", data=data, target=target, excluded=excluded)
 			td = new("task.desc", task.class="regr.task", id=id, label=label, target=target, positive=as.character(NA), negative=as.character(NA), 
-					excluded=excluded, costs=as.matrix(NA))			
+					excluded=excluded, costs=matrix(0,0,0))			
 			
 			callNextMethod(.Object, data=data, weights=weights, data.desc=dd, task.desc=td)
 		}

@@ -25,8 +25,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
 		def = function(.Object, id, label, target, data, excluded, weights, costs, positive) {
-			
-			
 			if (missing(data))
 				return(.Object)
 			
@@ -35,12 +33,7 @@ setMethod(
 			
 			n = dd["class.nr"]
 			levs = dd["class.levels"]
-			
-			# init costs
-			if (dim(costs)==c(1,1) && is.na(costs)) {
-				costs = matrix(1,n,n) - diag(1,n)
-			}
-			
+					
 			# init positive
 			pos = positive 
 			neg = as.character(NA)
@@ -57,6 +50,19 @@ setMethod(
 				if (!is.na(pos))
 					stop("Cannot set a positive class for a multiclass problem!")
 			}
+			
+			# check costs if passed
+			if (!all(dim(costs) == 0)) {
+				if (!is.matrix(costs))
+					stop("costs has to be a matrix!")
+				if (any(dim(costs) != n))
+					stop("Dimensions of costs has to be the same as number of classes!")
+				rns = rownames(costs)
+				cns = colnames(costs)
+				if (!setequal(rns, levs) || !setequal(cns, levs))
+					stop("Row and column names of cost matrix have to equal class levels!")
+			}			
+
 			td = new("task.desc", task.class="classif.task", id=id, label=label, target=target, positive=pos, negative=neg, excluded=excluded, costs=costs)			
 
 			callNextMethod(.Object, data=data, weights=weights, data.desc=dd, task.desc=td)

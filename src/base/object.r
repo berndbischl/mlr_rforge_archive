@@ -41,7 +41,7 @@ setMethod(
 		f = "print",
 		signature = signature("object"),
 		def = function(x, ...) {
-			cat(to.string(x))
+			cat(to.string(x), "\n")
 		}
 )
 
@@ -50,7 +50,7 @@ setMethod(
 		f = "show",
 		signature = signature("object"),
 		def = function(object) {
-			cat(to.string(object))
+			cat(to.string(object), "\n")
 		}
 )
 

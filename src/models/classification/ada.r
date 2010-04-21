@@ -30,7 +30,7 @@ setMethod(
 					supports.probs = TRUE,
 					supports.decision = FALSE,
 					supports.weights = TRUE,
-					supports.costs = FALSE
+					supports.costs = TRUE
 			)
 			
 			.Object <- callNextMethod(.Object, label="Ada boosting", learner.pack="ada", props=desc, parset=parset)
@@ -75,7 +75,11 @@ setMethod(
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			ada(f, data=.data, ...)
+			ada(f, data=.data, parms=list(loss=.costs), ...)
+			if (!all(dim(.costs)) == 0)
+				ada(f, data=.data, parms=list(loss=.costs), ...)
+			else
+				ada(f, data=.data, ...)
 		}
 )
 

@@ -35,87 +35,90 @@ setMethod(
 		signature = signature("bench.result"),
 		def = function(x,i,j,...,drop) {
 			
-			if (!missing(i)) {
-				if (i == "iters") {
-					return(lapply(x@perf, function(y) return(dim(y)[1] - 1)))
-				}
-				if (i == "learners") {
-					return(lapply(x@perf, function(y) dimnames(y)[[2]]))
-				}
-				if (i == "measures") {
-					return(lapply(x@perf, function(y) dimnames(y)[[3]]))
-				}
-				if (i == "tasks") {
-					return(names(x@perf))
-				}
+			if (i == "iters") {
+				return(lapply(x@perf, function(y) return(dim(y)[1] - 1)))
 			}
-			
-			args = list(...)
-			arg.names = names(args)
-			
-			task = args$task
-			if (is.null(task))
-				task = x["tasks"]
-			learner = args$learner
-			if (is.null(learner))
-				learner = x["learners"]
-			else if (is.character(learner))
-				learner = lapply(1:length(task), function(y) learner)
-			measure = args$measure
-			if (is.null(measure))
-				measure = x["measures"]
-			iter = args$iter
-			if (is.null(iter))
-				iter = lapply(x["iters"], function(y) 1:y)
-			aggr = args$aggr
-			if (is.null(aggr))
-				aggr=list()
-			aggr = make.aggrs(aggr)
-			
-			if (!missing(i)) {
-				if (i == "tuned.pars"){
-					if (missing(j))
-						j = 1:ncol(x@perf)
-					if (length(j) == 1)
-						return(x@tuned.pars[[j]])
-					else
-						return(x@tuned.pars[j])
-				}
-				if (i == "conf.mat"){
-					xs = x@conf.mats[task]
-					xs = lapply(xs, function(y) y[learner])
-					return(xs)
-				}
+			if (i == "learners") {
+				return(lapply(x@perf, function(y) dimnames(y)[[2]]))
 			}
-			
-			# reduce to selected tasks
-			p = x@perf[task]
-			# reduce to selected elements
-			if (is.null(aggr$combine))
-				g = function(arr, is, ls, ms) arr[is, ls, ms, drop=FALSE]
-			else			
-				g = function(arr, is, ls, ms) arr[c(is, "combine"), ls, ms, drop=FALSE]
-			p = Map(g, p, is=iter, learner, ms=measure)
-			# aggregate
-			if (length(aggr) > 0) {
-				g = function(arr) {
-					lapply(names(aggr), function(nn) {
-						if (nn == "combine")
-							h = function(y) y[length(y)]
-						else 
-							h = function(y) aggr[[nn]](y[1:(length(y))-1])
-						t(apply(arr, c(2,3), h))
-					})
-				}	
-				p = lapply(p, g) 
-				# put all aggr. values as columns together
-				p = lapply(p, function(arrs) Reduce(rbind, arrs))
-				# combine aggr names with measure names
-				for (k in 1:length(task)) {
-					rownames(p[[k]]) = sapply(names(aggr), function(a) paste(a, measure[[k]], sep="."))
-				}
+			if (i == "measures") {
+				return(lapply(x@perf, function(y) dimnames(y)[[3]]))
 			}
-			return(p)
+			if (i == "tasks") {
+				return(names(x@perf))
+			}
+			if (i == "opts") {
+				return(x@opts)
+			}
+
+			if (i == "perf") {
+				args = list(...)
+				arg.names = names(args)
+				
+				task = args$task
+				if (is.null(task))
+					task = x["tasks"]
+				learner = args$learner
+				if (is.null(learner))
+					learner = x["learners"]
+				else if (is.character(learner))
+					learner = lapply(1:length(task), function(y) learner)
+				measure = args$measure
+				if (is.null(measure))
+					measure = x["measures"]
+				iter = args$iter
+				if (is.null(iter))
+					iter = lapply(x["iters"], function(y) 1:y)
+				aggr = args$aggr
+				if (is.null(aggr))
+					aggr=list()
+				aggr = make.aggrs(aggr)
+				
+				if (!missing(i)) {
+					if (i == "tuned.pars"){
+						if (missing(j))
+							j = 1:ncol(x@perf)
+						if (length(j) == 1)
+							return(x@tuned.pars[[j]])
+						else
+							return(x@tuned.pars[j])
+					}
+					if (i == "conf.mat"){
+						xs = x@conf.mats[task]
+						xs = lapply(xs, function(y) y[learner])
+						return(xs)
+					}
+				}
+				
+				# reduce to selected tasks
+				p = x@perf[task]
+				# reduce to selected elements
+				if (is.null(aggr$combine))
+					g = function(arr, is, ls, ms) arr[is, ls, ms, drop=FALSE]
+				else			
+					g = function(arr, is, ls, ms) arr[c(is, "combine"), ls, ms, drop=FALSE]
+				p = Map(g, p, is=iter, learner, ms=measure)
+				# aggregate
+				if (length(aggr) > 0) {
+					g = function(arr) {
+						lapply(names(aggr), function(nn) {
+									if (nn == "combine")
+										h = function(y) y[length(y)]
+									else 
+										h = function(y) aggr[[nn]](y[1:(length(y))-1])
+									t(apply(arr, c(2,3), h))
+								})
+					}	
+					p = lapply(p, g) 
+					# put all aggr. values as columns together
+					p = lapply(p, function(arrs) Reduce(rbind, arrs))
+					# combine aggr names with measure names
+					for (k in 1:length(task)) {
+						rownames(p[[k]]) = sapply(names(aggr), function(a) paste(a, measure[[k]], sep="."))
+					}
+				}
+				return(p)
+			}
 		}
 )
 
@@ -130,7 +133,7 @@ setMethod(
 		f = "to.string",
 		signature = signature("bench.result"),
 		def = function(x) {
-			p = x[aggr=list(mean=mean, sd=sd)]
+			p = x["perf", aggr=list(mean=mean, sd=sd)]
 			p = paste(capture.output(p), collapse="\n")
 		}
 )

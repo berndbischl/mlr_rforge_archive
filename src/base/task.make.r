@@ -48,6 +48,7 @@ make.task = function(id, label, data, target, formula, excluded, weights, costs,
 				target = as.character(formula)[2]
 				data = model.frame(formula, data=data)
 			}
+			
 			check.task(data, target)
 			
 			if(is.factor(data[,target]) || is.character(data[,target]))
@@ -65,9 +66,8 @@ make.task = function(id, label, data, target, formula, excluded, weights, costs,
 				excluded = character(0)
 			if (missing(weights))
 				weights = numeric(0) 
-			if (missing(costs) && type == "classif") {
-				# we set costs in constructor after data preparation
-				costs = as.matrix(NA)
+			if (missing(costs)) {
+				costs = matrix(0,0,0)
 			}
 			if (missing(positive) && type == "classif")
 				positive = as.character(NA)
