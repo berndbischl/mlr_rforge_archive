@@ -28,7 +28,7 @@ setMethod(
 					supports.probs = TRUE,
 					supports.decision = FALSE,
 					supports.weights = TRUE,
-					supports.costs = TRUE
+					supports.costs = FALSE
 			)
 			callNextMethod(.Object, label="blackboost", pack="mboost", props=desc, parset=parset)
 		}

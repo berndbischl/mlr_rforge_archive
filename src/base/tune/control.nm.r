@@ -1,14 +1,14 @@
 
 #' Control structure for Nelder-Mead tuning. 
 #' 
-#' See optim for details of Nelder-Mead settings.
+#' See \code{\link[stats]{optim}} for details of Nelder-Mead settings.
 #' 
 #' @param start [numeric] \cr
 #'    Named vector of initial values.
-#' @param minimize [logical]
+#' @param minimize [logical] \cr
 #'       Minimize performance measure? Default is TRUE. 
-#' @param scale [\code{\link{function}}]
-#'        A function to scale the hyperparamters. E.g. maybe you want to optimize in some log-space.
+#' @param scale [\code{\link{function}}] \cr
+#'        A function to scale the hyperparameters. E.g. maybe you want to optimize in some log-space.
 #'        Has to take a single, numerical vector and return a scaled one. Default is identity function.
 #' @param ... Passed down to optim.
 #' 

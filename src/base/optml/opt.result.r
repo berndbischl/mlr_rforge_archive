@@ -1,6 +1,6 @@
 
-# A list. Might contain some additional information from the optimizer and at least:
-#'   \item{par}{Named list of best found hyperparamters.}
+#' A list. Might contain some additional information from the optimizer and at least:
+#'   \item{par}{Named list of best found hyperparameters.}
 #'   \item{perf}{Best found performance value.}
 #'   \item{model}{Fitted model on complete data set - if requested.}
 

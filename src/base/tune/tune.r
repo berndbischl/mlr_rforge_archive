@@ -7,7 +7,7 @@ roxygen()
 #' are available as well.
 #' The specific details of the search algorithm are set by passing a control object.   
 #' 
-#' The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal hyperparamters.
+#' The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal hyperparameters.
 #'
 #' @param learner [\code{\linkS4class{wrapped.learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
@@ -19,9 +19,9 @@ roxygen()
 #'        Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "nm".   
 #' @param control 
 #'        Control object for search method.   
-#' @param measures [see \code{\link{measures}}]
+#' @param measures [see \code{\link{measures}}]\cr
 #'        Performance measures. 
-#' @param aggr [see \code{\link{aggregations}}]
+#' @param aggr [see \code{\link{aggregations}}]\cr
 #'        Aggregation functions. 
 #' @param model [\code{\link{logical}}]\cr
 #'        Should a final model be fitted on the complete data with the best found hyperparameters?

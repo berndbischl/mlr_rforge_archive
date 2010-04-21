@@ -111,7 +111,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	
 }
 
-make(build=F, check=F, binary=T, install=F)
+make(build=F, check=F, binary=F, install=T)
 
 
 

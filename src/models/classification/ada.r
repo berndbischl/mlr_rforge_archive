@@ -1,3 +1,5 @@
+# Kosten bei allen gecheckt.
+
 #' @include wrapped.learner.classif.r
 roxygen()
 #' @include wrapped.model.r
@@ -28,7 +30,7 @@ setMethod(
 					supports.probs = TRUE,
 					supports.decision = FALSE,
 					supports.weights = TRUE,
-					supports.costs = TRUE
+					supports.costs = FALSE
 			)
 			
 			.Object <- callNextMethod(.Object, label="Ada boosting", learner.pack="ada", props=desc, parset=parset)

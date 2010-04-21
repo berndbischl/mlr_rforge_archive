@@ -1,12 +1,12 @@
 #' Control structure for CMA-ES tuning. 
 #' 
-#' See cmaes for details of CMA-ES settings.
+#' See \code{\link[cmaes]{cma_es}} for details of CMA-ES settings.
 #' 
 #' @param start [numeric] \cr
 #'    Named vector of initial values.
-#' @param minimize [logical]
+#' @param minimize [logical] \cr
 #'       Minimize performance measure? Default is TRUE. 
-#' @param scale [\code{\link{function}}]
+#' @param scale [\code{\link{function}}] \cr
 #'        A function to scale the hyperparamters. E.g. maybe you want to optimize in some log-space.
 #'        Has to take a single, numerical vector and return a scaled one. Default is identity function.
 #' @param ... Passed down to cmaes.
