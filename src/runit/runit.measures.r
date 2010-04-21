@@ -11,5 +11,5 @@ test.measures <- function() {
 	print(perf)
 	
 	be = bench.exp(tasks=ct, learners=learners, measures = ms, resampling=res)
-	print(be[aggr=list(combine="combine")])
+	print(be["perf", aggr=list(combine="combine")])
 }
