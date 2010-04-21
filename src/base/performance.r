@@ -62,7 +62,7 @@ setMethod(
 #				stop("Measure has to return a scalar value!")
 			ls = as.data.frame(Reduce(rbind, ls))
 			g = function(x) {
-				n = attr(x, "name")
+				n = attr(x, "id")
 				if (is.null(n)) 
 					return(NA)
 				else 

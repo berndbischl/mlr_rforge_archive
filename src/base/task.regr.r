@@ -48,7 +48,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Regression problem ", x["name"], "\n",
+							"Regression problem ", x["id"], "\n",
 							to.string(x@data.desc), "\n",
 							sep=""
 					)

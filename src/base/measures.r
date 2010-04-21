@@ -22,7 +22,8 @@ measures = function() {}
 
 
 #' Aggregation functions. You can use any function in R which reduces a numerical vector to simple real number. 
-#' Refer to the functions either by using an R function variable of by using a string denoting the function. 
+#' Refer to the function either by using an R function object or by using a string denoting the built-in function.
+#' If you coose to pass an R function, you should set the attribute 'id' to a string to give the function a name.  
 #' You can use multiple aggregation functions if you pass a list or vector of the former.  
 #' @title Aggregation functions.
 aggregations = function() {}
@@ -35,8 +36,6 @@ make.aggrs = function(xs) {
 		x = xs[[i]] 
 		if (is.function(x)) {
 			y = x
-			if (is.null(attr(y, "name")))
-				attr(y, "name") = deparse(substitute(x))
 		}
 		else if (is.character(x)) {
 			if (x == "combine") {
@@ -48,12 +47,12 @@ make.aggrs = function(xs) {
 					stop("Aggregation method is not the name of a function: ", x)
 				}
 			}
-			attr(y, "name") = x
+			attr(y, "id") = x
 		}
 		ys[[i]] = y
 		nn = names(xs)[i]
 		if (is.null(nn))
-			nn = attr(y, "name")
+			nn = attr(y, "id")
 		if (is.null(nn))
 			stop("No name for aggregation method: ", capture.output(str(y)))
 		names(ys)[i] = nn
@@ -79,16 +78,17 @@ make.measures = function(xs) {
 		ys[[i]] = y
 		nn = names(xs)[i]
 		if (is.null(nn))
-			nn = attr(y, "name")
+			nn = attr(y, "id")
 		if (is.null(nn))
-			stop("No name for measure! Set an attribute 'name' on the measure or pass measures as a named list!")
+			stop("No name for measure! Set an attribute 'id' on the measure or pass measures as a named list!")
 		names(ys)[i] = nn
 	}
 	return(ys)	
 }
 
 
-make.measure <- function(name) {
+make.measure <- function(x) {
+	name = x
 	if (name %in% c("acc")) 
 		x = acc
 	else if (name %in% c("mmce")) 
@@ -139,7 +139,7 @@ make.measure <- function(name) {
 	else 
 		stop("Requested unknown measure: ", name)
 	
-	attr(x, "name") = name
+	attr(x, "id") = name
 	return(x)
 }
 

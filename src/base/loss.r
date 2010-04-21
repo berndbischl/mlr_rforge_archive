@@ -16,9 +16,9 @@ make.losses = function(xs) {
 		ys[[i]] = y
 		nn = names(xs)[i]
 		if (is.null(nn))
-			nn = attr(y, "name")
+			nn = attr(y, "id")
 		if (is.null(nn))
-			stop("No name for measure!")
+			stop("No name for loss!")
 		names(ys)[i] = nn
 	}
 	return(ys)	
@@ -35,7 +35,7 @@ make.loss <- function(name) {
 	else 	
 		stop(paste("Loss", name, "does not exist!"))
 	
-	attr(fun, "name") = name
+	attr(fun, "id") = name
 	return(fun)
 }
 

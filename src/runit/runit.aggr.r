@@ -7,7 +7,9 @@ test.aggr <- function() {
 
 	res = make.res.desc("cv", iters=3)
 	rf = resample.fit("classif.lda", task=ct, resampling=res)
-	perf = performance(rf, aggr=list("combine", "mean", mean))
+	f = mean
+	attr(f, "id") = "foo"
+	perf = performance(rf, aggr=list("combine", "mean", f))
 	print(perf)
 	
 #	m = train("classif.rpart", task=ct, subset=binaryclass.train.inds)

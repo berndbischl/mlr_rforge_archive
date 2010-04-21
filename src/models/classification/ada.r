@@ -75,10 +75,11 @@ setMethod(
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			ada(f, data=.data, parms=list(loss=.costs), ...)
-			if (!all(dim(.costs)) == 0)
+			if (!all(dim(.costs)) == 0) {
+				lev = levels(.data[, .targetvar])
+				.costs = .costs[lev, lev] 
 				ada(f, data=.data, parms=list(loss=.costs), ...)
-			else
+			} else
 				ada(f, data=.data, ...)
 		}
 )

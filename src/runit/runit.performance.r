@@ -24,7 +24,7 @@ test.performance <- function() {
 		e2 = mean(t2 != x["response"])
 		checkEquals(e1, e2)
 	}
-	attr(mymeasure, "name") = "mym"
+	attr(mymeasure, "id") = "mym"
 	
 	performance(rf, measures=mymeasure, task=binaryclass.task)
 	

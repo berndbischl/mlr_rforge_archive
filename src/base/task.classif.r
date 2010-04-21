@@ -112,7 +112,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Classification problem ", x["name"], "\n",
+							"Classification problem ", x["id"], "\n",
 							to.string(x@data.desc),
 							"Classes:", x["class.nr"],
 							paste(capture.output(table(x["targets"])), collapse="\n"),

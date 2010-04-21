@@ -152,7 +152,7 @@ as.ROCR.preds = function(x) {
 	for (i in 1:length(rfs)) {
 		td = x@task.descs[[i]]
 		dd = x@data.descs[[i]]
-		tn = td["name"]
+		tn = td["id"]
 		if(dd["class.nr"] != 2) {
 			stop("Task", tn, "has more than 2 classes!")
 		}

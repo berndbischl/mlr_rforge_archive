@@ -1,7 +1,7 @@
 #' Container for results of hyperparameter tuning or variable selection.    
-#' Conatins the found optimal paramteter vector, its performance values and the optimization path
+#' Contains the obtained optimal parameter vector, its performance values and the optimization path
 #' which lead there.
-#' It might also optionally contain a learner model, which was fitted by using the optimal parameters. 
+#' It might also optionally contain a wrapped.model, which was fitted by using the optimal parameters. 
 #' 
 #' @exportClass opt.result
 #' @title Optimization result.
