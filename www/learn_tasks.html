@@ -15,21 +15,23 @@
 
 <h3>Classification example</h3>
 
-<p>The following example defines a classification task for the data set BreastCancer (from package mlbench) and excludes an ID variable from all further modell fitting.</p>
+<p>The following example defines a task, automatically detected as classification task, for the data set BreastCancer (from package mlbench) and excludes an ID variable from all further model fitting.</p>
 
 <pre>
-	ct <- make.classif.task(data = BreastCancer, target = "Class", excluded = "Id")
+	library(mlbench)
+	data(BreastCancer)
+	ct <- make.task(data = BreastCancer, target = "Class", excluded = "Id")
 </pre>
 
 <p> Instead of specifying the target, we could have also used the formula interface: </p>
 
 <pre>
-	make.classif.task(data = BreastCancer, formula = Class~., excluded = "Id")
-	make.classif.task(data = iris, formula = Species ~ Sepal.Length + I(Sepal.Width)^2)
+	make.task(data = BreastCancer, formula = Class~., excluded = "Id")
+	make.task(data = iris, formula = Species ~ Sepal.Length + I(Sepal.Width)^2)
 </pre>
 
 
-<li>  The second example uses the iris dataset which includes numeric variables (in opposition to BreastCancer) and thus can be an example for including just a subset of the variables and transformations of the variables. This construction will built a new internal data frame by calling model.frame.
+<li>  The second example uses the iris data set which includes numeric variables (in opposition to BreastCancer) and thus can be an example for including just a subset of the variables and transformations of the variables. This construction will built a new internal data frame by calling model.frame.
 </ul>
 
 <p> The now defined task also gives you some convenience methods to access properties of the data set:</p>
@@ -40,7 +42,7 @@
 	<com># print useful info about the data set</com>
 	ct
 	<res>
-	Classification problem BreastCancer
+	Classification problem
 	Features Nums:0 Ints:0 Factors:9 Chars:0
 	Observations: 699
 	Missings: TRUE
@@ -48,12 +50,13 @@
 	Classes:2
 	   benign malignant 
 	      458       241 
+	Positive class: benign 
 	</res>	
 	
 	<com># access more information </com>
-	<com># get target name and column index - same for regression</com>
+	<com># get target name and the names of the input variables - same for regression</com>
 	ct["target.name"]
-	ct["target.col"]
+	ct["input.names"]
 
 	<com># get target values for all / some observations  - same for regression </com>
 	ct["targets"]
@@ -64,28 +67,27 @@
 </pre>
 
 
-<p> We can include further information like costs, weights or the type of the prediction optionally:
+<p> We can include further information like costs or weights optionally:
 
 <pre>
 	<com> # non-default costs for wrong predictions: </com>
 	costs <- matrix (c(0, 1, 2, 0), 2, 2)
+	colnames(costs) <- rownames(costs) <- c(ct["class.levels"][1], ct["class.levels"][2])
 	costs
 	<res>
-	     [,1] [,2]
-	[1,]    0    2
-	[2,]    1    0
+	          benign malignant
+	benign         0         2
+	malignant      1         0
 	</res>
-	ct <- make.classif.task(data = BreastCancer , target = "Class", costs = costs)
+
+	ct <- make.task(data = BreastCancer , target = "Class", costs = costs)
 	
 	<com> # weights for the cases </com>
-	ct <- make.classif.task(data = BreastCancer, target = "Class", weights = 1:699)
-	
-	<com> # when we are interested in predicting probabilities </com>
-	ct <- make.classif.task(data = BreastCancer, target = "Class", type = "prob")
+	ct <- make.task(data = BreastCancer, target = "Class", weights = 1:699)
 </pre>
 
 
-<p>From this classification task we can now train various models, e.g. by training one model on different subparts of BreastCancer or by training different models. This will be covered in the subsequent section <a href="train.html">Training </a>. Before that, let's look at a very similar way to set up a regression experiment:</p>
+<p>From this classification task we can now train various models, e.g. by training one model on different subparts of BreastCancer or by training different models. This will be covered in the subsequent section <a href="train.html">Training </a>. Before that, let's look at a regression experiment:</p>
 
 
 <h3>Regression example</h3>
@@ -100,7 +102,7 @@
 	rt <- make.regr.task("BostonHousing", data = BostonHousing, formula = medv~.)
 
 	<res>
-	Regression problem BostonHousing
+	Regression problem
 	Features Nums:12 Ints:0 Factors:1 Chars:0
 	Observations: 506
 	Missings: FALSE
