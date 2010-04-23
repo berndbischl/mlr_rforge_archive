@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+	<title>Learning tasks</title>
+	<link rel="stylesheet" type="text/css" href="formats.css">
+	<style type="text/css">
+	</style>
+</head>
+
+<body>
+
+<h1>Learning task</h1>
+
+<p>Learning tasks are the basic element of the package to encapsulate the data set and all relevant information regarding the purpose of the task. This will be at least the target variable, but might also be information about excluded (ID) variables or misclassification costs.</p>
+
+<h3>Classification example</h3>
+
+<p>The following example defines a classification task for the data set BreastCancer (from package mlbench) and excludes an ID variable from all further modell fitting.</p>
+
+<pre>
+	ct <- make.classif.task(data = BreastCancer, target = "Class", excluded = "Id")
+</pre>
+
+<p> Instead of specifying the target, we could have also used the formula interface: </p>
+
+<pre>
+	make.classif.task(data = BreastCancer, formula = Class~., excluded = "Id")
+	make.classif.task(data = iris, formula = Species ~ Sepal.Length + I(Sepal.Width)^2)
+</pre>
+
+
+<li>  The second example uses the iris dataset which includes numeric variables (in opposition to BreastCancer) and thus can be an example for including just a subset of the variables and transformations of the variables. This construction will built a new internal data frame by calling model.frame.
+</ul>
+
+<p> The now defined task also gives you some convenience methods to access properties of the data set:</p>
+
+
+<pre>
+	<com># before we start, let's examine ct</com>
+	<com># print useful info about the data set</com>
+	ct
+	<res>
+	Classification problem BreastCancer
+	Features Nums:0 Ints:0 Factors:9 Chars:0
+	Observations: 699
+	Missings: TRUE
+	in 16 observations and 1 features
+	Classes:2
+	   benign malignant 
+	      458       241 
+	</res>	
+	
+	<com># access more information </com>
+	<com># get target name and column index - same for regression</com>
+	ct["target.name"]
+	ct["target.col"]
+
+	<com># get target values for all / some observations  - same for regression </com>
+	ct["targets"]
+	ct["targets", c(1:5, 100:15)]
+
+	<com># get all possible classes - classification specific</com>		 
+	ct["class.levels"]
+</pre>
+
+
+<p> We can include further information like costs, weights or the type of the prediction optionally:
+
+<pre>
+	<com> # non-default costs for wrong predictions: </com>
+	costs <- matrix (c(0, 1, 2, 0), 2, 2)
+	costs
+	<res>
+	     [,1] [,2]
+	[1,]    0    2
+	[2,]    1    0
+	</res>
+	ct <- make.classif.task(data = BreastCancer , target = "Class", costs = costs)
+	
+	<com> # weights for the cases </com>
+	ct <- make.classif.task(data = BreastCancer, target = "Class", weights = 1:699)
+	
+	<com> # when we are interested in predicting probabilities </com>
+	ct <- make.classif.task(data = BreastCancer, target = "Class", type = "prob")
+</pre>
+
+
+<p>From this classification task we can now train various models, e.g. by training one model on different subparts of BreastCancer or by training different models. This will be covered in the subsequent section <a href="train.html">Training </a>. Before that, let's look at a very similar way to set up a regression experiment:</p>
+
+
+<h3>Regression example</h3>
+
+
+<pre>
+	<com># We will generally take the Boston Housing data set as regression example</com>
+	library(mlbench)
+	data(BostonHousing)
+
+	<com># and this time we use formula instead of target: </com>
+	rt <- make.regr.task("BostonHousing", data = BostonHousing, formula = medv~.)
+
+	<res>
+	Regression problem BostonHousing
+	Features Nums:12 Ints:0 Factors:1 Chars:0
+	Observations: 506
+	Missings: FALSE
+	</res>	
+	
+	<com># the further steps work analogous to a classification task</com>
+</pre>
+
+
+
+</body>
+</html>

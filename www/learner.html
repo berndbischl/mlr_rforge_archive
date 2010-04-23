@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+	<title>Wrapped learners</title>
+	<link rel="stylesheet" type="text/css" href="formats.css">
+	<style type="text/css">
+	</style>
+</head>
+
+<body>
+
+<h1>Wrapped learners</h1>
+
+<p>Wrapped learner classes provide a unified interface to all classification/regression methods in R. 
+Some are already integrated, others are not, but the package is specifically designed to make extensions easy. 
+If one of your favourite methods is missing, either send me an email or see the  part of the tutorial how to extend the package yourself.</p>
+
+<P>You have two options to access the learning algorithms in mlr. 
+Either by passing the name as a character string to the appropriate method or by constructing the wrapped learner object explicitly:</p>
+
+<h3>Example</h3>
+<p> Let's have a look at the iris example to show the two different possibilities: </p>
+<pre>
+	<com># Classification task: </com>
+	ct <- make.classif.task(data = iris, target = "Species")
+
+	<com># First possibility: </com>
+	<com>#   passing the name as a character string to the appropriate method: </com>
+	model <- train("lda", ct)
+
+	<com># Second possibility: </com>
+	<com>#   constructing the wrapped learner object explicitly </com>
+	wl <- make.learner("lda")
+
+	<com>#   and set technical parameter: </com>
+	wl <- set.train.par(wl, tol = 10^-5)
+	model <- train(wl, ct)
+
+	<com>#   Let's see what wl is: </com>
+	wl
+	
+	<res>  
+	Classification learner LDA from package MASS
+
+	Supports multiclass: TRUE
+	Supported features Nums:TRUE Factors:TRUE Chars:FALSE
+	Supports missings: FALSE
+	Supports probabilities: TRUE
+	Supports weights: FALSE
+	Supports costs: FALSE
+	</res>
+</pre>
+
+<P> As you can see above, the wrapped learner includes a lot of information about the supported or not supported cases of the specific learner. 
+For example, the LDA supports multiclass but cannot handle missings. 
+In this way you get an overview, whether the possibilities of the chosen learner go with your data or not.
+</P> 
+
+<P>Every method in mlr which has a learning algorithm as an argument will allow both variants. 
+The latter one allows more flexibility when you want to change default parameters or add something more complex on 
+top of the learning algorithm (e.g. see <a href="tuning.html">Tuning</a>).</P>
+
+<P>To see which learners are already implemented have a look at the R documentation of <a href="rdocs/make.learner"> make.learner</a> <b><font color="red">---Link geht nicht----</font></b>.</P>
+
+
+</body>
+</html>

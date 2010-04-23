@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+	<title>Tuning</title>
+	<link rel="stylesheet" type="text/css" href="formats.css">
+	<style type="text/css">
+	</style>
+</head>
+
+<body>
+<h1>Tuning of hyperparameters</h1>
+
+
+<P>Many classification algorithms feature a set of hyperparameters that either need 
+to be selected by the user or through resampling, e.g. cross-validation. Setting them 
+by hand was already covered in the section about training and resampling - simply use the 
+"parset" argument in the "train" or "resample.fit" methods</P>
+
+<P>Assuming, you have understood how <a href="resampling.html">resampling</a> works,  
+it's quite simple to implement a grid search, which is one of the standard - albeit slow - ways 
+to choose an appropriate set of parameters from a given range of values.</P> 
+
+<h3>Classification example</h3>
+
+<P>We again use the iris data set and now want to tune a SVM with a polynomial kernel.</P>
+
+<pre>
+	<com># Classification task</com>
+	ct <- make.classif.task(data = iris, target = "Species")
+
+	<com># Range of the values</com>
+	r <- list(C = 2^(-1:1), sigma = 2^(-1:1))
+
+	<com># Evaluation with 3-fold cross-validation</com>
+	res <- make.res.desc("cv", iters = 3)
+
+	<com># Tune SVM</com>
+	tune("kernlab.svm.classif", ct, res, control = grid.control(ranges=r))
+	<res>
+	$par
+	$par$C
+	[1] 0.5
+
+	$par$sigma
+	[1] 0.5
+
+
+	$perf
+	[1] 0.04
+
+	$all.perfs
+	    C sigma       mean         sd time
+	1 0.5   0.5 0.04000000 0.02000000 0.25
+	2   1   0.5 0.04666667 0.05033223 0.26
+	3   2   0.5 0.05333333 0.01154701 0.25
+	4 0.5     1 0.06666667 0.04618802 0.27
+	5   1     1 0.06666667 0.04618802 0.25
+	6   2     1 0.05333333 0.02309401 0.25
+	7 0.5     2 0.06666667 0.03055050 0.27
+	8   1     2 0.06666667 0.03055050 0.26
+	9   2     2 0.06666667 0.04618802 0.25
+	</res>
+</pre>
+
+<P>Let's take a look at the above code.</P>
+
+<P>The parameter grid has to be a named list, where every entry has 
+to be named according to the corresponding parameter of the underlying R function 
+(in this case "ksvm" from the kernlab package, see the help page of "kernlab.svm.classif"). 
+Its value is a vector of feasible values for this hyperparameter. The complete grid is just 
+the cross-product of all feasible values. </P>
+(Please note that with ksvm we encounter a somewhat special case, as the parameters 
+should be passed through the "kernel" and "kpar" structures. 
+To make this simpler, t.svm allows direct passing. Again, see documentation.) <P>
+Tune now simply performs the CV for every element of the cross-product and selects 
+the one with the best mean performance measure.</P> 
+
+<br>
+<P>SVMs exhibit another special case with regard to tuning, as one generally does not want 
+to optimize over a complete cross-product, when using different kernels with different kernel 
+parameters. mlr therefore allows "ranges" to be a list of ranges: <br>
+Let's tune SVMs with polynomial and gaussian kernels on iris</P>
+
+<pre>
+	<com># Classification task</com>
+	ct <- make.classif.task(data = iris, target = "Species")
+
+	<com># Different kernels with different kernel parameters </com>
+	r1 <- list(C = c(0.5, 1, 2), kernel = "polydot", degree = 1:3)
+	r2 <- list(C = c(0.5, 1, 2), kernel = "rbfdot", sigma = c(0.1, 0.2, 0.3))
+
+	<com># Evaluation with 5-fold cross-validation</com>
+	res <- make.res.desc("cv", iters = 5)
+	
+	<com># Combine grids</com>
+	ranges <- list(r1, r2)
+
+	<com># Tune SVMs</com>
+	tune("kernlab.svm.classif", ct, res, ranges)
+
+	<res>
+	$best.parameters
+	$best.parameters$C
+	[1] 0.5
+
+	$best.parameters$kernel
+	[1] "polydot"
+
+	$best.parameters$degree
+	[1] 1
+
+	$best.parameters$sigma
+	[1] NA
+
+
+	$best.performance
+	[1] 0.03333333
+
+	$best.sd
+	[1] 0
+
+	$performances
+	     C  kernel degree sigma       mean         sd
+	1  0.5 polydot      1    NA 0.03333333 0.00000000
+	2  1.0 polydot      1    NA 0.04000000 0.02788867
+	3  2.0 polydot      1    NA 0.04666667 0.01825742
+	4  0.5 polydot      2    NA 0.03333333 0.00000000
+	5  1.0 polydot      2    NA 0.03333333 0.02357023
+	6  2.0 polydot      2    NA 0.04000000 0.02788867
+	7  0.5 polydot      3    NA 0.04000000 0.02788867
+	8  1.0 polydot      3    NA 0.04000000 0.02788867
+	9  2.0 polydot      3    NA 0.04666667 0.01825742
+	10 0.5  rbfdot     NA   0.1 0.04000000 0.03651484
+	11 1.0  rbfdot     NA   0.1 0.03333333 0.02357023
+	12 2.0  rbfdot     NA   0.1 0.03333333 0.02357023
+	13 0.5  rbfdot     NA   0.2 0.03333333 0.04082483
+	14 1.0  rbfdot     NA   0.2 0.04000000 0.02788867
+	15 2.0  rbfdot     NA   0.2 0.03333333 0.02357023
+	16 0.5  rbfdot     NA   0.3 0.04000000 0.02788867
+	17 1.0  rbfdot     NA   0.3 0.04000000 0.02788867
+	18 2.0  rbfdot     NA   0.3 0.04000000 0.02788867
+	</res>
+</pre>
+
+<h3>Regression example</h3>
+
+<P> Let's tune a k-nearest-neighbor-regression from kknn on the BostonHousing data set. </P>
+
+<pre>
+	<com># Regression task</com>
+	rt <- make.regr.task(data = BostonHousing, formula = medv~.)
+
+	<com># Range of the value k </com>
+	range <- list(k=1:7)
+
+	<com># Evaluate with 5-fold cross-validation</com>
+	res <- make.res.desc("cv", iters=5)
+	
+	<com># Tune k-nearest-neighbor-regression with default loss-function</com>
+	tune("kknn.regr", rt, res, control=grid.control(ranges=range), loss="squared")
+
+	<res>
+	$par
+	$par$k
+	[1] 5
+
+
+	$perf
+	[1] 16.01436
+
+	$all.perfs
+	  k     mean       sd time
+	1 1 21.14526 5.111700 0.50
+	2 2 21.25564 8.288623 0.48
+	3 3 16.13007 8.476711 0.50
+	4 4 16.41579 5.511934 0.50
+	5 5 16.01436 4.695017 0.50
+	6 6 17.24456 2.548165 0.50
+	7 7 17.40761 1.587839 0.50	
+	</res>
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+	<title>Task</title>
+	<link rel="stylesheet" type="text/css" href="formats.css">
+	<style type="text/css">
+	</style>
+</head>
+
+<body>
+
+<h1>Learning tasks</h1>
+
+<p>Learning tasks are the basic elements of the package to encapsulate the data set and off informtaion regarding the target of the modelling process. </p>
+<P>
+
+<h3>Classification example</h3>
+
+<pre>
+	ct <- make.classif.task(data=iris, target="Species")
+</pre>
+
+<p>This single line already performs quite a few task:</p>
+<ul>
+<li> Tries to load required package for LDA (MASS)
+<li> Gathers information about features of data set and method, and compares whether they are compatible (e.g. some methods might not handle NAs or facors)
+<li> Converts integers to numerics and warns about this.
+</ul>
+
+<p>The template also gives you some convenience methods to access properties of the data set and the machine learning method:</p>
+
+
+<pre>
+	<com>#before we start, let's examine ct</com>
+	<com>#print useful info about the data set</com>
+	ct
+	<res>
+	Classification template for RPART from package rpart
+
+	Dataset: Classification problem
+	Classes: 3 
+	Features Nums:4 Ints:0 Factors:0 Chars:0
+	Observations: 150
+	Missings: FALSE
+
+	Learner: 
+	Supports multiclass: TRUE
+	Supported features Nums:TRUE Factors:TRUE Chars:FALSE
+	Supports missings: TRUE
+	Supports probabilities: TRUE
+	Supports weights: TRUE	
+	</res>	
+	
+	
+	<com>#get class column index and name - same for regression</com>
+	ct["target.name"]
+	ct["target.col"]
+	<com>#get target values for all / some observations  - same for regression </com>
+	ct["targets"]
+	ct["targets", c(1:5, 100:15)]
+	<com>#get all possible classes - classification specific</com>		 
+	ct["class.levels"]
+</pre>
+
+<p>From this template we can now generate various rpart models, by training it on different subparts of iris, which will be covered in the subsequent sections. Before that, lets look ath very similar way to set up a regression experiment:</p>
+
+
+<h3>Regression example</h3>
+
+
+<pre>
+	<com>#We will generally use the Boston Housing data set as an example</com>
+	library(mlbench)
+	data(BostonHousing)
+	<com>#and often the Gradient Boosting Machine for regression
+	rt <- new("regr.gbm", data=BostonHousing, formula=medv~.)
+
+	<res>
+	Regression template for Gradient Boosting Machine from package gbm
+
+	Dataset: Regression problem
+	Features Nums:12 Ints:0 Factors:1 Chars:0
+	Observations: 506
+	Missings: FALSE
+
+	Learner: 
+	Supported features Nums:TRUE Factors:TRUE Chars:FALSE
+	Supports missings: TRUE
+	Supports weights: TRUE
+	</res>	
+	
+	<com>#rest analogous</com>
+</pre>
+
+
+
+</body>
+</html>

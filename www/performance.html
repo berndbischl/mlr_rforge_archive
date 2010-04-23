@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+	<title>Evaluation of Predictions</title>
+	<link rel="stylesheet" type="text/css" href="formats.css">
+	<style type="text/css">
+	</style>
+</head>
+
+<body>
+
+<h1>Evaluation of Predictions</h1>
+
+<P>
+The quality of predictions is normally measured w.r.t some loss function (which is to be minimized), or sometimes w.r.t. some positive performance measure (which is to be maximized). Typical loss functions are misclassification error or deviance for classification and SSE or absolute deviations for regression. 
+
+<P>
+At the moment only the most common measures are implemented, but it's easy to write your own. Also, a good starting point for classification, measures connected to ROCR curves and nice plots the package <a target="_top" href="http://cran.r-project.org/web/packages/ROCR/index.html">ROCR</a>. I will probably integrate this more tightly at some point in the future.
+
+<h3>Loss functions for classification  <b><font color="red">---NOCH VERVOLLSTÄNDIGEN----</font></b></h3>
+
+
+<table border=1 cellpadding=2>
+<tr>
+	<th>Short</th>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Min/Max</th>
+	<th>Aggregate</th>
+</tr>
+<tr>
+	<td>zero-one</td>
+	<td>Mean misclassification error</td>
+	<td>Counts misclassification errors, divided by number of observations in test set</td>
+	<td>minimize</td>
+	<td>mean</td>
+</tr>
+</table>
+
+<h3>Loss functions for regression  <b><font color="red">---NOCH VERVOLLSTÄNDIGEN----</font></b></h3>
+
+<table border=1 cellpadding=2>
+<tr>
+	<th>Short</th>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Min/Max</th>
+	<th>Aggregate</th>
+</tr>
+<tr>
+	<td>squared</td>
+	<td>Mean squared error</td>
+	<td>1/n sum_i=1^n (y_i - pred_i)^2 </td>
+	<td>minimize</td>
+	<td>sum</td>
+</tr>
+
+</table>
+
+
+
+<P>
+
+
+<h3>Classification example</h3>
+
+<pre>
+	<com># Classification task with iris data set </com>
+	ct <- make.classif.task(data = iris, formula = Species~.)
+
+	<com># Training and test set indices </com>
+	train.set <- seq(from = 1, to = 150, by = 2)
+	test.set <- seq(from = 2, to = 150, by = 2)
+	
+	<com># Decision Tree on training set </com>
+	model <- train("rpart.classif", ct, subset = train.set) 
+
+	<com># Prediction on test set data </com>
+	preds <- predict(model, newdata = iris[test.set,])
+
+	<com># Compare predicted and true label with default loss-function "zero-one"</com> 
+	performance(true.y = iris[test.set, "Species"], pred.y = preds)	
+
+	<res>
+	$aggr
+	[1] 0.05333333
+
+	$vals
+	 [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	[39] 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0
+	</res>
+	<b><font color="red">---NOCH VERVOLLSTÄNDIGEN:----</font></b>
+	<com># Compare predicted and true label with default loss-function "----"</com> 
+	performance(true.y = iris[test.set, "Species"], pred.y = preds, loss="-----")		
+</pre>
+
+
+<h3>Regression example</h3>
+
+
+<p> Very analogous to above example </p>
+
+<pre>
+	<com># Regression task with BostonHousing data set </com>
+	rt <- make.regr.task(data = BostonHousing, formula = medv~.)
+
+	<com># Training and test set indices </com>
+	train.set <- seq(from = 1, to = 506, by = 2)
+	test.set <- seq(from = 2, to = 506, by = 2)
+
+	<com># Gradient Boosting Machine on training set </com>
+	model <- train("gbm.regr", rt, subset = train.set, parset = list(n.trees=10000)) 
+
+	<com># Prediction on test set data </com>
+	preds <- predict(model, newdata = BostonHousing[test.set,])
+	<res>
+	[1] 22.395020 36.117794 25.031917 16.369151 17.798636 20.611659 22.606421
+	[8] 22.671347 20.158904 20.559315 20.347968 15.692052 16.319054 16.349748
+	...
+	[253] 23.055107
+	</res>
+
+	<com># Compare predicted and true label with default loss-function "squared"</com> 
+	performance(true.y = BostonHousing[test.set, "medv"], pred.y = preds)
+	<res>
+	$aggr
+	[1] 17.03216
+
+	$vals
+	[1] 6.186657e-01 8.751260e+00 1.189271e+01 1.169115e+02 1.462081e+00
+	[6] 2.720436e+00 5.587959e+00 8.576545e+00 7.208765e+00 5.800308e+00
+	...
+	[251] 3.202702e-03 8.105602e+00 1.274056e+02
+	</res>
+	
+</pre>
+   
+
+
+</body>
+</html>
