@@ -11,11 +11,19 @@
 
 <h1>Learning task</h1>
 
-<p>Learning tasks are the basic element of the package to encapsulate the data set and all relevant information regarding the purpose of the task. This will be at least the target variable, but might also be information about excluded (ID) variables or misclassification costs.</p>
+<p>Learning tasks are the basic element of the package to encapsulate the data set and all relevant information 
+regarding the purpose of the task. This will be at least the target variable, but might also be information about 
+excluded (ID) variables, misclassification costs or case weights.</p>
+
+<p>Currently two subclasses of a learn.task exist, classif.task for classification problems and regr.task for regression.
+Both are created by using the make.task factory method, and the type of the task is decided automatically by looking at 
+the target variable.
+If this is encoded as an integer, you have to change it either to a factor or a numerical.</p>
 
 <h3>Classification example</h3>
 
-<p>The following example defines a task, automatically detected as classification task, for the data set BreastCancer (from package mlbench) and excludes an ID variable from all further model fitting.</p>
+<p>In the following example we define a classification task for the data set BreastCancer 
+(from the package mlbench) and exclude the ID variable from all further model fitting and evaluation.</p>
 
 <pre>
 	library(mlbench)
@@ -31,7 +39,9 @@
 </pre>
 
 
-<li>  The second example uses the iris data set which includes numeric variables (in opposition to BreastCancer) and thus can be an example for including just a subset of the variables and transformations of the variables. This construction will built a new internal data frame by calling model.frame.
+<li>The second example uses the iris data set which has numerical input variables 
+and shows how to include transformations of the original variables (which you you obviously could also do before
+passing the data.frame to make.task). The formula interface will build a new internal data frame by calling model.frame.
 </ul>
 
 <p> The now defined task also gives you some convenience methods to access properties of the data set:</p>
@@ -60,7 +70,7 @@
 
 	<com># get target values for all / some observations  - same for regression </com>
 	ct["targets"]
-	ct["targets", c(1:5, 100:15)]
+	ct["targets", row=1:5]
 
 	<com># get all possible classes - classification specific</com>		 
 	ct["class.levels"]
@@ -72,7 +82,7 @@
 <pre>
 	<com> # non-default costs for wrong predictions: </com>
 	costs <- matrix (c(0, 1, 2, 0), 2, 2)
-	colnames(costs) <- rownames(costs) <- c(ct["class.levels"][1], ct["class.levels"][2])
+	colnames(costs) <- rownames(costs) <- ct["class.levels"]
 	costs
 	<res>
 	          benign malignant
@@ -82,12 +92,14 @@
 
 	ct <- make.task(data = BreastCancer , target = "Class", costs = costs)
 	
-	<com> # weights for the cases </com>
+	<com> # (nonsensical) weights for the cases </com>
 	ct <- make.task(data = BreastCancer, target = "Class", weights = 1:699)
 </pre>
 
 
-<p>From this classification task we can now train various models, e.g. by training one model on different subparts of BreastCancer or by training different models. This will be covered in the subsequent section <a href="train.html">Training </a>. Before that, let's look at a regression experiment:</p>
+<p>From this classification task we can now train various models, e.g. by training one model on different subparts of BreastCancer
+or by training different models. This will be covered in the subsequent section <a href="train.html">Training </a>. 
+Before that, let's look at a regression experiment:</p>
 
 
 <h3>Regression example</h3>
@@ -108,7 +120,7 @@
 	Missings: FALSE
 	</res>	
 	
-	<com># the further steps work analogous to a classification task</com>
+	<com># rest works analogous to classification task</com>
 </pre>
 
 

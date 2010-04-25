@@ -11,35 +11,32 @@
 
 <h1>Wrapped learners</h1>
 
-<p>Wrapped learner classes provide a unified interface to all classification/regression methods in R. 
-Some are already integrated, others are not, but the package is specifically designed to make extensions easy. 
-If one of your favorite methods is missing, either send me an email or see the  part of the tutorial how to extend the package yourself.</p>
+<p>These classes provide a unified interface to all classification/regression methods in R. 
+Some are already integrated, others are not, but the package is specifically designed to make extensions simple. 
+If one of your favourite methods is missing, either send me an email or see the  part of the tutorial how to extend the package yourself.</p>
 
 <P>You have two options to access the learning algorithms in mlr. 
-Either by passing the name as a character string to the appropriate method (the convention is to 
-write "classif.learner-name" for classification tasks and analogous "regr.learner-name" for 
-regression tasks) or by constructing the wrapped learner object explicitly: 
-</p>
+Either by passing the name as a string to the appropriate method or by constructing the wrapped.learner object explicitly:</p>
 
 <h3>Example</h3>
-<p> Let's have a look at the iris example to show the two different possibilities: </p>
+<p> Let's take a look at the iris example to show the two different possibilities: </p>
 <pre>
 	<com># Classification task: </com>
-	ct <- make.task(data = iris, target = "Species")
+	ct <- make.classif.task(data = iris, target = "Species")
 
 	<com># First possibility: </com>
-	<com>#   	passing the name as a character string to the appropriate method. </com>
+	<com>#   passing the name as a character string to the appropriate method: </com>
 	model <- train("classif.lda", ct)
 
 	<com># Second possibility: </com>
-	<com>#   	constructing the wrapped learner object explicitly </com>
-	wl <- make.learner("classif.lda")
-
-	<com>#   and set hyperparameters and/or technical parameters: </com>
-	wl <- make.learner("classif.lda", tol = 10^-5)
+	<com>#   constructing the wrapped learner object explicitly </com>
+	<com>#   this way we can also set hyperparamters </com>
+	wl <- make.learner("classif.rpart", minsplit=4)
+	model <- train(wl, ct)
 
 	<com>#   Let's see what wl is: </com>
-	wl	
+	wl
+	
 	<res>  
 	Classification learner LDA from package MASS
 
@@ -49,8 +46,6 @@ regression tasks) or by constructing the wrapped learner object explicitly:
 	Supports probabilities: TRUE
 	Supports weights: FALSE
 	Supports costs: FALSE
-	
-	Hyperparameters: tol=1e-05
 	</res>
 </pre>
 
@@ -63,8 +58,7 @@ In this way you get an overview, whether the possibilities of the chosen learner
 The latter one allows more flexibility when you want to change default parameters or add something more complex on 
 top of the learning algorithm (e.g. see <a href="tuning.html">Tuning</a>).</P>
 
-<P>To see which learners are already implemented have a look at the R documentation 
-of <a href="rdocs/learners">learners</a> <b><font color="red">---Link doesn't work----</font></b>.</P>
+<P>To see which learners are already implemented have a look at the R documentation of <a href="rdocs/learners">?learners</a> <b><font color="red">---Link geht nicht----</font></b>.</P>
 
 
 </body>
