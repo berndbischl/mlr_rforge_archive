@@ -107,8 +107,8 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response",
 			if(predictions)	rfs[[j]][[i]] = rf else	rfs[[j]][i] = list(NULL)
 			if(is(task, "classif.task") && conf.mats) cms[[j]][[i]] = bm$conf else cms[[j]][i] = list(NULL)
 			if(models)	mods[[j]][[i]] = bm$models else	mods[[j]][i] = list(NULL)
-			if(opts && is(wl, "tune.wrapper")) os[[j]][[i]] = bm$opts else os[[j]][i] = list(NULL)
-			if(paths && is(wl, "tune.wrapper")) ps[[j]][[i]] = bm$paths else ps[[j]][i] = list(NULL)
+			if(opts && is(wl, "opt.wrapper")) os[[j]][[i]] = bm$opts else os[[j]][i] = list(NULL)
+			if(paths && is(wl, "opt.wrapper")) ps[[j]][[i]] = bm$paths else ps[[j]][i] = list(NULL)
 		}
 		dimnames(bs[[j]]) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures))
 

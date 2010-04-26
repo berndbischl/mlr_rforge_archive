@@ -85,13 +85,13 @@ setMethod(
 					return(NULL)
 			}
 			if (i == "opt"){
-				if (is(x@wrapped.learner, "tune.wrapper"))
+				if (is(x@wrapped.learner, "opt.wrapper"))
 					return(attr(x["learner.model"], "opt"))
 				else
 					return(NULL)
 			}
 			if (i == "path"){
-				if (is(x@wrapped.learner, "tune.wrapper"))
+				if (is(x@wrapped.learner, "opt.wrapper"))
 					return(attr(x["learner.model"], "path"))
 				else
 					return(NULL)

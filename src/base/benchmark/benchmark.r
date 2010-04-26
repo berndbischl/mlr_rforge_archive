@@ -1,5 +1,5 @@
 #' @include task.learn.r
-#' @include tune.wrapper.r
+#' @include opt.wrapper.r
 
 
 
@@ -21,7 +21,7 @@ benchmark = function(learner, task, resampling, measures, type="response", model
 		measures = default.measures(task)
 	measures = make.measures(measures)
 	
-	if (is(learner, "tune.wrapper")) {
+	if (is(learner, "opt.wrapper")) {
 		if (models) 
 			extract = function(x) list(model=x, opt=x["opt"], path=x["path"])
 		else 
