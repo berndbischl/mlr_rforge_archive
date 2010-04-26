@@ -10,6 +10,27 @@ roxygen()
 #' the target variable and other details of the problem. As this is just an abstract base class, 
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
 #' 
+#'  
+#' Getter.\cr
+#' Optional parameters: row 
+#' 
+#' \describe{
+#'   \item{id [string]}{Id string of task.}
+#'   \item{label [string]}{Label string of task.}
+#'   \item{data [data.frame]}{If row is missing the data.frame is returned. Otherwise it is indexed by row.}
+#'   \item{size [integer]}{Number of cases.}
+#'   \item{target.name [string]}{The name of the target variable.}
+#'   \item{input.names [character]}{The names of the input variables.}
+#'   \item{excluded [character]}{Names of excluded variables.}
+#'   \item{targets [character]}{If row is missing all target values are returned. Otherwise they are indexed by row.}
+#'   \item{class.levels [character]}{Levels of target factor for classification.}
+#'   \item{class.nr [integer]}{Number of class labels for classification.}
+#'   \item{is.binary [boolean]}{Binary classification task?}
+#'   \item{costs [matrix]}{Cost matrix, NULL if not available.}
+#'   \item{positive [string]}{Positive class label for binary classification.}
+#'   \item{negative [string]}{Negative class label for binary classification.}
+#' }
+#' 
 #' @exportClass learn.task
 #' @seealso \code{\link{make.task}}
 #' @title learn.task
@@ -41,8 +62,6 @@ setMethod(
 			if(missing(data))
 				return(.Object)					
 			
-
-
 			.Object@data = data
 			.Object@weights = weights
 			.Object@data.desc = data.desc
@@ -55,16 +74,6 @@ setMethod(
 )
 
 #' Getter.
-#' @param x learn.task object
-#' @param i [character]
-#' \describe{
-#'   \item{target.name}{The name of the target variable.}
-#'   \item{target.col}{The column number of the target variable.}
-#'   \item{targets}{If j is missing all target values are returned. Otherwise they are indexed by j.}
-#'   \item{input.names}{The names of the input variables.}
-#' }
-#' @param j [integer] \cr See above, i == "targets".
-#' 
 #' @rdname learn.task-class
 
 setMethod(
@@ -76,26 +85,26 @@ setMethod(
 			
 			dd = x@data.desc
 			td = x@task.desc
+			row = args$row
 			
 			if (i == "target.name") {
 				return(td["target"])
 			}
-			if (i == "targets") {
-				if (missing(j))
-					j = 1:nrow(x@data)
-				return(x@data[j, x["target.name"]])
-			}
 			if (i == "input.names"){
 				return(setdiff(colnames(x@data), c(x["excluded"], x["target.name"])))
 			}
-			
 			if (i == "has.weights"){
 				return(length(x["weights"]) > 0)
 			}
 			
+			
+			if (is.null(row))
+				row = 1:nrow(x@data)
+			
+			if (i == "targets") {
+				return(x@data[row, x["target.name"]])
+			}
 			if (i == "data"){
-				if (missing(j))
-					j = 1:nrow(x@data)
 				if ("excluded" %in% argnames)
 					v = colnames(x@data)
 				else 
@@ -104,7 +113,7 @@ setMethod(
 					v = args$select
 				if (missing(drop))
 					drop = (length(v) == 1)
-				return(x@data[j, v, drop=drop])				
+				return(x@data[row, v, drop=drop])				
 			}
 			y = td[i]
 			if (!is.null(y))
