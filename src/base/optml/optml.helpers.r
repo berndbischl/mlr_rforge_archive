@@ -11,15 +11,11 @@ get.perf = function(state) {
 # get all aggr. perf values for a state in a vector
 flat.perfs = function(state) {
 	mm = state$rp$aggr
-	# todo: bad code, must be shorter!
-	mm2 = reshape(mm, ids=row.names(mm), times=names(mm), varying=list(names(mm)), direction="long")
-	if(length(measures)==1)
-		rownames(mm2) = paste(rownames(mm), colnames(mm), sep=".")
-	mm2 = t(mm2[,2, drop=FALSE])
-	ns =  colnames(mm2)
-	mm2 = as.numeric(mm2)
-	names(mm2) = ns
-	return(mm2)	
+	ns = expand.grid(rownames(mm), colnames(mm))
+	ns = apply(ns, 1, function(i) paste(i[1], i[2], sep="."))
+	mm =  as.numeric(as.matrix(mm))
+	names(mm) = ns 
+	return(mm)	
 }
 
 make.path.el = function(es, accept=0) {

@@ -39,6 +39,7 @@ setMethod(
 			if (missing(base.learner))
 				return(.Object)
 			bl = base.learner
+			.Object@type = type
 			.Object@base.learner = bl
 			.Object@method = method
 			.Object@resampling = resampling
@@ -72,16 +73,18 @@ setMethod(
 				f = make.task
 			
 			lt = f(data=.data, target=.targetvar)	
-			if (type == "tune")
+			if (wl@type == "tune")
 				or = tune(bl, task=lt, resampling=wl@resampling, method=wl@method, control=wl@control, 
 						measures=wl@measures, aggr=wl@aggr, model=TRUE)
-			else
+			else if (wl@type == "varsel")
 				or = varsel(bl, task=lt, resampling=wl@resampling, method=wl@method, control=wl@control, 
 						measures=wl@measures, aggr=wl@aggr, model=TRUE)
+			else 
+				stop("Unknown type: ", wl@type)
 			
-			m = tr@model["learner.model"]
-			attr(m, "opt") = tr@opt
-			attr(m, "path") = tr@path
+			m = or@model["learner.model"]
+			attr(m, "opt") = or@opt
+			attr(m, "path") = or@path
 			return(m)
 		}
 )
@@ -101,4 +104,28 @@ setMethod(
 			predict.learner(.wrapped.learner@base.learner, .wrapped.model, .newdata, .type, ...)
 		}
 )	
+
+
+make.opt.wrapper <- function(type, learner, id, label, resampling, method="sfs", control, measures, aggr) {
+	if (is.character(learner))
+		learner = make.learner(learner)
+	if (missing(id))
+		id = learner["id"]
+	if (missing(label))
+		label = id
+	if (missing(measures))
+		measures = default.measures(learner)
+	measures = make.measures(measures)
+	if (missing(aggr))
+		aggr = default.aggr()
+	aggr = make.aggrs(aggr)
+	if (is(learner, "wrapped.learner.classif"))
+		tt = new("opt.wrapper.classif", type=type, id=id, label=label, base.learner=learner, resampling=resampling, 
+				method=method, control=control, measures=measures, aggr=aggr)
+	else		
+		tt = new("opt.wrapper.regr", type=type, id=id, label=label, base.learner=learner, resampling=resampling, 
+				method=method, control=control, measures=measures, aggr=aggr)
+	return(tt)
+}
+
 
