@@ -61,6 +61,7 @@ base.files <<- c(
 		"base/optml/optml.helpers.r",
 		"base/optml/tune.helpers.r",
 		"base/optml/varsel.helpers.r",
+		"base/optml/opt.wrapper.r",
 		
 		"base/tune/check.ranges.r",
 		"base/tune/combine.ranges.r",
@@ -84,6 +85,7 @@ base.files <<- c(
 		"base/varsel/varsel.hybrid2.r",
 		"base/varsel/varsel.seq.r",
 		"base/varsel/varsel.r",
+		"base/varsel/varsel.wrapper.r",
 		
 		
 		"base/benchmark/benchmark.r",
@@ -114,6 +116,7 @@ classif.files <<- c(
 		"models/classification/boost.r",
 		"models/classification/ada.r",
 		"models/classification/blackboost.r",
+		"models/regression/gbm.r",
 		"models/classification/kernlab.svm.classif.r",
 		"models/classification/nnet.r"
 ##		"models/classification/metacost.r"

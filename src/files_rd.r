@@ -39,6 +39,9 @@ allowed.rd.files <<- c(
 #		"set.train.par.Rd",
 #		"set.predict.par.Rd",
 #
+		
+		"opt.result-class.Rd",
+		
 		"tune.Rd",
 		"combine.ranges.Rd",
 		"grid.control.Rd",
@@ -46,6 +49,10 @@ allowed.rd.files <<- c(
 		"nm.control.Rd",
 		"cmaes.control.Rd",
 		"make.tune.wrapper.Rd",
+		
+		"varsel.control.Rd",
+		"varsel.Rd",
+		"make.varsel.wrapper.Rd",
 		
 		
 		"bench.exp.Rd",
