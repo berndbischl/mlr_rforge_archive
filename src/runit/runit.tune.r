@@ -3,7 +3,8 @@ test.tune <- function() {
 	
 	cp <- c(0.05, 0.9)
 	minsplit <- c(1:3)
-	ranges <- list(cp = cp, minsplit=minsplit)
+	ranges = list(cp = cp, minsplit=minsplit)
+	ctrl = grid.control(ranges=ranges)
 	folds = 3
 	
 	tr <- tune.rpart(formula=multiclass.formula, data=multiclass.df, cp=cp, minsplit=minsplit,
@@ -11,7 +12,7 @@ test.tune <- function() {
 	
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
-	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, method="grid", control=grid.control(ranges=ranges), model=T)
+	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, method="grid", control=ctrl, model=T)
 	
 	# todo test scale with tune.e1071 and scaled grid!
 	
@@ -24,6 +25,9 @@ test.tune <- function() {
 		checkEqualsNumeric(tr$performances[i,"dispersion"], pp[j,"sd.mmce"])    
 	}
 	
+	# check multiple measures
+	ms = c("acc", "mmce", "time.train") 
+	tr2 = tune("classif.rpart", multiclass.task, cv.instance, control=ctrl)
 	
 
 	# check grid and scale
@@ -38,25 +42,10 @@ test.tune <- function() {
 	# todo check opt. parameter is same as with tune
 	
 	
-	# check pattern search
-	control = ps.control(start=list(C=0, sigma=0), scale=function(x)10^x)
-	tr3 <- tune("classif.ksvm", multiclass.task, resampling=cv.instance, method="pattern", control=control)
+#	# check pattern search
+#	control = ps.control(start=list(C=0, sigma=0), scale=function(x)10^x)
+#	tr3 <- tune("classif.ksvm", multiclass.task, resampling=cv.instance, method="pattern", control=control)
 
-	#complex test for tuning
-	
-	###########!!!!! check with tune.e1071
-	
-	r1 <- list(kernel="polydot", C=1:2)
-	r2 <- list(kernel="rbfdot", sigma=1:2)
-	r <- combine.ranges(r1, r2)
-	control = grid.control(ranges=r)
-	inner = make.res.desc("cv", iters=2)
-	
-	wl = make.learner("classif.ksvm", type="spoc-svc")
-	tr = tune(wl, multiclass.task, res, control=control)
-	
-	svm.tuner <- make.tune.wrapper(wl, resampling=inner, control=grid.control(ranges=r))
-	bench.exp(svm.tuner, multiclass.task, resampling=res)
 
 }
 
