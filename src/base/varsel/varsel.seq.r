@@ -81,12 +81,8 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 	forward = (method %in% c("sfs", "sffs"))
 	
 	while (TRUE) {
-		print(path)
-		
 		logger.debug("current:")
 		logger.debug(state$par)
-		#print("current:")
-		#print(state$par)
 		#cat("forward:", forward, "\n")
 		s = seq.step(forward, state, gen.new.states, compare)	
 		#print(s$rp$measures["mean", "mmce"])
