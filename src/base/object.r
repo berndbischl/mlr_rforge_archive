@@ -54,3 +54,9 @@ setMethod(
 		}
 )
 
+check.getter = function(x,i,j,...,drop) {
+	if (!missing(j))
+		stop("You are not allowed to use argument j in a mlr getter!")
+}
+
+

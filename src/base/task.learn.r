@@ -80,6 +80,7 @@ setMethod(
 		f = "[",
 		signature = signature("learn.task"),
 		def = function(x,i,j,...,drop) {
+			check.getter(x,i,j,...,drop)
 			args = list(...)
 			argnames = names(args)
 			

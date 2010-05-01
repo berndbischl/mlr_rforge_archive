@@ -34,7 +34,7 @@ setMethod(
 			if (missing(newdata)) {
 				if (missing(subset))
 					subset = 1:task["size"]
-				newdata = task["data", subset]
+				newdata = task["data", row=subset]
 			}
 			if (missing(type))
 				type = "response"

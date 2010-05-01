@@ -1,5 +1,9 @@
 #' @include object.r
 roxygen()
+#' @include data.desc.r
+roxygen()
+#' @include task.desc.r
+roxygen()
 #' @include wrapped.learner.r
 roxygen()
 

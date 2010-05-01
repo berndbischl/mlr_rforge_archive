@@ -76,7 +76,7 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	x = setdiff(vars, task["input.names"])
 	if (length(x) > 0)
 		stop("Trying to train with vars which are not inputs: ", paste(x, collapse=","))
-	data.subset <- task["data", subset, select=c(vars, tn), drop=F]
+	data.subset <- task["data", row=subset, select=c(vars, tn), drop=F]
 	
 	# todo: maybe don't pass weights for performance reasons when none set?
 	if (task["has.weights"])
