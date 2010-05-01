@@ -32,24 +32,6 @@
 #' @title Fuse learner with tuning.
 
 make.tune.wrapper <- function(learner, id, label, resampling, method="grid", control, measures, aggr) {
-	if (is.character(learner))
-		learner = make.learner(learner)
-	if (missing(id))
-		id = learner["id"]
-	if (missing(label))
-		label = id
-	if (missing(measures))
-		measures = default.measures(learner)
-	measures = make.measures(measures)
-	if (missing(aggr))
-		aggr = default.aggr()
-	aggr = make.aggrs(aggr)
-	if (is(learner, "wrapped.learner.classif"))
-		tt = new("opt.wrapper.classif", type="tune", id=id, label=label, base.learner=learner, resampling=resampling, 
-				method=method, control=control, measures=measures, aggr=aggr)
-	else		
-		tt = new("opt.wrapper.regr", type="tune", id=id, label=label, base.learner=learner, resampling=resampling, 
-				method=method, control=control, measures=measures, aggr=aggr)
-	return(tt)
+	make.opt.wrapper("tune", learner, id, label, resampling, method=method, control, measures, aggr)
 }
 
