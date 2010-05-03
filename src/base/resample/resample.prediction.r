@@ -65,6 +65,8 @@ setMethod(
 		}
 )
 
+#' Converts object to a list of normal prediction objects - one for each iteration.
+#' @rdname resample.prediction-class
 
 setMethod(
 		f = "as.list",
