@@ -28,11 +28,11 @@
 #' 
 #' @export
 #'
-#' @usage varsel(learner, task, resampling, method="grid", control, measures, aggr, model=F)
+#' @usage varsel(learner, task, resampling, method="sfs", control, measures, aggr, model=F)
 #'
 #' @seealso \code{\link{varsel.control}}, \code{\link{make.varsel.wrapper}} 
 #'   
-#' @title Hyperparameter tuning
+#' @title Variable selection.
 
 varsel <- function(learner, task, resampling, method="forward", control=NULL, measures, aggr, model=F) {
 	if (missing(measures))
