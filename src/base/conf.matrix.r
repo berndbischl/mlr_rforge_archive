@@ -1,4 +1,4 @@
-#' Calculates confusion matrix for prediction. 
+#' Calculates confusion matrix for (possibly resampled) prediction. 
 #' 
 #' @param result [\code{\linkS4class{prediction}}] \cr
 #'   Result of a prediction.

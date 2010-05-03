@@ -9,26 +9,25 @@ roxygen()
 #' It wraps the data source and specifies - through its subclasses - the type of the task (e.g. classification or regression), 
 #' the target variable and other details of the problem. As this is just an abstract base class, 
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
-#' 
 #'  
 #' Getter.\cr
-#' Optional parameters: row 
 #' 
 #' \describe{
-#'   \item{id [string]}{Id string of task.}
-#'   \item{label [string]}{Label string of task.}
-#'   \item{data [data.frame]}{If row is missing the data.frame is returned. Otherwise it is indexed by row.}
-#'   \item{size [integer]}{Number of cases.}
-#'   \item{target.name [string]}{The name of the target variable.}
-#'   \item{input.names [character]}{The names of the input variables.}
-#'   \item{excluded [character]}{Names of excluded variables.}
-#'   \item{targets [character]}{If row is missing all target values are returned. Otherwise they are indexed by row.}
-#'   \item{class.levels [character]}{Levels of target factor for classification.}
-#'   \item{class.nr [integer]}{Number of class labels for classification.}
-#'   \item{is.binary [boolean]}{Binary classification task?}
-#'   \item{costs [matrix]}{Cost matrix, NULL if not available.}
-#'   \item{positive [string]}{Positive class label for binary classification.}
-#'   \item{negative [string]}{Negative class label for binary classification.}
+#'  \item{id [string]}{Id string of task.}
+#'	\item{label [string]}{Label string of task.}
+#' 	\item{data [data.frame]. Optional parameters: row, col}{The data.frame is returned, possibly indexed by row/col}
+#'  \item{size [integer]}{Number of cases.}
+#'	\item{target.name [string]}{The name of the target variable.}
+#'  \item{input.names [character]}{The names of the input variables.}
+#'  \item{excluded [character]}{Names of excluded variables.}
+#'  \item{targets [character]. Optional parameters: row}{If row is missing all target values are returned. Otherwise they are indexed by row.}
+#'  \item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row.}
+#'  \item{class.levels [character]}{Levels of target factor for classification.}
+#'  \item{class.nr [integer]}{Number of class labels for classification.}
+#'  \item{is.binary [boolean]}{Binary classification task?}
+#'  \item{costs [matrix]}{Cost matrix, NULL if not available.}
+#'  \item{positive [string]}{Positive class label for binary classification.}
+#'  \item{negative [string]}{Negative class label for binary classification.}
 #' }
 #' 
 #' @exportClass learn.task
@@ -104,6 +103,9 @@ setMethod(
 			
 			if (i == "targets") {
 				return(x@data[row, x["target.name"]])
+			}
+			if (i == "weights") {
+				return(x@weights[row])
 			}
 			if (i == "data"){
 				if ("excluded" %in% argnames)

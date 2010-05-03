@@ -1,4 +1,16 @@
-#' Result from \code{\link{predict}}.    
+#' Result from \code{\link{predict}}. 
+#' Use \code{as.data.frame} to access all information in a convenient format.   
+#' 
+#' Getter.\cr
+#' 
+#' \describe{
+#'	\item{negative [string]}{Negative class label for binary classification.}
+#'  \item{id [numeric]}{Vector of index numbers of predicted cases from the task.}
+#'  \item{response [numeric]}{ Predicted response values.}
+#'  \item{truth}{True target values.}
+#'  \item{prob [numeric | matrix]}{Predicted probabilities. If it's a binary problem only the probabilities for the postive class are returned.}
+#'  \item{decision [matrix]}{Predicted decision values.}
+#' }
 #' 
 #' @exportClass prediction
 #' @title Prediction.
@@ -49,16 +61,6 @@ make.prediction = function(data.desc, task.desc, id, truth, response, prob, deci
 
 
 #' Getter.
-#' @param x learn.task object
-#' @param i [character]
-#' \describe{
-#'   \item{id}{ Vector of index numbers of predicted cases from the task.}
-#'   \item{response}{ Predicted response values.}
-#'   \item{prob}{ Predicted probabilities.}
-#'   \item{decision}{ Predicted decision values.}
-#'   \item{truth}{ True target values.}
-#' }
-#' 
 #' @rdname prediction-class
 
 

@@ -9,7 +9,25 @@ roxygen()
 
 
 #' Result from \code{\link{train}}. It internally stores the underlying fitted model,
-#' the used hyperparameters, the IDs of the used subset and the used variables.    
+#' the IDs of the subset used for thraining, variables used for training and    
+#' information about second-level optimization like tuned hyperparameters or selected variables. 
+#' 
+#' Getter.\cr
+#' 
+#' \describe{
+#'	\item{wrapped.learner [{\linkS4class{wrapped.learner}}]}{Wrapped learner that was used to fit the model.}
+#'	\item{learner model [any]}{Undelying model from used R package.}
+#'	\item{subset [integer]}{Subset used for training.}
+#'	\item{vars [character]}{Variables used for training.}
+#'	\item{parset [list]}{Hyperparameters used for training.}
+#'	\item{fail [NULL | string]}{Generally NULL but if the training failed, the error message of the underlying train function.}
+#'	\item{opt [path.element]}{Optimum of second-level optimization.}
+#'	\item{path [list of path.elements]}{Path of second-level optimization.}
+#'	\item{tuned.par [list]}	{If tuning was performed, best found set of hyperparameters.}
+#'	\item{tuned.perf [numeric]}{If tuning was performed, performance of best found set of hyperparameters.}
+#'	\item{sel.vars [character]}{If variable selection was performed, best found set of variables.}
+#'	\item{sel.perf [numeric]}{If variable selection was performed, performance of best found set of variables.}
+#' }
 #' 
 #' @title Induced model of learner.
  
@@ -69,13 +87,6 @@ setMethod(
 
 
 #' Getter.
-#' @param x wrapped.model object
-#' @param i [\code{\link{character}}]
-#' \describe{
-#'	 \item{<slot>}{A slot of the class.}
-#' 	 \item{fail}{Generally NULL but if the training failed, the error message of the underlying train function.}
-#' }
-#' 
 #' @rdname wrapped.model-class
 
 setMethod(
@@ -101,10 +112,28 @@ setMethod(
 					return(NULL)
 			}
 			if (i == "tuned.par"){
-				return(x["opt"]$par)
+				if (is(x@wrapped.learner, "opt.wrapper") && x@type == "tune")
+					return(x["opt"]$par)
+				else
+					return(NULL)
 			}
 			if (i == "tuned.perf"){
-				return(x["opt"]$perf)
+				if (is(x@wrapped.learner, "opt.wrapper") && x@type == "tune")
+					return(x["opt"]$perf)
+				else
+					return(NULL)
+			}
+			if (i == "sel.var"){
+				if (is(x@wrapped.learner, "opt.wrapper") && x@type == "varsel")
+					return(x["opt"]$par)
+				else
+					return(NULL)
+			}
+			if (i == "sel.perf"){
+				if (is(x@wrapped.learner, "opt.wrapper") && x@type == "varsel")
+					return(x["opt"]$perf)
+				else
+					return(NULL)
 			}
 			y = x@task.desc[i]
 			if (!is.null(y))

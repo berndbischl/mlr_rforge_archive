@@ -4,9 +4,18 @@ roxygen()
 roxygen()
 
 #' Wraps an already implemented learning method from R to make it accesible to mlr.
-#' 
 #' Also includes a properties object to describe the features of the learner.     
-
+#'  
+#' Getter.\cr
+#' 
+#' \describe{
+#'  \item{id [string]}{Id string of learner.}
+#'	\item{label [string]}{Label string of learner.}
+#' 	\item{pack [string]}{Package were underlying learner is implemented.}
+#'  \item{train.fct.pars [list]}{Paramters that will be passed to the underlying train function.}
+#'  \item{predict.fct.pars [list]}{Paramters that will be passed to the underlying predict function.}
+#'	\item{props [{\linkS4class{learner.props}}]}{Properties object to describe functionality of the learner.}
+#' }
 #' @title Base class for inducers. 
 
 setClass(

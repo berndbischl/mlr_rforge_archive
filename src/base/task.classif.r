@@ -69,41 +69,6 @@ setMethod(
 		}
 )
 
-#' Getter.
-#' 
-#' @param x classif.task object
-#' @param i [character]
-#' \describe{
-#'   \item{class.levels}{All possible class values.}
-#'   \item{class.nr}{Number of different classes.}
-#' }
-#' @rdname classif.task-class
-
-setMethod(
-		f = "[",
-		signature = signature("classif.task"),
-		def = function(x,i,j,...,drop) {
-
-#			if (i == "class.levels") {
-#				return(levels(x["targets"]))
-#			}
-#			if (i == "class.nr") {
-#				return(length(levels(x["targets"])))
-#			}
-#			if (i == "is.binary") {
-#				return(x["class.nr"] == 2)
-#			}
-#			if (i == "negative") {
-#				if (x["is.binary"])
-#					return(setdiff(x["class.levels"], x["positive"]))
-#				return(NA)
-#			}
-			# otherwise drop gets lost. bug in S4
-			callNextMethod(x,i,j,...,drop=drop)
-		}
-)
-
-
 
 #' @rdname to.string
 setMethod(
