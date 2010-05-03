@@ -94,7 +94,7 @@ setMethod(
 				return(setdiff(colnames(x@data), c(x["excluded"], x["target.name"])))
 			}
 			if (i == "has.weights"){
-				return(length(x["weights"]) > 0)
+				return(length(x@weights) > 0)
 			}
 			
 			
@@ -105,6 +105,8 @@ setMethod(
 				return(x@data[row, x["target.name"]])
 			}
 			if (i == "weights") {
+				if (!x["has.weights"])
+					return(NULL)
 				return(x@weights[row])
 			}
 			if (i == "data"){

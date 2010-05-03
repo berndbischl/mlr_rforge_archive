@@ -98,6 +98,10 @@ setMethod(
 					set.seed(.mlr.local$debug.seed)
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
+				
+				threshold = pars$predict.threshold
+				pars$predict.threshold = NULL	 
+				
 				st = system.time({
 					for (tt in type) {
 					
@@ -112,13 +116,20 @@ setMethod(
 								if (!is.factor(p))
 									stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
 								levels(p) <- union(levels(p), levs)
-							} else if (tt %in% c("prob")) {
+							} else if (tt == "prob") {
 								if (!is.matrix(p))
 									stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
 								if (any(sort(colnames(p)) != sort(levs)))
 									stop("predict.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
 								if (dd["class.nr"] == 2)
 									p = p[,td["positive"]]
+							} else if (tt == "prob.threshold") {
+								if (dd["class.nr"] != 2)
+									stop("prob.threshold is only supported for binary classification!")
+								if (is.null(threshold))
+									stop("No predict.threshold was set!!")
+								p = p[,td["positive"]]
+								p = as.factor(c(td["positive"], td["negative"])[p > threshold])
 							} else if (tt %in% c("decision")) {
 								if (!is.matrix(p))
 									stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
