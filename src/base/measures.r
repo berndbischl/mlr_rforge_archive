@@ -184,7 +184,7 @@ costs = function(x, task) {
 	cc = function(truth, pred) {
 		cm[truth, pred]
 	}
-	m = Reduce(sum, Map(cc, x["truth"], x["response"]))
+	m = Reduce(sum, Map(cc, as.character(x["truth"]), as.character(x["response"])))
 }
 
 
