@@ -59,7 +59,9 @@ make.task = function(id, label, data, target, formula, excluded, weights, costs,
 				stop("Cannot infer the type of task from the target data type. Please transform it!")
 			
 			if(missing(id))
-				id = deparse(substitute(data))
+				stop("Please set an id for the task!")
+				# really test if this works
+				#id = deparse(substitute(data))
 			if(missing(label))
 				label = id
 			if (missing(excluded))

@@ -24,7 +24,7 @@ roxygen()
 #'
 #' @usage train(learner, task, subset, parset, vars, type)  
 #'
-#' @seealso \code{\link{predict}} 
+#' @seealso \code{\link{predict}}
 #' 
 #' @title Train a learning algorithm.
 #' @rdname train
@@ -99,7 +99,10 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	if (is(task, "classif.task"))
 		pars$.type = type
 	
-	pars <- c(pars, extra.train.pars, ps2)
+	pars = c(pars, extra.train.pars, ps2)
+	# remove threhold here but store it later in ps2
+	pars$predict.threshold=NULL
+	
 	
 	# set the seed
 	if(!is.null(.mlr.local$debug.seed)) {

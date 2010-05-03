@@ -99,14 +99,18 @@ setMethod(
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
 				
-				threshold = pars$predict.threshold
-				pars$predict.threshold = NULL	 
+				threshold = model@parset$predict.threshold
 				
 				st = system.time({
 					for (tt in type) {
-					
-						if (is(model, "wrapped.model.classif"))
-							pars$.type = tt
+						if (is(model, "wrapped.model.classif")) {
+							if (tt == "prob.threshold")
+								pars$.type = "prob"
+							else if (tt == "decision.threshold")
+								pars$.type = "decision"
+							else
+								pars$.type = tt
+						}
 						p <- do.call(predict.learner, pars)
 						
 						if (is(model, "wrapped.model.classif")) {
@@ -127,9 +131,10 @@ setMethod(
 								if (dd["class.nr"] != 2)
 									stop("prob.threshold is only supported for binary classification!")
 								if (is.null(threshold))
-									stop("No predict.threshold was set!!")
+									stop("No predict.threshold was set!")
+								ls = c(td["negative"], td["positive"])
 								p = p[,td["positive"]]
-								p = as.factor(c(td["positive"], td["negative"])[p > threshold])
+								p = as.factor(ls[as.numeric(p > threshold) + 1])							
 							} else if (tt %in% c("decision")) {
 								if (!is.matrix(p))
 									stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
@@ -142,7 +147,7 @@ setMethod(
 						}
 						logger.debug("prediction:")
 						logger.debug(p)
-						if (tt == "response") 
+						if (tt %in% c("response", "prob.threshold", "decision.threhold")) 
 							response = p
 						if (tt == "prob") 
 							prob = p
