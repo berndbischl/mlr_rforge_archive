@@ -43,6 +43,13 @@ roxygen()
 
 
 make.task = function(id, label, data, target, formula, excluded, weights, costs, positive) {
+			if(missing(id)) {
+				id = deparse(substitute(data))
+				if (!is.character(id) || length(id) != 1)
+					stop("Cannot infer id for task automatically. Please set it manually!")
+			}
+			if(missing(label))
+				label = id
 			
 			if (missing(target)) {
 				target = as.character(formula)[2]
@@ -58,12 +65,6 @@ make.task = function(id, label, data, target, formula, excluded, weights, costs,
 			else 
 				stop("Cannot infer the type of task from the target data type. Please transform it!")
 			
-			if(missing(id))
-				stop("Please set an id for the task!")
-				# really test if this works
-				#id = deparse(substitute(data))
-			if(missing(label))
-				label = id
 			if (missing(excluded))
 				excluded = character(0)
 			if (missing(weights))
