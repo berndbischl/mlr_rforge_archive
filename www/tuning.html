@@ -26,7 +26,7 @@ to choose an appropriate set of parameters from a given range of values.</P>
 
 <pre>
 	<com># Classification task</com>
-	ct <- make.classif.task(data = iris, target = "Species")
+	ct <- make.task(data = iris, target = "Species")
 
 	<com># Range of the values</com>
 	r <- list(C = 2^(-1:1), sigma = 2^(-1:1))
@@ -35,30 +35,17 @@ to choose an appropriate set of parameters from a given range of values.</P>
 	res <- make.res.desc("cv", iters = 3)
 
 	<com># Tune SVM</com>
-	tune("kernlab.svm.classif", ct, res, control = grid.control(ranges=r))
+	tune("classif.ksvm", ct, res, control = grid.control(ranges=r))
 	<res>
-	$par
-	$par$C
+	Optimization result: 
+	$C
+	[1] 2
+	
+	$sigma
 	[1] 0.5
-
-	$par$sigma
-	[1] 0.5
-
-
-	$perf
-	[1] 0.04
-
-	$all.perfs
-	    C sigma       mean         sd time
-	1 0.5   0.5 0.04000000 0.02000000 0.25
-	2   1   0.5 0.04666667 0.05033223 0.26
-	3   2   0.5 0.05333333 0.01154701 0.25
-	4 0.5     1 0.06666667 0.04618802 0.27
-	5   1     1 0.06666667 0.04618802 0.25
-	6   2     1 0.05333333 0.02309401 0.25
-	7 0.5     2 0.06666667 0.03055050 0.27
-	8   1     2 0.06666667 0.03055050 0.26
-	9   2     2 0.06666667 0.04618802 0.25
+	
+	 mean.mmce    sd.mmce 
+	0.03333333 0.01154701 
 	</res>
 </pre>
 
@@ -66,13 +53,13 @@ to choose an appropriate set of parameters from a given range of values.</P>
 
 <P>The parameter grid has to be a named list, where every entry has 
 to be named according to the corresponding parameter of the underlying R function 
-(in this case "ksvm" from the kernlab package, see the help page of "kernlab.svm.classif"). 
+(in this case "ksvm" from the kernlab package, see the help page of "classif.ksvm"). 
 Its value is a vector of feasible values for this hyperparameter. The complete grid is just 
 the cross-product of all feasible values. </P>
 (Please note that with ksvm we encounter a somewhat special case, as the parameters 
 should be passed through the "kernel" and "kpar" structures. 
 To make this simpler, t.svm allows direct passing. Again, see documentation.) <P>
-Tune now simply performs the CV for every element of the cross-product and selects 
+Tune now simply performs the cross-validation for every element of the cross-product and selects 
 the one with the best mean performance measure.</P> 
 
 <br>
@@ -83,7 +70,7 @@ Let's tune SVMs with polynomial and gaussian kernels on iris</P>
 
 <pre>
 	<com># Classification task</com>
-	ct <- make.classif.task(data = iris, target = "Species")
+	ct <- make.task(data = iris, target = "Species")
 
 	<com># Different kernels with different kernel parameters </com>
 	r1 <- list(C = c(0.5, 1, 2), kernel = "polydot", degree = 1:3)
@@ -96,7 +83,7 @@ Let's tune SVMs with polynomial and gaussian kernels on iris</P>
 	ranges <- list(r1, r2)
 
 	<com># Tune SVMs</com>
-	tune("kernlab.svm.classif", ct, res, ranges)
+	tune("classif.ksvm", ct, res, ranges) <b><font color="red">---does not work----</font></b>
 
 	<res>
 	$best.parameters
@@ -148,7 +135,7 @@ Let's tune SVMs with polynomial and gaussian kernels on iris</P>
 
 <pre>
 	<com># Regression task</com>
-	rt <- make.regr.task(data = BostonHousing, formula = medv~.)
+	rt <- make.task(data = BostonHousing, formula = medv~.)
 
 	<com># Range of the value k </com>
 	range <- list(k=1:7)

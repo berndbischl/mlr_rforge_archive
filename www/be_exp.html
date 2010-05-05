@@ -12,7 +12,7 @@
 
 <P>
 In order to get an unbiased estimate of the performance on new data, it is generally not enough to 
-simply use repeated crossvalidations for a given set of hyperparamters and methods 
+simply use repeated cross-validations for a given set of hyperparameters and methods 
 (see <a href="tuning.html">tuning</a>), as this might produce an overly optimistic result. 
 <P>
 A better (although more time-consuming) approach is nesting two resampling methods. 
@@ -21,8 +21,9 @@ In the so called "outer" cross-validation the data is split repeatedly into a (l
 test set in the usual way. Now, in every outer iteration the learner is tuned on the training set by performing an 
 "inner" cross-validation. The best found hyperparameters are selected , with these the learner is fitted to the 
 complete "outer" training set and the resulting model is used to access the (outer) test set. 
-This results in much more reliable estimates of true performance distribution of the leraner for unseen data. 
-These can now be used to estimate locations (e.g. of the mean or median performance value) and to compare learning methods in a fair way.
+This results in much more reliable estimates of true performance distribution of the learner for unseen data. 
+These can now be used to estimate locations (e.g. of the mean or median performance value) and to compare 
+learning methods in a fair way.
 <P>
 Using mlr, setting up such an experiment becomes very easy: 
 
@@ -30,21 +31,21 @@ Using mlr, setting up such an experiment becomes very easy:
 
 <pre>
 	<com># Classification task with iris data set </com>
-	ct <- make.classif.task(data = iris, target = "Species")
+	ct <- make.task(data = iris, target = "Species")
 
-	<com># Very small grid for svm hyperparameters </com> 
+	<com># Very small grid for SVM hyperparameters </com> 
 	r <- list(C = 2^seq(-1,1), sigma = 2^seq(-1,1))
 
 	<com># Define "inner" cross-validation indices</com>
 	inner.res <- make.res.desc("cv", iters = 3)   
 
 	<com># Tune a SVM</com>
-	svm.tuner <- make.tune.wrapper("kernlab.svm.classif", method = "grid", 
+	svm.tuner <- make.tune.wrapper("classif.ksvm", method = "grid", 
 							      resampling = inner.res, 
 							      control = grid.control(ranges=r))
 
 	<com># Three learner to be compared </com>
-	learners <- c("lda", "qda", svm.tuner)
+	learners <- c("classif.lda", "classif.qda", svm.tuner)
 
 	<com># Define "outer" cross-validation indices </com>
 	res <- make.res.desc("cv", iters = 5)
@@ -52,18 +53,17 @@ Using mlr, setting up such an experiment becomes very easy:
 	<com># Merge it to a benchmark experiment </com>
 	result <- bench.exp(learners, ct, res)
 	<res>
-	Benchmark result
-	                mean         sd
-	LDA       0.02000000 0.02981424
-	qda       0.02000000 0.02981424
-	tuned-svm 0.05333333 0.03800585
+	$iris
+	          classif.lda classif.qda classif.ksvm
+	mean.mmce  0.01666667  0.01666667   0.03333333
+	sd.mmce    0.01924501  0.01924501   0.02721655
 	</res>
 </pre>
 
 
 
 <P>
-The above code should be mainly self-explanatory. In the result every row corresponds to one learner.
+The above code should be mainly self-explanatory. In the result every column corresponds to one learner.
 The entries show the mean test error and its standard deviation for the final fitted model.</P>
 
 <P>
@@ -71,63 +71,32 @@ But the Benchmark result contains much more information, which you can access if
 Let's have a look to the benchmark result from the example above:
 </P>
 
-<h3>Example 1 (Fortsetzung)</h3>
+<h3>Example 1 (continuation)</h3>
 
 <pre>
 	<com># Access further information </com>
-	<com># The single performances of the outer crossvalidation </com>
+	<com># The single performances of the outer cross-validation </com>
 	result["perf"]
 	<res>
-	         LDA        qda  tuned-svm
-	1 0.03333333 0.10000000 0.06666667
-	2 0.00000000 0.00000000 0.00000000
-	3 0.00000000 0.00000000 0.06666667
-	4 0.06666667 0.06666667 0.10000000
-	5 0.00000000 0.00000000 0.03333333
+	$iris
+	, , mmce
+	
+	  classif.lda classif.qda classif.ksvm
+	1  0.00000000  0.00000000   0.06666667
+	2  0.03333333  0.03333333   0.03333333
+	3  0.03333333  0.03333333   0.03333333
+	4  0.00000000  0.00000000   0.00000000
+	5  0.03333333  0.03333333   0.06666667
 	</res>
 	<com># A list of the tuned parameters with tune- and test-performance </com>
-	result["tuned.pars"]
+	result["tuned.pars"] <b><font color="red">---does not work----</font></b>
 	<res>
-	[[1]]$LDA
-	[1] NA
-
-	[[1]]$qda
-	[1] NA
-
-	[[1]]$`tuned-svm`
-	    C sigma  tune.perf  test.perf
-	1 1.0   0.5 0.02500000 0.06666667
-	2 2.0   0.5 0.03333333 0.00000000
-	3 1.0   0.5 0.04166667 0.06666667
-	4 0.5   0.5 0.01666667 0.10000000
-	5 0.5   0.5 0.04166667 0.03333333
+...
 	</res>
 	<com># Confusion matrices - one for each learner</com>
-	result["conf.mats"]
+	result["conf.mats"] <b><font color="red">---does not work----</font></b>
 	<res>
-	[[1]]$LDA
-	            predicted
-	true         setosa versicolor virginica -SUM-
-	  setosa         50          0         0     0
-	  versicolor      0         48         2     2
-	  virginica       0          1        49     1
-	  -SUM-           0          1         2     3
-
-	[[1]]$qda
-	            predicted
-	true         setosa versicolor virginica -SUM-
-	  setosa         50          0         0     0
-	  versicolor      0         46         4     4
-	  virginica       0          1        49     1
-	  -SUM-           0          1         4     5
-
-	[[1]]$`tuned-svm`
-	            predicted
-	true         setosa versicolor virginica -SUM-
-	  setosa         50          0         0     0
-	  versicolor      0         46         4     4
-	  virginica       0          4        46     4
-	  -SUM-           0          4         4     8
+...
 	</res>
 </pre>
 
@@ -141,7 +110,7 @@ We show an example with outer bootstrap and inner cross-validation, our learner 
 
 <pre>
 	<com># Classification task with iris data set </com>
-	ct <- make.classif.task(data = iris, target = "Species")
+	ct <- make.task(data = iris, target = "Species")
 
 	<com># Range of hyperparameter k </com> 
 	r <- list(k = 1:5)
@@ -150,7 +119,7 @@ We show an example with outer bootstrap and inner cross-validation, our learner 
 	inner.res <- make.res.desc("cv", iters = 3)   
 
 	<com># Tune a SVM</com>
-	knn.tuner <- make.tune.wrapper("kknn.classif", method = "grid", 
+	knn.tuner <- make.tune.wrapper("classif.kknn", method = "grid", 
 						       resampling = inner.res, 
     						       control = grid.control(ranges=r))
 
@@ -160,58 +129,50 @@ We show an example with outer bootstrap and inner cross-validation, our learner 
 	<com># Merge it to a benchmark experiment </com>
 	result <- bench.exp(knn.tuner, ct, res)
 	<res>
-	Benchmark result
-	           mean         sd
-	[1,] 0.05747409 0.02422707
+	$iris
+	          classif.kknn
+	mean.mmce   0.05790844
+	sd.mmce     0.04610950
 	</res>
 	
 	<com># Which performances did we get in the single runs? </com>
 	result["perf"]
 	<res>
-	   tuned-knn
-	1 0.07272727
-	2 0.08000000
-	3 0.05263158
-	4 0.06382979
-	5 0.01818182
+	$iris
+	, , mmce
+	
+	  classif.kknn
+	1   0.03571429
+	2   0.04918033
+	3   0.02173913
+	4   0.12500000
+	5   0.13207547
 	</res>
 
-	<com># Which parameter belong to the perfomances? </com>
-	result["tuned.pars"]
+	<com># Which parameter belong to the performances? </com>
+	result["tuned.pars"] <b><font color="red">---does not work----</font></b>
 	<res>
-	$`tuned-knn`
-	  k   tune.perf  test.perf
-	1 2 0.013333333 0.07272727
-	2 4 0.006666667 0.08000000
-	3 1 0.026666667 0.05263158
-	4 1 0.013333333 0.06382979
-	5 5 0.026666667 0.01818182
+...
 	</res>	
 
 	<com># What does the confusion matrix look like? </com>
-	result["conf.mats"]
+	result["conf.mats"] <b><font color="red">---does not work----</font></b>
 	<res>
-	$`tuned-knn`
-	            predicted
-	true         setosa versicolor virginica -SUM-
-	  setosa         87          1         0     1
-	  versicolor      0         89         5     5
-	  virginica       0          9        73     9
-	  -SUM-           0         10         5    15
+...
 	</res>
 </pre>
 
 
 <P> When you want to add another learner to your existing benchmark experiment, this works easily in mlr. 
 The big advantage is, that the same resample pairing is used as for the other learners. <br>
-Let's take Example 1 and add another learner - Naive Bayes.
+Let's take Example 1 and add another learner - NaiveBayes.
 
-<h3>Example 1 (Fortsetzung)</h3>
+<h3>Example 2 (continuation)</h3>
 
 <pre>
-	new.result <- bench.add(learner = "naiveBayes", task = ct, result = result)
+	new.result <- bench.add(learner = "classif.naiveBayes", task = ct, result = result)
 	<res>
-	<b><font color="red">---EINFÜGEN----</font></b>
+	<b><font color="red">---include----</font></b>
 	</res>
 </pre>
 
