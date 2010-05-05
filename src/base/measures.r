@@ -1,12 +1,25 @@
-#' List of performance measures.
+#' ' List of performance measures.
 #' 
 #' \itemize{ 
 #' 		\item{\bold{mmce}}{\cr Mean misclassification error}
 #' 		\item{\bold{acc}}{\cr Accuracy}
+#' 		\item{\bold{costs}}{\cr Misclassification costs according to cost matrix}
 #' 		\item{\bold{tp}}{\cr True positives}
-#' 		\item{\bold{tpr}}{\cr True positive rate}
-#' 		\item{\bold{fp}}{\cr False positives}
-#' 		\item{\bold{fpr}}{\cr False positive rate}
+#' 		\item{\bold{tpr, hit-rate, recall}}{\cr True positive rate}
+#' 		\item{\bold{fp, false-alarm}}{\cr False positives}
+#' 		\item{\bold{fpr, false-alarm-rate, fall-out}}{\cr False positive rate}
+#' 		\item{\bold{tn, correct-rejection}}{\cr True negatives}
+#' 		\item{\bold{tnr, specificity}}{\cr True negative rate}
+#' 		\item{\bold{fn, miss}}{\cr False negatives}
+#' 		\item{\bold{fnr}}{\cr False negative rate}
+#' 		\item{\bold{ppv, precision}}{\cr Positive predictive value}
+#' 		\item{\bold{fnr}}{\cr False negative rate}
+#' 		\item{\bold{ppv, precision}}{\cr Positive predictive value}
+#' 		\item{\bold{ppv, precision}}{\cr Negative predictive value}
+#' 		\item{\bold{fdr}}{\cr False discovery rate}
+#' 		\item{\bold{f1}}{\cr F1 measure}
+#' 		\item{\bold{mcc}}{\cr Matthews correlation coefficient}
+
 #' 		\item{\bold{time.train}}{\cr Time of fitting the model}
 #' 		\item{\bold{time.predict}}{\cr Time of predicting test set}
 #' 		\item{\bold{time}}{\cr time.train + train.predict}
@@ -15,6 +28,9 @@
 #' \itemize{ 
 #' 		\item{\bold{sse}}{\cr Sum of squared errors}
 #' 		\item{\bold{mse}}{\cr Mean of squared errors}
+#' 		\item{\bold{medse}}{\cr Median of squared errors}
+#' 		\item{\bold{mae}}{\cr Mean of absolut errors}
+#' 		\item{\bold{medae}}{\cr Median of absolut errors}
 #' }
 #'  
 #' @title Performance measures.
@@ -128,7 +144,13 @@ make.measure <- function(x) {
 		x = sse
 	else if (name=="mse") 
 		x = mse
-
+	else if (name=="medse") 
+		x = medmse
+	else if (name=="mae") 
+		x = mae
+	else if (name=="medae") 
+		x = medae
+	
 	else if (name=="time") 
 		x = time.all
 	else if (name=="time.train") 
@@ -254,6 +276,18 @@ sse = function(x, task) {
 
 mse = function(x, task) {
 	mean((x["truth"] - x["response"])^2) 
+}
+
+medse = function(x, task) {
+	median((x["truth"] - x["response"])^2) 
+}
+
+mae = function(x, task) {
+	mean(abs(x["truth"] - x["response"])) 
+}
+
+medae = function(x, task) {
+	median(abs(x["truth"] - x["response"])) 
 }
 
 
