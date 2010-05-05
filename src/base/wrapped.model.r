@@ -112,25 +112,25 @@ setMethod(
 					return(NULL)
 			}
 			if (i == "tuned.par"){
-				if (is(x@wrapped.learner, "opt.wrapper") && x@type == "tune")
+				if (is(x@wrapped.learner, "opt.wrapper") && x@wrapped.learner@type == "tune")
 					return(x["opt"]$par)
 				else
 					return(NULL)
 			}
 			if (i == "tuned.perf"){
-				if (is(x@wrapped.learner, "opt.wrapper") && x@type == "tune")
+				if (is(x@wrapped.learner, "opt.wrapper") && x@wrapped.learner@type == "tune")
 					return(x["opt"]$perf)
 				else
 					return(NULL)
 			}
 			if (i == "sel.var"){
-				if (is(x@wrapped.learner, "opt.wrapper") && x@type == "varsel")
+				if (is(x@wrapped.learner, "opt.wrapper") && x@wrapped.learner@type == "varsel")
 					return(x["opt"]$par)
 				else
 					return(NULL)
 			}
 			if (i == "sel.perf"){
-				if (is(x@wrapped.learner, "opt.wrapper") && x@type == "varsel")
+				if (is(x@wrapped.learner, "opt.wrapper") && x@wrapped.learner@type == "varsel")
 					return(x["opt"]$perf)
 				else
 					return(NULL)
