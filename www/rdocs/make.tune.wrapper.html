@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Fuse learner with tuning.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for make.tune.wrapper {mlr}"><tr><td>make.tune.wrapper {mlr}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Fuse learner with tuning.</h2>
+
+
+<h3>Description</h3>
+
+<p>Fuses a base learner with a search strategy to select its hyperparameters. Creates a wrapped.learner object, which can be
+used like any other learner object, but which internally uses tune. If the train function is called on it, the search strategy and resampling are invoked
+to select an optimal set of hyperparameter values. Finally, a model is fitted on the complete training data with these optimal
+hyperparameters and returned.</p>
+
+
+<h3>Usage</h3>
+
+<pre>make.tune.wrapper(learner, id, label, resampling, method="grid", control, measures, aggr)</pre>
+
+
+<h3>Arguments</h3>
+<table summary="R argblock">
+<tr valign="top"><td><code>learner</code></td>
+<td>
+[<code><a href="wrapped.learner-class.html">wrapped.learner</a></code> or string]<br> 
+Learning algorithm. See <code><a href="learners.html">learners</a></code>.</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+[string]<br> 
+Id string for object. Used to select the object from a named list, etc.</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+[string]<br> 
+Label string for object. Used in plots, etc.</td></tr>
+<tr valign="top"><td><code>resampling</code></td>
+<td>
+[<code><a href="resample.instance-class.html">resample.instance</a></code>] or [<code><a href="resample.desc-class.html">resample.desc</a></code>]<br>
+Resampling strategy to evaluate points in hyperparameter space.</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+[<code><a href="../../base/html/character.html">character</a></code>] <br>
+Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "nm".</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+Control object for search method.</td></tr>
+<tr valign="top"><td><code>measures</code></td>
+<td>
+[see <code><a href="measures.html">measures</a></code>]
+Performance measures.</td></tr>
+<tr valign="top"><td><code>aggr</code></td>
+<td>
+[see <code><a href="aggregations.html">aggregations</a></code>]
+Aggregation functions.</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code><a href="wrapped.learner-class.html">wrapped.learner</a></code>.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="tune.html">tune</a></code>, <code><a href="grid.control.html">grid.control</a></code>, <code><a href="ps.control.html">ps.control</a></code>, <code><a href="cmaes.control.html">cmaes.control</a></code>, <code><a href="nm.control.html">nm.control</a></code></p>
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+</body></html>

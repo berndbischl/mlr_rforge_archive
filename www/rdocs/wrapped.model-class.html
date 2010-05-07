@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Induced model of learner.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for wrapped.model-class {mlr}"><tr><td>wrapped.model-class {mlr}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Induced model of learner.</h2>
+
+
+<h3>Description</h3>
+
+<p>Result from <code><a href="train.html">train</a></code>. It internally stores the underlying fitted model,
+the IDs of the subset used for thraining, variables used for training and    
+information about second-level optimization like tuned hyperparameters or selected variables.</p>
+
+
+<h3>Details</h3>
+
+<p><code>wrapped.model-class</code>: Getter.<br>
+</p>
+<p>
+
+<dl>
+<dt>wrapped.learner [<a href="wrapped.learner-class.html">wrapped.learner</a>]</dt><dd>Wrapped learner that was used to fit the model.</dd>
+<dt>learner model [any]</dt><dd>Undelying model from used R package.</dd>
+<dt>subset [integer]</dt><dd>Subset used for training.</dd>
+<dt>vars [character]</dt><dd>Variables used for training.</dd>
+<dt>parset [list]</dt><dd>Hyperparameters used for training.</dd>
+<dt>fail [NULL | string]</dt><dd>Generally NULL but if the training failed, the error message of the underlying train function.</dd>
+<dt>opt [path.element]</dt><dd>Optimum of second-level optimization.</dd>
+<dt>path [list of path.elements]</dt><dd>Path of second-level optimization.</dd>
+<dt>tuned.par [list]</dt><dd></dd></dl>
+If tuning was performed, best found set of hyperparameters.
+<dl>
+<dt>tuned.perf [numeric]</dt><dd>If tuning was performed, performance of best found set of hyperparameters.</dd>
+<dt>sel.vars [character]</dt><dd>If variable selection was performed, best found set of variables.</dd>
+<dt>sel.perf [numeric]</dt><dd>If variable selection was performed, performance of best found set of variables.</dd>
+</dl>
+
+</p>
+<p>
+</p>
+
+
+<h3>Extends</h3>
+
+<p><code>object</code></p>
+
+
+<h3>Methods</h3>
+
+<p><dl>
+<dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.html">predict</a></code></dt><dd><code>signature(object = "wrapped.model")</code>: Predict the target variable of new data using a fitted model.</dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="to.string.html">to.string</a></code></dt><dd></dd><dt><code><a href="wrapped.model-class.html">[</a></code></dt><dd><code>signature( = "wrapped.model")</code>: Getter.</dd></dl>
+</p>
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+</body></html>

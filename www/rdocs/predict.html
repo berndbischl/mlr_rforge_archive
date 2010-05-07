@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Predict new data.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for predict {mlr}"><tr><td>predict {mlr}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Predict new data.</h2>
+
+
+<h3>Description</h3>
+
+<p>Predict the target variable of new data using a fitted model.</p>
+
+
+<h3>Arguments</h3>
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+[<code><a href="wrapped.model-class.html">wrapped.model</a></code>] <br> 
+Wrapped model, trained from a learn task.</td></tr>
+<tr valign="top"><td><code>task</code></td>
+<td>
+[<code><a href="learn.task-class.html">learn.task</a></code>]<br> 
+Specifies learning task. If this is passed, data from this task is predicted.</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+[integer] <br> 
+Index vector to subset the data in the task to use for prediction.</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+[<code><a href="../../base/html/data.frame.html">data.frame</a></code>] <br> 
+New observations which should be predicted. Alternatively pass this instead of task.</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+[character] <br>
+Classification: vector of "response" | "prob" | "decision", specifying the types to predict.
+Default is "response".
+Ignored for regression.</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code><a href="prediction-class.html">prediction</a></code>.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="train.html">train</a></code></p>
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+</body></html>

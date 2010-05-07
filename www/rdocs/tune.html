@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Hyperparameter tuning</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for tune {mlr}"><tr><td>tune {mlr}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Hyperparameter tuning</h2>
+
+
+<h3>Description</h3>
+
+<p>Optimizes the hyperparameters of a learner for a classification or regression problem.
+Allows for different optimization methods, commonly grid search is used but other search techniques
+are available as well.
+The specific details of the search algorithm are set by passing a control object.</p>
+
+
+<h3>Usage</h3>
+
+<pre>tune(learner, task, resampling, method="grid", control, measures, aggr, model=F)</pre>
+
+
+<h3>Arguments</h3>
+<table summary="R argblock">
+<tr valign="top"><td><code>learner</code></td>
+<td>
+[<code><a href="wrapped.learner-class.html">wrapped.learner</a></code> or string]<br> 
+Learning algorithm. See <code><a href="learners.html">learners</a></code>.</td></tr>
+<tr valign="top"><td><code>task</code></td>
+<td>
+[<code><a href="learn.task-class.html">learn.task</a></code>] <br>
+Learning task.</td></tr>
+<tr valign="top"><td><code>resampling</code></td>
+<td>
+[<code><a href="resample.instance-class.html">resample.instance</a></code>] or [<code><a href="resample.desc-class.html">resample.desc</a></code>]<br>
+Resampling strategy to evaluate points in hyperparameter space.</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+[<code><a href="../../base/html/character.html">character</a></code>] <br>
+Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "nm".</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+Control object for search method.</td></tr>
+<tr valign="top"><td><code>measures</code></td>
+<td>
+[see <code><a href="measures.html">measures</a></code>]<br>
+Performance measures.</td></tr>
+<tr valign="top"><td><code>aggr</code></td>
+<td>
+[see <code><a href="aggregations.html">aggregations</a></code>]<br>
+Aggregation functions.</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+[<code><a href="../../base/html/logical.html">logical</a></code>]<br>
+Should a final model be fitted on the complete data with the best found hyperparameters?</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal hyperparameters.</p>
+
+
+<h3>Value</h3>
+
+<p><code><a href="opt.result-class.html">opt.result</a></code>.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="grid.control.html">grid.control</a></code>, <code><a href="ps.control.html">ps.control</a></code>, <code><a href="cmaes.control.html">cmaes.control</a></code>, <code><a href="nm.control.html">nm.control</a></code></p>
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+</body></html>

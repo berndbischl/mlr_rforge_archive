@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Control for grid search tuning.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for grid.control {mlr}"><tr><td>grid.control {mlr}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Control for grid search tuning.</h2>
+
+
+<h3>Description</h3>
+
+<p>Control structure for grid search tuning.</p>
+
+
+<h3>Usage</h3>
+
+<pre>grid.control(ranges, minimize=TRUE, scale=identity)
+</pre>
+
+
+<h3>Arguments</h3>
+<table summary="R argblock">
+<tr valign="top"><td><code>ranges</code></td>
+<td>
+[<code><a href="../../base/html/list.html">list</a></code>] <br> 
+A list of named vectors/lists of possible values for each hyperparameter. 
+You can also pass a list of such ranges by using [<code><a href="combine.ranges.html">combine.ranges</a></code>] 
+in the rare case when it does not make sense to search a complete cross-product of range values.</td></tr>
+<tr valign="top"><td><code>minimize</code></td>
+<td>
+[logical] <br> 
+Minimize performance measure? Default is TRUE.</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+[<code><a href="../../base/html/function.html">function</a></code>] <br> 
+A function to scale the hyperparameters. E.g. maybe you want to optimize in some log-space.
+Has to take a single, numerical vector and return a scaled one. Default is identity function.</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Control structure for tuning.</p>
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+</body></html>

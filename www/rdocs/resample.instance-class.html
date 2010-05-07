@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Resampling instance.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for resample.instance-class {mlr}"><tr><td>resample.instance-class {mlr}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Resampling instance.</h2>
+
+
+<h3>Description</h3>
+
+<p>Base class for specific resampling draws like cross-validation or bootstrapping.
+This class encapsulates training and test sets generated from the data set for a number of iterations. 
+It mainly stores a set of integer vectors indicating the training examples for each iteration.
+Don't create objects from this class directly but use the corresponding subclasses.
+For construction simply use the factory method <code><a href="make.res.instance.html">make.res.instance</a></code>.</p>
+
+
+<h3>Arguments</h3>
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+resample.instance object</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+[character]
+
+<dl>
+<dt>size</dt><dd>Number of observations.</dd>
+<dt>name</dt><dd>The name of the resample description object, i.e. the type of resampling.</dd>
+<dt>iters</dt><dd>The number of resampling iterations.</dd>
+<dt>train.inds</dt><dd>If j is a single integer, the vector of training indices for the jth iteration is returned. If j is an integer vector, the list of training indices for the given iterations is returned. If j is missing, all indices are returned.</dd>
+<dt>test.inds</dt><dd>If j is a single integer, the vector of test indices for the jth iteration is returned. If j is an integer vector, the list of test indices for the given iterations is returned. If j is missing, all indices are returned.</dd>
+</dl>
+</td></tr>
+<tr valign="top"><td><code>j</code></td>
+<td>
+[integer] <br> See above, i == "train.inds" or i == "test.inds".</td></tr>
+</table>
+
+
+<h3>Extends</h3>
+
+<p><code>object</code></p>
+
+
+<h3>Methods</h3>
+
+<p><dl>
+<dt><code><a href="resample.fit.html">resample.fit</a></code></dt><dd></dd><dt><code><a href="to.string.html">to.string</a></code></dt><dd></dd><dt><code><a href="resample.instance-class.html">[</a></code></dt><dd><code>signature( = "resample.instance")</code>: Getter.</dd></dl>
+</p>
+
+
+<h3>Note</h3>
+
+<p>If you want to add another resampling strategy, have a look at the web documentation.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="resample.desc-class.html">resample.desc</a></code>, <code><a href="make.res.instance.html">make.res.instance</a></code>, <code><a href="resample.fit.html">resample.fit</a></code></p>
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Fit models according to a resampling strategy.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for resample.fit {mlr}"><tr><td>resample.fit {mlr}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Fit models according to a resampling strategy.</h2>
+
+
+<h3>Description</h3>
+
+<p>Given a resampling strategy, which defines sets of training and test indices, 
+<code>resample.fit</code> fits the selected learner using the training sets and performs predictions for the test sets.</p>
+
+
+<h3>Usage</h3>
+
+<pre>resample.fit(learner, task, resampling, parset, vars, type, extract)</pre>
+
+
+<h3>Arguments</h3>
+<table summary="R argblock">
+<tr valign="top"><td><code>learner</code></td>
+<td>
+[<code><a href="wrapped.learner-class.html">wrapped.learner</a></code> or <code><a href="../../base/html/character.html">character</a></code>]<br> 
+Learning algorithm.</td></tr>
+<tr valign="top"><td><code>task</code></td>
+<td>
+[<code><a href="learn.task-class.html">learn.task</a></code>] <br>
+Learning task.</td></tr>
+<tr valign="top"><td><code>resampling</code></td>
+<td>
+[<code><a href="resample.desc-class.html">resample.desc</a></code> or <code><a href="resample.instance-class.html">resample.instance</a></code>] <br>
+Resampling strategy.</td></tr>
+<tr valign="top"><td><code>parset</code></td>
+<td>
+[list] <br> 
+Named list of hyperparameter values. Will overwrite the ones specified in the learner object. Default is empty list.</td></tr>
+<tr valign="top"><td><code>vars</code></td>
+<td>
+[<code><a href="../../base/html/character.html">character</a></code>] <br> 
+Vector of variable names to use in training the model. Default is to use all variables.</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+[<code><a href="../../base/html/character.html">character</a></code>] <br> 
+Only used for classification tasks; specifies the type of predictions -
+either probability ("prob") or class ("response").</td></tr>
+<tr valign="top"><td><code>extract</code></td>
+<td>
+[<code><a href="../../base/html/function.html">function</a></code>] <br> 
+Function used to extract information from fitted models, e.g. can be used to save the complete list of fitted models. 
+Default is to extract nothing.</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>resample.fit-methods</code>: Optionally information from the fitted models, e.g. the complete model, can be extracted and returned.
+</p>
+<p>
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>resample.fit-methods</code>: <code><a href="resample.prediction-class.html">resample.prediction</a></code>.
+</p>
+<p>
+</p>
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+</body></html>
