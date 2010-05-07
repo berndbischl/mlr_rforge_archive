@@ -22,7 +22,7 @@ Either by passing the name as a string to the appropriate method or by construct
 <p> Let's take a look at the iris example to show the two different possibilities: </p>
 <pre>
 	<com># Classification task: </com>
-	ct <- make.classif.task(data = iris, target = "Species")
+	ct <- make.task(data = iris, target = "Species")
 
 	<com># First possibility: </com>
 	<com>#   passing the name as a character string to the appropriate method: </com>
@@ -30,7 +30,7 @@ Either by passing the name as a string to the appropriate method or by construct
 
 	<com># Second possibility: </com>
 	<com>#   constructing the wrapped learner object explicitly </com>
-	<com>#   this way we can also set hyperparamters </com>
+	<com>#   this way we can also set hyperparameters </com>
 	wl <- make.learner("classif.rpart", minsplit=4)
 	model <- train(wl, ct)
 
@@ -38,14 +38,17 @@ Either by passing the name as a string to the appropriate method or by construct
 	wl
 	
 	<res>  
-	Classification learner LDA from package MASS
-
+	Classification learner RPart from package rpart
+	
 	Supports multiclass: TRUE
 	Supported features Nums:TRUE Factors:TRUE Chars:FALSE
-	Supports missings: FALSE
+	Supports missings: TRUE
 	Supports probabilities: TRUE
-	Supports weights: FALSE
-	Supports costs: FALSE
+	Supports decision values: FALSE
+	Supports weights: TRUE
+	Supports costs: TRUE
+	
+	Hyperparameters: minsplit=4
 	</res>
 </pre>
 
