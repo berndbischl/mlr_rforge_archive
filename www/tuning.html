@@ -86,46 +86,7 @@ Let's tune SVMs with polynomial and gaussian kernels on iris</P>
 	tune("classif.ksvm", ct, res, ranges) <b><font color="red">---does not work----</font></b>
 
 	<res>
-	$best.parameters
-	$best.parameters$C
-	[1] 0.5
-
-	$best.parameters$kernel
-	[1] "polydot"
-
-	$best.parameters$degree
-	[1] 1
-
-	$best.parameters$sigma
-	[1] NA
-
-
-	$best.performance
-	[1] 0.03333333
-
-	$best.sd
-	[1] 0
-
-	$performances
-	     C  kernel degree sigma       mean         sd
-	1  0.5 polydot      1    NA 0.03333333 0.00000000
-	2  1.0 polydot      1    NA 0.04000000 0.02788867
-	3  2.0 polydot      1    NA 0.04666667 0.01825742
-	4  0.5 polydot      2    NA 0.03333333 0.00000000
-	5  1.0 polydot      2    NA 0.03333333 0.02357023
-	6  2.0 polydot      2    NA 0.04000000 0.02788867
-	7  0.5 polydot      3    NA 0.04000000 0.02788867
-	8  1.0 polydot      3    NA 0.04000000 0.02788867
-	9  2.0 polydot      3    NA 0.04666667 0.01825742
-	10 0.5  rbfdot     NA   0.1 0.04000000 0.03651484
-	11 1.0  rbfdot     NA   0.1 0.03333333 0.02357023
-	12 2.0  rbfdot     NA   0.1 0.03333333 0.02357023
-	13 0.5  rbfdot     NA   0.2 0.03333333 0.04082483
-	14 1.0  rbfdot     NA   0.2 0.04000000 0.02788867
-	15 2.0  rbfdot     NA   0.2 0.03333333 0.02357023
-	16 0.5  rbfdot     NA   0.3 0.04000000 0.02788867
-	17 1.0  rbfdot     NA   0.3 0.04000000 0.02788867
-	18 2.0  rbfdot     NA   0.3 0.04000000 0.02788867
+	...
 	</res>
 </pre>
 
@@ -135,6 +96,7 @@ Let's tune SVMs with polynomial and gaussian kernels on iris</P>
 
 <pre>
 	<com># Regression task</com>
+	library(mlbench); data(BostonHousing)
 	rt <- make.task(data = BostonHousing, formula = medv~.)
 
 	<com># Range of the value k </com>
@@ -143,27 +105,16 @@ Let's tune SVMs with polynomial and gaussian kernels on iris</P>
 	<com># Evaluate with 5-fold cross-validation</com>
 	res <- make.res.desc("cv", iters=5)
 	
-	<com># Tune k-nearest-neighbor-regression with default loss-function</com>
-	tune("kknn.regr", rt, res, control=grid.control(ranges=range), loss="squared")
+	<com># Tune k-nearest-neighbor-regression with mean squared error as default measure</com>
+	tune("regr.kknn", rt, res, control=grid.control(ranges=range), measure="mse")
 
 	<res>
-	$par
-	$par$k
-	[1] 5
-
-
-	$perf
-	[1] 16.01436
-
-	$all.perfs
-	  k     mean       sd time
-	1 1 21.14526 5.111700 0.50
-	2 2 21.25564 8.288623 0.48
-	3 3 16.13007 8.476711 0.50
-	4 4 16.41579 5.511934 0.50
-	5 5 16.01436 4.695017 0.50
-	6 6 17.24456 2.548165 0.50
-	7 7 17.40761 1.587839 0.50	
+	Optimization result: 
+	$k
+	[1] 4
+	
+	 mean.mse    sd.mse 
+	15.927590  6.166622 
 	</res>
 </pre>
 

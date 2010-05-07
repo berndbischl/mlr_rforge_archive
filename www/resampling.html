@@ -18,10 +18,10 @@ storing the index set in a so called <term>resample.instance</term> object. The 
 create this data explicitly and not just set an option in a R function to choose the resampling method are:</p>
 </p>
 <ul>
-	<li> It's easier to create paired experiments, where you train and test different methods on exactly 
+	<li> It is easier to create paired experiments, where you train and test different methods on exactly 
 the same sets, especially when you want to add another method to a comparism experiment you already did.
-	<li> It's easy to add other resampling methods later on. You can simply use S4 inheritance, derive 
-from the resample.instance class, but you don't have to touch any methods that use the resampling strategy.  
+	<li> It is easy to add other resampling methods later on. You can simply use S4 inheritance, derive 
+from the resample.instance class, but you do not have to touch any methods that use the resampling strategy.  
 </ul>
 
 <h2>Included strategies</h2>
@@ -34,10 +34,10 @@ given percentage (maybe 2/3 training, 1/3 test set). If there is just one iterat
 called <term>holdout</term> or <term>test sample estimation</term>.</p>
 <pre>
 	<com># split is the training set percentage</com>
-	rin <- make.subsample.instance(iters=10, size=nrow(iris), split=2/3)
+	rin <- make.res.desc("subsample", iters = 10, split = 2/3)
 
 	<com># holdout</com>
-	rin <- make.subsample.instance(iters=1, size=nrow(iris), split=2/3)
+	rin <- make.res.desc("subsample", iters = 1, split = 2/3)
 </pre>
 
 
@@ -46,14 +46,14 @@ called <term>holdout</term> or <term>test sample estimation</term>.</p>
 <p>The data set is partitioned in k subparts of (nearly) equal size. In the i.th step of the k iterations, 
 the i.th subpart is used as a test set, while the remainig parts form the training set.</p>
 <pre>
-	rin <- make.cv.instance(iters=10, size=nrow(iris))
+	rin <- make.res.desc("cv", iters=10)
 </pre>
 
 <P><u>Bootstrapping</u></P>
 <p>B new data sets D<sub>1</sub>,..,D<sub>B</sub> are drawn from D with replacement, each of the same size as D. 
 In the i.th iteration D<sub>i</sub> forms the training set, while the remaining element from D forms the test set.</p>
 <pre>
-	rin <- make.bs.instance(iters=10, size=nrow(iris))
+	rin <- make.res.desc("bs", iters=10)
 </pre>
 
 
@@ -68,12 +68,12 @@ instances one wants to create the concrete index sets. Also, there are convenien
 construction process as easy as possible. Here's an example for crossvalidation:
 </p>
 <pre>
-	<com># create a description for 10-fold CV </com>
+	<com># create a description for 10-fold crossvalidation </com>
 	desc <- new("cv.desc", iters=10)
 	<com># create the resample.instance, which defines the train/test indices</com>
 	rin <- new("cv.instance", desc=desc, size=nrow(iris))
 	<com># get the cv.instance directly</com>
-	rin <- make.cv.instance(iters=10, size=nrow(iris))
+	rin <- make.res.instance("cv", iters=10, size=nrow(iris))
 </pre>
 
 
@@ -84,18 +84,39 @@ Asking the desc or resample.instance object for further information is easy, jus
 	<com># decription object</com>
 	<com># number of iters</com>
 	desc["iters"]
-	desc["iters"]
+	<res>
+	[1] 10
+	</res>
 	
 	<com># resample.instance object</com>
 	<com># number of iters</com>
 	rin["iters"]
-	rin["iters"]
+	<res>
+	[1] 10
+	</res>
+	
 	<com># train/test indices for 3rd iteration</com>
 	rin["train.inds", 3]
+	<res>
+	[1]   1 118  45  33  31  13  40  63  75  91   7  70 106   6  67 117  14 123
+	[19]  24  77  47 109  82  58  93  55 126  69  54 125  42  43  20  19  16  38
+	...
+	[127]  12  44  17  94 119  18 144  34  25
+	</res>
 	rin["test.inds", 3]
+	<res>
+	[1]  28  29  56  72  78  79  84  97  99 108 115 120 124 133 139
+	</res>
 	<com># train/test indices for 1st and 3rd iteration</com>
 	rin["train.inds", c(1,3)]
 	rin["test.inds", c(1,3)]
+	<res>
+	$`1`
+	 [1]   1   2   5   8   9  12  24  26  50  60  69  91 103 107 134
+	
+	$`3`
+	 [1]  28  29  56  72  78  79  84  97  99 108 115 120 124 133 139
+	</res>
 </pre>
 <P>
 Please refer to the help pages of the specific classes for a complete list of getters.
@@ -105,67 +126,44 @@ For the example code, we use the standard iris data set and compare with cross-v
 Decision Tree and the Linear Discriminant Analysis:
 <pre>
 	<com># Classification task</com>
-	ct <- make.classif.task(data=iris, formula=Species~.)
+	ct <- make.task(data=iris, formula=Species~.)
 
 	<com># Resample instance for Cross-validation</com>
 	rin <- make.res.instance("cv", ct, iters=3)
 
 	<com># Merge learner, i.e. Decision Tree, classification task ct and resample instance rin</com>
-	f1 <- resample.fit("rpart.classif", ct, rin)
+	f1 <- resample.fit("classif.rpart", ct, rin)
 	<com># Let's set a couple of hyperparamters for rpart</com>
-	f1 <- resample.fit("rpart.classif", ct, rin, parset=list(minsplit=10, cp=0.03))	
+	f1 <- resample.fit("classif.rpart", ct, rin, parset=list(minsplit=10, cp=0.03))	
 	<com># Second resample.fit for LDA as learner </com>
-	f2 <- resample.fit("lda", ct, rin)	
+	f2 <- resample.fit("classif.lda", ct, rin)	
 
-	<com># Let's see how the well both classifiers did</com>
-	resample.performance(ct, f1)
+	<com># Let's see how well both classifiers did w.r.t mean misclassification error and accuracy</com>
+	performance(f1, measures = list("mmce", "acc"))
 	<res>
-	$aggr1
-	[1] 0.07333333
-
-	$spread
-	[1] 0.01154701
+	$measures
+	  mmce  acc
+	1 0.04 0.96
+	2 0.06 0.94
+	3 0.10 0.90
 	
-	$aggr2
-	[1] 0.08 0.06 0.08
-
-	$vals
-	$vals[[1]]
-	[1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 1
-	[39] 0 0 0 0 0 0 0 0 0 0 0 0
-
-	$vals[[2]]
-	[1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-	[39] 0 1 0 0 0 1 0 0 0 0 0 0
-
-	$vals[[3]]
-	[1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0
-	[39] 0 0 0 1 0 0 0 1 1 0 0 0
-
+	$aggr
+	           mmce        acc
+	mean 0.06666667 0.93333333
+	sd   0.03055050 0.03055050
 	</res>
-	resample.performance(ct, f2)
+	performance(f2, measures = list("mmce", "acc"))
 	<res>
-	$aggr1
-	[1] 0.02
-
-	$spread
-	[1] 0
-
-	$aggr2
-	[1] 0.02 0.02 0.02
-
-	$vals
-	$vals[[1]]
-	[1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
-	[39] 0 0 0 0 0 0 0 0 0 0 0 0
-
-	$vals[[2]]
-	[1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-	[39] 0 0 0 0 0 0 0 0 0 0 0 0
+	$measures
+	  mmce  acc
+	1 0.04 0.96
+	2 0.00 1.00
+	3 0.02 0.98
 	
-	$vals[[3]]
-	[1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-	[39] 0 0 0 0 0 0 0 1 0 0 0 0
+	$aggr
+	     mmce  acc
+	mean 0.02 0.98
+	sd   0.02 0.02
 	</res>
 </pre>
 

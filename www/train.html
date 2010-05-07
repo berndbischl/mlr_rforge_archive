@@ -33,24 +33,24 @@ used R classification or regression method. It can subsequently be used to perfo
 
 <pre>
 	<com># Classification task: </com>
-	ct <- make.classif.task(data = iris, target="Species")
+	ct <- make.task(data = iris, target="Species")
 	
 	<com># Let's train some Decision Trees:</com>
 	<com>#   on whole data set</com>
-	m1 <- train("rpart.classif", ct)
+	m1 <- train("classif.rpart", ct)
  
 	<com>#   on a subset (every second observation)</com>
-	m2 <- train("rpart.classif", ct, subset=seq(from=1, to=150, by=2))
+	m2 <- train("classif.rpart", ct, subset=seq(from=1, to=150, by=2))
 
 	<com>#   with hyperparameters</com>
-	m3 <- train("rpart.classif", ct, subset=seq(from=1, to=150, by=2), parset=list(minsplit=7, cp=0.03)) 
+	m3 <- train("classif.rpart", ct, subset=seq(from=1, to=150, by=2), parset=list(minsplit=7, cp=0.03)) 
 	
 	<com># You can print some basic information of the model to the console</com>
 	m3
 	<res>
-	Learner model for RPART
-	Hyperparameters: minsplit=7 cp=0.03
+	Learner model for RPart
 	Trained on obs: 75
+	Hyperparameters: minsplit=7 cp=0.03
 	</res>
 	
 	<com># Some accessor</com>
@@ -95,17 +95,18 @@ used R classification or regression method. It can subsequently be used to perfo
 
 <pre>
 	<com># Regression task: </com>
-	rt <- make.regr.task(data = BostonHousing, formula = medv~.)
+	library(mlbench); data(BostonHousing)
+	rt <- make.task(data = BostonHousing, formula = medv~.)
 	
 	<com># Let's train some Gradient Boosting Machines:</com>
 	<com>#   on whole data set</com>
-	m1 <- train("gbm.regr", rt) 
+	m1 <- train("regr.gbm", rt) 
 	
 	<com>#   on a subset (every second observation)</com>
-	m2 <- train("gbm.regr", rt, subset=seq(1, 506, 2))
+	m2 <- train("regr.gbm", rt, subset=seq(1, 506, 2))
 	
 	<com>#   with a set of hyperparameters</com>
-	m3 <- train("gbm.regr", rt, subset = seq(1, 506, 2),
+	m3 <- train("regr.gbm", rt, subset = seq(1, 506, 2),
                                     parset = list(n.trees = 500,
                                                   distribution = "laplace",
                                                   interaction.depth = 3)) 
@@ -116,27 +117,30 @@ used R classification or regression method. It can subsequently be used to perfo
 	<res>
 	Learner model for Gradient Boosting Machine
 	Trained on obs: 253
-	Hyperparameters: n.trees=500 distribution=laplace interaction.depth=3
+	Hyperparameters: distribution=laplace n.trees=500 interaction.depth=3
 	</res>
 	
 	<com># rest is analogous to example above</com>
 </pre>
 
-<p> As you can read in section <a href="learner.html">Wrapped learners</a> there is another possibility to access the learning algorithm:
-We again take the regression example from above and show how we easily build two models with different hyperparameter sets: </p>
+<p> As you can read in section <a href="learner.html">Wrapped learners</a> there is another possibility to 
+access the learning algorithm:
+We again take the regression example from above and show how we easily build two models with different 
+hyperparameter sets: </p>
 
 <pre>
 	<com># Regression task: </com>
-	rt <- make.regr.task(data = BostonHousing, formula = medv~.)
+	library(mlbench); data(BostonHousing)
+	rt <- make.task(data = BostonHousing, formula = medv~.)
 	
 	<com># Construct the wrapped learner</com>
-	wl <- make.learner("gbm.regr")
+	wl <- make.learner("regr.gbm")
 
 	<com># First setting of hyperparameters</com> 
-	wl_1 <- set.train.par(wl, n.trees = 500, distribution = "laplace", interaction.depth = 3)
+	wl_1 <- make.learner("regr.gbm", n.trees = 500, distribution = "laplace", interaction.depth = 3)
 
 	<com># Second setting of hyperparameters</com> 
-	wl_2 <- set.train.par(wl, n.trees = 250, distribution = "laplace", interaction.depth = 5)
+	wl_2 <- make.learner("regr.gbm", n.trees = 250, distribution = "laplace", interaction.depth = 5)
 
 
 	<com># And merge the information in each case </com>

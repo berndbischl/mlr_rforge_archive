@@ -11,10 +11,15 @@
 
 <h1>Predictions</h1>
 
-<P>This section is pretty straightforward and - as you might have guessed - deals with predicting target values for new observations. It's implemented the same way as most of the other predict methods in R. <br> <br>
+<P>This section is pretty straightforward and - as you might have guessed - deals with predicting target values 
+for new observations. It's implemented the same way as most of the other predict methods in R. <br> <br>
 
-Classification methods can predict class labels (as factors) and probabilities (as matrices, where columns correspond to classes) if the algorithm supports it (you can check the wrapped learner description for this, see <a href="learner.html">Wrapped learner </a>). <br>
-Normally you simply choose between the two by using the "type" parameter of the predict method, but in some rare cases you have to specify that you want to predict probabilities at the learning task creation (see example below).<br>
+Classification methods can predict class labels (as factors) and probabilities (as matrices, where columns 
+correspond to classes) if the algorithm supports it (you can check the wrapped learner description for this, 
+see <a href="learner.html">Wrapped learner </a>). <br>
+Normally you simply choose between the two by using the "type" parameter of the predict method, but in some 
+rare cases you have to specify that you want to predict probabilities at the learning task creation 
+(see example below).<br>
 Regression methods work the same way, but simply predict numerical values.</P>
 
 
@@ -23,14 +28,14 @@ Regression methods work the same way, but simply predict numerical values.</P>
 
 <pre>
 	<com># Classification task with iris dataset </com>
-	ct <- make.classif.task(data = iris, formula = Species~.)
+	ct <- make.task(data = iris, formula = Species~.)
 	
 	<com># Some indices for training and test set definition, every second example</com>
 	train.set <- seq(from = 1, to = 150, by = 2)
 	test.set <- seq(from = 2, to = 150, by = 2)
 
 	<com># Train a Decision Tree on the training set </com>
-	m <- train("rpart.classif", ct, subset = train.set)
+	m <- train("classif.rpart", ct, subset = train.set)
  
 	<com># Predict classes for training data</com>
 	p1 = predict(m, newdata = iris[train.set,])
@@ -38,22 +43,21 @@ Regression methods work the same way, but simply predict numerical values.</P>
 	<com># Predict classes for new data</com>
 	predict(m, newdata = iris[test.set,])
 	<res>
-         2          4          6          8         10         12 
-    	setosa     setosa     setosa     setosa     setosa     setosa 
-	...
-        146        148        150 
- 	virginica  virginica  virginica 
-	Levels: setosa versicolor virginica
+	Prediction
+	'data.frame':	75 obs. of  2 variables:
+	 $ response: Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+	 $ truth   : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
 	</res>
 	
 	<com># Let's predict some probabilities</com>
-	probs <- predict(m, newdata = iris[test.set,], type = "prob")
+	predict(m, newdata = iris[test.set,], type = "prob")
 	<res>
-		setosa versicolor virginica
-	2        1       0.00      0.00
-	4        1       0.00      0.00
-	...
-	150      0       0.04      0.96	
+	Prediction
+	'data.frame':	75 obs. of  4 variables:
+	 $ truth          : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+	 $ prob.setosa    : num  1 1 1 1 1 1 1 1 1 1 ...
+	 $ prob.versicolor: num  0 0 0 0 0 0 0 0 0 0 ...
+	 $ prob.virginica : num  0 0 0 0 0 0 0 0 0 0 ...
 	</res>
 	
 
@@ -70,22 +74,23 @@ The proceeding is analog to above. </p>
 <pre>
 
 	<com># Regression task</com>
-	rt <- make.regr.task(data = BostonHousing, formula = medv~.)
+	library(mlbench); data(BostonHousing)
+	rt <- make.task(data = BostonHousing, formula = medv~.)
 
 	<com># Training and test set </com>
 	train.set <- seq(from = 1, to = 506, by = 2)
 	test.set <- seq(from = 2, to = 506, by = 2)
 
 	<com># Gradient Boosting Machine on training set </com>
-	m <- train("gbm.regr", rt, subset = train.set, parset = list(n.trees = 10000)) 
+	m <- train("regr.gbm", rt, subset = train.set, parset = list(n.trees = 1000)) 
 
 	<com># Predict test set data </com>
 	predict(m, newdata = BostonHousing[test.set,])
 	<res>
-	[1] 22.395020 36.117794 25.031917 16.369151 17.798636 20.611659 22.606421
-	[8] 22.671347 20.158904 20.559315 20.347968 15.692052 16.319054 16.349748
-	...
-	[253] 23.055107
+	Prediction
+	'data.frame':	253 obs. of  2 variables:
+	 $ response: num  22.1 29.1 23.4 19.3 19.3 ...
+	 $ truth   : num  21.6 33.4 28.7 27.1 18.9 18.9 20.4 19.9 17.5 18.2 ...
 	</res>
 </pre>
    
