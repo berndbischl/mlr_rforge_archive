@@ -77,6 +77,9 @@ passing the data.frame to make.task). The formula interface will build a new int
 </pre>
 
 
+<p> Look at the documentation of the relevant class, if you are interested in what kind of "getter"-functions 
+are available, e.g. for the <a href="rdocs/learn.task-class.html">task</a>.
+
 <p> We can include further information like costs or weights optionally:
 
 <pre>
@@ -97,8 +100,7 @@ passing the data.frame to make.task). The formula interface will build a new int
 </pre>
 
 
-<p>From this classification task we can now train various models, e.g. by training one model on different subparts of BreastCancer
-or by training different models. This will be covered in the subsequent section <a href="train.html">Training </a>. 
+<p>From this classification task we can now train various models, which will be covered in the section <a href="train.html">Training </a>. 
 Before that, let's look at a regression experiment:</p>
 
 
@@ -110,8 +112,7 @@ Before that, let's look at a regression experiment:</p>
 	library(mlbench)
 	data(BostonHousing)
 
-	<com># and this time we use formula instead of target: </com>
-	rt <- make.regr.task("BostonHousing", data = BostonHousing, formula = medv~.)
+	rt <- make.task("BostonHousing", data = BostonHousing, target = "medv")
 
 	<res>
 	Regression problem
