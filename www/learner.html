@@ -52,16 +52,16 @@ Either by passing the name as a string to the appropriate method or by construct
 	</res>
 </pre>
 
-<P> As you can see above, the wrapped learner includes a lot of information about the supported or not supported cases of the specific learner. 
-For example, the LDA supports multiclass but cannot handle missings. 
-In this way you get an overview, whether the possibilities of the chosen learner go with your data or not.
+<P> As you can see above, the wrapped learner includes a lot of information about the properties of learning algorithm. 
+This helps you to decide whether a selected algorithm is appropriate for your data or not 
+(this will be checked internally as well).
 </P> 
 
-<P>Every method in mlr which has a learning algorithm as an argument will allow both variants. 
-The latter one allows more flexibility when you want to change default parameters or add something more complex on 
+<P>Every method in mlr, which has a learning algorithm as an argument, will allow both variants. 
+The latter one allows for a bit more flexibility when you want to change default parameters or add something more complex on 
 top of the learning algorithm (e.g. see <a href="tuning.html">Tuning</a>).</P>
 
-<P>To see which learners are already implemented have a look at the R documentation of <a href="rdocs/learners">?learners</a> <b><font color="red">---Link geht nicht----</font></b>.</P>
+<P>To see which learners are already implemented have a look at type <a href="rdocs/learners.html">?learners</a> in your R console.</P>
 
 
 </body>
