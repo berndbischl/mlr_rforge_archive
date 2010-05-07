@@ -1,13 +1,12 @@
 source("src/make/config.r")
 
-f = "c:/test.pdf"
-wscp <- file.path(winscp.path, "winscp.com")
-
 html.docs = file.path(project.dir, "pkg", "mlr", "chm")
-setwd(html.docs)
+www.docs = file.path(project.dir, "www", "rdocs")
+if( unlink(file.path(www.docs, list.files(www.docs))) != 0) 
+	stop("could not delete www doc dir!")		
 
-cmd  <- paste(wscp, " ", docs.login, ":", docs.pwd, "@", docs.server, docs.path, ' /command "rm *" "put *.html" exit', sep="") 
+docs = list.files(html.docs, all=T)
+docs = docs[grep("*.html", docs)]
+docs = paste(html.docs, docs, sep="/")
+file.copy(from=docs, to=www.docs, recursive = TRUE) 
 
-cat(cmd, "\n")
-system(cmd)
-setwd(project.dir)
