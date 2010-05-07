@@ -12,86 +12,72 @@
 <h1>Evaluation of Predictions</h1>
 
 <P>
-The quality of predictions is normally measured w.r.t some loss function (which is to be minimized), or sometimes w.r.t. some positive performance measure (which is to be maximized). Typical loss functions are misclassification error or deviance for classification and SSE or absolute deviations for regression. 
+The quality of predictions is usually measured w.r.t some performance measure or - more seldom - w.r.t. some 
+loss function. 
 
-<P>
-At the moment only the most common measures are implemented, but it's easy to write your own. Also, a good starting point for classification, measures connected to ROCR curves and nice plots the package <a target="_top" href="http://cran.r-project.org/web/packages/ROCR/index.html">ROCR</a>. I will probably integrate this more tightly at some point in the future.
+Typical performance measures are mean misclassification error (MMCE), accuracy or true positive rate
+for classification and sum of squared errors (SSE) or absolute deviations for regression. Those measures
+merge the comparison of predicted and true label/value to one number.
 
-<h3>Loss functions for classification  <b><font color="red">---NOCH VERVOLLSTÄNDIGEN----</font></b></h3>
+To see which performance measures are implemented, have a look at <a href="rdocs/measures"> measures</a> 
+in the R documentation.
 
-
-<table border=1 cellpadding=2>
-<tr>
-	<th>Short</th>
-	<th>Name</th>
-	<th>Description</th>
-	<th>Min/Max</th>
-	<th>Aggregate</th>
-</tr>
-<tr>
-	<td>zero-one</td>
-	<td>Mean misclassification error</td>
-	<td>Counts misclassification errors, divided by number of observations in test set</td>
-	<td>minimize</td>
-	<td>mean</td>
-</tr>
-</table>
-
-<h3>Loss functions for regression  <b><font color="red">---NOCH VERVOLLSTÄNDIGEN----</font></b></h3>
-
-<table border=1 cellpadding=2>
-<tr>
-	<th>Short</th>
-	<th>Name</th>
-	<th>Description</th>
-	<th>Min/Max</th>
-	<th>Aggregate</th>
-</tr>
-<tr>
-	<td>squared</td>
-	<td>Mean squared error</td>
-	<td>1/n sum_i=1^n (y_i - pred_i)^2 </td>
-	<td>minimize</td>
-	<td>sum</td>
-</tr>
-
-</table>
-
+In contrast to that, loss functions do not merge information, but compute tranformations for every loss, i.e.
+the difference between the prediction and its corresponding true label/value.
+Possible loss functions are the squared difference, the absolute one or the zero-one loss, see 
+<a href="rdocs/measures"> losses </a> in the R documentation.
+</P>
 
 
 <P>
+A good starting point for classification are measures connected to ROCR curves and nice 
+plots from the package <a target="_top" href="http://cran.r-project.org/web/packages/ROCR/index.html">ROCR</a>. 
+I will probably integrate this more tightly at some point in the future.
+</P>
 
 
 <h3>Classification example</h3>
 
 <pre>
+
 	<com># Classification task with iris data set </com>
-	ct <- make.classif.task(data = iris, formula = Species~.)
+	ct <- make.task(data = iris, target = "Species")
 
-	<com># Training and test set indices </com>
-	train.set <- seq(from = 1, to = 150, by = 2)
-	test.set <- seq(from = 2, to = 150, by = 2)
+	<com># Linear Discriminant Analysis on every second observation </com>
+	model <- train("classif.lda", task = ct, subset = seq(1,150,2))
+
+	<com># Prediction on other half of the data set </com>
+	preds <- predict(model, task = ct, subset = seq(2,150,2))
 	
-	<com># Decision Tree on training set </com>
-	model <- train("rpart.classif", ct, subset = train.set) 
-
-	<com># Prediction on test set data </com>
-	preds <- predict(model, newdata = iris[test.set,])
-
-	<com># Compare predicted and true label with default loss-function "zero-one"</com> 
-	performance(true.y = iris[test.set, "Species"], pred.y = preds)	
-
+	<com># Compare predicted and true label with default performance measure mean mislassification error (MMCE)</com> 
+	performance(preds)
 	<res>
-	$aggr
-	[1] 0.05333333
-
-	$vals
-	 [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-	[39] 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0
+	$measures
+	mmce 
+	0.04 
 	</res>
-	<b><font color="red">---NOCH VERVOLLSTÄNDIGEN:----</font></b>
-	<com># Compare predicted and true label with default loss-function "----"</com> 
-	performance(true.y = iris[test.set, "Species"], pred.y = preds, loss="-----")		
+	
+	<com># Let's have a look at some more performance measures and the zero-one losses</com>
+	performance(preds, measures=list("mmce", "acc"), losses = "zero-one")
+	<res>
+	$measures
+	mmce  acc 
+	0.04 0.96 
+	
+	$losses
+	    id zero-one
+	1    2        0
+	2    4        0
+	3    6        0
+	...
+	65 130        1
+	66 132        0
+	67 134        1
+	...
+	73 146        0
+	74 148        0
+	75 150        0
+	</res>
 </pre>
 
 
@@ -102,14 +88,15 @@ At the moment only the most common measures are implemented, but it's easy to wr
 
 <pre>
 	<com># Regression task with BostonHousing data set </com>
-	rt <- make.regr.task(data = BostonHousing, formula = medv~.)
+	library(mlbench); data(BostonHousing)
+	rt <- make.task(data = BostonHousing, formula = medv~.)
 
 	<com># Training and test set indices </com>
 	train.set <- seq(from = 1, to = 506, by = 2)
 	test.set <- seq(from = 2, to = 506, by = 2)
 
 	<com># Gradient Boosting Machine on training set </com>
-	model <- train("gbm.regr", rt, subset = train.set, parset = list(n.trees=10000)) 
+	model <- train("regr.gbm", rt, subset = train.set, parset = list(n.trees=1000)) 
 
 	<com># Prediction on test set data </com>
 	preds <- predict(model, newdata = BostonHousing[test.set,])
@@ -120,21 +107,69 @@ At the moment only the most common measures are implemented, but it's easy to wr
 	[253] 23.055107
 	</res>
 
-	<com># Compare predicted and true label with default loss-function "squared"</com> 
-	performance(true.y = BostonHousing[test.set, "medv"], pred.y = preds)
+	<com># Compare predicted and true label with default measure MSE</com> 
+	performance(preds)
 	<res>
-	$aggr
-	[1] 17.03216
-
-	$vals
-	[1] 6.186657e-01 8.751260e+00 1.189271e+01 1.169115e+02 1.462081e+00
-	[6] 2.720436e+00 5.587959e+00 8.576545e+00 7.208765e+00 5.800308e+00
-	...
-	[251] 3.202702e-03 8.105602e+00 1.274056e+02
+	$measures
+	     mse 
+	42.93442 
 	</res>
 	
 </pre>
    
+
+<h2>Evaluation of Predictions after Resampling</h2>
+
+<P>
+When you use some resampling strategy (for details see <a href="resampling.html">Resampling</a>), 
+mlr offers the following possibilities to evaluate your predictions: 
+Every single resampling iteration is handled as described in the explanation above, 
+i.e. you train a model on a training part of the data set, predict on test set and compare 
+predicted and true label w.r.t. some performance measure. This is proceeded for every
+iteration so that you have e.g. ten perfomance value in the case of 10-fold cross-validation. 
+The question arises, how to aggregate those values. You can specify that explicitly, the default is the mean.
+Let's have a look at an example
+</P>
+
+<h3>Classification example</h3>
+
+<pre>
+	<com># Classification task</com>
+	ct <- make.task(data = iris, formula = Species~.)
+
+	<com># Resample instance for Cross-validation</com>
+	rin <- make.res.instance("cv", ct, iters = 3)
+
+	<com># Learn Decision Tree</com>
+	fit <- resample.fit("classif.rpart", ct, rin)
+
+	<com># Let's see how well the classifier did w.r.t mean misclassification error and accuracy</com>
+	performance(f1, measures = list("mmce", "acc"))
+	<res>
+	$measures
+	  mmce  acc
+	1 0.04 0.96
+	2 0.06 0.94
+	3 0.10 0.90
+	
+	$aggr
+	           mmce        acc
+	mean 0.06666667 0.93333333
+	sd   0.03055050 0.03055050
+	</res>
+
+
+<P>
+As you can see above, in every fold of the 3-fold cross-validation you get one mean misclassification 
+error (0.04, 0.06, 0.1) and after all three runs you aggregate them by mean to one value (0.0666).
+Having a look at the single losses is of course possible as well.
+</P>
+
+</pre>
+
+
+
+
 
 
 </body>
