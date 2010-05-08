@@ -4,6 +4,17 @@ roxygen()
 #' General description object for a classification experiment.   
 #' Instantiate it by using its factory method.
 #' 
+#' Getter.\cr
+#' 
+#' \describe{
+#'  \item{class.levels [character]}{Levels of target factor for classification.}
+#'  \item{class.nr [integer]}{Number of class labels for classification.}
+#'  \item{is.binary [boolean]}{Binary classification task?}
+#'  \item{costs [matrix]}{Cost matrix, NULL if not available.}
+#'  \item{positive [string]}{Positive class label for binary classification.}
+#'  \item{negative [string]}{Negative class label for binary classification.}
+#' }
+#' 
 #' @exportClass classif.task
 #' @title Classification task.
 #' @seealso \code{\link{make.task}}

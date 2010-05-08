@@ -22,12 +22,6 @@ roxygen()
 #'  \item{excluded [character]}{Names of excluded variables.}
 #'  \item{targets [character]. Optional parameters: row}{If row is missing all target values are returned. Otherwise they are indexed by row.}
 #'  \item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row.}
-#'  \item{class.levels [character]}{Levels of target factor for classification.}
-#'  \item{class.nr [integer]}{Number of class labels for classification.}
-#'  \item{is.binary [boolean]}{Binary classification task?}
-#'  \item{costs [matrix]}{Cost matrix, NULL if not available.}
-#'  \item{positive [string]}{Positive class label for binary classification.}
-#'  \item{negative [string]}{Negative class label for binary classification.}
 #' }
 #' 
 #' @exportClass learn.task
