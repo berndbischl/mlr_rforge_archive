@@ -93,7 +93,7 @@ make.measures = function(xs) {
 			y =make.measure(x)
 		ys[[i]] = y
 		nn = names(xs)[i]
-		if (is.null(nn))
+		if (is.null(nn) || nn == "")
 			nn = attr(y, "id")
 		if (is.null(nn))
 			stop("No name for measure! Set an attribute 'id' on the measure or pass measures as a named list!")
