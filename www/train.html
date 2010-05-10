@@ -14,7 +14,8 @@
 <P>"Training" a learner just means fitting model to a given data set. 
 We are not concerned with the specifics of the fitting process as such here - 
 this will be taken care of by the underlying R methods that this package employs. 
-Rather more important is, that training and all subsequent operations can be performed by using a unified interface.</P>
+Rather more important is, that training and all subsequent operations can be performed by using a unified 
+interface.</P>
 
 <P>This is in this case achieved by calling the method "train" on the classification task. 
 The most important parameters are the indices of the subset which are used for training and a 
@@ -22,35 +23,36 @@ list of named elements which specify the hyperparameters of the learner.
 The parameters will generally be named the same way as in the underlying R method, if not, 
 differences are documented on the R help for the learning method. 
 The return value is always an object of class "model" which wraps the concrete model of the 
-used R classification or regression method. It can subsequently be used to perform prediction for new observations.</P>
+used R classification or regression method. It can subsequently be used to perform prediction for new 
+observations.</P>
 
 <P>
 
 
 <h3>Classification example</h3>
 
-<p> Let's have a look at the iris dataset: </p>
+<p> Let's have a look at the iris data set: </p>
 
 <pre>
 	<com># Classification task: </com>
-	ct <- make.task(data = iris, target="Species")
+	ct <- make.task(data = iris, target = "Species")
 	
 	<com># Let's train some Decision Trees:</com>
 	<com>#   on whole data set</com>
 	m1 <- train("classif.rpart", ct)
  
 	<com>#   on a subset (every second observation)</com>
-	m2 <- train("classif.rpart", ct, subset=seq(from=1, to=150, by=2))
+	m2 <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2))
 
 	<com>#   with hyperparameters</com>
-	m3 <- train("classif.rpart", ct, subset=seq(from=1, to=150, by=2), parset=list(minsplit=7, cp=0.03)) 
+	m3 <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2), parset = list(minsplit = 7, cp = 0.03)) 
 	
 	<com># You can print some basic information of the model to the console</com>
 	m3
 	<res>
 	Learner model for RPart
 	Trained on obs: 75
-	Hyperparameters: minsplit=7 cp=0.03
+	Hyperparameters: minsplit = 7 cp = 0.03
 	</res>
 	
 	<com># Some accessor</com>
@@ -96,14 +98,14 @@ used R classification or regression method. It can subsequently be used to perfo
 <pre>
 	<com># Regression task: </com>
 	library(mlbench); data(BostonHousing)
-	rt <- make.task(data = BostonHousing, formula = medv~.)
+	rt <- make.task(data = BostonHousing, target = "medv")
 	
 	<com># Let's train some Gradient Boosting Machines:</com>
 	<com>#   on whole data set</com>
 	m1 <- train("regr.gbm", rt) 
 	
 	<com>#   on a subset (every second observation)</com>
-	m2 <- train("regr.gbm", rt, subset=seq(1, 506, 2))
+	m2 <- train("regr.gbm", rt, subset = seq(1, 506, 2))
 	
 	<com>#   with a set of hyperparameters</com>
 	m3 <- train("regr.gbm", rt, subset = seq(1, 506, 2),
@@ -117,7 +119,7 @@ used R classification or regression method. It can subsequently be used to perfo
 	<res>
 	Learner model for Gradient Boosting Machine
 	Trained on obs: 253
-	Hyperparameters: distribution=laplace n.trees=500 interaction.depth=3
+	Hyperparameters: distribution = laplace n.trees = 500 interaction.depth = 3
 	</res>
 	
 	<com># rest is analogous to example above</com>
@@ -131,7 +133,7 @@ hyperparameter sets: </p>
 <pre>
 	<com># Regression task: </com>
 	library(mlbench); data(BostonHousing)
-	rt <- make.task(data = BostonHousing, formula = medv~.)
+	rt <- make.task(data = BostonHousing, target = "medv")
 	
 	<com># Construct the wrapped learner</com>
 	wl <- make.learner("regr.gbm")
@@ -148,9 +150,7 @@ hyperparameter sets: </p>
 	model_2 <- train(wl_2, rt)
 </pre>
 
-<p> Normally you should better define your hyperparameters in parset. 
-Use the set.train.par-function for technical parameters which you do not change anymore. 
-See  <b><font color="red">---LINK EINFÜGEN----</font></b> for details. </p>
+<p> Normally you should better define your hyperparameters in parset. </p>
 
 
    

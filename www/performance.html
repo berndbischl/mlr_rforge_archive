@@ -22,7 +22,7 @@ merge the comparison of predicted and true label/value to one number.
 To see which performance measures are implemented, have a look at <a href="rdocs/measures"> measures</a> 
 in the R documentation.
 
-In contrast to that, loss functions do not merge information, but compute tranformations for every loss, i.e.
+In contrast to that, loss functions do not merge information, but compute transformations for every loss, i.e.
 the difference between the prediction and its corresponding true label/value.
 Possible loss functions are the squared difference, the absolute one or the zero-one loss, see 
 <a href="rdocs/measures"> losses </a> in the R documentation.
@@ -49,7 +49,7 @@ I will probably integrate this more tightly at some point in the future.
 	<com># Prediction on other half of the data set </com>
 	preds <- predict(model, task = ct, subset = seq(2,150,2))
 	
-	<com># Compare predicted and true label with default performance measure mean mislassification error (MMCE)</com> 
+	<com># Compare predicted and true label with default performance measure mean misclassification error (MMCE)</com> 
 	performance(preds)
 	<res>
 	$measures
@@ -58,7 +58,7 @@ I will probably integrate this more tightly at some point in the future.
 	</res>
 	
 	<com># Let's have a look at some more performance measures and the zero-one losses</com>
-	performance(preds, measures=list("mmce", "acc"), losses = "zero-one")
+	performance(preds, measures = list("mmce", "acc"), losses = "zero-one")
 	<res>
 	$measures
 	mmce  acc 
@@ -89,7 +89,7 @@ I will probably integrate this more tightly at some point in the future.
 <pre>
 	<com># Regression task with BostonHousing data set </com>
 	library(mlbench); data(BostonHousing)
-	rt <- make.task(data = BostonHousing, formula = medv~.)
+	rt <- make.task(data = BostonHousing, target = "medv")
 
 	<com># Training and test set indices </com>
 	train.set <- seq(from = 1, to = 506, by = 2)
@@ -126,7 +126,7 @@ mlr offers the following possibilities to evaluate your predictions:
 Every single resampling iteration is handled as described in the explanation above, 
 i.e. you train a model on a training part of the data set, predict on test set and compare 
 predicted and true label w.r.t. some performance measure. This is proceeded for every
-iteration so that you have e.g. ten perfomance value in the case of 10-fold cross-validation. 
+iteration so that you have e.g. ten performance value in the case of 10-fold cross-validation. 
 The question arises, how to aggregate those values. You can specify that explicitly, the default is the mean.
 Let's have a look at an example
 </P>
@@ -135,9 +135,9 @@ Let's have a look at an example
 
 <pre>
 	<com># Classification task</com>
-	ct <- make.task(data = iris, formula = Species~.)
+	ct <- make.task(data = iris, target = "Species")
 
-	<com># Resample instance for Cross-validation</com>
+	<com># Resample instance for cross-validation</com>
 	rin <- make.res.instance("cv", ct, iters = 3)
 
 	<com># Learn Decision Tree</com>
@@ -158,19 +158,13 @@ Let's have a look at an example
 	sd   0.03055050 0.03055050
 	</res>
 
+</pre>
 
 <P>
 As you can see above, in every fold of the 3-fold cross-validation you get one mean misclassification 
 error (0.04, 0.06, 0.1) and after all three runs you aggregate them by mean to one value (0.0666).
 Having a look at the single losses is of course possible as well.
 </P>
-
-</pre>
-
-
-
-
-
 
 </body>
 </html>

@@ -15,9 +15,10 @@
 regarding the purpose of the task. This will be at least the target variable, but might also be information about 
 excluded (ID) variables, misclassification costs or case weights.</p>
 
-<p>Currently two subclasses of a learn.task exist, classif.task for classification problems and regr.task for regression.
-Both are created by using the make.task factory method, and the type of the task is decided automatically by looking at 
-the target variable.
+<p>Currently two subclasses of a learn.task exist, classif.task for classification problems and regr.task for 
+regression.
+Both are created by using the make.task factory method, and the type of the task is decided automatically by 
+looking at the target variable.
 If this is encoded as an integer, you have to change it either to a factor or a numerical.</p>
 
 <h3>Classification example</h3>
@@ -26,8 +27,7 @@ If this is encoded as an integer, you have to change it either to a factor or a 
 (from the package mlbench) and exclude the ID variable from all further model fitting and evaluation.</p>
 
 <pre>
-	library(mlbench)
-	data(BreastCancer)
+	library(mlbench); data(BreastCancer)
 	ct <- make.task(data = BreastCancer, target = "Class", excluded = "Id")
 </pre>
 
@@ -40,8 +40,9 @@ If this is encoded as an integer, you have to change it either to a factor or a 
 
 
 <li>The second example uses the iris data set which has numerical input variables 
-and shows how to include transformations of the original variables (which you you obviously could also do before
-passing the data.frame to make.task). The formula interface will build a new internal data frame by calling model.frame.
+and shows how to include transformations of the original variables (which you obviously could also do before
+passing the data.frame to make.task). The formula interface will build a new internal data frame by 
+calling model.frame.
 </ul>
 
 <p> The now defined task also gives you some convenience methods to access properties of the data set:</p>
@@ -100,7 +101,8 @@ are available, e.g. for the <a href="rdocs/learn.task-class.html">task</a>.
 </pre>
 
 
-<p>From this classification task we can now train various models, which will be covered in the section <a href="train.html">Training </a>. 
+<p>From this classification task we can now train various models, which will be covered in the 
+section <a href="train.html">Training </a>. 
 Before that, let's look at a regression experiment:</p>
 
 
@@ -108,9 +110,8 @@ Before that, let's look at a regression experiment:</p>
 
 
 <pre>
-	<com># We will generally take the Boston Housing data set as regression example</com>
-	library(mlbench)
-	data(BostonHousing)
+	<com># We will generally take the BostonHousing data set as regression example</com>
+	library(mlbench); data(BostonHousing)
 
 	rt <- make.task("BostonHousing", data = BostonHousing, target = "medv")
 

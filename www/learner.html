@@ -13,10 +13,12 @@
 
 <p>These classes provide a unified interface to all classification/regression methods in R. 
 Some are already integrated, others are not, but the package is specifically designed to make extensions simple. 
-If one of your favourite methods is missing, either send me an email or see the  part of the tutorial how to extend the package yourself.</p>
+If one of your favorite methods is missing, either send me an email or see the part of the tutorial how to 
+extend the package yourself.</p>
 
 <P>You have two options to access the learning algorithms in mlr. 
-Either by passing the name as a string to the appropriate method or by constructing the wrapped.learner object explicitly:</p>
+Either by passing the name as a string to the appropriate method or by constructing the wrapped.learner object 
+explicitly:</p>
 
 <h3>Example</h3>
 <p> Let's take a look at the iris example to show the two different possibilities: </p>
@@ -31,7 +33,7 @@ Either by passing the name as a string to the appropriate method or by construct
 	<com># Second possibility: </com>
 	<com>#   constructing the wrapped learner object explicitly </com>
 	<com>#   this way we can also set hyperparameters </com>
-	wl <- make.learner("classif.rpart", minsplit=4)
+	wl <- make.learner("classif.rpart", minsplit = 4)
 	model <- train(wl, ct)
 
 	<com>#   Let's see what wl is: </com>
@@ -52,16 +54,18 @@ Either by passing the name as a string to the appropriate method or by construct
 	</res>
 </pre>
 
-<P> As you can see above, the wrapped learner includes a lot of information about the properties of learning algorithm. 
+<P> As you can see above, the wrapped learner includes a lot of information about the properties of 
+the learning algorithm. 
 This helps you to decide whether a selected algorithm is appropriate for your data or not 
 (this will be checked internally as well).
 </P> 
 
 <P>Every method in mlr, which has a learning algorithm as an argument, will allow both variants. 
-The latter one allows for a bit more flexibility when you want to change default parameters or add something more complex on 
-top of the learning algorithm (e.g. see <a href="tuning.html">Tuning</a>).</P>
+The latter one allows a bit more flexibility when you want to change default parameters or add something more 
+complex on top of the learning algorithm (e.g. see <a href="tuning.html">Tuning</a>).</P>
 
-<P>To see which learners are already implemented have a look at type <a href="rdocs/learners.html">?learners</a> in your R console.</P>
+<P>To see which learners are already implemented type <a href="rdocs/learners.html">?learners</a> 
+in your R console.</P>
 
 
 </body>

@@ -12,11 +12,11 @@
 <h1>Predictions</h1>
 
 <P>This section is pretty straightforward and - as you might have guessed - deals with predicting target values 
-for new observations. It's implemented the same way as most of the other predict methods in R. <br> <br>
+for new observations. It is implemented the same way as most of the other predict methods in R. <br> <br>
 
 Classification methods can predict class labels (as factors) and probabilities (as matrices, where columns 
 correspond to classes) if the algorithm supports it (you can check the wrapped learner description for this, 
-see <a href="learner.html">Wrapped learner </a>). <br>
+see <a href="learner.html">Wrapped learner</a>). <br>
 Normally you simply choose between the two by using the "type" parameter of the predict method, but in some 
 rare cases you have to specify that you want to predict probabilities at the learning task creation 
 (see example below).<br>
@@ -27,8 +27,8 @@ Regression methods work the same way, but simply predict numerical values.</P>
 <h3>Classification example</h3>
 
 <pre>
-	<com># Classification task with iris dataset </com>
-	ct <- make.task(data = iris, formula = Species~.)
+	<com># Classification task with iris data set </com>
+	ct <- make.task(data = iris, target = "Species")
 	
 	<com># Some indices for training and test set definition, every second example</com>
 	train.set <- seq(from = 1, to = 150, by = 2)
@@ -68,14 +68,14 @@ Regression methods work the same way, but simply predict numerical values.</P>
 <h3>Regression example</h3>
 
 <p> We again use the BostonHousing data set and learn a Gradient Boosting Machine. 
-Every second observation we use for training/test. <br>
+We use every second observation for training/test. <br>
 The proceeding is analog to above. </p>
 
 <pre>
 
 	<com># Regression task</com>
 	library(mlbench); data(BostonHousing)
-	rt <- make.task(data = BostonHousing, formula = medv~.)
+	rt <- make.task(data = BostonHousing, target = "medv")
 
 	<com># Training and test set </com>
 	train.set <- seq(from = 1, to = 506, by = 2)
@@ -99,7 +99,7 @@ The proceeding is analog to above. </p>
 	<res>
 	[1] 22.20401 23.30894 22.36217 22.14113 22.14113 22.14113 22.32506 22.32506 22.14113 22.14113
 	[11] 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113 22.19306 22.32506 22.63243
-	
+	...
 	[241] 22.32506 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113
 	[251] 22.19306 22.69604 22.32506
 	</res>
@@ -108,11 +108,11 @@ The proceeding is analog to above. </p>
 	<res>
 	[1] 21.6 33.4 28.7 27.1 18.9 18.9 20.4 19.9 17.5 18.2 19.6 14.5 13.9 14.8 21.0 14.5 13.1 18.9 21.0
 	[20] 30.8 26.6 24.7 19.3 16.6 19.4 20.5 23.4 35.4 31.6 19.6 16.0 25.0 23.5 22.0 20.9 21.7 23.4 21.4
-	
+	...
 	[229] 13.5 20.0 17.7 20.2 19.9 19.1 20.1 19.6 29.8 13.3 12.0 21.4 23.7 21.8 21.2 20.6  7.0 13.6 21.8
 	[248] 23.1 18.3 17.5 22.4 23.9 11.9
 	</res>
-	<com># which observations where predicted?</com>
+	<com># which observations were predicted?</com>
 	pred["id"]
 	<res>
 	---- geht nicht?! -----

@@ -17,7 +17,7 @@ by hand was already covered in the section about training and resampling - simpl
 "parset" argument in the "train" or "resample.fit" methods</P>
 
 <P>Assuming, you have understood how <a href="resampling.html">resampling</a> works,  
-it's quite simple to implement a grid search, which is one of the standard - albeit slow - ways 
+it is quite simple to implement a grid search, which is one of the standard - albeit slow - ways 
 to choose an appropriate set of parameters from a given range of values.</P> 
 
 <h3>Classification example</h3>
@@ -35,7 +35,7 @@ to choose an appropriate set of parameters from a given range of values.</P>
 	res <- make.res.desc("cv", iters = 3)
 
 	<com># Tune SVM</com>
-	tune("classif.ksvm", ct, res, control = grid.control(ranges=r))
+	tune("classif.ksvm", ct, res, control = grid.control(ranges = r))
 	<res>
 	Optimization result: 
 	$C
@@ -97,16 +97,16 @@ Let's tune SVMs with polynomial and gaussian kernels on iris</P>
 <pre>
 	<com># Regression task</com>
 	library(mlbench); data(BostonHousing)
-	rt <- make.task(data = BostonHousing, formula = medv~.)
+	rt <- make.task(data = BostonHousing, target = "medv")
 
 	<com># Range of the value k </com>
-	range <- list(k=1:7)
+	range <- list(k = 1:7)
 
 	<com># Evaluate with 5-fold cross-validation</com>
-	res <- make.res.desc("cv", iters=5)
+	res <- make.res.desc("cv", iters = 5)
 	
 	<com># Tune k-nearest-neighbor-regression with mean squared error as default measure</com>
-	tune("regr.kknn", rt, res, control=grid.control(ranges=range), measure="mse")
+	tune("regr.kknn", rt, res, control = grid.control(ranges = range), measure = "mse")
 
 	<res>
 	Optimization result: 

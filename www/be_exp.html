@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
-	<title>Benchmark´experiments</title>
+	<title>Benchmark experiments</title>
 	<link rel="stylesheet" type="text/css" href="formats.css">
 	<style type="text/css">
 	</style>
@@ -42,7 +42,7 @@ Using mlr, setting up such an experiment becomes very easy:
 	<com># Tune a SVM</com>
 	svm.tuner <- make.tune.wrapper("classif.ksvm", method = "grid", 
 							      resampling = inner.res, 
-							      control = grid.control(ranges=r))
+							      control = grid.control(ranges = r))
 
 	<com># Three learner to be compared </com>
 	learners <- c("classif.lda", "classif.qda", svm.tuner)
@@ -121,7 +121,7 @@ We show an example with outer bootstrap and inner cross-validation, our learner 
 	<com># Tune a SVM</com>
 	knn.tuner <- make.tune.wrapper("classif.kknn", method = "grid", 
 						       resampling = inner.res, 
-    						       control = grid.control(ranges=r))
+    						       control = grid.control(ranges = r))
 
 	<com># Define "outer" bootstrap indices </com>
 	res <- make.res.desc("bs", iters = 5)
@@ -165,7 +165,7 @@ We show an example with outer bootstrap and inner cross-validation, our learner 
 
 <P> When you want to add another learner to your existing benchmark experiment, this works easily in mlr. 
 The big advantage is, that the same resample pairing is used as for the other learners. <br>
-Let's take Example 1 and add another learner - NaiveBayes.
+Let's take Example 2 and add another learner - NaiveBayes.
 
 <h3>Example 2 (continuation)</h3>
 
