@@ -31,6 +31,21 @@ test.predict <- function() {
 	checkEquals(df3$response, df4$response)
 	cn3 = colnames(df3)
 	cn4 = colnames(df4)
-	checkEquals(cn3, c("response", "truth"))
-	checkEquals(cn4, c("id", "response", "truth"))
+	checkTrue(setequal(cn3, c("response", "truth")))
+	checkTrue(setequal(cn4, c("id", "response", "truth")))
+	
+	cm5 = train("classif.lda", binaryclass.task, subset=binaryclass.train.inds)
+	cp5a = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds, type="response")
+	cp5b = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds, type="prob")
+	cp5c = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds, type="prob", threshold=0)
+	cp5d = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds, type="prob", threshold=1)
+	checkEquals(cp5a["response"], cp5b["response"])
+	f1 = factor(rep(binaryclass.task["positive"], length(binaryclass.test.inds)), levels=binaryclass.task["class.levels"])
+	checkEquals(cp5c["response"], f1)
+	f2 = factor(rep(binaryclass.task["negative"], length(binaryclass.test.inds)), levels=binaryclass.task["class.levels"])
+	checkEquals(cp5d["response"], f2)
+	
+	
+	#todo dec values!!!
+	
 }
