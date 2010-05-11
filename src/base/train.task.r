@@ -76,7 +76,7 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	x = setdiff(vars, task["input.names"])
 	if (length(x) > 0)
 		stop("Trying to train with vars which are not inputs: ", paste(x, collapse=","))
-	data.subset <- task["data", row=subset, select=c(vars, tn), drop=F]
+	data.subset <- task["data", row=subset, col=c(vars, tn), drop=F]
 	
 	# todo: maybe don't pass weights for performance reasons when none set?
 	if (task["has.weights"])
@@ -95,14 +95,8 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	}
 	
 	# make pars list for train call
-	pars = list(.wrapped.learner=wl, .target=tn, .data=data.subset, .weights=ws)
-	if (is(task, "classif.task"))
-		pars$.type = type
-	
+	pars = list(.wrapped.learner=wl, .target=tn, .data=data.subset, .weights=ws)	
 	pars = c(pars, extra.train.pars, ps2)
-	# remove threhold here but store it later in ps2
-	pars$predict.threshold=NULL
-	
 	
 	# set the seed
 	if(!is.null(.mlr.local$debug.seed)) {
@@ -110,11 +104,9 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 		warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 	}
 	
-	st = system.time({
-		or <- capture.output(
-			learner.model <- try(do.call(train.learner, pars), silent=TRUE)
-		)
-	})
+	st = system.time(or <- capture.output(
+						learner.model <- try(do.call(train.learner, pars), silent=TRUE)
+					), gcFirst = FALSE)
 	logger.debug(or)
 	time.train = st[3]
 	
