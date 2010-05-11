@@ -9,10 +9,11 @@ setClass(
 		"opt.wrapper",
 		contains = c("wrapped.learner"),
 		representation = representation(
-				type = "character",
+				opttype = "character",
 				base.learner = "wrapped.learner",
 				method = "character",
 				resampling = "resample.desc",
+				type = "character",
 				control = "ANY",
 				measures = "list",
 				aggr = "list"
@@ -35,14 +36,15 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.wrapper"),
-		def = function(.Object, type, base.learner, id, label, resampling, method, control, measures, aggr) {
+		def = function(.Object, opttype, base.learner, id, label, resampling, type, method, control, measures, aggr) {
 			if (missing(base.learner))
 				return(.Object)
 			bl = base.learner
-			.Object@type = type
+			.Object@opttype = opttype
 			.Object@base.learner = bl
 			.Object@method = method
 			.Object@resampling = resampling
+			.Object@type = type
 			.Object@control = control
 			.Object@measures = measures
 			.Object@aggr = aggr
@@ -72,14 +74,14 @@ setMethod(
 				f = make.task
 			
 			lt = f(data=.data, target=.targetvar)	
-			if (wl@type == "tune")
+			if (wl@opttype == "tune")
 				or = tune(bl, task=lt, resampling=wl@resampling, method=wl@method, control=wl@control, 
 						measures=wl@measures, aggr=wl@aggr, model=TRUE)
-			else if (wl@type == "varsel")
+			else if (wl@opttype == "varsel")
 				or = varsel(bl, task=lt, resampling=wl@resampling, method=wl@method, control=wl@control, 
 						measures=wl@measures, aggr=wl@aggr, model=TRUE)
 			else 
-				stop("Unknown type: ", wl@type)
+				stop("Unknown type: ", wl@opttype)
 			
 			m = or@model["learner.model"]
 			attr(m, "opt") = or@opt
@@ -105,7 +107,7 @@ setMethod(
 )	
 
 
-make.opt.wrapper <- function(type, learner, id, label, resampling, method="sfs", control, measures, aggr) {
+make.opt.wrapper <- function(opttype, learner, id, label, resampling, type, method, control, measures, aggr) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	if (missing(id))
@@ -119,10 +121,10 @@ make.opt.wrapper <- function(type, learner, id, label, resampling, method="sfs",
 		aggr = default.aggr()
 	aggr = make.aggrs(aggr)
 	if (is(learner, "wrapped.learner.classif"))
-		tt = new("opt.wrapper.classif", type=type, id=id, label=label, base.learner=learner, resampling=resampling, 
+		tt = new("opt.wrapper.classif", opttype=opttype, id=id, label=label, base.learner=learner, resampling=resampling, type=type,
 				method=method, control=control, measures=measures, aggr=aggr)
 	else		
-		tt = new("opt.wrapper.regr", type=type, id=id, label=label, base.learner=learner, resampling=resampling, 
+		tt = new("opt.wrapper.regr", opttype=opttype, id=id, label=label, base.learner=learner, resampling=resampling, type=type, 
 				method=method, control=control, measures=measures, aggr=aggr)
 	return(tt)
 }
