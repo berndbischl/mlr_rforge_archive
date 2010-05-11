@@ -22,12 +22,15 @@ setMethod(
 			p1 = preds[[1]]
 			.Object@instance = instance
 			.Object@extracted = extracted
-			tt = sapply(preds, function(x) x["time.train"])
-			tp = sapply(preds, function(x) x["time.predict"])
+			type = p1["type"]
 			df = Reduce(function(a,b) rbind(a, b@df), preds, init=data.frame())
+			threshold = p1["threshold"]
+			tp = sapply(preds, function(x) x["time.predict"])
+			tt = sapply(preds, function(x) x["time.train"])
 			es = sapply(preds, function(x) nrow(x@df))
 			df$iter = rep(1:length(preds), times=es)
-			callNextMethod(.Object, p1@data.desc, p1@task.desc, df, tt, tp)
+			callNextMethod(.Object, data.desc=p1@data.desc, task.desc=p1@task.desc, 
+					type=type, df=df, threshold=threshold, time.train=tt, time.predict=tp)
 		}
 )
 
@@ -76,7 +79,9 @@ setMethod(
 			df = x@df
 			for (i in 1:x@instance["iters"]) {
 				j = which(df$iter == i)
-				preds[[i]] = new("prediction", task.desc=x@task.desc, data.desc=x@data.desc, df=df[j,], x@time.train[i], x@time.predict[i])
+				preds[[i]] = new("prediction", 
+						task.desc=x@task.desc, data.desc=x@data.desc, 
+						type=x@type, df=df[j,], threshold=x@threshold, x@time.train[i], x@time.predict[i])
 			}
 			return(preds)
 		}
