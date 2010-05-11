@@ -53,27 +53,14 @@ setMethod(
 			td = x@task.desc
 			dd = x@data.desc
 			ms = sapply(measures, function(f) f(x, task=task))	
-			if (is.null(pred["id"]))
-				ls = lapply(losses, function(f) f(x, task=task))
-			else
-				ls = lapply(losses, function(f) cbind(id=x["id"], f(x, task=task)))
+			names(ms) = names(measures)
 			
-#			if(length(ms[[1]]) != 1)
-#				stop("Measure has to return a scalar value!")
-			ls = as.data.frame(Reduce(rbind, ls))
-			g = function(x) {
-				n = attr(x, "id")
-				if (is.null(n)) 
-					return(NA)
-				else 
-					return(n)
-			}
-			names(ms) = sapply(measures, g)
 			if (length(losses) > 0) {
-				cns = sapply(losses, g)
-				if (!is.null(pred["id"]))
-					cns = c("id", cns)
-				colnames(ls) = cns
+				ls = lapply(losses, function(f) f(x, task=task))
+				ls = as.data.frame(Reduce(cbind, ls))
+				colnames(ls) = names(losses)
+				if (!is.null("id"))
+					ls = cbind(id=x["id"], ls)
 			}
 			
 			if (length(losses) > 0)
