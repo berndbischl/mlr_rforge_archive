@@ -1,13 +1,15 @@
 
-eval.parsets = function(learner, task, resampling, measures, aggr, pars, ps.scale, ps.names) {
-	rps = mylapply(xs=pars, from="tune", f=eval.rf, 
-			learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, ps.scale=ps.scale, ps.names=ps.names, vars=NULL)
+eval.parsets = function(learner, task, resampling, type, measures, aggr, control, pars) {
+	rps = mylapply(xs=pars, from="tune", f=eval.rf, learner=learner, task=task, resampling=resampling, 
+			type=type, measures=measures, aggr=aggr, control=control)
 	return(rps)
 }
 
 # evals a set of var-lists and return the corresponding states
-eval.states.tune = function(learner, task, resampling, measures, aggr, pars, event, ps.scale, ps.names) {
-	eval.states(".mlr.tuneeval", eval.parsets, learner, task, resampling, measures, aggr, pars, event, ps.scale, ps.names)
+eval.states.tune = function(learner, task, resampling, type, measures, aggr, control, pars, event) {
+	eval.states(".mlr.tuneeval", eval.fun=eval.parsets, 
+			learner=learner, task=task, resampling=resampling, type=type, 
+			measures=measures, aggr=aggr, control=control, pars=pars, event=event)
 }
 
 

@@ -60,11 +60,10 @@ setMethod(
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
 			wl = .wrapped.learner
 			bl = wl@base.learner
 			if (is(bl, "wrapped.learner.classif"))

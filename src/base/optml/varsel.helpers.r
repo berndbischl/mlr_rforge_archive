@@ -1,6 +1,6 @@
 eval.varsets = function(learner, task, resampling, measures, aggr, varsets) {
 	rps = mylapply(xs=varsets, from="varsel", f=eval.rf, 
-			learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, parset=NULL, ps.scale=NULL, ps.names=NULL)
+			learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, control=control)
 	return(rps)
 }
 

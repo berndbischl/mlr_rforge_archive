@@ -42,21 +42,19 @@ add.path.els = function(global.eval.var, path, ess, best) {
 } 
 
 
-eval.state = function(type, global.eval.var, learner, task, resampling, measures, aggr, par, event, ...) {
-	if (type == "varsel")
-		rp = eval.rf(learner, task, resampling, measures, aggr, 
-				parset=NULL, ps.scale=NULL, ps.names=NULL, vars=par)
-	else
-		rp = eval.rf(learner, task, resampling, measures, aggr, 
-				vars=NULL, parset=par, ...)
+eval.state = function(global.eval.var, learner, task, resampling, type, measures, aggr, control, par, event, ...) {
+	rp = eval.rf(learner=learner, task=task, resampling=resampling, type=type, 
+			measures=measures, aggr=aggr, control=control, par=par, ...)
+	rp = performance(rp, measures=measures, aggr=aggr, task=task)
 	evals = get(global.eval.var, envir=.GlobalEnv)+1
 	assign(global.eval.var, evals, envir=.GlobalEnv)
 	make.es(par=par, rp=rp, evals=evals, event=event)
 }
 
 # evals a set of var-lists and return the corresponding states
-eval.states = function(global.eval.var, eval.fun, learner, task, resampling, measures, aggr, pars, event, ...) {
-	rps = eval.fun(learner, task, resampling, measures, aggr, pars, ...)
+eval.states = function(global.eval.var, eval.fun, learner, task, resampling, type, measures, aggr, pars, event, ...) {
+	rps = eval.fun(learner=learner, task=task, resampling=resampling, type=type, 
+			measures=measures, aggr=aggr, pars=pars, ...)
 	evals = get(global.eval.var, envir=.GlobalEnv)
 	evals2 = evals + length(pars)
 	assign(global.eval.var, evals2, envir=.GlobalEnv)
@@ -74,7 +72,7 @@ eval.states = function(global.eval.var, eval.fun, learner, task, resampling, mea
 compare.diff = function(state1, state2, control, measures, aggr, threshold) {
 	m1 = get.perf(state1)
 	m2 = get.perf(state2)
-	d = ifelse(control$minimize, 1, -1) * (m1 - m2)
+	d = ifelse(control["minimize"], 1, -1) * (m1 - m2)
 	(d > threshold)	
 }
 
@@ -83,7 +81,7 @@ compare.diff = function(state1, state2, control, measures, aggr, threshold) {
 # select the best state from a list by using get.perf
 select.best.state = function(states, control) {
 	perfs = sapply(states, get.perf)
-	if (control$minimize)
+	if (control["minimize"])
 		i = which.min(perfs)
 	else 
 		i = which.max(perfs)
