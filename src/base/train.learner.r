@@ -24,7 +24,7 @@
 
 setGeneric(
 		name = "train.learner",
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type, ...) {
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, ...) {
 			standardGeneric("train.learner")
 		}
 )
