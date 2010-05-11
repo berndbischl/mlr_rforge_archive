@@ -1,5 +1,10 @@
-#' ' List of performance measures.
+# A performance measure transforms a vector of predictions (compared to the true responses) into a single numerical value. 
+#
+#' Performance measures can always be passed as a single string (name of a single measure), a character vector of multiple names of measures or 
+#' a list containing string names of measures and your on performance measures as function objects. The latter ones should 
+#' be named list elements.\cr  
 #' 
+#' Classification: 
 #' \itemize{ 
 #' 		\item{\bold{mmce}}{\cr Mean misclassification error}
 #' 		\item{\bold{acc}}{\cr Accuracy}
@@ -19,18 +24,24 @@
 #' 		\item{\bold{fdr}}{\cr False discovery rate}
 #' 		\item{\bold{f1}}{\cr F1 measure}
 #' 		\item{\bold{mcc}}{\cr Matthews correlation coefficient}
-
+#' 
 #' 		\item{\bold{time.train}}{\cr Time of fitting the model}
 #' 		\item{\bold{time.predict}}{\cr Time of predicting test set}
 #' 		\item{\bold{time}}{\cr time.train + train.predict}
 #' }
 #' 
+#' Regression:
 #' \itemize{ 
 #' 		\item{\bold{sse}}{\cr Sum of squared errors}
 #' 		\item{\bold{mse}}{\cr Mean of squared errors}
 #' 		\item{\bold{medse}}{\cr Median of squared errors}
+#' 		\item{\bold{sae}}{\cr Sum of absolut errors}
 #' 		\item{\bold{mae}}{\cr Mean of absolut errors}
 #' 		\item{\bold{medae}}{\cr Median of absolut errors}
+#' 
+#' 		\item{\bold{time.train}}{\cr Time of fitting the model}
+#' 		\item{\bold{time.predict}}{\cr Time of predicting test set}
+#' 		\item{\bold{time}}{\cr time.train + train.predict}
 #' }
 #'  
 #' @title Performance measures.
@@ -145,7 +156,9 @@ make.measure <- function(x) {
 	else if (name=="mse") 
 		x = mse
 	else if (name=="medse") 
-		x = medmse
+		x = medse
+	else if (name=="sae") 
+		x = sae
 	else if (name=="mae") 
 		x = mae
 	else if (name=="medae") 
@@ -280,6 +293,11 @@ mse = function(x, task) {
 
 medse = function(x, task) {
 	median((x["truth"] - x["response"])^2) 
+}
+
+
+sae = function(x, task) {
+	sum(abs(x["truth"] - x["response"])) 
 }
 
 mae = function(x, task) {
