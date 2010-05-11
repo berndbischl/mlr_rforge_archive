@@ -1,7 +1,9 @@
 #' include wrapped.model.r
 roxygen()
 
-#' Predict the target variable of new data using a fitted model. 
+#' Predict the target variable of new data using a fitted model. If the type is set to "prob" or "decision"
+#' probabilities or decision values will be stored in the resulting object. The resulting class labels are 
+#' the classes with the maximum values or thresholding can also be used.
 #' 
 #' @param object [\code{\linkS4class{wrapped.model}}] \cr 
 #'        Wrapped model, trained from a learn task.  
@@ -11,9 +13,15 @@ roxygen()
 #'        Index vector to subset the data in the task to use for prediction. 
 #' @param newdata [\code{\link{data.frame}}] \cr 
 #'        New observations which should be predicted. Alternatively pass this instead of task. 
-#' @param type [character] \cr
-#'        Classification: vector of "response" | "prob" | "decision", specifying the types to predict.
-#'        Default is "response".
+#' @param type [string] \cr
+#'        Classification: "response" | "prob" | "decision", specifying the type to predict.
+#'        Default is "response". "decision" is experimental.
+#' 		  Ignored for regression.	 
+#' @param threshold [numeric] \cr
+#'        Threshold to produce class labels if type is not "response". 
+#' 	      Currently only supported for binary classification and type="prob", where it represents the required predicted probability
+#'        for the positive class, so that a positive class is predicted as "response".
+#'        Default is 0.5 for type="prob".
 #' 		  Ignored for regression.	 
 #' @return \code{\linkS4class{prediction}}.
 #'
@@ -23,10 +31,12 @@ roxygen()
 #' @seealso \code{\link{train}}
 #' @title Predict new data.
 
+
+#todo decision
 setMethod(
 		f = "predict",
 		signature = signature(object="wrapped.model"),
-		def = function(object, task, newdata, subset, type) {
+		def = function(object, task, newdata, subset, type, threshold) {
 			
 			if (!missing(task) && !missing(newdata)) 
 				stop("Pass either a task object or a newdata data.frame to predict, but not both!")
@@ -38,6 +48,8 @@ setMethod(
 			}
 			if (missing(type))
 				type = "response"
+			if (missing(threshold))
+				threshold = numeric(0)
 			
 			model <- object
 			wl <- model@wrapped.learner
@@ -79,12 +91,12 @@ setMethod(
 			# was there an error in building the model? --> return NAs
 			if(is(model["learner.model"], "learner.failure")) {
 				if (is(model, "wrapped.model.classif")) {
-					response = factor(rep(NA, nrow(newdata)), levels=levs)
-					mm = matrix(NA, nrow=nrow(newdata), ncol=length(levs))
-					colnames(mm) = levs
-					prob = decision = mm; 
+					p = switch(type, 
+							response = factor(rep(NA, nrow(newdata)), levels=levs),
+							matrix(NA, nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))
+					)
 				} else {
-					response = as.numeric(rep(NA, nrow(newdata)))
+					p = as.numeric(rep(NA, nrow(newdata)))
 				}
 			} else {
 				pars <- list(
@@ -99,70 +111,44 @@ setMethod(
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
 				
-				threshold = model@parset$predict.threshold
+				if (is(model, "wrapped.model.classif")) {
+					pars$.type = type
+				}
 				
-				st = system.time({
-					for (tt in type) {
-						if (is(model, "wrapped.model.classif")) {
-							if (tt == "prob.threshold")
-								pars$.type = "prob"
-							else if (tt == "decision.threshold")
-								pars$.type = "decision"
-							else
-								pars$.type = tt
-						}
-						p <- do.call(predict.learner, pars)
-						
-						if (is(model, "wrapped.model.classif")) {
-							if (tt == "response") {
-								# the levels of the predicted classes might not be complete....
-								# be sure to add the levels at the end, otherwise data gets changed!!!
-								if (!is.factor(p))
-									stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
-								levels(p) <- union(levels(p), levs)
-							} else if (tt == "prob") {
-								if (!is.matrix(p))
-									stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
-								if (any(sort(colnames(p)) != sort(levs)))
-									stop("predict.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
-								if (dd["class.nr"] == 2)
-									p = p[,td["positive"]]
-							} else if (tt == "prob.threshold") {
-								if (dd["class.nr"] != 2)
-									stop("prob.threshold is only supported for binary classification!")
-								if (is.null(threshold))
-									stop("No predict.threshold was set!")
-								ls = c(td["negative"], td["positive"])
-								p = p[,td["positive"]]
-								p = as.factor(ls[as.numeric(p > threshold) + 1])							
-							} else if (tt %in% c("decision")) {
-								if (!is.matrix(p))
-									stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
-							} else {
-								stop(paste("Unknown type", tt, "in predict!"))
-							}	
-						} else if (is(model, "wrapped.model.regr")) {
-							if (class(p) != "numeric")
-								stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
-						}
-						logger.debug("prediction:")
-						logger.debug(p)
-						if (tt %in% c("response", "prob.threshold", "decision.threhold")) 
-							response = p
-						if (tt == "prob") 
-							prob = p
-						if (tt == "decision") 
-							decision = p
-					}
-				})
+				st = system.time(p <- do.call(predict.learner, pars), gcFirst=FALSE)
 				time.predict = st[3]
+				
+				if (is(model, "wrapped.model.classif")) {
+					if (type == "response") {
+						# the levels of the predicted classes might not be complete....
+						# be sure to add the levels at the end, otherwise data gets changed!!!
+						if (!is.factor(p))
+							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
+						levels(p) <- union(levels(p), levs)
+					} else if (type == "prob") {
+						if (!is.matrix(p))
+							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
+						if (any(sort(colnames(p)) != sort(levs)))
+							stop("predict.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
+					} else if (type == "decision") {
+						if (!is.matrix(p))
+							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
+					} else {
+						stop(paste("Unknown type", tt, "in predict!"))
+					}	
+				} else if (is(model, "wrapped.model.regr")) {
+					if (class(p) != "numeric")
+						stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
+				}
+				logger.debug("prediction:")
+				logger.debug(p)
 			}
 			if (missing(task))
 				ids = NULL
 			else
 				ids = subset
-			
-			make.prediction(data.desc=dd, task.desc=td, id=ids, response=response, prob=prob, decision=decision, truth=truth,  
+			make.prediction(data.desc=dd, task.desc=td, id=ids, truth=truth, 
+					type=type, y=p, threshold=threshold,  
 					time.train=model["time"], time.predict=time.predict)
 		}
 )
