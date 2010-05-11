@@ -45,15 +45,13 @@ setMethod(
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
 		
 		# todo custom kernel. freezes? check mailing list
 		# todo unify cla + regr, test all sigma stuff
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			pm = "prob" %in% .type 
 			
 			kpar = list()
 			args = list(...)
@@ -72,7 +70,7 @@ setMethod(
 			}
 			
 
-			kargs = list(f, data=.data, prob.model = pm, fit=FALSE) 
+			kargs = list(f, data=.data, fit=FALSE) 
 			if (length(kpar) > 0)
 				kargs$kpar = kpar
 			

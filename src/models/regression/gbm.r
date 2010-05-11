@@ -39,11 +39,10 @@ setMethod(
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
-				.costs="missing", 
-				.type = "missing" 
+				.costs="missing" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			gbm(f, data=.data, weights=.weights, ...)
 		}

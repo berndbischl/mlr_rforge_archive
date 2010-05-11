@@ -38,8 +38,7 @@ setMethod(
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
-				.costs="missing", 
-				.type = "missing" 
+				.costs="missing" 
 		),
 		
 		def = function(.wrapped.learner, .targetvar, .data, .weights, ...) {

@@ -10,13 +10,13 @@ roxygen()
 
 
 setClass(
-		"svm.fs", 
+		"classif.lpsvm", 
 		contains = c("wrapped.learner.classif")
 )
 
 setMethod(
 		f = "initialize",
-		signature = signature("svm.fs.classif"),
+		signature = signature("classif.lpsvm"),
 		def = function(.Object, parset) {
 			
 			desc = new("classif.props",
@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE 
 			)
 			
-			callNextMethod(.Object, label="svm.fs", pack="penalizedSVM", props=desc, parset=parset)
+			callNextMethod(.Object, label="lpsvm", pack="penalizedSVM", props=desc, parset=parset)
 		}
 )
 
@@ -40,14 +40,13 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="svm.fs.classif", 
+				.wrapped.learner="classif.lpsvm", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			kpar = list()
 			args = list(...)
@@ -61,7 +60,7 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "svm.fs.classif", 
+				.wrapped.learner = "classif.lpsvm", 
 				.wrapped.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
