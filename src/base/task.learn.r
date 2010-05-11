@@ -15,13 +15,13 @@ roxygen()
 #' \describe{
 #'  \item{id [string]}{Id string of task.}
 #'	\item{label [string]}{Label string of task.}
-#' 	\item{data [data.frame]. Optional parameters: row, col}{The data.frame is returned, possibly indexed by row/col}
+#' 	\item{data [data.frame]. Optional parameters: row, col}{The data.frame is returned, possibly indexed by row/col. If col is missing, only columns which were not excluded are returned.}
 #'  \item{size [integer]}{Number of cases.}
 #'	\item{target.name [string]}{The name of the target variable.}
-#'  \item{input.names [character]}{The names of the input variables.}
+#'  \item{input.names [character]}{The names of the input variables (without excluded variables).
 #'  \item{excluded [character]}{Names of excluded variables.}
 #'  \item{targets [character]. Optional parameters: row}{If row is missing all target values are returned. Otherwise they are indexed by row.}
-#'  \item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row.}
+#'  \item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row. NULL if no weights were set.}
 #' }
 #' 
 #' @exportClass learn.task
@@ -80,6 +80,7 @@ setMethod(
 			dd = x@data.desc
 			td = x@task.desc
 			row = args$row
+			col = args$col
 			
 			if (i == "target.name") {
 				return(td["target"])
@@ -103,16 +104,13 @@ setMethod(
 					return(NULL)
 				return(x@weights[row])
 			}
+			
 			if (i == "data"){
-				if ("excluded" %in% argnames)
-					v = colnames(x@data)
-				else 
-					v = setdiff(colnames(x@data), x["excluded"])
-				if ("select" %in% argnames)
-					v = args$select
+				if (is.null(col))
+					col = setdiff(colnames(x@data), x["excluded"])
 				if (missing(drop))
-					drop = (length(v) == 1)
-				return(x@data[row, v, drop=drop])				
+					drop = (length(col) == 1)
+				return(x@data[row, col, drop=drop])				
 			}
 			y = td[i]
 			if (!is.null(y))

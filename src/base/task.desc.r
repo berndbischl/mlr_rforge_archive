@@ -27,9 +27,3 @@ setMethod(
 
 
 
-
-#if (i == "negative") {
-#	if (x["is.binary"])
-#		return(setdiff(x["class.levels"], x["positive"]))
-#	return(NA)
-#}
