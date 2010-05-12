@@ -1,12 +1,31 @@
 
 
-tune.threshold = function(pred, measures, aggr, task, minimize) {
+tune.threshold = function(pred, measures, aggr, task, minimize, thresholds) {
+	pos = pred@task.desc["positive"]
+	neg = pred@task.desc["negative"]
+	levs = pred@data.desc["class.levels"]
+	probs = pred["prob"]
+	if (is.null(probs))
+		stop("No probs in prediction! Maybe you forgot type='prob'?")
 	f = function(x) {
-		pred = prob.threshold.pred(pred, threshold=x)
+		labels = prob.threshold(probs=probs, pos=pos, neg=neg, levels=levs, threshold=x)
+		pred@df$response = labels
 		perf = performance(pred, measures=measures, aggr=aggr, task=task)
 		return(perf$aggr[1,1])
 	}
-	th = optimize(f, interval=c(0,1), maximum=!minimize)[[1]]
-	pred = prob.threshold.pred(pred, threshold=th)
-	return(list(th=th, pred=pred))
+	probs.sorted = sort(unique(probs))
+	len = min(thresholds, length(probs.sorted))
+	probs.seq = probs.sorted[seq(1, length(probs.sorted), length=len)]
+	vals = sapply(probs.seq, f)
+	if (minimize)
+		j = which.min(vals)
+	else
+		j = which.max(vals)
+	th = probs.seq[j]
+	print(th)
+	print(probs.seq)
+	print(vals)
+	labels = prob.threshold(probs=probs, pos=pos, neg=neg, levels=levs, threshold=th)
+	pred@df$response = labels
+	return(list(th=th, pred=pred, th.seq=probs.seq, perf=vals))
 }

@@ -30,9 +30,10 @@ eval.rf <- function(learner, task, resampling, type, measures, aggr, control, pa
 	rf <- resample.fit(learner, task, resampling, type=type, parset=parset, vars=vars)
 
 	if (control["tune.threshold"]) { 
-		th = tune.threshold(rf, measures, aggr, task, minimize=control["minimize"])
+		th = tune.threshold(rf, measures, aggr, task, minimize=control["minimize"], thresholds=control["thresholds"])
 		rf = th$pred
 	}
-	performance(rf, measures=measures, aggr=aggr, task=task)
+	perf = performance(rf, measures=measures, aggr=aggr, task=task)
+	list(perf=perf, th=th$th)
 }
 

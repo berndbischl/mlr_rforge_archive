@@ -19,11 +19,11 @@ flat.perfs = function(state) {
 }
 
 make.path.el = function(es, accept=0) {
-	list(par = es$par, perf = flat.perfs(es), evals=es$evals, event=es$event, accept=accept)
+	list(par = es$par, threshold=es$threshold, perf = flat.perfs(es), evals=es$evals, event=es$event, accept=accept)
 }
 
 make.es = function(par, rp, evals, event) {
-	return(list(par=par, rp=rp, evals=evals, event=event))
+	return(list(par=par, rp=rp$perf, threshold=rp$th, evals=evals, event=event))
 }
 
 add.path = function(global.eval.var, path, es, accept) {
@@ -58,7 +58,7 @@ eval.states = function(global.eval.var, eval.fun, learner, task, resampling, typ
 	evals = get(global.eval.var, envir=.GlobalEnv)
 	evals2 = evals + length(pars)
 	assign(global.eval.var, evals2, envir=.GlobalEnv)
-	f = function(x1,x2,x3,x4) make.es(x1, x2, x3, x4) 
+	f = function(x1,x2,x3,x4) make.es(par=x1, rp=x2, evals=x3, event=x4) 
 	Map(f, pars, rps, (evals+1):evals2, event)
 }
 

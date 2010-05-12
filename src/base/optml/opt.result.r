@@ -43,7 +43,8 @@ setMethod(
 				ys = x@path
 				if (!is.null(args$as.data.frame) && args$as.data.frame) {
 					ys = lapply(ys, function(y) cbind(
-										as.data.frame(as.list(y$par), stringsAsFactors = FALSE), 
+										as.data.frame(as.list(y$par), stringsAsFactors = FALSE),
+										threshold=y$threshold,
 										as.data.frame(as.list(y$perf)),
 										evals=y$evals, op=y$event, accept=y$accept,
 										stringsAsFactors = FALSE

@@ -11,7 +11,8 @@ setClass(
 				partypes = "character",
 				minimize = "logical", 
 				scale = "function",
-				tune.threshold= "logical" 
+				tune.threshold= "logical", 
+				thresholds = "numeric"
 		)
 )
 
@@ -21,7 +22,7 @@ setMethod(
 		signature = signature("tune.control"),
 		def = function(x,i,j,...,drop) {
 			if (i == "parnames") {
-				if (!is.null(ranges))
+				if (!is.null(x@ranges))
 					return(names(x@ranges))
 				else
 					return(names(x@lower))
