@@ -12,11 +12,15 @@ test.benchexp <- function() {
 	be = bench.exp(wl,  multiclass.task, resampling=outer)
 	print(be)	
 	be = bench.exp(rpart.tuner,  multiclass.task, resampling=outer)
-	print(be)	
-	be = bench.exp(learners, multiclass.task, resampling=outer)
+	print(be)
+	ms = list("acc", time="time", foo=function(x,task) 1)
+	be = bench.exp(learners, multiclass.task, resampling=outer, measures=ms)
 	print(be)	
 	x = be["perf", learner=c("classif.lda", "classif.rpart")]
 	checkTrue(is.list(x))
+	checkEquals(length(x), 1)
+	checkEquals(dim(x[[1]]), c(3, 2, 3))	
+	x = be["perf", learner=c("classif.lda", "classif.rpart"), measure="acc"]
 	checkEquals(length(x), 1)
 	checkEquals(dim(x[[1]]), c(3, 2, 1))	
 	
