@@ -1,4 +1,7 @@
 tune.grid <- function(learner, task, resampling, type, measures, aggr, control) {
+	# convert to instance so all pars are evaluated on the same splits
+	if (is(resampling, "resample.desc")) 
+		resampling = make.res.instance(resampling, task=task)
 	ranges = control["ranges"]
 	# if theres more than one ranges 
 	if(length(ranges) > 0 && all((names(ranges) == "ranges"))) {

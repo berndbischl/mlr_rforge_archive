@@ -2,6 +2,8 @@
 roxygen()
 
 
+#todo instantiate resample description for others than grid search????
+
 #' Optimizes the hyperparameters of a learner for a classification or regression problem.
 #' Allows for different optimization methods, commonly grid search is used but other search techniques
 #' are available as well.
@@ -14,7 +16,12 @@ roxygen()
 #' @param task [\code{\linkS4class{learn.task}}] \cr
 #'        Learning task.   
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
-#'        Resampling strategy to evaluate points in hyperparameter space.
+#'        Resampling strategy to evaluate points in hyperparameter space. At least for grid search, if you pass a description, 
+#' 		  it is instantiated at one, so all points are evaluated on the same training/test sets.	
+#' @param type [string] \cr
+#'        Classification: "response" | "prob" | "decision", specifying the type to predict.
+#'        Default is "response". Use "prob" if you want to tune the threshold. "decision" is not supported at the moment.
+#' 		  Ignored for regression.	 
 #' @param method [\code{\link{character}}] \cr
 #'        Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "nm".   
 #' @param control 
@@ -30,14 +37,14 @@ roxygen()
 #' 
 #' @export
 #'
-#' @usage tune(learner, task, resampling, method="grid", control, measures, aggr, model=F)
+#' @usage tune(learner, task, resampling, type="response", method="grid", control, measures, aggr, model=F)
 #'
 #' @seealso \code{\link{grid.control}}, \code{\link{ps.control}}, \code{\link{cmaes.control}}, \code{\link{nm.control}}
 #'   
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, method="grid", control, measures, aggr, model=F) {
+tune <- function(learner, task, resampling, type="response", method="grid", control, measures, aggr, model=F) {
 	if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
@@ -60,20 +67,24 @@ tune <- function(learner, task, resampling, method="grid", control, measures, ag
 	if (missing(control)) {
 		stop("You have to pass a control object!")
 	}
-	if ((method == "grid"       && !is(control, "grid.control")) ||
-		(method == "pattern"    && !is(control, "ps.control")) ||
-		(method == "cmaes"       && !is(control, "cmaes.control")) ||
-		(method == "neldermead" && !is(control, "nm.control"))) {
-			stop(paste("Method is '", method, "'. You have passed a control object of the wrong type: ", class(control), sep=""))
-	}
+	if (method != control["method"]) 
+		stop(paste("Method is '", method, "'. You have passed a control object of the wrong type: ", control["method"], sep=""))
+	
+	if (control["tune.threshold"] && task["class.nr"] != 2) 
+		stop("You can only tune the threshold for binary classification!")
+	
+	
+	
 	assign(".mlr.tuneeval", 0, envir=.GlobalEnv)
 	
 	#.mlr.local$n.eval <<- 0
 	#export.tune(learner, task, loss, scale)
-	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures, aggr=aggr)
+	
+	
+	or = optim.func(learner=learner, task=task, resampling=resampling, type=type, control=control, measures=measures, aggr=aggr)
 
 	
-	or@opt$par = scale.par(control$scale, or@opt$par)
+	or@opt$par = scale.par(or@opt$par, control)
 	if (model) {
 		or@model = train(learner, task, parset=or["par"]) 	
 	}
@@ -82,11 +93,13 @@ tune <- function(learner, task, resampling, method="grid", control, measures, ag
 }
 
 
-scale.par <- function(f, p) {
-	if (identical(f, identity))
-		return(as.list(p))
+scale.par <- function(p, control) {
+	sc = control["scale"]
+	if (identical(sc, identity))
+		y = as.list(p)
 	else
-		return(as.list(f(unlist(p))))
-	
+		y = as.list(sc(unlist(p)))
+	names(y) = control["parnames"]
+	return(y)
 }
 
