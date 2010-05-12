@@ -134,7 +134,7 @@ setMethod(
 						if (!is.matrix(p))
 							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
 					} else {
-						stop(paste("Unknown type", tt, "in predict!"))
+						stop(paste("Unknown type", type, "in predict!"))
 					}	
 				} else if (is(model, "wrapped.model.regr")) {
 					if (class(p) != "numeric")

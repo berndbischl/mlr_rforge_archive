@@ -80,8 +80,6 @@ make.prediction = function(data.desc, task.desc, id, truth, type, y, threshold, 
 		#todo claculate response
 		resp = NULL
 	}
-	if (is.factor(resp))
-		levels(resp) <- union(levels(resp), data.desc["class.levels"])
 	xs[["response"]] = resp
 	df = as.data.frame(xs)
 	new("prediction", data.desc, task.desc, type, df, threshold=threshold, time.train, time.predict)
@@ -106,14 +104,17 @@ setMethod(
 			if (i == "truth")
 				return(x@df$truth)
 			if (i == "prob") {
+				cns = colnames(x@df)
+				cns = cns[grep("^prob", cns)]
+				# prob was not selected as type in predict
+				if (length(cns) == 0)
+					return(NULL)
 				# no class chosen and we are binary: return prob for pos. class
 				if (is.null(class) && x@data.desc["is.binary"]) {
 					return(x@df[, paste("prob", x@task.desc["positive"], sep=".")])
 				}
 				if (is.null(class))
 					class = x@data.desc["class.levels"]
-				cns = colnames(x@df)
-				cns = cns[grep("^prob", cns)]
 				cns2 = sapply(strsplit(cns, "prob."), function(z) z[2])
 				jj = which(cns2 %in% class)
 				y = x@df[, cns[jj]]
