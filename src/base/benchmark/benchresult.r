@@ -59,8 +59,6 @@ setMethod(
 			learner = args$learner
 			if (is.null(learner))
 				learner = x["learners"]
-			else if (is.character(learner))
-				learner = lapply(1:length(task), function(y) learner)
 			measure = args$measure
 			if (is.null(measure))
 				measure = x["measures"]
@@ -109,11 +107,13 @@ setMethod(
 					}	
 					p = lapply(p, g) 
 					# put all aggr. values as columns together
-					p = lapply(p, function(arrs) Reduce(rbind, arrs))
 					# combine aggr names with measure names
-					for (k in 1:length(task)) {
-						rownames(p[[k]]) = sapply(names(aggr), function(a) paste(a, measure[[k]], sep="."))
-					}
+					aggr.ms = sapply(names(aggr), function(a) paste(a, measure, sep="."))
+					p = lapply(p, function(arrs) {
+								y = Reduce(rbind, arrs)
+								rownames(y) = aggr.ms  
+								return(y)
+					})
 				}
 				return(p)
 			}
