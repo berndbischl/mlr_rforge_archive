@@ -86,10 +86,6 @@ setMethod(
 		}
 )
 
-
-
-
-
 #' 
 #' @rdname to.string
 
@@ -107,3 +103,8 @@ setMethod(
 					))
 		}
 )
+
+setClass("rlearner.classif", contains = c("rlearner"))
+
+setClass("rlearner.regr", contains = c("rlearner"))
+
