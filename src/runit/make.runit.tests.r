@@ -6,12 +6,8 @@ simple.test <- function(t.name, df, formula, train.inds, old.predicts, parset=li
 	test <- df[-inds,]
 	
 	wl = do.call("make.learner", c(t.name, parset))
-	if (is(wl, "wrapped.learner.classif")) {
-		ct <- make.task(data=df, formula=formula)
-	} else {
-		ct <- make.task(data=df, formula=formula)
-	}
-	cm <- try(train(wl, ct, subset=inds))
+	ct = make.task(data=df, formula=formula)
+	cm = try(train(wl, ct, subset=inds))
 	if(class(cm)[1] == "learner.failure"){
 		checkTrue(class(old.predicts)=="try-error")
 	}else{
@@ -43,7 +39,7 @@ prob.test <- function(t.name, df, formula, train.inds, old.probs, parset=list())
 	
 	ct <- make.task(data=df, formula=formula)
 	
-	wl = do.call("make.learner", c(t.name, parset))
+	wl = do.call("make.learner", c(t.name, parset, predict.type="prob"))
 	cm <- try(train(wl, ct, subset=inds, type="prob"))
 	
 	if(class(cm@learner.model)[1] == "learner.failure"){
@@ -124,11 +120,7 @@ cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tun
 		logger.debug(tr$performances)
 		cv.instance <- e1071.cv.to.mlr.cv(tr)
 		wl = do.call("make.learner", c(t.name, parset))
-		if (is(wl, "wrapped.learner.classif")) {
-			lt <- make.task(data=df, formula=formula)
-		} else {
-			lt <- make.task(data=df, formula=formula)
-		}
+		lt = make.task(data=df, formula=formula)
 		cvr <- resample.fit(wl, lt, cv.instance)
 		cva <- performance(cvr)
 		if (is(lt, "classif.task")) { 
