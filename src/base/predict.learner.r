@@ -3,9 +3,9 @@ roxygen()
 
 #' Mainly for internal use. Predicts new data with wrapped.model. 
 #' You have to implement this method if you want to add another learner to this package. 
-#' @param .wrapped.learner [\code{\link{wrapped.learner}}] \cr  
+#' @param .learner [\code{\link{wrapped.learner}}] \cr  
 #'        Wrapped learner from this package. 
-#' @param .wrapped.model [\code{\link{character}}] \cr
+#' @param .model [\code{\link{character}}] \cr
 #' 		  Model produced by training. 
 #' @param .newdata [\code{\link{data.frame}}] \cr
 #' 		  New data to predict.
@@ -23,7 +23,7 @@ roxygen()
 
 setGeneric(
 		name = "predict.learner",
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, .type, ...) {
 			standardGeneric("predict.learner")
 		}
 )

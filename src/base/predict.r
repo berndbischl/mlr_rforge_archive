@@ -46,15 +46,16 @@ setMethod(
 					subset = 1:task["size"]
 				newdata = task["data", row=subset]
 			}
-			if (missing(type))
-				type = "response"
-			if (missing(threshold))
-				threshold = numeric(0)
-			
-			model <- object
-			wl <- model@wrapped.learner
+
+			model = object
+			wl = model["learner"]
 			td = model@task.desc
 			dd = model@data.desc
+			
+			if (missing(type))
+				type = wl["predict.type"]
+			if (missing(threshold))
+				threshold = numeric(0)
 			
 			cns = colnames(newdata)
 			tn = td["target"]
@@ -65,21 +66,21 @@ setMethod(
 			
 			# drop target col
 			newdata <- newdata[, -which(cns == tn)]					
-			if (is(model, "wrapped.model.classif")) {
-				if ("prob" %in% type && !wl@props@supports.probs) {
+			if (wl["is.classif"]) {
+				if ("prob" == type && !wl["supports.probs"]) {
 					stop("Trying to predict probs, but ", wl["id"], " does not support that!")
 				}
-				if ("decision" %in% type && !wl@props@supports.decision) {
+				if ("decision" == type && !wl["supports.decision"]) {
 					stop("Trying to predict decision values, but ", wl["id"], " does not support that!")
 				}
 			}
 
 			logger.debug("mlr predict:", wl["id"], "with pars:")
-			logger.debug(wl@predict.fct.pars)
+			logger.debug(wl["predict.fct.pars"])
 			logger.debug("on", nrow(newdata), "examples:")
 			logger.debug(rownames(newdata))
 			
-			if (is(model, "wrapped.model.classif")) {
+			if (wl["is.classif"]) {
 				levs = dd["class.levels"]
 			}
 
@@ -90,7 +91,7 @@ setMethod(
 			
 			# was there an error in building the model? --> return NAs
 			if(is(model["learner.model"], "learner.failure")) {
-				if (is(model, "wrapped.model.classif")) {
+				if (wl["is.classif"]) {
 					p = switch(type, 
 							response = factor(rep(NA, nrow(newdata)), levels=levs),
 							matrix(NA, nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))
@@ -100,25 +101,25 @@ setMethod(
 				}
 			} else {
 				pars <- list(
-						.wrapped.learner = wl,
-						.wrapped.model = model, 
+						.learner = wl,
+						.model = model, 
 						.newdata=newdata
 				)
-				pars <- c(pars, wl@predict.fct.pars) 
+				pars = c(pars, wl["predict.fct.pars"]) 
 				
 				if(!is.null(.mlr.local$debug.seed)) {
 					set.seed(.mlr.local$debug.seed)
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
 				
-				if (is(model, "wrapped.model.classif")) {
+				if (wl["is.classif"]) {
 					pars$.type = type
 				}
 				
 				st = system.time(p <- do.call(predict.learner, pars), gcFirst=FALSE)
 				time.predict = st[3]
 				
-				if (is(model, "wrapped.model.classif")) {
+				if (wl["is.classif"]) {
 					if (type == "response") {
 						# the levels of the predicted classes might not be complete....
 						# be sure to add the levels at the end, otherwise data gets changed!!!
