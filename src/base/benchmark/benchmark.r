@@ -3,19 +3,10 @@
 
 
 
-benchmark = function(learner, task, resampling, measures, type="response", models, opts, paths) {
+benchmark = function(learner, task, resampling, measures, models, opts, paths) {
 	if (is.character(learner)) {
 		learner = make.learner(learner)
 	}
-	if("prob" %in% type && !learner@props@supports.probs) {
-		type = setdiff(type, "prob")
-		warning(paste("Learner", learner["id"], "does not support probs, won't be predicted."))
-	}
-	if("decision" %in% type && !learner@props@supports.decision) {
-		type = setdiff(type, "decision")
-		warning(paste("Learner", learner["id"], "does not support decision values, won't be predicted."))
-	}
-	type = union(type, "response")
 	
 	if (missing(measures))
 		measures = default.measures(task)
@@ -34,7 +25,7 @@ benchmark = function(learner, task, resampling, measures, type="response", model
 	}
 
 	
-	rr = resample.fit(learner, task, resampling, extract=extract, type=type)
+	rr = resample.fit(learner, task, resampling, extract=extract)
 	result = data.frame(matrix(nrow=resampling["iters"]+1, ncol=0))
 	ex = rr@extracted
 	

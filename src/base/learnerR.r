@@ -43,6 +43,15 @@ setMethod(
 			if (i == "pack") {
 				return(x@pack)
 			}
+			if (i == "supports.probs") {
+				return(x@props@supports.probs)
+			}
+			if (i == "supports.decision") {
+				return(x@props@supports.decision)
+			}
+			if (i == "pack") {
+				return(x@pack)
+			}
 			callNextMethod()
 		}
 )

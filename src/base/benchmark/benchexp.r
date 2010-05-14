@@ -10,10 +10,6 @@
 #'        Defines the resampling strategies for the tasks.
 #' @param measures [see \code{\link{measures}}]
 #'        Performance measures. 
-#' @param type [character] \cr
-#'        Classification: vector of "response" | "prob" | "decision", specifying the types to predict.
-#'        Default is "response".
-#' 		  Ignored for regression.	 
 #' @param conf.mats [logical] \cr
 #'        Should confusion matrices be stored?
 #'        Default is TRUE.
@@ -32,7 +28,7 @@
 #'        Default is FALSE.
 #' @return \code{\linkS4class{bench.result}}.
 #' 
-#' @usage bench.exp(learners, tasks, resampling, measures, type="response", conf.mats=TRUE, predictions=FALSE, models=FALSE, opts=TRUE, paths=FALSE)
+#' @usage bench.exp(learners, tasks, resampling, measures, conf.mats=TRUE, predictions=FALSE, models=FALSE, opts=TRUE, paths=FALSE)
 #' 
 #' @note You can also get automatic, internal tuning by using \code{\link{make.tune.wrapper}} with your learner. 
 #' 
@@ -43,7 +39,7 @@
 
 
 # todo: check unique ids
-bench.exp <- function(learners, tasks, resampling, measures, type="response", 
+bench.exp <- function(learners, tasks, resampling, measures,  
 		conf.mats=TRUE, predictions=FALSE, models=FALSE, 
 		opts=TRUE, paths=FALSE)  {
 	
@@ -96,7 +92,7 @@ bench.exp <- function(learners, tasks, resampling, measures, type="response",
 			if (is.character(wl))
 				wl = make.learner(wl)
 			learner.names[i] = wl["id"]
-			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, type=type, models=models,
+			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, models=models,
 				opts = opts, paths=paths)
 			rr = bm$result
 			rf = bm$resample.fit

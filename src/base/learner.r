@@ -15,6 +15,7 @@ roxygen()
 #'	\item{label [string]}{Label string of learner.}
 #' 	\item{pack [string]}{Package were underlying learner is implemented.}
 #'	\item{props [{\linkS4class{learner.props}}]}{Properties object to describe functionality of the learner.}
+#'  \item{supports.probs [boolean]}{Can probabilities be predicted?}
 #' }
 #' @title Base class for inducers. 
 
