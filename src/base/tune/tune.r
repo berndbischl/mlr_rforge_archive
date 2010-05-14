@@ -18,10 +18,6 @@ roxygen()
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'        Resampling strategy to evaluate points in hyperparameter space. At least for grid search, if you pass a description, 
 #' 		  it is instantiated at one, so all points are evaluated on the same training/test sets.	
-#' @param type [string] \cr
-#'        Classification: "response" | "prob" | "decision", specifying the type to predict.
-#'        Default is "response". Use "prob" if you want to tune the threshold. "decision" is not supported at the moment.
-#' 		  Ignored for regression.	 
 #' @param method [\code{\link{character}}] \cr
 #'        Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "nm".   
 #' @param control 
@@ -37,14 +33,14 @@ roxygen()
 #' 
 #' @export
 #'
-#' @usage tune(learner, task, resampling, type="response", method="grid", control, measures, aggr, model=F)
+#' @usage tune(learner, task, resampling, method="grid", control, measures, aggr, model=F)
 #'
 #' @seealso \code{\link{grid.control}}, \code{\link{ps.control}}, \code{\link{cmaes.control}}, \code{\link{nm.control}}
 #'   
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, type="response", method="grid", control, measures, aggr, model=F) {
+tune <- function(learner, task, resampling, method="grid", control, measures, aggr, model=F) {
 	if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
@@ -81,7 +77,7 @@ tune <- function(learner, task, resampling, type="response", method="grid", cont
 	#export.tune(learner, task, loss, scale)
 	
 	
-	or = optim.func(learner=learner, task=task, resampling=resampling, type=type, control=control, measures=measures, aggr=aggr)
+	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures, aggr=aggr)
 
 	
 	or@opt$par = scale.par(or@opt$par, control)

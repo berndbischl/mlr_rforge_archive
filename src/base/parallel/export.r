@@ -26,8 +26,8 @@ export.tune <- function(learner, task, loss, scale) {
 export <- function(name, obj) {
 	assign(name, obj, envir = .GlobalEnv)
 	if (.mlr.local$parallel.setup$mode != "local") {
-		if (is(obj, "wrapped.learner")) {
-			sfClusterEval(require(obj@pack ,character.only=TRUE))
+		if (is(obj, "learner")) {
+			sfClusterEval(require(obj["pack"] ,character.only=TRUE))
 		}
 		sfExport(name)
 	}

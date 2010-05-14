@@ -42,8 +42,8 @@ add.path.els = function(global.eval.var, path, ess, best) {
 } 
 
 
-eval.state = function(global.eval.var, learner, task, resampling, type, measures, aggr, control, par, event, ...) {
-	rp = eval.rf(learner=learner, task=task, resampling=resampling, type=type, 
+eval.state = function(global.eval.var, learner, task, resampling, measures, aggr, control, par, event, ...) {
+	rp = eval.rf(learner=learner, task=task, resampling=resampling,  
 			measures=measures, aggr=aggr, control=control, par=par, ...)
 	rp = performance(rp, measures=measures, aggr=aggr, task=task)
 	evals = get(global.eval.var, envir=.GlobalEnv)+1
@@ -52,8 +52,8 @@ eval.state = function(global.eval.var, learner, task, resampling, type, measures
 }
 
 # evals a set of var-lists and return the corresponding states
-eval.states = function(global.eval.var, eval.fun, learner, task, resampling, type, measures, aggr, pars, event, ...) {
-	rps = eval.fun(learner=learner, task=task, resampling=resampling, type=type, 
+eval.states = function(global.eval.var, eval.fun, learner, task, resampling, measures, aggr, pars, event, ...) {
+	rps = eval.fun(learner=learner, task=task, resampling=resampling,  
 			measures=measures, aggr=aggr, pars=pars, ...)
 	evals = get(global.eval.var, envir=.GlobalEnv)
 	evals2 = evals + length(pars)

@@ -14,10 +14,6 @@
 #'        Resampling strategy to evaluate points in hyperparameter space.
 #' @param method [\code{\link{character}}] \cr
 #'        Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "nm".   
-#' @param type [string] \cr
-#'        Classification: "response" | "prob" | "decision", specifying the type to predict.
-#'        Default is "response". Use "prob" if you want to tune the threshold. "decision" is not supported at the moment.
-#' 		  Ignored for regression.	 
 #' @param control 
 #'        Control object for search method.   
 #' @param measures [see \code{\link{measures}}]
@@ -29,13 +25,13 @@
 #' 
 #' @export
 #'
-#' @usage make.tune.wrapper(learner, id, label, resampling, type="response", method="grid", control, measures, aggr)
+#' @usage make.tune.wrapper(learner, id, label, resampling, method="grid", control, measures, aggr)
 #'
 #' @seealso \code{\link{tune}}, \code{\link{grid.control}}, \code{\link{ps.control}}, \code{\link{cmaes.control}}, \code{\link{nm.control}}
 #'   
 #' @title Fuse learner with tuning.
 
-make.tune.wrapper <- function(learner, id, label, resampling, type="response", method="grid", control, measures, aggr) {
-	make.opt.wrapper("tune", learner, id, label, resampling, type=type, method=method, control, measures, aggr)
+make.tune.wrapper <- function(learner, resampling, method="grid", control, measures, aggr) {
+	make.opt.wrapper("tune", learner, resampling, method=method, control, measures, aggr)
 }
 

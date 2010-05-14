@@ -1,11 +1,11 @@
-tune.grid <- function(learner, task, resampling, type, measures, aggr, control) {
+tune.grid <- function(learner, task, resampling, measures, aggr, control) {
 	# convert to instance so all pars are evaluated on the same splits
 	if (is(resampling, "resample.desc")) 
 		resampling = make.res.instance(resampling, task=task)
 	ranges = control["ranges"]
 	# if theres more than one ranges 
 	if(length(ranges) > 0 && all((names(ranges) == "ranges"))) {
-		ors = lapply(ranges, function(r) {tune.1(learner, task, resampling, type, ranges, measures, aggr, control)})
+		ors = lapply(ranges, function(r) {tune.1(learner, task, resampling, ranges, measures, aggr, control)})
 		
 		ps = lapply(ors, function(x) x@path)
 		ps = Reduce(c, ps)
@@ -16,19 +16,19 @@ tune.grid <- function(learner, task, resampling, type, measures, aggr, control) 
 			i = which.max(perfs)
 		new("opt.result", opt=ors[[i]]@opt,  path=ps)
 	}else {
-		tune.1(learner, task, resampling, type, ranges, measures, aggr, control)
+		tune.1(learner, task, resampling, ranges, measures, aggr, control)
 	}
 }
 
 
 
-tune.1 <- function(learner, task, resampling, type, ranges, measures, aggr, control) {
+tune.1 <- function(learner, task, resampling, ranges, measures, aggr, control) {
 	check.ranges(ranges)
 
 	grid = expand.grid(ranges, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
 	
 	parsets = lapply(seq(length=nrow(grid)), function(i) as.list(grid[i,,drop=FALSE]))	
-	es = eval.states.tune(learner=learner, task=task, resampling=resampling, type=type, 
+	es = eval.states.tune(learner=learner, task=task, resampling=resampling,  
 			measures=measures, aggr=aggr, control=control, 
 			pars=parsets, event="grid")
 	

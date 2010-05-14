@@ -1,10 +1,10 @@
 
-resample.fit.iter <- function(learner, task, rin, parset, vars, type, threshold, i, extract) {
+resample.fit.iter <- function(learner, task, rin, parset, vars, threshold, i, extract) {
 	train.i <- rin["train.inds", i]
 	test.i <- rin["test.inds", i]
 	m <- train(learner, task, subset=train.i, parset=parset, vars=vars)
 	if (is(task, "classif.task"))
-		p <- predict(m, task=task, subset=test.i, type=type, threshold=threshold)
+		p <- predict(m, task=task, subset=test.i, threshold=threshold)
 	else 
 		p <- predict(m, task=task, subset=test.i)
 	# faster for parallel
@@ -12,7 +12,7 @@ resample.fit.iter <- function(learner, task, rin, parset, vars, type, threshold,
 	return(list(pred=p, extracted=ex))	
 }
 
-eval.rf <- function(learner, task, resampling, type, measures, aggr, control, par) {
+eval.rf <- function(learner, task, resampling, measures, aggr, control, par) {
 
 	if (is(control, "tune.control")) {
 		parset = scale.par(par, control)
@@ -24,16 +24,19 @@ eval.rf <- function(learner, task, resampling, type, measures, aggr, control, pa
 		}
 	}
 	
+	# todo 
 	if (control["tune.threshold"]) 
 		type = "prob"
 	
-	rf <- resample.fit(learner, task, resampling, type=type, parset=parset, vars=vars)
+	rf <- resample.fit(learner, task, resampling, parset=parset, vars=vars)
 
+	th = as.numeric(NA)
 	if (control["tune.threshold"]) { 
-		th = tune.threshold(rf, measures, aggr, task, minimize=control["minimize"], thresholds=control["thresholds"])
-		rf = th$pred
+		thr = tune.threshold(rf, measures, aggr, task, minimize=control["minimize"], thresholds=control["thresholds"])
+		rf = thr$pred
+		th = thr$th
 	}
 	perf = performance(rf, measures=measures, aggr=aggr, task=task)
-	list(perf=perf, th=th$th)
+	list(perf=perf, th=th)
 }
 

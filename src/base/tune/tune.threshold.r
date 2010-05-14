@@ -22,9 +22,6 @@ tune.threshold = function(pred, measures, aggr, task, minimize, thresholds) {
 	else
 		j = which.max(vals)
 	th = probs.seq[j]
-	print(th)
-	print(probs.seq)
-	print(vals)
 	labels = prob.threshold(probs=probs, pos=pos, neg=neg, levels=levs, threshold=th)
 	pred@df$response = labels
 	return(list(th=th, pred=pred, th.seq=probs.seq, perf=vals))
