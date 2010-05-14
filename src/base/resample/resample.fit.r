@@ -25,9 +25,6 @@ roxygen()
 #'        Named list of hyperparameter values. Will overwrite the ones specified in the learner object. Default is empty list.
 #' @param vars [\code{\link{character}}] \cr 
 #'        Vector of variable names to use in training the model. Default is to use all variables.
-#' @param type [\code{\link{character}}] \cr 
-#' 		  Only used for classification tasks; specifies the type of predictions -
-#' 		  either probability ("prob") or class ("response").
 #' @param extract [\code{\link{function}}] \cr 
 #' 		  Function used to extract information from fitted models, e.g. can be used to save the complete list of fitted models. 
 #'        Default is to extract nothing. 
@@ -36,27 +33,26 @@ roxygen()
 #' @export
 #' @rdname resample.fit 
 #' 
-#' @usage resample.fit(learner, task, resampling, parset, vars, type, extract)
+#' @usage resample.fit(learner, task, resampling, parset, vars, extract)
 #'
 #' @title Fit models according to a resampling strategy.
 
 
 setGeneric(
 		name = "resample.fit",
-		def = function(learner, task, resampling, parset, vars, type, threshold, extract) {
+		def = function(learner, task, resampling, parset, vars, threshold, extract) {
 			if (is.character(learner))
 				learner = make.learner(learner)
+			if (is(resampling, "resample.desc")) 
+				resampling = make.res.instance(resampling, size=task["size"])
 			if (missing(parset))
 				parset = list()
 			if (missing(vars))
 				vars <- task["input.names"]
-			if (missing(type))
-				type = "response"
 			if (missing(threshold))
 				threshold = numeric(0)
 			if (missing(extract))
 				extract <- function(x){}
-
 			standardGeneric("resample.fit")
 		}
 )
@@ -65,9 +61,9 @@ setGeneric(
 #' @rdname resample.fit 
 setMethod(
 		f = "resample.fit",
-		signature = signature(learner="wrapped.learner", task="learn.task", resampling="resample.instance", 
-				parset="list", vars="character", type="character", threshold="numeric", extract="function"),
-		def = function(learner, task, resampling, parset, vars, type, threshold, extract) {
+		signature = signature(learner="learner", task="learn.task", resampling="resample.instance", 
+				parset="list", vars="character", threshold="numeric", extract="function"),
+		def = function(learner, task, resampling, parset, vars, threshold, extract) {
 			n = task["size"]
 			r = resampling["size"]
 			if (n != r)
@@ -77,7 +73,7 @@ setMethod(
 			iters <- resample.instance["iters"]
 			
 			rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
-					rin=resample.instance, parset=parset, vars=vars, type=type, threshold=threshold, extract=extract)
+					rin=resample.instance, parset=parset, vars=vars, threshold=threshold, extract=extract)
 		
 			ps = lapply(rs, function(x) x$pred)
 			es = lapply(rs, function(x) x$extracted)
@@ -85,18 +81,4 @@ setMethod(
 			return(new("resample.prediction", instance=resample.instance, preds=ps, extracted=es))
 		}
 )
-
-#' @export
-#' @rdname resample.fit 
-
-setMethod(
-		f = "resample.fit",
-		signature = signature(learner="wrapped.learner", task="learn.task", resampling="resample.desc", 
-				parset="list", vars="character", type="character", threshold="numeric", extract="function"),
-		def = function(learner, task, resampling, parset, vars, type, threshold, extract) {
-			resampling = make.res.instance(resampling, size=task["size"])
-			resample.fit(learner, task, resampling, parset, vars, type, threshold, extract)
-		}
-)
-
 
