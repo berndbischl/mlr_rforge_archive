@@ -1,6 +1,13 @@
 
-
-tune.threshold = function(pred, measures, aggr, task, minimize, thresholds) {
+#' @export
+tune.threshold = function(pred, measures, aggr, task, minimize=T, thresholds) {
+	if (missing(measures))
+		measures = default.measures(pred@task.desc)
+	measures = make.measures(measures)
+	if (missing(aggr))
+		aggr = default.aggr(pred@task.desc)
+	aggr = make.aggrs(aggr)
+	
 	pos = pred@task.desc["positive"]
 	neg = pred@task.desc["negative"]
 	levs = pred@data.desc["class.levels"]

@@ -20,12 +20,11 @@ eval.rf <- function(learner, task, resampling, measures, aggr, control, par) {
 			vars = task["input.names"]
 		}
 	}
-	
 	# todo 
-	if (control["tune.threshold"]) 
-		type = "prob"
+#	if (control["tune.threshold"]) 
+#		type = "prob"
 	
-	rf <- resample.fit(learner, task, resampling, parset=parset, vars=vars)
+	rf = resample.fit(learner, task, resampling, parset=parset, vars=vars)
 
 	th = as.numeric(NA)
 	if (control["tune.threshold"]) { 

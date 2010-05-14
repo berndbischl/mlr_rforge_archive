@@ -25,16 +25,26 @@ tune.grid <- function(learner, task, resampling, measures, aggr, control) {
 tune.1 <- function(learner, task, resampling, ranges, measures, aggr, control) {
 	check.ranges(ranges)
 
-	grid = expand.grid(ranges, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
 	
-	parsets = lapply(seq(length=nrow(grid)), function(i) as.list(grid[i,,drop=FALSE]))	
-	es = eval.states.tune(learner=learner, task=task, resampling=resampling,  
-			measures=measures, aggr=aggr, control=control, 
-			pars=parsets, event="grid")
-	
-	bs = select.best.state(es, control)
-	path = add.path.els.tune(path=list(), ess=es, best=bs)
-	new("opt.result", opt=make.path.el(bs),  path=path)
+	# todo: make this better 
+	if (length(ranges) == 0) {
+		bs = eval.state.tune(learner=learner, task=task, resampling=resampling,  
+				measures=measures, aggr=aggr, control=control, 
+				par=list(), event="grid")
+		path = add.path.tune(list(), bs, T)	
+		bb <<- bs
+	} else {
+		grid = expand.grid(ranges, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+		
+		parsets = lapply(seq(length=nrow(grid)), function(i) as.list(grid[i,,drop=FALSE]))	
+		es = eval.states.tune(learner=learner, task=task, resampling=resampling,  
+				measures=measures, aggr=aggr, control=control, 
+				pars=parsets, event="grid")
+		
+		bs = select.best.state(es, control)
+		path = add.path.els.tune(path=list(), ess=es, best=bs)
+	}
+	new("opt.result", opt=make.path.el(bs), path=path)
 
 #	if (.ps$mode %in% c("snowfall", "sfCluster")) {
 #		sfExport("learner")

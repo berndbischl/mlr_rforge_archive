@@ -45,7 +45,6 @@ add.path.els = function(global.eval.var, path, ess, best) {
 eval.state = function(global.eval.var, learner, task, resampling, measures, aggr, control, par, event, ...) {
 	rp = eval.rf(learner=learner, task=task, resampling=resampling,  
 			measures=measures, aggr=aggr, control=control, par=par, ...)
-	rp = performance(rp, measures=measures, aggr=aggr, task=task)
 	evals = get(global.eval.var, envir=.GlobalEnv)+1
 	assign(global.eval.var, evals, envir=.GlobalEnv)
 	make.es(par=par, rp=rp, evals=evals, event=event)
