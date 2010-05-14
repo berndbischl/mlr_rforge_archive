@@ -1,12 +1,9 @@
 
-resample.fit.iter <- function(learner, task, rin, parset, vars, threshold, i, extract) {
+resample.fit.iter <- function(learner, task, rin, parset, vars, i, extract) {
 	train.i <- rin["train.inds", i]
 	test.i <- rin["test.inds", i]
-	m <- train(learner, task, subset=train.i, parset=parset, vars=vars)
-	if (is(task, "classif.task"))
-		p <- predict(m, task=task, subset=test.i, threshold=threshold)
-	else 
-		p <- predict(m, task=task, subset=test.i)
+	m = train(learner, task, subset=train.i, parset=parset, vars=vars)
+	p = predict(m, task=task, subset=test.i)
 	# faster for parallel
 	ex = extract(m)
 	return(list(pred=p, extracted=ex))	

@@ -40,7 +40,7 @@ roxygen()
 
 setGeneric(
 		name = "resample.fit",
-		def = function(learner, task, resampling, parset, vars, threshold, extract) {
+		def = function(learner, task, resampling, parset, vars, extract) {
 			if (is.character(learner))
 				learner = make.learner(learner)
 			if (is(resampling, "resample.desc")) 
@@ -49,8 +49,6 @@ setGeneric(
 				parset = list()
 			if (missing(vars))
 				vars <- task["input.names"]
-			if (missing(threshold))
-				threshold = numeric(0)
 			if (missing(extract))
 				extract <- function(x){}
 			standardGeneric("resample.fit")
@@ -62,8 +60,8 @@ setGeneric(
 setMethod(
 		f = "resample.fit",
 		signature = signature(learner="learner", task="learn.task", resampling="resample.instance", 
-				parset="list", vars="character", threshold="numeric", extract="function"),
-		def = function(learner, task, resampling, parset, vars, threshold, extract) {
+				parset="list", vars="character", extract="function"),
+		def = function(learner, task, resampling, parset, vars, extract) {
 			n = task["size"]
 			r = resampling["size"]
 			if (n != r)
@@ -73,7 +71,7 @@ setMethod(
 			iters <- resample.instance["iters"]
 			
 			rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
-					rin=resample.instance, parset=parset, vars=vars, threshold=threshold, extract=extract)
+					rin=resample.instance, parset=parset, vars=vars, extract=extract)
 		
 			ps = lapply(rs, function(x) x$pred)
 			es = lapply(rs, function(x) x$extracted)
