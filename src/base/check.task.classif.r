@@ -3,7 +3,7 @@ roxygen()
 
 check.task <- function(lt, learner) {
 	wl <- learner
-	ld <- wl@props
+	ld <- wl["props"]
 	data <- lt["data"]
 	msg <- ""
 	dd <- lt@data.desc
@@ -29,7 +29,7 @@ check.task <- function(lt, learner) {
 check.task.classif <- function(lt, learner) {
 	msg <- check.task(lt, learner)
 
-	ld <- learner@props
+	ld <- learner["props"]
 	dd <- lt@data.desc
 	
 	if (dd["class.nr"] > 2 && !ld@supports.multiclass) {
