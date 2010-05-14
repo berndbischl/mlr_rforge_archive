@@ -1,4 +1,4 @@
-#' @include wrapped.learner.classif.r
+#' @include rlearner.r
 roxygen()
 #' @include wrapped.model.r
 roxygen()
@@ -10,7 +10,7 @@ roxygen()
 
 setClass(
 		"classif.gbm", 
-		contains = c("wrapped.learner.classif")
+		contains = c("rlearner.classif")
 )
 
 
@@ -43,14 +43,14 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="classif.gbm", 
+				.learner="classif.gbm", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
 				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			gbm(f, data=.data, weights=.weights, verbose=FALSE, ...)
 		}
@@ -61,14 +61,14 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "classif.gbm", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.gbm", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			m <- .wrapped.model["learner.model"]
+		def = function(.learner, .model, .newdata, .type, ...) {
+			m <- .model["learner.model"]
 			predict(m, newdata=.newdata, type="link", n.trees=length(m$trees), single.tree=FALSE, ...)
 		}
 )	

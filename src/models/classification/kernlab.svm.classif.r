@@ -1,4 +1,4 @@
-#' @include wrapped.learner.classif.r
+#' @include rlearner.r
 roxygen()
 #' @include wrapped.model.r
 roxygen()
@@ -10,7 +10,7 @@ roxygen()
 
 setClass(
 		"classif.ksvm", 
-		contains = c("wrapped.learner.classif")
+		contains = c("rlearner.classif")
 )
 
 
@@ -41,7 +41,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="classif.ksvm", 
+				.learner="classif.ksvm", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
@@ -50,7 +50,7 @@ setMethod(
 		
 		# todo custom kernel. freezes? check mailing list
 		# todo unify cla + regr, test all sigma stuff
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			
 			kpar = list()
@@ -89,15 +89,15 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "classif.ksvm", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.ksvm", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, .type, ...) {
 			.type <- switch(.type, prob="probabilities", decision="decision", "response")
-			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+			predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	
 

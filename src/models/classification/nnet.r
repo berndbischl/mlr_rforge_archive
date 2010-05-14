@@ -1,4 +1,4 @@
-#' @include wrapped.learner.classif.r
+#' @include rlearner.r
 roxygen()
 #' @include wrapped.model.r
 roxygen()
@@ -10,7 +10,7 @@ roxygen()
 
 setClass(
 		"classif.nnet", 
-		contains = c("wrapped.learner.classif")
+		contains = c("rlearner.classif")
 )
 
 
@@ -40,14 +40,14 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="classif.nnet", 
+				.learner="classif.nnet", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
 				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			if (is.null(list(...)$size))
 				nnet(f, data=.data, weights=.weights, size=1, ...)
@@ -61,15 +61,15 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "classif.nnet", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.nnet", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, .type, ...) {
 			.type = switch(.type, response="class", prob="raw")
-			p = predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+			p = predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
 			if (.type == "class")
 				p = as.factor(p)
 			return(p)

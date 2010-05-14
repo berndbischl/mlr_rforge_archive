@@ -1,4 +1,4 @@
-##' @include wrapped.learner.classif.r
+##' @include rlearner.r
 #roxygen()
 ##' @include wrapped.model.r
 #roxygen()
@@ -9,9 +9,9 @@
 #
 #setClass(
 #		"metacost", 
-#		contains = c("wrapped.learner.classif"),
+#		contains = c("rlearner.classif"),
 #		representation = representation(
-#			learner = "wrapped.learner",	
+#			learner = "rlearner",	
 #			iters = "numeric",
 #			base.probs = "logical",
 #			all = "logical"	

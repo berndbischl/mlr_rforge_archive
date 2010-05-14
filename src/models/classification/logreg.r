@@ -1,4 +1,4 @@
-#' @include wrapped.learner.classif.r
+#' @include rlearner.r
 roxygen()
 #' @include wrapped.model.r
 roxygen()
@@ -10,7 +10,7 @@ roxygen()
 
 setClass(
 		"classif.logreg", 
-		contains = c("wrapped.learner.classif")
+		contains = c("rlearner.classif")
 )
 
 
@@ -41,14 +41,14 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="classif.logreg", 
+				.learner="classif.logreg", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
 				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			glm(f, family="binomial", data=.data, model=FALSE, ...)
 		}
@@ -59,24 +59,24 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "classif.logreg", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.logreg", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, .type, ...) {
 			
-			x <- predict(.wrapped.model["learner.model"], newdata=.newdata, type="response", ...)
+			x <- predict(.model["learner.model"], newdata=.newdata, type="response", ...)
 			
 			if (.type == "prob") {
 				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
-				colnames(y) <- .wrapped.model["class.levels"]
+				colnames(y) <- .model["class.levels"]
 				y[,1] <- 1-x
 				y[,2] <- x
 				return(y)
 			} else {
-				levs <- .wrapped.model["class.levels"]
+				levs <- .model["class.levels"]
 				p <- as.factor(ifelse(x > 0.5, levs[2], levs[1]))
 				names(p) <- NULL
 				return(p)

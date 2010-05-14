@@ -1,4 +1,4 @@
-#' @include wrapped.learner.classif.r
+#' @include rlearner.r
 roxygen()
 #' @include wrapped.model.r
 roxygen()
@@ -9,7 +9,7 @@ roxygen()
 
 setClass(
 		"classif.rda", 
-		contains = c("wrapped.learner.classif")
+		contains = c("rlearner.classif")
 )
 
 
@@ -39,14 +39,14 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="classif.rda", 
+				.learner="classif.rda", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
 				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type, ...) {
+		def = function(.learner, .targetvar, .data, .weights, .costs, .type, ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			rda(f, data=.data, ...)
 		}
@@ -57,14 +57,14 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "classif.rda", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.rda", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			p <- predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+		def = function(.learner, .model, .newdata, .type, ...) {
+			p <- predict(.model["learner.model"], newdata=.newdata, ...)
 			if (.type=="response")
 				return(p$class)
 			else

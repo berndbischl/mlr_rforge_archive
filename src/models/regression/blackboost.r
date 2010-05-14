@@ -1,9 +1,9 @@
-#' @include wrapped.learner.regr.r
+#' @include rlearner.r
 roxygen()
 
 setClass(
 		"regr.blackboost", 
-		contains = c("wrapped.learner.regr")
+		contains = c("rlearner.regr")
 )
 
 
@@ -29,14 +29,14 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="regr.blackboost", 
+				.learner="regr.blackboost", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
 				.costs="missing" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, ...) {
+		def = function(.learner, .targetvar, .data, .weights, ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			blackboost(f, data=.data, weights=.weights, ...)
 		}
@@ -47,14 +47,14 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "regr.blackboost", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "regr.blackboost", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, ...) {
-			predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+		def = function(.learner, .model, .newdata, ...) {
+			predict(.model["learner.model"], newdata=.newdata, ...)
 		}
 )	
 

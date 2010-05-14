@@ -1,11 +1,11 @@
-#' @include wrapped.learner.regr.r
+#' @include rlearner.r
 roxygen()
 
 
 setClass(
 		# name lm is sealed
 		"regr.lm", 
-		contains = c("wrapped.learner.regr")
+		contains = c("rlearner.regr")
 )
 
 
@@ -31,14 +31,14 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="regr.lm", 
+				.learner="regr.lm", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
 				.costs="missing" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, ...) {
+		def = function(.learner, .targetvar, .data, .weights, ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			lm(f, data=.data, weights=.weights, ...)
 		}
@@ -49,14 +49,14 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "regr.lm", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "regr.lm", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, ...) {
-			predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+		def = function(.learner, .model, .newdata, ...) {
+			predict(.model["learner.model"], newdata=.newdata, ...)
 		}
 )	
 

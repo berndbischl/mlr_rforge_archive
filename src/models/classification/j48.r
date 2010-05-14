@@ -1,4 +1,4 @@
-#' @include wrapped.learner.classif.r
+#' @include rlearner.r
 roxygen()
 #' @include wrapped.model.r
 roxygen()
@@ -11,7 +11,7 @@ roxygen()
 
 setClass(
 		"classif.J48", 
-		contains = c("wrapped.learner.classif")
+		contains = c("rlearner.classif")
 )
 
 
@@ -41,14 +41,14 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="classif.J48", 
+				.learner="classif.J48", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
 				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			ctrl = Weka_control(...)
 			J48(f, data=.data, control=ctrl)
@@ -60,15 +60,15 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "classif.J48", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.J48", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, .type, ...) {
 			.type = switch(.type, prob="prob", "class")
-			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+			predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	
 

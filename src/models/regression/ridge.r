@@ -1,10 +1,10 @@
-#' @include wrapped.learner.regr.r
+#' @include rlearner.r
 roxygen()
 
 
 setClass(
 		"regr.ridge", 
-		contains = c("wrapped.learner.regr")
+		contains = c("rlearner.regr")
 )
 
 
@@ -33,14 +33,14 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="regr.ridge", 
+				.learner="regr.ridge", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
 				.costs="missing" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, ...) {
+		def = function(.learner, .targetvar, .data, .weights, ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			args = list(...)
 			i = which(names(args) == "lambda") 
@@ -59,15 +59,15 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "regr.ridge", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "regr.ridge", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, ...) {
-			m <- .wrapped.model["learner.model"]
-			.newdata[, .wrapped.model["target"]] <- 0
+		def = function(.learner, .model, .newdata, ...) {
+			m <- .model["learner.model"]
+			.newdata[, .model["target"]] <- 0
 			predict(m, data=.newdata,  ...)[,"mu"]
 		}
 )	

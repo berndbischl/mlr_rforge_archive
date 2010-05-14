@@ -1,4 +1,4 @@
-#' @include wrapped.learner.classif.r
+#' @include rlearner.r
 roxygen()
 #' @include wrapped.model.r
 roxygen()
@@ -10,7 +10,7 @@ roxygen()
 
 setClass(
 		"novars.classif", 
-		contains = c("wrapped.learner.classif")
+		contains = c("rlearner.classif")
 )
 
 
@@ -39,14 +39,14 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="novars.classif", 
+				.learner="novars.classif", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
 				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
 			list(targets=.data[, .targetvar])
 		}
 )
@@ -56,14 +56,14 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "novars.classif", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "novars.classif", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			m <- .wrapped.model["learner.model"]
+		def = function(.learner, .model, .newdata, .type, ...) {
+			m <- .model["learner.model"]
 			tab <- prop.table(table(m$targets))
 			probs <- as.numeric(tab) 
 			

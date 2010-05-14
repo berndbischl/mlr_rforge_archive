@@ -1,9 +1,9 @@
-#' @include wrapped.learner.regr.r
+#' @include rlearner.r
 roxygen()
 
 setClass(
 		"regr.randomForest", 
-		contains = c("wrapped.learner.regr")
+		contains = c("rlearner.regr")
 )
 
 
@@ -29,14 +29,14 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="regr.randomForest", 
+				.learner="regr.randomForest", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
 				.costs="missing" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			randomForest(f, data=.data, ...)
 		}
@@ -47,14 +47,14 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "regr.randomForest", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "regr.randomForest", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+		def = function(.learner, .model, .newdata, .type, ...) {
+			predict(.model["learner.model"], newdata=.newdata, ...)
 		}
 )	
 

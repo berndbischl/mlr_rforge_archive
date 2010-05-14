@@ -1,6 +1,6 @@
 # Kosten bei allen gecheckt.
 
-#' @include wrapped.learner.classif.r
+#' @include rlearner.r
 roxygen()
 #' @include wrapped.model.r
 roxygen()
@@ -12,7 +12,7 @@ roxygen()
 
 setClass(
 		"classif.ada", 
-		contains = c("wrapped.learner.classif")
+		contains = c("rlearner.classif")
 )
 
 
@@ -65,14 +65,14 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="classif.ada", 
+				.learner="classif.ada", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
 				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			if (!all(dim(.costs)) == 0) {
 				lev = levels(.data[, .targetvar])
@@ -88,17 +88,17 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.wrapped.learner = "classif.ada", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.ada", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, .type, ...) {
 			.type <- ifelse(.type=="response", "vector", "prob")
-			p = predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+			p = predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
 			if (.type == "prob")
-				colnames(p) = .wrapped.model["class.levels"] 
+				colnames(p) = .model["class.levels"] 
 			return(p)
 		}
 )	
