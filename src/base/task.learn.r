@@ -15,6 +15,8 @@ roxygen()
 #' \describe{
 #'  \item{id [string]}{Id string of task.}
 #'	\item{label [string]}{Label string of task.}
+#' 	\item{is.classif [boolean]}{Is this a classification task?}
+#' 	\item{is.regr [boolean]}{Is this a regression task?}
 #' 	\item{data [data.frame]. Optional parameters: row, col}{The data.frame is returned, possibly indexed by row/col. If col is missing, only columns which were not excluded are returned.}
 #'  \item{size [integer]}{Number of cases.}
 #'	\item{target.name [string]}{The name of the target variable.}
