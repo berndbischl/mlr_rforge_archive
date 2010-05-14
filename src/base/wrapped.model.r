@@ -4,7 +4,7 @@ roxygen()
 roxygen()
 #' @include task.desc.r
 roxygen()
-#' @include wrapped.learner.r
+#' @include learner.r
 roxygen()
 
 
@@ -15,7 +15,7 @@ roxygen()
 #' Getter.\cr
 #' 
 #' \describe{
-#'	\item{wrapped.learner [{\linkS4class{wrapped.learner}}]}{Wrapped learner that was used to fit the model.}
+#'	\item{learner [{\linkS4class{learner}}]}{Learner that was used to fit the model.}
 #'	\item{learner model [any]}{Undelying model from used R package.}
 #'	\item{subset [integer]}{Subset used for training.}
 #'	\item{vars [character]}{Variables used for training.}
@@ -35,7 +35,7 @@ setClass(
 		"wrapped.model",
 		contains = c("object"),
 		representation = representation(
-				wrapped.learner = "wrapped.learner",
+				learner = "learner",
 				learner.model = "ANY",
 				data.desc = "data.desc",
 				task.desc = "task.desc",
@@ -45,19 +45,6 @@ setClass(
 				time = "numeric"
 		)
 )
-
-setClass(
-		"wrapped.model.classif",
-		contains = c("wrapped.model")
-)
-
-setClass(
-		"wrapped.model.regr",
-		contains = c("wrapped.model")
-)
-
-
-
 
 
 #' @rdname to.string
@@ -74,7 +61,7 @@ setMethod(
 			
 			return(
 					paste(
-							"Learner model for ", x@wrapped.learner@label, "\n",  
+							"Learner model for ", x@learner@label, "\n",  
 							"Trained on obs: ", length(x@subset), "\n",
 							"Hyperparameters: ", ps, "\n",
 							tp,
@@ -100,37 +87,37 @@ setMethod(
 					return(NULL)
 			}
 			if (i == "opt"){
-				if (is(x@wrapped.learner, "opt.wrapper"))
+				if (is(x@learner, "opt.wrapper"))
 					return(attr(x["learner.model"], "opt"))
 				else
 					return(NULL)
 			}
 			if (i == "path"){
-				if (is(x@wrapped.learner, "opt.wrapper"))
+				if (is(x@learner, "opt.wrapper"))
 					return(attr(x["learner.model"], "path"))
 				else
 					return(NULL)
 			}
 			if (i == "tuned.par"){
-				if (is(x@wrapped.learner, "opt.wrapper") && x@wrapped.learner@type == "tune")
+				if (is(x@learner, "opt.wrapper") && x@learner@type == "tune")
 					return(x["opt"]$par)
 				else
 					return(NULL)
 			}
 			if (i == "tuned.perf"){
-				if (is(x@wrapped.learner, "opt.wrapper") && x@wrapped.learner@type == "tune")
+				if (is(x@learner, "opt.wrapper") && x@learner@type == "tune")
 					return(x["opt"]$perf)
 				else
 					return(NULL)
 			}
 			if (i == "sel.var"){
-				if (is(x@wrapped.learner, "opt.wrapper") && x@wrapped.learner@type == "varsel")
+				if (is(x@learner, "opt.wrapper") && x@learner@type == "varsel")
 					return(x["opt"]$par)
 				else
 					return(NULL)
 			}
 			if (i == "sel.perf"){
-				if (is(x@wrapped.learner, "opt.wrapper") && x@wrapped.learner@type == "varsel")
+				if (is(x@learner, "opt.wrapper") && x@learner@type == "varsel")
 					return(x["opt"]$perf)
 				else
 					return(NULL)

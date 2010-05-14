@@ -49,11 +49,11 @@ setGeneric(
 )
 
 
-train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, model.class, novars.class, check.fct) {
+train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, novars.class, check.fct) {
 
 	
-	if(learner@pack != "mlr" && !require(learner@pack, character.only=TRUE)) {
-		stop(paste("Learner", learner["id"], "could not be constructed! package", learner@pack, "missing!"))
+	if(learner["pack"] != "mlr" && !require(learner["pack"], character.only=TRUE)) {
+		stop(paste("Learner", learner["id"], "could not be constructed! package", learner["pack"], "missing!"))
 	}
 	
 	check.result <- check.fct(task, learner)
@@ -63,14 +63,7 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	
 	wl <- learner
 	tn <- task["target.name"]
-	
-	ps2 = wl@train.fct.pars
-	# let parset overwrite pars in learner
-	for (i in seq(1, along=parset)) {
-		pn <- names(parset)[i] 
-		ps2[pn] = parset[i]
-	}
-	
+		
 	
 	# reduce data to subset and selected vars
 	x = setdiff(vars, task["input.names"])
@@ -84,10 +77,6 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	else
 		ws = rep(1, length(subset)) 
 	
-	logger.debug("mlr train:", wl["id"], "with pars:")
-	logger.debug(ps2)
-	logger.debug("on", length(subset), "examples:")
-	logger.debug(subset)
 	
 	# no vars? then use no vars model
 	if (length(vars) == 0) {
@@ -95,8 +84,14 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	}
 	
 	# make pars list for train call
-	pars = list(.wrapped.learner=wl, .target=tn, .data=data.subset, .weights=ws)	
-	pars = c(pars, extra.train.pars, ps2)
+	pars = list(.learner=wl, .target=tn, .data=data.subset, .weights=ws)	
+	hyper.pars = insert(wl["train.fct.pars"], parset) 
+	pars = c(pars, extra.train.pars, hyper.pars)
+
+	logger.debug("mlr train:", wl["id"], "with pars:")
+	logger.debug(hyper.pars)
+	logger.debug("on", length(subset), "examples:")
+	logger.debug(subset)
 	
 	# set the seed
 	if(!is.null(.mlr.local$debug.seed)) {
@@ -118,11 +113,9 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 		time.train = as.numeric(NA)
 	} 
 
-	pars = list(model.class, wrapped.learner = wl, learner.model = learner.model, 
-			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, parset=ps2, vars=vars,
-			time = time.train
-	)
-	do.call("new", pars)
+	new("wrapped.model", learner = wl, learner.model = learner.model, 
+			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, parset=hyper.pars, vars=vars,
+			time = time.train)
 }
 	
 
@@ -132,8 +125,8 @@ setMethod(
 		f = "train",
 		
 		signature = signature(
-				learner="wrapped.learner.classif", 
-				task="classif.task", 
+				learner="learner", 
+				task="learn.task", 
 				subset="numeric", 
 				parset="list",
 				vars="character",
@@ -141,34 +134,15 @@ setMethod(
 		),
 		
 		def = function(learner, task, subset, parset, vars, type) {
-			extra.train.pars = list(.costs = task["costs"])
-			train.task2(learner, task, subset, parset, vars, type, 
-					extra.train.pars, "wrapped.model.classif", "novars.classif",
-					check.task.learner.classif
-			)
+			if (is(task, "classif.task")) {
+				extra.train.pars = list(.costs = task["costs"])
+				nv = "novars.classif"
+				ctf = check.task.learner.classif
+			} else {
+				extra.train.pars = list()
+				nv = "novars.regr"
+				ctf = check.task.learner
+			}
+			train.task2(learner, task, subset, parset, vars, type, extra.train.pars, nv, ctf)
 		}
 )
-
-#' @export
-#' @rdname train 
-setMethod(
-		f = "train",
-		
-		signature = signature(
-				learner="wrapped.learner.regr", 
-				task="regr.task", 
-				subset="numeric", 
-				parset="list",
-				vars="character",
-				type="character"				
-		),
-		
-		def = function(learner, task, subset, parset, vars, type) {
-			extra.train.pars = list()
-			train.task2(learner, task, subset, parset, vars, type, 
-					extra.train.pars, "wrapped.model.regr", "novars.regr",
-					check.task.learner
-			)
-		}
-)
-

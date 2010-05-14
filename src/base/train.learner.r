@@ -1,7 +1,7 @@
 #' Mainly for internal use. Trains a wrapped learner on a given training set, 
 #' w.r.t. some hyperparameters, case weights and costs.
 #' You have to implement this method if you want to add another learner to this package. 
-#' @param .wrapped.learner [\code{\link{wrapped.learner}}] \cr  
+#' @param .learner [\code{\link{wrapped.learner}}] \cr  
 #'        Wrapped learner from this package. 
 #' @param .targetvar [\code{\link{character}}] \cr
 #' 		  Name of the target variable.
@@ -24,7 +24,7 @@
 
 setGeneric(
 		name = "train.learner",
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, ...) {
+		def = function(.learner, .targetvar, .data, .weights, .costs, ...) {
 			standardGeneric("train.learner")
 		}
 )
