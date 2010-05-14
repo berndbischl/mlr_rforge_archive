@@ -12,3 +12,25 @@ c.factor = function(...) {
 	class(ans) = "factor"
 	return(ans)
 }
+
+# inserts elements from x2 into x1, overwriting elements of equal names 
+insert = function(xs1, xs2) {
+	xs1[names(xs2)] = xs2
+	return(xs1)
+}
+
+# inserts elements from x2 into x1, only if names in x2 are already present in x1 
+insert.matching = function(xs1, xs2) {
+	ns = intersect(names(x1), names(xs2))
+	xs1[ns] = xs2[ns]
+	return(xs1)
+}
+
+
+
+# returns first non null el. 
+coalesce = function (...) {
+	l <- list(...)
+	isnull <- sapply(l, is.null)
+	l[[which.min(isnull)]]
+}
