@@ -116,12 +116,12 @@ make.measures = function(xs) {
 
 make.measure <- function(x) {
 	name = x
-	if (name %in% c("acc")) 
+	if (name == "acc") 
 		x = acc
-	else if (name %in% c("mmce")) 
+	else if (name == "mmce") 
 		x = mce
-	else if (name %in% c("costs")) 
-		x = costs
+	else if (name == "costs") 
+		x = cost.measure
 	
 	else if (name=="tp") 
 		x = tp
@@ -181,9 +181,7 @@ make.measure <- function(x) {
 
 
 default.measures = function(x) {
-	if (is(x, "learn.task"))
-		x = x@task.desc	
-	if (is(x, "wrapped.learner.classif") || x@task.class == "classif.task")
+	if (x["is.classif"])
 		return(make.measures("mmce"))
 	else 
 		return(make.measures("mse"))
@@ -212,7 +210,7 @@ mcesd = function(x, task) {
 	sd(as.character(x["truth"]) != as.character(x["response"])) 
 }
 
-costs = function(x, task) {
+cost.measure = function(x, task) {
 	cm = x@task.desc@costs
 	if (all(dim(cm) == 0))
 		stop("No costs were defined in task!")
