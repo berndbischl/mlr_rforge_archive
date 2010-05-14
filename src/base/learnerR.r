@@ -23,7 +23,8 @@ setClass(
 				props = "learner.props",
 				train.fct.pars = "list",
 				predict.fct.pars = "list",
-				predict.type = "character"
+				predict.type = "character",
+				predict.threshold = "numeric"
 		)
 )
 

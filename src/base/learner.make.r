@@ -10,6 +10,12 @@
 #'        Classification: "response" | "prob" | "decision", specifying the type to predict.
 #'        Default is "response". "decision" is experimental.
 #' 		  Ignored for regression.	 
+#' @param predict.threshold [numeric] \cr
+#'        Threshold to produce class labels if type is not "response". 
+#' 	      Currently only supported for binary classification and type="prob", where it represents the required predicted probability
+#'        for the positive class, so that a positive class is predicted as "response".
+#'        Default is 0.5 for type="prob".
+#' 		  Ignored for regression.	 
 #' @param ... [any] \cr
 #'        Optional named (hyper)parameters.
 #' 
@@ -19,7 +25,7 @@
 #' 
 #' @export
 #' 
-make.learner = function(class, id, label, predict.type="response", ...) {
+make.learner = function(class, id, label, predict.type="response", predict.threshold=numeric(0), ...) {
 	parset = list(...)
 	wl = new(class,parset=parset)
 	if (!missing(id))
@@ -27,6 +33,7 @@ make.learner = function(class, id, label, predict.type="response", ...) {
 	if (!missing(label))
 		wl@label = label
 	wl@predict.type = predict.type 
+	wl@predict.threshold = predict.threshold 
 	
 	return(wl)
 }
