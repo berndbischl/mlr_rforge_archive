@@ -7,8 +7,6 @@ base.files <<- c(
 		"base/object.r",
 		
 		"base/learner.props.r",
-		"base/learner.props.classif.r",
-		"base/learner.props.regr.r",
 			
 		"base/data.desc.r",
 		"base/prepare.df.r",
@@ -19,10 +17,9 @@ base.files <<- c(
 		"base/task.make.r",
 		"base/check.task.r",
 		
-		"base/wrapped.learner.r",
-		"base/wrapped.learner.classif.r",
-		"base/wrapped.learner.regr.r",
-		"base/wrapped.learner.make.r",
+		"base/learner.r",
+		"base/learnerR.r",
+		"base/learner.make.r",
 		"base/learners.r",
 		
 		
@@ -57,6 +54,9 @@ base.files <<- c(
 		"base/resample/resample.fit.r",
 		"base/resample/resample.performance.r",
 		"base/conf.matrix.r",
+		
+		"base/wrappers/base.wrapper.r",
+		"base/preproc/preproc.wrapper.r",
 		
 		"base/optml/opt.result.r",
 		"base/optml/optml.helpers.r",
