@@ -22,6 +22,9 @@ roxygen()
 setClass(
 		"learner",
 		contains = c("object"),
+		representation = representation(
+				hyperpars = "list"
+		)		
 )
 
 #' Getter.

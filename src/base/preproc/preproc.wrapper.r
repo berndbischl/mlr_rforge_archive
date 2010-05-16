@@ -24,8 +24,10 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
-			fun.args = insert.matching(.learner@defaults, list(...))
-			.data = do.call(wrapped.learner@fun, fun.args)  
+			fun.args = insert.matching(.learner@defaults, list(...))		
+			fun.args$data = .data
+			.data = do.call(.learner@fun, fun.args)
+			print(list(...))
 			callNextMethod(.learner, .targetvar, .data, .weights, .costs,  ...)
 		}
 )
@@ -62,7 +64,7 @@ setMethod(
 make.preproc.wrapper = function(learner, fun, ...) {
 	if (is.character(learner))
 		learner = make.learner(learner)
-	new("preproc.wrapper", learner=learner, fun=fun, defaults=list(...))
+	new("preproc.wrapper", learner=learner, fun=fun, ...)
 }
 
 

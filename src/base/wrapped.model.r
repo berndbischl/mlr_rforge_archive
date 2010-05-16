@@ -61,7 +61,7 @@ setMethod(
 			
 			return(
 					paste(
-							"Learner model for ", x@learner@label, "\n",  
+							"Learner model for ", x@learner["id"], "\n",  
 							"Trained on obs: ", length(x@subset), "\n",
 							"Hyperparameters: ", ps, "\n",
 							tp,
