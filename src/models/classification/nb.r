@@ -17,7 +17,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.naiveBayes"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="Naive Bayes", pack="e1071", props=desc, parset=parset)
+			callNextMethod(.Object, label="Naive Bayes", pack="e1071", props=desc)
 		}
 )
 

@@ -19,7 +19,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.blackboost"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -32,7 +32,7 @@ setMethod(
 					supports.weights = TRUE,
 					supports.costs = FALSE
 			)
-			callNextMethod(.Object, label="blackboost", pack="mboost", props=desc, parset=parset)
+			callNextMethod(.Object, label="blackboost", pack="mboost", props=desc)
 		}
 )
 

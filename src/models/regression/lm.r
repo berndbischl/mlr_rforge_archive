@@ -12,7 +12,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.lm"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -22,7 +22,7 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
-			callNextMethod(.Object, label="Linear Regression", pack="stats", props=desc, parset=parset)
+			callNextMethod(.Object, label="Linear Regression", pack="stats", props=desc)
 		}
 )
 

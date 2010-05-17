@@ -11,7 +11,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.ridge"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -21,7 +21,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="ridge regression", pack="penalized", props=desc, parset=parset)
+			callNextMethod(.Object, label="ridge regression", pack="penalized", props=desc)
 		}
 )
 

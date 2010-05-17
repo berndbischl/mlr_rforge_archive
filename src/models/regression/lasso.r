@@ -11,7 +11,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.lasso"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -21,7 +21,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="Lasso regression", pack="penalized", props=desc, parset=parset)
+			callNextMethod(.Object, label="Lasso regression", pack="penalized", props=desc)
 		}
 )
 

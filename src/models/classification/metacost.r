@@ -60,7 +60,7 @@
 #			res.i = make.bs.instance(size=N, iters=wrapped.learner@iters)
 #			
 #			# dont pred here, coz we do this later
-#			rf <- resample.fit(ct, res.i, parset=parset, models=TRUE)
+#			rf <- resample.fit(ct, res.i, , models=TRUE)
 #			models <- rf@models
 #
 #			used = numeric(N)

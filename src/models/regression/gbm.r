@@ -13,7 +13,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.gbm"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("regr.props",
 					supports.missing = TRUE,
@@ -25,7 +25,7 @@ setMethod(
 			
 			if (is.null(parset$distribution))
 				parset$distribution = "gaussian"
-			.Object <- callNextMethod(.Object, label="Gradient Boosting Machine", pack="gbm", props=desc, parset=parset)
+			.Object <- callNextMethod(.Object, label="Gradient Boosting Machine", pack="gbm", props=desc)
 			return(.Object)
 		}
 )

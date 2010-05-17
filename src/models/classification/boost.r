@@ -16,7 +16,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.adaboost.M1"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -30,7 +30,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="AdaBoostM1", pack="adabag", props=desc, parset=parset)
+			callNextMethod(.Object, label="AdaBoostM1", pack="adabag", props=desc)
 		}
 )
 

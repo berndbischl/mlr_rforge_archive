@@ -17,7 +17,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.rpart"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -30,7 +30,7 @@ setMethod(
 					supports.weights = TRUE,
 					supports.costs = TRUE
 			)
-			callNextMethod(.Object, label="RPart", pack="rpart",	props=desc, parset=parset)
+			callNextMethod(.Object, label="RPart", pack="rpart", props=desc)
 		}
 )
 

@@ -15,7 +15,7 @@ predict.kknn.model2 <- function(model, newdata, ...) {
 setMethod(
 		f = "initialize",
 		signature = signature("regr.kknn"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("regr.props",
 					supports.missing = FALSE,
@@ -25,7 +25,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="KKNN", pack="kknn", props=desc, parset=parset)
+			callNextMethod(.Object, label="KKNN", pack="kknn", props=desc)
 		}
 )
 

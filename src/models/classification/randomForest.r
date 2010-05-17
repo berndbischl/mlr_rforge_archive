@@ -17,7 +17,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.randomForest"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="RForest", pack="randomForest", props=desc, parset=parset)
+			callNextMethod(.Object, label="RForest", pack="randomForest", props=desc)
 		}
 )
 

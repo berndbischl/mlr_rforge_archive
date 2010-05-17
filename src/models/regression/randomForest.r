@@ -10,7 +10,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.randomForest"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("regr.props",
 					supports.missing = FALSE,
@@ -20,7 +20,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="randomForest", pack="randomForest", props=desc, parset=parset)
+			callNextMethod(.Object, label="randomForest", pack="randomForest", props=desc)
 		}
 )
 

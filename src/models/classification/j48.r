@@ -18,7 +18,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.J48"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -31,7 +31,7 @@ setMethod(
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)
-			callNextMethod(.Object, label="J48", pack="RWeka", props=desc, parset=parset)
+			callNextMethod(.Object, label="J48", pack="RWeka", props=desc)
 		}
 )
 

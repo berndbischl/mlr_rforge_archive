@@ -18,7 +18,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.gbm"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = FALSE,
@@ -33,7 +33,7 @@ setMethod(
 			)			
 			if (is.null(parset$distribution))
 				parset$distribution = "adaboost"
-			callNextMethod(.Object, label="Gradient Boosting Machine", pack="gbm", props=desc, parset=parset)
+			callNextMethod(.Object, label="Gradient Boosting Machine", pack="gbm", props=desc)
 		}
 )
 

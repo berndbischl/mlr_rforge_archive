@@ -17,7 +17,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.multinom"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			#checked:
 			desc = new("classif.props",
@@ -32,7 +32,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="MultiReg", pack="nnet", props=desc, parset=parset)
+			callNextMethod(.Object, label="MultiReg", pack="nnet", props=desc)
 		}
 )
 

@@ -17,7 +17,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.nnet"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="NNet", pack="nnet", props=desc, parset=parset)
+			callNextMethod(.Object, label="NNet", pack="nnet", props=desc, parset.train=list(size=1))
 		}
 )
 
@@ -49,10 +49,7 @@ setMethod(
 		
 		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			if (is.null(list(...)$size))
-				nnet(f, data=.data, weights=.weights, size=1, ...)
-			else 
-				nnet(f, data=.data, weights=.weights, ...)
+			nnet(f, data=.data, weights=.weights, ...)
 		}
 )
 

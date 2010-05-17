@@ -12,7 +12,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.ksvm"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("regr.props",
 					supports.missing = FALSE,
@@ -22,7 +22,7 @@ setMethod(
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="SVM", pack="kernlab", props=desc, parset=parset)
+			callNextMethod(.Object, label="SVM", pack="kernlab", props=desc)
 		}
 )
 

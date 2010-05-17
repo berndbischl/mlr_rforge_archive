@@ -17,7 +17,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.lpsvm"),
-		def = function(.Object, parset) {
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
@@ -31,7 +31,7 @@ setMethod(
 					supports.costs = FALSE 
 			)
 			
-			callNextMethod(.Object, label="lpsvm", pack="penalizedSVM", props=desc, parset=parset)
+			callNextMethod(.Object, label="lpsvm", pack="penalizedSVM", props=desc)
 		}
 )
 
