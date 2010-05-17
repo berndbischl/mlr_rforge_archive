@@ -21,8 +21,7 @@ setClass(
 				label = "character",
 				pack = "character",
 				props = "learner.props",
-				predict.type = "character",
-				predict.threshold = "numeric"
+				predict.type = "character"
 		)
 )
 
@@ -50,6 +49,9 @@ setMethod(
 			}
 			if (i == "pack") {
 				return(x@pack)
+			}
+			if (i == "predict.threshold") {
+				return(x["hyper.pars"]$predict.threshold)
 			}
 			callNextMethod()
 		}

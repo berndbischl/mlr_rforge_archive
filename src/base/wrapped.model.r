@@ -41,7 +41,8 @@ setClass(
 				task.desc = "task.desc",
 				subset = "numeric",
 				vars = "character",
-				parset = "list",
+				hyper.pars = "list",
+				hyper.types = "character",
 				time = "numeric"
 		)
 )
@@ -53,7 +54,7 @@ setMethod(
 		f = "to.string",
 		signature = signature("wrapped.model"),
 		def = function(x) {
-			ps <- paste(names(x@parset), x@parset, sep="=", collapse=" ")
+			ps <- paste(names(x["hyper.pars"]), x["hyper.pars"], sep="=", collapse=" ")
 			f = x["fail"]
 			f = ifelse(is.null(f), "", paste("Training failed:", f))
 			tp = x["tuned.par"]
@@ -80,14 +81,19 @@ setMethod(
 		f = "[",
 		signature = signature("wrapped.model"),
 		def = function(x,i,j,...,drop) {
+			args = list(...)
+			type = args$type
+			if (is.null(type))
+				ps = seq(length=length(x@hyper.pars))
+			else
+				ps = which(x@hyper.types %in% type)
+			if (i == "hyper.pars") 
+				return(x@hyper.pars[ps])
 			if (i == "hyper.names") 
-				return(x@learner["hyper.names",j=NULL,...,drop])
+				return(names(x@hyper.pars)[ps])
 			if (i == "hyper.types") 
-				return(x@learner["hyper.types"])
-			if (i == "hyper.pars") { 
-				ns = x@learner["hyper.names",j=NULL,...,drop]
-				return(x@parset[ns])
-			}
+				return(x@hyper.types)
+			
 			if (i == "fail"){
 				if (is(x@learner.model, "learner.failure"))
 					return(x@learner.model@msg)

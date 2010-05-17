@@ -57,7 +57,7 @@ setMethod(
 			if (missing(threshold))
 				threshold = wl["predict.threshold"]
 			if (is.null(threshold))
-				threshold = switch(type, reponse=numeric(0), prob=0.5, decision=0)
+				threshold = switch(type, response=numeric(0), prob=0.5, decision=0)
 			
 			
 			cns = colnames(newdata)

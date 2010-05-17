@@ -112,10 +112,15 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 		learner.model <- new("learner.failure", msg=msg)
 		time.train = as.numeric(NA)
 	} 
-
+	
+	#set to "train" if not specified
+	hyper.types = rep("train", length(hyper.pars))
+	names(hyper.types) = names(hyper.pars)
+	hyper.types = insert(hyper.types, wl["hyper.types"])
+	
 	new("wrapped.model", learner = wl, learner.model = learner.model, 
-			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, parset=hyper.pars, vars=vars,
-			time = time.train)
+			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, 
+			hyper.pars=hyper.pars, hyper.types=hyper.types, vars=vars, time = time.train)
 }
 	
 

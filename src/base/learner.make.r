@@ -25,15 +25,19 @@
 #' 
 #' @export
 #' 
-make.learner = function(class, id, label, predict.type="response", predict.threshold=0.5, hyper.types="train", ...) {
+make.learner = function(class, id, label, predict.type="response", predict.threshold=numeric(0), hyper.types="train", ...) {
 	wl = new(class)
 	if (!missing(id))
 		wl@id = id
 	if (!missing(label))
 		wl@label = label
 	wl@predict.type = predict.type 
-	wl@predict.threshold = predict.threshold 
-	wl = set.hyper.pars(wl, parset=list(...), types=hyper.types)
+	parset=list(...)
+	wl = set.hyper.pars(wl, parset=parset, types=hyper.types)
+	if (length(predict.threshold) == 1) {
+		wl = set.hyper.pars(wl, parset=list(predict.threshold=predict.threshold), types="postproc")
+	}
+	return(wl)
 }
 
 
