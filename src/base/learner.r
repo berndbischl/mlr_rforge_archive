@@ -24,7 +24,7 @@ setClass(
 		contains = c("object"),
 		representation = representation(
 				hyper.pars = "list",
-				hyper.types = "list"
+				hyper.types = "character"
 		)		
 )
 
@@ -37,6 +37,19 @@ setMethod(
 		def = function(x,i,j,...,drop) {
 			if (i == "pack") 
 				return("mlr")
+			
+			args = list(...)
+			type = args$type
+			if (is.null(type))
+				ps = seq(length=length(x@hyper.pars))
+			else
+				ps = which(x@hyper.types %in% type)
+			if (i == "hyper.pars") 
+				return(x@hyper.pars[ps])
+			if (i == "hyper.names") 
+				return(names(x@hyper.pars)[ps])
+			if (i == "hyper.types") 
+				return(x@hyper.types)
 			callNextMethod()
 		}
 )

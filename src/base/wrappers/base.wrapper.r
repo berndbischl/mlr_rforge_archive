@@ -20,11 +20,10 @@ setMethod(
 		def = function(x,i,j,...,drop) {
 			if (i == "learner")
 				return(x@learner)
-			if (i == "hyper.pars")
-				return(x@hyper.pars)
-			if (i == "hyper.types")
-				return(x@hyper.types)
-			x@learner[i]
+			if (i %in% c("hyper.pars", "hyper.types", "hyper.names"))
+				return(callNextMethod())
+			else
+				return(x@learner[i])
 		}
 )
 
@@ -57,7 +56,18 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
-			train.learner(.learner@learner, .targetvar, .data, .weights, .costs,  ...)
+			args = list(...)
+			args.ns = names(args)
+			hps.types = .learner["hyper.types"]
+			exclude = names(hps.types)[hps.types != "train"]
+			include = args.ns[!(args.ns %in% exclude)]
+			print(465)
+			ps = wl["hyper.pars", type="train"]
+			print(include)
+			ps = insert(ps, args, el.names=include)
+			f.args = list(.learner@learner, .targetvar, .data, .weights, .costs)
+			f.args = c(f.args, ps)
+			do.call(train.learner, f.args)
 		}
 )
 
@@ -73,7 +83,9 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			predict.learner(.learner@learner, .model, .newdata, .type,  ...)
+			args = list(.learner@learner, .model, .newdata, .type)
+			args = c(args, .learner["hyper.pars", type="predict"])
+			do.call(predict.learner, args)
 		}
 )	
 

@@ -15,7 +15,7 @@ setMethod(
 		signature = signature("preproc.wrapper"),
 		def = function(.Object, learner, fun, ...) {
 			.Object@fun = fun
-			.Object = set.hyper.pars(.Object, list(...), type="wrapper")
+			.Object = set.hyper.pars(.Object, list(...), type="preproc")
 			callNextMethod(.Object, learner)
 		}
 )
@@ -40,10 +40,10 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
-			fun.args = insert.matching(.learner@defaults, list(...))		
+			fun.args = .learner["hyper.pars", type="preproc"]
+			fun.args = insert.matching(fun.args, list(...))		
 			fun.args$data = .data
 			.data = do.call(.learner@fun, fun.args)
-			print(list(...))
 			callNextMethod(.learner, .targetvar, .data, .weights, .costs,  ...)
 		}
 )
