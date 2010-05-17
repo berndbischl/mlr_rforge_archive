@@ -1,4 +1,4 @@
-#' @include rlearner.r
+#' @include learnerR.r
 roxygen()
 #' @include wrapped.model.r
 roxygen()

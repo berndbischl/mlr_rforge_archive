@@ -1,6 +1,6 @@
 # todo: we could pass costs with extra loss function?
 
-#' @include rlearner.r
+#' @include learnerR.r
 roxygen()
 #' @include wrapped.model.r
 roxygen()

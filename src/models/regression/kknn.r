@@ -1,4 +1,4 @@
-#' @include rlearner.r
+#' @include learnerR.r
 roxygen()
 
 setClass(
