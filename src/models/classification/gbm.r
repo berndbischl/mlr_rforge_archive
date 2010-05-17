@@ -31,9 +31,9 @@ setMethod(
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)			
-			if (is.null(parset$distribution))
-				parset$distribution = "adaboost"
-			callNextMethod(.Object, label="Gradient Boosting Machine", pack="gbm", props=desc)
+			callNextMethod(.Object, label="GBM", pack="gbm", props=desc,
+				parset.train=list(distribution = "adaboost"))
+
 		}
 )
 

@@ -23,10 +23,8 @@ setMethod(
 					supports.weights = TRUE
 			)
 			
-			if (is.null(parset$distribution))
-				parset$distribution = "gaussian"
-			.Object <- callNextMethod(.Object, label="Gradient Boosting Machine", pack="gbm", props=desc)
-			return(.Object)
+			callNextMethod(.Object, label="GBM", pack="gbm", props=desc, 
+					parset.train=list(distribution = "gaussian"))
 		}
 )
 
