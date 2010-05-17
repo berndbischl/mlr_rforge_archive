@@ -108,16 +108,17 @@ setMethod(
 						.model = model, 
 						.newdata=newdata
 				)
-				pars = c(pars, wl["predict.fct.pars"]) 
+				pars = c(pars, wl["hyper.pars", type="predict"]) 
+				if (wl["is.classif"]) {
+					pars$.type = type
+				}
+				#pars = insert.matching(pars, list()) 
 				
 				if(!is.null(.mlr.local$debug.seed)) {
 					set.seed(.mlr.local$debug.seed)
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
 				
-				if (wl["is.classif"]) {
-					pars$.type = type
-				}
 				
 				st = system.time(p <- do.call(predict.learner, pars), gcFirst=FALSE)
 				time.predict = st[3]
