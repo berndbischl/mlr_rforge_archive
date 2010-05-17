@@ -10,6 +10,22 @@ setClass(
 )
 
 
+setMethod(
+		f = "initialize",
+		signature = signature("preproc.wrapper"),
+		def = function(.Object, learner, fun, ...) {
+			.Object@fun = fun
+			.Object = set.hyper.pars(.Object, list(...), type="wrapper")
+			callNextMethod(.Object, learner)
+		}
+)
+
+make.preproc.wrapper = function(learner, fun, ...) {
+	if (is.character(learner))
+		learner = make.learner(learner)
+	new("preproc.wrapper", learner=learner, fun=fun, ...)
+}
+
 
 #' @rdname train.learner
 
@@ -51,20 +67,6 @@ setMethod(
 )	
 
 
-setMethod(
-		f = "initialize",
-		signature = signature("preproc.wrapper"),
-		def = function(.Object, learner, fun, ...) {
-			.Object@fun = fun
-			.Object@defaults = list(...)
-			callNextMethod(.Object, learner)
-		}
-)
 
-make.preproc.wrapper = function(learner, fun, ...) {
-	if (is.character(learner))
-		learner = make.learner(learner)
-	new("preproc.wrapper", learner=learner, fun=fun, ...)
-}
 
 

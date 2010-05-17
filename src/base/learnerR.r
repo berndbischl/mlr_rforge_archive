@@ -21,8 +21,6 @@ setClass(
 				label = "character",
 				pack = "character",
 				props = "learner.props",
-				train.fct.pars = "list",
-				predict.fct.pars = "list",
 				predict.type = "character",
 				predict.threshold = "numeric"
 		)
@@ -64,7 +62,7 @@ setMethod(
 setMethod(
 		f = "initialize",
 		signature = signature("rlearner"),
-		def = function(.Object, id, label, pack, props, parset=list()) {
+		def = function(.Object, id, label, pack, props, parset.train=list(), parset.predict=list()) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
@@ -80,28 +78,11 @@ setMethod(
 			.Object@label = label
 			.Object@pack = pack
 			.Object@props = props
-			.Object@train.fct.pars = parset
-			.Object@predict.fct.pars = list()
 			.Object@predict.type = "response"
 			callNextMethod(.Object)
-		}
-)
-
-#' 
-#' @rdname to.string
-
-setMethod(
-		f = "to.string",
-		signature = signature("rlearner"),
-		def = function(x) {
-			ps = paste(names(x@train.fct.pars), x@train.fct.pars, sep="=", collapse=" ")
-			return(paste(
-							#todo regression. also check when applied to task!!
-							"Classification learner ", x@label, " from package ", x@pack, "\n\n",					
-							to.string(x@props), "\n",
-							"Hyperparameters: ", ps, "\n",
-							sep =""					
-					))
+			.Object = set.hyper.pars(.Object, type="train", parset=parset.train)
+			.Object = set.hyper.pars(.Object, type="predict", parset=parset.predict)
+			return(.Object)
 		}
 )
 

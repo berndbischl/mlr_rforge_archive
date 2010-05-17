@@ -20,6 +20,10 @@ setMethod(
 		def = function(x,i,j,...,drop) {
 			if (i == "learner")
 				return(x@learner)
+			if (i == "hyper.pars")
+				return(x@hyper.pars)
+			if (i == "hyper.types")
+				return(x@hyper.types)
 			x@learner[i]
 		}
 )
@@ -33,6 +37,8 @@ setMethod(
 			if (missing(learner))
 				return(.Object)
 			.Object@learner = learner
+			.Object@hyper.pars = insert(.Object@hyper.pars, learner["hyper.pars"])
+			.Object@hyper.types = insert(.Object@hyper.types, learner["hyper.types"])
 			return(.Object)
 		}
 )

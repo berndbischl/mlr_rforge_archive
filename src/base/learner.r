@@ -23,7 +23,8 @@ setClass(
 		"learner",
 		contains = c("object"),
 		representation = representation(
-				hyperpars = "list"
+				hyper.pars = "list",
+				hyper.types = "list"
 		)		
 )
 
@@ -42,23 +43,25 @@ setMethod(
 
 
 
-##' 
-##' @rdname to.string
-#
-#setMethod(
-#		f = "to.string",
-#		signature = signature("learner"),
-#		def = function(x) {
-#			ps = paste(names(x@train.fct.pars), x@train.fct.pars, sep="=", collapse=" ")
-#			return(paste(
-#							#todo regression. also check when applied to task!!
-#							"Classification learner ", x@label, " from package ", x@pack, "\n\n",					
-#							to.string(x@props), "\n",
-#							"Hyperparameters: ", ps, "\n",
-#							sep =""					
-#					))
-#		}
-#)
+ 
+#' @rdname to.string
+
+setMethod(
+		f = "to.string",
+		signature = signature("learner"),
+		def = function(x) {
+			hps = x["hyper.pars"]
+			hps = paste(names(hps), hps, sep="=", collapse=" ")
+			type = switch(x["is.classif"], "Classification", "Regression")
+			return(paste(
+							#todo regression. also check when applied to task!!
+							type, " learner ", x["id"], " from package ", x["pack"], "\n\n",					
+							to.string(x["props"]), "\n",
+							"Hyperparameters: ", hps, "\n",
+							sep =""					
+					))
+		}
+)
 
 
 
