@@ -15,7 +15,7 @@ c.factor = function(...) {
 
 # inserts elements from x2 into x1, overwriting elements of equal names 
 insert = function(xs1, xs2, el.names=names(xs2)) {
-	xs1[el.names] = xs2
+	xs1[el.names] = xs2[el.names]
 	return(xs1)
 }
 

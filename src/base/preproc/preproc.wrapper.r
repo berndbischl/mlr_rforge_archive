@@ -60,8 +60,9 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			fun.args = insert.matching(.learner@defaults, list(...))
-			.newdata = do.call(wrapped.learner@fun, fun.args)  
+			fun.args = .model["hyper.pars", type="preproc"]
+			fun.args$data = .newdata
+			.newdata = do.call(.learner@fun, fun.args)  
 			callNextMethod(.learner, .model, .newdata, .type, ...)
 		}
 )	

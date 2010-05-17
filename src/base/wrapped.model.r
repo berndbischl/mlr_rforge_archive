@@ -80,6 +80,14 @@ setMethod(
 		f = "[",
 		signature = signature("wrapped.model"),
 		def = function(x,i,j,...,drop) {
+			if (i == "hyper.names") 
+				return(x@learner["hyper.names",j=NULL,...,drop])
+			if (i == "hyper.types") 
+				return(x@learner["hyper.types"])
+			if (i == "hyper.pars") { 
+				ns = x@learner["hyper.names",j=NULL,...,drop]
+				return(x@parset[ns])
+			}
 			if (i == "fail"){
 				if (is(x@learner.model, "learner.failure"))
 					return(x@learner.model@msg)
