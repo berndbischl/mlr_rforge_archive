@@ -22,7 +22,7 @@ setMethod(
 			
 			desc = new("classif.props",
 					supports.multiclass = FALSE,
-					supports.missing = FALSE,
+					supports.missings = FALSE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,

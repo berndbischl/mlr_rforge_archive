@@ -20,7 +20,7 @@ setMethod(
 			
 			desc <- new("classif.props",
 					supports.multiclass = TRUE,
-					supports.missing = TRUE,
+					supports.missings = TRUE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = TRUE,

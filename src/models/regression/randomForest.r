@@ -13,7 +13,7 @@ setMethod(
 		def = function(.Object) {
 			
 			desc = new("regr.props",
-					supports.missing = FALSE,
+					supports.missings = FALSE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
