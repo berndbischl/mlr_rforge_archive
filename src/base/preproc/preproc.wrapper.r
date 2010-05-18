@@ -1,5 +1,6 @@
 #' @include base.wrapper.r
 
+#' @exportClass  preproc.wrapper
 setClass(
 		"preproc.wrapper",
 		contains = c("base.wrapper"),
@@ -19,6 +20,8 @@ setMethod(
 			callNextMethod(.Object, learner)
 		}
 )
+
+#' @export
 
 make.preproc.wrapper = function(learner, fun, ...) {
 	if (is.character(learner))
