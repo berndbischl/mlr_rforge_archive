@@ -61,7 +61,7 @@ setMethod(
 			hps.types = .learner["hyper.types"]
 			exclude = names(hps.types)[hps.types != "train"]
 			include = args.ns[!(args.ns %in% exclude)]
-			ps = wl["hyper.pars", type="train"]
+			ps = .learner["hyper.pars", type="train"]
 			ps = insert(ps, args, el.names=include)
 			f.args = list(.learner@learner, .targetvar, .data, .weights, .costs)
 			f.args = c(f.args, ps)
