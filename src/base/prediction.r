@@ -7,7 +7,7 @@
 #'  \item{id [numeric]}{Vector of index numbers of predicted cases from the task.}
 #'  \item{response [numeric | factor]}{Predicted response values.}
 #'  \item{truth [numeric | factor]}{True target values.}
-#'  \item{prob [numeric | matrix]}{Optional parameters: class. Predicted probabilities. If it's a binary problem only the probabilities for the postive class are returned. With "class" you can specifically select which columns of the prob matrix should be returned. Columns names of the returned matrix are always the respective class labels.}
+#'  \item{prob [numeric | matrix] Optional parameters: class}{Predicted probabilities. For binary class. only the probs for the pos. class are returned.}
 #'  \item{decision [matrix]}{Predicted decision values.}
 #'  \item{type [string]}{Type set in predict function: "response", "prob", or "decision".}
 #'  \item{threshold [numeric]}{Threshold set in predict function.}
@@ -17,6 +17,9 @@
 #' @title Prediction.
 #' @seealso \code{\link{performance}}
 
+
+#todo: roxygen does not like long lines?
+#Predicted probabilities. If it's a binary problem only the probabilities for the postive class are returned. With "class" you can specifically select which columns of the prob matrix should be returned. Columns names of the returned matrix are always the respective class labels.
 
 setClass(
 		"prediction",
