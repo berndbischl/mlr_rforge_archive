@@ -20,7 +20,7 @@ roxygen()
 #' 	\item{data [data.frame]. Optional parameters: row, col}{The data.frame is returned, possibly indexed by row/col. If col is missing, only columns which were not excluded are returned.}
 #'  \item{size [integer]}{Number of cases.}
 #'	\item{target.name [string]}{The name of the target variable.}
-#'  \item{input.names [character]}{The names of the input variables (without excluded variables).
+#'  \item{input.names [character]}{The names of the input variables (without excluded variables).}
 #'  \item{excluded [character]}{Names of excluded variables.}
 #'  \item{targets [character]. Optional parameters: row}{If row is missing all target values are returned. Otherwise they are indexed by row.}
 #'  \item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row. NULL if no weights were set.}
