@@ -10,11 +10,11 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 
 	# parallel.type
 	if (missing(parallel.type)) 
-		switch(mode, snowfall="Rmpi", "Rmpi")
+		parallel.type = switch(mode, snowfall="MPI", "MPI")
 	
 	# load packages
 	packs = switch(mode, multicore="multicore", sfCluster="snowfall", 
-			snowfall=c("snowfall", switch(parallel.type, Rmpi="Rmpi", c())))
+			snowfall=c("snowfall", switch(parallel.type, MPI="Rmpi", c())))
 	packs.ok = sapply(packs, function(x) require(x, character.only = TRUE))
 	if(!all(packs.ok)) 
 		stop("Please install the following packages: ", paste(packs[!packs.ok], collapse=" "))				
