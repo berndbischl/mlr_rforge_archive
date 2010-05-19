@@ -62,13 +62,16 @@ setMethod(
 			
 			cns = colnames(newdata)
 			tn = td["target"]
-			if (tn %in% cns)
-				truth = newdata[, tn]
-			else
+			t.col = which(cns == tn)
+			# get truth and drop target col, if target in newdata
+			if (length(t.col) == 1) {
+				truth = newdata[, t.col]
+				newdata = newdata[, -t.col]					
+				
+			} else {
 				truth = NULL
+			}
 			
-			# drop target col
-			newdata <- newdata[, -which(cns == tn)]					
 			if (wl["is.classif"]) {
 				if ("prob" == type && !wl["supports.probs"]) {
 					stop("Trying to predict probs, but ", wl["id"], " does not support that!")
@@ -86,7 +89,6 @@ setMethod(
 			if (wl["is.classif"]) {
 				levs = dd["class.levels"]
 			}
-
 			
 			response = NULL
 			prob = decision = NULL

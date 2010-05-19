@@ -7,10 +7,12 @@ test.predict <- function() {
 	
 	cm2 <- train("classif.lda", multiclass.task, subset=inds)
 	cp2 <- predict(cm2, newdata=data[inds,])
+	cp2b <- predict(cm2, newdata=data[inds,-5])
 	ext2 <- lda(formula, data=data[inds,])
 	pred2 <- predict(ext2,newdata=data[inds,])$class
 	
 	checkEquals(cp2["response"], pred2)
+	checkEquals(cp2b["response"], pred2)
 	
 	cm3 <- train("classif.lda", multiclass.task, subset=inds)
 	cp3 <- predict(cm3, newdata=data[multiclass.test.inds,])
