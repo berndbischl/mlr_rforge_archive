@@ -4,7 +4,7 @@ setClass(
 		"learner.props",
 		contains = c("object"),
 		representation = representation(
-				supports.missing = "logical",
+				supports.missings = "logical",
 				supports.numerics = "logical",
 				#supports.integers = "logical",
 				supports.factors = "logical",
@@ -32,13 +32,6 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Supports multiclass: ", x@supports.multiclass, "\n",
-							"Supported features Nums:", x@supports.numerics, " Factors:", x@supports.factors, " Chars:", x@supports.characters, "\n",
-							"Supports missings: ", x@supports.missing, "\n", 
-							"Supports probabilities: ", x@supports.probs, "\n", 
-							"Supports decsion values: ", x@supports.decision, "\n", 
-							"Supports weights: ", x@supports.weights, "\n", 
-							"Supports costs: ", x@supports.costs, "\n", 
 							sep=""
 					)
 			)

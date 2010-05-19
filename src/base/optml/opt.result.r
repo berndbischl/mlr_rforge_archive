@@ -2,6 +2,15 @@
 #' Contains the obtained optimal parameter vector, its performance values and the optimization path
 #' which lead there.
 #' It might also optionally contain a wrapped.model, which was fitted by using the optimal parameters. 
+#'
+#' #' Getter.\cr
+#' 
+#' \describe{
+#'  \item{par [list | character]}{Named list of hyperparameter values or character vector of variables, identified as optimal.}
+#'  \item{perf [numeric]}{Performance values of 'par'.}
+#'  \item{path [list | data.frame]. Optional parameters: as.data.frame}{Optimization path. Can be converted to a data.frame if as.data.frame is TRUE.}
+#'  \item{model [wrapped.model]}{Model fitted with settings in 'par'. Will be NULL, if fitting was not requested.}
+#' }
 #' 
 #' @exportClass opt.result
 #' @title Optimization result.
@@ -18,14 +27,6 @@ setClass(
 		)
 )
 
-#' Getter.
-#' 
-#' @param x object
-#' @param i [character]
-#' \describe{
-#'   \item{opt}{ List with following elements: 'par' is named list of hyperparamter values or character vector of variables, 'perf' are the performance values of the optimum, 'evals' is the number of function nevaluation needed to find it.}
-#'   \item{path}{ Optimization path. List of elements which have the same structure as 'opt'.}
-#' }
 #' @rdname opr.result-class
 
 setMethod(

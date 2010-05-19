@@ -79,7 +79,7 @@ setMethod(
 			}
 
 			logger.debug("mlr predict:", wl["id"], "with pars:")
-			logger.debug(wl["predict.fct.pars"])
+			logger.debug(wl["hyper.pars"])
 			logger.debug("on", nrow(newdata), "examples:")
 			logger.debug(rownames(newdata))
 			

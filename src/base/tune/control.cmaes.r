@@ -7,7 +7,7 @@
 #' @param minimize [logical] \cr
 #'       Minimize performance measure? Default is TRUE. 
 #' @param scale [\code{\link{function}}] \cr
-#'        A function to scale the hyperparamters. E.g. maybe you want to optimize in some log-space.
+#'        A function to scale the hyperparameters. E.g. maybe you want to optimize in some log-space.
 #'        Has to take a single, numerical vector and return a scaled one. Default is identity function.
 #' @param ... Passed down to cmaes.
 #' 

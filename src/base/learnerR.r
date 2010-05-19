@@ -7,10 +7,6 @@ roxygen()
 #'  
 #' Getter.\cr
 #' 
-#' \describe{
-#'  \item{train.fct.pars [list]}{Paramters that will be passed to the underlying train function.}
-#'  \item{predict.fct.pars [list]}{Paramters that will be passed to the underlying predict function.}
-#' }
 #' @title Base class for inducers. 
 
 setClass(
@@ -42,10 +38,31 @@ setMethod(
 				return(x@pack)
 			}
 			if (i == "supports.probs") {
-				return(x@props@supports.probs)
+				return(ifelse(x["is.regr"], F, x@props@supports.probs))
 			}
 			if (i == "supports.decision") {
-				return(x@props@supports.decision)
+				return(ifelse(x["is.regr"], F, x@props@supports.decision))
+			}
+			if (i == "supports.multiclass") {
+				return(ifelse(x["is.regr"], F, x@props@supports.multiclass))
+			}
+			if (i == "supports.missings") {
+				return(x@props@supports.missings)
+			}
+			if (i == "supports.costs") {
+				return(ifelse(x["is.regr"], F, x@props@supports.costs))
+			}
+			if (i == "supports.weights") {
+				return(x@props@supports.weights)
+			}
+			if (i == "supports.numerics") {
+				return(x@props@supports.numerics)
+			}
+			if (i == "supports.factors") {
+				return(x@props@supports.factors)
+			}
+			if (i == "supports.characters") {
+				return(x@props@supports.characters)
 			}
 			if (i == "pack") {
 				return(x@pack)
@@ -65,15 +82,13 @@ setMethod(
 		f = "initialize",
 		signature = signature("rlearner"),
 		def = function(.Object, id, label, pack, props, parset.train=list(), parset.predict=list()) {
-			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
 			
 			if (missing(props))
 				return(.Object)
-			
 			if (missing(id))
-				id = class(.Object)
+				id = as.character(class(.Object))
 			if (missing(label))
 				label = id
 			.Object@id = id
