@@ -4,8 +4,8 @@
 library(mlr)
 library(mlbench)
 
-ct = make.classif.task(data=iris, target="Species")
-wl = make.learner("randomForest.classif", ntree=30000)
+ct = make.task(data=iris, target="Species")
+wl = make.learner("classif.randomForest", ntree=30000)
 res = make.res.desc("cv", iters=12)
 
 

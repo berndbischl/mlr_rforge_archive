@@ -2,12 +2,11 @@
 library(mlr)
 library(mlbench)
 
-ct = make.classif.task(data=iris, target="Species")
-wl = make.learner("randomForest.classif", ntree=30000)
+ct = make.task(data=iris, target="Species")
 res = make.res.desc("cv", iters=10)
 
 
-r = list(ntree=30000:30007)
+r = list(ntree=10000:10007)
 ctrl = grid.control(ranges=r)
 
 parallel.setup(mode="local")

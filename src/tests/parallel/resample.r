@@ -5,9 +5,9 @@ library(mlr)
 library(mlbench)
 data(LetterRecognition, BreastCancer, Satellite)
 
-ct = make.classif.task(data=Satellite, target="classes")
+ct = make.task(data=Satellite, target="classes")
 res = make.res.desc("cv", iters=10)
-wl = make.learner("randomForest.classif", ntree=200)
+wl = make.learner("classif.randomForest", ntree=200)
 
 parallel.setup(mode="local")
 st1 = system.time({
