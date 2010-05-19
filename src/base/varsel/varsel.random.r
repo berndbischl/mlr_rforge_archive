@@ -4,7 +4,7 @@ varsel.random = function(learner, task, resampling, measures, aggr, method, cont
 	m = length(all.vars) 
 	
 	states = list()
-	for (i in 1:control$maxit) {
+	for (i in 1:control["maxit"]) {
 		vs = all.vars[as.logical(rbinom(m, 1, 0.5))]
 		states[[i]] = vs
 	}

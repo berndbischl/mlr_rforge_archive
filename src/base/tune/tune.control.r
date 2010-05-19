@@ -2,14 +2,12 @@
 
 setClass(
 		"tune.control",
-		contains = c("object"),
+		contains = c("opt.control"),
 		representation = representation(
-				method = "character",
 				lower = "list",
 				upper = "list",
 				ranges = "list",
 				partypes = "character",
-				minimize = "logical", 
 				scale = "function",
 				tune.threshold= "logical", 
 				thresholds = "numeric"

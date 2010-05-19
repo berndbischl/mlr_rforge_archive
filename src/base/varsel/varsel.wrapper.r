@@ -11,10 +11,6 @@
 #'        Label string for object. Used in plots, etc.  
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'        Resampling strategy to evaluate points in hyperparameter space.
-#' @param type [string] \cr
-#'        Classification: "response" | "prob" | "decision", specifying the type to predict.
-#'        Default is "response". Use "prob" if you want to tune the threshold. "decision" is not supported at the moment.
-#' 		  Ignored for regression.	 
 #' @param method [\code{\link{character}}] \cr
 #'        Search method. Currently supported are sequential forward search "sfs", sequential backward search "sbs", 
 #'        sequential floating forward search "sffs", sequential floating backward search "sfbs" and a monte-carlo search 
@@ -37,6 +33,6 @@
 #' @title Fuse learner with variable selection.
 
 make.varsel.wrapper <- function(learner, id, label, resampling, measures, aggr, method="sfs", control) {
-	make.opt.wrapper("varsel", learner, id, label, resampling, type=type, method=method, control, measures, aggr)
+	make.opt.wrapper("varsel", learner, resampling, method, control, measures, aggr)
 }
 

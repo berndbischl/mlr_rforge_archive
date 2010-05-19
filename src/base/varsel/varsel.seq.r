@@ -26,7 +26,7 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 		#print(unlist(vals))
 		
 		s = select.best.state(es, control)
-		thresh = ifelse(forward, control$alpha, control$beta)
+		thresh = ifelse(forward, control["alpha"], control["beta"])
 		if (!compare(state, s, control, measures, aggr, thresh))
 			s = NULL
 		path <<- add.path.els.varsel(path, es, s)
