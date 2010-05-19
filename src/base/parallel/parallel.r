@@ -21,7 +21,7 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 	
 	# cpus
 	if (missing(cpus)) {
-		cpus = ifelse(mode=="snowfall" && parallel.type=="Rmpi", mpi.universe.size(), 1)
+		cpus = ifelse(mode=="snowfall" && parallel.type=="MPI", mpi.universe.size(), 1)
 	}
 		
 	p <- list()
