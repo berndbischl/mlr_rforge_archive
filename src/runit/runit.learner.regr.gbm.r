@@ -9,7 +9,6 @@ test.gbm <- function() {
 	
 	
 	old.predicts.list = list()
-	old.probs.list = list()
 	
 	for (i in 1:length(parset.list)) {
 		parset <- parset.list[[i]]

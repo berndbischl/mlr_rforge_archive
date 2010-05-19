@@ -1,6 +1,4 @@
 test.tune <- function() {
-	
-	
 	cp <- c(0.05, 0.9)
 	minsplit <- c(1:3)
 	ranges = list(cp = cp, minsplit=minsplit)
@@ -42,10 +40,26 @@ test.tune <- function() {
 	# todo check opt. parameter is same as with tune
 	
 	
+	#tune chain
+	wl = make.learner("classif.rpart", minsplit=10, cp=0.01, predict.type="prob")
+	
+	fun = function(data, target=binaryclass.target, n) {
+		cns2 = colnames(data)
+		set.seed(1)
+		cns = setdiff(cns2, target)
+		cns = sample(cns, n)
+		if (target %in% cns2)
+			cns = c(cns, target)
+		data[,cns, drop=F]
+	}
+	wl = make.preproc.wrapper(wl, fun=fun, n=3)
+	
+	r = list(minsplit=c(3,30), n=c(1,60))
+	ctrl = grid.control(ranges=r, tune.threshold=T)
+	tr = tune(wl, binaryclass.task, res, control=ctrl)
+	
 #	# check pattern search
 #	control = ps.control(start=list(C=0, sigma=0), scale=function(x)10^x)
 #	tr3 <- tune("classif.ksvm", multiclass.task, resampling=cv.instance, method="pattern", control=control)
-
-
 }
 
