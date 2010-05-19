@@ -42,18 +42,18 @@ add.path.els = function(global.eval.var, path, ess, best) {
 } 
 
 
-eval.state = function(global.eval.var, learner, task, resampling, measures, aggr, control, par, event, ...) {
+eval.state = function(global.eval.var, learner, task, resampling, measures, aggr, control, par, event) {
 	rp = eval.rf(learner=learner, task=task, resampling=resampling,  
-			measures=measures, aggr=aggr, control=control, par=par, ...)
+			measures=measures, aggr=aggr, control=control, par=par)
 	evals = get(global.eval.var, envir=.GlobalEnv)+1
 	assign(global.eval.var, evals, envir=.GlobalEnv)
 	make.es(par=par, rp=rp, evals=evals, event=event)
 }
 
 # evals a set of var-lists and return the corresponding states
-eval.states = function(global.eval.var, eval.fun, learner, task, resampling, measures, aggr, pars, event, ...) {
+eval.states = function(global.eval.var, eval.fun, learner, task, resampling, measures, aggr, control, pars, event) {
 	rps = eval.fun(learner=learner, task=task, resampling=resampling,  
-			measures=measures, aggr=aggr, pars=pars, ...)
+			measures=measures, aggr=aggr, control=control, pars=pars)
 	evals = get(global.eval.var, envir=.GlobalEnv)
 	evals2 = evals + length(pars)
 	assign(global.eval.var, evals2, envir=.GlobalEnv)

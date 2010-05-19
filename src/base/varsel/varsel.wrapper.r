@@ -36,7 +36,7 @@
 #'   
 #' @title Fuse learner with variable selection.
 
-make.varsel.wrapper <- function(learner, id, label, resampling, type="response", method="sfs", control, measures, aggr) {
+make.varsel.wrapper <- function(learner, id, label, resampling, measures, aggr, method="sfs", control) {
 	make.opt.wrapper("varsel", learner, id, label, resampling, type=type, method=method, control, measures, aggr)
 }
 

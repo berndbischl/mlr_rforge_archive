@@ -10,7 +10,7 @@
 
 
 # todo: maxit
-varsel.seq = function(learner, task, resampling, measures, aggr, method, control=varsel.control()) {
+varsel.seq = function(learner, task, resampling, measures, aggr, method, control) {
 	
 	seq.step = function(forward, state, gen.new.states, compare) {
 		not.used = setdiff(all.vars, state$par)
@@ -22,7 +22,7 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 		event = ifelse(forward, "forward", "backward")
 		
 		es = eval.states.varsel(learner=learner, task=task, resampling=resampling, 
-				measures=measures, aggr=aggr, pars=new.states, event=event)
+				measures=measures, aggr=aggr, control=control, pars=new.states, event=event)
 		#print(unlist(vals))
 		
 		s = select.best.state(es, control)
@@ -72,7 +72,7 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 			stop(paste("Unknown method:", method))
 	) 
 	
-	state = eval.state.varsel(learner, task, resampling, measures, aggr, par=start.vars, event="start")
+	state = eval.state.varsel(learner, task, resampling, measures, aggr, control, par=start.vars, event="start")
 	
 	path = add.path.varsel(path, state, accept=T)		
 	

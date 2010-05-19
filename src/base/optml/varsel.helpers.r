@@ -5,13 +5,12 @@ eval.varsets = function(learner, task, resampling, measures, aggr, varsets) {
 }
 
 # evals a set of var-lists and return the corresponding states
-eval.states.varsel = function(learner, task, resampling, measures, aggr, pars, event) {
-	eval.states(".mlr.vareval", eval.varsets, learner, task, resampling, measures, aggr, pars, event)
+eval.states.varsel = function(learner, task, resampling, measures, aggr, control, pars, event) {
+	eval.states(".mlr.vareval", eval.varsets, learner, task, resampling, measures, aggr, control, pars, event)
 }
 
-
-eval.state.varsel = function(learner, task, resampling, measures, aggr, par, event) {
-	eval.state("varsel", ".mlr.vareval", learner, task, resampling, measures, aggr, par, event)
+eval.state.varsel = function(learner, task, resampling, measures, aggr, control, par, event) {
+	eval.state(".mlr.vareval", learner, task, resampling, measures, aggr, control, par, event)
 }
 
 

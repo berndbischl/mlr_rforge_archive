@@ -16,9 +16,7 @@ eval.rf <- function(learner, task, resampling, measures, aggr, control, par) {
 		vars = task["input.names"]
 	} else {
 		parset = list()
-		if (is.null(par)) {
-			vars = task["input.names"]
-		}
+		vars = par
 	}
 	# todo 
 #	if (control["tune.threshold"]) 
@@ -27,7 +25,7 @@ eval.rf <- function(learner, task, resampling, measures, aggr, control, par) {
 	rf = resample.fit(learner, task, resampling, parset=parset, vars=vars)
 
 	th = as.numeric(NA)
-	if (control["tune.threshold"]) { 
+	if (is(control, "tune.control") && control["tune.threshold"]) { 
 		thr = tune.threshold(rf, measures, aggr, task, minimize=control["minimize"], thresholds=control["thresholds"])
 		rf = thr$pred
 		th = thr$th
