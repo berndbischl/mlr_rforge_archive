@@ -59,6 +59,7 @@ base.files <<- c(
 		"base/wrappers/base.wrapper.r",
 		"base/preproc/preproc.wrapper.r",
 		
+		"base/optml/opt.control.r",
 		"base/optml/opt.result.r",
 		"base/optml/optml.helpers.r",
 		"base/optml/tune.helpers.r",
