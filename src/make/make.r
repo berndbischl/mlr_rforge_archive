@@ -103,7 +103,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 		f = fs[length(fs)]
 		f = file.path(pkg.dir, f)
 		paste("Installing", f, "\n")
-		cmd <- paste("R CMD INSTALL", f)
+		cmd <- paste("R CMD INSTALL --html", f)
 		print(cmd)
 		system(cmd)
 	}
@@ -111,7 +111,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	
 }
 
-make(build=F, check=F, binary=F, install=T)
+make(build=T, check=F, binary=F, install=F)
 
 
 

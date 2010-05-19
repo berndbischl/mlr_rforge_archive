@@ -1,6 +1,9 @@
 source("src/make/config.r")
 
-html.docs = file.path(project.dir, "pkg", "mlr", "chm")
+
+make(build=F, check=F, binary=F, install=T)
+
+html.docs = file.path(mlr.install.dir, "html")
 www.docs = file.path(project.dir, "www", "rdocs")
 if( unlink(file.path(www.docs, list.files(www.docs))) != 0) 
 	stop("could not delete www doc dir!")		
