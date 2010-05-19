@@ -1,7 +1,29 @@
 
 #' @export 
 
-parallel.setup <- function(mode="local", cpus=1, level="resample", ...) {
+parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", ...) {
+	# check mode
+	if (!(mode %in% c("local", "multicore", "snowfall", "sfCluster"))) {
+		.mlr.local$parallel.setup$mode = "local"
+		stop("Unknown parallel model: ", mode)
+	}
+
+	# parallel.type
+	if (missing(parallel.type)) 
+		switch(mode, snowfall="Rmpi", "Rmpi")
+	
+	# load packages
+	packs = switch(mode, multicore="multicore", sfCluster="snowfall", 
+			snowfall=c("snowfall", switch(parallel.type, Rmpi="Rmpi", c())))
+	packs.ok = sapply(packs, function(x) require(x, character.only = TRUE))
+	if(!all(packs.ok)) 
+		stop("Please install the following packages: ", paste(packs[!packs.ok], collapse=" "))				
+	
+	# cpus
+	if (missing(cpus)) {
+		cpus = ifelse(mode=="snowfall" && parallel.type=="Rmpi", mpi.universe.size(), 1)
+	}
+		
 	p <- list()
 	p$mode = mode
 	p$level = level
@@ -9,19 +31,13 @@ parallel.setup <- function(mode="local", cpus=1, level="resample", ...) {
 	.mlr.local$parallel.setup <- p
 	
 	if (mode %in% c("sfCluster", "snowfall")) {
-		if(!require(snowfall)) {
-			.mlr.local$parallel.setup$mode = "local"
-			stop("Please install the snowfall package for this!")				
-		} 
+		sfStop()
 		if (mode == "sfCluster") {
+			# sfcluster does not need setmaxcpus i think....
 			sfInit(...)
 		} else if (mode == "snowfall") {
-			sfStop()
 			sfSetMaxCPUs(cpus)
-			if (is.numeric(cpus))
-				sfInit(parallel=T, cpus=cpus, ...)
-			else	
-				sfInit(parallel=T, socketHosts=cpus, ...)
+			sfInit(parallel=T, type=parallel.type, cpus=cpus,  ...)
 		} 
 		# todo check version on nodes!
 		x = sfClusterEval(require(mlr))
@@ -39,14 +55,6 @@ parallel.setup <- function(mode="local", cpus=1, level="resample", ...) {
 		sfClusterEval(.mlr.local$parallel.setup$mode <- "local")
 		# init random 
 		sfClusterSetupRNG()
-	} else if (mode == "multicore") {
-		if(!require(multicore)) {
-			.mlr.local$parallel.setup$mode = "local"
-			stop("Please install the multicore package for this!")
-		}
-	} else if (!(mode %in% c("local", "multicore", "snowfall", "sfCluster"))) {
-		.mlr.local$parallel.setup$mode = "local"
-		stop("Unknown parallel model: ", mode)
 	}
 }
 
