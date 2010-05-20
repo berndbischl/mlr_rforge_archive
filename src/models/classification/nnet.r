@@ -68,8 +68,17 @@ setMethod(
 			.type = switch(.type, response="class", prob="raw")
 			p = predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
 			if (.type == "class")
-				p = as.factor(p)
-			return(p)
+				return(as.factor(p))
+			else {
+				if (.model["class.nr"] == 2) {
+					y = matrix(0, ncol=2, nrow=nrow(.newdata))
+					colnames(y) = .model["class.levels"]
+					y[,1] <- p
+					y[,2] <- 1-p
+					return(y)
+				} else
+					return(p)	
+			}
 		}
 )	
 
