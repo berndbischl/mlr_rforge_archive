@@ -27,6 +27,7 @@ allowed.rd.files <<- c(
 		"conf.matrix.Rd",
 		"aggregations.Rd",
 		"measures.Rd",
+		"losses.Rd",
 		
 		"make.res.instance.Rd",
 		"make.res.desc.Rd",
