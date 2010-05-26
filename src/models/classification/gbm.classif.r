@@ -72,9 +72,8 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			m = .model["learner.model"]
-			levs = c(m["negative"], m["positive"])
 			p = predict(m, newdata=.newdata, type="response", n.trees=length(m$trees), single.tree=FALSE, ...)
-			
+			levs = c(.model["negative"], .model["positive"])
 			if (.type == "prob") {
 				y = matrix(0, ncol=2, nrow=nrow(.newdata))
 				colnames(y) = levs
