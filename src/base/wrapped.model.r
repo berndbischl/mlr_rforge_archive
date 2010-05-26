@@ -23,7 +23,7 @@ roxygen()
 #'	\item{fail [NULL | string]}{Generally NULL but if the training failed, the error message of the underlying train function.}
 #'	\item{opt [path.element]}{Optimum of second-level optimization.}
 #'	\item{path [list of path.elements]}{Path of second-level optimization.}
-#'	\item{tuned.par [list]}	{If tuning was performed, best found set of hyperparameters.}
+#'	\item{tuned.par [list]}{If tuning was performed, best found set of hyperparameters.}
 #'	\item{tuned.perf [numeric]}{If tuning was performed, performance of best found set of hyperparameters.}
 #'	\item{sel.vars [character]}{If variable selection was performed, best found set of variables.}
 #'	\item{sel.perf [numeric]}{If variable selection was performed, performance of best found set of variables.}
