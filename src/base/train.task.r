@@ -49,7 +49,7 @@ setGeneric(
 )
 
 
-train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, novars.class, check.fct) {
+train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, check.fct) {
 
 	
 	if(learner["pack"] != "mlr" && !require(learner["pack"], character.only=TRUE)) {
@@ -80,7 +80,7 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	
 	# no vars? then use no vars model
 	if (length(vars) == 0) {
-		wl = new(novars.class)
+		wl = new("novars", learner=wl)
 	}
 	
 	# make pars list for train call
@@ -141,13 +141,11 @@ setMethod(
 		def = function(learner, task, subset, parset, vars, type) {
 			if (is(task, "classif.task")) {
 				extra.train.pars = list(.costs = task["costs"])
-				nv = "novars.classif"
 				ctf = check.task.learner.classif
 			} else {
 				extra.train.pars = list()
-				nv = "novars.regr"
 				ctf = check.task.learner
 			}
-			train.task2(learner, task, subset, parset, vars, type, extra.train.pars, nv, ctf)
+			train.task2(learner, task, subset, parset, vars, type, extra.train.pars, ctf)
 		}
 )
