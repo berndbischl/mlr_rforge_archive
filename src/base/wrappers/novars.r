@@ -60,7 +60,7 @@ setMethod(
 			if(.type=="response")
 				return(sample(as.factor(names(tab)), nrow(.newdata), prob=probs, replace=TRUE))	
 			else {
-				probs = t(replicate(nrow(.newdata), yy))
+				probs = t(replicate(nrow(.newdata), probs))
 				colnames(probs) = names(tab)
 				return(probs)
 			}

@@ -52,7 +52,7 @@ setMethod(
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
-				.costs="matrix" 
+				.costs="ANY" 
 		),
 		
 		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
@@ -77,7 +77,7 @@ setMethod(
 				.learner = "base.wrapper", 
 				.model = "wrapped.model", 
 				.newdata = "data.frame", 
-				.type = "character" 
+				.type = "ANY" 
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
