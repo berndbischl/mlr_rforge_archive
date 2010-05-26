@@ -49,7 +49,7 @@ setMethod(
 			fun.args = insert.matching(fun.args, list(...))		
 			fun.args$data = .data
 			.data = do.call(.learner@fun, fun.args)
-			callNextMethod(.learner, .targetvar, .data, .weights, .costs,  ...)
+			callNextMethod(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...)
 		}
 )
 
