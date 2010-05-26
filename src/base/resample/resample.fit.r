@@ -15,7 +15,7 @@ roxygen()
 #' 
 #' Optionally information from the fitted models, e.g. the complete model, can be extracted and returned.
 #'
-#' @param learner [\code{\linkS4class{wrapped.learner}} or \code{\link{character}}]\cr 
+#' @param learner [\code{\linkS4class{learner}} or \code{\link{character}}]\cr 
 #'        Learning algorithm.   
 #' @param task [\code{\linkS4class{learn.task}}] \cr
 #'        Learning task.

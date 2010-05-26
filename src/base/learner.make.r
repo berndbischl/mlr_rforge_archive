@@ -19,9 +19,7 @@
 #' @param ... [any] \cr
 #'        Optional named (hyper)parameters.
 #' 
-#' @return \code{\linkS4class{wrapped.learner}}.
-#' 
-#' @usage make.learner(class, id, label, ...)
+#' @return \code{\linkS4class{learner}}.
 #' 
 #' @export
 #' 

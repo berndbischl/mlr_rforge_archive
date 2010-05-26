@@ -1,10 +1,10 @@
 
-#' Fuses a base learner with a search strategy to select its hyperparameters. Creates a wrapped.learner object, which can be
+#' Fuses a base learner with a search strategy to select its hyperparameters. Creates a learner object, which can be
 #' used like any other learner object, but which internally uses tune. If the train function is called on it, the search strategy and resampling are invoked
 #' to select an optimal set of hyperparameter values. Finally, a model is fitted on the complete training data with these optimal
 #' hyperparameters and returned.    
 #'
-#' @param learner [\code{\linkS4class{wrapped.learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
 #' @param id [string]\cr 
 #'        Id string for object. Used to select the object from a named list, etc.  
@@ -21,11 +21,9 @@
 #' @param aggr [see \code{\link{aggregations}}]
 #'        Aggregation functions. 
 #' 
-#' @return \code{\linkS4class{wrapped.learner}}.
+#' @return \code{\linkS4class{learner}}.
 #' 
 #' @export
-#'
-#' @usage make.tune.wrapper(learner, id, label, resampling, method="grid", control, measures, aggr)
 #'
 #' @seealso \code{\link{tune}}, \code{\link{grid.control}}, \code{\link{ps.control}}, \code{\link{cmaes.control}}, \code{\link{nm.control}}
 #'   

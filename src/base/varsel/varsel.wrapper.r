@@ -1,9 +1,9 @@
 
-#' Fuses a base learner with a search strategy to select variables. Creates a wrapped.learner object, which can be
+#' Fuses a base learner with a search strategy to select variables. Creates a learner object, which can be
 #' used like any other learner object, but which internally uses varsel. If the train function is called on it, the search strategy and resampling are invoked
 #' to select an optimal set variables. Finally, a model is fitted on the complete training data with these variables and returned.    
 #'
-#' @param learner [\code{\linkS4class{wrapped.learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
 #' @param id [string]\cr 
 #'        Id string for object. Used to select the object from a named list, etc.  
@@ -22,11 +22,9 @@
 #' @param aggr [see \code{\link{aggregations}}]
 #'        Aggregation functions. 
 #' 
-#' @return \code{\linkS4class{wrapped.learner}}.
+#' @return \code{\linkS4class{learner}}.
 #' 
 #' @export
-#'
-#' @usage make.tune.wrapper(learner, id, label, resampling, type="response", method="sfs", control, measures, aggr)
 #'
 #' @seealso \code{\link{varsel}}, \code{\link{varsel.control}} 
 #'   

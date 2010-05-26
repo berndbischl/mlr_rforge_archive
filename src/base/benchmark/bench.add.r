@@ -1,7 +1,7 @@
 #' Add another learner to a benchmark experiment.
 #' The same resampling pairing is used as for the other learners.  
 #' 
-#' @param learner [\code{\linkS4class{wrapped.learner}} or \code{\link{character}}] \cr
+#' @param learner [\code{\linkS4class{learner}} or string] \cr
 #' 		  Added learner.
 #' @param task [\code{\linkS4class{learn.task}}] \cr
 #'        Learning task.

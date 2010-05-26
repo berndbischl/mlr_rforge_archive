@@ -5,7 +5,7 @@
 #' 
 #' The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal variables.
 #'
-#' @param learner [\code{\linkS4class{wrapped.learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{learn.task}}] \cr
 #'        Learning task.   
@@ -27,8 +27,6 @@
 #' @return \code{\linkS4class{opt.result}}.
 #' 
 #' @export
-#'
-#' @usage varsel(learner, task, resampling, method="sfs", control, measures, aggr, model=F)
 #'
 #' @seealso \code{\link{varsel.control}}, \code{\link{make.varsel.wrapper}} 
 #'   

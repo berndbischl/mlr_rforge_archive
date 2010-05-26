@@ -27,7 +27,7 @@ setClass(
 		)
 )
 
-#' @rdname opr.result-class
+#' @rdname opt.result-class
 
 setMethod(
 		f = "[",
