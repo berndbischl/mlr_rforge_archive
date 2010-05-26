@@ -54,8 +54,8 @@ setMethod(
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			#.data[, .targetvar] = (.data[, .targetvar] ==  
-			gbm(f, data=.data, weights=.weights, verbose=FALSE, ...)
+			.data[, .targetvar] = as.numeric(.data[, .targetvar] == .task.desc["positive"])
+			gbm(f, data=.data, weights=.weights, keep.data=FALSE, verbose=FALSE, ...)
 		}
 )
 
@@ -71,8 +71,22 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			m <- .model["learner.model"]
-			predict(m, newdata=.newdata, type="link", n.trees=length(m$trees), single.tree=FALSE, ...)
+			levs = c(m["negative"], m["positive"])
+			m = .model["learner.model"]
+			p = predict(m, newdata=.newdata, type="response", n.trees=length(m$trees), single.tree=FALSE, ...)
+			
+			if (.type == "prob") {
+				y = matrix(0, ncol=2, nrow=nrow(.newdata))
+				colnames(y) = levs
+				y[,1] = 1-p
+				y[,2] = p
+				return(y)
+			} else {
+				pp <<- p
+				p = as.factor(ifelse(p > 0.5, levs[2], levs[1]))
+				names(p) = NULL
+				return(p)
+			}
 		}
 )	
 

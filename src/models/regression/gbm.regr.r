@@ -44,7 +44,7 @@ setMethod(
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			gbm(f, data=.data, weights=.weights, ...)
+			gbm(f, data=.data, weights=.weights, keep.data=FALSE, ...)
 		}
 )
 

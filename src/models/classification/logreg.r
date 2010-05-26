@@ -69,11 +69,11 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			
-			x <- predict(.model["learner.model"], newdata=.newdata, type="response", ...)
-			
+			x = predict(.model["learner.model"], newdata=.newdata, type="response", ...)
+			levs = .model["class.levels"]		
 			if (.type == "prob") {
 				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
-				colnames(y) <- .model["class.levels"]
+				colnames(y) = levs
 				y[,1] <- 1-x
 				y[,2] <- x
 				return(y)
