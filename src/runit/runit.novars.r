@@ -1,4 +1,21 @@
 test.novars <- function() {
-	m <- train("classif.lda", multiclass.task, vars=c())
-	p <- predict(m, newdata=multiclass.df)
+	m = train("classif.lda", multiclass.task, vars=character(0))
+	checkEquals(as.character(class(m["learner"])), "novars", checkNames=F)	
+	p = predict(m, newdata=multiclass.df)
+	p = predict(m, newdata=multiclass.df, type="prob")
+	checkTrue(setequal(colnames(as.data.frame(p)), c("prob.setosa", "prob.virginica", "prob.versicolor", "truth", "response")))	
+
+	wl = make.learner("classif.lda", predict.type="prob")
+	m = train(wl, multiclass.task, vars=character(0))
+	checkEquals(as.character(class(m["learner"])), "novars", checkNames=F)	
+	checkEquals(m["learner"]["predict.type"], "prob")	
+	p = predict(m, newdata=multiclass.df)
+	checkTrue(setequal(colnames(as.data.frame(p)), c("prob.setosa", "prob.virginica", "prob.versicolor", "truth", "response")))	
+	
+	m = train("regr.lm", regr.task, vars=c())
+	p = predict(m, newdata=multiclass.df)
+	checkTrue(all(p["response"] == mean(p["response"]))) 
+	res = make.res.desc("cv", iter=2)
+	rf = resample.fit("regr.lm", regr.task, res, vars=c())
+	checkEquals(length(unique(rf["response"])), 2) 
 }

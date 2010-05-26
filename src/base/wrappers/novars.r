@@ -9,28 +9,16 @@ roxygen()
 
 
 setClass(
-		"novars.classif", 
-		contains = c("rlearner.classif")
+		"novars", 
+		contains = c("base.wrapper")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("novars.classif"),
-		def = function(.Object) {
-			
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = TRUE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = TRUE
-			)
-			
-			callNextMethod(.Object, label="NoVars", pack="mlr", props=desc)
+		signature = signature("novars"),
+		def = function(.Object, learner) {
+			callNextMethod(.Object, learner)
 		}
 )
 
@@ -39,11 +27,11 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.learner="novars.classif", 
+				.learner="novars", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.weights="numeric", 
-				.costs="matrix" 
+				.costs="ANY" 
 		),
 		
 		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
@@ -56,21 +44,26 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.learner = "novars.classif", 
+				.learner = "novars", 
 				.model = "wrapped.model", 
 				.newdata = "data.frame", 
-				.type = "character" 
+				.type = "ANY" 
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			m <- .model["learner.model"]
+			m = .model["learner.model"]
+			# for regression return constant mean
+			if (.learner["is.regr"])
+				return(rep(mean(m$targets), nrow(.newdata)))
 			tab <- prop.table(table(m$targets))
 			probs <- as.numeric(tab) 
-			
 			if(.type=="response")
-				sample(as.factor(names(tab)), nrow(.newdata), prob=probs, replace=TRUE)	
-			else
-				probs
+				return(sample(as.factor(names(tab)), nrow(.newdata), prob=probs, replace=TRUE))	
+			else {
+				probs = t(replicate(nrow(.newdata), yy))
+				colnames(probs) = names(tab)
+				return(probs)
+			}
 		}
 )	
 

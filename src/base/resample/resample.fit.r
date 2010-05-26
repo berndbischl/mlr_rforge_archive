@@ -49,6 +49,8 @@ setGeneric(
 				parset = list()
 			if (missing(vars))
 				vars <- task["input.names"]
+			if (length(vars) == 0)
+				vars <- character(0)			
 			if (missing(extract))
 				extract <- function(x){}
 			standardGeneric("resample.fit")
