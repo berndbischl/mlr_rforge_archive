@@ -6,10 +6,6 @@
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
-#' @param id [string]\cr 
-#'        Id string for object. Used to select the object from a named list, etc.  
-#' @param label [string]\cr 
-#'        Label string for object. Used in plots, etc.  
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'        Resampling strategy to evaluate points in hyperparameter space.
 #' @param method [\code{\link{character}}] \cr
