@@ -8,6 +8,8 @@ roxygen()
 roxygen()
 
 
+# todo: parms has to be in hyperparamter list
+
 setClass(
 		"classif.rpart", 
 		contains = c("rlearner.classif")
