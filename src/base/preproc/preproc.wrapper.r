@@ -38,11 +38,13 @@ setMethod(
 				.learner="preproc.wrapper", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
 				.costs="matrix" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {			
 			fun.args = .learner["hyper.pars", type="preproc"]
 			fun.args = insert.matching(fun.args, list(...))		
 			fun.args$data = .data

@@ -51,11 +51,13 @@ setMethod(
 				.learner="base.wrapper", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
 				.costs="ANY" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			args = list(...)
 			args.ns = names(args)
 			hps.types = .learner["hyper.types"]
@@ -63,7 +65,7 @@ setMethod(
 			include = args.ns[!(args.ns %in% exclude)]
 			ps = .learner["hyper.pars", type="train"]
 			ps = insert(ps, args, el.names=include)
-			f.args = list(.learner@learner, .targetvar, .data, .weights, .costs)
+			f.args = list(.learner@learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs)
 			f.args = c(f.args, ps)
 			do.call(train.learner, f.args)
 		}

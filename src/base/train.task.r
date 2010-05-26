@@ -84,7 +84,7 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	}
 	
 	# make pars list for train call
-	pars = list(.learner=wl, .target=tn, .data=data.subset, .weights=ws)	
+	pars = list(.learner=wl, .target=tn, .data=data.subset, .data.desc=task@data.desc, .task.desc=task@task.desc, .weights=ws)	
 	hyper.pars = insert(wl["hyper.pars"], parset) 
 	pars = c(pars, extra.train.pars, hyper.pars)
 
