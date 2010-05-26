@@ -9,7 +9,7 @@
 
 
 
-# todo: maxit
+# todo: maxit, max.vars
 varsel.seq = function(learner, task, resampling, measures, aggr, method, control) {
 	
 	seq.step = function(forward, state, gen.new.states, compare) {

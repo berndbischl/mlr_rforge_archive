@@ -1,3 +1,7 @@
+# todo: maxit and maxvars should be integer?
+# but this changes the object just check internally....
+
+
 setClass(
 		"varsel.control",
 		contains = c("opt.control"),
@@ -33,9 +37,13 @@ setClass(
 #' @title Control for grid search tuning. 
 
 
-varsel.control <- function(minimize=TRUE, compare="diff", maxit=100L, max.vars=Inf, 
+varsel.control <- function(minimize=TRUE, compare="diff", maxit, max.vars,
 		alpha=0.01, beta=0.01, gamma=0, delta=0, epsilon=0) {
-	new("varsel.control", minimize=TRUE, method="varsel", compare=compare, max.vars=as.integer(max.vars), maxit=as.integer(maxit),
+	if (missing(maxit))
+		maxit = .Machine$integer.max
+	if (missing(max.vars))
+		max.vars = .Machine$integer.max
+	new("varsel.control", minimize=TRUE, method="varsel", compare=compare, max.vars=max.vars, maxit=maxit,
 			alpha=alpha, beta=beta, gamma=gamma, delta=delta, epsilon=epsilon)
 }
 
