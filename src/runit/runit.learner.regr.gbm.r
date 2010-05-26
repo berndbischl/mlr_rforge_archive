@@ -1,5 +1,5 @@
 
-test.gbm <- function() {
+test.gbm.regr <- function() {
 	
 	parset.list <- list(
 			list(),

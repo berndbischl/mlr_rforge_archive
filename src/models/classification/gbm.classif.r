@@ -82,7 +82,6 @@ setMethod(
 				y[,2] = p
 				return(y)
 			} else {
-				pp <<- p
 				p = as.factor(ifelse(p > 0.5, levs[2], levs[1]))
 				names(p) = NULL
 				return(p)
