@@ -57,6 +57,7 @@ base.files <<- c(
 		"base/conf.matrix.r",
 		
 		"base/wrappers/base.wrapper.r",
+		"base/wrappers/novars.r",
 		"base/preproc/preproc.wrapper.r",
 		
 		"base/optml/opt.control.r",
@@ -104,7 +105,6 @@ base.files <<- c(
 )
 
 classif.files <<- c( 		
-		"models/classification/novars.r",
 		"models/classification/knn.r",
 		"models/classification/lda.r",
 		"models/classification/qda.r",
@@ -120,7 +120,7 @@ classif.files <<- c(
 		"models/classification/boost.r",
 		"models/classification/ada.r",
 		"models/classification/blackboost.r",
-		"models/regression/gbm.r",
+		"models/classification/gbm.r",
 		"models/classification/kernlab.svm.classif.r",
 		"models/classification/nnet.r"
 ##		"models/classification/metacost.r"
