@@ -46,7 +46,7 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 	
 	gen.new.states.sbs = function(vars, not.used) {
 		new.states = list()
-		for (i in seq(along=not.used)) {
+		for (i in seq(along=vars)) {
 			new.states[[i]] = setdiff(vars, vars[i])
 		}
 		#cat("\n")
