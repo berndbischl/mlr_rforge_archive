@@ -42,11 +42,13 @@ setMethod(
 				.learner="classif.rda", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
 				.costs="matrix" 
 		),
-		
-		def = function(.learner, .targetvar, .data, .weights, .costs, .type, ...) {
+
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			rda(f, data=.data, ...)
 		}

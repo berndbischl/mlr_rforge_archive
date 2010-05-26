@@ -34,11 +34,13 @@ setMethod(
 				.learner="regr.lm", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
 				.costs="missing" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .weights, ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			lm(f, data=.data, weights=.weights, ...)
 		}

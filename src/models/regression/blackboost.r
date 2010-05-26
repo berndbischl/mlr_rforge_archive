@@ -32,11 +32,13 @@ setMethod(
 				.learner="regr.blackboost", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
 				.costs="missing" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .weights, ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			blackboost(f, data=.data, weights=.weights, ...)
 		}

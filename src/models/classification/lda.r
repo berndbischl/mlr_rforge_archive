@@ -43,11 +43,13 @@ setMethod(
 				.learner="classif.lda", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
 				.costs="matrix" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			lda(f, data=.data, ...)
 		}

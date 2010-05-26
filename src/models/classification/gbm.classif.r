@@ -28,11 +28,11 @@ setMethod(
 					supports.characters = FALSE,
 					supports.probs = TRUE,
 					supports.decision = FALSE,
-					supports.weights = FALSE,
+					supports.weights = TRUE,
 					supports.costs = FALSE
 			)			
 			callNextMethod(.Object, label="GBM", pack="gbm", props=desc,
-				parset.train=list(distribution = "adaboost"))
+				parset.train=list(distribution = "bernoulli"))
 
 		}
 )
@@ -46,12 +46,15 @@ setMethod(
 				.learner="classif.gbm", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
 				.costs="matrix" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
+			#.data[, .targetvar] = (.data[, .targetvar] ==  
 			gbm(f, data=.data, weights=.weights, verbose=FALSE, ...)
 		}
 )

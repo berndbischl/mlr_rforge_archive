@@ -37,11 +37,13 @@ setMethod(
 				.learner="regr.kknn", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
 				.costs="missing" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .weights, ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, ...) {
 			list(target=.targetvar, data=.data, parset=list(...))
 		}
 )
