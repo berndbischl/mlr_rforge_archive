@@ -8,9 +8,7 @@ setClass(
 				upper = "list",
 				ranges = "list",
 				partypes = "character",
-				scale = "function",
-				tune.threshold= "logical", 
-				thresholds = "numeric"
+				scale = "function"
 		)
 )
 

@@ -21,16 +21,14 @@ setClass(
 
 #' Control structure for variable selection. 
 #' 
-#' @param ranges [\code{\link{list}}] \cr 
-#' 		A list of named vectors/lists of possible values for each hyperparameter. 
-#'      You can also pass a list of such ranges by using [\code{\link{combine.ranges}}] 
-#'      in the rare case when it does not make sense to search a complete cross-product of range values.     
 #' @param minimize [logical] \cr 
-#'       Minimize performance measure? Default is TRUE. 
+#'       Minimize performance measure? Default is TRUE.
 #' @param maxit [integer] \cr 
 #'       Maximal number of variable sets to evaluate. Default is 100.
 #' @param maxvars [integer] \cr 
 #'       Maximal number of allowd variable in the final set. Default is Inf.
+#' @param tune.threshold [logical] \cr 
+#'       Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
 #' 		    
 #' @return Control structure for tuning.
 #' @export 
@@ -38,12 +36,13 @@ setClass(
 
 
 varsel.control <- function(minimize=TRUE, compare="diff", maxit, max.vars,
-		alpha=0.01, beta=0.01, gamma=0, delta=0, epsilon=0) {
+		alpha=0.01, beta=0.01, gamma=0, delta=0, epsilon=0, tune.threshold=FALSE, thresholds=10) {
 	if (missing(maxit))
 		maxit = .Machine$integer.max
 	if (missing(max.vars))
 		max.vars = .Machine$integer.max
 	new("varsel.control", minimize=TRUE, method="varsel", compare=compare, max.vars=max.vars, maxit=maxit,
-			alpha=alpha, beta=beta, gamma=gamma, delta=delta, epsilon=epsilon)
+			alpha=alpha, beta=beta, gamma=gamma, delta=delta, epsilon=epsilon, 
+			tune.threshold=tune.threshold, thresholds=thresholds)
 }
 

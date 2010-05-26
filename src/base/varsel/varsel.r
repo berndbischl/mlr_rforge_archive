@@ -58,6 +58,9 @@ varsel <- function(learner, task, resampling, method="forward", control=NULL, me
 	} else {
 		sel.func = method
 	}	
+	if (!is.null(control) && control["tune.threshold"] && task["class.nr"] != 2) 
+		stop("You can only tune the threshold for binary classification!")
+	
 	assign(".mlr.vareval", 0, envir=.GlobalEnv)
 	
 	or = sel.func(learner=learner, task=task, resampling=resampling, 

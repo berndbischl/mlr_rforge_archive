@@ -1,3 +1,5 @@
+#todo : document tune.threshold, thresholds
+
 #' Control structure for grid search tuning. 
 #' 
 #' @param ranges [\code{\link{list}}] \cr 
@@ -7,7 +9,7 @@
 #' @param minimize [logical] \cr 
 #'       Minimize performance measure? Default is TRUE. 
 #' @param tune.threshold [logical] \cr 
-#'       Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set type to "prob" for this in tune/make.tune.wrapper/bench.exp. 
+#'       Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
 #' @param scale [\code{\link{function}}] \cr 
 #'        A function to scale the hyperparameters. E.g. maybe you want to optimize in some log-space.
 #'        Has to take a vector and return a scaled one. Default is identity function.

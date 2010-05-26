@@ -1,7 +1,7 @@
 
 resample.fit.iter <- function(learner, task, rin, parset, vars, i, extract) {
-	train.i <- rin["train.inds", i]
-	test.i <- rin["test.inds", i]
+	train.i = rin["train.inds", i]
+	test.i = rin["test.inds", i]
 	m = train(learner, task, subset=train.i, parset=parset, vars=vars)
 	p = predict(m, task=task, subset=test.i)
 	# faster for parallel
@@ -23,9 +23,8 @@ eval.rf <- function(learner, task, resampling, measures, aggr, control, par) {
 #		type = "prob"
 	
 	rf = resample.fit(learner, task, resampling, parset=parset, vars=vars)
-
 	th = as.numeric(NA)
-	if (is(control, "tune.control") && control["tune.threshold"]) { 
+	if (control["tune.threshold"]) { 
 		thr = tune.threshold(rf, measures, aggr, task, minimize=control["minimize"], thresholds=control["thresholds"])
 		rf = thr$pred
 		th = thr$th

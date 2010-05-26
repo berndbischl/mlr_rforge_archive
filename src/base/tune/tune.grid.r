@@ -32,7 +32,6 @@ tune.1 <- function(learner, task, resampling, ranges, measures, aggr, control) {
 				measures=measures, aggr=aggr, control=control, 
 				par=list(), event="grid")
 		path = add.path.tune(list(), bs, T)	
-		bb <<- bs
 	} else {
 		grid = expand.grid(ranges, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
 		
