@@ -97,6 +97,9 @@ setMethod(
 			.Object@pack = pack
 			.Object@props = props
 			.Object@predict.type = "response"
+			if(pack != "mlr" && !require(pack, character.only=TRUE)) {
+				stop(paste("Learner", id, "could not be constructed! package", pack, "missing!"))
+			}
 			callNextMethod(.Object)
 			.Object = set.hyper.pars(.Object, type="train", parset=parset.train)
 			.Object = set.hyper.pars(.Object, type="predict", parset=parset.predict)

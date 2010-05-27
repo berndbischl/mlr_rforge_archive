@@ -51,7 +51,9 @@ setGeneric(
 
 train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, check.fct) {
 
-	
+	# todo: do we still need this, and the loading when exporting a learner? 
+	# pack is loaded when learner is constructed
+	# export: probably yes...
 	if(learner["pack"] != "mlr" && !require(learner["pack"], character.only=TRUE)) {
 		stop(paste("Learner", learner["id"], "could not be constructed! package", learner["pack"], "missing!"))
 	}
