@@ -32,7 +32,7 @@
 #' 
 #' @note You can also get automatic, internal tuning by using \code{\link{make.tune.wrapper}} with your learner. 
 #' 
-#' @seealso \code{\link{bench.add}}, \code{\link{make.tune.wrapper}} 
+#' @seealso \code{\link{make.tune.wrapper}} 
 #' @export 
 #' @aliases bench.exp 
 #' @title Benchmark experiment for multiple learners and tasks. 
