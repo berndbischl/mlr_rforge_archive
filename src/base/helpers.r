@@ -29,6 +29,20 @@ insert.matching = function(xs1, xs2) {
 }
 
 
+# return a list of (...) minus all stuff in arg.names, on which control func. ctrl is called
+args.to.control = function(control, arg.names, args) {
+	# put stuff into special list and remove it from args
+	ctrl.args = insert(list(), args, arg.names)
+	ctrl = do.call(control, ctrl.args)
+	args[arg.names] = NULL
+	return(list(control=ctrl, args=args))
+}
+
+
+
+
+
+
 
 # returns first non null el. 
 coalesce = function (...) {
