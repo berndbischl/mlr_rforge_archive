@@ -32,7 +32,8 @@ setMethod(
 					supports.weights = TRUE,
 					supports.costs = FALSE
 			)
-			callNextMethod(.Object, label="blackboost", pack="mboost", props=desc)
+			callNextMethod(.Object, label="blackboost", pack="mboost", props=desc, 
+					parset.train=list(family = Binomial()))
 		}
 )
 
@@ -50,9 +51,12 @@ setMethod(
 				.costs="matrix" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {		
+			xs = args.to.control(boost_control, c("mstop", "nu", "risk"), list(...))
+			ys = args.to.control(ctree_control, c("teststat", "testtype", "mincriterion", "maxdepth"), xs$args)
 			f = as.formula(paste(.targetvar, "~."))
-			blackboost(f, family=AdaExp(), data=.data, weights=.weights, ...)
+			args = c(list(f, data=.data, weights=.weights, control=xs$control, tree_control=ys$control), ys$args)
+			do.call(blackboost, args)
 		}
 )
 
@@ -68,11 +72,10 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="response", "class", "link")
-			#.model["learner.model"]
-			p = predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
+			type = ifelse(.type=="response", "class", "reponse")
+			p = predict(.model["learner.model"], newdata=.newdata, type=type, ...)
 			if (.type == "prob") {
-				y <- matrix(0, ncol=2, nrow=length(.newdata))
+				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
 				colnames(y) <- .model["class.levels"]
 				y[,1] <- p
 				y[,2] <- 1-p

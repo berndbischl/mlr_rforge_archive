@@ -52,10 +52,10 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
-			args = list(...)
-			bc.args 
+			xs = args.to.control(boost_control, c("mstop", "nu", "risk"), list(...))
 			f = as.formula(paste(.targetvar, "~."))
-			glmboost(f, family=AdaExp(), data=.data, weights=.weights, ...)
+			args = c(list(f, data=.data, weights=.weights, control=xs$control), xs$args)
+			do.call(glmboost, args)
 		}
 )
 
@@ -71,14 +71,14 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="response", "class", "link")
-			#.model["learner.model"]
-			p = predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
+			type = ifelse(.type=="response", "class", "response")
+			p = predict(.model["learner.model"], newdata=.newdata, type=type, ...)
 			if (.type == "prob") {
-				y <- matrix(0, ncol=2, nrow=length(.newdata))
+				p = p[,1]
+				y = matrix(0, ncol=2, nrow=nrow(.newdata))
 				colnames(y) <- .model["class.levels"]
-				y[,1] <- p
-				y[,2] <- 1-p
+				y[,1] = p
+				y[,2] = 1-p
 				return(y)
 			} else {
 				return(p)
