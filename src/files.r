@@ -120,6 +120,7 @@ classif.files <<- c(
 		"models/classification/boost.r",
 		"models/classification/ada.r",
 		"models/classification/blackboost.r",
+		"models/classification/glmboost.classif.r",
 		"models/classification/gbm.classif.r",
 		"models/classification/kernlab.svm.classif.r",
 		"models/classification/nnet.r"
@@ -160,6 +161,7 @@ load.all.libs <- function() {
 	library(snowfall)
 	library(nnet)
 	library(RWeka)
+	library(party)
 }
 
 load.all.sources <- function(prefix) {
