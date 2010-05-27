@@ -59,7 +59,6 @@ allowed.rd.files <<- c(
 		
 		"bench.exp.Rd",
 		"bench.result-class.Rd"
-#		"bench.add.Rd",
 		
 )		
 

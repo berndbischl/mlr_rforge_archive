@@ -96,7 +96,6 @@ base.files <<- c(
 		"base/benchmark/benchmark.r",
 		"base/benchmark/benchexp.r",
 		"base/benchmark/benchresult.r",
-#		"base/benchmark/bench.add.r",
 		
 		"base/parallel/export.r",
 		"base/parallel/eval.r",
