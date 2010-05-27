@@ -4,7 +4,7 @@ roxygen()
 roxygen()
 #' @include train.learner.r
 roxygen()
-#' @include predict.learner.r
+#' @include pred.learner.r
 roxygen()
 
 setClass(
@@ -54,10 +54,10 @@ setMethod(
 		}
 )
 
-#' @rdname predict.learner
+#' @rdname pred.learner
 
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
 				.learner = "classif.loclda", 
 				.model = "wrapped.model", 

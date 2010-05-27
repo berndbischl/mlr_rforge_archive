@@ -4,7 +4,7 @@ roxygen()
 roxygen()
 #' @include train.learner.r
 roxygen()
-#' @include predict.learner.r
+#' @include pred.learner.r
 roxygen()
 
 # checked props
@@ -57,10 +57,10 @@ setMethod(
 		}
 )
 
-#' @rdname predict.learner
+#' @rdname pred.learner
 
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
 				.learner = "classif.J48", 
 				.model = "wrapped.model", 

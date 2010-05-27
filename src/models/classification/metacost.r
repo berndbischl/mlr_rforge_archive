@@ -4,7 +4,7 @@
 #roxygen()
 ##' @include train.learner.r
 #roxygen()
-##' @include predict.learner.r
+##' @include pred.learner.r
 #roxygen()
 #
 #setClass(

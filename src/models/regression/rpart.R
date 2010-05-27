@@ -43,10 +43,10 @@ setMethod(
 		}
 )
 
-#' @rdname predict.learner
+#' @rdname pred.learner
 
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
 				.learner = "regr.rpart", 
 				.model = "wrapped.model", 
