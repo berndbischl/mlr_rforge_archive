@@ -7,6 +7,7 @@ roxygen()
 #'  
 #' Getter.\cr
 #' 
+#' @exportClass rlearner
 #' @title Base class for inducers. 
 
 setClass(
