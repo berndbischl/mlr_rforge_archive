@@ -31,7 +31,7 @@ base.files <<- c(
 		"base/train.task.r",
 		"base/check.task.learner.r",
 		
-		"base/predict.learner.r",
+		"base/pred.learner.r",
 		"base/prediction.r",
 		"base/predict.r",
 		"base/threshold.r",

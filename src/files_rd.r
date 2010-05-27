@@ -10,11 +10,12 @@ allowed.rd.files <<- c(
 		"make.task.Rd",
 		
 		"train.learner.Rd",
-		"predict.learner.Rd",
+		"pred.learner.Rd",
 		
-		"wrapped.learner-class.Rd",
-#		"wrapped.learner.regr-class.Rd",
-#		"wrapped.learner.classif-class.Rd",
+		"learner-class.Rd",
+		"rlearner-class.Rd",
+		"rlearner.classif-class.Rd",
+		"rlearner.regr-class.Rd",
 		"make.learner.Rd",
 		"learners.Rd",
 		
@@ -47,7 +48,7 @@ allowed.rd.files <<- c(
 		"combine.ranges.Rd",
 		"grid.control.Rd",
 		"ps.control.Rd",
-		"nm.control.Rd",
+		"neldermead.control.Rd",
 		"cmaes.control.Rd",
 		"make.tune.wrapper.Rd",
 		
