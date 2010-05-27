@@ -1,4 +1,5 @@
 
+#' @exportClass object
 
 setClass(
 		"object"
