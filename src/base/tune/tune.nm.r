@@ -1,4 +1,4 @@
-tune.nm <- function(learner, task, resampling, measures, aggr, control, scale) {
+tune.neldermead <- function(learner, task, resampling, measures, aggr, control, scale) {
 	
 #	ns = names(control$start)
 #	

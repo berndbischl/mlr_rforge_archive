@@ -17,10 +17,10 @@
 #' @title Control for Nelder-Mead tuning.
 
 
-nm.control <- function(start, minimize=T, scale=identity, ...) {
+neldermead.control <- function(start, minimize=T, scale=identity, ...) {
 	x = list(...)
 	y = list(start=unlist(start), minimize=minimize, scale=scale)
 	y = c(y, x)
-	class(y) = "nm.control"
+	class(y) = "neldermead.control"
 	return(y)
 }

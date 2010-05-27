@@ -9,7 +9,7 @@
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'        Resampling strategy to evaluate points in hyperparameter space.
 #' @param method [\code{\link{character}}] \cr
-#'        Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "nm".   
+#'        Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "neldermead".   
 #' @param control 
 #'        Control object for search method.   
 #' @param measures [see \code{\link{measures}}]
@@ -21,7 +21,7 @@
 #' 
 #' @export
 #'
-#' @seealso \code{\link{tune}}, \code{\link{grid.control}}, \code{\link{ps.control}}, \code{\link{cmaes.control}}, \code{\link{nm.control}}
+#' @seealso \code{\link{tune}}, \code{\link{grid.control}}, \code{\link{ps.control}}, \code{\link{cmaes.control}}, \code{\link{neldermead.control}}
 #'   
 #' @title Fuse learner with tuning.
 

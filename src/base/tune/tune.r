@@ -19,7 +19,7 @@ roxygen()
 #'        Resampling strategy to evaluate points in hyperparameter space. At least for grid search, if you pass a description, 
 #' 		  it is instantiated at one, so all points are evaluated on the same training/test sets.	
 #' @param method [\code{\link{character}}] \cr
-#'        Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "nm".   
+#'        Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "neldermead".   
 #' @param control 
 #'        Control object for search method.   
 #' @param measures [see \code{\link{measures}}]\cr
@@ -35,7 +35,7 @@ roxygen()
 #'
 #' @usage tune(learner, task, resampling, method="grid", control, measures, aggr, model=F)
 #'
-#' @seealso \code{\link{grid.control}}, \code{\link{ps.control}}, \code{\link{cmaes.control}}, \code{\link{nm.control}}
+#' @seealso \code{\link{grid.control}}, \code{\link{ps.control}}, \code{\link{cmaes.control}}, \code{\link{neldermead.control}}
 #'   
 #' @title Hyperparameter tuning
 
@@ -56,7 +56,7 @@ tune <- function(learner, task, resampling, method="grid", control, measures, ag
 			grid = tune.grid,
 			pattern = tune.ps,
 			cmaes = tune.cmaes,
-			neldermead= tune.nm,
+			neldermead=tune.neldermead,
 			stop(paste("Method", method, "does not exist!"))
 	)		
 	
