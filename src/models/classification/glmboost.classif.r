@@ -1,3 +1,5 @@
+# todo: we could pass costs with extra loss function?
+
 #' @include learnerR.r
 roxygen()
 #' @include wrapped.model.r
@@ -9,19 +11,19 @@ roxygen()
 
 
 setClass(
-		"classif.logreg", 
+		"classif.glmboost", 
 		contains = c("rlearner.classif")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("classif.logreg"),
+		signature = signature("classif.glmboost"),
 		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = FALSE,
-					supports.missings = TRUE,
+					supports.missings = FALSE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
@@ -30,19 +32,17 @@ setMethod(
 					supports.weights = TRUE,
 					supports.costs = FALSE
 			)
-			
-			callNextMethod(.Object, label="logreg", pack="stats", props=desc,
-					parset.train=list(family = "binomial"))
+			callNextMethod(.Object, label="glmboost", pack="mboost", props=desc,
+					parset.train=list(family = Binomial()))
 		}
 )
 
 #' @rdname train.learner
 
-
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.learner="classif.logreg", 
+				.learner="classif.glmboost", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.data.desc="data.desc", 
@@ -52,8 +52,10 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+			args = list(...)
+			bc.args 
 			f = as.formula(paste(.targetvar, "~."))
-			glm(f, data=.data, model=FALSE, ...)
+			glmboost(f, family=AdaExp(), data=.data, weights=.weights, ...)
 		}
 )
 
@@ -62,29 +64,29 @@ setMethod(
 setMethod(
 		f = "predict.learner",
 		signature = signature(
-				.learner = "classif.logreg", 
+				.learner = "classif.glmboost", 
 				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			
-			x = predict(.model["learner.model"], newdata=.newdata, type="response", ...)
-			levs = .model["class.levels"]		
+			.type <- ifelse(.type=="response", "class", "link")
+			#.model["learner.model"]
+			p = predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
 			if (.type == "prob") {
-				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
-				colnames(y) = levs
-				y[,1] <- 1-x
-				y[,2] <- x
+				y <- matrix(0, ncol=2, nrow=length(.newdata))
+				colnames(y) <- .model["class.levels"]
+				y[,1] <- p
+				y[,2] <- 1-p
 				return(y)
 			} else {
-				levs <- .model["class.levels"]
-				p <- as.factor(ifelse(x > 0.5, levs[2], levs[1]))
-				names(p) <- NULL
 				return(p)
 			}
 		}
 )	
+
+
+
 
 
