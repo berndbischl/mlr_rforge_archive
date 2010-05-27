@@ -135,7 +135,10 @@ setMethod(
 					} else if (type == "prob") {
 						if (!is.matrix(p))
 							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
-						if (any(sort(colnames(p)) != sort(levs)))
+						cns = colnames(p)
+						if (is.null(cns) || length(cns) == 0)
+							stop("predict.learner for ", class(wl), " has returned not the class levels as column names, but no column names at all!")
+						if (!setequal(cns, levs))
 							stop("predict.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
 					} else if (type == "decision") {
 						if (!is.matrix(p))
