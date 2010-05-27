@@ -103,7 +103,9 @@ setMethod(
 		}
 )
 
+#' @exportClass rlearner.classif
 setClass("rlearner.classif", contains = c("rlearner"))
 
+#' @exportClass rlearner.regr
 setClass("rlearner.regr", contains = c("rlearner"))
 

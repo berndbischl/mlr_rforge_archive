@@ -13,8 +13,10 @@ c.factor = function(...) {
 	return(ans)
 }
 
-# inserts elements from x2 into x1, overwriting elements of equal names 
+# inserts elements from x2 into x1, overwriting elements of equal names
+# if el.names contains names which are nor present in x2, they are disregarded
 insert = function(xs1, xs2, el.names=names(xs2)) {
+	el.names = intersect(el.names, names(x2))
 	xs1[el.names] = xs2[el.names]
 	return(xs1)
 }

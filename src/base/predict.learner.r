@@ -17,7 +17,7 @@ roxygen()
 #' 		    
 #' @return Model of the underlying learner.
 #' 
-#' @export
+#' @exportMethod predict.learner
 #' @rdname predict.learner
 #' @title Internal prediction method for learner. 
 
