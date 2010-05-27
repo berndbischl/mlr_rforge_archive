@@ -10,6 +10,10 @@
 #'        Classification: "response" | "prob" | "decision", specifying the type to predict.
 #'        Default is "response". "decision" is experimental.
 #' 		  Ignored for regression.	 
+#' @param hyper.types [character] \cr
+#'        Character vector. If named, names have to correpond to the hyper pars in the ... arguments. If a single string is passed it is used as the type for all hyper parameters.
+#'        Specifies in which stage of the model fitting the hyper parameters are used. Currently supported at user level are
+#'        "train" and "predict". Default is "train".
 #' @param predict.threshold [numeric] \cr
 #'        Threshold to produce class labels if type is not "response". 
 #' 	      Currently only supported for binary classification and type="prob", where it represents the required predicted probability

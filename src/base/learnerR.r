@@ -104,9 +104,14 @@ setMethod(
 		}
 )
 
+#' Base class for classification learners.
 #' @exportClass rlearner.classif
+#' @title Base class for classification learners. 
 setClass("rlearner.classif", contains = c("rlearner"))
 
+
+#' Base class for regression learners.
 #' @exportClass rlearner.regr
+#' @title Base class for regression learners. 
 setClass("rlearner.regr", contains = c("rlearner"))
 

@@ -1,7 +1,3 @@
-# todo: maxit and maxvars should be integer?
-# but this changes the object just check internally....
-
-
 setClass(
 		"varsel.control",
 		contains = c("opt.control"),
@@ -25,10 +21,16 @@ setClass(
 #'       Minimize performance measure? Default is TRUE.
 #' @param maxit [integer] \cr 
 #'       Maximal number of variable sets to evaluate. Default is 100.
-#' @param maxvars [integer] \cr 
-#'       Maximal number of allowd variable in the final set. Default is Inf.
+#' @param max.vars [integer] \cr 
+#'       Maximal number of allowed variables in the final set. Default is max. integer.
+#' @param alpha [numeric] \cr 
+#'  	 sfs, sffs: In a forward step, minimal improvement of performance measure. Can be negative.        
+#' @param beta [numeric] \cr 
+#'  	 sbs, sfbs: In a backward step, minimal improvement of performance measure. Can be negative.        
 #' @param tune.threshold [logical] \cr 
-#'       Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
+#'		Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
+#' @param thresholds [numeric] \cr 
+#'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
 #' 		    
 #' @return Control structure for tuning.
 #' @export 
