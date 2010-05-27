@@ -122,7 +122,7 @@ setMethod(
 				}
 				
 				
-				st = system.time(p <- do.call(predict.learner, pars), gcFirst=FALSE)
+				st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)
 				time.predict = st[3]
 				
 				if (wl["is.classif"]) {
@@ -130,25 +130,25 @@ setMethod(
 						# the levels of the predicted classes might not be complete....
 						# be sure to add the levels at the end, otherwise data gets changed!!!
 						if (!is.factor(p))
-							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
+							stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
 						levels(p) <- union(levels(p), levs)
 					} else if (type == "prob") {
 						if (!is.matrix(p))
-							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
+							stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
 						cns = colnames(p)
 						if (is.null(cns) || length(cns) == 0)
-							stop("predict.learner for ", class(wl), " has returned not the class levels as column names, but no column names at all!")
+							stop("pred.learner for ", class(wl), " has returned not the class levels as column names, but no column names at all!")
 						if (!setequal(cns, levs))
-							stop("predict.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
+							stop("pred.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
 					} else if (type == "decision") {
 						if (!is.matrix(p))
-							stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
+							stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
 					} else {
 						stop(paste("Unknown type", type, "in predict!"))
 					}	
 				} else if (is(model, "wrapped.model.regr")) {
 					if (class(p) != "numeric")
-						stop("predict.learner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
+						stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
 				}
 				logger.debug("prediction:")
 				logger.debug(p)

@@ -1,6 +1,6 @@
 #' @include learner.r
 #' @include train.learner.r
-#' @include predict.learner.r
+#' @include pred.learner.r
 
 setClass(
 		"base.wrapper",
@@ -71,10 +71,10 @@ setMethod(
 		}
 )
 
-#' @rdname predict.learner
+#' @rdname pred.learner
 
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
 				.learner = "base.wrapper", 
 				.model = "wrapped.model", 
@@ -86,7 +86,7 @@ setMethod(
 			args = list(.learner@learner, .model, .newdata, .type)
 			#args = c(args, .learner["hyper.pars", type="predict"])
 			args = c(args, list(...))
-			do.call(predict.learner, args)
+			do.call(pred.learner, args)
 		}
 )	
 
