@@ -41,28 +41,14 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, ...) {
+			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda"), list(...))
 			f = as.formula(paste(.targetvar, "~."))
-			
-			kpar = list()
-			args = list(...)
-			args.names <- names(args)
-			
-			kernel.par.names = c("degree", "offset", "scale", "sigma", "order", "length", "lambda")
-			
-			kpar = list()
-			for (k in kernel.par.names) {
-				x = args[[k]]
-				if (!is.null(x)) {
-					kpar[[k]] = x
-					args[[k]] = NULL
-				}
-			}
-			
-			kargs = list(f, data=.data)
-			if (length(kpar) > 0)
-	 			kargs$kpar = kpar
-			kargs = c(kargs, args)
-			do.call(ksvm, kargs)
+			# difference in missing(kpar) and kpar=list()!
+			if (length(xs$control) > 0)
+				args = c(list(f, data=.data, fit=FALSE, kpar=xs$control), xs$args)
+			else
+				args = c(list(f, data=.data, fit=FALSE), xs$args)
+			do.call(ksvm, args)
 		}
 )
 
