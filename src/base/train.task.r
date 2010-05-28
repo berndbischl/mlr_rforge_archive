@@ -86,12 +86,17 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	}
 	
 	# make pars list for train call
-	pars = list(.learner=wl, .target=tn, .data=data.subset, .data.desc=task@data.desc, .task.desc=task@task.desc, .weights=ws)	
-	hyper.pars = insert(wl["hyper.pars"], parset) 
-	pars = c(pars, extra.train.pars, hyper.pars)
-
+	pars = list(.learner=wl, .target=tn, .data=data.subset, .data.desc=task@data.desc, .task.desc=task@task.desc, .weights=ws)
+	# only pass train hyper pars to rlearner
+	hps       = insert(wl["hyper.pars"], parset) 
+	hps.train = insert(wl["hyper.pars", type="train"], parset) 
+	if (is(wl, "rlearner"))
+		pars = c(pars, extra.train.pars, hps.train)
+	else
+		pars = c(pars, extra.train.pars, hps)
+	
 	logger.debug("mlr train:", wl["id"], "with pars:")
-	logger.debug(hyper.pars)
+	logger.debug(hps.train)
 	logger.debug("on", length(subset), "examples:")
 	logger.debug(subset)
 	
@@ -116,13 +121,13 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	} 
 	
 	#set to "train" if not specified
-	hyper.types = rep("train", length(hyper.pars))
-	names(hyper.types) = names(hyper.pars)
+	hyper.types = rep("train", length(hps))
+	names(hyper.types) = names(hps)
 	hyper.types = insert(hyper.types, wl["hyper.types"])
 	
 	new("wrapped.model", learner = wl, learner.model = learner.model, 
 			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, 
-			hyper.pars=hyper.pars, hyper.types=hyper.types, vars=vars, time = time.train)
+			hyper.pars=hps, hyper.types=hyper.types, vars=vars, time = time.train)
 }
 	
 
