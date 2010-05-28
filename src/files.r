@@ -122,6 +122,7 @@ classif.files <<- c(
 		"models/classification/glmboost.classif.r",
 		"models/classification/gbm.classif.r",
 		"models/classification/kernlab.svm.classif.r",
+		"models/classification/svm.classif.r",
 		"models/classification/nnet.r"
 ##		"models/classification/metacost.r"
 )
