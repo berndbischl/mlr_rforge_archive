@@ -7,6 +7,7 @@ test.hyperpars <- function() {
 	checkEquals(wl1["hyper.types"], c(minsplit="train", predict.threshold="postproc")) 
 	
 	m = train(wl1, task=multiclass.task, parset=list(cp=0.2))
+	checkEquals(m["fail"], NULL) 
 	checkEquals(m["hyper.pars"], list(minsplit=10, predict.threshold=0.3, cp=0.2)) 
 	checkEquals(m["hyper.names"], c("minsplit", "predict.threshold", "cp")) 
 	checkEquals(m["hyper.types"], c(minsplit="train", predict.threshold="postproc", cp="train")) 
