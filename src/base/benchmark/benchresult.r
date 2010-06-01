@@ -93,15 +93,17 @@ setMethod(
 				else			
 					g = function(arr, is) arr[c(is, "combine"), learner, measure, drop=FALSE]
 				p = Map(g, p, is=iter)
-				#print(str(p))			
 				# aggregate
 				if (length(aggr) > 0) {
 					g = function(arr) {
 						lapply(names(aggr), function(nn) {
 									if (nn == "combine")
 										h = function(y) y[length(y)]
-									else 
-										h = function(y) aggr[[nn]](y[1:(length(y))-1])
+									else {
+										# dont choose combine el from array
+										last.el = ifelse(is.null(aggr$combine), 0, 1)
+										h = function(y) aggr[[nn]](y[1:(length(y)-last.el)])
+									}
 									t(apply(arr, c(2,3), h))
 								})
 					}	

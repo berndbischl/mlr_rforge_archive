@@ -7,7 +7,14 @@ test.benchexp <- function() {
 	rpart.tuner = make.tune.wrapper("classif.rpart", resampling=inner, control=grid.control(ranges=r))
 	learners = list("classif.lda", rpart.tuner)
 
-	bench.exp("classif.lda", multiclass.task, resampling=outer)
+	be = bench.exp("classif.lda", multiclass.task, resampling=outer)
+	checkEquals(mean(be@perf[[1]][1:3,,"mmce"]), be["perf", aggr="mean"][[1]][1,1])
+	
+	outer2 = make.res.desc("holdout")
+	be = bench.exp("classif.lda", multiclass.task, resampling=outer2)
+	x = be["perf", aggr="mean"][["multiclass"]][1,1]
+	checkTrue(!is.na(x))
+	
 	wl = make.learner("classif.lda")
 	be = bench.exp(wl,  multiclass.task, resampling=outer)
 	print(be)	
