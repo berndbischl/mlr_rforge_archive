@@ -58,6 +58,11 @@ aggregations = function() {}
 make.aggrs = function(xs) {
 	if (length(xs)==0)
 		return(list())
+	if (is.function(xs)) {
+		nn = deparse(substitute(xs))
+		xs = list(xs)
+		names(xs) = nn
+	}
 	ys = list()
 	for (i in 1:length(xs)) {
 		x = xs[[i]] 

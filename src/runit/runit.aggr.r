@@ -1,5 +1,8 @@
 test.aggr <- function() {
 	
+	a = make.aggrs(mean)
+	checkEquals(a, list(mean=mean))
+	
 	ct = binaryclass.task
 	
 	ms = c("mmce", "acc", "tp", "fp", "tn", "fn", "tpr", "fpr", "tnr", "fnr", "ppv", "npv", "mcc", "f1" )
