@@ -52,7 +52,7 @@ check.list.type = function(xs, type, name) {
 			function(x) is(x, tt)
 	))
 	types = paste(type, collapse=", ")	
-	all(lapply(seq(length=length(xs)), function(i) {
+	all(sapply(seq(length=length(xs)), function(i) {
 				x = xs[[i]]
 				ys = sapply(fs, function(f) f(x))
 				if(!any(ys))

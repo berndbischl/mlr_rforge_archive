@@ -100,39 +100,45 @@ setMethod(
 				else
 					return(NULL)
 			}
+			if (i == "opt.result"){
+				if (is(x@learner, "opt.wrapper"))
+					return(attr(x["learner.model"], "opt.result"))
+				else
+					return(NULL)
+			}
 			if (i == "opt"){
 				if (is(x@learner, "opt.wrapper"))
-					return(attr(x["learner.model"], "opt"))
+					return(x["opt.result"]["opt"])
+				else
+					return(NULL)
+			}
+			if (i == "opt.par"){
+				if (is(x@learner, "opt.wrapper"))
+					return(x["opt"]$par)
+				else
+					return(NULL)
+			}
+			if (i == "tuned.par"){
+				if (is(x@learner, "opt.wrapper") && x@learner@opttype == "tune")
+					return(x["opt.par"])
+				else
+					return(NULL)
+			}	
+			if (i == "sel.var"){
+				if (is(x@learner, "opt.wrapper") && x@learner@opttype == "varsel")
+					return(x["opt.par"])
+				else
+					return(NULL)
+			}	
+			if (i == "opt.perf"){
+				if (is(x@learner, "opt.wrapper"))
+					return(x["opt"]$perf)
 				else
 					return(NULL)
 			}
 			if (i == "path"){
 				if (is(x@learner, "opt.wrapper"))
-					return(attr(x["learner.model"], "path"))
-				else
-					return(NULL)
-			}
-			if (i == "tuned.par"){
-				if (is(x@learner, "opt.wrapper") && x@learner@type == "tune")
-					return(x["opt"]$par)
-				else
-					return(NULL)
-			}
-			if (i == "tuned.perf"){
-				if (is(x@learner, "opt.wrapper") && x@learner@type == "tune")
-					return(x["opt"]$perf)
-				else
-					return(NULL)
-			}
-			if (i == "sel.var"){
-				if (is(x@learner, "opt.wrapper") && x@learner@type == "varsel")
-					return(x["opt"]$par)
-				else
-					return(NULL)
-			}
-			if (i == "sel.perf"){
-				if (is(x@learner, "opt.wrapper") && x@learner@type == "varsel")
-					return(x["opt"]$perf)
+					return(x["opt.result"]["path"])
 				else
 					return(NULL)
 			}

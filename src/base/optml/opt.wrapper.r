@@ -63,8 +63,7 @@ setMethod(
 				stop("Unknown type: ", wl@opttype)
 			
 			m = or@model["learner.model"]
-			attr(m, "opt") = or@opt
-			attr(m, "path") = or@path
+			attr(m, "opt.result") = or
 			return(m)
 		}
 )
