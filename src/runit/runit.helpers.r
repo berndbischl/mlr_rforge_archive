@@ -1,9 +1,16 @@
 test.helpers = function() {
 	
 	xs = list("a", "b")
-	check.list.type(xs, "character")
+
+	checkTrue(check.list.type(xs, "character"))
+	checkException(check.list.type(xs, "integer"))
+	checkTrue(check.list.type(xs, c("character", "numeric")))
 	
 	xs = list("a", "b", 1, 2)
-	check.list.type(xs, c("character", "numeric"))
+	checkTrue(check.list.type(xs, c("character", "numeric")))
+	checkException(check.list.type(xs, c("learner", "logical")))
 	
+
+	xs = list(make.learner("classif.rpart"))
+	checkTrue(check.list.type(xs, c("rlearner")))
 }

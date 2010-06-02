@@ -42,25 +42,24 @@ args.to.control = function(control, arg.names, args) {
 check.list.type = function(xs, type, name) {
 	if (missing(name))
 		name = deparse(substitute(xs))
-	fs = lapply(type, switch(tt,
+	fs = lapply(type, function(tt) switch(tt,
 			character=is.character,                          
 			numeric=is.numeric,
 			logical=is.logical,
 			integer=is.integer,
 			list=is.list,
 			data.frame=is.data.frame,
-			function(x) class(x) == type
+			function(x) is(x, tt)
 	))
-	
-	ys = lapply(seq(length=length(xs)), function(i) {
+	types = paste(type, collapse=", ")	
+	all(lapply(seq(length=length(xs)), function(i) {
 				x = xs[[i]]
-				sapply()
-				y = f(x)
-				if(!y)
-					stop("List ", name, " has element of wrong type ", class(x), " at position ", i, ". Should be: ", type)
-				y
-			})
-	all(unlist(ys))
+				ys = sapply(fs, function(f) f(x))
+				if(!any(ys))
+					stop("List ", name, " has element of wrong type ", class(x), " at position ", i, ". Should be: ", types)
+				print(ys)
+				any(ys)
+	}))
 }
 
 #check.list.types = function(name, xs, types) {
