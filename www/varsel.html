@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+	<title>Variable Selection</title>
+	<link rel="stylesheet" type="text/css" href="formats.css">
+	<style type="text/css">
+	</style>
+</head>
+
+<body>
+<h1>Variable Selection</h1>
+
+
+<P>Often data sets include a great many of variables and you want to reduce them. This technique
+of selecting a subset of relevant variables is called variable selection. Variable selection can make the model
+interpretable, the learning process faster and the fitted model more general by removing irrelevant variables.
+Different approaches exist to figure out which are the relevant variables:</P>
+
+<h2>Included strategies</h2>
+<p>The package comes with a couple of predefined strategies</p>
+
+<p><u>Sequential Forward Search</u></p>
+
+<p>The best subset of variables is initialized as the empty set and at each step the variable that gives 
+the highest correct classification rate together with the variables already included is added to the set. 
+The "best subset" of variables is constructed based on the frequency with which each variable is 
+selected in the number of repetitions given. 
+See also <a target="_top" href="http://rss.acs.unt.edu/Rdoc/library/dprep/html/sfs.html">sfs</a></term>.</p>
+
+<pre>
+	<com># Classification task</com>
+	ct <- make.task(data = iris, target = "Species")
+	
+	<com># Resample instance for Cross-validation</com>
+	rin <- make.res.instance("cv", ct, iters = 10)
+		
+	<com># Sequential forward search</com>
+	<com># "alpha" is the minimal improvement of performance measure</com>
+	varsel(learner = "classif.lda", task = ct, resampling = rin, method = "sfs", control = varsel.control(alpha=0.01))
+	<res>
+	Optimization result: 
+	[1] "Petal.Width"
+	 mean.mmce    sd.mmce 
+	0.04000000 0.04661373 	
+	</res>	
+</pre>
+
+For more details see also <a href="rdocs/varsel.control"> varsel.control</a>
+
+
+<p><u>Sequential Backward Search</u></p>
+
+<p>The sequential backward search (sbs) works analogously to sfs, but starting with the full variable set. </p>
+
+
+<pre>
+	<com># Classification task</com>
+	ct <- make.task(data = iris, target = "Species")
+	
+	<com># Resample instance for Cross-validation</com>
+	rin <- make.res.instance("cv", ct, iters = 10)
+		
+	<com># Sequential backward search</com>
+	varsel(learner = "classif.lda", task = ct, resampling = rin, method="sbs")
+ 	<res>
+ 	Optimization result: 
+	[1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
+ 	mean.mmce    sd.mmce 
+	0.02000000 0.03220306 
+ 	</res>	
+ 	
+ 	<com># Access more information</com>
+ 	varsel(learner = "classif.lda", task = ct, resampling = rin, method="sbs", measures = c("mmce", "time"), aggr = c("max"))
+	<res>
+	Optimization result: 
+	[1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
+	  max.mmce   max.time 
+	0.06666667 0.04000000 
+	</res>
+
+</pre>
+
+
+<p><u>Sequential Floating Forward Search</u></p>
+
+<p>In the case of sequential floating forward search (sffs), the algorithm starts with an empty variable set and
+in each step the best variable (w.r.t. some <a href="rdocs/measures"> measure</a>) is included in the 
+current variable set (= one step of the sequential forward search (sfs)). The algorithm 
+also verifies the possibility of improvement of the measure-criterion if some variable is excluded. In this case, 
+the worst variable is eliminated from the set (= one step of sequential backward search (sbs)). 
+Therefore, the sequential floating forward search proceeds dynamically increasing and decreasing 
+the number of variables until no more improvement is reached. </p>
+
+
+<pre>
+	<com># Classification task</com>
+	ct <- make.task(data = iris, target = "Species")
+	
+	<com># Resample instance for Cross-validation</com>
+	rin <- make.res.instance("cv", ct, iters = 10)
+		
+	<com># Sequential backward search</com>
+	varsel(learner = "classif.lda", task = ct, resampling = rin, method="sffs")
+ 	<res>
+	---EINFÜGEN---
+ 	</res>	
+</pre>
+
+
+
+<p><u>Sequential Floating Backward Search</u></p>
+
+
+<p>The sequential floating backward search (sfbs) works analogously to sffs, but starting with the full 
+variable set.</p>
+
+
+<pre>
+	<com># Classification task</com>
+	ct <- make.task(data = iris, target = "Species")
+	
+	<com># Resample instance for Cross-validation</com>
+	rin <- make.res.instance("cv", ct, iters = 10)
+		
+	<com># Sequential backward search</com>
+	<com># Belonging to sfs and sbs "alpha" and "beta" are the minimal improvement of performance measure</com>
+	varsel(learner = "classif.lda", task = ct, resampling = rin, method="sfbs", control=varsel.control(alpha=0.01, beta=0.01))
+ 	<res>
+	Optimization result: 
+	[1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
+	 mean.mmce    sd.mmce 
+	0.02000000 0.03220306 
+ 	</res>	
+</pre>
+
+
+
+<p><u>Monte-Carlo Search</u></p>
+
+<p>In k-iterations variable subsets are generated randomly, i.e. every variable is chosen with probability 0.5.
+The best of the k subsets is selected.</p>
+
+<pre>
+	<com># Classification task</com>
+	ct <- make.task(data = iris, target = "Species")
+	
+	<com># Resample instance for Cross-validation</com>
+	rin <- make.res.instance("cv", ct, iters = 10)
+		
+	<com># Sequential backward search</com>
+	<com># "maxit" is the number of iterations, i.e. randomly generated variable sets</com>
+	varsel(learner = "classif.lda", task = ct, resampling = rin, method="random", control=varsel.control(maxit = 100))
+ 	<res>
+	Optimization result: 
+	[1] "Sepal.Width"  "Petal.Length" "Petal.Width" 
+	 mean.mmce    sd.mmce 
+	0.01333333 0.02810913 
+ 	</res>	
+</pre>
+
+
+
+</body>
+</html>
