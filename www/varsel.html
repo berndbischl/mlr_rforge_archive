@@ -19,7 +19,7 @@ Different approaches exist to figure out which are the relevant variables:</P>
 <h2>Included strategies</h2>
 <p>The package comes with a couple of predefined strategies</p>
 
-<p><u>Sequential Forward Search</u></p>
+<p><u>Sequential Forward Search (sfs)</u></p>
 
 <p>The best subset of variables is initialized as the empty set and at each step the variable that gives 
 the highest correct classification rate together with the variables already included is added to the set. 
@@ -48,7 +48,7 @@ See also <a target="_top" href="http://rss.acs.unt.edu/Rdoc/library/dprep/html/s
 For more details see also <a href="rdocs/varsel.control"> varsel.control</a>
 
 
-<p><u>Sequential Backward Search</u></p>
+<p><u>Sequential Backward Search (sbs)</u></p>
 
 <p>The sequential backward search (sbs) works analogously to sfs, but starting with the full variable set. </p>
 
@@ -81,7 +81,7 @@ For more details see also <a href="rdocs/varsel.control"> varsel.control</a>
 </pre>
 
 
-<p><u>Sequential Floating Forward Search</u></p>
+<p><u>Sequential Floating Forward Search (sffs)</u></p>
 
 <p>In the case of sequential floating forward search (sffs), the algorithm starts with an empty variable set and
 in each step the best variable (w.r.t. some <a href="rdocs/measures"> measure</a>) is included in the 
@@ -102,13 +102,13 @@ the number of variables until no more improvement is reached. </p>
 	<com># Sequential backward search</com>
 	varsel(learner = "classif.lda", task = ct, resampling = rin, method="sffs")
  	<res>
-	---EINFÜGEN---
+	---does not work---
  	</res>	
 </pre>
 
 
 
-<p><u>Sequential Floating Backward Search</u></p>
+<p><u>Sequential Floating Backward Search (sfbs)</u></p>
 
 
 <p>The sequential floating backward search (sfbs) works analogously to sffs, but starting with the full 
