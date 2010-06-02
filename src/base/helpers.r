@@ -57,7 +57,6 @@ check.list.type = function(xs, type, name) {
 				ys = sapply(fs, function(f) f(x))
 				if(!any(ys))
 					stop("List ", name, " has element of wrong type ", class(x), " at position ", i, ". Should be: ", types)
-				print(ys)
 				any(ys)
 	}))
 }

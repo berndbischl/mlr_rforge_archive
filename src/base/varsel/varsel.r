@@ -32,7 +32,7 @@
 #'   
 #' @title Variable selection.
 
-varsel <- function(learner, task, resampling, method="sfs", control=NULL, measures, aggr, model=F) {
+varsel <- function(learner, task, resampling, method="sfs", control, measures, aggr, model=F) {
 	if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
@@ -56,7 +56,10 @@ varsel <- function(learner, task, resampling, method="sfs", control=NULL, measur
 	} else {
 		sel.func = method
 	}	
-	if (!is.null(control) && control["tune.threshold"] && task["class.nr"] != 2) 
+	if (missing(control)) {
+		stop("You have to pass a control object!")
+	}
+	if (control["tune.threshold"] && task["class.nr"] != 2) 
 		stop("You can only tune the threshold for binary classification!")
 	
 	assign(".mlr.vareval", 0, envir=.GlobalEnv)

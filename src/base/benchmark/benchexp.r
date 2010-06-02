@@ -46,11 +46,14 @@ bench.exp <- function(learners, tasks, resampling, measures,
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
 	}
+	learners = as.list(learners)
+	n = length(learners)
+	check.list.type(learners, c("character", "learner"))
+	
 	if (!is.list(tasks)) {
 		tasks = list(tasks)
 	}
-	learners = as.list(learners)
-	n = length(learners)
+	check.list.type(tasks, "learn.task")
 	
 	if (missing(measures))
 		measures = default.measures(tasks[[1]])
