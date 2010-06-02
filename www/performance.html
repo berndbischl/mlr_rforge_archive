@@ -12,29 +12,25 @@
 <h1>Evaluation of Predictions</h1>
 
 <P>
-The quality of predictions is usually measured w.r.t some performance measure or - more seldom - w.r.t. some 
-loss function. 
-
-Typical performance measures are mean misclassification error (MMCE), accuracy or true positive rate
-for classification and sum of squared errors (SSE) or absolute deviations for regression. Those measures
-merge the comparison of predicted and true label/value to one number.
-
-To see which performance measures are implemented, have a look at <a href="rdocs/measures"> measures</a> 
-in the R documentation.
-
-In contrast to that, loss functions do not merge information, but compute transformations for every loss, i.e.
-the difference between the prediction and its corresponding true label/value.
-Possible loss functions are the squared difference, the absolute one or the zero-one loss, see 
-<a href="rdocs/measures"> losses </a> in the R documentation.
+The quality of predictions in mlr can be assessed w.r.t some performance measure or - more seldom - w.r.t. some 
+loss function, which makes individual losses for all observations accessible. 
 </P>
-
-
 <P>
-A good starting point for classification are measures connected to ROCR curves and nice 
-plots from the package <a target="_top" href="http://cran.r-project.org/web/packages/ROCR/index.html">ROCR</a>. 
-I will probably integrate this more tightly at some point in the future.
+Typical performance measures are mean misclassification error (MMCE), accuracy or the ones based on ROC analysis
+for classification and mean of squared errors (MSE) or absolute errors for regression. Those measures
+aggregate the individual losses of predicted and true values to one number.
+It's also possible to access the time to train a model, the time to compute the prediction and their sum as performance measures.
+Available loss functions are the squared difference, the absolute one or the zero-one loss. 
 </P>
-
+<P>
+In contrast to that, loss functions do not merge information, but compute transformations for every loss, i.e.
+the difference between the prediction and its corresponding true label/value. 
+Possible loss functions are the squared difference, the absolute one (for regression)or the zero-one loss (for classification). 
+</P>
+<P>
+To see which performance measures and losses are implemented, have a look at <a href="rdocs/measures.html">?measures</a> 
+or <a href="rdocs/losses.html">?losses</a> in R.
+</P>
 
 <h3>Classification example</h3>
 
@@ -58,11 +54,15 @@ I will probably integrate this more tightly at some point in the future.
 	</res>
 	
 	<com># Let's have a look at some more performance measures and the zero-one losses</com>
+<<<<<<< .mine
+	performance(preds, measures=list("mmce", "acc", "time.train", "time.predict", "time"), losses = "zero-one")
+=======
 	performance(preds, measures = list("mmce", "acc"), losses = "zero-one")
+>>>>>>> .r584
 	<res>
 	$measures
-	mmce  acc 
-	0.04 0.96 
+    	mmce          acc   time.train time.predict         time 
+    	0.04         0.96         0.63         0.01         0.64 
 	
 	$losses
 	    id zero-one
