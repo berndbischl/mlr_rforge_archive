@@ -13,6 +13,16 @@ c.factor = function(...) {
 	return(ans)
 }
 
+
+# do lapply recursively on deep lists
+rec.lapply = function(xs, fun) {
+	if (!is.list(xs)) {
+		return(fun(xs))
+	}
+	lapply(xs, function(x) rec.lapply(x, fun))
+}
+
+
 # inserts elements from x2 into x1, overwriting elements of equal names
 # if el.names contains names which are nor present in x2, they are disregarded
 insert = function(xs1, xs2, el.names=names(xs2)) {

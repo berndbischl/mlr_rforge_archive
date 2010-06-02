@@ -14,9 +14,9 @@ benchmark = function(learner, task, resampling, measures, models, opts, paths) {
 	
 	if (is(learner, "opt.wrapper")) {
 		if (models) 
-			extract = function(x) list(model=x, opt=x["opt"], path=x["path"])
+			extract = function(x) list(model=x, or=x["opt.result"])
 		else 
-			extract = function(x) list(opt=x["opt"], path=x["path"])
+			extract = function(x) list(or=x["opt.result"])
 	} else {
 		if (models)	
 			extract = function(x) {list(model=x)} 
@@ -41,12 +41,9 @@ benchmark = function(learner, task, resampling, measures, models, opts, paths) {
 	mods = NULL
 	if (models) 
 		mods = lapply(rr@extracted, function(x) x$model)
-	os = NULL
-	if (opts) 
-		os = lapply(rr@extracted, function(x) x$opt)
-	ps = NULL
-	if (paths) 
-		ps = lapply(rr@extracted, function(x) x$path)
-	return(list(result=result, conf.mat=cm, resample.fit=rr, models=mods, opts=os, paths=ps))
+	ors = NULL
+	if (opts || paths) 
+		ors = lapply(rr@extracted, function(x) x$or)
+	return(list(result=result, conf.mat=cm, resample.fit=rr, models=mods, ors=ors))
 }
 

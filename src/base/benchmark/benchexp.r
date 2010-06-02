@@ -73,7 +73,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 	task.names = sapply(tasks, function(x) x["id"])	
 	resamplings = list()
 	tds = dds = rfs = cms = mods = list()
-	os = ps = list()
+	ors = list()
 	
 	for (j in 1:length(tasks)) {
 		bs[[j]] = array(0, dim = dims)		
@@ -81,8 +81,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 		rfs[[j]] = list()
 		cms[[j]] = list()
 		mods[[j]] = list()
-		os[[j]] = list()
-		ps[[j]] = list()
+		ors[[j]] = list()
 		if (is(resampling, "resample.desc")) {
 			resamplings[[j]] = new(resampling@instance.class, resampling, task["size"])
 		} else {
@@ -106,25 +105,22 @@ bench.exp <- function(learners, tasks, resampling, measures,
 			if(predictions)	rfs[[j]][[i]] = rf else	rfs[[j]][i] = list(NULL)
 			if(is(task, "classif.task") && conf.mats) cms[[j]][[i]] = bm$conf else cms[[j]][i] = list(NULL)
 			if(models)	mods[[j]][[i]] = bm$models else	mods[[j]][i] = list(NULL)
-			if(opts && is(wl, "opt.wrapper")) os[[j]][[i]] = bm$opts else os[[j]][i] = list(NULL)
-			if(paths && is(wl, "opt.wrapper")) ps[[j]][[i]] = bm$paths else ps[[j]][i] = list(NULL)
+			if((opts || paths) && is(wl, "opt.wrapper")) ors[[j]][[i]] = bm$ors else ors[[j]][i] = list(NULL)
 		}
 		dimnames(bs[[j]]) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures))
 
 		names(rfs[[j]]) = learner.names
 		names(cms[[j]]) = learner.names
 		names(mods[[j]]) = learner.names
-		names(os[[j]]) = learner.names
-		names(ps[[j]]) = learner.names
+		names(ors[[j]]) = learner.names
 	}
 	names(bs) = task.names
 	names(rfs) = task.names
 	names(cms) = task.names
 	names(mods) = task.names
-	names(os) = task.names
-	names(ps) = task.names
+	names(ors) = task.names
 	return(new("bench.result", task.descs=tds, data.descs=dds, resamplings=resamplings, perf = bs, 
 					predictions=rfs, conf.mats=cms, models=mods,
-					opts = os, paths = ps
+					opt.results = ors
 	))
 }

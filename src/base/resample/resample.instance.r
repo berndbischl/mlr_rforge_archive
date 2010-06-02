@@ -81,8 +81,8 @@ setMethod(
 #' 	\item{size [integer]}{Number of observations.}
 #' 	\item{name [character}}{The name of the resample description object, i.e. the type of resampling.}
 #' 	\item{iters [integer]}{The number of resampling iterations.}
-#'  \item{train.inds [list | integer] Optional parameter: iteration index j}{If j is a single integer, the vector of training indices for the jth iteration is returned. If j is an integer vector, the list of training indices for the given iterations is returned. If j is missing, all indices are returned.}
-#'  \item{test.inds [list | integer] Optional parameter: iteration index j}{If j is a single integer, the vector of test indices for the jth iteration is returned. If j is an integer vector, the list of test indices for the given iterations is returned. If j is missing, all indices are returned.}
+#'  \item{train.inds [list | integer] Optional parameter: j}{If j is a single integer, the vector of training indices for the jth iteration. Otherwise, the list of indices for iterations. Missing j means list of all indices.}
+#'  \item{test.inds [list | integer] Optional parameter: j}{If j is a single integer, the vector of test indices for the jth iteration. Otherwise, the list of indices for iterations j. Missing j means list of all indices.}
 #' }
 #' 
 #' @rdname resample.instance-class

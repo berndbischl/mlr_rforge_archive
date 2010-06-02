@@ -9,8 +9,7 @@ setClass(
 				predictions = "list",
 				models = "list",
 				conf.mats = "list",
-				opts = "list", 
-				paths = "list" 
+				opt.results = "list" 
 		)
 )
 
@@ -40,7 +39,19 @@ setMethod(
 		f = "[",
 		signature = signature("bench.result"),
 		def = function(x,i,j,...,drop) {
-
+			mylistdrop = function(y) {
+				if(!is.list(y) || length(y) != 1)
+					return(y)
+				else
+					return(mylistdrop(y[[1]]))
+			}
+			
+			mydrop = function(y) {
+				if(!drop)
+					return(y)
+				z = mylistdrop(y)
+				rec.lapply(z, function (w) ifelse(is.array(w), drop(w), w))
+			}
 			
 			if (i == "iters") {
 				return(lapply(x@perf, function(y) return(dim(y)[1] - 1)))
@@ -57,7 +68,7 @@ setMethod(
 
 			
 			args = list(...)
-			arg.names = names(args)
+			as.data.frame = args$as.data.frame
 			
 			task = args$task
 			if (is.null(task))
@@ -77,17 +88,31 @@ setMethod(
 			aggr = make.aggrs(aggr)
 			
 			
-			if (i == "opt"){
-				xs = lapply(task, function(y) x@opts[[y]][learner[[y]]])
+			if (i == "prediction"){
+				xs = lapply(task, function(y) x@predictions[[y]][learner])
 				return(xs)
+			}		
+			ors = lapply(task, function(y) x@opt.results[[y]][learner])
+			if (i == "opt.result"){
+				return(ors)
+			}
+			if (i == "opt.par"){
+				return(mydrop(rec.lapply(ors, function(y) y["par"])))
+			}
+			if (i == "tuned.par"){
+				return(rec.lapply(ors, function(y) y["tuned.par"]))
+			}
+			if (i == "sel.var"){
+				return(rec.lapply(ors, function(y) y["sel.var"]))
+			}
+			if (i == "opt.perf"){
+				return(rec.lapply(ors, function(y) y["perf"]))
 			}
 			if (i == "path"){
-				xs = lapply(task, function(y) x@paths[[y]][learner[[y]]])
-				return(xs)
+				return(rec.lapply(ors, function(y) y["path", as.data.frame=as.data.frame]))
 			}
 			if (i == "conf.mat"){
-				xs = lapply(task, function(y) x@conf.mats[[y]][learner[[y]]])
-				return(xs)
+				return(lapply(task, function(y) x@conf.mats[[y]][learner]))
 			}
 			
 			if (i == "perf") {
@@ -125,6 +150,7 @@ setMethod(
 				}
 				return(p)
 			}
+			callNextMethod()
 		}
 )
 
