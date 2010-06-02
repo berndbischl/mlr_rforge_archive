@@ -1,7 +1,3 @@
-
-#' Container for the results of a benchmark experiment.
-#' @exportClass bench.result
-
 setClass(
 		"bench.result",
 		contains = c("object"),
@@ -18,17 +14,27 @@ setClass(
 		)
 )
 
-#' Getter.
-#' @param x bench.result object
-#' @param i [character]
+
+
+#' Container for the results of a benchmark experiment.
+#' 
+#' Getter. \cr
+#' 
 #' \describe{
-#'   \item{perf}{Performance matrix.}
-#'   \item{tuned.pars}{Values of tuned parameters. NA if no tuning was done.}
-#'   \item{conf.mats}{Confusion matrices - only for classification.}
+#' 	 \item{iters [list |numeric]}{Lists for every data sets the number of iterations.}
+#'   \item{learners [character]}{Used learners.}
+#'   \item{measures [character]}{Used performance measures.}
+#'   \item{tasks [character]}{In the benchmark experiment included data sets.}
+#' 	 \item{opt  []}{}
+#'   \item{path  []}{}
+#'   \item{conf.mat []}{}
+#'   \item{perf [list]}{Lists for every data set and for every performance measure the performances of the different learners in each iteration.}
 #' }
-#' @param j [integer or character] \cr Select subset of learners.
 #' 
 #' @rdname bench.result-class
+#' @exportClass bench.result
+#' @title bench-result
+#' @seealso \code{\link{bench.exp}}
 
 setMethod(
 		f = "[",

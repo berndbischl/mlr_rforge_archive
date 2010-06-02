@@ -76,16 +76,14 @@ setMethod(
 #----------------- getter ---------------------------------------------------------
 
 #' Getter.
-#' @param x resample.instance object
-#' @param i [character]
+#' 
 #' \describe{
-#' 	\item{size}{Number of observations.}
-#' 	\item{name}{The name of the resample description object, i.e. the type of resampling.}
-#' 	\item{iters}{The number of resampling iterations.}
-#'  \item{train.inds}{If j is a single integer, the vector of training indices for the jth iteration is returned. If j is an integer vector, the list of training indices for the given iterations is returned. If j is missing, all indices are returned.}
-#'  \item{test.inds}{If j is a single integer, the vector of test indices for the jth iteration is returned. If j is an integer vector, the list of test indices for the given iterations is returned. If j is missing, all indices are returned.}
+#' 	\item{size [integer]}{Number of observations.}
+#' 	\item{name [character}}{The name of the resample description object, i.e. the type of resampling.}
+#' 	\item{iters [integer]}{The number of resampling iterations.}
+#'  \item{train.inds [list | integer] Optional parameter: iteration index j}{If j is a single integer, the vector of training indices for the jth iteration is returned. If j is an integer vector, the list of training indices for the given iterations is returned. If j is missing, all indices are returned.}
+#'  \item{test.inds [list | integer] Optional parameter: iteration index j}{If j is a single integer, the vector of test indices for the jth iteration is returned. If j is an integer vector, the list of test indices for the given iterations is returned. If j is missing, all indices are returned.}
 #' }
-#' @param j [integer] \cr See above, i == "train.inds" or i == "test.inds".
 #' 
 #' @rdname resample.instance-class
 
