@@ -1,5 +1,11 @@
-library(roxygen)
-source("src/make/config.r")
+require("methods")
+library("roxygen")
+
+if (file.exists("src/make/config.r")) {
+  source("src/make/config.r")
+} else {
+  project.dir <- getwd()
+}
 source("src/make/desc.r")
 source("src/make/rev.nr.r")
 source("src/make/remove.r")
@@ -112,6 +118,3 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 }
 
 make(build=T, check=F, binary=F, install=F)
-
-
-
