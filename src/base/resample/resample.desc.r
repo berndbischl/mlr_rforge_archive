@@ -29,17 +29,13 @@ setClass(
 #' 
 #' @rdname resample.desc-class
 
-setMethod(
-		f = "[",
-		signature = signature("resample.desc"),
-		def = function(x,i,j,...,drop) {
-			#if nothing special return slot
-			return(
-					eval(substitute("@"(x, slot), list(slot=i)))
-			)
-		}
-)
-
+setMethod(f="[",
+          signature = signature("resample.desc"),
+          def = function(x,i,j,...,drop) {
+            if (i %in% slotNames(x))
+              return(slot(x, i))
+            return(NULL)            
+          })
 
 #' @rdname to.string
 
