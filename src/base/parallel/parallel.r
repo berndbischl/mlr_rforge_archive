@@ -1,5 +1,25 @@
 
+
+#' Defines the technical mode and level of parallelization when executing code.
+#' 
+#' @param mode [string] \cr
+#' 		  Which parallel mode should be used: local, multicore, snowfall, sfCluster.
+#' @param parallel.type [string] \cr
+#'        Currently this is only used for sfInit, where it is passed to the 'type' argument. Default is 'MPI'. 
+#' @param cpus [numeric] \cr
+#'        Number of requested cpus. Default is mpi.universe.size() for snowfall/MPI, ignored for for sfCluster and 1 otherwise. 
+#' @param level [string] \cr
+#'        What is parallelized / what is a job. 
+#' 		  resample: resample.fit is parallelized and a job is train / test.
+#' 		  tune: tune is parallelized and a job is a resampled evaluation of one hyperparameter setting.  
+#' 		  varsel: varsel is parallelized and a job is a resampled evaluation of a feature set.
+#' 		  bench: bennch.exp is parallelized and a job is completely evaluating one learner on one data set.  
+#' @param ... [any] \cr
+#'        Optional parameters, only passed to sfInit currently. 
+#' 
 #' @export 
+#' @title Parallelization setup. 
+ 
 
 parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", ...) {
 	# check mode

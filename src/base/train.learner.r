@@ -13,7 +13,7 @@
 #' @param costs [\code{\link{matrix}}] \cr
 #' 		  Misclassification costs, which should be used during training. 
 #' 		  If your learner does not support this, simply ignore this argument.  
-#' @param ...
+#' @param ... [any] \cr
 #' 		  Additional parameters, which need to be passed to the underlying train function.
 #' 		    
 #' @return Model of the underlying learner.

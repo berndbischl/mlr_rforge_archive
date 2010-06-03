@@ -12,7 +12,7 @@ roxygen()
 #' @param type [\code{\link{character}}] \cr 
 #' 		  Specifies the type of predictions - either probability ("prob") or class ("class").
 #' 		  Ignore this if it is not classification or the learner does not support probabilities.	 
-#' @param ...
+#' @param ... [any] \cr
 #' 		  Additional parameters, which need to be passed to the underlying train function.
 #' 		    
 #' @return Model of the underlying learner.

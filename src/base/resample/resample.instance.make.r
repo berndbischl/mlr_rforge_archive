@@ -7,9 +7,10 @@
 #'        Data of task to resample from.
 #' @param size [\code{\link{integer}}] \cr
 #'        Size of the data set to resample.
-#' @param ... Futher parameters for strategies.\cr 
-#'        iters: Number of generated subsets / resampling iterations.
-#'        split: Percentage of training cases for hold-out / subsampling .
+#' @param ... [any] \cr
+#'		Futher parameters for strategies. 
+#'		iters: Number of generated subsets / resampling iterations.
+#'		split: Percentage of training cases for hold-out / subsampling .
 #' 
 #' @return A \code{\linkS4class{resample.instance}} object.
 #' @export 

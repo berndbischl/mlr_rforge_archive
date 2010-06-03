@@ -68,7 +68,6 @@ setMethod(
 		}
 )
 
-#' Getter.
 #' @rdname learn.task-class
 
 setMethod(
