@@ -67,32 +67,32 @@ setMethod(
 )
 
 
-
- 
 #' @rdname to.string
-
-setMethod(
-		f = "to.string",
-		signature = signature("learner"),
-		def = function(x) {
-			hps = x["hyper.pars"]
-			hps = paste(names(hps), hps, sep="=", collapse=" ")
-			type = switch(x["is.classif"], "Classification", "Regression")
-			return(paste(
-							#todo regression. also check when applied to task!!
-							type, " learner ", x["id"], " from package ", x["pack"], "\n\n",					
-							"Supported features Nums:", x["supports.numerics"], " Factors:", x["supports.factors"], " Chars:", x["supports.characters"], "\n",
-							"Supports missings: ", x["supports.missing"], "\n", 
-							"Supports weights: ", x["supports.weights"], "\n", 
-							"Supports multiclass: ", x["supports.multiclass"], "\n",
-							"Supports probabilities: ", x["supports.probs"], "\n", 
-							"Supports decsion values: ", x["supports.decision"], "\n", 
-							"Supports costs: ", x["supports.costs"], "\n", 
-							"Hyperparameters: ", hps, "\n",
-							sep =""					
-					))
-		}
-)
-
-
-
+setMethod(f = "to.string",
+          signature = signature("learner"),
+          def = function(x) {
+            hps = x["hyper.pars"]
+            hps = paste(names(hps), hps, sep="=", collapse=" ")
+            is.classif = x["is.classif"]
+            type = if (is.null(is.classif))
+              "Unknown"
+            else if (is.classif)
+              "Classification"
+            else
+              "Regression"
+            return(paste(
+                         ##todo regression. also check when applied to task!!
+                         type, " learner ", x["id"], " from package ", x["pack"], "\n\n",
+                         "Supported features Nums:", x["supports.numerics"],
+                         " Factors:", x["supports.factors"],
+                         " Chars:", x["supports.characters"], "\n",
+                         "Supports missings: ", x["supports.missing"], "\n", 
+                         "Supports weights: ", x["supports.weights"], "\n", 
+                         "Supports multiclass: ", x["supports.multiclass"], "\n",
+                         "Supports probabilities: ", x["supports.probs"], "\n", 
+                         "Supports decsion values: ", x["supports.decision"], "\n", 
+                         "Supports costs: ", x["supports.costs"], "\n", 
+                         "Hyperparameters: ", hps, "\n",
+                         sep =""					
+                         ))
+          })
