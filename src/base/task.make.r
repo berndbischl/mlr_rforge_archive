@@ -16,10 +16,6 @@ roxygen()
 #'        A data frame containing the variables for the modelling.
 #' @param target [string] \cr
 #'  	  Name of the target variable.
-#' @param formula [\code{\link{formula}}] \cr
-#'        Instead of specifying the target, you can use the formula interface. 
-#'        If you are using just a subset of the variables or transformations, this will built a new internal 
-#'        data frame by calling \code{\link{model.frame}}.
 #' @param excluded [\code{\link{character}}]
 #'        Names of inputs, which should be generally disregarded, e.g. IDs, etc. Default is zero-length vector. 
 #' @param weights [\code{\link{numeric}}] \cr 	
@@ -37,12 +33,12 @@ roxygen()
 #' @export
 #' @rdname make.task
 #' 
-#' @usage make.task(id, label, data, target, formula, excluded, weights, costs, positive)
+#' @usage make.task(id, label, data, target, excluded, weights, costs, positive)
 #'
 #' @title Construct learning task.
 
 
-make.task = function(id, label, data, target, formula, excluded, weights, costs, positive) {
+make.task = function(id, label, data, target, excluded, weights, costs, positive) {
 			if(missing(id)) {
 				id = deparse(substitute(data))
 				if (!is.character(id) || length(id) != 1)
@@ -50,11 +46,6 @@ make.task = function(id, label, data, target, formula, excluded, weights, costs,
 			}
 			if(missing(label))
 				label = id
-			
-			if (missing(target)) {
-				target = as.character(formula)[2]
-				data = model.frame(formula, data=data)
-			}
 			
 			check.task(data, target)
 			
