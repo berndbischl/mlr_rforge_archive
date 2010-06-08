@@ -28,6 +28,8 @@
 #' @export
 #' 
 make.learner = function(class, id, label, predict.type="response", predict.threshold=numeric(0), hyper.types="train", ...) {
+	if (class == "")
+		stop("Cannot create learner from empty string!")	
 	wl = new(class)
 	if (!missing(id))
 		wl@id = id

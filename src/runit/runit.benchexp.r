@@ -1,7 +1,17 @@
 test.benchexp <- function() {
-	
 	outer = make.res.desc("cv", iters=3)
 	inner = make.res.desc("cv", iters=2)
+
+	checkException(bench.exp(list(), multiclass.task, resampling=outer), silent=TRUE)
+	s = geterrmessage()
+	checkTrue(length(grep("No learners were", s)) >0 )
+	checkException(bench.exp("", multiclass.task, resampling=outer), silent=TRUE)
+	s = geterrmessage()
+	checkTrue(length(grep("Cannot create learner", s)) >0 )
+	checkException(bench.exp("classif.lda", list(), resampling=outer), silent=TRUE)
+	s = geterrmessage()
+	checkTrue(length(grep("No tasks were", s)) >0 )
+	
 	
 	r = list(minsplit=seq(3,10,2))
 	rpart.tuner = make.tune.wrapper("classif.rpart", resampling=inner, control=grid.control(ranges=r))
