@@ -29,8 +29,8 @@ test.lasso <- function() {
 		p <- predict(m, data=regr.test)
 		old.predicts.list[[i]] <- p[,"mu"]
 	}
-	simple.test.parsets("regr.lasso", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list)
-	simple.test.parsets("regr.lasso", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list2)
+	simple.test.parsets("regr.lasso", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list)
+	simple.test.parsets("regr.lasso", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list2)
 	
 	
 	#extra cv test	

@@ -8,7 +8,7 @@ test.rda <- function() {
 	p <- predict(m, newdata=multiclass.test)$class
 	
 	
-	simple.test("classif.rda", multiclass.df, multiclass.formula, 
+	simple.test("classif.rda", multiclass.df, multiclass.target, 
 			multiclass.train.inds, p)
 	
 	
@@ -32,11 +32,11 @@ test.rda <- function() {
 		old.probs.list[[i]] <- p$posterior
 	}
 	
-	simple.test.parsets("classif.rda", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
-	prob.test.parsets  ("classif.rda", multiclass.df, multiclass.formula, multiclass.train.inds, old.probs.list, parset.list)
+	simple.test.parsets("classif.rda", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
+	prob.test.parsets  ("classif.rda", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt <- "rda"
 	tp <- function(model, newdata) predict(model, newdata)$class
 	
-	cv.test.parsets("classif.rda", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
+	cv.test.parsets("classif.rda", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp, parset.list=parset.list)
 }

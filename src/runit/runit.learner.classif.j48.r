@@ -22,8 +22,8 @@ test.J48 <- function() {
 		old.probs.list[[i]] <- p2
 	}
 	
-	simple.test.parsets("classif.J48", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
-	prob.test.parsets  ("classif.J48", multiclass.df, multiclass.formula, multiclass.train.inds, old.probs.list, parset.list)
+	simple.test.parsets("classif.J48", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
+	prob.test.parsets  ("classif.J48", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt <- function (formula, data, subset, ...) {
 		J48(formula, data=data[subset,], control=Weka_control(...))
@@ -31,7 +31,7 @@ test.J48 <- function() {
 	
 	tp <- function(model, newdata) predict(model, newdata, type="class")
 	
-	cv.test.parsets("classif.J48", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
+	cv.test.parsets("classif.J48", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp, parset.list=parset.list)
 	
 }
 

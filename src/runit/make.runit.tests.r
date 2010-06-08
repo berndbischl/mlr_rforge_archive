@@ -1,12 +1,12 @@
 
-simple.test <- function(t.name, df, formula, train.inds, old.predicts, parset=list()) {
+simple.test <- function(t.name, df, target, train.inds, old.predicts, parset=list()) {
 	
 	inds <- train.inds
 	train <- df[inds,]
 	test <- df[-inds,]
 	
 	wl = do.call("make.learner", c(t.name, parset))
-	ct = make.task(data=df, formula=formula)
+	ct = make.task(data=df, target=target)
 	cm = try(train(wl, ct, subset=inds))
 	if(class(cm)[1] == "learner.failure"){
 		checkTrue(class(old.predicts)=="try-error")
@@ -17,7 +17,7 @@ simple.test <- function(t.name, df, formula, train.inds, old.predicts, parset=li
 	}
 }
 
-simple.test.parsets <- function(t.name, df, formula, train.inds, old.predicts.list, parset.list) {
+simple.test.parsets <- function(t.name, df, target, train.inds, old.predicts.list, parset.list) {
 	
 	inds <- train.inds
 	train <- df[inds,]
@@ -26,18 +26,18 @@ simple.test.parsets <- function(t.name, df, formula, train.inds, old.predicts.li
 	for (i in 1:length(parset.list)) {
 		parset <- parset.list[[i]]
 		old.predicts <- old.predicts.list[[i]]
-		simple.test(t.name, df, formula, train.inds, old.predicts, parset)
+		simple.test(t.name, df, target, train.inds, old.predicts, parset)
 	}
 }
 
 
-prob.test <- function(t.name, df, formula, train.inds, old.probs, parset=list()) {
+prob.test <- function(t.name, df, target, train.inds, old.probs, parset=list()) {
 	
 	inds <- train.inds
 	train <- df[inds,]
 	test <- df[-inds,]
 	
-	ct <- make.task(data=df, formula=formula)
+	ct <- make.task(data=df, target=target)
 	
 	wl = do.call("make.learner", c(t.name, parset, predict.type="prob"))
 	cm <- try(train(wl, ct, subset=inds, type="prob"))
@@ -63,7 +63,7 @@ prob.test <- function(t.name, df, formula, train.inds, old.probs, parset=list())
 	}
 }
 
-prob.test.parsets <- function(t.name, df, formula, train.inds, old.probs.list, parset.list) {
+prob.test.parsets <- function(t.name, df, target, train.inds, old.probs.list, parset.list) {
 	
 	inds <- train.inds
 	train <- df[inds,]
@@ -72,14 +72,15 @@ prob.test.parsets <- function(t.name, df, formula, train.inds, old.probs.list, p
 	for (i in 1:length(parset.list)) {
 		parset <- parset.list[[i]]
 		old.probs <- old.probs.list[[i]]
-		prob.test(t.name, df, formula, train.inds, old.probs, parset)
+		prob.test(t.name, df, target, train.inds, old.probs, parset)
 	}
 }
 
 
-cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tune.predict = predict) {
+cv.test <- function(t.name, df, target, folds=2, parset=list(), tune.train, tune.predict = predict) {
 	
 	data = df
+	formula = formula(paste(target, "~."))	
 	
 	tt <- function(formula, data, subset=1:nrow(data), ...) {
 		pars <- list(formula=formula, data=data[subset, ])
@@ -120,7 +121,7 @@ cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tun
 		logger.debug(tr$performances)
 		cv.instance <- e1071.cv.to.mlr.cv(tr)
 		wl = do.call("make.learner", c(t.name, parset))
-		lt = make.task(data=df, formula=formula)
+		lt = make.task(data=df, target=target)
 		cvr <- resample.fit(wl, lt, cv.instance)
 		cva <- performance(cvr)
 		if (is(lt, "classif.task")) { 
@@ -133,26 +134,26 @@ cv.test <- function(t.name, df, formula, folds=2, parset=list(), tune.train, tun
 	}
 }
 
-cv.test.parsets <- function(t.name, df, formula, folds=3, tune.train, tune.predict=predict, parset.list) {
+cv.test.parsets <- function(t.name, df, target, folds=3, tune.train, tune.predict=predict, parset.list) {
 	
 	for (i in 1:length(parset.list)) {
 		parset <- parset.list[[i]]
-		cv.test(t.name, df, formula, folds, parset, tune.train, tune.predict)
+		cv.test(t.name, df, target, folds, parset, tune.train, tune.predict)
 	}
 }
 
 
 
-bs.test <- function(t.name, df, formula, iters=3, parset=list(), tune.train, tune.predict = predict) {
+bs.test <- function(t.name, df, target, iters=3, parset=list(), tune.train, tune.predict = predict) {
 	
 	data = df
-	
+	formula = formula(paste(target, "~."))	
 	tr <- e1071::tune(method=tune.train, predict.func=tune.predict, train.x=formula, data=data, 
 			tunecontrol = tune.control(sampling = "bootstrap", nboot = iters, boot.size=1))
 	
 	bs.instance <- e1071.bs.to.mlr.bs(tr)
 	
-	ct <- make.task(data=df, formula=formula)
+	ct <- make.task(data=df, target=target)
 	
 	bsr <- resample.fit(t.name, ct, bs.instance)
 	

@@ -21,7 +21,7 @@ test.knn.regr <- function() {
 		old.predicts.list[[i]] <- p
 	}
 	
-	simple.test.parsets("regr.kknn", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list)
+	simple.test.parsets("regr.kknn", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list)
 	
 	tt <- function (formula, data, k=7) {
 		return(list(formula=formula, data=data, k=k))
@@ -30,6 +30,6 @@ test.knn.regr <- function() {
 		kknn(model$formula, train=model$data, test=newdata, k=model$k)$fitted
 	}
 	
-	cv.test.parsets("regr.kknn", regr.df, regr.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
+	cv.test.parsets("regr.kknn", regr.df, regr.target, tune.train=tt, tune.predict=tp, parset.list=parset.list)
 }
 

@@ -23,7 +23,7 @@ test.boost <- function() {
 	}
 	
 	
-	simple.test.parsets("classif.adaboost.M1", multiclass.df, multiclass.formula, multiclass.train.inds, old.predicts.list, parset.list)
+	simple.test.parsets("classif.adaboost.M1", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
 	
 	
 	tt <- function (formula, data, subset=1:nrow(data), ...) {
@@ -32,6 +32,6 @@ test.boost <- function() {
 	
 	tp <- function(model, newdata) as.factor(predict(model, newdata)$class)
 	
-	cv.test.parsets("classif.adaboost.M1", multiclass.df, multiclass.formula, tune.train=tt, tune.predict=tp, parset.list=parset.list)
+	cv.test.parsets("classif.adaboost.M1", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp, parset.list=parset.list)
 }
 

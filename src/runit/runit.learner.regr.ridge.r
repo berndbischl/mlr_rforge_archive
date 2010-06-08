@@ -31,8 +31,8 @@ test.ridge <- function() {
 		old.predicts.list[[i]] <- p[,"mu"]
 	}
 	
-	simple.test.parsets("regr.ridge", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list)
-	simple.test.parsets("regr.ridge", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list2)
+	simple.test.parsets("regr.ridge", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list)
+	simple.test.parsets("regr.ridge", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list2)
 	
 	
 	#extra cv test	

@@ -18,7 +18,7 @@ test.svm.regr <- function() {
 		p <- predict(m, newdata=regr.test)
 		old.predicts.list[[i]] <- p[,1]
 	}
-	simple.test.parsets("regr.ksvm", regr.df, regr.formula, regr.train.inds, old.predicts.list, parset.list)
+	simple.test.parsets("regr.ksvm", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list)
 	
 
 }

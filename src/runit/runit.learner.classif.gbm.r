@@ -28,6 +28,6 @@ test.gbm.classif <- function() {
 		old.predicts.list[[i]] = p
 	}
 	
-	simple.test.parsets("classif.gbm", binaryclass.df, binaryclass.formula, binaryclass.train.inds, old.predicts.list, parset.list)
-	prob.test.parsets("classif.gbm", binaryclass.df, binaryclass.formula, binaryclass.train.inds, old.probs.list, parset.list)
+	simple.test.parsets("classif.gbm", binaryclass.df, binaryclass.target, binaryclass.train.inds, old.predicts.list, parset.list)
+	prob.test.parsets("classif.gbm", binaryclass.df, binaryclass.target, binaryclass.train.inds, old.probs.list, parset.list)
 }

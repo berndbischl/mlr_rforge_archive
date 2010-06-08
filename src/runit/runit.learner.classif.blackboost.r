@@ -26,8 +26,8 @@ test.blackboost.classif <- function(){
 		old.probs.list[[i]] = predict(m, newdata=binaryclass.test, type="response")[,1]
 	}
 	
-	simple.test.parsets("classif.blackboost", binaryclass.df, binaryclass.formula, binaryclass.train.inds, old.predicts.list, parset.list2)
-	prob.test.parsets("classif.blackboost", binaryclass.df, binaryclass.formula, binaryclass.train.inds, old.probs.list, parset.list2)	
+	simple.test.parsets("classif.blackboost", binaryclass.df, binaryclass.target, binaryclass.train.inds, old.predicts.list, parset.list2)
+	prob.test.parsets("classif.blackboost", binaryclass.df, binaryclass.target, binaryclass.train.inds, old.probs.list, parset.list2)	
 }
 
 
