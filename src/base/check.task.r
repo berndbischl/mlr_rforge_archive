@@ -8,9 +8,10 @@ check.task <- function(data, target) {
 	}
 	
 	# todo: rpart does not like (), bug there?
-	#forbidden = c("[", "]", "(", ")")
-	forbidden = c("[", "]")
+	forbidden  = c("[", "]", "(", ")", ",", " ")
+	forbidden2 = c("[", "]", "(", ")", ",", "<WHITESPACE>")
+	#forbidden = c("[", "]")
 	i = sapply(forbidden, function(x) length(grep(x, cns, fixed=T)) > 0)
 	if (any(i))
-		stop(paste("Column names should not contain: ", paste(forbidden, collapse=" ")))
+		stop(paste("Column names should not contain: ", paste(forbidden2, collapse=" ")))
 }
