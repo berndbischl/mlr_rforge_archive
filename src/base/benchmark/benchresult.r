@@ -1,3 +1,31 @@
+#' Container for the results of a benchmark experiment.
+#' 
+#' Getter. \cr
+#' The following getters all return list of lists of objects: perf, prediction, opt.result.
+#' The first list iterates the tasks, the second one the learnes, both are named by respective ids.
+#' You can reduce these list by using the optional arguments 'task' and 'learner'. 'Drop' is by default TRUE, which means that 
+#' the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
+#' 
+#' \describe{
+#'   \item{learners [character]}{Ids of learners used in experiment.}
+#'   \item{tasks [character]}{Ids of tasks used in experiment.}
+#'   \item{measures [character]}{Names of measures recorded in experiment.}
+#' 	 \item{iters [numeric]}{Named numerical vector which lists the number of iterations for every task. Names are ids of task.}
+#' 	 \item{prediction [see above] }{List of list of predictions for every task/learner. }
+#' 	 \item{conf.mat [see above] }{List of list of confusion matrices for every task/learner. }
+#' 	 \item{opt.result [see above] }{List of list of  \code{\linkS4class{opt.result}} for every task/learner. Entry is NULL if no optimization was done.}
+#' 	 \item{tuned.par [see above] }{List of list of optimal hyperparameters for every task/learner. Entry is NULL if no tuning was done.}
+#' 	 \item{sel.var [see above] }{List of list of optimal features for every task/learner. Entry is NULL if no feature selection was done.}
+#' 	 \item{path [see above] }{List of list of optimization paths for every task/learner. Entry is NULL if no optimization was done.}
+#'   \item{perf [list]}{Lists for every data set and for every performance measure the performances of the different learners in each iteration.}
+#' }
+#' 
+#' @rdname bench.result-class
+#' @exportClass bench.result
+#' @title bench-result
+#' @seealso \code{\link{bench.exp}}
+
+
 setClass(
 		"bench.result",
 		contains = c("object"),
@@ -13,27 +41,7 @@ setClass(
 		)
 )
 
-
-
-#' Container for the results of a benchmark experiment.
-#' 
-#' Getter. \cr
-#' 
-#' \describe{
-#' 	 \item{iters [list |numeric]}{Lists for every data sets the number of iterations.}
-#'   \item{learners [character]}{Used learners.}
-#'   \item{measures [character]}{Used performance measures.}
-#'   \item{tasks [character]}{In the benchmark experiment included data sets.}
-#' 	 \item{opt  []}{}
-#'   \item{path  []}{}
-#'   \item{conf.mat []}{}
-#'   \item{perf [list]}{Lists for every data set and for every performance measure the performances of the different learners in each iteration.}
-#' }
-#' 
 #' @rdname bench.result-class
-#' @exportClass bench.result
-#' @title bench-result
-#' @seealso \code{\link{bench.exp}}
 
 setMethod(
 		f = "[",
@@ -54,7 +62,7 @@ setMethod(
 			}
 			
 			if (i == "iters") {
-				return(lapply(x@perf, function(y) return(dim(y)[1] - 1)))
+				return(sapply(x@perf, function(y) return(dim(y)[1] - 1)))
 			}
 			if (i == "learners") {
 				return(dimnames(x@perf[[1]])[[2]])
