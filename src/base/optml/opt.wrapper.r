@@ -5,7 +5,7 @@ setClass(
 		"opt.wrapper",
 		contains = c("base.wrapper"),
 		representation = representation(
-				opttype = "character",
+				opt.type = "character",
 				method = "character",
 				resampling = "resample.desc",
 				control = "ANY",
@@ -20,10 +20,10 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.wrapper"),
-		def = function(.Object, opttype, learner, resampling, method, control, measures, aggr) {
+		def = function(.Object, opt.type, learner, resampling, method, control, measures, aggr) {
 			if (missing(learner))
 				return(.Object)
-			.Object@opttype = opttype
+			.Object@opt.type = opt.type
 			.Object@method = method
 			.Object@resampling = resampling
 			.Object@control = control
@@ -53,14 +53,14 @@ setMethod(
 			bl = wl@learner
 			
 			lt = make.task(data=.data, target=.targetvar)	
-			if (wl@opttype == "tune")
+			if (wl@opt.type == "tune")
 				or = tune(bl, task=lt, resampling=wl@resampling, method=wl@method, control=wl@control, 
 						measures=wl@measures, aggr=wl@aggr, model=TRUE)
-			else if (wl@opttype == "varsel")
+			else if (wl@opt.type == "varsel")
 				or = varsel(bl, task=lt, resampling=wl@resampling, method=wl@method, control=wl@control, 
 						measures=wl@measures, aggr=wl@aggr, model=TRUE)
 			else 
-				stop("Unknown type: ", wl@opttype)
+				stop("Unknown type: ", wl@opt.type)
 			
 			m = or@model["learner.model"]
 			attr(m, "opt.result") = or
@@ -69,7 +69,7 @@ setMethod(
 )
 
 
-make.opt.wrapper = function(opttype, learner, resampling, method, control, measures, aggr) {
+make.opt.wrapper = function(opt.type, learner, resampling, method, control, measures, aggr) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	if (missing(measures))
@@ -78,7 +78,7 @@ make.opt.wrapper = function(opttype, learner, resampling, method, control, measu
 	if (missing(aggr))
 		aggr = default.aggr()
 	aggr = make.aggrs(aggr)
-	new("opt.wrapper", opttype, learner, resampling, method, control, measures, aggr=aggr)
+	new("opt.wrapper", opt.type, learner, resampling, method, control, measures, aggr=aggr)
 }
 
 

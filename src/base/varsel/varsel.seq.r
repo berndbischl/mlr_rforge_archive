@@ -106,7 +106,7 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 			}
 		}
 	}
-	new("opt.result", opt=make.path.el(state), path=path)
+	new("opt.result", opt.type="varsel", control=control, opt=make.path.el(state), path=path)
 }
 
 

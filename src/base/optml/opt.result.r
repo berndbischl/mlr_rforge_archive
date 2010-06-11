@@ -21,6 +21,8 @@ setClass(
 		"opt.result",
 		contains = c("object"),
 		representation = representation(
+				opt.type = "character",
+				control = "opt.control",
 				opt = "list",
 				path = "list",
 				model = "wrapped.model"
@@ -36,6 +38,16 @@ setMethod(
 			args = list(...)
 			if (i == "par") {
 				return(x@opt$par)
+			}
+			if (i == "tuned.par"){
+				if (x["opt.type"] != "tune")
+					return(NULL)
+				return(x["par"])
+			}
+			if (i == "sel.var"){
+				if (x["opt.type"] != "varsel")
+					return(NULL)
+				return(x["par"])
 			}
 			if (i == "perf") {
 				return(x@opt$perf)

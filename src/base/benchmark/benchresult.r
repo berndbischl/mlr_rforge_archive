@@ -58,7 +58,7 @@ setMethod(
 				if(!drop)
 					return(y)
 				z = mylistdrop(y)
-				rec.lapply(z, function (w) ifelse(is.array(w), drop(w), w))
+				rec.lapply(z, function (w) if(is.array(w)) drop(w) else w)
 			}
 			
 			if (i == "iters") {
@@ -102,25 +102,25 @@ setMethod(
 			}		
 			ors = lapply(task, function(y) x@opt.results[[y]][learner])
 			if (i == "opt.result"){
-				return(ors)
+				return(mydrop(ors))
 			}
 			if (i == "opt.par"){
 				return(mydrop(rec.lapply(ors, function(y) y["par"])))
 			}
 			if (i == "tuned.par"){
-				return(rec.lapply(ors, function(y) y["tuned.par"]))
+				return(mydrop(rec.lapply(ors, function(y) y["tuned.par"])))
 			}
 			if (i == "sel.var"){
-				return(rec.lapply(ors, function(y) y["sel.var"]))
+				return(mydrop(rec.lapply(ors, function(y) y["sel.var"])))
 			}
 			if (i == "opt.perf"){
-				return(rec.lapply(ors, function(y) y["perf"]))
+				return(mydrop(rec.lapply(ors, function(y) y["perf"])))
 			}
 			if (i == "path"){
-				return(rec.lapply(ors, function(y) y["path", as.data.frame=as.data.frame]))
+				return(mydrop(rec.lapply(ors, function(y) y["path", as.data.frame=as.data.frame])))
 			}
 			if (i == "conf.mat"){
-				return(lapply(task, function(y) x@conf.mats[[y]][learner]))
+				return(mydrop(lapply(task, function(y) x@conf.mats[[y]][learner])))
 			}
 			
 			if (i == "perf") {
@@ -156,7 +156,7 @@ setMethod(
 								return(y)
 					})
 				}
-				return(p)
+				return(mydrop(p))
 			}
 			callNextMethod()
 		}

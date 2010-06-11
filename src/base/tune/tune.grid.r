@@ -43,7 +43,7 @@ tune.1 <- function(learner, task, resampling, ranges, measures, aggr, control) {
 		bs = select.best.state(es, control)
 		path = add.path.els.tune(path=list(), ess=es, best=bs)
 	}
-	new("opt.result", opt=make.path.el(bs), path=path)
+	new("opt.result", opt.type="tune", control=control, opt=make.path.el(bs), path=path)
 
 #	if (.ps$mode %in% c("snowfall", "sfCluster")) {
 #		sfExport("learner")
