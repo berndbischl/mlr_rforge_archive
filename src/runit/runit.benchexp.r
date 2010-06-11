@@ -18,11 +18,11 @@ test.benchexp <- function() {
 	learners = list("classif.lda", rpart.tuner)
 
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer)
-	checkEquals(mean(be@perf[[1]][1:3,,"mmce"]), be["perf", aggr="mean"][[1]][1,1])
+	checkEquals(mean(be@perf[[1]][1:3,,"mmce"]), be["perf", aggr="mean"])
 	
 	outer2 = make.res.desc("holdout")
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer2)
-	x = be["perf", aggr="mean"][["multiclass"]][1,1]
+	x = be["perf", aggr="mean"]
 	checkTrue(!is.na(x))
 	
 	wl = make.learner("classif.lda")
@@ -37,7 +37,7 @@ test.benchexp <- function() {
 	checkTrue(is.list(x))
 	checkEquals(length(x), 1)
 	checkEquals(dim(x[[1]]), c(3, 2, 3))	
-	x = be["perf", learner=c("classif.lda", "classif.rpart"), measure="acc"]
+	x = be["perf", learner=c("classif.lda", "classif.rpart"), measure="acc", drop=F]
 	checkEquals(length(x), 1)
 	checkEquals(dim(x[[1]]), c(3, 2, 1))	
 	
