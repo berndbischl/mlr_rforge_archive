@@ -1,28 +1,26 @@
 
-test.blackboost <- function() {
-	
-	parset.list <- list(
-			list(),
-			list(n.trees=600),
-			list(interaction.depth = 2)
+test.blackboost.regr <- function() {
+	parset.list1 = list(
+			list(family=GaussReg(), tree_controls=ctree_control(maxdepth=2)),
+			list(family=GaussReg(), tree_controls=ctree_control(maxdepth=4), control=boost_control(nu=0.03))
 	)
 	
+	parset.list2 = list(
+			list(family=GaussReg(), maxdepth=2),
+			list(family=GaussReg(), maxdepth=4, nu=0.03)
+	)
 	
 	old.predicts.list = list()
-	old.probs.list = list()
 	
-	for (i in 1:length(parset.list)) {
-		parset <- parset.list[[i]]
-		pars <- list(regr.formula, data=regr.train, distribution="gaussian")
-		pars <- c(pars, parset)
+	for (i in 1:length(parset.list1)) {
+		parset = parset.list1[[i]]
+		pars = list(regr.formula, data=regr.train)
+		pars = c(pars, parset)
 		set.seed(debug.seed)
-		capture.output(
-				m <- do.call(gbm, pars)
-		)
+		m = do.call(blackboost, pars)
 		set.seed(debug.seed)
-		p <- predict(m, newdata=regr.test, n.trees=length(m$trees))
-		old.predicts.list[[i]] <- p
+		old.predicts.list[[i]] = predict(m, newdata=regr.test)[,1]
 	}
 	
-	simple.test.parsets("gbm.regr", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list)
+	simple.test.parsets("regr.blackboost", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list2)
 }
