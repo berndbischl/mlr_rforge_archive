@@ -1,5 +1,7 @@
 
+# Base class for all S4 classes in this package. 
 #' @exportClass object
+#' @title Base class for everything.
 
 setClass(
 		"object"
