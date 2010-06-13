@@ -1,21 +1,27 @@
 setClass(
-		"varsel.control",
-		contains = c("opt.control"),
+		"seq.control",
+		contains = c("varsel.control"),
 		representation = representation(
-				compare = "character",
-				max.vars = "integer", 
-				maxit = "integer",
 				alpha = "numeric", 
-				beta = "numeric", 
-				gamma = "numeric", 
-				delta = "numeric", 
-				epsilon = "numeric"				
+				beta = "numeric" 
 		)
 )
 
-#todo document
 
-#' Control structure for variable selection. 
+setMethod(
+		f = "initialize",
+		signature = signature("seq.control"),
+		def = function(.Object, method, minimize, tune.threshold, thresholds, maxit, max.vars, alpha, beta) {
+			.Object = callNextMethod(.Object, method, minimize, tune.threshold, thresholds, maxit=maxit, max.vars)
+			.Object@alpha = alpha 			
+			.Object@beta = beta 			
+			return(.Object)
+		}
+)
+
+
+
+#' Control structure for sequential variable selection. 
 #' 
 #' @param minimize [logical] \cr 
 #'       Minimize performance measure? Default is TRUE.
@@ -37,14 +43,11 @@ setClass(
 #' @title Control for grid search tuning. 
 
 
-varsel.control <- function(minimize=TRUE, compare="diff", maxit, max.vars,
-		alpha=0.01, beta=0.01, gamma=0, delta=0, epsilon=0, tune.threshold=FALSE, thresholds=10) {
+seq.control <- function(minimize=TRUE, tune.threshold=FALSE, thresholds=10, maxit, max.vars, alpha=0.01, beta=0.01) {
 	if (missing(maxit))
 		maxit = .Machine$integer.max
 	if (missing(max.vars))
 		max.vars = .Machine$integer.max
-	new("varsel.control", minimize=TRUE, method="varsel", compare=compare, max.vars=max.vars, maxit=maxit,
-			alpha=alpha, beta=beta, gamma=gamma, delta=delta, epsilon=epsilon, 
-			tune.threshold=tune.threshold, thresholds=thresholds)
+	new("seq.control", "seq", minimize, tune.threshold, thresholds, maxit=maxit, max.vars, alpha=alpha, beta=beta) 
 }
 
