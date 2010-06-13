@@ -1,7 +1,5 @@
-#' @include varsel.control.r
+#' @include control.varsel.r
 roxygen()
-
-
 
 setClass(
 		"seq.control",
@@ -25,7 +23,6 @@ setMethod(
 )
 
 
-
 #' Control structure for sequential variable selection. 
 #' 
 #' @param minimize [logical] \cr 
@@ -43,16 +40,67 @@ setMethod(
 #' @param thresholds [numeric] \cr 
 #'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
 #' 		    
-#' @return Control structure for tuning.
-#' @export 
-#' @title Control for grid search tuning. 
+#' @return Control structure.
+#' @export
+#' @rdname seq.control 
+#' @title Control structure for sequential variable selection. 
 
-
-seq.control <- function(minimize=TRUE, tune.threshold=FALSE, thresholds=10, maxit, max.vars, alpha=0.01, beta=0.01) {
-	if (missing(maxit))
-		maxit = .Machine$integer.max
-	if (missing(max.vars))
-		max.vars = .Machine$integer.max
-	new("seq.control", "seq", minimize, tune.threshold, thresholds, maxit=maxit, max.vars, alpha=alpha, beta=beta) 
+seq.control = function(minimize, tune.threshold, thresholds, maxit, max.vars, alpha, beta) {
+			if (missing(minimize))
+				minimize=TRUE
+			if (missing(tune.threshold))
+				tune.threshold=FALSE
+			if (missing(thresholds))
+				thresholds=10
+			if (missing(maxit))
+				maxit = .Machine$integer.max
+			if (missing(max.vars))
+				max.vars = .Machine$integer.max
+			if (missing(alpha))
+				alpha=0.01
+			if (missing(beta))
+				beta=0.01
+	new("seq.control", method="seq", minimize=minimize, 
+			tune.threshold=tune.threshold, thresholds=thresholds, 
+			maxit=maxit, max.vars=max.vars, alpha=alpha, beta=beta)
 }
+
+
+
+
+#setGeneric(
+#		name = "seq.control",
+#		def = function(minimize, tune.threshold, thresholds, maxit, max.vars, alpha, beta) {
+#			if (missing(minimize))
+#				minimize=TRUE
+#			if (missing(tune.threshold))
+#				tune.threshold=FALSE
+#			if (missing(thresholds))
+#				thresholds=10
+#			if (missing(maxit))
+#				maxit = .Machine$integer.max
+#			if (missing(max.vars))
+#				max.vars = .Machine$integer.max
+#			if (missing(alpha))
+#				alpha=0.01
+#			if (missing(beta))
+#				beta=0.01
+#			standardGeneric("seq.control")
+#		}
+#)
+#
+#
+#
+#setMethod(
+#		f = "seq.control",
+#		signature = signature(minimize="logical", tune.threshold="logical", thresholds="numeric", 
+#				maxit="numeric", max.vars="numeric", alpha="numeric", beta="numeric"),
+#		def = function(minimize, tune.threshold, thresholds, maxit, max.vars, alpha, beta) {
+#			new("seq.control", method="seq", minimize=minimize, 
+#					tune.threshold=tune.threshold, thresholds=thresholds, 
+#					maxit=maxit, max.vars=max.vars, alpha=alpha, beta=beta)
+#		}
+#)
+
+
 
