@@ -63,7 +63,7 @@ test.benchresult = function() {
 	checkEquals(be["opt.result", learner="classif.ksvm"][[3]]["par"], be["tuned.par", learner="classif.ksvm"][[3]])
 	
 
-	ctrl = varsel.control(beta=100)
+	ctrl = seq.control(beta=100)
 	vs = make.varsel.wrapper("classif.lda", resampling=inner, method="sbs", control=ctrl)
 	
 	learners = c("classif.rpart", vs)

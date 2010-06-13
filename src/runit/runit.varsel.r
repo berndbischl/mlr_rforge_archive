@@ -1,13 +1,13 @@
 test.varsel <- function() {
 	inner = make.res.desc("cv", iter=2)
-	ctrl = varsel.control(alpha=0.01)
+	ctrl = seq.control(alpha=0.01)
 	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, method="sfs", control=ctrl)
 
 	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, method="sbs", control=ctrl)
 	checkTrue(length(vr["path"]) > 1) 
 	
 	# check empty model
-	ctrl = varsel.control(alpha=10)
+	ctrl = seq.control(alpha=10)
 	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, model=T)
 	checkEquals(vr["par"], character(0)) 
 	checkTrue(is(vr["model"], "wrapped.model")) 
