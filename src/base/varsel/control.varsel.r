@@ -1,3 +1,6 @@
+#' @include opt.control.r
+roxygen()
+
 setClass(
 		"varsel.control",
 		contains = c("opt.control"),
