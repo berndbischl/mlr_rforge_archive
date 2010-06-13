@@ -12,7 +12,6 @@ test.benchexp <- function() {
 	s = geterrmessage()
 	checkTrue(length(grep("No tasks were", s)) >0 )
 	
-	
 	r = list(minsplit=seq(3,10,2))
 	rpart.tuner = make.tune.wrapper("classif.rpart", resampling=inner, control=grid.control(ranges=r))
 	learners = list("classif.lda", rpart.tuner)
@@ -33,7 +32,7 @@ test.benchexp <- function() {
 	ms = list("acc", time="time", foo=function(x,task) 1)
 	be = bench.exp(learners, multiclass.task, resampling=outer, measures=ms)
 	print(be)	
-	x = be["perf", learner=c("classif.lda", "classif.rpart")]
+	x = be["perf", learner=c("classif.lda", "classif.rpart"), drop=F]
 	checkTrue(is.list(x))
 	checkEquals(length(x), 1)
 	checkEquals(dim(x[[1]]), c(3, 2, 3))	
