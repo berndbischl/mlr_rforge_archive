@@ -1,26 +1,26 @@
-##' @include control.varsel.r
-#roxygen()
-#
-#setClass(
-#		"seq.control",
-#		contains = c("varsel.control"),
-#		representation = representation(
-#				alpha = "numeric", 
-#				beta = "numeric" 
-#		)
-#)
-#
-#
-#setMethod(
-#		f = "initialize",
-#		signature = signature("seq.control"),
-#		def = function(.Object, method, minimize, tune.threshold, thresholds, maxit, max.vars, alpha, beta) {
-#			.Object = callNextMethod(.Object, method, minimize, tune.threshold, thresholds, maxit=maxit, max.vars)
-#			.Object@alpha = alpha 			
-#			.Object@beta = beta 			
-#			return(.Object)
-#		}
-#)
+#' @include control.varsel.r
+roxygen()
+
+setClass(
+		"seq.control",
+		contains = c("varsel.control"),
+		representation = representation(
+				alpha = "numeric", 
+				beta = "numeric" 
+		)
+)
+
+
+setMethod(
+		f = "initialize",
+		signature = signature("seq.control"),
+		def = function(.Object, method, minimize, tune.threshold, thresholds, maxit, max.vars, alpha, beta) {
+			.Object = callNextMethod(.Object, method, minimize, tune.threshold, thresholds, maxit=maxit, max.vars)
+			.Object@alpha = alpha 			
+			.Object@beta = beta 			
+			return(.Object)
+		}
+)
 
 
 #' Control structure for sequential variable selection. 
@@ -45,27 +45,6 @@
 #' @rdname seq.control 
 #' @title Control structure for sequential variable selection. 
 
-#seq.control = function(minimize, tune.threshold, thresholds, maxit, max.vars, alpha, beta) {
-#			if (missing(minimize))
-#				minimize=TRUE
-#			if (missing(tune.threshold))
-#				tune.threshold=FALSE
-#			if (missing(thresholds))
-#				thresholds=10
-#			if (missing(maxit))
-#				maxit = .Machine$integer.max
-#			if (missing(max.vars))
-#				max.vars = .Machine$integer.max
-#			if (missing(alpha))
-#				alpha=0.01
-#			if (missing(beta))
-#				beta=0.01
-#	new("seq.control", method="seq", minimize=minimize, 
-#			tune.threshold=tune.threshold, thresholds=thresholds, 
-#			maxit=maxit, max.vars=max.vars, alpha=alpha, beta=beta)
-#}
-
-
 
 setGeneric(
 		name = "seq.control",
@@ -76,10 +55,16 @@ setGeneric(
 				tune.threshold=FALSE
 			if (missing(thresholds))
 				thresholds=10
+			if (is.numeric(thresholds))
+				thresholds = as.integer(thresholds)
 			if (missing(maxit))
 				maxit = .Machine$integer.max
+			if (is.numeric(maxit))
+				maxit = as.integer(maxit)
 			if (missing(max.vars))
 				max.vars = .Machine$integer.max
+			if (is.numeric(max.vars))
+				max.vars = as.integer(max.vars)
 			if (missing(alpha))
 				alpha=0.01
 			if (missing(beta))
@@ -92,13 +77,12 @@ setGeneric(
 
 setMethod(
 		f = "seq.control",
-		signature = signature(minimize="logical", tune.threshold="logical", thresholds="numeric", 
-				maxit="numeric", max.vars="numeric", alpha="numeric", beta="numeric"),
+		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", 
+				maxit="integer", max.vars="integer", alpha="numeric", beta="numeric"),
 		def = function(minimize, tune.threshold, thresholds, maxit, max.vars, alpha, beta) {
-#			new("seq.control", method="seq", minimize=minimize, 
-#					tune.threshold=tune.threshold, thresholds=thresholds, 
-#					maxit=maxit, max.vars=max.vars, alpha=alpha, beta=beta)
-			1
+			new("seq.control", method="seq", minimize=minimize, 
+					tune.threshold=tune.threshold, thresholds=thresholds, 
+					maxit=maxit, max.vars=max.vars, alpha=alpha, beta=beta)
 		}
 )
 
