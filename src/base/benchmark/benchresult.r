@@ -14,9 +14,11 @@
 #' 	 \item{prediction [see above] }{List of list of predictions for every task/learner. }
 #' 	 \item{conf.mat [see above] }{List of list of confusion matrices for every task/learner. }
 #' 	 \item{opt.result [see above] }{List of list of  \code{\linkS4class{opt.result}} for every task/learner. Entry is NULL if no optimization was done.}
+#' 	 \item{opt.perf [see above] }{List of list of performance vectors of optimals settings for every task/learner. Note that this performance refers to the inner resampling! Entry is NULL if no optimization was done.}
+#' 	 \item{opt.par [see above] }{List of list of  \code{\linkS4class{opt.result}} for every task/learner. Entry is NULL if no optimization was done.}
+#' 	 \item{opt.path [see above] }{List of list of optimization paths for every task/learner. Entry is NULL if no optimization was done.}
 #' 	 \item{tuned.par [see above] }{List of list of optimal hyperparameters for every task/learner. Entry is NULL if no tuning was done.}
 #' 	 \item{sel.var [see above] }{List of list of optimal features for every task/learner. Entry is NULL if no feature selection was done.}
-#' 	 \item{path [see above] }{List of list of optimization paths for every task/learner. Entry is NULL if no optimization was done.}
 #'   \item{perf [list]}{Lists for every data set and for every performance measure the performances of the different learners in each iteration.}
 #' }
 #' 
@@ -116,7 +118,7 @@ setMethod(
 			if (i == "opt.perf"){
 				return(mydrop(rec.lapply(ors, function(y) y["perf"])))
 			}
-			if (i == "path"){
+			if (i == "opt.path"){
 				return(mydrop(rec.lapply(ors, function(y) y["path", as.data.frame=as.data.frame])))
 			}
 			if (i == "conf.mat"){
