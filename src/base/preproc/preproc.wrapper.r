@@ -1,6 +1,5 @@
 #' @include base.wrapper.r
 
-#' @exportClass  preproc.wrapper
 setClass(
 		"preproc.wrapper",
 		contains = c("base.wrapper"),
@@ -21,6 +20,23 @@ setMethod(
 		}
 )
 
+
+#' Fuses a base learner with a preprocessing method. Creates a learner object, which can be
+#' used like any other learner object, but which internally preprocesses the data as requested. 
+#' If the train or predict function is called on it, the preprocessing is always invoked before.
+#'
+#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#'        Learning algorithm. See \code{\link{learners}}.  
+#' @param fun [function] \cr
+#'        Function to preprocess a data.frame. First argument must be called 'data', which will be preprocessed and subsequently returned.
+#' @param ... [any] \cr
+#'        Optional parameters to control the preprocessing. Passed to fun.   
+#' 
+#' @return \code{\linkS4class{learner}}.
+#' 
+#' @exportClass  preproc.wrapper
+#'   
+#' @title Fuse learner with preprocessing.
 #' @export
 
 make.preproc.wrapper = function(learner, fun, ...) {
