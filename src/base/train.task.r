@@ -80,11 +80,6 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 		ws = rep(1, length(subset)) 
 	
 	
-	# no vars? then use no vars model
-	if (length(vars) == 0) {
-		wl = new("novars", learner=wl)
-	}
-	
 	# make pars list for train call
 	pars = list(.learner=wl, .target=tn, .data=data.subset, .data.desc=task@data.desc, .task.desc=task@task.desc, .weights=ws)
 	# only pass train hyper pars to rlearner
@@ -100,17 +95,25 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	logger.debug("on", length(subset), "examples:")
 	logger.debug(subset)
 	
-	# set the seed
-	if(!is.null(.mlr.local$debug.seed)) {
-		set.seed(.mlr.local$debug.seed)
-		warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
+	
+	# no vars? then use no vars model
+	if (length(vars) == 0) {
+		learner.model = new("novars", targets=data.subset[, tn], data.desc=task@data.desc, task.desc=task@task.desc)
+		time.train = 0
+	} else {
+		# set the seed
+		if(!is.null(.mlr.local$debug.seed)) {
+			set.seed(.mlr.local$debug.seed)
+			warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
+		}
+		
+		st = system.time(or <- capture.output(
+							learner.model <- try(do.call(train.learner, pars), silent=TRUE)
+						), gcFirst = FALSE)
+		logger.debug(or)
+		time.train = st[3]
 	}
 	
-	st = system.time(or <- capture.output(
-						learner.model <- try(do.call(train.learner, pars), silent=TRUE)
-					), gcFirst = FALSE)
-	logger.debug(or)
-	time.train = st[3]
 	
 	# if error happened we use a failure model
 	if(is(learner.model, "try-error")) {

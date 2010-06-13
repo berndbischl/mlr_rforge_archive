@@ -37,7 +37,6 @@ setMethod(
 		f = "predict",
 		signature = signature(object="wrapped.model"),
 		def = function(object, task, newdata, subset, type, threshold) {
-			
 			if (!missing(task) && !missing(newdata)) 
 				stop("Pass either a task object or a newdata data.frame to predict, but not both!")
 			
@@ -121,10 +120,13 @@ setMethod(
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
 				
-				
-				st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)
-				time.predict = st[3]
-				
+				if(is(model["learner.model"], "novars")) {
+					p = predict(model["learner.model"], newdata, type)
+					time.predict = 0
+				} else {
+					st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)
+					time.predict = st[3]
+				}
 				if (wl["is.classif"]) {
 					if (type == "response") {
 						# the levels of the predicted classes might not be complete....
@@ -154,8 +156,7 @@ setMethod(
 				logger.debug(p)
 			}
 			if (missing(task))
-				ids = NULL
-			else
+				ids = NULL			else
 				ids = subset
 			make.prediction(data.desc=dd, task.desc=td, id=ids, truth=truth, 
 					type=type, y=p, threshold=threshold,  

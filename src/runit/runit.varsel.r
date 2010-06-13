@@ -11,7 +11,7 @@ test.varsel <- function() {
 	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, model=T)
 	checkEquals(vr["par"], character(0)) 
 	checkTrue(is(vr["model"], "wrapped.model")) 
-	checkTrue(is(vr["model"]["learner.model"], "empty.model")) 
+	checkTrue(is(vr["model"]["learner.model"], "novars")) 
 	
 	wl = make.varsel.wrapper("classif.lda", resampling=inner, method="sfs", control=ctrl)
 	outer = make.res.desc("cv", iter=2)
