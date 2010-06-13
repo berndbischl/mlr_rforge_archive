@@ -57,7 +57,7 @@ base.files <<- c(
 		"base/conf.matrix.r",
 		
 		"base/wrappers/base.wrapper.r",
-		"base/wrappers/novars.r",
+#		"base/wrappers/novars.r",
 		"base/preproc/preproc.wrapper.r",
 		
 		"base/optml/opt.control.r",
@@ -69,7 +69,7 @@ base.files <<- c(
 		
 		"base/tune/tune.control.r",
 		"base/tune/control.grid.r",
-		"base/tune/control.ps.r",
+#		"base/tune/control.ps.r",
 		"base/tune/control.nm.r",
 		"base/tune/control.cmaes.r",
 		"base/tune/check.ranges.r",
@@ -78,12 +78,14 @@ base.files <<- c(
 		"base/tune/tune.threshold.r",
 		"base/tune/tune.grid.r",
 		"base/tune/tune.cmaes.r",
-		"base/tune/pattern.search.r",
-		"base/tune/tune.ps.r",
+#		"base/tune/pattern.search.r",
+#		"base/tune/tune.ps.r",
 		"base/tune/tune.nm.r",
 		"base/tune/tune.wrapper.r",
 #		"base/varsel/varsel.helpers.r",
-		"base/varsel/varsel.control.r",
+		"base/varsel/novars.r",
+		"base/varsel/control.varsel.r",
+		"base/varsel/control.seq.r",
 		"base/varsel/varsel.random.r",
 		"base/varsel/varsel.bestcor.r",
 		"base/varsel/varsel.hybrid.r",
@@ -118,19 +120,20 @@ classif.files <<- c(
 		"models/classification/randomForest.r",
 		"models/classification/boost.r",
 		"models/classification/ada.r",
-		"models/classification/blackboost.r",
+		"models/classification/blackboost.classif.r",
 		"models/classification/glmboost.classif.r",
 		"models/classification/gbm.classif.r",
-		"models/classification/gbm.mygbm.r",
 		"models/classification/kernlab.svm.classif.r",
 		"models/classification/svm.classif.r",
-		"models/classification/nnet.r"
-##		"models/classification/metacost.r"
+		"models/classification/nnet.r",
+		"models/classification/grplasso.classif.r",
+		"models/classification/lvq1.classif.r"
+		##		"models/classification/metacost.r"
 )
 
 regr.files <<- c( 		
 		"models/regression/lm.r",
-		"models/regression/blackboost.r",
+		"models/regression/blackboost.regr.r",
 		"models/regression/gbm.regr.r",
 		"models/regression/kknn.r",
 		"models/regression/ridge.r",
@@ -147,7 +150,7 @@ load.all.libs <- function() {
 	library(e1071)
 	library(boot)
 	library(roxygen)
-	library(kernlab)
+#	library(kernlab)
 	library(adabag)
 	library(kknn)
 	library(randomForest)

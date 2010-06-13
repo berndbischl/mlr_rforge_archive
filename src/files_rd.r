@@ -1,6 +1,7 @@
 allowed.rd.files <<- c( 		
 		"undocumented.Rd",
-		"object.Rd",
+		"parallel.setup.Rd",
+		"object-class.Rd",
 		"to.string.Rd",
 
 		"learn.task-class.Rd",
@@ -41,18 +42,21 @@ allowed.rd.files <<- c(
 #		"set.train.par.Rd",
 #		"set.predict.par.Rd",
 #
+
+		"preproc.wrapper-class.Rd",
+		"make.preproc.wrapper.Rd",
 		
 		"opt.result-class.Rd",
 		
 		"tune.Rd",
 		"combine.ranges.Rd",
 		"grid.control.Rd",
-		"ps.control.Rd",
+#		"ps.control.Rd",
 		"neldermead.control.Rd",
 		"cmaes.control.Rd",
 		"make.tune.wrapper.Rd",
 		
-		"varsel.control.Rd",
+		"seq.control.Rd",
 		"varsel.Rd",
 		"make.varsel.wrapper.Rd",
 		
