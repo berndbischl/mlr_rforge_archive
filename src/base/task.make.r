@@ -51,7 +51,7 @@ make.task = function(id, label, data, target, excluded, weights, costs, positive
 			
 			if(is.factor(data[,target]) || is.character(data[,target]))
 				type = "classif"
-			else if(is.numeric(data[,target]))
+			else if(is.numeric(data[,target]) && !is.integer(data[,target]))
 				type = "regr"
 			else 
 				stop("Cannot infer the type of task from the target data type. Please transform it!")
