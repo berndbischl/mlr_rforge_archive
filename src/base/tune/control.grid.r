@@ -23,5 +23,5 @@
 
 grid.control <- function(ranges=list(), minimize=TRUE, tune.threshold=FALSE, thresholds=10, scale=identity) {
 	new("tune.control", method="grid", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, 
-			ranges=ranges, lower=list(), upper=list(), scale=scale)
+			ranges=ranges, lower=list(), upper=list(), partypes=character(0), scale=scale)
 }

@@ -15,7 +15,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("tune.control"),
-		def = function(.Object, method, minimize, tune.threshold, thresholds, lower, upper, ranges, partype, scale) {
+		def = function(.Object, method, minimize, tune.threshold, thresholds, lower, upper, ranges, partypes, scale) {
 			if (missing(method))
 				return(.Object)
 			.Object@lower = lower 			
