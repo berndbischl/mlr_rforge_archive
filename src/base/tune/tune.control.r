@@ -12,6 +12,23 @@ setClass(
 		)
 )
 
+setMethod(
+		f = "initialize",
+		signature = signature("tune.control"),
+		def = function(.Object, method, minimize, tune.threshold, thresholds, lower, upper, ranges, partype, scale) {
+			if (missing(method))
+				return(.Object)
+			.Object@lower = lower 			
+			.Object@upper = upper 			
+			.Object@ranges = ranges
+			.Object@partypes = partypes 			
+			.Object@scale = scale 		
+			.Object = callNextMethod(.Object=.Object, method=method, minimize=minimize, 
+					tune.threshold=tune.threshold, thresholds=thresholds)
+			return(.Object)
+		}
+)
+
 
 setMethod(
 		f = "[",
