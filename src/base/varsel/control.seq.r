@@ -41,7 +41,7 @@ setMethod(
 #'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
 #' 		    
 #' @return Control structure.
-#' @export
+#' @exportMethod seq.control
 #' @rdname seq.control 
 #' @title Control structure for sequential variable selection. 
 
