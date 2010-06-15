@@ -3,24 +3,23 @@ roxygen()
 
 check.task.learner <- function(lt, learner) {
 	wl <- learner
-	ld <- wl["props"]
 	data <- lt["data"]
 	msg <- ""
 	dd <- lt@data.desc
 	
-	if (dd["class.nr"] > 2 && !ld@supports.multiclass) {
+	if (dd["class.nr"] > 2 && !wl["supports.multiclass"]) {
 		msg <- paste("Data set is a multiclass-problem, but", wl["id"], "does not support that!")
 	}
-	if (dd["has.missing"] && !ld@supports.missing) {
+	if (dd["has.missing"] && !wl["supports.missing"]) {
 		msg <- paste("Data set has missing values, but", wl["id"], "does not support that!")
 	}
-	if (dd@numerics > 0 && !ld@supports.numerics) {
+	if (dd@numerics > 0 && !wl["supports.numerics"]) {
 		msg <- paste("Data set has numeric inputs, but", wl["id"], "does not support that!")
 	}
-	if (dd@factors > 0 && !ld@supports.factors) {
+	if (dd@factors > 0 && !wl["supports.factors"]) {
 		msg <- paste("Data set has factor inputs, but", wl["id"], "does not support that!")
 	}
-	if (dd@characters > 0 && !ld@supports.characters) {
+	if (dd@characters > 0 && !wl["supports.characters"]) {
 		msg <- paste("Data set has character inputs, but", wl["id"], "does not support that!")
 	}
 	if (any(is.na(lt["targets"]))) {
@@ -32,10 +31,9 @@ check.task.learner <- function(lt, learner) {
 check.task.learner.classif <- function(lt, learner) {
 	msg <- check.task.learner(lt, learner)
 
-	ld <- learner["props"]
 	dd <- lt@data.desc
 	
-	if (dd["class.nr"]> 2 && !ld@supports.multiclass) {
+	if (dd["class.nr"]> 2 && !learner["supports.multiclass"]) {
 		msg <- paste("Data set is a multiclass-problem, but", learner["id"], "does not support that!")
 	}
 	return(list(msg=msg))
