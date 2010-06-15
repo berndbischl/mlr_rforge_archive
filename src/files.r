@@ -58,7 +58,8 @@ base.files <<- c(
 		
 		"base/wrappers/base.wrapper.r",
 #		"base/wrappers/novars.r",
-		"base/preproc/preproc.wrapper.r",
+		"base/wrappers/preproc.wrapper.r",
+		"base/wrappers/multiclass.wrapper.r",
 		
 		"base/optml/opt.control.r",
 		"base/optml/opt.result.r",
@@ -127,8 +128,9 @@ classif.files <<- c(
 		"models/classification/svm.classif.r",
 		"models/classification/nnet.r",
 		"models/classification/grplasso.classif.r",
-		"models/classification/lvq1.classif.r"
-		##		"models/classification/metacost.r"
+		"models/classification/lvq1.classif.r",
+		"models/classification/llr.r"
+##		"models/classification/metacost.r"
 )
 
 regr.files <<- c( 		
