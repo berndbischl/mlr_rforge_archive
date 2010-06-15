@@ -9,6 +9,7 @@ setClass(
 		)
 )
 
+#' Constructor.
 
 setMethod(
 		f = "initialize",
