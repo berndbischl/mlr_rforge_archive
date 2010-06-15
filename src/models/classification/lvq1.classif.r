@@ -50,10 +50,18 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
-			# todo lvqinit hyperpars!!!!
 			inputs = setdiff(colnames(.data), .targetvar)
-			codebk = lvqinit(.data[,inputs], .data[,.targetvar])
-			lvq1(x=.data[,inputs], cl=.data[,.targetvar], codebk=codebk, ...)
+			
+			cdbk.args = insert(list(), list(...), c("size", "k", "prior"))
+			cdbk.args$x = .data[,inputs] 
+			cdbk.args$cl = .data[,.targetvar] 
+			codebk = do.call(lvqinit, cdbk.args)  
+
+			lvq.args = insert(list(), list(...), c("niter", "alpha"))
+			lvq.args$x = .data[,inputs] 
+			lvq.args$cl = .data[,.targetvar] 
+			lvq.args$codebk = codebk 
+			do.call(lvq1, lvq.args)  
 		}
 )
 
