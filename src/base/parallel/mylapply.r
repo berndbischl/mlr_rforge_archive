@@ -1,10 +1,12 @@
 
 
-warn.wrapper = function(x, f, ...) {
+warn.wrapper = function(x, myfun, arg.names) {
 	assign(".mlr.slave.warnings", character(0), envir = .GlobalEnv)
 	
 	withCallingHandlers({
-				y = f(x, ...)
+				args = mget(arg.names, env=.GlobalEnv)
+				args[[length(args)+1]] = x
+				y = do.call(myfun, args)
 			}, 
 			warning = function(w) {
 				sws = get(".mlr.slave.warnings", envir = .GlobalEnv) 
@@ -22,13 +24,22 @@ mylapply <- function(xs, f, from, ...) {
 	ps = .mlr.local$parallel.setup
 	if (ps$mode == "local" || ps$level != from) {
 		y = lapply(xs, f, ...)
-	} else if (ps$mode %in% c("sfCluster", "snowfall")){
-		y = sfClusterApplyLB(x=xs, fun=warn.wrapper, f, ...)		
-	} else if (ps$mode == "multicore") {
-		# todo check warnings
-		y = mclapply(xs, f, ..., mc.cores=ps$cpus)
 	} else {
-		stop("Unknown parallel model: ", ps$mode)
+		args = list(...)
+		ns = names(args)
+		
+		for (i in seq(length(ns))) {
+			export(ns[i], args[[i]])
+		}
+		
+		if (ps$mode %in% c("sfCluster", "snowfall")){
+			y = sfClusterApplyLB(x=xs, fun=warn.wrapper, myfun=f, arg.names=ns)		
+		} else if (ps$mode == "multicore") {
+			# todo check warnings
+			y = mclapply(xs, f, mc.cores=ps$cpus)
+		} else {
+			stop("Unknown parallel model: ", ps$mode)
+		}
 	}
 	if (length(y) > 0) {
 		for (i in 1:length(y)) {

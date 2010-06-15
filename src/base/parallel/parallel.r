@@ -49,6 +49,9 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 	p$level = level
 	p$cpus = cpus
 	.mlr.local$parallel.setup <- p
+	# todo: maybe keep the export hashes when just changing the level of parallization? 
+	# delete export hash when we (re)start the cluster	
+	rm(list=ls(envir=.mlr.export), envir=.mlr.export)
 	
 	if (mode %in% c("sfCluster", "snowfall")) {
 		sfStop()
