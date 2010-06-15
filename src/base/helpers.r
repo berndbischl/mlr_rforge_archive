@@ -76,6 +76,20 @@ check.list.type = function(xs, type, name) {
 #} 
 
 
+vote.majority = function(x) {
+	tt = table(x)
+	y = seq_along(tt)[tt == max(tt)]
+	if (length(y) > 1L) 
+		y = sample(y, 1L)
+	names(tt)[y]
+}
+
+vote.max.val = function(x, names=names(x)) {
+	y = seq_along(x)[x == max(x)]
+	if (length(y) > 1L) 
+		y = sample(y, 1L)
+	return(names[y])
+}
 
 
 # returns first non null el. 
