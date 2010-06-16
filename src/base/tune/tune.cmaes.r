@@ -1,6 +1,9 @@
 
 
 tune.cmaes <- function(learner, task, resampling, measures, aggr, control, scale) {
+#	if (method == "cmaes" && !require(cmaes)) {
+#		stop("You have to install the package cmaes for this!")
+#	}
 	
 #	ns = names(control$start)
 #	

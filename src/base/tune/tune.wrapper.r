@@ -8,10 +8,8 @@
 #'        Learning algorithm. See \code{\link{learners}}.  
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'        Resampling strategy to evaluate points in hyperparameter space.
-#' @param method [\code{\link{character}}] \cr
-#'        Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "neldermead".   
 #' @param control 
-#'        Control object for search method.   
+#'        Control object for search method. Also selects the optimization algorithm for tuning.   
 #' @param measures [see \code{\link{measures}}]
 #'        Performance measures. 
 #' @param aggr [see \code{\link{aggregations}}]
@@ -25,7 +23,7 @@
 #'   
 #' @title Fuse learner with tuning.
 
-make.tune.wrapper <- function(learner, resampling, method="grid", control, measures, aggr) {
-	make.opt.wrapper("tune", learner, resampling, method=method, control, measures, aggr)
+make.tune.wrapper <- function(learner, resampling, control, measures, aggr) {
+	make.opt.wrapper(learner, resampling, control, measures, aggr)
 }
 

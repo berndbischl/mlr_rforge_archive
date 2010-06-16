@@ -1,4 +1,13 @@
-#todo : document tune.threshold, thresholds
+#' @include control.tune.r
+roxygen()
+
+#' @exportClass grid.control
+#' @rdname grid.control 
+
+setClass(
+		"grid.control",
+		contains = c("tune.control")
+)
 
 #' Control structure for grid search tuning. 
 #' 
@@ -17,11 +26,37 @@
 #'        Has to take a vector and return a scaled one. Default is identity function.
 #' 		    
 #' @return Control structure for tuning.
-#' @export 
+#' @exportMethod grid.control
+#' @rdname grid.control 
 #' @title Control for grid search tuning. 
 
 
-grid.control <- function(ranges=list(), minimize=TRUE, tune.threshold=FALSE, thresholds=10, scale=identity) {
-	new("tune.control", method="grid", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, 
-			ranges=ranges, lower=list(), upper=list(), partypes=character(0), scale=scale)
-}
+setGeneric(
+		name = "grid.control",
+		def = function(minimize, tune.threshold, thresholds, ranges, scale) {
+			if (missing(minimize))
+				minimize=TRUE
+			if (missing(tune.threshold))
+				tune.threshold=FALSE
+			if (missing(thresholds))
+				thresholds=10
+			if (is.numeric(thresholds))
+				thresholds = as.integer(thresholds)
+			if (missing(ranges))
+				ranges=list()
+			if (missing(scale))
+				scale=identity
+			standardGeneric("grid.control")
+		}
+)
+
+
+
+setMethod(
+		f = "grid.control",
+		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", ranges="list", scale="function"),
+		def = function(minimize, tune.threshold, thresholds, ranges, scale) {
+			new("grid.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds,
+					lower=list(), upper=list(), ranges=ranges, partypes=character(0), scale=scale)
+		}
+)

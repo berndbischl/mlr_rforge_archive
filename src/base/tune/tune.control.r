@@ -15,15 +15,15 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("tune.control"),
-		def = function(.Object, method, minimize, tune.threshold, thresholds, lower, upper, ranges, partypes, scale) {
-			if (missing(method))
+		def = function(.Object, minimize, tune.threshold, thresholds, lower, upper, ranges, partypes, scale) {
+			if (missing(minimize))
 				return(.Object)
 			.Object@lower = lower 			
 			.Object@upper = upper 			
 			.Object@ranges = ranges
 			.Object@partypes = partypes 			
 			.Object@scale = scale 		
-			.Object = callNextMethod(.Object=.Object, method=method, minimize=minimize, 
+			.Object = callNextMethod(.Object=.Object, minimize=minimize, 
 					tune.threshold=tune.threshold, thresholds=thresholds)
 			return(.Object)
 		}
