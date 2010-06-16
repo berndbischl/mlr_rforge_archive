@@ -71,13 +71,12 @@ setMethod(
 				truth = NULL
 			}
 			
-			if (wl["is.classif"]) {
-				if ("prob" == type && !wl["supports.probs"]) {
-					stop("Trying to predict probs, but ", wl["id"], " does not support that!")
-				}
-				if ("decision" == type && !wl["supports.decision"]) {
-					stop("Trying to predict decision values, but ", wl["id"], " does not support that!")
-				}
+			# we can check this for regression as well as those return supports.prob = FALSE
+			if ("prob" == type && !wl["supports.probs"]) {
+				stop("Trying to predict probs, but ", wl["id"], " does not support that!")
+			}
+			if ("decision" == type && !wl["supports.decision"]) {
+				stop("Trying to predict decision values, but ", wl["id"], " does not support that!")
 			}
 
 			logger.debug("mlr predict:", wl["id"], "with pars:")

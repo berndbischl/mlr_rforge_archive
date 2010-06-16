@@ -48,6 +48,15 @@ test.predict <- function() {
 	checkEquals(cp5d["response"], f2)
 	
 	
-	#todo dec values!!!
+	cm6 = train("classif.lvq1", multiclass.task)
+	checkException(predict(cm6, multiclass.task, type="prob"), silent=TRUE)
+	s = geterrmessage()
+	checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
 	
+	cm7 = train("regr.lm", regr.task)
+	checkException(predict(cm7, regr.task, type="prob"), silent=TRUE)
+	s = geterrmessage()
+	checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
+	
+	#todo dec values!!!
 }
