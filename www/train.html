@@ -47,7 +47,8 @@ observations.</P>
 	m2 <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2))
 
 	<com>#   with hyperparameters</com>
-	m3 <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2), parset = list(minsplit = 7, cp = 0.03)) 
+	m3 <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2), 
+				parset = list(minsplit = 7, cp = 0.03)) 
 	
 	<com># You can print some basic information of the model to the console</com>
 	m3

@@ -197,7 +197,8 @@ They can be freely mixed.</P>
 	inner.res <- make.res.desc("cv", iters = 3)   
 	
 	<com># Tune a SVM</com>
-	svm.tuner <- make.tune.wrapper("classif.ksvm", method = "grid", resampling = inner.res, control = grid.control(ranges = r))
+	svm.tuner <- make.tune.wrapper("classif.ksvm", method = "grid", resampling = inner.res, 
+					control = grid.control(ranges = r))
 	
 	<com># Three learners to be compared </com>
 	learners <- c("classif.lda", "classif.rpart", svm.tuner)
