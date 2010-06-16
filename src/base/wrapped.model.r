@@ -19,7 +19,9 @@ roxygen()
 #'	\item{learner model [any]}{Undelying model from used R package.}
 #'	\item{subset [integer]}{Subset used for training.}
 #'	\item{vars [character]}{Variables used for training.}
-#'	\item{parset [list]}{Hyperparameters used for training.}
+#' 	\item{hyper.pars [list]}{List of fixed hyperparameters and respective values for this model.}
+#' 	\item{hyper.names [character]}{Names of used hyperparameters.}
+#' 	\item{hyper.types [character]}{For which step in the model building process the respective hyperparameters used? Named character vector.}
 #'	\item{fail [NULL | string]}{Generally NULL but if the training failed, the error message of the underlying train function.}
 #'	\item{opt [path.element]}{Optimum of second-level optimization.}
 #'	\item{path [list of path.elements]}{Path of second-level optimization.}

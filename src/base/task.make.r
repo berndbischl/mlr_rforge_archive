@@ -5,8 +5,11 @@ roxygen()
 #' Defines a learning task for a data set and is the starting point 
 #' for further steps like training, predicting new data, resampling and tuning and benchmarking.
 #' The type (classification or regression) is automatically inferred from the target variable.
-#' It might perform some data conversions in the data.frame, like coverting integer features to numerics, 
+#' It might perform some data conversions in the data.frame, like coverting integer input features to numerics, 
 #' but will generally warn about this. 
+#' Whether a classification or regression task is created depends on the data type of the target variable. Factors or characters
+#' produce classification tasks, numerics produce regression tasks. Integer target vraibles have to be changed manually. 
+#' 
 #' 
 #' @param id [string]\cr 
 #'        Id string for object. Used to select the object from a named list, etc.  

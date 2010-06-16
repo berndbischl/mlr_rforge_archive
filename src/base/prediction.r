@@ -68,13 +68,7 @@ make.prediction = function(data.desc, task.desc, id, truth, type, y, threshold, 
 			resp = prob.threshold(y, pos=task.desc["positive"], neg=task.desc["negative"], 
 					levels=data.desc["class.levels"], threshold=threshold)
 		} else {
-			cns = colnames(y)
-			f = function(i) {
-				rr = y[i,]
-				z = ifelse(is.na(max(rr)), NA, cns[which.max(rr)])
-				return(z)
-			}
-			resp = sapply(1:nrow(y), f)
+			resp = sapply(1:nrow(y), function(i) vote.max.val(y[i,], colnames(y)))
 		}
 		resp = as.factor(resp)
 	} else if (type == "decision"){

@@ -82,6 +82,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 	for (j in 1:length(tasks)) {
 		bs[[j]] = array(0, dim = dims)		
 		task = tasks[[j]]
+		logger.info("bench.exp: task = ", task["id"])
 		rfs[[j]] = list()
 		cms[[j]] = list()
 		mods[[j]] = list()
@@ -98,6 +99,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 			if (is.character(wl))
 				wl = make.learner(wl)
 			learner.names[i] = wl["id"]
+			logger.info("bench.exp: learner = ", wl["id"])
 			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, models=models,
 				opts = opts, paths=paths)
 			rr = bm$result

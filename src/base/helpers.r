@@ -84,6 +84,7 @@ vote.majority = function(x) {
 	names(tt)[y]
 }
 
+# selects the maximal name of the maximal element of a numerical vector - breaking ties at random
 vote.max.val = function(x, names=names(x)) {
 	y = seq_along(x)[x == max(x)]
 	if (length(y) > 1L) 

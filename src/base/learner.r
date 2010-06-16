@@ -17,7 +17,7 @@ roxygen()
 #'	\item{props [{\linkS4class{learner.props}}]}{Properties object to describe functionality of the learner.}
 #' 	\item{hyper.pars [list]}{List of fixed hyperparameters and respective values for this learner.}
 #' 	\item{hyper.names [character]}{Names of currently used hyperparameters.}
-#' 	\item{hyper.types [character]}{For which step in the model building process the respective hyperparameters used?. Named character vector.}
+#' 	\item{hyper.types [character]}{For which step in the model building process are the respective hyperparameters used? Named character vector.}
 #'  \item{supports.numerics [boolean]}{Can numeric inputs be processed?}
 #'  \item{supports.factors [boolean]}{Can factor inputs be processed?}
 #'  \item{supports.characters [boolean]}{Can character inputs be processed?}
