@@ -3,9 +3,9 @@ test.combine.ranges <- function() {
 	r1 <- list(kernel="polydot", C=c(1,2), degree=c(2,3))
 	r2 <- list(kernel="rbfdot", C=c(1,2), sigma=c(4,6))
 	ranges=combine.ranges(r1,r2)
-	tr<- tune("classif.ksvm", binaryclass.task, cv.i, method="grid", control=grid.control(ranges=ranges))
+	tr<- tune("classif.ksvm", binaryclass.task, cv.i, control=grid.control(ranges=ranges))
 	
-	svm.tuner <- make.tune.wrapper("classif.ksvm", resampling=cv.i, method="grid", control=grid.control(ranges=ranges))
+	svm.tuner <- make.tune.wrapper("classif.ksvm", resampling=cv.i, control=grid.control(ranges=ranges))
 	be = bench.exp(svm.tuner, binaryclass.task, resampling=cv.i)
 }	
 	

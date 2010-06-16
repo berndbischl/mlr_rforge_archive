@@ -10,7 +10,7 @@ test.tune <- function() {
 	
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
-	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, method="grid", control=ctrl, model=T)
+	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, control=ctrl, model=T, path=T)
 	
 	# todo test scale with tune.e1071 and scaled grid!
 	
@@ -30,7 +30,7 @@ test.tune <- function() {
 
 	# check grid and scale
 	control = grid.control(ranges=list(C=-1:1, sigma=-1:1), scale=function(x)10^x)
-	tune("classif.ksvm", multiclass.task, cv.instance, method="grid", control=control)
+	tune("classif.ksvm", multiclass.task, cv.instance, control=control)
 	
 	# tune wrapper
 	res = make.res.desc("cv", iters=2)
