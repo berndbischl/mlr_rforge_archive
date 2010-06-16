@@ -2,10 +2,10 @@
 roxygen()
 
 
-#' Base class for control structure for variable selection.
+#' Base class for control structures for variable selection.
 #' @exportClass varsel.control
 #' @seealso \code{\link{seq.control}} 
-#' @title Base class for control structure for variable selection
+#' @title Base class for control structures for variable selection
 
 setClass(
 		"varsel.control",

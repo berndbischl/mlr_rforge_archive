@@ -1,6 +1,9 @@
 #' @include control.varsel.r
 roxygen()
 
+#' @exportClass seq.control
+#' @rdname seq.control 
+
 setClass(
 		"seq.control",
 		contains = c("varsel.control"),
