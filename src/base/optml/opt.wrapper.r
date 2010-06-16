@@ -5,8 +5,6 @@ setClass(
 		"opt.wrapper",
 		contains = c("base.wrapper"),
 		representation = representation(
-				opt.type = "character",
-				method = "character",
 				resampling = "resample.desc",
 				control = "ANY",
 				measures = "list",
@@ -20,16 +18,28 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.wrapper"),
-		def = function(.Object, opt.type, learner, resampling, method, control, measures, aggr) {
+		def = function(.Object, learner, resampling, control, measures, aggr) {
 			if (missing(learner))
 				return(.Object)
-			.Object@opt.type = opt.type
-			.Object@method = method
 			.Object@resampling = resampling
 			.Object@control = control
 			.Object@measures = measures
 			.Object@aggr = aggr
 			callNextMethod(.Object, learner)
+		}
+)
+
+
+#' @rdname opt.result-class
+
+setMethod(
+		f = "[",
+		signature = signature("opt.wrapper"),
+		def = function(x,i,j,...,drop) {
+			if (i == "opt.type"){
+				return(x@control["opt.type"])
+			}
+			callNextMethod()
 		}
 )
 
@@ -53,14 +63,14 @@ setMethod(
 			bl = wl@learner
 			
 			lt = make.task(data=.data, target=.targetvar)	
-			if (wl@opt.type == "tune")
-				or = tune(bl, task=lt, resampling=wl@resampling, method=wl@method, control=wl@control, 
+			if (wl["opt.type"] == "tune")
+				or = tune(bl, task=lt, resampling=wl@resampling, control=wl@control, 
 						measures=wl@measures, aggr=wl@aggr, model=TRUE)
-			else if (wl@opt.type == "varsel")
-				or = varsel(bl, task=lt, resampling=wl@resampling, method=wl@method, control=wl@control, 
+			else if (wl["opt.type"] == "varsel")
+				or = varsel(bl, task=lt, resampling=wl@resampling, control=wl@control, 
 						measures=wl@measures, aggr=wl@aggr, model=TRUE)
 			else 
-				stop("Unknown type: ", wl@opt.type)
+				stop("Unknown type: ", wl["opt.type"])
 			
 			m = or@model["learner.model"]
 			attr(m, "opt.result") = or
@@ -69,7 +79,7 @@ setMethod(
 )
 
 
-make.opt.wrapper = function(opt.type, learner, resampling, method, control, measures, aggr) {
+make.opt.wrapper = function(learner, resampling, control, measures, aggr) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	if (missing(measures))
@@ -78,7 +88,7 @@ make.opt.wrapper = function(opt.type, learner, resampling, method, control, meas
 	if (missing(aggr))
 		aggr = default.aggr()
 	aggr = make.aggrs(aggr)
-	new("opt.wrapper", opt.type, learner, resampling, method, control, measures, aggr=aggr)
+	new("opt.wrapper", learner, resampling, control, measures, aggr=aggr)
 }
 
 

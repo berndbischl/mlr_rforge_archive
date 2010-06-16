@@ -4,10 +4,10 @@ setClass(
 		"opt.control",
 		contains = c("object"),
 		representation = representation(
-				method = "character",
 				minimize = "logical",
 				tune.threshold = "logical", 
-				thresholds = "numeric"
+				thresholds = "numeric",
+				path = "logical"
 		)
 )
 
@@ -15,13 +15,32 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.control"),
-		def = function(.Object, method, minimize, tune.threshold, thresholds) {
-			if (missing(method))
+		def = function(.Object, minimize, tune.threshold, thresholds) {
+			if (missing(minimize))
 				return(.Object)
-			.Object@method = method 			
 			.Object@minimize = minimize
 			.Object@tune.threshold = tune.threshold 			
-			.Object@thresholds = thresholds 			
+			.Object@thresholds = thresholds 
+			.Object@path = FALSE
 			return(.Object)
 		}
 )
+
+
+#' @rdname opt.control-class
+
+setMethod(
+		f = "[",
+		signature = signature("opt.control"),
+		def = function(x,i,j,...,drop) {
+			if (i == "opt.type"){
+				if (is(x, "tune.control"))
+					return("tune")
+				else
+					return("varsel")
+			}
+			callNextMethod()
+		}
+)
+
+

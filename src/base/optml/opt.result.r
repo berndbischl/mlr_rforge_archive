@@ -21,13 +21,28 @@ setClass(
 		"opt.result",
 		contains = c("object"),
 		representation = representation(
-				opt.type = "character",
 				control = "opt.control",
 				opt = "list",
 				path = "list",
 				model = "wrapped.model"
 		)
 )
+
+setMethod(
+		f = "initialize",
+		signature = signature("opt.result"),
+		def = function(.Object, control, opt, path) {
+			if (missing(control))
+				return(.Object)
+			.Object@control = control 			
+			.Object@opt = opt
+			if (control["path"])
+				.Object@path = path 			
+			return(.Object)
+		}
+)
+
+
 
 #' @rdname opt.result-class
 
@@ -38,6 +53,9 @@ setMethod(
 			args = list(...)
 			if (i == "par") {
 				return(x@opt$par)
+			}
+			if (i == "opt.type"){
+				return(x@control["opt.type"])
 			}
 			if (i == "tuned.par"){
 				if (x["opt.type"] != "tune")
