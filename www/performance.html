@@ -20,8 +20,8 @@ Typical performance measures are mean misclassification error (MMCE), accuracy o
 for classification and mean of squared errors (MSE) or absolute errors for regression. Those measures
 aggregate the individual losses of predicted and true values to one number.
 It's also possible to access the time to train a model, the time to compute the prediction and their sum as performance measures.
-Available loss functions are the squared difference, the absolute one or the zero-one loss. 
 </P>
+
 <P>
 In contrast to that, loss functions do not merge information, but compute transformations for every loss, i.e.
 the difference between the prediction and its corresponding true label/value. 
@@ -123,7 +123,7 @@ mlr offers the following possibilities to evaluate your predictions:
 Every single resampling iteration is handled as described in the explanation above, 
 i.e. you train a model on a training part of the data set, predict on test set and compare 
 predicted and true label w.r.t. some performance measure. This is proceeded for every
-iteration so that you have e.g. ten performance value in the case of 10-fold cross-validation. 
+iteration so that you have e.g. ten performance values in the case of 10-fold cross-validation. 
 The question arises, how to aggregate those values. You can specify that explicitly, the default is the mean.
 Let's have a look at an example
 </P>
@@ -135,13 +135,13 @@ Let's have a look at an example
 	ct <- make.task(data = iris, target = "Species")
 
 	<com># Resample instance for cross-validation</com>
-	rin <- make.res.instance("cv", ct, iters = 3)
+	res <- make.res.instance("cv", ct, iters = 3)
 
 	<com># Learn Decision Tree</com>
-	fit <- resample.fit("classif.rpart", ct, rin)
+	p <- resample.fit("classif.rpart", ct, res)
 
 	<com># Let's see how well the classifier did w.r.t mean misclassification error and accuracy</com>
-	performance(f1, measures = list("mmce", "acc"))
+	performance(p, measures = list("mmce", "acc"))
 	<res>
 	$measures
 	  mmce  acc

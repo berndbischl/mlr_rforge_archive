@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
@@ -9,38 +12,40 @@
 
 <body>
 
+
 <h1>Predictions</h1>
 
 <P>This section is pretty straightforward and - as you might have guessed - deals with predicting target values 
-for new observations. It is implemented the same way as most of the other predict methods in R. <br> <br>
+for new observations. It is implemented the same way as most of the other predict methods in R, but
+predictions are encapsulated in a apecial object. Read the documentation of class prediction to see all
+available accessors.<br>
 
-Classification methods can predict class labels (as factors) and probabilities (as matrices, where columns 
-correspond to classes) if the algorithm supports it (you can check the wrapped learner description for this, 
+<P>Classification methods can predict class labels and probabilities if the algorithm supports it (you can check the wrapped learner description for this, 
 see <a href="learner.html">Wrapped learner</a>). <br>
-Normally you simply choose between the two by using the "type" parameter of the predict method, but in some 
-rare cases you have to specify that you want to predict probabilities at the learning task creation 
-(see example below).<br>
-Regression methods work the same way, but simply predict numerical values.</P>
+Normally you simply choose between the two by using the "type" parameter of the predict method, but in some
+cases it might be preferable to encode this directly into the learner object. Both ways are demonstrated in the example below.</P>  
+
+<P>Regression methods work the same way, but simply predict numerical values.</P>
 
 
 
 <h3>Classification example</h3>
 
 <pre>
-	<com># Classification task with iris data set </com>
+	<com># classification task with iris data set </com>
 	ct <- make.task(data = iris, target = "Species")
 	
-	<com># Some indices for training and test set definition, every second example</com>
+	<com># some indices for training and test set definition, every second observation</com>
 	train.set <- seq(from = 1, to = 150, by = 2)
 	test.set <- seq(from = 2, to = 150, by = 2)
 
-	<com># Train a Decision Tree on the training set </com>
+	<com># train a decision tree on the training set </com>
 	m <- train("classif.rpart", ct, subset = train.set)
  
-	<com># Predict classes for training data</com>
+	<com># predict classes for training data</com>
 	predict(m, newdata = iris[train.set,])
 
-	<com># Predict classes for new data</com>
+	<com># predict classes for new data</com>
 	predict(m, newdata = iris[test.set,])
 	<res>
 	Prediction
@@ -48,25 +53,20 @@ Regression methods work the same way, but simply predict numerical values.</P>
 	 $ response: Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
 	 $ truth   : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
 	</res>
-	
-	<com># Let's predict some probabilities</com>
-	predict(m, newdata = iris[test.set,], type = "prob")
-	<res>
-	Prediction
-	'data.frame':	75 obs. of  4 variables:
-	 $ truth          : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
-	 $ prob.setosa    : num  1 1 1 1 1 1 1 1 1 1 ...
-	 $ prob.versicolor: num  0 0 0 0 0 0 0 0 0 0 ...
-	 $ prob.virginica : num  0 0 0 0 0 0 0 0 0 0 ...
-	</res>
+	<com># let's access the response or true labels</com>
+	# produces a factor of predicted class
+	p["response"]
+	# produces a factor of the true labels
+	p["truth"]
 
-	<com># We can also predict directly from a task</com>
-	<com># This is the same as using newdata=iris[test.set, ]</com>
+
+	<com># we can also predict directly from a task</com>
+	<com># this is the same as using newdata=iris[test.set, ]</com>
 	p <- predict(m, task = ct, subset = test.set)
-	<com># Just like before access the response or true labels</com>
+	<com># again we can access the response or true labels</com>
 	p["response"]
 	p["truth"]
-	<com># We also have IDs, because we know which elements of the task we used for predict</com>
+	<com># we also have IDs, because we know which elements of the task we used for predict</com>
 	p["id"]
 	<res>
   	[1]    2   4   6   8  10  12  14  16  18  20  22  24  26  28  30  32  34  36  38  40  42  44  46
@@ -75,15 +75,65 @@ Regression methods work the same way, but simply predict numerical values.</P>
 	[70] 140 142 144 146 148 150	
 	</res>
 	
-	<com># Let's neatly collect everything in a data.frame</com>
+	<com># let's predict some probabilities</com>
+	p <- predict(m, newdata = iris[test.set,], type = "prob")
+	<res>
+	Prediction
+	'data.frame':   75 obs. of  5 variables:
+	 $ truth          : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+	 $ prob.setosa    : num  1 1 1 1 1 1 1 1 1 1 ...
+	 $ prob.versicolor: num  0 0 0 0 0 0 0 0 0 0 ...
+	 $ prob.virginica : num  0 0 0 0 0 0 0 0 0 0 ...
+	 $ response       : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...	</res>
+
+	<com># as you can see a reponse is also produced from the probabilities by choosing the class with 
+	maximum probability - breaking ties at random</com>
+	# accessing the probabilities
+	# produces a matrix with class labels as column names
+	p["prob"]
+	# produces a numeric vector of probabilities for a class
+	p["prob", class="setosa"]
+	
+
+	<com># let's neatly collect everything in a data.frame</com>
 	as.data.frame(p)	
 	<res>
-	     id      truth   response
-	2     2     setosa     setosa
-	4     4     setosa     setosa
+	         truth prob.setosa prob.versicolor prob.virginica   response
+	2       setosa           1            0.00           0.00     setosa
+	4       setosa           1            0.00           0.00     setosa
 	...
-	150 150  virginica  virginica
+	150  virginica           0            0.04           0.96  virginica
 	</res>
+	
+	# for binary classification you there are two special things to keep in mind
+	library(mlbench); data(Sonar)
+	ct <- make.task(data = Sonar, target = "Class")
+	m <- train("classif.rpart", task=ct)
+	p <- predict(m, task=ct, type = "prob")
+	# if we access the probabilities, not a matrix is returned but a vector of probabilities fpr the positive class
+	p["prob"]
+	# but you still can explicitly select the class
+	p["prob", class="M"]
+	# also you might want to change the treshold probability for the positive class
+	# usually this is 0.5, but it can be set to any value between 0 and 1
+	p <- predict(m, task=ct, type = "prob", threshold=0.7)
+
+	
+	# you can also directly encode into the learner that you want to predict probabilities
+	wl <- make.learner("classif.rpart", predict.type="prob", predict.threshold=0.7)
+	m <- train(wl, task=ct)
+	p <- predict(m, task=ct)
+	# although the advantage is not obvious for this, this will come in handy later...
+</pre>
+
+
+<h3>Binary Classification</h3>
+
+<pre>
+	<com># load binary problem</com>
+	
+	
+	
 </pre>
 
 
@@ -110,20 +160,20 @@ The proceeding is analog to above. </p>
 	pred <- predict(m, newdata = BostonHousing[test.set,])
 	<res>
 	Prediction
-	'data.frame':	253 obs. of  2 variables:
-	 $ response: num  22.1 29.1 23.4 19.3 19.3 ...
-	 $ truth   : num  21.6 33.4 28.7 27.1 18.9 18.9 20.4 19.9 17.5 18.2 ...
-	</res>
+	'data.frame':   253 obs. of  2 variables:
+ 	 $ truth   : num  21.6 33.4 28.7 27.1 18.9 18.9 20.4 19.9 17.5 18.2 ...
+ 	 $ response: num  22.3 23.2 22.4 22.1 22.1 ...
+ 	</res>
 	
 	<com># access more information </com>
 	<com># what was predicted?</com>
 	pred["response"] 
 	<res>
-	[1] 22.20401 23.30894 22.36217 22.14113 22.14113 22.14113 22.32506 22.32506 22.14113 22.14113
-	[11] 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113 22.19306 22.32506 22.63243
+	[1] 22.25909 23.23955 22.35183 22.13662 22.13662 22.14698 22.32510 22.32510 22.14698 22.14698
+	[11] 22.14698 22.13662 22.13662 22.13662 22.14698 22.14698 22.13662 22.23439 22.32510 22.49140
 	...
-	[241] 22.32506 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113 22.14113
-	[251] 22.19306 22.69604 22.32506
+	[241] 22.35335 22.14698 22.14698 22.14698 22.13662 22.13662 22.14698 22.13662 22.14698 22.14698
+	[251] 22.23439 22.76807 22.33814
 	</res>
 	<com># what is the true value?</com>
 	pred["truth"]
@@ -134,11 +184,8 @@ The proceeding is analog to above. </p>
 	[229] 13.5 20.0 17.7 20.2 19.9 19.1 20.1 19.6 29.8 13.3 12.0 21.4 23.7 21.8 21.2 20.6  7.0 13.6 21.8
 	[248] 23.1 18.3 17.5 22.4 23.9 11.9
 	</res>
-	</res>
 	
 </pre>
-   
-
 
 </body>
 </html>

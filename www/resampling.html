@@ -10,8 +10,8 @@
 <body>
 <h1>Resampling strategies</h1>
 
-<p>Resampling strategies concern the process of generating new data from your data set D under examination 
-in order to generate various training and test sets, which the learning method can be fitted and validated on. 
+<p>Resampling strategies concern the process of sampling new data sets from your data set D under examination. 
+One wants to generate various training and test sets, which the learning method can be fitted and validated on. 
 Here it is assumed that every resampling strategy consists of a couple of iterations, where for each one 
 there are indices into D, defining the respective training and test sets. These iterations are implemented by 
 storing the index set in a so called <term>resample.instance</term> object. The reasons for having the user 
@@ -55,7 +55,7 @@ the i.th subpart is used as a test set, while the remaining parts form the train
 
 <P><u>Bootstrapping</u></P>
 <p>B new data sets D<sub>1</sub>,..,D<sub>B</sub> are drawn from D with replacement, each of the same size as D. 
-In the i.th iteration D<sub>i</sub> forms the training set, while the remaining element from D forms the test set.</p>
+In the i.th iteration D<sub>i</sub> forms the training set, while the remaining elements not occuring in the training set form the test set.</p>
 <pre>
 	rin <- make.res.desc("bs", iters = 10)
 </pre>

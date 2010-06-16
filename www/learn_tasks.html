@@ -19,7 +19,7 @@ excluded (ID) variables, misclassification costs or case weights.</p>
 regression.
 Both are created by using the make.task factory method, and the type of the task is decided automatically by 
 looking at the target variable.
-If this is encoded as an integer, you have to change it either to a factor or a numerical.</p>
+If this is encoded as an integer, you have to change it either to a factor/character for classification or a numerical for regression.</p>
 
 <p><img src="pics/learn_task.png" width="25%"  border="1" alt=""></p>
 
@@ -35,22 +35,7 @@ If this is encoded as an integer, you have to change it either to a factor or a 
 	ct <- make.task(data = BreastCancer, target = "Class", excluded = "Id")
 </pre>
 
-<p> Instead of specifying the target, we could have also used the formula interface: </p>
-
-<pre>
-	make.task(data = BreastCancer, formula = Class~., excluded = "Id")
-	make.task(data = iris, formula = Species ~ Sepal.Length + I(Sepal.Width)^2)
-</pre>
-
-
-<li>The second example uses the iris data set which has numerical input variables 
-and shows how to include transformations of the original variables (which you obviously could also do before
-passing the data.frame to make.task). The formula interface will build a new internal data frame by 
-calling model.frame.
-</ul>
-
 <p> The now defined task also gives you some convenience methods to access properties of the data set:</p>
-
 
 <pre>
 	<com># before we start, let's examine ct</com>
@@ -67,6 +52,11 @@ calling model.frame.
 	      458       241 
 	Positive class: benign 
 	</res>	
+	
+	<com># as this is a binary problem, we see that a positive class is selected by default</com>
+	<com># this will generally be the first class in the factor levels of the target</com>
+	<com># you probably want to select this manually for your applications</com>
+	ct <- make.task(data = BreastCancer, target = "Class", excluded = "Id", positive="benign")
 	
 	<com># access more information </com>
 	<com># get target name and the names of the input variables - same for regression</com>
@@ -98,10 +88,10 @@ are available, e.g. for the <a href="rdocs/learn.task-class.html">task</a>.
 	malignant      1         0
 	</res>
 
-	ct <- make.task(data = BreastCancer , target = "Class", costs = costs)
+	ct <- make.task(data = BreastCancer , target = "Class", excluded="Id", costs = costs)
 	
 	<com> # (nonsensical) weights for the cases </com>
-	ct <- make.task(data = BreastCancer, target = "Class", weights = 1:699)
+	ct <- make.task(data = BreastCancer, target = "Class", excluded="Id", weights = 1:699)
 </pre>
 
 
@@ -117,7 +107,7 @@ Before that, let's look at a regression experiment:</p>
 	<com># We will generally take the BostonHousing data set as regression example</com>
 	library(mlbench); data(BostonHousing)
 
-	rt <- make.task("BostonHousing", data = BostonHousing, target = "medv")
+	rt <- make.task(data = BostonHousing, target = "medv")
 
 	<res>
 	Regression problem
@@ -128,7 +118,6 @@ Before that, let's look at a regression experiment:</p>
 	
 	<com># rest works analogous to classification task</com>
 </pre>
-
 
 
 </body>
