@@ -54,7 +54,7 @@ setMethod(
 					paste(
 							"Learner: \n",  
 							"Supported features Nums:", x@supports.numerics, " Factors:", x@supports.factors, " Chars:", x@supports.characters, "\n",
-							"Supports missings: ", x@supports.missing, "\n", 
+							"Supports missings: ", x@supports.missings, "\n", 
 							"Supports weights: ", x@supports.weights, "\n", 
 							sep=""
 					)

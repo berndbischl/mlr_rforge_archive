@@ -35,7 +35,7 @@ setMethod(
 )
 
 
-
+#' @export
 make.multiclass.wrapper = function(learner, method="one-vs-all") {
 	if (method != "one-vs-all")
 		stop("Only method one-vs-all is currently supported!")

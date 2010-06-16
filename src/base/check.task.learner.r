@@ -10,7 +10,7 @@ check.task.learner <- function(lt, learner) {
 	if (dd["class.nr"] > 2 && !wl["supports.multiclass"]) {
 		msg <- paste("Data set is a multiclass-problem, but", wl["id"], "does not support that!")
 	}
-	if (dd["has.missing"] && !wl["supports.missing"]) {
+	if (dd["has.missing"] && !wl["supports.missings"]) {
 		msg <- paste("Data set has missing values, but", wl["id"], "does not support that!")
 	}
 	if (dd@numerics > 0 && !wl["supports.numerics"]) {
