@@ -207,8 +207,23 @@ They can be freely mixed.</P>
 	
 	<com># Merge it to a benchmark experiment </com>
 	result <- bench.exp(learners, tasks, res)
+	<res>
+	$Iris
+	          classif.lda classif.rpart classif.ksvm
+	mean.mmce  0.02000000    0.07333333   0.04000000
+	sd.mmce    0.02981424    0.04346135   0.03651484
 	
-	<com># Access information aber the result</com>
+	$Vehicle
+	          classif.lda classif.rpart classif.ksvm
+	mean.mmce  0.21391577    0.31554473   0.27295510
+	sd.mmce    0.03082199    0.03227883   0.04817659
+	
+	$BreastCancer
+	          classif.lda classif.rpart classif.ksvm
+	mean.mmce  0.03804208    0.06440532   0.05124517
+	sd.mmce    0.02270102    0.01297826   0.02833322
+	</res>	
+	<com># Access detailed information about the result</com>
 	<com># The single performances of the outer cross-validation for all learners and all tasks</com>
 	result["perf"]
 	<res>
@@ -277,7 +292,7 @@ They can be freely mixed.</P>
 	<com># Variable selection with Sequential Forward Search</com>
 	vs <- make.varsel.wrapper("classif.lda", resampling = inner, method = "sfs", control = ctrl)
 	
-	<com>Let's compare two learners</com>
+	<com># Let's compare two learners</com>
 	learners <- c("classif.rpart", vs)
 	
 	<com># Define outer resampling </com>
@@ -285,6 +300,11 @@ They can be freely mixed.</P>
 	
 	<com># Merge to a benchmark experiment</com>
 	be <- bench.exp(tasks = ct, learners = learners, resampling = res)
+	<res>
+		          classif.rpart classif.lda
+	mean.mmce          0.06  0.05333333
+	sd.mmce            0.02  0.02309401 
+	</res>
 	
 	<com># Which variables have been selected (in the outer resampling steps)?</com>
 	be["sel.var", learner="classif.lda"]

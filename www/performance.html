@@ -98,10 +98,10 @@ or <a href="rdocs/losses.html">?losses</a> in R.
 	<com># Prediction on test set data </com>
 	preds <- predict(model, newdata = BostonHousing[test.set,])
 	<res>
-	[1] 22.395020 36.117794 25.031917 16.369151 17.798636 20.611659 22.606421
-	[8] 22.671347 20.158904 20.559315 20.347968 15.692052 16.319054 16.349748
-	...
-	[253] 23.055107
+	Prediction
+	'data.frame':   253 obs. of  2 variables:
+	 $ truth   : num  21.6 33.4 28.7 27.1 18.9 18.9 20.4 19.9 17.5 18.2 ...
+	 $ response: num  22.2 29.3 23.2 19.4 19.4 ...
 	</res>
 
 	<com># Compare predicted and true label with default measure MSE</com> 

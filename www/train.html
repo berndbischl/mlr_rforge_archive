@@ -52,17 +52,17 @@ observations.</P>
 	<com># You can print some basic information of the model to the console</com>
 	m3
 	<res>
-	Learner model for RPart
+	Learner model for classif.rpart
 	Trained on obs: 75
-	Hyperparameters: minsplit = 7 cp = 0.03
+	Hyperparameters: minsplit=7 cp=0.03
 	</res>
 	
 	<com># Some accessor</com>
-	m3["parset"]
+	m3["hyper.pars"]
 	<res>
 	$minsplit
 	[1] 7
-
+	
 	$cp
 	[1] 0.03
 	</res>			
@@ -117,9 +117,9 @@ observations.</P>
 	<com># You can print some basic information of the model to the console </com>
 	m3
 	<res>
-	Learner model for Gradient Boosting Machine
+	Learner model for regr.gbm
 	Trained on obs: 253
-	Hyperparameters: distribution = laplace n.trees = 500 interaction.depth = 3
+	Hyperparameters: distribution=laplace n.trees=500 interaction.depth=3
 	</res>
 	
 	<com># rest is analogous to example above</com>
