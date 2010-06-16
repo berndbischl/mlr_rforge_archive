@@ -20,7 +20,7 @@ A better (although more time-consuming) approach is nesting two resampling metho
 To make the explanation easier, let's take cross-validations, in this case also called "double cross-validation". 
 In the so called "outer" cross-validation the data is split repeatedly into a (larger) training set and a (smaller) 
 test set in the usual way. Now, in every outer iteration the learner is tuned on the training set by performing an 
-"inner" cross-validation. The best found hyperparameters are selected , with these the learner is fitted to the 
+"inner" cross-validation. The best found hyperparameters are selected, with these the learner is fitted to the 
 complete "outer" training set and the resulting model is used to access the (outer) test set. 
 This results in much more reliable estimates of true performance distribution of the learner for unseen data. 
 These can now be used to estimate locations (e.g. of the mean or median performance value) and to compare 
@@ -113,7 +113,7 @@ Let's have a look to the benchmark result from the example above:
 <h3>Example 2 (One task, one learner, tuning)</h3>
 
 <P>
-Now we have a learner with hyperparameters and we want to find out, which are the best ones ("tuning"). 
+Now we have a learner with hyperparameters and we want to find out, which are the best ones (<a href="tuning.html">"tuning"</a>). 
 In that case we have two resampling levels (see <a href="resampling.html">Resampling</a>) <br>
 We show an example with outer bootstrap and inner cross-validation, our learner will be k-nearest-neighbor.
 </P>
@@ -278,7 +278,7 @@ They can be freely mixed.</P>
 
 
 <h3>Example 4 (One task, two learners, variable selection)</h3>
-<P> Let's see how we can do variable selection in an benchmark experiment </P>
+<P> Let's see how we can do <a href="varsel.html">variable selection</a> in an benchmark experiment </P>
 
 <pre>
 	<com># Classification task with iris data set </com>

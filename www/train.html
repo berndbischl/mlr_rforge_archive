@@ -17,15 +17,15 @@ this will be taken care of by the underlying R methods that this package integra
 Rather more important is that training and all subsequent operations can be performed by using a unified 
 interface.</P>
 
-<P>This is in this case achieved by calling the method "train" on the classification task. 
+<P>This is in this case achieved by calling the method <a href="rdocs/train.html">"train"</a> on the classification task. 
 The most important parameters are the indices of the subset which are used for training and a 
 list of named elements which specify the hyperparameters of the learner. 
 The parameters will generally be named the same way as in the underlying R method, if not, 
-differences are documented on the R help for the learning method. If hyperparamters are passed via special
+differences are documented on the R help for the learning method. If hyperparameters are passed via special
 control structures to the underlying method, mlr usually allows to pass them directly.</P>
 
-<P>The return value is always an object of class "wrapped.model" which wraps the concrete model of the 
-used R classification or regression method. It can subsequently be used to perform prediction for new 
+<P>The return value is always an object of class <a href="rdocs/wrapped.model-class.html">"wrapped.model"</a> which wraps the concrete model of the 
+used R classification or regression method. It can subsequently be used to perform <a href="predict.html">prediction</a> for new 
 observations.</P>
 
 <p><img src="pics/basic processing.png" width="60%"  border="1" alt=""></p>
@@ -48,7 +48,7 @@ observations.</P>
 
 	<com>#   with hyperparameters</com>
 	m3 <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2), 
-				parset = list(minsplit = 7, cp = 0.03)) 
+			parset = list(minsplit = 7, cp = 0.03)) 
 	
 	<com># You can print some basic information of the model to the console</com>
 	m3

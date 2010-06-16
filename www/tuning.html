@@ -13,8 +13,8 @@
 
 <P>Many classification algorithms feature a set of hyperparameters that either need 
 to be selected by the user or through resampling, e.g. cross-validation. Setting them 
-by hand was already covered in the section about training and resampling - simply use the 
-"parset" argument in the "train" or "resample.fit" methods</P>
+by hand was already covered in the section about <a href="train.html">Training </a> and <a href="resampling.html">Resampling </a> - simply use the 
+"parset" argument in the <a href="rdocs/train.html">"train"</a> or <a href="rdocs/resample.fit.html">"resample.fit"</a> methods</P>
 
 <P>Assuming, you have understood how <a href="resampling.html">resampling</a> works,  
 it is quite simple to implement a grid search, which is one of the standard - albeit slow - ways 
@@ -57,7 +57,7 @@ to choose an appropriate set of parameters from a given range of values.</P>
 
 <P>The parameter grid has to be a named list, where every entry has 
 to be named according to the corresponding parameter of the underlying R function 
-(in this case "ksvm" from the kernlab package, see the help page of "classif.ksvm"). 
+(in this case "ksvm" from the kernlab package, see its respective help page). 
 Its value is a vector of feasible values for this hyperparameter. The complete grid is just 
 the cross-product of all feasible values. </P>
 (Please note that with ksvm we encounter a somewhat special case, as the parameters 
