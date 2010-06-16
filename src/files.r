@@ -68,7 +68,7 @@ base.files <<- c(
 		"base/optml/varsel.helpers.r",
 		"base/optml/opt.wrapper.r",
 		
-		"base/tune/tune.control.r",
+		"base/tune/control.tune.r",
 		"base/tune/control.grid.r",
 #		"base/tune/control.ps.r",
 		"base/tune/control.nm.r",
