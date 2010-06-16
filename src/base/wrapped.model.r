@@ -121,13 +121,13 @@ setMethod(
 					return(NULL)
 			}
 			if (i == "tuned.par"){
-				if (is(x@learner, "opt.wrapper") && x@learner@opt.type == "tune")
+				if (is(x@learner, "opt.wrapper") && x@learner["opt.type"] == "tune")
 					return(x["opt.par"])
 				else
 					return(NULL)
 			}	
 			if (i == "sel.var"){
-				if (is(x@learner, "opt.wrapper") && x@learner@opt.type == "varsel")
+				if (is(x@learner, "opt.wrapper") && x@learner["opt.type"] == "varsel")
 					return(x["opt.par"])
 				else
 					return(NULL)
