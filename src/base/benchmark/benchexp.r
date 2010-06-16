@@ -96,7 +96,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 				wl = make.learner(wl)
 			learner.names[i] = wl["id"]
 			logger.info("bench.exp: learner = ", wl["id"])
-			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, models=models, paths=paths)
+			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, conf.mat=conf.mats, models=models, paths=paths)
 			rr = bm$result
 			rf = bm$resample.fit
 			# remove tune perf

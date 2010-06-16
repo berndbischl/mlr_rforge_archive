@@ -3,7 +3,7 @@
 
 
 
-benchmark = function(learner, task, resampling, measures, models, paths) {
+benchmark = function(learner, task, resampling, measures, conf.mat, models, paths) {
 	if (is.character(learner)) {
 		learner = make.learner(learner)
 	}
@@ -33,7 +33,7 @@ benchmark = function(learner, task, resampling, measures, models, paths) {
 	
 	rp = performance(rr, measures=measures, aggr=list("combine"), task=task)
 	cm = NULL
-	if (is(task, "classif.task"))			
+	if (is(task, "classif.task") && conf.mat)			
 		cm = conf.matrix(rr)
 	# add in combine because we cannot get that later if we throw away preds
 	ms = rbind(rp$measures, rp$aggr)
