@@ -11,7 +11,9 @@
 
 <h3>Description</h3>
 
-<p>Predict the target variable of new data using a fitted model.</p>
+<p>Predict the target variable of new data using a fitted model. If the type is set to "prob" or "decision"
+probabilities or decision values will be stored in the resulting object. The resulting class labels are 
+the classes with the maximum values or thresholding can also be used.</p>
 
 
 <h3>Arguments</h3>
@@ -34,9 +36,17 @@ Index vector to subset the data in the task to use for prediction.</td></tr>
 New observations which should be predicted. Alternatively pass this instead of task.</td></tr>
 <tr valign="top"><td><code>type</code></td>
 <td>
-[character] <br>
-Classification: vector of "response" | "prob" | "decision", specifying the types to predict.
-Default is "response".
+[string] <br>
+Classification: "response" | "prob" | "decision", specifying the type to predict.
+Default is "response". "decision" is experimental.
+Ignored for regression.</td></tr>
+<tr valign="top"><td><code>threshold</code></td>
+<td>
+[numeric] <br>
+Threshold to produce class labels if type is not "response". 
+Currently only supported for binary classification and type="prob", where it represents the required predicted probability
+for the positive class, so that a positive class is predicted as "response".
+Default is 0.5 for type="prob".
 Ignored for regression.</td></tr>
 </table>
 
@@ -50,5 +60,5 @@ Ignored for regression.</td></tr>
 
 <p><code><a href="train.html">train</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>

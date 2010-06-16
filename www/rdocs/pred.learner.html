@@ -1,12 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: predict.learner,classif.ada,wrapped.model,data.frame,character-method</title>
+<html><head><title>R: pred.learner,classif.ada,wrapped.model,data.frame,character-method</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="../../R.css">
 </head><body>
 
-<table width="100%" summary="page for predict.learner {mlr}"><tr><td>predict.learner {mlr}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for pred.learner {mlr}"><tr><td>pred.learner {mlr}</td><td align="right">R Documentation</td></tr></table>
 
-<h2>predict.learner,classif.ada,wrapped.model,data.frame,character-method</h2>
+<h2>pred.learner,classif.ada,wrapped.model,data.frame,character-method</h2>
 
 
 <h3>Description</h3>
@@ -17,11 +17,11 @@ You have to implement this method if you want to add another learner to this pac
 
 <h3>Arguments</h3>
 <table summary="R argblock">
-<tr valign="top"><td><code>.wrapped.learner</code></td>
+<tr valign="top"><td><code>.learner</code></td>
 <td>
-[<code><a href="wrapped.learner-class.html">wrapped.learner</a></code>] <br>  
+[\code\linkS4classlearner] <br>  
 Wrapped learner from this package.</td></tr>
-<tr valign="top"><td><code>.wrapped.model</code></td>
+<tr valign="top"><td><code>.model</code></td>
 <td>
 [<code><a href="../../base/html/character.html">character</a></code>] <br>
 Model produced by training.</td></tr>
@@ -36,16 +36,17 @@ Specifies the type of predictions - either probability ("prob") or class ("class
 Ignore this if it is not classification or the learner does not support probabilities.</td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
+[any] <br>
 Additional parameters, which need to be passed to the underlying train function.</td></tr>
 </table>
 
 
 <h3>Value</h3>
 
-<p><code>predict.learner-methods</code>: Model of the underlying learner.
+<p><code>pred.learner-methods</code>: Model of the underlying learner.
 </p>
 <p>
 </p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>

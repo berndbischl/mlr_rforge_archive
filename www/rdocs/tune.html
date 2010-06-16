@@ -26,7 +26,7 @@ The specific details of the search algorithm are set by passing a control object
 <table summary="R argblock">
 <tr valign="top"><td><code>learner</code></td>
 <td>
-[<code><a href="wrapped.learner-class.html">wrapped.learner</a></code> or string]<br> 
+[<code><a href="learner-class.html">learner</a></code> or string]<br> 
 Learning algorithm. See <code><a href="learners.html">learners</a></code>.</td></tr>
 <tr valign="top"><td><code>task</code></td>
 <td>
@@ -35,11 +35,12 @@ Learning task.</td></tr>
 <tr valign="top"><td><code>resampling</code></td>
 <td>
 [<code><a href="resample.instance-class.html">resample.instance</a></code>] or [<code><a href="resample.desc-class.html">resample.desc</a></code>]<br>
-Resampling strategy to evaluate points in hyperparameter space.</td></tr>
+Resampling strategy to evaluate points in hyperparameter space. At least for grid search, if you pass a description, 
+it is instantiated at one, so all points are evaluated on the same training/test sets.</td></tr>
 <tr valign="top"><td><code>method</code></td>
 <td>
 [<code><a href="../../base/html/character.html">character</a></code>] <br>
-Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "nm".</td></tr>
+Search method. Currently supported are grid search "grid", pattern search "pattern", CMA-ES "cmaes" and Nelder-Mead "neldermead".</td></tr>
 <tr valign="top"><td><code>control</code></td>
 <td>
 Control object for search method.</td></tr>
@@ -70,7 +71,7 @@ Should a final model be fitted on the complete data with the best found hyperpar
 
 <h3>See Also</h3>
 
-<p><code><a href="grid.control.html">grid.control</a></code>, <code><a href="ps.control.html">ps.control</a></code>, <code><a href="cmaes.control.html">cmaes.control</a></code>, <code><a href="nm.control.html">nm.control</a></code></p>
+<p><code><a href="grid.control.html">grid.control</a></code>, <code><a href="cmaes.control.html">cmaes.control</a></code>, <code><a href="neldermead.control.html">neldermead.control</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>

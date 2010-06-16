@@ -11,21 +11,22 @@
 
 <h3>Description</h3>
 
-<p>Fuses a base learner with a search strategy to select variables. Creates a wrapped.learner object, which can be
+<p>Fuses a base learner with a search strategy to select variables. Creates a learner object, which can be
 used like any other learner object, but which internally uses varsel. If the train function is called on it, the search strategy and resampling are invoked
 to select an optimal set variables. Finally, a model is fitted on the complete training data with these variables and returned.</p>
 
 
 <h3>Usage</h3>
 
-<pre>make.tune.wrapper(learner, id, label, resampling, method="grid", control, measures, aggr)</pre>
+<pre>make.varsel.wrapper(learner, id, label, resampling, measures, aggr, method="sfs", control)
+</pre>
 
 
 <h3>Arguments</h3>
 <table summary="R argblock">
 <tr valign="top"><td><code>learner</code></td>
 <td>
-[<code><a href="wrapped.learner-class.html">wrapped.learner</a></code> or string]<br> 
+[<code><a href="learner-class.html">learner</a></code> or string]<br> 
 Learning algorithm. See <code><a href="learners.html">learners</a></code>.</td></tr>
 <tr valign="top"><td><code>id</code></td>
 <td>
@@ -61,12 +62,12 @@ Aggregation functions.</td></tr>
 
 <h3>Value</h3>
 
-<p><code><a href="wrapped.learner-class.html">wrapped.learner</a></code>.</p>
+<p><code><a href="learner-class.html">learner</a></code>.</p>
 
 
 <h3>See Also</h3>
 
-<p><code><a href="varsel.html">varsel</a></code>, <code><a href="varsel.control.html">varsel.control</a></code></p>
+<p><code><a href="varsel.html">varsel</a></code>, <code><a href="varsel.control-class.html">varsel.control</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>

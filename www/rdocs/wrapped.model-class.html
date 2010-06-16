@@ -23,17 +23,17 @@ information about second-level optimization like tuned hyperparameters or select
 <p>
 
 <dl>
-<dt>wrapped.learner [<a href="wrapped.learner-class.html">wrapped.learner</a>]</dt><dd>Wrapped learner that was used to fit the model.</dd>
+<dt>learner [<a href="learner-class.html">learner</a>]</dt><dd>Learner that was used to fit the model.</dd>
 <dt>learner model [any]</dt><dd>Undelying model from used R package.</dd>
 <dt>subset [integer]</dt><dd>Subset used for training.</dd>
 <dt>vars [character]</dt><dd>Variables used for training.</dd>
-<dt>parset [list]</dt><dd>Hyperparameters used for training.</dd>
+<dt>hyper.pars [list]</dt><dd>List of fixed hyperparameters and respective values for this model.</dd>
+<dt>hyper.names [character]</dt><dd>Names of used hyperparameters.</dd>
+<dt>hyper.types [character]</dt><dd>For which step in the model building process the respective hyperparameters used? Named character vector.</dd>
 <dt>fail [NULL | string]</dt><dd>Generally NULL but if the training failed, the error message of the underlying train function.</dd>
 <dt>opt [path.element]</dt><dd>Optimum of second-level optimization.</dd>
 <dt>path [list of path.elements]</dt><dd>Path of second-level optimization.</dd>
-<dt>tuned.par [list]</dt><dd></dd></dl>
-If tuning was performed, best found set of hyperparameters.
-<dl>
+<dt>tuned.par [list]</dt><dd>If tuning was performed, best found set of hyperparameters.</dd>
 <dt>tuned.perf [numeric]</dt><dd>If tuning was performed, performance of best found set of hyperparameters.</dd>
 <dt>sel.vars [character]</dt><dd>If variable selection was performed, best found set of variables.</dd>
 <dt>sel.perf [numeric]</dt><dd>If variable selection was performed, performance of best found set of variables.</dd>
@@ -46,14 +46,16 @@ If tuning was performed, best found set of hyperparameters.
 
 <h3>Extends</h3>
 
-<p><code>object</code></p>
+<p><code><a href="object-class.html">object</a></code></p>
 
 
 <h3>Methods</h3>
 
 <p><dl>
-<dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.html">predict</a></code></dt><dd><code>signature(object = "wrapped.model")</code>: Predict the target variable of new data using a fitted model.</dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="predict.learner.html">predict.learner</a></code></dt><dd></dd><dt><code><a href="to.string.html">to.string</a></code></dt><dd></dd><dt><code><a href="wrapped.model-class.html">[</a></code></dt><dd><code>signature( = "wrapped.model")</code>: Getter.</dd></dl>
+<dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="predict.html">predict</a></code></dt><dd><code>signature(object = "wrapped.model")</code>: Predict the target variable of new data using a fitted model. If the type is set to "prob" or "decision"
+probabilities or decision values will be stored in the resulting object. The resulting class labels are 
+the classes with the maximum values or thresholding can also be used.</dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="pred.learner.html">pred.learner</a></code></dt><dd></dd><dt><code><a href="to.string.html">to.string</a></code></dt><dd></dd><dt><code><a href="wrapped.model-class.html">[</a></code></dt><dd><code>signature( = "wrapped.model")</code>: Getter.</dd></dl>
 </p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>

@@ -18,14 +18,16 @@ The specific details of the search algorithm are set by passing a control object
 
 <h3>Usage</h3>
 
-<pre>varsel(learner, task, resampling, method="sfs", control, measures, aggr, model=F)</pre>
+<pre>varsel(learner, task, resampling, method="sfs", control, measures, aggr,
+    model=F)
+</pre>
 
 
 <h3>Arguments</h3>
 <table summary="R argblock">
 <tr valign="top"><td><code>learner</code></td>
 <td>
-[<code><a href="wrapped.learner-class.html">wrapped.learner</a></code> or string]<br> 
+[<code><a href="learner-class.html">learner</a></code> or string]<br> 
 Learning algorithm. See <code><a href="learners.html">learners</a></code>.</td></tr>
 <tr valign="top"><td><code>task</code></td>
 <td>
@@ -43,7 +45,7 @@ sequential floating forward search "sffs", sequential floating backward search "
 "random".</td></tr>
 <tr valign="top"><td><code>control</code></td>
 <td>
-[see <code><a href="varsel.control.html">varsel.control</a></code>]
+[see <code><a href="varsel.control-class.html">varsel.control</a></code>]
 Control object for search method.</td></tr>
 <tr valign="top"><td><code>measures</code></td>
 <td>
@@ -72,7 +74,7 @@ Should a final model be fitted on the complete data with the best found hyperpar
 
 <h3>See Also</h3>
 
-<p><code><a href="varsel.control.html">varsel.control</a></code>, <code><a href="make.varsel.wrapper.html">make.varsel.wrapper</a></code></p>
+<p><code><a href="varsel.control-class.html">varsel.control</a></code>, <code><a href="make.varsel.wrapper.html">make.varsel.wrapper</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>

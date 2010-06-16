@@ -18,38 +18,34 @@ Don't create objects from this class directly but use the corresponding subclass
 For construction simply use the factory method <code><a href="make.res.instance.html">make.res.instance</a></code>.</p>
 
 
-<h3>Arguments</h3>
-<table summary="R argblock">
-<tr valign="top"><td><code>x</code></td>
-<td>
-resample.instance object</td></tr>
-<tr valign="top"><td><code>i</code></td>
-<td>
-[character]
+<h3>Details</h3>
+
+<p><code>resample.instance-class</code>: Getter.
+</p>
+<p>
 
 <dl>
-<dt>size</dt><dd>Number of observations.</dd>
-<dt>name</dt><dd>The name of the resample description object, i.e. the type of resampling.</dd>
-<dt>iters</dt><dd>The number of resampling iterations.</dd>
-<dt>train.inds</dt><dd>If j is a single integer, the vector of training indices for the jth iteration is returned. If j is an integer vector, the list of training indices for the given iterations is returned. If j is missing, all indices are returned.</dd>
-<dt>test.inds</dt><dd>If j is a single integer, the vector of test indices for the jth iteration is returned. If j is an integer vector, the list of test indices for the given iterations is returned. If j is missing, all indices are returned.</dd>
+<dt>size [integer]</dt><dd>Number of observations.</dd>
+<dt>name [character]</dt><dd>The name of the resample description object, i.e. the type of resampling.</dd>
+<dt>iters [integer]</dt><dd>The number of resampling iterations.</dd>
+<dt>train.inds [list | integer] Optional parameter: j</dt><dd>If j is a single integer, the vector of training indices for the jth iteration. Otherwise, the list of indices for iterations. Missing j means list of all indices.</dd>
+<dt>test.inds [list | integer] Optional parameter: j</dt><dd>If j is a single integer, the vector of test indices for the jth iteration. Otherwise, the list of indices for iterations j. Missing j means list of all indices.</dd>
 </dl>
-</td></tr>
-<tr valign="top"><td><code>j</code></td>
-<td>
-[integer] <br> See above, i == "train.inds" or i == "test.inds".</td></tr>
-</table>
+
+</p>
+<p>
+</p>
 
 
 <h3>Extends</h3>
 
-<p><code>object</code></p>
+<p><code><a href="object-class.html">object</a></code></p>
 
 
 <h3>Methods</h3>
 
 <p><dl>
-<dt><code><a href="resample.fit.html">resample.fit</a></code></dt><dd></dd><dt><code><a href="to.string.html">to.string</a></code></dt><dd></dd><dt><code><a href="resample.instance-class.html">[</a></code></dt><dd><code>signature( = "resample.instance")</code>: Getter.</dd></dl>
+<dt><code><a href="resample.fit.html">resample.fit</a></code></dt><dd></dd><dt><code><a href="resample.instance-class.html">[</a></code></dt><dd></dd><dt><code><a href="to.string.html">to.string</a></code></dt><dd></dd></dl>
 </p>
 
 
@@ -62,5 +58,5 @@ resample.instance object</td></tr>
 
 <p><code><a href="resample.desc-class.html">resample.desc</a></code>, <code><a href="make.res.instance.html">make.res.instance</a></code>, <code><a href="resample.fit.html">resample.fit</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>

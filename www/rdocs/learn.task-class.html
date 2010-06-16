@@ -26,19 +26,15 @@ you should not instantiate it directly but use the inheriting classes and their 
 <dl>
 <dt>id [string]</dt><dd>Id string of task.</dd>
 <dt>label [string]</dt><dd>Label string of task.</dd>
-<dt>data [data.frame]. Optional parameters: row, col</dt><dd>The data.frame is returned, possibly indexed by row/col</dd>
+<dt>is.classif [boolean]</dt><dd>Is this a classification task?</dd>
+<dt>is.regr [boolean]</dt><dd>Is this a regression task?</dd>
+<dt>data [data.frame]. Optional parameters: row, col</dt><dd>The data.frame is returned, possibly indexed by row/col. If col is missing, only columns which were not excluded are returned.</dd>
 <dt>size [integer]</dt><dd>Number of cases.</dd>
 <dt>target.name [string]</dt><dd>The name of the target variable.</dd>
-<dt>input.names [character]</dt><dd>The names of the input variables.</dd>
+<dt>input.names [character]</dt><dd>The names of the input variables (without excluded variables).</dd>
 <dt>excluded [character]</dt><dd>Names of excluded variables.</dd>
 <dt>targets [character]. Optional parameters: row</dt><dd>If row is missing all target values are returned. Otherwise they are indexed by row.</dd>
-<dt>weights [numeric]. Optional parameters: row</dt><dd>If row is missing all case weights are returned. Otherwise they are indexed by row.</dd>
-<dt>class.levels [character]</dt><dd>Levels of target factor for classification.</dd>
-<dt>class.nr [integer]</dt><dd>Number of class labels for classification.</dd>
-<dt>is.binary [boolean]</dt><dd>Binary classification task?</dd>
-<dt>costs [matrix]</dt><dd>Cost matrix, NULL if not available.</dd>
-<dt>positive [string]</dt><dd>Positive class label for binary classification.</dd>
-<dt>negative [string]</dt><dd>Negative class label for binary classification.</dd>
+<dt>weights [numeric]. Optional parameters: row</dt><dd>If row is missing all case weights are returned. Otherwise they are indexed by row. NULL if no weights were set.</dd>
 </dl>
 
 </p>
@@ -48,13 +44,13 @@ you should not instantiate it directly but use the inheriting classes and their 
 
 <h3>Extends</h3>
 
-<p><code>object</code></p>
+<p><code><a href="object-class.html">object</a></code></p>
 
 
 <h3>Methods</h3>
 
 <p><dl>
-<dt><code><a href="resample.fit.html">resample.fit</a></code></dt><dd></dd><dt><code><a href="resample.fit.html">resample.fit</a></code></dt><dd></dd><dt><code><a href="make.res.instance.html">make.res.instance</a></code></dt><dd></dd><dt><code><a href="make.res.instance.html">make.res.instance</a></code></dt><dd></dd><dt><code><a href="learn.task-class.html">[</a></code></dt><dd><code>signature( = "learn.task")</code>: Getter.</dd></dl>
+<dt><code><a href="resample.fit.html">resample.fit</a></code></dt><dd></dd><dt><code><a href="make.res.instance.html">make.res.instance</a></code></dt><dd></dd><dt><code><a href="make.res.instance.html">make.res.instance</a></code></dt><dd></dd><dt><code><a href="learn.task-class.html">[</a></code></dt><dd></dd><dt><code><a href="train.html">train</a></code></dt><dd></dd></dl>
 </p>
 
 
@@ -62,5 +58,5 @@ you should not instantiate it directly but use the inheriting classes and their 
 
 <p><code><a href="make.task.html">make.task</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>

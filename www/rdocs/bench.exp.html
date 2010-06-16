@@ -18,14 +18,14 @@ Experiments are paired, meaning always the same training / test sets are used fo
 
 <h3>Usage</h3>
 
-<pre>bench.exp(learners, tasks, resampling, measures, type="response", conf.mats=TRUE, predictions=FALSE, models=FALSE, opts=TRUE, paths=FALSE)</pre>
+<pre>bench.exp(learners, tasks, resampling, measures, conf.mats=TRUE, predictions=FALSE, models=FALSE, opts=TRUE, paths=FALSE)</pre>
 
 
 <h3>Arguments</h3>
 <table summary="R argblock">
 <tr valign="top"><td><code>learners</code></td>
 <td>
-[character vector | <code><a href="wrapped.learner-class.html">wrapped.learner</a></code> | list of the previous two] <br>
+[string | <code><a href="learner-class.html">learner</a></code> | list of the previous two] <br>
 Defines the learning algorithms which should be compared.</td></tr>
 <tr valign="top"><td><code>tasks</code></td>
 <td>
@@ -39,12 +39,6 @@ Defines the resampling strategies for the tasks.</td></tr>
 <td>
 [see <code><a href="measures.html">measures</a></code>]
 Performance measures.</td></tr>
-<tr valign="top"><td><code>type</code></td>
-<td>
-[character] <br>
-Classification: vector of "response" | "prob" | "decision", specifying the types to predict.
-Default is "response".
-Ignored for regression.</td></tr>
 <tr valign="top"><td><code>conf.mats</code></td>
 <td>
 [logical] <br>
@@ -86,7 +80,7 @@ Default is FALSE.</td></tr>
 
 <h3>See Also</h3>
 
-<p><code>bench.add</code>, <code><a href="make.tune.wrapper.html">make.tune.wrapper</a></code></p>
+<p><code><a href="make.tune.wrapper.html">make.tune.wrapper</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>

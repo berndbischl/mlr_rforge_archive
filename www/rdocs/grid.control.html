@@ -16,7 +16,8 @@
 
 <h3>Usage</h3>
 
-<pre>grid.control(ranges, minimize=TRUE, scale=identity)
+<pre>grid.control(ranges=list(), minimize=TRUE, tune.threshold=FALSE, thresholds=10,
+    scale=identity)
 </pre>
 
 
@@ -32,11 +33,19 @@ in the rare case when it does not make sense to search a complete cross-product 
 <td>
 [logical] <br> 
 Minimize performance measure? Default is TRUE.</td></tr>
+<tr valign="top"><td><code>tune.threshold</code></td>
+<td>
+[logical] <br> 
+Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner.</td></tr>
+<tr valign="top"><td><code>thresholds</code></td>
+<td>
+[numeric] <br> 
+Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10.</td></tr>
 <tr valign="top"><td><code>scale</code></td>
 <td>
 [<code><a href="../../base/html/function.html">function</a></code>] <br> 
 A function to scale the hyperparameters. E.g. maybe you want to optimize in some log-space.
-Has to take a single, numerical vector and return a scaled one. Default is identity function.</td></tr>
+Has to take a vector and return a scaled one. Default is identity function.</td></tr>
 </table>
 
 
@@ -44,5 +53,5 @@ Has to take a single, numerical vector and return a scaled one. Default is ident
 
 <p>Control structure for tuning.</p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>

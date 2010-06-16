@@ -14,13 +14,15 @@
 <p>Defines a learning task for a data set and is the starting point 
 for further steps like training, predicting new data, resampling and tuning and benchmarking.
 The type (classification or regression) is automatically inferred from the target variable.
-It might perform some data conversions in the data.frame, like coverting integer features to numerics, 
-but will generally warn about this.</p>
+It might perform some data conversions in the data.frame, like coverting integer input features to numerics, 
+but will generally warn about this. 
+Whether a classification or regression task is created depends on the data type of the target variable. Factors or characters
+produce classification tasks, numerics produce regression tasks. Integer target vraibles have to be changed manually.</p>
 
 
 <h3>Usage</h3>
 
-<pre>make.task(id, label, data, target, formula, excluded, weights, costs, positive)</pre>
+<pre>make.task(id, label, data, target, excluded, weights, costs, positive)</pre>
 
 
 <h3>Arguments</h3>
@@ -41,12 +43,6 @@ A data frame containing the variables for the modelling.</td></tr>
 <td>
 [string] <br>
 Name of the target variable.</td></tr>
-<tr valign="top"><td><code>formula</code></td>
-<td>
-[<code><a href="../../stats/html/formula.html">formula</a></code>] <br>
-Instead of specifying the target, you can use the formula interface. 
-If you are using just a subset of the variables or transformations, this will built a new internal 
-data frame by calling <code><a href="../../stats/html/model.frame.html">model.frame</a></code>.</td></tr>
 <tr valign="top"><td><code>excluded</code></td>
 <td>
 [<code><a href="../../base/html/character.html">character</a></code>]
@@ -72,5 +68,5 @@ Ignored for regression.</td></tr>
 
 <p><code><a href="learn.task-class.html">learn.task</a></code>.</p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>

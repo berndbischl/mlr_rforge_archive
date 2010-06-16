@@ -11,12 +11,15 @@
 
 <h3>Description</h3>
 
-<p>' List of performance measures.</p>
+<p>Performance measures can always be passed as a single string (name of a single measure), a character vector of multiple names of measures or 
+a list containing string names of measures and your on performance measures as function objects. The latter ones should 
+be named list elements.<br></p>
 
 
 <h3>Details</h3>
 
-<p> 
+<p>Classification: 
+ 
 <ul>
 <li><B>mmce</B><br> Mean misclassification error
 </li>
@@ -53,6 +56,8 @@
 <li><B>f1</B><br> F1 measure
 </li>
 <li><B>mcc</B><br> Matthews correlation coefficient
+</p>
+<p>
 </li>
 <li><B>time.train</B><br> Time of fitting the model
 </li>
@@ -63,6 +68,7 @@
 
 </p>
 <p>
+Regression:
  
 <ul>
 <li><B>sse</B><br> Sum of squared errors
@@ -71,11 +77,21 @@
 </li>
 <li><B>medse</B><br> Median of squared errors
 </li>
+<li><B>sae</B><br> Sum of absolut errors
+</li>
 <li><B>mae</B><br> Mean of absolut errors
 </li>
 <li><B>medae</B><br> Median of absolut errors
+</p>
+<p>
+</li>
+<li><B>time.train</B><br> Time of fitting the model
+</li>
+<li><B>time.predict</B><br> Time of predicting test set
+</li>
+<li><B>time</B><br> time.train + train.predict
 </ul>
 </p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.528 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
 </body></html>
