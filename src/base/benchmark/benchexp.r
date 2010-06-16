@@ -20,15 +20,12 @@
 #' @param models [logical] \cr
 #'        Should all fitted models be stored?
 #'        Default is FALSE.
-#' @param opts [logical] \cr
-#'        Should optimzed hyperparameters or variables be stored?
-#'        Default is TRUE.
 #' @param paths [logical] \cr
 #'        Should the optimization paths be stored?
 #'        Default is FALSE.
 #' @return \code{\linkS4class{bench.result}}.
 #' 
-#' @usage bench.exp(learners, tasks, resampling, measures, conf.mats=TRUE, predictions=FALSE, models=FALSE, opts=TRUE, paths=FALSE)
+#' @usage bench.exp(learners, tasks, resampling, measures, conf.mats=TRUE, predictions=FALSE, models=FALSE, paths=FALSE)
 #' 
 #' @note You can also get automatic, internal tuning by using \code{\link{make.tune.wrapper}} with your learner. 
 #' 
@@ -40,8 +37,7 @@
 
 # todo: check unique ids
 bench.exp <- function(learners, tasks, resampling, measures,  
-		conf.mats=TRUE, predictions=FALSE, models=FALSE, 
-		opts=TRUE, paths=FALSE)  {
+		conf.mats=TRUE, predictions=FALSE, models=FALSE, paths=FALSE)  {
 	
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
@@ -100,8 +96,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 				wl = make.learner(wl)
 			learner.names[i] = wl["id"]
 			logger.info("bench.exp: learner = ", wl["id"])
-			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, models=models,
-				opts = opts, paths=paths)
+			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, models=models, paths=paths)
 			rr = bm$result
 			rf = bm$resample.fit
 			# remove tune perf
@@ -111,7 +106,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 			if(predictions)	rfs[[j]][[i]] = rf else	rfs[[j]][i] = list(NULL)
 			if(is(task, "classif.task") && conf.mats) cms[[j]][[i]] = bm$conf else cms[[j]][i] = list(NULL)
 			if(models)	mods[[j]][[i]] = bm$models else	mods[[j]][i] = list(NULL)
-			if((opts || paths) && is(wl, "opt.wrapper")) ors[[j]][[i]] = bm$ors else ors[[j]][i] = list(NULL)
+			if(paths && is(wl, "opt.wrapper")) ors[[j]][[i]] = bm$ors else ors[[j]][i] = list(NULL)
 		}
 		dimnames(bs[[j]]) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures))
 

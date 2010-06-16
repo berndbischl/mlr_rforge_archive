@@ -3,7 +3,7 @@
 
 
 
-benchmark = function(learner, task, resampling, measures, models, opts, paths) {
+benchmark = function(learner, task, resampling, measures, models, paths) {
 	if (is.character(learner)) {
 		learner = make.learner(learner)
 	}
@@ -13,6 +13,7 @@ benchmark = function(learner, task, resampling, measures, models, opts, paths) {
 	measures = make.measures(measures)
 	
 	if (is(learner, "opt.wrapper")) {
+		learner@control@path = paths
 		if (models) 
 			extract = function(x) list(model=x, or=x["opt.result"])
 		else 
@@ -42,8 +43,7 @@ benchmark = function(learner, task, resampling, measures, models, opts, paths) {
 	if (models) 
 		mods = lapply(rr@extracted, function(x) x$model)
 	ors = NULL
-	if (opts || paths) 
-		ors = lapply(rr@extracted, function(x) x$or)
+	ors = lapply(rr@extracted, function(x) x$or)
 	return(list(result=result, conf.mat=cm, resample.fit=rr, models=mods, ors=ors))
 }
 

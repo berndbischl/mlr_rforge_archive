@@ -6,7 +6,7 @@ setClass(
 		contains = c("base.wrapper"),
 		representation = representation(
 				resampling = "resample.desc",
-				control = "ANY",
+				control = "opt.control",
 				measures = "list",
 				aggr = "list"
 		)
@@ -61,14 +61,15 @@ setMethod(
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			wl = .learner
 			bl = wl@learner
+			ctrl = wl@control
 			
 			lt = make.task(data=.data, target=.targetvar)	
 			if (wl["opt.type"] == "tune")
-				or = tune(bl, task=lt, resampling=wl@resampling, control=wl@control, 
-						measures=wl@measures, aggr=wl@aggr, model=TRUE)
+				or = tune(bl, task=lt, resampling=wl@resampling, control=ctrl, 
+						measures=wl@measures, aggr=wl@aggr, model=TRUE, path=ctrl["path"])
 			else if (wl["opt.type"] == "varsel")
-				or = varsel(bl, task=lt, resampling=wl@resampling, control=wl@control, 
-						measures=wl@measures, aggr=wl@aggr, model=TRUE)
+				or = varsel(bl, task=lt, resampling=wl@resampling, control=ctrl, 
+						measures=wl@measures, aggr=wl@aggr, model=TRUE, path=ctrl["path"])
 			else 
 				stop("Unknown type: ", wl["opt.type"])
 			
