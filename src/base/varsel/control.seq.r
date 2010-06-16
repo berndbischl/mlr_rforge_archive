@@ -8,6 +8,7 @@ setClass(
 		"seq.control",
 		contains = c("varsel.control"),
 		representation = representation(
+				method = "character", 
 				alpha = "numeric", 
 				beta = "numeric" 
 		)
@@ -17,8 +18,9 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("seq.control"),
-		def = function(.Object, method, minimize, tune.threshold, thresholds, maxit, max.vars, alpha, beta) {
-			.Object = callNextMethod(.Object, method, minimize, tune.threshold, thresholds, maxit=maxit, max.vars)
+		def = function(.Object, minimize, tune.threshold, thresholds, maxit, max.vars, method, alpha, beta) {
+			.Object = callNextMethod(.Object, minimize, tune.threshold, thresholds, maxit=maxit, max.vars)
+			.Object@method = method 			
 			.Object@alpha = alpha 			
 			.Object@beta = beta 			
 			return(.Object)
@@ -34,6 +36,10 @@ setMethod(
 #'       Maximal number of variable sets to evaluate. Default is 100.
 #' @param max.vars [integer] \cr 
 #'       Maximal number of allowed variables in the final set. Default is max. integer.
+#' @param method [\code{\link{character}}] \cr
+#'        Search method. Currently supported are sequential forward search "sfs", sequential backward search "sbs", 
+#'        sequential floating forward search "sffs", sequential floating backward search "sfbs" and a monte-carlo search 
+#'        "random".    
 #' @param alpha [numeric] \cr 
 #'  	 sfs, sffs: In a forward step, minimal improvement of performance measure. Can be negative.        
 #' @param beta [numeric] \cr 
@@ -51,7 +57,7 @@ setMethod(
 
 setGeneric(
 		name = "seq.control",
-		def = function(minimize, tune.threshold, thresholds, maxit, max.vars, alpha, beta) {
+		def = function(minimize, tune.threshold, thresholds, maxit, max.vars, method, alpha, beta) {
 			if (missing(minimize))
 				minimize=TRUE
 			if (missing(tune.threshold))
@@ -68,6 +74,8 @@ setGeneric(
 				max.vars = .Machine$integer.max
 			if (is.numeric(max.vars))
 				max.vars = as.integer(max.vars)
+			if (missing(method))
+				method="sfs"			
 			if (missing(alpha))
 				alpha=0.01
 			if (missing(beta))
@@ -81,11 +89,10 @@ setGeneric(
 setMethod(
 		f = "seq.control",
 		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", 
-				maxit="integer", max.vars="integer", alpha="numeric", beta="numeric"),
-		def = function(minimize, tune.threshold, thresholds, maxit, max.vars, alpha, beta) {
-			new("seq.control", method="seq", minimize=minimize, 
-					tune.threshold=tune.threshold, thresholds=thresholds, 
-					maxit=maxit, max.vars=max.vars, alpha=alpha, beta=beta)
+				maxit="integer", max.vars="integer", method="character", alpha="numeric", beta="numeric"),
+		def = function(minimize, tune.threshold, thresholds, maxit, max.vars, method, alpha, beta) {
+			new("seq.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, 
+					maxit=maxit, max.vars=max.vars, method=method, alpha=alpha, beta=beta)
 		}
 )
 

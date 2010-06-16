@@ -1,5 +1,5 @@
 
-varsel.hybrid2 = function(learner, task, resampling, measures, aggr, method, control=seq.control()) {
+varsel.hybrid2 = function(learner, task, resampling, measures, aggr, control=seq.control()) {
 	
 	path = list()
 	all.vars = task["input.names"]
@@ -60,7 +60,7 @@ varsel.hybrid2 = function(learner, task, resampling, measures, aggr, method, con
 			}
 		}
 	} # end big loop	
-	new("opt.result", opt.type="varsel", control=control, opt=make.path.el(state), path=path) 
+	new("opt.result", control=control, opt=make.path.el(state), path=path) 
 }	
 
 

@@ -1,5 +1,5 @@
 
-varsel.bestcor = function(learner, task, resampling, measures, aggr, method, control=seq.control()) {
+varsel.bestcor = function(learner, task, resampling, measures, aggr, control=seq.control()) {
 	all.vars = task["input.names"]
 	path = list()
 	
@@ -37,7 +37,7 @@ varsel.bestcor = function(learner, task, resampling, measures, aggr, method, con
 		if (!found)
 			break
 	}
-	new("opt.result", opt.type="varsel", control=control, opt=make.path.el(state), path=path)
+	new("opt.result", control=control, opt=make.path.el(state), path=path)
 }
 
 

@@ -11,12 +11,8 @@
 #'        Label string for object. Used in plots, etc.  
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'        Resampling strategy to evaluate points in hyperparameter space.
-#' @param method [\code{\link{character}}] \cr
-#'        Search method. Currently supported are sequential forward search "sfs", sequential backward search "sbs", 
-#'        sequential floating forward search "sffs", sequential floating backward search "sfbs" and a monte-carlo search 
-#'        "random".    
 #' @param control 
-#'        Control object for search method.   
+#'        Control object for search method. Also selects the optimization algorithm for feature selection. 
 #' @param measures [see \code{\link{measures}}]
 #'        Performance measures. 
 #' @param aggr [see \code{\link{aggregations}}]
@@ -30,7 +26,7 @@
 #'   
 #' @title Fuse learner with variable selection.
 
-make.varsel.wrapper <- function(learner, id, label, resampling, measures, aggr, method="sfs", control) {
-	make.opt.wrapper("varsel", learner, resampling, method, control, measures, aggr)
+make.varsel.wrapper <- function(learner, id, label, resampling, measures, aggr, control) {
+	make.opt.wrapper(learner, resampling, control, measures, aggr)
 }
 

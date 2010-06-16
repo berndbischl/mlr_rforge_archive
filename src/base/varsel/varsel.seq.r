@@ -10,7 +10,7 @@
 
 
 # todo: maxit, max.vars
-varsel.seq = function(learner, task, resampling, measures, aggr, method, control) {
+varsel.seq = function(learner, task, resampling, measures, aggr, control) {
 	
 	seq.step = function(forward, state, gen.new.states, compare) {
 		not.used = setdiff(all.vars, state$par)
@@ -55,6 +55,8 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 	
 	all.vars = task["input.names"]
 	path = list()
+	
+	method = control["method"]
 	
 	start.vars = switch(method,
 			sfs = character(0),
@@ -106,7 +108,7 @@ varsel.seq = function(learner, task, resampling, measures, aggr, method, control
 			}
 		}
 	}
-	new("opt.result", opt.type="varsel", control=control, opt=make.path.el(state), path=path)
+	new("opt.result", control=control, opt=make.path.el(state), path=path)
 }
 
 
