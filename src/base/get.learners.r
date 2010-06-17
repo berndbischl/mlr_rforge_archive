@@ -1,35 +1,33 @@
 roxygen()
 
-#' get.learners returns the names of learning algorithms which have specific characteristics, e.g.
+#' Returns the names of learning algorithms which have specific characteristics, e.g.
 #' whether it supports missing values, misclassification costs, case weights,...
 #' 
 #' @param type [character] \cr
 #' 			Type of the learning algorithm, either "classif" or "regr"
 #' @param supports.numerics [boolean] \cr
-#' 			Looking for an algorithm supporting numeric inputs?
+#' 			Supports numeric inputs?
 #' @param supports.factors [boolean] \cr
-#' 			Looking for an algorithm supporting factor inputs?
+#' 			Supports factor inputs?
 #' @param supports.characters [boolean] \cr
-#' 			Looking for an algorithm supporting character inputs?
+#' 			Supports character inputs?
 #' @param supports.missings [boolean] \cr
-#' 			Looking for an algorithm which can handle missing values?
+#' 			Supports missing values?
 #' @param supports.multiclass [boolean] \cr
-#' 			Looking for a classification algorithm supporting data sets with more than two classes?
+#' 			Supports multiclass problems?
 #' @param supports.weights [boolean] \cr
-#' 			Looking for an algorithm which can use case weights?
+#' 			Supports case weights?
 #' @param supports.probs [boolean] \cr
-#' 			Looking for an algorithm which can predict probabilities?
+#' 			Can predict probabilities?
 #' @param supports.decision [boolean] \cr
-#' 			Looking for an algorithm supporting decision values?
+#' 			Supports decision values?
 #' @param supports.costs [boolean] \cr
-#' 			Looking for an algorithm which can handle misclassification costs?
+#' 			Supports non-standard misclassification costs?
 #' 
 #' @rdname get.learners
+#' @export 
 #' 
-#' @usage get.learners(type, supports.numerics, supports.factors, supports.characters, supports.missings, 
-#' supports.multiclass, supports.weights, supports.probs,supports.decision, supports.costs)
-#' 
-#' @title Function to get specific learning algorithms
+#' @title Find learning algorithms with specific properties.
 
 
 
