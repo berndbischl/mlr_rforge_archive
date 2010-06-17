@@ -39,17 +39,17 @@ to choose an appropriate set of parameters from a given range of values.</P>
 	res <- make.res.desc("cv", iters = 3)
 
 	<com># Tune SVM</com>
-	tune("classif.ksvm", ct, res, control = grid.control(ranges = r))
+	tune("classif.ksvm", ct, res, grid.control(ranges = r))
 	<res>
 	Optimization result: 
 	$C
-	[1] 2
+	[1] 1
 	
 	$sigma
 	[1] 0.5
 	
 	 mean.mmce    sd.mmce 
-	0.03333333 0.01154701 
+	0.04666667 0.04163332 
 	</res>
 </pre>
 
@@ -84,13 +84,24 @@ Let's tune SVMs with polynomial and gaussian kernels on iris</P>
 	res <- make.res.desc("cv", iters = 5)
 	
 	<com># Combine grids</com>
-	ranges <- list(r1, r2)
+	r <- list(r1, r2)
 
 	<com># Tune SVMs</com>
-	tune("classif.ksvm", ct, res, ranges) <b><font color="red">---does not work----</font></b>
-
+	tune("classif.ksvm", ct, res, grid.control(ranges = r)) 
 	<res>
-	...
+	Optimization result: 
+	[[1]]
+	[[1]]$C
+	[1] 0.5 1.0 2.0
+	
+	
+	[[2]]
+	[[2]]$C
+	[1] 0.5 1.0 2.0
+	
+	
+	 mean.mmce    sd.mmce 
+	0.04000000 0.02788867 
 	</res>
 </pre>
 
@@ -111,7 +122,6 @@ Let's tune SVMs with polynomial and gaussian kernels on iris</P>
 	
 	<com># Tune k-nearest-neighbor-regression with mean squared error as default measure</com>
 	tune("regr.kknn", rt, res, control = grid.control(ranges = range), measure = "mse")
-
 	<res>
 	Optimization result: 
 	$k
