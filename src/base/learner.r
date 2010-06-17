@@ -90,7 +90,7 @@ setMethod(f = "to.string",
                          "Supports weights: ", x["supports.weights"], "\n", 
                          "Supports multiclass: ", x["supports.multiclass"], "\n",
                          "Supports probabilities: ", x["supports.probs"], "\n", 
-                         "Supports decsion values: ", x["supports.decision"], "\n", 
+                         "Supports decision values: ", x["supports.decision"], "\n", 
                          "Supports costs: ", x["supports.costs"], "\n", 
                          "Hyperparameters: ", hps, "\n",
                          sep =""					

@@ -3,7 +3,7 @@ roxygen()
 #' @include learner.props.r
 roxygen()
 
-#' Wraps an already implemented learning method from R to make it accesible to mlr.
+#' Wraps an already implemented learning method from R to make it accessible to mlr.
 #'  
 #' Getter.\cr
 #' 
