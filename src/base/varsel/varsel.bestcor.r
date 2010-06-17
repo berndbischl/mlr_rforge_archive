@@ -1,5 +1,5 @@
 
-varsel.bestcor = function(learner, task, resampling, measures, aggr, control=seq.control()) {
+varsel.bestcor = function(learner, task, resampling, measures, aggr, control=sequential.control()) {
 	all.vars = task["input.names"]
 	path = list()
 	

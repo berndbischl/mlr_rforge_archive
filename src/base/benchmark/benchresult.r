@@ -136,7 +136,7 @@ setMethod(
 				p = Map(g, p, is=iter)
 				# aggregate
 				if (length(aggr) > 0) {
-					g = function(arr) {
+					gg = function(arr) {
 						lapply(names(aggr), function(nn) {
 									if (nn == "combine")
 										h = function(y) y[length(y)]
@@ -148,7 +148,7 @@ setMethod(
 									t(apply(arr, c(2,3), h))
 								})
 					}	
-					p = lapply(p, g) 
+					p = lapply(p, gg) 
 					# put all aggr. values as columns together
 					# combine aggr names with measure names
 					aggr.ms = sapply(names(aggr), function(a) paste(a, measure, sep="."))

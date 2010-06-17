@@ -1,5 +1,5 @@
 
-varsel.hybrid = function(learner, task, resampling, measures, aggr, control=seq.control()) {
+varsel.hybrid = function(learner, task, resampling, measures, aggr, control=sequential.control()) {
 	
 	path = list()
 	all.vars = task["input.names"]

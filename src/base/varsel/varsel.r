@@ -42,7 +42,7 @@ varsel <- function(learner, task, resampling, control, measures, aggr, model=F, 
 	cl = as.character(class(control))
 	
 	sel.func = switch(cl,
-			seq.control = varsel.seq,
+			sequential.control = varsel.seq,
 			stop(paste("Feature selection algorithm for", cl, "does not exist!"))
 	)
 

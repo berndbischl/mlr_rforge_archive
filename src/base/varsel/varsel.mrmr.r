@@ -2,7 +2,7 @@
 
 
 
-varsel.mrmr = function(learner, task, resampling, measures, aggr, control=seq.control()) {
+varsel.mrmr = function(learner, task, resampling, measures, aggr, control=sequential.control()) {
 	ds.name = paste("foo", round(runif(1,max=100000000)), ".csv", sep="")
 	ds.path = file.path(tempdir(), "foo.csv")
 	df = na.omit(task["data"])

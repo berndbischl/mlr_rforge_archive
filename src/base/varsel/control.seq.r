@@ -1,11 +1,11 @@
 #' @include control.varsel.r
 roxygen()
 
-#' @exportClass seq.control
-#' @rdname seq.control 
+#' @exportClass sequential.control
+#' @rdname sequential.control 
 
 setClass(
-		"seq.control",
+		"sequential.control",
 		contains = c("varsel.control"),
 		representation = representation(
 				method = "character", 
@@ -17,7 +17,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("seq.control"),
+		signature = signature("sequential.control"),
 		def = function(.Object, minimize, tune.threshold, thresholds, maxit, max.vars, method, alpha, beta) {
 			.Object = callNextMethod(.Object, minimize, tune.threshold, thresholds, maxit=maxit, max.vars)
 			.Object@method = method 			
@@ -50,13 +50,13 @@ setMethod(
 #'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
 #' 		    
 #' @return Control structure.
-#' @exportMethod seq.control
-#' @rdname seq.control 
+#' @exportMethod sequential.control
+#' @rdname sequential.control 
 #' @title Control structure for sequential variable selection. 
 
 
 setGeneric(
-		name = "seq.control",
+		name = "sequential.control",
 		def = function(minimize, tune.threshold, thresholds, maxit, max.vars, method, alpha, beta) {
 			if (missing(minimize))
 				minimize=TRUE
@@ -80,18 +80,18 @@ setGeneric(
 				alpha=0.01
 			if (missing(beta))
 				beta=0.01
-			standardGeneric("seq.control")
+			standardGeneric("sequential.control")
 		}
 )
 
 
 
 setMethod(
-		f = "seq.control",
+		f = "sequential.control",
 		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", 
 				maxit="integer", max.vars="integer", method="character", alpha="numeric", beta="numeric"),
 		def = function(minimize, tune.threshold, thresholds, maxit, max.vars, method, alpha, beta) {
-			new("seq.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, 
+			new("sequential.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, 
 					maxit=maxit, max.vars=max.vars, method=method, alpha=alpha, beta=beta)
 		}
 )

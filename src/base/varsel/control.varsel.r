@@ -4,7 +4,7 @@ roxygen()
 
 #' Base class for control structures for variable selection.
 #' @exportClass varsel.control
-#' @seealso \code{\link{seq.control}} 
+#' @seealso \code{\link{sequential.control}} 
 #' @title Base class for control structures for variable selection
 
 setClass(
