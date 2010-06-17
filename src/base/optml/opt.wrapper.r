@@ -76,8 +76,11 @@ setMethod(
 						measures=wl@measures, aggr=wl@aggr, model=TRUE, path=ctrl["path"])
 			else 
 				stop("Unknown type: ", wl["opt.type"])
-			
+				
 			m = or@model["learner.model"]
+			# we dont need the model as we directly return it
+			or@model = new("wrapped.model")
+			# set the opt result as attribute, so we can extract it later 
 			attr(m, "opt.result") = or
 			return(m)
 		}
