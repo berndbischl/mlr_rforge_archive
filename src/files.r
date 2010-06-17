@@ -21,6 +21,7 @@ base.files <<- c(
 		"base/learnerR.r",
 		"base/learner.make.r",
 		"base/learners.r",
+		"base/get.learners.r",
 		"base/set.hyper.pars.r",
 		
 		
