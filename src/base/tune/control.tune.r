@@ -1,3 +1,5 @@
+#' @include opt.control.r
+roxygen()
 
 
 setClass(
