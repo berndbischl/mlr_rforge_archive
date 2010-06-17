@@ -17,7 +17,7 @@ setClass(
 		)
 )
 
-
+#' Constructor.
 setMethod(
 		f = "initialize",
 		signature = signature("varsel.control"),

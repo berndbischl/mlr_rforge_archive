@@ -51,6 +51,7 @@ setGeneric(
 )
 
 
+#' @rdname grid.control 
 
 setMethod(
 		f = "grid.control",

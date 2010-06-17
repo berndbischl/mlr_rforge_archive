@@ -14,7 +14,7 @@ setClass(
 		)
 )
 
-
+#' Constructor.
 setMethod(
 		f = "initialize",
 		signature = signature("sequential.control"),
@@ -85,6 +85,7 @@ setGeneric(
 )
 
 
+#' @rdname sequential.control 
 
 setMethod(
 		f = "sequential.control",

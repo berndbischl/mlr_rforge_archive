@@ -35,8 +35,6 @@ setMethod(
 #' 
 #' @return \code{\linkS4class{learner}}.
 #' 
-#' @exportClass  preproc.wrapper
-#'   
 #' @title Fuse learner with preprocessing.
 #' @export
 

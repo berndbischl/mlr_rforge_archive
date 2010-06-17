@@ -18,7 +18,7 @@ setClass(
 
 
 #' Constructor.
-#' @title Constructor for tuning wrapper
+#' @title Constructor for optimization wrapper
 setMethod(
 		f = "initialize",
 		signature = signature("opt.wrapper"),
@@ -34,7 +34,7 @@ setMethod(
 )
 
 
-#' @rdname opt.result-class
+#' @rdname opt.wrapper-class
 
 setMethod(
 		f = "[",

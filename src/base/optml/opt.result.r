@@ -28,6 +28,7 @@ setClass(
 		)
 )
 
+#' Constructor.
 setMethod(
 		f = "initialize",
 		signature = signature("opt.result"),

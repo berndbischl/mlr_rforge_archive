@@ -1,5 +1,5 @@
 
-# Base class for all S4 classes in this package. 
+#' Base class for all S4 classes in this package. 
 #' @exportClass object
 #' @title Base class for everything.
 
