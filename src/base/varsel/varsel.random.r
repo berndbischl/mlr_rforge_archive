@@ -2,10 +2,11 @@
 varsel.random = function(learner, task, resampling, measures, aggr, control) {
 	all.vars = task["input.names"]
 	m = length(all.vars) 
+	prob = control["prob"]
 	
 	states = list()
 	for (i in 1:control["maxit"]) {
-		vs = all.vars[as.logical(rbinom(m, 1, 0.5))]
+		vs = all.vars[as.logical(rbinom(m, 1, prob))]
 		states[[i]] = vs
 	}
 	
