@@ -56,7 +56,7 @@ allowed.rd.files <<- c(
 		"cmaes.control.Rd",
 		"make.tune.wrapper.Rd",
 		
-		"seq.control.Rd",
+		"sequential.control.Rd",
 		"varsel.control-class.Rd",
 		"varsel.Rd",
 		"make.varsel.wrapper.Rd",
