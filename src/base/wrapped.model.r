@@ -11,14 +11,14 @@ roxygen()
 
 
 #' Result from \code{\link{train}}. It internally stores the underlying fitted model,
-#' the IDs of the subset used for thraining, variables used for training and    
+#' the IDs of the subset used for training, variables used for training and    
 #' information about second-level optimization like tuned hyperparameters or selected variables. 
 #' 
 #' Getter.\cr
 #' 
 #' \describe{
 #'	\item{learner [{\linkS4class{learner}}]}{Learner that was used to fit the model.}
-#'	\item{learner model [any]}{Undelying model from used R package.}
+#'	\item{learner model [any]}{Underlying model from used R package.}
 #'	\item{subset [integer]}{Subset used for training.}
 #'	\item{vars [character]}{Variables used for training.}
 #' 	\item{hyper.pars [list]}{List of fixed hyperparameters and respective values for this model.}

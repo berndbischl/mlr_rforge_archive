@@ -1,7 +1,8 @@
-roxygen()
-
 #' Returns the names of learning algorithms which have specific characteristics, e.g.
 #' whether it supports missing values, misclassification costs, case weights,...
+#' 
+#' The default of all boolean parameter (supports.[...]) is NA, means: no specification no
+#' inclusion in the search.
 #' 
 #' @param type [character] \cr
 #' 			Type of the learning algorithm, either "classif" or "regr"

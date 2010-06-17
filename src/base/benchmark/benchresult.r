@@ -2,19 +2,19 @@
 #' 
 #' Getter. \cr
 #' The following getters all return list of lists of objects: perf, prediction, opt.result.
-#' The first list iterates the tasks, the second one the learnes, both are named by respective ids.
+#' The first list iterates the tasks, the second one the learners, both are named by respective IDs.
 #' You can reduce these list by using the optional arguments 'task' and 'learner'. 'Drop' is by default TRUE, which means that 
 #' the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
 #' 
 #' \describe{
-#'   \item{learners [character]}{Ids of learners used in experiment.}
-#'   \item{tasks [character]}{Ids of tasks used in experiment.}
+#'   \item{learners [character]}{IDs of learners used in experiment.}
+#'   \item{tasks [character]}{IDs of tasks used in experiment.}
 #'   \item{measures [character]}{Names of measures recorded in experiment.}
-#' 	 \item{iters [numeric]}{Named numerical vector which lists the number of iterations for every task. Names are ids of task.}
+#' 	 \item{iters [numeric]}{Named numerical vector which lists the number of iterations for every task. Names are IDs of task.}
 #' 	 \item{prediction [see above] }{List of list of predictions for every task/learner. }
 #' 	 \item{conf.mat [see above] }{List of list of confusion matrices for every task/learner. }
 #' 	 \item{opt.result [see above] }{List of list of  \code{\linkS4class{opt.result}} for every task/learner. Entry is NULL if no optimization was done.}
-#' 	 \item{opt.perf [see above] }{List of list of performance vectors of optimals settings for every task/learner. Note that this performance refers to the inner resampling! Entry is NULL if no optimization was done.}
+#' 	 \item{opt.perf [see above] }{List of list of performance vectors of optimal settings for every task/learner. Note that this performance refers to the inner resampling! Entry is NULL if no optimization was done.}
 #' 	 \item{opt.par [see above] }{List of list of  \code{\linkS4class{opt.result}} for every task/learner. Entry is NULL if no optimization was done.}
 #' 	 \item{opt.path [see above] }{List of list of optimization paths for every task/learner. Entry is NULL if no optimization was done.}
 #' 	 \item{tuned.par [see above] }{List of list of optimal hyperparameters for every task/learner. Entry is NULL if no tuning was done.}

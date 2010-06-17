@@ -8,7 +8,7 @@
 #' @param size [\code{\link{integer}}] \cr
 #'        Size of the data set to resample.
 #' @param ... [any] \cr
-#'		Futher parameters for strategies. 
+#'		Further parameters for strategies. 
 #'		iters: Number of generated subsets / resampling iterations.
 #'		split: Percentage of training cases for hold-out / subsampling .
 #' 

@@ -35,9 +35,9 @@
 #' 		\item{\bold{sse}}{\cr Sum of squared errors}
 #' 		\item{\bold{mse}}{\cr Mean of squared errors}
 #' 		\item{\bold{medse}}{\cr Median of squared errors}
-#' 		\item{\bold{sae}}{\cr Sum of absolut errors}
-#' 		\item{\bold{mae}}{\cr Mean of absolut errors}
-#' 		\item{\bold{medae}}{\cr Median of absolut errors}
+#' 		\item{\bold{sae}}{\cr Sum of absolute errors}
+#' 		\item{\bold{mae}}{\cr Mean of absolute errors}
+#' 		\item{\bold{medae}}{\cr Median of absolute errors}
 #' 
 #' 		\item{\bold{time.train}}{\cr Time of fitting the model}
 #' 		\item{\bold{time.predict}}{\cr Time of predicting test set}
@@ -50,7 +50,7 @@ measures = function() {}
 
 #' Aggregation functions. You can use any function in R which reduces a numerical vector to simple real number. 
 #' Refer to the function either by using an R function object or by using a string denoting the built-in function.
-#' If you coose to pass an R function, you should set the attribute 'id' to a string to give the function a name.  
+#' If you choose to pass an R function, you should set the attribute 'id' to a string to give the function a name.  
 #' You can use multiple aggregation functions if you pass a list or vector of the former.  
 #' @title Aggregation functions.
 aggregations = function() {}

@@ -9,7 +9,7 @@ roxygen()
 #' @param task [\code{\linkS4class{learn.task}}]\cr 
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 
-#'        An index vector specifying the training cases to be used for fitting. By default the complete dataset is used. 
+#'        An index vector specifying the training cases to be used for fitting. By default the complete data set is used. 
 #' @param parset [list] \cr 
 #'        Named list of hyperparameter values. Will overwrite the ones specified in the learner object. Default is empty list.
 #' @param vars [\code{\link{character}}] \cr
