@@ -41,6 +41,12 @@ mylapply <- function(xs, f, from, ...) {
 			stop("Unknown parallel model: ", ps$mode)
 		}
 	}
+	
+	if (.mlr.local$logger.setup$global.level == "debug" && .mlr.local$logger.setup$sublevel == "parallel") {
+		sizes = sapply(y, object.size)
+		logger.debug(level="parallel", "mylapply returned sizes:", range(sizes))
+	}
+	
 	if (length(y) > 0) {
 		for (i in 1:length(y)) {
 			x = y[[i]]

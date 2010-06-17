@@ -79,10 +79,10 @@ setMethod(
 				stop("Trying to predict decision values, but ", wl["id"], " does not support that!")
 			}
 
-			logger.debug("mlr predict:", wl["id"], "with pars:")
-			logger.debug(wl["hyper.pars"])
-			logger.debug("on", nrow(newdata), "examples:")
-			logger.debug(rownames(newdata))
+			logger.debug(level="predict", "mlr predict:", wl["id"], "with pars:")
+			logger.debug(level="predict", wl["hyper.pars"])
+			logger.debug(level="predict", "on", nrow(newdata), "examples:")
+			logger.debug(level="predict", rownames(newdata))
 			
 			if (wl["is.classif"]) {
 				levs = dd["class.levels"]
@@ -151,8 +151,8 @@ setMethod(
 					if (class(p) != "numeric")
 						stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
 				}
-				logger.debug("prediction:")
-				logger.debug(p)
+				logger.debug(level="predict", "prediction:")
+				logger.debug(level="predict", p)
 			}
 			if (missing(task))
 				ids = NULL			else

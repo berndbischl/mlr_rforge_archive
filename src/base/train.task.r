@@ -90,10 +90,10 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	else
 		pars = c(pars, extra.train.pars, hps)
 	
-	logger.debug("mlr train:", wl["id"], "with pars:")
-	logger.debug(hps.train)
-	logger.debug("on", length(subset), "examples:")
-	logger.debug(subset)
+	logger.debug(level="train", "mlr train:", wl["id"], "with pars:")
+	logger.debug(level="train", hps.train)
+	logger.debug(level="train", "on", length(subset), "examples:")
+	logger.debug(level="train", subset)
 	
 	
 	# no vars? then use no vars model
@@ -110,7 +110,7 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 		st = system.time(or <- capture.output(
 							learner.model <- try(do.call(train.learner, pars), silent=TRUE)
 						), gcFirst = FALSE)
-		logger.debug(or)
+		logger.debug(level="train", or)
 		time.train = st[3]
 	}
 	
