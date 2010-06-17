@@ -1,5 +1,9 @@
 #' @include base.wrapper.r
+roxygen()
 #' @include resample.desc.r
+roxygen()
+#' @include opt.control.r
+roxygen()
 
 setClass(
 		"opt.wrapper",
