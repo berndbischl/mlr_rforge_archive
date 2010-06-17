@@ -43,7 +43,7 @@ allowed.rd.files <<- c(
 #		"set.predict.par.Rd",
 #
 
-		"preproc.wrapper-class.Rd",
+#		"preproc.wrapper-class.Rd",
 		"make.preproc.wrapper.Rd",
 		
 		"opt.result-class.Rd",
