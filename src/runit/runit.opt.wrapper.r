@@ -17,6 +17,9 @@ test.opt.wrapper <- function() {
 	checkEquals(m["tuned.par"], m["opt.par"])
 	checkEquals(m["sel.var"], NULL)
 	checkEquals(m["opt"]$perf, m["opt.perf"])
+	or = attr(m, "opt.result")
+	checkTrue(is.null(or["model"]))
+	
 	
 	checkTrue(!is.null(m["path"]))
 
