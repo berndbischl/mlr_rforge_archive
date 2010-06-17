@@ -1,3 +1,5 @@
+# todo: wrapped.model becomes base class, have a normal subclass + one for optimized models???
+
 #' @include object.r
 roxygen()
 #' @include data.desc.r
