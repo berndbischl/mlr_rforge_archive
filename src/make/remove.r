@@ -2,7 +2,7 @@
 
 remove.patterns <<- c(
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,.*Constructor.\\}",
-		"\\\\alias\\{\\[\\}"
+		"\\\\alias\\{\\[\\}",
 				
 #		"\\\\alias\\{initialize\\}",
 #		"\\\\alias\\{as.character\\}",
@@ -18,8 +18,8 @@ remove.patterns <<- c(
 #
 #		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,.*train.learner\\}\\}\\}",
 #		"\\\\item\\{\\\\code\\{\\\\link\\[=train.learner,.*train.learner\\}\\}\\}",
-#		"\\\\item\\{\\\\code\\{\\\\link\\[=predict.learner,.*predict.learner\\}\\}\\}",
-#		"\\\\item\\{\\\\code\\{\\\\link\\[=predict.learner,.*predict.learner\\}\\}\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=pred.learner,.*pred.learner\\}\\}\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=pred.learner,.*pred.learner\\}\\}\\}",
 #		
 #		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,lda-method.*Constructor.\\}",
 #		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,qda-method.*Constructor.\\}",
@@ -44,8 +44,8 @@ remove.patterns <<- c(
 #		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,gbm.regr-method.*Constructor.\\}",
 #		
 #		"\\\\item\\{\\\\code\\{\\\\link\\[=to.string,.*\\}",
-#		"\\\\item\\{\\\\code\\{\\\\link\\[=show,.*Shows the object by calling as.character.\\}",
-#		"\\\\item\\{\\\\code\\{\\\\link\\[=print,.*Prints the object by calling as.character.\\}"
+		"\\\\item\\{\\\\code\\{\\\\link\\[=show,.*Shows the object by calling as.character.\\}",
+		"\\\\item\\{\\\\code\\{\\\\link\\[=print,.*Prints the object by calling as.character.\\}"
 
 #initialize,adaboost-method"                                                                                       
 #[15] "       missing link(s):  initialize,blackboost.regr-method"                                                                                
