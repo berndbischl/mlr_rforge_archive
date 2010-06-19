@@ -5,6 +5,9 @@ roxygen()
 #' @include opt.control.r
 roxygen()
 
+
+#' Abstract base class to wrap an optimization algorithm around a learner.
+
 setClass(
 		"opt.wrapper",
 		contains = c("base.wrapper"),
@@ -18,7 +21,7 @@ setClass(
 
 
 #' Constructor.
-#' @title Constructor for optimization wrapper
+
 setMethod(
 		f = "initialize",
 		signature = signature("opt.wrapper"),

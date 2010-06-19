@@ -9,8 +9,6 @@
 #' 
 #' @export
 #' 
-#' @usage conf.matrix(result, relative)
-#' 
 #' @seealso \code{\link[klaR]{errormatrix}}
 #' 
 #' @title Confusion matrix.

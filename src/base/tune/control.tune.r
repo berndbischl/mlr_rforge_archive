@@ -1,6 +1,12 @@
 #' @include opt.control.r
 roxygen()
 
+#' Abstract base class for control objects for tuning. 
+#' Cannot be instatiated. 
+#' 
+#' @exportClass tune.control
+#' @seealso \code{\linkS4class{grid.control}} 
+#' @title Base class for control objects for tuning.
 
 setClass(
 		"tune.control",
@@ -13,6 +19,8 @@ setClass(
 				scale = "function"
 		)
 )
+
+#' Constructor.
 
 setMethod(
 		f = "initialize",
@@ -31,6 +39,8 @@ setMethod(
 		}
 )
 
+
+#' @rdname tune.control-class
 
 setMethod(
 		f = "[",

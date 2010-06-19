@@ -120,7 +120,7 @@ setMethod(
 				}
 				
 				if(is(model["learner.model"], "novars")) {
-					p = predict(model["learner.model"], newdata, type)
+					p = predict_novars(model["learner.model"], newdata, type)
 					time.predict = 0
 				} else {
 					st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)

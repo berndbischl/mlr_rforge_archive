@@ -8,6 +8,8 @@ setClass(
 )
 
 
+#' @rdname object-class
+
 setMethod(
 		f = "[",
 		signature = signature("object"),
@@ -39,7 +41,6 @@ setMethod(
 		}
 )
 
-#' Prints the object by calling as.character.
 setMethod(
 		f = "print",
 		signature = signature("object"),
@@ -48,7 +49,6 @@ setMethod(
 		}
 )
 
-#' Shows the object by calling as.character.
 setMethod(
 		f = "show",
 		signature = signature("object"),

@@ -1,5 +1,26 @@
-
+#' Optimizes the threshold of prediction based on probabilities or decision values.
+#' Currently only implemented for probabilities and binary classification. 
+#' 
+#' 
+#' @param pred [\code{\linkS4class{prediction}}] \cr
+#' 		  Prediction object to use for tuning the treshold.
+#' @param measures [see \code{\link{measures}}]
+#'        Performance measures.
+#' @param aggr [see \code{\link{aggregations}}]
+#'        Aggregation functions. 
+#' 		  Ignored if not a \code{\linkS4class{resample.prediction}}
+#' @param task [\code{\linkS4class{learn.task}}] \cr
+#'        Learning task. Rarely neeeded, only when required for the performance measure. 
+#' @param thresholds [integer] \cr
+#' 		  Number of thresholds to try in tuning.  	
+#' 
+#' @return A list with with the following components: "th" is the optimal threshold, pred a prediction object based on "th", 
+#' 		  		"th.seq" a numerical vector of threhold values which were tried and "perf" their respective performance values.  	 
+#'
 #' @export
+#' @seealso \code{\link{tune}}
+#' @title Tune prediction threshold.
+
 tune.threshold = function(pred, measures, aggr, task, minimize=T, thresholds=10) {
 	if (missing(measures))
 		measures = default.measures(pred@task.desc)

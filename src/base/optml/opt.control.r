@@ -1,4 +1,16 @@
 
+#' Abstract base class for control objects for optimization. 
+#' Cannot be instatiated. 
+#' 
+#' Getter.\cr
+#' 
+#' \describe{
+#'  \item{opt.type [string]}{'tune' or 'varsel'.}
+#' }
+#' 
+#' @exportClass opt.control
+#' @seealso \code{\linkS4class{tune.control}}, \code{\linkS4class{varsel.control}} 
+#' @title Base class for control objects for optimization.
 
 setClass(
 		"opt.control",
@@ -11,6 +23,7 @@ setClass(
 		)
 )
 
+#' Constructor.
 
 setMethod(
 		f = "initialize",

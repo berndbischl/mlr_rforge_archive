@@ -28,7 +28,7 @@ roxygen()
 #' 
 #' @exportClass learn.task
 #' @seealso \code{\link{make.task}}
-#' @title learn.task
+#' @title Base class for learning tasks.
 
 
 setClass(

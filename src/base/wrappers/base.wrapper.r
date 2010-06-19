@@ -1,6 +1,11 @@
 #' @include learner.r
+roxygen()
 #' @include train.learner.r
+roxygen()
 #' @include pred.learner.r
+roxygen()
+
+#' Abstract base class to wrap something around a learner.
 
 setClass(
 		"base.wrapper",
@@ -11,7 +16,6 @@ setClass(
 )
 
 
-#' Getter.
 #' @rdname base.wrapper-class
 
 setMethod(

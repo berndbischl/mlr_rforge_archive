@@ -1,11 +1,12 @@
 #' @include opt.control.r
 roxygen()
 
-
-#' Base class for control structures for variable selection.
+#' Abstract base class for control objects for variable selection. 
+#' Cannot be instatiated. 
+#' 
 #' @exportClass varsel.control
 #' @seealso \code{\link{sequential.control}} 
-#' @title Base class for control structures for variable selection
+#' @title Base class for control objects for variable selection.
 
 setClass(
 		"varsel.control",
