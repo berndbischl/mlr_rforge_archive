@@ -43,21 +43,26 @@ allowed.rd.files <<- c(
 #		"set.predict.par.Rd",
 #
 
+		"base.wrapper-class.Rd",
+		
+		
 #		"preproc.wrapper-class.Rd",
 		"make.preproc.wrapper.Rd",
 		
+		"opt.control-class.Rd",
 		"opt.result-class.Rd",
 		
 		"tune.Rd",
 		"combine.ranges.Rd",
+		"tune.control-class.Rd",
 		"grid.control.Rd",
 #		"ps.control.Rd",
 		"neldermead.control.Rd",
 		"cmaes.control.Rd",
 		"make.tune.wrapper.Rd",
 		
-		"sequential.control.Rd",
 		"varsel.control-class.Rd",
+		"sequential.control.Rd",
 		"varsel.Rd",
 		"make.varsel.wrapper.Rd",
 		
