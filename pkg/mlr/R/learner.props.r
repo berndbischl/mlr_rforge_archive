@@ -1,18 +1,10 @@
-
-#' Description object for the features of a learning algorithm.
-#' 
-#' @slot supports.missing [logical] Can missing values be dealt with?
-#' @slot supports.numerics [logical] Are numeric variables ok?
-#' @slot supports.factors [logical] Are factor variables ok?
-#' @slot supports.characters [logical] Are character variables ok?
-#' @slot supports.weights [logical] Can case weights be dealt with?
-#' 
-#'  @exportClass learner.props
+#' @include object.r
 
 setClass(
 		"learner.props",
+		contains = c("object"),
 		representation = representation(
-				supports.missing = "logical",
+				supports.missings = "logical",
 				supports.numerics = "logical",
 				#supports.integers = "logical",
 				supports.factors = "logical",
@@ -21,23 +13,53 @@ setClass(
 		)
 )
 
-#' Shows the object by calling as.character.
-#' @param object The object
+setClass(
+		"classif.props",
+		contains = c("learner.props"),
+		representation = representation(
+				supports.multiclass = "logical",
+				supports.probs = "logical",
+				supports.decision = "logical",
+				supports.costs = "logical"
+		)
+)
+
+#' @rdname to.string
+
 setMethod(
-		f = "show",
-		signature = signature("learner.props"),
-		def = function(object) {
-			cat(to.string(object))
+		f = "to.string",
+		signature = signature("classif.props"),
+		def = function(x) {
+			return(
+					paste(
+							sep=""
+					)
+			)
+		}
+)
+
+setClass(
+		"regr.props",
+		contains = c("learner.props")
+)
+
+
+#' @rdname to.string
+
+setMethod(
+		f = "to.string",
+		signature = signature("regr.props"),
+		def = function(x) {
+			return(
+					paste(
+							"Learner: \n",  
+							"Supported features Nums:", x@supports.numerics, " Factors:", x@supports.factors, " Chars:", x@supports.characters, "\n",
+							"Supports missings: ", x@supports.missings, "\n", 
+							"Supports weights: ", x@supports.weights, "\n", 
+							sep=""
+					)
+			)
 		}
 )
 
 
-#' Prints the object by calling as.character.
-#' @param object The object
-setMethod(
-		f = "print",
-		signature = signature("learner.props"),
-		def = function(x, ...) {
-			cat(to.string(x))
-		}
-)

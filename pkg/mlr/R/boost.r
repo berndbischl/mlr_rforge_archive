@@ -1,79 +1,74 @@
-#' @include wrapped.learner.classif.r
+#' @include learnerR.r
+roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include pred.learner.r
 roxygen()
 
-#' Wrapped learner for Adaboost.M1 from package \code{adabag} for classification problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{minsplit}}{Minimum number of observations that must exist in a node in order for a split to be attempted.}			
-#' 		\item{\code{cp}}{Complexity parameter. Any split that does not decrease the overall lack of fit by a factor of cp is not attempted.}
-#' 		\item{\code{maxdepth}}{Maximum depth of any node of the final tree, with the root node counted as depth 0. Defaults to the number of classes.} 
-#' }
-#' @title adaboost
-#' @seealso \code{\link[adabag]{adaboost.M1}}
-#' @export
 setClass(
-		"adaboost", 
-		contains = c("wrapped.learner.classif")
+		"classif.adaboost.M1", 
+		contains = c("rlearner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-
-#' Constructor.
-#' @title Adaboost Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("adaboost"),
+		signature = signature("classif.adaboost.M1"),
 		def = function(.Object) {
-			train.fct <- "adaboost.M1"
-			predict.fct <- "predict.boosting"
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
-					supports.missing = TRUE,
+					supports.missings = TRUE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = TRUE,
 					supports.probs = FALSE,
+					supports.decision = FALSE,
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="boost", learner.pack="adabag", learner.props=desc)
+			callNextMethod(.Object, label="AdaBoostM1", pack="adabag", props=desc)
 		}
 )
+
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="adaboost", 
+				.learner="classif.adaboost.M1", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			adaboost.M1(f, data=.data, ...)
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "adaboost", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.adaboost.M1", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, .type, ...) {
 			# stupid adaboost
-			.newdata[, .wrapped.model["target"]] <- factor(rep(1, nrow(.newdata)), levels=.wrapped.model["class.levels"])
-			p = predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+			.newdata[, .model["target"]] <- factor(rep(1, nrow(.newdata)), levels=.model["class.levels"])
+			p = predict(.model["learner.model"], newdata=.newdata, ...)
 			return(as.factor(p$class))
 		}
 )	

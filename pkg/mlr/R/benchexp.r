@@ -1,83 +1,127 @@
-#' Complete benchmark experiment for a learn task.
-#' Allows you to compare a list of learning algorithms by measuring the test error w.r.t. to a given resampling strategy.  
+#' Complete benchmark experiment to compare different learning algorithms 
+#' across one or more tasks w.r.t. a given resampling strategy.  
 #' Experiments are paired, meaning always the same training / test sets are used for the different learners.  
-#' 
-#' @param learners [\code{\link{list}} of \code{\linkS4class{wrapped.learner}} or \code{\link{character}}] \cr
+ 
+#' @param learners [string | \code{\linkS4class{learner}} | list of the previous two] \cr
 #' 		  Defines the learning algorithms which should be compared.
-#' @param task [\code{\linkS4class{learn.task}}] \cr
-#'        Learning task.
-#' @param resampling [\code{\linkS4class{resample.desc}} or \code{\linkS4class{resample.instance}}] \cr
-#'        Resampling strategy. 
+#' @param tasks [\code{\link{learn.task}} | list of the previous] \cr
+#'        Defines the tasks.
+#' @param resampling [resampling desc | resampling instance | list of the previous two] \cr
+#'        Defines the resampling strategies for the tasks.
+#' @param measures [see \code{\link{measures}}]
+#'        Performance measures. 
+#' @param conf.mats [logical] \cr
+#'        Should confusion matrices be stored?
+#'        Default is TRUE.
+#' 		  Ignored for regression.	 
+#' @param predictions [logical] \cr
+#'        Should all predictions be stored?
+#'        Default is FALSE.
+#' @param models [logical] \cr
+#'        Should all fitted models be stored?
+#'        Default is FALSE.
+#' @param paths [logical] \cr
+#'        Should the optimization paths be stored?
+#'        Default is FALSE.
+#' @return \code{\linkS4class{bench.result}}.
 #' 
-#' @return A matrix of test error. Columns correspond to learners, row to the iteration of the resampling strategy.
-#' 
-#' @usage bench.exp(learners, tasks, resampling)
+#' @usage bench.exp(learners, tasks, resampling, measures, conf.mats=TRUE, predictions=FALSE, models=FALSE, paths=FALSE)
 #' 
 #' @note You can also get automatic, internal tuning by using \code{\link{make.tune.wrapper}} with your learner. 
 #' 
-#' @seealso \code{\link{bench.add}}, \code{\link{make.tune.wrapper}} 
+#' @seealso \code{\link{make.tune.wrapper}} 
 #' @export 
 #' @aliases bench.exp 
-#' @title Bencnmark experiment for multiple learners 
-#'
-#' @examples
-#' ct <- make.classif.task(data=iris, target="Species")
-#' # very small grid for svm hyperpars 
-#' r <- list(C=2^seq(-1,1), sigma=2^seq(-1,1))
-#' inner.res <- make.res.desc("cv", iters=3)   
-#' svm.tuner <- make.tune.wrapper("kernlab.svm.classif", method="grid", resampling=inner.res, control=grid.control(ranges=r))
-#' learners <- c("lda", "qda", svm.tuner)
-#' res <- make.res.desc("cv", iters=5)
-#' bench.exp(learners, ct, res)
-  
+#' @title Benchmark experiment for multiple learners and tasks. 
 
-bench.exp <- function(learners, tasks, resampling) {
+
+# todo: check unique ids
+bench.exp <- function(learners, tasks, resampling, measures,  
+		conf.mats=TRUE, predictions=FALSE, models=FALSE, paths=FALSE)  {
+	
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
 	}
+	learners = as.list(learners)
+	n = length(learners)
+	if (n == 0)
+		stop("No learners were passed!")
+	check.list.type(learners, c("character", "learner"))
+	
 	if (!is.list(tasks)) {
 		tasks = list(tasks)
 	}
-	learners = as.list(learners)
-	n = length(learners)
+	if (length(tasks) == 0)
+		stop("No tasks were passed!")
+	check.list.type(tasks, "learn.task")
+	
+	if (missing(measures))
+		measures = default.measures(tasks[[1]])
+	measures = make.measures(measures)
+	
+	
+	
 	#bs = array(-1, nrow=resampling["iters"], ncol=n)
 	## add dim for every loss ?? hmm, those are not always the same size...
-	dims = c(resampling["iters"], n, 1, length(tasks))
-	bs = array(dim = dims)
+	if (length(tasks) > 1 && is(resampling, "resample.instance")) {
+		stop("Cannot pass a resample.instance with more than 1 task. Use a resample.desc!")
+	}
+	dims = c(resampling["iters"]+1, n, length(measures))
+	bs = list()
 	
 	learner.names = character()
-	task.names = sapply(tasks, function(x) x["name"])	
+	task.names = sapply(tasks, function(x) x["id"])	
 	resamplings = list()
-	tuned = list()
-	cms = list()
+	tds = dds = rfs = cms = mods = list()
+	ors = list()
+	
 	for (j in 1:length(tasks)) {
+		bs[[j]] = array(0, dim = dims)		
 		task = tasks[[j]]
+		logger.info("bench.exp: task = ", task["id"])
+		rfs[[j]] = list()
+		cms[[j]] = list()
+		mods[[j]] = list()
+		ors[[j]] = list()
 		if (is(resampling, "resample.desc")) {
 			resamplings[[j]] = new(resampling@instance.class, resampling, task["size"])
-		}
-		tuned[[j]] = as.list(rep(NA, n))
-		cms[[j]] = as.list(rep(NA, n))
+		} else {
+			resamplings[[j]] = resampling
+		}		
+		tds[[j]] = task@task.desc
+		dds[[j]] = task@data.desc
 		for (i in 1:length(learners)) {
 			wl = learners[[i]]
 			if (is.character(wl))
 				wl = make.learner(wl)
-			learner.names[i] = wl["short.name"]
-			bm = benchmark(wl, task, resamplings[[j]])
-			bs[,i,1,j] = bm$result$test.perf
-			if (is(wl, "tune.wrapper"))
-				tuned[[j]][[i]] = bm$result
-			if (is(task, "classif.task"))
-				cms[[j]][[i]] = bm$conf
-			else
-				cms[[j]][[i]] = NA
+			learner.names[i] = wl["id"]
+			logger.info("bench.exp: learner = ", wl["id"])
+			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, conf.mat=conf.mats, models=models, paths=paths)
+			rr = bm$result
+			rf = bm$resample.fit
+			# remove tune perf
+			rr = rr[, names(measures)]
+			bs[[j]][,i,] = as.matrix(rr)
+			
+			if(predictions)	rfs[[j]][[i]] = rf else	rfs[[j]][i] = list(NULL)
+			if(is(task, "classif.task") && conf.mats) cms[[j]][[i]] = bm$conf else cms[[j]][i] = list(NULL)
+			if(models)	mods[[j]][[i]] = bm$models else	mods[[j]][i] = list(NULL)
+			if(is(wl, "opt.wrapper")) ors[[j]][[i]] = bm$ors else ors[[j]][i] = list(NULL)
 		}
-		names(tuned[[j]]) = learner.names
+		dimnames(bs[[j]]) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures))
+
+		names(rfs[[j]]) = learner.names
 		names(cms[[j]]) = learner.names
-		
+		names(mods[[j]]) = learner.names
+		names(ors[[j]]) = learner.names
 	}
-	dimnames(bs) = list(1:resampling["iters"], learner.names, NULL, task.names)
-	names(tuned) = task.names
+	names(bs) = task.names
+	names(rfs) = task.names
 	names(cms) = task.names
-	
-	return(new("bench.result", perf = bs, tuned.pars=tuned, conf.mats=cms, resamplings=resamplings))
+	names(mods) = task.names
+	names(ors) = task.names
+	return(new("bench.result", task.descs=tds, data.descs=dds, resamplings=resamplings, perf = bs, 
+					predictions=rfs, conf.mats=cms, models=mods,
+					opt.results = ors
+	))
 }

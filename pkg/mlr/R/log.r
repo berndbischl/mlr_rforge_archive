@@ -5,8 +5,7 @@
 #	logger.error(s)
 #}
 
-#' @export
-logger.setup <- function(console=TRUE, file=NULL, level) {
+logger.setup <- function(console=TRUE, file=NA, level, sublevel=NA) {
 	if (level=="error") {
 		options(warn=-1)
 	} else {
@@ -18,10 +17,11 @@ logger.setup <- function(console=TRUE, file=NULL, level) {
 	logger.setup$console <- console
 	logger.setup$file <- file
 	logger.setup$global.level <- level
-
+	logger.setup$sublevel <- sublevel
+	
 	.mlr.local$logger.setup <- logger.setup
 		
-	if (!is.null(file)) 
+	if (!(is.na(file))) 
 		unlink(file)
 	return(logger.setup)
 }
@@ -50,8 +50,8 @@ logger.print.stuff <- function(prefix, ...) {
 	#}
 }
 
-logger.print <- function(level, ...) {
-	prefix = paste("[", level, "]", sep="")
+logger.print <- function(level, sublevel=NA, ...) {
+	prefix = paste("[", level, ifelse(is.na(sublevel), "", paste(":", sublevel, sep="")), "]", sep="")
 	level <- switch(level,
 			error = 4,
 			info = 2,
@@ -66,9 +66,8 @@ logger.print <- function(level, ...) {
 			info = 2,
 			debug = 1)
 	
-	
-	if (level >= global.level) {
-		if (!is.null(logger.setup$file)) { 
+	if (level >= global.level && ( is.na(sublevel) || sublevel %in% logger.setup$sublevel)) {
+		if (!is.na(logger.setup$file)) { 
 			sink(file=logger.setup$file, append=TRUE)
 			logger.print.stuff(prefix, ...)  
 			sink()
@@ -83,11 +82,11 @@ logger.print <- function(level, ...) {
 #}
 
 logger.info <- function(...) {
-	logger.print(level="info", ...)
+	logger.print(level="info", sublevel=NA, ...)
 }
 
-logger.debug <- function(...) {
-	logger.print(level="debug", ...)
+logger.debug <- function(..., level=NA) {
+	logger.print(level="debug", sublevel=level, ...)
 }
 
 

@@ -2,6 +2,8 @@
 
 
 .mlr.local <- new.env()
+.mlr.export <- new.env()
+
 roxygen <- function() NULL
 
 #' @export .mlr.local

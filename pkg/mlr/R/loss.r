@@ -1,81 +1,78 @@
-#' @include task.classif.r
-#' @include task.regr.r
+# A loss transforms a vector of predictions (compared to the true responses) into a  vector of numerical values, 
+# measuring the quality of each prediction individually. 
+#
+#' Losses can always be passed as a single string (name of a single loss), a character vector of multiple names of losses or 
+#' a list containing string names of losses and your own loss functions as function objects. The latter ones should 
+#' be named list elements.  
+#' 
+#' Classification: 
+#' \itemize{ 
+#' 		\item{\bold{zero-one}}{\cr Zero-one loss}
+#' 		\item{\bold{costs}}{\cr Misclassification costs according to cost matrix}
+#' }
+#' 
+#' Regression: 
+#' \itemize{ 
+#' 		\item{\bold{squared}}{\cr Squared error}
+#' 		\item{\bold{abs}}{\cr Absolute error}
+#' 		\item{\bold{residual}}{\cr Signed residual error}
+#' }
+#'  
+#' @title Loss functions.
+losses = function() {}
 
-setClass(
-		"loss",
-		representation = representation(
-				name = "character",
-				fun = "function",
-				aggregate = "function",
-				aggr.name = "character",
-				spread = "function",
-				spread.name = "character"
-		)
-)
-
-
-setClass(
-		"mce.costs",
-		contains = c("loss"),
-		representation = representation(
-				costs = "matrix"
-		)
-)
-
-make.loss <- function(name, aggregate=NULL, aggr.name="aggr", spread=NULL, spread.name="spread") {
-	if (name=="squared") {
-		ms <- new("loss", name=name, fun=function(true.y, pred.y, weights) (true.y - pred.y)^2, 
-				aggregate=mean, aggr.name="mean", spread=sd, spread.name="sd")
-	} else if (name=="abs") {
-		ms <- new("loss", name=name, fun=function(true.y, pred.y, weights) abs(true.y - pred.y), 
-				aggregate=median, aggr.name="median", spread=IQR, spread.name="IQR")
-	} else if (name=="zero-one") {
-		ms <- new("loss", name=name, fun=function(true.y, pred.y, weights) as.numeric(true.y != pred.y), 
-				aggregate=mean, aggr.name="mean", spread=sd, spread.name="sd")
-	} else if (name=="mber") {
-		ms <- list(fun = function(true.y, pred.y, weights) {
-					em <- errormatrix(true.y, pred.y, relative =TRUE)
-					n <- ncol(em)
-					return(sum(em[1:(n-1), n]))
-				},
-				aggregate = mean, aggr.name="mean", spread=sd, spread.name="sd", minimize=TRUE)
-	} else {
-		stop(paste("Loss", name, "does not exist!"))
+make.losses = function(xs) {
+	if (length(xs)==0)
+		return(list())
+	ys = list()
+	for (i in 1:length(xs)) {
+		x = xs[[i]] 
+		if (is.function(x))
+			y = x
+		else if (is.character(x))
+			y =make.loss(x)
+		ys[[i]] = y
+		nn = names(xs)[i]
+		if (is.null(nn))
+			nn = attr(y, "id")
+		if (is.null(nn))
+			stop("No name for loss!")
+		names(ys)[i] = nn
 	}
-	if (!is.null(aggregate)) {
-		ms$aggregate <- aggregate
-		ms$aggr.name <- aggr.name
-	}
-	if (!is.null(spread)) {
-		ms$spread <- spread
-		ms$spread.ane <- spread.name
-	}
-	return(ms)
+	return(ys)	
 }
 
-setGeneric(
-		name = "default.loss",
-		def = function(learn.task) {
-			standardGeneric("default.loss")
-		}
-)
 
-setMethod(
-		f = "default.loss",
-		signature = c(learn.task="classif.task"),
-		def = function(learn.task) {
-			return(make.loss("zero-one"))
+make.loss <- function(name) {
+	if (name=="squared") 
+		fun=function(x, task) (x["truth"] - x["response"])^2 
+	else if (name=="abs") 
+		fun=function(x, task) abs(x["truth"] - x["response"]) 
+	else if (name=="residual") 
+		fun=function(x, task) x["truth"] - x["response"] 
+	else if (name=="zero-one") 
+		fun=function(x, task) as.numeric(x["truth"] != x["response"]) 
+	else if (name=="costs") 
+		fun=function(x, task) { 
+			cm = x@task.desc@costs
+			if (all(dim(cm) == 0))
+				stop("No costs were defined in task!")
+			cc = function(truth, pred) {
+				cm[truth, pred]
+			}
+			unlist(Map(cc, as.character(x["truth"]), as.character(x["response"])))			
 		}
-)
+	else 	
+		stop(paste("Loss", name, "does not exist!"))
+	
+	attr(fun, "id") = name
+	return(fun)
+}
 
-setMethod(
-		f = "default.loss",
-		signature = c(learn.task="regr.task"),
-		def = function(learn.task) {
-			return(make.loss("squared"))
-		}
-)
 
+default.loss = function() {
+	return(list())
+}
 
 
 

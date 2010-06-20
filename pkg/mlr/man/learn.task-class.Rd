@@ -1,12 +1,30 @@
 \name{learn.task-class}
 \alias{learn.task-class}
 \alias{learn.task}
-\title{learn.task}
+\title{Base class for learning tasks.}
 \description{A learning task is a general description object for a machine learning experiment. 
 It wraps the data source and specifies - through its subclasses - the type of the task (e.g. classification or regression), 
-the target variable, the loss function and other details of the problem. As this is just an abstract base class, 
+the target variable and other details of the problem. As this is just an abstract base class, 
 you should not instantiate it directly but use the inheriting classes and their factory methods.}
-\seealso{classif.task regr.task}
-\section{Slots}{\describe{\item{\code{name}:}{(\code{\link{character}}) Name of task / data set to be used string representations later on.}\item{\code{data}:}{(\code{\link{data.frame}}) Dataframe which includes all the data for the task.}\item{\code{target}:}{(\code{\link{character}}) Name of the target variable.}\item{\code{excluded}:}{(\code{\link{character}}) Names of inputs, which should be generally disregarded, e.g. IDs, etc.}\item{\code{data.desc}:}{(\code{\link{data.desc}}) Contains logical values describing properties of the dataframe e.g. whether it has 
-characters or missing values (see desc and \code{\linkS4class{data.desc}}).}\item{\code{weights}:}{(\code{\link{numeric}}) An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.}}}
-\section{Methods}{\describe{\item{\code{\link[=benchmark,wrapped.learner,learn.task,resample.instance-method]{benchmark}}}{}\item{\code{\link[=resample.fit,wrapped.learner,learn.task,resample.instance,list,character,character,function-method]{resample.fit}}}{}\item{\code{\link[=resample.fit,wrapped.learner,learn.task,resample.desc,list,character,character,function-method]{resample.fit}}}{}\item{\code{\link[=make.res.instance,character,learn.task,missing-method]{make.res.instance}}}{}\item{\code{\link[=resample.performance,learn.task,resample.result,loss,function,function,function-method]{resample.performance}}}{\code{signature(task = "learn.task", result = "resample.result", loss = "loss", aggr1 = "function", aggr2 = "function", spread = "function")}: Measures the quality of predictions w.r.t. some loss function for a resampled fit.}\item{\code{\link[=initialize,learn.task-method]{initialize}}}{\code{signature( = "learn.task")}: Constructor.}\item{\code{\link[=[,learn.task-method]{[}}}{\code{signature( = "learn.task")}: Getter.}}}
+\details{\code{learn.task-class}: Getter.\cr
+
+\describe{
+\item{id [string]}{Id string of task.}
+\item{label [string]}{Label string of task.}
+\item{is.classif [boolean]}{Is this a classification task?}
+\item{is.regr [boolean]}{Is this a regression task?}
+\item{data [data.frame]. Optional parameters: row, col}{The data.frame is returned, possibly indexed by row/col. If col is missing, only columns which were not excluded are returned.}
+\item{size [integer]}{Number of cases.}
+\item{target.name [string]}{The name of the target variable.}
+\item{input.names [character]}{The names of the input variables (without excluded variables).}
+\item{excluded [character]}{Names of excluded variables.}
+\item{targets [character]. Optional parameters: row}{If row is missing all target values are returned. Otherwise they are indexed by row.}
+\item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row. NULL if no weights were set.}
+}
+
+}
+\seealso{\code{\link{make.task}}}
+\section{Extends}{\code{\linkS4class{object}}}
+\section{Methods}{\describe{\item{\code{\link[=resample.fit,learner,learn.task,resample.instance,list,character,function-method]{resample.fit}}}{}\item{\code{\link[=make.res.instance,character,learn.task,missing-method]{make.res.instance}}}{}\item{\code{\link[=make.res.instance,resample.desc,learn.task,missing-method]{make.res.instance}}}{}\item{\code{\link[=[,learn.task-method]{[}}}{}\item{\code{\link[=train,learner,learn.task,numeric,list,character,character-method]{train}}}{}}}
+\alias{[,learn.task-method}
+

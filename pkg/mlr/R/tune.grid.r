@@ -1,51 +1,50 @@
-tune.grid <- function(learner, task, resampling, loss, control, fixed, scale) {
-	ranges = control$ranges
+tune.grid <- function(learner, task, resampling, measures, aggr, control) {
+	# convert to instance so all pars are evaluated on the same splits
+	if (is(resampling, "resample.desc")) 
+		resampling = make.res.instance(resampling, task=task)
+	ranges = control["ranges"]
 	# if theres more than one ranges 
-	if(all((names(ranges) == "ranges"))) {
-		trs <- lapply(ranges, function(r) {tune.1(learner=learner, task=task, resampling=resampling, ranges=r, loss=loss, fixed=fixed, scale=scale)})
-		trs2 <- lapply(1:length(ranges), function(i) make.tune.result(trs[[i]], loss, ranges[[i]]))
-		ps <- lapply(trs2, function(x) x$all.perfs)
-		bps <- sapply(trs2, function(x) x$perf)
-		bss <- sapply(trs2, function(x) x$spread)
-		bpars <- lapply(trs2, function(x) x$par)
-		print(bps)
-		i <- which.min(bps)
-		perf <- Reduce(rbind.fill, ps)
-		# reorder
-		cn <- colnames(perf)
-		perf <- perf[, c(setdiff(cn, c("mean", "sd")), "mean", "sd")]
-		return(list(best.parameters=bpars[[i]], best.performance=bps[i], best.spread=bss[i], performances = perf))
+	if(length(ranges) > 0 && all((names(ranges) == "ranges"))) {
+		ors = lapply(ranges, function(r) {tune.1(learner, task, resampling, ranges, measures, aggr, control)})
+		
+		ps = lapply(ors, function(x) x@path)
+		ps = Reduce(c, ps)
+		perfs = sapply(ors, function(x) x@opt$perf[1])
+		if (control["minimize"])
+			i = which.min(perfs)
+		else				
+			i = which.max(perfs)
+		new("opt.result", control=control, opt=ors[[i]]@opt, path=ps)
 	}else {
-		tr <- tune.1(learner, task, resampling, ranges, loss, fixed, scale)
-		return(make.tune.result(tr, loss, ranges))
+		tune.1(learner, task, resampling, ranges, measures, aggr, control)
 	}
 }
 
 
 
-row2parset <- function (indices.row, ranges){
-	indices.row <- as.integer(indices.row)
-	result <- as.list(rep(0,length(indices.row)))
-	names(result) <- names(ranges)
-	for (i in 1:length(indices.row)) {
-		result[[i]] <- (ranges[[i]])[[indices.row[i]]]
-	}
-	return(result)
-}
-
-tune.1 <- function(learner, task, resampling, ranges, loss, fixed, scale) {
+tune.1 <- function(learner, task, resampling, ranges, measures, aggr, control) {
 	check.ranges(ranges)
 
-	cr <- convert.ranges(ranges)
-	grid.labels <- expand.grid(cr$labels, KEEP.OUT.ATTRS = FALSE)
-	grid.indices <- expand.grid(cr$indices, KEEP.OUT.ATTRS = FALSE)
 	
-	# expand grid converts char vectors to factors
-#	for (i in 1:ncol(grid.labels))
-#		if(is.factor(grid.labels[,i])) grid[,i] <- as.character(grid[,i])
-	
-	parsets <- lapply(1:nrow(grid.indices), function(i) row2parset(grid.indices[i,,drop=F], ranges))	
-	
+	# todo: make this better 
+	if (length(ranges) == 0) {
+		bs = eval.state.tune(learner=learner, task=task, resampling=resampling,  
+				measures=measures, aggr=aggr, control=control, 
+				par=list(), event="grid")
+		path = add.path.tune(list(), bs, T)	
+	} else {
+		grid = expand.grid(ranges, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+		
+		parsets = lapply(seq(length=nrow(grid)), function(i) as.list(grid[i,,drop=FALSE]))	
+		es = eval.states.tune(learner=learner, task=task, resampling=resampling,  
+				measures=measures, aggr=aggr, control=control, 
+				pars=parsets, event="grid")
+		
+		bs = select.best.state(es, control)
+		path = add.path.els.tune(path=list(), ess=es, best=bs)
+	}
+	new("opt.result", control=control, opt=make.path.el(bs), path=path)
+
 #	if (.ps$mode %in% c("snowfall", "sfCluster")) {
 #		sfExport("learner")
 #		sfExport("task")
@@ -55,46 +54,8 @@ tune.1 <- function(learner, task, resampling, ranges, loss, fixed, scale) {
 #			sfExport("measure")
 #		}
 #	} 
-	
-	
-	perf = eval.parsets(learner=learner, task=task, resampling=resampling, loss=loss, pars=parsets, fixed=fixed, scale=scale, names=names(ranges))
-
-	performances <- grid.indices
-	performances[, c("aggr", "spread", "time")]  <- perf[,1:3] 
-	return(performances)
 }
 
-make.tune.result <- function(perf, loss, ranges) {
-	cr <- convert.ranges(ranges)
-	best.i <- which.min(perf$aggr)
-	cn <- colnames(perf)
-	cn <- setdiff(cn, c("aggr", "spread", "time"))
-	perf2 <- perf[,cn, drop=FALSE]
-	best.parameters <- row2parset(perf[best.i, cn, drop=F], ranges)
-	best.performance <- perf[best.i, "aggr"] 
-	best.spread <- perf[best.i, "spread"] 
-	# put aggr/spread at end
-	perf2 <- sapply(1:ncol(perf2), function(i) cr$labels[[i]][perf[,cn[i]]])
-	perf2 <- as.data.frame(perf2)
-	colnames(perf2) <- cn
-	perf2 <- cbind(perf2, perf[,c("aggr", "spread", "time")])
-	# more informative names 
-#	ag <- paste("aggr=", measure$aggr.name, sep="") 
-#	sp <- paste("spread=", measure$spread.name, sep="")
-	#ag <- measure$aggr.name 
-	#sp <- measure$spread.name
-	ag = "mean" 
-	sp = "sd" 
-	colnames(perf2)[ncol(perf)-2] <- ag
-	colnames(perf2)[ncol(perf)-1]   <- sp
-	return(list(par=best.parameters, perf=best.performance, all.perfs = perf2))
-}
-
-convert.ranges <- function(ranges) {
-	indices <- lapply(ranges, function(x) 1:length(x))
-	labels <- lapply(ranges, function(x) if(length(names(x)) > 0) {return(names(x))} else {as.character(x)})
-	return(list(indices=indices, labels=labels))
-}
 
 
 

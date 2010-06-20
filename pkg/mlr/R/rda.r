@@ -1,74 +1,73 @@
-#' @include wrapped.learner.classif.r 
+#' @include learnerR.r
+roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include pred.learner.r
 roxygen()
 
-#' Wrapped learner for Regularized Discriminant Analysis from package \code{klaR} for classification problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{gamma}}{See details in \code{klaR}.}		
-#' 		\item{\code{lambda}}{See details in \code{klaR}.}	
-#' }
-#' @title rda
-#' @seealso \code{\link[klaR]{rda}}
-#' @export
 setClass(
-		"rda", 
-		contains = c("wrapped.learner.classif")
+		"classif.rda", 
+		contains = c("rlearner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title RDA Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("rda"),
+		signature = signature("classif.rda"),
 		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
-					supports.missing = FALSE,
+					supports.missings = FALSE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = FALSE,			
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="rda", learner.pack="klaR", learner.props=desc)
+			callNextMethod(.Object, label="rda", pack="klaR", props=desc)
 		}
 )
+
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="rda", 
+				.learner="classif.rda", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type="character" 
+				.costs="matrix" 
 		),
-		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type, ...) {
+
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			rda(f, data=.data, ...)
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "rda", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.rda", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			p <- predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
-			if (.type=="class")
+		def = function(.learner, .model, .newdata, .type, ...) {
+			p <- predict(.model["learner.model"], newdata=.newdata, ...)
+			if (.type=="response")
 				return(p$class)
 			else
 				return(p$posterior)

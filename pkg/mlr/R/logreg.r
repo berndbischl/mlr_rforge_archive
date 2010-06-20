@@ -1,84 +1,85 @@
-#' @include wrapped.learner.classif.r
+#' @include learnerR.r
+roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include pred.learner.r
 roxygen()
 
-#' Wrapped learner for Logistic Regression from package \code{stats} for classification problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{start}}{Starting values for the parameters in the linear predictor.}	
-#' 		\item{\code{etastart}}{Starting values for the linear predictor.}
-#' 		\item{\code{mustart}}{Starting values for the vector of means.}
-#' }
-#' @title logreg
-#' @seealso \code{\link[stats]{glm}}
-#' @export
+
 setClass(
-		"logreg", 
-		contains = c("wrapped.learner.classif")
+		"classif.logreg", 
+		contains = c("rlearner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Logistic Regression Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("logreg"),
+		signature = signature("classif.logreg"),
 		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = FALSE,
-					supports.missing = TRUE,
+					supports.missings = TRUE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = TRUE,
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="logreg", learner.pack="stats", learner.props=desc)
+			callNextMethod(.Object, label="logreg", pack="stats", props=desc,
+					parset.train=list(family = "binomial"))
 		}
 )
+
+#' @rdname train.learner
+
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="logreg", 
+				.learner="classif.logreg", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			glm(f, family="binomial", data=.data, ...)
+			glm(f, data=.data, model=FALSE, ...)
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "logreg", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.logreg", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, .type, ...) {
 			
-			x <- predict(.wrapped.model["learner.model"], newdata=.newdata, type="response", ...)
-			
+			x = predict(.model["learner.model"], newdata=.newdata, type="response", ...)
+			levs = .model["class.levels"]		
 			if (.type == "prob") {
-				y <- matrix(0, ncol=2, nrow=length(.newdata))
-				colnames(y) <- .wrapped.model["class.levels"]
-				y[,1] <- x
-				y[,2] <- 1-x
+				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
+				colnames(y) = levs
+				y[,1] <- 1-x
+				y[,2] <- x
 				return(y)
 			} else {
-				levs <- .wrapped.model["class.levels"]
+				levs <- .model["class.levels"]
 				p <- as.factor(ifelse(x > 0.5, levs[2], levs[1]))
 				names(p) <- NULL
 				return(p)

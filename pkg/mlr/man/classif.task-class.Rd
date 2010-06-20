@@ -1,10 +1,19 @@
 \name{classif.task-class}
 \alias{classif.task-class}
 \alias{classif.task}
-\title{classif.task}
+\title{Classification task.}
 \description{General description object for a classification experiment.   
 Instantiate it by using its factory method.}
-\seealso{make.regr.task}
-\section{Slots}{\describe{\item{\code{type}:}{(\code{\link{character}}) "class" if you generally want to predict classes or "prob" for probabilities. Default is "class"}\item{\code{costs}:}{(\code{\link{matrix}}) Matrix of misclassification costs. Default is zero-one loss.}}}
+\details{Getter.\cr
+
+\describe{
+\item{class.levels [character]}{Levels of target factor for classification.}
+\item{class.nr [integer]}{Number of class labels for classification.}
+\item{is.binary [boolean]}{Binary classification task?}
+\item{costs [matrix]}{Cost matrix, NULL if not available.}
+\item{positive [string]}{Positive class label for binary classification.}
+\item{negative [string]}{Negative class label for binary classification.}
+}}
+\seealso{\code{\link{make.task}}}
 \section{Extends}{\code{\linkS4class{learn.task}}}
-\section{Methods}{\describe{\item{\code{\link[=default.loss,classif.task-method]{default.loss}}}{}\item{\code{\link[=initialize,classif.task-method]{initialize}}}{\code{signature( = "classif.task")}: Constructor.}\item{\code{\link[=[,classif.task-method]{[}}}{\code{signature( = "classif.task")}: Getter.}
+\section{Methods}{\describe{\item{\code{\link[=to.string,classif.task-method]{to.string}}}{}}}

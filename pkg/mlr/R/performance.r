@@ -1,91 +1,71 @@
+#' @include prediction.r
+roxygen()
+
+#' Measures the quality of predictions w.r.t. some performance measures or loss functions.
+#' 
+#' @param pred [\code{\linkS4class{prediction}}] \cr
+#' 		  Prediction object to evaluate.
+#' @param measures [see \code{\link{measures}}]
+#'        Performance measures. 
+#' @param aggr [see \code{\link{aggregations}}]
+#'        Aggregation functions. 
+#' 		  Ignored if not a \code{\linkS4class{resample.prediction}}
+#' @param losses [see \code{\link{losses}}]
+#'        Loss functions. 
+#' @param task [\code{\linkS4class{learn.task}}]\cr 
+#'        Optionally specifies learning task, very rarely needed.
+#' 
+#' @return A list with with possibly three named components: "measures" is a data.frame of performance values,
+#' 		   "aggr" a data.frame of aggregated values, "losses" a data.frame of losses. 
+#' 
+#' @exportMethod performance
+#' @rdname performance
+#' 
+#' @usage performance(pred, measures, aggr, losses, task)
+#'
+#' @title Measure performance and losses of prediction.
+
 
 
 setGeneric(
 		name = "performance",
-		def = function(true.y, pred.y, weights, loss, aggr) {
-			
-			if (is.factor(true.y))
-				true.y = as.character(true.y)
-			if (is.factor(pred.y))
-				pred.y = as.character(pred.y)
-			
-			if (class(true.y) != class(pred.y))
-				stop(paste("true.y and pred.y have incompatible types:", class(true.y), class(pred.y)))
-			
-			if(missing(weights)) {
-				weights <- rep(1, length(true.y))
-			}
-			if(missing(loss)) {
-				if (is.character(true.y))
-					loss="zero-one"
-				if (is.numeric(true.y))
-					loss="squared"
-			}
-			if (is.character(loss))
-				loss = make.loss(loss)
-			if(missing(aggr)) {
-				aggr = mean
-			}
+		def = function(pred, measures, aggr, losses, task) {
+			if (missing(measures))
+				measures=default.measures(pred@task.desc)
+			measures = make.measures(measures)
+			if (missing(losses))
+				losses=list()
+			losses = make.losses(losses)
+			if(missing(aggr))
+				aggr = default.aggr(pred@task.desc)
+			aggr = make.aggrs(aggr)
 			standardGeneric("performance")
 		}
 )
 
-#' \code{performance} measures the quality of predictions w.r.t. some loss function.
-#' 
-#' There are some more loss functions which you can use as performance measure, they are as follows:
-#' For classification:
-#' \describe{ 
-#' 		\item{\code{smce}}{Summed misclassification error}
-#' } 
-#' 
-#' For regression:
-#' \describe{ 
-#' 		\item{\code{sae}}{Sum of absolute errors}
-#' 		\item{\code{mae}}{Median of absolute errors}
-#' 		\item{\code{sse}}{Squared sum of errors}
-#' 		\item{\code{mse}}{Mean squared error}
-#' } 
-#' 
-
-#' @param	true.y [ANY] \cr
-#' 			The data sets true labels.
-#' @param 	pred.y [ANY] \cr
-#' 			The predicted labels.
-#' @param 	weights [\code{\link{numeric}}] \cr
-#' 			An optional vector of weights to be used. Default is a weight of 1 for every case.
-#' @param 	loss [\code{\linkS4class{loss}} or \code{\link{character}}] \cr
-#' 			Loss function. Default is "zero-one" for classifictaion and "squared" for regression.
-#' @param 	aggr [\code{\link{function}}] \cr
-#' 			Function to aggregate individual loss values to a single one. Default is mean.
-#' 
-#' @return The performance.
-#' 
-#' @export
 #' @rdname performance
-#' 
-#' @usage performance(true.y, pred.y, weights, loss, aggr)
-#'
-#' @examples
-#' data(iris) 
-#' ct <- make.classif.task(data=iris, target="Species")
-#' # specify train and test set indices
-#' train.set <- seq(from=1L, to=150L, by=2L)
-#' test.set <- seq(from=2L, to=150L, by=2L)
-#' # train a model with the train set
-#' m <- train("rpart.classif", ct, subset=train.set) 
-#' # predict the class of the test set measures 
-#' preds <- predict(m, newdata=iris[test.set,])
-#' # evaluate the predictions, first with mean misclassification error as loss function (default)
-#' performance(true.y = iris[test.set, "Species"], pred.y = preds)		
-#' 
-#' @title performance
 
 setMethod(
 		f = "performance",
-		signature = signature(true.y="ANY", pred.y="ANY", weights="numeric", loss="loss", aggr="function"),
-		def = function(true.y, pred.y, weights, loss, aggr) {
-			ls = loss@fun(true.y, pred.y, weights)
-			return(list(aggr=aggr(ls), vals=ls))
+		signature = signature(pred="prediction", measures="list", aggr="list", losses="list"),
+		def = function(pred, measures, aggr, losses, task) {
+			x = pred
+			td = x@task.desc
+			dd = x@data.desc
+			ms = sapply(measures, function(f) f(x, task=task))	
+			names(ms) = names(measures)
+			
+			if (length(losses) > 0) {
+				ls = lapply(losses, function(f) f(x, task=task))
+				ls = as.data.frame(Reduce(cbind, ls))
+				colnames(ls) = names(losses)
+				if (!is.null(x["id"]))
+					ls = cbind(id=x["id"], ls)
+			}
+			
+			if (length(losses) > 0)
+				return(list(measures=ms, losses=ls))
+			return(list(measures=ms))
 		}
 )
 

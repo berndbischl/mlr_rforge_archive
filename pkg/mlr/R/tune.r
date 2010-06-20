@@ -2,85 +2,93 @@
 roxygen()
 
 
+#todo instantiate resample description for others than grid search????
+
 #' Optimizes the hyperparameters of a learner for a classification or regression problem.
 #' Allows for different optimization methods, commonly grid search is used but other search techniques
-#' are available as well.  
-#' Given some ranges for one or more hyperparameters, it estimates the performance
-#' of the learner for each possible combination of the proposed values by
-#' using a resampling method (e.g. cross-validation) and returns the best parameter set and its
-#' performance.
-#'
-#' @param learner [\code{\linkS4class{wrapped.learner}}] \cr
-#'    Learning method.
-#' @param task [\code{\linkS4class{learn.task}}] \cr
-#'    Learning task.   
-#' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
-#'    Resampling strategy to evaluate points in hyperparameter space.
-#' @param fixed [\code{\link{list}}] \cr
-#'    Named list of hyperparameter values which are kept fixed during the optimization. Default is list().   
-#' @param method [\code{\link{character}}] \cr
-#'    Search method. Currently supported are "grid", "pattern", "cmaes".   
-#' @param control 
-#'    Control object for search method.   
-#' @param loss [\code{\linkS4class{loss}}] or [\code{\link{character}}]\cr
-#'    Loss to use for tuning. Default is "zero-one" for classification and "squared" error for regression.
-#' @param model [\code{\link{logical}}]\cr
-#'    Should a final model be fitted on the complete data with the best found hyperparameters?
-#' @param scale [\code{\link{function}}]
-#'    A function to scale the hyperparamters. E.g. maybe you want to optimize in some log-space.
-#'    Has to take a single, numerical vector and return a scaled one. Default is identity function.
+#' are available as well.
+#' The specific details of the search algorithm are set by passing a control object.   
 #' 
-#' @return A list. Might contain some additional information from the optimizer and at least:
-#'   \item{par}{Named list of best found hyperparamters.}
-#'   \item{perf}{Best found performance value.}
-#'   \item{model}{Fitted model on complete data set - if requested.}
+#' The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal hyperparameters.
+#'
+#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#'        Learning algorithm. See \code{\link{learners}}.  
+#' @param task [\code{\linkS4class{learn.task}}] \cr
+#'        Learning task.   
+#' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
+#'        Resampling strategy to evaluate points in hyperparameter space. At least for grid search, if you pass a description, 
+#' 		  it is instantiated at one, so all points are evaluated on the same training/test sets.	
+#' @param control 
+#'        Control object for search method. Also selects the optimization algorithm for tuning.   
+#' @param measures [see \code{\link{measures}}]\cr
+#'        Performance measures. 
+#' @param aggr [see \code{\link{aggregations}}]\cr
+#'        Aggregation functions. 
+#' @param model [boolean]\cr
+#'        Should a final model be fitted on the complete data with the best found hyperparameters?
+#' @param path [boolean]\cr
+#'        Should optimization path be saved?
+#' 
+#' @return \code{\linkS4class{opt.result}}.
 #' 
 #' @export
 #'
-#' @usage tune(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=identity)
-#'
-#' @examples
-#' ct <- make.classif.task(data=iris, target="Species")
-#' r <- list(C=2^(-1:1), sigma=2^(-1:1))
-#' res <- make.res.desc("cv", iters=3)
-#' tune("kernlab.svm.classif", ct, res, control=grid.control(ranges=r))
-#'  
+#' @seealso \code{\link{grid.control}}, \code{\link{cmaes.control}}, \code{\link{neldermead.control}}
+#'   
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, fixed=list(), method="grid", control=NULL, loss, model=F, scale=identity) {	
-	if (missing(loss))
-		loss = default.loss(task)
-	if (is.character(loss))
-		loss <- make.loss(loss)
+tune <- function(learner, task, resampling, control, measures, aggr, model=F, path=F) {
+	if (missing(measures))
+		measures = default.measures(task)
+	measures = make.measures(measures)
+	if (missing(aggr))
+		aggr = default.aggr(task)
+	aggr = make.aggrs(aggr)
 	
 	
-	if (method == "grid")
-		optim.func <- tune.grid
+	cl = as.character(class(control))
+	optim.func = switch(cl,
+			grid.control = tune.grid,
+#			pattern = tune.ps,
+			cmaes.control = tune.cmaes,
+			neldermead.control = tune.neldermead,
+			stop(paste("Tuning algorithm for", cl, "does not exist!"))
+	)		
 	
-	if (method == "pattern")
-		optim.func <- tune.ps
+	if (missing(control)) {
+		stop("You have to pass a control object!")
+	}
 	
-	if(method == "cmaes")
-		optim.func <- tune.cmaes
+	if (control["tune.threshold"] && task["class.nr"] != 2) 
+		stop("You can only tune the threshold for binary classification!")
 	
-	#export.tune(learner, task, fixed, loss, scale)
-	or <- optim.func(learner=learner, task=task, resampling=resampling, loss=loss, control=control, fixed=fixed, scale=scale)
-	or$par = scale.par(scale, or$par)
+	
+	assign(".mlr.tuneeval", 0, envir=.GlobalEnv)
+	
+	#.mlr.local$n.eval <<- 0
+	#export.tune(learner, task, loss, scale)
+	
+	control@path = path
+	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures, aggr=aggr)
+
+	
+	or@opt$par = scale.par(or@opt$par, control)
 	if (model) {
-		parset = c(fixed, or$par)
-		or$model = train(learner, task, parset=parset) 	
+		or@model = train(learner, task, parset=or["par"]) 	
 	}
 	
 	return(or)			
 }
 
 
-scale.par <- function(f, p) {
-	if (identical(f, identity))
-		return(as.list(p))
+scale.par <- function(p, control) {
+	sc = control["scale"]
+	if (identical(sc, identity))
+		y = as.list(p)
 	else
-		return(as.list(f(unlist(p))))
-	
+		y = as.list(sc(unlist(p)))
+	names(y) = control["parnames"]
+	return(y)
 }
 

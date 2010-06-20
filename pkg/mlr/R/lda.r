@@ -1,69 +1,74 @@
-#' @include wrapped.learner.classif.r
+#' @include learnerR.r
+roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include pred.learner.r
 roxygen()
 
-#' Wrapped learner for Linear Discriminant Analysis from package \code{MASS}.
-#' @title lda
-#' @seealso \code{\link[MASS]{lda}}
-#' @export
+
 setClass(
-		"lda", 
-		contains = c("wrapped.learner.classif")
+		"classif.lda", 
+		contains = c("rlearner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title LDA Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("lda"),
+		signature = signature("classif.lda"),
 		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
-					supports.missing = FALSE,
+					supports.missings = FALSE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="LDA", learner.pack="MASS", learner.props=desc)
+			callNextMethod(.Object, label="LDA", pack="MASS", props=desc)
 		}
 )
 
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="lda", 
+				.learner="classif.lda", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			lda(f, data=.data, ...)
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "lda", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.lda", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			p <- predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
-			if(.type=="class")
+		def = function(.learner, .model, .newdata, .type, ...) {
+			p <- predict(.model["learner.model"], newdata=.newdata, ...)
+			if(.type=="response")
 				return(p$class)
 			else
 				return(p$posterior)

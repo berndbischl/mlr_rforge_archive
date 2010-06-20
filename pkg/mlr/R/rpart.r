@@ -1,69 +1,81 @@
-#' @include wrapped.learner.classif.r
+#' @include learnerR.r
+roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include pred.learner.r
 roxygen()
 
-#' Wrapped learner for Classification Trees from package \code{rpart}.
-#' 
-#' \emph{Common hyperparameters:}
-#' @title rpart.classif
-#' @seealso \code{\link[rpart]{rpart}}
-#' @export
+
+# todo: parms has to be in hyperparamter list
+
 setClass(
-		"rpart.classif", 
-		contains = c("wrapped.learner.classif")
+		"classif.rpart", 
+		contains = c("rlearner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title rpart Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("rpart.classif"),
+		signature = signature("classif.rpart"),
 		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
-					supports.missing = TRUE,
+					supports.missings = TRUE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = TRUE,
 					supports.costs = TRUE
 			)
-			callNextMethod(.Object, learner.name="RPART", learner.pack="rpart",	learner.props=desc)
+			callNextMethod(.Object, label="RPart", pack="rpart", props=desc)
 		}
 )
+
+#' @rdname train.learner
 
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="rpart.classif", 
+				.learner="classif.rpart", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			rpart(f, data=.data, weights=.weights, parms=list(loss=.costs), ...)
+			if (!all(dim(.costs)) == 0) {
+				lev = levels(.data[, .targetvar])
+				.costs = .costs[lev, lev] 
+				rpart(f, data=.data, weights=.weights, parms=list(loss=.costs), ...)
+			} else
+				rpart(f, data=.data, weights=.weights, ...)
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "rpart.classif", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.rpart", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+		def = function(.learner, .model, .newdata, .type, ...) {
+			.type = switch(.type, prob="prob", "class")
+			predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	
 

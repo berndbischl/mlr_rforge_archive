@@ -1,71 +1,81 @@
-#' @include wrapped.learner.classif.r
+#' @include learnerR.r
+roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include pred.learner.r
 roxygen()
 
-#' Wrapped learner for Multinomial Regression from package \code{nnet} for classification problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' @title nnet.multinom
-#' @seealso \code{\link[nnet]{multinom}}
-#' @export
+
 setClass(
-		"nnet.multinom", 
-		contains = c("wrapped.learner.classif")
+		"classif.multinom", 
+		contains = c("rlearner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Multinomial Regression Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("nnet.multinom"),
+		signature = signature("classif.multinom"),
 		def = function(.Object) {
 			
 			#checked:
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
-					supports.missing = TRUE,
+					supports.missings = TRUE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = TRUE,
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name = "Multinomial regression", learner.pack = "nnet", learner.props = desc)
+			callNextMethod(.Object, label="MultiReg", pack="nnet", props=desc)
 		}
 )
+
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="nnet.multinom", 
+				.learner="classif.multinom", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			multinom(f, data=.data, weights=.weights, ...)
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "nnet.multinom", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.multinom", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="class", "class", "probs")
-			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+		def = function(.learner, .model, .newdata, .type, ...) {
+			.type <- ifelse(.type=="response", "class", "probs")
+			levs = .model["class.levels"]
+			p = predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
+			if (.type == "probs" && length(levs)==2) {
+				p = matrix(c(1-p, p), ncol=2, byrow=FALSE)
+				colnames(p) = levs
+			} 
+			return(p)
 		}
 )	
 

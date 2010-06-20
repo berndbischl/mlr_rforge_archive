@@ -1,60 +1,48 @@
-#' @include wrapped.learner.regr.r
+#' @include learnerR.r
 roxygen()
 
 
-#' Wrapped learner for Ridge Regression from package \code{penalized} for regression problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{lambda2}}{Tuning parameter for L2 penalization.}			
-#' 		\item{\code{epsilon}}{The convergence criterion.}
-#' }
-#' @title penalized.ridge
-#' @seealso \code{\link[penalized]{penalized}}
-#' @export
 setClass(
-		"penalized.ridge", 
-		contains = c("wrapped.learner.regr")
+		"regr.ridge", 
+		contains = c("rlearner.regr")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Ridge Regression Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("penalized.ridge"),
-		def = function(.Object, data, target) {
+		signature = signature("regr.ridge"),
+		def = function(.Object) {
 
 			desc = new("regr.props",
-					supports.missing = TRUE,
+					supports.missings = TRUE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="ridge regression", learner.pack="penalized", learner.props=desc)
+			callNextMethod(.Object, label="ridge regression", pack="penalized", props=desc)
 		}
 )
 
 
 
+#' @rdname train.learner
 
-#' Overwritten, to allow "lambda" instead of "lambda2" as parameter name.
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="penalized.ridge", 
+				.learner="regr.ridge", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="missing", 
-				.type = "missing" 
+				.costs="missing" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			args = list(...)
 			i = which(names(args) == "lambda") 
@@ -67,18 +55,21 @@ setMethod(
 		}
 )
 
+
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "penalized.ridge", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "regr.ridge", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, ...) {
-			m <- .wrapped.model["learner.model"]
-			.newdata[, .wrapped.model["target"]] <- 0
+		def = function(.learner, .model, .newdata, ...) {
+			m <- .model["learner.model"]
+			.newdata[, .model["target"]] <- 0
 			predict(m, data=.newdata,  ...)[,"mu"]
 		}
 )	

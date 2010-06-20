@@ -1,68 +1,74 @@
-#' @include wrapped.learner.classif.r
+#' @include learnerR.r
+roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include pred.learner.r
 roxygen()
 
-#' Wrapped learner for Quadratic Discriminant Analysis from package \code{MASS} for classification problems.
-#' @title qda
-#' @seealso \code{\link[MASS]{qda}}
-#' @export
+
 setClass(
-		"qda", 
-		contains = c("wrapped.learner.classif")
+		"classif.qda", 
+		contains = c("rlearner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title QDA Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("qda"),
-		def = function(.Object, data, target, type="class") {
+		signature = signature("classif.qda"),
+		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
-					supports.missing = TRUE,
+					supports.missings = TRUE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = TRUE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = FALSE,
 					supports.costs = FALSE 
 			)
 			
-			callNextMethod(.Object, learner.name="qda", learner.pack="MASS", learner.props=desc)
+			callNextMethod(.Object, label="QDA", pack="MASS", props=desc)
 		}
 )
+
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="qda", 
+				.learner="classif.qda", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			qda(f, data=.data, ...)
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "qda", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.qda", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			p <- predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
-			if(.type=="class")
+		def = function(.learner, .model, .newdata, .type, ...) {
+			p <- predict(.model["learner.model"], newdata=.newdata, ...)
+			if(.type=="response")
 				return(p$class)
 			else
 				return(p$posterior)

@@ -5,22 +5,30 @@ roxygen()
 #' This class encapsulates training and test sets generated from the data set for a number of iterations. 
 #' It mainly stores a set of integer vectors indicating the training examples for each iteration.
 #' Don't create objects from this class directly but use the corresponding subclasses.
-#' For construction simply use the factory method \code{\link{make.res.instance}} 
-#' to get a \code{\linkS4class{cv.instance}}.  
+#' For construction simply use the factory method \code{\link{make.res.instance}}. 
 #' 
-#' @slot desc Description object for resampling strategy
-#' @slot size Number of observations in data
-#' @slot inds List of integer vectors specifying the training cases for each iteration. Each vector might contain duplicated indices and the order matters for some classifiers.
+#' Getter.
+#' 
+#' \describe{
+#' 	\item{size [integer]}{Number of observations.}
+#' 	\item{name [character]}{The name of the resample description object, i.e. the type of resampling.}
+#' 	\item{iters [integer]}{The number of resampling iterations.}
+#'  \item{train.inds [list | integer] Optional parameter: j}{If j is a single integer, the vector of training indices for the jth iteration. Otherwise, the list of indices for iterations. Missing j means list of all indices.}
+#'  \item{test.inds [list | integer] Optional parameter: j}{If j is a single integer, the vector of test indices for the jth iteration. Otherwise, the list of indices for iterations j. Missing j means list of all indices.}
+#' }
+#' 
+#' @rdname resample.instance-class
 #' 
 #' @note If you want to add another resampling strategy, have a look at the web documentation. 
 #' @exportClass resample.instance
 #' @seealso \code{\linkS4class{resample.desc}}, \code{\link{make.res.instance}}, \code{\link{resample.fit}} 
-#' @title resample.instance
+#' @title Resampling instance.
 
 
 # todo validation for size
 setClass(
-		"resample.instance",                                                     
+		"resample.instance",   
+		contains = c("object"), 
 		# we always have to store training inds because the order might matter
 		representation = representation(
 				desc = "resample.desc", 
@@ -30,12 +38,7 @@ setClass(
 )
 
 
-
-#' This is mainly for internal use, you only need to use this, when you extend resample.instance to add another resampling strategy!
-#'  
-#' @param desc [\code{\linkS4class{resample.desc}}] \cr resample.desc. Describes the resampling strategy.
-#' @param size [integer] \cr Number of observations to resample from.
-#' @param inds [list of integer vectors] \cr Indices of the trainings sets.
+#' Constructor.
 
 setMethod(
 		f = "initialize",
@@ -52,70 +55,7 @@ setMethod(
 		}
 )
 
-
-
-#setGeneric(
-#		name = "make.resample.instance",
-#		def = function(desc, size) {
-#			standardGeneric("make.resample.instance")
-#		}
-#)
-
-
-
-#' Conversion to string.
-setMethod(
-		f = "to.string",
-		signature = signature("resample.instance"),
-		def = function(x) {
-			return(
-					paste(
-							"Instance for ", x@desc@name,  " with ", length(x@inds), " iterations and ", x@size, " cases\n",
-							paste(capture.output(str(x@inds)), collapse="\n"), 
-							"\n", sep=""
-					)
-			)
-		}
-)
-
-
-
-#' Prints the object by calling as.character.
-setMethod(
-		f = "print",
-		signature = signature("resample.instance"),
-		def = function(x, ...) {
-			cat(to.string(x))
-		}
-)
-
-#' Shows the object by calling as.character.
-setMethod(
-		f = "show",
-		signature = signature("resample.instance"),
-		def = function(object) {
-			cat(to.string(object))
-		}
-)
-
-
-#----------------- getter ---------------------------------------------------------
-
-#' Getter.
-#' @param x resample.instance object
-#' @param i [character]
-#' \describe{
-#' 	\item{size}{Number of observations.}
-#' 	\item{name}{The name of the resample description object, i.e. the type of resampling.}
-#' 	\item{iters}{The number of resampling iterations.}
-#'  \item{train.inds}{If j is a single integer, the vector of training indices for the jth iteration is returned. If j is an integer vector, the list of training indices for the given iterations is returned. If j is missing, all indices are returned.}
-#'  \item{test.inds}{If j is a single integer, the vector of test indices for the jth iteration is returned. If j is an integer vector, the list of test indices for the given iterations is returned. If j is missing, all indices are returned.}
-#' }
-#' @param j [integer] \cr See above, i == "train.inds" or i == "test.inds".
-#' 
-#' @rdname getter,resample.instance-method
-#' @aliases resample.instance.getter getter,resample.instance-method
-#' @title Getter for resample.instance
+#' @rdname resample.instance-class
 
 setMethod(
 		f = "[",
@@ -154,6 +94,35 @@ setMethod(
 			return(x@desc[i,j,...,drop])
 		}
 )
+
+
+#setGeneric(
+#		name = "make.resample.instance",
+#		def = function(desc, size) {
+#			standardGeneric("make.resample.instance")
+#		}
+#)
+
+
+
+
+#' @rdname to.string
+
+setMethod(
+		f = "to.string",
+		signature = signature("resample.instance"),
+		def = function(x) {
+			return(
+					paste(
+							"Instance for ", x@desc@name,  " with ", length(x@inds), " iterations and ", x@size, " cases\n",
+							paste(capture.output(str(x@inds)), collapse="\n"), 
+							"\n", sep=""
+					)
+			)
+		}
+)
+
+
 
 get.train.targets <- function(learn.task, resample.instance, i) {
 	inds <- resample.instance["train.inds", i]

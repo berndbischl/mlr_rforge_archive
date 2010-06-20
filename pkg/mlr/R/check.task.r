@@ -1,15 +1,17 @@
 check.task <- function(data, target) {
 	cns = colnames(data)
-	msg = ""
-	
+	x = duplicated(cns)
+	if(any(x))
+		stop("Duplicated column names in data.frame are not allowed: ", paste(cns[x], collapse=","))
 	if (!(target %in% cns)) {
-		msg <- paste("Column names of data.frame don't contain target var: ", target)
+		stop(paste("Column names of data.frame don't contain target var: ", target))
 	}
 	
-	forbidden = c("[", "]", "(", ")")
+	# todo: rpart does not like (), bug there?
+	forbidden  = c("[", "]", "(", ")", ",", " ")
+	forbidden2 = c("[", "]", "(", ")", ",", "<WHITESPACE>")
+	#forbidden = c("[", "]")
 	i = sapply(forbidden, function(x) length(grep(x, cns, fixed=T)) > 0)
 	if (any(i))
-		msg <- paste("Column names should not contain: ", paste(forbidden, collapse=" "))
-	
-	return(msg)
+		stop(paste("Column names should not contain: ", paste(forbidden2, collapse=" ")))
 }

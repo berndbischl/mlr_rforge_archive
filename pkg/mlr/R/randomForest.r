@@ -1,76 +1,75 @@
-#' @include wrapped.learner.classif.r 
+#' @include learnerR.r
+roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include pred.learner.r
 roxygen()
 
-#' Wrapped learner for Random Forests from package \code{randomForest} for classification problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{ntree}}{Number of trees to grow.}
-#' 		\item{\code{mtry}}{Number of variables randomly sampled as candidates at each split.}
-#' 		\item{\code{nodesize}}{Minimum size of terminal nodes.}
-#' }
-#' @title randomForest.classif
-#' @seealso \code{\link[randomForest]{randomForest}}
-#' @export
+
 setClass(
-		"randomForest.classif", 
-		contains = c("wrapped.learner.classif")
+		"classif.randomForest", 
+		contains = c("rlearner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Random Forest Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("randomForest.classif"),
+		signature = signature("classif.randomForest"),
 		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
-					supports.missing = TRUE,
+					supports.missings = FALSE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = TRUE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="randomForest", learner.pack="randomForest", learner.props=desc)
+			callNextMethod(.Object, label="RForest", pack="randomForest", props=desc)
 		}
 )
 
 
+#' @rdname train.learner
+
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="randomForest.classif", 
+				.learner="classif.randomForest", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			randomForest(f, data=.data, ...)
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "randomForest.classif", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.randomForest", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="class", "response", "prob")
-			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+		def = function(.learner, .model, .newdata, .type, ...) {
+			.type <- ifelse(.type=="response", "response", "prob")
+			predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	
 

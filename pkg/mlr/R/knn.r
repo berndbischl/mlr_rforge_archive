@@ -1,79 +1,78 @@
-#' @include wrapped.learner.classif.r
+#' @include learnerR.r
+roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include pred.learner.r
 roxygen()
 
-#' Wrapped learner for k-Nearest Neighbor from package \code{kknn} for classification problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{k}}{Number of neighbors considered.} 	
-#' 		\item{\code{distance}}{Parameter of Minkowski distance.}
-#' }
-#' @title kknn.classif
-#' @seealso \code{\link[kknn]{kknn}}
-#' @export
 setClass(
-		"kknn.classif", 
-		contains = c("wrapped.learner.classif")
+		"classif.kknn", 
+		contains = c("rlearner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title kNN (classification) Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("kknn.classif"),
+		signature = signature("classif.kknn"),
 		def = function(.Object) {
 			
 			desc <- new("classif.props",
 					supports.multiclass = TRUE,
-					supports.missing = TRUE,
+					supports.missings = TRUE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = TRUE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="knn", learner.pack="kknn", learner.props=desc)
+			callNextMethod(.Object, label="knn", pack="kknn", props=desc)
 		}
 )
+
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="kknn.classif", 
+				.learner="classif.kknn", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			list(target=.targetvar, data=.data, parset=list(...))
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "kknn.classif", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.kknn", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			m <- .wrapped.model["learner.model"]
+		def = function(.learner, .model, .newdata, .type, ...) {
+			m <- .model["learner.model"]
 			f <- as.formula(paste(m$target, "~."))
 			# this is stupid but kknn forces it....
 			.newdata[, m$target] <- 0
 			pars <- list(formula=f, train=m$data, test=.newdata)  
 			pars <- c(pars, m$parset, list(...))
 			m <- do.call(kknn, pars)
-			if (.type=="class")
+			if (.type=="response")
 				return(m$fitted.values)
 			else 
 				return(m$prob)

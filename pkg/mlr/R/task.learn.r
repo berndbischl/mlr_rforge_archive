@@ -1,33 +1,44 @@
+#' @include object.r
+roxygen()
 #' @include data.desc.r
+roxygen()
+#' @include task.desc.r
 roxygen()
 
 #' A learning task is a general description object for a machine learning experiment. 
 #' It wraps the data source and specifies - through its subclasses - the type of the task (e.g. classification or regression), 
-#' the target variable, the loss function and other details of the problem. As this is just an abstract base class, 
+#' the target variable and other details of the problem. As this is just an abstract base class, 
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
+#'  
+#' Getter.\cr
 #' 
-#' @slot name Name of task / data set to be used string representations later on.
-#' @slot data Dataframe which includes all the data for the task.
-#' @slot target Name of the target variable.
-#' @slot excluded Names of inputs, which should be generally disregarded, e.g. IDs, etc.
-#' @slot data.desc Contains logical values describing properties of the dataframe e.g. whether it has 
-#' 		characters or missing values (see desc and \code{\linkS4class{data.desc}}).
-#' @slot weights An optional vector of weights to be used in the fitting process. Default is a weight of 1 for every case.
+#' \describe{
+#'  \item{id [string]}{Id string of task.}
+#'	\item{label [string]}{Label string of task.}
+#' 	\item{is.classif [boolean]}{Is this a classification task?}
+#' 	\item{is.regr [boolean]}{Is this a regression task?}
+#' 	\item{data [data.frame]. Optional parameters: row, col}{The data.frame is returned, possibly indexed by row/col. If col is missing, only columns which were not excluded are returned.}
+#'  \item{size [integer]}{Number of cases.}
+#'	\item{target.name [string]}{The name of the target variable.}
+#'  \item{input.names [character]}{The names of the input variables (without excluded variables).}
+#'  \item{excluded [character]}{Names of excluded variables.}
+#'  \item{targets [character]. Optional parameters: row}{If row is missing all target values are returned. Otherwise they are indexed by row.}
+#'  \item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row. NULL if no weights were set.}
+#' }
 #' 
 #' @exportClass learn.task
-#' @seealso classif.task regr.task
-#' @title learn.task
+#' @seealso \code{\link{make.task}}
+#' @title Base class for learning tasks.
 
 
 setClass(
 		"learn.task",
+		contains = c("object"),
 		representation = representation(
-				name = "character",
 				data = "data.frame",
-				target = "character",
-				excluded = "character",
-				data.desc = "data.desc", 
-				weights = "numeric"
+				weights = "numeric",
+				data.desc = "data.desc",
+				task.desc = "task.desc"
 		)
 )
 
@@ -35,113 +46,85 @@ setClass(
 #---------------- constructor---- -----------------------------------------------------
 
 #' Constructor.
-#' @title learn.task constructor
 
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, name, data, target, excluded, weights, prep.fct) {
+		def = function(.Object, data, weights, data.desc, task.desc) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
 			if(missing(data))
 				return(.Object)					
 			
-			msg = check.task(data, target=target)
-			if (msg != "")
-				stop(msg)
-			.Object@name <- name
-			.Object@data <- prep.fct(data, target, excluded)
-			.Object@weights <- weights
-			.Object@target <- target
-
-			.Object@excluded <- excluded
-			.Object@data.desc <- make.data.desc(.Object["data"], target)
+			.Object@data = data
+			.Object@weights = weights
+			.Object@data.desc = data.desc
+			.Object@task.desc = task.desc
+			
+#			.Object@data.desc <- make.data.desc(.Object["data"], target)
 			
 			return(.Object)
 		}
 )
 
-#' Getter.
-#' @param x learn.task object
-#' @param i [character]
-#' \describe{
-#'   \item{target.name}{The name of the target variable.}
-#'   \item{target.col}{The column number of the target variable.}
-#'   \item{targets}{If j is missing all target values are returned. Otherwise they are indexed by j.}
-#'   \item{input.names}{The names of the input variables.}
-#' }
-#' @param j [integer] \cr See above, i == "targets".
-#' 
-#' @rdname getter,learn.task-method
-#' @aliases learn.task.getter getter,learn.task-method
-#' @title Getter for learn.task
+#' @rdname learn.task-class
 
 setMethod(
 		f = "[",
 		signature = signature("learn.task"),
 		def = function(x,i,j,...,drop) {
+			check.getter(x,i,j,...,drop)
 			args = list(...)
 			argnames = names(args)
-			if (i == "target.name"){
-				return(x@target)
-			}
-			if (i == "target.col"){
-				return(which(colnames(x@data) == x["target.name"]))
-			}
 			
-			if (i == "targets") {
-				if (missing(j))
-					j = 1:nrow(x@data)
-				return(x@data[j, x["target.name"]])
+			dd = x@data.desc
+			td = x@task.desc
+			row = args$row
+			col = args$col
+			
+			if (i == "target.name") {
+				return(td["target"])
 			}
 			if (i == "input.names"){
-				return(setdiff(colnames(x@data), c(x@excluded, x["target.name"])))
+				return(setdiff(colnames(x@data), c(x["excluded"], x["target.name"])))
+			}
+			if (i == "has.weights"){
+				return(length(x@weights) > 0)
 			}
 			
-			if (i == "size"){
-				return(nrow(x@data))
+			
+			if (is.null(row))
+				row = 1:nrow(x@data)
+			
+			if (i == "targets") {
+				return(x@data[row, x["target.name"]])
 			}
+			if (i == "weights") {
+				if (!x["has.weights"])
+					return(NULL)
+				return(x@weights[row])
+			}
+			
 			if (i == "data"){
-				if (missing(j))
-					j = 1:nrow(x@data)
-				if ("excluded" %in% argnames)
-					v = colnames(x@data)
-				else 
-					v = setdiff(colnames(x@data), x@excluded)
-				if ("select" %in% argnames)
-					v = args$select
+				if (is.null(col))
+					col = setdiff(colnames(x@data), x["excluded"])
 				if (missing(drop))
-					drop = (length(v) == 1)
-				return(x@data[j, v, drop=drop])				
+					drop = (length(col) == 1)
+				return(x@data[row, col, drop=drop])				
 			}
+			y = td[i]
+			if (!is.null(y))
+				return(y)
+			y = dd[i]
+			if (!is.null(y))
+				return(y)
 			
-			#if nothing special return slot
-			return(
-					eval(substitute("@"(x, slot), list(slot=i)))
-			)
+			callNextMethod()
 		}
 )
 
 
-
-#' Prints the object by calling as.character.
-setMethod(
-		f = "print",
-		signature = signature("learn.task"),
-		def = function(x, ...) {
-			cat(to.string(x))
-		}
-)
-
-#' Shows the object by calling as.character.
-setMethod(
-		f = "show",
-		signature = signature("learn.task"),
-		def = function(object) {
-			cat(to.string(object))
-		}
-)
 
 #---------------- restrict.learn.task -----------------------------------------------------
 

@@ -1,19 +1,9 @@
-#' @include wrapped.learner.regr.r
+#' @include learnerR.r
 roxygen()
 
-#' Wrapped learner for k-Nearest Neighbor from package \code{kknn} for regression problems.
-#' 
-#' \emph{Common hyperparameters:}
-#' \describe{
-#' 		\item{\code{k}}{Number of neighbors considered.} 	
-#' 		\item{\code{distance}}{Parameter of Minkowski distance.}
-#' }
-#' @title kknn.regr
-#' @seealso \code{\link[kknn]{kknn}}
-#' @export
 setClass(
-		"kknn.regr", 
-		contains = c("wrapped.learner.regr")
+		"regr.kknn", 
+		contains = c("rlearner.regr")
 )
 
 
@@ -22,53 +12,55 @@ predict.kknn.model2 <- function(model, newdata, ...) {
 }
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title kNN (regression) Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("kknn.regr"),
+		signature = signature("regr.kknn"),
 		def = function(.Object) {
 			
 			desc = new("regr.props",
-					supports.missing = FALSE,
+					supports.missings = FALSE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.weights = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="KKNN", learner.pack="kknn", learner.props=desc)
+			callNextMethod(.Object, label="KKNN", pack="kknn", props=desc)
 		}
 )
+
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="kknn.regr", 
+				.learner="regr.kknn", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="missing", 
-				.type = "missing" 
+				.costs="missing" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, ...) {
 			list(target=.targetvar, data=.data, parset=list(...))
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "kknn.regr", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "regr.kknn", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, ...) {
-			m <- .wrapped.model["learner.model"]
+		def = function(.learner, .model, .newdata, ...) {
+			m <- .model["learner.model"]
 			f <- as.formula(paste(m$target, "~."))
 			# this is stupid but kknn forces it....
 			.newdata[, m$target] <- 0

@@ -1,65 +1,64 @@
-#' @include wrapped.learner.regr.r
+#' @include learnerR.r
 roxygen()
 
 
-#' Wrapped learner for Linear Models from package \code{stats} for regression problems.
-#' @title stats.lm
-#' @seealso \code{\link[stats]{lm}}
-#' @export
 setClass(
 		# name lm is sealed
-		"stats.lm", 
-		contains = c("wrapped.learner.regr")
+		"regr.lm", 
+		contains = c("rlearner.regr")
 )
 
 
-#' Constructor.
-#' @title LM Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("stats.lm"),
+		signature = signature("regr.lm"),
 		def = function(.Object) {
 			
 			desc = new("regr.props",
-					supports.missing = TRUE,
+					supports.missings = FALSE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.weights = TRUE
 			)
 			
-			callNextMethod(.Object, learner.name="Linear Regression", learner.pack="stats", learner.props=desc)
+			callNextMethod(.Object, label="Linear Regression", pack="stats", props=desc)
 		}
 )
+
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="stats.lm", 
+				.learner="regr.lm", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="missing", 
-				.type = "missing" 
+				.costs="missing" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			lm(f, data=.data, weights=.weights, ...)
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "stats.lm", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "regr.lm", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, ...) {
-			predict(.wrapped.model["learner.model"], newdata=.newdata, ...)
+		def = function(.learner, .model, .newdata, ...) {
+			predict(.model["learner.model"], newdata=.newdata, ...)
 		}
 )	
 

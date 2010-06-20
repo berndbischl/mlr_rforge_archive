@@ -1,66 +1,61 @@
 #' @include task.learn.r
 roxygen()
 
-#' Given a \code{\linkS4class{learn.task}} \code{train} creates a model for the learning machine 
+#' Given a \code{\linkS4class{learn.task}}, creates a model for the learning machine 
 #' which can be used for predictions on new data. 
 #'
-#' @param learner [\code{\linkS4class{wrapped.learner}} or \code{\link{character}}]\cr 
-#'        Learning algorithm.   
+#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#'        Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{learn.task}}]\cr 
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 
-#'        An index vector specifying the training cases from the data contained in the learning task. By default the complete dataset is used. 
-#' @param parset [\code{\link{list}}] \cr
-#'       Named list which contains the hyperparameters of the learner. Default is an empty list, which means no hyperparameters are specifically set and defaults of the underlying learner are used.
+#'        An index vector specifying the training cases to be used for fitting. By default the complete data set is used. 
+#' @param parset [list] \cr 
+#'        Named list of hyperparameter values. Will overwrite the ones specified in the learner object. Default is empty list.
 #' @param vars [\code{\link{character}}] \cr
-#'       Vector of variable names to use in training the model. Default is to use all variables.
+#'       Vector of variable names to use in training the model. Default is to use all variables, except the excluded in the task.
+#' @param type [string] \cr
+#'        Classification: "response" | "prob" | "decision", specifying the type to predict later.
+#' 		  Default is "response". Very rarely you have to set this during training as well, as the fitted models differ.	 
 #'
-#' @return An object of class \code{\linkS4class{wrapped.model}} containing the generated model of the underlying learner and the paramater and index set used for training. 
+#' @return An object of class \code{\linkS4class{wrapped.model}}. 
 #'
 #' @export
 #'
-#' @usage train(learner, task, subset, parset, vars)  
+#' @usage train(learner, task, subset, parset, vars, type)  
 #'
-#' @examples 
-#' library(MASS)
-#' train.inds <- seq(1,150,2)
-#' test.inds <- seq(2,150,2)
-#'
-#' ct <- make.classif.task(data=iris, target="Species")
-#' cm <- train("lda", ct, subset=train.inds)
-#' ps <- predict(cm, newdata=iris[test.inds,])
+#' @seealso \code{\link{predict}}
 #' 
-#' ct <- make.classif.task(data=iris, target="Species")
-#' cm <- train("kknn.classif", ct, subset=train.inds, parset=list(k=3))
-#' ps <- predict(cm, newdata=iris[test.inds,])
-#'  
-#' @seealso \code{\link{predict}}, \code{\link{make.classif.task}}, \code{\link{make.regr.task}} 
-#' 
-#' @title train
+#' @title Train a learning algorithm.
 #' @rdname train
 
 setGeneric(
 		name = "train",
-		def = function(learner, task, subset, parset, vars) {
+		def = function(learner, task, subset, parset, vars, type) {
 			if (is.character(learner))
 				learner <- make.learner(learner)
+			if (missing(parset))
+				parset = list()
 			if (missing(subset))
 				subset <- 1:task["size"]
-			if (missing(parset))
-				parset <- list()
 			if (missing(vars))
 				vars <- task["input.names"]
 			if (length(vars) == 0)
 				vars <- character(0)
+			if (missing(type))
+				type = "response"
 			standardGeneric("train")
 		}
 )
 
 
-train.task2 <- function(learner, task, subset, parset, vars, extra.train.pars, model.class, extra.model.pars, novars.class, check.fct) {
+train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, check.fct) {
 
-	if(learner@learner.pack != "mlr" && !require(learner@learner.pack, character.only=TRUE)) {
-		stop(paste("Learner", learner@learner.name, "could not be constructed! package", learner.pack, "missing!"))
+	# todo: do we still need this, and the loading when exporting a learner? 
+	# pack is loaded when learner is constructed
+	# export: probably yes...
+	if(learner["pack"] != "mlr" && !require(learner["pack"], character.only=TRUE)) {
+		stop(paste("Learner", learner["id"], "could not be constructed! package", learner["pack"], "missing!"))
 	}
 	
 	check.result <- check.fct(task, learner)
@@ -70,92 +65,97 @@ train.task2 <- function(learner, task, subset, parset, vars, extra.train.pars, m
 	
 	wl <- learner
 	tn <- task["target.name"]
-	# reduce data to subset and selected vars
-	data.subset <- task["data", subset, select=c(vars, tn), drop=F]
-	ws <- task@weights[subset]
+		
 	
-	logger.debug("mlr train:", wl@learner.name, "with pars:")
-	logger.debug(parset)
-	logger.debug("on", length(subset), "examples:")
-	logger.debug(subset)
+	# reduce data to subset and selected vars
+	x = setdiff(vars, task["input.names"])
+	if (length(x) > 0)
+		stop("Trying to train with vars which are not inputs: ", paste(x, collapse=","))
+	data.subset <- task["data", row=subset, col=c(vars, tn), drop=F]
+	
+	# todo: maybe don't pass weights for performance reasons when none set?
+	if (task["has.weights"])
+		ws = task["weights"][subset]
+	else
+		ws = rep(1, length(subset)) 
+	
+	
+	# make pars list for train call
+	pars = list(.learner=wl, .target=tn, .data=data.subset, .data.desc=task@data.desc, .task.desc=task@task.desc, .weights=ws)
+	# only pass train hyper pars to rlearner
+	hps       = insert(wl["hyper.pars"], parset) 
+	hps.train = insert(wl["hyper.pars", type="train"], parset) 
+	if (is(wl, "rlearner"))
+		pars = c(pars, extra.train.pars, hps.train)
+	else
+		pars = c(pars, extra.train.pars, hps)
+	
+	logger.debug(level="train", "mlr train:", wl["id"], "with pars:")
+	logger.debug(level="train", hps.train)
+	logger.debug(level="train", "on", length(subset), "examples:")
+	logger.debug(level="train", subset)
+	
 	
 	# no vars? then use no vars model
 	if (length(vars) == 0) {
-		wl = new(novars.class)
+		learner.model = new("novars", targets=data.subset[, tn], data.desc=task@data.desc, task.desc=task@task.desc)
+		time.train = 0
+	} else {
+		# set the seed
+		if(!is.null(.mlr.local$debug.seed)) {
+			set.seed(.mlr.local$debug.seed)
+			warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
+		}
+		
+		st = system.time(or <- capture.output(
+							learner.model <- try(do.call(train.learner, pars), silent=TRUE)
+						), gcFirst = FALSE)
+		logger.debug(level="train", or)
+		time.train = st[3]
 	}
 	
-	# make pars list for train call
-	pars <- list(.wrapped.learner=wl, .target=tn, .data=data.subset, .weights=ws)
-	pars <- c(pars, extra.train.pars, wl@train.fct.pars)
-	# let hyperparamters overwrite pars
-	for (i in seq(1, along=parset)) {
-		pn <- names(parset)[i] 
-		pars[pn] <- parset[i]
-	}
-	
-	# set the seed
-	if(!is.null(.mlr.local$debug.seed)) {
-		set.seed(.mlr.local$debug.seed)
-		warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
-	}
-	or <- capture.output(
-		learner.model <- try(do.call(train.learner, pars))
-	)
-	logger.debug(or)
 	
 	# if error happened we use a failure model
 	if(is(learner.model, "try-error")) {
 		msg <- as.character(learner.model)
 		warning("Could not train the learner: ", msg)	
 		learner.model <- new("learner.failure", msg=msg)
+		time.train = as.numeric(NA)
 	} 
-
-	pars = list(model.class, task.class = class(task), wrapped.learner = wl,  
-			learner.model = learner.model, target=tn, subset=subset, parset=parset, vars=vars)
-	pars = c(pars, extra.model.pars)
-	do.call("new", pars)
+	
+	#set to "train" if not specified
+	hyper.types = rep("train", length(hps))
+	names(hyper.types) = names(hps)
+	hyper.types = insert(hyper.types, wl["hyper.types"])
+	
+	new("wrapped.model", learner = wl, learner.model = learner.model, 
+			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, 
+			hyper.pars=hps, hyper.types=hyper.types, vars=vars, time = time.train)
 }
 	
 
 #' @export
+#' @rdname train 
 setMethod(
 		f = "train",
 		
 		signature = signature(
-				learner="wrapped.learner.classif", 
-				task="classif.task", 
+				learner="learner", 
+				task="learn.task", 
 				subset="numeric", 
-				parset="list", 
-				vars="character"),
+				parset="list",
+				vars="character",
+				type="character"
+		),
 		
-		def = function(learner, task, subset, parset, vars) {
-			extra.train.pars = list(.costs = task@costs, .type = task@type)
-			extra.model.pars = list(class.levels = task["class.levels"], type = task@type)
-			train.task2(learner, task, subset, parset, vars, 
-					extra.train.pars, "wrapped.model.classif", extra.model.pars, "novars.classif",
-					check.task.learner.classif
-			)
+		def = function(learner, task, subset, parset, vars, type) {
+			if (is(task, "classif.task")) {
+				extra.train.pars = list(.costs = task["costs"])
+				ctf = check.task.learner.classif
+			} else {
+				extra.train.pars = list()
+				ctf = check.task.learner
+			}
+			train.task2(learner, task, subset, parset, vars, type, extra.train.pars, ctf)
 		}
 )
-
-#' @export
-setMethod(
-		f = "train",
-		
-		signature = signature(
-				learner="wrapped.learner.regr", 
-				task="regr.task", 
-				subset="numeric", 
-				parset="list", 
-				vars="character"),
-		
-		def = function(learner, task, subset, parset, vars) {
-			extra.train.pars = list()
-			extra.model.pars = list()
-			train.task2(learner, task, subset, parset, vars, 
-					extra.train.pars, "wrapped.model.regr", extra.model.pars, "novars.regr",
-					check.task.learner
-			)
-		}
-)
-

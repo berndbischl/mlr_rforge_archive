@@ -1,69 +1,74 @@
-#' @include wrapped.learner.classif.r 
+#' @include learnerR.r
+roxygen()
+#' @include wrapped.model.r
+roxygen()
+#' @include train.learner.r
+roxygen()
+#' @include pred.learner.r
 roxygen()
 
-#' Wrapped learner for Naive Bayes from package \code{e1071} for classification problems.
-#' @title naiveBayes
-#' @seealso \code{\link[e1071]{naiveBayes}}
-#' @export
+
 setClass(
-		"naiveBayes", 
-		contains = c("wrapped.learner.classif")
+		"classif.naiveBayes", 
+		contains = c("rlearner.classif")
 )
 
 
-#----------------- constructor ---------------------------------------------------------
-#' Constructor.
-#' @title Naive Bayes Constructor
 setMethod(
 		f = "initialize",
-		signature = signature("naiveBayes"),
+		signature = signature("classif.naiveBayes"),
 		def = function(.Object) {
 			
 			desc = new("classif.props",
 					supports.multiclass = TRUE,
-					supports.missing = TRUE,
+					supports.missings = TRUE,
 					supports.numerics = TRUE,
 					supports.factors = TRUE,
 					supports.characters = FALSE,
 					supports.probs = TRUE,
+					supports.decision = FALSE,
 					supports.weights = FALSE,
 					supports.costs = FALSE
 			)
 			
-			callNextMethod(.Object, learner.name="Naive Bayes", learner.pack="e1071", learner.props=desc)
+			callNextMethod(.Object, label="Naive Bayes", pack="e1071", props=desc)
 		}
 )
 
+#' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.wrapped.learner="naiveBayes", 
+				.learner="classif.naiveBayes", 
 				.targetvar="character", 
 				.data="data.frame", 
+				.data.desc="data.desc", 
+				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix", 
-				.type = "character" 
+				.costs="matrix" 
 		),
 		
-		def = function(.wrapped.learner, .targetvar, .data, .weights, .costs, .type,  ...) {
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			naiveBayes(f, data=.data, ...)
 		}
 )
 
+#' @rdname pred.learner
+
 setMethod(
-		f = "predict.learner",
+		f = "pred.learner",
 		signature = signature(
-				.wrapped.learner = "naiveBayes", 
-				.wrapped.model = "wrapped.model", 
+				.learner = "classif.naiveBayes", 
+				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
-		def = function(.wrapped.learner, .wrapped.model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="class", "class", "raw")
-			predict(.wrapped.model["learner.model"], newdata=.newdata, type=.type, ...)
+		def = function(.learner, .model, .newdata, .type, ...) {
+			.type <- ifelse(.type=="response", "class", "raw")
+			predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	
 

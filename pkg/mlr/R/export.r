@@ -15,21 +15,27 @@
 #}
 
 
-export.tune <- function(learner, task, fixed, loss, scale) {
+export.tune <- function(learner, task, loss, scale) {
 	export(".mlr.learner", learner)
 	export(".mlr.task", task)
-	export(".mlr.fixed", fixed)
 	export(".mlr.loss", loss)
 	export(".mlr.scale", scale)
 }
 
 
 export <- function(name, obj) {
-	assign(name, obj, envir = .GlobalEnv)
+	doit = TRUE
 	if (.mlr.local$parallel.setup$mode != "local") {
-		if (is(obj, "wrapped.learner")) {
-			sfClusterEval(require(obj@learner.pack ,character.only=TRUE))
+		if (is(obj, "learn.task")) {
+			hash = digest(list(name, obj))
+			if (exists(hash, envir=.mlr.export)) 
+				doit = FALSE
+			else {
+				assign(hash, TRUE, env=.mlr.export)
+			}
 		}
-		sfExport(name)
+		if (doit) {
+			sfClusterCall(assign, name, obj, env=globalenv())
+		}
 	}
 }
