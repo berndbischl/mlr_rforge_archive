@@ -22,21 +22,29 @@ force you to write lengthy, tedious and error-prone code. Although there are met
 <P>
 <b>Features:</b>
 <ul> 
-	<li>Clear S4 interface to R classification methods</li>
-	<li>Easy extension mechanism through S4 inheritance for new methods</li>
-	<li>Resampling strategies like bootstrapping, cross-validation and subsampling ("paired" - same splits for different algorithms - as the experiment setup is S4 object itself and can be reused)</li>
-	<li>Tuning of hyperparameters</li>
-	<li>Benchmarking of different algorithms (e.g. by double cross-validation with tuning on inner cross-validation)</li>
-	<li>Use benchmark package for analysis and visualization</li>
-	<li>Supports different parallelization frameworks in R (like snowfall)</li>
+	<li> Clear S4 interface to R classification methods</li>
+	<li> Easy extension mechanism through S4 inheritance</li>
+	<li> Abstract description of learners and data by properties </li>
+	<li> Description of data generating process </li>
+	<li> Many convenience methods, generic building blocks for own experiments </li>
+	<li> Resampling like bootstrapping, cross-validation and subsampling </li>
+	<li> Easy tuning of hyperparameters by different optimization algortithms </li>
+	<li> Variable selection </li>
+	<li> Benchmark experiments with two levels of resampling </li>
+	<li> Interface to benchmark package for exploration and inference</li>
+	<li> Easy extension mechanism through S4 inheritance for new methods</li>
+	<li> Parallelization
+	<li> Growing tutorial / examples
+	<li> Unit-testing (RUnit)
 </ul>
 
 
 <b>Outlook:</b>
 <ul> 
-	<li>Have a look at other visualization packages (e.g. rgobi, ROCR, classifly) and include useful plots</li>
-	<li>Investigate and implement better tuning techniques than grid search</li>
-	<li>GUI</li>
+	<li> Meta-optimization of hyperparamters and features by sequential methods</li>
+	<li> Different approaches for model selection, maybe also Races</li>
+	<li> Clustering </li>
+
 </ul>
 
 <b>Installation:</b> 
