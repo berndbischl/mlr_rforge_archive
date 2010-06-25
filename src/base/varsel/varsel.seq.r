@@ -100,7 +100,7 @@ varsel.seq = function(learner, task, resampling, measures, aggr, control) {
 					sffs = gen.new.states.sbs,
 					sfbs = gen.new.states.sfs
 			) 
-			s = seq.step(!forward, all.vars, state, gns, compare)
+			s = seq.step(!forward, state, gns, compare)
 			if (is.null(s$state)) {
 				break;
 			} else {

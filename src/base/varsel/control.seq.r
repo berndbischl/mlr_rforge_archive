@@ -19,10 +19,10 @@ setMethod(
 		f = "initialize",
 		signature = signature("sequential.control"),
 		def = function(.Object, minimize, tune.threshold, thresholds, maxit, max.vars, method, alpha, beta) {
-			.Object = callNextMethod(.Object, minimize, tune.threshold, thresholds, maxit=maxit, max.vars)
-			.Object@method = method 			
+			.Object = callNextMethod(.Object, minimize, tune.threshold=tune.threshold, thresholds, maxit=maxit, max.vars=max.vars)
 			.Object@alpha = alpha 			
-			.Object@beta = beta 			
+			.Object@beta = beta 	
+			.Object@method = method 			
 			return(.Object)
 		}
 )

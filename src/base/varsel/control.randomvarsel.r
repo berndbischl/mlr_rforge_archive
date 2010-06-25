@@ -18,7 +18,7 @@ setMethod(
 		f = "initialize",
 		signature = signature("randomvarsel.control"),
 		def = function(.Object, minimize, tune.threshold, thresholds, maxit, max.vars, method, prob) {
-			.Object = callNextMethod(.Object, minimize, tune.threshold, thresholds, maxit=maxit)
+			.Object = callNextMethod(.Object, minimize, tune.threshold, thresholds, maxit=maxit, max.vars=max.vars)
 			.Object@method = method 			
 			.Object@prob = prob 			
 			return(.Object)
@@ -59,7 +59,7 @@ setGeneric(
 			if (is.numeric(maxit))
 				maxit = as.integer(maxit)
 			if (missing(method))
-				method = binomial
+				method = "binomial"
 			if (missing(prob))
 				prob = 0.5
 			standardGeneric("randomvarsel.control")
@@ -74,7 +74,7 @@ setMethod(
 				maxit="integer", method="character", prob="numeric"),
 		def = function(minimize, tune.threshold, thresholds, maxit, method, prob) {
 			new("randomvarsel.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, 
-					maxit=maxit, max.vars=max.vars, method=method, prob=prob)
+					maxit=maxit, max.vars=.Machine$integer.max, method=method, prob=prob)
 		}
 )
 
