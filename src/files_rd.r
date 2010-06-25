@@ -48,11 +48,14 @@ allowed.rd.files <<- c(
 		
 #		"preproc.wrapper-class.Rd",
 		"make.preproc.wrapper.Rd",
+		"make.multiclass.wrapper.Rd",
+		"multiclass.wrapper.Rd",
 		
 		"opt.control-class.Rd",
 		"opt.result-class.Rd",
 		
 		"tune.Rd",
+		"tune.threshold.Rd",
 		"combine.ranges.Rd",
 		"tune.control-class.Rd",
 		"grid.control.Rd",
@@ -63,6 +66,7 @@ allowed.rd.files <<- c(
 		
 		"varsel.control-class.Rd",
 		"sequential.control.Rd",
+		"randomvarsel.control.Rd",
 		"varsel.Rd",
 		"make.varsel.wrapper.Rd",
 		

@@ -88,6 +88,7 @@ base.files <<- c(
 		"base/varsel/novars.r",
 		"base/varsel/control.varsel.r",
 		"base/varsel/control.seq.r",
+		"base/varsel/control.randomvarsel.r",
 		"base/varsel/varsel.random.r",
 		"base/varsel/varsel.bestcor.r",
 		"base/varsel/varsel.hybrid.r",
