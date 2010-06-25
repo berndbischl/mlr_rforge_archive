@@ -19,9 +19,9 @@ test.varsel <- function() {
 	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=T)
 	checkTrue(length(vr["path"]) > 1) 
 	
-	ctrl = randomvarsel.control(maxit=10)
+	ctrl = randomvarsel.control(maxit=4)
 	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=T)
-	checkTrue(length(vr["path"]) > 1) 
+	checkEquals(length(vr["path"]), 4) 
 	
 	
 	# check empty model
