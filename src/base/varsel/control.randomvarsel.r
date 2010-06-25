@@ -30,12 +30,16 @@ setMethod(
 #' 
 #' @param minimize [logical] \cr 
 #'       Minimize performance measure? Default is TRUE.
-#' @param maxit [integer] \cr 
-#'       Maximal number of variable sets to evaluate. Default is 100.
 #' @param tune.threshold [logical] \cr 
 #'		Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
 #' @param thresholds [numeric] \cr 
 #'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
+#' @param maxit [integer] \cr 
+#'       Maximal number of variable sets to evaluate. Default is 100.
+#' @param method [numeric] \cr 
+#'		Currently only "binomial" is implemented. Samples variables from a binomial distribution. 		        
+#' @param prob [numeric] \cr 
+#'		Parameter for binomial distribution. 		        
 #' 		    
 #' @return Control structure.
 #' @exportMethod randomvarsel.control
@@ -66,7 +70,7 @@ setGeneric(
 		}
 )
 
-
+#' @rdname randomvarsel.control 
 
 setMethod(
 		f = "randomvarsel.control",

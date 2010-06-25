@@ -31,7 +31,7 @@ setMethod(
 		}
 )
 
-
+#' Constructor.
 
 setMethod(
 		f = "initialize",
