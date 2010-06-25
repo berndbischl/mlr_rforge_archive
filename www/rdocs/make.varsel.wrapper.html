@@ -18,7 +18,7 @@ to select an optimal set variables. Finally, a model is fitted on the complete t
 
 <h3>Usage</h3>
 
-<pre>make.varsel.wrapper(learner, id, label, resampling, measures, aggr, method="sfs", control)
+<pre>make.varsel.wrapper(learner, id, label, resampling, measures, aggr, control)
 </pre>
 
 
@@ -40,15 +40,9 @@ Label string for object. Used in plots, etc.</td></tr>
 <td>
 [<code><a href="resample.instance-class.html">resample.instance</a></code>] or [<code><a href="resample.desc-class.html">resample.desc</a></code>]<br>
 Resampling strategy to evaluate points in hyperparameter space.</td></tr>
-<tr valign="top"><td><code>method</code></td>
-<td>
-[<code><a href="../../base/html/character.html">character</a></code>] <br>
-Search method. Currently supported are sequential forward search "sfs", sequential backward search "sbs", 
-sequential floating forward search "sffs", sequential floating backward search "sfbs" and a monte-carlo search 
-"random".</td></tr>
 <tr valign="top"><td><code>control</code></td>
 <td>
-Control object for search method.</td></tr>
+Control object for search method. Also selects the optimization algorithm for feature selection.</td></tr>
 <tr valign="top"><td><code>measures</code></td>
 <td>
 [see <code><a href="measures.html">measures</a></code>]
@@ -69,5 +63,5 @@ Aggregation functions.</td></tr>
 
 <p><code><a href="varsel.html">varsel</a></code>, <code><a href="varsel.control-class.html">varsel.control</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.777 <a href="00Index.html">Index</a>]</div>
 </body></html>

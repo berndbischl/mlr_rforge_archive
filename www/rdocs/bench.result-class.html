@@ -18,21 +18,21 @@
 
 <p><code>bench.result-class</code>: Getter. <br>
 The following getters all return list of lists of objects: perf, prediction, opt.result.
-The first list iterates the tasks, the second one the learnes, both are named by respective ids.
+The first list iterates the tasks, the second one the learners, both are named by respective IDs.
 You can reduce these list by using the optional arguments 'task' and 'learner'. 'Drop' is by default TRUE, which means that 
 the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
 </p>
 <p>
 
 <dl>
-<dt>learners [character]</dt><dd>Ids of learners used in experiment.</dd>
-<dt>tasks [character]</dt><dd>Ids of tasks used in experiment.</dd>
+<dt>learners [character]</dt><dd>IDs of learners used in experiment.</dd>
+<dt>tasks [character]</dt><dd>IDs of tasks used in experiment.</dd>
 <dt>measures [character]</dt><dd>Names of measures recorded in experiment.</dd>
-<dt>iters [numeric]</dt><dd>Named numerical vector which lists the number of iterations for every task. Names are ids of task.</dd>
+<dt>iters [numeric]</dt><dd>Named numerical vector which lists the number of iterations for every task. Names are IDs of task.</dd>
 <dt>prediction [see above] </dt><dd>List of list of predictions for every task/learner. </dd>
 <dt>conf.mat [see above] </dt><dd>List of list of confusion matrices for every task/learner. </dd>
 <dt>opt.result [see above] </dt><dd>List of list of  <code><a href="opt.result-class.html">opt.result</a></code> for every task/learner. Entry is NULL if no optimization was done.</dd>
-<dt>opt.perf [see above] </dt><dd>List of list of performance vectors of optimals settings for every task/learner. Note that this performance refers to the inner resampling! Entry is NULL if no optimization was done.</dd>
+<dt>opt.perf [see above] </dt><dd>List of list of performance vectors of optimal settings for every task/learner. Note that this performance refers to the inner resampling! Entry is NULL if no optimization was done.</dd>
 <dt>opt.par [see above] </dt><dd>List of list of  <code><a href="opt.result-class.html">opt.result</a></code> for every task/learner. Entry is NULL if no optimization was done.</dd>
 <dt>opt.path [see above] </dt><dd>List of list of optimization paths for every task/learner. Entry is NULL if no optimization was done.</dd>
 <dt>tuned.par [see above] </dt><dd>List of list of optimal hyperparameters for every task/learner. Entry is NULL if no tuning was done.</dd>
@@ -61,5 +61,5 @@ the list structures are simplified as much as possible, if you don't want this s
 
 <p><code><a href="bench.exp.html">bench.exp</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.777 <a href="00Index.html">Index</a>]</div>
 </body></html>

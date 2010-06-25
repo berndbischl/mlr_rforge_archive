@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: randomvarsel.control-class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for randomvarsel.control {mlr}"><tr><td>randomvarsel.control {mlr}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>randomvarsel.control-class</h2>
+
+
+<h3>Description</h3>
+
+<p>Control structure for random variable selection.</p>
+
+
+<h3>Arguments</h3>
+<table summary="R argblock">
+<tr valign="top"><td><code>minimize</code></td>
+<td>
+[logical] <br> 
+Minimize performance measure? Default is TRUE.</td></tr>
+<tr valign="top"><td><code>tune.threshold</code></td>
+<td>
+[logical] <br> 
+Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner.</td></tr>
+<tr valign="top"><td><code>thresholds</code></td>
+<td>
+[numeric] <br> 
+Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10.</td></tr>
+<tr valign="top"><td><code>maxit</code></td>
+<td>
+[integer] <br> 
+Maximal number of variable sets to evaluate. Default is 100.</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+[numeric] <br> 
+Currently only "binomial" is implemented. Samples variables from a binomial distribution.</td></tr>
+<tr valign="top"><td><code>prob</code></td>
+<td>
+[numeric] <br> 
+Parameter for binomial distribution.</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>randomvarsel.control-methods</code>: Control structure.
+</p>
+<p>
+</p>
+
+
+<h3>Extends</h3>
+
+<p><code><a href="varsel.control-class.html">varsel.control</a></code></p>
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.777 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -18,8 +18,7 @@ The specific details of the search algorithm are set by passing a control object
 
 <h3>Usage</h3>
 
-<pre>varsel(learner, task, resampling, method="sfs", control, measures, aggr,
-    model=F)
+<pre>varsel(learner, task, resampling, control, measures, aggr, model=F, path=F)
 </pre>
 
 
@@ -37,16 +36,10 @@ Learning task.</td></tr>
 <td>
 [<code><a href="resample.instance-class.html">resample.instance</a></code>] or [<code><a href="resample.desc-class.html">resample.desc</a></code>]<br>
 Resampling strategy to evaluate points in hyperparameter space.</td></tr>
-<tr valign="top"><td><code>method</code></td>
-<td>
-[<code><a href="../../base/html/character.html">character</a></code>] <br>
-Search method. Currently supported are sequential forward search "sfs", sequential backward search "sbs", 
-sequential floating forward search "sffs", sequential floating backward search "sfbs" and a monte-carlo search 
-"random".</td></tr>
 <tr valign="top"><td><code>control</code></td>
 <td>
 [see <code><a href="varsel.control-class.html">varsel.control</a></code>]
-Control object for search method.</td></tr>
+Control object for search method. Also selects the optimization algorithm for feature selection.</td></tr>
 <tr valign="top"><td><code>measures</code></td>
 <td>
 [see <code><a href="measures.html">measures</a></code>]<br>
@@ -57,8 +50,12 @@ Performance measures.</td></tr>
 Aggregation functions.</td></tr>
 <tr valign="top"><td><code>model</code></td>
 <td>
-[<code><a href="../../base/html/logical.html">logical</a></code>]<br>
-Should a final model be fitted on the complete data with the best found hyperparameters?</td></tr>
+[boolean]<br>
+Should a final model be fitted on the complete data with the best found features?</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+[boolean]<br>
+Should optimization path be saved?</td></tr>
 </table>
 
 
@@ -76,5 +73,5 @@ Should a final model be fitted on the complete data with the best found hyperpar
 
 <p><code><a href="varsel.control-class.html">varsel.control</a></code>, <code><a href="make.varsel.wrapper.html">make.varsel.wrapper</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.732 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.777 <a href="00Index.html">Index</a>]</div>
 </body></html>
