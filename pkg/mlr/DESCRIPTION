@@ -1,7 +1,7 @@
 Package: mlr
 Type: Package
 Title: mlr: Machine Learning in R
-Version: 0.3.770
+Version: 0.3.776
 Date: 2009-01-01
 Author: Bernd Bischl, Max Wornowizki, Katharina Borg
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
@@ -22,14 +22,14 @@ Collate: 'aaa.r' 'object.r' 'learner.r' 'task.desc.r' 'data.desc.r'
     'bs.instance.r' 'check.ranges.r' 'task.classif.r'
     'check.task.learner.r' 'check.task.r' 'combine.ranges.r'
     'conf.matrix.r' 'control.cmaes.r' 'control.tune.r' 'control.grid.r'
-    'control.nm.r' 'control.varsel.r' 'control.seq.r' 'cv.desc.r'
-    'cv.instance.r' 'eval.r' 'export.r' 'gbm.classif.r' 'gbm.regr.r'
-    'get.learners.r' 'glmboost.classif.r' 'grplasso.classif.r'
-    'helpers.r' 'subsample.desc.r' 'holdout.desc.r'
-    'subsample.instance.r' 'holdout.instance.r' 'j48.r'
-    'kernlab.svm.classif.r' 'kernlab.svm.regr.r' 'kknn.r' 'knn.r'
-    'lasso.r' 'lda.r' 'learner.failure.r' 'learner.make.r' 'learners.r'
-    'llr.r' 'lm.r' 'loclda.r' 'log.r' 'logreg.r' 'loss.r'
+    'control.nm.r' 'control.varsel.r' 'control.randomvarsel.r'
+    'control.seq.r' 'cv.desc.r' 'cv.instance.r' 'eval.r' 'export.r'
+    'gbm.classif.r' 'gbm.regr.r' 'get.learners.r' 'glmboost.classif.r'
+    'grplasso.classif.r' 'helpers.r' 'subsample.desc.r'
+    'holdout.desc.r' 'subsample.instance.r' 'holdout.instance.r'
+    'j48.r' 'kernlab.svm.classif.r' 'kernlab.svm.regr.r' 'kknn.r'
+    'knn.r' 'lasso.r' 'lda.r' 'learner.failure.r' 'learner.make.r'
+    'learners.r' 'llr.r' 'lm.r' 'loclda.r' 'log.r' 'logreg.r' 'loss.r'
     'lvq1.classif.r' 'mda.r' 'measures.r' 'multiclass.wrapper.r'
     'multinom.r' 'mylapply.r' 'nb.r' 'nnet.r' 'novars.r' 'opt.result.r'
     'optml.helpers.r' 'parallel.r' 'prediction.r' 'performance.r'

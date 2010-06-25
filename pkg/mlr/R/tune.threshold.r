@@ -11,6 +11,8 @@
 #' 		  Ignored if not a \code{\linkS4class{resample.prediction}}
 #' @param task [\code{\linkS4class{learn.task}}] \cr
 #'        Learning task. Rarely neeeded, only when required for the performance measure. 
+#' @param minimize [logical] \cr 
+#'       Minimize performance measure? Default is TRUE.
 #' @param thresholds [integer] \cr
 #' 		  Number of thresholds to try in tuning.  	
 #' 
