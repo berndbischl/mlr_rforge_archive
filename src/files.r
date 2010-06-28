@@ -116,7 +116,7 @@ classif.files <<- c(
 		"models/classification/glmboost.classif.r",
 		"models/classification/grplasso.classif.r",
 		"models/classification/j48.r",
-		"models/classification/knn.classif.r",
+		"models/classification/kknn.classif.r",
 		"models/classification/ksvm.classif.r",
 		"models/classification/lda.r",
 		"models/classification/loclda.r",
@@ -156,7 +156,7 @@ load.all.libs <- function() {
 	library(e1071)
 	library(boot)
 	library(roxygen)
-#	library(kernlab)
+	library(kernlab)
 	library(adabag)
 	library(kknn)
 	library(randomForest)
