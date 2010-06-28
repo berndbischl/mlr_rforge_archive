@@ -109,40 +109,42 @@ base.files <<- c(
 )
 
 classif.files <<- c( 		
-		"models/classification/knn.r",
+		"models/classification/ada.r",
+		"models/classification/adaboost.m1.classif.r",
+		"models/classification/blackboost.classif.r",
+		"models/classification/gbm.classif.r",
+		"models/classification/glmboost.classif.r",
+		"models/classification/grplasso.classif.r",
+		"models/classification/j48.r",
+		"models/classification/knn.classif.r",
+		"models/classification/ksvm.classif.r",
 		"models/classification/lda.r",
-		"models/classification/qda.r",
-		"models/classification/rda.r",
-		"models/classification/mda.r",
 		"models/classification/loclda.r",
 		"models/classification/logreg.r",
+		"models/classification/lvq1.classif.r",
+		"models/classification/mda.r",
 		"models/classification/multinom.r",
 		"models/classification/nb.r",
-		"models/classification/rpart.r",
-		"models/classification/j48.r",
-		"models/classification/randomForest.r",
-		"models/classification/boost.r",
-		"models/classification/ada.r",
-		"models/classification/blackboost.classif.r",
-		"models/classification/glmboost.classif.r",
-		"models/classification/gbm.classif.r",
-		"models/classification/kernlab.svm.classif.r",
-		"models/classification/svm.classif.r",
 		"models/classification/nnet.r",
-		"models/classification/grplasso.classif.r",
-		"models/classification/lvq1.classif.r",
-		"models/classification/llr.r"
-##		"models/classification/metacost.r"
+		"models/classification/penalizedSVM.R",
+		"models/classification/qda.r",
+		"models/classification/randomForest.classif.r",
+		"models/classification/rda.r",
+		"models/classification/rpart.classif.r",
+		"models/classification/svm.classif.r"
+		##		"models/classification/metacost.r"
 )
 
 regr.files <<- c( 		
-		"models/regression/lm.r",
 		"models/regression/blackboost.regr.r",
 		"models/regression/gbm.regr.r",
-		"models/regression/kknn.r",
-		"models/regression/ridge.r",
+		"models/regression/kknn.regr.r",
+		"models/regression/ksvm.regr.r",
 		"models/regression/lasso.r",
-		"models/regression/kernlab.svm.regr.r"
+		"models/regression/lm.r",
+		"models/regression/randomForest.regr.r",
+		"models/regression/ridge.r",
+		"models/regression/rpart.regr.r"
 )
 
 
