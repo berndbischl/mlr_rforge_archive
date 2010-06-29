@@ -28,11 +28,11 @@ setMethod(
 		f = "[",
 		signature = signature("multiclass.wrapper"),
 		def = function(x,i,j,...,drop) {
-			if (i == "supports.multiclass")
+			if (i == "multiclass")
 				return(TRUE)
-			if (i == "supports.probs")
+			if (i == "probs")
 				return(FALSE)
-			if (i == "supports.decision")
+			if (i == "decision")
 				return(FALSE)
 			callNextMethod()
 		}
