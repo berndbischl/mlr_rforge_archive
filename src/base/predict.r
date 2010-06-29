@@ -71,11 +71,11 @@ setMethod(
 				truth = NULL
 			}
 			
-			# we can check this for regression as well as those return supports.prob = FALSE
-			if ("prob" == type && !wl["supports.probs"]) {
+			# we can check this for regression as well as those return prob = FALSE
+			if ("prob" == type && !wl["probs"]) {
 				stop("Trying to predict probs, but ", wl["id"], " does not support that!")
 			}
-			if ("decision" == type && !wl["supports.decision"]) {
+			if ("decision" == type && !wl["decision"]) {
 				stop("Trying to predict decision values, but ", wl["id"], " does not support that!")
 			}
 

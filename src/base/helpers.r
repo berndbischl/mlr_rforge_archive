@@ -15,11 +15,11 @@ c.factor = function(...) {
 
 
 # do lapply recursively on deep lists
-rec.lapply = function(xs, fun) {
-	if (!is.list(xs)) {
+rec.lapply = function(xs, fun, depth=Inf) {
+	if (!is.list(xs) || depth==0) {
 		return(fun(xs))
 	}
-	lapply(xs, function(x) rec.lapply(x, fun))
+	lapply(xs, function(x) rec.lapply(x, fun, depth-1))
 }
 
 
@@ -99,3 +99,32 @@ coalesce = function (...) {
 	isnull <- sapply(l, is.null)
 	l[[which.min(isnull)]]
 }
+
+
+list2dataframe = function(xs, rownames=NULL) {
+	ys = as.data.frame(Reduce(rbind, xs))
+	rownames(ys) = rownames
+	return(ys)
+}
+
+
+path2dataframe = function(path) {
+	p = path[[1]]
+	cns = c(names(p$par), "threshold", names(p$perf), "evals", "event", "accept")
+	df = matrix(0, length(path), length(cns))
+	colnames(df) = cns
+	n = length(p$par)
+	m = length(p$perf)
+	k = ncol(df)
+	df = as.data.frame(df)
+	df$event = as.character(df$event)
+	for (i in 1:length(path)) {
+		p = path[[i]]
+		df[i, 1:n] = unlist(p$par)  
+		df[i, (n+1):(k-2)] = c(p$threshold, unlist(p$perf), p$evals)  
+		df[i, k-1] = p$event  
+		df[i, k] = p$accept  
+	}
+	return(df)
+}
+

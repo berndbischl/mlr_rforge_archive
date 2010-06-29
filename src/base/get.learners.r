@@ -1,28 +1,27 @@
 #' Returns the names of learning algorithms which have specific characteristics, e.g.
 #' whether it supports missing values, misclassification costs, case weights,...
 #' 
-#' The default of all boolean parameter (supports.[...]) is NA, means: no specification no
-#' inclusion in the search.
+#' The default of all boolean parameters is NA, meaning: property is not included in search.
 #' 
 #' @param type [character] \cr
 #' 			Type of the learning algorithm, either "classif" or "regr"
-#' @param supports.numerics [boolean] \cr
+#' @param numerics [boolean] \cr
 #' 			Supports numeric inputs?
-#' @param supports.factors [boolean] \cr
+#' @param factors [boolean] \cr
 #' 			Supports factor inputs?
-#' @param supports.characters [boolean] \cr
+#' @param characters [boolean] \cr
 #' 			Supports character inputs?
-#' @param supports.missings [boolean] \cr
+#' @param missings [boolean] \cr
 #' 			Supports missing values?
-#' @param supports.multiclass [boolean] \cr
+#' @param multiclass [boolean] \cr
 #' 			Supports multiclass problems?
-#' @param supports.weights [boolean] \cr
+#' @param weights [boolean] \cr
 #' 			Supports case weights?
-#' @param supports.probs [boolean] \cr
+#' @param probs [boolean] \cr
 #' 			Can predict probabilities?
-#' @param supports.decision [boolean] \cr
+#' @param decision [boolean] \cr
 #' 			Supports decision values?
-#' @param supports.costs [boolean] \cr
+#' @param costs [boolean] \cr
 #' 			Supports non-standard misclassification costs?
 #' 
 #' @rdname get.learners
@@ -34,15 +33,15 @@
 
 get.learners <- function(
 					type = c("classif","regr"), 
-					supports.numerics = NA, 
-					supports.factors = NA,
-					supports.characters = NA,
-					supports.missings = NA,
-					supports.multiclass = NA,
-					supports.weights = NA,
-					supports.probs = NA,
-					supports.decision = NA,
-					supports.costs = NA){
+					numerics = NA, 
+					factors = NA,
+					characters = NA,
+					missings = NA,
+					multiclass = NA,
+					weights = NA,
+					probs = NA,
+					decision = NA,
+					costs = NA){
 					
 		mlr.classes <- getClasses(where = getNamespace("mlr"))
 		top.cl <- ifelse(type == "classif", "rlearner.classif", "rlearner.regr")
@@ -61,15 +60,15 @@ get.learners <- function(
 		
 		
 		f <- function(x) {
-			( is.na(supports.numerics) || supports.numerics == x["supports.numerics"] ) &&
-			( is.na(supports.factors) || supports.factors == x["supports.factors"] ) &&
-			( is.na(supports.characters) || supports.characters == x["supports.characters"] ) &&
-			( is.na(supports.missings) || supports.missings == x["supports.missings"] ) &&
-			( is.na(supports.multiclass) || supports.multiclass == x["supports.multiclass"] ) &&
-			( is.na(supports.weights) || supports.weights == x["supports.weights"]  ) &&
-			( is.na(supports.probs) || supports.probs == x["supports.probs"] ) &&
-			( is.na(supports.decision) || supports.decision == x["supports.decision"]  ) &&
-			( is.na(supports.costs) || supports.costs == x["supports.costs"]  )
+			( is.na(numerics) || numerics == x["numerics"] ) &&
+			( is.na(factors) || factors == x["factors"] ) &&
+			( is.na(characters) || characters == x["characters"] ) &&
+			( is.na(missings) || missings == x["missings"] ) &&
+			( is.na(multiclass) || multiclass == x["multiclass"] ) &&
+			( is.na(weights) || weights == x["weights"]  ) &&
+			( is.na(probs) || probs == x["probs"] ) &&
+			( is.na(decision) || decision == x["decision"]  ) &&
+			( is.na(costs) || costs == x["costs"]  )
 		}
 		
 		ls <- Filter(f, ls)
