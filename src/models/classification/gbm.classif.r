@@ -21,6 +21,8 @@ setMethod(
 		def = function(.Object) {
 			
 			desc = new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
 					multiclass = FALSE,
 					missings = FALSE,
 					numerics = TRUE,
