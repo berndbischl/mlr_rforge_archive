@@ -25,7 +25,7 @@ setMethod(
 			desc = new("learner.desc.classif",
 					oneclass = FALSE,
 					twoclass = TRUE,
-					multiclass = TRUE,
+					multiclass = FALSE,
 					missings = TRUE,
 					numerics = TRUE,
 					factors = TRUE,
