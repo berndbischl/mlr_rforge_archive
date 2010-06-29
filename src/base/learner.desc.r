@@ -64,7 +64,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learner.desc.classif"),
-		def = function(.Object, missings, numerics, factors, characters, weights, multiclass, probs, decision, costs) {
+		def = function(.Object, missings, numerics, factors, characters, weights, oneclass, twoclass, multiclass, probs, decision, costs) {
 			.Object@props$multiclass = multiclass 
 			.Object@props$probs = probs 
 			.Object@props$decision = decision 
