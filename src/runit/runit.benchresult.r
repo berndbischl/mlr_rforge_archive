@@ -71,5 +71,19 @@ test.benchresult = function() {
 	x = replicate(3, multiclass.task["input.names"], F)
 	y = be["sel.var", learner="classif.lda"]
 	checkEquals(x, y, checkNames=F)  
-}	
+
+	tasks = list(multiclass.task, binaryclass.task)
+	learners = c("classif.rpart", svm.tuner)
+	be = bench.exp(tasks=tasks, learners=learners, resampling=res)
+	x = be["perf", learner="classif.rpart"]
+	checkEquals(names(x), c("multiclass", "binary"))  
+	checkTrue(all(sapply(x, function(y) is.numeric(y) && length(y) == outer.len)))  
+	x = be["tuned.par", learner="classif.ksvm"]
+	checkEquals(names(x), c("multiclass", "binary"))  
+	checkTrue(all(sapply(x, function(y) is.list(y) && length(y) == length(ranges.svm))))
 	
+	x = be["tuned.par"]
+	checkEquals(names(x), c("multiclass", "binary"))  
+	checkTrue(all(sapply(x, function(y) is.list(y) && names(y) == c("classif.rpart", "classif.ksvm"))))  
+	
+}	
