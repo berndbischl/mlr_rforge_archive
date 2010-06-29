@@ -6,7 +6,7 @@ base.files <<- c(
 #		"base/to.string.r",
 		"base/object.r",
 		
-		"base/learner.props.r",
+		"base/learner.desc.r",
 			
 		"base/data.desc.r",
 		"base/prepare.df.r",
