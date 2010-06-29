@@ -17,15 +17,15 @@ setMethod(
 		signature = signature("regr.kknn"),
 		def = function(.Object) {
 			
-			desc = new("regr.props",
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.weights = FALSE
+			desc = new("learner.desc.regr",
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="KKNN", pack="kknn", props=desc)
+			callNextMethod(.Object, label="KKNN", pack="kknn", desc=desc)
 		}
 )
 

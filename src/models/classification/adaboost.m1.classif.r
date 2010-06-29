@@ -18,19 +18,19 @@ setMethod(
 		signature = signature("classif.adaboost.M1"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = TRUE,
-					supports.probs = FALSE,
-					supports.decision = FALSE,
-					supports.weights = FALSE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					multiclass = TRUE,
+					missings = TRUE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = TRUE,
+					probs = FALSE,
+					decision = FALSE,
+					weights = FALSE,
+					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="AdaBoostM1", pack="adabag", props=desc)
+			callNextMethod(.Object, label="AdaBoostM1", pack="adabag", desc=desc)
 		}
 )
 

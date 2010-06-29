@@ -12,14 +12,14 @@ setMethod(
 		signature = signature("regr.rpart"),
 		def = function(.Object) {
 			
-			desc = new("regr.props",
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.weights = TRUE
+			desc = new("learner.desc.regr",
+					missings = TRUE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					weights = TRUE
 			)
-			callNextMethod(.Object, label="RPART", pack="rpart",	props=desc, )
+			callNextMethod(.Object, label="RPART", pack="rpart",	desc=desc, )
 		}
 )
 

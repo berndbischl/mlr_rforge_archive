@@ -19,19 +19,19 @@ setMethod(
 		signature = signature("classif.randomForest"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = TRUE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = FALSE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					multiclass = TRUE,
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = TRUE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = FALSE,
+					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="RForest", pack="randomForest", props=desc)
+			callNextMethod(.Object, label="RForest", pack="randomForest", desc=desc)
 		}
 )
 

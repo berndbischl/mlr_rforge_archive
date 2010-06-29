@@ -19,19 +19,19 @@ setMethod(
 		signature = signature("classif.lpsvm"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = TRUE,
-					supports.probs = TRUE, 
-					supports.decision = FALSE,
-					supports.weights = TRUE,	
-					supports.costs = FALSE 
+			desc = new("learner.desc.classif",
+					multiclass = TRUE,
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = TRUE,
+					probs = TRUE, 
+					decision = FALSE,
+					weights = TRUE,	
+					costs = FALSE 
 			)
 			
-			callNextMethod(.Object, label="lpsvm", pack="penalizedSVM", props=desc)
+			callNextMethod(.Object, label="lpsvm", pack="penalizedSVM", desc=desc)
 		}
 )
 

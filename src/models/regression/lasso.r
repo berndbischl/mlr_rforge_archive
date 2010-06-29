@@ -13,15 +13,15 @@ setMethod(
 		signature = signature("regr.lasso"),
 		def = function(.Object) {
 			
-			desc = new("regr.props",
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.weights = FALSE
+			desc = new("learner.desc.regr",
+					missings = TRUE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="Lasso regression", pack="penalized", props=desc)
+			callNextMethod(.Object, label="Lasso regression", pack="penalized", desc=desc)
 		}
 )
 

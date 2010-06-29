@@ -22,18 +22,18 @@ setMethod(
 		signature = signature("classif.blackboost"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = TRUE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					multiclass = TRUE,
+					missings = TRUE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = TRUE,
+					costs = FALSE
 			)
-			callNextMethod(.Object, label="blackboost", pack="mboost", props=desc, 
+			callNextMethod(.Object, label="blackboost", pack="mboost", desc=desc, 
 					parset.train=list(family = Binomial()))
 		}
 )

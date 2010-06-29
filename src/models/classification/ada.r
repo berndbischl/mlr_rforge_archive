@@ -16,46 +16,25 @@ setClass(
 )
 
 
-setMethod(
-		f = "initialize",
-		signature = signature("classif.ada"),
-		def = function(.Object) {
-			
-			desc = new("classif.props",
-					supports.multiclass = FALSE,
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = TRUE,
-					supports.costs = TRUE
-			)
-			
-			.Object <- callNextMethod(.Object, label="Ada boosting", learner.pack="ada", props=desc)
-			
-			return(.Object)
-		}
-)
 
 setMethod(
 		f = "initialize",
 		signature = signature("classif.ada"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = FALSE,
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.weights = FALSE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					multiclass = FALSE,
+					missings = TRUE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = TRUE,
+					costs = TRUE
 			)
 			
-			callNextMethod(.Object, label="ada", pack="ada", props=desc)
+			callNextMethod(.Object, label="ada", pack="ada", desc=desc)
 		}
 )
 

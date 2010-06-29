@@ -14,15 +14,15 @@ setMethod(
 		signature = signature("regr.ksvm"),
 		def = function(.Object) {
 			
-			desc = new("regr.props",
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.weights = FALSE
+			desc = new("learner.desc.regr",
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="SVM", pack="kernlab", props=desc)
+			callNextMethod(.Object, label="SVM", pack="kernlab", desc=desc)
 		}
 )
 

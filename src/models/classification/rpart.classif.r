@@ -21,18 +21,18 @@ setMethod(
 		signature = signature("classif.rpart"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = TRUE,
-					supports.costs = TRUE
+			desc = new("learner.desc.classif",
+					multiclass = TRUE,
+					missings = TRUE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = TRUE,
+					costs = TRUE
 			)
-			callNextMethod(.Object, label="RPart", pack="rpart", props=desc)
+			callNextMethod(.Object, label="RPart", pack="rpart", desc=desc)
 		}
 )
 

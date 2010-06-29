@@ -19,19 +19,19 @@ setMethod(
 		signature = signature("classif.grplasso"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = FALSE,
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = FALSE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = TRUE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					multiclass = FALSE,
+					missings = FALSE,
+					numerics = TRUE,
+					factors = FALSE,
+					characters = FALSE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = TRUE,
+					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="grplasso", pack="grplasso", props=desc)
+			callNextMethod(.Object, label="grplasso", pack="grplasso", desc=desc)
 		}
 )
 
