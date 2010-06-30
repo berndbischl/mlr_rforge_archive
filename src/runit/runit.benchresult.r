@@ -54,13 +54,12 @@ test.benchresult = function() {
 	checkTrue(!any(sapply(x1, is.null)))
 	checkTrue(!any(sapply(x2, is.null)))
 	
-	checkTrue(all(sapply(x1, function(z) z$C == 1 || z$C == 2)))
-	checkTrue(all(sapply(x2, function(z) z$C == 1 || z$C == 2)))
+	checkTrue(all(sapply(x1, function(z) z == 1 || z == 2)))
+	checkTrue(all(sapply(x2, function(z) z == 1 || z == 2)))
 
-	checkEquals(be["opt.result", learner="classif.ksvm"]["par"], be["opt.result", learner="classif.ksvm"]["tuned.par"])		
-	checkEquals(be["opt.result", learner="classif.ksvm"][[1]]["par"], be["tuned.par", learner="classif.ksvm"][[1]])		
-	checkEquals(be["opt.result", learner="classif.ksvm"][[2]]["par"], be["tuned.par", learner="classif.ksvm"][[2]])		
-	checkEquals(be["opt.result", learner="classif.ksvm"][[3]]["par"], be["tuned.par", learner="classif.ksvm"][[3]])
+	checkEquals(be["opt.result", learner="classif.ksvm"][[1]]["par"]$C, be["tuned.par", learner="classif.ksvm"][[1]])		
+	checkEquals(be["opt.result", learner="classif.ksvm"][[2]]["par"]$C, be["tuned.par", learner="classif.ksvm"][[2]])		
+	checkEquals(be["opt.result", learner="classif.ksvm"][[3]]["par"]$C, be["tuned.par", learner="classif.ksvm"][[3]])
 	
 
 	ctrl = sequential.control(method="sbs", beta=100)
@@ -80,10 +79,59 @@ test.benchresult = function() {
 	checkTrue(all(sapply(x, function(y) is.numeric(y) && length(y) == outer.len)))  
 	x = be["tuned.par", learner="classif.ksvm"]
 	checkEquals(names(x), c("multiclass", "binary"))  
-	checkTrue(all(sapply(x, function(y) is.list(y) && length(y) == length(ranges.svm))))
+	checkTrue(all(sapply(x, function(y) is.list(y) && length(y) == outer.len)))
 	
 	x = be["tuned.par"]
 	checkEquals(names(x), c("multiclass", "binary"))  
 	checkTrue(all(sapply(x, function(y) is.list(y) && names(y) == c("classif.rpart", "classif.ksvm"))))  
+
+	x = be["tuned.par", as.data.frame=T]
+	checkEquals(names(x), c("multiclass", "binary"))  
+	checkTrue(all(sapply(x, function(y) is.list(y) && names(y) == c("classif.rpart", "classif.ksvm"))))
+	checkTrue(is.null(x[[1]][[1]]))  
+	checkTrue(is.null(x[[2]][[1]]))  
+	checkTrue(is.numeric(x[[1]][[2]]))  
+	checkTrue(is.numeric(x[[2]][[2]]))  
+
+	ranges.svm = list(C=1:2, sigma=1:2)
+	ctrl = grid.control(ranges=ranges.svm)
+	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, control=ctrl)
+	learners = c(svm.tuner)
+	be = bench.exp(tasks=tasks, learners=learners, resampling=res, predictions=T, conf.mats=T)
+	
+	x = be["tuned.par", as.data.frame=T]
+	checkEquals(names(x), c("multiclass", "binary"))  
+	checkTrue(is.data.frame(x[[1]]))  
+	checkTrue(is.data.frame(x[[2]]))  
+	
+	x = be["prediction", drop=F]
+	checkEquals(names(x), c("multiclass", "binary"))
+	x1 = x[[1]]
+	checkTrue(is.list(x1))
+	checkEquals(names(x1), c("classif.ksvm"))
+	x1 = x1[[1]]
+	checkTrue(is(x1, "resample.prediction"))
+	checkEquals(x1["iters"], outer.len)
+	x1 = x[[2]]
+	checkTrue(is.list(x1))
+	checkEquals(names(x1), c("classif.ksvm"))
+	x1 = x1[[1]]
+	checkTrue(is(x1, "resample.prediction"))
+	checkEquals(x1["iters"], outer.len)
+
+	x = be["conf.mats", drop=F]
+	checkEquals(names(x), c("multiclass", "binary"))
+	x1 = x[[1]]
+	checkTrue(is.list(x1))
+	checkEquals(names(x1), c("classif.ksvm"))
+	x1 = x1[[1]]
+	checkTrue(is(x1, "matrix"))
+	checkEquals(dim(x1), c(multiclass.task["class.nr"]+1, multiclass.task["class.nr"]+1))
+	x1 = x[[2]]
+	checkTrue(is.list(x1))
+	checkEquals(names(x1), c("classif.ksvm"))
+	x1 = x1[[1]]
+	checkTrue(is(x1, "matrix"))
+	checkEquals(dim(x1), c(binaryclass.task["class.nr"]+1, binaryclass.task["class.nr"]+1))
 	
 }	
