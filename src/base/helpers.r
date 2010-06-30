@@ -16,7 +16,7 @@ c.factor = function(...) {
 
 # do lapply recursively on deep lists
 rec.lapply = function(xs, fun, depth=Inf) {
-	if (!is.list(xs) || depth==0) {
+	if (!is.list(xs) || is.data.frame(xs) || depth==0) {
 		return(fun(xs))
 	}
 	lapply(xs, function(x) rec.lapply(x, fun, depth-1))
