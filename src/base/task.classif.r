@@ -48,7 +48,15 @@ setMethod(
 			# init positive
 			pos = positive 
 			neg = as.character(NA)
-			if (n == 2) {
+      if (n == 1) {
+        if (is.na(pos)) {
+          pos = levs[1]
+        } else {
+          if (!(pos %in% levs))
+						stop(paste("Trying to set a positive class", pos, "which is not a value of the target variable:", paste(levs, collapse=",")))
+				}
+				neg = paste("not_", pos)
+      } else if (n == 2) {
 				if (is.na(pos)) {
 					pos = levs[1] 					
 				}
