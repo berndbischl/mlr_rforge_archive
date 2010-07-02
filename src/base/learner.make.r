@@ -1,7 +1,7 @@
 ##' Create learner object. 
 ##' 
 ##' @param class [string] \cr
-##'   	  Class of learner to create.
+##'        Class of learner to create.
 ##' @param id [string]\cr 
 ##'        Id string for object. Used to select the object from a named list, etc.  
 ##' @param label [string]\cr 
