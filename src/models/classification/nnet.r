@@ -75,19 +75,11 @@ setMethod(
 				return(as.factor(p))
 			else {
 				if (.model["class.nr"] == 2) {
-					y = matrix(0, ncol=2, nrow=nrow(.newdata))
+          y <- cbind(p, 1-p) 
 					colnames(y) = .model["class.levels"]
-					y[,1] <- p
-					y[,2] <- 1-p
 					return(y)
 				} else
 					return(p)	
 			}
 		}
 )	
-
-
-
-
-
-
