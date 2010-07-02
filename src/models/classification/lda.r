@@ -76,9 +76,3 @@ setMethod(
 				return(p$posterior)
 		}
 )	
-
-
-
-
-
-
