@@ -1,22 +1,24 @@
-#' Container for results of hyperparameter tuning or variable selection.    
-#' Contains the obtained optimal parameter vector, its performance values and the optimization path
-#' which lead there.
-#' It might also optionally contain a wrapped.model, which was fitted by using the optimal parameters. 
-#'
-#' #' Getter.\cr
-#' 
-#' \describe{
-#'  \item{par [list | character]}{Named list of hyperparameter values or character vector of variables, identified as optimal.}
-#'  \item{perf [numeric]}{Performance values of 'par'.}
-#'  \item{path [list | data.frame]. Optional parameters: as.data.frame}{Optimization path. Can be converted to a data.frame if as.data.frame is TRUE.}
-#'  \item{model [wrapped.model]}{Model fitted with settings in 'par'. Will be NULL, if fitting was not requested.}
-#' }
-#' 
-#' @exportClass opt.result
-#' @title Optimization result.
-#' @seealso \code{\link{tune}}, \code{\link{varsel}} 
-
-
+##' Container for results of hyperparameter tuning or variable selection.
+##' Contains the obtained optimal parameter vector, its performance values
+##' and the optimization path which lead there. It might also optionally
+##' contain a wrapped.model, which was fitted by using the optimal
+##' parameters. 
+##'
+##' Getter.\cr
+##' 
+##' \describe{
+##'   \item{par [list | character]}{Named list of hyperparameter values
+##'     or character vector of variables, id#entified as optimal.}
+##'   \item{perf [numeric]}{Performance values of 'par'.}
+##'   \item{path [list | data.frame]. Optional parameters: as.data.frame}{
+##'      Optimization path. Can be converte#d to a data.frame if as.data.frame is TRUE.}
+##'   \item{model [wrapped.model]}{Model fitted with settings in 'par'. Will
+##'     be NULL, if fitting was not req#uested.}
+##' }
+##' 
+##' @exportClass opt.result
+##' @title Optimization result.
+##' @seealso \code{\link{tune}}, \code{\link{varsel}} 
 setClass(
 		"opt.result",
 		contains = c("object"),
@@ -28,7 +30,7 @@ setClass(
 		)
 )
 
-#' Constructor.
+##' Constructor.
 setMethod(
 		f = "initialize",
 		signature = signature("opt.result"),
@@ -43,10 +45,7 @@ setMethod(
 		}
 )
 
-
-
-#' @rdname opt.result-class
-
+##' @rdname opt.result-class
 setMethod(
 		f = "[",
 		signature = signature("opt.result"),
@@ -90,9 +89,7 @@ setMethod(
 		}
 )
 
-
-
-#' @rdname to.string
+##' @rdname to.string
 setMethod(
 		f = "to.string",
 		signature = signature("opt.result"),
