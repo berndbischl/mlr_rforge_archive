@@ -43,7 +43,7 @@ test.lasso <- function() {
 	rf <- resample.fit(wl, regr.task, cv.i)
 #	print(rf@preds[[1]])
 	for (i in 1:folds) {
-		test.i <- cv.i["test.inds", i]
+		test.i = get.test.set(cv.i, i)
 		xs = as.list(rf)
 		rf.p = xs[[i]]["response"]
 		names(rf.p) <- NULL

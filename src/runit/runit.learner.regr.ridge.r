@@ -27,7 +27,7 @@ test.ridge <- function() {
 			m <- do.call(penalized, pars)
 		)	
 		set.seed(debug.seed)
-		p <- predict(m, data=regr.test)
+		p = predict(m, data=regr.test)
 		old.predicts.list[[i]] <- p[,"mu"]
 	}
 	
@@ -42,9 +42,9 @@ test.ridge <- function() {
 	for (i in 1:folds)
 		cv.i@inds[[i]] <- setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
 	wl = make.learner("regr.ridge", lambda=0.3)
-	rf <- resample.fit(wl, regr.task, cv.i)
+	rf = resample.fit(wl, regr.task, cv.i)
 	for (i in 1:folds) {
-		test.i <- cv.i["test.inds", i]
+		test.i = get.test.set(cv.i, i)
 		xs = as.list(rf)
 		rf.p = xs[[i]]["response"]
 		names(rf.p) <- NULL

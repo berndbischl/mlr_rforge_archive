@@ -6,8 +6,8 @@ test.bs.instance = function() {
   checkEquals(iters, 3)
 
   for (i in 1:iters) {
-    i1 <- rin["train.inds", i]
-    i2 <- rin["test.inds", i]
+    i1 <- get.train.set(rin, i)
+    i2 <- get.test.set(rin, i)
     checkEquals(length(i1), 25)
     checkEquals(length(i2), 25 - length(unique(i1)))
     checkTrue(min(i1) >= 1)
@@ -16,17 +16,6 @@ test.bs.instance = function() {
     checkTrue(max(i2) <= 25)
     checkEquals(sort(c(unique(i1), i2)), 1:25)
   }
-
-  A <- list()
-  A[[1]] <- rin["train.inds", 1]
-  A[[2]] <- rin["train.inds", 3]
-  checkEquals(A, rin["train.inds", c(1,3)])
-
-  A <- list()
-  A[[1]] <- rin["test.inds", 1]
-  A[[2]] <- rin["test.inds", 3]
-  checkEquals(A, rin["test.inds", c(1,3)])
-
 }
 
 
