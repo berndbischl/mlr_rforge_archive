@@ -1,23 +1,24 @@
 #' @include resample.instance.r
-#' @include subsample.desc.r
+#' @include cv.rep.desc.r
 roxygen()
 
 
+
 setClass(
-		"subsample.instance", 
+		"repcv.instance", 
 		contains = c("resample.instance.nonseq")
 )                                                     
 
-
-
 setMethod(
 		f = "initialize",
-		signature = signature("subsample.instance"),
+		signature = signature("repcv.instance"),
 		def = function(.Object, desc, size) {
-			if (missing(desc))
-				return(.Object)
-			inds <- lapply(1:desc["iters"], function(x) sample(1:size, size*desc["split"]))
+			n = desc["iters"]
+			m = desc["group.iters"]
+			inds = replicate(n, make.res.instance("cv", iters=m, size=size)@inds, simplify=F)
+			inds = Reduce(c, inds)
 			callNextMethod(.Object, desc=desc, size=size, inds=inds)
 		}
 )
+
 

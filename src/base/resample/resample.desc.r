@@ -17,11 +17,48 @@ setClass(
 		"resample.desc", 
 		contains = c("object"),
 		representation = representation(
-				instance.class="character", 
-				name="character", 
-				iters="numeric"
+				instance.class = "character", 
+				name = "character", 
+				iters = "integer",
+				group.iters = "integer",
+				props = "list"
 		)
 )
+
+
+
+
+setMethod(
+		f = "initialize",
+		signature = signature("resample.desc"),
+		def = function(.Object, instance.class, name, iters, group.iters, ...) {
+			if (missing(name))
+				return(.Object)					
+			if (missing(group.iters))
+				group.iters = as.integer(NA)				
+			.Object@instance.class = instance.class
+			.Object@name = name
+			.Object@iters = iters
+			.Object@group.iters = group.iters
+			return(.Object)
+		}
+)
+
+
+#' @rdname resample.desc-class
+
+setMethod(
+		f = "[",
+		signature = signature("resample.desc"),
+		def = function(x,i,j,...,drop) {
+			if (i == "is.sequential") {
+				return(x@props[[i]])
+			}
+			callNextMethod(x,i,j,...,drop=drop)
+		}
+)
+
+
 
 #' @rdname to.string
 
@@ -39,7 +76,16 @@ setMethod(
 )
 
 
+setClass(
+		"resample.desc.seq", 
+		contains = c("resample.desc")
+)
 
+
+setClass(
+		"resample.desc.nonseq", 
+		contains = c("resample.desc")
+)
 
 
 

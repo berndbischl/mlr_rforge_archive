@@ -69,16 +69,33 @@ setMethod(
 			if (n != r)
 				stop(paste("Size of data set:", n, "and resampling instance:", r, "differ!"))
 			
-			resample.instance <- resampling
-			iters <- resample.instance["iters"]
+			rin = resampling
+			iters = rin["iters"]
 			
-			rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
-					rin=resample.instance, parset=parset, vars=vars, extract=extract)
+			if (is(rin, "resample.instance.nonseq")) {
+				rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
+						rin=rin, parset=parset, vars=vars, extract=extract)
+			} else {
+				rs  = list()
+				# sequential resampling cannot be (easily) parallized!
+				m = new("wrapped.model")
+				p = new("prediction")
+				
+				while (!resample.done(rin)) {
+					train.i = get.train.set(rin, i)
+					test.i = get.test.set(rin, i)
+					m = train(learner, task, subset=train.i, parset=parset, vars=vars)
+					p = predict(m, task=task, subset=test.i)
+					ex = extract(m)
+					rs[[i]] = list(pred=p, extracted=ex)
+					rin = resample.update(rin, task, model, pred)
+				}				
+			}
 		
 			ps = lapply(rs, function(x) x$pred)
 			es = lapply(rs, function(x) x$extracted)
 			
-			return(new("resample.prediction", instance=resample.instance, preds=ps, extracted=es))
+			return(new("resample.prediction", instance=rin, preds=ps, extracted=es))
 		}
 )
 

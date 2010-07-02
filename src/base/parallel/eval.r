@@ -1,7 +1,8 @@
 
 resample.fit.iter <- function(learner, task, rin, parset, vars, i, extract) {
-	train.i = rin["train.inds", i]
-	test.i = rin["test.inds", i]
+	train.i = get.train.set(rin, i)
+	test.i = get.test.set(rin, i)
+	
 	m = train(learner, task, subset=train.i, parset=parset, vars=vars)
 	p = predict(m, task=task, subset=test.i)
 	# faster for parallel

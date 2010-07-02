@@ -64,45 +64,12 @@ setMethod(
 			if (i == "size")
 				return(x@size)
 			
-			if (i == "name")
-				return(x@desc@name)
-			
 			if (i == "iters")
 				return(length(x@inds))
 			
-			if (i == "train.inds") {
-				if (missing(j)) {
-					return(x@inds)
-				} else if(length(j) == 1) {
-					return(x@inds[[j]])
-				}
-				else {
-					return(x@inds[j])
-				}
-			}
-			
-			if (i == "test.inds") {
-				size <- x["size"]
-				inds <- x@inds[j]
-				if (length(j) == 1) {
-					return( (1:size)[-inds[[1]]] )
-				}
-				else {
-					return(lapply(inds, function(x) (1:size)[-x]))
-				}
-			}
-			return(x@desc[i,j,...,drop])
+			return(x@desc[i,...,drop=drop])
 		}
 )
-
-
-#setGeneric(
-#		name = "make.resample.instance",
-#		def = function(desc, size) {
-#			standardGeneric("make.resample.instance")
-#		}
-#)
-
 
 
 
@@ -114,7 +81,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Instance for ", x@desc@name,  " with ", length(x@inds), " iterations and ", x@size, " cases\n",
+							"Instance for ", x@desc@name,  " with ", x["iters"], " iterations and ", x@size, " cases\n",
 							paste(capture.output(str(x@inds)), collapse="\n"), 
 							"\n", sep=""
 					)
@@ -133,5 +100,17 @@ get.test.targets <- function(learn.task, resample.instance, i) {
 	inds <- resample.instance["test.inds", i]
 	return(learn.task["targets", inds])
 }
+
+
+setClass(
+		"resample.instance.seq", 
+		contains = c("resample.instance")
+)
+
+
+setClass(
+		"resample.instance.nonseq", 
+		contains = c("resample.instance")
+)
 
 

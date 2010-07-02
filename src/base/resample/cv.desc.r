@@ -3,7 +3,7 @@ roxygen()
 
 
 setClass("cv.desc", 
-		contains = c("resample.desc")
+		contains = c("resample.desc.nonseq")
 )                                                     
 
 
@@ -11,8 +11,8 @@ setClass("cv.desc",
 setMethod(
 		f = "initialize",
 		signature = signature("cv.desc"),
-		def = function(.Object, iters) {
-			callNextMethod(.Object, instance.class="cv.instance", name="cross-validation", iters=iters)
+		def = function(.Object, iters, group.iters) {
+			callNextMethod(.Object, "cv.instance", "cross-validation", iters, group.iters)
 		}
 )
 

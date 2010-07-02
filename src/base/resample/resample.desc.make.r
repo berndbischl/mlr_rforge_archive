@@ -17,7 +17,9 @@
 
 
 
-make.res.desc = function(method, ...) {
+make.res.desc = function(method, iters, group.iters=as.integer(NA), ...) {
 	cc <- paste(method, "desc", sep=".")
-	return(new(cc, ...))
+	iters = as.integer(iters)
+	group.iters = as.integer(group.iters)
+	return(new(cc, iters=iters, group.iters=group.iters, ...))
 }
