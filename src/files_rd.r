@@ -49,7 +49,7 @@ allowed.rd.files <<- c(
 #		"preproc.wrapper-class.Rd",
 		"make.preproc.wrapper.Rd",
 		"make.multiclass.wrapper.Rd",
-		"multiclass.wrapper.Rd",
+		"multiclass.wrapper-class.Rd",
 		
 		"opt.control-class.Rd",
 		"opt.result-class.Rd",
