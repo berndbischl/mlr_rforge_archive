@@ -19,6 +19,12 @@
 
 make.res.desc = function(method, iters, ...) {
 	cc = paste(method, "desc", sep=".")
-	iters = as.integer(iters)
-	return(new(cc, iters=iters, ...))
+	if (!missing(iters)) {
+		iters = as.integer(iters)
+		return(new(cc, iters=iters, ...))
+	} else {
+		return(new(cc, ...))
+	}
+	
+		
 }

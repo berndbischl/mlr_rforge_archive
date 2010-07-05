@@ -1,7 +1,7 @@
 test.benchmark <- function() {
 	ct = make.task("iris", data=iris, target="Species")
 	outer = make.res.desc("holdout") 
-	inner = new("cv.desc", iters=3)
+	inner = new("cv.desc", iters=3L)
 	
 	# check empty ranges 
 	cbr <- benchmark("classif.rpart", task=ct, resampling=outer, conf.mat=T, models=T, paths=T)
