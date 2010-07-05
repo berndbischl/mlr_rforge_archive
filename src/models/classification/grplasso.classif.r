@@ -33,7 +33,8 @@ setMethod(
 					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="grplasso", pack="grplasso", desc=desc)
+			callNextMethod(.Object, label="grplasso", pack="grplasso", desc=desc,
+					parset.train=list(lambda = 1))
 		}
 )
 
@@ -53,7 +54,9 @@ setMethod(
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			grplasso(f, data=.data, weights=.weights, ...)
+			pos = .task.desc["positive"]
+			.data[,.targetvar] = as.numeric(.data[,.targetvar] == pos) 
+			grplasso(f, nonpen=~1, data=.data, weights=.weights, ...)
 		}
 )
 
@@ -69,11 +72,19 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			p <- predict(.model["learner.model"], newdata=.newdata, ...)
-			if(.type=="prob")
-				return(p$class)
-			else
-				return(p$posterior)
+			p = as.numeric(predict(.model["learner.model"], newdata=.newdata, type="response", ...))
+			levs = c(.model["negative"], .model["positive"]) 		
+			if (.type == "prob") {
+				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
+				colnames(y) = levs
+				y[,1] = 1-p
+				y[,2] = p
+				return(y)
+			} else {
+				p = as.factor(ifelse(p > 0.5, levs[2], levs[1]))
+				names(p) = NULL
+				return(p)
+			}
 		}
 )	
 
