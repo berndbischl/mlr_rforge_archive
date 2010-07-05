@@ -20,6 +20,7 @@ setClass(
 				instance.class = "character", 
 				name = "character", 
 				iters = "integer",
+				aggr = "list",
 				props = "list"
 		)
 )
@@ -30,12 +31,14 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("resample.desc"),
-		def = function(.Object, instance.class, name, iters, ...) {
+		def = function(.Object, instance.class, name, iters, aggr=list("mean", "sd"), ...) {
 			if (missing(name))
 				return(.Object)					
 			.Object@instance.class = instance.class
 			.Object@name = name
 			.Object@iters = iters
+			.Object@aggr = aggr
+			.Object@props = list(...)
 			return(.Object)
 		}
 )

@@ -43,7 +43,7 @@ tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE
 		measures = default.measures(task)
 	measures = make.measures(measures)
 	if (missing(aggr))
-		aggr = default.aggr(task)
+		aggr = default.aggr(resampling)
 	aggr = make.aggrs(aggr)
 	
 	

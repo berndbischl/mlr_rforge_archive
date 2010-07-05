@@ -28,7 +28,7 @@ tune.threshold = function(pred, measures, aggr, task, minimize=T, thresholds=10)
 		measures = default.measures(pred@task.desc)
 	measures = make.measures(measures)
 	if (missing(aggr))
-		aggr = default.aggr(pred@task.desc)
+		aggr = default.aggr(pred)
 	aggr = make.aggrs(aggr)
 	
 	pos = pred@task.desc["positive"]

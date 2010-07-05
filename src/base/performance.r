@@ -37,7 +37,7 @@ setGeneric(
 				losses=list()
 			losses = make.losses(losses)
 			if(missing(aggr))
-				aggr = default.aggr(pred@task.desc)
+				aggr = default.aggr(pred)
 			aggr = make.aggrs(aggr)
 			standardGeneric("performance")
 		}
