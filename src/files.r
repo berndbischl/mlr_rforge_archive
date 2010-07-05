@@ -64,6 +64,7 @@ base.files <<- c(
 #		"base/wrappers/novars.r",
 		"base/wrappers/preproc.wrapper.r",
 		"base/wrappers/multiclass.wrapper.r",
+		"base/wrappers/filter.wrapper.r",
 		
 		"base/optml/opt.control.r",
 		"base/optml/opt.result.r",
