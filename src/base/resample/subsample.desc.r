@@ -11,9 +11,9 @@ setClass("subsample.desc",
 setMethod(
 		f = "initialize",
 		signature = signature("subsample.desc"),
-		def = function(.Object, split=2/3, iters=50L, group.iters=as.integer(NA)) {
+		def = function(.Object, split=2/3, iters=50L) {
 			.Object@split <- split
-			callNextMethod(.Object, "subsample.instance", "subsampling", iters, group.iters)
+			callNextMethod(.Object, "subsample.instance", "subsampling", iters)
 		}
 )
 

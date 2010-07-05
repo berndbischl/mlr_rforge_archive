@@ -23,6 +23,7 @@ setClass(
 		"opt.result",
 		contains = c("object"),
 		representation = representation(
+				learner = "learner",
 				control = "opt.control",
 				opt = "list",
 				path = "list",

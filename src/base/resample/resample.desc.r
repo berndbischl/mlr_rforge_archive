@@ -7,7 +7,7 @@
 #' \describe{
 #' 	\item{instance.class [character]}{S4 class name of the corresponding resample.instance}
 #' 	\item{name [character]}{Name of this resampling algorithm}
-#' 	\item{iters [numeric]}{Number of iterations}
+#' 	\item{iters [numeric]}{Number of iterations. Note that this the complete number of generated train/test sets, so for a 10 times repeated 5fold cross-validation it would be 50.}
 #' } 
 #' @exportClass resample.desc 
 #' @title resample.desc
@@ -20,7 +20,6 @@ setClass(
 				instance.class = "character", 
 				name = "character", 
 				iters = "integer",
-				group.iters = "integer",
 				props = "list"
 		)
 )
@@ -31,15 +30,12 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("resample.desc"),
-		def = function(.Object, instance.class, name, iters, group.iters, ...) {
+		def = function(.Object, instance.class, name, iters, ...) {
 			if (missing(name))
 				return(.Object)					
-			if (missing(group.iters))
-				group.iters = as.integer(NA)				
 			.Object@instance.class = instance.class
 			.Object@name = name
 			.Object@iters = iters
-			.Object@group.iters = group.iters
 			return(.Object)
 		}
 )
@@ -51,9 +47,9 @@ setMethod(
 		f = "[",
 		signature = signature("resample.desc"),
 		def = function(x,i,j,...,drop) {
-			if (i == "is.sequential") {
-				return(x@props[[i]])
-			}
+#			if (i == "iters") {
+#				return(x@props[[i]])
+#			}
 			callNextMethod(x,i,j,...,drop=drop)
 		}
 )

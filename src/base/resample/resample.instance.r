@@ -33,7 +33,8 @@ setClass(
 		representation = representation(
 				desc = "resample.desc", 
 				size = "integer", 
-				inds = "list"
+				inds = "list",
+				grouping = "integer"
 		)
 )
 
@@ -43,14 +44,17 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("resample.instance"),
-		def = function(.Object, desc, size, inds) {
+		def = function(.Object, desc, size, inds, grouping) {
 			if (missing(desc))
 				return(.Object)
 			.Object@desc <- desc
 			if (round(size) != size)
 				error("You passed a non-integer to arg 'size' of resample.instance!")
-			.Object@size <- as.integer(size)
-			.Object@inds <- inds
+			.Object@size = as.integer(size)
+			.Object@inds = inds
+			if (missing(grouping))
+				grouping = integer(0)
+			.Object@grouping = grouping
 			return(.Object)
 		}
 )
