@@ -55,8 +55,11 @@ setMethod(
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			pos = .task.desc["positive"]
-			.data[,.targetvar] = as.numeric(.data[,.targetvar] == pos) 
-			grplasso(f, nonpen=~1, data=.data, weights=.weights, ...)
+			# todo: bug in grplasso: index cant be passed with formula interface....
+			y = as.numeric(.data[,.targetvar] == pos) 
+			x = as.matrix(.data[, !(colnames(.data) == .targetvar)])
+			x = cbind(1, x)
+			grplasso(x, y, weights=.weights, ...)
 		}
 )
 
@@ -72,7 +75,9 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			p = as.numeric(predict(.model["learner.model"], newdata=.newdata, type="response", ...))
+			x = as.matrix(.newdata)
+			x = cbind(1, x)
+			p = as.numeric(predict(.model["learner.model"], newdata=x, type="response", ...))
 			levs = c(.model["negative"], .model["positive"]) 		
 			if (.type == "prob") {
 				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
@@ -86,10 +91,4 @@ setMethod(
 				return(p)
 			}
 		}
-)	
-
-
-
-
-
-
+)
