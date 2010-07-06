@@ -39,6 +39,7 @@ base.files <<- c(
 		"base/loss.r",
 		"base/performance.r",
 		"base/measures.r",
+		"base/aggr.r",
 		
 		"base/resample/resample.desc.r",
 		"base/resample/resample.desc.make.r",
