@@ -19,6 +19,7 @@ allowed.rd.files <<- c(
 		"rlearner.regr-class.Rd",
 		"make.learner.Rd",
 		"learners.Rd",
+		"get.learners.Rd",
 		
 		"train.Rd",
 		"wrapped.model-class.Rd",
@@ -35,6 +36,10 @@ allowed.rd.files <<- c(
 		"make.res.desc.Rd",
 		"resample.desc-class.Rd",
 		"resample.instance-class.Rd",
+		"get.train.set.Rd",
+		"get.test.set.Rd",
+		"resample.update.Rd",
+		"resample.done.Rd",
 		"resample.fit.Rd",
 		"resample.prediction-class.Rd",
 		
@@ -50,6 +55,8 @@ allowed.rd.files <<- c(
 		"make.preproc.wrapper.Rd",
 		"make.multiclass.wrapper.Rd",
 		"multiclass.wrapper-class.Rd",
+		"make.filter.wrapper.Rd",
+		"filter.wrapper-class.Rd",
 		
 		"opt.control-class.Rd",
 		"opt.result-class.Rd",
