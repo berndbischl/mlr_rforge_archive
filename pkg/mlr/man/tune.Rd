@@ -1,7 +1,8 @@
 \name{tune}
 \alias{tune}
 \title{Hyperparameter tuning}
-\usage{tune(learner, task, resampling, control, measures, aggr, model=F, path=F)
+\usage{tune(learner, task, resampling, control, measures, aggr, model=FALSE,
+    path=FALSE)
 }
 \description{Optimizes the hyperparameters of a learner for a classification or regression problem.
 Allows for different optimization methods, commonly grid search is used but other search techniques

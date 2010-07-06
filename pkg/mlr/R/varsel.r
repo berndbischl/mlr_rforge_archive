@@ -36,7 +36,7 @@ varsel <- function(learner, task, resampling, control, measures, aggr, model=F, 
 	measures = make.measures(measures)
 	
 	if (missing(aggr))
-		aggr = default.aggr(task)
+		aggr = default.aggr(resampling)
 	aggr = make.aggrs(aggr)
 	
 	cl = as.character(class(control))

@@ -33,10 +33,11 @@ add.path = function(global.eval.var, path, es, accept) {
 	return(path)
 } 
 
+# best = NULL means no acceptable new element was found
 add.path.els = function(global.eval.var, path, ess, best) {
 	for (i in 1:length(ess)) {
 		es = ess[[i]]
-		path = add.path(global.eval.var, path, es, setequal(es$par, best$par))
+		path = add.path(global.eval.var, path, es, !is.null(best$par) && setequal(es$par, best$par))
 	}
 	return(path)
 } 

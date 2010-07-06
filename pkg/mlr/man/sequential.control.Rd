@@ -19,7 +19,7 @@ Maximal number of allowed variables in the final set. Default is max. integer.}
 \item{method}{[\code{\link{character}}] \cr
 Search method. Currently supported are sequential forward search "sfs", sequential backward search "sbs", 
 sequential floating forward search "sffs", sequential floating backward search "sfbs" and a monte-carlo search 
-"random".}
+"random". Default is "sfs".}
 \item{alpha}{[numeric] \cr 
 sfs, sffs: In a forward step, minimal improvement of performance measure. Can be negative.}
 \item{beta}{[numeric] \cr 

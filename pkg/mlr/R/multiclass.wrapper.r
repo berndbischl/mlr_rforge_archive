@@ -16,8 +16,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("multiclass.wrapper"),
-		def = function(.Object, learner, method) {
-			.Object = set.hyper.pars(.Object, list(multiclass.method=method), type="multiclass")
+		def = function(.Object, learner) {
 			callNextMethod(.Object, learner)
 		}
 )
@@ -28,11 +27,11 @@ setMethod(
 		f = "[",
 		signature = signature("multiclass.wrapper"),
 		def = function(x,i,j,...,drop) {
-			if (i == "supports.multiclass")
+			if (i == "multiclass")
 				return(TRUE)
-			if (i == "supports.probs")
+			if (i == "probs")
 				return(FALSE)
-			if (i == "supports.decision")
+			if (i == "decision")
 				return(FALSE)
 			callNextMethod()
 		}
@@ -53,11 +52,9 @@ setMethod(
 #' @title Fuse learner with multiclass method.
 #' @export
 make.multiclass.wrapper = function(learner, ...) {
-	if (method != "one-vs-all")
-		stop("Only method one-vs-all is currently supported!")
 	if (is.character(learner))
 		learner = make.learner(learner)
-	new("multiclass.wrapper", learner=learner, method=method)
+	new("multiclass.wrapper", learner=learner)
 }
 
 
@@ -76,14 +73,11 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {	
-			method = .learner["hyper.pars", type="multiclass"]$multiclass.method
-			
 			k = .data.desc["class.nr"]
 			levs = .data.desc["class.levels"]
 			y = .data[,.targetvar]
 			models = list()
 			args = list(...)
-			args$multiclass.method=NULL
 			for (i in 1:k) {
 				cl = levs[i]
 				.data[, .targetvar] = as.factor(y == cl)
@@ -108,7 +102,6 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			method = .model["hyper.pars", type="multiclass"]$multiclass.method
 			models = .model["learner.model"]
 			
 			k = length(models)

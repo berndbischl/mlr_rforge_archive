@@ -21,6 +21,6 @@ For construction simply use the factory method \code{\link{make.res.instance}}.}
 \note{If you want to add another resampling strategy, have a look at the web documentation.}
 \seealso{\code{\linkS4class{resample.desc}}, \code{\link{make.res.instance}}, \code{\link{resample.fit}}}
 \section{Extends}{\code{\linkS4class{object}}}
-\section{Methods}{\describe{\item{\code{\link[=resample.fit,learner,learn.task,resample.instance,list,character,function-method]{resample.fit}}}{}\item{\code{\link[=[,resample.instance-method]{[}}}{}\item{\code{\link[=to.string,resample.instance-method]{to.string}}}{}}}
+\section{Methods}{\describe{\item{\code{\link[=get.train.set,resample.instance,integer-method]{get.train.set}}}{}\item{\code{\link[=get.test.set,resample.instance,integer-method]{get.test.set}}}{}\item{\code{\link[=resample.update,resample.instance,learn.task,wrapped.model,prediction-method]{resample.update}}}{}\item{\code{\link[=resample.done,resample.instance-method]{resample.done}}}{}\item{\code{\link[=resample.fit,learner,learn.task,resample.instance,list,character,function-method]{resample.fit}}}{}\item{\code{\link[=[,resample.instance-method]{[}}}{}\item{\code{\link[=to.string,resample.instance-method]{to.string}}}{}}}
 \alias{[,resample.instance-method}
 

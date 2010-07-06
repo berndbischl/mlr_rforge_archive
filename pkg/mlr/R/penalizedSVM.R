@@ -8,41 +8,41 @@ roxygen()
 roxygen()
 
 
-# todo: parms has to be in hyperparamter list
 
 setClass(
-		"classif.rpart", 
+		"classif.lpsvm", 
 		contains = c("rlearner.classif")
 )
 
-
 setMethod(
 		f = "initialize",
-		signature = signature("classif.rpart"),
+		signature = signature("classif.lpsvm"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = TRUE,
-					supports.costs = TRUE
+			desc = new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
+					multiclass = TRUE,
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = TRUE,
+					probs = TRUE, 
+					decision = FALSE,
+					weights = TRUE,	
+					costs = FALSE 
 			)
-			callNextMethod(.Object, label="RPart", pack="rpart", props=desc)
+			
+			callNextMethod(.Object, label="lpsvm", pack="penalizedSVM", desc=desc)
 		}
 )
 
 #' @rdname train.learner
 
-
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.learner="classif.rpart", 
+				.learner="classif.lpsvm", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.data.desc="data.desc", 
@@ -50,15 +50,12 @@ setMethod(
 				.weights="numeric", 
 				.costs="matrix" 
 		),
-		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			if (!all(dim(.costs)) == 0) {
-				lev = levels(.data[, .targetvar])
-				.costs = .costs[lev, lev] 
-				rpart(f, data=.data, weights=.weights, parms=list(loss=.costs), ...)
-			} else
-				rpart(f, data=.data, weights=.weights, ...)
+			kpar = list()
+			args = list(...)
+			args.names <- names(args)
+		
 		}
 )
 
@@ -67,19 +64,16 @@ setMethod(
 setMethod(
 		f = "pred.learner",
 		signature = signature(
-				.learner = "classif.rpart", 
+				.learner = "classif.lpsvm", 
 				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			.type = switch(.type, prob="prob", "class")
+			.type <- ifelse(.type=="response", "response", "probabilities")
 			predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
 		}
 )	
-
-
-
 
 

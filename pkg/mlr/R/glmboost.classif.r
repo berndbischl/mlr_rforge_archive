@@ -21,19 +21,21 @@ setMethod(
 		signature = signature("classif.glmboost"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = FALSE,
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = TRUE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
+					multiclass = FALSE,
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = TRUE,
+					costs = FALSE
 			)
 			# cannot pass the function Binomial without lopading the package in the super constructor...
-			obj = callNextMethod(.Object, label="glmboost", pack="mboost", props=desc)
+			obj = callNextMethod(.Object, label="glmboost", pack="mboost", desc=desc)
 			set.hyper.pars(obj, type="train", parset=list(family=Binomial()))
 		}
 )

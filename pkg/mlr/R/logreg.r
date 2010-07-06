@@ -19,19 +19,21 @@ setMethod(
 		signature = signature("classif.logreg"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = FALSE,
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = TRUE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
+					multiclass = FALSE,
+					missings = TRUE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = TRUE,
+					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="logreg", pack="stats", props=desc,
+			callNextMethod(.Object, label="logreg", pack="stats", desc=desc,
 					parset.train=list(family = "binomial"))
 		}
 )

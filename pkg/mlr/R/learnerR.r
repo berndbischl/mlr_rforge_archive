@@ -1,6 +1,6 @@
 #' @include object.r
 roxygen()
-#' @include learner.props.r
+#' @include learner.desc.r
 roxygen()
 
 #' Wraps an already implemented learning method from R to make it accessible to mlr.
@@ -17,7 +17,7 @@ setClass(
 				id = "character",
 				label = "character",
 				pack = "character",
-				props = "learner.props",
+				desc = "learner.desc",
 				predict.type = "character"
 		)
 )
@@ -38,32 +38,32 @@ setMethod(
 			if (i == "pack") {
 				return(x@pack)
 			}
-			if (i == "supports.probs") {
-				return(ifelse(x["is.regr"], F, x@props@supports.probs))
+			if (i == "probs") {
+				return(ifelse(x["is.regr"], F, x@desc["probs"]))
 			}
-			if (i == "supports.decision") {
-				return(ifelse(x["is.regr"], F, x@props@supports.decision))
+			if (i == "decision") {
+				return(ifelse(x["is.regr"], F, x@desc["decision"]))
 			}
-			if (i == "supports.multiclass") {
-				return(ifelse(x["is.regr"], F, x@props@supports.multiclass))
+			if (i == "multiclass") {
+				return(ifelse(x["is.regr"], F, x@desc["multiclass"]))
 			}
-			if (i == "supports.missings") {
-				return(x@props@supports.missings)
+			if (i == "missings") {
+				return(x@desc["missings"])
 			}
-			if (i == "supports.costs") {
-				return(ifelse(x["is.regr"], F, x@props@supports.costs))
+			if (i == "costs") {
+				return(ifelse(x["is.regr"], F, x@desc["costs"]))
 			}
-			if (i == "supports.weights") {
-				return(x@props@supports.weights)
+			if (i == "weights") {
+				return(x@desc["weights"])
 			}
-			if (i == "supports.numerics") {
-				return(x@props@supports.numerics)
+			if (i == "numerics") {
+				return(x@desc["numerics"])
 			}
-			if (i == "supports.factors") {
-				return(x@props@supports.factors)
+			if (i == "factors") {
+				return(x@desc["factors"])
 			}
-			if (i == "supports.characters") {
-				return(x@props@supports.characters)
+			if (i == "characters") {
+				return(x@desc["characters"])
 			}
 			if (i == "pack") {
 				return(x@pack)
@@ -82,11 +82,11 @@ setMethod(
 setMethod(
 		f = "initialize",
 		signature = signature("rlearner"),
-		def = function(.Object, id, label, pack, props, parset.train=list(), parset.predict=list()) {
+		def = function(.Object, id, label, pack, desc, parset.train=list(), parset.predict=list()) {
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
 			
-			if (missing(props))
+			if (missing(desc))
 				return(.Object)
 			if (missing(id))
 				id = as.character(class(.Object))
@@ -95,7 +95,7 @@ setMethod(
 			.Object@id = id
 			.Object@label = label
 			.Object@pack = pack
-			.Object@props = props
+			.Object@desc = desc
 			.Object@predict.type = "response"
 			if(pack != "mlr" && !require(pack, character.only=TRUE)) {
 				stop(paste("Learner", id, "could not be constructed! package", pack, "missing!"))

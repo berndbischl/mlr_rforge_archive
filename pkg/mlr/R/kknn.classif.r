@@ -8,29 +8,31 @@ roxygen()
 roxygen()
 
 setClass(
-		"classif.adaboost.M1", 
+		"classif.kknn", 
 		contains = c("rlearner.classif")
 )
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("classif.adaboost.M1"),
+		signature = signature("classif.kknn"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = TRUE,
-					supports.probs = FALSE,
-					supports.decision = FALSE,
-					supports.weights = FALSE,
-					supports.costs = FALSE
+			desc <- new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
+					multiclass = TRUE,
+					missings = TRUE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = TRUE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = FALSE,
+					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="AdaBoostM1", pack="adabag", props=desc)
+			callNextMethod(.Object, label="knn", pack="kknn", desc=desc)
 		}
 )
 
@@ -39,7 +41,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.learner="classif.adaboost.M1", 
+				.learner="classif.kknn", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.data.desc="data.desc", 
@@ -49,8 +51,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			adaboost.M1(f, data=.data, ...)
+			list(target=.targetvar, data=.data, parset=list(...))
 		}
 )
 
@@ -59,17 +60,24 @@ setMethod(
 setMethod(
 		f = "pred.learner",
 		signature = signature(
-				.learner = "classif.adaboost.M1", 
+				.learner = "classif.kknn", 
 				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			# stupid adaboost
-			.newdata[, .model["target"]] <- factor(rep(1, nrow(.newdata)), levels=.model["class.levels"])
-			p = predict(.model["learner.model"], newdata=.newdata, ...)
-			return(as.factor(p$class))
+			m <- .model["learner.model"]
+			f <- as.formula(paste(m$target, "~."))
+			# this is stupid but kknn forces it....
+			.newdata[, m$target] <- 0
+			pars <- list(formula=f, train=m$data, test=.newdata)  
+			pars <- c(pars, m$parset, list(...))
+			m <- do.call(kknn, pars)
+			if (.type=="response")
+				return(m$fitted.values)
+			else 
+				return(m$prob)
 		}
 )	
 

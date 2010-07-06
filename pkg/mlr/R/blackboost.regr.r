@@ -12,15 +12,15 @@ setMethod(
 		signature = signature("regr.blackboost"),
 		def = function(.Object) {
 			
-			desc = new("regr.props",
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.weights = TRUE
+			desc = new("learner.desc.regr",
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					weights = TRUE
 			)
 			
-			callNextMethod(.Object, label="blackboost", pack="mboost", props=desc)
+			callNextMethod(.Object, label="blackboost", pack="mboost", desc=desc)
 		}
 )
 

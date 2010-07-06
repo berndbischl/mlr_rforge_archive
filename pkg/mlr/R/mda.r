@@ -19,19 +19,21 @@ setMethod(
 		signature = signature("classif.mda"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.decision = FALSE,
-					supports.probs = TRUE,
-					supports.weights = FALSE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
+					multiclass = TRUE,
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					decision = FALSE,
+					probs = TRUE,
+					weights = FALSE,
+					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="mda", pack="mda", props=desc)
+			callNextMethod(.Object, label="mda", pack="mda", desc=desc)
 		}
 )
 

@@ -15,15 +15,15 @@ setMethod(
 		signature = signature("regr.gbm"),
 		def = function(.Object) {
 			
-			desc = new("regr.props",
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.weights = TRUE
+			desc = new("learner.desc.regr",
+					missings = TRUE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					weights = TRUE
 			)
 			
-			callNextMethod(.Object, label="GBM", pack="gbm", props=desc, 
+			callNextMethod(.Object, label="GBM", pack="gbm", desc=desc, 
 					parset.train=list(distribution = "gaussian"))
 		}
 )

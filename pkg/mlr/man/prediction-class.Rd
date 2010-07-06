@@ -19,7 +19,7 @@ Use \code{as.data.frame} to access all information in a convenient format.}
 }
 \seealso{\code{\link{performance}}}
 \section{Extends}{\code{\linkS4class{object}}}
-\section{Methods}{\describe{\item{\code{\link[=performance,prediction,list,list,list-method]{performance}}}{}\item{\code{\link[=[,prediction-method]{[}}}{\code{signature( = "prediction")}: Getter.}\item{\code{\link[=as.data.frame,prediction-method]{as.data.frame}}}{\code{signature( = "prediction")}: Convert to data.frame}\item{\code{\link[=to.string,prediction-method]{to.string}}}{}}}
+\section{Methods}{\describe{\item{\code{\link[=resample.update,resample.instance,learn.task,wrapped.model,prediction-method]{resample.update}}}{}\item{\code{\link[=performance,prediction,list,list,list-method]{performance}}}{}\item{\code{\link[=[,prediction-method]{[}}}{\code{signature( = "prediction")}: Getter.}\item{\code{\link[=as.data.frame,prediction-method]{as.data.frame}}}{\code{signature( = "prediction")}: Convert to data.frame}\item{\code{\link[=to.string,prediction-method]{to.string}}}{}}}
 \alias{[,prediction-method}
 
 \alias{as.data.frame,prediction-method}

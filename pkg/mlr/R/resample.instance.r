@@ -33,7 +33,9 @@ setClass(
 		representation = representation(
 				desc = "resample.desc", 
 				size = "integer", 
-				inds = "list"
+				inds = "list",
+				set.grouping = "integer",
+				inds.grouping = "list"
 		)
 )
 
@@ -43,14 +45,16 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("resample.instance"),
-		def = function(.Object, desc, size, inds) {
+		def = function(.Object, desc, size, inds,  inds.grouping=list(), set.grouping=integer(0)) {
 			if (missing(desc))
 				return(.Object)
-			.Object@desc <- desc
+			.Object@desc = desc
 			if (round(size) != size)
 				error("You passed a non-integer to arg 'size' of resample.instance!")
-			.Object@size <- as.integer(size)
-			.Object@inds <- inds
+			.Object@size = as.integer(size)
+			.Object@inds = inds
+			.Object@inds.grouping = inds.grouping
+			.Object@set.grouping = set.grouping
 			return(.Object)
 		}
 )
@@ -64,45 +68,12 @@ setMethod(
 			if (i == "size")
 				return(x@size)
 			
-			if (i == "name")
-				return(x@desc@name)
-			
 			if (i == "iters")
 				return(length(x@inds))
 			
-			if (i == "train.inds") {
-				if (missing(j)) {
-					return(x@inds)
-				} else if(length(j) == 1) {
-					return(x@inds[[j]])
-				}
-				else {
-					return(x@inds[j])
-				}
-			}
-			
-			if (i == "test.inds") {
-				size <- x["size"]
-				inds <- x@inds[j]
-				if (length(j) == 1) {
-					return( (1:size)[-inds[[1]]] )
-				}
-				else {
-					return(lapply(inds, function(x) (1:size)[-x]))
-				}
-			}
-			return(x@desc[i,j,...,drop])
+			return(x@desc[i,...,drop=drop])
 		}
 )
-
-
-#setGeneric(
-#		name = "make.resample.instance",
-#		def = function(desc, size) {
-#			standardGeneric("make.resample.instance")
-#		}
-#)
-
 
 
 
@@ -114,7 +85,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Instance for ", x@desc@name,  " with ", length(x@inds), " iterations and ", x@size, " cases\n",
+							"Instance for ", x@desc@name,  " with ", x["iters"], " iterations and ", x@size, " cases\n",
 							paste(capture.output(str(x@inds)), collapse="\n"), 
 							"\n", sep=""
 					)
@@ -133,5 +104,17 @@ get.test.targets <- function(learn.task, resample.instance, i) {
 	inds <- resample.instance["test.inds", i]
 	return(learn.task["targets", inds])
 }
+
+
+setClass(
+		"resample.instance.seq", 
+		contains = c("resample.instance")
+)
+
+
+setClass(
+		"resample.instance.nonseq", 
+		contains = c("resample.instance")
+)
 
 

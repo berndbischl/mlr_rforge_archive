@@ -27,5 +27,3 @@ setGeneric(
 			standardGeneric("pred.learner")
 		}
 )
-
-

@@ -6,7 +6,7 @@ roxygen()
 
 setClass(
 		"cv.instance", 
-		contains = c("resample.instance")
+		contains = c("resample.instance.nonseq")
 )                                                     
 
 setMethod(

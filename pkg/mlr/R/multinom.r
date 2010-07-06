@@ -20,19 +20,21 @@ setMethod(
 		def = function(.Object) {
 			
 			#checked:
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = TRUE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = TRUE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
+					multiclass = TRUE,
+					missings = TRUE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = TRUE,
+					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="MultiReg", pack="nnet", props=desc)
+			callNextMethod(.Object, label="MultiReg", pack="nnet", desc=desc)
 		}
 )
 

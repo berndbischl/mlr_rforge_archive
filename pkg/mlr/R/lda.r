@@ -19,19 +19,21 @@ setMethod(
 		signature = signature("classif.lda"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = FALSE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
+					multiclass = TRUE,
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = FALSE,
+					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="LDA", pack="MASS", props=desc)
+			callNextMethod(.Object, label="LDA", pack="MASS", desc=desc)
 		}
 )
 
@@ -74,9 +76,3 @@ setMethod(
 				return(p$posterior)
 		}
 )	
-
-
-
-
-
-

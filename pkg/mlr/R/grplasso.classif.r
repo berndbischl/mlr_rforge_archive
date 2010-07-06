@@ -19,19 +19,22 @@ setMethod(
 		signature = signature("classif.grplasso"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = FALSE,
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = FALSE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = TRUE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
+					multiclass = FALSE,
+					missings = FALSE,
+					numerics = TRUE,
+					factors = FALSE,
+					characters = FALSE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = TRUE,
+					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="grplasso", pack="grplasso", props=desc)
+			callNextMethod(.Object, label="grplasso", pack="grplasso", desc=desc,
+					parset.train=list(lambda = 1))
 		}
 )
 
@@ -51,7 +54,12 @@ setMethod(
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			grplasso(f, data=.data, weights=.weights, ...)
+			pos = .task.desc["positive"]
+			# todo: bug in grplasso: index cant be passed with formula interface....
+			y = as.numeric(.data[,.targetvar] == pos) 
+			x = as.matrix(.data[, !(colnames(.data) == .targetvar)])
+			x = cbind(1, x)
+			grplasso(x, y, weights=.weights, ...)
 		}
 )
 
@@ -67,16 +75,20 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			p <- predict(.model["learner.model"], newdata=.newdata, ...)
-			if(.type=="prob")
-				return(p$class)
-			else
-				return(p$posterior)
+			x = as.matrix(.newdata)
+			x = cbind(1, x)
+			p = as.numeric(predict(.model["learner.model"], newdata=x, type="response", ...))
+			levs = c(.model["negative"], .model["positive"]) 		
+			if (.type == "prob") {
+				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
+				colnames(y) = levs
+				y[,1] = 1-p
+				y[,2] = p
+				return(y)
+			} else {
+				p = as.factor(ifelse(p > 0.5, levs[2], levs[1]))
+				names(p) = NULL
+				return(p)
+			}
 		}
-)	
-
-
-
-
-
-
+)

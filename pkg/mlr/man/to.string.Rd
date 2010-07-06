@@ -4,10 +4,6 @@
 \title{to.string,bench.result-method}
 \alias{to.string,data.desc-method}
 \alias{to.string}
-\alias{to.string,classif.props-method}
-\alias{to.string}
-\alias{to.string,regr.props-method}
-\alias{to.string}
 \alias{to.string,learner-method}
 \alias{to.string}
 \alias{to.string-methods}

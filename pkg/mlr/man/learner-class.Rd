@@ -11,19 +11,19 @@
 \item{id [string]}{Id string of learner.}
 \item{label [string]}{Label string of learner.}
 \item{pack [string]}{Package were underlying learner is implemented.}
-\item{props [{\linkS4class{learner.props}}]}{Properties object to describe functionality of the learner.}
+\item{desc [{\linkS4class{learner.desc}}]}{Properties object to describe functionality of the learner.}
 \item{hyper.pars [list]}{List of fixed hyperparameters and respective values for this learner.}
 \item{hyper.names [character]}{Names of currently used hyperparameters.}
 \item{hyper.types [character]}{For which step in the model building process are the respective hyperparameters used? Named character vector.}
-\item{supports.numerics [boolean]}{Can numeric inputs be processed?}
-\item{supports.factors [boolean]}{Can factor inputs be processed?}
-\item{supports.characters [boolean]}{Can character inputs be processed?}
-\item{supports.missings [boolean]}{Can missing values be processed?}
-\item{supports.multiclass [boolean]}{Can probabilities be predicted?}
-\item{supports.costs [boolean]}{Can misclassification costs be directly used during training?}
-\item{supports.probs [boolean]}{Can probabilities be predicted?}
-\item{supports.decision [boolean]}{Can probabilities be predicted?}
-\item{supports.weights [boolean]}{Can case weights be used?}
+\item{numerics [boolean]}{Can numeric inputs be processed?}
+\item{factors [boolean]}{Can factor inputs be processed?}
+\item{characters [boolean]}{Can character inputs be processed?}
+\item{missings [boolean]}{Can missing values be processed?}
+\item{multiclass [boolean]}{Can probabilities be predicted?}
+\item{costs [boolean]}{Can misclassification costs be directly used during training?}
+\item{probs [boolean]}{Can probabilities be predicted?}
+\item{decision [boolean]}{Can probabilities be predicted?}
+\item{weights [boolean]}{Can case weights be used?}
 }
 
 }

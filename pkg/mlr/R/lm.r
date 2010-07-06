@@ -14,15 +14,15 @@ setMethod(
 		signature = signature("regr.lm"),
 		def = function(.Object) {
 			
-			desc = new("regr.props",
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.weights = TRUE
+			desc = new("learner.desc.regr",
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					weights = TRUE
 			)
 			
-			callNextMethod(.Object, label="Linear Regression", pack="stats", props=desc)
+			callNextMethod(.Object, label="Linear Regression", pack="stats", desc=desc)
 		}
 )
 

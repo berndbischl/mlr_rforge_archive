@@ -5,7 +5,7 @@ roxygen()
 
 setClass(
 		"subsample.instance", 
-		contains = c("resample.instance")
+		contains = c("resample.instance.nonseq")
 )                                                     
 
 

@@ -97,7 +97,7 @@ make.opt.wrapper = function(learner, resampling, control, measures, aggr) {
 		measures = default.measures(learner)
 	measures = make.measures(measures)
 	if (missing(aggr))
-		aggr = default.aggr()
+		aggr = default.aggr(resampling)
 	aggr = make.aggrs(aggr)
 	new("opt.wrapper", learner, resampling, control, measures, aggr=aggr)
 }

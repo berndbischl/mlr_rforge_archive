@@ -19,19 +19,21 @@ setMethod(
 		signature = signature("classif.nnet"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = TRUE,
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = TRUE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
+					multiclass = TRUE,
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = TRUE,
+					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="NNet", pack="nnet", props=desc, parset.train=list(size=1))
+			callNextMethod(.Object, label="NNet", pack="nnet", desc=desc, parset.train=list(size=1))
 		}
 )
 
@@ -73,19 +75,11 @@ setMethod(
 				return(as.factor(p))
 			else {
 				if (.model["class.nr"] == 2) {
-					y = matrix(0, ncol=2, nrow=nrow(.newdata))
+          y <- cbind(p, 1-p) 
 					colnames(y) = .model["class.levels"]
-					y[,1] <- p
-					y[,2] <- 1-p
 					return(y)
 				} else
 					return(p)	
 			}
 		}
 )	
-
-
-
-
-
-

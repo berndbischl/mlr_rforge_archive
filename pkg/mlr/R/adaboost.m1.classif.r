@@ -7,30 +7,32 @@ roxygen()
 #' @include pred.learner.r
 roxygen()
 
-
 setClass(
-		"classif.llr", 
+		"classif.adaboost.M1", 
 		contains = c("rlearner.classif")
 )
 
+
 setMethod(
 		f = "initialize",
-		signature = signature("classif.llr"),
+		signature = signature("classif.adaboost.M1"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = FALSE,
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = FALSE,
-					supports.costs = FALSE
+			desc = new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
+					multiclass = TRUE,
+					missings = TRUE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = TRUE,
+					probs = FALSE,
+					decision = FALSE,
+					weights = FALSE,
+					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="llr", pack="locClass", props=desc)
+			callNextMethod(.Object, label="AdaBoostM1", pack="adabag", desc=desc)
 		}
 )
 
@@ -39,7 +41,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.learner="classif.llr", 
+				.learner="classif.adaboost.M1", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.data.desc="data.desc", 
@@ -50,27 +52,29 @@ setMethod(
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			llr(f, data=.data, ...)
+			adaboost.M1(f, data=.data, ...)
 		}
 )
 
 #' @rdname pred.learner
 
-
 setMethod(
 		f = "pred.learner",
 		signature = signature(
-				.learner = "classif.llr", 
+				.learner = "classif.adaboost.M1", 
 				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			p <- predict(.model["learner.model"], newdata=.newdata, ...)
-			if(.type=="response")
-				return(p$class)
-			else
-				return(p$posterior)
+			# stupid adaboost
+			.newdata[, .model["target"]] <- factor(rep(1, nrow(.newdata)), levels=.model["class.levels"])
+			p = predict(.model["learner.model"], newdata=.newdata, ...)
+			return(as.factor(p$class))
 		}
-)
+)	
+
+
+
+
