@@ -33,6 +33,8 @@ setMethod(
   }
 )
 
+
+#' @rdname data.desc-class
 setMethod(
 		f = "[",
 		signature = signature("data.desc"),

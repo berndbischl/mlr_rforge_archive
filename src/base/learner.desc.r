@@ -26,7 +26,7 @@ setMethod(
 		}
 )
 
-
+#' @rdname learner.desc-class
 setMethod(
 		f = "[",
 		signature = signature("learner.desc"),

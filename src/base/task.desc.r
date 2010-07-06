@@ -17,6 +17,7 @@ setClass(
 	)
 )
 
+#' @rdname task.desc-class
 setMethod(
 		f = "[",
 		signature = signature("task.desc"),
