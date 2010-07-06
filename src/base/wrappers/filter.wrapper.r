@@ -1,4 +1,10 @@
 
+#' Wrapper class for learners to filter variables. Experimental. Can currently 
+#' only filter to manually selected variables. 
+#' 
+#' @exportClass filter.wrapper
+#' @title Wrapper class for learners to filter variables.
+
 #' @exportClass filter.wrapper
 setClass(
 		"filter.wrapper",
@@ -20,6 +26,18 @@ setMethod(
 )
 
 
+#' Fuses a base learner with a filter method. Creates a learner object, which can be
+#' used like any other learner object. 
+#' Currently only filtering to manually selected variables is supported.
+#'
+#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#'        Learning algorithm. See \code{\link{learners}}.  
+#' @param vars [character]\cr 
+#'        Selected variables.  
+#' 
+#' @return \code{\linkS4class{learner}}.
+#' 
+#' @title Fuse learner with filter method.
 #' @export
 make.filter.wrapper = function(learner, vars) {
 	new("filter.wrapper", learner=learner, vars=vars)
@@ -27,7 +45,7 @@ make.filter.wrapper = function(learner, vars) {
 
 
 
-#' @export
+#' @rdname train.learner
 setMethod(
 		f = "train.learner",
 		signature = signature(

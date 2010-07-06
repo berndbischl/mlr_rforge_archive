@@ -6,9 +6,10 @@
 #' 
 #' @param method [string] \cr
 #' 	      "cv" for cross-validation, "bs" for bootstrap, "subsample" for subsampling, "holdout" for holdout 	 			
+#' @param iters [integer] \cr
+#' 	      Number of resampling iterations. Not needed for "holdout". 	 			
 #' @param ... [any] \cr
 #'		Further parameters for strategies. 
-#'      iters: Number of resampling iterations.
 #'      split: Percentage of training cases for hold-out / subsampling .
 #' 
 #' @return \code{\linkS4class{resample.desc}}.

@@ -41,6 +41,9 @@ setMethod(
 		}
 )
 
+#' Generic print method.
+#' @rdname object-class
+
 setMethod(
 		f = "print",
 		signature = signature("object"),
@@ -48,6 +51,9 @@ setMethod(
 			cat(to.string(x), "\n")
 		}
 )
+
+#' Generic show method.
+#' @rdname object-class
 
 setMethod(
 		f = "show",

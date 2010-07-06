@@ -34,7 +34,6 @@ setMethod(
 		def = function(x, task, size, ...) {
 			desc = make.res.desc(x, ...)
 			cc = paste(x, "instance", sep=".")
-			dd <<- desc
 			return(new(cc, desc=desc, size=size))
 		}
 )

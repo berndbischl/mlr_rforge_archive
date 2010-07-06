@@ -80,7 +80,7 @@ setMethod(
 				# sequential resampling cannot be (easily) parallized!
 				m = new("wrapped.model")
 				p = new("prediction")
-				
+				i = 1
 				while (!resample.done(rin)) {
 					train.i = get.train.set(rin, i)
 					test.i = get.test.set(rin, i)
@@ -88,7 +88,8 @@ setMethod(
 					p = predict(m, task=task, subset=test.i)
 					ex = extract(m)
 					rs[[i]] = list(pred=p, extracted=ex)
-					rin = resample.update(rin, task, model, pred)
+					rin = resample.update(rin, task, m, p)
+					i = i + 1
 				}				
 			}
 		

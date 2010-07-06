@@ -1,6 +1,8 @@
 
 
-
+#' Implement this for your own sequential resampling.
+#' @exportMethod get.train.set
+#' @rdname get.train.set
 setGeneric(
 		name = "get.train.set",
 		def = function(x, i) {
@@ -9,6 +11,9 @@ setGeneric(
 )
 
 
+#' Implement this for your own sequential resampling.
+#' @exportMethod get.test.set
+#' @rdname get.test.set
 setGeneric(
 		name = "get.test.set",
 		def = function(x, i) {
@@ -16,7 +21,8 @@ setGeneric(
 		}
 )
 
-
+#' @rdname get.train.set
+#' @export
 setMethod(
 		f = "get.train.set",
 		signature = signature("resample.instance", "integer"),
@@ -25,6 +31,8 @@ setMethod(
 		}
 )
 
+#' @rdname get.test.set
+#' @export
 setMethod(
 		f = "get.test.set",
 		signature = signature("resample.instance", "integer"),
@@ -32,6 +40,10 @@ setMethod(
 			setdiff(1:x["size"], x@inds[[i]])
 		}
 )
+
+#' Implement this for your own sequential resampling.
+#' @exportMethod resample.update
+#' @rdname resample.update
 
 setGeneric(
 		name = "resample.update",
@@ -42,6 +54,8 @@ setGeneric(
 
 
 
+#' @rdname resample.update
+#' @export
 setMethod(
 		f = "resample.update",
 		signature = signature("resample.instance", "learn.task", "wrapped.model", "prediction"),
@@ -49,6 +63,10 @@ setMethod(
 			return(x)
 		}
 )
+
+#' Implement this for your own sequential resampling.
+#' @exportMethod resample.done
+#' @rdname resample.done
 
 setGeneric(
 		name = "resample.done",
@@ -58,6 +76,8 @@ setGeneric(
 )
 
 
+#' @rdname resample.done
+#' @export
 
 setMethod(
 		f = "resample.done",
