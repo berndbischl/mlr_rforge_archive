@@ -43,7 +43,7 @@ cases it might be preferable to encode this directly into the learner object. Bo
 	m <- train("classif.rpart", ct, subset = train.set)
  
 	<com># predict classes for training data</com>
-	predict(m, newdata = iris[train.set,])
+	p <- predict(m, newdata = iris[train.set,])
 	<res>
 	Prediction
 	'data.frame':	75 obs. of  2 variables:
@@ -51,7 +51,7 @@ cases it might be preferable to encode this directly into the learner object. Bo
 	 $ truth   : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...	
 	</res>
 	<com># predict classes for new data</com>
-	predict(m, newdata = iris[test.set,])
+	p <- predict(m, newdata = iris[test.set,])
 	<res>
 	Prediction
 	'data.frame':	75 obs. of  2 variables:
@@ -106,7 +106,7 @@ cases it might be preferable to encode this directly into the learner object. Bo
 	150  virginica           0            0.04           0.96  virginica
 	</res>
 	
-	<com># for binary classification you there are two special things to keep in mind</com>
+	<com># for binary classification there are two special things to keep in mind</com>
 	library(mlbench); data(Sonar)
 	ct <- make.task(data = Sonar, target = "Class")
 	m <- train("classif.rpart", task = ct)
@@ -118,7 +118,7 @@ cases it might be preferable to encode this directly into the learner object. Bo
 	<com># but you still can explicitly select the class</com>
 	p["prob", class = "M"]
 	
-	<com># also you might want to change the treshold probability for the positive class</com>
+	<com># also you might want to change the threshold probability for the positive class</com>
 	<com># usually this is 0.5, but it can be set to any value between 0 and 1</com>
 	p <- predict(m, task = ct, type = "prob", threshold = 0.7)
 

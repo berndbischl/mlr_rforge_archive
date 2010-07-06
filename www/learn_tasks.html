@@ -67,7 +67,7 @@ If this is encoded as an integer, you have to change it either to a factor/chara
 	ct["targets"]
 	ct["targets", row=1:5]
 
-	<com># get all possible classes - classification specific</com>		 
+	<com># get all possible classes</com>		 
 	ct["class.levels"]
 </pre>
 
@@ -90,7 +90,7 @@ are available, e.g. for the <a href="rdocs/learn.task-class.html">task</a>.
 
 	ct <- make.task(data = BreastCancer , target = "Class", excluded="Id", costs = costs)
 	
-	<com> # (nonsensical) weights for the cases </com>
+	<com> # (nonsensical) weights for the observations </com>
 	ct <- make.task(data = BreastCancer, target = "Class", excluded="Id", weights = 1:699)
 </pre>
 
