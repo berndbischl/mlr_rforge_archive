@@ -52,7 +52,7 @@ tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE
 			grid.control = tune.grid,
 #			pattern = tune.ps,
 			cmaes.control = tune.cmaes,
-			neldermead.control = tune.neldermead,
+			optim.control = tune.optim,
 			stop(paste("Tuning algorithm for", cl, "does not exist!"))
 	)		
 	

@@ -12,6 +12,7 @@ setClass(
 		"tune.control",
 		contains = c("opt.control"),
 		representation = representation(
+				start = "list",
 				lower = "list",
 				upper = "list",
 				ranges = "list",
@@ -25,9 +26,10 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("tune.control"),
-		def = function(.Object, minimize, tune.threshold, thresholds, lower, upper, ranges, partypes, scale) {
+		def = function(.Object, minimize, tune.threshold, thresholds, start, lower, upper, ranges, partypes, scale) {
 			if (missing(minimize))
 				return(.Object)
+			.Object@start = start 			
 			.Object@lower = lower 			
 			.Object@upper = upper 			
 			.Object@ranges = ranges
