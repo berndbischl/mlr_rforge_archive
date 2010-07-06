@@ -17,10 +17,16 @@
 <h3>Details</h3>
 
 <p><code>bench.result-class</code>: Getter. <br>
-The following getters all return list of lists of objects: perf, prediction, opt.result.
+The following getters all return list of lists of objects: prediction, conf.mat
 The first list iterates the tasks, the second one the learners, both are named by respective IDs.
-You can reduce these list by using the optional arguments 'task' and 'learner'. 'Drop' is by default TRUE, which means that 
-the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
+You can reduce these list by using the optional arguments 'task' and 'learner'. 
+'drop' is by default TRUE, which means that the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
+</p>
+<p>
+The following getters all return list of lists of lists: opt.result, opt.par, opt.perf, opt.path, tuned.par, sel.var
+The first list iterates the tasks, the second one the learners, both are named by respective IDs, the third list iterates the
+resampling iterations. You can reduce these list by using the optional arguments 'task' and 'learner'. 
+'drop' is by default TRUE, which means that the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
 </p>
 <p>
 
@@ -31,13 +37,13 @@ the list structures are simplified as much as possible, if you don't want this s
 <dt>iters [numeric]</dt><dd>Named numerical vector which lists the number of iterations for every task. Names are IDs of task.</dd>
 <dt>prediction [see above] </dt><dd>List of list of predictions for every task/learner. </dd>
 <dt>conf.mat [see above] </dt><dd>List of list of confusion matrices for every task/learner. </dd>
-<dt>opt.result [see above] </dt><dd>List of list of  <code><a href="opt.result-class.html">opt.result</a></code> for every task/learner. Entry is NULL if no optimization was done.</dd>
-<dt>opt.perf [see above] </dt><dd>List of list of performance vectors of optimal settings for every task/learner. Note that this performance refers to the inner resampling! Entry is NULL if no optimization was done.</dd>
-<dt>opt.par [see above] </dt><dd>List of list of  <code><a href="opt.result-class.html">opt.result</a></code> for every task/learner. Entry is NULL if no optimization was done.</dd>
-<dt>opt.path [see above] </dt><dd>List of list of optimization paths for every task/learner. Entry is NULL if no optimization was done.</dd>
-<dt>tuned.par [see above] </dt><dd>List of list of optimal hyperparameters for every task/learner. Entry is NULL if no tuning was done.</dd>
-<dt>sel.var [see above] </dt><dd>List of list of optimal features for every task/learner. Entry is NULL if no feature selection was done.</dd>
-<dt>perf [list]</dt><dd>Lists for every data set and for every performance measure the performances of the different learners in each iteration.</dd>
+<dt>opt.result [see above] </dt><dd>List of list of list of <code><a href="opt.result-class.html">opt.result</a></code> for every task/learner/iteration. Entry is NULL if no optimization was done.</dd>
+<dt>opt.perf [see above] </dt><dd>List of list of list of performance vectors of optimal settings for every task/learner/iteration. Note that this performance refers to the inner resampling! Entry is NULL if no optimization was done.</dd>
+<dt>opt.par [see above] </dt><dd>List of list of list of optimal settings for every task/learner/iteration. Entry is NULL if no optimization was done.</dd>
+<dt>opt.path [see above] </dt><dd>List of list of list of optimization paths for every task/learner/iteration. Entry is NULL if no optimization was done.</dd>
+<dt>tuned.par [see above] </dt><dd>List of list of list of optimal hyperparameters for every task/learner/iteration. Entry is NULL if no tuning was done. Basically a different name for "opt.par".</dd>
+<dt>sel.var [see above] </dt><dd>List of list of list of optimal features for every task/learner/iteration. Entry is NULL if no feature selection was done.. Basically a different name for "opt.par".</dd>
+<dt>perf [list]</dt><dd>Lists of 3 dimensional arrays of performance values for every data set.</dd>
 </dl>
 
 </p>
@@ -61,5 +67,5 @@ the list structures are simplified as much as possible, if you don't want this s
 
 <p><code><a href="bench.exp.html">bench.exp</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.777 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
 </body></html>

@@ -16,7 +16,7 @@
 
 <h3>Usage</h3>
 
-<pre>make.res.desc(method, ...)
+<pre>make.res.desc(method, iters, ...)
 </pre>
 
 
@@ -26,11 +26,14 @@
 <td>
 [string] <br>
 "cv" for cross-validation, "bs" for bootstrap, "subsample" for subsampling, "holdout" for holdout</td></tr>
+<tr valign="top"><td><code>iters</code></td>
+<td>
+[integer] <br>
+Number of resampling iterations. Not needed for "holdout".</td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
 [any] <br>
 Further parameters for strategies. 
-iters: Number of resampling iterations.
 split: Percentage of training cases for hold-out / subsampling .</td></tr>
 </table>
 
@@ -39,5 +42,5 @@ split: Percentage of training cases for hold-out / subsampling .</td></tr>
 
 <p><code><a href="resample.desc-class.html">resample.desc</a></code>.</p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.777 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
 </body></html>

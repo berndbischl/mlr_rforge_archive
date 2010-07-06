@@ -11,23 +11,27 @@
 
 <h3>Description</h3>
 
-<p>Container for results of hyperparameter tuning or variable selection.    
-Contains the obtained optimal parameter vector, its performance values and the optimization path
-which lead there.
-It might also optionally contain a wrapped.model, which was fitted by using the optimal parameters.</p>
+<p>Container for results of hyperparameter tuning or variable selection.
+Contains the obtained optimal parameter vector, its performance values
+and the optimization path which lead there. It might also optionally
+contain a wrapped.model, which was fitted by using the optimal
+parameters.</p>
 
 
 <h3>Details</h3>
 
-<p><code>opt.result-class</code>: #' Getter.<br>
+<p><code>opt.result-class</code>: Getter.<br>
 </p>
 <p>
 
 <dl>
-<dt>par [list | character]</dt><dd>Named list of hyperparameter values or character vector of variables, identified as optimal.</dd>
+<dt>par [list | character]</dt><dd>Named list of hyperparameter values
+or character vector of variables, id#entified as optimal.</dd>
 <dt>perf [numeric]</dt><dd>Performance values of 'par'.</dd>
-<dt>path [list | data.frame]. Optional parameters: as.data.frame</dt><dd>Optimization path. Can be converted to a data.frame if as.data.frame is TRUE.</dd>
-<dt>model [wrapped.model]</dt><dd>Model fitted with settings in 'par'. Will be NULL, if fitting was not requested.</dd>
+<dt>path [list | data.frame]. Optional parameters: as.data.frame</dt><dd>
+Optimization path. Can be converte#d to a data.frame if as.data.frame is TRUE.</dd>
+<dt>model [wrapped.model]</dt><dd>Model fitted with settings in 'par'. Will
+be NULL, if fitting was not req#uested.</dd>
 </dl>
 
 </p>
@@ -51,5 +55,5 @@ It might also optionally contain a wrapped.model, which was fitted by using the 
 
 <p><code><a href="tune.html">tune</a></code>, <code><a href="varsel.html">varsel</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.777 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
 </body></html>
