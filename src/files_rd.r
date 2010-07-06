@@ -67,7 +67,7 @@ allowed.rd.files <<- c(
 		"tune.control-class.Rd",
 		"grid.control.Rd",
 #		"ps.control.Rd",
-		"neldermead.control.Rd",
+		"optim.control.Rd",
 		"cmaes.control.Rd",
 		"make.tune.wrapper.Rd",
 		
