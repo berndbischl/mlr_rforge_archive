@@ -18,12 +18,12 @@
 #' 		\item{\bold{fn, miss}}{\cr False negatives}
 #' 		\item{\bold{fnr}}{\cr False negative rate}
 #' 		\item{\bold{ppv, precision}}{\cr Positive predictive value}
-#' 		\item{\bold{fnr}}{\cr False negative rate}
-#' 		\item{\bold{ppv, precision}}{\cr Positive predictive value}
-#' 		\item{\bold{ppv, precision}}{\cr Negative predictive value}
+#' 		\item{\bold{npv}}{\cr Negative predictive value}
 #' 		\item{\bold{fdr}}{\cr False discovery rate}
 #' 		\item{\bold{f1}}{\cr F1 measure}
 #' 		\item{\bold{mcc}}{\cr Matthews correlation coefficient}
+#' 		\item{\bold{gmean}}{\cr G-mean, geomentric mean of recall and specificity.}
+#' 		\item{\bold{gpr}}{\cr Geometric mean of precision and recall.}
 #' 
 #' 		\item{\bold{time.train}}{\cr Time of fitting the model}
 #' 		\item{\bold{time.predict}}{\cr Time of predicting test set}
@@ -112,6 +112,10 @@ make.measure <- function(x) {
 		x = mcc
 	else if (name=="f1") 
 		x = f1
+	else if (name=="gmean") 
+		x = gmean
+	else if (name=="gpr") 
+		x = gpr
 	
 	else if (name=="sse") 
 		x = sse
@@ -232,7 +236,13 @@ f1 = function(x, task) {
 	2 * tp(x) /
 	(sum(x["truth"] == x@task.desc["positive"]) + sum(x["response"] == x@task.desc["positive"]))  
 }
+gmean = function(x, task) {
+	sqrt(tpr(x)* tnr(x))
+}
 
+gpr = function(x, task) {
+	sqrt(ppv(x) * tpr(x))
+}
 
 
 
