@@ -66,7 +66,7 @@ logger.print <- function(level, sublevel=NA, ...) {
 			info = 2,
 			debug = 1)
 	
-	if (level >= global.level && ( is.na(sublevel) || sublevel %in% logger.setup$sublevel)) {
+	if (level >= global.level && ( is.na(sublevel) || is.na(logger.setup$sublevel) || sublevel %in% logger.setup$sublevel)) {
 		if (!is.na(logger.setup$file)) { 
 			sink(file=logger.setup$file, append=TRUE)
 			logger.print.stuff(prefix, ...)  
@@ -81,8 +81,8 @@ logger.print <- function(level, sublevel=NA, ...) {
 #	logger.print(level="error", ...)
 #}
 
-logger.info <- function(...) {
-	logger.print(level="info", sublevel=NA, ...)
+logger.info <- function(..., level=NA) {
+	logger.print(level="info", sublevel=level, ...)
 }
 
 logger.debug <- function(..., level=NA) {
