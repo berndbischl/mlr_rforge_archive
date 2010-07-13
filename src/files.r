@@ -117,20 +117,26 @@ classif.files <<- c(
 		"models/classification/ada.r",
 		"models/classification/adaboost.m1.classif.r",
 		"models/classification/blackboost.classif.r",
+		"models/classification/ctree.classif.r",
 		"models/classification/gbm.classif.r",
 		"models/classification/glmboost.classif.r",
 		"models/classification/grplasso.classif.r",
+		"models/classification/hda.r",
 		"models/classification/j48.r",
+		"models/classification/JRip.r",
 		"models/classification/kknn.classif.r",
 		"models/classification/ksvm.classif.r",
 		"models/classification/lda.r",
 		"models/classification/loclda.r",
 		"models/classification/logreg.r",
+		"models/classification/lssvm.r",
 		"models/classification/lvq1.classif.r",
 		"models/classification/mda.r",
 		"models/classification/multinom.r",
+		"models/classification/OneR.r",
 		"models/classification/nb.r",
 		"models/classification/nnet.r",
+		"models/classification/PART.r",
 		"models/classification/penalizedSVM.R",
 		"models/classification/qda.r",
 		"models/classification/randomForest.classif.r",
@@ -142,6 +148,7 @@ classif.files <<- c(
 
 regr.files <<- c( 		
 		"models/regression/blackboost.regr.r",
+		"models/regression/earth.regr.r",
 		"models/regression/gbm.regr.r",
 		"models/regression/kknn.regr.r",
 		"models/regression/ksvm.regr.r",
@@ -153,31 +160,31 @@ regr.files <<- c(
 )
 
 
-load.all.libs <- function() {
-	library(abind)
-	library(RUnit)
-	library(MASS)
-	library(rpart)
-	library(e1071)
-	library(boot)
-	library(roxygen)
-	library(kernlab)
-	library(adabag)
-	library(kknn)
-	library(randomForest)
-	library(ada)
-	library(mboost)
-	library(mda)
-	library(gbm)
-	library(penalized)
-	library(mlbench)
-	library(reshape)
-	library(klaR)
-	library(snowfall)
-	library(nnet)
-	library(RWeka)
-	library(party)
-}
+#load.all.libs <- function() {
+#	library(abind)
+#	library(RUnit)
+#	library(MASS)
+#	library(rpart)
+#	library(e1071)
+#	library(boot)
+#	library(roxygen)
+#	library(kernlab)
+#	library(adabag)
+#	library(kknn)
+#	library(randomForest)
+#	library(ada)
+#	library(mboost)
+#	library(mda)
+#	library(gbm)
+#	library(penalized)
+#	library(mlbench)
+#	library(reshape)
+#	library(klaR)
+#	library(snowfall)
+#	library(nnet)
+#	library(RWeka)
+#	library(party)
+#}
 
 load.all.sources <- function(prefix) {
 	fs = c(base.files, classif.files, regr.files)
