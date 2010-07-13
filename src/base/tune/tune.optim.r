@@ -3,16 +3,17 @@ tune.optim = function(learner, task, resampling, measures, aggr, control) {
 	ns = names(start)
 	
 	path = list()
-	path = add.path.tune(path, state, accept=T)		
 	
 	g = function(p) {
-		print(str(p))
-		es = eval.state.tune(learner, task, resampling, measures, aggr, control, p, "optim")
+		p2 = as.list(p)
+		es = eval.state.tune(learner, task, resampling, measures, aggr, control, p2, "optim")
 		path <<- add.path.tune(path, es, accept=T)		
-		get.perf(es) 
+		perf = get.perf(es)
+		logger.info(level="tune", paste(names(p), "=", p), ":", perf)
+		return(perf)
 	}
-	
-	ps = optim(par=start, f=g, maxit=5)
-	bs = make.path.el
-	new("opt.result", control=control, opt=make.path.el(bs), path=path)
+		
+	par = as.list(optim(par=start, f=g, control=control@extra.args)$par)
+	opt = get.path.el(path, par)
+	new("opt.result", control=control, opt=opt, path=path)
 }

@@ -58,6 +58,6 @@ setMethod(
 		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", ranges="list", scale="function"),
 		def = function(minimize, tune.threshold, thresholds, ranges, scale) {
 			new("grid.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds,
-					lower=list(), upper=list(), ranges=ranges, partypes=character(0), scale=scale)
+					start=list(), lower=list(), upper=list(), ranges=ranges, partypes=character(0), scale=scale)
 		}
 )

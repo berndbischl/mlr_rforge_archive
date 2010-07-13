@@ -26,7 +26,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("tune.control"),
-		def = function(.Object, minimize, tune.threshold, thresholds, start, lower, upper, ranges, partypes, scale) {
+		def = function(.Object, minimize, tune.threshold, thresholds, start, lower, upper, ranges, partypes, scale, ...) {
 			if (missing(minimize))
 				return(.Object)
 			.Object@start = start 			
@@ -36,7 +36,7 @@ setMethod(
 			.Object@partypes = partypes 			
 			.Object@scale = scale 		
 			.Object = callNextMethod(.Object=.Object, minimize=minimize, 
-					tune.threshold=tune.threshold, thresholds=thresholds)
+					tune.threshold=tune.threshold, thresholds=thresholds, ...)
 			return(.Object)
 		}
 )
@@ -49,7 +49,7 @@ setMethod(
 		signature = signature("tune.control"),
 		def = function(x,i,j,...,drop) {
 			if (i == "parnames") {
-				if (!is.null(x@ranges))
+				if (length(x@ranges) > 0)
 					return(names(x@ranges))
 				else
 					return(names(x@lower))
