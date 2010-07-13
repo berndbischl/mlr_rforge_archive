@@ -13,7 +13,17 @@ tune.optim = function(learner, task, resampling, measures, aggr, control) {
 		return(perf)
 	}
 		
-	par = as.list(optim(par=start, f=g, control=control@extra.args)$par)
+	args = control@extra.args
+	method = args$method
+	if(is.null(method)) 
+		method = "Nelder-Mead"
+	args$method = NULL
+	
+	if (method == "L-BFGS-B")
+		or = optim(par=start, f=g, method=method, lower=control@lower, upper=control@upper, control=args)
+	else 
+		or = optim(par=start, f=g, method=method, control=args)
+	par = as.list(or$par)
 	opt = get.path.el(path, par)
 	new("opt.result", control=control, opt=opt, path=path)
 }

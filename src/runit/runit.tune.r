@@ -57,6 +57,20 @@ test.tune <- function() {
 	r = list(minsplit=c(3,30), n=c(1,60))
 	ctrl = grid.control(ranges=r, tune.threshold=T)
 	tr = tune(wl, binaryclass.task, res, control=ctrl)
+
+	
+	# nelder mead with optim
+	ctrl = optim.control(start=c(C=0, sigma=0), maxit=10, scale=function(x) 2^x)
+	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)
+
+	# SA with optim
+	ctrl = optim.control(start=c(C=0, sigma=0), maxit=10, method="SANN", scale=function(x) 2^x)
+	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)
+
+	# cmaes with optim
+	ctrl = cmaes.control(start=c(C=0, sigma=0), maxit=5, scale=function(x) 2^x)
+	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)
+	
 	
 #	# check pattern search
 #	control = ps.control(start=list(C=0, sigma=0), scale=function(x)10^x)
