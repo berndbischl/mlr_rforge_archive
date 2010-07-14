@@ -142,18 +142,23 @@ classif.files <<- c(
 		"models/classification/randomForest.classif.r",
 		"models/classification/rda.r",
 		"models/classification/rpart.classif.r",
+		"models/classification/sda.r",
 		"models/classification/svm.classif.r"
 		##		"models/classification/metacost.r"
 )
 
-regr.files <<- c( 		
+regr.files <<- c( 	
+		"models/regression/bagEarth.regr.r",
 		"models/regression/blackboost.regr.r",
 		"models/regression/earth.regr.r",
 		"models/regression/gbm.regr.r",
+		"models/regression/icr.r",
 		"models/regression/kknn.regr.r",
 		"models/regression/ksvm.regr.r",
 		"models/regression/lasso.r",
 		"models/regression/lm.r",
+		"models/regression/mars.regr.r",
+		"models/regression/pcr.r",
 		"models/regression/randomForest.regr.r",
 		"models/regression/ridge.r",
 		"models/regression/rpart.regr.r"
