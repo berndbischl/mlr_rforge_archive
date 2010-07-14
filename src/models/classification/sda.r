@@ -24,7 +24,7 @@ setMethod(
 					multiclass = TRUE,
 					missings = FALSE,
 					numerics = TRUE,
-					factors = TRUE,
+					factors = FALSE,
 					characters = FALSE,
 					probs = TRUE,
 					decision = FALSE,
@@ -68,8 +68,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			p = predict(.model["learner.model"], newdata=.newdata)
-			if(.type == "class")
+			p <<- predict(.model["learner.model"], as.matrix(.newdata))
+			if(.type == "response")
 				return(p$class)
 			else
 				return(p$posterior)
