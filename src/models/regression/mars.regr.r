@@ -29,7 +29,7 @@ setMethod(
 setMethod(
 		f = "train.learner",
 		signature = signature(
-				.learner="regr.earth", 
+				.learner="regr.mars", 
 				.targetvar="character", 
 				.data="data.frame", 
 				.data.desc="data.desc", 
@@ -39,7 +39,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
-			targetcol <- which(names(.data) == targetvar)
+			targetcol <- which(names(.data) == .targetvar)
 			mars(x = as.matrix(.data[,-targetcol]), y = as.vector(.data[,targetcol]), ...)
 		}
 )
@@ -49,7 +49,7 @@ setMethod(
 setMethod(
 		f = "pred.learner",
 		signature = signature(
-				.learner = "regr.earth", 
+				.learner = "regr.mars", 
 				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 

@@ -51,7 +51,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
-			targetcol <- which(names(.data) == targetvar)
+			targetcol <- which(names(.data) == .targetvar)
 			sda(Xtrain = as.matrix(.data[,-targetcol]), L = as.factor(.data[,targetcol]), ...)
 		}
 )
