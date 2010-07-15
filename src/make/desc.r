@@ -15,8 +15,8 @@ write.desc <- function(desc.path, rev.nr) {
 		"Description: no\n",
 		"License: GPL (>= 2)\n",
 		"LazyLoad: yes\n",
-		"Depends: R (>= 2.8.0), methods, reshape, abind, boot, klaR, e1071, digest\n",
-		"Suggests: MASS, snowfall, mlbench, ROCR, cmaes, kernlab, rpart, randomForest, adabag, kknn, ada, adabag, party, mboost, mda, gbm, nnet, penalized, RWeka, grplasso\n",
+		"Depends: R (>= 2.8.0), methods, reshape, abind, boot, klaR, e1071, digest, ROCR\n",
+		"Suggests: MASS, snowfall, mlbench, cmaes, kernlab, rpart, randomForest, adabag, kknn, ada, adabag, party, mboost, mda, gbm, nnet, penalized, RWeka, grplasso, earth\n",
 		sep=""
 	)
 	
