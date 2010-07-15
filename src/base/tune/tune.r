@@ -33,7 +33,7 @@ roxygen()
 #' 
 #' @export
 #'
-#' @seealso \code{\link{grid.control}}, \code{\link{cmaes.control}}, \code{\link{neldermead.control}}
+#' @seealso \code{\link{grid.control}}, \code{\link{optim.control}}, \code{\link{cmaes.control}}
 #'   
 #' @title Hyperparameter tuning
 

@@ -19,7 +19,7 @@
 #' 
 #' @export
 #'
-#' @seealso \code{\link{tune}}, \code{\link{grid.control}}, \code{\link{cmaes.control}}, \code{\link{neldermead.control}}
+#' @seealso \code{\link{tune}}, \code{\link{grid.control}}, \code{\link{optim.control}}, \code{\link{cmaes.control}} 
 #'   
 #' @title Fuse learner with tuning.
 
