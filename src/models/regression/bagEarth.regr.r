@@ -49,7 +49,7 @@ setMethod(
 setMethod(
 		f = "pred.learner",
 		signature = signature(
-				.learner = "regr.earth", 
+				.learner = "regr.bagEarth", 
 				.model = "wrapped.model", 
 				.newdata = "data.frame", 
 				.type = "missing" 
