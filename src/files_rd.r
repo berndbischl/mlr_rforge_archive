@@ -12,6 +12,7 @@ allowed.rd.files <<- c(
 		
 		"train.learner.Rd",
 		"pred.learner.Rd",
+		"args.to.control.Rd",
 		
 		"learner-class.Rd",
 		"rlearner-class.Rd",

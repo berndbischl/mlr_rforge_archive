@@ -40,6 +40,8 @@ base.files <<- c(
 		"base/performance.r",
 		"base/measures.r",
 		"base/aggr.r",
+		"base/rocr/make.ROCR.pred.r",
+		"base/rocr/as.ROCR.preds.r",
 		
 		"base/resample/resample.desc.r",
 		"base/resample/resample.desc.make.r",
@@ -121,7 +123,6 @@ classif.files <<- c(
 		"models/classification/gbm.classif.r",
 		"models/classification/glmboost.classif.r",
 		"models/classification/grplasso.classif.r",
-		"models/classification/hda.r",
 		"models/classification/j48.r",
 		"models/classification/JRip.r",
 		"models/classification/kknn.classif.r",
@@ -167,6 +168,7 @@ regr.files <<- c(
 
 load.all.libs <- function() {
 	library(abind)
+	library(ROCR)
 	library(RUnit)
 	library(MASS)
 	library(rpart)
@@ -189,6 +191,8 @@ load.all.libs <- function() {
 	library(nnet)
 	library(RWeka)
 	library(party)
+	library(earth)
+	library(cmaes)
 }
 
 load.all.sources <- function(prefix) {
