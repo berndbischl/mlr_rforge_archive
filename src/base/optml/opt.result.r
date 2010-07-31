@@ -71,6 +71,9 @@ setMethod(
 			if (i == "perf") {
 				return(x@opt$perf)
 			}
+      if (i == "learner") {
+        return(make.learner(x@learner, parset=x@opt$par))
+      }
 			if (i == "path") {
 				ys = x@path
 				if (!is.null(args$as.data.frame) && args$as.data.frame) {
