@@ -40,8 +40,8 @@ base.files <<- c(
 		"base/performance.r",
 		"base/measures.r",
 		"base/aggr.r",
-		"base/rocr/make.ROCR.pred.r",
-		"base/rocr/as.ROCR.preds.r",
+		"base/rocr/make.rocr.pred.r",
+		"base/rocr/as.rocr.preds.r",
 		
 		"base/resample/resample.desc.r",
 		"base/resample/resample.desc.make.r",
