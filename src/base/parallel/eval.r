@@ -1,9 +1,9 @@
 
-resample.fit.iter <- function(learner, task, rin, parset, vars, i, extract) {
+resample.fit.iter <- function(learner, task, rin, par.vals, vars, i, extract) {
 	train.i = get.train.set(rin, i)
 	test.i = get.test.set(rin, i)
 	
-	m = train(learner, task, subset=train.i, parset=parset, vars=vars)
+	m = train(learner, task, subset=train.i, par.vals=par.vals, vars=vars)
 	p = predict(m, task=task, subset=test.i)
 	# faster for parallel
 	ex = extract(m)
@@ -13,17 +13,17 @@ resample.fit.iter <- function(learner, task, rin, parset, vars, i, extract) {
 eval.rf <- function(learner, task, resampling, measures, aggr, control, par) {
 
 	if (is(control, "tune.control")) {
-		parset = scale.par(par, control)
+		par.vals = scale.par(par, control)
 		vars = task["input.names"]
 	} else {
-		parset = list()
+		par.vals = list()
 		vars = par
 	}
 	# todo 
 #	if (control["tune.threshold"]) 
 #		type = "prob"
 	
-	rf = resample.fit(learner, task, resampling, parset=parset, vars=vars)
+	rf = resample.fit(learner, task, resampling, par.vals=par.vals, vars=vars)
 	th = as.numeric(NA)
 	if (control["tune.threshold"]) { 
 		thr = tune.threshold(rf, measures, aggr, task, minimize=control["minimize"], thresholds=control["thresholds"])
