@@ -29,13 +29,13 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.control"),
-		def = function(.Object, minimize, tune.threshold, thresholds, ...) {
+		def = function(.Object, minimize, tune.threshold, thresholds, path, ...) {
 			if (missing(minimize))
 				return(.Object)
 			.Object@minimize = minimize
 			.Object@tune.threshold = tune.threshold 			
 			.Object@thresholds = thresholds 
-			.Object@path = FALSE
+			.Object@path = path
 			.Object@extra.args = list(...)
 			return(.Object)
 		}
