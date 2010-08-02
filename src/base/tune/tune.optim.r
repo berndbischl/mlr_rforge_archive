@@ -19,9 +19,9 @@ tune.optim = function(learner, task, resampling, measures, aggr, control) {
 		method = "Nelder-Mead"
 	args$method = NULL
 	
-	if (method == "L-BFGS-B")
-		or = optim(par=start, f=g, method=method, lower=control@lower, upper=control@upper, control=args)
-	else 
+	if (method == "L-BFGS-B") {
+		or = optim(par=start, f=g, method=method, lower=control["lower"], upper=control["upper"], control=args)
+	} else 
 		or = optim(par=start, f=g, method=method, control=args)
 	par = as.list(or$par)
 	opt = get.path.el(path, par)
