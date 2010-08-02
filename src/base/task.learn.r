@@ -11,17 +11,11 @@ roxygen()
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
 #'  
 #' Getter.\cr
+#' Note that all getters of \code{\linkS4class{task.desc}} and \code{\linkS4class{data.desc}} can also be used. 
 #' 
 #' \describe{
-#'  \item{id [string]}{Id string of task.}
-#'	\item{label [string]}{Label string of task.}
-#' 	\item{is.classif [boolean]}{Is this a classification task?}
-#' 	\item{is.regr [boolean]}{Is this a regression task?}
 #' 	\item{data [data.frame]. Optional parameters: row, col}{The data.frame is returned, possibly indexed by row/col. If col is missing, only columns which were not excluded are returned.}
-#'  \item{size [integer]}{Number of cases.}
-#'	\item{target.name [string]}{The name of the target variable.}
 #'  \item{input.names [character]}{The names of the input variables (without excluded variables).}
-#'  \item{excluded [character]}{Names of excluded variables.}
 #'  \item{targets [character]. Optional parameters: row}{If row is missing all target values are returned. Otherwise they are indexed by row.}
 #'  \item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row. NULL if no weights were set.}
 #' }
@@ -84,7 +78,7 @@ setMethod(
 			col = args$col
 			
 			if (i == "target.name") {
-				return(td["target"])
+				return(dd["target"])
 			}
 			if (i == "input.names"){
 				return(setdiff(colnames(x@data), c(x["excluded"], x["target.name"])))

@@ -10,6 +10,7 @@ roxygen()
 #'	\item{label [string]}{Label string of task.}
 #'  \item{is.classif [boolean]}{Classification task?}
 #' 	\item{is.regr [boolean]}{Regression task?}
+#'  \item{has.weights [boolean]}{Are weights available in task for covariates?}
 #'  \item{costs [matrix]}{Cost matrix, of dimension (0,0) if not available.}
 #'  \item{positive [string]}{Positive class label for binary classification, NA else.}
 #'  \item{negative [string]}{Negative class label for binary classification,, NA else.}
@@ -54,10 +55,11 @@ setMethod(
 setMethod(
 		f = "initialize",
 		signature = signature("task.desc"),
-		def = function(.Object, task.class, id, label, costs, positive, negative) {
+		def = function(.Object, task.class, id, label, has.weights,  costs, positive, negative) {
 			.Object@task.class = task.class
 			.Object@props$id = id
 			.Object@props$label = label
+			.Object@props$has.weights = has.weights
 			.Object@props$costs = costs
 			.Object@props$positive = positive
 			.Object@props$negative = negative
