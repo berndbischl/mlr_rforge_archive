@@ -6,6 +6,8 @@ roxygen()
 #' Getter.\cr
 #' 
 #' \describe{
+#'  \item{target [string]}{Name of target variable.}
+#'  \item{excluded [character]}{Names of excluded covariates.}
 #'  \item{size [integer]}{Number of cases.}
 #'  \item{dim [integer]}{Number of covariates.}
 #'  \item{excluded [character]}{Names of excluded variables.}
@@ -41,6 +43,7 @@ setMethod(
 			i = which(colnames(data) %in% c(target, excluded))
 			df2 = data[, -i, drop=F]
 			.Object@props$target = target 
+			.Object@props$excluded = excluded 
 			.Object@props$obs = nrow(data)
 			inputs = c()
 			inputs = c(
@@ -66,12 +69,14 @@ setMethod(
 		f = "[",
 		signature = signature("data.desc"),
 		def = function(x,i,j,...,drop) {
+			if (i == "target") 
+				return(x@props$target)
+			if (i == "excluded") 
+				return(x@props$excluded)
 			if (i == "size") 
 				return(x@props$obs)
 			if (i == "dim") 
 				return(sum(x@props$inputs))
-			if (i == "excluded") 
-				return(x@props$exlcuded)
 			if (i == "n.num") 
 				return(as.integer(x@props$inputs["n.num"]))
 			if (i == "n.int") 
