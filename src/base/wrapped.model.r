@@ -45,8 +45,6 @@ setClass(
 				task.desc = "task.desc",
 				subset = "numeric",
 				vars = "character",
-				hyper.pars = "list",
-				hyper.types = "character",
 				time = "numeric"
 		)
 )
@@ -58,7 +56,8 @@ setMethod(
 		f = "to.string",
 		signature = signature("wrapped.model"),
 		def = function(x) {
-			ps <- paste(names(x["hyper.pars"]), x["hyper.pars"], sep="=", collapse=" ")
+			ps = x["learner"]["par.vals"]
+			ps = paste(names(ps), ps, sep="=", collapse=" ")
 			f = x["fail"]
 			f = ifelse(is.null(f), "", paste("Training failed:", f))
 			tp = x["tuned.par"]
@@ -86,17 +85,6 @@ setMethod(
 		signature = signature("wrapped.model"),
 		def = function(x,i,j,...,drop) {
 			args = list(...)
-			type = args$type
-			if (is.null(type))
-				ps = seq(length=length(x@hyper.pars))
-			else
-				ps = which(x@hyper.types %in% type)
-			if (i == "hyper.pars") 
-				return(x@hyper.pars[ps])
-			if (i == "hyper.names") 
-				return(names(x@hyper.pars)[ps])
-			if (i == "hyper.types") 
-				return(x@hyper.types)
 			
 			if (i == "fail"){
 				if (is(x@learner.model, "learner.failure"))
@@ -107,42 +95,6 @@ setMethod(
 			if (i == "opt.result"){
 				if (is(x@learner, "opt.wrapper"))
 					return(attr(x["learner.model"], "opt.result"))
-				else
-					return(NULL)
-			}
-			if (i == "opt"){
-				if (is(x@learner, "opt.wrapper"))
-					return(x["opt.result"]["opt"])
-				else
-					return(NULL)
-			}
-			if (i == "opt.par"){
-				if (is(x@learner, "opt.wrapper"))
-					return(x["opt"]$par)
-				else
-					return(NULL)
-			}
-			if (i == "tuned.par"){
-				if (is(x@learner, "opt.wrapper") && x@learner["opt.type"] == "tune")
-					return(x["opt.par"])
-				else
-					return(NULL)
-			}	
-			if (i == "sel.var"){
-				if (is(x@learner, "opt.wrapper") && x@learner["opt.type"] == "varsel")
-					return(x["opt.par"])
-				else
-					return(NULL)
-			}	
-			if (i == "opt.perf"){
-				if (is(x@learner, "opt.wrapper"))
-					return(x["opt"]$perf)
-				else
-					return(NULL)
-			}
-			if (i == "path"){
-				if (is(x@learner, "opt.wrapper"))
-					return(x["opt.result"]["path"])
 				else
 					return(NULL)
 			}
