@@ -21,7 +21,7 @@ roxygen()
 #'        Learning task.
 #' @param resampling [\code{\linkS4class{resample.desc}} or \code{\linkS4class{resample.instance}}] \cr
 #'        Resampling strategy. 
-#' @param parset [list] \cr 
+#' @param par.vals [list] \cr 
 #'        Named list of hyperparameter values. Will overwrite the ones specified in the learner object. Default is empty list.
 #' @param vars [\code{\link{character}}] \cr 
 #'        Vector of variable names to use in training the model. Default is to use all variables.
@@ -33,20 +33,20 @@ roxygen()
 #' @export
 #' @rdname resample.fit 
 #' 
-#' @usage resample.fit(learner, task, resampling, parset, vars, extract)
+#' @usage resample.fit(learner, task, resampling, par.vals, vars, extract)
 #'
 #' @title Fit models according to a resampling strategy.
 
 
 setGeneric(
 		name = "resample.fit",
-		def = function(learner, task, resampling, parset, vars, extract) {
+		def = function(learner, task, resampling, par.vals, vars, extract) {
 			if (is.character(learner))
 				learner = make.learner(learner)
 			if (is(resampling, "resample.desc")) 
 				resampling = make.res.instance(resampling, size=task["size"])
-			if (missing(parset))
-				parset = list()
+			if (missing(par.vals))
+				par.vals = list()
 			if (missing(vars))
 				vars <- task["input.names"]
 			if (length(vars) == 0)
@@ -62,8 +62,8 @@ setGeneric(
 setMethod(
 		f = "resample.fit",
 		signature = signature(learner="learner", task="learn.task", resampling="resample.instance", 
-				parset="list", vars="character", extract="function"),
-		def = function(learner, task, resampling, parset, vars, extract) {
+				par.vals="list", vars="character", extract="function"),
+		def = function(learner, task, resampling, par.vals, vars, extract) {
 			n = task["size"]
 			r = resampling["size"]
 			if (n != r)
@@ -74,7 +74,7 @@ setMethod(
 			
 			if (is(rin, "resample.instance.nonseq")) {
 				rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
-						rin=rin, parset=parset, vars=vars, extract=extract)
+						rin=rin, par.vals=par.vals, vars=vars, extract=extract)
 			} else {
 				rs  = list()
 				# sequential resampling cannot be (easily) parallized!
@@ -84,7 +84,7 @@ setMethod(
 				while (!resample.done(rin)) {
 					train.i = get.train.set(rin, i)
 					test.i = get.test.set(rin, i)
-					m = train(learner, task, subset=train.i, parset=parset, vars=vars)
+					m = train(learner, task, subset=train.i, par.vals=par.vals, vars=vars)
 					p = predict(m, task=task, subset=test.i)
 					ex = extract(m)
 					rs[[i]] = list(pred=p, extracted=ex)
