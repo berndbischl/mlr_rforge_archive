@@ -18,10 +18,8 @@ tune.cmaes = function(learner, task, resampling, measures, aggr, control) {
 	
 	ns = names(control["start"])
 	start = as.numeric(control["start"])
-	lower = as.numeric(control@lower)
-	upper = as.numeric(control@upper)
 	
-	or = cma_es(par=start, fn=g, lower=lower, upper=upper, control=args)
+	or = cma_es(par=start, fn=g, lower=control["lower"], upper=control["upper"], control=args)
 	par = as.list(or$par)
 	names(par) = ns
 	opt = get.path.el(path, par)
