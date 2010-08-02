@@ -75,7 +75,7 @@ tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE
 	
 	or@opt$par = scale.par(or@opt$par, control)
 	if (model) {
-		or@model = train(learner, task, parset=or["par"]) 	
+		or@model = train(learner, task, par.vals=or["par"]) 	
 	}
 	
 	return(or)			
@@ -88,7 +88,7 @@ scale.par <- function(p, control) {
 		y = as.list(p)
 	else
 		y = as.list(sc(unlist(p)))
-	names(y) = control["parnames"]
+	names(y) = control["par.names"]
 	return(y)
 }
 
