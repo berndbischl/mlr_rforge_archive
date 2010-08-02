@@ -14,13 +14,13 @@ check.task <- function(lt, learner) {
 	if (dd["has.missing"] && !ld["missings"]) {
 		msg <- paste("Data set has missing values, but", wl["id"], "does not support that!")
 	}
-	if (dd["numerics"] > 0 && !ld["numerics"]) {
+	if (dd["n.num"] > 0 && !ld["numerics"]) {
 		msg <- paste("Data set has numeric inputs, but", wl["id"], "does not support that!")
 	}
-	if (dd["factors"] > 0 && !ld["factors"]) {
+	if (dd["n.fact"] > 0 && !ld["factors"]) {
 		msg <- paste("Data set has factor inputs, but", wl["id"], "does not support that!")
 	}
-	if (dd["characters"] > 0 && !ld["characters"]) {
+	if (dd["n.char"] > 0 && !ld["characters"]) {
 		msg <- paste("Data set has character inputs, but", wl["id"], "does not support that!")
 	}
 	return(list(msg=msg))
