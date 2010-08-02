@@ -28,6 +28,6 @@ test.multinom <- function() {
 	rr = p["response"]
 	pp = p["prob"]
 	i = as.integer(pp < 0.5) + 1
-	labs = as.factor(binaryclass.task["classes"][i]) 
+	labs = as.factor(binaryclass.task["class.levels"][i]) 
 	checkEquals(rr, labs)	
 }
