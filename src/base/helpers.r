@@ -146,3 +146,18 @@ path2dataframe = function(path) {
 	return(df)
 }
 
+check.getter.args = function(x, arg.names, j, ...) {
+	args = list(...)
+	ns = names(args)
+	for (i in seq(length=length(args))) {
+		n = ns[i]
+		a = args[[i]]
+		# condition because of spurious extra arg (NULL) bug in "["
+		if ( !(is.null(a) && (is.null(n) || length(a) == 0)) ) {
+			if (is.null(n) || length(a) == 0)
+				stop("Using unnamed extra arg ", a, " in getter of ", class(x), "!")
+			if (!(n %in% arg.names))
+				stop("Using unallowed extra arg ", paste(n, a, sep="="), " in getter of ", class(x), "!")
+		}		
+	}	
+}
