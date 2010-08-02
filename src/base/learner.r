@@ -15,7 +15,7 @@ roxygen()
 #'  \item{id [string]}{Id string of learner.}
 #'	\item{label [string]}{Label string of learner.}
 #' 	\item{pack [string]}{Package were underlying learner is implemented.}
-#'	\item{desc [{\linkS4class{learner.desc}}]}{Properties object to describe functionality of the learner.}
+#'	\item{desc [\code{\linkS4class{learner.desc}}]}{Properties object to describe functionality of the learner.}
 #' 	\item{par.vals [list]}{List of fixed hyperparameters and respective values for this learner.}
 #' 	\item{par.vals.name [character]}{Names of currently fixed hyperparameters.}
 #' 	\item{par.descs [list]}{Named list of \code{\linkS4class{par.desc}} description objects for all possible hyperparameters for this learner.}

@@ -15,22 +15,14 @@ roxygen()
 #' information about second-level optimization like tuned hyperparameters or selected variables. 
 #' 
 #' Getter.\cr
+#' Note that all getters of \code{\linkS4class{task.desc}} and \code{\linkS4class{data.desc}} can also be used. 
 #' 
 #' \describe{
 #'	\item{learner [{\linkS4class{learner}}]}{Learner that was used to fit the model.}
 #'	\item{learner model [any]}{Underlying model from used R package.}
 #'	\item{subset [integer]}{Subset used for training.}
-#'	\item{vars [character]}{Variables used for training.}
-#' 	\item{hyper.pars [list]}{List of fixed hyperparameters and respective values for this model.}
-#' 	\item{hyper.names [character]}{Names of used hyperparameters.}
-#' 	\item{hyper.types [character]}{For which step in the model building process the respective hyperparameters used? Named character vector.}
 #'	\item{fail [NULL | string]}{Generally NULL but if the training failed, the error message of the underlying train function.}
-#'	\item{opt [path.element]}{Optimum of second-level optimization.}
-#'	\item{path [list of path.elements]}{Path of second-level optimization.}
-#'	\item{tuned.par [list]}{If tuning was performed, best found set of hyperparameters.}
-#'	\item{tuned.perf [numeric]}{If tuning was performed, performance of best found set of hyperparameters.}
-#'	\item{sel.vars [character]}{If variable selection was performed, best found set of variables.}
-#'	\item{sel.perf [numeric]}{If variable selection was performed, performance of best found set of variables.}
+#'	\item{opt.result [[\code{\linkS4class{wrapped.model}}]}{Optimum if model was fitted by an optimization wrapper, otherwise NULL.}
 #' }
 #' 
 #' @title Induced model of learner.
@@ -60,15 +52,12 @@ setMethod(
 			ps = paste(names(ps), ps, sep="=", collapse=" ")
 			f = x["fail"]
 			f = ifelse(is.null(f), "", paste("Training failed:", f))
-			tp = x["tuned.par"]
-			tp = ifelse(is.null(tp), "", paste("Tuned:", paste(names(tp), tp, sep="=", collapse=" "), "\n"))
 			
 			return(
 					paste(
 							"Learner model for ", x@learner["id"], "\n",  
 							"Trained on obs: ", length(x@subset), "\n",
 							"Hyperparameters: ", ps, "\n",
-							tp,
 							f,
 							sep=""
 					)
