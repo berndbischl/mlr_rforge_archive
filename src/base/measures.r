@@ -174,7 +174,7 @@ mcesd = function(x, task) {
 }
 
 cost.measure = function(x, task) {
-	cm = x@task.desc@costs
+	cm = x@task.desc["costs"]
 	if (all(dim(cm) == 0))
 		stop("No costs were defined in task!")
 	cc = function(truth, pred) {
