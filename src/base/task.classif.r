@@ -4,17 +4,6 @@ roxygen()
 #' General description object for a classification experiment.   
 #' Instantiate it by using its factory method.
 #' 
-#' Getter.\cr
-#' 
-#' \describe{
-#'  \item{class.levels [character]}{Levels of target factor for classification.}
-#'  \item{class.nr [integer]}{Number of class labels for classification.}
-#'  \item{is.binary [boolean]}{Binary classification task?}
-#'  \item{costs [matrix]}{Cost matrix, NULL if not available.}
-#'  \item{positive [string]}{Positive class label for binary classification.}
-#'  \item{negative [string]}{Negative class label for binary classification.}
-#' }
-#' 
 #' @exportClass classif.task
 #' @title Classification task.
 #' @seealso \code{\link{make.task}}
@@ -41,22 +30,21 @@ setMethod(
 			
 			data = prep.classif.data(data, target, excluded)			
 			dd = new("data.desc", data=data, target=target, excluded=excluded)
-			
 			n = dd["class.nr"]
 			levs = dd["class.levels"]
-					
+			
 			# init positive
 			pos = positive 
 			neg = as.character(NA)
-      if (n == 1) {
-        if (is.na(pos)) {
-          pos = levs[1]
-        } else {
-          if (!(pos %in% levs))
+			if (n == 1) {
+				if (is.na(pos)) {
+					pos = levs[1]
+				} else {
+					if (!(pos %in% levs))
 						stop(paste("Trying to set a positive class", pos, "which is not a value of the target variable:", paste(levs, collapse=",")))
 				}
 				neg = paste("not_", pos)
-      } else if (n == 2) {
+			} else if (n == 2) {
 				if (is.na(pos)) {
 					pos = levs[1] 					
 				}
@@ -81,9 +69,10 @@ setMethod(
 				if (!setequal(rns, levs) || !setequal(cns, levs))
 					stop("Row and column names of cost matrix have to equal class levels!")
 			}			
-
-			td = new("task.desc", task.class="classif.task", id=id, label=label, target=target, positive=pos, negative=neg, excluded=excluded, costs=costs)			
-
+			hw = length(weights) > 0
+			td = new("task.desc", task.class="classif.task", id=id, label=label, has.weights=hw,
+							costs=costs, positive=pos, negative=neg)			
+			
 			callNextMethod(.Object, data=data, weights=weights, data.desc=dd, task.desc=td)
 		}
 )
@@ -94,13 +83,16 @@ setMethod(
 		f = "to.string",
 		signature = signature("classif.task"),
 		def = function(x) {
+			di = paste(capture.output(x["class.dist"]), collapse="\n")
 			return(
 					paste(
 							"Classification problem ", x["id"], "\n",
-							to.string(x@data.desc),
-							"Classes:", x["class.nr"],
-							paste(capture.output(table(x["targets"])), collapse="\n"),
-							"\n",
+							"Features Nums:", x["n.num"], " Factors:", x["n.fact"], " Chars:", x["n.char"], "\n",
+							"Observations: ", x["obs"] , "\n",
+							"Missings: ", x["has.missing"], "\n", 
+							ifelse(x["has.missing"], paste("in", x["rows.with.missings"], "observations and", x["cols.with.missings"], "features\n"), ""), 
+							"Classes: ", x["class.nr"], "\n",
+							di, "\n",
 							ifelse(x["is.binary"], paste("Positive class:", x["positive"], "\n"), ""),
 							sep=""
 					)

@@ -32,8 +32,9 @@ setMethod(
 			
 			data = prep.data(data, target, excluded)			
 			dd = new("data.desc", data=data, target=target, excluded=excluded)
-			td = new("task.desc", task.class="regr.task", id=id, label=label, target=target, positive=as.character(NA), negative=as.character(NA), 
-					excluded=excluded, costs=matrix(0,0,0))			
+			hw = length(weights) > 0
+			td = new("task.desc", task.class="regr.task", id=id, label=label, has.weights=hw, 
+					costs=matrix(0,0,0), positive=as.character(NA), negative=as.character(NA)) 
 			
 			callNextMethod(.Object, data=data, weights=weights, data.desc=dd, task.desc=td)
 		}
@@ -49,7 +50,10 @@ setMethod(
 			return(
 					paste(
 							"Regression problem ", x["id"], "\n",
-							to.string(x@data.desc), "\n",
+							"Features Nums:", x["n.num"], " Factors:", x["n.fact"], " Chars:", x["n.char"], "\n",
+							"Observations: ", x["obs"] , "\n",
+							"Missings: ", x["has.missing"], "\n", 
+							ifelse(x["has.missing"], paste("in", x["rows.with.missings"], "observations and", x["cols.with.missings"], "features\n"), ""), 
 							sep=""
 					)
 			)
