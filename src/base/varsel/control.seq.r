@@ -18,8 +18,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("sequential.control"),
-		def = function(.Object, minimize, tune.threshold, thresholds, maxit, max.vars, method, alpha, beta) {
-			.Object = callNextMethod(.Object, minimize, tune.threshold=tune.threshold, thresholds, maxit=maxit, max.vars=max.vars)
+		def = function(.Object, minimize, tune.threshold, thresholds, path, maxit, max.vars, method, alpha, beta) {
+			.Object = callNextMethod(.Object, minimize, tune.threshold=tune.threshold, thresholds, path=path, maxit=maxit, max.vars=max.vars)
 			.Object@alpha = alpha 			
 			.Object@beta = beta 	
 			.Object@method = method 			
@@ -32,6 +32,12 @@ setMethod(
 #' 
 #' @param minimize [logical] \cr 
 #'       Minimize performance measure? Default is TRUE.
+#' @param tune.threshold [logical] \cr 
+#'		Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
+#' @param thresholds [numeric] \cr 
+#'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
+#' @param path [boolean]\cr
+#'        Should optimization path be saved?
 #' @param maxit [integer] \cr 
 #'       Maximal number of variable sets to evaluate. Default is 100.
 #' @param max.vars [integer] \cr 
@@ -44,10 +50,6 @@ setMethod(
 #'  	 sfs, sffs: In a forward step, minimal improvement of performance measure. Can be negative.        
 #' @param beta [numeric] \cr 
 #'  	 sbs, sfbs: In a backward step, minimal improvement of performance measure. Can be negative.        
-#' @param tune.threshold [logical] \cr 
-#'		Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
-#' @param thresholds [numeric] \cr 
-#'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
 #' 		    
 #' @return Control structure.
 #' @exportMethod sequential.control
@@ -57,7 +59,7 @@ setMethod(
 
 setGeneric(
 		name = "sequential.control",
-		def = function(minimize, tune.threshold, thresholds, maxit, max.vars, method, alpha, beta) {
+		def = function(minimize, tune.threshold, thresholds, path, maxit, max.vars, method, alpha, beta) {
 			if (missing(minimize))
 				minimize=TRUE
 			if (missing(tune.threshold))
@@ -66,6 +68,8 @@ setGeneric(
 				thresholds=10
 			if (is.numeric(thresholds))
 				thresholds = as.integer(thresholds)
+			if (missing(path))
+				path = FALSE
 			if (missing(maxit))
 				maxit = .Machine$integer.max
 			if (is.numeric(maxit))
@@ -89,10 +93,10 @@ setGeneric(
 
 setMethod(
 		f = "sequential.control",
-		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", 
+		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", path="logical",
 				maxit="integer", max.vars="integer", method="character", alpha="numeric", beta="numeric"),
-		def = function(minimize, tune.threshold, thresholds, maxit, max.vars, method, alpha, beta) {
-			new("sequential.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, 
+		def = function(minimize, tune.threshold, thresholds, path, maxit, max.vars, method, alpha, beta) {
+			new("sequential.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, path=path, 
 					maxit=maxit, max.vars=max.vars, method=method, alpha=alpha, beta=beta)
 		}
 )
