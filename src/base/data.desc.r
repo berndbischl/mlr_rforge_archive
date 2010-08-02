@@ -16,12 +16,12 @@ roxygen()
 #'  \item{n.fact [integer]}{Number of factor covariates.}
 #'  \item{n.char [integer]}{Number of character covariates.}
 #' 	\item{has.missing [boolean]}{Are missing values present?}
-#'  \item{is.classif [logical]}{Factor target variable?}
+#'  \item{is.classif [boolean]}{Factor target variable?}
 #' 	\item{is.regr [boolean]}{Numerical target variable?}
 #'  \item{class.levels [character]}{Possible classes. NA if not classification.}
 #'  \item{class.nr [integer]}{Number of classes. NA if not classification.}
 #'  \item{class.dist [integer]}{Class distribution. Named vector. NA if not classification.}
-#'	\item{is.binary [logical]}{Binary classification?. NA if not classification.}
+#'	\item{is.binary [boolean]}{Binary classification?. NA if not classification.}
 #' }
 #' @exportClass data.desc
 #' @title Description object for data. 

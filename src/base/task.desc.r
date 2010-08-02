@@ -8,6 +8,8 @@ roxygen()
 #' \describe{
 #'  \item{id [string]}{Id string of task.}
 #'	\item{label [string]}{Label string of task.}
+#'  \item{is.classif [boolean]}{Classification task?}
+#' 	\item{is.regr [boolean]}{Regression task?}
 #'  \item{costs [matrix]}{Cost matrix, of dimension (0,0) if not available.}
 #'  \item{positive [string]}{Positive class label for binary classification, NA else.}
 #'  \item{negative [string]}{Negative class label for binary classification,, NA else.}
@@ -63,25 +65,6 @@ setMethod(
 		}
 )
 
-
-#' @rdname task.desc-class
-setMethod(
-		f = "[",
-		signature = signature("task.desc"),
-		def = function(x,i,j,...,drop) {
-			if (i == "id") 
-				return(x@props$id)
-			if (i == "label") 
-				return(x@props$label)
-			if (i == "costs") 
-				return(x@props$costs)
-			if (i == "positive") 
-				return(x@props$positive)
-			if (i == "negative") 
-				return(x@props$negative)
-			callNextMethod()
-		}
-)
 
 
 
