@@ -17,11 +17,13 @@ allowed.rd.files <<- c(
 		"pred.learner.Rd",
 		"args.to.control.Rd",
 		
+		"learner.desc-class.Rd",
 		"learner-class.Rd",
 		"rlearner-class.Rd",
 		"rlearner.classif-class.Rd",
 		"rlearner.regr-class.Rd",
 		"make.learner.Rd",
+		"set.hyper.pars.Rd",
 		"learners.Rd",
 		"get.learners.Rd",
 		
@@ -53,8 +55,7 @@ allowed.rd.files <<- c(
 #
 
 		"base.wrapper-class.Rd",
-		
-		
+		"opt.wrapper-class.Rd",
 #		"preproc.wrapper-class.Rd",
 		"make.preproc.wrapper.Rd",
 		"make.multiclass.wrapper.Rd",

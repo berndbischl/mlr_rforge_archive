@@ -17,6 +17,7 @@ base.files <<- c(
 		"base/task.make.r",
 		"base/check.task.r",
 		
+		"base/par.desc.r",
 		"base/learner.r",
 		"base/learnerR.r",
 		"base/learner.make.r",
