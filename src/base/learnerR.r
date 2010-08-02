@@ -18,7 +18,8 @@ setClass(
 				label = "character",
 				pack = "character",
 				desc = "learner.desc",
-				predict.type = "character"
+				predict.type = "character",
+				predict.threshold = "numeric"					
 		)
 )
 
@@ -67,10 +68,7 @@ setMethod(
 			}
 			if (i == "pack") {
 				return(x@pack)
-			}
-			if (i == "predict.threshold") {
-				return(x["hyper.pars"]$predict.threshold)
-			}
+			}	
 			callNextMethod()
 		}
 )
@@ -82,7 +80,7 @@ setMethod(
 setMethod(
 		f = "initialize",
 		signature = signature("rlearner"),
-		def = function(.Object, id, label, pack, desc, parset.train=list(), parset.predict=list()) {
+		def = function(.Object, id, label, pack, desc, par.descs, par.vals) {
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
 			
@@ -100,9 +98,12 @@ setMethod(
 			if(pack != "mlr" && !require(pack, character.only=TRUE)) {
 				stop(paste("Learner", id, "could not be constructed! package", pack, "missing!"))
 			}
+			if (missing(par.descs))
+				par.descs = list()
+			.Object@par.descs = par.descs
 			callNextMethod(.Object)
-			.Object = set.hyper.pars(.Object, type="train", parset=parset.train)
-			.Object = set.hyper.pars(.Object, type="predict", parset=parset.predict)
+			if (!missing(par.vals))
+				.Object = set.hyper.pars(.Object, par.vals=par.vals)
 			return(.Object)
 		}
 )
