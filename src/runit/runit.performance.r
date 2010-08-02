@@ -19,7 +19,7 @@ test.performance <- function() {
 		e1 = mean(x["truth"] != x["response"])
 		# we do this manually 
 		id = x["id"]
-		tn = x["task.desc"]["target"]
+		tn = x["data.desc"]["target"]
 		t2 = task["data"][id, tn]
 		e2 = mean(t2 != x["response"])
 		checkEquals(e1, e2)

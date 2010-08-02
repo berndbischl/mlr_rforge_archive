@@ -5,4 +5,5 @@ test.costs <- function() {
 	
 	m = train("classif.rpart", task=ct)
 	m2 = rpart(binaryclass.formula, data=binaryclass.df, parms=list(loss=cc))
-	checkEquals(m["learner.model"]$splits, m2$splits)}
+	checkEquals(m["learner.model"]$splits, m2$splits)
+}
