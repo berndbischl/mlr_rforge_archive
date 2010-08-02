@@ -34,7 +34,7 @@ setMethod(
 			)
 			
 			callNextMethod(.Object, label="logreg", pack="stats", desc=desc,
-					parset.train=list(family = "binomial"))
+					par.vals=list(family = "binomial"))
 		}
 )
 

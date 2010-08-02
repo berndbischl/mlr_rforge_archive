@@ -33,7 +33,7 @@ setMethod(
 					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="NNet", pack="nnet", desc=desc, parset.train=list(size=1))
+			callNextMethod(.Object, label="NNet", pack="nnet", desc=desc, par.vals=list(size=1))
 		}
 )
 

@@ -24,7 +24,7 @@ setMethod(
 			)
 			
 			callNextMethod(.Object, label="GBM", pack="gbm", desc=desc, 
-					parset.train=list(distribution = "gaussian"))
+					par.vals=list(distribution = "gaussian"))
 		}
 )
 
