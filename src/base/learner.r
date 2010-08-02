@@ -7,6 +7,7 @@ roxygen()
 #' Abstract base class for learning algorithms.
 #'  
 #' Getter.\cr
+#' Note that all getters of \code{\linkS4class{learner.desc}} can also be used. 
 #' 
 #' \describe{
 #'  \item{is.classif [boolean]}{Is this learner for classification tasks?}
@@ -22,15 +23,6 @@ roxygen()
 #' 	\item{par.descs.when [character]}{Named character vector. Specifies when a cetrain hyperparameter is used. Possible entries are 'train', 'predict' or 'both'.}
 #'  \item{predict.type [character]}{What should be predicted: 'response', 'prob' or 'decision'.}
 #'  \item{predict.threshold [character]}{Threshold to produce class labels if type is not "response".} 
-#'  \item{numerics [boolean]}{Can numeric inputs be processed?}
-#'  \item{factors [boolean]}{Can factor inputs be processed?}
-#'  \item{characters [boolean]}{Can character inputs be processed?}
-#'  \item{missings [boolean]}{Can missing values be processed?}
-#'  \item{multiclass [boolean]}{Can probabilities be predicted?}
-#'  \item{costs [boolean]}{Can misclassification costs be directly used during training?}
-#'  \item{probs [boolean]}{Can probabilities be predicted?}
-#'  \item{decision [boolean]}{Can probabilities be predicted?}
-#'  \item{weights [boolean]}{Can case weights be used?}
 #' }
 #' @exportClass learner
 #' @title Base class for inducers. 

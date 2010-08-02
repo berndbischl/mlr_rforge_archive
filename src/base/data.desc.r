@@ -35,7 +35,7 @@ setClass(
 		)
 )
 
-
+#' Constructor.
 setMethod(
 		f = "initialize",
 		signature = signature("data.desc"),
