@@ -32,7 +32,7 @@ setMethod(
 			.Object@control = control
 			.Object@measures = measures
 			.Object@aggr = aggr
-			callNextMethod(.Object, learner)
+			callNextMethod(.Object, learner, par.descs=list(), par.vals=list())
 		}
 )
 
