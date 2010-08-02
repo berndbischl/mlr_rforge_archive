@@ -60,7 +60,7 @@ setMethod(
 			
 			
 			cns = colnames(newdata)
-			tn = td["target"]
+			tn = dd["target"]
 			t.col = which(cns == tn)
 			# get truth and drop target col, if target in newdata
 			if (length(t.col) == 1) {
@@ -79,8 +79,10 @@ setMethod(
 				stop("Trying to predict decision values, but ", wl["id"], " does not support that!")
 			}
 
+			hps = wl["pars.setting"][wl["pars.predict"]]
+			
 			logger.debug(level="predict", "mlr predict:", wl["id"], "with pars:")
-			logger.debug(level="predict", wl["hyper.pars"])
+			logger.debug(level="predict", hps)
 			logger.debug(level="predict", "on", nrow(newdata), "examples:")
 			logger.debug(level="predict", rownames(newdata))
 			
@@ -108,7 +110,7 @@ setMethod(
 						.model = model, 
 						.newdata=newdata
 				)
-				pars = c(pars, wl["hyper.pars", type="predict"]) 
+				pars = c(pars, hps) 
 				if (wl["is.classif"]) {
 					pars$.type = type
 				}
