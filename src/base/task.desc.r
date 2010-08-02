@@ -17,7 +17,6 @@ roxygen()
 #' }
 #' @exportClass task.desc
 #' @title Description object for task. 
-#' 
 
 setClass(
 		"task.desc",
@@ -51,7 +50,7 @@ setMethod(
 		}
 )
 
-
+#' Constructor.
 setMethod(
 		f = "initialize",
 		signature = signature("task.desc"),
