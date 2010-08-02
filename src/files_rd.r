@@ -4,6 +4,9 @@ allowed.rd.files <<- c(
 		"object-class.Rd",
 		"to.string.Rd",
 
+		"data.desc-class.Rd",
+		"task.desc-class.Rd",
+		"learn.task-class.Rd",
 		"learn.task-class.Rd",
 		"classif.task-class.Rd",
 		"regr.task-class.Rd",
