@@ -17,6 +17,8 @@ setClass(
 #'       Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
 #' @param thresholds [numeric] \cr 
 #'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
+#' @param path [boolean]\cr
+#'        Should optimization path be saved?
 #' @param ranges [\code{\link{list}}] \cr 
 #' 		A list of named vectors/lists of possible values for each hyperparameter. 
 #'      You can also pass a list of such ranges by using [\code{\link{combine.ranges}}] 
@@ -33,7 +35,7 @@ setClass(
 
 setGeneric(
 		name = "grid.control",
-		def = function(minimize, tune.threshold, thresholds, ranges, scale) {
+		def = function(minimize, tune.threshold, thresholds, path, ranges, scale) {
 			if (missing(minimize))
 				minimize=TRUE
 			if (missing(tune.threshold))
@@ -42,6 +44,8 @@ setGeneric(
 				thresholds=10
 			if (is.numeric(thresholds))
 				thresholds = as.integer(thresholds)
+			if (missing(path))
+				path=FALSE
 			if (missing(ranges))
 				ranges=list()
 			if (missing(scale))
@@ -55,9 +59,14 @@ setGeneric(
 
 setMethod(
 		f = "grid.control",
-		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", ranges="list", scale="function"),
-		def = function(minimize, tune.threshold, thresholds, ranges, scale) {
-			new("grid.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds,
-					start=list(), lower=list(), upper=list(), ranges=ranges, partypes=character(0), scale=scale)
+		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", path="logical", ranges="list", scale="function"),
+		def = function(minimize, tune.threshold, thresholds, path, ranges, scale) {
+			pds = list()
+			for (i in 1:length(ranges)) {
+				pd = new("par.desc.disc", par.name=names(ranges)[i], vals=as.list(ranges[[i]]))
+				pds[[i]] = pd 
+			}
+			new("grid.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, path=path,
+					start=list(), par.descs=pds, scale=scale)
 		}
 )

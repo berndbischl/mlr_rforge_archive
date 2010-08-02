@@ -18,6 +18,8 @@ setClass(
 #'       Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
 #' @param thresholds [numeric] \cr 
 #'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
+#' @param path [boolean]\cr
+#'        Should optimization path be saved?
 #' @param start [numeric] \cr
 #'		Named vector of initial values.
 #' @param lower [numeric] \cr
@@ -36,7 +38,7 @@ setClass(
 
 setGeneric(
 		name = "cmaes.control",
-		def = function(minimize, tune.threshold, thresholds, start, lower, upper, scale, ...) {
+		def = function(minimize, tune.threshold, thresholds, path, start, lower, upper, scale, ...) {
 			if (missing(minimize))
 				minimize=TRUE
 			if (missing(tune.threshold))
@@ -45,6 +47,8 @@ setGeneric(
 				thresholds=10
 			if (is.numeric(thresholds))
 				thresholds = as.integer(thresholds)
+			if (missing(path))
+				path = FALSE
 			if (missing(start))
 				stop("You have to provide a start value!")
 			if (missing(lower))
@@ -70,10 +74,15 @@ setGeneric(
 
 setMethod(
 		f = "cmaes.control",
-		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", start="numeric", lower="numeric", upper="numeric", scale="function"),
-		def = function(minimize, tune.threshold, thresholds, start, lower, upper, scale, ...) {
-			new("cmaes.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds,
-					start=as.list(start), lower=as.list(lower), upper=as.list(upper), ranges=list(), partypes=character(0), scale=scale, ...)
+		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", path="logical", start="numeric", lower="numeric", upper="numeric", scale="function"),
+		def = function(minimize, tune.threshold, thresholds, path, start, lower, upper, scale, ...) {
+			pds = list()
+			for (i in 1:length(start)) {
+				pd = new("par.desc.num", par.name=names(start)[i], lower=lower[i], upper=upper[i])
+				pds[[i]] = pd 
+			}
+			new("cmaes.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, path=path,
+					start=as.list(start), par.descs=pds, scale=scale, ...)
 		}
 )
 
