@@ -90,7 +90,6 @@ setMethod(
 
 
 #' @rdname train.learner
-
 setMethod(
 		f = "train.learner",
 		signature = signature(
@@ -112,6 +111,7 @@ setMethod(
 		}
 )
 
+#' @rdname pred.learner
 setMethod(
 		f = "pred.learner",
 		signature = signature(
@@ -130,7 +130,7 @@ setMethod(
 		}
 )	
 
-
+#' @rdname set.hyper.pars 
 setMethod(
 	f = "set.hyper.pars",
 	
@@ -139,14 +139,14 @@ setMethod(
 			par.vals="list" 
 	),
 	
-	def = function(learner, par.vals=list(), ...) {
+	def = function(learner, ..., par.vals=list()) {
 		ns = names(par.vals)
 		pds.n = learner["par.descs.name", par.top.wrapper.only=T]
 		for (i in seq(length=length(par.vals))) {
 			if (ns[i] %in% pds.n) {
-				learner = callNextMethod(learner, par.vals[i])
+				learner = callNextMethod(learner, par.vals=par.vals[i])
 			} else {	
-				learner@learner = set.hyper.pars(learner@learner, par.vals[i])
+				learner@learner = set.hyper.pars(learner@learner, par.vals=par.vals[i])
 			}
 		}
 		return(learner)
