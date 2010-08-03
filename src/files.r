@@ -150,11 +150,11 @@ classif.files <<- c(
 )
 
 regr.files <<- c( 	
-		"models/regression/bagEarth.regr.r",
+#		"models/regression/bagEarth.regr.r",
 		"models/regression/blackboost.regr.r",
 		"models/regression/earth.regr.r",
 		"models/regression/gbm.regr.r",
-		"models/regression/icr.r",
+#		"models/regression/icr.r",
 		"models/regression/kknn.regr.r",
 		"models/regression/ksvm.regr.r",
 		"models/regression/lasso.r",
