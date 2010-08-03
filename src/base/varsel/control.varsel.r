@@ -5,7 +5,7 @@ roxygen()
 #' Cannot be instatiated. 
 #' 
 #' @exportClass varsel.control
-#' @seealso \code{\link{sequential.control}} 
+#' @seealso \code{\link{sequential.control}}, \code{\link{randomvarsel.control}} 
 #' @title Base class for control objects for variable selection.
 
 setClass(

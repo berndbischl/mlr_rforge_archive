@@ -26,7 +26,11 @@ varsel.seq = function(learner, task, resampling, measures, aggr, control) {
 		#print(unlist(vals))
 		
 		s = select.best.state(es, control)
-		thresh = ifelse(forward, control["alpha"], control["beta"])
+		if (forward)
+			thresh = control["alpha"]
+		# if backward step and we have too many vars we do always go to the next best state with one less var.
+		else
+			thresh = ifelse(length(state$par) <= control["max.vars"], control["beta"], -Inf)
 		if (!compare(state, s, control, measures, aggr, thresh))
 			s = NULL
 		path <<- add.path.els.varsel(path, es, s)
@@ -86,6 +90,9 @@ varsel.seq = function(learner, task, resampling, measures, aggr, control) {
 		logger.debug("current:")
 		logger.debug(state$par)
 		#cat("forward:", forward, "\n")
+		# if forward step and we habe enuff features: stop
+		if (forward && control["max.vars"] <= length(state$par))
+			break
 		s = seq.step(forward, state, gen.new.states, compare)	
 		#print(s$rp$measures["mean", "mmce"])
 		if (is.null(s$state)) {
@@ -100,6 +107,9 @@ varsel.seq = function(learner, task, resampling, measures, aggr, control) {
 					sffs = gen.new.states.sbs,
 					sfbs = gen.new.states.sfs
 			) 
+			# if forward step and we habe enuff features: stop
+			if (!forward && control["max.vars"] <= length(state$par))
+				break
 			s = seq.step(!forward, state, gns, compare)
 			if (is.null(s$state)) {
 				break;
