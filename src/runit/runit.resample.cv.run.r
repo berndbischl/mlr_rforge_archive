@@ -7,7 +7,7 @@ test.cv.instance = function() {
 
   for (i in 1:folds) {
     i1 = get.train.set(rin, i)
-    i2 = get.test.set(rin, i)
+    i2 = get.test.set(rin, i)$inds
     checkTrue(min(i1) >= 1)
     checkTrue(max(i1) <= 25)
     checkTrue(min(i2) >= 1)

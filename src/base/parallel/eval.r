@@ -1,7 +1,7 @@
 
 resample.fit.iter <- function(learner, task, rin, par.vals, vars, i, extract) {
 	train.i = get.train.set(rin, i)
-	test.i = get.test.set(rin, i)
+	test.i = get.test.set(rin, i)$inds
 	
 	m = train(learner, task, subset=train.i, par.vals=par.vals, vars=vars)
 	p = predict(m, task=task, subset=test.i)

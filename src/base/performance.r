@@ -51,7 +51,7 @@ setMethod(
 		def = function(pred, measures, aggr, losses, task) {
 			x = pred
 			td = x@task.desc
-			dd = x@data.desc
+			dd = x@data.desc			
 			ms = sapply(measures, function(f) f(x, task=task))	
 			names(ms) = names(measures)
 			

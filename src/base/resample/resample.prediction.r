@@ -29,6 +29,8 @@ setMethod(
 			tt = sapply(preds, function(x) x["time.train"])
 			es = sapply(preds, function(x) nrow(x@df))
 			df$iter = rep(1:length(preds), times=es)
+			df$group = Reduce(function(i,j) c(i, get.test.set(instance, j)$group),
+					1:instance["iters"], init=as.factor(c()))
 			callNextMethod(.Object, data.desc=p1@data.desc, task.desc=p1@task.desc, 
 					type=type, df=df, threshold=threshold, time.train=tt, time.predict=tp)
 		}

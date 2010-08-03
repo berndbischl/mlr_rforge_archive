@@ -157,7 +157,8 @@ setMethod(
 				logger.debug(level="predict", p)
 			}
 			if (missing(task))
-				ids = NULL			else
+				ids = NULL			
+			else
 				ids = subset
 			make.prediction(data.desc=dd, task.desc=td, id=ids, truth=truth, 
 					type=type, y=p, threshold=threshold,  
