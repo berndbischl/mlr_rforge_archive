@@ -1,4 +1,5 @@
 #' @include object.r
+roxygen()
 
 #' Description object for learner.
 #' 
@@ -14,6 +15,7 @@
 #'  \item{costs [boolean]}{Can misclassification costs be directly used during training?}
 #'  \item{probs [boolean]}{Can probabilities be predicted?}
 #'  \item{decision [boolean]}{Can probabilities be predicted?}
+#' }
 #' @exportClass learner.desc
 #' @title Description object for learner. 
 

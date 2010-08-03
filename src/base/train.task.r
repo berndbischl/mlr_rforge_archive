@@ -18,7 +18,7 @@ roxygen()
 #'        Classification: "response" | "prob" | "decision", specifying the type to predict later.
 #' 		  Default is "response". Very rarely you have to set this during training as well, as the fitted models differ.	 
 #'
-#' @return An object of class \code{\linkS4class{wrapped.model}}. 
+#' @return \code{\linkS4class{wrapped.model}}. 
 #'
 #' @export
 #'

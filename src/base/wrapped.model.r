@@ -22,7 +22,6 @@ roxygen()
 #'	\item{learner model [any]}{Underlying model from used R package.}
 #'	\item{subset [integer]}{Subset used for training.}
 #'	\item{fail [NULL | string]}{Generally NULL but if the training failed, the error message of the underlying train function.}
-#'	\item{opt.result [[\code{\linkS4class{wrapped.model}}]}{Optimum if model was fitted by an optimization wrapper, otherwise NULL.}
 #' }
 #' 
 #' @title Induced model of learner.
