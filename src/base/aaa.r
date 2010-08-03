@@ -10,7 +10,7 @@ roxygen <- function() NULL
 #' @importFrom utils packageDescription
 
 .onLoad <- function(libname, pkgname) {
-	logger.setup(level="warn")
+	logger.setup(level="info")
 	parallel.setup(mode="local")
 	packageStartupMessage("Loading package mlr. Version: ", packageDescription("mlr", fields="Version"))
 }
