@@ -14,6 +14,8 @@ test.resample.prediction = function() {
 	checkEquals(result1["iters"], 4)
 	checkEquals(result2["iters"], 7)
 	checkEquals(result3["iters"], 2)
+
+	checkEquals(result3["iter"], rep(c(1,2), each=50))
 	
 	cc <- ct["target.col"]
 	

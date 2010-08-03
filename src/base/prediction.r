@@ -4,12 +4,12 @@
 #' Getter.\cr
 #' 
 #' \describe{
+#'  \item{type [string]}{Type set in predict function: "response", "prob", or "decision".}
 #'  \item{id [numeric]}{Vector of index numbers of predicted cases from the task.}
 #'  \item{response [numeric | factor]}{Predicted response values.}
 #'  \item{truth [numeric | factor]}{True target values.}
 #'  \item{prob [numeric | matrix] Optional parameters: class}{Predicted probabilities. For binary class. only the probabilities for the positive class are returned.}
 #'  \item{decision [matrix]}{Predicted decision values.}
-#'  \item{type [string]}{Type set in predict function: "response", "prob", or "decision".}
 #'  \item{threshold [numeric]}{Threshold set in predict function.}
 #' }
 #' 
@@ -100,6 +100,8 @@ setMethod(
 				return(x@df$response)
 			if (i == "truth")
 				return(x@df$truth)
+			if (i == "iter")
+				return(x@df$iter)
 			if (i == "prob") {
 				cns = colnames(x@df)
 				cns = cns[grep("^prob", cns)]
