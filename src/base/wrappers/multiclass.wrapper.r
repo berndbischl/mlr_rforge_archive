@@ -82,7 +82,7 @@ setMethod(
 				cl = levs[i]
 				.data[, .targetvar] = as.factor(y == cl)
 				ct = make.task(data=.data, target=.targetvar, positive="TRUE")
-				m = train(.learner["learner"], ct, parset=args)
+				m = train(.learner["learner"], ct, par.vals=args)
 				models[[i]] = m 
 			}
 			names(models) = levs

@@ -22,6 +22,7 @@ setGeneric(
 		}
 )
 
+#' @rdname set.hyper.pars 
 setMethod(
 	f = "set.hyper.pars",
 	
