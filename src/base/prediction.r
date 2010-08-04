@@ -102,6 +102,8 @@ setMethod(
 				return(x@df$truth)
 			if (i == "iter")
 				return(x@df$iter)
+			if (i == "group")
+				return(x@df$group)
 			if (i == "prob") {
 				cns = colnames(x@df)
 				cns = cns[grep("^prob", cns)]

@@ -77,14 +77,16 @@ setMethod(
 		f = "as.list",
 		signature = signature("resample.prediction"),
 		def = function(x, all.names = FALSE, ...) {
-			preds = list()
 			df = x@df
-			for (i in 1:x@instance["iters"]) {
-				j = which(df$iter == i)
-				preds[[i]] = new("prediction", 
-						task.desc=x@task.desc, data.desc=x@data.desc, 
-						type=x@type, df=df[j,], threshold=x@threshold, x@time.train[i], x@time.predict[i])
-			}
+			iter = as.factor(df$iter)
+			df = subset(df, select=-iter)
+			dfs = split(df, iter) 
+			preds = lapply(1:x@instance["iters"], function(i) {
+						y = dfs[[i]]
+						cl = ifelse(is.null(y$group), "prediction", "grouped.prediction")		
+						new(cl, task.desc=x@task.desc, data.desc=x@data.desc, 
+								type=x@type, df=y, threshold=x@threshold, x@time.train[i], x@time.predict[i])						
+			})
 			return(preds)
 		}
 )
