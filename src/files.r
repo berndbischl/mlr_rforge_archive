@@ -61,9 +61,11 @@ base.files <<- c(
 		"base/resample/subsample.instance.r",
 		"base/resample/holdout.instance.r",
 		"base/resample/cv.rep.instance.r",
-		"base/resample/resample.prediction.r",
+		"base/resample/prediction.grouped.r",
+		"base/resample/prediction.resample.r",
 		"base/resample/resample.fit.r",
-		"base/resample/resample.performance.r",
+		"base/resample/performance.grouped.r",
+		"base/resample/performance.resample.r",
 		"base/conf.matrix.r",
 		
 		"base/wrappers/base.wrapper.r",
