@@ -16,12 +16,15 @@ setMethod(
 			# put together without aggregation
 			ms.all = Reduce(rbind, ms.list)
 			ms.aggr.group = Reduce(rbind, lapply(perfs, function(x) {if(is.null(x$aggr)) c() else x$aggr}))
-
-			# ensure a matrix if we just get a single row in ms
-			if (!is.matrix(ms.aggr.group))
-				aggr.group = as.matrix(t(aggr.group))
-			ms.aggr = lapply(aggr, function(f) apply(ms.aggr.group, 2, f))
-			print(ms.aggr)
+			if (!is.null(ms.aggr.group)) {
+				# ensure a matrix if we just get a single row in ms
+				if (!is.matrix(ms.aggr.group))
+					ms.aggr.group = as.matrix(t(ms.aggr.group))
+				ms.aggr = lapply(aggr, function(f) apply(ms.aggr.group, 2, f))
+			} else {
+				ms.aggr = lapply(aggr, function(f) apply(ms.all[,-1,drop=FALSE], 2, f))
+			}
+			
 			j = which(names(aggr) == "combine")
 			if (length(j) > 0) {
 				ms2[[j]] = callNextMethod(pred=pred, measures=measures, losses=list(), aggr=list(), task=task)$measures
@@ -29,7 +32,6 @@ setMethod(
 			ms.aggr = Reduce(rbind, ms.aggr)
 			if (!is.matrix(ms.aggr))
 				ms.aggr = as.matrix(t(ms.aggr))
-			print(ms.aggr)
 			colnames(ms.aggr) = names(measures)
 			rownames(ms.all) = rownames(ms.aggr.group) = NULL 
 			rownames(ms.aggr) = names(aggr)
