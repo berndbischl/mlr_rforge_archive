@@ -52,7 +52,7 @@ make.task = function(id, label, data, target, excluded, weights, costs, positive
 			
 			check.task(data, target)
 			
-			if(is.factor(data[,target]) || is.character(data[,target]))
+			if(is.factor(data[,target]) || is.character(data[,target]) || is.logical(data[,target]))
 				type = "classif"
 			else if(is.numeric(data[,target]) && !is.integer(data[,target]))
 				type = "regr"
