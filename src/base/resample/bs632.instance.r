@@ -1,5 +1,8 @@
 #' @include resample.instance.r
+roxygen()
 #' @include bs632.desc.r
+roxygen()
+#' @include get.train.test.r
 roxygen()
 
 
