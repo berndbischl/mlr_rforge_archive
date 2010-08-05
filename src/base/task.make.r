@@ -7,7 +7,7 @@ roxygen()
 #' The type (classification or regression) is automatically inferred from the target variable.
 #' It might perform some data conversions in the data.frame, like converting integer input features to numerics, 
 #' but will generally warn about this. 
-#' Whether a classification or regression task is created depends on the data type of the target variable. Factors or characters
+#' Whether a classification or regression task is created depends on the data type of the target variable. Factors, logicals or characters
 #' produce classification tasks, numerics produce regression tasks. Integer target variables have to be changed manually. 
 #' 
 #' 
