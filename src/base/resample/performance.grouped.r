@@ -1,5 +1,7 @@
 #' @include prediction.grouped.r
 roxygen()
+#' @include performance.r
+roxygen()
 
 #' @rdname performance
 
