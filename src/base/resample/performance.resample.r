@@ -1,4 +1,4 @@
-#' @include resample.prediction.r
+#' @include prediction.resample.r
 roxygen()
 
 #' @rdname performance

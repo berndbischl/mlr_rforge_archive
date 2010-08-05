@@ -6,7 +6,7 @@ roxygen()
 roxygen()
 #' @include resample.desc.make.r
 roxygen()
-#' @include resample.prediction.r
+#' @include prediction.resample.r
 roxygen()
 
 
