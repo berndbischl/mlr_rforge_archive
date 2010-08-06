@@ -8,6 +8,8 @@ roxygen()
 roxygen()
 #' @include set.id.r
 roxygen()
+#' @include set.label.r
+roxygen()
 
 #' Abstract base class to wrap something around a learner.
 #' @exportClass base.wrapper
