@@ -26,6 +26,8 @@ allowed.rd.files <<- c(
 		"rlearner.regr-class.Rd",
 		"make.learner.Rd",
 		"set.hyper.pars.Rd",
+		"set.id.Rd",
+		"set.label.Rd",
 		"learners.Rd",
 		"get.learners.Rd",
 		

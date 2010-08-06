@@ -27,6 +27,8 @@ base.files <<- c(
 		"base/learners.r",
 		"base/get.learners.r",
 		"base/set.hyper.pars.r",
+		"base/set.id.r",
+		"base/set.label.r",
 		
 		
 		"base/wrapped.model.r",
