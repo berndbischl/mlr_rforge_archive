@@ -24,6 +24,7 @@
 #' 		\item{\bold{mcc}}{\cr Matthews correlation coefficient}
 #' 		\item{\bold{gmean}}{\cr G-mean, geomentric mean of recall and specificity.}
 #' 		\item{\bold{gpr}}{\cr Geometric mean of precision and recall.}
+#' 		\item{\bold{auc}}{\cr Area under the curve.}
 #' 
 #' 		\item{\bold{time.train}}{\cr Time of fitting the model}
 #' 		\item{\bold{time.predict}}{\cr Time of predicting test set}
@@ -116,6 +117,8 @@ make.measure <- function(x) {
 		x = gmean
 	else if (name=="gpr") 
 		x = gpr
+	else if (name=="auc") 
+		x = auc
 	
 	else if (name=="sse") 
 		x = sse
@@ -244,6 +247,10 @@ gpr = function(x, task) {
 	sqrt(ppv(x) * tpr(x))
 }
 
+auc = function(x, task) {
+	rpreds = as.ROCR.preds(x)
+	ROCR.performance(p2, "auc")@y.values[[1]]
+}
 
 
 
