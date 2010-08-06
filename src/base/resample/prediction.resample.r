@@ -29,8 +29,15 @@ setMethod(
 			tt = sapply(preds, function(x) x["time.train"])
 			es = sapply(preds, function(x) nrow(x@df))
 			df$iter = rep(1:length(preds), times=es)
-			callNextMethod(.Object, data.desc=p1@data.desc, task.desc=p1@task.desc, 
-					type=type, df=df, threshold=threshold, time.train=tt, time.predict=tp)
+
+			.Object@type = type			
+			.Object@df = df			
+			.Object@threshold = threshold			
+			.Object@data.desc = p1@data.desc			
+			.Object@task.desc = p1@task.desc	
+			.Object@time.train = tt			
+			.Object@time.predict = tp
+			return(.Object)
 		}
 )
 
@@ -79,14 +86,37 @@ setMethod(
 			iter = as.factor(df$iter)
 			df = subset(df, select=-iter)
 			dfs = split(df, iter) 
-			preds = lapply(1:x@instance["iters"], function(i) {
-						y = dfs[[i]]
-						cl = ifelse(is.null(y$group), "prediction", "grouped.prediction")		
-						new(cl, task.desc=x@task.desc, data.desc=x@data.desc, 
-								type=x@type, df=y, threshold=x@threshold, x@time.train[i], x@time.predict[i])						
-			})
+			preds = list()
+			for(i in 1:x@instance["iters"]) {
+				y = dfs[[i]]
+				cl = ifelse(x["has.groups"], "grouped.prediction", "prediction")		
+				preds[[i]] = new(cl, task.desc=x@task.desc, data.desc=x@data.desc, 
+						type=x@type, df=y, threshold=x@threshold, x@time.train[i], x@time.predict[i])						
+				
+			}
 			return(preds)
 		}
 )
+
+
+setAs("resample.prediction", "prediction", 
+		function(from, to) {
+			df = from@df
+			df$iter = NULL
+			df$group = NULL
+			new("prediction", task.desc=from@task.desc, data.desc=from@data.desc, 
+					type=from@type, df=df, threshold=from@threshold, sum(from@time.train), sum(from@time.predict))						
+		}
+)
+
+setAs("resample.prediction", "grouped.prediction", 
+		function(from, to) {
+			df = from@df
+			df$iter = NULL
+			new("grouped.prediction", task.desc=from@task.desc, data.desc=from@data.desc, 
+					type=from@type, df=from@df, threshold=from@threshold, sum(from@time.train), sum(from@time.predict))						
+		}
+)
+
 
 
