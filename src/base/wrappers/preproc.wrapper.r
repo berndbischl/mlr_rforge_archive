@@ -14,9 +14,9 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("preproc.wrapper"),
-		def = function(.Object, learner, fun, par.descs, par.vals) {
+		def = function(.Object, learner, id, label, fun, par.descs, par.vals) {
 			.Object@fun = fun
-			callNextMethod(.Object, learner=learner, par.descs=par.descs, par.vals=par.vals)
+			callNextMethod(.Object, learner=learner, id=id, label=label, par.descs=par.descs, par.vals=par.vals)
 		}
 )
 
@@ -27,6 +27,10 @@ setMethod(
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
+#' @param id [string] \cr
+#'        Id for resulting learner object. If missing, id of "learner" argument is used.
+#' @param label [string] \cr
+#'        Label for resulting learner object. If missing, label of "learner" argument is used.
 #' @param fun [function] \cr
 #'        Function to preprocess a data.frame. First argument must be called 'data', which will be preprocessed and subsequently returned.
 #' @param ... [any] \cr
@@ -55,12 +59,7 @@ make.preproc.wrapper = function(learner, id, label, fun, ...) {
 		pds[[i]] = new("par.desc.unknown", par.name=n, when="both", data.type=as.character(NA), default=p)
 		pvs[[n]] = p
 	}
-	wl = new("preproc.wrapper", learner=learner, fun=fun, par.descs=pds, par.vals=pvs)
-	if (!missing(id))
-		wl = set.id(wl, id)
-	if (!missing(label))
-		wl = set.label(wl, id)
-	return(wl)
+	new("preproc.wrapper", learner=learner, id=id, label=label, fun=fun, par.descs=pds, par.vals=pvs)
 }
 
 

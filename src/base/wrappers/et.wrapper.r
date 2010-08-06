@@ -7,6 +7,10 @@
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
+#' @param id [string] \cr
+#'        Id for resulting learner object. If missing, id of "learner" argument is used.
+#' @param label [string] \cr
+#'        Label for resulting learner object. If missing, label of "learner" argument is used.
 #' @param fun [function] \cr
 #'        Function to preprocess a data.frame. First argument must be called 'data', which will be preprocessed and subsequently returned.
 #' @param ... [any] \cr
@@ -17,13 +21,13 @@
 #' @title Fuse learner with preprocessing.
 #' @export
 
-make.et.wrapper = function(learner, measures, aggr, task, minimze=T, thresholds=50) {
+make.et.wrapper = function(learner, id, label, measures, aggr, task, minimze=T, thresholds=50) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	fun = function(pred, measures=measures, aggr=aggr, task=task, minimize=minimize, thresholds=thresholds) {
 		tt = tune.threshold(pred, measures, aggr, task, minimize=minimize, thresholds=thresholds) {
 	}	
-	make.postproc.wrapper(learner, fun=fun)
+	make.postproc.wrapper(learner, id=id, label=label, fun=fun)
 }
 
 

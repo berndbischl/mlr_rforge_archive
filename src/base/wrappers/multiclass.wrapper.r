@@ -20,8 +20,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("multiclass.wrapper"),
-		def = function(.Object, learner, codematrix) {
-			.Object = callNextMethod(.Object, learner, par.descs=list(), par.vals=list())
+		def = function(.Object, learner, id, label, codematrix) {
+			.Object = callNextMethod(.Object, learner, id=id, label=label, par.descs=list(), par.vals=list())
 			.Object@codematrix = codematrix
 			return(.Object)
 		}
@@ -52,6 +52,10 @@ setMethod(
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
+#' @param id [string] \cr
+#'        Id for resulting learner object. If missing, id of "learner" argument is used.
+#' @param label [string] \cr
+#'        Label for resulting learner object. If missing, label of "learner" argument is used.
 #' @param ... [any] \cr
 #'        Optional parameters. Not used currently.   
 #' 
@@ -62,12 +66,7 @@ setMethod(
 make.multiclass.wrapper = function(learner, id, label, method, codematrix, ...) {
 	if (is.character(learner))
 		learner = make.learner(learner)
-	wl = new("multiclass.wrapper", learner=learner, codematrix=codematrix)
-	if (!missing(id))
-		wl = set.id(wl, id)
-	if (!missing(label))
-		wl = set.label(wl, id)
-	return(wl)
+	new("multiclass.wrapper", learner=learner, id=id, label=label, codematrix=codematrix)
 }
 
 
@@ -96,7 +95,6 @@ setMethod(
 			for (i in 1:k) {
 				data2 = .data[x$row.inds[[i]], ]
 				data2[, .targetvar] = x$targets[[i]] 
-				dd <<- data2
 				ct = make.task(data=data2, target=.targetvar, positive="1")
 				m = train(.learner["learner"], task=ct, par.vals=args)
 				models[[i]] = m 
@@ -127,7 +125,6 @@ setMethod(
 				p[,i] = as.integer(as.character(predict(m, newdata=.newdata, ...)["response"]))
 			}
 			rns = rownames(cm)
-			pp <<- p
 			y = apply(p, 1, function(v) {
 				# todo: break ties
 				j = which.min(apply(cm, 1, function(z) sum(abs(z - v))))

@@ -14,10 +14,10 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("postproc.wrapper"),
-		def = function(.Object, learner, fun, ...) {
+		def = function(.Object, learner, id, label, fun, ...) {
 			.Object = set.hyper.pars(.Object, parset=list(...))
 			.Object@fun = fun
-			callNextMethod(.Object, learner)
+			callNextMethod(.Object, learner, id=id, label=label)
 		}
 )
 
@@ -27,6 +27,10 @@ setMethod(
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
+#' @param id [string] \cr
+#'        Id for resulting learner object. If missing, id of "learner" argument is used.
+#' @param label [string] \cr
+#'        Label for resulting learner object. If missing, label of "learner" argument is used.
 #' @param fun [function] \cr
 #'        Function to postprocess a prediction object. First argument must be called 'pred', which will be postprocessed and subsequently returned.
 #' @param ... [any] \cr
@@ -37,10 +41,10 @@ setMethod(
 #' @title Fuse learner with postprocessing.
 #' @export
 
-make.postproc.wrapper = function(learner, fun, ...) {
+make.postproc.wrapper = function(learner, id, label, fun, ...) {
 	if (is.character(learner))
 		learner = make.learner(learner)
-	new("postproc.wrapper", learner=learner, fun=fun, ...)
+	new("postproc.wrapper", learner=learner, id=id, label=label, fun=fun, ...)
 }
 
 
