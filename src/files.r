@@ -1,5 +1,6 @@
 base.files <<- c(
 		"log/log.r",
+		"base/errorhandler.r",
 ##		"base/packagedesc.r",
 		"base/aaa.r",
 		"base/helpers.r",
@@ -183,28 +184,28 @@ load.all.libs <- function() {
 	library(ROCR)
 	library(RUnit)
 	library(MASS)
-	library(rpart)
+#	library(rpart)
 	library(e1071)
 	library(boot)
 	library(roxygen)
 	library(kernlab)
-	library(adabag)
-	library(kknn)
-	library(randomForest)
-	library(ada)
-	library(mboost)
-	library(mda)
-	library(gbm)
-	library(penalized)
+#	library(adabag)
+#	library(kknn)
+#	library(randomForest)
+#	library(ada)
+#	library(mboost)
+#	library(mda)
+#	library(gbm)
+#	library(penalized)
 	library(mlbench)
-	library(reshape)
-	library(klaR)
-	library(snowfall)
-	library(nnet)
-	library(RWeka)
-	library(party)
-	library(earth)
-	library(cmaes)
+#	library(reshape)
+#	library(klaR)
+#	library(snowfall)
+#	library(nnet)
+#	library(RWeka)
+#	library(party)
+#	library(earth)
+#	library(cmaes)
 }
 
 load.all.sources <- function(prefix) {
