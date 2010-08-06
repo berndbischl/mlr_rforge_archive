@@ -37,6 +37,6 @@ setMethod(
 			if(is.null(p)) {
 				stop("No probabilities in prediction object!")
 			}
-			make.ROCR.pred(p, x["truth"])
+			make.ROCR.pred(p, x["truth"], label.ordering=c(td["negative"], td["positive"]))
 		}
 )
