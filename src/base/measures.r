@@ -249,7 +249,7 @@ gpr = function(x, task) {
 
 auc = function(x, task) {
 	rpreds = as.ROCR.preds(x)
-	ROCR.performance(p2, "auc")@y.values[[1]]
+	ROCR.performance(rpreds, "auc")@y.values[[1]]
 }
 
 
