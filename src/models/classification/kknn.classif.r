@@ -31,8 +31,14 @@ setMethod(
 					weights = FALSE,
 					costs = FALSE
 			)
-			
-			callNextMethod(.Object, label="knn", pack="kknn", desc=desc)
+			#todo: find out what ykernel and contrasts really do 
+			par.descs = list(
+				new("par.desc.num", par.name="k", data.type="integer", default=7, when="train", lower=1, upper=Inf),
+				new("par.desc.num", par.name="distance ", data.type="numeric", default=2, when="train", lower=0, upper=Inf),
+				new("par.desc.disc", par.name="kernel", data.type="character", default="triangular", when="train", 
+						vals=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian"))
+			)
+			callNextMethod(.Object, label="knn", pack="kknn", desc=desc, par.descs=par.descs)
 		}
 )
 
