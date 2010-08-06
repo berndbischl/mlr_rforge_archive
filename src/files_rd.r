@@ -1,5 +1,6 @@
 allowed.rd.files <<- c( 		
 		"undocumented.Rd",
+		"logger.setup.Rd",
 		"parallel.setup.Rd",
 		"object-class.Rd",
 		"to.string.Rd",
