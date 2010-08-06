@@ -33,8 +33,7 @@ setMethod(
 					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="logreg", pack="stats", desc=desc,
-					par.vals=list(family = "binomial"))
+			callNextMethod(.Object, label="logreg", pack="stats", desc=desc)
 		}
 )
 
@@ -55,7 +54,7 @@ setMethod(
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
-			glm(f, data=.data, model=FALSE, ...)
+			glm(f, data=.data, model=FALSE, family="binomial", ...)
 		}
 )
 
