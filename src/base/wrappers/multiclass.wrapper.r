@@ -7,8 +7,12 @@ roxygen()
 #' @exportClass multiclass.wrapper
 #' @title Wrapper class for learners to handle multi-class problems.
 setClass(
-		"multiclass.wrapper",
-		contains = c("base.wrapper")
+		"multiclass.wrapper",	
+		contains = c("base.wrapper"),
+		representation = representation(
+				codematrix = "matrix",
+				method = "function"
+		)		
 )
 
 #' Constructor.
@@ -16,8 +20,10 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("multiclass.wrapper"),
-		def = function(.Object, learner) {
-			callNextMethod(.Object, learner)
+		def = function(.Object, learner, codematrix) {
+			.Object = callNextMethod(.Object, learner, par.descs=list(), par.vals=list())
+			.Object@codematrix = codematrix
+			return(.Object)
 		}
 )
 
@@ -33,6 +39,8 @@ setMethod(
 				return(FALSE)
 			if (i == "decision")
 				return(FALSE)
+			if (i == "codematrix")
+				return(x@codematrix)
 			callNextMethod()
 		}
 )
@@ -51,10 +59,15 @@ setMethod(
 #' 
 #' @title Fuse learner with multiclass method.
 #' @export
-make.multiclass.wrapper = function(learner, ...) {
+make.multiclass.wrapper = function(learner, id, label, method, codematrix, ...) {
 	if (is.character(learner))
 		learner = make.learner(learner)
-	new("multiclass.wrapper", learner=learner)
+	wl = new("multiclass.wrapper", learner=learner, codematrix=codematrix)
+	if (!missing(id))
+		wl = set.id(wl, id)
+	if (!missing(label))
+		wl = set.label(wl, id)
+	return(wl)
 }
 
 
@@ -73,19 +86,21 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {	
-			k = .data.desc["class.nr"]
-			levs = .data.desc["class.levels"]
+			cm = .learner["codematrix"]
 			y = .data[,.targetvar]
+			x = multi.to.binary(y, cm)
+			k = length(x$row.inds) 
+			levs = .data.desc["class.levels"]
 			models = list()
 			args = list(...)
 			for (i in 1:k) {
-				cl = levs[i]
-				.data[, .targetvar] = as.factor(y == cl)
-				ct = make.task(data=.data, target=.targetvar, positive="TRUE")
-				m = train(.learner["learner"], ct, par.vals=args)
+				data2 = .data[x$row.inds[[i]], ]
+				data2[, .targetvar] = x$targets[[i]] 
+				dd <<- data2
+				ct = make.task(data=data2, target=.targetvar, positive="1")
+				m = train(.learner["learner"], task=ct, par.vals=args)
 				models[[i]] = m 
 			}
-			names(models) = levs
 			return(models)
 		}
 )
@@ -103,17 +118,69 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			models = .model["learner.model"]
-			
+			cm = .model["learner"]["codematrix"]
 			k = length(models)
 			p = matrix(0, nrow(.newdata), ncol=k)
-			levs = names(models)
+			# we use hamming decoding here
 			for (i in 1:k) {
 				m = models[[i]]
-				p[,i] = predict(m, newdata=.newdata, type="prob", ...)["prob"]
+				p[,i] = as.integer(as.character(predict(m, newdata=.newdata, ...)["response"]))
 			}
-			as.factor(apply(p, 1, function(x) vote.max.val(x, levs)))
+			rns = rownames(cm)
+			pp <<- p
+			y = apply(p, 1, function(v) {
+				# todo: break ties
+				j = which.min(apply(cm, 1, function(z) sum(abs(z - v))))
+				rns[j]
+			})
+			as.factor(y)
 		}
 )	
+
+
+
+
+# Function for Multi to Binary Problem Conversion
+multi.to.binary = function(target, codematrix){
+	
+	if (any(is.na(codematrix)) ) {
+		stop("Code matrix contains missing values!")
+	}
+	levs <- levels(target)
+	no.class <- length(levs)
+	rns = rownames(codematrix)
+	if (is.null(rns) || !setequal(rns, levs)) {
+		stop("Rownames of code matrix have to be the class levels!")
+	}
+	
+	binary.targets = as.data.frame(codematrix[target,])
+	row.inds = lapply(binary.targets, function(v) which(v != 0))
+	names(row.inds) = NULL
+	targets = Map(function(y, i) factor(y[i]),
+			binary.targets, row.inds)
+	
+	return(list(row.inds=row.inds, targets=targets))
+}
+
+cm.onevsrest = function(data.desc, task.desc) {
+	n = data.desc["class.nr"]
+	cm = matrix(-1, n, n)
+	diag(cm) = 1
+	rownames(cm) = data.desc["class.levels"]
+	return(cm)
+} 
+
+cm.onevsone = function(data.desc, task.desc) {
+	n = data.desc["class.nr"]
+	cm = matrix(0, n, choose(n, 2))
+	combs = combn(n, 2)
+	for (i in 1:ncol(combs)) {
+		j = combs[,i]
+		cm[j, i] = c(1, -1) 
+	}
+	rownames(cm) = data.desc["class.levels"]
+	return(cm)
+} 
 
 
 

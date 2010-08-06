@@ -37,7 +37,7 @@ setMethod(
 #' @title Fuse learner with preprocessing.
 #' @export
 
-make.preproc.wrapper = function(learner, fun, ...) {
+make.preproc.wrapper = function(learner, id, label, fun, ...) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	ns = names(formals(fun))
@@ -55,7 +55,12 @@ make.preproc.wrapper = function(learner, fun, ...) {
 		pds[[i]] = new("par.desc.unknown", par.name=n, when="both", data.type=as.character(NA), default=p)
 		pvs[[n]] = p
 	}
-	new("preproc.wrapper", learner=learner, fun=fun, par.descs=pds, par.vals=pvs)
+	wl = new("preproc.wrapper", learner=learner, fun=fun, par.descs=pds, par.vals=pvs)
+	if (!missing(id))
+		wl = set.id(wl, id)
+	if (!missing(label))
+		wl = set.label(wl, id)
+	return(wl)
 }
 
 

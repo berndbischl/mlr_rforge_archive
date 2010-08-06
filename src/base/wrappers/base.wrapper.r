@@ -155,3 +155,35 @@ setMethod(
 )
 
 
+#' @rdname set.id 
+setMethod(
+		f = "set.id",
+		
+		signature = signature(
+				learner="base.wrapper", 
+				id="character" 
+		),
+		
+		def = function(learner, id) {
+			learner@learner = set.id(learner@learner, id)
+			return(learner)
+		} 
+)
+
+
+#' @rdname set.label 
+setMethod(
+		f = "set.label",
+		
+		signature = signature(
+				learner="base.wrapper", 
+				label="character" 
+		),
+		
+		def = function(learner, label) {
+			learner@learner = set.label(learner@learner, label)
+			return(learner)
+		} 
+)
+
+
