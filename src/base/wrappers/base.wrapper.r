@@ -6,6 +6,8 @@ roxygen()
 roxygen()
 #' @include set.hyper.pars.r
 roxygen()
+#' @include set.id.r
+roxygen()
 
 #' Abstract base class to wrap something around a learner.
 #' @exportClass base.wrapper
