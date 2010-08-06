@@ -10,7 +10,9 @@
 #'  \item{truth [numeric | factor]}{True target values.}
 #'  \item{prob [numeric | matrix] Optional parameters: class}{Predicted probabilities. For binary class. only the probabilities for the positive class are returned.}
 #'  \item{decision [matrix]}{Predicted decision values.}
+#'  \item{group [factor]}{Grouping of predcitions. Rarely used, if not present NULL is returned.}
 #'  \item{threshold [numeric]}{Threshold set in predict function.}
+#' 	\item{has.groups [boolean]}{Is special grouping used in order to aggregate predictions differently?}
 #' }
 #' 
 #' @exportClass prediction
@@ -47,19 +49,29 @@ setMethod(
 			.Object@df = df			
 			.Object@threshold = threshold			
 			.Object@data.desc = data.desc			
-			.Object@task.desc = task.desc			
+			.Object@task.desc = task.desc	
+			if (length(time.train) != 1)
+				stop("time.tain has to be a single numerical value!")
 			.Object@time.train = time.train			
+			if (length(time.predict) != 1)
+				stop("time.predict has to be a single numerical value!")
 			.Object@time.predict = time.predict			
 			return(.Object)
 		}
 )
 
 
-make.prediction = function(data.desc, task.desc, id, truth, type, y, threshold, time.train, time.predict) {
+make.prediction = function(data.desc, task.desc, id, truth, type, y, group, threshold, time.train, time.predict) {
 	xs = list()
 	# if null no col in df present
 	xs[["id"]] = id
 	xs[["truth"]] = truth
+	if (!is.null(group) && !is.na(group)) {
+		xs[["group"]] = group
+		cl = "grouped.prediction"				
+	} else {
+		cl = "prediction"				
+	}
 	if (type == "response") {
 		resp = y
 	} else if (type == "prob"){
@@ -79,7 +91,7 @@ make.prediction = function(data.desc, task.desc, id, truth, type, y, threshold, 
 	}
 	xs[["response"]] = resp
 	df = as.data.frame(xs)
-	new("prediction", data.desc, task.desc, type, df, threshold=threshold, time.train, time.predict)
+	new(cl, data.desc, task.desc, type, df, threshold=threshold, time.train, time.predict)
 }
 
 
@@ -104,6 +116,8 @@ setMethod(
 				return(x@df$iter)
 			if (i == "group")
 				return(x@df$group)
+			if (i == "has.groups")
+				return(!is.null(x@df$group))
 			if (i == "prob") {
 				cns = colnames(x@df)
 				cns = cns[grep("^prob", cns)]

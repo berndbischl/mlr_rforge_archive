@@ -23,6 +23,9 @@ roxygen()
 #'        for the positive class, so that a positive class is predicted as "response".
 #'        Default is 0.5 for type="prob".
 #' 		  Ignored for regression.	 
+#' @param group [factor] \cr
+#'        Only for internal use! 
+#'        Default is NULL.
 #' @return \code{\linkS4class{prediction}}.
 #'
 #' @export
@@ -36,7 +39,7 @@ roxygen()
 setMethod(
 		f = "predict",
 		signature = signature(object="wrapped.model"),
-		def = function(object, task, newdata, subset, type, threshold) {
+		def = function(object, task, newdata, subset, type, threshold, group=NULL) {
 			if (!missing(task) && !missing(newdata)) 
 				stop("Pass either a task object or a newdata data.frame to predict, but not both!")
 			
@@ -161,7 +164,7 @@ setMethod(
 			else
 				ids = subset
 			make.prediction(data.desc=dd, task.desc=td, id=ids, truth=truth, 
-					type=type, y=p, threshold=threshold,  
+					type=type, y=p, group=group, threshold=threshold,  
 					time.train=model["time"], time.predict=time.predict)
 		}
 )
