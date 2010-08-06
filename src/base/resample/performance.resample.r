@@ -10,43 +10,55 @@ setMethod(
 			rin = pred["instance"]
 			preds = as.list(pred)
 			is = 1:rin["iters"]
-			perfs = lapply(preds, function(p) performance(p, measures=measures, aggr=rin["group.aggr"], losses=losses, task=task))
+			perfs = lapply(preds, function(p) performance(p, measures=measures, aggr=rin["aggr.group"], losses=losses, task=task))
 			# add iter index to measure data.frame
-			ms.list = lapply(is, function (i) cbind(iter=i, perfs[[i]]$measures))
+			ms.list = lapply(is, function (i) {
+				m=perfs[[i]]$measures 
+				if(is.numeric(m)) 
+					m = as.matrix(t(m)) 
+				cbind(iter=i, m)
+			})
 			# put together without aggregation
 			ms.all = Reduce(rbind, ms.list)
-			ms.aggr.group = Reduce(rbind, lapply(perfs, function(x) {if(is.null(x$aggr)) c() else x$aggr}))
-			if (!is.null(ms.aggr.group)) {
-				# ensure a matrix if we just get a single row in ms
-				if (!is.matrix(ms.aggr.group))
-					ms.aggr.group = as.matrix(t(ms.aggr.group))
+			if (rin["has.groups"]) {
+				ms.aggr.group = Reduce(rbind, lapply(perfs, function(x) x$aggr))
+#				if (!is.matrix(ms.aggr.group))
+#					ms.aggr.group = as.matrix(t(ms.aggr.group))
+#				colnames(ms.aggr.group) = names(measures)
+				rownames(ms.aggr.group) = NULL
+				ms.aggr.group = as.data.frame(ms.aggr.group)
 				ms.aggr = lapply(aggr, function(f) apply(ms.aggr.group, 2, f))
+				ms.aggr.group = cbind(iter=is, ms.aggr.group)
 			} else {
 				ms.aggr = lapply(aggr, function(f) apply(ms.all[,-1,drop=FALSE], 2, f))
-			}
-			
+			}				
 			j = which(names(aggr) == "combine")
 			if (length(j) > 0) {
-				ms2[[j]] = callNextMethod(pred=pred, measures=measures, losses=list(), aggr=list(), task=task)$measures
+				# downcast 
+				if (rin["has.groups"])
+					pred = as(pred, "grouped.prediction")
+				else
+					pred = as(pred, "prediction")
+				ms.aggr[[j]] = performance(pred=pred, measures=measures, losses=list(), aggr=list(), task=task)$measures
 			}
 			ms.aggr = Reduce(rbind, ms.aggr)
 			if (!is.matrix(ms.aggr))
 				ms.aggr = as.matrix(t(ms.aggr))
 			colnames(ms.aggr) = names(measures)
-			rownames(ms.all) = rownames(ms.aggr.group) = NULL 
+			rownames(ms.all) = NULL 
 			rownames(ms.aggr) = names(aggr)
+			ms.all = as.data.frame(ms.all)
+			ms.aggr = as.data.frame(ms.aggr)
 			
 			ls = lapply(is, function (i) cbind(iter=i, perfs[[i]]$losses))
 			ls = as.data.frame(Reduce(rbind, ls))
-			
-			ms.all = as.data.frame(ms.all)
-			ms.aggr.group = as.data.frame(ms.aggr.group)
-			ms.aggr = as.data.frame(ms.aggr)
 
-			result = list(measures=ms.all, aggr=ms.aggr)	
+			result = list(measures=ms.all)	
+			if (rin["has.groups"])
+				result$aggr.group = ms.aggr.group
+			result$aggr = ms.aggr
 			if (length(losses) > 0)
 				result$losses = ls
-			result$aggr.group = ms.aggr.group 
 			return(result)
 		}
 )
