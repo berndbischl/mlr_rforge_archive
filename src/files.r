@@ -46,6 +46,7 @@ base.files <<- c(
 		"base/aggr.r",
 		"base/rocr/make.rocr.pred.r",
 		"base/rocr/as.rocr.preds.r",
+		"base/rocr/rocr.funs.r",
 		
 		"base/resample/resample.desc.r",
 		"base/resample/resample.desc.make.r",
@@ -70,6 +71,7 @@ base.files <<- c(
 		"base/resample/performance.grouped.r",
 		"base/resample/performance.resample.r",
 		"base/conf.matrix.r",
+		
 		
 		"base/wrappers/base.wrapper.r",
 #		"base/wrappers/novars.r",
