@@ -6,6 +6,9 @@ base.files <<- c(
 #		"base/to.string.r",
 		"base/object.r",
 		
+		"base/io/read.arff.r",
+		"base/data/data.chars.r",
+
 		"base/learner.desc.r",
 			
 		"base/data.desc.r",
