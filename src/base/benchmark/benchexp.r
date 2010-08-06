@@ -47,6 +47,10 @@ bench.exp <- function(learners, tasks, resampling, measures,
 	if (n == 0)
 		stop("No learners were passed!")
 	check.list.type(learners, c("character", "learner"))
+	learners = lapply(learners, function(x) if (is.character(x)) make.learner(x) else x)
+	ids = sapply(learners, function(x) x["id"])
+	if (any(duplicated(ids)))
+		stop("Learners need unique ids!")
 	
 	if (!is.list(tasks)) {
 		tasks = list(tasks)
@@ -92,8 +96,6 @@ bench.exp <- function(learners, tasks, resampling, measures,
 		dds[[j]] = task@data.desc
 		for (i in 1:length(learners)) {
 			wl = learners[[i]]
-			if (is.character(wl))
-				wl = make.learner(wl)
 			learner.names[i] = wl["id"]
 			logger.info("bench.exp: learner = ", wl["id"])
 			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, conf.mat=conf.mats, models=models, paths=paths)
