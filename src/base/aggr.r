@@ -44,7 +44,7 @@ make.aggrs = function(xs) {
 
 default.aggr = function(x) {
 	if (is(x, "resample.desc"))
-		x["iter.aggr"]
+		x["aggr.iter"]
 	else if (is(x, "resample.instance"))
 		default.aggr(x@desc)
 	else if (is(x, "resample.prediction"))
