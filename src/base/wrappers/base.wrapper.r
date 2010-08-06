@@ -24,12 +24,17 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("base.wrapper"),
-		def = function(.Object, learner, par.descs, par.vals) {
+		def = function(.Object, learner, id, label, par.descs, par.vals) {
 			if (missing(learner))
 				return(.Object)
 			.Object@learner = learner
 			.Object@par.descs = par.descs
 			.Object@par.vals = par.vals
+			print(missing(id))
+			if(!missing(id))
+				.Object = set.id(.Object, id)
+			if(!missing(label))
+				.Object = set.id(.Object, label)
 			return(.Object)
 		}
 )
