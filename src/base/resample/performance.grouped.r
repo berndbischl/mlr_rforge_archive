@@ -16,12 +16,15 @@ setMethod(
 			rownames(ms) = NULL
 			# we only have one aggregate function for groups
 			aggr = aggr[[1]]
-			ms2 = aggr(ms, pred["group"])
-			ms = cbind(group=names(preds), ms)
+			group.obs = pred["group"]
+			group.names = names(preds)
+			ms2 = aggr(ms, group.names)
+			ms = cbind(group=group.names, ms)
 			ls = callNextMethod(pred=pred, measures=list(), losses=losses, aggr=list(), task=task)$losses
-			if (length(losses) > 0)
+			if (length(losses) > 0) {
+				ls = cbind(ls[, 1, drop=FALSE], group=group.obs, ls[, -1, drop=FALSE])  
 				return(list(measures=ms, aggr=ms2, losses=ls))
-			else
+			} else
 				return(list(measures=ms, aggr=ms2))
 	}
 )

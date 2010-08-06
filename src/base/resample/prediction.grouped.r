@@ -22,7 +22,7 @@ setMethod(
 		signature = signature("grouped.prediction"),
 		def = function(x, all.names = FALSE, ...) {
 			df = x@df
-			group = as.factor(df$group)
+			group = df$group
 			df = subset(df, select=-group)
 			dfs = split(df, group) 
 			preds = lapply(dfs, function(y) {
