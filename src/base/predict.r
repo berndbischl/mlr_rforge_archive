@@ -128,8 +128,17 @@ setMethod(
 					p = predict_novars(model["learner.model"], newdata, type)
 					time.predict = 0
 				} else {
-					st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)
+					if (.mlr.local$errorhandler.setup$stop.on.learner.error)
+						st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)
+					else
+						st = system.time(p <- try(do.call(pred.learner, pars), gcFirst=FALSE), silent=TRUE)
 					time.predict = st[3]
+					if(is(p, "try-error")) {
+						msg = as.character(p)
+						warning("Could not predict the learner: ", msg)	
+						p = predict_novars(new("learner.failure", msg=msg), newdata, type)
+						time.predict = as.numeric(NA)
+					}
 				}
 				if (wl["is.classif"]) {
 					if (type == "response") {

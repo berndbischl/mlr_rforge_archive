@@ -39,8 +39,9 @@ setMethod(
 			n = ns[i]
 			p = par.vals[[i]]
 			learner@par.vals[[n]] = p
-			if (!(n %in% pds.n)) {		
-				warning(class(learner), ": Setting par ", n, " without description!")
+			if (!(n %in% pds.n)) {	
+				if (.mlr.local$errorhandler.setup$warn.on.par.without.desc)
+					warning(class(learner), ": Setting par ", n, " without description!")
 				pd = new("par.desc.unknown", par.name=n, when="train", data.type=as.character(NA))
 				learner@par.descs = append(learner@par.descs, pd)
 			}

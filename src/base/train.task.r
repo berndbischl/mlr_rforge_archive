@@ -103,9 +103,12 @@ train.task2 <- function(learner, task, subset, par.vals, vars, type, extra.train
 			warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 		}
 		
-		st = system.time(or <- capture.output(
-							learner.model <- try(do.call(train.learner, pars), silent=TRUE)
-						), gcFirst = FALSE)
+		st = system.time(or <- capture.output({
+							if (.mlr.local$errorhandler.setup$stop.on.learner.error)
+								learner.model <- do.call(train.learner, pars)
+							else
+								learner.model <- try(do.call(train.learner, pars), silent=TRUE)
+						}), gcFirst = FALSE)
 		logger.debug(level="train", or)
 		time.train = st[3]
 	}
