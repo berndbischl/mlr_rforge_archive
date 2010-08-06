@@ -8,6 +8,7 @@ roxygen()
 roxygen()
 
 #' Abstract base class to wrap something around a learner.
+#' @exportClass base.wrapper
 
 setClass(
 		"base.wrapper",
