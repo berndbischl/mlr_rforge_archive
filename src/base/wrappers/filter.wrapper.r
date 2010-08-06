@@ -43,7 +43,7 @@ setMethod(
 #' 
 #' @title Fuse learner with filter method.
 #' @export
-make.filter.wrapper = function(learner, id, label, vars) {
+make.filter.wrapper = function(learner, id=as.character(NA), label=as.character(NA), vars) {
 	new("filter.wrapper", learner=learner, id=id, label=label, vars=vars)
 }
 

@@ -63,7 +63,7 @@ setMethod(
 #' 
 #' @title Fuse learner with multiclass method.
 #' @export
-make.multiclass.wrapper = function(learner, id, label, method, codematrix, ...) {
+make.multiclass.wrapper = function(learner, id=as.character(NA), label=as.character(NA), method, codematrix, ...) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	new("multiclass.wrapper", learner=learner, id=id, label=label, codematrix=codematrix)

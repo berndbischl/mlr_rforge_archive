@@ -41,7 +41,7 @@ setMethod(
 #' @title Fuse learner with postprocessing.
 #' @export
 
-make.postproc.wrapper = function(learner, id, label, fun, ...) {
+make.postproc.wrapper = function(learner, id=as.character(NA), label=as.character(NA), fun, ...) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	new("postproc.wrapper", learner=learner, id=id, label=label, fun=fun, ...)

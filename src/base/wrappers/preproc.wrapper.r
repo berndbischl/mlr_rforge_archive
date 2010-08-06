@@ -41,7 +41,7 @@ setMethod(
 #' @title Fuse learner with preprocessing.
 #' @export
 
-make.preproc.wrapper = function(learner, id, label, fun, ...) {
+make.preproc.wrapper = function(learner, id=as.character(NA), label=as.character(NA), fun, ...) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	ns = names(formals(fun))

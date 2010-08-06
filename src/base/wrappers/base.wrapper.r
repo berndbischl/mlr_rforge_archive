@@ -30,10 +30,9 @@ setMethod(
 			.Object@learner = learner
 			.Object@par.descs = par.descs
 			.Object@par.vals = par.vals
-			print(missing(id))
-			if(!missing(id))
+			if(!is.na(id))
 				.Object = set.id(.Object, id)
-			if(!missing(label))
+			if(!is.na(label))
 				.Object = set.id(.Object, label)
 			return(.Object)
 		}
