@@ -12,11 +12,11 @@ errorhandler.setup <- function(
 		warn.on.par.without.desc=TRUE,
 		stop.on.learner.error=FALSE
 	) {
-	errrorhandler.setup = list()
-	errrorhandler.setup$warn.on.par.without.desc = warn.on.par.without.desc
-	errrorhandler.setup$stop.on.learner.error = stop.on.learner.error
+	errorhandler.setup = list()
+	errorhandler.setup$warn.on.par.without.desc = warn.on.par.without.desc
+	errorhandler.setup$stop.on.learner.error = stop.on.learner.error
 	
-	.mlr.local$errrorhandler.setup <- errrorhandler.setup
+	.mlr.local$errorhandler.setup <- errorhandler.setup
 	
 	return(NULL)
 }
