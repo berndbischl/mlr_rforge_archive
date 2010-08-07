@@ -131,7 +131,7 @@ setMethod(
 					if (.mlr.local$errorhandler.setup$stop.on.learner.error)
 						st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)
 					else
-						st = system.time(p <- try(do.call(pred.learner, pars), gcFirst=FALSE), silent=TRUE)
+						st = system.time(p <- try(do.call(pred.learner, pars), silent=TRUE), gcFirst=FALSE)
 					time.predict = st[3]
 					if(is(p, "try-error")) {
 						msg = as.character(p)
