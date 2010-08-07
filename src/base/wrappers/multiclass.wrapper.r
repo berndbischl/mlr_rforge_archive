@@ -48,7 +48,6 @@ setMethod(
 #' Fuses a base learner with a multi-class method. Creates a learner object, which can be
 #' used like any other learner object. This way learners which can only handle binary classification 
 #' will be able to handle multi-class problems too.
-#' Currently only "one-vs-all" is implemented.
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
@@ -56,6 +55,10 @@ setMethod(
 #'        Id for resulting learner object. If missing, id of "learner" argument is used.
 #' @param label [string] \cr
 #'        Label for resulting learner object. If missing, label of "learner" argument is used.
+#' @param method [string] \cr
+#'        Currently unsupported.
+#' @param codematrix [matrix] \cr
+#'        ECOC codematrix with entries +1,-1,0. Columns define new binary problems, rows correspond to classes.
 #' @param ... [any] \cr
 #'        Optional parameters. Not used currently.   
 #' 
