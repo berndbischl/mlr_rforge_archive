@@ -39,7 +39,8 @@ setMethod(
                             data.type="integer", default=100L, lower=1L, upper=Inf)
                         )
       			
-			callNextMethod(.Object, label="NNet", pack="nnet", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, label="NNet", pack="nnet", desc=desc,
+                     par.descs=par.descs, par.vals=list(size=1L))
 		}
 )
 
