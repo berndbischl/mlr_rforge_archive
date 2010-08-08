@@ -32,8 +32,14 @@ setMethod(
 					weights = TRUE,
 					costs = FALSE
 			)
-			
-			callNextMethod(.Object, label="NNet", pack="nnet", desc=desc, par.vals=list(size=1))
+
+			par.descs <- list(new("par.desc.num", par.name="size", when="train",
+                            data.type="integer", default=1L, lower=0L, upper=Inf),
+                        new("par.desc.num", par.name="maxit", when="train",
+                            data.type="integer", default=100L, lower=1L, upper=Inf)
+                        )
+      			
+			callNextMethod(.Object, label="NNet", pack="nnet", desc=desc, par.descs=par.descs)
 		}
 )
 
