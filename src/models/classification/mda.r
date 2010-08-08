@@ -39,7 +39,7 @@ setMethod(
                             data.type="integer", default=5L, lower=1L, upper=Inf)
                         )
 			
-			callNextMethod(.Object, label="mda", pack="mda", desc=desc)
+			callNextMethod(.Object, label="mda", pack="mda", desc=desc, par.descs=par.descs)
 		}
 )
 
