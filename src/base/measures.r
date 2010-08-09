@@ -176,16 +176,21 @@ mcesd = function(x, task) {
 	sd(as.character(x["truth"]) != as.character(x["response"])) 
 }
 
-cost.measure = function(x, task) {
-	cm = x@task.desc["costs"]
-	if (all(dim(cm) == 0))
+cost.measure = function(x, task, costs=task["costs"]) {
+	if (all(dim(costs) == 0))
 		stop("No costs were defined in task!")
 	cc = function(truth, pred) {
-		cm[truth, pred]
+		costs[truth, pred]
 	}
 	m = Reduce(sum, Map(cc, as.character(x["truth"]), as.character(x["response"])))
+	return(m)
 }
 
+make.cost.measure = function(task, costs) {
+	#todo checks
+	force(costs)
+	function(x, task) cost.measure(x, task, costs=costs)
+}
 
 ### binary
 
