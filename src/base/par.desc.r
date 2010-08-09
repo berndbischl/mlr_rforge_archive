@@ -98,6 +98,26 @@ setMethod(
 )
 
 setClass(
+		"par.desc.log",
+		contains = c("par.desc"),
+		representation = representation(
+				vals = "list"	
+		)	
+)
+
+setMethod(
+		f = "initialize",
+		signature = signature("par.desc.log"),
+		def = function(.Object, par.name, default="missing", when="train", vals, optimize=TRUE, requires=expression(TRUE)) {
+			if (!(is.logical(default) && length(default) == 1))
+				stop("Default value of par. ", par.name,  " has to be a single boolean!")
+			callNextMethod(.Object, par.name, default, when, optimize, requires)
+		}
+)
+
+
+
+setClass(
 	"par.desc.complex",
 	contains = c("par.desc"),
 	representation = representation(
