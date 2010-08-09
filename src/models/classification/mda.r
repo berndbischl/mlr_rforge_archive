@@ -33,11 +33,10 @@ setMethod(
 					costs = FALSE
 			)
 
-			par.descs <- list(new("par.desc.num", par.name="subclasses", when="train",
-                            data.type="integer", default=2L, lower=1L, upper=Inf),
-                        new("par.desc.num", par.name="iter", when="train",
-                            data.type="integer", default=5L, lower=1L, upper=Inf)
-                        )
+			par.descs <- list(
+				new("par.desc.unknown", par.name="subclasses", default=2L),
+                new("par.desc.num", par.name="iter", when="train", default=5L, lower=1L)
+            )
 			
 			callNextMethod(.Object, label="mda", pack="mda", desc=desc, par.descs=par.descs)
 		}

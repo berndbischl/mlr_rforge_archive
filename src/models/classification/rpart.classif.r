@@ -35,14 +35,14 @@ setMethod(
 					costs = TRUE
 			)
 			par.descs = list(
-					new("par.desc.num", par.name="minsplit", data.type="integer", default=20, lower=1, upper=Inf),
-					new("par.desc.num", par.name="minbucket", data.type="integer", lower=1, upper=Inf),
-					new("par.desc.num", par.name="cp", data.type="numerical", default=0.01, lower=0, upper=1),
-					new("par.desc.num", par.name="maxcompete", data.type="integer", default=4, lower=0, upper=Inf, optimize=F),
-					new("par.desc.num", par.name="maxsurrogate", data.type="integer", default=5, lower=0, upper=Inf, optimize=F),
+					new("par.desc.num", par.name="minsplit", default=20, lower=1),
+					new("par.desc.num", par.name="minbucket", lower=1),
+					new("par.desc.num", par.name="cp", default=0.01, lower=0, upper=1),
+					new("par.desc.num", par.name="maxcompete", default=4L, lower=0L, optimize=F),
+					new("par.desc.num", par.name="maxsurrogate", default=5L, lower=0L, optimize=F),
 					new("par.desc.disc", par.name="usesurrogate", default=2, vals=0:2),
-					new("par.desc.disc", par.name="surrogatestyle", default=0, vals=c(0, 1)),
-					new("par.desc.num", par.name="maxdepth", data.type="integer", default=TRUE, lower=1, upper=30)
+					new("par.desc.disc", par.name="surrogatestyle", default=0, vals=0:1),
+					new("par.desc.num", par.name="maxdepth", default=TRUE, lower=1, upper=30)
 			)
 			
 			callNextMethod(.Object, label="RPart", pack="rpart", desc=desc, par.descs=par.descs)

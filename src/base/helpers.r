@@ -89,6 +89,15 @@ check.list.type = function(xs, type, name) {
 	}))
 }
 
+
+all.names = function(xs) {
+	ns = names(xs)
+	length(ns) == length(xs) 	
+}
+ 
+
+
+
 #check.list.types = function(name, xs, types) {
 #	sapply(types, function(tt) check.list.type(name, xs, tt))
 #} 

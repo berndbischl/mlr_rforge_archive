@@ -34,16 +34,16 @@ setMethod(
 			)
 			
 			
-#			par.descs = list(
-#					new("par.desc.disc", par.name="type", default="C-classification", when="train", vals=c("C-classification", "nu-classification"))
-#					new("par.desc.num", par.name="kernel", default="radial", when="train", vals=c("linear", "polynomial", "radial", "sigmoid")),
-#					new("par.desc.num", par.name="degree ", data.type="integer", default=3, when="train", lower=1, upper=Inf),
-#					new("par.desc.num", par.name="gamma ", data.type="integer", default=3, when="train", lower=1, upper=Inf),
-#					new("par.desc.num", par.name="tol", data.type="numerical", default=0.001, when="train", lower=0, upper=Inf),
-#					new("par.desc.log", par.name="shrinking", data.type="logical", default=TRUE, when="train")
-#			)
+			par.descs = list(
+					new("par.desc.disc", par.name="type", default="C-classification", vals=c("C-classification", "nu-classification")),
+					new("par.desc.num", par.name="kernel", default="radial", vals=c("linear", "polynomial", "radial", "sigmoid")),
+					new("par.desc.num", par.name="degree", default=3L, lower=1L),
+					new("par.desc.num", par.name="gamma",  default=3L, lower=1L),
+					new("par.desc.num", par.name="tol", default=0.001, lower=0),
+					new("par.desc.log", par.name="shrinking", default=TRUE)
+			)
 			
-			callNextMethod(.Object, label="SVM", pack="e1071", desc=desc)
+			callNextMethod(.Object, label="SVM", pack="e1071", desc=desc, par.descs=par.descs)
 		}
 )
 
