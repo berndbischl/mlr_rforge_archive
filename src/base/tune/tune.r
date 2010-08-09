@@ -25,9 +25,9 @@ roxygen()
 #' @param aggr [see \code{\link{aggregations}}]\cr
 #'        Aggregation functions. 
 #' @param model [boolean]\cr
-#'        Should a final model be fitted on the complete data with the best found hyperparameters?
+#'        Should a final model be fitted on the complete data with the best found hyperparameters? Default is FALSE.
 #' @param path [boolean]\cr
-#'        Should optimization path be saved?
+#'        Should optimization path be saved? Default is FALSE.
 #' 
 #' @return \code{\linkS4class{opt.result}}.
 #' 
