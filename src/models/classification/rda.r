@@ -32,18 +32,18 @@ setMethod(
 					costs = FALSE
 			)
 			par.descs = list(
-					new("par.desc.num", par.name="lambda", default=as.numeric(NA), lower=0, upper=1),
-					new("par.desc.num", par.name="gamma ", default=as.numeric(NA), lower=0, upper=1),
-					new("par.desc.log", par.name="crossval", data.type="logical", default=TRUE),
+					new("par.desc.num", par.name="lambda", default="missing", lower=0, upper=1),
+					new("par.desc.num", par.name="gamma ", default="missing", lower=0, upper=1),
+					new("par.desc.log", par.name="crossval", default=TRUE),
 					new("par.desc.num", par.name="fold", default=10, lower=1),
 					new("par.desc.num", par.name="train.fraction", default=0.5, lower=0, upper=1),
 					new("par.desc.log", par.name="crossval", default=TRUE),
-					new("par.desc.disc", par.name="schedule", default=1, vals=1:2, requires=quote(simAnn==FALSE)),
-					new("par.desc.num", par.name="T.start", default=0.1, lower=0, requires=quote(simAnn==TRUE)),
-					new("par.desc.num", par.name="halflife", default=0.1, lower=0, requires=quote(simAnn==TRUE || schedule==1)),
-					new("par.desc.num", par.name="zero.temp", default=0.01, lower=0, requires=quote(simAnn==TRUE || schedule==1)),
-					new("par.desc.num", par.name="alpha", default=2, lower=1, requires=quote(simAnn==TRUE || schedule==2)),
-					new("par.desc.num", par.name="K", default=100, lower=1, requires=quote(simAnn==TRUE || schedule==2)),
+					new("par.desc.disc", par.name="schedule", default=1, vals=1:2, requires=expression(simAnn==FALSE)),
+					new("par.desc.num", par.name="T.start", default=0.1, lower=0, requires=expression(simAnn==TRUE)),
+					new("par.desc.num", par.name="halflife", default=0.1, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
+					new("par.desc.num", par.name="zero.temp", default=0.01, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
+					new("par.desc.num", par.name="alpha", default=2, lower=1, requires=expression(simAnn==TRUE || schedule==2)),
+					new("par.desc.num", par.name="K", default=100, lower=1, requires=expression(simAnn==TRUE || schedule==2)),
 					
 					new("par.desc.disc", par.name="kernel", default="triangular", 
 							vals=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian"))

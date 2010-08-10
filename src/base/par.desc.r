@@ -34,8 +34,8 @@ setMethod(
 			.Object@par.name = par.name						
 			.Object@default = default						
 			.Object@when = when
-			if (!(when %in% c("train", "predict", "when")))
-				stop("par.desc: ", par.name, " : Arg 'when' can only be 'train', 'predict' or 'both', not ", when)
+			if (!(when %in% c("train", "predict", "both")))
+				stop("par.desc ", par.name, " : Arg 'when' can only be 'train', 'predict' or 'both', not '", when, "'!")
 			.Object@flags = flags
 			if (length(flags) > 0) { 
 				ns = names(flags)
@@ -43,7 +43,7 @@ setMethod(
 					stop("par.desc: ", par.name, " : All elements of flag list have to be uniquely named!")
 				if (!(ns %in% c("optimize", "pass.default")))
 					stop("par.desc: ", par.name, " : Only flags 'optimize' and 'pass.default' are supported!")
-				if (!all(sapply(xs, function(x) is.logical(x) || length(x)==1)))
+				if (!all(sapply(flags, function(x) is.logical(x) || length(x)==1)))
 					stop("par.desc: ", par.name, " : Only boolean flags are supported!")
 			}
 			.Object@requires = requires						
@@ -101,7 +101,7 @@ setMethod(
 		def = function(.Object, par.name, default="missing", when="train", vals, flags=list(), requires=expression(TRUE)) {
 			if (is.vector(vals))
 				vals = as.list(vals)
-			if (!(default %in% vals))
+			if (default != "missing" && !(default %in% vals))
 				stop("Default value of par. ", par.name,  " has to be among allowed values!")
 			.Object@vals = vals					
 			callNextMethod(.Object, par.name, default, when, flags, requires)

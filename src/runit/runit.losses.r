@@ -8,7 +8,7 @@ test.losses <- function() {
 	pred = predict(m, task=ct, subset=binaryclass.test.inds)
 	perf1 = performance(pred, losses="zero-one")
 	checkEquals(perf1$measures["mmce"], mean(perf1$losses[, "zero-one"]), checkNames=F)
-	perf2 = performance(pred, measures=c("mmce", "fp", "fn", "costs"), losses=c("zero-one", "costs"))
+	perf2 = performance(pred, task=ct, measures=c("mmce", "fp", "fn", "costs"), losses=c("zero-one", "costs"))
 	checkEquals(perf2$measures["mmce"], mean(perf2$losses[, "zero-one"]), checkNames=F)
 	checkEquals((perf2$measures["fp"] + perf2$measures["fn"]) / length(binaryclass.test.inds), perf2$measures["mmce"], checkNames=F)
 	checkEquals(1*perf2$measures["fp"] + 2*perf2$measures["fn"], perf2$measures["costs"], checkNames=F)

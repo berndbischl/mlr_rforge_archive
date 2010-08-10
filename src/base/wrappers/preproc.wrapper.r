@@ -56,7 +56,7 @@ make.preproc.wrapper = function(learner, id=as.character(NA), label=as.character
 	for (i in seq(length=length(ns))) {
 		n = ns[i]
 		p = args[[n]]
-		pds[[i]] = new("par.desc.unknown", par.name=n, when="both", data.type=as.character(NA), default=p)
+		pds[[i]] = new("par.desc.unknown", par.name=n, when="both", default=p)
 		pvs[[n]] = p
 	}
 	new("preproc.wrapper", learner=learner, id=id, label=label, fun=fun, par.descs=pds, par.vals=pvs)
