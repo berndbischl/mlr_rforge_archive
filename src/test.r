@@ -2,9 +2,9 @@ source("src/files.r")
 load.all.libs()
 load.all.sources("src")
 
-logger.define(level="warn", global=T)
-
-parallel.setup(global=TRUE)
+logger.define(level="info")
+parallel.setup(mode=local)
+errorhandler.setup()
 
 data(BostonHousing)
 
