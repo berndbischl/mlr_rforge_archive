@@ -110,16 +110,13 @@ setMethod(
 
 setClass(
 		"par.desc.log",
-		contains = c("par.desc"),
-		representation = representation(
-				vals = "list"	
-		)	
+		contains = c("par.desc")
 )
 
 setMethod(
 		f = "initialize",
 		signature = signature("par.desc.log"),
-		def = function(.Object, par.name, default="missing", when="train", vals, flags=list(), requires=expression(TRUE)) {
+		def = function(.Object, par.name, default="missing", when="train", flags=list(), requires=expression(TRUE)) {
 			if (!(is.logical(default) && length(default) == 1))
 				stop("Default value of par. ", par.name,  " has to be a single boolean!")
 			callNextMethod(.Object, par.name, default, when, flags, requires)
