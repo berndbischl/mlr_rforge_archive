@@ -10,8 +10,8 @@ source("src/runit/make.runit.tests.r")
 
 
 parallel.setup(mode="local")
-
 logger.setup(level="error")
+errorhandler.setup()
 
 data(Sonar)
 
