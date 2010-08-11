@@ -1,24 +1,70 @@
+setClass(
+		"prepare.control",
+		representation = representation(
+				props = "list"
+		)
+)
 
-prep.data = function(data, target, excluded=c(), ints.as.nums = TRUE, ints.as.factors=FALSE, chars.as.factors = TRUE)   {
+setMethod(
+		f = "initialize",
+		signature = signature("prepare.control"),
+		def = function(.Object, props) {
+			if (missing(props)) {
+				props = list(ints.as = "numeric", chars.as = "factor", drop.class.levels=TRUE)
+			}
+			.Object@props = props 		
+			return(.Object)
+		}
+)
+
+
+prep.data = function(is.classif, data, target, excluded=c(), control) {
 	
-	if (identical(ints.as.nums, TRUE) && identical(ints.as.factors, TRUE)) {
-		stop("ints.as.nums and ints.as.factors both TRUE!")
-	}
+	ints.as = control@props$ints.as
+	chars.as = control@props$chars.as
+	drop.class.levels = control@props$drop.class.levels
+	
+	if (is.classif) {
+		targets = data[, target]
+		
+		#convert target to factor
+		if (!is.factor(targets)) {
+			if(is.integer(data[, target]) || is.character(targets) || is.logical(factor)) {
+				warning("Converting target col. to factor.")
+				data[, target] = as.factor(targets)
+			} else {
+				stop("Unsuitable target col. for classification data!")				
+			}
+		}	
+		
+		targets = data[, target]
+		
+		# drop unused class levels
+		if (drop.class.levels) {
+			before.drop <- levels(targets)
+			data[, target] <- targets[, drop=TRUE]
+			after.drop <- levels(data[, target])
+			if(!identical(before.drop, after.drop)) {
+				warning(paste("Empty levels were dropped from class col.:", 
+								setdiff(before.drop, after.drop)))
+			}	
+		}
+	}	
 	
 	cns = colnames(data)
 	for (i in 1:ncol(data)) {
 		cn = cns[i]
 		v = data[, i]
 		if (!(cn  %in% excluded)) {
-			if (ints.as.nums && is.integer(v)) {
+			if (ints.as == "numerical" && is.integer(v)) {
 				data[,i] = as.numeric(v)
 				warning("Converting integer variable to numeric:", cn)
 			}
-			if (ints.as.factors && is.integer(v)) {
+			if (ints.as == "factor" && is.integer(v)) {
 				data[,i] = as.factor(v)
 				warning("Converting integer variable to factor:", cn)
 			}
-			if (chars.as.factors && is.character(v)) {
+			if (chars.as == "factor" && is.character(v)) {
 				data[,i] = as.factor(v)
 				warning("Converting char variable to factor:", cn)
 			}
@@ -28,44 +74,5 @@ prep.data = function(data, target, excluded=c(), ints.as.nums = TRUE, ints.as.fa
 	return(data)    
 }
 
-prep.classif.data <- function(data, target, excluded=c(), 
-		ints.as.nums = TRUE, ints.as.factors=FALSE, chars.as.factors = TRUE, 
-		drop.class.levels=TRUE)   {
-
-	targets = data[, target]
-	
-	#convert target to factor
-	if (!is.factor(targets)) {
-		if(is.integer(data[, target]) || is.character(targets)) {
-			warning("Converting target col. to factor.")
-			data[, target] = as.factor(targets)
-		} else {
-			stop("Unsuitable target col. for classification data!")				
-		}
-	}	
-	
-	targets = data[, target]
-	
-	# drop unused class levels
-	if (drop.class.levels) {
-		before.drop <- levels(targets)
-		data[, target] <- targets[, drop=TRUE]
-		after.drop <- levels(data[, target])
-		if(!identical(before.drop, after.drop)) {
-			warning(paste("Empty levels were dropped from class col.:", 
-							setdiff(before.drop, after.drop)))
-		}	
-	}
-	prep.data(data=data, target=target, excluded,
-			ints.as.nums, ints.as.factors, chars.as.factors)
-}
-	
-prep.regr.data <- function(data, target, excluded=c(),
-		ints.as.nums = TRUE, ints.as.factors=FALSE, chars.as.factors = TRUE)   {
-	
-	prep.data(data=data, target=target, excluded,
-			ints.as.nums, ints.as.factors, chars.as.factors)
-	
-}
 
 
