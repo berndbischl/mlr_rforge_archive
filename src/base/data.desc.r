@@ -1,5 +1,7 @@
 #' @include object.r
 roxygen()
+#' @include prepare.df.r
+roxygen()
 
 #' Description object for data.
 #' 
