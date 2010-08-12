@@ -18,17 +18,20 @@ setMethod(
 		signature = signature("classif.llr"),
 		def = function(.Object) {
 			
-			desc = new("classif.props",
-					supports.multiclass = FALSE,
-					supports.missings = FALSE,
-					supports.numerics = TRUE,
-					supports.factors = TRUE,
-					supports.characters = FALSE,
-					supports.probs = TRUE,
-					supports.decision = FALSE,
-					supports.weights = FALSE,
-					supports.costs = FALSE
-			)
+			
+			desc = new("learner.desc.classif",
+					oneclass = FALSE,
+					twoclass = TRUE,
+					multiclass = FALSE,
+					missings = FALSE,
+					numerics = TRUE,
+					factors = TRUE,
+					characters = FALSE,
+					probs = TRUE,
+					decision = FALSE,
+					weights = FALSE,
+					costs = FALSE
+			)			
 			
 			callNextMethod(.Object, label="llr", pack="locClass", props=desc)
 		}
