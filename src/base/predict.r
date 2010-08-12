@@ -55,7 +55,6 @@ setMethod(
 			} else {
 				newdata = prep.data(dd["is.classif"], newdata, dd["target"], dd["excluded"], dd["prepare.control"])			
 			}
-
 			
 			if (missing(type))
 				type = wl["predict.type"]
@@ -71,7 +70,7 @@ setMethod(
 			# get truth and drop target col, if target in newdata
 			if (length(t.col) == 1) {
 				truth = newdata[, t.col]
-				newdata = newdata[, -t.col]					
+				newdata = newdata[, -t.col, drop=FALSE]					
 				
 			} else {
 				truth = NULL
