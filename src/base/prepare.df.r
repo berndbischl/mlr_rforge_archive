@@ -24,7 +24,7 @@ prep.data = function(is.classif, data, target, excluded=c(), control) {
 	chars.as = control@props$chars.as
 	drop.class.levels = control@props$drop.class.levels
 	
-	if (is.classif) {
+	if (is.classif && !is.null(data[["target"]])) {
 		targets = data[, target]
 		
 		#convert target to factor
@@ -52,11 +52,12 @@ prep.data = function(is.classif, data, target, excluded=c(), control) {
 	}	
 	
 	cns = colnames(data)
+	excluded = c(excluded, target)
 	for (i in 1:ncol(data)) {
 		cn = cns[i]
 		v = data[, i]
 		if (!(cn  %in% excluded)) {
-			if (ints.as == "numerical" && is.integer(v)) {
+			if (ints.as == "numeric" && is.integer(v)) {
 				data[,i] = as.numeric(v)
 				warning("Converting integer variable to numeric:", cn)
 			}

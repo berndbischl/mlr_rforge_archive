@@ -42,17 +42,20 @@ setMethod(
 		def = function(object, task, newdata, subset, type, threshold, group=NULL) {
 			if (!missing(task) && !missing(newdata)) 
 				stop("Pass either a task object or a newdata data.frame to predict, but not both!")
-			
-			if (missing(newdata)) {
-				if (missing(subset))
-					subset = 1:task["size"]
-				newdata = task["data", row=subset]
-			}
 
 			model = object
 			wl = model["learner"]
 			td = model@task.desc
 			dd = model@data.desc
+			
+			if (missing(newdata)) {
+				if (missing(subset))
+					subset = 1:task["size"]
+				newdata = task["data", row=subset]
+			} else {
+				newdata = prep.data(dd["is.classif"], newdata, dd["target"], dd["excluded"], dd["prepare.control"])			
+			}
+
 			
 			if (missing(type))
 				type = wl["predict.type"]

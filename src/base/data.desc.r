@@ -22,6 +22,7 @@ roxygen()
 #'  \item{class.nr [integer]}{Number of classes. NA if not classification.}
 #'  \item{class.dist [integer]}{Class distribution. Named vector. NA if not classification.}
 #'	\item{is.binary [boolean]}{Binary classification?. NA if not classification.}
+#'	\item{prepare.control [prepare.control]}{Control object used for preparing the original data.frame.}
 #' }
 #' @exportClass data.desc
 #' @title Description object for data. 
@@ -31,7 +32,8 @@ setClass(
 		"data.desc",
 		contains = c("object"),
 		representation = representation(
-				props = "list"
+				props = "list",
+				prepare.control = "prepare.control" 
 		)
 )
 
@@ -39,7 +41,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("data.desc"),
-		def = function(.Object, data, target, excluded) {
+		def = function(.Object, data, target, excluded, prepare.control) {
 			i = which(colnames(data) %in% c(target, excluded))
 			df2 = data[, -i, drop=F]
 			.Object@props$target = target 
@@ -59,6 +61,7 @@ setMethod(
 				.Object@props$classes =	{tab=table(y);cl=as.integer(tab); names(cl)=names(tab);cl}
 			else
 				.Object@props$classes =	as.integer(NA)
+			.Object@prepare.control = prepare.control
 			return(.Object)
 		}
 )

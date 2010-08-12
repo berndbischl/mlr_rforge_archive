@@ -29,8 +29,8 @@ setMethod(
 				return(.Object)
 			
 			prep.ctrl = new("prepare.control")
-			data = prep.classif.data(data, target, excluded, prep.ctrl)			
-			dd = new("data.desc", data=data, target=target, excluded=excluded)
+			data = prep.data(TRUE, data, target, excluded, prep.ctrl)			
+			dd = new("data.desc", data=data, target=target, excluded=excluded, prepare.control=prep.ctrl)
 			n = dd["class.nr"]
 			levs = dd["class.levels"]
 			
@@ -74,7 +74,7 @@ setMethod(
 			td = new("task.desc", task.class="classif.task", id=id, label=label, has.weights=hw,
 							costs=costs, positive=pos, negative=neg)			
 			
-			callNextMethod(.Object, data=data, weights=weights, data.desc=dd, task.desc=td, prepare.control=prep.control)
+			callNextMethod(.Object, data=data, weights=weights,	data.desc=dd, task.desc=td)
 		}
 )
 

@@ -29,14 +29,15 @@ setMethod(
 			if (missing(data))
 				return(.Object)
 			
-			
-			data = prep.data(data, target, excluded)			
-			dd = new("data.desc", data=data, target=target, excluded=excluded)
+			prep.ctrl = new("prepare.control")
+			data = prep.data(FALSE, data, target, excluded, prep.ctrl)			
+			dd = new("data.desc", data=data, target=target, excluded=excluded, prepare.control=prep.ctrl)
 			hw = length(weights) > 0
 			td = new("task.desc", task.class="regr.task", id=id, label=label, has.weights=hw, 
 					costs=matrix(0,0,0), positive=as.character(NA), negative=as.character(NA)) 
 			
-			callNextMethod(.Object, data=data, weights=weights, data.desc=dd, task.desc=td)
+			callNextMethod(.Object, data=data, weights=weights, 
+					data.desc=dd, task.desc=td)
 		}
 )
 
