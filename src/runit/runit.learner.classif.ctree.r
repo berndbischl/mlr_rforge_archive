@@ -24,13 +24,16 @@ test.ctree <- function() {
 		old.probs.list[[i]] <- p2
 	}
 	
-#	simple.test.parsets("classif.ctree", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
+	simple.test.parsets("classif.ctree", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
 	prob.test.parsets  ("classif.ctree", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
-#	
-#	tt <- "ctree"
-#	tp <- function(model, newdata) predict(model, newdata, type="class")
-#	
-#	cv.test.parsets("classif.ctree", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp, parset.list=parset.list)
+	
+	df = iris
+	df[,1] = 1:150
+	df1 = df[seq(1,150,2), ]
+	df2 = df[seq(2,150,2), ]
+	ct = make.task(target="Species", data=df1)
+	m = train("classif.ctree", ct)
+	predict(m, newdata=df2)
 	
 }
 
