@@ -11,4 +11,9 @@ test.weights <- function() {
 	m2 = do.call(lm, list(regr.formula, data=regr.df, weights=ws))
 	p2 = predict(m2, newdata=regr.df[30:100,])
 	checkEquals(p2, p["response"], checkNames=F)
+	
+	
+	checkException(make.task(data=multiclass.df, target=multiclass.target, weights=1:2))
+	s = geterrmessage()
+	checkTrue(length(grep("Weights have to be of the same length", s)) >0 )
 }
