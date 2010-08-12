@@ -1,8 +1,8 @@
 
 #' Optimizes the variables for a classification or regression problem by choosing a variable selection wrapper approach.
 #' Allows for different optimization methods.
-#' The specific details of the search algorithm are set by passing a control object.   
-#' 
+#' The specific details of the search algorithm are set by passing a control object.
+#' Currently you can use \code{\link{sequential.control}} and \code{\link{randomvarsel.control}}. 
 #' The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal variables.
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
