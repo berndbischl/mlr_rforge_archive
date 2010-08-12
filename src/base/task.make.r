@@ -62,7 +62,11 @@ make.task = function(id, label, data, target, excluded, weights, costs, positive
 			if (missing(excluded))
 				excluded = character(0)
 			if (missing(weights))
-				weights = numeric(0) 
+				weights = numeric(0)
+			else {
+				if(length(weights) != nrow(data))
+					stop("Weights have to be of the same length as number of rows in data! Or pass none at all.")
+			}
 			if (missing(costs)) {
 				costs = matrix(0,0,0)
 			}
