@@ -11,6 +11,7 @@ roxygen()
 #'  \item{is.classif [boolean]}{Classification task?}
 #' 	\item{is.regr [boolean]}{Regression task?}
 #'  \item{has.weights [boolean]}{Are weights available in task for covariates?}
+#'  \item{has.blocking [boolean]}{Is blocking available in task for observations?}
 #'  \item{costs [matrix]}{Cost matrix, of dimension (0,0) if not available.}
 #'  \item{positive [string]}{Positive class label for binary classification, NA else.}
 #'  \item{negative [string]}{Negative class label for binary classification,, NA else.}
@@ -40,6 +41,10 @@ setMethod(
 				return(x@props$id)
 			if (i == "label") 
 				return(x@props$label)
+			if (i == "has.weights") 
+				return(x@props$has.weights)
+			if (i == "has.blocking") 
+				return(x@props$has.blocking)
 			if (i == "costs") 
 				return(x@props$costs)
 			if (i == "positive") 

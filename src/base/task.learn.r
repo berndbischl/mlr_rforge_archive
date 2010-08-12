@@ -54,6 +54,7 @@ setMethod(
 			
 			.Object@data = data
 			.Object@weights = weights
+			.Object@blocking = blocking
 			.Object@data.desc = data.desc
 			.Object@task.desc = task.desc
 			
@@ -84,10 +85,6 @@ setMethod(
 			if (i == "input.names"){
 				return(setdiff(colnames(x@data), c(x["excluded"], x["target.name"])))
 			}
-			if (i == "has.weights"){
-				return(length(x@weights) > 0)
-			}
-			
 			
 			if (is.null(row))
 				row = 1:nrow(x@data)
@@ -96,11 +93,15 @@ setMethod(
 				return(x@data[row, x["target.name"]])
 			}
 			if (i == "weights") {
-				if (!x["has.weights"])
+				if (!td["has.weights"])
 					return(NULL)
 				return(x@weights[row])
 			}
-			
+			if (i == "blocking") {
+				if (!td["has.blocking"])
+					return(NULL)
+				return(x@blocking[row])
+			}
 			if (i == "data"){
 				if (is.null(col))
 					col = setdiff(colnames(x@data), x["excluded"])
@@ -124,7 +125,7 @@ setMethod(
 #---------------- restrict.learn.task -----------------------------------------------------
 
 restrict.learn.task <- function(learn.task, subset) {
-	learn.task@data <- learn.task@data[subset,]
+	learn.task@data <- learn.task@data[subset,,drop=FALSE]
 	return(learn.task)
 }
 
