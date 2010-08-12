@@ -24,7 +24,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.task"),
-		def = function(.Object, id, label, data, weights=rep(1, nrow(data)), target, excluded) {
+		def = function(.Object, id, label, data, weights, blocking, target, excluded) {
 				
 			if (missing(data))
 				return(.Object)
@@ -36,7 +36,7 @@ setMethod(
 			td = new("task.desc", task.class="regr.task", id=id, label=label, has.weights=hw, 
 					costs=matrix(0,0,0), positive=as.character(NA), negative=as.character(NA)) 
 			
-			callNextMethod(.Object, data=data, weights=weights, 
+			callNextMethod(.Object, data=data, weights=weights, blocking=blocking,
 					data.desc=dd, task.desc=td)
 		}
 )

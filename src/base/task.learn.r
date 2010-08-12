@@ -31,6 +31,7 @@ setClass(
 		representation = representation(
 				data = "data.frame",
 				weights = "numeric",
+				blocking = "factor",
 				data.desc = "data.desc",
 				task.desc = "task.desc"
 		)
@@ -44,7 +45,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, data, weights, data.desc, task.desc) {
+		def = function(.Object, data, weights, blocking, data.desc, task.desc) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!

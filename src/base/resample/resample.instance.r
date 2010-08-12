@@ -32,7 +32,8 @@ setClass(
 		# we always have to store training inds because the order might matter
 		representation = representation(
 				desc = "resample.desc", 
-				size = "integer", 
+				size = "integer",
+				blocking = "factor",
 				inds = "list"
 		)
 )
