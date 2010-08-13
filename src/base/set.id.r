@@ -7,8 +7,8 @@
 #' 		    
 #' @return \code{\linkS4class{learner}} with changed id.
 #' @exportMethod set.id
-#' @rdname set.id 
 #' @title Set id of learner object.
+#' @rdname set.id 
 
 setGeneric(
 		name = "set.id",

@@ -7,8 +7,8 @@
 #' 		    
 #' @return \code{\linkS4class{learner}} with changed label.
 #' @exportMethod set.label
-#' @rdname set.label 
 #' @title Set label of learner object.
+#' @rdname set.label 
 
 setGeneric(
 		name = "set.label",

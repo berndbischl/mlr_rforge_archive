@@ -9,8 +9,8 @@
 #' 		    
 #' @return \code{\linkS4class{learner}} with changed hyperparameters.
 #' @exportMethod set.hyper.pars
-#' @rdname set.hyper.pars 
 #' @title Set hyperparamters of learner object.
+#' @rdname set.hyper.pars 
  
 setGeneric(
 		name = "set.hyper.pars",
