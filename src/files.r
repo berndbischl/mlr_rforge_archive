@@ -12,8 +12,8 @@ base.files <<- c(
 
 		"base/learner.desc.r",
 			
-		"base/data.desc.r",
 		"base/prepare.df.r",
+		"base/data.desc.r",
 		"base/task.desc.r",
 		"base/task.learn.r",
 		"base/task.classif.r",
