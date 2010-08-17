@@ -59,11 +59,12 @@ setMethod(
 setMethod(
 		f = "initialize",
 		signature = signature("task.desc"),
-		def = function(.Object, task.class, id, label, has.weights,  costs, positive, negative) {
+		def = function(.Object, task.class, id, label, has.weights, has.blocking, costs, positive, negative) {
 			.Object@task.class = task.class
 			.Object@props$id = id
 			.Object@props$label = label
 			.Object@props$has.weights = has.weights
+			.Object@props$has.blocking = has.blocking
 			.Object@props$costs = costs
 			.Object@props$positive = positive
 			.Object@props$negative = negative

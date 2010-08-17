@@ -34,7 +34,7 @@ setMethod(
 		def = function(x, task, size, ...) {
 			desc = make.res.desc(x, ...)
 			cc = paste(x, "instance", sep=".")
-			return(new(cc, desc=desc, size=size))
+			make.res.i(cc, desc=desc, size=size)
 		}
 )
 
@@ -47,7 +47,7 @@ setMethod(
 		def = function(x, task, size, ...) {
 			desc = make.res.desc(x, ...)
 			cc = paste(x, "instance", sep=".")
-			new(cc, desc=desc, size=task["size"])
+			make.res.i(cc, desc=desc, size=task["size"], blocking=task["blocking"])
 		}
 )
 
@@ -59,7 +59,7 @@ setMethod(
 		f = "make.res.instance",
 		signature = c(x="resample.desc", task="missing", size="numeric"),
 		def = function(x, task, size, ...) {
-			new(x@instance.class, desc=x, size=size)
+			make.res.i(x@instance.class, desc=x, size=size)
 		}
 )
 
@@ -70,7 +70,25 @@ setMethod(
 		f = "make.res.instance",
 		signature = c(x="resample.desc", task="learn.task", size="missing"),
 		def = function(x, task, size, ...) {
-			new(x@instance.class, desc=x, size=task["size"])
+			make.res.i(x@instance.class, desc=x, size=task["size"], blocking=task["blocking"])
 		}
 )
 
+
+make.res.i = function(i.class, desc, size, blocking=factor(c())) {
+	if (length(blocking) > 1) {
+		levs = levels(blocking)
+		size2 = length(levs)
+		# create instance for blocks
+		inst = new(i.class, desc=desc, size=size2)
+		inds.list = i
+		# now exchange block indices with shuffled indices of elements of this block
+		f = function(i) sample(which(blocking == levs[i]))
+		g = function(inds) Reduce(c, lapply(inds, f))
+		inst@inds = lapply(inst@inds, g) 
+		inst@size = size
+	} else { 
+		inst = new(i.class, desc=desc, size=size)
+	}
+	return(inst)
+}

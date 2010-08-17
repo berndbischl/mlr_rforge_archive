@@ -33,7 +33,6 @@ setClass(
 		representation = representation(
 				desc = "resample.desc", 
 				size = "integer",
-				blocking = "factor",
 				inds = "list"
 		)
 )
@@ -89,18 +88,6 @@ setMethod(
 			)
 		}
 )
-
-
-
-get.train.targets <- function(learn.task, resample.instance, i) {
-	inds <- resample.instance["train.inds", i]
-	return(learn.task["targets", inds])
-}
-
-get.test.targets <- function(learn.task, resample.instance, i) {
-	inds <- resample.instance["test.inds", i]
-	return(learn.task["targets", inds])
-}
 
 
 setClass(

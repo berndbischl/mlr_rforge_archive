@@ -33,7 +33,8 @@ setMethod(
 			data = prep.data(FALSE, data, target, excluded, prep.ctrl)			
 			dd = new("data.desc", data=data, target=target, excluded=excluded, prepare.control=prep.ctrl)
 			hw = length(weights) > 0
-			td = new("task.desc", task.class="regr.task", id=id, label=label, has.weights=hw, 
+			hb = length(blocking) > 0
+			td = new("task.desc", task.class="regr.task", id=id, label=label, has.weights=hw, has.blocking=hb, 
 					costs=matrix(0,0,0), positive=as.character(NA), negative=as.character(NA)) 
 			
 			callNextMethod(.Object, data=data, weights=weights, blocking=blocking,

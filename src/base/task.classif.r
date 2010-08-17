@@ -71,7 +71,8 @@ setMethod(
 					stop("Row and column names of cost matrix have to equal class levels!")
 			}			
 			hw = length(weights) > 0
-			td = new("task.desc", task.class="classif.task", id=id, label=label, has.weights=hw,
+			hb = length(blocking) > 0
+			td = new("task.desc", task.class="classif.task", id=id, label=label, has.weights=hw, has.blocking=hb,
 							costs=costs, positive=pos, negative=neg)			
 			
 			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, data.desc=dd, task.desc=td)
