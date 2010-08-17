@@ -25,6 +25,7 @@ setClass(
 	)	
 )
 
+#' Constructor.
 setMethod(
 		f = "initialize",
 		signature = signature("par.desc"),
@@ -69,7 +70,7 @@ setClass(
 		upper = "numeric"
 	)	
 )
-
+#' Constructor.
 setMethod(
 		f = "initialize",
 		signature = signature("par.desc.num"),
@@ -95,6 +96,7 @@ setClass(
 	)	
 )
 
+#' Constructor.
 setMethod(
 		f = "initialize",
 		signature = signature("par.desc.disc"),
@@ -113,6 +115,7 @@ setClass(
 		contains = c("par.desc")
 )
 
+#' Constructor.
 setMethod(
 		f = "initialize",
 		signature = signature("par.desc.log"),

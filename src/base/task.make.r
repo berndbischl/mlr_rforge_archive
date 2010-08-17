@@ -38,8 +38,6 @@ roxygen()
 #' @export
 #' @rdname make.task
 #' 
-#' @usage make.task(id, label, data, target, excluded, weights, costs, positive)
-#'
 #' @title Construct learning task.
 
 
