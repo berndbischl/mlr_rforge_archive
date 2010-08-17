@@ -44,7 +44,7 @@ setGeneric(
 			if (is.character(learner))
 				learner = make.learner(learner)
 			if (is(resampling, "resample.desc")) 
-				resampling = make.res.instance(resampling, size=task["size"])
+				resampling = make.res.instance(resampling, task=task)
 			if (missing(par.vals))
 				par.vals = list()
 			if (missing(vars))

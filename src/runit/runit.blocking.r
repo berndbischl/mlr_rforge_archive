@@ -14,6 +14,15 @@ test.blocking = function() {
 		tab = table(b[test.j])
 		checkTrue(setequal(c(0,5), unique(as.numeric(tab))))
 	}
+	res = make.res.desc("cv", iters=3)
+	p = resample.fit("classif.lda", ct, res)
+	for (j in 1:res["iters"]) {
+		test.j = p@df[p@df$iter == j, "id"]
+		tab = table(b[test.j])
+		print(tab)
+		checkTrue(setequal(c(0,5), unique(as.numeric(tab))))
+	}
+	
 }
 
 
