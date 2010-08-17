@@ -66,6 +66,7 @@ test.predict <- function() {
 	s = geterrmessage()
 	checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
 	
+	# check error in predict
 	df = na.omit(BreastCancer[,-1]) 
 	ct = make.task(data=df, target="Class")
 	res = make.res.desc("cv", iters=10)

@@ -13,7 +13,7 @@ parallel.setup(mode="local")
 logger.setup(level="error")
 errorhandler.setup()
 
-data(Sonar)
+data(Sonar, BreastCancer)
 
 binaryclass.df <- Sonar
 binaryclass.formula <- Class~.
