@@ -91,6 +91,11 @@ make.prediction = function(data.desc, task.desc, id, truth, type, y, group, thre
 	}
 	xs[["response"]] = resp
 	df = as.data.frame(xs)
+	# fix columnnames for prob if strage chars are in factor levels
+	cns = colnames(df)
+	i = grep("prob.", cns)
+	if (length(i) > 0)
+		colnames(df)[i] = paste("prob.", colnames(xs[["prob"]]), sep="")
 	new(cl, data.desc, task.desc, type, df, threshold=threshold, time.train, time.predict)
 }
 

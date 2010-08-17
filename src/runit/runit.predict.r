@@ -59,7 +59,7 @@ test.predict <- function() {
 	ct = make.task(data=df, target=binaryclass.target)
 	cm7 = train("classif.lda", task=ct)
 	cp7 = predict(cm7, task=ct, type="prob")
-	head(p@df)
+	checkEquals(colnames(cp7@df), c("id", "truth", "prob.-1", "prob.1", "response"))
 	
 	cm8 = train("regr.lm", regr.task)
 	checkException(predict(cm8, regr.task, type="prob"), silent=TRUE)
