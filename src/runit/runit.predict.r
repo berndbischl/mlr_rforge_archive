@@ -53,10 +53,25 @@ test.predict <- function() {
 	s = geterrmessage()
 	checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
 	
-	cm7 = train("regr.lm", regr.task)
-	checkException(predict(cm7, regr.task, type="prob"), silent=TRUE)
+	# check strange chars in labels
+	df = binaryclass.df
+	levels(df[,binaryclass.target]) = c(-1,1)
+	ct = make.task(data=df, target=binaryclass.target)
+	cm7 = train("classif.lda", task=ct)
+	cp7 = predict(cm7, task=ct, type="prob")
+	head(p@df)
+	
+	cm8 = train("regr.lm", regr.task)
+	checkException(predict(cm8, regr.task, type="prob"), silent=TRUE)
 	s = geterrmessage()
 	checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
+	
+	df = na.omit(BreastCancer[,-1]) 
+	ct = make.task(data=df, target="Class")
+	res = make.res.desc("cv", iters=10)
+	p = resample.fit("classif.randomForest", ct, res)
+	perf = performance(p)
+	checkTrue(all(is.na(perf$measures$mmce)))
 	
 	#todo dec values!!!
 }
