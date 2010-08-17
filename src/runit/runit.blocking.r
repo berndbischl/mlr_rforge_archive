@@ -19,7 +19,6 @@ test.blocking = function() {
 	for (j in 1:res["iters"]) {
 		test.j = p@df[p@df$iter == j, "id"]
 		tab = table(b[test.j])
-		print(tab)
 		checkTrue(setequal(c(0,5), unique(as.numeric(tab))))
 	}
 	
