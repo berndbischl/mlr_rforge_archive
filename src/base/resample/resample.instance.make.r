@@ -81,7 +81,6 @@ make.res.i = function(i.class, desc, size, blocking=factor(c())) {
 		size2 = length(levs)
 		# create instance for blocks
 		inst = new(i.class, desc=desc, size=size2)
-		inds.list = i
 		# now exchange block indices with shuffled indices of elements of this block
 		f = function(i) sample(which(blocking == levs[i]))
 		g = function(inds) Reduce(c, lapply(inds, f))
