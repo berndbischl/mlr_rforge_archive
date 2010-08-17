@@ -253,6 +253,9 @@ gpr = function(x, task) {
 }
 
 auc = function(x, task) {
+	# ROCR does not work with NAs
+	if (any(is.na(x["response"])))
+		return(as.numeric(NA))
 	rpreds = as.ROCR.preds(x)
 	ROCR.performance(rpreds, "auc")@y.values[[1]]
 }

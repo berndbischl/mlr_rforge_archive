@@ -179,7 +179,7 @@ predict_nas = function(learner, model, newdata, type, levs, data.desc, task.desc
 	if (learner["is.classif"]) {
 		p = switch(type, 
 				response = factor(rep(NA, nrow(newdata)), levels=levs),
-				matrix(NA, nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))
+				matrix(as.numeric(NA), nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))
 		)
 	} else {
 		p = as.numeric(rep(NA, nrow(newdata)))
