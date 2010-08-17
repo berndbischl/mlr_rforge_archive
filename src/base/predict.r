@@ -101,14 +101,8 @@ setMethod(
 			
 			# was there an error in building the model? --> return NAs
 			if(is(model["learner.model"], "learner.failure")) {
-				if (wl["is.classif"]) {
-					p = switch(type, 
-							response = factor(rep(NA, nrow(newdata)), levels=levs),
-							matrix(NA, nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))
-					)
-				} else {
-					p = as.numeric(rep(NA, nrow(newdata)))
-				}
+				p = predict_nas(wl, model, newdata, type, levs, dd, td)
+				time.predict = as.numeric(NA)
 			} else {
 				pars <- list(
 						.learner = wl,
@@ -135,10 +129,11 @@ setMethod(
 					else
 						st = system.time(p <- try(do.call(pred.learner, pars), silent=TRUE), gcFirst=FALSE)
 					time.predict = st[3]
+					# was there an error during prediction?
 					if(is(p, "try-error")) {
 						msg = as.character(p)
-						warning("Could not predict the learner: ", msg)	
-						p = predict_novars(new("learner.failure", msg=msg), newdata, type)
+						warning("Could not predict the learner: ", msg)
+						p = predict_nas(wl, model, newdata, type, levs, dd, td)
 						time.predict = as.numeric(NA)
 					}
 				}
@@ -180,5 +175,16 @@ setMethod(
 		}
 )
 
+predict_nas = function(learner, model, newdata, type, levs, data.desc, task.desc) {
+	if (learner["is.classif"]) {
+		p = switch(type, 
+				response = factor(rep(NA, nrow(newdata)), levels=levs),
+				matrix(NA, nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))
+		)
+	} else {
+		p = as.numeric(rep(NA, nrow(newdata)))
+	}
+	return(p)
+}
 
 
