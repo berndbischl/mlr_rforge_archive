@@ -30,7 +30,8 @@ prep.data = function(is.classif, data, target, excluded=c(), control) {
 		#convert target to factor
 		if (!is.factor(targets)) {
 			if(is.integer(data[, target]) || is.character(targets) || is.logical(factor)) {
-				warning("Converting target col. to factor.")
+				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
+					warning("Converting target col. to factor.")
 				data[, target] = as.factor(targets)
 			} else {
 				stop("Unsuitable target col. for classification data!")				
@@ -59,15 +60,18 @@ prep.data = function(is.classif, data, target, excluded=c(), control) {
 		if (!(cn  %in% excluded)) {
 			if (ints.as == "numeric" && is.integer(v)) {
 				data[,i] = as.numeric(v)
-				warning("Converting integer variable to numeric:", cn)
+				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
+					warning("Converting integer variable to numeric:", cn)
 			}
 			if (ints.as == "factor" && is.integer(v)) {
 				data[,i] = as.factor(v)
-				warning("Converting integer variable to factor:", cn)
+				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
+					warning("Converting integer variable to factor:", cn)
 			}
 			if (chars.as == "factor" && is.character(v)) {
 				data[,i] = as.factor(v)
-				warning("Converting char variable to factor:", cn)
+				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
+					warning("Converting char variable to factor:", cn)
 			}
 		}
 	}
