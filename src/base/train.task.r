@@ -54,9 +54,7 @@ train.task2 <- function(learner, task, subset, par.vals, vars, type, extra.train
 	# todo: do we still need this, and the loading when exporting a learner? 
 	# pack is loaded when learner is constructed
 	# export: probably yes...
-	if(learner["pack"] != "mlr" && !require(learner["pack"], character.only=TRUE)) {
-		stop(paste("Learner", learner["id"], "could not be constructed! package", learner["pack"], "missing!"))
-	}
+	require.packs(learner["pack"], paste("learner", learner["id"]))
 	
 	check.result <- check.fct(task, learner)
 	if (check.result$msg != "") {

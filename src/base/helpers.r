@@ -170,3 +170,15 @@ check.getter.args = function(x, arg.names, j, ...) {
 		}		
 	}	
 }
+
+require.packs = function(packs, for.string) {
+	packs.ok = sapply(packs, function(x) require(x, character.only = TRUE))
+	if (length(packs.ok) == 0)
+		packs.ok = TRUE
+	if(!all(packs.ok)) {
+		ps = paste(packs[!packs.ok], collapse=" ")
+		s = paste("For", for.string, "please install the following packages:", ps)
+	}
+	return(packs.ok)
+}
+

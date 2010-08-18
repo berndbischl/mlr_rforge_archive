@@ -14,12 +14,6 @@ setClass(
 		"rlearner",
 		contains = c("learner"),
 		representation = representation(
-				id = "character",
-				label = "character",
-				pack = "character",
-				desc = "learner.desc",
-				predict.type = "character",
-				predict.threshold = "numeric"					
 		)
 )
 
@@ -36,39 +30,6 @@ setMethod(
 			if (i == "is.regr") {
 				return(is(x, "rlearner.regr"))
 			}
-			if (i == "pack") {
-				return(x@pack)
-			}
-			if (i == "probs") {
-				return(ifelse(x["is.regr"], F, x@desc["probs"]))
-			}
-			if (i == "decision") {
-				return(ifelse(x["is.regr"], F, x@desc["decision"]))
-			}
-			if (i == "multiclass") {
-				return(ifelse(x["is.regr"], F, x@desc["multiclass"]))
-			}
-			if (i == "missings") {
-				return(x@desc["missings"])
-			}
-			if (i == "costs") {
-				return(ifelse(x["is.regr"], F, x@desc["costs"]))
-			}
-			if (i == "weights") {
-				return(x@desc["weights"])
-			}
-			if (i == "numerics") {
-				return(x@desc["numerics"])
-			}
-			if (i == "factors") {
-				return(x@desc["factors"])
-			}
-			if (i == "characters") {
-				return(x@desc["characters"])
-			}
-			if (i == "pack") {
-				return(x@pack)
-			}	
 			callNextMethod()
 		}
 )
@@ -80,31 +41,14 @@ setMethod(
 setMethod(
 		f = "initialize",
 		signature = signature("rlearner"),
-		def = function(.Object, id, label, pack, desc, par.descs, par.vals) {
-			# constructor is called in setClass of inheriting classes 
-			# wtf chambers, wtf!
-			
+		def = function(.Object, id, label, pack, desc, par.descs=list(), par.vals=list()) {
 			if (missing(desc))
 				return(.Object)
 			if (missing(id))
 				id = as.character(class(.Object))
 			if (missing(label))
 				label = id
-			.Object@id = id
-			.Object@label = label
-			.Object@pack = pack
-			.Object@desc = desc
-			.Object@predict.type = "response"
-			if(pack != "mlr" && !require(pack, character.only=TRUE)) {
-				stop(paste("Learner", id, "could not be constructed! package", pack, "missing!"))
-			}
-			if (missing(par.descs))
-				par.descs = list()
-			.Object@par.descs = par.descs
-			callNextMethod(.Object)
-			if (!missing(par.vals))
-				.Object = set.hyper.pars(.Object, par.vals=par.vals)
-			return(.Object)
+			callNextMethod(.Object, id=id, label=label, pack=pack, desc=desc, par.desc=par.descs, par.vals=par.vals)
 		}
 )
 

@@ -31,10 +31,45 @@ setClass(
 		"learner",
 		contains = c("object"),
 		representation = representation(
+				id = "character",
+				label = "character",
+				pack = "character",
+				desc = "learner.desc",
+				predict.type = "character",
+				predict.threshold = "numeric",					
 				par.descs = "list",
 				par.vals = "list"
 		)		
 )
+
+
+#' Constructor.
+setMethod(
+		f = "initialize",
+		signature = signature("learner"),
+		def = function(.Object, id, label, pack, desc, par.descs, par.vals) {			
+			if (missing(desc))
+				return(.Object)
+			if (missing(id))
+				id = as.character(class(.Object))
+			if (missing(label))
+				label = id
+			.Object@id = id
+			.Object@label = label
+			.Object@pack = pack
+			.Object@desc = desc
+			.Object@predict.type = "response"
+			require.packs(pack, for.string=paste("learner", id))
+			if (missing(par.descs))
+				par.descs = list()
+			.Object@par.descs = par.descs
+			callNextMethod(.Object)
+			if (!missing(par.vals))
+				.Object = set.hyper.pars(.Object, par.vals=par.vals)
+			return(.Object)
+		}
+)
+
 
 #' Getter.
 #' @rdname learner-class
@@ -44,8 +79,35 @@ setMethod(
 		signature = signature("learner"),
 		def = function(x,i,j,...,drop) {
 			check.getter.args(x, c("par.when", "par.top.wrapper.only"), j, ...)
-			if (i == "pack") 
-				return("mlr")	
+			
+			if (i == "probs") {
+				return(ifelse(x["is.regr"], F, x@desc["probs"]))
+			}
+			if (i == "decision") {
+				return(ifelse(x["is.regr"], F, x@desc["decision"]))
+			}
+			if (i == "multiclass") {
+				return(ifelse(x["is.regr"], F, x@desc["multiclass"]))
+			}
+			if (i == "missings") {
+				return(x@desc["missings"])
+			}
+			if (i == "costs") {
+				return(ifelse(x["is.regr"], F, x@desc["costs"]))
+			}
+			if (i == "weights") {
+				return(x@desc["weights"])
+			}
+			if (i == "numerics") {
+				return(x@desc["numerics"])
+			}
+			if (i == "factors") {
+				return(x@desc["factors"])
+			}
+			if (i == "characters") {
+				return(x@desc["characters"])
+			}
+			
 			if (i == "par.descs.name") 
 				return(sapply(x@par.descs, function(y) y@par.name))
 			if (i == "par.descs.when") {
