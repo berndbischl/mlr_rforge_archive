@@ -28,7 +28,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("base.wrapper"),
-		def = function(.Object, learner, id, label, par.descs, par.vals) {
+		def = function(.Object, learner, id, label, par.descs, par.vals, pack=as.character(c())) {
 			if (missing(learner))
 				return(.Object)
 			.Object@learner = learner
@@ -93,6 +93,9 @@ setMethod(
 					return(c(x@learner["par.vals.name", ...], x["par.vals.name", par.top.wrapper.only=TRUE, ...]))
 				}					
 			}
+			if(i == "pack") {
+				return(c(x@learner["pack"], x@pack))
+			}			
 			return(x@learner[i])
 		}
 )
