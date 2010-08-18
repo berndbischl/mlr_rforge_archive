@@ -1,10 +1,5 @@
 # todo: can we log where the current log was generated, like in which method (automatically)?
 
-#logger.errorhandler <- function() {
-#	s <- geterrmessage()
-#	logger.error(s)
-#}
-
 #' Sets up the logging system of mlr. 
 #' 
 #' @param console [boolean] \cr
@@ -28,7 +23,6 @@ logger.setup <- function(console=TRUE, file=NA, level, sublevel=NA) {
 		options(warn=1)
 	}
 		
-	#options(error=logger.errorhandler)
 	logger.setup <- list()
 	logger.setup$console <- console
 	logger.setup$file <- file
