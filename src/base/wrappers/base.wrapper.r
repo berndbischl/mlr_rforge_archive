@@ -28,17 +28,17 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("base.wrapper"),
-		def = function(.Object, learner, id, label, par.descs, par.vals, pack=as.character(c())) {
+		def = function(.Object, learner, id, label, desc, par.descs, par.vals, pack=as.character(c())) {
 			if (missing(learner))
 				return(.Object)
 			.Object@learner = learner
-			.Object@par.descs = par.descs
-			.Object@par.vals = par.vals
-			if(!is.na(id))
-				.Object = set.id(.Object, id)
-			if(!is.na(label))
-				.Object = set.id(.Object, label)
-			return(.Object)
+			if (is.na(id))
+				id = learner["id"]
+			if (is.na(label))
+				label = learner["label"]
+			if (missing(desc))
+				desc = learner@desc
+			callNextMethod(.Object, id=id, label=label, desc=desc, par.descs=par.descs, par.vals=par.vals, pack=pack)
 		}
 )
 
@@ -51,9 +51,17 @@ setMethod(
 		signature = signature("base.wrapper"),
 		def = function(x,i,j,...,drop) {
 			check.getter.args(x, c("par.top.wrapper.only", "par.when"), j, ...)
-#			print(paste("base", i))
+			if(i == "id") {
+				return(x@id)
+			}			
+			if(i == "label") {
+				return(x@label)
+			}			
 			if (i == "learner")
 				return(x@learner)
+			if(i == "pack") {
+				return(c(x@learner["pack"], x@pack))
+			}			
 			
 			args = list(...)
 			par.top.wrapper.only = args$par.top.wrapper.only
@@ -93,9 +101,6 @@ setMethod(
 					return(c(x@learner["par.vals.name", ...], x["par.vals.name", par.top.wrapper.only=TRUE, ...]))
 				}					
 			}
-			if(i == "pack") {
-				return(c(x@learner["pack"], x@pack))
-			}			
 			return(x@learner[i])
 		}
 )
@@ -164,37 +169,4 @@ setMethod(
 		return(learner)
 	} 
 )
-
-
-#' @rdname set.id 
-setMethod(
-		f = "set.id",
-		
-		signature = signature(
-				learner="base.wrapper", 
-				id="character" 
-		),
-		
-		def = function(learner, id) {
-			learner@learner = set.id(learner@learner, id)
-			return(learner)
-		} 
-)
-
-
-#' @rdname set.label 
-setMethod(
-		f = "set.label",
-		
-		signature = signature(
-				learner="base.wrapper", 
-				label="character" 
-		),
-		
-		def = function(learner, label) {
-			learner@learner = set.label(learner@learner, label)
-			return(learner)
-		} 
-)
-
 
