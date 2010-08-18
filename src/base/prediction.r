@@ -76,13 +76,16 @@ make.prediction = function(data.desc, task.desc, id, truth, type, y, group, thre
 		resp = y
 	} else if (type == "prob"){
 		xs[["prob"]] = y
+		levs = data.desc["class.levels"]		
 		if (data.desc["is.binary"]) {
 			resp = prob.threshold(y, pos=task.desc["positive"], neg=task.desc["negative"], 
-					levels=data.desc["class.levels"], threshold=threshold)
+					levels=levs, threshold=threshold)
 		} else {
 			resp = sapply(1:nrow(y), function(i) vote.max.val(y[i,], colnames(y)))
 		}
 		resp = as.factor(resp)
+		# the levels of the predicted classes might not be complete....
+		levels(resp) = union(levels(resp), levs)
 	} else if (type == "decision"){
 		xs[["decision"]] = y
 		#resp = colnames(y)[apply(y, which.max, 2)]

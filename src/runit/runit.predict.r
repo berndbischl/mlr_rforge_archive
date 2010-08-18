@@ -41,11 +41,13 @@ test.predict <- function() {
 	cp5b = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds, type="prob")
 	cp5c = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds, type="prob", threshold=0)
 	cp5d = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds, type="prob", threshold=1)
+	cp5e = predict(cm5, task=binaryclass.task, subset=1, type="prob")
 	checkEquals(cp5a["response"], cp5b["response"])
 	f1 = factor(rep(binaryclass.task["positive"], length(binaryclass.test.inds)), levels=binaryclass.task["class.levels"])
 	checkEquals(cp5c["response"], f1)
 	f2 = factor(rep(binaryclass.task["negative"], length(binaryclass.test.inds)), levels=binaryclass.task["class.levels"])
 	checkEquals(cp5d["response"], f2)
+	checkTrue(setequal(levels(cp5e["response"]), c("M", "R")))
 	
 	
 	cm6 = train("classif.lvq1", multiclass.task)
