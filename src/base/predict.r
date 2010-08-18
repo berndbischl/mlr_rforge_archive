@@ -143,7 +143,10 @@ setMethod(
 						# be sure to add the levels at the end, otherwise data gets changed!!!
 						if (!is.factor(p))
 							stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
-						levels(p) = levs
+						levs2 = levels(p)
+						if (length(levs2) != length(levs) || any(levs != levs2))
+							p = factor(p, levels=levs)
+						
 					} else if (type == "prob") {
 						if (!is.matrix(p))
 							stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")

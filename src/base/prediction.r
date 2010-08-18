@@ -85,7 +85,9 @@ make.prediction = function(data.desc, task.desc, id, truth, type, y, group, thre
 		}
 		resp = as.factor(resp)
 		# the levels of the predicted classes might not be complete....
-		levels(resp) = levs
+		levs2 = levels(resp)
+		if (length(levs2) != length(levs) || any(levs != levs2))
+			resp = factor(resp, levels=levs)
 	} else if (type == "decision"){
 		xs[["decision"]] = y
 		#resp = colnames(y)[apply(y, which.max, 2)]
