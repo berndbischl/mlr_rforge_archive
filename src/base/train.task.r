@@ -102,11 +102,11 @@ train.task2 <- function(learner, task, subset, par.vals, vars, type, extra.train
 		}
 		
 		st = system.time(or <- capture.output({
-							if (.mlr.local$errorhandler.setup$stop.on.learner.error)
-								learner.model <- do.call(train.learner, pars)
-							else
-								learner.model <- try(do.call(train.learner, pars), silent=TRUE)
-						}), gcFirst = FALSE)
+			if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
+				learner.model <- do.call(train.learner, pars)
+			else
+				learner.model <- try(do.call(train.learner, pars), silent=TRUE)
+			}), gcFirst = FALSE)
 		logger.debug(level="train", or)
 		time.train = st[3]
 	}
@@ -114,8 +114,9 @@ train.task2 <- function(learner, task, subset, par.vals, vars, type, extra.train
 	
 	# if error happened we use a failure model
 	if(is(learner.model, "try-error")) {
-		msg <- as.character(learner.model)
-		warning("Could not train the learner: ", msg)	
+		msg = as.character(learner.model)
+		if (.mlr.local$errorhandler.setup$on.learner.error == "warn")
+			warning("Could not train the learner: ", msg)	
 		learner.model <- new("learner.failure", msg=msg)
 		time.train = as.numeric(NA)
 	} 

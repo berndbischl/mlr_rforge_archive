@@ -124,7 +124,7 @@ setMethod(
 					p = predict_novars(model["learner.model"], newdata, type)
 					time.predict = 0
 				} else {
-					if (.mlr.local$errorhandler.setup$stop.on.learner.error)
+					if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
 						st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)
 					else
 						st = system.time(p <- try(do.call(pred.learner, pars), silent=TRUE), gcFirst=FALSE)
@@ -132,7 +132,8 @@ setMethod(
 					# was there an error during prediction?
 					if(is(p, "try-error")) {
 						msg = as.character(p)
-						warning("Could not predict the learner: ", msg)
+						if (.mlr.local$errorhandler.setup$on.learner.error == "warn")
+							warning("Could not predict the learner: ", msg)
 						p = predict_nas(wl, model, newdata, type, levs, dd, td)
 						time.predict = as.numeric(NA)
 					}
