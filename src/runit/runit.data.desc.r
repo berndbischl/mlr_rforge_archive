@@ -14,6 +14,12 @@ test.data.desc <- function() {
 	checkEquals(multiclass.task["class.dist"], c(setosa=50, versicolor=50, virginica=50))	
 	checkEquals(multiclass.task["is.binary"], F)
 	
+	# check missing values
+	df = multiclass.df
+	df[1,1] = as.numeric(NA)
+	ct = make.task(target="Species", data=df)
+	checkEquals(ct["has.missing"], T)	
+	
 	ct = make.task(target=binaryclass.target, data=binaryclass.df, excluded="V1")
 	checkEquals(ct["size"], 208)	
 	checkEquals(ct["dim"], 59)	
