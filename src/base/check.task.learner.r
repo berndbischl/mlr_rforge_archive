@@ -19,9 +19,6 @@ check.task.learner <- function(lt, learner) {
 	if (dd["n.char"] > 0 && !wl["characters"]) {
 		msg <- paste("Data set has character inputs, but", wl["id"], "does not support that!")
 	}
-	if (any(is.na(lt["targets"]))) {
-		msg <- paste("Target values contain missings!")
-	}
 	return(list(msg=msg))
 }
 
