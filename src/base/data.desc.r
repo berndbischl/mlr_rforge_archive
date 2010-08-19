@@ -57,7 +57,7 @@ setMethod(
 					n.char = sum(sapply(df2, is.character))
 			)
 			.Object@props$inputs = inputs
-			.Object@props$has.missing = any(is.na(iris))
+			.Object@props$has.missing = any(is.na(df2))
 			y = data[, target]
 			if(is.factor(y))
 				.Object@props$classes =	{tab=table(y);cl=as.integer(tab); names(cl)=names(tab);cl}
@@ -91,7 +91,7 @@ setMethod(
 			if (i == "n.char") 
 				return(as.integer(x@props$inputs["n.char"]))
 			if (i == "has.missing") 
-				return(length(x["rows.with.missings"]) > 0)
+				return(x@props$has.missing)
 			if (i == "is.classif") 
 				return(all(!is.na(x@props$classes)))
 			if (i == "is.regr") 
