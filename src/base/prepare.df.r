@@ -74,10 +74,10 @@ prep.data = function(is.classif, data, target, excluded=c(), control) {
 					warning("Converting char variable to factor:", cn)
 			}
 			if (impute.inf == "maxval" && is.numeric(v) && any(is.infinite(v))) {
-				#v[is.infinite(v)] = 
-				#data[,i] = v
+				v[is.infinite(v)] = sign(v[is.infinite(v)]) * .Machine$double.xmax  
+				data[,i] = v
 				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
-					warning("Converting inf values to .Machine$double.xmin, .Machine$double.xmin:", cn)
+					warning("Converting inf values to +-.Machine$double.xmax:", cn)
 			}
 		}
 	}
