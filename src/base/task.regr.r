@@ -55,7 +55,7 @@ setMethod(
 							"Features Nums:", x["n.num"], " Factors:", x["n.fact"], " Chars:", x["n.char"], "\n",
 							"Observations: ", x["size"] , "\n",
 							"Missings: ", x["has.missing"], "\n", 
-							ifelse(x["has.missing"], paste("in", x["rows.with.missings"], "observations and", x["cols.with.missings"], "features\n"), ""), 
+							ifelse(x["has.missing"], paste("in", x["rows.with.missing"], "observations and", x["cols.with.missing"], "features\n"), ""), 
 							sep=""
 					)
 			)

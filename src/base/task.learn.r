@@ -109,6 +109,12 @@ setMethod(
 					drop = (length(col) == 1)
 				return(x@data[row, col, drop=drop])				
 			}
+			if (i == "rows.with.missing"){
+				return(sum(apply(x["data"], 1, function(x) any(is.na(x)))))
+			}
+			if (i == "cols.with.missing"){
+				return(sum(apply(x["data"], 2, function(x) any(is.na(x)))))
+			}
 			y = td[i]
 			if (!is.null(y))
 				return(y)
