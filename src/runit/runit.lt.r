@@ -14,4 +14,11 @@ test.mlr.learn.task <- function() {
 			train("classif.lda", multiclass.task, vars=c("Sepal.Length", "x", "y")),		 
 			silent=T
 	)
+	
+	# y contains missings
+	df = multiclass.df
+	df[1, multiclass.target] = NA
+	checkException(make.task(data=df, target=multiclass.target), silent=TRUE)
+	s = geterrmessage()
+	checkTrue(length(grep("Target values contain missings!", s)) >0 )
 }
