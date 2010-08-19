@@ -90,7 +90,7 @@ setMethod(
 					paste(
 							"Classification problem ", x["id"], "\n",
 							"Features Nums:", x["n.num"], " Factors:", x["n.fact"], " Chars:", x["n.char"], "\n",
-							"Observations: ", x["obs"] , "\n",
+							"Observations: ", x["size"] , "\n",
 							"Missings: ", x["has.missing"], "\n", 
 							ifelse(x["has.missing"], paste("in", x["rows.with.missings"], "observations and", x["cols.with.missings"], "features\n"), ""), 
 							"Classes: ", x["class.nr"], "\n",
