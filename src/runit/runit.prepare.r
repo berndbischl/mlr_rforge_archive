@@ -13,4 +13,6 @@ test.prepare <- function(){
 		pc = new("prepare.control", props=list(ints.as="factor", chars.as = "factor"))
 		chars2factors <- prep.data(is.classif=F, data = test.dataset, target = "chars", control=pc) 
 		checkTrue(is.factor(chars2factors[,1]))
+		
+		# test for Inf conversion
 }
