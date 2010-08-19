@@ -21,4 +21,13 @@ test.mlr.learn.task <- function() {
 	checkException(make.task(data=df, target=multiclass.target), silent=TRUE)
 	s = geterrmessage()
 	checkTrue(length(grep("Target values contain missings!", s)) >0 )
+	
+	# check missing accessors
+	df = multiclass.df
+	df[1,1:3] = NA
+	df[2,1:3] = NA
+	ct = make.task(data=df, target=multiclass.target)	
+	checkTrue(ct["has.missing"])
+	checkEquals(ct["rows.with.missing"], 2)
+	checkEquals(ct["cols.with.missing"], 3)
 }
