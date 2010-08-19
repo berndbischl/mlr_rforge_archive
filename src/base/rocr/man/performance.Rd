@@ -1,5 +1,5 @@
-\name{performance}
-\alias{performance}
+\name{ROCR.performance}
+\alias{ROCR.performance}
 
 \title{Function to create performance objects}
 \description{All kinds of predictor evaluations are performed using
@@ -7,7 +7,7 @@
 }
 
 \usage{
-performance(prediction.obj, measure, x.measure="cutoff", \dots)
+ROCR.performance(prediction.obj, measure, x.measure="cutoff", \dots)
 }
 
 \arguments{
@@ -170,7 +170,7 @@ performance(prediction.obj, measure, x.measure="cutoff", \dots)
   }
 }
 
-\value{An S4 object of class performance.}
+\value{An S4 object of class ROCR.performance.}
 
 \references{A detailed list of references can be found on the ROCR
   homepage at \url{http://rocr.bioinf.mpi-sb.mpg.de}.}
@@ -178,7 +178,7 @@ performance(prediction.obj, measure, x.measure="cutoff", \dots)
 \author{Tobias Sing \email{tobias.sing@mpi-sb.mpg.de},
   Oliver Sander \email{osander@mpi-sb.mpg.de}}
 
-\note{Here is how to call 'performance' to create some standard
+\note{Here is how to call 'ROCR.performance' to create some standard
   evaluation plots:
 
   \describe{
@@ -190,23 +190,23 @@ performance(prediction.obj, measure, x.measure="cutoff", \dots)
 }
 
 \seealso{\code{\link{prediction}}, \code{\link{prediction-class}},
-  \code{\link{performance-class}}, \code{\link{plot.performance}} } 
+  \code{\link{ROCR.performance-class}}, \code{\link{ROCR.plot.performance}} } 
 
 \examples{
 ## computing a simple ROC curve (x-axis: fpr, y-axis: tpr)
 library(ROCR)
 data(ROCR.simple)
-pred <- prediction( ROCR.simple$predictions, ROCR.simple$labels)
-perf <- performance(pred,"tpr","fpr")
+pred <- ROCR.prediction( ROCR.simple$predictions, ROCR.simple$labels)
+perf <- ROCR.performance(pred,"tpr","fpr")
 plot(perf)
 
 ## precision/recall curve (x-axis: recall, y-axis: precision)
-perf1 <- performance(pred, "prec", "rec")
+perf1 <- ROCR.performance(pred, "prec", "rec")
 plot(perf1)
 
 ## sensitivity/specificity curve (x-axis: specificity,
 ## y-axis: sensitivity)
-perf1 <- performance(pred, "sens", "spec")
+perf1 <- ROCR.performance(pred, "sens", "spec")
 plot(perf1)
 }
 \keyword{classif}

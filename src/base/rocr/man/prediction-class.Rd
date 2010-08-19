@@ -1,8 +1,8 @@
-\name{prediction-class}
+\name{ROCR.prediction-class}
 \docType{class}
-\alias{prediction-class}
+\alias{ROCR.prediction-class}
 
-\title{Class "prediction"}
+\title{Class "ROCR.prediction"}
 \description{Object to encapsulate numerical predictions together with the
   corresponding true class labels, optionally collecting predictions and
   labels for several cross-validation or bootstrapping runs.}
@@ -47,7 +47,7 @@
 \author{Tobias Sing \email{tobias.sing@mpi-sb.mpg.de},
   Oliver Sander \email{osander@mpi-sb.mpg.de}}
 
-\seealso{\code{\link{prediction}}, \code{\link{performance}},
-  \code{\link{performance-class}}, \code{\link{plot.performance}} } 
+\seealso{\code{\link{ROCR.prediction}}, \code{\link{ROCR.performance}},
+  \code{\link{ROCR.performance-class}}, \code{\link{ROCR.plot.performance}} } 
 
 \keyword{classes}

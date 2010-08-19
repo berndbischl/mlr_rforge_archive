@@ -1,8 +1,8 @@
-\name{performance-class}
+\name{ROCR.performance-class}
 \docType{class}
-\alias{performance-class}
+\alias{ROCR.performance-class}
 
-\title{Class "performance"}
+\title{Class "ROCR.performance"}
 \description{Object to capture the result of a performance evaluation,
   optionally collecting evaluations from several cross-validation or
   bootstrapping runs.}

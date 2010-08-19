@@ -1,9 +1,9 @@
 \name{plot-methods}
 \docType{methods}
-\alias{plot.performance}
-\alias{plot-methods}
-\alias{plot,performance-method}
-\alias{plot,performance,missing-method}
+\alias{ROCR.plot.performance}
+\alias{ROCR.plot-methods}
+\alias{ROCR.plot,performance-method}
+\alias{ROCR.plot,performance,missing-method}
 
 \title{Plot method for performance objects}
 
@@ -104,15 +104,15 @@
 
 % \note{}
 
-\seealso{\code{\link{prediction}}, \code{\link{performance}},
-  \code{\link{prediction-class}}, \code{\link{performance-class}}} 
+\seealso{\code{\link{ROCR.prediction}}, \code{\link{ROCR.performance}},
+  \code{\link{ROCR.prediction-class}}, \code{\link{ROCR.performance-class}}} 
 
 \examples{
 # plotting a ROC curve:
 library(ROCR)
 data(ROCR.simple)
-pred <- prediction( ROCR.simple$predictions, ROCR.simple$labels )
-perf <- performance( pred, "tpr", "fpr" )
+pred <- ROCR.prediction( ROCR.simple$predictions, ROCR.simple$labels )
+perf <- ROCR.performance( pred, "tpr", "fpr" )
 plot( perf )
 
 # To entertain your children, make your plots nicer

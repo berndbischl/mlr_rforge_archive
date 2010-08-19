@@ -68,7 +68,7 @@ prediction(predictions, labels, label.ordering = NULL)
 # create a simple prediction object
 library(ROCR)
 data(ROCR.simple)
-pred <- prediction(ROCR.simple$predictions,ROCR.simple$labels)
+pred <- ROCR.prediction(ROCR.simple$predictions,ROCR.simple$labels)
 }
 
 \keyword{classif}

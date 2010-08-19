@@ -20,8 +20,8 @@
 # in grey), overlaid by the vertical average curve and boxplots
 # showing the vertical spread around the average.
 data(ROCR.xval)
-pred <- prediction(ROCR.xval$predictions, ROCR.xval$labels)
-perf <- performance(pred,"tpr","fpr")
+pred <- ROCR.prediction(ROCR.xval$predictions, ROCR.xval$labels)
+perf <- ROCR.performance(pred,"tpr","fpr")
 plot(perf,col="grey82",lty=3)
 plot(perf,lwd=3,avg="vertical",spread.estimate="boxplot",add=TRUE)
 }

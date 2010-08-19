@@ -25,10 +25,10 @@
 \examples{
 data(ROCR.hiv)
 attach(ROCR.hiv)
-pred.svm <- prediction(hiv.svm$predictions, hiv.svm$labels)
-perf.svm <- performance(pred.svm, 'tpr', 'fpr')
-pred.nn <- prediction(hiv.nn$predictions, hiv.svm$labels)
-perf.nn <- performance(pred.nn, 'tpr', 'fpr')
+pred.svm <- ROCR.prediction(hiv.svm$predictions, hiv.svm$labels)
+perf.svm <- ROCR.performance(pred.svm, 'tpr', 'fpr')
+pred.nn <- ROCR.prediction(hiv.nn$predictions, hiv.svm$labels)
+perf.nn <- ROCR.performance(pred.nn, 'tpr', 'fpr')
 plot(perf.svm, lty=3, col="red",main="SVMs and NNs for prediction of
 HIV-1 coreceptor usage")
 plot(perf.nn, lty=3, col="blue",add=TRUE)
