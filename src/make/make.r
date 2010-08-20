@@ -47,7 +47,9 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	roxygenize(package.dir=build.dir, use.Rd2=TRUE, unlink.target=TRUE)
 
 
-	file.copy(from=man.rox.dir, to=build.dir, recursive = TRUE) 
+	file.copy(from=man.rox.dir, to=build.dir, recursive = TRUE)
+	man.rocr.dir = file.path(src.path, "base", "rocr", "man")
+	file.copy(file.path(man.roc.dir, list.files(man.rocr.dir), man.build.dir))
 	file.copy(from=file.path(rox.dir, "NAMESPACE"), to=build.dir, overwrite = TRUE) 
 	file.copy(from=file.path(rox.dir, "DESCRIPTION"), to=build.dir, overwrite = TRUE) 
 	
@@ -109,7 +111,8 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 		f = fs[length(fs)]
 		f = file.path(pkg.dir, f)
 		paste("Installing", f, "\n")
-		cmd <- paste("R CMD INSTALL --html", f)
+#		cmd <- paste("R CMD INSTALL --html", f)
+		cmd <- paste("R CMD INSTALL", f)
 		print(cmd)
 		system(cmd)
 	}
@@ -117,4 +120,4 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	
 }
 
-make(build=T, check=F, binary=F, install=F)
+make(build=F, check=F, binary=T, install=F)
