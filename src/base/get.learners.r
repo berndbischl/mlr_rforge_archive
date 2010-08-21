@@ -3,23 +3,24 @@ roxygen()
 
 #' Returns the names of learning algorithms which have specific characteristics, e.g.
 #' whether it supports missing values, misclassification costs, case weights,...
+#' or which are are able to solve a given \code{\linkS4class{learn.task}}. 
 #' 
-#' The default of all boolean parameters is NA, meaning: property is not included in search.
+#' The default of all boolean parameters is NA, meaning: property is not required, don't care.
 #' 
-#' @param type [character] \cr
-#' 			Type of the learning algorithm, either "classif" or "regr" or NA (=don't care).
+#' @param x [string | \code{\linkS4class{learn.task}}] \cr
+#' 			Type of the learning algorithm, either "classif" or "regr" or task to solve
 #' @param numerics [boolean] \cr
-#' 			Supports numeric inputs?
+#' 			Supports numeric inputs? Pass only when x is a string.
 #' @param factors [boolean] \cr
-#' 			Supports factor inputs?
+#' 			Supports factor inputs? Pass only when x is a string.
 #' @param characters [boolean] \cr
-#' 			Supports character inputs?
+#' 			Supports character inputs? Pass only when x is a string.
 #' @param missings [boolean] \cr
-#' 			Supports missing values?
+#' 			Supports missing values? Pass only when x is a string.
 #' @param multiclass [boolean] \cr
-#' 			Supports multiclass problems?
+#' 			Supports multiclass problems? Pass only when x is a string.
 #' @param weights [boolean] \cr
-#' 			Supports case weights?
+#' 			Supports case weights? Pass only when x is a string.
 #' @param probs [boolean] \cr
 #' 			Can predict probabilities?
 #' @param decision [boolean] \cr
@@ -30,7 +31,7 @@ roxygen()
 #' @rdname get.learners
 #' @export 
 #' 
-#' @title Find learning algorithms with specific properties.
+#' @title Find matching learning algorithms.
 
 setGeneric(
 		name = "get.learners",
@@ -122,7 +123,6 @@ setMethod(
       } else {
         wls = get.learners(type, numerics, factors, characters, missings, weights) 
       }	 
-			
 			return(wls)
 		}
 )			
