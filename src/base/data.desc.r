@@ -18,6 +18,7 @@ roxygen()
 #'  \item{n.fact [integer]}{Number of factor covariates.}
 #'  \item{n.char [integer]}{Number of character covariates.}
 #' 	\item{has.missing [boolean]}{Are missing values present?}
+#' 	\item{has.inf [boolean]}{Are infinite numerical values present?}
 #'  \item{is.classif [boolean]}{Factor target variable?}
 #' 	\item{is.regr [boolean]}{Numerical target variable?}
 #'  \item{class.levels [character]}{Possible classes. NA if not classification.}
@@ -58,6 +59,7 @@ setMethod(
 			)
 			.Object@props$inputs = inputs
 			.Object@props$has.missing = any(is.na(df2))
+			.Object@props$has.inf = any(is.na(df2))
 			y = data[, target]
 			if(is.factor(y))
 				.Object@props$classes =	{tab=table(y);cl=as.integer(tab); names(cl)=names(tab);cl}
@@ -92,6 +94,8 @@ setMethod(
 				return(as.integer(x@props$inputs["n.char"]))
 			if (i == "has.missing") 
 				return(x@props$has.missing)
+			if (i == "has.inf") 
+				return(x@props$has.inf)
 			if (i == "is.classif") 
 				return(all(!is.na(x@props$classes)))
 			if (i == "is.regr") 

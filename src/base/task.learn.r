@@ -18,6 +18,10 @@ roxygen()
 #'  \item{input.names [character]}{The names of the input variables (without excluded variables).}
 #'  \item{targets [character]. Optional parameters: row}{If row is missing all target values are returned. Otherwise they are indexed by row.}
 #'  \item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row. NULL if no weights were set.}
+#'  \item{rows.with.missing [integer]}{Index vector for rows which contain missing values.}
+#'  \item{cols.with.missing [integer]}{Index vector for columns which contain missing values.}
+#'  \item{rows.with.inf [integer]}{Index vector for rows which contain infinite numerical values.}
+#'  \item{cols.with.inf [integer]}{Index vector for columns which contain infinite numerical values.}
 #' }
 #' 
 #' @exportClass learn.task
@@ -114,6 +118,12 @@ setMethod(
 			}
 			if (i == "cols.with.missing"){
 				return(sum(apply(x["data"], 2, function(x) any(is.na(x)))))
+			}
+			if (i == "rows.with.inf"){
+				return(sum(apply(x["data"], 1, function(x) any(is.infinite(x)))))
+			}
+			if (i == "cols.with.inf"){
+				return(sum(apply(x["data"], 2, function(x) any(is.infinite(x)))))
 			}
 			y = td[i]
 			if (!is.null(y))

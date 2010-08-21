@@ -10,7 +10,7 @@ setMethod(
 		signature = signature("prepare.control"),
 		def = function(.Object, props) {
 			if (missing(props)) {
-				props = list(ints.as = "numeric", chars.as = "factor", drop.class.levels=TRUE)
+				props = list(ints.as = "numeric", chars.as = "factor", drop.class.levels=TRUE, impute.inf="maxval")
 			}
 			.Object@props = props 		
 			return(.Object)
@@ -23,6 +23,7 @@ prep.data = function(is.classif, data, target, excluded=c(), control) {
 	ints.as = control@props$ints.as
 	chars.as = control@props$chars.as
 	drop.class.levels = control@props$drop.class.levels
+	impute.inf = control@props$impute.inf
 	
 	if (is.classif && !is.null(data[["target"]])) {
 		targets = data[, target]
@@ -61,23 +62,23 @@ prep.data = function(is.classif, data, target, excluded=c(), control) {
 			if (ints.as == "numeric" && is.integer(v)) {
 				data[,i] = as.numeric(v)
 				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
-					warning("Converting integer variable to numeric:", cn)
+					warning("Converting integer variable to numeric: ", cn)
 			}
 			if (ints.as == "factor" && is.integer(v)) {
 				data[,i] = as.factor(v)
 				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
-					warning("Converting integer variable to factor:", cn)
+					warning("Converting integer variable to factor: ", cn)
 			}
 			if (chars.as == "factor" && is.character(v)) {
 				data[,i] = as.factor(v)
 				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
-					warning("Converting char variable to factor:", cn)
+					warning("Converting char variable to factor: ", cn)
 			}
 			if (impute.inf == "maxval" && is.numeric(v) && any(is.infinite(v))) {
 				v[is.infinite(v)] = sign(v[is.infinite(v)]) * .Machine$double.xmax  
 				data[,i] = v
 				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
-					warning("Converting inf values to +-.Machine$double.xmax:", cn)
+					warning("Converting inf values to +-.Machine$double.xmax: ", cn)
 			}
 		}
 	}

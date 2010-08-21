@@ -17,4 +17,7 @@ check.task <- function(data, target) {
 	if (any(is.na(data[, target]))) {
 		stop("Target values contain missings!")
 	}
+	if (any(is.infinite(data[, target]))) {
+		stop("Target values contain infinite values!")
+	}
 }
