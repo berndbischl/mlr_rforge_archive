@@ -1,3 +1,6 @@
 #!/bin/bash
 
+## Force 'C' locale for package build to avoid R encoding 'bugs'.
+export LC_ALL=C
+
 Rscript src/make/make.r
