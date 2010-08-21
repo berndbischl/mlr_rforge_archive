@@ -41,7 +41,7 @@ setMethod(
 					new("par.desc.num", par.name="maxcompete", default=4L, lower=0L, flags=list(optimize=F)),
 					new("par.desc.num", par.name="maxsurrogate", default=5L, lower=0L, flags=list(optimize=F)),
 					new("par.desc.disc", par.name="usesurrogate", default=2L, vals=0:2),
-					new("par.desc.disc", par.name="surrogatestyle", default=0, vals=0:1),
+					new("par.desc.disc", par.name="surrogatestyle", default=0L, vals=0:1),
 					new("par.desc.num", par.name="maxdepth", default=TRUE, lower=1, upper=30)
 			)
 			
