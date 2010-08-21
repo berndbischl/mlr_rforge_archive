@@ -177,7 +177,7 @@ require.packs = function(packs, for.string) {
 		packs.ok = TRUE
 	if(!all(packs.ok)) {
 		ps = paste(packs[!packs.ok], collapse=" ")
-		s = paste("For", for.string, "please install the following packages:", ps)
+		stop(paste("For", for.string, "please install the following packages:", ps))
 	}
 	return(packs.ok)
 }
