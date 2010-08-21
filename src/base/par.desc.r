@@ -103,8 +103,13 @@ setMethod(
 		def = function(.Object, par.name, default="missing", when="train", vals, flags=list(), requires=expression(TRUE)) {
 			if (is.vector(vals))
 				vals = as.list(vals)
-			if (default != "missing" && !(default %in% vals))
-				stop("Default value of par. ", par.name,  " has to be among allowed values!")
+			if (default != "missing") {
+				if (default %in% names(vals))
+					default = vals[[default]]
+				y = sapply(vals, function(x) identical(x, default))
+				if (!(any(y)))
+					stop("Default value of par. ", par.name,  " has to be among allowed values!")
+			}
 			.Object@vals = vals					
 			callNextMethod(.Object, par.name, default, when, flags, requires)
 		}

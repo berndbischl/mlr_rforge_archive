@@ -4,7 +4,7 @@
 #' The default of all boolean parameters is NA, meaning: property is not included in search.
 #' 
 #' @param type [character] \cr
-#' 			Type of the learning algorithm, either "classif" or "regr"
+#' 			Type of the learning algorithm, either "classif" or "regr" or NA (=don't care).
 #' @param numerics [boolean] \cr
 #' 			Supports numeric inputs?
 #' @param factors [boolean] \cr
@@ -32,7 +32,7 @@
 
 
 get.learners <- function(
-					type = c("classif","regr"), 
+					type = NA, 
 					numerics = NA, 
 					factors = NA,
 					characters = NA,
@@ -44,7 +44,9 @@ get.learners <- function(
 					costs = NA){
 					
 		mlr.classes <- getClasses(where = getNamespace("mlr"))
-		top.cl <- ifelse(type == "classif", "rlearner.classif", "rlearner.regr")
+		if(is.na(type)) 
+			type = "na"
+		top.cl = switch(type, classif="rlearner.classif", regr="rlearner.regr", na="rlearner")
 		ls <- Filter(function(x) extends(x, top.cl) && x != top.cl , mlr.classes)
 		
 		f <- function(x) {
