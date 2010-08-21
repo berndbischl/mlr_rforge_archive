@@ -1,15 +1,14 @@
 \name{get.learners}
 \alias{get.learners}
 \title{Find learning algorithms with specific properties.}
-\usage{get.learners(type=c("classif", "regr"), numerics=NA, factors=NA, characters=NA,
-    missings=NA, multiclass=NA, weights=NA, probs=NA, decision=NA,
-    costs=NA)
+\usage{get.learners(type=NA, numerics=NA, factors=NA, characters=NA, missings=NA,
+    multiclass=NA, weights=NA, probs=NA, decision=NA, costs=NA)
 }
 \description{Returns the names of learning algorithms which have specific characteristics, e.g.
 whether it supports missing values, misclassification costs, case weights,...}
 \details{The default of all boolean parameters is NA, meaning: property is not included in search.}
 \arguments{\item{type}{[character] \cr
-Type of the learning algorithm, either "classif" or "regr"}
+Type of the learning algorithm, either "classif" or "regr" or NA (=don't care).}
 \item{numerics}{[boolean] \cr
 Supports numeric inputs?}
 \item{factors}{[boolean] \cr
