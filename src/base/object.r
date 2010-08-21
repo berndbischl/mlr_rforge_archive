@@ -1,3 +1,5 @@
+#' @include aaa.r
+roxygen()
 
 #' Base class for all S4 classes in this package. 
 #' @exportClass object
