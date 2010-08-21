@@ -149,9 +149,10 @@ setMethod(f = "to.string",
               "Classification"
             else
               "Regression"
+            pack = paste(x["pack"], collapse=",")
             return(paste(
                          ##todo regression. also check when applied to task!!
-                         type, " learner ", x["id"], " from package ", x["pack"], "\n\n",
+                         type, " learner ", x["id"], " from package ", pack, "\n\n",
                          "Supported features Nums:", x["numerics"],
                          " Factors:", x["factors"],
                          " Chars:", x["characters"], "\n",
