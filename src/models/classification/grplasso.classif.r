@@ -33,8 +33,7 @@ setMethod(
 					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="grplasso", pack="grplasso", desc=desc,
-					parset.train=list(lambda = 1))
+			callNextMethod(.Object, label="grplasso", pack="grplasso", desc=desc, par.vals=list(lambda = 1))
 		}
 )
 
