@@ -1,5 +1,7 @@
 #' @include object.r
 roxygen()
+#' @include learner.desc.r
+roxygen()
 
 # todo supports getters
 # hyperpars getter, read all getters
