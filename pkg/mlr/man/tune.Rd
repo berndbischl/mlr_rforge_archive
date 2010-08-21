@@ -10,7 +10,7 @@ are available as well.
 The specific details of the search algorithm are set by passing a control object.}
 \details{The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal hyperparameters.}
 \value{\code{\linkS4class{opt.result}}.}
-\seealso{\code{\link{grid.control}}, \code{\link{cmaes.control}}, \code{\link{neldermead.control}}}
+\seealso{\code{\link{grid.control}}, \code{\link{optim.control}}, \code{\link{cmaes.control}}}
 \arguments{\item{learner}{[\code{\linkS4class{learner}} or string]\cr 
 Learning algorithm. See \code{\link{learners}}.}
 \item{task}{[\code{\linkS4class{learn.task}}] \cr
@@ -24,7 +24,7 @@ Performance measures.}
 \item{aggr}{[see \code{\link{aggregations}}]\cr
 Aggregation functions.}
 \item{model}{[boolean]\cr
-Should a final model be fitted on the complete data with the best found hyperparameters?}
+Should a final model be fitted on the complete data with the best found hyperparameters? Default is FALSE.}
 \item{path}{[boolean]\cr
-Should optimization path be saved?}
+Should optimization path be saved? Default is FALSE.}
 }

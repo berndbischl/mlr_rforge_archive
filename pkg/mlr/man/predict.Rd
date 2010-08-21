@@ -25,4 +25,7 @@ Currently only supported for binary classification and type="prob", where it rep
 for the positive class, so that a positive class is predicted as "response".
 Default is 0.5 for type="prob".
 Ignored for regression.}
+\item{group}{[factor] \cr
+Only for internal use! 
+Default is NULL.}
 }

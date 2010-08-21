@@ -7,23 +7,17 @@ check.task.learner <- function(lt, learner) {
 	msg <- ""
 	dd <- lt@data.desc
 	
-	if (dd["class.nr"] > 2 && !wl["multiclass"]) {
-		msg <- paste("Data set is a multiclass-problem, but", wl["id"], "does not support that!")
-	}
 	if (dd["has.missing"] && !wl["missings"]) {
 		msg <- paste("Data set has missing values, but", wl["id"], "does not support that!")
 	}
-	if (dd["numerics"] > 0 && !wl["numerics"]) {
+	if (dd["n.num"] > 0 && !wl["numerics"]) {
 		msg <- paste("Data set has numeric inputs, but", wl["id"], "does not support that!")
 	}
-	if (dd["factors"] > 0 && !wl["factors"]) {
+	if (dd["n.fact"] > 0 && !wl["factors"]) {
 		msg <- paste("Data set has factor inputs, but", wl["id"], "does not support that!")
 	}
-	if (dd["characters"] > 0 && !wl["characters"]) {
+	if (dd["n.char"] > 0 && !wl["characters"]) {
 		msg <- paste("Data set has character inputs, but", wl["id"], "does not support that!")
-	}
-	if (any(is.na(lt["targets"]))) {
-		msg <- paste("Target values contain missings!")
 	}
 	return(list(msg=msg))
 }

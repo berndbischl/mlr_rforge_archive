@@ -32,10 +32,8 @@ setClass(
 		# we always have to store training inds because the order might matter
 		representation = representation(
 				desc = "resample.desc", 
-				size = "integer", 
-				inds = "list",
-				set.grouping = "integer",
-				inds.grouping = "list"
+				size = "integer",
+				inds = "list"
 		)
 )
 
@@ -45,7 +43,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("resample.instance"),
-		def = function(.Object, desc, size, inds,  inds.grouping=list(), set.grouping=integer(0)) {
+		def = function(.Object, desc, size, inds) {
 			if (missing(desc))
 				return(.Object)
 			.Object@desc = desc
@@ -53,8 +51,6 @@ setMethod(
 				error("You passed a non-integer to arg 'size' of resample.instance!")
 			.Object@size = as.integer(size)
 			.Object@inds = inds
-			.Object@inds.grouping = inds.grouping
-			.Object@set.grouping = set.grouping
 			return(.Object)
 		}
 )
@@ -92,18 +88,6 @@ setMethod(
 			)
 		}
 )
-
-
-
-get.train.targets <- function(learn.task, resample.instance, i) {
-	inds <- resample.instance["train.inds", i]
-	return(learn.task["targets", inds])
-}
-
-get.test.targets <- function(learn.task, resample.instance, i) {
-	inds <- resample.instance["test.inds", i]
-	return(learn.task["targets", inds])
-}
 
 
 setClass(

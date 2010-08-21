@@ -25,15 +25,15 @@ roxygen()
 #' @param aggr [see \code{\link{aggregations}}]\cr
 #'        Aggregation functions. 
 #' @param model [boolean]\cr
-#'        Should a final model be fitted on the complete data with the best found hyperparameters?
+#'        Should a final model be fitted on the complete data with the best found hyperparameters? Default is FALSE.
 #' @param path [boolean]\cr
-#'        Should optimization path be saved?
+#'        Should optimization path be saved? Default is FALSE.
 #' 
 #' @return \code{\linkS4class{opt.result}}.
 #' 
 #' @export
 #'
-#' @seealso \code{\link{grid.control}}, \code{\link{cmaes.control}}, \code{\link{neldermead.control}}
+#' @seealso \code{\link{grid.control}}, \code{\link{optim.control}}, \code{\link{cmaes.control}}
 #'   
 #' @title Hyperparameter tuning
 
@@ -52,7 +52,7 @@ tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE
 			grid.control = tune.grid,
 #			pattern = tune.ps,
 			cmaes.control = tune.cmaes,
-			neldermead.control = tune.neldermead,
+			optim.control = tune.optim,
 			stop(paste("Tuning algorithm for", cl, "does not exist!"))
 	)		
 	
@@ -75,7 +75,7 @@ tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE
 	
 	or@opt$par = scale.par(or@opt$par, control)
 	if (model) {
-		or@model = train(learner, task, parset=or["par"]) 	
+		or@model = train(learner, task, par.vals=or["par"]) 	
 	}
 	
 	return(or)			
@@ -88,7 +88,7 @@ scale.par <- function(p, control) {
 		y = as.list(p)
 	else
 		y = as.list(sc(unlist(p)))
-	names(y) = control["parnames"]
+	names(y) = control["par.names"]
 	return(y)
 }
 

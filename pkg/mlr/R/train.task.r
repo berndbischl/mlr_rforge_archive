@@ -10,7 +10,7 @@ roxygen()
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 
 #'        An index vector specifying the training cases to be used for fitting. By default the complete data set is used. 
-#' @param parset [list] \cr 
+#' @param par.vals [list] \cr 
 #'        Named list of hyperparameter values. Will overwrite the ones specified in the learner object. Default is empty list.
 #' @param vars [\code{\link{character}}] \cr
 #'       Vector of variable names to use in training the model. Default is to use all variables, except the excluded in the task.
@@ -18,11 +18,11 @@ roxygen()
 #'        Classification: "response" | "prob" | "decision", specifying the type to predict later.
 #' 		  Default is "response". Very rarely you have to set this during training as well, as the fitted models differ.	 
 #'
-#' @return An object of class \code{\linkS4class{wrapped.model}}. 
+#' @return \code{\linkS4class{wrapped.model}}. 
 #'
 #' @export
 #'
-#' @usage train(learner, task, subset, parset, vars, type)  
+#' @usage train(learner, task, subset, par.vals, vars, type)  
 #'
 #' @seealso \code{\link{predict}}
 #' 
@@ -31,11 +31,11 @@ roxygen()
 
 setGeneric(
 		name = "train",
-		def = function(learner, task, subset, parset, vars, type) {
+		def = function(learner, task, subset, par.vals, vars, type) {
 			if (is.character(learner))
 				learner <- make.learner(learner)
-			if (missing(parset))
-				parset = list()
+			if (missing(par.vals))
+				par.vals = list()
 			if (missing(subset))
 				subset <- 1:task["size"]
 			if (missing(vars))
@@ -49,14 +49,12 @@ setGeneric(
 )
 
 
-train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.pars, check.fct) {
+train.task2 <- function(learner, task, subset, par.vals, vars, type, extra.train.pars, check.fct) {
 
 	# todo: do we still need this, and the loading when exporting a learner? 
 	# pack is loaded when learner is constructed
 	# export: probably yes...
-	if(learner["pack"] != "mlr" && !require(learner["pack"], character.only=TRUE)) {
-		stop(paste("Learner", learner["id"], "could not be constructed! package", learner["pack"], "missing!"))
-	}
+	require.packs(learner["pack"], paste("learner", learner["id"]))
 	
 	check.result <- check.fct(task, learner)
 	if (check.result$msg != "") {
@@ -79,22 +77,18 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	else
 		ws = rep(1, length(subset)) 
 	
+	wl = set.hyper.pars(wl, par.vals=par.vals)
 	
 	# make pars list for train call
 	pars = list(.learner=wl, .target=tn, .data=data.subset, .data.desc=task@data.desc, .task.desc=task@task.desc, .weights=ws)
 	# only pass train hyper pars to rlearner
-	hps       = insert(wl["hyper.pars"], parset) 
-	hps.train = insert(wl["hyper.pars", type="train"], parset) 
-	if (is(wl, "rlearner"))
-		pars = c(pars, extra.train.pars, hps.train)
-	else
-		pars = c(pars, extra.train.pars, hps)
+	hps = wl["par.vals", par.when="train"]
+	pars = c(pars, extra.train.pars, hps)
 	
 	logger.debug(level="train", "mlr train:", wl["id"], "with pars:")
-	logger.debug(level="train", hps.train)
+	logger.debug(level="train", hps)
 	logger.debug(level="train", "on", length(subset), "examples:")
 	logger.debug(level="train", subset)
-	
 	
 	# no vars? then use no vars model
 	if (length(vars) == 0) {
@@ -107,9 +101,12 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 			warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 		}
 		
-		st = system.time(or <- capture.output(
-							learner.model <- try(do.call(train.learner, pars), silent=TRUE)
-						), gcFirst = FALSE)
+		st = system.time(or <- capture.output({
+			if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
+				learner.model <- do.call(train.learner, pars)
+			else
+				learner.model <- try(do.call(train.learner, pars), silent=TRUE)
+			}), gcFirst = FALSE)
 		logger.debug(level="train", or)
 		time.train = st[3]
 	}
@@ -117,8 +114,9 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	
 	# if error happened we use a failure model
 	if(is(learner.model, "try-error")) {
-		msg <- as.character(learner.model)
-		warning("Could not train the learner: ", msg)	
+		msg = as.character(learner.model)
+		if (.mlr.local$errorhandler.setup$on.learner.error == "warn")
+			warning("Could not train the learner: ", msg)	
 		learner.model <- new("learner.failure", msg=msg)
 		time.train = as.numeric(NA)
 	} 
@@ -130,7 +128,7 @@ train.task2 <- function(learner, task, subset, parset, vars, type, extra.train.p
 	
 	new("wrapped.model", learner = wl, learner.model = learner.model, 
 			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, 
-			hyper.pars=hps, hyper.types=hyper.types, vars=vars, time = time.train)
+			vars=vars, time = time.train)
 }
 	
 
@@ -143,12 +141,12 @@ setMethod(
 				learner="learner", 
 				task="learn.task", 
 				subset="numeric", 
-				parset="list",
+				par.vals="list",
 				vars="character",
 				type="character"
 		),
 		
-		def = function(learner, task, subset, parset, vars, type) {
+		def = function(learner, task, subset, par.vals, vars, type) {
 			if (is(task, "classif.task")) {
 				extra.train.pars = list(.costs = task["costs"])
 				ctf = check.task.learner.classif
@@ -156,6 +154,6 @@ setMethod(
 				extra.train.pars = list()
 				ctf = check.task.learner
 			}
-			train.task2(learner, task, subset, parset, vars, type, extra.train.pars, ctf)
+			train.task2(learner, task, subset, par.vals, vars, type, extra.train.pars, ctf)
 		}
 )

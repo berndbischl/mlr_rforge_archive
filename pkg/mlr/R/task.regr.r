@@ -24,18 +24,21 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.task"),
-		def = function(.Object, id, label, data, weights=rep(1, nrow(data)), target, excluded) {
+		def = function(.Object, id, label, data, weights, blocking, target, excluded) {
 				
 			if (missing(data))
 				return(.Object)
 			
+			prep.ctrl = new("prepare.control")
+			data = prep.data(FALSE, data, target, excluded, prep.ctrl)			
+			dd = new("data.desc", data=data, target=target, excluded=excluded, prepare.control=prep.ctrl)
+			hw = length(weights) > 0
+			hb = length(blocking) > 0
+			td = new("task.desc", task.class="regr.task", id=id, label=label, has.weights=hw, has.blocking=hb, 
+					costs=matrix(0,0,0), positive=as.character(NA), negative=as.character(NA)) 
 			
-			data = prep.data(data, target, excluded)			
-			dd = new("data.desc", data=data, target=target, excluded=excluded)
-			td = new("task.desc", task.class="regr.task", id=id, label=label, target=target, positive=as.character(NA), negative=as.character(NA), 
-					excluded=excluded, costs=matrix(0,0,0))			
-			
-			callNextMethod(.Object, data=data, weights=weights, data.desc=dd, task.desc=td)
+			callNextMethod(.Object, data=data, weights=weights, blocking=blocking,
+					data.desc=dd, task.desc=td)
 		}
 )
 
@@ -49,7 +52,10 @@ setMethod(
 			return(
 					paste(
 							"Regression problem ", x["id"], "\n",
-							to.string(x@data.desc), "\n",
+							"Features Nums:", x["n.num"], " Factors:", x["n.fact"], " Chars:", x["n.char"], "\n",
+							"Observations: ", x["size"] , "\n",
+							"Missings: ", x["has.missing"], "\n", 
+							ifelse(x["has.missing"], paste("in", x["rows.with.missing"], "observations and", x["cols.with.missing"], "features\n"), ""), 
 							sep=""
 					)
 			)

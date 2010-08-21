@@ -39,7 +39,25 @@ insert.matching = function(xs1, xs2) {
 }
 
 
-# return a list of (...) minus all stuff in arg.names, on which control func. ctrl is called
+##' Split arguments into 'control' and 'other' arguments.
+##'
+##' Find all elements in list \code{args} whose name is contained in
+##' \code{arg.names} and call function \code{control} on these. The
+##' result of this is returned as the \code{control} element of the
+##' list returned. All remaining elements in \code{args} are returned
+##' as the \code{args} element of the return list.
+##'
+##' @param control [function] \cr Function to apply to the elements of
+##'   \code{args} named in \code{arg.names}.
+##'
+##' @param arg.names [character] \cr List of argument names to extract
+##'   from \code{args}.
+##'
+##' @param args [list] \cr List of named arguments to be split into
+##'   control and other arguments.
+##'
+##' @return List with elements \code{control} and \code{args}.
+##' @export
 args.to.control = function(control, arg.names, args) {
 	# put stuff into special list and remove it from args
 	ctrl.args = insert(list(), args, arg.names)
@@ -70,6 +88,15 @@ check.list.type = function(xs, type, name) {
 				any(ys)
 	}))
 }
+
+
+all.names = function(xs) {
+	ns = names(xs)
+	length(ns) == length(xs) 	
+}
+ 
+
+
 
 #check.list.types = function(name, xs, types) {
 #	sapply(types, function(tt) check.list.type(name, xs, tt))
@@ -126,5 +153,32 @@ path2dataframe = function(path) {
 		df[i, k] = p$accept  
 	}
 	return(df)
+}
+
+check.getter.args = function(x, arg.names, j, ...) {
+	args = list(...)
+	ns = names(args)
+	for (i in seq(length=length(args))) {
+		n = ns[i]
+		a = args[[i]]
+		# condition because of spurious extra arg (NULL) bug in "["
+		if ( !(is.null(a) && (is.null(n) || length(a) == 0)) ) {
+			if (is.null(n) || length(a) == 0)
+				stop("Using unnamed extra arg ", a, " in getter of ", class(x), "!")
+			if (!(n %in% arg.names))
+				stop("Using unallowed extra arg ", paste(n, a, sep="="), " in getter of ", class(x), "!")
+		}		
+	}	
+}
+
+require.packs = function(packs, for.string) {
+	packs.ok = sapply(packs, function(x) require(x, character.only = TRUE))
+	if (length(packs.ok) == 0)
+		packs.ok = TRUE
+	if(!all(packs.ok)) {
+		ps = paste(packs[!packs.ok], collapse=" ")
+		stop(paste("For", for.string, "please install the following packages:", ps))
+	}
+	return(packs.ok)
 }
 

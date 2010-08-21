@@ -88,3 +88,9 @@ select.best.state = function(states, control) {
 	return(states[[i]])
 }
 
+# retrieve el from path
+get.path.el = function(path, par) {
+	Find(function(x) identical(x$par, par), path)
+} 
+
+

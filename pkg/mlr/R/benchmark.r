@@ -36,7 +36,7 @@ benchmark = function(learner, task, resampling, measures, conf.mat, models, path
 	if (is(task, "classif.task") && conf.mat)			
 		cm = conf.matrix(rr)
 	# add in combine because we cannot get that later if we throw away preds
-	ms = rbind(rp$measures, rp$aggr)
+	ms = rbind(rp$measures, cbind(iter=0, rp$aggr))
 	result = cbind(result, ms)
 	rownames(result) = rownames(ms)
 	mods = NULL

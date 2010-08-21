@@ -18,12 +18,13 @@ be named list elements.\cr}
 \item{\bold{fn, miss}}{\cr False negatives}
 \item{\bold{fnr}}{\cr False negative rate}
 \item{\bold{ppv, precision}}{\cr Positive predictive value}
-\item{\bold{fnr}}{\cr False negative rate}
-\item{\bold{ppv, precision}}{\cr Positive predictive value}
-\item{\bold{ppv, precision}}{\cr Negative predictive value}
+\item{\bold{npv}}{\cr Negative predictive value}
 \item{\bold{fdr}}{\cr False discovery rate}
 \item{\bold{f1}}{\cr F1 measure}
 \item{\bold{mcc}}{\cr Matthews correlation coefficient}
+\item{\bold{gmean}}{\cr G-mean, geomentric mean of recall and specificity.}
+\item{\bold{gpr}}{\cr Geometric mean of precision and recall.}
+\item{\bold{auc}}{\cr Area under the curve.}
 
 \item{\bold{time.train}}{\cr Time of fitting the model}
 \item{\bold{time.predict}}{\cr Time of predicting test set}

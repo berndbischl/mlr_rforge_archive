@@ -34,7 +34,18 @@ setMethod(
 					weights = TRUE,
 					costs = TRUE
 			)
-			callNextMethod(.Object, label="RPart", pack="rpart", desc=desc)
+			par.descs = list(
+					new("par.desc.num", par.name="minsplit", default=20L, lower=1L),
+					new("par.desc.num", par.name="minbucket", lower=1L),
+					new("par.desc.num", par.name="cp", default=0.01, lower=0, upper=1),
+					new("par.desc.num", par.name="maxcompete", default=4L, lower=0L, flags=list(optimize=F)),
+					new("par.desc.num", par.name="maxsurrogate", default=5L, lower=0L, flags=list(optimize=F)),
+					new("par.desc.disc", par.name="usesurrogate", default=2, vals=0:2),
+					new("par.desc.disc", par.name="surrogatestyle", default=0, vals=0:1),
+					new("par.desc.num", par.name="maxdepth", default=TRUE, lower=1, upper=30)
+			)
+			
+			callNextMethod(.Object, label="RPart", pack="rpart", desc=desc, par.descs=par.descs)
 		}
 )
 

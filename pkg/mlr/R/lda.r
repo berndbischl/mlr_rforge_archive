@@ -33,6 +33,11 @@ setMethod(
 					costs = FALSE
 			)
 			
+			par.descs = list(
+					new("par.desc.disc", par.name="method", default="moment", vals=c("moment", "mle", "mve", "t")),
+					new("par.desc.num", par.name="nu", default="missing", lower=1L, requires=expression(method=="t"))
+			)
+			
 			callNextMethod(.Object, label="LDA", pack="MASS", desc=desc)
 		}
 )

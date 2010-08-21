@@ -36,7 +36,7 @@ setMethod(
 					costs = FALSE
 			)
 			callNextMethod(.Object, label="blackboost", pack="mboost", desc=desc, 
-					parset.train=list(family = Binomial()))
+					par.vals=list(family = Binomial()))
 		}
 )
 

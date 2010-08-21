@@ -36,7 +36,7 @@ setMethod(
 			)
 			# cannot pass the function Binomial without lopading the package in the super constructor...
 			obj = callNextMethod(.Object, label="glmboost", pack="mboost", desc=desc)
-			set.hyper.pars(obj, type="train", parset=list(family=Binomial()))
+			set.hyper.pars(obj, family=Binomial())
 		}
 )
 

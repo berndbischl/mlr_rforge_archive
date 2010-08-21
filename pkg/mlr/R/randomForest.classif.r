@@ -33,7 +33,15 @@ setMethod(
 					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="RForest", pack="randomForest", desc=desc)
+			par.descs = list(
+					new("par.desc.num", par.name="ntree", default=500L, lower=1L),
+					new("par.desc.num", par.name="mtry", lower=1),
+					new("par.desc.log", par.name="replace", default=TRUE),
+					new("par.desc.num", par.name="sampsize", lower=1L),
+					new("par.desc.num", par.name="nodesize", default=1L, lower=1L),
+					new("par.desc.num", par.name="maxnodes", lower=1L)
+			)
+			callNextMethod(.Object, label="RForest", pack="randomForest", desc=desc, par.descs=par.descs)
 		}
 )
 

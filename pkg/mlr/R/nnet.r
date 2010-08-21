@@ -32,8 +32,13 @@ setMethod(
 					weights = TRUE,
 					costs = FALSE
 			)
-			
-			callNextMethod(.Object, label="NNet", pack="nnet", desc=desc, parset.train=list(size=1))
+
+			par.descs = list(
+				new("par.desc.num", par.name="size", default=3L, lower=0, flags=list(pass.default=TRUE)),
+                new("par.desc.num", par.name="maxit", default=100L, lower=1L)
+            )
+      			
+			callNextMethod(.Object, label="NNet", pack="nnet", desc=desc, par.descs=par.descs)
 		}
 )
 

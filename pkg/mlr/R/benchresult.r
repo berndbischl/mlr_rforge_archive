@@ -204,40 +204,6 @@ setMethod(
 )
 
 
-
-#' @export
-
-as.ROCR.preds = function(x) {
-	if(!require(ROCR)) {
-		stop(paste("Package ROCR is missing!"))
-	}
-	rfs = x@resample.fits
-	res = list()
-	# tasks
-	for (i in 1:length(rfs)) {
-		td = x@task.descs[[i]]
-		dd = x@data.descs[[i]]
-		tn = td["id"]
-		if(dd["class.nr"] != 2) {
-			stop("Task", tn, "has more than 2 classes!")
-		}
-		res2 = list()
-		# learners
-		for (j in 1:length(rfs[[i]])) {
-			rf = as.data.frame(rfs[[i]][[j]])
-			if (is.null(rf$prob))
-				res2[[j]] = NA
-			else 				
-				res2[[j]] = prediction(predictions=rf$prob, rf$target)
-		}
-		names(res2) = dimnames(x@perf)[[2]]
-		res[[i]] = res2
-	}
-	names(res) = dimnames(x@perf)[[4]]
-	return(res)
-} 
-
-
 ### todo: pretty print method for this case: only aggregated values, always the same learners
 
 

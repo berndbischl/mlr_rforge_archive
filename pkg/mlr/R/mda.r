@@ -32,8 +32,13 @@ setMethod(
 					weights = FALSE,
 					costs = FALSE
 			)
+
+			par.descs <- list(
+				new("par.desc.unknown", par.name="subclasses", default=2L),
+                new("par.desc.num", par.name="iter", when="train", default=5L, lower=1L)
+            )
 			
-			callNextMethod(.Object, label="mda", pack="mda", desc=desc)
+			callNextMethod(.Object, label="mda", pack="mda", desc=desc, par.descs=par.descs)
 		}
 )
 

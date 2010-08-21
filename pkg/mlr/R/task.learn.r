@@ -11,19 +11,17 @@ roxygen()
 #' you should not instantiate it directly but use the inheriting classes and their factory methods.
 #'  
 #' Getter.\cr
+#' Note that all getters of \code{\linkS4class{task.desc}} and \code{\linkS4class{data.desc}} can also be used. 
 #' 
 #' \describe{
-#'  \item{id [string]}{Id string of task.}
-#'	\item{label [string]}{Label string of task.}
-#' 	\item{is.classif [boolean]}{Is this a classification task?}
-#' 	\item{is.regr [boolean]}{Is this a regression task?}
 #' 	\item{data [data.frame]. Optional parameters: row, col}{The data.frame is returned, possibly indexed by row/col. If col is missing, only columns which were not excluded are returned.}
-#'  \item{size [integer]}{Number of cases.}
-#'	\item{target.name [string]}{The name of the target variable.}
 #'  \item{input.names [character]}{The names of the input variables (without excluded variables).}
-#'  \item{excluded [character]}{Names of excluded variables.}
 #'  \item{targets [character]. Optional parameters: row}{If row is missing all target values are returned. Otherwise they are indexed by row.}
 #'  \item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row. NULL if no weights were set.}
+#'  \item{rows.with.missing [integer]}{Index vector for rows which contain missing values.}
+#'  \item{cols.with.missing [integer]}{Index vector for columns which contain missing values.}
+#'  \item{rows.with.inf [integer]}{Index vector for rows which contain infinite numerical values.}
+#'  \item{cols.with.inf [integer]}{Index vector for columns which contain infinite numerical values.}
 #' }
 #' 
 #' @exportClass learn.task
@@ -37,6 +35,7 @@ setClass(
 		representation = representation(
 				data = "data.frame",
 				weights = "numeric",
+				blocking = "factor",
 				data.desc = "data.desc",
 				task.desc = "task.desc"
 		)
@@ -50,7 +49,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, data, weights, data.desc, task.desc) {
+		def = function(.Object, data, weights, blocking, data.desc, task.desc) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
@@ -59,6 +58,7 @@ setMethod(
 			
 			.Object@data = data
 			.Object@weights = weights
+			.Object@blocking = blocking
 			.Object@data.desc = data.desc
 			.Object@task.desc = task.desc
 			
@@ -84,15 +84,11 @@ setMethod(
 			col = args$col
 			
 			if (i == "target.name") {
-				return(td["target"])
+				return(dd["target"])
 			}
 			if (i == "input.names"){
 				return(setdiff(colnames(x@data), c(x["excluded"], x["target.name"])))
 			}
-			if (i == "has.weights"){
-				return(length(x@weights) > 0)
-			}
-			
 			
 			if (is.null(row))
 				row = 1:nrow(x@data)
@@ -101,17 +97,33 @@ setMethod(
 				return(x@data[row, x["target.name"]])
 			}
 			if (i == "weights") {
-				if (!x["has.weights"])
+				if (!td["has.weights"])
 					return(NULL)
 				return(x@weights[row])
 			}
-			
+			if (i == "blocking") {
+				if (!td["has.blocking"])
+					return(NULL)
+				return(x@blocking[row])
+			}
 			if (i == "data"){
 				if (is.null(col))
 					col = setdiff(colnames(x@data), x["excluded"])
 				if (missing(drop))
 					drop = (length(col) == 1)
 				return(x@data[row, col, drop=drop])				
+			}
+			if (i == "rows.with.missing"){
+				return(sum(apply(x["data"], 1, function(x) any(is.na(x)))))
+			}
+			if (i == "cols.with.missing"){
+				return(sum(apply(x["data"], 2, function(x) any(is.na(x)))))
+			}
+			if (i == "rows.with.inf"){
+				return(sum(apply(x["data"], 1, function(x) any(is.infinite(x)))))
+			}
+			if (i == "cols.with.inf"){
+				return(sum(apply(x["data"], 2, function(x) any(is.infinite(x)))))
 			}
 			y = td[i]
 			if (!is.null(y))
@@ -129,7 +141,7 @@ setMethod(
 #---------------- restrict.learn.task -----------------------------------------------------
 
 restrict.learn.task <- function(learn.task, subset) {
-	learn.task@data <- learn.task@data[subset,]
+	learn.task@data <- learn.task@data[subset,,drop=FALSE]
 	return(learn.task)
 }
 

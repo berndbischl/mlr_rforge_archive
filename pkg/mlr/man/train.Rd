@@ -2,10 +2,10 @@
 \alias{train-methods}
 \alias{train}
 \title{Train a learning algorithm.}
-\usage{train(learner, task, subset, parset, vars, type)}
+\usage{train(learner, task, subset, par.vals, vars, type)}
 \description{Given a \code{\linkS4class{learn.task}}, creates a model for the learning machine 
 which can be used for predictions on new data.}
-\value{\code{train-methods}: An object of class \code{\linkS4class{wrapped.model}}.
+\value{\code{train-methods}: \code{\linkS4class{wrapped.model}}.
 
 }
 \seealso{\code{\link{predict}}}
@@ -15,7 +15,7 @@ Learning algorithm. See \code{\link{learners}}.}
 Specifies learning task.}
 \item{subset}{[\code{\link{integer}}] \cr 
 An index vector specifying the training cases to be used for fitting. By default the complete data set is used.}
-\item{parset}{[list] \cr 
+\item{par.vals}{[list] \cr 
 Named list of hyperparameter values. Will overwrite the ones specified in the learner object. Default is empty list.}
 \item{vars}{[\code{\link{character}}] \cr
 Vector of variable names to use in training the model. Default is to use all variables, except the excluded in the task.}

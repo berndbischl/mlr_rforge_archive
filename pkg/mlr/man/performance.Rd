@@ -1,7 +1,9 @@
 \name{performance}
+\alias{performance,grouped.prediction,list,list,list-method}
+\alias{performance}
+\title{performance,grouped.prediction,list,list,list-method}
 \alias{performance-methods}
 \alias{performance}
-\title{Measure performance and losses of prediction.}
 \usage{performance(pred, measures, aggr, losses, task)}
 \description{Measures the quality of predictions w.r.t. some performance measures or loss functions.}
 \value{\code{performance-methods}: A list with with possibly three named components: "measures" is a data.frame of performance values,

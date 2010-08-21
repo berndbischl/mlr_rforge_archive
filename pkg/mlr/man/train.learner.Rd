@@ -10,6 +10,10 @@
 \alias{train.learner}
 \alias{train.learner,regr.blackboost,character,data.frame,data.desc,task.desc,numeric,missing-method}
 \alias{train.learner}
+\alias{train.learner,classif.ctree,character,data.frame,data.desc,task.desc,numeric,matrix-method}
+\alias{train.learner}
+\alias{train.learner,regr.earth,character,data.frame,data.desc,task.desc,numeric,missing-method}
+\alias{train.learner}
 \alias{train.learner,filter.wrapper,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}
 \alias{train.learner,classif.gbm,character,data.frame,data.desc,task.desc,numeric,matrix-method}
@@ -21,6 +25,8 @@
 \alias{train.learner,classif.grplasso,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}
 \alias{train.learner,classif.J48,character,data.frame,data.desc,task.desc,numeric,matrix-method}
+\alias{train.learner}
+\alias{train.learner,classif.JRip,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}
 \alias{train.learner,classif.kknn,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}
@@ -40,7 +46,11 @@
 \alias{train.learner}
 \alias{train.learner,classif.logreg,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}
+\alias{train.learner,classif.lssvm,character,data.frame,data.desc,task.desc,numeric,matrix-method}
+\alias{train.learner}
 \alias{train.learner,classif.lvq1,character,data.frame,data.desc,task.desc,numeric,matrix-method}
+\alias{train.learner}
+\alias{train.learner,regr.mars,character,data.frame,data.desc,task.desc,numeric,missing-method}
 \alias{train.learner}
 \alias{train.learner,classif.mda,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}
@@ -52,7 +62,13 @@
 \alias{train.learner}
 \alias{train.learner,classif.nnet,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}
+\alias{train.learner,classif.OneR,character,data.frame,data.desc,task.desc,numeric,matrix-method}
+\alias{train.learner}
 \alias{train.learner,opt.wrapper,character,data.frame,data.desc,task.desc,numeric,ANY-method}
+\alias{train.learner}
+\alias{train.learner,classif.PART,character,data.frame,data.desc,task.desc,numeric,matrix-method}
+\alias{train.learner}
+\alias{train.learner,regr.pcr,character,data.frame,data.desc,task.desc,numeric,missing-method}
 \alias{train.learner}
 \alias{train.learner,classif.lpsvm,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}
@@ -71,6 +87,8 @@
 \alias{train.learner,classif.rpart,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}
 \alias{train.learner,regr.rpart,character,data.frame,data.desc,task.desc,numeric,missing-method}
+\alias{train.learner}
+\alias{train.learner,classif.sda,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}
 \alias{train.learner,classif.svm,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}

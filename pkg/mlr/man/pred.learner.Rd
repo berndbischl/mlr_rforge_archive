@@ -10,6 +10,10 @@
 \alias{pred.learner}
 \alias{pred.learner,regr.blackboost,wrapped.model,data.frame,missing-method}
 \alias{pred.learner}
+\alias{pred.learner,classif.ctree,wrapped.model,data.frame,character-method}
+\alias{pred.learner}
+\alias{pred.learner,regr.earth,wrapped.model,data.frame,missing-method}
+\alias{pred.learner}
 \alias{pred.learner,classif.gbm,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
 \alias{pred.learner,regr.gbm,wrapped.model,data.frame,missing-method}
@@ -19,6 +23,8 @@
 \alias{pred.learner,classif.grplasso,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
 \alias{pred.learner,classif.J48,wrapped.model,data.frame,character-method}
+\alias{pred.learner}
+\alias{pred.learner,classif.JRip,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
 \alias{pred.learner,classif.kknn,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
@@ -38,7 +44,11 @@
 \alias{pred.learner}
 \alias{pred.learner,classif.logreg,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
+\alias{pred.learner,classif.lssvm,wrapped.model,data.frame,character-method}
+\alias{pred.learner}
 \alias{pred.learner,classif.lvq1,wrapped.model,data.frame,character-method}
+\alias{pred.learner}
+\alias{pred.learner,regr.mars,wrapped.model,data.frame,missing-method}
 \alias{pred.learner}
 \alias{pred.learner,classif.mda,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
@@ -49,6 +59,12 @@
 \alias{pred.learner,classif.naiveBayes,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
 \alias{pred.learner,classif.nnet,wrapped.model,data.frame,character-method}
+\alias{pred.learner}
+\alias{pred.learner,classif.OneR,wrapped.model,data.frame,character-method}
+\alias{pred.learner}
+\alias{pred.learner,classif.PART,wrapped.model,data.frame,character-method}
+\alias{pred.learner}
+\alias{pred.learner,regr.pcr,wrapped.model,data.frame,missing-method}
 \alias{pred.learner}
 \alias{pred.learner,classif.lpsvm,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
@@ -86,6 +102,8 @@ Additional parameters, which need to be passed to the underlying train function.
 \alias{pred.learner,classif.rpart,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
 \alias{pred.learner,regr.rpart,wrapped.model,data.frame,missing-method}
+\alias{pred.learner}
+\alias{pred.learner,classif.sda,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
 \alias{pred.learner,classif.svm,wrapped.model,data.frame,character-method}
 \alias{pred.learner}

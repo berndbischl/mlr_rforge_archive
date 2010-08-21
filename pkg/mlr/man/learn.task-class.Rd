@@ -7,19 +7,17 @@ It wraps the data source and specifies - through its subclasses - the type of th
 the target variable and other details of the problem. As this is just an abstract base class, 
 you should not instantiate it directly but use the inheriting classes and their factory methods.}
 \details{\code{learn.task-class}: Getter.\cr
+Note that all getters of \code{\linkS4class{task.desc}} and \code{\linkS4class{data.desc}} can also be used. 
 
 \describe{
-\item{id [string]}{Id string of task.}
-\item{label [string]}{Label string of task.}
-\item{is.classif [boolean]}{Is this a classification task?}
-\item{is.regr [boolean]}{Is this a regression task?}
 \item{data [data.frame]. Optional parameters: row, col}{The data.frame is returned, possibly indexed by row/col. If col is missing, only columns which were not excluded are returned.}
-\item{size [integer]}{Number of cases.}
-\item{target.name [string]}{The name of the target variable.}
 \item{input.names [character]}{The names of the input variables (without excluded variables).}
-\item{excluded [character]}{Names of excluded variables.}
 \item{targets [character]. Optional parameters: row}{If row is missing all target values are returned. Otherwise they are indexed by row.}
 \item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row. NULL if no weights were set.}
+\item{rows.with.missing [integer]}{Index vector for rows which contain missing values.}
+\item{cols.with.missing [integer]}{Index vector for columns which contain missing values.}
+\item{rows.with.inf [integer]}{Index vector for rows which contain infinite numerical values.}
+\item{cols.with.inf [integer]}{Index vector for columns which contain infinite numerical values.}
 }
 
 }

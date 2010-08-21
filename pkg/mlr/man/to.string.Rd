@@ -2,8 +2,6 @@
 \alias{to.string,bench.result-method}
 \alias{to.string}
 \title{to.string,bench.result-method}
-\alias{to.string,data.desc-method}
-\alias{to.string}
 \alias{to.string,learner-method}
 \alias{to.string}
 \alias{to.string-methods}
@@ -15,11 +13,11 @@
 \alias{to.string}
 \alias{to.string,prediction-method}
 \alias{to.string}
+\alias{to.string,resample.prediction-method}
+\alias{to.string}
 \alias{to.string,resample.desc-method}
 \alias{to.string}
 \alias{to.string,resample.instance-method}
-\alias{to.string}
-\alias{to.string,resample.prediction-method}
 \alias{to.string}
 \alias{to.string,classif.task-method}
 \alias{to.string}

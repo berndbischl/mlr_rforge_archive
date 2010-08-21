@@ -32,6 +32,10 @@ setMethod(
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
+#' @param id [string] \cr
+#'        Id for resulting learner object. If missing, id of "learner" argument is used.
+#' @param label [string] \cr
+#'        Label for resulting learner object. If missing, label of "learner" argument is used.
 #' @param vars [character]\cr 
 #'        Selected variables.  
 #' 
@@ -39,8 +43,8 @@ setMethod(
 #' 
 #' @title Fuse learner with filter method.
 #' @export
-make.filter.wrapper = function(learner, vars) {
-	new("filter.wrapper", learner=learner, vars=vars)
+make.filter.wrapper = function(learner, id=as.character(NA), label=as.character(NA), vars) {
+	new("filter.wrapper", learner=learner, id=id, label=label, vars=vars)
 }
 
 

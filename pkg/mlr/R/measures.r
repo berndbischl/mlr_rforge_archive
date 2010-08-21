@@ -18,12 +18,13 @@
 #' 		\item{\bold{fn, miss}}{\cr False negatives}
 #' 		\item{\bold{fnr}}{\cr False negative rate}
 #' 		\item{\bold{ppv, precision}}{\cr Positive predictive value}
-#' 		\item{\bold{fnr}}{\cr False negative rate}
-#' 		\item{\bold{ppv, precision}}{\cr Positive predictive value}
-#' 		\item{\bold{ppv, precision}}{\cr Negative predictive value}
+#' 		\item{\bold{npv}}{\cr Negative predictive value}
 #' 		\item{\bold{fdr}}{\cr False discovery rate}
 #' 		\item{\bold{f1}}{\cr F1 measure}
 #' 		\item{\bold{mcc}}{\cr Matthews correlation coefficient}
+#' 		\item{\bold{gmean}}{\cr G-mean, geomentric mean of recall and specificity.}
+#' 		\item{\bold{gpr}}{\cr Geometric mean of precision and recall.}
+#' 		\item{\bold{auc}}{\cr Area under the curve.}
 #' 
 #' 		\item{\bold{time.train}}{\cr Time of fitting the model}
 #' 		\item{\bold{time.predict}}{\cr Time of predicting test set}
@@ -112,6 +113,12 @@ make.measure <- function(x) {
 		x = mcc
 	else if (name=="f1") 
 		x = f1
+	else if (name=="gmean") 
+		x = gmean
+	else if (name=="gpr") 
+		x = gpr
+	else if (name=="auc") 
+		x = auc
 	
 	else if (name=="sse") 
 		x = sse
@@ -169,16 +176,21 @@ mcesd = function(x, task) {
 	sd(as.character(x["truth"]) != as.character(x["response"])) 
 }
 
-cost.measure = function(x, task) {
-	cm = x@task.desc@costs
-	if (all(dim(cm) == 0))
+cost.measure = function(x, task, costs=task["costs"]) {
+	if (all(dim(costs) == 0))
 		stop("No costs were defined in task!")
 	cc = function(truth, pred) {
-		cm[truth, pred]
+		costs[truth, pred]
 	}
 	m = Reduce(sum, Map(cc, as.character(x["truth"]), as.character(x["response"])))
+	return(m)
 }
 
+make.cost.measure = function(task, costs) {
+	#todo checks
+	force(costs)
+	function(x, task) cost.measure(x, task, costs=costs)
+}
 
 ### binary
 
@@ -232,8 +244,21 @@ f1 = function(x, task) {
 	2 * tp(x) /
 	(sum(x["truth"] == x@task.desc["positive"]) + sum(x["response"] == x@task.desc["positive"]))  
 }
+gmean = function(x, task) {
+	sqrt(tpr(x)* tnr(x))
+}
 
+gpr = function(x, task) {
+	sqrt(ppv(x) * tpr(x))
+}
 
+auc = function(x, task) {
+	# ROCR does not work with NAs
+	if (any(is.na(x["response"])))
+		return(as.numeric(NA))
+	rpreds = as.ROCR.preds(x)
+	ROCR.performance(rpreds, "auc")@y.values[[1]]
+}
 
 
 

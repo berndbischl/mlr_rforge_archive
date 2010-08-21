@@ -4,13 +4,15 @@
 #' Getter.\cr
 #' 
 #' \describe{
+#'  \item{type [string]}{Type set in predict function: "response", "prob", or "decision".}
 #'  \item{id [numeric]}{Vector of index numbers of predicted cases from the task.}
 #'  \item{response [numeric | factor]}{Predicted response values.}
 #'  \item{truth [numeric | factor]}{True target values.}
 #'  \item{prob [numeric | matrix] Optional parameters: class}{Predicted probabilities. For binary class. only the probabilities for the positive class are returned.}
 #'  \item{decision [matrix]}{Predicted decision values.}
-#'  \item{type [string]}{Type set in predict function: "response", "prob", or "decision".}
+#'  \item{group [factor]}{Grouping of predcitions. Rarely used, if not present NULL is returned.}
 #'  \item{threshold [numeric]}{Threshold set in predict function.}
+#' 	\item{has.groups [boolean]}{Is special grouping used in order to aggregate predictions differently?}
 #' }
 #' 
 #' @exportClass prediction
@@ -47,30 +49,45 @@ setMethod(
 			.Object@df = df			
 			.Object@threshold = threshold			
 			.Object@data.desc = data.desc			
-			.Object@task.desc = task.desc			
+			.Object@task.desc = task.desc	
+			if (length(time.train) != 1)
+				stop("time.tain has to be a single numerical value!")
 			.Object@time.train = time.train			
+			if (length(time.predict) != 1)
+				stop("time.predict has to be a single numerical value!")
 			.Object@time.predict = time.predict			
 			return(.Object)
 		}
 )
 
 
-make.prediction = function(data.desc, task.desc, id, truth, type, y, threshold, time.train, time.predict) {
+make.prediction = function(data.desc, task.desc, id, truth, type, y, group, threshold, time.train, time.predict) {
 	xs = list()
 	# if null no col in df present
 	xs[["id"]] = id
 	xs[["truth"]] = truth
+	if (!is.null(group) && !is.na(group)) {
+		xs[["group"]] = group
+		cl = "grouped.prediction"				
+	} else {
+		cl = "prediction"				
+	}
 	if (type == "response") {
 		resp = y
 	} else if (type == "prob"){
 		xs[["prob"]] = y
+		levs = data.desc["class.levels"]		
 		if (data.desc["is.binary"]) {
 			resp = prob.threshold(y, pos=task.desc["positive"], neg=task.desc["negative"], 
-					levels=data.desc["class.levels"], threshold=threshold)
+					levels=levs, threshold=threshold)
 		} else {
 			resp = sapply(1:nrow(y), function(i) vote.max.val(y[i,], colnames(y)))
 		}
 		resp = as.factor(resp)
+		# the levels of the predicted classes might not be complete....
+		levs2 = levels(resp)
+		if (length(levs2) != length(levs) || any(levs != levs2))
+			resp = factor(resp, levels=levs)
 	} else if (type == "decision"){
 		xs[["decision"]] = y
 		#resp = colnames(y)[apply(y, which.max, 2)]
@@ -79,7 +96,12 @@ make.prediction = function(data.desc, task.desc, id, truth, type, y, threshold, 
 	}
 	xs[["response"]] = resp
 	df = as.data.frame(xs)
-	new("prediction", data.desc, task.desc, type, df, threshold=threshold, time.train, time.predict)
+	# fix columnnames for prob if strage chars are in factor levels
+	cns = colnames(df)
+	i = grep("prob.", cns)
+	if (length(i) > 0)
+		colnames(df)[i] = paste("prob.", colnames(xs[["prob"]]), sep="")
+	new(cl, data.desc, task.desc, type, df, threshold=threshold, time.train, time.predict)
 }
 
 
@@ -100,6 +122,12 @@ setMethod(
 				return(x@df$response)
 			if (i == "truth")
 				return(x@df$truth)
+			if (i == "iter")
+				return(x@df$iter)
+			if (i == "group")
+				return(x@df$group)
+			if (i == "has.groups")
+				return(!is.null(x@df$group))
 			if (i == "prob") {
 				cns = colnames(x@df)
 				cns = cns[grep("^prob", cns)]

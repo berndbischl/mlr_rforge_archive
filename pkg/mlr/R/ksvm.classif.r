@@ -61,7 +61,7 @@ setMethod(
 #				args$kernel = do.call(args$kernel, kpar)	
 #			} 
 			
-			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda"), list(...))
+			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
 			f = as.formula(paste(.targetvar, "~."))
 			if (length(xs$control) > 0)
 				args = c(list(f, data=.data, fit=FALSE, kpar=xs$control), xs$args)

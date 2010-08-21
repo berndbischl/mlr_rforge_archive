@@ -34,7 +34,7 @@ setMethod(
 					costs = FALSE
 			)			
 			callNextMethod(.Object, label="GBM", pack="gbm", desc=desc,
-				parset.train=list(distribution = "bernoulli"))
+				par.vals=list(distribution = "bernoulli"))
 
 		}
 )

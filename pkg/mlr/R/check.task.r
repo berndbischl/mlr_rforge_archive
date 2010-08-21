@@ -14,4 +14,10 @@ check.task <- function(data, target) {
 	i = sapply(forbidden, function(x) length(grep(x, cns, fixed=T)) > 0)
 	if (any(i))
 		stop(paste("Column names should not contain: ", paste(forbidden2, collapse=" ")))
+	if (any(is.na(data[, target]))) {
+		stop("Target values contain missings!")
+	}
+	if (any(is.infinite(data[, target]))) {
+		stop("Target values contain infinite values!")
+	}
 }

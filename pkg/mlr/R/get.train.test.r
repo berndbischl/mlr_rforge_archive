@@ -37,7 +37,8 @@ setMethod(
 		f = "get.test.set",
 		signature = signature("resample.instance", "integer"),
 		def = function(x, i) {
-			setdiff(1:x["size"], x@inds[[i]])
+			inds = setdiff(1:x["size"], x@inds[[i]])
+			list(inds=inds, group=NA)
 		}
 )
 

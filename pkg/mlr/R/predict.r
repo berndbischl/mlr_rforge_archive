@@ -23,6 +23,9 @@ roxygen()
 #'        for the positive class, so that a positive class is predicted as "response".
 #'        Default is 0.5 for type="prob".
 #' 		  Ignored for regression.	 
+#' @param group [factor] \cr
+#'        Only for internal use! 
+#'        Default is NULL.
 #' @return \code{\linkS4class{prediction}}.
 #'
 #' @export
@@ -36,20 +39,22 @@ roxygen()
 setMethod(
 		f = "predict",
 		signature = signature(object="wrapped.model"),
-		def = function(object, task, newdata, subset, type, threshold) {
+		def = function(object, task, newdata, subset, type, threshold, group=NULL) {
 			if (!missing(task) && !missing(newdata)) 
 				stop("Pass either a task object or a newdata data.frame to predict, but not both!")
-			
-			if (missing(newdata)) {
-				if (missing(subset))
-					subset = 1:task["size"]
-				newdata = task["data", row=subset]
-			}
 
 			model = object
 			wl = model["learner"]
 			td = model@task.desc
 			dd = model@data.desc
+			
+			if (missing(newdata)) {
+				if (missing(subset))
+					subset = 1:task["size"]
+				newdata = task["data", row=subset]
+			} else {
+				newdata = prep.data(dd["is.classif"], newdata, dd["target"], dd["excluded"], dd["prepare.control"])			
+			}
 			
 			if (missing(type))
 				type = wl["predict.type"]
@@ -60,12 +65,12 @@ setMethod(
 			
 			
 			cns = colnames(newdata)
-			tn = td["target"]
+			tn = dd["target"]
 			t.col = which(cns == tn)
 			# get truth and drop target col, if target in newdata
 			if (length(t.col) == 1) {
 				truth = newdata[, t.col]
-				newdata = newdata[, -t.col]					
+				newdata = newdata[, -t.col, drop=FALSE]					
 				
 			} else {
 				truth = NULL
@@ -79,8 +84,10 @@ setMethod(
 				stop("Trying to predict decision values, but ", wl["id"], " does not support that!")
 			}
 
+			hps = wl["pars.setting"][wl["pars.predict"]]
+			
 			logger.debug(level="predict", "mlr predict:", wl["id"], "with pars:")
-			logger.debug(level="predict", wl["hyper.pars"])
+			logger.debug(level="predict", hps)
 			logger.debug(level="predict", "on", nrow(newdata), "examples:")
 			logger.debug(level="predict", rownames(newdata))
 			
@@ -94,21 +101,15 @@ setMethod(
 			
 			# was there an error in building the model? --> return NAs
 			if(is(model["learner.model"], "learner.failure")) {
-				if (wl["is.classif"]) {
-					p = switch(type, 
-							response = factor(rep(NA, nrow(newdata)), levels=levs),
-							matrix(NA, nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))
-					)
-				} else {
-					p = as.numeric(rep(NA, nrow(newdata)))
-				}
+				p = predict_nas(wl, model, newdata, type, levs, dd, td)
+				time.predict = as.numeric(NA)
 			} else {
 				pars <- list(
 						.learner = wl,
 						.model = model, 
 						.newdata=newdata
 				)
-				pars = c(pars, wl["hyper.pars", type="predict"]) 
+				pars = c(pars, hps) 
 				if (wl["is.classif"]) {
 					pars$.type = type
 				}
@@ -123,8 +124,19 @@ setMethod(
 					p = predict_novars(model["learner.model"], newdata, type)
 					time.predict = 0
 				} else {
-					st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)
+					if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
+						st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)
+					else
+						st = system.time(p <- try(do.call(pred.learner, pars), silent=TRUE), gcFirst=FALSE)
 					time.predict = st[3]
+					# was there an error during prediction?
+					if(is(p, "try-error")) {
+						msg = as.character(p)
+						if (.mlr.local$errorhandler.setup$on.learner.error == "warn")
+							warning("Could not predict the learner: ", msg)
+						p = predict_nas(wl, model, newdata, type, levs, dd, td)
+						time.predict = as.numeric(NA)
+					}
 				}
 				if (wl["is.classif"]) {
 					if (type == "response") {
@@ -132,7 +144,10 @@ setMethod(
 						# be sure to add the levels at the end, otherwise data gets changed!!!
 						if (!is.factor(p))
 							stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
-						levels(p) <- union(levels(p), levs)
+						levs2 = levels(p)
+						if (length(levs2) != length(levs) || any(levs != levs2))
+							p = factor(p, levels=levs)
+						
 					} else if (type == "prob") {
 						if (!is.matrix(p))
 							stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
@@ -155,13 +170,25 @@ setMethod(
 				logger.debug(level="predict", p)
 			}
 			if (missing(task))
-				ids = NULL			else
+				ids = NULL			
+			else
 				ids = subset
 			make.prediction(data.desc=dd, task.desc=td, id=ids, truth=truth, 
-					type=type, y=p, threshold=threshold,  
+					type=type, y=p, group=group, threshold=threshold,  
 					time.train=model["time"], time.predict=time.predict)
 		}
 )
 
+predict_nas = function(learner, model, newdata, type, levs, data.desc, task.desc) {
+	if (learner["is.classif"]) {
+		p = switch(type, 
+				response = factor(rep(NA, nrow(newdata)), levels=levs),
+				matrix(as.numeric(NA), nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))
+		)
+	} else {
+		p = as.numeric(rep(NA, nrow(newdata)))
+	}
+	return(p)
+}
 
 

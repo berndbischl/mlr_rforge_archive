@@ -59,8 +59,10 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 
   message("--------------------------------------------------------------------------------")
   message(sprintf("Creating base package under '%s'.", pkg.dir))
-  message(sprintf("Removing/Cleaning directory '%s' ...", build.dir))
-  unlink(build.dir, recursive=TRUE)
+  message("Removing stale R and Rd files ...")
+  file.remove(list.files(file.path(build.dir, "R"), full.names=TRUE))
+  file.remove(list.files(file.path(build.dir, "man"), full.names=TRUE))
+  
   message("Creating pkg directory structure ...")
   dir.create(build.dir)
   dir.create(file.path(build.dir, "man"))
@@ -75,7 +77,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	write.desc(desc.file, rev.nr)
 
   message("--------------------------------------------------------------------------------")
-  message("Generate documentation")
+  message("Generating documentation")
   message("Running Roxygen ...")
 	ro <- capture.output(roxygenize(package.dir=build.dir, use.Rd2=TRUE, unlink.target=TRUE))
   idx <- c(grep("omitted", ro), grep("Processing", ro))

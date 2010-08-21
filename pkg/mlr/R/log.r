@@ -1,9 +1,20 @@
 # todo: can we log where the current log was generated, like in which method (automatically)?
 
-#logger.errorhandler <- function() {
-#	s <- geterrmessage()
-#	logger.error(s)
-#}
+#' Sets up the logging system of mlr. 
+#' 
+#' @param console [boolean] \cr
+#'   Should output be printed to R console?
+#' @param file [string] \cr 
+#'   Path to file to redirect output into. 	
+#' @param level [character] \cr 
+#'   Which logging levels should be printed: 'error', 'warn', 'info', 'debug'. Default is 'info'.    	
+#' @param sublevel [character] \cr 
+#'   Which logging sublevels should be printed. Default is NA which means all logging of the selected main level is printed.
+#'   Currently for 'debug' are available: 'train', 'predict' and 'parallel'.     	
+#'   Currently for 'info' are available: 'tune'.     	
+#' @return NULL.
+#' @export
+#' @title Logger setup.
 
 logger.setup <- function(console=TRUE, file=NA, level, sublevel=NA) {
 	if (level=="error") {
@@ -12,7 +23,6 @@ logger.setup <- function(console=TRUE, file=NA, level, sublevel=NA) {
 		options(warn=1)
 	}
 		
-	#options(error=logger.errorhandler)
 	logger.setup <- list()
 	logger.setup$console <- console
 	logger.setup$file <- file
@@ -23,7 +33,7 @@ logger.setup <- function(console=TRUE, file=NA, level, sublevel=NA) {
 		
 	if (!(is.na(file))) 
 		unlink(file)
-	return(logger.setup)
+	return(NULL)
 }
 
 logger.print.stuff <- function(prefix, ...) {
@@ -66,7 +76,7 @@ logger.print <- function(level, sublevel=NA, ...) {
 			info = 2,
 			debug = 1)
 	
-	if (level >= global.level && ( is.na(sublevel) || sublevel %in% logger.setup$sublevel)) {
+	if (level >= global.level && ( is.na(sublevel) || is.na(logger.setup$sublevel) || sublevel %in% logger.setup$sublevel)) {
 		if (!is.na(logger.setup$file)) { 
 			sink(file=logger.setup$file, append=TRUE)
 			logger.print.stuff(prefix, ...)  
@@ -81,8 +91,8 @@ logger.print <- function(level, sublevel=NA, ...) {
 #	logger.print(level="error", ...)
 #}
 
-logger.info <- function(...) {
-	logger.print(level="info", sublevel=NA, ...)
+logger.info <- function(..., level=NA) {
+	logger.print(level="info", sublevel=level, ...)
 }
 
 logger.debug <- function(..., level=NA) {
