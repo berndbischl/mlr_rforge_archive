@@ -106,7 +106,8 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	}	
 	
 	unlink(data.build.dir, recursive=TRUE)
-
+  unlink(rox.dir, recursive=TRUE)
+  
 	if (build || install) {
 		setwd(pkg.dir)
     run_command("R CMD build mlr", msg="Bulding 'mlr'")
@@ -124,7 +125,10 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
       message("--------------------------------------------------------------------------------")
 			message("Errors:")
 			cat(s[err.i], sep="\n")
-		}
+		} else {
+      ## Remove crufty directory...
+      unlink(file.path(pkg.dir, "mlr.Rcheck"), recursive=TRUE)
+    }
 	}
 		
 	if (install) {
