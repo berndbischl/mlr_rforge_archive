@@ -22,8 +22,6 @@ roxygen()
 #'
 #' @export
 #'
-#' @usage train(learner, task, subset, par.vals, vars, type)  
-#'
 #' @seealso \code{\link{predict}}
 #' 
 #' @title Train a learning algorithm.
