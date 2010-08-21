@@ -62,7 +62,7 @@ ROCR.prediction(predictions, labels, label.ordering = NULL)
   Oliver Sander \email{osander@mpi-sb.mpg.de}}
 
 \seealso{\code{\link{ROCR.prediction-class}}, \code{\link{ROCR.performance}},
-  \code{\link{performance-class}}, \code{\link{plot.performance}} } 
+  \code{\link{ROCR.performance-class}}, \code{\link{ROCR.plot.performance}} } 
 
 \examples{
 # create a simple prediction object

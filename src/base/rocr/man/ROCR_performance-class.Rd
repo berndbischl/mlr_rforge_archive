@@ -60,6 +60,6 @@
   Oliver Sander \email{osander@mpi-sb.mpg.de}}
 
 \seealso{\code{\link{ROCR.prediction}}, \code{\link{ROCR.performance}},
-  \code{\link{ROCR.prediction-class}}, \code{\link{plot.performance}} } 
+  \code{\link{ROCR.prediction-class}}, \code{\link{ROCR.plot.performance}} } 
 
 \keyword{classes}

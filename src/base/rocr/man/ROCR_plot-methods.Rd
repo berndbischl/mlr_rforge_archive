@@ -2,8 +2,8 @@
 \docType{methods}
 \alias{ROCR.plot.performance}
 \alias{ROCR.plot-methods}
-\alias{ROCR.plot,performance-method}
-\alias{ROCR.plot,performance,missing-method}
+\alias{plot,ROCR.performance-method}
+\alias{plot,ROCR.performance,missing-method}
 
 \title{Plot method for performance objects}
 
@@ -11,7 +11,7 @@
   performance.}
 
 \usage{
-\S4method{plot}{performance,missing}(x, y, ..., avg="none", spread.estimate="none",
+\S4method{plot}{ROCR.performance,missing}(x, y, ..., avg="none", spread.estimate="none",
   spread.scale=1, show.spread.at=c(), colorize=FALSE,
   colorize.palette=rev(rainbow(256,start=0, end=4/6)),
   colorkey=colorize, colorkey.relwidth=0.25, colorkey.pos="right",
@@ -20,7 +20,7 @@
 }
 
 \arguments{
-  \item{x}{an object of class \code{performance}}
+  \item{x}{an object of class \code{ROCR.performance}}
   \item{y}{not used}
   \item{...}{Optional graphical parameters to adjust different components of
     the performance plot. Parameters are directed to their target component by
