@@ -14,4 +14,3 @@ get.rev.nr <- function() {
   ## add 1 because we need to commit to r-forge before its build there
   return(rev.nr+1)
 }
-

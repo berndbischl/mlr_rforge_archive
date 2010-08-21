@@ -1,20 +1,39 @@
-require("methods")
+library("methods")
 library("roxygen")
+library("tools")
 
 if (file.exists("src/make/config.r")) {
   source("src/make/config.r")
 } else {
   project.dir <- getwd()
 }
+
 source("src/make/desc.r")
 source("src/make/rev.nr.r")
 source("src/make/remove.r")
 source("src/files.r")
 source("src/files_rd.r")
 
+run_command <- function(cmd, ..., intern=FALSE, msg=NULL) {
+  fullcmd <- sprintf(cmd, ...)
+  message("--------------------------------------------------------------------------------")
+  if (!is.null(msg))
+    message(msg)  
+  message(sprintf("Running '%s'", fullcmd))
+  t <- system.time(out <- system(fullcmd, intern=intern))
+  message(sprintf("'%s' finished in %ss", fullcmd, t[3]))
+  out
+}
 
+show_warnings <- function() {
+  w <- warnings()
+  if (!is.null(w)) {
+    message("Warnings:")
+    cat(w, sep="\n")
+  }  
+}
 
-
+ 
 make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, install=FALSE) {
 	src.dir  <<- file.path(project.dir, "src")
 	pkg.dir  <<- file.path(project.dir, "pkg")
@@ -28,33 +47,49 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	data.build.dir  <<- file.path(build.dir, "data") 
 	#html.dir <- file.path(project.dir, "html") 
 	
-	cat("Building mlr to :", pkg.dir, "...\n")
-	cat("Clean up:\n")
+	message("Building mlr to '", pkg.dir, "' ...")
+	message("Cleaning up ...")
 	
-	if( unlink(file.path(r.build.dir, list.files(r.build.dir))) != 0) 
-		stop("could not delete r dir!")		
-	if( unlink(file.path(man.build.dir, list.files(man.build.dir))) != 0) 
-		stop("could not delete man dir!")		
+	if(unlink(file.path(r.build.dir, list.files(r.build.dir))) != 0) 
+		stop(sprintf("Could not delete directory '%s'.", r.build.dir))		
+	if(unlink(file.path(man.build.dir, list.files(man.build.dir))) != 0)
+    stop(sprintf("Could not delete directory '%s'.", man.build.dir))		
 	
 	code.files <- file.path(src.dir, c(base.files, classif.files, regr.files))
-	
-	package.skeleton("mlr", code_files=code.files, path = pkg.dir, namespace=FALSE, force=TRUE)
-	
+
+  message("--------------------------------------------------------------------------------")
+  message(sprintf("Creating base package under '%s'.", pkg.dir))
+  message(sprintf("Removing/Cleaning directory '%s' ...", build.dir))
+  unlink(build.dir, recursive=TRUE)
+  message("Creating pkg directory structure ...")
+  dir.create(build.dir)
+  dir.create(file.path(build.dir, "man"))
+  dir.create(file.path(build.dir, "R"))
+
+  message("Copying R files ...")
+  file.copy(code.files, file.path(build.dir, "R"))
+
+  message("Creating DESCRIPTION file ...")
 	desc.file <- file.path(build.dir, "DESCRIPTION")
 	rev.nr <- get.rev.nr()
 	write.desc(desc.file, rev.nr)
 
-	roxygenize(package.dir=build.dir, use.Rd2=TRUE, unlink.target=TRUE)
+  message("--------------------------------------------------------------------------------")
+  message("Generate documentation")
+  message("Running Roxygen ...")
+	ro <- capture.output(roxygenize(package.dir=build.dir, use.Rd2=TRUE, unlink.target=TRUE))
+  idx <- c(grep("omitted", ro), grep("Processing", ro))
+  cat(ro[-idx], sep="\n")
 
-
+  message("Merging Roxygen output with base package ...")
 	file.copy(from=man.rox.dir, to=build.dir, recursive = TRUE)
+	file.copy(from=file.path(rox.dir, "NAMESPACE"), to=build.dir, overwrite = TRUE) 
+	file.copy(from=file.path(rox.dir, "DESCRIPTION"), to=build.dir, overwrite = TRUE)
+  
+  message("Copying ROCR documentation into base package ...")
 	man.rocr.dir = file.path(src.dir, "base", "rocr", "man")
 	file.copy(from=file.path(man.rocr.dir, list.files(man.rocr.dir)), to=man.build.dir)
-	file.copy(from=file.path(rox.dir, "NAMESPACE"), to=build.dir, overwrite = TRUE) 
-	file.copy(from=file.path(rox.dir, "DESCRIPTION"), to=build.dir, overwrite = TRUE) 
-	
-	
-	
+		
 	if (only.allowed.rds) {
 		rds <- list.files(man.build.dir, all=T)
 		for (f in rds) {
@@ -69,55 +104,35 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	}	
 	
 	unlink(data.build.dir, recursive=TRUE)
-	
-#rds <- "*.Rd"
-#wd <- getwd()
-#setwd(man.dir)
-	##cmd <- paste("R CMD Rdconv2 --type=html -o ", html.dir, " ", rds, sep="")
-	##print(cmd)
-	##system(cmd)
-#
+
 	if (build || install) {
 		setwd(pkg.dir)
-		cmd <- paste("R CMD build mlr")
-		print(cmd)
-		system(cmd)
+    run_command("R CMD build mlr", msg="Bulding 'mlr'")
 	}
 	if (binary) {
 		setwd(pkg.dir)
-		cmd <- paste("R CMD build --binary mlr")
-		print(cmd)
-		system(cmd)
+    run_command("R CMD build --binary mlr", msg="Bulding binary package")
 	}
 	if (check) {
 		setwd(pkg.dir)
-		cmd <- paste("R CMD check mlr")
-		print(cmd)
-		s <- system(cmd, intern=TRUE)
-		print(s)
+    s <- run_command("R CMD check mlr", intern=TRUE)
+    cat(s, sep="\n")
 		err.i <- grep("Error|Fehler|ERROR", s)
-		if (length(err.i) == 0) {
-			print("make:done")
-		} else {
-			print(err.i)
-			print(s[err.i])
-			print("make:failed")
+		if (length(err.i) > 0) {
+      message("--------------------------------------------------------------------------------")
+			message("Errors:")
+			cat(s[err.i], sep="\n")
 		}
 	}
-	
-	
+		
 	if (install) {
 		fs = sort(list.files(pkg.dir, pattern="mlr.*tar.gz"))
 		f = fs[length(fs)]
 		f = file.path(pkg.dir, f)
-		paste("Installing", f, "\n")
-#		cmd <- paste("R CMD INSTALL --html", f)
-		cmd <- paste("R CMD INSTALL", f)
-		print(cmd)
-		system(cmd)
+    run_command("R CMD INSTALL %s", f, msg="Installing package")
 	}
+  message("--------------------------------------------------------------------------------")
 	setwd(project.dir)
-	
 }
 
 make(build=F, check=T, binary=F, install=F)

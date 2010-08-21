@@ -63,8 +63,6 @@ setMethod(
 
 #' Getter
 #' @rdname resample.prediction-class
-
-
 setMethod(
 		f = "[",
 		signature = signature("resample.prediction"),
