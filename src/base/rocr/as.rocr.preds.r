@@ -15,9 +15,9 @@ roxygen()
 setGeneric(
 		name = "as.ROCR.preds",
 		def = function(x) {
-			if(!require(ROCR)) {
-				stop(paste("Package ROCR is missing!"))
-			}
+#			if(!require(ROCR)) {
+#				stop(paste("Package ROCR is missing!"))
+#			}
 			standardGeneric("as.ROCR.preds")
 		}
 )

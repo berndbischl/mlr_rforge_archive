@@ -43,6 +43,14 @@ allowed.rd.files <<- c(
 		"measures.Rd",
 		"losses.Rd",
 		
+		"ROCR_performance.Rd",
+		"ROCR_performance-class.Rd",
+		"ROCR_prediction.Rd",
+		"ROCR_prediction-class.Rd",
+		"ROCR_plot-methods.Rd",
+#		"ROCR_simple.Rd",
+#		"ROCR_xval.Rd",
+		
 		"make.res.instance.Rd",
 		"make.res.desc.Rd",
 		"resample.desc-class.Rd",

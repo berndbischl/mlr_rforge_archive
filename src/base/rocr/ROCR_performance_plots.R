@@ -28,7 +28,7 @@
     }
     return(perf)
 }
-
+#' @export 
 ROCR.plot.performance <-
   function(perf, ..., avg="none",
            spread.estimate="none", spread.scale=1, show.spread.at=c(),

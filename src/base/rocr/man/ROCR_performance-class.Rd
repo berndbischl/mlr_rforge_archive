@@ -36,17 +36,17 @@
     corresponding values of the performance measure, and
     \code{alpha.values} is empty.\cr
     \item The trade-off between two performance measures across the
-    range of all cutoffs (e.g. \code{performance( predObj,
+    range of all cutoffs (e.g. \code{ROCR.performance( predObj,
       'tpr', 'fpr' )} ). In this case, the cutoffs are stored in
     \code{alpha.values}, while \code{x.values} and \code{y.values}
     contain the corresponding values of the two performance measures.\cr
     \item A performance measure that comes along with an obligatory
-    second axis (e.g. \code{performance( predObj, 'ecost' )} ). Here, the measure values are
+    second axis (e.g. \code{ROCR.performance( predObj, 'ecost' )} ). Here, the measure values are
     stored in \code{y.values}, while the corresponding values of the
     obligatory axis are stored in \code{x.values}, and \code{alpha.values}
     is empty.\cr
     \item A performance measure whose value is just a scalar
-    (e.g. \code{performance( predObj, 'auc' )} ). The value is then stored in
+    (e.g. \code{ROCR.performance( predObj, 'auc' )} ). The value is then stored in
     \code{y.values}, while \code{x.values} and \code{alpha.values} are
     empty.
   }
@@ -59,7 +59,7 @@
 \author{Tobias Sing \email{tobias.sing@mpi-sb.mpg.de},
   Oliver Sander \email{osander@mpi-sb.mpg.de}}
 
-\seealso{\code{\link{prediction}}, \code{\link{performance}},
-  \code{\link{prediction-class}}, \code{\link{plot.performance}} } 
+\seealso{\code{\link{ROCR.prediction}}, \code{\link{ROCR.performance}},
+  \code{\link{ROCR.prediction-class}}, \code{\link{plot.performance}} } 
 
 \keyword{classes}

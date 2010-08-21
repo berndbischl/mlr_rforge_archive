@@ -252,8 +252,8 @@
   function(predictions, labels, cutoffs, fp, tp, fn, tn,
            n.pos, n.neg, n.pos.pred, n.neg.pred) {
 
-      pred <- prediction( predictions, labels)
-      perf <- performance( pred, measure="prec", x.measure="rec")
+      pred <- ROCR.prediction( predictions, labels)
+      perf <- ROCR.performance( pred, measure="prec", x.measure="rec")
       x <- rev(perf@x.values[[1]])
       y <- rev(perf@y.values[[1]])
       alpha <- rev(perf@alpha.values[[1]])
@@ -370,10 +370,10 @@
 .performance.sar <- function( predictions, labels, cutoffs, fp, tp, fn, tn,
            n.pos, n.neg, n.pos.pred, n.neg.pred) {
 
-    pred <- prediction( predictions, labels)
-    perf.acc <- performance( pred, measure="acc")
-    perf.rmse <- performance( pred, measure="rmse")
-    perf.auc <- performance( pred, measure="auc")
+    pred <- ROCR.prediction( predictions, labels)
+    perf.acc <- ROCR.performance( pred, measure="acc")
+    perf.rmse <- ROCR.performance( pred, measure="rmse")
+    perf.auc <- ROCR.performance( pred, measure="auc")
 
     list(cutoffs,
          1/3 * (perf.acc@y.values[[1]] +

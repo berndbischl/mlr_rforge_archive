@@ -1,3 +1,5 @@
+#' @import graphics
+#' @exportClass ROCR.prediction
 setClass("ROCR.prediction",
          representation(predictions = "list",
                         labels      = "list",
@@ -10,7 +12,8 @@ setClass("ROCR.prediction",
                         n.neg       = "list",
                         n.pos.pred  = "list",
                         n.neg.pred  = "list"))
-
+		
+#' @exportClass  ROCR.performance
 setClass("ROCR.performance",
          representation(x.name       = "character",
                         y.name       = "character",

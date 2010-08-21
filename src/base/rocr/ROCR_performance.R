@@ -1,3 +1,7 @@
+#' @include ROCR_performance_measures.R
+roxygen()
+
+#' @export
 ROCR.performance <- function(prediction.obj, measure,
                         x.measure="cutoff", ...) {
 

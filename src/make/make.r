@@ -48,8 +48,8 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 
 
 	file.copy(from=man.rox.dir, to=build.dir, recursive = TRUE)
-	man.rocr.dir = file.path(src.path, "base", "rocr", "man")
-	file.copy(file.path(man.roc.dir, list.files(man.rocr.dir), man.build.dir))
+	man.rocr.dir = file.path(src.dir, "base", "rocr", "man")
+	file.copy(from=file.path(man.rocr.dir, list.files(man.rocr.dir)), to=man.build.dir)
 	file.copy(from=file.path(rox.dir, "NAMESPACE"), to=build.dir, overwrite = TRUE) 
 	file.copy(from=file.path(rox.dir, "DESCRIPTION"), to=build.dir, overwrite = TRUE) 
 	
@@ -120,4 +120,4 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	
 }
 
-make(build=F, check=F, binary=T, install=F)
+make(build=F, check=T, binary=F, install=F)

@@ -189,7 +189,7 @@ ROCR.performance(prediction.obj, measure, x.measure="cutoff", \dots)
   }
 }
 
-\seealso{\code{\link{prediction}}, \code{\link{prediction-class}},
+\seealso{\code{\link{ROCR.prediction}}, \code{\link{ROCR.prediction-class}},
   \code{\link{ROCR.performance-class}}, \code{\link{ROCR.plot.performance}} } 
 
 \examples{

@@ -47,9 +47,13 @@ base.files <<- c(
 		"base/performance.r",
 		"base/measures.r",
 		"base/aggr.r",
-		"base/rocr/make.rocr.pred.r",
 		"base/rocr/as.rocr.preds.r",
-		"base/rocr/rocr.funs.r",
+		"base/rocr/ROCR_zzz.R",
+		"base/rocr/ROCR_aux.R",
+		"base/rocr/ROCR_prediction.R",
+		"base/rocr/ROCR_performance_measures.R",
+		"base/rocr/ROCR_performance.R",
+		"base/rocr/ROCR_performance_plots.R",
 		
 		"base/resample/resample.desc.r",
 		"base/resample/resample.desc.make.r",
@@ -181,7 +185,6 @@ regr.files <<- c(
 
 load.all.libs <- function() {
 	library(abind)
-	library(ROCR)
 	library(RUnit)
 	library(MASS)
 	library(rpart)

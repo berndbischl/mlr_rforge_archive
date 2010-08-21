@@ -1,5 +1,5 @@
-\name{prediction}
-\alias{prediction}
+\name{ROCR.prediction}
+\alias{ROCR.prediction}
 
 \title{Function to create prediction objects}
 \description{Every classifier evaluation using ROCR starts with
@@ -8,7 +8,7 @@
   list form) into a standardized format.}
 
 \usage{
-prediction(predictions, labels, label.ordering = NULL)
+ROCR.prediction(predictions, labels, label.ordering = NULL)
 }
 
 \arguments{
@@ -61,7 +61,7 @@ prediction(predictions, labels, label.ordering = NULL)
 \author{Tobias Sing \email{tobias.sing@mpi-sb.mpg.de},
   Oliver Sander \email{osander@mpi-sb.mpg.de}}
 
-\seealso{\code{\link{prediction-class}}, \code{\link{performance}},
+\seealso{\code{\link{ROCR.prediction-class}}, \code{\link{ROCR.performance}},
   \code{\link{performance-class}}, \code{\link{plot.performance}} } 
 
 \examples{

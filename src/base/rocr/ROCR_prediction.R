@@ -1,3 +1,4 @@
+#' @export
 ROCR.prediction <- function(predictions, labels, label.ordering=NULL) {
 
     ## bring 'predictions' and 'labels' into list format,
