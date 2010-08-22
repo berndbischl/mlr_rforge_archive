@@ -25,9 +25,13 @@ rec.lapply = function(xs, fun, depth=Inf) {
 
 # inserts elements from x2 into x1, overwriting elements of equal names
 # if el.names contains names which are nor present in x2, they are disregarded
-insert = function(xs1, xs2, el.names=names(xs2)) {
-	el.names = intersect(el.names, names(xs2))
-	xs1[el.names] = xs2[el.names]
+insert = function(xs1, xs2, el.names) {
+  if (missing(el.names)) {
+    xs1[names] <- xs2
+  } else {
+    el.names = intersect(el.names, names(xs2))
+    xs1[el.names] <- xs2[el.names]
+  }
 	return(xs1)
 }
 
