@@ -1,9 +1,11 @@
-c.factor = function(...) {
+c.factor = function(..., recursive=FALSE) {
 	args <- list(...)
-	for (i in seq(along=args)) if (!is.factor(args[[i]])) args[[i]] = 
-					as.factor(args[[i]])
-	# The first must be factor otherwise we wouldn't be inside c.factor, its checked anyway in the line above.
-	newlevels = sort(unique(unlist(lapply(args,levels))))
+	for (i in seq(along=args))
+    if (!is.factor(args[[i]]))
+      args[[i]] = as.factor(args[[i]])
+  ## The first must be factor otherwise we wouldn't be inside
+  ## c.factor, its checked anyway in the line above.
+	newlevels = sort(unique(unlist(lapply(args, levels))))
 	ans = unlist(lapply(args, function(x) {
 						m = match(levels(x), newlevels)
 						m[as.integer(x)]
@@ -179,13 +181,18 @@ require.packs = function(packs, for.string) {
 	return(packs.ok)
 }
 
+##' Check if \code{e1} and \code{e2} are equal ignoring such fine
+##' points as \code{1 != 1L}.
+almost.equal <- function(e1, e2) {
+  isTRUE(all.equal(e1, e2))
+}
 
 hyper.par.val.to.name = function(par.name, par.val, learner) {
   pds = learner["par.descs"]
   pd = pds[[par.name]]
   if(!is.null(pd) && is(pd, "par.desc.disc")) {
     vals = pd["vals"]
-    i = which(sapply(vals, function(x) isTRUE(all.equal(par.val, x))))
+    i = which(sapply(vals, function(x) almost.equal(par.val, x)))
     return(names(vals)[i])
   }
   return(par.val)
