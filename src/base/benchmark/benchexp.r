@@ -88,7 +88,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 		mods[[j]] = list()
 		ors[[j]] = list()
 		if (is(resampling, "resample.desc")) {
-			resamplings[[j]] = new(resampling@instance.class, resampling, task["size"])
+			resamplings[[j]] = make.res.instance(resampling, task=task)
 		} else {
 			resamplings[[j]] = resampling
 		}		
