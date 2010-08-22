@@ -54,8 +54,9 @@ setMethod(
             if(!is.logical(p) || length(p) != 1)
               stop(class(learner), ": Par ", n, " has to be a single boolean value!")
           } else if (is(pd, "par.desc.num")){
-            stop(class(learner), ": Par ", n, " has to be a single numerical value!")
-            if (pd["type"] == "integer")
+            if(!is.numeric(p) || length(p) != 1)
+              stop(class(learner), ": Par ", n, " has to be a single numerical value!")
+            if (pd["data.type"] == "integer")
               p = as.integer(p)
             if (p < pd["lower"] || p > pd["upper"])
               stop(class(learner), ": Par ", n, " has to be between bounds ", pd["lower"], " and ", pd["upper"], "!")
