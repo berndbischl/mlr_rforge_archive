@@ -112,7 +112,7 @@ setMethod(
       
       if (i == "par.descs") {
         pds = x@par.descs
-        names(pds) = x["par.descs.name"]
+        names(pds) = sapply(pds, function(y) y@par.name)
         return(pds)
       } 
 			if (i == "par.descs.name") 
