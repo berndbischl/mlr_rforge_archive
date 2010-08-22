@@ -94,19 +94,12 @@ check.list.type = function(xs, type, name) {
 }
 
 
+##' Returns TRUE if all entries in the name attribute of \code{xs} valid names.
 all.names = function(xs) {
 	ns = names(xs)
-	length(ns) == length(xs) 	
+  is.null(ns) || any(is.na(ns)) || any(ns == "")
 }
  
-
-
-
-#check.list.types = function(name, xs, types) {
-#	sapply(types, function(tt) check.list.type(name, xs, tt))
-#} 
-
-
 vote.majority = function(x) {
 	tt = table(x)
 	y = seq_along(tt)[tt == max(tt)]
