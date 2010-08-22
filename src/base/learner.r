@@ -109,7 +109,12 @@ setMethod(
 			if (i == "characters") {
 				return(x@desc["characters"])
 			}
-			
+      
+      if (i == "par.descs") {
+        pds = x@par.descs
+        names(pds) = x["par.descs.name"]
+        return(pds)
+      } 
 			if (i == "par.descs.name") 
 				return(sapply(x@par.descs, function(y) y@par.name))
 			if (i == "par.descs.when") {
@@ -141,7 +146,9 @@ setMethod(f = "to.string",
           signature = signature("learner"),
           def = function(x) {
             hps = x["par.vals"]
-            hps = paste(names(hps), hps, sep="=", collapse=" ")
+            hps.ns = names(hps)
+            hps = Map(function(n, v) hyper.par.val.to.name(n,v,x), hps.ns, hps)
+            hps = paste(hps.ns, hps, sep="=", collapse=" ")
             is.classif = x["is.classif"]
             type = if (is.null(is.classif))
               "Unknown"

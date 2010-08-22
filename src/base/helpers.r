@@ -182,3 +182,14 @@ require.packs = function(packs, for.string) {
 	return(packs.ok)
 }
 
+
+hyper.par.val.to.name = function(par.name, par.val, learner) {
+  pds = learner["par.descs"]
+  pd = pds[[par.name]]
+  if(!is.null(pd) && is(pd, "par.desc.disc")) {
+    vals = pd["vals"]
+    i = which(sapply(vals, function(x) isTRUE(all.equal(par.val, x))))
+    return(names(vals)[i])
+  }
+  return(par.val)
+}

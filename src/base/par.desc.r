@@ -16,6 +16,7 @@
 
 setClass(
 	"par.desc",
+  contains = c("object"),
 	representation = representation(
 		par.name = "character",
 		default = "ANY",
