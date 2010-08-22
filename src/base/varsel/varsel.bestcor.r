@@ -10,7 +10,7 @@ varsel.bestcor = function(learner, task, resampling, measures, aggr, control=seq
 	data = na.omit(task["data"])
 	not.used = all.vars
 	cors = abs(cor(data[, all.vars], data[, task["target"]])) 
-	o = order(cors, decreasing=T)
+	o = order(cors, decreasing=TRUE)
 	not.used = not.used[o]
 	#print(cors)
 	while (TRUE) {

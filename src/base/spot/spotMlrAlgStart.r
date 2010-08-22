@@ -14,8 +14,8 @@ spotMlrAlgStart <- function(io.apdFileName, io.desFileName, io.resFileName){
 			for (i in 1:des$REPEATS[k]){
 				parset = des
 				cns = setdiff(colnames(des), c("CONFIG", "REPEATS", "STEP", "SEED", "repeatsLastConfig")) 
-				parset= parset[, cns, drop=F]
-				parset = as.list(parset[k,,drop=F])
+				parset= parset[, cns, drop=FALSE]
+				parset = as.list(parset[k,,drop=FALSE])
 				conf <- k
 				if (exists("CONFIG")){
 					conf <- des$CONFIG[k]

@@ -10,14 +10,14 @@ test.tune <- function() {
 	
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
-	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, control=ctrl, model=T, path=T)
+	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, control=ctrl, model=TRUE, path=TRUE)
 	
 	# todo test scale with tune.e1071 and scaled grid!
 	
 	for(i in 1:nrow(tr$performances)) {
 		cp <- tr$performances[i,"cp"]
 		ms <- tr$performances[i,"minsplit"]
-		pp = tr2["path", as.data.frame=T]
+		pp = tr2["path", as.data.frame=TRUE]
 		j <- which(pp$cp == cp & pp$minsplit == ms )
 		checkEqualsNumeric(tr$performances[i,"error"], pp[j,"mean.mmce"])    
 		checkEqualsNumeric(tr$performances[i,"dispersion"], pp[j,"sd.mmce"])    
@@ -51,7 +51,7 @@ test.tune <- function() {
 		cns = sample(cns, n)
 		if (target %in% cns2)
 			cns = c(cns, target)
-		data[,cns, drop=F]
+		data[,cns, drop=FALSE]
 	}
 	wl = make.preproc.wrapper(wl, fun=fun, n=3)
 	

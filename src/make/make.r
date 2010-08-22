@@ -93,7 +93,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	file.copy(from=file.path(man.rocr.dir, list.files(man.rocr.dir)), to=man.build.dir)
 		
 	if (only.allowed.rds) {
-		rds <- list.files(man.build.dir, all=T)
+		rds <- list.files(man.build.dir, all=TRUE)
 		for (f in rds) {
 			if (f != "." && f != ".." && f != ".svn") {
 				if(!(f %in% allowed.rd.files)) {
@@ -141,4 +141,4 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	setwd(project.dir)
 }
 
-make(build=F, check=T, binary=F, install=F)
+make(build=FALSE, check=TRUE, binary=FALSE, install=FALSE)

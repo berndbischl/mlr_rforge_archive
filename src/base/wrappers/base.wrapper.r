@@ -121,7 +121,7 @@ setMethod(
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			args = list(...)
-			args = args[!(names(args) %in% .learner["par.vals.name", par.top.wrapper.only=T])]
+			args = args[!(names(args) %in% .learner["par.vals.name", par.top.wrapper.only=TRUE])]
 			f.args = list(.learner@learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs)
 			f.args = c(f.args, args)
 			do.call(train.learner, f.args)
@@ -140,7 +140,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			args = list(...)
-			args = args[!(names(args) %in% .learner["par.vals.name", par.top.wrapper.only=T])]
+			args = args[!(names(args) %in% .learner["par.vals.name", par.top.wrapper.only=TRUE])]
 			f.args = list(.learner@learner, .model, .newdata, .type)
 			f.args = c(f.args, args)
 			do.call(pred.learner, f.args)
@@ -158,7 +158,7 @@ setMethod(
 	
 	def = function(learner, ..., par.vals=list()) {
 		ns = names(par.vals)
-		pds.n = learner["par.descs.name", par.top.wrapper.only=T]
+		pds.n = learner["par.descs.name", par.top.wrapper.only=TRUE]
 		for (i in seq(length=length(par.vals))) {
 			if (ns[i] %in% pds.n) {
 				learner = callNextMethod(learner, par.vals=par.vals[i])

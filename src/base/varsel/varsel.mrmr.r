@@ -7,14 +7,14 @@ varsel.mrmr = function(learner, task, resampling, measures, aggr, control=sequen
 	ds.path = file.path(tempdir(), "foo.csv")
 	df = na.omit(task["data"])
 	df = df[,c(task["target"], task["input.names"])]
-	write.table(df, file = ds.path, sep = ",", row.names=F)
+	write.table(df, file = ds.path, sep = ",", row.names=FALSE)
 	
 	n.feat = control$max.vars
 	n.samp = nrow(df)
 	method = "MID"
 	cmd = paste(mrmr.path, "-i", ds.path, "-n", n.feat, "-s", n.samp, "-m", method)
 	#print(cmd)
-	out = system(cmd, intern=T)
+	out = system(cmd, intern=TRUE)
 	i = grep("mRMR features", out)+2
 	vars = character(0)
 	while( (s = out[i]) != "") {

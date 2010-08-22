@@ -1,13 +1,13 @@
 source("src/files.r")
 load.all.libs()
 load.all.sources("src")
-logger.define(level="debug", global=T)
+logger.define(level="debug", global=TRUE)
 parallel.setup(global=TRUE)
 
 
 # make binary problem from iris
 mydata <- iris[1:100,]
-mydata$Species <- mydata$Species[,drop=T]
+mydata$Species <- mydata$Species[,drop=TRUE]
 
 ct <- make.classif.task("ada", data=mydata, formula=Species~.)
 cv.i <- make.cv.instance(size=nrow(mydata), iters=3)

@@ -23,7 +23,7 @@
 #' @seealso \code{\link{tune}}
 #' @title Tune prediction threshold.
 
-tune.threshold = function(pred, measures, aggr, task, minimize=T, thresholds=10) {
+tune.threshold = function(pred, measures, aggr, task, minimize=TRUE, thresholds=10) {
 	if (missing(measures))
 		measures = default.measures(pred@task.desc)
 	measures = make.measures(measures)

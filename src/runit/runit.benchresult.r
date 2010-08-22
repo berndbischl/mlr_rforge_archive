@@ -21,17 +21,17 @@ test.benchresult = function() {
 	x = be["perf", learner="foo"]
 	checkTrue(is.numeric(x) && length(x) == outer.len)
 
-	x = be["perf", learner="classif.rpart", drop=F]
+	x = be["perf", learner="classif.rpart", drop=FALSE]
 	y = be["perf", learner="classif.rpart"]
 	y = array(y, dim=c(outer.len,1,1), dimnames=list(1:outer.len, "classif.rpart", "mmce"))
 	y = list(multiclass=y)
 	checkEquals(x, y)
-	x = be["perf", learner="classif.ksvm", drop=F]
+	x = be["perf", learner="classif.ksvm", drop=FALSE]
 	y = be["perf", learner="classif.ksvm"]
 	y = array(y, dim=c(outer.len,1,1), dimnames=list(1:outer.len, "classif.ksvm", "mmce"))
 	y = list(multiclass=y)
 	checkEquals(x, y)
-	x = be["perf", learner="foo", drop=F]
+	x = be["perf", learner="foo", drop=FALSE]
 	y = be["perf", learner="foo"]
 	y = array(y, dim=c(outer.len,1,1), dimnames=list(1:outer.len, "foo", "mmce"))
 	y = list(multiclass=y)
@@ -69,7 +69,7 @@ test.benchresult = function() {
 	be = bench.exp(tasks=multiclass.task, learners=learners, resampling=res)
 	x = replicate(3, multiclass.task["input.names"], F)
 	y = be["sel.var", learner="classif.lda"]
-	checkEquals(x, y, checkNames=F)  
+	checkEquals(x, y, checkNames=FALSE)  
 
 	tasks = list(multiclass.task, binaryclass.task)
 	learners = c("classif.rpart", svm.tuner)
@@ -85,7 +85,7 @@ test.benchresult = function() {
 	checkEquals(names(x), c("multiclass", "binary"))  
 	checkTrue(all(sapply(x, function(y) is.list(y) && names(y) == c("classif.rpart", "classif.ksvm"))))  
 
-	x = be["tuned.par", as.data.frame=T]
+	x = be["tuned.par", as.data.frame=TRUE]
 	checkEquals(names(x), c("multiclass", "binary"))  
 	checkTrue(all(sapply(x, function(y) is.list(y) && names(y) == c("classif.rpart", "classif.ksvm"))))
 	checkTrue(is.null(x[[1]][[1]]))  
@@ -97,14 +97,14 @@ test.benchresult = function() {
 	ctrl = grid.control(ranges=ranges.svm)
 	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, control=ctrl)
 	learners = c(svm.tuner)
-	be = bench.exp(tasks=tasks, learners=learners, resampling=res, predictions=T, conf.mats=T)
+	be = bench.exp(tasks=tasks, learners=learners, resampling=res, predictions=TRUE, conf.mats=TRUE)
 	
-	x = be["tuned.par", as.data.frame=T]
+	x = be["tuned.par", as.data.frame=TRUE]
 	checkEquals(names(x), c("multiclass", "binary"))  
 	checkTrue(is.data.frame(x[[1]]))  
 	checkTrue(is.data.frame(x[[2]]))  
 	
-	x = be["prediction", drop=F]
+	x = be["prediction", drop=FALSE]
 	checkEquals(names(x), c("multiclass", "binary"))
 	x1 = x[[1]]
 	checkTrue(is.list(x1))
@@ -119,7 +119,7 @@ test.benchresult = function() {
 	checkTrue(is(x1, "resample.prediction"))
 	checkEquals(x1["iters"], outer.len)
 
-	x = be["conf.mats", drop=F]
+	x = be["conf.mats", drop=FALSE]
 	checkEquals(names(x), c("multiclass", "binary"))
 	x1 = x[[1]]
 	checkTrue(is.list(x1))

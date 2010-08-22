@@ -24,6 +24,6 @@ learners = list(wl1, wl1a, wl2, wl2a, wl3, wl3a)
 ms = c("mmce", "tp", "tpr", "fp", "fpr", "tn", "tnr", "fn", "fnr", "ppv", "npv", "fdr", "f1", "mcc", "gmean", "gpr")
 #ms = c("mmce")
 
-be = bench.exp(tasks=ct, learners=learners, resampling=res, measures=ms, predictions=T, models=T)
+be = bench.exp(tasks=ct, learners=learners, resampling=res, measures=ms, predictions=TRUE, models=TRUE)
 
 

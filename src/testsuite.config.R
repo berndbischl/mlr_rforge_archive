@@ -1,5 +1,5 @@
-ts.dirs = "C:\\user\\borg\\mlr\\src\\runit"  
-ts.file.regexp ="runit.learner.regr.earth"
+ts.dirs = "src/runit"
+ts.file.regexp = "^runit.*"
 
 
 

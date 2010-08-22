@@ -4,39 +4,39 @@ test.varsel <- function() {
 	# check all methods
 	
 	ctrl = sequential.control(method="sfs", alpha=0.01)
-	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=T)
+	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=TRUE)
 	checkTrue(length(vr["path"]) > 1) 
 	
 	ctrl = sequential.control(method="sbs", beta=0.01)
-	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=T)
+	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=TRUE)
 	checkTrue(length(vr["path"]) > 1) 
 
 	ctrl = sequential.control(method="sffs", alpha=0.01)
-	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=T)
+	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=TRUE)
 	checkTrue(length(vr["path"]) > 1) 
 	
 	ctrl = sequential.control(method="sfbs", beta=0.01)
-	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=T)
+	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=TRUE)
 	checkTrue(length(vr["path"]) > 1) 
 
 	# check maxit
 	ctrl = randomvarsel.control(maxit=4)
-	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=T)
+	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=TRUE)
 	checkEquals(length(vr["path"]), 4) 
 	
 	# check max.vars
 	ctrl = sequential.control(alpha=0, max.vars=1, method="sfs")
-	vr = varsel("classif.lda", task=binaryclass.task, resampling=inner, control=ctrl, path=T)
+	vr = varsel("classif.lda", task=binaryclass.task, resampling=inner, control=ctrl, path=TRUE)
 	checkEquals(length(vr["par"]), 1) 
 
 	ctrl = sequential.control(beta=1, max.vars=58, method="sbs")
-	vr = varsel("classif.lda", task=binaryclass.task, resampling=inner, control=ctrl, path=T)
+	vr = varsel("classif.lda", task=binaryclass.task, resampling=inner, control=ctrl, path=TRUE)
 	checkEquals(length(vr["par"]), 58) 
 	
 	
 	# check empty model
 	ctrl = sequential.control(method="sfs", alpha=10)
-	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, model=T)
+	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, model=TRUE)
 	checkEquals(vr["par"], character(0)) 
 	checkTrue(is(vr["model"], "wrapped.model")) 
 	checkTrue(is(vr["model"]["learner.model"], "novars")) 

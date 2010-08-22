@@ -8,7 +8,7 @@ test.opt.wrapper <- function() {
 	inner = make.res.desc("cv", iters=2)
 	
 	ranges.svm = list(kernel="rbfdot", C=c(1, 1000))
-	control.svm = grid.control(ranges=ranges.svm, path=T)
+	control.svm = grid.control(ranges=ranges.svm, path=TRUE)
 	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, control=control.svm)
 	
 	m = train(svm.tuner, task=multiclass.task)

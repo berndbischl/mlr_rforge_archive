@@ -30,7 +30,7 @@
 #'   
 #' @title Variable selection.
 
-varsel <- function(learner, task, resampling, control, measures, aggr, model=F, path=F) {
+varsel <- function(learner, task, resampling, control, measures, aggr, model=FALSE, path=FALSE) {
 	if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)

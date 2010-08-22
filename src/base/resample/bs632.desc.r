@@ -13,7 +13,7 @@ setMethod(
 			aggr.group = function(x, g, rin) {
 				i1 = which(g == "train")
 				i2 = which(g == "test")
-				0.368*x[i1,,drop=F] + 0.632*x[i2,,drop=FALSE]
+				0.368*x[i1,,drop=FALSE] + 0.632*x[i2,,drop=FALSE]
 			}
 			callNextMethod(.Object, "bs632.instance", "B632", iters, has.groups=TRUE, aggr.group=aggr.group)
 		}

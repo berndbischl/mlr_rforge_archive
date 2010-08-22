@@ -2,12 +2,12 @@ test.glmboost.classif <- function(){
 	
 	parset.list1 = list(
 			list(family=Binomial(), control=boost_control(nu=0.03)),
-			list(family=Binomial(), control=boost_control(mstop=600), center=T)
+			list(family=Binomial(), control=boost_control(mstop=600), center=TRUE)
 	)
 	
 	parset.list2 = list(
 			list(family=Binomial(), nu=0.03),
-			list(family=Binomial(), mstop=600, center=T)
+			list(family=Binomial(), mstop=600, center=TRUE)
 	)
 	
 	old.predicts.list = list()

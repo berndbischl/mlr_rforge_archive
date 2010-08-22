@@ -12,7 +12,7 @@ test.mlr.learn.task <- function() {
 	# wrong vars
 	x=checkException(
 			train("classif.lda", multiclass.task, vars=c("Sepal.Length", "x", "y")),		 
-			silent=T
+			silent=TRUE
 	)
 	
 	# y contains missings

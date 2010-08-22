@@ -8,7 +8,7 @@ tune.cmaes = function(learner, task, resampling, measures, aggr, control) {
 		p2 = as.list(p)
 		names(p2) = ns
 		es = eval.state.tune(learner, task, resampling, measures, aggr, control, p2, "optim")
-		path <<- add.path.tune(path, es, accept=T)		
+		path <<- add.path.tune(path, es, accept=TRUE)		
 		perf = get.perf(es)
 		logger.info(level="tune", paste(ns, "=", p), ":", perf)
 		return(perf)

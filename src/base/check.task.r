@@ -11,7 +11,7 @@ check.task <- function(data, target) {
 	forbidden  = c("[", "]", "(", ")", ",", " ")
 	forbidden2 = c("[", "]", "(", ")", ",", "<WHITESPACE>")
 	#forbidden = c("[", "]")
-	i = sapply(forbidden, function(x) length(grep(x, cns, fixed=T)) > 0)
+	i = sapply(forbidden, function(x) length(grep(x, cns, fixed=TRUE)) > 0)
 	if (any(i))
 		stop(paste("Column names should not contain: ", paste(forbidden2, collapse=" ")))
 	if (any(is.na(data[, target]))) {

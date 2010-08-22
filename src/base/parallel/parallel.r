@@ -60,7 +60,7 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 			sfInit(...)
 		} else if (mode == "snowfall") {
 			sfSetMaxCPUs(cpus)
-			sfInit(parallel=T, type=parallel.type, cpus=cpus,  ...)
+			sfInit(parallel=TRUE, type=parallel.type, cpus=cpus,  ...)
 		} 
 		# todo check version on nodes!
 		x = sfClusterEval(require(mlr))

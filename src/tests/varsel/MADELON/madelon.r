@@ -1,14 +1,14 @@
 setwd("d:/sync/projekte/mlr/")
 #X = read.table("src/tests/varsel/madelon/madelon_train.data", colClasses="numeric")
 #y = read.table("src/tests/varsel/madelon/madelon_train.labels")
-#y = as.factor(y[,1,drop=T])
+#y = as.factor(y[,1,drop=TRUE])
 #mydata = cbind(X,y) 
 
 source("src/files.r")
 source("src/varsel/forward.r")
 load.all.libs()
 load.all.sources("src")
-logger.define(level="error", global=T)
+logger.define(level="error", global=TRUE)
 parallel.setup(global=TRUE)
 
 

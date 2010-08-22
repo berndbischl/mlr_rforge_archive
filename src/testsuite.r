@@ -1,13 +1,16 @@
+if (file.exists("src/testsuite.config.r")) {
+  source("src/testsuite.config.r")
+} else {
+  ts.dirs = "src/runit"
+  ts.file.regexp = "^runit.*"
+}
 
-
-source("src/testsuite.config.r")
 source("src/files.r")
 load.all.libs()
 load.all.sources("src")
 
 source("src/runit/helpers.r")
 source("src/runit/make.runit.tests.r")
-
 
 parallel.setup(mode="local")
 logger.setup(level="error")
@@ -46,7 +49,6 @@ regr.train <- regr.df[regr.train.inds, ]
 regr.test  <- regr.df[regr.test.inds, ]
 regr.task <- make.task("regrtask", data=BostonHousing, target="medv")  
 
-
 .mlr.local$debug.seed <- 12345
 debug.seed <<- .mlr.local$debug.seed
 
@@ -55,9 +57,7 @@ testsuite.mlr <- defineTestSuite("mlr",
   testFileRegexp = ts.file.regexp
 )
 
-
 testResult <- runTestSuite(testsuite.mlr)
-
 
 printTextProtocol(testResult)
 
