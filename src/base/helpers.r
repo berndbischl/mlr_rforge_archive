@@ -29,7 +29,7 @@ rec.lapply = function(xs, fun, depth=Inf) {
 # if el.names contains names which are nor present in x2, they are disregarded
 insert = function(xs1, xs2, el.names) {
   if (missing(el.names)) {
-    xs1[names] <- xs2
+    xs1[names(xs2)] <- xs2
   } else {
     el.names = intersect(el.names, names(xs2))
     xs1[el.names] <- xs2[el.names]
@@ -99,7 +99,7 @@ check.list.type = function(xs, type, name) {
 ##' Returns TRUE if all entries in the name attribute of \code{xs} valid names.
 all.names = function(xs) {
 	ns = names(xs)
-  is.null(ns) || any(is.na(ns)) || any(ns == "")
+	(length(xs) == 0) || (!is.null(ns) && !any(is.na(ns)) && !any(ns == ""))
 }
  
 vote.majority = function(x) {
