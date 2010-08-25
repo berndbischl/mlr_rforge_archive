@@ -14,9 +14,20 @@ test.blocking = function() {
 		tab = table(b[test.j])
 		checkTrue(setequal(c(0,5), unique(as.numeric(tab))))
 	}
+	# test blocking in resample.fit
 	res = make.res.desc("cv", iters=3)
 	p = resample.fit("classif.lda", ct, res)
 	for (j in 1:res["iters"]) {
+		test.j = p@df[p@df$iter == j, "id"]
+		tab = table(b[test.j])
+		checkTrue(setequal(c(0,5), unique(as.numeric(tab))))
+	}
+	
+	# test blocking in bench.exp
+	be = bench.exp(tasks=ct, learners="classif.lda", resampling=res, predictions=T)
+	p = be["prediction", learner="classif.lda"]
+	res2 = be@resamplings[[1]]
+	for (j in 1:res2["iters"]) {
 		test.j = p@df[p@df$iter == j, "id"]
 		tab = table(b[test.j])
 		checkTrue(setequal(c(0,5), unique(as.numeric(tab))))
