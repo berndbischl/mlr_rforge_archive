@@ -141,4 +141,9 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	setwd(project.dir)
 }
 
-make(build=FALSE, check=TRUE, binary=FALSE, install=FALSE)
+if (!exists("build")) build <- TRUE
+if (!exists("check")) check <- TRUE
+if (!exists("binary")) binary <- FALSE
+if (!exists("install")) install <- FALSE
+
+make(build=build, check=check, binary=binary, install=install)

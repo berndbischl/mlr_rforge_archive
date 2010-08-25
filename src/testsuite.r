@@ -1,13 +1,22 @@
-if (file.exists("src/testsuite.config.r")) {
-  source("src/testsuite.config.r")
-} else {
+if (use.package) {
+  message("Using installed copy of mlr for tests!")
+  require("mlr")
+  require("mlbench")
+  require("RUnit")
   ts.dirs = "src/runit"
   ts.file.regexp = "^runit.*"
-}
-
-source("src/files.r")
-load.all.libs()
-load.all.sources("src")
+} else {
+  if (file.exists("src/testsuite.config.r")) {
+    source("src/testsuite.config.r")
+  } else {
+    ts.dirs = "src/runit"
+    ts.file.regexp = "^runit.*"
+  }
+  
+  source("src/files.r")
+  load.all.libs()
+  load.all.sources("src")
+} 
 
 source("src/runit/helpers.r")
 source("src/runit/make.runit.tests.r")
