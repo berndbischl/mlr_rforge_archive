@@ -9,7 +9,7 @@
 #' @param cpus [numeric] \cr
 #'        Number of requested cpus. Default is mpi.universe.size() for snowfall/MPI, ignored for for sfCluster and 1 otherwise. 
 #' @param level [string] \cr
-#'        What is parallelized / what is a job. 
+#'      What is parallelized / what is a job. 
 #' 		  resample: resample.fit is parallelized and a job is train / test.
 #' 		  tune: tune is parallelized and a job is a resampled evaluation of one hyperparameter setting.  
 #' 		  varsel: varsel is parallelized and a job is a resampled evaluation of a feature set.
@@ -27,7 +27,14 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 		.mlr.local$parallel.setup$mode = "local"
 		stop("Unknown parallel model: ", mode)
 	}
-
+  
+  # check level
+  if (!(level %in% c("resample", "tune", "varsel", "bench"))) {
+    .mlr.local$parallel.setup$mode = "local"
+    stop("Unknown parallel level: ", level)
+  }
+  
+  
 	# parallel.type
 	if (missing(parallel.type)) 
 		parallel.type = switch(mode, snowfall="MPI", "MPI")
