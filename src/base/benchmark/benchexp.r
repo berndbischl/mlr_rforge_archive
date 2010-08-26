@@ -43,8 +43,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 		learners = list(learners)
 	}
 	learners = as.list(learners)
-	n = length(learners)
-	if (n == 0)
+	if (length(learners) == 0)
 		stop("No learners were passed!")
 	check.list.type(learners, c("character", "learner"))
 	learners = lapply(learners, function(x) if (is.character(x)) make.learner(x) else x)
@@ -70,7 +69,6 @@ bench.exp <- function(learners, tasks, resampling, measures,
 	if (length(tasks) > 1 && is(resampling, "resample.instance")) {
 		stop("Cannot pass a resample.instance with more than 1 task. Use a resample.desc!")
 	}
-	dims = c(resampling["iters"]+1, n, length(measures))
 	bs = list()
 	
 	learner.names = character()
@@ -79,49 +77,59 @@ bench.exp <- function(learners, tasks, resampling, measures,
 	tds = dds = rfs = cms = mods = list()
 	ors = list()
 	
-	for (j in 1:length(tasks)) {
-		bs[[j]] = array(0, dim = dims)		
-		task = tasks[[j]]
+	# function do apply all learners to one task
+	be.task = function(task, learners, resampling, measures, conf.mats, models, paths) {
+		dims = c(resampling["iters"]+1, length(learners), length(measures))
+		bs = array(0, dim = dims)		
 		logger.info("bench.exp: task = ", task["id"])
-		rfs[[j]] = list()
-		cms[[j]] = list()
-		mods[[j]] = list()
-		ors[[j]] = list()
+		rfs = list()
+		cms = list()
+		mods = list()
+		ors = list()
 		if (is(resampling, "resample.desc")) {
-			resamplings[[j]] = make.res.instance(resampling, task=task)
+			res = make.res.instance(resampling, task=task)
 		} else {
-			resamplings[[j]] = resampling
+			res = resampling
 		}		
-		tds[[j]] = task@task.desc
-		dds[[j]] = task@data.desc
 		for (i in 1:length(learners)) {
 			wl = learners[[i]]
 			learner.names[i] = wl["id"]
 			logger.info("bench.exp: learner = ", wl["id"])
-			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, conf.mat=conf.mats, models=models, paths=paths)
+			bm = benchmark(learner=wl, task=task, resampling=res, measures=measures, conf.mat=conf.mats, models=models, paths=paths)
 			rr = bm$result
 			rf = bm$resample.fit
 			# remove tune perf
 			rr = rr[, names(measures)]
-			bs[[j]][,i,] = as.matrix(rr)
+			bs[,i,] = as.matrix(rr)
 			
-			if(predictions)	rfs[[j]][[i]] = rf else	rfs[[j]][i] = list(NULL)
-			if(is(task, "classif.task") && conf.mats) cms[[j]][[i]] = bm$conf else cms[[j]][i] = list(NULL)
-			if(models)	mods[[j]][[i]] = bm$models else	mods[[j]][i] = list(NULL)
-			if(is(wl, "opt.wrapper")) ors[[j]][[i]] = bm$ors else ors[[j]][i] = list(NULL)
+			if(predictions)	rfs[[i]] = rf else	rfs[i] = list(NULL)
+			if(is(task, "classif.task") && conf.mats) cms[[i]] = bm$conf else cms[i] = list(NULL)
+			if(models)	mods[[i]] = bm$models else	mods[i] = list(NULL)
+			if(is(wl, "opt.wrapper")) ors[[i]] = bm$ors else ors[i] = list(NULL)
 		}
-		dimnames(bs[[j]]) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures))
-
-		names(rfs[[j]]) = learner.names
-		names(cms[[j]]) = learner.names
-		names(mods[[j]]) = learner.names
-		names(ors[[j]]) = learner.names
+		dimnames(bs) = list(c(1:res["iters"], "combine"), learner.names, names(measures))
+		
+		names(rfs) = learner.names
+		names(cms) = learner.names
+		names(mods) = learner.names
+		names(ors) = learner.names
+		return(list(bs=bs, resampling=res, rfs=rfs, cms=cms, mods=mods, ors=ors))		
 	}
-	names(bs) = task.names
-	names(rfs) = task.names
-	names(cms) = task.names
-	names(mods) = task.names
-	names(ors) = task.names
+	
+	results = lapply(tasks, function(task) 
+				be.task(task, learners, resampling, measures, conf.mats, models, paths))
+	names(results) = task.names
+	
+	resamplings = lapply(results, function(x) x$resampling)
+	bs  = lapply(results, function(x) x$bs)
+	rfs  = lapply(results, function(x) x$rfs)
+	cms  = lapply(results, function(x) x$cms)
+	mods = lapply(results, function(x) x$mods)
+	ors  = lapply(results, function(x) x$ors)
+	
+	tds = lapply(tasks, function(x) x@task.desc); names(tds) = task.names
+	dds = lapply(tasks, function(x) x@data.desc); names(dds) = task.names
+	
 	return(new("bench.result", task.descs=tds, data.descs=dds, resamplings=resamplings, perf = bs, 
 					predictions=rfs, conf.mats=cms, models=mods,
 					opt.results = ors
