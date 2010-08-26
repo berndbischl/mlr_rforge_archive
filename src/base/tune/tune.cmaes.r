@@ -1,7 +1,7 @@
 
 
 tune.cmaes = function(learner, task, resampling, measures, aggr, control) {
-	
+  require.packs("cmaes", "tune.cmaes")
 	path = list()
 	
 	g = function(p) {

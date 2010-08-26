@@ -135,14 +135,3 @@ setMethod(
 			callNextMethod()
 		}
 )
-
-
-
-#---------------- restrict.learn.task -----------------------------------------------------
-
-restrict.learn.task <- function(learn.task, subset) {
-	learn.task@data <- learn.task@data[subset,,drop=FALSE]
-	return(learn.task)
-}
-
-
