@@ -8,11 +8,11 @@ test.multicore.tune = function() {
   ctrl = grid.control(ranges=list(sigma=c(0.1, 1, 10)))
   
   parallel.setup(mode="local")
-  tr1 = tune("classif.ksvm", task=multiclass, resampling=res, control=ctrl, path=T)
+  tr1 = tune("classif.ksvm", task=multiclass.task, resampling=res, control=ctrl, path=T)
   parallel.setup(mode="multicore", cpus=2, level="resample")
-  tr2 = tune("classif.ksvm", task=multiclass, resampling=res, control=ctrl, path=T)
+  tr2 = tune("classif.ksvm", task=multiclass.task, resampling=res, control=ctrl, path=T)
   parallel.setup(mode="multicore", cpus=2, level="tune")
-  tr3 = tune("classif.ksvm", task=multiclass, resampling=res, control=ctrl, path=T)
+  tr3 = tune("classif.ksvm", task=multiclass.task, resampling=res, control=ctrl, path=T)
   
   
   for (i in 1:3) {
