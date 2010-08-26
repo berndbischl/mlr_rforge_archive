@@ -1,6 +1,7 @@
 test.blackboost.classif <- function(){
   library(mboost)
-	
+  library(party)
+  
 	parset.list1 = list(
 			list(family=Binomial(), tree_controls=ctree_control(maxdepth=2)),
 			list(family=Binomial(), tree_controls=ctree_control(maxdepth=4), control=boost_control(nu=0.03))

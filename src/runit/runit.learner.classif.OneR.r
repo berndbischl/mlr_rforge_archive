@@ -1,6 +1,6 @@
 
 test.OneR <- function() {
-  library(Rweka)
+  library(RWeka)
 	parset.list <- list(
 			list(),
 			list(B=3)

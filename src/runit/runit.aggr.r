@@ -1,7 +1,9 @@
 test.aggr <- function() {
-	
-	a = make.aggrs(mean)
-	checkEquals(a, list(mean=mean))
+  
+  if (!use.package) {
+	  a = make.aggrs(mean)
+	  checkEquals(a, list(mean=mean))
+  }
 	
 	ct = binaryclass.task
 	

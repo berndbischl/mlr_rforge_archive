@@ -1,7 +1,7 @@
 
 
 test.boost <- function() {
-	
+	library(adabag)
 	parset.list <- list(
 			list(mfinal=3),
 			list(mfinal=6, cp=0.2)
