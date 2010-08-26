@@ -1,6 +1,6 @@
 
 test.svm <- function() {
-	
+  library(e1071)
 	set.seed(debug.seed)
 	m <- ksvm(x=multiclass.formula, data=multiclass.train, kernel="rbfdot", kpar=list(sigma=20), prob.model = T)
 	p <-  predict(m, newdata=multiclass.test)

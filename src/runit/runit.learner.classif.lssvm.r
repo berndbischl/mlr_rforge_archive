@@ -1,6 +1,6 @@
 
 test.lssvm <- function() {
-	
+  library(kernlab)
 	set.seed(debug.seed)
 	m <- lssvm(x=multiclass.formula, data=multiclass.train, kernel="rbfdot", kpar=list(sigma=20))
 	p <-  predict(m, newdata=multiclass.test)

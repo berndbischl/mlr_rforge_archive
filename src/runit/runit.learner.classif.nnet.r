@@ -1,6 +1,7 @@
 
 test.nnet <- function() {
-	
+  library(nnet)
+  
 	set.seed(debug.seed)
 	m = nnet(multiclass.formula, size=7, data=multiclass.train)
 	set.seed(debug.seed)

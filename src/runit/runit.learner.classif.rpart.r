@@ -1,6 +1,6 @@
 
 test.rpart <- function() {
-
+  library(rpart)
   parset.list <- list(
     list(),
     list(minsplit=10, cp= 0.005),

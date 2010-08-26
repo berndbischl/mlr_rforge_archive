@@ -1,5 +1,6 @@
 
 test.gbm.classif <- function() {
+	library(gbm)
 	
 	parset.list <- list(
 			list(),

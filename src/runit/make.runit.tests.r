@@ -85,10 +85,6 @@ cv.test <- function(t.name, df, target, folds=2, parset=list(), tune.train, tune
 	tt <- function(formula, data, subset=1:nrow(data), ...) {
 		pars <- list(formula=formula, data=data[subset, ])
 		pars <- c(pars, parset)
-		logger.debug("normal tune train call:", t.name, capture.output(formula), "with pars:")
-		logger.debug(parset)
-		logger.debug("on", length(subset), "examples:")
-		logger.debug(subset)
 		set.seed(debug.seed)
 		capture.output(
 			m <- do.call(tune.train, pars)
@@ -97,17 +93,11 @@ cv.test <- function(t.name, df, target, folds=2, parset=list(), tune.train, tune
 	}
 	
 	tp <- function(model, newdata) {
-		logger.debug("Normal tune predict:", t.name, "with pars:")
 		# todo insert precit.fct.pars
-		#logger.debug(tmp@predict.fct.pars)
-		logger.debug("on", nrow(newdata), "examples:")
-		logger.debug(rownames(newdata))
 		
 		set.seed(debug.seed)
 		p <- tune.predict(model, newdata)
 		
-		logger.debug("Prediction:")
-		logger.debug(p)
 		return(p)
 	}
 	
@@ -117,8 +107,6 @@ cv.test <- function(t.name, df, target, folds=2, parset=list(), tune.train, tune
 	if(class(tr)=="try-error"){
 		warning("tune produced error!")
 	} else {
-		logger.debug("normal tune result:")
-		logger.debug(tr$performances)
 		cv.instance <- e1071.cv.to.mlr.cv(tr)
 		wl = do.call("make.learner", c(t.name, parset))
 		lt = make.task(data=df, target=target)

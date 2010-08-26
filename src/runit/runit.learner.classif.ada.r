@@ -3,7 +3,7 @@
 
 test.ada <- function() {
 	
-	
+	library(ada)
 	set.seed(debug.seed)
 	m <- ada(formula=binaryclass.formula, data=binaryclass.train) 
 	set.seed(debug.seed)

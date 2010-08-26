@@ -1,5 +1,5 @@
 test.ctree <- function() {
-	
+  library(party)
 	parset.list <- list(
 			list(),
 			list(minsplit=10, mincriterion= 0.005),
