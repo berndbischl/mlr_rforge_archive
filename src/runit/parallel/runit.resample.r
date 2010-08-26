@@ -1,6 +1,6 @@
 
 wl = make.learner("classif.lda", predict.type="prob")
-res = make.res.instance("subsample", iters=4)
+res = make.res.instance("subsample", iters=4, task=binaryclass.task)
 
 parallel.setup(mode="local")
 p1 = resample.fit(wl, binaryclass.task, res)
