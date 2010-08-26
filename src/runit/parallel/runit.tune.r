@@ -24,5 +24,6 @@ test.parallel.tune = function() {
   checkEquals(tr1["path", as.data.frame=T], tr2["path", as.data.frame=T])
   checkEquals(tr1["path", as.data.frame=T], tr3["path", as.data.frame=T])
   checkEquals(tr1["path", as.data.frame=T], tr4["path", as.data.frame=T])
-  checkEquals(tr1["path", as.data.frame=T], tr5["path", as.data.frame=T]) 
+  checkEquals(tr1["path", as.data.frame=T], tr5["path", as.data.frame=T])
+  parallel.setup(mode="local")
 }

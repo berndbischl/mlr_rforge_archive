@@ -13,5 +13,6 @@ test.parallel.resample = function() {
   
   checkEquals(p1["response"], p2["response"])
   checkEquals(p1["response"], p3["response"])
+  parallel.setup(mode="local")
 }
 

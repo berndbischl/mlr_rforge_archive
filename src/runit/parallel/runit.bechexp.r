@@ -11,4 +11,5 @@ test.parallel.benchexp = function() {
   be = bench.exp(tasks=tasks, learners=learners, resampling=res)
   parallel.setup(mode="snowfall", cpus=2, level="bench")
   be = bench.exp(tasks=tasks, learners=learners, resampling=res)
+  parallel.setup(mode="local")
 }
