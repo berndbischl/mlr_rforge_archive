@@ -1,6 +1,6 @@
 
 test.svm.regr <- function() {
-	
+  library(e1071)
 	parset.list <- list(
 			list(),
 			list(C = 0.3, kpar=list(sigma=2)),

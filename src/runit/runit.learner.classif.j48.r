@@ -1,6 +1,6 @@
 
 test.J48 <- function() {
-	
+	library(RWeka)
 	parset.list <- list(
 			list(),
 			list(M=10),

@@ -1,7 +1,7 @@
 
 
 test.multinom <- function() {
-	
+  library(nnet)
 	set.seed(debug.seed)
 	capture.output(
 			m <- multinom(formula = multiclass.formula, data = multiclass.train)

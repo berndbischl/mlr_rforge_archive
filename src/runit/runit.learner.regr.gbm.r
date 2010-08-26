@@ -1,6 +1,6 @@
 
 test.gbm.regr <- function() {
-	
+  library(gbm)
 	parset.list <- list(
 			list(),
 			list(n.trees=600),

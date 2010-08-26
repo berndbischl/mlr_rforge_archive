@@ -1,6 +1,6 @@
 
 test.randomForest <- function() {
-	
+  library(randomForest)
 	parset.list <- list(
 			list(),
 			list(ntree=50,  mtry=2),

@@ -1,6 +1,6 @@
 
 test.lasso <- function() {
-	
+	library(penalized)
 	parset.list <- list(
 			list(),
 			list(lambda1 = 0.3),

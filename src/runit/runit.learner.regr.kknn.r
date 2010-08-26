@@ -1,6 +1,6 @@
 
 test.knn.regr <- function() {
-	
+  library(kknn)
 	parset.list <- list(
 			list(),
 			list(k=1),

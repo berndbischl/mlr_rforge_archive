@@ -1,6 +1,6 @@
 
 test.earth.regr <- function() {
-
+  library(earth)
 	parset.list <- list(
 			list(),
 			list(degree=2),

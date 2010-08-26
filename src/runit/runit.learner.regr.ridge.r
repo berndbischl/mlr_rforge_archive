@@ -1,6 +1,6 @@
 
 test.ridge <- function() {
-	
+  library(penalized)
 	parset.list <- list(
 			list(),
 			list(lambda2 = 0.3),

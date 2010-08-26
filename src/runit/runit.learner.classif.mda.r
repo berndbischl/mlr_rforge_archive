@@ -1,6 +1,6 @@
 
 test.mda <- function() {
-	
+	library(mda)
 	parset.list <- list(
 			list(),
 			list(subclasses=2),

@@ -1,6 +1,6 @@
 
 test.JRip <- function() {
-	
+  library(RWeka)
 	parset.list <- list(
 			list(),
 			list(F=5),

@@ -1,5 +1,5 @@
 test.glmboost.classif <- function(){
-	
+  library(mboost)
 	parset.list1 = list(
 			list(family=Binomial(), control=boost_control(nu=0.03)),
 			list(family=Binomial(), control=boost_control(mstop=600), center=TRUE)
