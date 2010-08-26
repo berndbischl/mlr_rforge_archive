@@ -17,8 +17,6 @@ if (use.package) {
     ts.dirs = "src/runit"
     ts.file.regexp = "^runit.*"
   }
-  do.testsuite(ts.dirs,  ts.file.regexp)
-  
   source("src/files.r")
   load.all.libs()
   load.all.sources("src")
