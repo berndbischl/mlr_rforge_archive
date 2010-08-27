@@ -26,7 +26,7 @@ read.arff = function (file, remove=character(0)) {
 			if ((type <- tolower(line[3L])) == "date") {
 				col_types <- c(col_types, "character")
 				col_dfmts <- c(col_dfmts, if (length(line) > 
-										3L) ISO_8601_to_POSIX_datetime_format(line[4L]) else "%Y-%m-%d %H:%M:%S")
+										3L) foreign:::ISO_8601_to_POSIX_datetime_format(line[4L]) else "%Y-%m-%d %H:%M:%S")
 			}
 			else if (type == "relational") 
 				stop("Type 'relational' currently not implemented.")
