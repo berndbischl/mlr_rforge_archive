@@ -78,14 +78,21 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 		# we cannot export from package env
 		# assign to global env
 		assign(".mlr.local", .mlr.local, envir=.GlobalEnv)			
-		# export and delete
-		sfExport(".mlr.local")
+		# export, assign on slave and delete here
+		sfExport(".mlr.local.tmp")
+    sfClusterEval(mlr:::.mlr.set.local.on.slave(.mlr.local.tmp))
 		rm(.mlr.local, envir=.GlobalEnv)
-		# set mode to local on slave so he does not parallelize 
-		sfClusterEval(.mlr.local$parallel.setup$mode <- "local")
 		# init random 
 		sfClusterSetupRNG()
 	}
 }
 
-
+.mlr.set.local.on.slave = function(mlrloc) {
+  ls = mlrloc$logger.setup
+  logger.setup(console=ls$console, file=ls$file, level=ls$level, sublevel=ls$sublevel)  
+  eh = mlrloc$errorhandler.setup
+  errorhandler.setup(on.learner.error=eh$on.learner.error, 
+      on.learner.error=eh$on.learner.error, on.convert.var=eh$on.convert.var)
+  ps = mlrloc$parallel.setup
+  parallel.setup(mode="local")
+}
