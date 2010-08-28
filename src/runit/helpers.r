@@ -42,8 +42,8 @@ checkWarning = function(e, w, msg="") {
           assign("mywarn", w, envir=.GlobalEnv)  
         }
     ))
-    if (is.null(mywarn)) {
-      ok = FALSE
+    if (is.null(mywarn) ) {
+      ok = identical(w, FALSE)
     } else {
       ok = length(grep(w, mywarn$message)) > 0 
     }

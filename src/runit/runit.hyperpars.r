@@ -33,6 +33,13 @@ test.hyperpars <- function() {
 	
 	m = train(wl2, task=multiclass.task, par.vals=list(minsplit=5, cp=0.2))
 	checkTrue(setequal(m["learner"]["par.vals"], list(cp=0.2, minsplit=5, x=1, y=2))) 
-	checkTrue(setequal(m["learner"]["par.vals.name"], c("cp", "minsplit", "x", "y"))) 
+	checkTrue(setequal(m["learner"]["par.vals.name"], c("cp", "minsplit", "x", "y")))
+  
+  # check warnings
+  checkWarning(make.learner("classif.rpart", foo=1), "Setting par foo without")  
+  errorhandler.setup(on.par.without.desc="quiet")
+  checkWarning(make.learner("classif.rpart", foo=1), FALSE)  
+  errorhandler.setup()
+  
 }
 
