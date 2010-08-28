@@ -75,13 +75,8 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 			.mlr.local$parallel.setup$mode = "local"
 			stop("Could not load mlr on every node!")
 		}
-		# we cannot export from package env
-		# assign to global env
-		assign(".mlr.local.tmp", .mlr.local, envir=.GlobalEnv)			
-		# export, assign on slave and delete here
-		sfExport(".mlr.local.tmp")
-    sfClusterEval(mlr:::.mlr.set.local.on.slave(.mlr.local.tmp))
-		rm(.mlr.local.tmp, envir=.GlobalEnv)
+    # init slave with errorhandler, logger and set parallel=local
+    sfClusterCall(function(x) mlr:::.mlr.set.local.on.slave(x), .mlr.local)
 		# init random 
 		sfClusterSetupRNG()
 	}
