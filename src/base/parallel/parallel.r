@@ -77,11 +77,11 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 		}
 		# we cannot export from package env
 		# assign to global env
-		assign(".mlr.local", .mlr.local, envir=.GlobalEnv)			
+		assign(".mlr.local.tmp", .mlr.local, envir=.GlobalEnv)			
 		# export, assign on slave and delete here
 		sfExport(".mlr.local.tmp")
     sfClusterEval(mlr:::.mlr.set.local.on.slave(.mlr.local.tmp))
-		rm(.mlr.local, envir=.GlobalEnv)
+		rm(.mlr.local.tmp, envir=.GlobalEnv)
 		# init random 
 		sfClusterSetupRNG()
 	}
