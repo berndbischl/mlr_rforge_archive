@@ -36,7 +36,7 @@ mylapply <- function(xs, f, from, ...) {
 			y = sfClusterApplyLB(x=xs, fun=warn.wrapper, myfun=f, arg.names=ns)		
 		} else if (ps$mode == "multicore") {
 			# todo check warnings
-      y = sfClusterApplyLB(x=xs, fun=warn.wrapper, myfun=f, arg.names=ns)   
+			y = mclapply(xs, f, ..., mc.cores=ps$cpus)
 		} else {
 			stop("Unknown parallel model: ", ps$mode)
 		}
