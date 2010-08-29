@@ -41,11 +41,16 @@ test.parallel.tune = function() {
   parallel.setup(mode="snowfall", cpus=2, level="tune")
   tr15 = tune("classif.ksvm", task=multiclass.task, resampling=res, control=ctrl, path=T)
   
-  checkEquals(tr1["path", as.data.frame=T], tr11["path", as.data.frame=T])
-  checkEquals(tr1["path", as.data.frame=T], tr12["path", as.data.frame=T])
-  checkEquals(tr1["path", as.data.frame=T], tr13["path", as.data.frame=T])
-  checkEquals(tr1["path", as.data.frame=T], tr14["path", as.data.frame=T])
-  checkEquals(tr1["path", as.data.frame=T], tr15["path", as.data.frame=T])
+  p = tr11["path", as.data.frame=T]; p$sigma=p$sigma*2
+  checkEquals(tr1["path", as.data.frame=T], p)
+  p = tr12["path", as.data.frame=T]; p$sigma=p$sigma*2
+  checkEquals(tr1["path", as.data.frame=T], p)
+  p = tr13["path", as.data.frame=T]; p$sigma=p$sigma*2
+  checkEquals(tr1["path", as.data.frame=T], p)
+  p = tr14["path", as.data.frame=T]; p$sigma=p$sigma*2
+  checkEquals(tr1["path", as.data.frame=T], p)
+  p = tr15["path", as.data.frame=T]; p$sigma=p$sigma*2
+  checkEquals(tr1["path", as.data.frame=T], p)
   
   parallel.setup(mode="local")
 }
