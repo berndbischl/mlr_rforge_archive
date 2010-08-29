@@ -34,30 +34,32 @@ e1071.bs.to.mlr.bs <- function(e1071.tune.result) {
 # we check that a warning was generating when evaluation e,
 # which contains string w
 checkWarning = function(e, w, msg="") {
-    assign("mywarn", NULL, envir=.GlobalEnv) 
-    suppressWarnings( 
-    withCallingHandlers(
-        e,
-        warning = function(w) {
-          assign("mywarn", w, envir=.GlobalEnv)  
-        }
-    ))
-    if (is.null(mywarn) ) {
-      ok = identical(w, FALSE)
-    } else {
-      ok = length(grep(w, mywarn$message)) > 0 
-    }
-    
+  assign("mywarn", NULL, envir=.GlobalEnv) 
+  # for some reason i cannt always assign the warning out of the calling handler
+  x = try( 
+      withCallingHandlers(
+          e,
+          warning = function(w) {
+            stop(w$message)
+          }
+  ), silent=T)
+  if (!is(x, "try-error")) {
+    ok = identical(w, FALSE)
+  } else {
+    ok = length(grep(w, x)) > 0 
+    print(ok)
+  }
+  
+  if (RUnit:::.existsTestLogger()) {
+    .testLogger$incrementCheckNum()
+  }
+  if (!ok) {
     if (RUnit:::.existsTestLogger()) {
-      .testLogger$incrementCheckNum()
+      .testLogger$setFailure()
     }
-    if (!ok) {
-      if (RUnit:::.existsTestLogger()) {
-        .testLogger$setFailure()
-      }
-      stop("Test not TRUE\n", msg)
-    } else {
-      return(TRUE)
-    }
+    stop("Test not TRUE\n", msg)
+  } else {
+    return(TRUE)
+  }
 }
 
