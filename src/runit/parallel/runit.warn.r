@@ -30,7 +30,7 @@ test.parallel.warn = function() {
       resample.fit("classif.rpart", binaryclass.task, res, par.vals=list(foo=1)),
       "Setting par foo without"  
   )
-
+  parallel.setup(mode="local")
   errorhandler.setup()
 }
 
