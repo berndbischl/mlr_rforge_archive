@@ -15,7 +15,7 @@ resample.fit.iter <- function(learner, task, rin, par.vals, vars, i, extract) {
 eval.rf <- function(learner, task, resampling, measures, aggr, control, par) {
 
 	if (is(control, "tune.control")) {
-		par.vals = scale.par(par, control)
+		par.vals = .mlr.scale.par(par, control)
 		vars = task["input.names"]
 	} else {
 		par.vals = list()

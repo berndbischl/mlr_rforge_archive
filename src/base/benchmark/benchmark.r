@@ -4,12 +4,17 @@
 benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, models, paths) {
 	i = ind[1]
 	j = ind[2]
-	benchmark(learners[[i]], tasks[[j]], resampling, measures, conf.mat, models, paths)
+  .mlr.benchmark(learners[[i]], tasks[[j]], resampling, measures, conf.mat, models, paths)
 }
 
 
+#' Helper fucntion for bench.exp. Internal use. 
+#' 
+#' @seealso \code{\link{bench.exp}} 
+#' @export 
+#' @title Helper fucntion for bench.exp. Internal use.
 
-benchmark = function(learner, task, resampling, measures, conf.mat, models, paths) {
+.mlr.benchmark = function(learner, task, resampling, measures, conf.mat, models, paths) {
 	
 	if (is.character(learner)) {
 		learner = make.learner(learner)
