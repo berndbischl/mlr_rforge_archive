@@ -35,19 +35,17 @@ e1071.bs.to.mlr.bs <- function(e1071.tune.result) {
 # which contains string w
 checkWarning = function(e, w, msg="") {
   assign("mywarn", NULL, envir=.GlobalEnv) 
-  # for some reason i cannt always assign the warning out of the calling handler
-  x = try( 
+  suppressWarnings( 
       withCallingHandlers(
           e,
           warning = function(w) {
-            stop(w$message)
+            assign("mywarn", w, envir=.GlobalEnv)  
           }
-  ), silent=T)
-  if (!is(x, "try-error")) {
+      ))
+  if (is.null(mywarn) ) {
     ok = identical(w, FALSE)
   } else {
-    ok = length(grep(w, x)) > 0 
-    print(ok)
+    ok = length(grep(w, mywarn$message)) > 0 
   }
   
   if (RUnit:::.existsTestLogger()) {
