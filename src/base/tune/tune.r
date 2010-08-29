@@ -82,6 +82,22 @@ tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE
 }
 
 
+#' Applies scale function of control object to parameter vector. 
+#' Only for internal use!
+#' 
+#' @param p [numeric]\cr 
+#'        Named parameter vector.  
+#' @param control [\code{\linkS4class{tune.control}}] \cr
+#'        Control object.   
+#' 
+#' @return Scaled (numerical) vector.
+#' 
+#' @export
+#'
+#' @seealso \code{\link{tune.control}}
+#'   
+#' @title Scale tuning parameter vector.
+
 scale.par <- function(p, control) {
 	sc = control["scale"]
 	if (identical(sc, identity))
