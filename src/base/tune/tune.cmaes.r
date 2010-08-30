@@ -36,8 +36,6 @@ tune.cmaes = function(learner, task, resampling, measures, aggr, control) {
   or = cma_es(par=start, fn=g, lower=control["lower"], upper=control["upper"], control=args)
 	par = as.list(or$par)
 	names(par) = ns
-  print(par)
 	opt = get.path.el(path, par)
-  print(opt)
 	new("opt.result", control=control, opt=opt, path=path)
 }
