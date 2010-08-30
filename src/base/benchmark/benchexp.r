@@ -48,7 +48,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 		stop("No learners were passed!")
 	check.list.type(learners, c("character", "learner"))
 	learners = lapply(learners, function(x) if (is.character(x)) make.learner(x) else x)
-	ids = sapply(learners, function(x) x["id"])
+  ids = sapply(learners, function(x) x["id"])
 	if (any(duplicated(ids)))
 		stop("Learners need unique ids!")
 	
@@ -58,7 +58,10 @@ bench.exp <- function(learners, tasks, resampling, measures,
 	if (length(tasks) == 0)
 		stop("No tasks were passed!")
 	check.list.type(tasks, "learn.task")
-	
+  ids = sapply(tasks, function(x) x["id"])
+  if (any(duplicated(ids)))
+    stop("Tasks need unique ids!")
+  
 	if (missing(measures))
 		measures = default.measures(tasks[[1]])
 	measures = make.measures(measures)
