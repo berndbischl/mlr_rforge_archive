@@ -74,7 +74,7 @@ setMethod(
 				.data.desc="data.desc", 
 				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix" 
+				.costs="ANY" 
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
