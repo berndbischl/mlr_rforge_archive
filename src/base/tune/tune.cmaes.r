@@ -18,7 +18,7 @@ tune.cmaes = function(learner, task, resampling, measures, aggr, control) {
     p2 = as.list(as.data.frame(p))
     p2 = lapply(p2, function(x) {x=as.list(x);names(x)=ns;x})
     es = eval.states.tune(learner, task, resampling, measures, aggr, control, p2, "optim")
-    path <<- add.path.els.tune(path=list(), ess=es, best=NULL)
+    path <<- add.path.els.tune(path=path, ess=es, best=NULL)
     perf = sapply(es, get.perf)
     return(perf)
   }
