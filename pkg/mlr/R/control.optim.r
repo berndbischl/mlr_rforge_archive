@@ -29,6 +29,7 @@ setClass(
 #' @param scale [\code{\link{function}}] \cr 
 #'		A function to scale the hyperparameters. E.g. maybe you want to optimize in some log-space.
 #'		Has to take a vector and return a scaled one. Default is identity function.
+#' @param ... Further control parameters passed to the \code{control} argument of \code{\link[stats]{optim}}.
 #' 		    
 #' @return Control structure for tuning.
 #' @exportMethod optim.control

@@ -9,7 +9,7 @@
 #' @param cpus [numeric] \cr
 #'        Number of requested cpus. Default is mpi.universe.size() for snowfall/MPI, ignored for for sfCluster and 1 otherwise. 
 #' @param level [string] \cr
-#'        What is parallelized / what is a job. 
+#'      What is parallelized / what is a job. 
 #' 		  resample: resample.fit is parallelized and a job is train / test.
 #' 		  tune: tune is parallelized and a job is a resampled evaluation of one hyperparameter setting.  
 #' 		  varsel: varsel is parallelized and a job is a resampled evaluation of a feature set.
@@ -27,7 +27,14 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 		.mlr.local$parallel.setup$mode = "local"
 		stop("Unknown parallel model: ", mode)
 	}
-
+  
+  # check level
+  if (!(level %in% c("resample", "tune", "varsel", "bench"))) {
+    .mlr.local$parallel.setup$mode = "local"
+    stop("Unknown parallel level: ", level)
+  }
+  
+  
 	# parallel.type
 	if (missing(parallel.type)) 
 		parallel.type = switch(mode, snowfall="MPI", "MPI")
@@ -60,7 +67,7 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 			sfInit(...)
 		} else if (mode == "snowfall") {
 			sfSetMaxCPUs(cpus)
-			sfInit(parallel=T, type=parallel.type, cpus=cpus,  ...)
+			sfInit(parallel=TRUE, type=parallel.type, cpus=cpus,  ...)
 		} 
 		# todo check version on nodes!
 		x = sfClusterEval(require(mlr))
@@ -68,17 +75,19 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 			.mlr.local$parallel.setup$mode = "local"
 			stop("Could not load mlr on every node!")
 		}
-		# we cannot export from package env
-		# assign to global env
-		assign(".mlr.local", .mlr.local, envir=.GlobalEnv)			
-		# export and delete
-		sfExport(".mlr.local")
-		rm(.mlr.local, envir=.GlobalEnv)
-		# set mode to local on slave so he does not parallelize 
-		sfClusterEval(.mlr.local$parallel.setup$mode <- "local")
+    # init slave with errorhandler, logger and set parallel=local
+    sfClusterCall(function(x) mlr:::.mlr.set.local.on.slave(x), .mlr.local)
 		# init random 
 		sfClusterSetupRNG()
 	}
 }
 
-
+.mlr.set.local.on.slave = function(mlrloc) {
+  ls = mlrloc$logger.setup
+  logger.setup(console=ls$console, file=ls$file, level=ls$global.level, sublevel=ls$sublevel)  
+  eh = mlrloc$errorhandler.setup
+  errorhandler.setup(on.learner.error=eh$on.learner.error, 
+      on.par.without.desc=eh$on.par.without.desc, on.convert.var=eh$on.convert.var)
+  ps = mlrloc$parallel.setup
+  parallel.setup(mode="local")
+}

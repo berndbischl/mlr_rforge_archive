@@ -72,7 +72,7 @@
 \alias{train.learner}
 \alias{train.learner,classif.lpsvm,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}
-\alias{train.learner,preproc.wrapper,character,data.frame,data.desc,task.desc,numeric,matrix-method}
+\alias{train.learner,preproc.wrapper,character,data.frame,data.desc,task.desc,numeric,ANY-method}
 \alias{train.learner}
 \alias{train.learner,classif.qda,character,data.frame,data.desc,task.desc,numeric,matrix-method}
 \alias{train.learner}

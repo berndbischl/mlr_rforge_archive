@@ -65,7 +65,7 @@ setMethod(
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {	
 			vars = .learner@vars
 			vars = c(vars, .targetvar)
-			.data = .data[, vars, drop=F]
+			.data = .data[, vars, drop=FALSE]
 			callNextMethod(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...)
 		}
 )

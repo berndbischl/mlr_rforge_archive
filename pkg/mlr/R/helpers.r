@@ -1,9 +1,11 @@
-c.factor = function(...) {
+c.factor = function(..., recursive=FALSE) {
 	args <- list(...)
-	for (i in seq(along=args)) if (!is.factor(args[[i]])) args[[i]] = 
-					as.factor(args[[i]])
-	# The first must be factor otherwise we wouldn't be inside c.factor, its checked anyway in the line above.
-	newlevels = sort(unique(unlist(lapply(args,levels))))
+	for (i in seq_along(args))
+    if (!is.factor(args[[i]]))
+      args[[i]] = as.factor(args[[i]])
+  ## The first must be factor otherwise we wouldn't be inside
+  ## c.factor, its checked anyway in the line above.
+	newlevels = sort(unique(unlist(lapply(args, levels))))
 	ans = unlist(lapply(args, function(x) {
 						m = match(levels(x), newlevels)
 						m[as.integer(x)]
@@ -14,7 +16,10 @@ c.factor = function(...) {
 }
 
 
-# do lapply recursively on deep lists
+## do lapply recursively on deep lists
+## FIXME: Use rapply instead? Possibly not useful because rapply does
+##   not limit descend depth. Investigate if rec.lapply becomes a
+##   bottleneck.
 rec.lapply = function(xs, fun, depth=Inf) {
 	if (!is.list(xs) || is.data.frame(xs) || depth==0) {
 		return(fun(xs))
@@ -25,9 +30,13 @@ rec.lapply = function(xs, fun, depth=Inf) {
 
 # inserts elements from x2 into x1, overwriting elements of equal names
 # if el.names contains names which are nor present in x2, they are disregarded
-insert = function(xs1, xs2, el.names=names(xs2)) {
-	el.names = intersect(el.names, names(xs2))
-	xs1[el.names] = xs2[el.names]
+insert = function(xs1, xs2, el.names) {
+  if (missing(el.names)) {
+    xs1[names(xs2)] <- xs2
+  } else {
+    el.names = intersect(el.names, names(xs2))
+    xs1[el.names] <- xs2[el.names]
+  }
 	return(xs1)
 }
 
@@ -67,20 +76,21 @@ args.to.control = function(control, arg.names, args) {
 }
 
 
-check.list.type = function(xs, type, name) {
-	if (missing(name))
-		name = deparse(substitute(xs))
+check.list.type = function(xs, type, name=deparse(substitute(xs))) {
+  ## FIXME: Better use inherits like this?
+  ##   sapply(xs, function(x) inherits(x, type))
+  
 	fs = lapply(type, function(tt) switch(tt,
-			character=is.character,                          
-			numeric=is.numeric,
-			logical=is.logical,
-			integer=is.integer,
-			list=is.list,
-			data.frame=is.data.frame,
-			function(x) is(x, tt)
-	))
+    character=is.character,                          
+    numeric=is.numeric,
+    logical=is.logical,
+    integer=is.integer,
+    list=is.list,
+    data.frame=is.data.frame,
+    function(x) is(x, tt)
+    ))
 	types = paste(type, collapse=", ")	
-	all(sapply(seq(length=length(xs)), function(i) {
+	all(sapply(seq_along(xs), function(i) {
 				x = xs[[i]]
 				ys = sapply(fs, function(f) f(x))
 				if(!any(ys))
@@ -90,19 +100,12 @@ check.list.type = function(xs, type, name) {
 }
 
 
+##' Returns TRUE if all entries in the name attribute of \code{xs} valid names.
 all.names = function(xs) {
 	ns = names(xs)
-	length(ns) == length(xs) 	
+	(length(xs) == 0) || (!is.null(ns) && !any(is.na(ns)) && !any(ns == ""))
 }
  
-
-
-
-#check.list.types = function(name, xs, types) {
-#	sapply(types, function(tt) check.list.type(name, xs, tt))
-#} 
-
-
 vote.majority = function(x) {
 	tt = table(x)
 	y = seq_along(tt)[tt == max(tt)]
@@ -127,13 +130,12 @@ coalesce = function (...) {
 	l[[which.min(isnull)]]
 }
 
-
-list2dataframe = function(xs, rownames=NULL) {
-	ys = as.data.frame(Reduce(rbind, xs))
-	rownames(ys) = rownames
-	return(ys)
-}
-
+## FIXME: 20100925 - Not used and possibly nonsense...
+## list2dataframe = function(xs, rownames=NULL) {
+##	ys = as.data.frame(do.call(rbind, xs))
+##	rownames(ys) = rownames
+##	return(ys)
+## }
 
 path2dataframe = function(path) {
 	p = path[[1]]
@@ -158,7 +160,7 @@ path2dataframe = function(path) {
 check.getter.args = function(x, arg.names, j, ...) {
 	args = list(...)
 	ns = names(args)
-	for (i in seq(length=length(args))) {
+	for (i in seq_along(args)) {
 		n = ns[i]
 		a = args[[i]]
 		# condition because of spurious extra arg (NULL) bug in "["
@@ -167,8 +169,8 @@ check.getter.args = function(x, arg.names, j, ...) {
 				stop("Using unnamed extra arg ", a, " in getter of ", class(x), "!")
 			if (!(n %in% arg.names))
 				stop("Using unallowed extra arg ", paste(n, a, sep="="), " in getter of ", class(x), "!")
-		}		
-	}	
+		}
+	}
 }
 
 require.packs = function(packs, for.string) {
@@ -178,7 +180,25 @@ require.packs = function(packs, for.string) {
 	if(!all(packs.ok)) {
 		ps = paste(packs[!packs.ok], collapse=" ")
 		stop(paste("For", for.string, "please install the following packages:", ps))
+    ## DOIT: Possibly add option to run install.packages() if interactive() is TRUE?
+    ##  Check adverse effects regarding parallelization.
 	}
 	return(packs.ok)
 }
 
+##' Check if \code{e1} and \code{e2} are equal ignoring such fine
+##' points as \code{1 != 1L}.
+almost.equal <- function(e1, e2) {
+  isTRUE(all.equal(e1, e2))
+}
+
+hyper.par.val.to.name = function(par.name, par.val, learner) {
+  pds = learner["par.descs"]
+  pd = pds[[par.name]]
+  if(!is.null(pd) && is(pd, "par.desc.disc")) {
+    vals = pd["vals"]
+    i = which(sapply(vals, function(x) almost.equal(par.val, x)))
+    return(names(vals)[i])
+  }
+  return(par.val)
+}

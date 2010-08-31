@@ -1,12 +1,26 @@
 #' @include task.learn.r
 #' @include opt.wrapper.r
 
+benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, models, paths) {
+	i = ind[1]
+	j = ind[2]
+  .mlr.benchmark(learners[[i]], tasks[[j]], resampling, measures, conf.mat, models, paths)
+}
 
 
-benchmark = function(learner, task, resampling, measures, conf.mat, models, paths) {
+#' Helper fucntion for bench.exp. Internal use. 
+#' 
+#' @seealso \code{\link{bench.exp}} 
+#' @export 
+#' @title Helper fucntion for bench.exp. Internal use.
+
+.mlr.benchmark = function(learner, task, resampling, measures, conf.mat, models, paths) {
+	
 	if (is.character(learner)) {
 		learner = make.learner(learner)
 	}
+	
+	logger.info(paste("bench.exp: task=", task["id"], " learner=", learner["id"]))
 	
 	if (missing(measures))
 		measures = default.measures(task)

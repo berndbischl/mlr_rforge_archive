@@ -12,4 +12,5 @@
 \item{when [string]}{Specifies when a cetrain hyperparameter is used. Possible entries are 'train', 'predict' or 'both'.}
 \item{requires [list]}{Requirements for a parameter to be effective.}
 }}
+\section{Extends}{\code{\linkS4class{object}}}
 \section{Methods}{\describe{}}

@@ -7,6 +7,6 @@
 
 }
 \section{Extends}{\code{\linkS4class{learner}}}
-\section{Methods}{\describe{\item{\code{\link[=[,rlearner-method]{[}}}{\code{signature( = “rlearner”)}: Getter.}}}
+\section{Methods}{\describe{\item{\code{\link[=[,rlearner-method]{[}}}{\code{signature( = "rlearner")}: Getter.}}}
 \alias{[,rlearner-method}
 

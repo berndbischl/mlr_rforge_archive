@@ -73,7 +73,7 @@ tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE
 	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures, aggr=aggr)
 
 	
-	or@opt$par = scale.par(or@opt$par, control)
+	or@opt$par = .mlr.scale.par(or@opt$par, control)
 	if (model) {
 		or@model = train(learner, task, par.vals=or["par"]) 	
 	}
@@ -82,7 +82,13 @@ tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE
 }
 
 
-scale.par <- function(p, control) {
+#' Scale parameter vector. Internal use.
+#' 
+#' @export
+#' @seealso \code{\link{tune.control}}
+#' @title Scale parameter vector. Internal use.
+
+.mlr.scale.par <- function(p, control) {
 	sc = control["scale"]
 	if (identical(sc, identity))
 		y = as.list(p)

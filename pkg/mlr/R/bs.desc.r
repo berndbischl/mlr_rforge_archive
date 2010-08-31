@@ -10,7 +10,7 @@ setMethod(
 		f = "initialize",
 		signature = signature("bs.desc"),
 		def = function(.Object, iters, reps) {
-			callNextMethod(.Object, "bs.instance", "bootstrap", iters, has.groups=F)
+			callNextMethod(.Object, "bs.instance", "bootstrap", iters, has.groups=FALSE)
 		}
 )
 

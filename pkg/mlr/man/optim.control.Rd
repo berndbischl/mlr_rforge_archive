@@ -26,6 +26,7 @@ Named vector of upper boundary constraints. Default is Inf. Only used in "L-BFGS
 \item{scale}{[\code{\link{function}}] \cr 
 A function to scale the hyperparameters. E.g. maybe you want to optimize in some log-space.
 Has to take a vector and return a scaled one. Default is identity function.}
+\item{...}{Further control parameters passed to the \code{control} argument of \code{\link[stats]{optim}}.}
 }
 \alias{optim.control,logical,logical,integer,logical,numeric,numeric,numeric,function-method}
 \alias{optim.control}

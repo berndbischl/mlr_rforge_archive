@@ -23,7 +23,7 @@ setMethod(
 					oneclass = FALSE,
 					twoclass = TRUE,
 					multiclass = TRUE,
-					missings = TRUE,
+					missings = FALSE,
 					numerics = TRUE,
 					factors = TRUE,
 					characters = TRUE,
@@ -38,7 +38,7 @@ setMethod(
 					new("par.desc.disc", par.name="type", default="C-classification", vals=c("C-classification", "nu-classification")),
 					new("par.desc.disc", par.name="kernel", default="radial", vals=c("linear", "polynomial", "radial", "sigmoid")),
 					new("par.desc.num", par.name="degree", default=3L, lower=1L, requires=expression(kernel=="polynomial")),
-					new("par.desc.num", par.name="gamma",  default=3L, lower=1L, requires=expression(kernel!="linear")),
+					new("par.desc.num", par.name="gamma", lower=0, requires=expression(kernel!="linear")),
 					new("par.desc.num", par.name="tolerance", default=0.001, lower=0),
 					new("par.desc.log", par.name="shrinking", default=TRUE)
 			)

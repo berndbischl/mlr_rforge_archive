@@ -23,7 +23,7 @@ setMethod(
 					oneclass = FALSE,
 					twoclass = TRUE,
 					multiclass = FALSE,
-					missings = TRUE,
+					missings = FALSE,
 					numerics = TRUE,
 					factors = TRUE,
 					characters = FALSE,

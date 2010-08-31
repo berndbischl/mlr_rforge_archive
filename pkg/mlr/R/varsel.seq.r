@@ -80,7 +80,7 @@ varsel.seq = function(learner, task, resampling, measures, aggr, control) {
 	
 	state = eval.state.varsel(learner, task, resampling, measures, aggr, control, par=start.vars, event="start")
 	
-	path = add.path.varsel(path, state, accept=T)		
+	path = add.path.varsel(path, state, accept=TRUE)		
 	
 	compare = compare.diff
 	

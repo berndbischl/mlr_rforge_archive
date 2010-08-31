@@ -71,7 +71,7 @@ setMethod(
 				z = mylistdrop(y)
 				rec.lapply(z, function (w) {
 					if(is.array(w)) drop(w) 
-					else if(is.data.frame(w)) w[,,drop=T]
+					else if(is.data.frame(w)) w[,,drop=TRUE]
 					else w
 				})
 			}

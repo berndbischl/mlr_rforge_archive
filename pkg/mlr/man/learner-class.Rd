@@ -24,6 +24,6 @@ Note that all getters of \code{\linkS4class{learner.desc}} can also be used.
 
 }
 \section{Extends}{\code{\linkS4class{object}}}
-\section{Methods}{\describe{\item{\code{\link[=[,learner-method]{[}}}{\code{signature( = “learner”)}: Getter.}\item{\code{\link[=to.string,learner-method]{to.string}}}{}\item{\code{\link[=resample.fit,learner,learn.task,resample.instance,list,character,function-method]{resample.fit}}}{}\item{\code{\link[=set.hyper.pars,learner,list-method]{set.hyper.pars}}}{}\item{\code{\link[=set.id,learner,character-method]{set.id}}}{}\item{\code{\link[=set.label,learner,character-method]{set.label}}}{}\item{\code{\link[=train,learner,learn.task,numeric,list,character,character-method]{train}}}{}}}
+\section{Methods}{\describe{\item{\code{\link[=[,learner-method]{[}}}{\code{signature( = "learner")}: Getter.}\item{\code{\link[=to.string,learner-method]{to.string}}}{}\item{\code{\link[=resample.fit,learner,learn.task,resample.instance,list,character,function-method]{resample.fit}}}{}\item{\code{\link[=set.hyper.pars,learner,list-method]{set.hyper.pars}}}{}\item{\code{\link[=set.id,learner,character-method]{set.id}}}{}\item{\code{\link[=set.label,learner,character-method]{set.label}}}{}\item{\code{\link[=train,learner,learn.task,numeric,list,character,character-method]{train}}}{}}}
 \alias{[,learner-method}
 

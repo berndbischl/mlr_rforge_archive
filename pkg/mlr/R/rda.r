@@ -38,7 +38,7 @@ setMethod(
 					new("par.desc.num", par.name="fold", default=10, lower=1),
 					new("par.desc.num", par.name="train.fraction", default=0.5, lower=0, upper=1),
 					new("par.desc.log", par.name="crossval", default=TRUE),
-					new("par.desc.disc", par.name="schedule", default=1, vals=1:2, requires=expression(simAnn==FALSE)),
+					new("par.desc.disc", par.name="schedule", default=1L, vals=1:2, requires=expression(simAnn==FALSE)),
 					new("par.desc.num", par.name="T.start", default=0.1, lower=0, requires=expression(simAnn==TRUE)),
 					new("par.desc.num", par.name="halflife", default=0.1, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
 					new("par.desc.num", par.name="zero.temp", default=0.01, lower=0, requires=expression(simAnn==TRUE || schedule==1)),

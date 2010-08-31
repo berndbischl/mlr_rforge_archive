@@ -24,7 +24,7 @@ setMethod(
 					oneclass = FALSE,
 					twoclass = TRUE,
 					multiclass = TRUE,
-					missings = TRUE,
+					missings = FALSE,
 					numerics = TRUE,
 					factors = TRUE,
 					characters = FALSE,

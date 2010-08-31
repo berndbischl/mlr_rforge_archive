@@ -64,21 +64,21 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, control=sequ
 		
 		
 		op = sample(c("plus", "minus"), 1)
-		failed = c(plus=F, minus=F)
+		failed = c(plus=FALSE, minus=FALSE)
 		while (get(".mlr.vareval", envir= .GlobalEnv) < control$maxit) {
 			# try minus or plus repeatedly
 			found = F
 			while (get(".mlr.vareval", envir= .GlobalEnv) < control$maxit) {
 				#print(op)
 				if (op == "minus") {
-					cors2 = cors[state$par, state$par, drop=F]
-					meancor = rowMeans(cors2, na.rm=T)
+					cors2 = cors[state$par, state$par, drop=FALSE]
+					meancor = rowMeans(cors2, na.rm=TRUE)
 					#cat("mc:", meancor, "\n")
 					v = names(which.max(meancor))
 					new.vars = setdiff(state$par, v)
 				} else {
 					not.used = setdiff(all.vars, state$par)
-					cors2 = cors[not.used, state$par, drop=F]
+					cors2 = cors[not.used, state$par, drop=FALSE]
 					meancor = rowMeans(cors2)
 					#cat("mc:", meancor, "\n")
 					v = names(which.min(meancor))
@@ -98,7 +98,7 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, control=sequ
 					if (!found)
 						failed[op] = T
 					else
-						failed = c(plus=F, minus=F)
+						failed = c(plus=FALSE, minus=FALSE)
 					break
 				}
 			}

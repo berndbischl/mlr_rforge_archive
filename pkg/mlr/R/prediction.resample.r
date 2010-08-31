@@ -85,9 +85,9 @@ setMethod(
 			df = subset(df, select=-iter)
 			dfs = split(df, iter) 
 			preds = list()
+      cl = ifelse(x["has.groups"], "grouped.prediction", "prediction")		
 			for(i in 1:x@instance["iters"]) {
 				y = dfs[[i]]
-				cl = ifelse(x["has.groups"], "grouped.prediction", "prediction")		
 				preds[[i]] = new(cl, task.desc=x@task.desc, data.desc=x@data.desc, 
 						type=x@type, df=y, threshold=x@threshold, x@time.train[i], x@time.predict[i])						
 				
@@ -112,9 +112,6 @@ setAs("resample.prediction", "grouped.prediction",
 			df = from@df
 			df$iter = NULL
 			new("grouped.prediction", task.desc=from@task.desc, data.desc=from@data.desc, 
-					type=from@type, df=from@df, threshold=from@threshold, sum(from@time.train), sum(from@time.predict))						
+					type=from@type, df=from@df, threshold=from@threshold, sum(from@time.train), sum(from@time.predict))
 		}
 )
-
-
-

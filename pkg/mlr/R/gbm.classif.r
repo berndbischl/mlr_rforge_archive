@@ -24,7 +24,7 @@ setMethod(
 					oneclass = FALSE,
 					twoclass = TRUE,
 					multiclass = FALSE,
-					missings = FALSE,
+					missings = TRUE,
 					numerics = TRUE,
 					factors = TRUE,
 					characters = FALSE,
@@ -33,9 +33,18 @@ setMethod(
 					weights = TRUE,
 					costs = FALSE
 			)			
-			callNextMethod(.Object, label="GBM", pack="gbm", desc=desc,
-				par.vals=list(distribution = "bernoulli"))
-
+      
+      par.descs = list(      
+          new("par.desc.disc", par.name="distribution", default="bernoulli", vals=c("bernoulli", "adaboost")),
+          new("par.desc.num", par.name="n.trees", default=100L, lower=1L),
+          new("par.desc.num", par.name="interaction.depth", default=1L, lower=1L),
+          new("par.desc.num", par.name="n.minobsinnode", default=10L, lower=1L),
+          new("par.desc.num", par.name="shrinkage", default=0.001, lower=0),
+          new("par.desc.num", par.name="bag.fraction", default=0.5, lower=0, upper=1),
+          new("par.desc.num", par.name="train.fraction", default=1, lower=0, upper=1)
+      )
+      callNextMethod(.Object, label="GBM", pack="gbm", desc=desc,	
+          par.descs=par.descs, par.vals=list(distribution = "bernoulli"))
 		}
 )
 

@@ -1,7 +1,7 @@
 Package: mlr
 Type: Package
 Title: mlr: Machine Learning in R
-Version: 0.3.1014
+Version: 0.3.1091
 Date: 2009-01-01
 Author: Bernd Bischl, Max Wornowizki, Katharina Borg
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
@@ -10,12 +10,13 @@ License: GPL (>= 2)
 LazyLoad: yes
 Depends: R (>= 2.8.0), methods, reshape, abind, boot, klaR, e1071,
     digest
-Suggests: MASS, snowfall, multicore, mlbench, cmaes, kernlab, rpart,
-    randomForest, adabag, kknn, ada, adabag, party, mboost, mda, gbm,
-    nnet, penalized, RWeka, grplasso, earth, sda, pls, foreign, gplots
-Collate: 'aaa.r' 'object.r' 'learner.r' 'task.desc.r' 'prepare.df.r'
-    'data.desc.r' 'wrapped.model.r' 'pred.learner.r' 'train.learner.r'
-    'learner.desc.r' 'learnerR.r' 'ada.r' 'adaboost.m1.classif.r'
+Suggests: MASS, snowfall, multicore, Rmpi, mlbench, cmaes, kernlab,
+    rpart, randomForest, adabag, kknn, ada, adabag, party, mboost, mda,
+    gbm, nnet, penalized, RWeka, grplasso, earth, sda, pls, foreign,
+    gplots
+Collate: 'aaa.r' 'object.r' 'learner.desc.r' 'learner.r' 'task.desc.r'
+    'prepare.df.r' 'data.desc.r' 'wrapped.model.r' 'pred.learner.r'
+    'train.learner.r' 'learnerR.r' 'ada.r' 'adaboost.m1.classif.r'
     'aggr.r' 'prediction.r' 'as.rocr.preds.r' 'set.label.r' 'set.id.r'
     'set.hyper.pars.r' 'base.wrapper.r' 'benchexp.r' 'opt.control.r'
     'resample.desc.r' 'opt.wrapper.r' 'task.learn.r' 'benchmark.r'
@@ -44,8 +45,8 @@ Collate: 'aaa.r' 'object.r' 'learner.r' 'task.desc.r' 'prepare.df.r'
     'preproc.wrapper.r' 'qda.r' 'randomForest.classif.r'
     'randomForest.regr.r' 'rda.r' 'read.arff.r' 'resample.desc.make.r'
     'resample.instance.make.r' 'resample.fit.r' 'ridge.r' 'ROCR_aux.R'
-    'ROCR_performance_measures.R' 'ROCR_performance_plots.R'
-    'ROCR_performance.R' 'ROCR_prediction.R' 'ROCR_zzz.R'
+    'ROCR_performance_measures.R' 'ROCR_performance.R'
+    'ROCR_performance_plots.R' 'ROCR_prediction.R' 'ROCR_zzz.R'
     'rpart.classif.r' 'rpart.regr.r' 'sda.r' 'svm.classif.r'
     'task.regr.r' 'task.make.r' 'threshold.r' 'train.task.r'
     'tune.cmaes.r' 'tune.grid.r' 'tune.helpers.r' 'tune.optim.r'

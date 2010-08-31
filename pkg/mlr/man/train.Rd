@@ -2,7 +2,6 @@
 \alias{train-methods}
 \alias{train}
 \title{Train a learning algorithm.}
-\usage{train(learner, task, subset, par.vals, vars, type)}
 \description{Given a \code{\linkS4class{learn.task}}, creates a model for the learning machine 
 which can be used for predictions on new data.}
 \value{\code{train-methods}: \code{\linkS4class{wrapped.model}}.

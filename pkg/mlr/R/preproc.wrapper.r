@@ -74,11 +74,11 @@ setMethod(
 				.data.desc="data.desc", 
 				.task.desc="task.desc", 
 				.weights="numeric", 
-				.costs="matrix" 
+				.costs="ANY" 
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
-			fun.args = .learner["par.vals.name", par.top.wrapper.only=T]
+			fun.args = .learner["par.vals.name", par.top.wrapper.only=TRUE]
 			ww = .learner
 			fun.args = list(...)[fun.args]		
 			fun.args$data = .data
@@ -99,7 +99,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			fun.args = .model@learner["par.vals", par.top.wrapper.only=T]
+			fun.args = .model@learner["par.vals", par.top.wrapper.only=TRUE]
 			fun.args$data = .newdata	
 			.newdata = do.call(.learner@fun, fun.args)
 			callNextMethod(.learner, .model, .newdata, .type, ...)

@@ -1,7 +1,7 @@
 #' Complete benchmark experiment to compare different learning algorithms 
 #' across one or more tasks w.r.t. a given resampling strategy.  
 #' Experiments are paired, meaning always the same training / test sets are used for the different learners.  
- 
+
 #' @param learners [string | \code{\linkS4class{learner}} | list of the previous two] \cr
 #' 		  Defines the learning algorithms which should be compared.
 #' @param tasks [\code{\link{learn.task}} | list of the previous] \cr
@@ -48,7 +48,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 		stop("No learners were passed!")
 	check.list.type(learners, c("character", "learner"))
 	learners = lapply(learners, function(x) if (is.character(x)) make.learner(x) else x)
-	ids = sapply(learners, function(x) x["id"])
+  ids = sapply(learners, function(x) x["id"])
 	if (any(duplicated(ids)))
 		stop("Learners need unique ids!")
 	
@@ -58,7 +58,10 @@ bench.exp <- function(learners, tasks, resampling, measures,
 	if (length(tasks) == 0)
 		stop("No tasks were passed!")
 	check.list.type(tasks, "learn.task")
-	
+  ids = sapply(tasks, function(x) x["id"])
+  if (any(duplicated(ids)))
+    stop("Tasks need unique ids!")
+  
 	if (missing(measures))
 		measures = default.measures(tasks[[1]])
 	measures = make.measures(measures)
@@ -79,16 +82,22 @@ bench.exp <- function(learners, tasks, resampling, measures,
 	tds = dds = rfs = cms = mods = list()
 	ors = list()
 	
+	
+	inds = as.matrix(expand.grid(1:length(learners), 1:length(tasks)))
+	inds = lapply(1:nrow(inds), function(i) inds[i,])
+	results = mylapply(inds, benchmark_par, from="bench", learners=learners, tasks=tasks, resampling=resampling,
+			measures=measures, conf.mat=conf.mats, models=models, paths=paths)
+	
+	counter = 1
 	for (j in 1:length(tasks)) {
 		bs[[j]] = array(0, dim = dims)		
 		task = tasks[[j]]
-		logger.info("bench.exp: task = ", task["id"])
 		rfs[[j]] = list()
 		cms[[j]] = list()
 		mods[[j]] = list()
 		ors[[j]] = list()
 		if (is(resampling, "resample.desc")) {
-			resamplings[[j]] = new(resampling@instance.class, resampling, task["size"])
+			resamplings[[j]] = make.res.instance(resampling, task=task)
 		} else {
 			resamplings[[j]] = resampling
 		}		
@@ -97,8 +106,8 @@ bench.exp <- function(learners, tasks, resampling, measures,
 		for (i in 1:length(learners)) {
 			wl = learners[[i]]
 			learner.names[i] = wl["id"]
-			logger.info("bench.exp: learner = ", wl["id"])
-			bm = benchmark(learner=wl, task=task, resampling=resamplings[[j]], measures=measures, conf.mat=conf.mats, models=models, paths=paths)
+			bm = results[[counter]]
+			counter = counter+1
 			rr = bm$result
 			rf = bm$resample.fit
 			# remove tune perf
@@ -111,7 +120,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 			if(is(wl, "opt.wrapper")) ors[[j]][[i]] = bm$ors else ors[[j]][i] = list(NULL)
 		}
 		dimnames(bs[[j]]) = list(c(1:resampling["iters"], "combine"), learner.names, names(measures))
-
+		
 		names(rfs[[j]]) = learner.names
 		names(cms[[j]]) = learner.names
 		names(mods[[j]]) = learner.names
@@ -125,5 +134,5 @@ bench.exp <- function(learners, tasks, resampling, measures,
 	return(new("bench.result", task.descs=tds, data.descs=dds, resamplings=resamplings, perf = bs, 
 					predictions=rfs, conf.mats=cms, models=mods,
 					opt.results = ors
-	))
+			))
 }

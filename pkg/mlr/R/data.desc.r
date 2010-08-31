@@ -46,7 +46,7 @@ setMethod(
 		signature = signature("data.desc"),
 		def = function(.Object, data, target, excluded, prepare.control) {
 			i = which(colnames(data) %in% c(target, excluded))
-			df2 = data[, -i, drop=F]
+			df2 = data[, -i, drop=FALSE]
 			.Object@props$target = target 
 			.Object@props$excluded = excluded 
 			.Object@props$obs = nrow(data)

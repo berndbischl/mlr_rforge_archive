@@ -16,6 +16,7 @@
 
 setClass(
 	"par.desc",
+  contains = c("object"),
 	representation = representation(
 		par.name = "character",
 		default = "ANY",
@@ -76,9 +77,9 @@ setMethod(
 		signature = signature("par.desc.num"),
 		def = function(.Object, par.name, data.type, default="missing", when="train", lower=-Inf, upper=Inf, flags=list(), requires=expression(TRUE)) {
 			if (missing(data.type))
-				data.type = ifelse(is.integer(lower) || is.infinite(upper) || is.integer(default), "integer", "numerical")
+				data.type = ifelse(is.integer(lower) || is.infinite(upper) || is.integer(default), "integer", "numeric")
 			.Object@data.type = data.type						
-			if (!(data.type %in% c("integer", "numerical")))
+			if (!(data.type %in% c("integer", "numeric")))
 				stop("Arg 'data.type' can only be 'integer' or 'numerical', not: ", data.type)
 			.Object@lower = lower					
 			.Object@upper = upper	
@@ -104,9 +105,9 @@ setMethod(
 			if (is.vector(vals))
 				vals = as.list(vals)
 			if (default != "missing") {
-				if (default %in% names(vals))
+				if (is.character(default) && default %in% names(vals))
 					default = vals[[default]]
-				y = sapply(vals, function(x) identical(x, default))
+				y = sapply(vals, function(x) isTRUE(all.equal(x, default)))
 				if (!(any(y)))
 					stop("Default value of par. ", par.name,  " has to be among allowed values!")
 			}

@@ -1,7 +1,7 @@
 \name{tune.threshold}
 \alias{tune.threshold}
 \title{Tune prediction threshold.}
-\usage{tune.threshold(pred, measures, aggr, task, minimize=T, thresholds=10)
+\usage{tune.threshold(pred, measures, aggr, task, minimize=TRUE, thresholds=10)
 }
 \description{Optimizes the threshold of prediction based on probabilities or decision values.
 Currently only implemented for probabilities and binary classification.}

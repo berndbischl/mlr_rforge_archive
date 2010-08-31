@@ -1,7 +1,8 @@
 \name{varsel}
 \alias{varsel}
 \title{Variable selection.}
-\usage{varsel(learner, task, resampling, control, measures, aggr, model=F, path=F)
+\usage{varsel(learner, task, resampling, control, measures, aggr, model=FALSE,
+    path=FALSE)
 }
 \description{Optimizes the variables for a classification or regression problem by choosing a variable selection wrapper approach.
 Allows for different optimization methods.

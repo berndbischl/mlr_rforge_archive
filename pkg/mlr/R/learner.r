@@ -1,5 +1,7 @@
 #' @include object.r
 roxygen()
+#' @include learner.desc.r
+roxygen()
 
 # todo supports getters
 # hyperpars getter, read all getters
@@ -107,7 +109,12 @@ setMethod(
 			if (i == "characters") {
 				return(x@desc["characters"])
 			}
-			
+      
+      if (i == "par.descs") {
+        pds = x@par.descs
+        names(pds) = sapply(pds, function(y) y@par.name)
+        return(pds)
+      } 
 			if (i == "par.descs.name") 
 				return(sapply(x@par.descs, function(y) y@par.name))
 			if (i == "par.descs.when") {
@@ -139,7 +146,9 @@ setMethod(f = "to.string",
           signature = signature("learner"),
           def = function(x) {
             hps = x["par.vals"]
-            hps = paste(names(hps), hps, sep="=", collapse=" ")
+            hps.ns = names(hps)
+            hps = Map(function(n, v) hyper.par.val.to.name(n,v,x), hps.ns, hps)
+            hps = paste(hps.ns, hps, sep="=", collapse=" ")
             is.classif = x["is.classif"]
             type = if (is.null(is.classif))
               "Unknown"
@@ -147,9 +156,10 @@ setMethod(f = "to.string",
               "Classification"
             else
               "Regression"
+            pack = paste(x["pack"], collapse=",")
             return(paste(
                          ##todo regression. also check when applied to task!!
-                         type, " learner ", x["id"], " from package ", x["pack"], "\n\n",
+                         type, " learner ", x["id"], " from package ", pack, "\n\n",
                          "Supported features Nums:", x["numerics"],
                          " Factors:", x["factors"],
                          " Chars:", x["characters"], "\n",

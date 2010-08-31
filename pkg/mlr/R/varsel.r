@@ -30,8 +30,11 @@
 #'   
 #' @title Variable selection.
 
-varsel <- function(learner, task, resampling, control, measures, aggr, model=F, path=F) {
-	if (missing(measures))
+varsel <- function(learner, task, resampling, control, measures, aggr, model=FALSE, path=FALSE) {
+  # convert to instance so all pars are evaluated on the same splits
+  if (is(resampling, "resample.desc")) 
+    resampling = make.res.instance(resampling, task=task)
+  if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
 	
