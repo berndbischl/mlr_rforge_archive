@@ -5,12 +5,12 @@ test.benchmark <- function() {
 		inner = new("cv.desc", iters=3L)
 		
 		# check empty ranges 
-		cbr <- benchmark("classif.rpart", task=ct, resampling=outer, conf.mat=TRUE, models=TRUE, paths=TRUE)
+		cbr <- .mlr.benchmark("classif.rpart", task=ct, resampling=outer, conf.mat=TRUE, models=TRUE, paths=TRUE)
 	
 		# normal benchmark - one par
 		ranges <- list(minsplit=seq(3,10,2))
 		wl = make.tune.wrapper("classif.rpart", resampling=inner, control=grid.control(ranges=ranges))
-		bm = benchmark(wl, ct, outer, conf.mat=TRUE, models=TRUE, paths=TRUE)
+		bm = .mlr.benchmark(wl, ct, outer, conf.mat=TRUE, models=TRUE, paths=TRUE)
 		checkTrue(is.list(bm$ors))
 		checkEquals(length(bm$ors), 1)
 		checkTrue(is.list(bm$ors[[1]]@path))
@@ -23,7 +23,7 @@ test.benchmark <- function() {
 		
 		# dont save models and paths and conf.mats
 		wl = make.tune.wrapper("classif.rpart", resampling=inner, control=grid.control(ranges=ranges))
-		bm = benchmark(wl, ct, outer, conf.mat=FALSE, models=FALSE, paths=FALSE)
+		bm = .mlr.benchmark(wl, ct, outer, conf.mat=FALSE, models=FALSE, paths=FALSE)
 		checkTrue(is.list(bm$ors))
 		checkEquals(length(bm$ors), 1)
 		checkTrue(is.list(bm$ors[[1]]@opt$par))
@@ -38,6 +38,6 @@ test.benchmark <- function() {
 		# normal benchmark - 2 par
 		ranges <- list(minsplit=seq(3,10,2), cp=c(0.1, 0.11 , 0.09))
 		wl = make.tune.wrapper("classif.rpart", resampling=inner, control=grid.control(ranges=ranges))
-		cbr = benchmark(wl, ct, outer, conf.mat=FALSE, models=FALSE, paths=FALSE)
+		cbr = .mlr.benchmark(wl, ct, outer, conf.mat=FALSE, models=FALSE, paths=FALSE)
 	}
 }
