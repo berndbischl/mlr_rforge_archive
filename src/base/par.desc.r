@@ -55,6 +55,19 @@ setMethod(
 
 
 
+#' @rdname par.desc-class
+
+setMethod(
+    f = "[",
+    signature = signature("par.desc"),
+    def = function(x,i,j,...,drop) {
+      if (i == "pass.default") {
+        passd = x@flags$pass.default
+        return(!is.null(passd) && passd)
+      }
+      callNextMethod()
+    }
+)
 
 setClass(
 	"par.desc.unknown",
