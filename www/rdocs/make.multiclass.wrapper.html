@@ -13,13 +13,13 @@
 
 <p>Fuses a base learner with a multi-class method. Creates a learner object, which can be
 used like any other learner object. This way learners which can only handle binary classification 
-will be able to handle multi-class problems too.
-Currently only "one-vs-all" is implemented.</p>
+will be able to handle multi-class problems too.</p>
 
 
 <h3>Usage</h3>
 
-<pre>make.multiclass.wrapper(learner, ...)
+<pre>make.multiclass.wrapper(learner, id=as.character(NA), label=as.character(NA), method,
+    codematrix, ...)
 </pre>
 
 
@@ -29,6 +29,22 @@ Currently only "one-vs-all" is implemented.</p>
 <td>
 [<code><a href="learner-class.html">learner</a></code> or string]<br> 
 Learning algorithm. See <code><a href="learners.html">learners</a></code>.</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+[string] <br>
+Id for resulting learner object. If missing, id of "learner" argument is used.</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+[string] <br>
+Label for resulting learner object. If missing, label of "learner" argument is used.</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+[string] <br>
+Currently unsupported.</td></tr>
+<tr valign="top"><td><code>codematrix</code></td>
+<td>
+[matrix] <br>
+ECOC codematrix with entries +1,-1,0. Columns define new binary problems, rows correspond to classes.</td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
 [any] <br>
@@ -40,5 +56,5 @@ Optional parameters. Not used currently.</td></tr>
 
 <p><code><a href="learner-class.html">learner</a></code>.</p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.1095 <a href="00Index.html">Index</a>]</div>
 </body></html>

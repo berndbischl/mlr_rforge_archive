@@ -16,13 +16,14 @@ for further steps like training, predicting new data, resampling and tuning and 
 The type (classification or regression) is automatically inferred from the target variable.
 It might perform some data conversions in the data.frame, like converting integer input features to numerics, 
 but will generally warn about this. 
-Whether a classification or regression task is created depends on the data type of the target variable. Factors or characters
+Whether a classification or regression task is created depends on the data type of the target variable. Factors, logicals or characters
 produce classification tasks, numerics produce regression tasks. Integer target variables have to be changed manually.</p>
 
 
 <h3>Usage</h3>
 
-<pre>make.task(id, label, data, target, excluded, weights, costs, positive)</pre>
+<pre>make.task(id, label, data, target, excluded, weights, blocking, costs, positive)
+</pre>
 
 
 <h3>Arguments</h3>
@@ -37,7 +38,7 @@ Id string for object. Used to select the object from a named list, etc.</td></tr
 Label string for object. Used in plots, etc.</td></tr>
 <tr valign="top"><td><code>data</code></td>
 <td>
-[<code><a href="../../base/html/data.frame.html">data.frame</a></code>] <br> 	
+[data.frame] <br> 	
 A data frame containing the variables for the modeling.</td></tr>
 <tr valign="top"><td><code>target</code></td>
 <td>
@@ -45,15 +46,19 @@ A data frame containing the variables for the modeling.</td></tr>
 Name of the target variable.</td></tr>
 <tr valign="top"><td><code>excluded</code></td>
 <td>
-[<code><a href="../../base/html/character.html">character</a></code>]
+[character]
 Names of inputs, which should be generally disregarded, e.g. IDs, etc. Default is zero-length vector.</td></tr>
 <tr valign="top"><td><code>weights</code></td>
 <td>
-[<code><a href="../../base/html/numeric.html">numeric</a></code>] <br> 	
+[numeric] <br> 	
 An optional vector of weights to be used in the fitting process. Default is not to use weights.</td></tr>
+<tr valign="top"><td><code>blocking</code></td>
+<td>
+[factor] <br> 	
+An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.</td></tr>
 <tr valign="top"><td><code>costs</code></td>
 <td>
-[<code><a href="../../base/html/matrix.html">matrix</a></code>] <br> 	
+[matrix] <br> 	
 An optional matrix of misclassification costs to be used in the fitting process.
 Ignored for regression.</td></tr>
 <tr valign="top"><td><code>positive</code></td>
@@ -68,5 +73,5 @@ Ignored for regression.</td></tr>
 
 <p><code><a href="learn.task-class.html">learn.task</a></code>.</p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.1095 <a href="00Index.html">Index</a>]</div>
 </body></html>

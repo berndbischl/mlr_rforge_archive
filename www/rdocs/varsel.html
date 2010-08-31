@@ -13,12 +13,15 @@
 
 <p>Optimizes the variables for a classification or regression problem by choosing a variable selection wrapper approach.
 Allows for different optimization methods.
-The specific details of the search algorithm are set by passing a control object.</p>
+The specific details of the search algorithm are set by passing a control object.
+Currently you can use <code><a href="sequential.control.html">sequential.control</a></code> and <code><a href="randomvarsel.control.html">randomvarsel.control</a></code>. 
+The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal variables.</p>
 
 
 <h3>Usage</h3>
 
-<pre>varsel(learner, task, resampling, control, measures, aggr, model=F, path=F)
+<pre>varsel(learner, task, resampling, control, measures, aggr, model=FALSE,
+    path=FALSE)
 </pre>
 
 
@@ -51,17 +54,12 @@ Aggregation functions.</td></tr>
 <tr valign="top"><td><code>model</code></td>
 <td>
 [boolean]<br>
-Should a final model be fitted on the complete data with the best found features?</td></tr>
+Should a final model be fitted on the complete data with the best found features? Default is FALSE.</td></tr>
 <tr valign="top"><td><code>path</code></td>
 <td>
 [boolean]<br>
-Should optimization path be saved?</td></tr>
+Should optimization path be saved? Default is FALSE.</td></tr>
 </table>
-
-
-<h3>Details</h3>
-
-<p>The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal variables.</p>
 
 
 <h3>Value</h3>
@@ -73,5 +71,5 @@ Should optimization path be saved?</td></tr>
 
 <p><code><a href="varsel.control-class.html">varsel.control</a></code>, <code><a href="make.varsel.wrapper.html">make.varsel.wrapper</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.1095 <a href="00Index.html">Index</a>]</div>
 </body></html>

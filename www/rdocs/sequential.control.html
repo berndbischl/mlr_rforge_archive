@@ -20,28 +20,6 @@
 <td>
 [logical] <br> 
 Minimize performance measure? Default is TRUE.</td></tr>
-<tr valign="top"><td><code>maxit</code></td>
-<td>
-[integer] <br> 
-Maximal number of variable sets to evaluate. Default is 100.</td></tr>
-<tr valign="top"><td><code>max.vars</code></td>
-<td>
-[integer] <br> 
-Maximal number of allowed variables in the final set. Default is max. integer.</td></tr>
-<tr valign="top"><td><code>method</code></td>
-<td>
-[<code><a href="../../base/html/character.html">character</a></code>] <br>
-Search method. Currently supported are sequential forward search "sfs", sequential backward search "sbs", 
-sequential floating forward search "sffs", sequential floating backward search "sfbs" and a monte-carlo search 
-"random". Default is "sfs".</td></tr>
-<tr valign="top"><td><code>alpha</code></td>
-<td>
-[numeric] <br> 
-sfs, sffs: In a forward step, minimal improvement of performance measure. Can be negative.</td></tr>
-<tr valign="top"><td><code>beta</code></td>
-<td>
-[numeric] <br> 
-sbs, sfbs: In a backward step, minimal improvement of performance measure. Can be negative.</td></tr>
 <tr valign="top"><td><code>tune.threshold</code></td>
 <td>
 [logical] <br> 
@@ -50,6 +28,27 @@ Perform empirical thresholding? Default is FALSE. Only supported for binary clas
 <td>
 [numeric] <br> 
 Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10.</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+[boolean]<br>
+Should optimization path be saved?</td></tr>
+<tr valign="top"><td><code>max.vars</code></td>
+<td>
+[integer] <br> 
+Maximal number of allowed variables in the final set. Default is max. integer.</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+[<code><a href="../../base/html/character.html">character</a></code>] <br>
+Search method. Currently supported are sequential forward search "sfs", sequential backward search "sbs", 
+sequential floating forward search "sffs", sequential floating backward search "sfbs". Default is "sfs".</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+[numeric] <br> 
+sfs, sffs: In a forward step, minimal improvement of performance measure. Can be negative.</td></tr>
+<tr valign="top"><td><code>beta</code></td>
+<td>
+[numeric] <br> 
+sbs, sfbs: In a backward step, minimal improvement of performance measure. Can be negative.</td></tr>
 </table>
 
 
@@ -65,5 +64,5 @@ Number of thresholds to try in tuning. Predicted probabilities are sorted and di
 
 <p><code><a href="varsel.control-class.html">varsel.control</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.1095 <a href="00Index.html">Index</a>]</div>
 </body></html>

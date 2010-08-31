@@ -18,7 +18,7 @@ If the train or predict function is called on it, the preprocessing is always in
 
 <h3>Usage</h3>
 
-<pre>make.preproc.wrapper(learner, fun, ...)
+<pre>make.preproc.wrapper(learner, id=as.character(NA), label=as.character(NA), fun, ...)
 </pre>
 
 
@@ -28,6 +28,14 @@ If the train or predict function is called on it, the preprocessing is always in
 <td>
 [<code><a href="learner-class.html">learner</a></code> or string]<br> 
 Learning algorithm. See <code><a href="learners.html">learners</a></code>.</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+[string] <br>
+Id for resulting learner object. If missing, id of "learner" argument is used.</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+[string] <br>
+Label for resulting learner object. If missing, label of "learner" argument is used.</td></tr>
 <tr valign="top"><td><code>fun</code></td>
 <td>
 [function] <br>
@@ -43,5 +51,5 @@ Optional parameters to control the preprocessing. Passed to fun.</td></tr>
 
 <p><code><a href="learner-class.html">learner</a></code>.</p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.1095 <a href="00Index.html">Index</a>]</div>
 </body></html>

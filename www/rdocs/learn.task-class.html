@@ -20,21 +20,19 @@ you should not instantiate it directly but use the inheriting classes and their 
 <h3>Details</h3>
 
 <p><code>learn.task-class</code>: Getter.<br>
+Note that all getters of <code><a href="task.desc-class.html">task.desc</a></code> and <code><a href="data.desc-class.html">data.desc</a></code> can also be used. 
 </p>
 <p>
 
 <dl>
-<dt>id [string]</dt><dd>Id string of task.</dd>
-<dt>label [string]</dt><dd>Label string of task.</dd>
-<dt>is.classif [boolean]</dt><dd>Is this a classification task?</dd>
-<dt>is.regr [boolean]</dt><dd>Is this a regression task?</dd>
 <dt>data [data.frame]. Optional parameters: row, col</dt><dd>The data.frame is returned, possibly indexed by row/col. If col is missing, only columns which were not excluded are returned.</dd>
-<dt>size [integer]</dt><dd>Number of cases.</dd>
-<dt>target.name [string]</dt><dd>The name of the target variable.</dd>
 <dt>input.names [character]</dt><dd>The names of the input variables (without excluded variables).</dd>
-<dt>excluded [character]</dt><dd>Names of excluded variables.</dd>
 <dt>targets [character]. Optional parameters: row</dt><dd>If row is missing all target values are returned. Otherwise they are indexed by row.</dd>
 <dt>weights [numeric]. Optional parameters: row</dt><dd>If row is missing all case weights are returned. Otherwise they are indexed by row. NULL if no weights were set.</dd>
+<dt>rows.with.missing [integer]</dt><dd>Index vector for rows which contain missing values.</dd>
+<dt>cols.with.missing [integer]</dt><dd>Index vector for columns which contain missing values.</dd>
+<dt>rows.with.inf [integer]</dt><dd>Index vector for rows which contain infinite numerical values.</dd>
+<dt>cols.with.inf [integer]</dt><dd>Index vector for columns which contain infinite numerical values.</dd>
 </dl>
 
 </p>
@@ -50,7 +48,7 @@ you should not instantiate it directly but use the inheriting classes and their 
 <h3>Methods</h3>
 
 <p><dl>
-<dt><code>resample.update</code></dt><dd></dd><dt><code><a href="resample.fit.html">resample.fit</a></code></dt><dd></dd><dt><code><a href="make.res.instance.html">make.res.instance</a></code></dt><dd></dd><dt><code><a href="make.res.instance.html">make.res.instance</a></code></dt><dd></dd><dt><code><a href="learn.task-class.html">[</a></code></dt><dd></dd><dt><code><a href="train.html">train</a></code></dt><dd></dd></dl>
+<dt><code><a href="get.learners.html">get.learners</a></code></dt><dd></dd><dt><code><a href="resample.update.html">resample.update</a></code></dt><dd></dd><dt><code><a href="resample.fit.html">resample.fit</a></code></dt><dd></dd><dt><code><a href="make.res.instance.html">make.res.instance</a></code></dt><dd></dd><dt><code><a href="make.res.instance.html">make.res.instance</a></code></dt><dd></dd><dt><code><a href="learn.task-class.html">[</a></code></dt><dd></dd><dt><code><a href="train.html">train</a></code></dt><dd></dd></dl>
 </p>
 
 
@@ -58,5 +56,5 @@ you should not instantiate it directly but use the inheriting classes and their 
 
 <p><code><a href="make.task.html">make.task</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.1095 <a href="00Index.html">Index</a>]</div>
 </body></html>

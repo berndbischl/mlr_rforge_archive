@@ -17,7 +17,7 @@
 <h3>Usage</h3>
 
 <pre>make.learner(class, id, label, predict.type="response",
-    predict.threshold=numeric(0), hyper.types="train", ..., parset)
+    predict.threshold=numeric(0), ..., par.vals=list())
 </pre>
 
 
@@ -41,15 +41,6 @@ Label string for object. Used in plots, etc.</td></tr>
 Classification: "response" | "prob" | "decision", specifying the type to
 predict. Default is "response". "decision" is experimental. Ignored for
 regression.</td></tr>
-<tr valign="top"><td><code>hyper.types</code></td>
-<td>
-[character] <br>
-Character vector. If named, names have to correspond to the hyper parameters
-in the <code>...</code> arguments or the <code>parset</code> list. If a single string is
-passed it is used as the type for all hyper parameters.
-Specifies in which stage of model fitting the hyper parameters are used.
-Currently supported at user level are "train" and "predict". Defaults to
-"train".</td></tr>
 <tr valign="top"><td><code>predict.threshold</code></td>
 <td>
 [numeric] <br>
@@ -61,8 +52,8 @@ Ignored for regression.</td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
 [any] <br>
-Optional named (hyper)parameters. Alternatively, you can pass via the "parset" argument.</td></tr>
-<tr valign="top"><td><code>parset</code></td>
+Optional named (hyper)parameters. Alternatively, you can pass via the "par.vals" argument.</td></tr>
+<tr valign="top"><td><code>par.vals</code></td>
 <td>
 [list] <br>
 Optional list of named (hyper)parameters. Alternatively, you can pass via the ... argument.</td></tr>
@@ -73,5 +64,5 @@ Optional list of named (hyper)parameters. Alternatively, you can pass via the ..
 
 <p><code><a href="learner-class.html">learner</a></code>.</p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.1095 <a href="00Index.html">Index</a>]</div>
 </body></html>

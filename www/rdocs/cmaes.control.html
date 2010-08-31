@@ -1,12 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Control for CMA-ES tuning.</title>
+<html><head><title>R: cmaes.control-class</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="../../R.css">
 </head><body>
 
 <table width="100%" summary="page for cmaes.control {mlr}"><tr><td>cmaes.control {mlr}</td><td align="right">R Documentation</td></tr></table>
 
-<h2>Control for CMA-ES tuning.</h2>
+<h2>cmaes.control-class</h2>
 
 
 <h3>Description</h3>
@@ -14,41 +14,58 @@
 <p>Control structure for CMA-ES tuning.</p>
 
 
-<h3>Usage</h3>
-
-<pre>cmaes.control(start, minimize=T, scale=identity, ...)
-</pre>
-
-
 <h3>Arguments</h3>
 <table summary="R argblock">
+<tr valign="top"><td><code>minimize</code></td>
+<td>
+[logical] <br> 
+Minimize performance measure? Default is TRUE.</td></tr>
+<tr valign="top"><td><code>tune.threshold</code></td>
+<td>
+[logical] <br> 
+Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner.</td></tr>
+<tr valign="top"><td><code>thresholds</code></td>
+<td>
+[numeric] <br> 
+Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10.</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+[boolean]<br>
+Should optimization path be saved?</td></tr>
 <tr valign="top"><td><code>start</code></td>
 <td>
 [numeric] <br>
 Named vector of initial values.</td></tr>
-<tr valign="top"><td><code>minimize</code></td>
+<tr valign="top"><td><code>lower</code></td>
 <td>
-[logical] <br>
-Minimize performance measure? Default is TRUE.</td></tr>
+[numeric] <br>
+Named vector of lower boundary constraints. Default is -Inf.</td></tr>
+<tr valign="top"><td><code>upper</code></td>
+<td>
+[numeric] <br>
+Named vector of upper boundary constraints. Default is Inf.</td></tr>
 <tr valign="top"><td><code>scale</code></td>
 <td>
-[<code><a href="../../base/html/function.html">function</a></code>] <br>
+[<code><a href="../../base/html/function.html">function</a></code>] <br> 
 A function to scale the hyperparameters. E.g. maybe you want to optimize in some log-space.
-Has to take a single, numerical vector and return a scaled one. Default is identity function.</td></tr>
+Has to take a vector and return a scaled one. Default is identity function.</td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
-Passed down to cmaes.</td></tr>
+Further control parameters passed to the <code>control</code> argument of <code><a href="../../cmaes/html/cma_es.html">cma_es</a></code>.</td></tr>
 </table>
-
-
-<h3>Details</h3>
-
-<p>See <code><a href="../../cmaes/html/cma_es.html">cma_es</a></code> for details of CMA-ES settings.</p>
 
 
 <h3>Value</h3>
 
-<p>Control structure for tuning.</p>
+<p><code>cmaes.control-methods</code>: Control structure for tuning.
+</p>
+<p>
+</p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
+
+<h3>Extends</h3>
+
+<p><code><a href="tune.control-class.html">tune.control</a></code></p>
+
+<hr><div align="center">[Package <em>mlr</em> version 0.3.1095 <a href="00Index.html">Index</a>]</div>
 </body></html>

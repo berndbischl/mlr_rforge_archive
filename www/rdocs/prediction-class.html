@@ -22,13 +22,15 @@ Use <code>as.data.frame</code> to access all information in a convenient format.
 <p>
 
 <dl>
+<dt>type [string]</dt><dd>Type set in predict function: "response", "prob", or "decision".</dd>
 <dt>id [numeric]</dt><dd>Vector of index numbers of predicted cases from the task.</dd>
 <dt>response [numeric | factor]</dt><dd>Predicted response values.</dd>
 <dt>truth [numeric | factor]</dt><dd>True target values.</dd>
 <dt>prob [numeric | matrix] Optional parameters: class</dt><dd>Predicted probabilities. For binary class. only the probabilities for the positive class are returned.</dd>
 <dt>decision [matrix]</dt><dd>Predicted decision values.</dd>
-<dt>type [string]</dt><dd>Type set in predict function: "response", "prob", or "decision".</dd>
+<dt>group [factor]</dt><dd>Grouping of predcitions. Rarely used, if not present NULL is returned.</dd>
 <dt>threshold [numeric]</dt><dd>Threshold set in predict function.</dd>
+<dt>has.groups [boolean]</dt><dd>Is special grouping used in order to aggregate predictions differently?</dd>
 </dl>
 
 </p>
@@ -44,7 +46,7 @@ Use <code>as.data.frame</code> to access all information in a convenient format.
 <h3>Methods</h3>
 
 <p><dl>
-<dt><code>resample.update</code></dt><dd></dd><dt><code><a href="performance.html">performance</a></code></dt><dd></dd><dt><code><a href="prediction-class.html">[</a></code></dt><dd><code>signature( = "prediction")</code>: Getter.</dd><dt><code><a href="prediction-class.html">as.data.frame</a></code></dt><dd><code>signature( = "prediction")</code>: Convert to data.frame</dd><dt><code><a href="to.string.html">to.string</a></code></dt><dd></dd></dl>
+<dt><code><a href="as.ROCR.preds.html">as.ROCR.preds</a></code></dt><dd></dd><dt><code><a href="resample.update.html">resample.update</a></code></dt><dd></dd><dt><code><a href="performance.html">performance</a></code></dt><dd></dd><dt><code><a href="prediction-class.html">[</a></code></dt><dd><code>signature( = "prediction")</code>: Getter.</dd><dt><code><a href="prediction-class.html">as.data.frame</a></code></dt><dd><code>signature( = "prediction")</code>: Convert to data.frame</dd><dt><code><a href="to.string.html">to.string</a></code></dt><dd></dd></dl>
 </p>
 
 
@@ -52,5 +54,5 @@ Use <code>as.data.frame</code> to access all information in a convenient format.
 
 <p><code><a href="performance.html">performance</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.1095 <a href="00Index.html">Index</a>]</div>
 </body></html>

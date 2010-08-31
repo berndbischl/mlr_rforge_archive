@@ -16,12 +16,6 @@
 
 <h3>Arguments</h3>
 <table summary="R argblock">
-<tr valign="top"><td><code>ranges</code></td>
-<td>
-[<code><a href="../../base/html/list.html">list</a></code>] <br> 
-A list of named vectors/lists of possible values for each hyperparameter. 
-You can also pass a list of such ranges by using [<code><a href="combine.ranges.html">combine.ranges</a></code>] 
-in the rare case when it does not make sense to search a complete cross-product of range values.</td></tr>
 <tr valign="top"><td><code>minimize</code></td>
 <td>
 [logical] <br> 
@@ -34,6 +28,16 @@ Perform empirical thresholding? Default is FALSE. Only supported for binary clas
 <td>
 [numeric] <br> 
 Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10.</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+[boolean]<br>
+Should optimization path be saved?</td></tr>
+<tr valign="top"><td><code>ranges</code></td>
+<td>
+[<code><a href="../../base/html/list.html">list</a></code>] <br> 
+A list of named vectors/lists of possible values for each hyperparameter. 
+You can also pass a list of such ranges by using [<code><a href="combine.ranges.html">combine.ranges</a></code>] 
+in the rare case when it does not make sense to search a complete cross-product of range values.</td></tr>
 <tr valign="top"><td><code>scale</code></td>
 <td>
 [<code><a href="../../base/html/function.html">function</a></code>] <br> 
@@ -54,5 +58,5 @@ Has to take a vector and return a scaled one. Default is identity function.</td>
 
 <p><code><a href="tune.control-class.html">tune.control</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.1095 <a href="00Index.html">Index</a>]</div>
 </body></html>

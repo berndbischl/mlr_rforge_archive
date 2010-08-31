@@ -15,11 +15,6 @@
 which can be used for predictions on new data.</p>
 
 
-<h3>Usage</h3>
-
-<pre>train(learner, task, subset, parset, vars, type)</pre>
-
-
 <h3>Arguments</h3>
 <table summary="R argblock">
 <tr valign="top"><td><code>learner</code></td>
@@ -34,7 +29,7 @@ Specifies learning task.</td></tr>
 <td>
 [<code><a href="../../base/html/integer.html">integer</a></code>] <br> 
 An index vector specifying the training cases to be used for fitting. By default the complete data set is used.</td></tr>
-<tr valign="top"><td><code>parset</code></td>
+<tr valign="top"><td><code>par.vals</code></td>
 <td>
 [list] <br> 
 Named list of hyperparameter values. Will overwrite the ones specified in the learner object. Default is empty list.</td></tr>
@@ -52,7 +47,7 @@ Default is "response". Very rarely you have to set this during training as well,
 
 <h3>Value</h3>
 
-<p><code>train-methods</code>: An object of class <code><a href="wrapped.model-class.html">wrapped.model</a></code>.
+<p><code>train-methods</code>: <code><a href="wrapped.model-class.html">wrapped.model</a></code>.
 </p>
 <p>
 </p>
@@ -62,5 +57,5 @@ Default is "response". Very rarely you have to set this during training as well,
 
 <p><code><a href="predict.html">predict</a></code></p>
 
-<hr><div align="center">[Package <em>mlr</em> version 0.3.819 <a href="00Index.html">Index</a>]</div>
+<hr><div align="center">[Package <em>mlr</em> version 0.3.1095 <a href="00Index.html">Index</a>]</div>
 </body></html>
