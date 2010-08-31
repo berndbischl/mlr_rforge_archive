@@ -173,13 +173,16 @@ regr.files <<- c(
 #		"models/regression/icr.r",
 		"models/regression/kknn.regr.r",
 		"models/regression/ksvm.regr.r",
-		"models/regression/lasso.r",
+    "models/regression/krigdice.regr.r",
+    "models/regression/lasso.r",
 		"models/regression/lm.r",
 		"models/regression/mars.regr.r",
-		"models/regression/pcr.r",
+    "models/regression/nnet.regr.r",
+    "models/regression/pcr.r",
 		"models/regression/randomForest.regr.r",
 		"models/regression/ridge.r",
-		"models/regression/rpart.regr.r"
+		"models/regression/rpart.regr.r",
+    "models/regression/rvm.regr.r"
 )
 
 
