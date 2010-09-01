@@ -30,7 +30,7 @@ roxygen()
 #' @title Compare ROC curves of learners in a benchmark experiment.
 
 
-ROCR.plot.task = function(be, task.id, learner.ids=be["learners"], 
+ROCR.plot.task = function(x, task.id, learner.ids=be["learners"], 
   perf1="tpr", perf2="fpr", 
   legend.x="bottomright", legend.y, col, ...) {
   
