@@ -90,7 +90,7 @@ setMethod(
 		signature = signature("par.desc.num"),
 		def = function(.Object, par.name, data.type, default="missing", when="train", lower=-Inf, upper=Inf, flags=list(), requires=expression(TRUE)) {
 			if (missing(data.type))
-				data.type = ifelse(is.integer(lower) || is.infinite(upper) || is.integer(default), "integer", "numeric")
+				data.type = ifelse(is.integer(lower) || is.integer(upper) || is.integer(default), "integer", "numeric")
 			.Object@data.type = data.type						
 			if (!(data.type %in% c("integer", "numeric")))
 				stop("Arg 'data.type' can only be 'integer' or 'numerical', not: ", data.type)
