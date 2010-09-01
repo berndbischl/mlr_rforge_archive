@@ -48,7 +48,8 @@ allowed.rd.files <<- c(
 		"ROCR_prediction.Rd",
 		"ROCR_prediction-class.Rd",
 		"ROCR_plot-methods.Rd",
-#		"ROCR_simple.Rd",
+    "ROCR.plot.task.Rd",
+    #		"ROCR_simple.Rd",
 #		"ROCR_xval.Rd",
 		
 		"make.res.instance.Rd",

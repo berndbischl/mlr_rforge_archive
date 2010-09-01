@@ -54,7 +54,8 @@ base.files <<- c(
 		"base/rocr/ROCR_performance_measures.R",
 		"base/rocr/ROCR_performance.R",
 		"base/rocr/ROCR_performance_plots.R",
-		
+    "base/rocr/ROCR_mlr_plots.r",
+    
 		"base/resample/resample.desc.r",
 		"base/resample/resample.desc.make.r",
 		"base/resample/resample.instance.r",
