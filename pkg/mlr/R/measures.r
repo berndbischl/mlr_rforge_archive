@@ -179,6 +179,9 @@ mcesd = function(x, task) {
 cost.measure = function(x, task, costs=task["costs"]) {
 	if (all(dim(costs) == 0))
 		stop("No costs were defined in task!")
+  # cannot index with NA
+  if (any(is.na(x["response"])))
+    return(as.numeric(NA))
 	cc = function(truth, pred) {
 		costs[truth, pred]
 	}

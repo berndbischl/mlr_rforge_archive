@@ -85,6 +85,11 @@ select.best.state = function(states, control) {
 		i = which.min(perfs)
 	else 
 		i = which.max(perfs)
+  # all perfs can be NA if all learners failed, then select randomly
+  if (all(is.na(perfs))) {
+    warning("All evaluated states had NA performance, selecting 1 randomly!")
+    i = sample(1:length(perfs), 1)
+  }
 	return(states[[i]])
 }
 

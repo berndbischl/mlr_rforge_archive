@@ -27,6 +27,8 @@ setClass("ROCR.performance",
 #              .plot.performance(x,...)
 #          })
 
+#' @exportMethod plot
+
 setMethod("plot",signature(x="ROCR.performance",y="missing"),
           function(x,y,..., avg="none", spread.estimate="none",
   spread.scale=1, show.spread.at=c(), colorize=FALSE,

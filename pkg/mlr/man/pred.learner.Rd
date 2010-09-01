@@ -30,6 +30,8 @@
 \alias{pred.learner}
 \alias{pred.learner,regr.kknn,wrapped.model,data.frame,missing-method}
 \alias{pred.learner}
+\alias{pred.learner,regr.km,wrapped.model,data.frame,missing-method}
+\alias{pred.learner}
 \alias{pred.learner,classif.ksvm,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
 \alias{pred.learner,regr.ksvm,wrapped.model,data.frame,missing-method}
@@ -59,6 +61,8 @@
 \alias{pred.learner,classif.naiveBayes,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
 \alias{pred.learner,classif.nnet,wrapped.model,data.frame,character-method}
+\alias{pred.learner}
+\alias{pred.learner,regr.nnet,wrapped.model,data.frame,missing-method}
 \alias{pred.learner}
 \alias{pred.learner,classif.OneR,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
@@ -102,6 +106,8 @@ Additional parameters, which need to be passed to the underlying train function.
 \alias{pred.learner,classif.rpart,wrapped.model,data.frame,character-method}
 \alias{pred.learner}
 \alias{pred.learner,regr.rpart,wrapped.model,data.frame,missing-method}
+\alias{pred.learner}
+\alias{pred.learner,regr.rvm,wrapped.model,data.frame,missing-method}
 \alias{pred.learner}
 \alias{pred.learner,classif.sda,wrapped.model,data.frame,character-method}
 \alias{pred.learner}

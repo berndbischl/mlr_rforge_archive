@@ -175,7 +175,7 @@ ROCR.performance <- function(prediction.obj, measure,
         y.values <- c(y.values, list(objs[[2]]))
     }
     
-    return( new("performance",
+    return( new("ROCR.performance",
                 x.name=x.name, y.name=y.name,
                 alpha.name=alpha.name, x.values=x.values,
                 y.values=y.values, alpha.values=alpha.values))

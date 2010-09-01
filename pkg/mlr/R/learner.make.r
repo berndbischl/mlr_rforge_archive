@@ -33,7 +33,18 @@ make.learner = function(class, id, label, predict.type="response", predict.thres
 	if (!missing(label))
 		wl@label = label
 	wl@predict.type = predict.type 
-	wl@predict.threshold = predict.threshold 	
-	wl = set.hyper.pars(wl, ..., par.vals=par.vals)
+	wl@predict.threshold = predict.threshold
+  pds = wl@par.descs
+  # pass defaults
+  pv = list()
+  for (j in seq(length=length(pds))) {
+    pd = pds[[j]]
+    if (pd["pass.default"]) {
+      pv[[length(pv)+1]] = pd["default"]
+      names(pv)[length(pv)] = pd["par.name"]
+    }
+  }
+  pv = insert(pv, par.vals)
+	wl = set.hyper.pars(wl, ..., par.vals=pv)
 	return(wl)
 }
