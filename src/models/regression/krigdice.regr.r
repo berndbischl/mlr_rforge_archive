@@ -64,7 +64,7 @@ setMethod(
     ),
     
     def = function(.learner, .model, .newdata, .type, ...) {
-      p = predict(.model["learner.model"], newdata=.newdata, ...)
-      return(p) 
+      p = predict(.model["learner.model"], newdata=.newdata, type="SK", se.compute=FALSE, ...)
+      return(p$mean) 
     }
 ) 
