@@ -97,7 +97,7 @@ setMethod(
 			if (is.null(task))
 				task = x["tasks"]
       rest.task = setdiff(task, x["tasks"])
-      if (length(task.measure)>0)
+      if (length(rest.task)>0)
         stop("Task ids are not in bench.result: ", paste(rest.task, collapse=", "))      
       learner = args$learner
 			if (is.null(learner))

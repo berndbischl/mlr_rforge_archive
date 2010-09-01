@@ -33,7 +33,7 @@ setMethod(
       costs = FALSE
     )
  
-    x = callNextMethod(.Object, label="mda", pack="mda", desc=desc, par.descs=par.descs)
+    x = callNextMethod(.Object, label="mda", pack="mda", desc=desc)
     
     par.descs <- list(
       new("par.desc.unknown", par.name="subclasses", default=2L),
