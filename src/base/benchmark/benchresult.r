@@ -96,13 +96,22 @@ setMethod(
 			task = args$task
 			if (is.null(task))
 				task = x["tasks"]
-			learner = args$learner
+      rest.task = setdiff(task, x["tasks"])
+      if (length(task.measure)>0)
+        stop("Task ids are not in bench.result: ", paste(rest.task, collapse=", "))      
+      learner = args$learner
 			if (is.null(learner))
 				learner = x["learners"]
+      rest.learner = setdiff(learner, x["learners"])
+      if (length(rest.learner)>0)
+        stop("Learner ids are not in bench.result: ", paste(rest.learner, collapse=", "))      
 			measure = args$measure
 			if (is.null(measure))
 				measure = x["measures"]
-			iter = args$iter
+      rest.measure = setdiff(measure, x["measures"])
+      if (length(rest.measure)>0)
+        stop("Measures are not in bench.result: ", paste(rest.measure, collapse=", "))      
+      iter = args$iter
 			if (is.null(iter))
 				iter = lapply(x["iters"][task], function(y) 1:y)
 			aggr = args$aggr
