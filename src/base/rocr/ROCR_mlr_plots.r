@@ -32,18 +32,18 @@ roxygen()
 #' @title Compare ROC curves of learners in a benchmark experiment.
 
 
-ROCR.plot.task = function(x, task.id, learner.ids=be["learners"], 
+ROCR.plot.task = function(x, task.id, learner.ids=x["learners"], 
   perf1="tpr", perf2="fpr", 
   legend.x="bottomright", legend.y, col, ...) {
   
   n = length(learner.ids)
   
   if (missing(task.id)) {
-    task.id = be["tasks"]
+    task.id = x["tasks"]
     if (length(task.id) > 1)
       stop("bench.result contains more than 1 task, please pass task.id!")
   }
-  preds = be["prediction", learner=learner.ids, task=task.id, drop=F][[1]]
+  preds = x["prediction", learner=learner.ids, task=task.id, drop=F][[1]]
 
   if (length(preds) != n)
     stop("bench.result must contain predictions for all selected learners!")
