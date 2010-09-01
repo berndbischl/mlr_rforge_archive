@@ -22,6 +22,8 @@ roxygen()
 #'   Where should legend be placed. Any placement accepted by \code{\link{legend}} is ok.
 #' @param col [character] \cr 
 #'   Colors for ROC curves. Default are rainbow colors.
+#' @param ... [any] \cr 
+#'   Further arguments that are passed to \code{\link{ROCR.plot.performance}}.
 #' 
 #' @export
 #' @rdname ROCR.plot.task
@@ -58,7 +60,7 @@ ROCR.plot.task = function(x, task.id, learner.ids=be["learners"],
       p = as.ROCR.preds(p)
       perf = ROCR.performance(p, perf1, perf2)
       add = (i != 1)
-        plot(perf, add=add, col=col[i])
+        plot(perf, add=add, col=col[i], ...)
     }
   }
   if(legend.x != "none")
