@@ -30,11 +30,17 @@ tune.threshold = function(pred, measures, aggr, task, minimize=TRUE, thresholds=
 	if (missing(aggr))
 		aggr = default.aggr(pred)
 	aggr = make.aggrs(aggr)
-	
-	pos = pred@task.desc["positive"]
-	neg = pred@task.desc["negative"]
-	levs = pred@data.desc["class.levels"]
-	probs = pred["prob"]
+  
+  pos = pred@task.desc["positive"]
+  neg = pred@task.desc["negative"]
+  levs = pred@data.desc["class.levels"]
+  probs = pred["prob"]
+  
+  # brutally return NA if we find any NA in the pred. probs...
+  if (any(is.na(probs))) {
+    return(list(th=NA, pred=pred, th.seq=numeric(0), perf=numeric(0)))
+  }
+  
 	if (is.null(probs))
 		stop("No probs in prediction! Maybe you forgot type='prob'?")
 	f = function(x) {
