@@ -2,7 +2,11 @@
 test.parallel.benchexp = function() {
   
   tasks = c(multiclass.task, binaryclass.task)
-  learners = c("classif.lda", "classif.rpart")
+  
+  fun = function(data) data
+  wl = make.preproc.wrapper("classif.lda", fun=fun, id="lda2")
+  learners = list("classif.lda", "classif.rpart", wl)
+  
   res = make.res.desc("cv", iters=2)
 
   parallel.setup(mode="local")
