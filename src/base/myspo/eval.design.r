@@ -1,5 +1,4 @@
 eval.des.with.learner = function(des, learner, task, resampling,  measures, aggr, control) {
-  print(str(des))
   ys = numeric(nrow(des))
   for (i in 1:nrow(des)) {
     pv = data.frame.row.to.list(des[i, ])
