@@ -12,7 +12,8 @@ setMethod(
   def = function(n, pd) {
     x = runif(n, pd["lower"], pd["upper"])
     if (pd["data.type"] == "integer")
-      x = round(x) 
+      x = round(x)
+    return(x)
   }
 )
 
