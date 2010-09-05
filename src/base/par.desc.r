@@ -117,8 +117,24 @@ setMethod(
 		def = function(.Object, par.name, default="missing", when="train", vals, flags=list(), requires=expression(TRUE)) {
 			if (is.vector(vals))
 				vals = as.list(vals)
-			if (default != "missing") {
-				if (is.character(default) && default %in% names(vals))
+      n = length(vals)
+      # if names missing, set all to ""
+      if (is.null(names(vals)))
+        names(vals) = rep("", n)
+      # guess missing names
+      ns = names(vals)
+      for (i in 1:n) {
+        v = vals[[i]]
+        if(is.na(ns[i]) || ns[i] == "") {
+          if (is.character(v) || is.numeric(v))
+            names(vals)[i] = as.character(v)
+        }
+      }  
+      if(!all.names(vals)) {
+        stop("Not all values for par. ", par.name,  " were named and names could not be guessed!")
+      }
+      if (default != "missing") {
+        if (is.character(default) && default %in% names(vals))
 					default = vals[[default]]
 				y = sapply(vals, function(x) isTRUE(all.equal(x, default)))
 				if (!(any(y)))
