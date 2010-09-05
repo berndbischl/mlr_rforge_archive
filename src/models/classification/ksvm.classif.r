@@ -58,7 +58,7 @@ setMethod(
           new("par.desc.num", par.name="class.weights", default=1, lower=0)
       )
       
-			callNextMethod(.Object, label="SVM", pack="kernlab", desc=desc)
+			callNextMethod(.Object, label="SVM", pack="kernlab", desc=desc, par.descs=par.descs)
 		}
 )
 
