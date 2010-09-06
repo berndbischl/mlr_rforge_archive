@@ -155,7 +155,7 @@ setMethod(
 		f = "initialize",
 		signature = signature("par.desc.log"),
 		def = function(.Object, par.name, default="missing", when="train", flags=list(), requires=expression(TRUE)) {
-			if (!(is.logical(default) && length(default) == 1))
+			if (!((is.logical(default) && length(default) == 1) || identical(default, "missing")))
 				stop("Default value of par. ", par.name,  " has to be a single boolean!")
 			callNextMethod(.Object, par.name, default, when, flags, requires)
 		}
