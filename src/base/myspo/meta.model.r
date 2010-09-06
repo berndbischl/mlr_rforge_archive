@@ -20,3 +20,14 @@ pred.meta.model = function(meta.model, des) {
   predict(meta.model, newdata=des)["response"]
 } 
 
+sigma.meta.model = function(meta.model, des) {
+  m = meta.model["learner.model"]
+  p = predict(m, newdata=des, predict.all=TRUE)
+  pmean = p$aggregate
+  pind = p$individual
+  sigma = colSum(apply(pind, 2, function(x) (x-pmean)^2))
+  sigma = sigma / (ncol(pind) - 1)
+  return(sigma)
+} 
+
+
