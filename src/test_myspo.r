@@ -7,7 +7,9 @@ source("src\\base\\optimize\\myspo\\choose.new.points.r")
 source("src\\base\\optimize\\myspo\\choose.final.point.r")
 source("src\\base\\optimize\\myspo\\spo.helpers.r")
 source("src\\base\\optimize\\myspo\\meta.model.r")
+source("src\\base\\optimize\\myspo\\opt.meta.model.r")
 source("src\\base\\optimize\\myspo\\myspo.r")
+source("src\\base\\helpers.r")
 
 f = function(x,y,z) sum(x^2+y^2+z^2) + rnorm(1, 0, 0.001)
 

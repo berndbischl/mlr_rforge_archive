@@ -17,8 +17,7 @@ myspo = function(fun, control) {
   while(loop <= control$seq.loops) {
     print(loop)
     seqdes = seq.design(pds, control$seq.des.points, tmm$constr.model)
-    #y = eval.des.with.meta.model(seqdes, tmm$meta.model)
-    newdes = choose.new.points(1, seqdes, y)
+    newdes = choose.new.points(1, tmm$meta.model, tmm$constr.model, pds, curdes, cury, control)
     newy = eval.des.with.fun(newdes, fun, control)
     print(cbind(newdes, newy))
     curdes = rbind(curdes, newdes)
