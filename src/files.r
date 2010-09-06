@@ -123,9 +123,9 @@ base.files <<- c(
 		"base/varsel/varsel.wrapper.r",
 		
 		
-		"base/benchmark/benchmark.r",
-		"base/benchmark/benchexp.r",
-		"base/benchmark/benchresult.r",
+		"base/modelcompare/benchmark.r",
+		"base/modelcompare/benchexp.r",
+		"base/modelcompare/benchresult.r",
 		
 		"base/parallel/export.r",
 		"base/parallel/eval.r",
