@@ -53,6 +53,8 @@ setMethod(
 					subset = 1:task["size"]
 				newdata = task["data", row=subset]
 			} else {
+        if (!is.data.frame(newdata) || nrow(newdata) == 0)
+          stop("newdata must be a data.frame with at least one row!")
 				newdata = prep.data(dd["is.classif"], newdata, dd["target"], dd["excluded"], dd["prepare.control"])			
 			}
 			
