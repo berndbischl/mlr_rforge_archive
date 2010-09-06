@@ -3,7 +3,6 @@ roxygen()
 
 
 setClass(
-		# name lm is sealed
 		"regr.lm", 
 		contains = c("rlearner.regr")
 )
