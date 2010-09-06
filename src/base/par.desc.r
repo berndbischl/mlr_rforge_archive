@@ -145,6 +145,28 @@ setMethod(
 		}
 )
 
+
+#' @rdname par.desc-class
+setMethod(
+  f = "[",
+  signature = signature("par.desc.disc"),
+  def = function(x,i,j,...,drop) {
+    args = list(...)
+    names = args$names
+    if(is.null(names)) {
+      names = TRUE
+    }
+    if (i == "vals") {
+      v = x@vals
+      if (!names)
+        names(v) = NULL
+      return(v)
+    }
+    callNextMethod()
+  }
+)
+
+
 setClass(
 		"par.desc.log",
 		contains = c("par.desc")
