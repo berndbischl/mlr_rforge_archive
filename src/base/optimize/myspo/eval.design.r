@@ -2,7 +2,8 @@ eval.des.with.fun = function(des, fun, control) {
   ys = numeric(nrow(des))
   for (i in 1:nrow(des)) {
     pv = data.frame.row.to.list(des[i, ])
-    do.call(fun, pv)
+    #todo: fun must eval data.frame
+    y = do.call(fun, pv)
     #on.learner = .mlr.local$errorhandler.setup$on.learner
     #errorhandler.setup(on.learner="quiet")
     #p = resample.fit(learner, task, resampling, par.vals=pv)

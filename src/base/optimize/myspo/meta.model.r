@@ -1,14 +1,13 @@
 
-train.meta.model = function(meta.learner, constr.learner, des, y) {
+train.meta.model = function(meta.learner, constr.learner, des, y, control) {
   good = !is.na(y)
   des.good = des[good, ]
-  des.good$y = y[good]
-  rt = make.task(target="y", data=des.good)
-  meta.model = train(meta.learner, rt)
-  
+  des.good[, control$y.name] = y[good]
+  rt = make.task(target=control$y.name, data=des.good)
+  meta.model = train(meta.learner, task=rt)
   if (sum(!good) > 0) {
-    des$y = as.factor(good)
-    ct = make.task(target="y", data=des)
+    des[, control$y.name] = as.factor(good)
+    ct = make.task(target=control$y.name, data=des)
     constr.model = train(constr.learner, ct)
   } else {
     constr.model = NULL
