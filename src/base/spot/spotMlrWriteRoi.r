@@ -1,19 +1,26 @@
 
 
-spotMlrWriteRoi = function(path, par.descs) {
-	n = length(par.descs)
+spotMlrWriteRoi = function(path, control) {
+  pds = control@par.descs
+	n = length(pds)
+  tab = data.frame(name=rep("a", n), low=0, high=1, type="x", stringsAsFactors = FALSE)
 	for (i in 1:n) {
-		pd = par.descs[[i]]
-		type = ifelse(is(pd, "par.desc.num"), "DOUBLE", "INT")
-		lower = ifelse(is(pd, "par.desc.num"), pd["lower"], 1)
-		upper = ifelse(is(pd, "par.desc.num"), pd["upper"], length(pd["vals"]))
-		tab[i, "name"] = pd["name"]
+		pd = pds[[i]]
+    if (!is(pd, "par.desc.num"))
+      stop("wraong type!")
+		type = switch(pd["data.type"], numeric="FLOAT", integer="INT")
+		#lower = ifelse(is(pd, "par.desc.num"), pd["lower"], 1)
+		#upper = ifelse(is(pd, "par.desc.num"), pd["upper"], length(pd["vals"]))
+    lower = pd["lower"]
+    upper = pd["upper"]
+    tab[i, "name"] = pd["par.name"]
 		tab[i, "low"] = lower
 		tab[i, "high"] = upper
 		tab[i, "type"] = type
 	}
-	f = file.path(path, "mlr.conf")
-	write.table(tab, file=f)
+  print(str(tab))
+	f = file.path(path, "spotMlr.roi")
+	write.table(tab, file=f, row.names=FALSE)
 }
 
 
