@@ -1,13 +1,13 @@
 #todo: learn 2nd meta model for constraint violation, so we only generate reasonable points in seqdes?
 # we need confidence ingtervals in prediction! then we can use EI 
-tune.myspo = function(learner, task, resampling, measures, aggr, control) {
+myspo = function(f, control) {
   pds = control["par.descs"]
   control@constr.learner = make.learner("classif.randomForest")
   ml = control["meta.learner"]
   cl = control["constr.learner"]  
   
   curdes = init.design(pds, control@init.des.points)
-  cury = eval.des.with.learner(curdes, learner, task, resampling, measures, aggr, control)
+  cury = eval.des.with.fun(curdes, control)
   print(cbind(curdes, cury))
   tmm = train.meta.model(ml, cl, curdes, cury)
   
@@ -18,7 +18,7 @@ tune.myspo = function(learner, task, resampling, measures, aggr, control) {
     y = eval.des.with.meta.model(seqdes, tmm$meta.model)
     j = choose.new.points(1, seqdes, y)
     newdes = seqdes[j,]
-    newy = eval.des.with.learner(newdes, learner, task, resampling, measures, aggr, control)
+    newy = eval.des.with.learner(newdes, control)
     print(cbind(newdes, newy))
     curdes = rbind(curdes, newdes)
     cury = c(cury, newy)
@@ -26,7 +26,7 @@ tune.myspo = function(learner, task, resampling, measures, aggr, control) {
     loop = loop + 1    
   }
   finaldes = cbind(curdes, y=cury)
-  fp = choose.final.point(tmm$meta.model, tmm$constrmodel, learner, task, resampling, measures, aggr, control)
+  fp = choose.final.point(tmm$meta.model, tmm$constrmodel, control)
   list(path=finaldes, opt=fp$x, y.meta=fp$y.meta, y.real=fp$y.real, y.diff=fp$y.diff)  
 }
 
