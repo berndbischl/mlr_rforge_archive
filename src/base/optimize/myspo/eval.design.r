@@ -10,7 +10,7 @@ eval.des.with.fun = function(des, fun, control) {
     #perf = performance(p, measures=measures, aggr=aggr)
     #y = perf$aggr[1,1]
     # if maximize we simply multiply y with -1
-    ys[i] = y * ifelse(control["minimize"], 1, -1)
+    ys[i] = y * ifelse(control$minimize, 1, -1)
   }
   return(ys)
 }

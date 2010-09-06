@@ -1,20 +1,20 @@
 #todo: learn 2nd meta model for constraint violation, so we only generate reasonable points in seqdes?
 # we need confidence ingtervals in prediction! then we can use EI 
 myspo = function(f, control) {
-  pds = control["par.descs"]
-  control@constr.learner = make.learner("classif.randomForest")
-  ml = control["meta.learner"]
-  cl = control["constr.learner"]  
+  pds = control$par.descs
+  control$constr.learner = make.learner("classif.randomForest")
+  ml = control$meta.learner
+  cl = control$constr.learner  
   
-  curdes = init.design(pds, control@init.des.points)
+  curdes = init.design(pds, control$init.des.points)
   cury = eval.des.with.fun(curdes, control)
   print(cbind(curdes, cury))
   tmm = train.meta.model(ml, cl, curdes, cury)
   
   loop = 1  
-  while(loop <= control["seq.loops"]) {
+  while(loop <= control$seq.loops) {
     print(loop)
-    seqdes = seq.design(pds, control@seq.des.points, tmm$constr.model)
+    seqdes = seq.design(pds, control$seq.des.points, tmm$constr.model)
     y = eval.des.with.meta.model(seqdes, tmm$meta.model)
     j = choose.new.points(1, seqdes, y)
     newdes = seqdes[j,]
