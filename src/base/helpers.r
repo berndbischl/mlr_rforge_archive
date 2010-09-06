@@ -202,3 +202,12 @@ hyper.par.val.to.name = function(par.name, par.val, learner) {
   }
   return(par.val)
 }
+
+# converts a row of a data.frame to a list
+# - factors are converted to chars
+data.frame.row.to.list = function(x, i) {
+  x = as.list(x[i,])
+  x = lapply(x, function(y) if(is.factor(y)) as.character(y) else y)
+}
+
+
