@@ -11,16 +11,21 @@ source("src\\base\\optimize\\myspo\\opt.meta.model.r")
 source("src\\base\\optimize\\myspo\\myspo.r")
 source("src\\base\\helpers.r")
 
-f = function(x,y,z) sum(x^2+y^2+z^2) + rnorm(1, 0, 0.001)
+f = function(x,y,z) sum(x^2+y^2+z^2) + rnorm(1, 0, 0.1)
+#f = function(x,y,z) if(z=="a") sum(x^2+y^2) else (x-4)^2+(y-2)^2
 
 par.descs = list(      
   new("par.desc.num", par.name="x", lower=-1000, upper=1000),
   new("par.desc.num", par.name="y", lower=-1000, upper=1000),
   new("par.desc.num", par.name="z", lower=-1000, upper=1000)
-)
+  #new("par.desc.disc", par.name="z", vals=c("a","b"))
+ )
 
 
-ctrl = myspo.optcontrol(par.descs=par.descs, meta.learner="regr.randomForest", seq.loops=10, init.des.points=30)
+#ml = make.learner("regr.rsm", modelfun="SO")
+ml = make.learner("regr.km")
+
+ctrl = myspo.optcontrol(par.descs=par.descs, meta.learner=ml, seq.loops=10, init.des.points=20L, seq.des.points=10000L)
 z = myspo(f, control=ctrl) 
 print(z[1:3])
 
