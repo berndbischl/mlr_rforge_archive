@@ -12,7 +12,6 @@ myspo = function(fun, control) {
   cury = eval.des.with.fun(curdes, fun, control)
   print(cbind(curdes, cury))
   tmm = train.meta.model(ml, cl, curdes, cury, control)
-  
   loop = 1  
   while(loop <= control$seq.loops) {
     print(loop)
@@ -26,7 +25,7 @@ myspo = function(fun, control) {
     loop = loop + 1    
   }
   curdes[, control$y.name] = cury
-  fp = choose.final.point(tmm$meta.model, tmm$constrmodel, fun, control)
+  fp = choose.final.point(tmm$meta.model, tmm$constrmodel, fun, curdes, cury, control)
   list(opt=fp$x, y.meta=fp$y.meta, y.real=fp$y.real, y.diff=fp$y.diff, path=curdes, 
     meta.model=tmm$meta.model, constr.model=tmm$constr.model)  
 }
