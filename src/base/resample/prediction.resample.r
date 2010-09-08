@@ -52,7 +52,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Resampling result for ", x@instance["name"], " with ", x["iters"], " iterations\n",
+							"Resampling result for: ", to.string(x@instance@desc),
 							#"Learner models were ", ifelse(length(x@models)==0,"not", ""), " saved\n\n",
 							#paste(capture.output(str(x@preds)), collapse="\n"), 
 							"\n", sep=""

@@ -9,7 +9,7 @@ setClass("bs.desc",
 setMethod(
 		f = "initialize",
 		signature = signature("bs.desc"),
-		def = function(.Object, iters, reps) {
+		def = function(.Object, iters) {
 			callNextMethod(.Object, "bs.instance", "bootstrap", iters, has.groups=FALSE)
 		}
 )

@@ -9,7 +9,7 @@ setClass("bs632.desc",
 setMethod(
 		f = "initialize",
 		signature = signature("bs632.desc"),
-		def = function(.Object, iters, reps) {
+		def = function(.Object, iters) {
 			aggr.group = function(x, g, rin) {
 				i1 = which(g == "train")
 				i2 = which(g == "test")

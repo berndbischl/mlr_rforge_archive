@@ -60,7 +60,7 @@ setMethod(
 		f = "[",
 		signature = signature("resample.desc"),
 		def = function(x,i,j,...,drop) {
-			if (i %in% c("has.groups")) {
+			if (i %in% c("has.groups", "reps")) {
 				return(x@props[[i]])
 			}
 			callNextMethod(x,i,j,...,drop=drop)
@@ -77,8 +77,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Description for ", x@name,  " with ", x@iters, " iterations.\n",
-							sep=""
+							x["name"], " with ", x@iters, " iterations.\n",	sep=""
 					)
 			)
 		}

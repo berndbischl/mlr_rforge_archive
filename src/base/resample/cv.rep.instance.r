@@ -13,12 +13,23 @@ setMethod(
 		f = "initialize",
 		signature = signature("repcv.instance"),
 		def = function(.Object, desc, size) {
-			n = desc["iters"]
-			m = desc@props$reps
-			inds = replicate(n, make.res.instance("cv", iters=m, size=size)@inds, simplify=FALSE)
+			inds = replicate(desc["reps"], make.res.instance("cv", iters=desc["iters"], size=size)@inds, simplify=FALSE)
 			inds = Reduce(c, inds)
 			callNextMethod(.Object, desc=desc, size=size, inds=inds)
 		}
 )
 
+setMethod(
+  f = "to.string",
+  signature = signature("repcv.instance"),
+  def = function(x) {
+    return(
+      paste(
+        "Instance for ", x["name"],  " with ", x@desc@iters, " iterations, ", x["reps"], " repetitions and ", x@size, " cases\n",
+        paste(capture.output(str(x@inds)), collapse="\n"), 
+        "\n", sep=""
+      )
+    )
+  }
+)
 
