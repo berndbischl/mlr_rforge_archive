@@ -55,7 +55,7 @@ urls <- c("http://repository.seasr.org/Datasets/UCI/arff/anneal.ORIG.arff",
     "http://repository.seasr.org/Datasets/UCI/arff/nursery.arff",
     "http://repository.seasr.org/Datasets/UCI/arff/optdigits.arff",
     "http://repository.seasr.org/Datasets/UCI/arff/page-blocks.arff",
-    "http://repository.seasr.org/Datasets/UCI/arff/pendigits.arff",		       
+    "http://repository.seasr.org/Datasets/UCI/arff/pendigits.arff",            
     "http://repository.seasr.org/Datasets/UCI/arff/postoperative-patient-data.arff",
     "http://repository.seasr.org/Datasets/UCI/arff/primary-tumor.arff",
     "http://repository.seasr.org/Datasets/UCI/arff/segment.arff",
@@ -87,7 +87,7 @@ urls <- c("http://repository.seasr.org/Datasets/UCI/arff/anneal.ORIG.arff",
 # kdd_SyskillWebert-Bands.arff-> nicht einlesbar
 # kdd_SyskillWebert-BioMedical.arff -> nicht einlesbar
 # kdd_SyskillWebert-Goats.arff -> nicht einlesbar
-# kdd_SyskillWebert-Sheep.arff -> nicht einlesbar	
+# kdd_SyskillWebert-Sheep.arff -> nicht einlesbar   
 # kdd_UNIX_user_data.arff -> nicht einlesbar
 # kdd_internet_usage.arff -> Id-Spalte und Klassenattribut ist nicht am Zeilenende
 # kdd_ipums_la_97-small.arff -> Eine Variable mit einer Ausprägung und Klassenattribt ist unklar
@@ -96,36 +96,31 @@ urls <- c("http://repository.seasr.org/Datasets/UCI/arff/anneal.ORIG.arff",
 # sponge.arff -> Id-Spalte und mehrere Klassenattribute wählbar
 
 
-
-
 ds.names <- sapply(strsplit(urls, "/"), function(x) x[length(x)])
 
 d.chars <- data.frame()
 
 removes = list()
-removes[["solar-flare_1.arff"]] = c("C-class_flares_production_by_this_region", "M-class_flares_production_by_this_region")
-removes[["solar-flare_2.arff"]] = c("C-class_flares_production_by_this_region", "M-class_flares_production_by_this_region")
 removes[["bridges_version1.arff"]] = "IDENTIF"
 removes[["bridges_version2.arff"]] = "IDENTIF"
 removes[["flags.arff"]] = "name"
 removes[["kdd_synthetic_control.arff"]] = "index"
-removes[["solar-flare_1.arff"]] = c("C-class_flares_production_by_this_region","M-class_flares_production_by_this_region")
-removes[["solar-flare_2.arff"]] = c("C-class_flares_production_by_this_region","M-class_flares_production_by_this_region")
-removes[["molecular-biology_promoters.arff"]] = "index"
+removes[["molecular-biology_promoters.arff"]] = "instance"      # index in instance geändert
+removes[["solar-flare_1.arff"]] = c("C-class_flares_production_by_this_region", "M-class_flares_production_by_this_region")
+removes[["solar-flare_2.arff"]] = c("C-class_flares_production_by_this_region", "M-class_flares_production_by_this_region")
 removes[["spectrometer.arff"]] = "LRS-name"
 removes[["splice.arff"]] = "Instance_name"
 
-
 targets = list()
+targets[["lung-cancer.arff"]] = "class"
+targets[["molecular-biology_promoters.arff"]] = "class"         # "molecular-biology_promoters.arff.arff": ein .arff gestrichen
+targets[["shuttle-landing-control.arff"]] = "Class"
 targets[["spect_train.arff"]] = "OVERALL_DIAGNOSIS"
 targets[["spect_test.arff"]] = "OVERALL_DIAGNOSIS"
-targets[["shuttle-landing-control.arff"]] = "Class"
-targets[["lung-cancer.arff"]] = "class"
 targets[["spectf_test.arff"]] = "OVERALL_DIAGNOSIS"
 targets[["spectf_test.arff"]] = "OVERALL_DIAGNOSIS"
-targets[["molecular-biology_promoters.arff.arff"]] = "class"
 targets[["spectrometer.arff"]] = "LRS-class"
-targets[["whine.arff"]] = "class"
+targets[["wine.arff"]] = "class"                                # whine in wine geändert
 
 for(i in 1:length(urls)){
   dn = ds.names[i]
@@ -147,3 +142,5 @@ for(i in 1:length(urls)){
 cs = c("ds", "n.obs", "n.classes", "q.maxminclass")
 d.chars[d.chars$n.classes==2, cs]
 
+
+d.chars[d.chars$n.obs < 8000 & d.chars$n.nas < 100 & d.chars$n.minclass > 5 & d.chars$n.classes <= 10, c("ds", "n.obs", "n.nas", "n.classes", "q.maxminclass", "n.minclass")]
