@@ -64,13 +64,15 @@ base.files <<- c(
 		"base/resample/cv.desc.r",
 		"base/resample/bs.desc.r",
 		"base/resample/bs632.desc.r",
-		"base/resample/subsample.desc.r",
+    "base/resample/bs632plus.desc.r",
+    "base/resample/subsample.desc.r",
 		"base/resample/holdout.desc.r",
 		"base/resample/cv.rep.desc.r",
 		"base/resample/cv.instance.r",
 		"base/resample/bs.instance.r",
 		"base/resample/bs632.instance.r",
-		"base/resample/subsample.instance.r",
+    "base/resample/bs632plus.instance.r",
+    "base/resample/subsample.instance.r",
 		"base/resample/holdout.instance.r",
 		"base/resample/cv.rep.instance.r",
 		"base/resample/prediction.grouped.r",
@@ -183,6 +185,7 @@ regr.files <<- c(
 		"models/regression/randomForest.regr.r",
 		"models/regression/ridge.r",
 		"models/regression/rpart.regr.r",
+    "models/regression/rsm.r",
     "models/regression/rvm.regr.r"
 )
 
