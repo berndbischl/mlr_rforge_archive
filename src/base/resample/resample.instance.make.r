@@ -28,6 +28,8 @@ setGeneric(
         size = as.integer(size)
       if (!missing(iters) && is.numeric(iters))
         iters = as.integer(iters)
+      if (identical(x, "holdout") && missing(iters))
+        iters = as.integer(NA)
       standardGeneric("make.res.instance")
 		}
 )
