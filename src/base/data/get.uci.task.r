@@ -4,17 +4,13 @@
 # handle.mutiple.targets:   list(target, handle.2nd.targets)
 #   target:                 chosen target variable if there are several possibe targets, if NULL the first one is used
 #   handle.2nd.targets:     "remove" / "exclude" / "keep"
-
-
 # ...:                      further arguments to make.task, supported are
-#                           id, label, if missing name is used
-#                           excluded
-# weights
-# blocking
-# costs
-# positive
-# data, target geht nicht
-
+#                           id, label; as dafault name is used
+#                           excluded; further variables to exclude
+#                           weights
+#                           blocking
+#                           costs
+#                           positive
 
 get.uci.task <- function(name, url = c("http://www.statistik.tu-dortmund.de/download/Datasets/UCI/arff", 
 "http://repository.seasr.org/Datasets/UCI/arff"), handle.ids = "exclude", handle.multiple.targets = list(target = 
@@ -50,13 +46,14 @@ NULL, handle.2nd.targets = "exclude"), ...) {
     targets[["wine.arff"]] = "class"    
             
     # wenn name "train" oder "test" enthält, Spalte an den Datensatz anhängen zu Identifizierung, die aber in der task excluden
-    # wie mergen? automatisch den zweiten Datensatz dazuladen
+    # wie mergen? automatisch den zweiten Datensatz dazuladen?
     segment <- NULL
     if(grepl("train", name)) segment <- "train"
     if(grepl("test", name)) segment <- "test"
     
     file <- paste(name, ".arff", sep = "")
     url <- match.arg(url)
+    
     arff.to.task(file = file.path(url, file), target = targets[[file]], ids = ids[[file]], handle.ids = handle.ids, 
         handle.multiple.targets = handle.multiple.targets, segment = segment, name = name, ...)
 }

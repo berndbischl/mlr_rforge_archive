@@ -8,11 +8,12 @@
 #   handle.2nd.targets:     "remove" / "exclude" / "keep"
 # segment:                  e.g. train or test, or NULL
 # name:                     name of UCI data set
+# id, label:                id, label of the task; as default name is used
+# excluded:                 further variables to exclude
+# ...:                      further arguments to make.task
 
-
-arff.to.task <- function(file, target, ids, handle.ids, handle.multiple.targets, segment, name) {
-    # evtl. weitere exclude variablen in ...
-    excluded <- removed <- character(0)
+arff.to.task <- function(file, target, ids, handle.ids, handle.multiple.targets, segment, name, id = name, label = name, excluded = character(0), ...) {
+    removed <- character(0)
 print(removed)
 print(excluded)
     if(handle.ids == "exclude") excluded <- c(excluded, ids) else removed <- c(removed, ids)
@@ -32,14 +33,14 @@ print(excluded)
     }
 print(removed)
 print(excluded)
-    df <- read.arff2(file, remove = removed)
-print(str(df))
-    if(is.null(target)) target <- names(df)[length(df)]                     # if no target is given take last column
+    data <- read.arff2(file, remove = removed)
+print(str(data))
+    if(is.null(target)) target <- names(data)[length(data)]                     # if no target is given take last column
 print(target)
     if(!is.null(segment)) {
-        df <- data.frame(segment = segment, df)                             # segment as first column
+        data <- data.frame(segment = segment, data)                             # segment as first column
         excluded <- c(excluded, "segment")                                  # exclude segment variable
     }
-    ct <- make.task(id = name, label = name, data = df, target = target, excluded = excluded)
+    ct <- make.task(id = id, label = label, data = data, target = target, excluded = excluded, ...)
     return(ct)
 }
