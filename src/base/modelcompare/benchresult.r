@@ -117,6 +117,14 @@ setMethod(
 			aggr = args$aggr
 			if (is.null(aggr))
 				aggr=list()
+      else if (any(sapply(aggr, function(a) identical(a, "resampling")))) {
+        if (length(aggr) > 1) 
+          stop("If you use aggr='resampling', you cannot pass other aggregation functions currently!")
+        ress = x@resamplings
+        aggr = lapply(ress, function(x) x["aggr.iter"])
+        if(any(sapply(aggr, function(a) !identical(a, aggr[[1]]))))
+          stop("If you use aggr='resampling', the aggregation functions of all resampling strategies in the bench.exp have to be identical currently!")
+      }
 			aggr = make.aggrs(aggr)
 			
 			
@@ -175,7 +183,7 @@ setMethod(
 									else {
 										# dont choose combine el from array
 										last.el = ifelse(is.null(aggr$combine), 0, 1)
-										h = function(y) aggr[[nn]](y[1:(length(y)-last.el)])
+                    h = function(y) aggr[[nn]](y[1:(length(y)-last.el)])
 									}
 									t(apply(arr, c(2,3), h))
 								})
