@@ -26,7 +26,7 @@ setGeneric(
 		def = function(x, task, size, iters, ...) {
       if (!missing(size) && is.numeric(size))
         size = as.integer(size)
-      if (!is.missing(iters) && is.numeric(iters))
+      if (!missing(iters) && is.numeric(iters))
         iters = as.integer(iters)
       standardGeneric("make.res.instance")
 		}
