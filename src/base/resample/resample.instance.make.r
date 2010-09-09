@@ -28,7 +28,7 @@ setGeneric(
         size = as.integer(size)
       if (missing(iters))
         iters = as.integer(NA)
-      if (is.numeric(iter))
+      if (is.numeric(iters))
         iters = as.integer(iters)
       standardGeneric("make.res.instance")
 		}
