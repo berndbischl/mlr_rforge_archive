@@ -9,7 +9,7 @@ setClass("bs632plus.desc",
 setMethod(
     f = "initialize",
     signature = signature("bs632plus.desc"),
-    def = function(.Object, iters) {
+    def = function(.Object, iters, ...) {
       aggr.group = function(x, g, pred) {
         y1 = pred["truth"]
         y2 = pred["response"]
