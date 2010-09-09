@@ -1,11 +1,12 @@
 # name:                     name of UCI-data set (without url and ".arff"?)
 # url:                      both possible urls, "tu-dortmund" is default
-# handle.ids:               "remove" or "exclude"
+# handle.ids:               "remove" / "exclude", default = "exclude"
 # handle.mutiple.targets:   list(target, handle.2nd.targets)
-#   target:                 chosen target variable if there are several possibe targets, if NULL the first one is used
-#   handle.2nd.targets:     "remove" / "exclude" / "keep"
+#   target:                 chosen target variable if there are several possibe targets, if NULL (default) the first one is used
+#   handle.2nd.targets:     "remove" / "exclude" / "keep", default = "exclude"
+# handle.train.test:        "train" / "test" / "all"
 # ...:                      further arguments to make.task, supported are
-#                           id, label; as dafault name is used
+#                           id, label; as default name is used
 #                           excluded; further variables to exclude
 #                           weights
 #                           blocking
@@ -14,7 +15,7 @@
 
 get.uci.task <- function(name, url = c("http://www.statistik.tu-dortmund.de/download/Datasets/UCI/arff", 
 "http://repository.seasr.org/Datasets/UCI/arff"), handle.ids = "exclude", handle.multiple.targets = list(target = 
-NULL, handle.2nd.targets = "exclude"), ...) {
+NULL, handle.2nd.targets = "exclude"), handle.train.test, ...) {
     
     # Notlösung, solange die Infos über ids und targets nicht woanders abgelegt sind
     
@@ -38,22 +39,30 @@ NULL, handle.2nd.targets = "exclude"), ...) {
     targets[["shuttle-landing-control.arff"]] = "Class" 
     targets[["spect_train.arff"]] = "OVERALL_DIAGNOSIS" 
     targets[["spect_test.arff"]] = "OVERALL_DIAGNOSIS" 
-    targets[["spectf_test.arff"]] = "OVERALL_DIAGNOSIS" 
+    targets[["spectf_train.arff"]] = "OVERALL_DIAGNOSIS" 
     targets[["spectf_test.arff"]] = "OVERALL_DIAGNOSIS"
     targets[["solar-flare_1.arff"]] = c("C-class_flares_production_by_this_region", "M-class_flares_production_by_this_region", "X-class_flares_production_by_this_region") # exclude or remove
     targets[["solar-flare_2.arff"]] = c("C-class_flares_production_by_this_region", "M-class_flares_production_by_this_region", "X-class_flares_production_by_this_region") # exclude or remove
     targets[["spectrometer.arff"]] = "LRS-class" # enthält auch Subklassen, 10er KLassen, 1er Subklassen
     targets[["wine.arff"]] = "class"    
             
+    # train und test data sets
+    if (!missing(handle.train.test)) {
+        name <- switch(handle.train.test,
+            "train" = paste(name, "train", sep = "_"),
+            "test"  = paste(name, "test", sep = "_"),
+            "all" = c(paste(name, "train", sep = "_"), paste(name, "test", sep = "_"))
+        )
+    } 
     # wenn name "train" oder "test" enthält, Spalte an den Datensatz anhängen zu Identifizierung, die aber in der task excluden
     # wie mergen? automatisch den zweiten Datensatz dazuladen?
-    segment <- NULL
-    if(grepl("train", name)) segment <- "train"
-    if(grepl("test", name)) segment <- "test"
+    #segment <- NULL
+    #if(grepl("train", name)) segment <- "train"
+    #if(grepl("test", name)) segment <- "test"
     
     file <- paste(name, ".arff", sep = "")
     url <- match.arg(url)
     
     arff.to.task(file = file.path(url, file), target = targets[[file]], ids = ids[[file]], handle.ids = handle.ids, 
-        handle.multiple.targets = handle.multiple.targets, segment = segment, name = name, ...)
+        handle.multiple.targets = handle.multiple.targets, handle.train.test = handle.train.test, name = name, ...)
 }

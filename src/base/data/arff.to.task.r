@@ -12,12 +12,12 @@
 # excluded:                 further variables to exclude
 # ...:                      further arguments to make.task
 
-arff.to.task <- function(file, target, ids, handle.ids, handle.multiple.targets, segment, name, id = name, label = name, excluded = character(0), ...) {
+arff.to.task <- function(file, target, ids, handle.ids, handle.multiple.targets, handle.train.test, name, id = name, label = name, excluded = character(0), ...) {
     removed <- character(0)
 print(removed)
 print(excluded)
-    if(handle.ids == "exclude") excluded <- c(excluded, ids) else removed <- c(removed, ids)
-    if(length(target > 1)) {                                                # multiple targets
+    if(handle.ids == "exclude") excluded <- c(excluded, ids) else removed <- c(removed, ids)    # ids
+    if(length(target > 1)) {                                                                    # multiple targets
         if(!is.null(handle.multiple.targets$target)) {
             index <- target %in% handle.multiple.targets$target
             if(any(index)) {
@@ -35,12 +35,15 @@ print(removed)
 print(excluded)
     data <- read.arff2(file, remove = removed)
 print(str(data))
-    if(is.null(target)) target <- names(data)[length(data)]                     # if no target is given take last column
+    if(is.null(target)) target <- names(data)[length(data)]                 # if no target is given take last column
 print(target)
     if(!is.null(segment)) {
-        data <- data.frame(segment = segment, data)                             # segment as first column
-        excluded <- c(excluded, "segment")                                  # exclude segment variable
+        data <- data.frame(segment = segment, data)                         # segment as first column
+        excluded <- c(excluded, "segment")                                  # exclude segment variable from task
     }
+    
+    # evtl. Variablen umbenennen, falls Sonder- oder Leerzeichen
+    
     ct <- make.task(id = id, label = label, data = data, target = target, excluded = excluded, ...)
     return(ct)
 }
