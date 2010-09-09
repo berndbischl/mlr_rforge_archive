@@ -25,7 +25,7 @@ prep.data = function(is.classif, data, target, excluded=c(), control) {
 	drop.class.levels = control@props$drop.class.levels
 	impute.inf = control@props$impute.inf
 	
-	if (is.classif && !is.null(data[["target"]])) {
+	if (is.classif && !is.null(data[[target]])) {
 		targets = data[, target]
 		
 		#convert target to factor

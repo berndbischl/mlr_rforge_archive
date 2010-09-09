@@ -20,5 +20,12 @@ test.prepare <- function(){
   	df[1,1:3] = Inf
   	ct = make.task(data=df, target=multiclass.target)	
   	checkTrue(!ct["has.inf"])
+    
+    # check dropping of levels
+    df = multiclass.df[1:60,]
+    ct = make.task(data=df, target=multiclass.target)	
+    checkEquals(length(levels(df[,multiclass.target])), 3)
+    checkEquals(length(unique(ct["targets"])), 2)
+    checkEquals(length(levels(ct["targets"])), 2)
   }
 }
