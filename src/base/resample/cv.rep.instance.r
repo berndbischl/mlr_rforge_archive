@@ -12,7 +12,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("repcv.instance"),
-		def = function(.Object, desc, size) {
+		def = function(.Object, desc, size, task) {
 			inds = replicate(desc["reps"], make.res.instance("cv", iters=desc["iters"], size=size)@inds, simplify=FALSE)
 			inds = Reduce(c, inds)
 			callNextMethod(.Object, desc=desc, size=size, inds=inds)
