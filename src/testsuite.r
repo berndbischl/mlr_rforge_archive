@@ -3,6 +3,10 @@
 source("src/runit/helpers.r")
 source("src/runit/make.runit.tests.r")
 
+if(!exists("use.package")) {
+  use.package = !interactive()
+}
+
 if (use.package) {
   message("Using installed copy of mlr for tests!")
   require("mlr")
