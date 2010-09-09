@@ -112,6 +112,6 @@ setAs("resample.prediction", "grouped.prediction",
 			df = from@df
 			df$iter = NULL
 			new("grouped.prediction", task.desc=from@task.desc, data.desc=from@data.desc, 
-					type=from@type, df=from@df, threshold=from@threshold, sum(from@time.train), sum(from@time.predict))
+					type=from@type, df=df, threshold=from@threshold, sum(from@time.train), sum(from@time.predict))
 		}
 )
