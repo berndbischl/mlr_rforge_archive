@@ -88,7 +88,7 @@ make.res.i = function(i.class, desc, task=NULL, size=as.integer(NA), blocking=fa
     size = task["size"]
   }
 	if (length(blocking) > 1) {
-    if (is(desc["is.stratified"])) {
+    if (is(desc, "stratcv.desc"))
       stop("Blocking can currently not be mixed with stratification in resampling!")
     }
 		levs = levels(blocking)
