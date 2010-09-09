@@ -26,9 +26,7 @@ setGeneric(
 		def = function(x, task, size, iters, ...) {
       if (!missing(size) && is.numeric(size))
         size = as.integer(size)
-      if (missing(iters))
-        iters = as.integer(NA)
-      if (is.numeric(iters))
+      if (!is.missing(iters) && is.numeric(iters))
         iters = as.integer(iters)
       standardGeneric("make.res.instance")
 		}
@@ -42,7 +40,7 @@ setMethod(
 		f = "make.res.instance",
 		signature = c(x="character", task="missing", size="integer", iters="integer"),
 		def = function(x, task, size, iters, ...) {
-			desc = make.res.desc(x, ...)
+			desc = make.res.desc(x, iters=iters, ...)
 			cc = paste(x, "instance", sep=".")
 			make.res.i(cc, desc=desc, size=size, task=NULL)
 		}
@@ -55,7 +53,7 @@ setMethod(
 		f = "make.res.instance",
 		signature = c(x="character", task="learn.task", size="missing", iters="integer"),
 		def = function(x, task, size, iters, ...) {
-			desc = make.res.desc(x, ...)
+			desc = make.res.desc(x, iters=iters, ...)
 			cc = paste(x, "instance", sep=".")
 			make.res.i(cc, desc=desc, task=task, blocking=task["blocking"])
 		}
@@ -67,7 +65,7 @@ setMethod(
 
 setMethod(
 		f = "make.res.instance",
-		signature = c(x="resample.desc", task="missing", size="integer", iters="integer"),
+		signature = c(x="resample.desc", task="missing", size="integer", iters="missing"),
 		def = function(x, task, size, iters, ...) {
 			make.res.i(x@instance.class, desc=x, size=size, task=NULL)
 		}
@@ -78,7 +76,7 @@ setMethod(
 
 setMethod(
 		f = "make.res.instance",
-		signature = c(x="resample.desc", task="learn.task", size="missing", iters="integer"),
+		signature = c(x="resample.desc", task="learn.task", size="missing", iters="missing"),
 		def = function(x, task, size, iters, ...) {
 			make.res.i(x@instance.class, desc=x, task=task, blocking=task["blocking"])
 		}
