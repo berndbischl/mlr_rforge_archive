@@ -4,7 +4,7 @@
 # handle.mutiple.targets:   list(target, handle.2nd.targets)
 #   target:                 chosen target variable if there are several possibe targets, if NULL (default) the first one is used
 #   handle.2nd.targets:     "remove" / "exclude" / "keep", default = "exclude"
-# handle.train.test:        "train" / "test" / "all"
+# handle.train.test:        "train" / "test" / "all", default = NULL
 # ...:                      further arguments to make.task, supported are
 #                           id, label; as default name is used
 #                           excluded; further variables to exclude
@@ -14,8 +14,8 @@
 #                           positive
 
 get.uci.task <- function(name, url = c("http://www.statistik.tu-dortmund.de/download/Datasets/UCI/arff", 
-"http://repository.seasr.org/Datasets/UCI/arff"), handle.ids = "exclude", handle.multiple.targets = list(target = 
-NULL, handle.2nd.targets = "exclude"), handle.train.test, ...) {
+    "http://repository.seasr.org/Datasets/UCI/arff"), handle.ids = "exclude", handle.multiple.targets = list(target = 
+    NULL, handle.2nd.targets = "exclude"), handle.train.test = NULL, ...) {
     
     # Notlösung, solange die Infos über ids und targets nicht woanders abgelegt sind
     
@@ -46,21 +46,18 @@ NULL, handle.2nd.targets = "exclude"), handle.train.test, ...) {
     targets[["spectrometer.arff"]] = "LRS-class" # enthält auch Subklassen, 10er KLassen, 1er Subklassen
     targets[["wine.arff"]] = "class"    
             
-    # train and test data sets
-    if (!missing(handle.train.test)) {
-        name <- switch(handle.train.test,
+    # file name(s)
+    file <- name
+    if (!is.null(handle.train.test)) {
+        file <- switch(handle.train.test,
             "train" = paste(name, "train", sep = "_"),
-            "test"  = paste(name, "test", sep = "_"),
-            "all" = c(paste(name, "train", sep = "_"), paste(name, "test", sep = "_"))
+            "test" = paste(name, "test", sep = "_"),
+            "all" = paste(name, c("test", "train"), sep = "_")
         )
-    } 
-    #segment <- NULL
-    #if(grepl("train", name)) segment <- "train"
-    #if(grepl("test", name)) segment <- "test"
-    
-    file <- paste(name, ".arff", sep = "")
+    }
+    file <- paste(file, ".arff", sep = "")
     url <- match.arg(url)
     
-    arff.to.task(file = file.path(url, file), target = targets[[file]], ids = ids[[file]], handle.ids = handle.ids, 
-        handle.multiple.targets = handle.multiple.targets, handle.train.test = handle.train.test, name = name, ...)
+    arff.to.task(file = file.path(url, file), target = targets[[file[1]]], ids = ids[[file[1]]], handle.multiple.targets = handle.multiple.targets, 
+        handle.ids = handle.ids, handle.train.test = handle.train.test, name = name, ...)
 }

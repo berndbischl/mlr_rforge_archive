@@ -7,17 +7,20 @@
 #   target:                 chosen target variable if there are several possibe targets, if NULL the first one in target is used
 #   handle.2nd.targets:     "remove" / "exclude" / "keep"
 # segment:                  e.g. train or test, or NULL
-# name:                     name of UCI data set
 # id, label:                id, label of the task; as default name is used
 # excluded:                 further variables to exclude
 # ...:                      further arguments to make.task
 
-arff.to.task <- function(file, target, ids, handle.ids, handle.multiple.targets, handle.train.test, name, id = name, label = name, excluded = character(0), ...) {
+arff.to.task <- function(file, target, ids, handle.multiple.targets, handle.ids, handle.train.test, name, id = name, label = name, excluded = character(0), ...) {
     removed <- character(0)
+
 print(removed)
 print(excluded)
-    if(handle.ids == "exclude") excluded <- c(excluded, ids) else removed <- c(removed, ids)    # ids
-    if(length(target > 1)) {                                                                    # multiple targets
+
+    # ids
+    if(handle.ids == "exclude") excluded <- c(excluded, ids) else removed <- c(removed, ids)
+    # multiple targets
+    if(length(target > 1)) {
         if(!is.null(handle.multiple.targets$target)) {
             index <- target %in% handle.multiple.targets$target
             if(any(index)) {
@@ -31,19 +34,45 @@ print(excluded)
             target <- target[1]
         }
     }
+    
 print(removed)
 print(excluded)
-    data <- read.arff2(file, remove = removed)
-print(str(data))
-    if(is.null(target)) target <- names(data)[length(data)]                 # if no target is given take last column
-print(target)
-    if(!is.null(segment)) {
-        data <- data.frame(segment = segment, data)                         # segment as first column
-        excluded <- c(excluded, "segment")                                  # exclude segment variable from task
+    
+    # if both train and test data should be read
+    if (!is.null(handle.train.test) && handle.train.test == "all") {
+        data <- lapply(file, read.arff2, remove = removed)
+        names(data) <- c("test", "train")
+        nr <- sapply(data, nrow)
+        mlr_segment <- factor(rep(c("test", "train"), nr))    # mlr_segment as first column
+        data$test <- data.frame(mlr_segment = mlr_segment[1:nr["test"]], data$test)
+        data$train <- data.frame(mlr_segment = mlr_segment[(nr["test"]+1):sum(nr)], data$train, row.names = (nr["test"]+1):sum(nr))
+        data <- unsplit(data, mlr_segment)
+        excluded <- c(excluded, "mlr_segment")  # exclude segment variable from task
+    } else {
+        data <- read.arff2(file, remove = removed)
     }
+
+    # if no target variable is given take last column
+    if(is.null(target)) target <- names(data)[length(data)]
+
+print(target)
+print(data[target])
+print(str(data))
     
-    # evtl. Variablen umbenennen, falls Sonder- oder Leerzeichen
-    
+    # Variablen umbenennen, falls Sonder- oder Leerzeichen, 
+    # todo: später in check.task einbauen
+    #forbidden  = c("[", "]", "(", ")", ",", " ")
+    #   ! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` { | } ~
+    #bsp <- c("v 51", "v ?", "v !", "v $", "v %", "v &", "v '", "v (", "v )", "v *", "v +", "v ,", "v -", "v #",
+    #"v .", "v /", "v :", "v ;", "v <", "v =", "v >", "v ?", "v @", "v [", "v \\", "v ]", "v ^", "v _", "v `", "v {", "v |", "v }", "v ~")
+    names(data) <- gsub(pattern = "\\[", replacement = "s91", x = names(data))
+    names(data) <- gsub(pattern = "]", replacement = "s93", x = names(data))
+    names(data) <- gsub(pattern = "\\(", replacement = "s40", x = names(data))
+    names(data) <- gsub(pattern = ")", replacement = "s41", x = names(data))
+    names(data) <- gsub(pattern = ",", replacement = "s13", x = names(data))
+    #names(data) <- gsub(pattern = "([][(),])", replacement = "93 91 40 41 13", x = names(data))
+    names(data) <- gsub(' +', "_", names(data))# ' ' oder ' +'?
+
     ct <- make.task(id = id, label = label, data = data, target = target, excluded = excluded, ...)
-    return(ct)
+    return(data)
 }

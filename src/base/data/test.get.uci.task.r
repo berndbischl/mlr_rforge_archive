@@ -24,7 +24,22 @@ str(ct)
 ct <- get.uci.task("spect_train")
 ct
 str(ct)
-# merging?
+
+ct <- get.uci.task("spect")
+ct
+str(ct)
+
+ct <- get.uci.task("spect", handle.train.test = "train")
+ct
+str(ct)
+
+ct <- get.uci.task("spect", handle.train.test = "test")
+ct
+str(ct)
+
+ct <- get.uci.task("spect", handle.train.test = "all")
+ct
+str(ct)
 
 
 ### handle multiple targets
@@ -111,3 +126,19 @@ str(ct)
 ct <- get.uci.task("breast-cancer", positive = "recurrence-events")
 ct
 str(ct)
+
+
+## special characters in colnames
+# todo: change check.task
+ct <- get.uci.task("spambase")
+ct
+str(ct)
+
+ct <- get.uci.task("vehicle")
+ct
+str(ct)
+
+
+## NAs in target variable
+# todo: change prepare.df and runit.prepare
+ct <- get.uci.task("bridges_version1")
