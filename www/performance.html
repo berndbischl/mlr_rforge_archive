@@ -93,7 +93,7 @@ or <a href="rdocs/losses.html">?losses</a> in R.
 	test.set <- seq(from = 2, to = 506, by = 2)
 
 	<com># Gradient Boosting Machine on training set </com>
-	model <- train("regr.gbm", rt, subset = train.set, parset = list(n.trees=1000)) 
+	model <- train("regr.gbm", rt, subset = train.set, par.val = list(n.trees=1000)) 
 
 	<com># Prediction on test set data </com>
 	preds <- predict(model, newdata = BostonHousing[test.set,])

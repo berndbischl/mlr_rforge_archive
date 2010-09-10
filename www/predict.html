@@ -112,7 +112,7 @@ cases it might be preferable to encode this directly into the learner object. Bo
 	m <- train("classif.rpart", task = ct)
 	p <- predict(m, task=ct, type = "prob")
 	
-	<com># if we access the probabilities, not a matrix is returned but a vector of probabilities fpr the positive class</com>
+	<com># if we access the probabilities, not a matrix is returned but a vector of probabilities for the positive class</com>
 	p["prob"]
 	
 	<com># but you still can explicitly select the class</com>
@@ -158,7 +158,7 @@ The proceeding is analog to above. </p>
 	test.set <- seq(from = 2, to = 506, by = 2)
 
 	<com># Gradient Boosting Machine on training set </com>
-	m <- train("regr.gbm", rt, subset = train.set, parset = list(n.trees = 100)) 
+	m <- train("regr.gbm", rt, subset = train.set, par.val = list(n.trees = 100)) 
 
 	<com># Predict test set data </com>
 	pred <- predict(m, newdata = BostonHousing[test.set,])

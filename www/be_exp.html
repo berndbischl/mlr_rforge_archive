@@ -129,8 +129,8 @@ We show an example with outer bootstrap and inner cross-validation, our learner 
 	inner.res <- make.res.desc("cv", iters = 3)   
 
 	<com># Tune k-nearest-neighbor</com>
-	knn.tuner <- make.tune.wrapper("classif.kknn", method = "grid", 
-						       resampling = inner.res, 
+	knn.tuner <- make.tune.wrapper("classif.kknn",
+						           resampling = inner.res, 
     						       control = grid.control(ranges = r))
 
 	<com># Define "outer" bootstrap indices </com>
@@ -285,13 +285,13 @@ They can be freely mixed.</P>
 	ct <- make.task("iris", data=iris, target = "Species")  
 	
 	<com># Control object for variable selection</com>
-	ctrl <- seq.control(beta = 100)
+	ctrl <- seq.control(beta = 100, method="sfs")
 	
 	<com># Inner resampling</com>
 	inner <- make.res.desc("cv", iter=2)
 	
 	<com># Variable selection with Sequential Forward Search</com>
-	vs <- make.varsel.wrapper("classif.lda", resampling = inner, method = "sfs", control = ctrl)
+	vs <- make.varsel.wrapper("classif.lda", resampling = inner, control = ctrl)
 	
 	<com># Let's compare two learners</com>
 	learners <- c("classif.rpart", vs)

@@ -142,7 +142,7 @@ Decision Tree and the Linear Discriminant Analysis:
 	<com># Merge learner, i.e. Decision Tree, classification task ct and resample instance rin</com>
 	f1 <- resample.fit("classif.rpart", ct, rin)
 	<com># Let's set a couple of hyperparameters for rpart</com>
-	f1 <- resample.fit("classif.rpart", ct, rin, parset = list(minsplit = 10, cp = 0.03))	
+	f1 <- resample.fit("classif.rpart", ct, rin, par.val = list(minsplit = 10, cp = 0.03))	
 	<com># Second resample.fit for LDA as learner </com>
 	f2 <- resample.fit("classif.lda", ct, rin)	
 

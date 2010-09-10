@@ -41,7 +41,7 @@ See also <a target="_top" href="http://rss.acs.unt.edu/Rdoc/library/dprep/html/s
 	<com># Sequential forward search</com>
 	<com># "alpha" is the minimal improvement of performance measure</com>
 	varsel(learner = "classif.lda", task = ct, resampling = rin, 
-		control = seq.control(method = "sfs", alpha = 0.01))
+		control = sequential.control(method = "sfs", alpha = 0.01))
 	<res>
 	Optimization result: 
 	[1] "Petal.Width"
@@ -50,7 +50,7 @@ See also <a target="_top" href="http://rss.acs.unt.edu/Rdoc/library/dprep/html/s
 	</res>	
 </pre>
 
-For more details see also <a href="rdocs/seq.control.html"> seq.control</a>
+For more details see also <a href="rdocs/sequential.control.html"> sequential.control</a>
 
 
 <p><u>Sequential Backward Search (sbs)</u></p>
@@ -67,7 +67,7 @@ For more details see also <a href="rdocs/seq.control.html"> seq.control</a>
 		
 	<com># Sequential backward search</com>
 	varsel(learner = "classif.lda", task = ct, resampling = rin,  
-		control = seq.control(method = "sbs", beta = 0.01))
+		control = sequential.control(method = "sbs", beta = 0.01))
  	<res>
  	Optimization result: 
 	[1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
@@ -77,7 +77,7 @@ For more details see also <a href="rdocs/seq.control.html"> seq.control</a>
  	
  	<com># Access more information</com>
  	varsel(learner = "classif.lda", task = ct, resampling = rin,  
- 			control = seq.control(method = "sbs", beta = 0.01),
+ 			control = sequential.control(method = "sbs", beta = 0.01),
  			measures = c("mmce", "time"), aggr = c("max"))
 	<res>
 	Optimization result: 
@@ -109,7 +109,7 @@ the number of variables until no more improvement is reached. </p>
 		
 	<com># Sequential floating forward search</com>
 	varsel(learner = "classif.lda", task = ct, resampling = rin,  
-		control = seq.control(method = "sffs", alpha = 0.01, beta = 0.01))
+		control = sequential.control(method = "sffs", alpha = 0.01, beta = 0.01))
 	<b><font color="red">---does not work----</font></b>
 </pre>
 
@@ -132,7 +132,7 @@ variable set.</p>
 	<com># Sequential backward search</com>
 	<com># Belonging to sfs and sbs "alpha" and "beta" are the minimal improvement of performance measure</com>
 	varsel(learner = "classif.lda", task = ct, resampling = rin,  
-		control = seq.control(method = "sfbs", alpha = 0.01, beta = 0.01))
+		control = sequential.control(method = "sfbs", alpha = 0.01, beta = 0.01))
  	<res>
 	Optimization result: 
 	[1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
@@ -158,7 +158,7 @@ The best of the k subsets is selected.</p>
 	<com># Sequential backward search</com>
 	<com># "maxit" is the number of iterations, i.e. randomly generated variable sets</com>
 	varsel(learner = "classif.lda", task = ct, resampling = rin,  
-		control = seq.control(method = "random", maxit = 100))
+		control = randomvarsel.control(maxit = 50))
  	<res>
 	Optimization result: 
 	[1] "Sepal.Width"  "Petal.Length" "Petal.Width" 

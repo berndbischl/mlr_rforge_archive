@@ -48,7 +48,7 @@ observations.</P>
 
 	<com>#   with hyperparameters</com>
 	m3 <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2), 
-			parset = list(minsplit = 7, cp = 0.03)) 
+			par.val = list(minsplit = 7, cp = 0.03)) 
 	
 	<com># You can print some basic information of the model to the console</com>
 	m3
@@ -112,7 +112,7 @@ observations.</P>
 	
 	<com>#   with a set of hyperparameters</com>
 	m3 <- train("regr.gbm", rt, subset = seq(1, 506, 2), 
-	   parset = list(n.trees = 500, distribution = "laplace", interaction.depth = 3)) 
+	   par.val = list(n.trees = 500, distribution = "laplace", interaction.depth = 3)) 
 	
 	
 	<com># You can print some basic information of the model to the console </com>
