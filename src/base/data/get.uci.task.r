@@ -46,7 +46,7 @@ NULL, handle.2nd.targets = "exclude"), handle.train.test, ...) {
     targets[["spectrometer.arff"]] = "LRS-class" # enthält auch Subklassen, 10er KLassen, 1er Subklassen
     targets[["wine.arff"]] = "class"    
             
-    # train und test data sets
+    # train and test data sets
     if (!missing(handle.train.test)) {
         name <- switch(handle.train.test,
             "train" = paste(name, "train", sep = "_"),
@@ -54,8 +54,6 @@ NULL, handle.2nd.targets = "exclude"), handle.train.test, ...) {
             "all" = c(paste(name, "train", sep = "_"), paste(name, "test", sep = "_"))
         )
     } 
-    # wenn name "train" oder "test" enthält, Spalte an den Datensatz anhängen zu Identifizierung, die aber in der task excluden
-    # wie mergen? automatisch den zweiten Datensatz dazuladen?
     #segment <- NULL
     #if(grepl("train", name)) segment <- "train"
     #if(grepl("test", name)) segment <- "test"
