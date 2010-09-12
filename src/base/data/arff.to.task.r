@@ -70,9 +70,10 @@ print(str(data))
     names(data) <- gsub(pattern = "\\(", replacement = "s40", x = names(data))
     names(data) <- gsub(pattern = ")", replacement = "s41", x = names(data))
     names(data) <- gsub(pattern = ",", replacement = "s13", x = names(data))
+    #- Zeichen???
     #names(data) <- gsub(pattern = "([][(),])", replacement = "93 91 40 41 13", x = names(data))
     names(data) <- gsub(' +', "_", names(data))# ' ' oder ' +'?
 
     ct <- make.task(id = id, label = label, data = data, target = target, excluded = excluded, ...)
-    return(data)
+    return(ct)
 }

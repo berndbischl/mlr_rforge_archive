@@ -13,8 +13,8 @@
 #                           costs
 #                           positive
 
-get.uci.task <- function(name, url = c("http://www.statistik.tu-dortmund.de/download/Datasets/UCI/arff", 
-    "http://repository.seasr.org/Datasets/UCI/arff"), handle.ids = "exclude", handle.multiple.targets = list(target = 
+get.uci.task <- function(name, url = c("http://repository.seasr.org/Datasets/UCI/arff",
+    "http://www.statistik.tu-dortmund.de/download/Datasets/UCI/arff"), handle.ids = "exclude", handle.multiple.targets = list(target =
     NULL, handle.2nd.targets = "exclude"), handle.train.test = NULL, ...) {
     
     # Notlösung, solange die Infos über ids und targets nicht woanders abgelegt sind
@@ -26,6 +26,7 @@ get.uci.task <- function(name, url = c("http://www.statistik.tu-dortmund.de/down
     ids[["flags.arff"]] = "name"
     ids[["kdd_synthetic_control.arff"]] = "index"
     ids[["molecular-biology_promoters.arff"]] = "instance"
+    ids[["segment.arff"]] = c("region-centroid-col", "region-centroid-row", "region-pixel-count")   # region-pixel-count konstant, col und row number des Pixels
     ids[["spectrometer.arff"]] = "LRS-name"     # evtl. sind weitere Variablen überflüssig, Beschreibung nicht verstanden
     ids[["splice.arff"]] = "Instance_name"
 
