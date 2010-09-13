@@ -108,6 +108,7 @@ removes[["kdd_synthetic_control.arff"]] = "index"
 removes[["molecular-biology_promoters.arff"]] = "instance"      # index in instance geändert
 removes[["solar-flare_1.arff"]] = c("C-class_flares_production_by_this_region", "M-class_flares_production_by_this_region")
 removes[["solar-flare_2.arff"]] = c("C-class_flares_production_by_this_region", "M-class_flares_production_by_this_region")
+removes[["segment.arff"]] = c("region-centroid-col", "region-centroid-row", "region-pixel-count")   # col und row number des Pixels und region-pixel-count (konstant) 
 removes[["spectrometer.arff"]] = "LRS-name"
 removes[["splice.arff"]] = "Instance_name"
 
@@ -121,6 +122,11 @@ targets[["spectf_train.arff"]] = "OVERALL_DIAGNOSIS"            # test in train 
 targets[["spectf_test.arff"]] = "OVERALL_DIAGNOSIS"
 targets[["spectrometer.arff"]] = "LRS-class"
 targets[["wine.arff"]] = "class"                                # whine in wine geändert
+#targets[["bridges_version1.arff"]] = c("MATERIAL", "REL-L", "SPAN", "T-OR-D", "TYPE")
+#targets[["bridges_version2.arff"]] = c("MATERIAL", "REL-L", "SPAN", "T-OR-D", "TYPE")
+#targets[["flags.arff"]] = c("landmass", "zone", "language", "religion")   # keep option makes sense here
+#targets[["solar-flare_1.arff"]] = c("C-class_flares_production_by_this_region", "M-class_flares_production_by_this_region", "X-class_flares_production_by_this_region") # exclude or remove
+#targets[["solar-flare_2.arff"]] = c("C-class_flares_production_by_this_region", "M-class_flares_production_by_this_region", "X-class_flares_production_by_this_region") # exclude or remove
 
 for(i in 1:length(urls)){
   dn = ds.names[i]
@@ -143,4 +149,4 @@ cs = c("ds", "n.obs", "n.classes", "q.maxminclass")
 d.chars[d.chars$n.classes==2, cs]
 
 
-d.chars[d.chars$n.obs < 8000 & d.chars$n.nas < 100 & d.chars$n.minclass > 5 & d.chars$n.classes <= 10, c("ds", "n.obs", "n.nas", "n.classes", "q.maxminclass", "n.minclass")]
+d.chars[d.chars$n.obs < 8000 & d.chars$n.minclass > 5, c("ds", "n.inputs", "n.obs", "n.nas", "n.classes", "q.maxminclass", "n.minclass")]

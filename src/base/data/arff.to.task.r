@@ -6,12 +6,14 @@
 # handle.mutiple.targets:   list(target, handle.2nd.targets)
 #   target:                 chosen target variable if there are several possibe targets, if NULL the first one in target is used
 #   handle.2nd.targets:     "remove" / "exclude" / "keep"
-# segment:                  e.g. train or test, or NULL
+# handle.nas:               
+# name:                     name of UCI data set
 # id, label:                id, label of the task; as default name is used
 # excluded:                 further variables to exclude
 # ...:                      further arguments to make.task
 
-arff.to.task <- function(file, target, ids, handle.multiple.targets, handle.ids, handle.train.test, name, id = name, label = name, excluded = character(0), ...) {
+arff.to.task <- function(file, target, ids, handle.multiple.targets, handle.ids, handle.train.test, handle.nas, name, 
+    id = name, label = name, excluded = character(0), ...) {
     removed <- character(0)
 
 print(removed)
@@ -47,13 +49,16 @@ print(excluded)
         data$test <- data.frame(mlr_segment = mlr_segment[1:nr["test"]], data$test)
         data$train <- data.frame(mlr_segment = mlr_segment[(nr["test"]+1):sum(nr)], data$train, row.names = (nr["test"]+1):sum(nr))
         data <- unsplit(data, mlr_segment)
-        excluded <- c(excluded, "mlr_segment")  # exclude segment variable from task
+        excluded <- c(excluded, "mlr_segment")  # exclude mlr_segment from task
     } else {
         data <- read.arff2(file, remove = removed)
     }
 
     # if no target variable is given take last column
     if(is.null(target)) target <- names(data)[length(data)]
+    
+    # NAs
+    if(!is.null(handle.nas)) data = handle.nas(data)
 
 print(target)
 print(data[target])

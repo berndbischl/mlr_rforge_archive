@@ -5,6 +5,7 @@
 #   target:                 chosen target variable if there are several possibe targets, if NULL (default) the first one is used
 #   handle.2nd.targets:     "remove" / "exclude" / "keep", default = "exclude"
 # handle.train.test:        "train" / "test" / "all", default = NULL
+# handle.nas:               na.omit, default = NULL
 # ...:                      further arguments to make.task, supported are
 #                           id, label; as default name is used
 #                           excluded; further variables to exclude
@@ -15,7 +16,7 @@
 
 get.uci.task <- function(name, url = c("http://repository.seasr.org/Datasets/UCI/arff",
     "http://www.statistik.tu-dortmund.de/download/Datasets/UCI/arff"), handle.ids = "exclude", handle.multiple.targets = list(target =
-    NULL, handle.2nd.targets = "exclude"), handle.train.test = NULL, ...) {
+    NULL, handle.2nd.targets = "exclude"), handle.train.test = NULL, handle.nas = NULL, ...) {
     
     # Notlösung, solange die Infos über ids und targets nicht woanders abgelegt sind
     
@@ -23,6 +24,7 @@ get.uci.task <- function(name, url = c("http://repository.seasr.org/Datasets/UCI
     ids = list() 
     ids[["bridges_version1.arff"]] = "IDENTIF" 
     ids[["bridges_version2.arff"]] = "IDENTIF" 
+    ids[["cylinder-bands.arff"]] = c("timestamp", "cylinder_number", "customer", "job_number", "ink_color", "cylinder_division") # ink-color, cylinder_division constant
     ids[["flags.arff"]] = "name"
     ids[["kdd_synthetic_control.arff"]] = "index"
     ids[["molecular-biology_promoters.arff"]] = "instance"
@@ -60,5 +62,5 @@ get.uci.task <- function(name, url = c("http://repository.seasr.org/Datasets/UCI
     url <- match.arg(url)
     
     arff.to.task(file = file.path(url, file), target = targets[[file[1]]], ids = ids[[file[1]]], handle.multiple.targets = handle.multiple.targets, 
-        handle.ids = handle.ids, handle.train.test = handle.train.test, name = name, ...)
+        handle.ids = handle.ids, handle.train.test = handle.train.test, handle.nas = handle.nas, name = name, ...)
 }
