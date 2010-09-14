@@ -90,7 +90,8 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 
 .mlr.set.local.on.slave = function(mlrloc) {
   ls = mlrloc$logger.setup
-  logger.setup(console=ls$console, file=ls$file, level=ls$global.level, sublevel=ls$sublevel)  
+  #logger.setup(console=ls$console, file=ls$file, level=ls$global.level, sublevel=ls$sublevel)  
+  logger.setup(console=FALSE, file="~/.mlr.log", level=ls$global.level, sublevel=ls$sublevel)  
   eh = mlrloc$errorhandler.setup
   errorhandler.setup(on.learner.error=eh$on.learner.error, 
       on.par.without.desc=eh$on.par.without.desc, on.convert.var=eh$on.convert.var)
