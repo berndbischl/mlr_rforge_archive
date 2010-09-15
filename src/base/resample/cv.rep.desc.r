@@ -11,7 +11,7 @@ setClass("repcv.desc",
 setMethod(
 		f = "initialize",
 		signature = signature("repcv.desc"),
-		def = function(.Object, iters, reps=10L, aggr1=mean, aggr2=list(mean=mean, sd=sd, , ...)) {
+		def = function(.Object, iters, reps=10L, aggr1=mean, aggr2=list(mean=mean, sd=sd), ...) {
       ai = function(x, a1, a2, reps, iters) {
         y = split(x, f=rep(1:reps, each=iters))
         y = sapply(y, a1)
