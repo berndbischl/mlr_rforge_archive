@@ -1,8 +1,8 @@
 
 test.stratcv.instance = function() {
-  rin <- make.res.instance("stratcv", task=multiclass.task, iters=10)
+  rin = make.res.instance("stratcv", task=multiclass.task, iters=10)
   
-  folds <- rin["iters"]
+  folds = rin["iters"]
   checkEquals(folds, 10)
   
   for (i in 1:folds) {
