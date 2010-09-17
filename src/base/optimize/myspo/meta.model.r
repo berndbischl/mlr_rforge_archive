@@ -1,7 +1,7 @@
 
 train.meta.model = function(meta.learner, constr.learner, des, y, control) {
   good = !is.na(y)
-  des.good = des[good, ]
+  des.good = des[good,,drop=FALSE]
   des.good[, control$y.name] = y[good]
   rt = make.task(target=control$y.name, data=des.good)
   meta.model = train(meta.learner, task=rt)

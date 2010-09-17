@@ -1,3 +1,5 @@
+#todo probably put in mlr something like par.desc.list as a type, of par.bag.
+# maybe its enough to have fnctions operation on R lists of such.....
 
 setGeneric(
   name = "sample.pardesc",

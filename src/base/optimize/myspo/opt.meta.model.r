@@ -1,11 +1,11 @@
-opt.meta.model.seq.des = function(n, meta.model, constr.model, par.descs, curdes, cury, control) {
+opt.meta.model.seq.des = function(n, meta.model, constr.model, curdes, cury, control) {
   seqdes = seq.design(par.descs, control$seq.des.points, constr.model)
   y = eval.des.with.meta.model(seqdes, meta.model)
   o = order(y)
   seqdes[o[1:n],]
 }
 
-opt.meta.model.bfgs = function(n, meta.model, constr.model, par.descs, curdes, cury, control) {
+opt.meta.model.bfgs = function(n, meta.model, constr.model, curdes, cury, control) {
   inds.num = which(sapply(par.descs, function(x) is(x, "par.desc.num")))
   inds.rest = (1:length(par.descs))[-inds.num] 
   names.num = sapply(par.descs, function(x) x["par.name"])[inds.num]
@@ -50,6 +50,23 @@ opt.meta.model.bfgs = function(n, meta.model, constr.model, par.descs, curdes, c
   opts[o[1:n], ]
 }
 
+
+opt.meta.model.CL = function(n, meta.model, constr.model, curdes, cury, control) {
+  par.descs = control$par.descs
+  inds.num = which(sapply(par.descs, function(x) is(x, "par.desc.num")))
+  inds.rest = (1:length(par.descs))[-inds.num] 
+  names.num = sapply(par.descs, function(x) x["par.name"])[inds.num]
+  names.rest = sapply(par.descs, function(x) x["par.name"])[inds.rest]
+  lower = unlist(get.bounds(par.descs, "lower"))
+  upper = unlist(get.bounds(par.descs, "upper"))
+  disc.ranges = get.ranges(par.descs)
+  disc.grid = grid=expand.grid(disc.ranges, KEEP.OUT.ATTRS=FALSE)
+  model = meta.model["learner.model"]
+  
+  L = min(model@y)
+  capture.output({res = max_qEI.CL(model, npoints = n, L = L, lower = lower, upper = upper)})
+  as.data.frame(res$par)
+}
 
 sel.random = function(par.descs, parclass) {
   z = list()

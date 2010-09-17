@@ -1,7 +1,7 @@
 eval.des.with.fun = function(des, fun, control) {
   ys = numeric(nrow(des))
   for (i in 1:nrow(des)) {
-    pv = data.frame.row.to.list(des[i, ])
+    pv = data.frame.row.to.list(des[i,,drop=FALSE])
     #todo: fun must eval data.frame
     y = do.call(fun, pv)
     #on.learner = .mlr.local$errorhandler.setup$on.learner
