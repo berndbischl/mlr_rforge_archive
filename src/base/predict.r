@@ -64,7 +64,9 @@ setMethod(
 				threshold = wl["predict.threshold"]
 			if (is.null(threshold))
 				threshold = switch(type, response=numeric(0), prob=0.5, decision=0)
-			
+
+      # load pack. if we saved a model and loaded it later just for prediction this is necessary
+      require.packs(wl["pack"], paste("learner", learner["id"]))
 			
 			cns = colnames(newdata)
 			tn = dd["target"]
