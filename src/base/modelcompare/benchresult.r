@@ -173,7 +173,10 @@ setMethod(
 				return(mydrop(rec.lapply(ors, function(y) y["path", as.data.frame=as.data.frame])))
 			}
 			if (i == "conf.mat"){
-				return(mydrop(lapply(task, function(y) x@conf.mats[[y]][learner])))
+        # reduce to selected tasks / learners
+        cms = x@conf.mats[task]
+        cms = lapply(cms, function(y) y[learner])
+				return(mydrop(cms))
 			}
 			
 			if (i == "perf") {

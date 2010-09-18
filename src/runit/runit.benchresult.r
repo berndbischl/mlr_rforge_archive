@@ -93,6 +93,13 @@ test.benchresult = function() {
 	checkTrue(is.numeric(x[[1]][[2]]))  
 	checkTrue(is.numeric(x[[2]][[2]]))  
 
+  x = be["conf.mat"]
+  checkTrue(is.list(x) && length(x) == 2 && is.list(x[[1]]) && length(x[[1]]) == 2)  
+  x = be["conf.mat", task=multiclass.task["id"]]
+  checkTrue(is.list(x) && length(x) == 2 && is.matrix(x[[1]]))  
+  x = be["conf.mat", task=multiclass.task["id"], learner="classif.rpart"]
+  checkTrue(is.matrix(x))  
+  
 	ranges.svm = list(C=1:2, sigma=1:2)
 	ctrl = grid.control(ranges=ranges.svm)
 	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, control=ctrl)
