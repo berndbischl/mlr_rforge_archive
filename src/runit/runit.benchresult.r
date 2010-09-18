@@ -145,5 +145,5 @@ test.benchresult = function() {
   wl = "classif.lda"
   perf = performance(resample.fit(wl, multiclass.task, res))
   be = bench.exp(learners=wl, tasks=multiclass.task, resampling=res)
-  checkEquals(perf$aggr[,1], be["perf", aggr="resampling"]) 
+  checkEquals(perf$aggr[,1], be["perf", aggr="resampling"], checkNames = FALSE) 
 }	
