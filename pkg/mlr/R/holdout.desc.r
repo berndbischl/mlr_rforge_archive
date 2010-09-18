@@ -11,7 +11,7 @@ setClass("holdout.desc",
 setMethod(
 		f = "initialize",
 		signature = signature("holdout.desc"),
-		def = function(.Object, split=2/3) {
+		def = function(.Object, iters, split=2/3, ...) {
 			callNextMethod(.Object, split=split, iters=1L)
 		}
 )

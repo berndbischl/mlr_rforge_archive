@@ -12,6 +12,8 @@ roxygen()
 
 #' Given a resampling strategy, which defines sets of training and test indices, 
 #' \code{resample.fit} fits the selected learner using the training sets and performs predictions for the test sets. 
+#' For construction of the resampling strategies use the factory methods \code{\link{make.res.desc}} and 
+#' \code{\link{make.res.instance}}.
 #' 
 #' Optionally information from the fitted models, e.g. the complete model, can be extracted and returned.
 #'

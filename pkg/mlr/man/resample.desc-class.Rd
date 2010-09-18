@@ -4,7 +4,8 @@
 \title{resample.desc}
 \description{Base class for description of resampling algorithms.
 A description of a resampling algorithm contains all necessary information to provide a resampling.instance, 
-when given the size of the data set.}
+when given the size of the data set.
+For construction simply use the factory method \code{\link{make.res.desc}}.}
 \details{\code{resample.desc-class}: Getter.
 
 \describe{
@@ -16,6 +17,6 @@ when given the size of the data set.}
 
 }
 \section{Extends}{\code{\linkS4class{object}}}
-\section{Methods}{\describe{\item{\code{\link[=[,resample.desc-method]{[}}}{}\item{\code{\link[=to.string,resample.desc-method]{to.string}}}{}\item{\code{\link[=make.res.instance,resample.desc,missing,numeric-method]{make.res.instance}}}{}\item{\code{\link[=make.res.instance,resample.desc,learn.task,missing-method]{make.res.instance}}}{}}}
+\section{Methods}{\describe{\item{\code{\link[=[,resample.desc-method]{[}}}{}\item{\code{\link[=to.string,resample.desc-method]{to.string}}}{}\item{\code{\link[=make.res.instance,resample.desc,missing,integer,missing-method]{make.res.instance}}}{}\item{\code{\link[=make.res.instance,resample.desc,learn.task,missing,missing-method]{make.res.instance}}}{}}}
 \alias{[,resample.desc-method}
 

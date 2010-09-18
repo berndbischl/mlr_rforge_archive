@@ -18,3 +18,5 @@
 \section{Methods}{\describe{\item{\code{\link[=[,par.desc-method]{[}}}{}}}
 \alias{[,par.desc-method}
 
+\alias{[,par.desc.disc-method}
+\alias{[}

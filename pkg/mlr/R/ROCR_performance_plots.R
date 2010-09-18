@@ -341,7 +341,7 @@ ROCR.plot.performance <-
                       y= rowMeans(show.spread.at.y.values)))
     }
     
-    do.call( ".plot.performance", .sarg(arglist,
+    do.call( "ROCR.plot.performance", .sarg(arglist,
                                        perf= perf.avg,
                                        avg= 'none',
                                        add= TRUE))
@@ -418,7 +418,7 @@ ROCR.plot.performance <-
                                 y= .garg(arglist,'show.spread.at')))
     }
     
-    do.call( ".plot.performance", .sarg(arglist,
+    do.call( "ROCR.plot.performance", .sarg(arglist,
                                         perf= perf.avg,
                                         avg= 'none',
                                         add= TRUE))
@@ -525,7 +525,7 @@ ROCR.plot.performance <-
                                 y= rowMeans(y.values.spread)))
     }
     
-    do.call( ".plot.performance", .sarg(arglist,
+    do.call( "ROCR.plot.performance", .sarg(arglist,
                                        perf= perf.avg,
                                        avg= 'none',
                                        add= TRUE))

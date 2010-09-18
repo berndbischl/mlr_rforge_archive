@@ -174,7 +174,10 @@ check.getter.args = function(x, arg.names, j, ...) {
 }
 
 require.packs = function(packs, for.string) {
-	packs.ok = sapply(packs, function(x) require(x, character.only = TRUE))
+  # this should be a bit faster...
+  packs.ok = sapply(packs, function(x) paste("package", x, sep = ":") %in% search())
+  packs = packs[!packs.ok]
+  packs.ok = sapply(packs, function(x) require(x, character.only = TRUE))
 	if (length(packs.ok) == 0)
 		packs.ok = TRUE
 	if(!all(packs.ok)) {
@@ -202,3 +205,12 @@ hyper.par.val.to.name = function(par.name, par.val, learner) {
   }
   return(par.val)
 }
+
+# converts a row of a data.frame to a list
+# - factors are converted to chars
+data.frame.row.to.list = function(x, i) {
+  x = as.list(x[i,])
+  x = lapply(x, function(y) if(is.factor(y)) as.character(y) else y)
+}
+
+

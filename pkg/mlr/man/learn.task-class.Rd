@@ -23,6 +23,6 @@ Note that all getters of \code{\linkS4class{task.desc}} and \code{\linkS4class{d
 }
 \seealso{\code{\link{make.task}}}
 \section{Extends}{\code{\linkS4class{object}}}
-\section{Methods}{\describe{\item{\code{\link[=get.learners,learn.task-method]{get.learners}}}{}\item{\code{\link[=resample.update,resample.instance,learn.task,wrapped.model,prediction-method]{resample.update}}}{}\item{\code{\link[=resample.fit,learner,learn.task,resample.instance,list,character,function-method]{resample.fit}}}{}\item{\code{\link[=make.res.instance,character,learn.task,missing-method]{make.res.instance}}}{}\item{\code{\link[=make.res.instance,resample.desc,learn.task,missing-method]{make.res.instance}}}{}\item{\code{\link[=[,learn.task-method]{[}}}{}\item{\code{\link[=train,learner,learn.task,numeric,list,character,character-method]{train}}}{}}}
+\section{Methods}{\describe{\item{\code{\link[=get.learners,learn.task-method]{get.learners}}}{}\item{\code{\link[=resample.update,resample.instance,learn.task,wrapped.model,prediction-method]{resample.update}}}{}\item{\code{\link[=resample.fit,learner,learn.task,resample.instance,list,character,function-method]{resample.fit}}}{}\item{\code{\link[=make.res.instance,character,learn.task,missing,integer-method]{make.res.instance}}}{}\item{\code{\link[=make.res.instance,resample.desc,learn.task,missing,missing-method]{make.res.instance}}}{}\item{\code{\link[=[,learn.task-method]{[}}}{}\item{\code{\link[=train,learner,learn.task,numeric,list,character,character-method]{train}}}{}}}
 \alias{[,learn.task-method}
 

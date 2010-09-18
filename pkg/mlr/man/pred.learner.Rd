@@ -107,6 +107,8 @@ Additional parameters, which need to be passed to the underlying train function.
 \alias{pred.learner}
 \alias{pred.learner,regr.rpart,wrapped.model,data.frame,missing-method}
 \alias{pred.learner}
+\alias{pred.learner,regr.rsm,wrapped.model,data.frame,missing-method}
+\alias{pred.learner}
 \alias{pred.learner,regr.rvm,wrapped.model,data.frame,missing-method}
 \alias{pred.learner}
 \alias{pred.learner,classif.sda,wrapped.model,data.frame,character-method}

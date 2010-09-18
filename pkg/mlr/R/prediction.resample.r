@@ -52,7 +52,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Resampling result for ", x@instance["name"], " with ", x["iters"], " iterations\n",
+							"Resampling result for: ", to.string(x@instance@desc),
 							#"Learner models were ", ifelse(length(x@models)==0,"not", ""), " saved\n\n",
 							#paste(capture.output(str(x@preds)), collapse="\n"), 
 							"\n", sep=""
@@ -112,6 +112,6 @@ setAs("resample.prediction", "grouped.prediction",
 			df = from@df
 			df$iter = NULL
 			new("grouped.prediction", task.desc=from@task.desc, data.desc=from@data.desc, 
-					type=from@type, df=from@df, threshold=from@threshold, sum(from@time.train), sum(from@time.predict))
+					type=from@type, df=df, threshold=from@threshold, sum(from@time.train), sum(from@time.predict))
 		}
 )

@@ -117,8 +117,24 @@ setMethod(
 		def = function(.Object, par.name, default="missing", when="train", vals, flags=list(), requires=expression(TRUE)) {
 			if (is.vector(vals))
 				vals = as.list(vals)
-			if (default != "missing") {
-				if (is.character(default) && default %in% names(vals))
+      n = length(vals)
+      # if names missing, set all to ""
+      if (is.null(names(vals)))
+        names(vals) = rep("", n)
+      # guess missing names
+      ns = names(vals)
+      for (i in 1:n) {
+        v = vals[[i]]
+        if(is.na(ns[i]) || ns[i] == "") {
+          if (is.character(v) || is.numeric(v))
+            names(vals)[i] = as.character(v)
+        }
+      }  
+      if(!all.names(vals)) {
+        stop("Not all values for par. ", par.name,  " were named and names could not be guessed!")
+      }
+      if (default != "missing") {
+        if (is.character(default) && default %in% names(vals))
 					default = vals[[default]]
 				y = sapply(vals, function(x) isTRUE(all.equal(x, default)))
 				if (!(any(y)))
@@ -128,6 +144,28 @@ setMethod(
 			callNextMethod(.Object, par.name, default, when, flags, requires)
 		}
 )
+
+
+#' @rdname par.desc-class
+setMethod(
+  f = "[",
+  signature = signature("par.desc.disc"),
+  def = function(x,i,j,...,drop) {
+    args = list(...)
+    names = args$names
+    if(is.null(names)) {
+      names = TRUE
+    }
+    if (i == "vals") {
+      v = x@vals
+      if (!names)
+        names(v) = NULL
+      return(v)
+    }
+    callNextMethod()
+  }
+)
+
 
 setClass(
 		"par.desc.log",
@@ -139,7 +177,7 @@ setMethod(
 		f = "initialize",
 		signature = signature("par.desc.log"),
 		def = function(.Object, par.name, default="missing", when="train", flags=list(), requires=expression(TRUE)) {
-			if (!(is.logical(default) && length(default) == 1))
+			if (!((is.logical(default) && length(default) == 1) || identical(default, "missing")))
 				stop("Default value of par. ", par.name,  " has to be a single boolean!")
 			callNextMethod(.Object, par.name, default, when, flags, requires)
 		}

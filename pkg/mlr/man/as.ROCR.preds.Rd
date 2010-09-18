@@ -8,3 +8,5 @@ Predictions.}
 }
 \alias{as.ROCR.preds,prediction-method}
 \alias{as.ROCR.preds}
+\alias{as.ROCR.preds,resample.prediction-method}
+\alias{as.ROCR.preds}

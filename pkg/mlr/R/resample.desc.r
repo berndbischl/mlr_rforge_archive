@@ -1,6 +1,7 @@
 #' Base class for description of resampling algorithms.
 #' A description of a resampling algorithm contains all necessary information to provide a resampling.instance, 
 #' when given the size of the data set.
+#' For construction simply use the factory method \code{\link{make.res.desc}}. 
 #' 
 #' Getter.
 #' 
@@ -60,7 +61,7 @@ setMethod(
 		f = "[",
 		signature = signature("resample.desc"),
 		def = function(x,i,j,...,drop) {
-			if (i %in% c("has.groups")) {
+			if (i %in% c("has.groups", "reps")) {
 				return(x@props[[i]])
 			}
 			callNextMethod(x,i,j,...,drop=drop)
@@ -77,8 +78,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Description for ", x@name,  " with ", x@iters, " iterations.\n",
-							sep=""
+							x["name"], " with ", x@iters, " iterations.\n",	sep=""
 					)
 			)
 		}

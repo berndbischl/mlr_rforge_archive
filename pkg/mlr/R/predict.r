@@ -53,6 +53,8 @@ setMethod(
 					subset = 1:task["size"]
 				newdata = task["data", row=subset]
 			} else {
+        if (!is.data.frame(newdata) || nrow(newdata) == 0)
+          stop("newdata must be a data.frame with at least one row!")
 				newdata = prep.data(dd["is.classif"], newdata, dd["target"], dd["excluded"], dd["prepare.control"])			
 			}
 			
@@ -62,7 +64,9 @@ setMethod(
 				threshold = wl["predict.threshold"]
 			if (is.null(threshold))
 				threshold = switch(type, response=numeric(0), prob=0.5, decision=0)
-			
+
+      # load pack. if we saved a model and loaded it later just for prediction this is necessary
+      require.packs(wl["pack"], paste("learner", learner["id"]))
 			
 			cns = colnames(newdata)
 			tn = dd["target"]

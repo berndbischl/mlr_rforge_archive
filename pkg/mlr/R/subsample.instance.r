@@ -13,7 +13,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("subsample.instance"),
-		def = function(.Object, desc, size) {
+		def = function(.Object, desc, size, task) {
 			if (missing(desc))
 				return(.Object)
 			inds <- lapply(1:desc["iters"], function(x) sample(1:size, size*desc["split"]))

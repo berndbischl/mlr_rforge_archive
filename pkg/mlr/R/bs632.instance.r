@@ -15,7 +15,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("bs632.instance"),
-		def = function(.Object, desc, size) {
+		def = function(.Object, desc, size, task) {
 			inds = boot(1:size, R=desc["iters"], function(data,inds) inds)$t
 			inds = as.list(as.data.frame(t(inds)))
 			names(inds) = NULL

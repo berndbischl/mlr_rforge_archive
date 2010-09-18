@@ -18,7 +18,7 @@ setMethod(
 			aggr = aggr[[1]]
 			group.obs = pred["group"]
 			group.names = names(preds)
-			ms2 = aggr(ms, group.names)
+			ms2 = aggr(ms, group.names, pred=pred)
 			ms = cbind(group=group.names, ms)
 			ls = callNextMethod(pred=pred, measures=list(), losses=losses, aggr=list(), task=task)$losses
 			if (length(losses) > 0) {

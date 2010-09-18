@@ -2,6 +2,8 @@
 \alias{to.string,bench.result-method}
 \alias{to.string}
 \title{to.string,bench.result-method}
+\alias{to.string,repcv.desc-method}
+\alias{to.string}
 \alias{to.string,learner-method}
 \alias{to.string}
 \alias{to.string-methods}

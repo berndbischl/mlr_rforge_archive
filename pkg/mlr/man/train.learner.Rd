@@ -92,6 +92,8 @@
 \alias{train.learner}
 \alias{train.learner,regr.rpart,character,data.frame,data.desc,task.desc,numeric,missing-method}
 \alias{train.learner}
+\alias{train.learner,regr.rsm,character,data.frame,data.desc,task.desc,numeric,missing-method}
+\alias{train.learner}
 \alias{train.learner,regr.rvm,character,data.frame,data.desc,task.desc,numeric,missing-method}
 \alias{train.learner}
 \alias{train.learner,classif.sda,character,data.frame,data.desc,task.desc,numeric,matrix-method}

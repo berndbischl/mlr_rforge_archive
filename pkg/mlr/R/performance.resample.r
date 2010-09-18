@@ -35,11 +35,13 @@ setMethod(
 			j = which(names(aggr) == "combine")
 			if (length(j) > 0) {
 				# downcast 
-				if (rin["has.groups"])
+				if (rin["has.groups"]) {
 					pred = as(pred, "grouped.prediction")
-				else
+          ms.aggr[[j]] = performance(pred=pred, measures=measures, losses=list(), aggr=rin["aggr.group"], task=task)$aggr
+        } else {
 					pred = as(pred, "prediction")
-				ms.aggr[[j]] = performance(pred=pred, measures=measures, losses=list(), aggr=list(), task=task)$measures
+          ms.aggr[[j]] = performance(pred=pred, measures=measures, losses=list(), aggr=list(), task=task)$measures
+        }
 			}
 			ms.aggr = Reduce(rbind, ms.aggr)
 			if (!is.matrix(ms.aggr))

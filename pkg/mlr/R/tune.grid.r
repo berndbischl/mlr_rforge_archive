@@ -2,8 +2,9 @@ tune.grid <- function(learner, task, resampling, measures, aggr, control) {
 	# convert to instance so all pars are evaluated on the same splits
 	if (is(resampling, "resample.desc")) 
 		resampling = make.res.instance(resampling, task=task)
-	ranges = lapply(control["par.descs"], function(y) unlist(y@vals))	
-	names(ranges) = control["par.names"]	
+  # drop names from par.descs
+  ranges = lapply(control["par.descs"], function(y) unlist(y["vals", names=FALSE])) 
+  names(ranges) = control["par.names"]	
 	# if theres more than one ranges 
 	if(length(ranges) > 0 && all((names(ranges) == "ranges"))) {
 		ors = lapply(ranges, function(r) {tune.1(learner, task, resampling, ranges, measures, aggr, control)})

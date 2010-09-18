@@ -12,7 +12,7 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("cv.instance"),
-  def = function(.Object, desc, size) {
+  def = function(.Object, desc, size, task) {
     inds <- sample(1:size)
     # don't warn when we can't split evenly
     s <- suppressWarnings(split(1:size, 1:desc["iters"]))
