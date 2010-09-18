@@ -37,7 +37,7 @@ setMethod(
 				# downcast 
 				if (rin["has.groups"]) {
 					pred = as(pred, "grouped.prediction")
-          ms.aggr[[j]] = performance(pred=pred, measures=measures, losses=list(), aggr==rin["aggr.group"], task=task)$aggr
+          ms.aggr[[j]] = performance(pred=pred, measures=measures, losses=list(), aggr=rin["aggr.group"], task=task)$aggr
         } else {
 					pred = as(pred, "prediction")
           ms.aggr[[j]] = performance(pred=pred, measures=measures, losses=list(), aggr=list(), task=task)$measures

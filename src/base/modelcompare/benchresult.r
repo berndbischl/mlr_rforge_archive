@@ -124,9 +124,9 @@ setMethod(
         aggr = lapply(ress, function(x) x["aggr.iter"])
         if(any(sapply(aggr, function(a) !identical(a, aggr[[1]]))))
           stop("If you use aggr='resampling', the aggregation functions of all resampling strategies in the bench.exp have to be identical currently!")
+        aggr = aggr[[1]]        
       }
 			aggr = make.aggrs(aggr)
-			
 			
 			if (i == "prediction"){
 				# reduce to selected tasks / learners

@@ -49,8 +49,13 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
 	cm = NULL
 	if (is(task, "classif.task") && conf.mat)			
 		cm = conf.matrix(rr)
-	# add in combine because we cannot get that later if we throw away preds
-	ms = rbind(rp$measures, cbind(iter=0, rp$aggr))
+  # throw away info about measures on groups here, this is only for combine anyway 
+  if (resampling["has.groups"])
+    ms = rp$aggr.group
+  else
+    ms = rp$measures
+  # add in combine because we cannot get that later if we throw away preds
+  ms = rbind(ms, cbind(iter=0, rp$aggr))
 	result = cbind(result, ms)
 	rownames(result) = rownames(ms)
 	mods = NULL
