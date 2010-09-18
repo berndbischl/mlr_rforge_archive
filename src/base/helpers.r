@@ -175,7 +175,7 @@ check.getter.args = function(x, arg.names, j, ...) {
 
 require.packs = function(packs, for.string) {
   # this should be a bit faster...
-  packs.ok = sapply(packs, function(x) paste("package", pkg, sep = ":") %in% search())
+  packs.ok = sapply(packs, function(x) paste("package", x, sep = ":") %in% search())
   packs = packs[!packs.ok]
   packs.ok = sapply(packs, function(x) require(x, character.only = TRUE))
 	if (length(packs.ok) == 0)
