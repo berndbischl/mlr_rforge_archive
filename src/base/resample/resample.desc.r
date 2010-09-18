@@ -1,6 +1,7 @@
 #' Base class for description of resampling algorithms.
 #' A description of a resampling algorithm contains all necessary information to provide a resampling.instance, 
 #' when given the size of the data set.
+#' For construction simply use the factory method \code{\link{make.res.desc}}. 
 #' 
 #' Getter.
 #' 
