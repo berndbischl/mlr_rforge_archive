@@ -130,7 +130,6 @@ targets[["wine.arff"]] = "class"                                # whine in wine 
 
 for(i in 1:length(urls)){
   dn = ds.names[i]
-  print(urls[i])
   if (dn %in% names(removes))
     remove = removes[[dn]]
   else

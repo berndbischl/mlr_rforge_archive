@@ -16,9 +16,6 @@ arff.to.task <- function(file, target, ids, handle.multiple.targets, handle.ids,
     id = name, label = name, excluded = character(0), ...) {
     removed <- character(0)
 
-print(removed)
-print(excluded)
-
     # ids
     if(handle.ids == "exclude") excluded <- c(excluded, ids) else removed <- c(removed, ids)
     # multiple targets
@@ -36,9 +33,6 @@ print(excluded)
             target <- target[1]
         }
     }
-    
-print(removed)
-print(excluded)
     
     # if both train and test data should be read
     if (!is.null(handle.train.test) && handle.train.test == "all") {
@@ -60,10 +54,6 @@ print(excluded)
     # NAs
     if(!is.null(handle.nas)) data = handle.nas(data)
 
-print(target)
-print(data[target])
-print(str(data))
-    
     # Variablen umbenennen, falls Sonder- oder Leerzeichen, 
     # todo: später in check.task einbauen
     #forbidden  = c("[", "]", "(", ")", ",", " ")
