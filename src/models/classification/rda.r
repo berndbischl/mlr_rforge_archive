@@ -66,7 +66,7 @@ setMethod(
 				.weights="numeric", 
 				.costs="matrix" 
 		),
-
+    # todo: disable crossval. no, is done automaticall if pars are set.
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			rda(f, data=.data, ...)
