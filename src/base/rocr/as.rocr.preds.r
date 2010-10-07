@@ -1,5 +1,7 @@
 #' @include prediction.r
 roxygen()
+#' @include prediction.resample.r
+roxygen()
 
 
 #' Converts predictions to a format package ROCR can handle.
