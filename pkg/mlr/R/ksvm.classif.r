@@ -86,24 +86,14 @@ setMethod(
 #				args$kernel = do.call(args$kernel, kpar)	
 #			} 
 			
-      pars = list(...)
-      ck = pars$custom.kernel
-      class(ck) = "kernel"
-      if (!is.null(ck)) {
-        y = .data[,.targetvar]
-        .data[,.targetvar] = NULL
-        K = kernelMatrix(ck, .data)
-        pars$custom.kernel = NULL
-        do.call(ksvm, pars)
-      } else {
-        xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), pars)
-        f = as.formula(paste(.targetvar, "~."))
-        if (length(xs$control) > 0)
-          args = c(list(f, data=.data, fit=FALSE, kpar=xs$control), xs$args)
-        else
-          args = c(list(f, data=.data, fit=FALSE), xs$args)
-        do.call(ksvm, args)
-      }
+			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
+			f = as.formula(paste(.targetvar, "~."))
+			if (length(xs$control) > 0)
+				args = c(list(f, data=.data, fit=FALSE, kpar=xs$control), xs$args)
+			else
+				args = c(list(f, data=.data, fit=FALSE), xs$args)
+			do.call(ksvm, args)
+			
 		}
 )
 

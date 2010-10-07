@@ -62,6 +62,13 @@ setMethod(
 )
 
 #' Getter
+#'
+#' Note that in the case of the "prob", "response" and "decision"
+#' fields, the results are returned in the order they were used by
+#' the resampling strategy and not in the order present in the
+#' dataset. This mainly applies to cross-validation were a different
+#' order might be expected.
+#'
 #' @rdname resample.prediction-class
 setMethod(
 		f = "[",
