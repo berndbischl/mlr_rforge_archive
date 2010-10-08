@@ -42,7 +42,7 @@ setMethod(
 					new("par.desc.num", par.name="maxsurrogate", default=5L, lower=0L, flags=list(optimize=FALSE)),
 					new("par.desc.disc", par.name="usesurrogate", default=2L, vals=0:2),
 					new("par.desc.disc", par.name="surrogatestyle", default=0L, vals=0:1),
-					new("par.desc.num", par.name="maxdepth", default=TRUE, lower=1, upper=30)
+					new("par.desc.num", par.name="maxdepth", default=TRUE, lower=1L, upper=30L)
 			)
 			
 			callNextMethod(.Object, label="RPart", pack="rpart", desc=desc, par.descs=par.descs)

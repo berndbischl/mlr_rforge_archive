@@ -33,7 +33,13 @@ setMethod(
 					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="Naive Bayes", pack="e1071", desc=desc)
+      par.descs = list(
+        new("par.desc.num", par.name="laplace", default=0, lower=0)
+        #new("par.desc.num", par.name="threshold", default=0.001, lower=0)
+      )
+      
+      
+			callNextMethod(.Object, label="Naive Bayes", pack="e1071", desc=desc, par.descs=par.descs)
 		}
 )
 

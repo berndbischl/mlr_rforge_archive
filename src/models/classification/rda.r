@@ -35,7 +35,7 @@ setMethod(
 					new("par.desc.num", par.name="lambda", default="missing", lower=0, upper=1),
 					new("par.desc.num", par.name="gamma ", default="missing", lower=0, upper=1),
 					new("par.desc.log", par.name="crossval", default=TRUE),
-					new("par.desc.num", par.name="fold", default=10, lower=1),
+					new("par.desc.num", par.name="fold", default=10L, lower=1L),
 					new("par.desc.num", par.name="train.fraction", default=0.5, lower=0, upper=1),
 					new("par.desc.log", par.name="crossval", default=TRUE),
 					new("par.desc.disc", par.name="schedule", default=1L, vals=1:2, requires=expression(simAnn==FALSE)),
@@ -43,10 +43,13 @@ setMethod(
 					new("par.desc.num", par.name="halflife", default=0.1, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
 					new("par.desc.num", par.name="zero.temp", default=0.01, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
 					new("par.desc.num", par.name="alpha", default=2, lower=1, requires=expression(simAnn==TRUE || schedule==2)),
-					new("par.desc.num", par.name="K", default=100, lower=1, requires=expression(simAnn==TRUE || schedule==2)),
-					
+					new("par.desc.num", par.name="K", default=100L, lower=1L, requires=expression(simAnn==TRUE || schedule==2)),
 					new("par.desc.disc", par.name="kernel", default="triangular", 
-							vals=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian"))
+							vals=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian")),
+          new("par.desc.log", par.name="trafo", default=TRUE),
+          new("par.desc.log", par.name="SimAnn", default=FALSE),
+          # change default, so error is only estimated at request of user
+          new("par.desc.log", par.name="estimate.error", default=FALSE, flags=list(optimize=FALSE, pass.default=TRUE))
 			)
 			
 			callNextMethod(.Object, label="rda", pack="klaR", desc=desc, par.descs=par.descs)
