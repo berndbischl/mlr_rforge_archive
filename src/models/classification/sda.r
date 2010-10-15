@@ -32,7 +32,12 @@ setMethod(
 					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="Shrinkage Discriminant Analysis", pack="sda", desc=desc)
+      par.descs = list (
+        new("par.desc.log", par.name="diagonal", default=FALSE)
+      )
+      
+      
+			callNextMethod(.Object, label="Shrinkage Discriminant Analysis", pack="sda", desc=desc, par.descs=par.descs)
 		}
 )
 

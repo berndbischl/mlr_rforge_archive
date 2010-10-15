@@ -40,7 +40,11 @@ setMethod(
       new("par.desc.num", par.name="iter", default=5L, lower=1L),
       new("par.desc.num", par.name="dimension", lower=1L),
       new("par.desc.disc", par.name="method", default="polyreg", 
-        vals=list(polyreg=polyreg, mars=mars, bruto=bruto, gen.ridge=gen.ridge))
+        vals=list(polyreg=polyreg, mars=mars, bruto=bruto, gen.ridge=gen.ridge)),
+      new("par.desc.log", par.name="trace", default=FALSE, flags=list(optimze=FALSE)),
+      # change default and pass it to reduce mem
+      new("par.desc.log", par.name="keep.fitted", default=FALSE, flags=list(optimze=FALSE, pass.default=TRUE)),
+      new("par.desc.num", par.name="tries", default=5L, lower=1L)
     )
 
     x@par.descs = par.descs
