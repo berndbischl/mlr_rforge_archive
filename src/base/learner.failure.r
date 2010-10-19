@@ -1,10 +1,36 @@
-
+#' @include wrapped.model.r
+roxygen()
 
 setClass(
-  "learner.failure",
-  contains = c("object"),
-  representation = representation(
-    msg = "character"
-  )
+  "failure.model",
+  contains = c("wrapped.model")
 )
+
+#' Getter.
+#' @rdname failure.model-class
+
+setMethod(
+  f = "[",
+  signature = signature("failure.model"),
+  def = function(x,i,j,...,drop) {
+    if (i == "fail"){
+      return(x@learner.model)
+    }
+    callNextMethod()
+  }
+)
+
+
+
+#' @rdname to.string
+
+setMethod(
+  f = "to.string",
+  signature = signature("failure.model"),
+  def = function(x) {
+    s = callNextMethod(x)
+    return(paste(s, "\nTraining failed: ", x["fail"], sep=""))
+  }
+)
+
 

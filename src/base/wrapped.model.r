@@ -40,6 +40,26 @@ setClass(
 		)
 )
 
+#' Constructor.
+
+setMethod(
+  f = "initialize",
+  signature = signature("wrapped.model"),
+  def = function(.Object, learner, model, data.desc, task.desc, subset, vars, time) {
+    if (missing(learner))
+      return(.Object)
+    .Object@learner = learner
+    .Object@learner.model = model
+    .Object@data.desc = data.desc
+    .Object@task.desc = task.desc
+    .Object@subset = subset
+    .Object@vars = vars
+    .Object@time = time
+    return(.Object)
+  }
+)
+
+
 
 #' @rdname to.string
 
@@ -49,15 +69,12 @@ setMethod(
 		def = function(x) {
 			ps = x["learner"]["par.vals"]
 			ps = paste(names(ps), ps, sep="=", collapse=" ")
-			f = x["fail"]
-			f = ifelse(is.null(f), "", paste("Training failed:", f))
 			
 			return(
 					paste(
 							"Learner model for ", x@learner["id"], "\n",  
 							"Trained on obs: ", length(x@subset), "\n",
-							"Hyperparameters: ", ps, "\n",
-							f,
+							"Hyperparameters: ", ps,
 							sep=""
 					)
 			)
@@ -74,18 +91,6 @@ setMethod(
 		def = function(x,i,j,...,drop) {
 			args = list(...)
 			
-			if (i == "fail"){
-				if (is(x@learner.model, "learner.failure"))
-					return(x@learner.model@msg)
-				else
-					return(NULL)
-			}
-			if (i == "opt.result"){
-				if (is(x@learner, "opt.wrapper"))
-					return(attr(x["learner.model"], "opt.result"))
-				else
-					return(NULL)
-			}
 			y = x@task.desc[i]
 			if (!is.null(y))
 				return(y)

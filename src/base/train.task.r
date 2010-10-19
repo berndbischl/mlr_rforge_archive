@@ -108,25 +108,8 @@ train.task2 <- function(learner, task, subset, par.vals, vars, type, extra.train
 		logger.debug(level="train", or)
 		time.train = st[3]
 	}
-	
-	
-	# if error happened we use a failure model
-	if(is(learner.model, "try-error")) {
-		msg = as.character(learner.model)
-		if (.mlr.local$errorhandler.setup$on.learner.error == "warn")
-			warning("Could not train the learner: ", msg)	
-		learner.model <- new("learner.failure", msg=msg)
-		time.train = as.numeric(NA)
-	} 
-	
-	#set to "train" if not specified
-	hyper.types = rep("train", length(hps))
-	names(hyper.types) = names(hps)
-	hyper.types = insert(hyper.types, wl["hyper.types"])
-	
-	new("wrapped.model", learner = wl, learner.model = learner.model, 
-			data.desc=task@data.desc, task.desc=task@task.desc, subset=subset, 
-			vars=vars, time = time.train)
+
+  make.wrapped.model(wl, learner.model, task@data.desc, task@task.desc, hps, subset, vars, time.train)
 }
 	
 
