@@ -85,7 +85,9 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
     sfClusterCall(function(x) mlr:::.mlr.set.local.on.slave(x), .mlr.local)
 		# init random 
 		sfClusterSetupRNG()
-	}
+	} else if (mode=="multicore"){
+    mclapply(1:cpus, function(i, mlrloc) mlr:::.mlr.set.local.on.slave(mlrloc), mlrloc=.mlr.local)
+  }
 }
 
 .mlr.set.local.on.slave = function(mlrloc) {
