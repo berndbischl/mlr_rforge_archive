@@ -41,11 +41,11 @@ setMethod(
         new("par.desc.log", par.name="censored", default=FALSE),
         new("par.desc.log", par.name="model", default=FALSE),
         new("par.desc.num", par.name="maxit", default=100L, lower=1L),
-        new("par.desc.num", par.new="rang", default=0.7),
-        new("par.desc.num", par.new="decay", default=0),
-        new("par.desc.log", par.new="trace", default=TRUE, flags(optimze=FALSE)),
-        new("par.desc.num", par.new="abstoll", default=1.0e-4),
-        new("par.desc.num", par.new="reltoll", default=1.0e-8)
+        new("par.desc.num", par.name="rang", default=0.7),
+        new("par.desc.num", par.name="decay", default=0),
+        new("par.desc.log", par.name="trace", default=TRUE, flags(optimze=FALSE)),
+        new("par.desc.num", par.name="abstoll", default=1.0e-4),
+        new("par.desc.num", par.name="reltoll", default=1.0e-8)
       )
       
 			callNextMethod(.Object, label="MultiReg", pack="nnet", desc=desc, par.descs=par.descs)
