@@ -21,7 +21,7 @@ setMethod(
 					weights = TRUE
 			)
 			
-			callNextMethod(.Object, label="Linear Regression", pack="stats", desc=desc)
+			callNextMethod(.Object, pack="stats", desc=desc)
 		}
 )
 

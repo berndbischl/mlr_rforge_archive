@@ -20,7 +20,7 @@ setMethod(
 					weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="randomForest", pack="randomForest", desc=desc)
+			callNextMethod(.Object, pack="randomForest", desc=desc)
 		}
 )
 

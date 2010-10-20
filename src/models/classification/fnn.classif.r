@@ -39,7 +39,7 @@ setMethod(
       new("par.desc.log", par.name="use.all", default=TRUE, requires=expression(algorithm == "VR")),
       new("par.desc.disc", par.name="algorithm", default="cover_tree", vals=list("cover_tree", "kd_tree", "VR"))
     )
-    callNextMethod(.Object, label="fnn", pack="FNN", desc=desc, par.descs=par.descs)
+    callNextMethod(.Object, pack="FNN", desc=desc, par.descs=par.descs)
   }
 )
 

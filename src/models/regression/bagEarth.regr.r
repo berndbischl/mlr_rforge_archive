@@ -20,7 +20,7 @@ setMethod(
 					weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="bagEarth", pack="caret", desc=desc)
+			callNextMethod(.Object, pack="caret", desc=desc)
 		}
 )
 

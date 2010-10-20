@@ -43,7 +43,7 @@ setMethod(
           new("par.desc.num", par.name="bag.fraction", default=0.5, lower=0, upper=1),
           new("par.desc.num", par.name="train.fraction", default=1, lower=0, upper=1)
       )
-      callNextMethod(.Object, label="GBM", pack="gbm", desc=desc,	
+      callNextMethod(.Object, pack="gbm", desc=desc,	
           par.descs=par.descs, par.vals=list(distribution = "bernoulli"))
 		}
 )

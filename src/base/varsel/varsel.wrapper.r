@@ -7,8 +7,6 @@
 #'        Learning algorithm. See \code{\link{learners}}.  
 #' @param id [string] \cr
 #'        Id for resulting learner object. If missing, id of "learner" argument is used.
-#' @param label [string] \cr
-#'        Label for resulting learner object. If missing, label of "learner" argument is used.
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'        Resampling strategy to evaluate points in hyperparameter space.
 #' @param control 
@@ -26,7 +24,7 @@
 #'   
 #' @title Fuse learner with variable selection.
 
-make.varsel.wrapper <- function(learner, id=as.character(NA), label=as.character(NA), resampling, measures, aggr, control) {
-	make.opt.wrapper(learner, id, label, resampling, control, measures, aggr)
+make.varsel.wrapper <- function(learner, id=as.character(NA), resampling, measures, aggr, control) {
+	make.opt.wrapper(learner, id, resampling, control, measures, aggr)
 }
 

@@ -36,7 +36,7 @@ setMethod(
 					costs = FALSE
 			)
 			
-			x = callNextMethod(.Object, label="blackboost", pack=c("mboost", "party"), desc=desc)
+			x = callNextMethod(.Object, pack=c("mboost", "party"), desc=desc)
 			par.descs = list(
 					new("par.desc.disc", par.name="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
 					new("par.desc.num", par.name="mstop", default=100L, lower=1L),

@@ -38,7 +38,7 @@ setMethod(
 				new("par.desc.disc", par.name="kernel", default="triangular", 
 						vals=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian"))
 			)
-			callNextMethod(.Object, label="knn", pack="kknn", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="kknn", desc=desc, par.descs=par.descs)
 		}
 )
 

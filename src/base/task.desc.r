@@ -7,7 +7,6 @@ roxygen()
 #' 
 #' \describe{
 #'  \item{id [string]}{Id string of task.}
-#'	\item{label [string]}{Label string of task.}
 #'  \item{is.classif [boolean]}{Classification task?}
 #' 	\item{is.regr [boolean]}{Regression task?}
 #'  \item{has.weights [boolean]}{Are weights available in task for covariates?}
@@ -39,8 +38,6 @@ setMethod(
 				return(x@task.class == "regr.task")
 			if (i == "id") 
 				return(x@props$id)
-			if (i == "label") 
-				return(x@props$label)
 			if (i == "has.weights") 
 				return(x@props$has.weights)
 			if (i == "has.blocking") 
@@ -59,10 +56,9 @@ setMethod(
 setMethod(
 		f = "initialize",
 		signature = signature("task.desc"),
-		def = function(.Object, task.class, id, label, has.weights, has.blocking, costs, positive, negative) {
+		def = function(.Object, task.class, id, has.weights, has.blocking, costs, positive, negative) {
 			.Object@task.class = task.class
 			.Object@props$id = id
-			.Object@props$label = label
 			.Object@props$has.weights = has.weights
 			.Object@props$has.blocking = has.blocking
 			.Object@props$costs = costs

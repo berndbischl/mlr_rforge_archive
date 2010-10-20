@@ -39,7 +39,7 @@ setMethod(
       )
       
       
-			callNextMethod(.Object, label="Naive Bayes", pack="e1071", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="e1071", desc=desc, par.descs=par.descs)
 		}
 )
 

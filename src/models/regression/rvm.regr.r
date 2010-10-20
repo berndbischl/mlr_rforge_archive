@@ -50,7 +50,7 @@ setMethod(
       		new("par.desc.num", par.name="minmaxdiff", default=0.001, lower=0)
       )
       
-      callNextMethod(.Object, label="RVM", pack="kernlab", desc=desc)
+      callNextMethod(.Object, pack="kernlab", desc=desc)
     }
 )
 

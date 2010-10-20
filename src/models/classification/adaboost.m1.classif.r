@@ -32,7 +32,7 @@ setMethod(
 					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="AdaBoostM1", pack="adabag", desc=desc)
+			callNextMethod(.Object, pack="adabag", desc=desc)
 		}
 )
 

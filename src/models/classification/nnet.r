@@ -51,7 +51,7 @@ setMethod(
         new("par.desc.num", par.name="reltoll", default=1.0e-8)
       )
       			
-			callNextMethod(.Object, label="NNet", pack="nnet", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="nnet", desc=desc, par.descs=par.descs)
 		}
 )
 

@@ -20,8 +20,8 @@ setClass(
 setMethod(
         f = "initialize",
         signature = signature("multiclass.wrapper"),
-        def = function(.Object, learner, id, label, codematrix) {
-            .Object = callNextMethod(.Object, learner, id=id, label=label, par.descs=list(), par.vals=list())
+        def = function(.Object, learner, id, codematrix) {
+            .Object = callNextMethod(.Object, learner, id=id, par.descs=list(), par.vals=list())
             .Object@codematrix = codematrix
             return(.Object)
         }
@@ -53,8 +53,6 @@ setMethod(
 #'        Learning algorithm. See \code{\link{learners}}.  
 #' @param id [string] \cr
 #'        Id for resulting learner object. If missing, id of "learner" argument is used.
-#' @param label [string] \cr
-#'        Label for resulting learner object. If missing, label of "learner" argument is used.
 #' @param method [string] \cr
 #'        Currently unsupported.
 #' @param codematrix [matrix] \cr
@@ -66,10 +64,10 @@ setMethod(
 #' 
 #' @title Fuse learner with multiclass method.
 #' @export
-make.multiclass.wrapper = function(learner, id=as.character(NA), label=as.character(NA), method, codematrix, ...) {
+make.multiclass.wrapper = function(learner, id=as.character(NA), method, codematrix, ...) {
     if (is.character(learner))
         learner = make.learner(learner)
-    new("multiclass.wrapper", learner=learner, id=id, label=label, codematrix=codematrix)
+    new("multiclass.wrapper", learner=learner, id=id, codematrix=codematrix)
 }
 
 

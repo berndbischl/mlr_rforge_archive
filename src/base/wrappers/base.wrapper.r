@@ -8,8 +8,6 @@ roxygen()
 roxygen()
 #' @include set.id.r
 roxygen()
-#' @include set.label.r
-roxygen()
 
 #' Abstract base class to wrap something around a learner.
 #' @exportClass base.wrapper
@@ -28,17 +26,15 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("base.wrapper"),
-		def = function(.Object, learner, id, label, desc, par.descs, par.vals, pack=as.character(c())) {
+		def = function(.Object, learner, id, desc, par.descs, par.vals, pack=as.character(c())) {
 			if (missing(learner))
 				return(.Object)
 			.Object@learner = learner
 			if (is.na(id))
 				id = learner["id"]
-			if (is.na(label))
-				label = learner["label"]
 			if (missing(desc))
 				desc = learner@desc
-			callNextMethod(.Object, id=id, label=label, desc=desc, par.descs=par.descs, par.vals=par.vals, pack=pack)
+			callNextMethod(.Object, id=id, desc=desc, par.descs=par.descs, par.vals=par.vals, pack=pack)
 		}
 )
 
@@ -53,9 +49,6 @@ setMethod(
 			check.getter.args(x, c("par.top.wrapper.only", "par.when"), j, ...)
 			if(i == "id") {
 				return(x@id)
-			}			
-			if(i == "label") {
-				return(x@label)
 			}			
 			if (i == "learner")
 				return(x@learner)

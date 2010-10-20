@@ -48,7 +48,7 @@ setMethod(
           new("par.desc.num", par.name="maxnodes", lower=1L)
 			)
 
-      callNextMethod(.Object, label="RForest", pack="randomForest", desc=desc, par.descs=par.descs)
+      callNextMethod(.Object, pack="randomForest", desc=desc, par.descs=par.descs)
 		}
 )
 

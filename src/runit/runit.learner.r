@@ -6,7 +6,6 @@ test.learner <- function() {
 	checkEquals(wl["is.classif"], T)
 	checkEquals(wl["is.regr"], F)
 	checkEquals(wl["id"], "classif.rpart")
-	checkEquals(wl["label"], "RPart")
 	checkEquals(wl["multiclass"], T)
 	checkEquals(wl["probs"], T)
 	checkEquals(wl["decision"], F)

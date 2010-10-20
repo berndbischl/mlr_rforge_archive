@@ -33,7 +33,7 @@ setMethod(
 					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="logreg", pack="stats", desc=desc)
+			callNextMethod(.Object, pack="stats", desc=desc)
 		}
 )
 

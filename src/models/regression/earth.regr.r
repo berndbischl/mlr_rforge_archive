@@ -20,7 +20,7 @@ setMethod(
 					weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="earth", pack="earth", desc=desc)
+			callNextMethod(.Object, pack="earth", desc=desc)
 		}
 )
 

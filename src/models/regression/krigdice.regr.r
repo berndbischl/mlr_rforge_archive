@@ -27,7 +27,7 @@ setMethod(
           weights = FALSE
       )
       
-      callNextMethod(.Object, label="Krig", pack="DiceKriging", desc=desc)
+      callNextMethod(.Object, pack="DiceKriging", desc=desc)
     }
 )
 

@@ -56,7 +56,7 @@ setMethod(
         new("par.desc.num", par.name="maxdepth", default=30L, lower=1L, upper=30L)
       )
       
-			callNextMethod(.Object, label="ada", pack="ada", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="ada", desc=desc, par.descs=par.descs)
 		}
 )
 

@@ -46,7 +46,7 @@ setMethod(
         new("par.des.num", par.name="epsi", default=0.0001)
       )
       
-			callNextMethod(.Object, label="lpsvm", pack="penalizedSVM", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="penalizedSVM", desc=desc, par.descs=par.descs)
 		}
 )
 

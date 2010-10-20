@@ -33,7 +33,7 @@ setMethod(
 					weights = FALSE,
 					costs = FALSE
 			)
-			callNextMethod(.Object, label="OneR", pack="RWeka", desc=desc)
+			callNextMethod(.Object, pack="RWeka", desc=desc)
 		}
 )
 

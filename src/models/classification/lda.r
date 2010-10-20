@@ -39,7 +39,7 @@ setMethod(
           new("par.desc.num", par.name="tol", default=1.0e-4, lower=0)
       )
 			
-			callNextMethod(.Object, label="LDA", pack="MASS", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="MASS", desc=desc, par.descs=par.descs)
 		}
 )
 

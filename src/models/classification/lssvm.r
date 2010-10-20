@@ -33,7 +33,7 @@ setMethod(
 					costs = FALSE 
 			)
 			
-			callNextMethod(.Object, label="lssvm", pack="kernlab", desc=desc)
+			callNextMethod(.Object, pack="kernlab", desc=desc)
 		}
 )
 

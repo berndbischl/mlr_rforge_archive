@@ -19,7 +19,7 @@ setMethod(
 					characters = FALSE,
 					weights = TRUE
 			)
-			callNextMethod(.Object, label="RPART", pack="rpart",	desc=desc, )
+			callNextMethod(.Object, pack="rpart",	desc=desc, )
 		}
 )
 

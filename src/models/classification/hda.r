@@ -33,7 +33,7 @@
 #					costs = FALSE
 #			)
 #			
-#			callNextMethod(.Object, label="hda", pack="hda", desc=desc)
+#			callNextMethod(.Object, pack="hda", desc=desc)
 #		}
 #)
 #

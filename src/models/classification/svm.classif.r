@@ -47,7 +47,7 @@ setMethod(
         new("par.desc.num", par.name="cachesize", default=40L, flags=list(optimize=FALSE))
       )
       
-			callNextMethod(.Object, label="SVM", pack="e1071", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="e1071", desc=desc, par.descs=par.descs)
 		}
 )
 

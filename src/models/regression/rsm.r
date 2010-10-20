@@ -26,7 +26,7 @@ setMethod(
       new("par.desc.disc", par.name="modelfun", default="FO", vals=c("FO", "TWI", "SO"), flags=list(pass.default=TRUE))
     )
     
-    callNextMethod(.Object, label="rsm", pack="rsm", desc=desc, par.descs=par.descs)
+    callNextMethod(.Object, pack="rsm", desc=desc, par.descs=par.descs)
   }
 )
 

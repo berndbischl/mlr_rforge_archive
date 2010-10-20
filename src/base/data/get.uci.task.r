@@ -7,7 +7,7 @@
 # handle.train.test:        "train" / "test" / "all", default = NULL
 # handle.nas:               na.omit, default = NULL
 # ...:                      further arguments to make.task, supported are
-#                           id, label; as default name is used
+#                           id; as default name is used
 #                           excluded; further variables to exclude
 #                           weights
 #                           blocking

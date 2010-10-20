@@ -20,7 +20,7 @@ setMethod(
       weights = FALSE
     )
     
-    callNextMethod(.Object, label="SVR", pack="sg", desc=desc)
+    callNextMethod(.Object, pack="sg", desc=desc)
   }
 )
 

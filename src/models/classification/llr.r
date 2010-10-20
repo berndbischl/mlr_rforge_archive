@@ -33,7 +33,7 @@ setMethod(
 					costs = FALSE
 			)			
 			
-			callNextMethod(.Object, label="llr", pack="locClass", props=desc)
+			callNextMethod(.Object, pack="locClass", props=desc)
 		}
 )
 

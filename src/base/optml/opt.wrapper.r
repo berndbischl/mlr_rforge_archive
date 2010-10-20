@@ -25,14 +25,14 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.wrapper"),
-		def = function(.Object, learner, id, label, resampling, control, measures, aggr) {
+		def = function(.Object, learner, id, resampling, control, measures, aggr) {
 			if (missing(learner))
 				return(.Object)
 			.Object@resampling = resampling
 			.Object@control = control
 			.Object@measures = measures
 			.Object@aggr = aggr
-			callNextMethod(.Object, learner, id, label, par.descs=list(), par.vals=list())
+			callNextMethod(.Object, learner, id, par.descs=list(), par.vals=list())
 		}
 )
 
@@ -90,7 +90,7 @@ setMethod(
 )
 
 
-make.opt.wrapper = function(learner, id, label, resampling, control, measures, aggr) {
+make.opt.wrapper = function(learner, id, resampling, control, measures, aggr) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	if (missing(measures))
@@ -99,7 +99,7 @@ make.opt.wrapper = function(learner, id, label, resampling, control, measures, a
 	if (missing(aggr))
 		aggr = default.aggr(resampling)
 	aggr = make.aggrs(aggr)
-	new("opt.wrapper", learner, id, label, resampling, control, measures, aggr=aggr)
+	new("opt.wrapper", learner, id, resampling, control, measures, aggr=aggr)
 }
 
 

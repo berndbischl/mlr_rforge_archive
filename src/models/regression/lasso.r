@@ -21,7 +21,7 @@ setMethod(
 					weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="Lasso regression", pack="penalized", desc=desc)
+			callNextMethod(.Object, pack="penalized", desc=desc)
 		}
 )
 

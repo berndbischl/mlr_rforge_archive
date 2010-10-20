@@ -31,7 +31,7 @@ setMethod(
       new("par.desc.log", par.name="use.all", default=TRUE, requires=expression(algorithm == "VR")),
       new("par.desc.disc", par.name="algorithm", default="cover_tree", vals=list("cover_tree", "kd_tree", "VR"))
     )
-    callNextMethod(.Object, label="fnn", pack="FNN", desc=desc, par.descs=par.descs)
+    callNextMethod(.Object, pack="FNN", desc=desc, par.descs=par.descs)
   }
 )
 
@@ -45,7 +45,8 @@ setMethod(
     .data="data.frame", 
     .data.desc="data.desc", 
     .task.desc="task.desc", 
-    .weights="numeric" 
+    .weights="numeric",
+    .costs="missing" 
   ),
   
   def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, ...) {
@@ -63,7 +64,8 @@ setMethod(
   signature = signature(
     .learner = "regr.fnn", 
     .model = "wrapped.model", 
-    .newdata = "data.frame" 
+    .newdata = "data.frame",
+    .type="missing" 
   ),
   
   def = function(.learner, .model, .newdata, ...) {

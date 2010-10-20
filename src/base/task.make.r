@@ -13,8 +13,6 @@ roxygen()
 #' 
 #' @param id [string]\cr 
 #'        Id string for object. Used to select the object from a named list, etc.  
-#' @param label [string]\cr 
-#'        Label string for object. Used in plots, etc.  
 #' @param data [data.frame] \cr 	
 #'        A data frame containing the variables for the modeling.
 #' @param target [string] \cr
@@ -40,49 +38,70 @@ roxygen()
 #' 
 #' @title Construct learning task.
 
+setGeneric(
+  name = "make.task",
+  def = function(id, data, target, excluded, weights, blocking, costs, positive) {
+    if(missing(id)) {
+      id = deparse(substitute(data))
+      if (!is.character(id) || length(id) != 1)
+        stop("Cannot infer id for task automatically. Please set it manually!")
+    }
+    if (missing(excluded))
+      excluded = character(0)
+    if (missing(weights))
+      weights = numeric(0)
+    if (missing(blocking))
+      blocking = factor(c())
+    if (missing(costs)) 
+      costs = matrix(0,0,0)
+    if (missing(positive))
+      positive = as.character(NA)
+    standardGeneric("make.task")
+  }
+)
 
-make.task = function(id, label, data, target, excluded, weights, blocking, costs, positive) {
-			if(missing(id)) {
-				id = deparse(substitute(data))
-				if (!is.character(id) || length(id) != 1)
-					stop("Cannot infer id for task automatically. Please set it manually!")
-			}
-			if(missing(label))
-				label = id
-			
-			check.task(data, target)
-			
-			if(is.factor(data[,target]) || is.character(data[,target]) || is.logical(data[,target]))
-				type = "classif"
-			else if(is.numeric(data[,target]) && !is.integer(data[,target]))
-				type = "regr"
-			else 
-				stop("Cannot infer the type of task from the target data type. Please transform it!")
-			
-			if (missing(excluded))
-				excluded = character(0)
-			if (missing(weights))
-				weights = numeric(0)
-			else {
-				if(length(weights) != nrow(data))
-					stop("Weights have to be of the same length as number of rows in data! Or pass none at all.")
-			}
-			if (missing(blocking))
-				blocking = factor(c())
-			else {
-				if(length(blocking) != nrow(data))
-					stop("Blockings have to be of the same length as number of rows in data! Or pass none at all.")
-			}
-			if (missing(costs)) {
-				costs = matrix(0,0,0)
-			}
-			if (missing(positive) && type == "classif")
-				positive = as.character(NA)
-			
-			if (type == "classif") {
-				new("classif.task", id=id, label=label, target=target, data=data, excluded=excluded, weights=weights, blocking=blocking, costs=costs, positive=positive)
-			} else {
-				new("regr.task", id=id, label=label, target=target, data=data, excluded=excluded, weights=weights, blocking=blocking)
-			}
-}
+
+#' @export
+setMethod(
+  f = "make.task",
+  
+  signature = signature(
+    id="character", 
+    data="data.frame", 
+    target="character", 
+    excluded="character", 
+    weights="numeric", 
+    blocking="factor",
+    costs="matrix",
+    positive="character"
+  ),
+  
+  def = function(id, data, target, excluded, weights, blocking, costs, positive) {
+    
+    if(length(weights) > 0 && length(weights) != nrow(data))
+      stop("Weights have to be of the same length as number of rows in data! Or pass none at all.")
+    if(length(blocking) > 0 && length(blocking) != nrow(data))
+      stop("Blockings have to be of the same length as number of rows in data! Or pass none at all.")
+    
+    check.task(data, target)
+    
+    if(is.factor(data[,target]) || is.character(data[,target]) || is.logical(data[,target]))
+      type = "classif"
+    else if(is.numeric(data[,target]) && !is.integer(data[,target]))
+      type = "regr"
+    else 
+      stop("Cannot infer the type of task from the target data type. Please transform it!")
+    
+    if (type == "classif") {
+      new("classif.task", id=id, target=target, data=data, excluded=excluded, weights=weights, blocking=blocking, costs=costs, positive=positive)
+    } else {
+      if(!is.na(postive))
+        stop("You cannot define a positive class for regression!")
+      new("regr.task", id=id, target=target, data=data, excluded=excluded, weights=weights, blocking=blocking)
+    }
+  }
+)
+
+
+
 

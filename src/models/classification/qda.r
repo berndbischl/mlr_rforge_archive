@@ -38,7 +38,7 @@ setMethod(
         new("par.desc.num", par.name="nu", default=5L , lower=2L, requires=expression(method == "t"))
       )
       
-			callNextMethod(.Object, label="QDA", pack="MASS", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="MASS", desc=desc, par.descs=par.descs)
 		}
 )
 

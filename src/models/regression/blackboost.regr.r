@@ -20,7 +20,7 @@ setMethod(
 					weights = TRUE
 			)
 			
-			callNextMethod(.Object, label="blackboost", pack="mboost", desc=desc)
+			callNextMethod(.Object, pack="mboost", desc=desc)
 		}
 )
 

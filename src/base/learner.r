@@ -15,7 +15,6 @@ roxygen()
 #'  \item{is.classif [boolean]}{Is this learner for classification tasks?}
 #'  \item{is.regr [boolean]}{Is this learner for regression tasks?}
 #'  \item{id [string]}{Id string of learner.}
-#'	\item{label [string]}{Label string of learner.}
 #' 	\item{pack [string]}{Package were underlying learner is implemented.}
 #'	\item{desc [\code{\linkS4class{learner.desc}}]}{Properties object to describe functionality of the learner.}
 #' 	\item{par.vals [list]}{List of fixed hyperparameters and respective values for this learner.}
@@ -34,7 +33,6 @@ setClass(
 		contains = c("object"),
 		representation = representation(
 				id = "character",
-				label = "character",
 				pack = "character",
 				desc = "learner.desc",
 				predict.type = "character",
@@ -49,15 +47,12 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learner"),
-		def = function(.Object, id, label, pack, desc, par.descs, par.vals) {			
+		def = function(.Object, id, pack, desc, par.descs, par.vals) {			
 			if (missing(desc))
 				return(.Object)
 			if (missing(id))
 				id = as.character(class(.Object))
-			if (missing(label))
-				label = id
 			.Object@id = id
-			.Object@label = label
 			.Object@pack = pack
 			.Object@desc = desc
 			.Object@predict.type = "response"

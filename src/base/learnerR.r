@@ -41,14 +41,12 @@ setMethod(
 setMethod(
 		f = "initialize",
 		signature = signature("rlearner"),
-		def = function(.Object, id, label, pack, desc, par.descs=list(), par.vals=list()) {
+		def = function(.Object, id, pack, desc, par.descs=list(), par.vals=list()) {
 			if (missing(desc))
 				return(.Object)
 			if (missing(id))
 				id = as.character(class(.Object))
-			if (missing(label))
-				label = id
-			callNextMethod(.Object, id=id, label=label, pack=pack, desc=desc, par.desc=par.descs, par.vals=par.vals)
+			callNextMethod(.Object, id=id, pack=pack, desc=desc, par.desc=par.descs, par.vals=par.vals)
 		}
 )
 

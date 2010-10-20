@@ -37,7 +37,7 @@ setMethod(
       )
       
       
-			callNextMethod(.Object, label="Shrinkage Discriminant Analysis", pack="sda", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="sda", desc=desc, par.descs=par.descs)
 		}
 )
 

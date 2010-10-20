@@ -37,7 +37,7 @@ setMethod(
           new("par.desc.num", par.name="lambda", default=1, lower=0)
       )
       
-			callNextMethod(.Object, label="grplasso", pack="grplasso", desc=desc, par.vals=list(lambda = 1))
+			callNextMethod(.Object, pack="grplasso", desc=desc, par.vals=list(lambda = 1))
 		}
 )
 

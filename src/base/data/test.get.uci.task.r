@@ -76,16 +76,16 @@ str(ct)
 
 
 ### pass further arguments to make.task
-#   id, label; as default name is used
+#   id as default name is used
 ct <- get.uci.task("balance-scale", id = "b")
 ct
 str(ct)
 
-ct <- get.uci.task("balance-scale", label = "b")
+ct <- get.uci.task("balance-scale")
 ct
 str(ct)
 
-ct <- get.uci.task("balance-scale", label = "b", id = "a")
+ct <- get.uci.task("balance-scale", id = "a")
 ct
 str(ct)
 

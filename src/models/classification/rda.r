@@ -52,7 +52,7 @@ setMethod(
           new("par.desc.log", par.name="estimate.error", default=FALSE, flags=list(optimize=FALSE, pass.default=TRUE))
 			)
 			
-			callNextMethod(.Object, label="rda", pack="klaR", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="klaR", desc=desc, par.descs=par.descs)
 		}
 )
 

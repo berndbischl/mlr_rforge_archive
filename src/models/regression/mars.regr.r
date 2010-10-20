@@ -20,7 +20,7 @@ setMethod(
 					weights = TRUE
 			)
 			
-			callNextMethod(.Object, label="Multivariate Adaptive Regression Splines", pack="mda", desc=desc)
+			callNextMethod(.Object, pack="mda", desc=desc)
 		}
 )
 

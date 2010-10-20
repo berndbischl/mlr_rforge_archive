@@ -25,7 +25,7 @@ setMethod(
 					weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="KKNN", pack="kknn", desc=desc)
+			callNextMethod(.Object, pack="kknn", desc=desc)
 		}
 )
 

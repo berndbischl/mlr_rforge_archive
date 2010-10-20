@@ -20,7 +20,7 @@ setMethod(
 					weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="Principal Component Regression", pack="pls", desc=desc)
+			callNextMethod(.Object, pack="pls", desc=desc)
 		}
 )
 

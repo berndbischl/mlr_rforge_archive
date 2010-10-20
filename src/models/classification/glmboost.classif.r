@@ -35,7 +35,7 @@ setMethod(
 					costs = FALSE
 			)
 			# cannot pass the function Binomial without lopading the package in the super constructor...
-			x = callNextMethod(.Object, label="glmboost", pack="mboost", desc=desc)
+			x = callNextMethod(.Object, pack="mboost", desc=desc)
 			par.descs = list(
 					new("par.desc.disc", par.name="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
 					new("par.desc.num", par.name="mstop", default=100L, lower=1L),

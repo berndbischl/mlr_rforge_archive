@@ -20,7 +20,7 @@ setMethod(
 					weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="Independent Component Regression", pack="caret", desc=desc)
+			callNextMethod(.Object, pack="caret", desc=desc)
 		}
 )
 

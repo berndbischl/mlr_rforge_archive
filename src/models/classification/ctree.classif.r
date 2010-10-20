@@ -33,7 +33,7 @@ setMethod(
 					weights = TRUE,
 					costs = FALSE
 			)
-			callNextMethod(.Object, label="ctree", pack="party", desc=desc)
+			callNextMethod(.Object, pack="party", desc=desc)
 		}
 )
 

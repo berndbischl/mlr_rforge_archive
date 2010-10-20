@@ -8,12 +8,12 @@
 #   handle.2nd.targets:     "remove" / "exclude" / "keep"
 # handle.nas:               
 # name:                     name of UCI data set
-# id, label:                id, label of the task; as default name is used
+# id :                      id of the task; as default name is used
 # excluded:                 further variables to exclude
 # ...:                      further arguments to make.task
 
 arff.to.task <- function(file, target, ids, handle.multiple.targets, handle.ids, handle.train.test, handle.nas, name, 
-    id = name, label = name, excluded = character(0), ...) {
+    id = name, excluded = character(0), ...) {
     removed <- character(0)
 
     # ids
@@ -70,6 +70,6 @@ arff.to.task <- function(file, target, ids, handle.multiple.targets, handle.ids,
     #names(data) <- gsub(pattern = "([][(),])", replacement = "93 91 40 41 13", x = names(data))
     names(data) <- gsub(' +', "_", names(data))# ' ' oder ' +'?
 
-    ct <- make.task(id = id, label = label, data = data, target = target, excluded = excluded, ...)
+    ct <- make.task(id = id, data = data, target = target, excluded = excluded, ...)
     return(ct)
 }

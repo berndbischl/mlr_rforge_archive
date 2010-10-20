@@ -22,7 +22,7 @@ setMethod(
 					weights = FALSE
 			)
 			
-			callNextMethod(.Object, label="SVM", pack="kernlab", desc=desc)
+			callNextMethod(.Object, pack="kernlab", desc=desc)
 		}
 )
 

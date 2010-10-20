@@ -4,8 +4,6 @@
 #'        Class of learner to create.
 #' @param id [string]\cr 
 #'        Id string for object. Used to select the object from a named list, etc.  
-#' @param label [string]\cr 
-#'        Label string for object. Used in plots, etc.
 #' @param predict.type [string] \cr
 #'        Classification: "response" | "prob" | "decision", specifying the type to
 #'        predict. Default is "response". "decision" is experimental. Ignored for
@@ -24,14 +22,12 @@
 #' 
 #' @export
 #' 
-make.learner = function(class, id, label, predict.type="response", predict.threshold=numeric(0), ..., par.vals=list()) {
+make.learner = function(class, id, predict.type="response", predict.threshold=numeric(0), ..., par.vals=list()) {
 	if (class == "")
 		stop("Cannot create learner from empty string!")	
 	wl = new(class)
 	if (!missing(id))
 		wl@id = id
-	if (!missing(label))
-		wl@label = label
 	wl@predict.type = predict.type 
 	wl@predict.threshold = predict.threshold
   pds = wl@par.descs

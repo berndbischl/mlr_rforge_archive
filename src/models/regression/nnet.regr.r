@@ -32,7 +32,7 @@ setMethod(
           new("par.desc.num", par.name="maxit", default=100L, lower=1L)
       )
       
-      callNextMethod(.Object, label="NNet", pack="nnet", desc=desc, par.descs=par.descs)
+      callNextMethod(.Object, pack="nnet", desc=desc, par.descs=par.descs)
     }
 )
 

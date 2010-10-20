@@ -32,7 +32,7 @@ setMethod(
 					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="Localized LDA", pack="klaR", desc=desc)
+			callNextMethod(.Object, pack="klaR", desc=desc)
 		}
 )
 

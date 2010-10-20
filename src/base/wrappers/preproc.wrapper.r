@@ -14,9 +14,9 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("preproc.wrapper"),
-		def = function(.Object, learner, id, label, fun, par.descs, par.vals) {
+		def = function(.Object, learner, id, fun, par.descs, par.vals) {
 			.Object@fun = fun
-			callNextMethod(.Object, learner=learner, id=id, label=label, par.descs=par.descs, par.vals=par.vals)
+			callNextMethod(.Object, learner=learner, id=id, par.descs=par.descs, par.vals=par.vals)
 		}
 )
 
@@ -29,8 +29,6 @@ setMethod(
 #'        Learning algorithm. See \code{\link{learners}}.  
 #' @param id [string] \cr
 #'        Id for resulting learner object. If missing, id of "learner" argument is used.
-#' @param label [string] \cr
-#'        Label for resulting learner object. If missing, label of "learner" argument is used.
 #' @param fun [function] \cr
 #'        Function to preprocess a data.frame. First argument must be called 'data', which will be preprocessed and subsequently returned.
 #' @param ... [any] \cr
@@ -41,7 +39,7 @@ setMethod(
 #' @title Fuse learner with preprocessing.
 #' @export
 
-make.preproc.wrapper = function(learner, id=as.character(NA), label=as.character(NA), fun, ...) {
+make.preproc.wrapper = function(learner, id=as.character(NA), fun, ...) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	ns = names(formals(fun))
@@ -59,7 +57,7 @@ make.preproc.wrapper = function(learner, id=as.character(NA), label=as.character
 		pds[[i]] = new("par.desc.unknown", par.name=n, when="both", default=p)
 		pvs[[n]] = p
 	}
-	new("preproc.wrapper", learner=learner, id=id, label=label, fun=fun, par.descs=pds, par.vals=pvs)
+	new("preproc.wrapper", learner=learner, id=id, fun=fun, par.descs=pds, par.vals=pvs)
 }
 
 

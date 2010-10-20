@@ -33,7 +33,7 @@ setMethod(
 					costs = FALSE
 			)
 			
-			callNextMethod(.Object, label="lvq1", pack="class", desc=desc)
+			callNextMethod(.Object, pack="class", desc=desc)
 		}
 )
 
