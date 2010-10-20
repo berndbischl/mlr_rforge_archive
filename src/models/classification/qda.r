@@ -35,7 +35,7 @@ setMethod(
 			
       par.descs = list(
         new("par.desc.disc", par.name="method", default="moment", vals=c("moment", "mle", "mve", "t")),
-        new("par.desc.num", par.name="nu", default=5L , lower=2L, requires=expression(method == "t")),
+        new("par.desc.num", par.name="nu", default=5L , lower=2L, requires=expression(method == "t"))
       )
       
 			callNextMethod(.Object, label="QDA", pack="MASS", desc=desc, par.descs=par.descs)
