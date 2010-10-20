@@ -33,7 +33,8 @@ base.files <<- c(
 		
 		
 		"base/wrapped.model.r",
-		"base/learner.failure.r",
+    "base/wrapped.model.make.r",
+    "base/learner.failure.r",
 		
 		"base/train.learner.r",
 		"base/train.task.r",
@@ -142,7 +143,8 @@ classif.files <<- c(
 		"models/classification/adaboost.m1.classif.r",
 		"models/classification/blackboost.classif.r",
 		"models/classification/ctree.classif.r",
-		"models/classification/gbm.classif.r",
+    "models/classification/fnn.classif.r",
+    "models/classification/gbm.classif.r",
 		"models/classification/glmboost.classif.r",
 		"models/classification/grplasso.classif.r",
 		"models/classification/j48.r",
@@ -174,7 +176,8 @@ regr.files <<- c(
 #		"models/regression/bagEarth.regr.r",
 		"models/regression/blackboost.regr.r",
 		"models/regression/earth.regr.r",
-		"models/regression/gbm.regr.r",
+    "models/regression/fnn.regr.r",
+    "models/regression/gbm.regr.r",
 #		"models/regression/icr.r",
 		"models/regression/kknn.regr.r",
 		"models/regression/ksvm.regr.r",

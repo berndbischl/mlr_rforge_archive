@@ -61,7 +61,7 @@ setMethod(
 		f = "[",
 		signature = signature("resample.desc"),
 		def = function(x,i,j,...,drop) {
-			if (i %in% names(props)) {
+			if (i %in% names(x@props)) {
 				return(x@props[[i]])
 			}
 			callNextMethod(x,i,j,...,drop=drop)
