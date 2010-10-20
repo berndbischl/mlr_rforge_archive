@@ -43,7 +43,7 @@ setMethod(
         vals=list(polyreg=polyreg, mars=mars, bruto=bruto, gen.ridge=gen.ridge)),
       new("par.desc.log", par.name="trace", default=FALSE, flags=list(optimize=FALSE)),
       # change default and pass it to reduce mem
-      new("par.desc.log", par.name="keep.fitted", default=FALSE, flags=list(optimze=FALSE, pass.default=TRUE)),
+      new("par.desc.log", par.name="keep.fitted", default=FALSE, flags=list(optimize=FALSE, pass.default=TRUE)),
       new("par.desc.num", par.name="tries", default=5L, lower=1L)
     )
 

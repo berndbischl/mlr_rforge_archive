@@ -14,7 +14,6 @@ test.fnn.regr <- function() {
   for (i in 1:length(parset.list)) {
     parset = parset.list[[i]]
     j = which(colnames(regr.train) == regr.target)
-    print(j)
     pars = list(train=regr.train[,-c(j,4)], test=regr.test[,-c(j,4)], y=regr.train[,j])
     pars = c(pars, parset)
     set.seed(debug.seed)

@@ -44,8 +44,8 @@ setMethod(
         new("par.desc.log", par.name="skip", default=FALSE),
         new("par.desc.num", par.name="rang", default=0.7),
         new("par.desc.num", par.name="decay", default=0),
-        new("par.desc.log", par.name="Hess", default=FALSE, flags=list(optimze=FALSE)),
-        new("par.desc.log", par.name="trace", default=TRUE, flags=list(optimze=FALSE)),
+        new("par.desc.log", par.name="Hess", default=FALSE, flags=list(optimize=FALSE)),
+        new("par.desc.log", par.name="trace", default=TRUE, flags=list(optimize=FALSE)),
         new("par.desc.num", par.name="MaxNWts", default=1000L),
         new("par.desc.num", par.name="abstoll", default=1.0e-4),
         new("par.desc.num", par.name="reltoll", default=1.0e-8)
