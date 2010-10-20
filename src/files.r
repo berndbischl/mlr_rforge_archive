@@ -32,7 +32,7 @@ base.files <<- c(
 		"base/set.label.r",
 		
 		
-		"base/wrapped.model.r",
+    "base/wrapped.model.r",
     "base/wrapped.model.make.r",
     "base/learner.failure.r",
 		
@@ -97,7 +97,8 @@ base.files <<- c(
 		"base/optml/optml.helpers.r",
 		"base/optml/tune.helpers.r",
 		"base/optml/varsel.helpers.r",
-		"base/optml/opt.wrapper.r",
+    "base/optml/opt.model.r",
+    "base/optml/opt.wrapper.r",
 		
 		"base/tune/control.tune.r",
 		"base/tune/control.grid.r",
