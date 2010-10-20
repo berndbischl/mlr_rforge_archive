@@ -28,7 +28,6 @@ allowed.rd.files <<- c(
 		"make.learner.Rd",
 		"set.hyper.pars.Rd",
 		"set.id.Rd",
-		"set.label.Rd",
 		"learners.Rd",
 		"get.learners.Rd",
 		
