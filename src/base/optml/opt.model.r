@@ -1,5 +1,7 @@
 #' @include wrapped.model.r
 roxygen()
+#' @include opt.result.r
+roxygen()
 
 setClass(
   "opt.model",

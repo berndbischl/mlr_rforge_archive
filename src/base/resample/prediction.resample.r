@@ -1,5 +1,7 @@
 #' @include prediction.r
 roxygen()
+#' @include prediction.grouped.r
+roxygen()
 #' @include task.learn.r
 roxygen()
 #' @include resample.instance.r
