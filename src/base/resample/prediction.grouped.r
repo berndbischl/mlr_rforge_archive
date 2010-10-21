@@ -1,3 +1,5 @@
+#' @include prediction.r
+roxygen()
 
 setClass(
 		"grouped.prediction",
