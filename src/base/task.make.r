@@ -95,7 +95,7 @@ setMethod(
     if (type == "classif") {
       new("classif.task", id=id, target=target, data=data, excluded=excluded, weights=weights, blocking=blocking, costs=costs, positive=positive)
     } else {
-      if(!is.na(postive))
+      if(!is.na(positive))
         stop("You cannot define a positive class for regression!")
       new("regr.task", id=id, target=target, data=data, excluded=excluded, weights=weights, blocking=blocking)
     }

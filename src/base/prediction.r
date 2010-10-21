@@ -21,7 +21,7 @@
 
 
 #todo: roxygen does not like long lines?
-#Predicted probabilities. If it's a binary problem only the probabilities for the postive class are returned. With "class" you can specifically select which columns of the prob matrix should be returned. Columns names of the returned matrix are always the respective class labels.
+#Predicted probabilities. If it's a binary problem only the probabilities for the positive class are returned. With "class" you can specifically select which columns of the prob matrix should be returned. Columns names of the returned matrix are always the respective class labels.
 
 setClass(
 		"prediction",
