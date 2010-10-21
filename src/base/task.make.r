@@ -50,6 +50,8 @@ setGeneric(
       excluded = character(0)
     if (missing(weights))
       weights = numeric(0)
+    else if (is.integer(weights))
+      weights = as.numeric(weights)
     if (missing(blocking))
       blocking = factor(c())
     if (missing(costs)) 
