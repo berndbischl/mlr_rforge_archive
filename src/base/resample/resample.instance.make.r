@@ -96,11 +96,9 @@ make.res.i = function(i.class, desc, task=NULL, size=as.integer(NA), blocking=fa
 		size2 = length(levs)
 		# create instance for blocks
 		inst = new(i.class, desc=desc, size=size2)
-		# now exchange block indices with shuffled indices of elements of this block
-		f = function(i) sample(which(blocking == levs[i]))
-		g = function(inds) Reduce(c, lapply(inds, f))
-		inst@inds = lapply(inst@inds, g) 
-		inst@size = size
+		# now exchange block indices with indices of elements of this block and shuffle
+    inst@inds = lapply(inst@inds, function(i) sample(which(blocking %in% levs[i]))) 
+    inst@size = size
 	} else { 
 		inst = new(i.class, desc=desc, size=size, task=task)
 	}
