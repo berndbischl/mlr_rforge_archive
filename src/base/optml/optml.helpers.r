@@ -19,11 +19,11 @@ flat.perfs = function(state) {
 }
 
 make.path.el = function(es, accept=0) {
-	list(par = es$par, threshold=es$threshold, perf = flat.perfs(es), evals=es$evals, event=es$event, accept=accept)
+	list(par = es$par, perf = flat.perfs(es), evals=es$evals, event=es$event, accept=accept)
 }
 
 make.es = function(par, rp, evals, event) {
-	return(list(par=par, rp=rp$perf, threshold=rp$th, evals=evals, event=event))
+	return(list(par=par, rp=rp$perf, evals=evals, event=event))
 }
 
 add.path = function(global.eval.var, path, es, accept) {
