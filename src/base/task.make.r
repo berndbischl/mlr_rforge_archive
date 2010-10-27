@@ -58,6 +58,7 @@ setGeneric(
       costs = matrix(0,0,0)
     if (missing(positive))
       positive = as.character(NA)
+    check.arg(positive, "character", 1)
     standardGeneric("make.task")
   }
 )

@@ -213,4 +213,14 @@ data.frame.row.to.list = function(x, i) {
   x = lapply(x, function(y) if(is.factor(y)) as.character(y) else y)
 }
 
+check.arg = function(x, cl, len) {
+  s = deparse(substitute(x))
+  cl2 = class(x)
+  if (cl2 != cl) 
+    stop("Argument ", s, " must be of class ", cl, " not: ", cl2, "!")
+  len2 = length(x)
+  if (!missing(len) && len2 != len)
+      stop("Argument ", s, " must be of length ", len, " not: ", len2, "!")
+}
+
 
