@@ -17,8 +17,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("randomvarsel.control"),
-		def = function(.Object, minimize, tune.threshold, thresholds, path, maxit, max.vars, method, prob) {
-			.Object = callNextMethod(.Object, minimize, tune.threshold, thresholds, path=path, maxit=maxit, max.vars=max.vars)
+		def = function(.Object, minimize,path, maxit, max.vars, method, prob) {
+			.Object = callNextMethod(.Object, minimize, path=path, maxit=maxit, max.vars=max.vars)
 			.Object@method = method 			
 			.Object@prob = prob 			
 			return(.Object)
@@ -30,10 +30,6 @@ setMethod(
 #' 
 #' @param minimize [logical] \cr 
 #'       Minimize performance measure? Default is TRUE.
-#' @param tune.threshold [logical] \cr 
-#'		Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
-#' @param thresholds [numeric] \cr 
-#'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
 #' @param path [boolean]\cr
 #'        Should optimization path be saved?
 #' @param maxit [integer] \cr 
@@ -51,15 +47,9 @@ setMethod(
 
 setGeneric(
 		name = "randomvarsel.control",
-		def = function(minimize, tune.threshold, thresholds, path, maxit, method, prob) {
+		def = function(minimize, path, maxit, method, prob) {
 			if (missing(minimize))
 				minimize=TRUE
-			if (missing(tune.threshold))
-				tune.threshold=FALSE
-			if (missing(thresholds))
-				thresholds=10
-			if (is.numeric(thresholds))
-				thresholds = as.integer(thresholds)
 			if (missing(path))
 				path = FALSE
 			if (missing(maxit))
@@ -78,10 +68,10 @@ setGeneric(
 
 setMethod(
 		f = "randomvarsel.control",
-		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", path="logical",
+		signature = signature(minimize="logical", path="logical",
 				maxit="integer", method="character", prob="numeric"),
-		def = function(minimize, tune.threshold, thresholds, path, maxit, method, prob) {
-			new("randomvarsel.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, path=path,
+		def = function(minimize, path, maxit, method, prob) {
+			new("randomvarsel.control", minimize=minimize, path=path,
 					maxit=maxit, max.vars=.Machine$integer.max, method=method, prob=prob)
 		}
 )

@@ -18,8 +18,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("sequential.control"),
-		def = function(.Object, minimize, tune.threshold, thresholds, path, max.vars, method, alpha, beta) {
-			.Object = callNextMethod(.Object, minimize, tune.threshold=tune.threshold, thresholds, path=path, 
+		def = function(.Object, minimize, path, max.vars, method, alpha, beta) {
+			.Object = callNextMethod(.Object, minimize, path=path, 
 					maxit=.Machine$integer.max, max.vars=max.vars)
 			.Object@alpha = alpha 			
 			.Object@beta = beta 	
@@ -33,10 +33,6 @@ setMethod(
 #' 
 #' @param minimize [logical] \cr 
 #'       Minimize performance measure? Default is TRUE.
-#' @param tune.threshold [logical] \cr 
-#'		Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
-#' @param thresholds [numeric] \cr 
-#'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
 #' @param path [boolean]\cr
 #'        Should optimization path be saved?
 #' @param max.vars [integer] \cr 
@@ -57,15 +53,9 @@ setMethod(
 
 setGeneric(
 		name = "sequential.control",
-		def = function(minimize, tune.threshold, thresholds, path, max.vars, method, alpha, beta) {
+		def = function(minimize, path, max.vars, method, alpha, beta) {
 			if (missing(minimize))
 				minimize=TRUE
-			if (missing(tune.threshold))
-				tune.threshold=FALSE
-			if (missing(thresholds))
-				thresholds=10
-			if (is.numeric(thresholds))
-				thresholds = as.integer(thresholds)
 			if (missing(path))
 				path = FALSE
 			if (missing(max.vars))
@@ -87,10 +77,10 @@ setGeneric(
 
 setMethod(
 		f = "sequential.control",
-		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", path="logical",
+		signature = signature(minimize="logical", path="logical",
 				max.vars="integer", method="character", alpha="numeric", beta="numeric"),
-		def = function(minimize, tune.threshold, thresholds, path, max.vars, method, alpha, beta) {
-			new("sequential.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, path=path, 
+		def = function(minimize, path, max.vars, method, alpha, beta) {
+			new("sequential.control", minimize=minimize, path=path, 
 					max.vars=max.vars, method=method, alpha=alpha, beta=beta)
 		}
 )

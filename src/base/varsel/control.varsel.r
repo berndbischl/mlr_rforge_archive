@@ -22,14 +22,13 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("varsel.control"),
-		def = function(.Object, minimize, tune.threshold, thresholds, path, maxit, max.vars) {
+		def = function(.Object, minimize, path, maxit, max.vars) {
 			if (missing(minimize))
 				return(.Object)
 			.Object@compare = "diff" 			
 			.Object@max.vars = as.integer(max.vars) 			
 			.Object@maxit = as.integer(maxit) 		
-			.Object = callNextMethod(.Object=.Object, minimize=minimize, 
-					tune.threshold=tune.threshold, thresholds=thresholds, path=path)
+			.Object = callNextMethod(.Object=.Object, minimize=minimize, path=path)
 			return(.Object)
 		}
 )

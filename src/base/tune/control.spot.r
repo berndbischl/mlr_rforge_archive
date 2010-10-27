@@ -14,10 +14,6 @@ setClass(
 #' 
 #' @param minimize [logical] \cr 
 #'       Minimize performance measure? Default is TRUE. 
-#' @param tune.threshold [logical] \cr 
-#'       Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
-#' @param thresholds [numeric] \cr 
-#'    Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10.             
 #' @param path [boolean]\cr
 #'        Should optimization path be saved?
 #' @param start [numeric] \cr
@@ -39,15 +35,9 @@ setClass(
 
 setGeneric(
   name = "spot.control",
-  def = function(minimize, tune.threshold, thresholds, path, par.descs, scale, ...) {
+  def = function(minimize, path, par.descs, scale, ...) {
     if (missing(minimize))
       minimize=TRUE
-    if (missing(tune.threshold))
-      tune.threshold=FALSE
-    if (missing(thresholds))
-      thresholds=10
-    if (is.numeric(thresholds))
-      thresholds = as.integer(thresholds)
     if (missing(path))
       path = FALSE
     
@@ -76,9 +66,9 @@ setGeneric(
 
 setMethod(
   f = "spot.control",
-  signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", path="logical", par.descs="list", scale="function"),
-  def = function(minimize, tune.threshold, thresholds, path, par.descs, scale, ...) {
-    new("spot.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, path=path,
+  signature = signature(minimize="logical", path="logical", par.descs="list", scale="function"),
+  def = function(minimize, path, par.descs, scale, ...) {
+    new("spot.control", minimize=minimize, path=path,
       start=list(), par.descs=par.descs, scale=scale, ...)
   }
 )

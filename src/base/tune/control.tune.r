@@ -23,14 +23,14 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("tune.control"),
-		def = function(.Object, minimize, tune.threshold, thresholds, path, start, par.descs, scale, ...) {
+		def = function(.Object, minimize, path, start, par.descs, scale, ...) {
 			if (missing(minimize))
 				return(.Object)
 			.Object@start = start 			
 			.Object@par.descs = par.descs 			
 			.Object@scale = scale 		
 			.Object = callNextMethod(.Object=.Object, minimize=minimize, 
-					tune.threshold=tune.threshold, thresholds=thresholds, path=path, ...)
+					path=path, ...)
 			return(.Object)
 		}
 )

@@ -60,10 +60,6 @@ tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE
 		stop("You have to pass a control object!")
 	}
 	
-	if (control["tune.threshold"] && task["class.nr"] != 2) 
-		stop("You can only tune the threshold for binary classification!")
-	
-	
 	assign(".mlr.tuneeval", 0, envir=.GlobalEnv)
 	
 	#.mlr.local$n.eval <<- 0

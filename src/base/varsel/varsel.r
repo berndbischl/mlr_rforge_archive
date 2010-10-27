@@ -53,8 +53,6 @@ varsel <- function(learner, task, resampling, control, measures, aggr, model=FAL
 	if (missing(control)) {
 		stop("You have to pass a control object!")
 	}
-	if (control["tune.threshold"] && task["class.nr"] != 2) 
-		stop("You can only tune the threshold for binary classification!")
 	
 	assign(".mlr.vareval", 0, envir=.GlobalEnv)
 	

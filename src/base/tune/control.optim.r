@@ -14,10 +14,6 @@ setClass(
 #' 
 #' @param minimize [logical] \cr 
 #'       Minimize performance measure? Default is TRUE. 
-#' @param tune.threshold [logical] \cr 
-#'		Perform empirical thresholding? Default is FALSE. Only supported for binary classification and you have to set predict.type to "prob" for this in make.learner. 
-#' @param thresholds [numeric] \cr 
-#'		Number of thresholds to try in tuning. Predicted probabilities are sorted and divided into groups of equal size. Default is 10. 		        
 #' @param path [boolean]\cr
 #'        Should optimization path be saved?
 #' @param start [numeric] \cr
@@ -39,15 +35,9 @@ setClass(
 
 setGeneric(
 		name = "optim.control",
-		def = function(minimize, tune.threshold, thresholds, path, start, lower, upper, scale, ...) {
+		def = function(minimize, path, start, lower, upper, scale, ...) {
 			if (missing(minimize))
 				minimize=TRUE
-			if (missing(tune.threshold))
-				tune.threshold=FALSE
-			if (missing(thresholds))
-				thresholds=10
-			if (is.numeric(thresholds))
-				thresholds = as.integer(thresholds)
 			if (missing(path))
 				path = FALSE
 			if (missing(start))
@@ -75,14 +65,14 @@ setGeneric(
 
 setMethod(
 		f = "optim.control",
-		signature = signature(minimize="logical", tune.threshold="logical", thresholds="integer", path="logical", start="numeric", lower="numeric", upper="numeric", scale="function"),
-		def = function(minimize, tune.threshold, thresholds, path, start, lower, upper, scale, ...) {
+		signature = signature(minimize="logical", path="logical", start="numeric", lower="numeric", upper="numeric", scale="function"),
+		def = function(minimize, path, start, lower, upper, scale, ...) {
 			pds = list()
 			for (i in 1:length(start)) {
 				pd = new("par.desc.num", par.name=names(start)[i], lower=lower[i], upper=upper[i])
 				pds[[i]] = pd 
 			}
-			new("optim.control", minimize=minimize, tune.threshold=tune.threshold, thresholds=thresholds, path=path,
+			new("optim.control", minimize=minimize, path=path,
 					start=as.list(start), par.descs=pds, scale=scale, ...)
 		}
 )
