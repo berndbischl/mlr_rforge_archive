@@ -10,8 +10,6 @@ roxygen()
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 
 #'        An index vector specifying the training cases to be used for fitting. By default the complete data set is used. 
-#' @param par.vals [list] \cr 
-#'        Named list of hyperparameter values. Will overwrite the ones specified in the learner object. Default is empty list.
 #' @param vars [\code{\link{character}}] \cr
 #'       Vector of variable names to use in training the model. Default is to use all variables, except the excluded in the task.
 #' @param type [string] \cr
@@ -29,11 +27,9 @@ roxygen()
 
 setGeneric(
 		name = "train",
-		def = function(learner, task, subset, par.vals, vars, type) {
+		def = function(learner, task, subset, vars, type) {
 			if (is.character(learner))
 				learner <- make.learner(learner)
-			if (missing(par.vals))
-				par.vals = list()
 			if (missing(subset))
 				subset <- 1:task["size"]
 			if (missing(vars))
@@ -47,7 +43,7 @@ setGeneric(
 )
 
 
-train.task2 <- function(learner, task, subset, par.vals, vars, type, extra.train.pars, check.fct) {
+train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, check.fct) {
 
 	# todo: do we still need this, and the loading when exporting a learner? 
 	# pack is loaded when learner is constructed
@@ -74,8 +70,6 @@ train.task2 <- function(learner, task, subset, par.vals, vars, type, extra.train
 		ws = task["weights"][subset]
 	else
 		ws = rep(1, length(subset)) 
-	
-	wl = set.hyper.pars(wl, par.vals=par.vals)
 	
 	# make pars list for train call
 	pars = list(.learner=wl, .target=tn, .data=data.subset, .data.desc=task@data.desc, .task.desc=task@task.desc, .weights=ws)
@@ -106,7 +100,7 @@ train.task2 <- function(learner, task, subset, par.vals, vars, type, extra.train
 				learner.model <- try(do.call(train.learner, pars), silent=TRUE)
 			}), gcFirst = FALSE)
 		logger.debug(level="train", or)
-		time.train = st[3]
+		time.train = as.numeric(st[3])
 	}
 
   make.wrapped.model(wl, learner.model, task@data.desc, task@task.desc, hps, subset, vars, time.train)
@@ -122,12 +116,11 @@ setMethod(
 				learner="learner", 
 				task="learn.task", 
 				subset="numeric", 
-				par.vals="list",
 				vars="character",
 				type="character"
 		),
 		
-		def = function(learner, task, subset, par.vals, vars, type) {
+		def = function(learner, task, subset, vars, type) {
 			if (is(task, "classif.task")) {
 				extra.train.pars = list(.costs = task["costs"])
 				ctf = check.task.learner.classif
@@ -135,6 +128,6 @@ setMethod(
 				extra.train.pars = list()
 				ctf = check.task.learner
 			}
-			train.task2(learner, task, subset, par.vals, vars, type, extra.train.pars, ctf)
+			train.task2(learner, task, subset, vars, type, extra.train.pars, ctf)
 		}
 )
