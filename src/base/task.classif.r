@@ -60,16 +60,8 @@ setMethod(
 			}
 			
 			# check costs if passed
-			if (!all(dim(costs) == 0)) {
-				if (!is.matrix(costs))
-					stop("costs has to be a matrix!")
-				if (any(dim(costs) != n))
-					stop("Dimensions of costs has to be the same as number of classes!")
-				rns = rownames(costs)
-				cns = colnames(costs)
-				if (!setequal(rns, levs) || !setequal(cns, levs))
-					stop("Row and column names of cost matrix have to equal class levels!")
-			}			
+      check.costs(costs, task)
+      
 			hw = length(weights) > 0
 			hb = length(blocking) > 0
 			td = new("task.desc", task.class="classif.task", id=id, has.weights=hw, has.blocking=hb,
