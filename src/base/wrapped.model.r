@@ -1,5 +1,3 @@
-# todo: wrapped.model becomes base class, have a normal subclass + one for optimized models???
-
 #' @include object.r
 roxygen()
 #' @include data.desc.r
@@ -34,7 +32,7 @@ setClass(
 				learner.model = "ANY",
 				data.desc = "data.desc",
 				task.desc = "task.desc",
-				subset = "numeric",
+				subset = "integer",
 				vars = "character",
 				time = "numeric"
 		)
@@ -47,7 +45,7 @@ setMethod(
   signature = signature("wrapped.model"),
   def = function(.Object, learner, model, data.desc, task.desc, subset, vars, time) {
     if (missing(learner))
-      return(.Object)
+      return(make.empty(.Object))
     .Object@learner = learner
     .Object@learner.model = model
     .Object@data.desc = data.desc
