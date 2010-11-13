@@ -13,19 +13,6 @@ roxygen()
 #'        Index vector to subset the data in the task to use for prediction. 
 #' @param newdata [\code{\link{data.frame}}] \cr 
 #'        New observations which should be predicted. Alternatively pass this instead of task. 
-#' @param type [string] \cr
-#'        Classification: "response" | "prob" | "decision", specifying the type to predict.
-#'        Default is "response". "decision" is experimental.
-#' 		  Ignored for regression.	 
-#' @param threshold [numeric] \cr
-#'        Threshold to produce class labels if type is not "response". 
-#' 	      Currently only supported for binary classification and type="prob", where it represents the required predicted probability
-#'        for the positive class, so that a positive class is predicted as "response".
-#'        Default is 0.5 for type="prob".
-#' 		  Ignored for regression.	 
-#' @param group [factor] \cr
-#'        Only for internal use! 
-#'        Default is NULL.
 #' @return \code{\linkS4class{prediction}}.
 #'
 #' @export
@@ -39,7 +26,7 @@ roxygen()
 setMethod(
 		f = "predict",
 		signature = signature(object="wrapped.model"),
-		def = function(object, task, newdata, subset, type, threshold, group=NULL) {
+		def = function(object, task, newdata, subset) {
 			if (!missing(task) && !missing(newdata)) 
 				stop("Pass either a task object or a newdata data.frame to predict, but not both!")
 
@@ -58,12 +45,8 @@ setMethod(
 				newdata = prep.data(dd["is.classif"], newdata, dd["target"], dd["excluded"], dd["prepare.control"])			
 			}
 			
-			if (missing(type))
-				type = wl["predict.type"]
-			if (missing(threshold))
-				threshold = wl["predict.threshold"]
-			if (is.null(threshold))
-				threshold = switch(type, response=numeric(0), prob=0.5, decision=0)
+			type = wl["predict.type"]
+   		threshold = switch(type, response=as.numeric(NA), prob=0.5, decision=0)
 
       # load pack. if we saved a model and loaded it later just for prediction this is necessary
       require.packs(wl["pack"], paste("learner", learner["id"]))
@@ -178,8 +161,7 @@ setMethod(
 			else
 				ids = subset
 			make.prediction(data.desc=dd, task.desc=td, id=ids, truth=truth, 
-					type=type, y=p, group=group, threshold=threshold,  
-					time.train=model["time"], time.predict=time.predict)
+					type=type, y=p, threshold=threshold, time=time.predict)
 		}
 )
 
