@@ -24,11 +24,13 @@ roxygen()
 #' @param blocking [factor] \cr 	
 #'        An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.   
 #' @param costs [matrix] \cr 	
-#'        An optional matrix of misclassification costs to be used in the fitting process.
-#' 		  Ignored for regression.	
+#'   An optional matrix of misclassification costs to be used in the fitting process. 
+#'   If the used classifier can handle cost matrices it is passed down to its train function. 
+#'   Rows indicate true classes, columns predicted classes.
+#' 	 Don't pass this in case of regression.	
 #' @param positive [string] \cr 	
-#'        Positive class for binary classification. Default is the first factor level of the target attribute. 
-#' 		  Ignored for regression.	
+#'   Positive class for binary classification. Default is the first factor level of the target attribute. 
+#' 	 Don't pass this in case of regression.	
 #' 
 #' 
 #' @return \code{\linkS4class{learn.task}}.
@@ -100,6 +102,8 @@ setMethod(
     } else {
       if(!is.na(positive))
         stop("You cannot define a positive class for regression!")
+      if (!(all(dim(costs) == 0)))
+        stop("You cannot define a cost matrix for regression!")
       new("regr.task", id=id, target=target, data=data, excluded=excluded, weights=weights, blocking=blocking)
     }
   }
