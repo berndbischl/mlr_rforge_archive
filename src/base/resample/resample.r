@@ -25,7 +25,7 @@ setGeneric(
 )
 
 #' @export
-#' @rdname resample.fit 
+#' @rdname resample 
 setMethod(
   f = "resample",
   signature = signature(learner="learner", task="learn.task", resampling="resample.instance", vars="character", measures="list", 
