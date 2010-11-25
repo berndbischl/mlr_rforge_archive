@@ -22,7 +22,7 @@ setMethod(
           function(x) ai(x, a1=aggr1, a2=a2, reps=reps, iters=iters)
        }) 
 			.Object = callNextMethod(.Object, instance.class="repcv.instance", name="repeated cv", iters=iters,  
-        aggr.iter=ais, has.groups=FALSE)
+        aggr.iter=ais)
       .Object@props$reps=reps
       return(.Object)
 		}

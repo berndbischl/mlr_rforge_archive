@@ -100,13 +100,12 @@ setMethod(
 			test = train = list()
       has.train = "train" %in% levels(df$set)
       has.test = "test" %in% levels(df$set)
-      cl = ifelse(x["has.groups"], "grouped.prediction", "prediction")		
       for(i in 1:x@instance["iters"]) {
         if (has.test)
-          test[[i]] = new(cl, task.desc=x@task.desc, data.desc=x@data.desc, 
+          test[[i]] = new("prediction", task.desc=x@task.desc, data.desc=x@data.desc, 
             type=x@type, df=subset(dfs[[i]], subset=(set=="test")), threshold=x@threshold, x@time)						
-        if (has.test)
-          train[[i]] = new(cl, task.desc=x@task.desc, data.desc=x@data.desc, 
+        if (has.train)
+          train[[i]] = new("prediction", task.desc=x@task.desc, data.desc=x@data.desc, 
             type=x@type, df=subset(dfs[[i]], subset=(set=="train")), threshold=x@threshold, x@time)						
       }
       list(

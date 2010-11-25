@@ -23,7 +23,6 @@ setClass(
 				name = "character", 
 				iters = "integer",
 				aggr.iter = "list",
-				aggr.group = "function",
 				props = "list"
 		)
 )
@@ -34,7 +33,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("resample.desc"),
-		def = function(.Object, instance.class, name, iters, aggr.iter, has.groups, aggr.group, ...) {
+		def = function(.Object, instance.class, name, iters, aggr.iter, ...) {
 			if (missing(name))
 				return(.Object)					
 			.Object@instance.class = instance.class
@@ -44,12 +43,6 @@ setMethod(
 				aggr.iter = list("mean", "sd")				
 			.Object@aggr.iter = aggr.iter
 			.Object@props = list(...)
-			if (has.groups) {
-				if (missing(aggr.group))
-					aggr.group = function(x, g, rin) colMeans(x)
-				.Object@aggr.group = aggr.group
-			}				
-			.Object@props$has.groups = has.groups
 			return(.Object)
 		}
 )
