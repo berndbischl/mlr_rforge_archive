@@ -1,18 +1,18 @@
 test.performance <- function() {
 	
 	res = make.res.desc("holdout")
-	rf = resample.fit("classif.rpart", task=binaryclass.task, resampling=res)
+	rf = resample("classif.rpart", task=binaryclass.task, resampling=res)
 	performance(rf, measures=c("acc", "time"))
 
 	res = make.res.desc("bs", iters=3)
-	rf = resample.fit("classif.rpart", task=binaryclass.task, resampling=res)
+	rf = resample("classif.rpart", task=binaryclass.task, resampling=res)
 	performance(rf, measures=c("acc", "time"))
 	performance(rf, measures=c("acc", "time"), aggr="mean")
 	performance(rf, measures=c("acc", "time"), aggr=c("mean", "combine"))
 	
 	# custom measure
 	res = make.res.desc("cv", iters=3)
-	rf = resample.fit("classif.rpart", task=binaryclass.task, resampling=res)
+	rf = resample("classif.rpart", task=binaryclass.task, resampling=res)
 	
 	mymeasure = function(x, task) {
 		# normal test error
@@ -39,7 +39,7 @@ test.performance <- function() {
 	checkEquals(as.numeric(p$measures["mmce"]), mean(p$losses[,"zero-one"]))
 	
 	res = make.res.desc("bs632", iters=2)
-	p = resample.fit("classif.rpart", task=binaryclass.task, resampling=res)
+	p = resample("classif.rpart", task=binaryclass.task, resampling=res)
 	perf1 = performance(p, measures=c("mmce"), losses=c("zero-one"))
 	ls = perf1$losses
 	ls11 = ls[ls$group == "train" & ls$iter==1, "zero-one"]

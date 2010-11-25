@@ -72,7 +72,7 @@ test.predict <- function() {
 	df = na.omit(BreastCancer[,-1]) 
 	ct = make.task(data=df, target="Class")
 	res = make.res.desc("cv", iters=10)
-	p = resample.fit("classif.randomForest", ct, res)
+	p = resample("classif.randomForest", ct, res)
 	perf = performance(p)
 	checkTrue(all(is.na(perf$measures$mmce)))
 	

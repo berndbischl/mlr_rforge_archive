@@ -11,7 +11,7 @@ test.aggr <- function() {
 	ms = c("mmce", "tpr", "fpr")
 
 	res = make.res.desc("cv", iters=3)
-	rf = resample.fit("classif.lda", task=ct, resampling=res)
+	rf = resample("classif.lda", task=ct, resampling=res)
 	f = mean
 	attr(f, "id") = "foo"
 	perf = performance(rf, aggr=list("combine", "mean", f))

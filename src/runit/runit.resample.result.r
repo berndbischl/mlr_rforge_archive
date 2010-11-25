@@ -5,9 +5,9 @@ test.resample.prediction = function() {
 	rin2 <- make.res.instance("cv", multiclass.task, iters=7)
 	rin3 <- make.res.instance("subsample", multiclass.task, iters=2)
 	
-	p1 = resample.fit("classif.lda", multiclass.task, rin1)       
-	p2 = resample.fit("classif.lda", multiclass.task, rin2)       
-	p3 = resample.fit("classif.lda", multiclass.task, rin3)       
+	p1 = resample("classif.lda", multiclass.task, rin1)       
+	p2 = resample("classif.lda", multiclass.task, rin2)       
+	p3 = resample("classif.lda", multiclass.task, rin3)       
 	
 	checkEquals(p1["iters"], 4)
 	checkEquals(p2["iters"], 7)

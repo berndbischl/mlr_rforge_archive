@@ -144,13 +144,13 @@ test.benchresult = function() {
   # check aggregation
   res = make.res.instance("cv", iters=3, task=multiclass.task)
   wl = "classif.lda"
-  perf = performance(resample.fit(wl, multiclass.task, res), aggr="sd")
+  perf = performance(resample(wl, multiclass.task, res), aggr="sd")
   be = bench.exp(learners=wl, tasks=multiclass.task, resampling=res)
   checkEquals(as.numeric(perf$aggr), be["perf", aggr="sd"]) 
 
   res = make.res.instance("bs632plus", iters=3, task=multiclass.task)
   wl = "classif.lda"
-  perf = performance(resample.fit(wl, multiclass.task, res))
+  perf = performance(resample(wl, multiclass.task, res))
   be = bench.exp(learners=wl, tasks=multiclass.task, resampling=res)
   checkEquals(perf$aggr[,1], be["perf", aggr="resampling"], checkNames = FALSE) 
 }	

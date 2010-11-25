@@ -20,9 +20,9 @@ test.lda <- function() {
 	mc2 = transform(multiclass.df, bam=1)
 	ct = make.task(data=mc2, target=multiclass.target)
 	res = make.res.desc("cv", iters=2)
-	rf = resample.fit("classif.lda", ct, resampling=res)
+	rf = resample("classif.lda", ct, resampling=res)
 	wl = make.learner("classif.lda", predict.type="prob")
-	rf = resample.fit(wl, ct, resampling=res)
+	rf = resample(wl, ct, resampling=res)
 	# todo check na
 	
 }

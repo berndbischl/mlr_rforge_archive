@@ -110,7 +110,7 @@ cv.test <- function(t.name, df, target, folds=2, parset=list(), tune.train, tune
 		cv.instance <- e1071.cv.to.mlr.cv(tr)
 		wl = do.call("make.learner", c(t.name, parset))
 		lt = make.task(data=df, target=target)
-		cvr <- resample.fit(wl, lt, cv.instance)
+		cvr <- resample(wl, lt, cv.instance)
 		cva <- performance(cvr)
 		if (is(lt, "classif.task")) { 
 			checkEqualsNumeric(cva$aggr["mean", "mmce"], tr$performances[1,2])
@@ -143,7 +143,7 @@ bs.test <- function(t.name, df, target, iters=3, parset=list(), tune.train, tune
 	
 	ct <- make.task(data=df, target=target)
 	
-	bsr <- resample.fit(t.name, ct, bs.instance)
+	bsr <- resample(t.name, ct, bs.instance)
 	
 	bsp <- performance(bsr)
 	

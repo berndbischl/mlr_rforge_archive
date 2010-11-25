@@ -12,12 +12,12 @@ test.novars <- function() {
 	p = predict(m, newdata=multiclass.df)
 	checkTrue(setequal(colnames(as.data.frame(p)), c("prob.setosa", "prob.virginica", "prob.versicolor", "truth", "response")))	
 	res = make.res.desc("cv", iter=2)
-	rf = resample.fit(wl, multiclass.task, res, vars=c())
+	rf = resample(wl, multiclass.task, res, vars=c())
 	checkTrue(setequal(colnames(as.data.frame(p)), c("prob.setosa", "prob.virginica", "prob.versicolor", "truth", "response")))	
 	
 	m = train("regr.lm", regr.task, vars=c())
 	p = predict(m, newdata=multiclass.df)
 	checkTrue(all(p["response"] == mean(p["response"]))) 
-	rf = resample.fit("regr.lm", regr.task, res, vars=c())
+	rf = resample("regr.lm", regr.task, res, vars=c())
 	checkEquals(length(unique(rf["response"])), 2) 
 }

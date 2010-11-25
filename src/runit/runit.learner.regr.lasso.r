@@ -40,7 +40,7 @@ test.lasso <- function() {
 	for (i in 1:folds)
 		cv.i@inds[[i]] <- setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
 	wl = make.learner("regr.lasso", lambda=0.3)
-	rf <- resample.fit(wl, regr.task, cv.i)
+	rf <- resample(wl, regr.task, cv.i)
 #	print(rf@preds[[1]])
 	for (i in 1:folds) {
 		test.i = get.test.set(cv.i, i)$inds
