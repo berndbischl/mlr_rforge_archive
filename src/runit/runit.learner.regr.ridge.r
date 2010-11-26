@@ -44,7 +44,7 @@ test.ridge <- function() {
 	wl = make.learner("regr.ridge", lambda=0.3)
 	rf = resample(wl, regr.task, cv.i)
 	for (i in 1:folds) {
-		test.i = get.test.set(cv.i, i)$inds
+		test.i = get.test.set(cv.i, i)
 		xs = as.list(rf)
 		rf.p = xs[[i]]["response"]
 		names(rf.p) <- NULL

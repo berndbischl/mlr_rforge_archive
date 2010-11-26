@@ -12,7 +12,7 @@ test.repcv.instance = function() {
     for (i in 1:10) {
       k = as.integer((j-1)*10L + i)
       i1 = get.train.set(rin, k)
-      i2 = get.test.set(rin, k)$inds
+      i2 = get.test.set(rin, k)
       checkEquals(length(unique(i1)), 135) 
       checkEquals(length(unique(i2)), 15) 
       bag = c(bag, i2)

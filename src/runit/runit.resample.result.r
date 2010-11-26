@@ -15,15 +15,15 @@ test.resample.prediction = function() {
 
 	checkEquals(p3["iter"], rep(c(1,2), each=50))
 	
-	inds = Reduce(c, sapply(1:p1["iters"], function(i) get.test.set(rin1, i)$inds))
+	inds = Reduce(c, sapply(1:p1["iters"], function(i) get.test.set(rin1, i)))
 	y = multiclass.task["targets", row=inds]
 	checkEquals(p1@df$id, inds)
 	checkEquals(p1@df$truth, y)
-	inds = Reduce(c, sapply(1:p2["iters"], function(i) get.test.set(rin2, i)$inds))
+	inds = Reduce(c, sapply(1:p2["iters"], function(i) get.test.set(rin2, i)))
 	y = multiclass.task["targets", row=inds]
 	checkEquals(p2@df$id, inds)
 	checkEquals(p2@df$truth, y)
-	inds = Reduce(c, sapply(1:p3["iters"], function(i) get.test.set(rin3, i)$inds))
+	inds = Reduce(c, sapply(1:p3["iters"], function(i) get.test.set(rin3, i)))
 	y = multiclass.task["targets", row=inds]
 	checkEquals(p3@df$id, inds)
 	checkEquals(p3@df$truth, y)

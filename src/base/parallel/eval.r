@@ -1,16 +1,14 @@
 resample.fit.iter <- function(learner, task, rin, vars, i, measures, prediction, model, extract) {
 	train.i = get.train.set(rin, i)
-	ts = get.test.set(rin, i)
-	test.i = ts$inds
-	g = ts$group
+	test.i = get.test.set(rin, i)
 	
 	m = train(learner, task, subset=train.i, vars=vars)
-	p = predict(m, task=task, subset=test.i, group=g)
+	p = predict(m, task=task, subset=test.i)
   
   # does a measure require to calculate pred.train?
   ptrain = any(sapply(measures, function(m) m["req.pred.train"]))
   if (ptrain) {
-    pred.train = predict(m, task, subset=train.i, group=g) 
+    pred.train = predict(m, task, subset=train.i) 
     ms = sapply(measures, function(pm) performance(task=task, model=m, pred=p, pred.train=pred.train, measure=pm))
   } else {
     pred.train = NULL
