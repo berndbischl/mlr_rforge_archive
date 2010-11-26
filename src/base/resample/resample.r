@@ -50,9 +50,8 @@ setMethod(
         train.i = get.train.set(rin, i)
         ts = get.test.set(rin, i)
         test.i = ts$inds
-        g = ts$group
         m = train(learner, task, subset=train.i, vars=vars)
-        p = predict(m, task=task, subset=test.i, group=g)
+        p = predict(m, task=task, subset=test.i)
         ex = extract(m)
         rs[[i]] = list(pred=p, extracted=ex)
         rin = resample.update(rin, task, m, p)

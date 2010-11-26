@@ -38,7 +38,6 @@ setMethod(
 		signature = signature("resample.instance", "integer"),
 		def = function(x, i) {
 			inds = setdiff(1:x["size"], x@inds[[i]])
-			list(inds=inds, group=NA)
 		}
 )
 

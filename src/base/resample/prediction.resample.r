@@ -1,7 +1,5 @@
 #' @include prediction.r
 roxygen()
-#' @include prediction.grouped.r
-roxygen()
 #' @include task.learn.r
 roxygen()
 #' @include resample.instance.r
@@ -120,7 +118,6 @@ setAs("resample.prediction", "prediction",
 		function(from, to) {
 			df = from@df
 			df$iter = NULL
-			df$group = NULL
 			new("prediction", task.desc=from@task.desc, data.desc=from@data.desc, 
 					type=from@type, df=df, threshold=from@threshold, sum(from@time.train), sum(from@time.predict))						
 		}
