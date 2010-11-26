@@ -2,12 +2,12 @@ test.resample = function() {
 	cv.i <- make.res.instance("cv", binaryclass.task, iters=3)
 	
 	mylda = make.learner("classif.lda", predict.type="prob")
-	rf1 = resample("classif.lda", binaryclass.task, cv.i)$pred
-	rf2 = resample(mylda, binaryclass.task, cv.i)$pred
+	rf1 = resample("classif.lda", binaryclass.task, cv.i, predictions=TRUE)$pred
+	rf2 = resample(mylda, binaryclass.task, cv.i, predictions=TRUE)$pred
 	mylda = make.learner("classif.lda", predict.type="prob", predict.threshold=0)
-	rf3 = resample(mylda, binaryclass.task, cv.i)$pred
+	rf3 = resample(mylda, binaryclass.task, cv.i, predictions=TRUE)$pred
 	mylda = make.learner("classif.lda", predict.type="prob", predict.threshold=1)
-	rf4 = resample(mylda, binaryclass.task, cv.i)$pred
+	rf4 = resample(mylda, binaryclass.task, cv.i, predictions=TRUE)$pred
 	
 	checkEquals(rf1["response"], rf2["response"])
 	f1 = factor(rep(binaryclass.task["positive"], cv.i["size"]), levels=binaryclass.task["class.levels"])
