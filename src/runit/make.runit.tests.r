@@ -141,19 +141,17 @@ bs.test <- function(t.name, df, target, iters=3, parset=list(), tune.train, tune
 	
 	bs.instance <- e1071.bs.to.mlr.bs(tr)
 	
-	ct <- make.task(data=df, target=target)
-	
-	bsr <- resample(t.name, ct, bs.instance)
-	
-	bsp <- performance(bsr)
-	
+	ct = make.task(data=df, target=target)
+	r = resample(t.name, ct, bs.instance)
+	ms = r$measures 
+  
 	if (is(ct, "classif.task")) { 
-		checkEqualsNumeric(bsp$aggr["mean", "mmce"], tr$performances[1,2])
-		checkEqualsNumeric(bsp$aggr["sd",   "mmce"], tr$performances[1,3])
+		checkEqualsNumeric(mean(ms["mmce"]), tr$performances[1,2])
+		checkEqualsNumeric(sd  (ms["mmce"]), tr$performances[1,3])
 	} else {
-		checkEqualsNumeric(bsp$aggr["mean", "mse"], tr$performances[1,2])
-		checkEqualsNumeric(bsp$aggr["sd",   "mse"], tr$performances[1,3])
-	}
+    checkEqualsNumeric(mean(ms["mse"]), tr$performances[1,2])
+    checkEqualsNumeric(sd  (ms["mse"]), tr$performances[1,3])
+  }
 }
 
 
