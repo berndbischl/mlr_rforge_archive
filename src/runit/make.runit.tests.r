@@ -110,16 +110,15 @@ cv.test <- function(t.name, df, target, folds=2, parset=list(), tune.train, tune
 		cv.instance <- e1071.cv.to.mlr.cv(tr)
 		wl = do.call("make.learner", c(t.name, parset))
 		lt = make.task(data=df, target=target)
-		cvr <- resample(wl, lt, cv.instance)
-		cva <- performance(cvr)
-		if (is(lt, "classif.task")) { 
-			checkEqualsNumeric(cva$aggr["mean", "mmce"], tr$performances[1,2])
-			checkEqualsNumeric(cva$aggr["sd",   "mmce"], tr$performances[1,3])
-		} else {
-			checkEqualsNumeric(cva$aggr["mean", "mse"], tr$performances[1,2])
-			checkEqualsNumeric(cva$aggr["sd",   "mse"], tr$performances[1,3])
-		}
-	}
+		ms = resample(wl, lt, cv.instance)$measures
+    if (is(lt, "classif.task")) { 
+      checkEqualsNumeric(mean(ms["mmce"]), tr$performances[1,2])
+      checkEqualsNumeric(sd  (ms["mmce"]), tr$performances[1,3])
+    } else {
+      checkEqualsNumeric(mean(ms["mse"]), tr$performances[1,2])
+      checkEqualsNumeric(sd  (ms["mse"]), tr$performances[1,3])
+    }
+  }
 }
 
 cv.test.parsets <- function(t.name, df, target, folds=3, tune.train, tune.predict=predict, parset.list) {
@@ -142,8 +141,7 @@ bs.test <- function(t.name, df, target, iters=3, parset=list(), tune.train, tune
 	bs.instance <- e1071.bs.to.mlr.bs(tr)
 	
 	ct = make.task(data=df, target=target)
-	r = resample(t.name, ct, bs.instance)
-	ms = r$measures 
+	ms = resample(t.name, ct, bs.instance)$measures
   
 	if (is(ct, "classif.task")) { 
 		checkEqualsNumeric(mean(ms["mmce"]), tr$performances[1,2])
