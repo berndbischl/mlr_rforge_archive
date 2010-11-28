@@ -77,10 +77,8 @@ base.files <<- c(
     "base/resample/bs.instance.r",
     "base/resample/subsample.instance.r",
 		"base/resample/holdout.instance.r",
-		"base/resample/prediction.grouped.r",
 		"base/resample/prediction.resample.r",
 		"base/resample/resample.r",
-		"base/resample/performance.grouped.r",
 		"base/resample/performance.resample.r",
 		"base/conf.matrix.r",
 		
