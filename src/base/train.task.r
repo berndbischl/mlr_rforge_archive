@@ -29,6 +29,8 @@ setGeneric(
 				learner <- make.learner(learner)
 			if (missing(subset))
 				subset <- 1:task["size"]
+      if (is.numeric(subset))
+        subset = as.integer(subset)
 			if (missing(vars))
 				vars <- task["input.names"]
 			if (length(vars) == 0)
@@ -110,7 +112,7 @@ setMethod(
 		signature = signature(
 				learner="learner", 
 				task="learn.task", 
-				subset="numeric", 
+				subset="integer", 
 				vars="character"
 		),
 		

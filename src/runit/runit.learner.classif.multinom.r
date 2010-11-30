@@ -23,8 +23,9 @@ test.multinom <- function() {
 	cv.test("classif.multinom", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp )
 	
 	# test multinom for 2 classes
-	m = train("classif.multinom", binaryclass.task)
-	p = predict(m, newdata=binaryclass.df, type="prob")
+  wl = make.learner("classif.multinom", predict.type="prob")
+	m = train(wl, binaryclass.task)
+	p = predict(m, newdata=binaryclass.df)
 	rr = p["response"]
 	pp = p["prob"]
 	i = as.integer(pp < 0.5) + 1
