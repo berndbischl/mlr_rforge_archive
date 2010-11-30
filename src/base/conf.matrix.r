@@ -1,7 +1,7 @@
 #' Calculates confusion matrix for (possibly resampled) prediction. 
 #' Rows indicate true classes, columns predicted classes.
 #' 
-#' @param result [\code{\linkS4class{prediction}}] \cr
+#' @param pred [\code{\linkS4class{prediction}}] \cr
 #'   Result of a prediction.
 #' @param relative [logical] \cr 
 #' 	If TRUE rows are normalized to show relative frequencies.
@@ -29,6 +29,6 @@ setMethod(
   f = "conf.matrix",
   signature = signature(pred="prediction", relative="logical"),
   def = function(pred, relative) {
-    return(errormatrix(result["truth"], result["response"], relative=relative))
+    return(errormatrix(pred["truth"], pred["response"], relative=relative))
   }
 )

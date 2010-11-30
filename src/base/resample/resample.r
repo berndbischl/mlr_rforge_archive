@@ -14,6 +14,8 @@ setGeneric(
       vars = character(0)
     if (missing(measures))
       measures = default.measures(task)
+    if (is(measures, "measure"))
+      measures = list(measures)
     if (missing(predictions))
       predictions = FALSE
     if (missing(models))
