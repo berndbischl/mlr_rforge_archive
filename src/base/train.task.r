@@ -12,10 +12,7 @@ roxygen()
 #'        An index vector specifying the training cases to be used for fitting. By default the complete data set is used. 
 #' @param vars [\code{\link{character}}] \cr
 #'       Vector of variable names to use in training the model. Default is to use all variables, except the excluded in the task.
-#' @param type [string] \cr
-#'        Classification: "response" | "prob" | "decision", specifying the type to predict later.
-#' 		  Default is "response". Very rarely you have to set this during training as well, as the fitted models differ.	 
-#'
+#' 
 #' @return \code{\linkS4class{wrapped.model}}. 
 #'
 #' @export
@@ -27,7 +24,7 @@ roxygen()
 
 setGeneric(
 		name = "train",
-		def = function(learner, task, subset, vars, type) {
+		def = function(learner, task, subset, vars) {
 			if (is.character(learner))
 				learner <- make.learner(learner)
 			if (missing(subset))
@@ -36,14 +33,12 @@ setGeneric(
 				vars <- task["input.names"]
 			if (length(vars) == 0)
 				vars <- character(0)
-			if (missing(type))
-				type = "response"
 			standardGeneric("train")
 		}
 )
 
 
-train.task2 <- function(learner, task, subset, vars, type, extra.train.pars, check.fct) {
+train.task2 <- function(learner, task, subset, vars, extra.train.pars, check.fct) {
 
 	# todo: do we still need this, and the loading when exporting a learner? 
 	# pack is loaded when learner is constructed
@@ -116,11 +111,10 @@ setMethod(
 				learner="learner", 
 				task="learn.task", 
 				subset="numeric", 
-				vars="character",
-				type="character"
+				vars="character"
 		),
 		
-		def = function(learner, task, subset, vars, type) {
+		def = function(learner, task, subset, vars) {
 			if (is(task, "classif.task")) {
 				extra.train.pars = list(.costs = task["costs"])
 				ctf = check.task.learner.classif
@@ -128,6 +122,6 @@ setMethod(
 				extra.train.pars = list()
 				ctf = check.task.learner
 			}
-			train.task2(learner, task, subset, vars, type, extra.train.pars, ctf)
+			train.task2(learner, task, subset, vars, extra.train.pars, ctf)
 		}
 )

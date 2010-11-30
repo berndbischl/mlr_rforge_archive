@@ -40,12 +40,12 @@ prob.test <- function(t.name, df, target, train.inds, old.probs, parset=list()) 
 	ct <- make.task(data=df, target=target)
 	
 	wl = do.call("make.learner", c(t.name, parset, predict.type="prob"))
-	cm <- try(train(wl, ct, subset=inds, type="prob"))
+	cm <- try(train(wl, ct, subset=inds))
 	
 	if(class(cm@learner.model)[1] == "learner.failure"){
 		checkTrue(class(old.predicts)=="try-error")
 	}else{
-		cp <- predict(cm, newdata=test, type="prob")
+		cp <- predict(cm, newdata=test)
 		# dont need names for num vector, 2 classes
 		if (is.numeric(old.probs))
 			names(old.probs) = NULL
