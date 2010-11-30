@@ -6,9 +6,9 @@ test.hyperpars <- function() {
 	checkEquals(wl1["par.vals"], list(minsplit=10)) 
 	checkEquals(wl1["par.vals.name"], c("minsplit")) 
 	
-	m = train(wl1, task=multiclass.task, par.vals=list(minsplit=5, cp=0.2))
+	m = train(wl1, task=multiclass.task)
 	checkEquals(m["fail"], NULL) 
-	checkEquals(m["learner"]["par.vals"], list(minsplit=5, cp=0.2)) 
+	checkEquals(m["learner"]["par.vals"], list(minsplit=10)) 
 	
 	fun = function(data, x, y) {
 		data[,2] = x*data[,2]
@@ -31,9 +31,9 @@ test.hyperpars <- function() {
 	checkTrue(setequal(wl3["par.vals", par.top.wrapper.only=TRUE], list(x=88, y=2))) 
 	checkTrue(setequal(wl3["par.vals.name", par.top.wrapper.only=TRUE], c("x", "y"))) 
 	
-	m = train(wl2, task=multiclass.task, par.vals=list(minsplit=5, cp=0.2))
-	checkTrue(setequal(m["learner"]["par.vals"], list(cp=0.2, minsplit=5, x=1, y=2))) 
-	checkTrue(setequal(m["learner"]["par.vals.name"], c("cp", "minsplit", "x", "y")))
+	m = train(wl2, task=multiclass.task)
+	checkTrue(setequal(m["learner"]["par.vals"], list(minsplit=10, x=1, y=2))) 
+	checkTrue(setequal(m["learner"]["par.vals.name"], c("minsplit", "x", "y")))
   
   # check warnings
   checkWarning(make.learner("classif.rpart", foo=1), "Setting par foo without")  

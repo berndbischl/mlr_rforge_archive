@@ -14,7 +14,21 @@
 #' 
 #' @title Confusion matrix.
 
+setGeneric(
+  name = "conf.matrix",
+  def = function(pred, relative) {
+    if (missing(relative))
+      relative=FALSE
+    standardGeneric("conf.matrix")
+  }
+)
 
-conf.matrix = function(result, relative=FALSE) {
-	return(errormatrix(result["truth"], result["response"], relative=relative))
-}
+#' @export
+#' @rdname conf.matrix 
+setMethod(
+  f = "conf.matrix",
+  signature = signature(pred="prediction", relative="logical"),
+  def = function(pred, relative) {
+    return(errormatrix(result["truth"], result["response"], relative=relative))
+  }
+)

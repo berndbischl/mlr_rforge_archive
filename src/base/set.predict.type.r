@@ -14,14 +14,14 @@
 
 setGeneric(
   name = "set.predict.type",
-  def = function(x, type) {
+  def = function(learner, type) {
     standardGeneric("set.predict.type")
   }
 )
 
 #' @rdname set.predict.type 
 setMethod(
-  f = "set.predict.pars",
+  f = "set.predict.type",
   
   signature = signature(
     learner="learner", 
