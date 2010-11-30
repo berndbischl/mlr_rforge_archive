@@ -53,42 +53,41 @@ setMethod(
 )
 
 
-make.prediction = function(data.desc, task.desc, id, truth, type, y, threshold, time) {
+make.prediction = function(data.desc, task.desc, id, truth, type, y, time) {
 	xs = list()
 	# if null no col in df present
 	xs[["id"]] = id
 	xs[["truth"]] = truth
-
   if (type == "response") {
-		resp = y
-	} else if (type == "prob"){
+    xs[["response"]] = y
+  } else if (type == "prob"){
 		xs[["prob"]] = y
-		levs = data.desc["class.levels"]		
-		if (data.desc["is.binary"]) {
-			resp = prob.threshold(y, pos=task.desc["positive"], neg=task.desc["negative"], 
-					levels=levs, threshold=threshold)
-		} else {
-			resp = sapply(1:nrow(y), function(i) vote.max.val(y[i,], colnames(y)))
-		}
-		resp = as.factor(resp)
-		# the levels of the predicted classes might not be complete....
-		levs2 = levels(resp)
-		if (length(levs2) != length(levs) || any(levs != levs2))
-			resp = factor(resp, levels=levs)
 	} else if (type == "decision"){
-		xs[["decision"]] = y
-		#resp = colnames(y)[apply(y, which.max, 2)]
-		#todo claculate response
-		resp = NULL
+		xs[["dec"]] = y
 	}
-	xs[["response"]] = resp
 	df = as.data.frame(xs)
-	# fix columnnames for prob if strage chars are in factor levels
-	cns = colnames(df)
+	
+  # fix columnnames for prob if strage chars are in factor levels
+	# todo: review this!
+  cns = colnames(df)
 	i = grep("prob.", cns)
 	if (length(i) > 0)
 		colnames(df)[i] = paste("prob.", colnames(xs[["prob"]]), sep="")
-	new("prediction", data.desc, task.desc, type, df, threshold=threshold, time)
+
+  cns = colnames(df)
+  i = grep("dec.", cns)
+  if (length(i) > 0)
+    colnames(df)[i] = paste("dec.", colnames(xs[["dec"]]), sep="")
+  
+	
+  if (type != "response") {
+    th = rep(1/data.desc["class.nr"], data.desc["class.nr"])
+    names(th) = data.desc["class.levels"]
+    p = new("prediction", data.desc, task.desc, type, df, th, time)
+    return(set.threshold(p, th))
+  } else {
+    return(new("prediction", data.desc, task.desc, type, df, as.numeric(NA), time))
+  }  
 }
 
 
@@ -126,8 +125,10 @@ setMethod(
 				cns2 = sapply(strsplit(cns, "prob."), function(z) z[2])
 				jj = which(cns2 %in% class)
 				y = x@df[, cns[jj]]
-				if (is.data.frame(y))
+				if (is.data.frame(y)) {
+          y = as.matrix(y)
 					colnames(y) = cns2[jj]
+        }
 				return(y)
 			}
 			if (i == "decision") {

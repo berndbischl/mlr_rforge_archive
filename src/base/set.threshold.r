@@ -42,14 +42,14 @@ setMethod(
       threshold = c(threshold, 1-threshold)
       names(threshold) = c(td["positive"], td["negative"])   
     }
-    p = pred["prob", classes=levs]
+    p = pred["prob", class=levs]
     # resort so we have same order in threshold and p
-    threshold = treshold[levs] 
-    p = apply(p, 1, function(x) x/threshold)
-    resp = sapply(1:nrow(y), function(i) vote.max.val(p[i,]/threshold, levs))
+    threshold = threshold[levs] 
+    resp = sapply(1:nrow(p), function(i) vote.max.val(p[i,]/threshold, levs))
     resp = factor(resp, levels=levs)
     pred@df$response = resp
     pred@threshold = threshold
+    return(pred)
   } 
 )
 

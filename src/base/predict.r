@@ -3,7 +3,7 @@ roxygen()
 
 #' Predict the target variable of new data using a fitted model. If the type is set to "prob" or "decision"
 #' probabilities or decision values will be stored in the resulting object. The resulting class labels are 
-#' the classes with the maximum values or thresholding can also be used.
+#' the classes with the maximum values. 
 #' 
 #' @param object [\code{\linkS4class{wrapped.model}}] \cr 
 #'        Wrapped model, trained from a learn task.  
@@ -18,7 +18,7 @@ roxygen()
 #' @export
 #' @rdname predict
 #' @importFrom stats predict
-#' @seealso \code{\link{train}}
+#' @seealso \code{\link{train}}, \code{\link{set.threshold}}
 #' @title Predict new data.
 
 
@@ -46,7 +46,6 @@ setMethod(
 			}
 			
 			type = wl["predict.type"]
-   		threshold = switch(type, response=as.numeric(NA), prob=0.5, decision=0)
 
       # load pack. if we saved a model and loaded it later just for prediction this is necessary
       require.packs(wl["pack"], paste("learner", learner["id"]))
@@ -161,7 +160,7 @@ setMethod(
 			else
 				ids = subset
 			make.prediction(data.desc=dd, task.desc=td, id=ids, truth=truth, 
-					type=type, y=p, threshold=threshold, time=time.predict)
+					type=type, y=p, time=time.predict)
 		}
 )
 

@@ -22,15 +22,13 @@
 
 setGeneric(
   name = "make.measure",
-  def = function(id, minimize, req.task.type, req.pred.type, fun, extra.pars, extract) {
+  def = function(id, minimize, req.task.type, req.pred.type, fun, extra.pars) {
     if (missing(req.task.type))
       req.task.type = c("classif", "regr")
     if (missing(req.pred.type))
       req.pred.type = c("response", "prob", "decsison")
     if (missing(extra.pars))
       extra.pars = list()
-    if (missing(extract))
-      extract = function(){}
     standardGeneric("make.measure")
   }
 )
