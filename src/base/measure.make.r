@@ -63,6 +63,6 @@ default.measures = function(x) {
   if (x["is.classif"])
     return(list(mmce))
   else 
-    return(make.measures("mse"))
+    return(list(mse))
 }
 

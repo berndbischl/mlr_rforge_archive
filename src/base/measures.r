@@ -57,6 +57,13 @@ mmce = make.measure(id="mmce", minimize=TRUE, req.task.type="classif",
   }
 )
 
+mse = make.measure(id="mse", minimize=TRUE, req.task.type="regr",  
+  fun=function(task, model, pred.test, pred.train, pars) {
+    mean((pred.test["response"] - pred.test["truth"])^2)          
+  }
+)
+
+
 time.train = make.measure(id="time.train", minimize=TRUE, 
   fun=function(task, model, pred.test, pred.train, pars) {
     model["time"]
@@ -213,11 +220,6 @@ auc = make.measure(id="auc", minimize=FALSE, req.task.type="binary" ,req.pred.ty
 #sse = make.measure(id="sse", minimize=TRUE, req.task.type="regr",
 #  fun=function(pred.test, pred.train, model, task, pars) {
 #    sum((pred.test["response"] - pred.test["truth"])^2)          
-#  }
-#)
-#mse = make.measure(id="mse", minimize=TRUE, req.task.type="regr", 
-#  fun=function(pred.test, pred.train, model, task, pars) {
-#    mean((pred.test["response"] - pred.test["truth"])^2)          
 #  }
 #)
 #medse = make.measure(id="medse", minimize=TRUE, req.task.type="regr", 
