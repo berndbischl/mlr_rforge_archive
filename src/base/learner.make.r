@@ -1,3 +1,5 @@
+#todo: threshold for more than 2 classes? cutoff in 
+
 #' Create learner object. 
 #' 
 #' @param class [string] \cr
@@ -8,12 +10,6 @@
 #'        Classification: "response" | "prob" | "decision", specifying the type to
 #'        predict. Default is "response". "decision" is experimental. Ignored for
 #'        regression.	 
-#' @param predict.threshold [numeric] \cr
-#'        Threshold to produce class labels if type is not "response". 
-#' 	      Currently only supported for binary classification and type="prob", where it
-#'        represents the required predicted probability for the positive class, so that
-#'        a positive class is predicted as "response". Default is 0.5 for type="prob".
-#'        Ignored for regression.	 
 #' @param ... [any] \cr
 #'        Optional named (hyper)parameters. Alternatively, you can pass via the "par.vals" argument.
 #' @param par.vals [list] \cr
@@ -22,14 +18,13 @@
 #' 
 #' @export
 #' 
-make.learner = function(class, id, predict.type="response", predict.threshold=numeric(0), ..., par.vals=list()) {
+make.learner = function(class, id, predict.type="response", ..., par.vals=list()) {
 	if (class == "")
 		stop("Cannot create learner from empty string!")	
 	wl = new(class)
 	if (!missing(id))
 		wl@id = id
 	wl@predict.type = predict.type 
-	wl@predict.threshold = predict.threshold
   pds = wl@par.descs
   # pass defaults
   pv = list()

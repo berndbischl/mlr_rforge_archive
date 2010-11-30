@@ -4,11 +4,13 @@ test.resample = function() {
 	mylda = make.learner("classif.lda", predict.type="prob")
 	rf1 = resample("classif.lda", binaryclass.task, cv.i, predictions=TRUE)$pred
 	rf2 = resample(mylda, binaryclass.task, cv.i, predictions=TRUE)$pred
-	mylda = make.learner("classif.lda", predict.type="prob", predict.threshold=0)
+	mylda = make.learner("classif.lda", predict.type="prob")
 	rf3 = resample(mylda, binaryclass.task, cv.i, predictions=TRUE)$pred
-	mylda = make.learner("classif.lda", predict.type="prob", predict.threshold=1)
+  rf3 = set.threshold(rf3, 0)
+	mylda = make.learner("classif.lda", predict.type="prob")
 	rf4 = resample(mylda, binaryclass.task, cv.i, predictions=TRUE)$pred
-	
+  rf4 = set.threshold(rf4, 1)
+  
 	checkEquals(rf1["response"], rf2["response"])
 	f1 = factor(rep(binaryclass.task["positive"], cv.i["size"]), levels=binaryclass.task["class.levels"])
 	checkEquals(rf3["response"], f1)
