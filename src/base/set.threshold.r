@@ -32,7 +32,7 @@ setMethod(
   
   def = function(pred, threshold) {
     dd = pred@data.desc
-    td = pred@data.desc
+    td = pred@task.desc
     if (!td["is.classif"])
       stop("Threshold can only be set for classification predictions!")
     if (pred["type"] != "prob")
@@ -40,7 +40,7 @@ setMethod(
     levs = dd["class.levels"]
     if (length(levs) == 2 && is.numeric(threshold) && length(threshold) == 1) {
       threshold = c(threshold, 1-threshold)
-      names(threshold) = c(td["positive"], td["negative"])   
+      names(threshold) = c(td["positive"], td["negative"])
     }
     p = pred["prob", class=levs]
     # resort so we have same order in threshold and p

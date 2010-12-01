@@ -24,7 +24,6 @@ make.learner = function(class, id, predict.type="response", ..., par.vals=list()
 	wl = new(class)
 	if (!missing(id))
 		wl@id = id
-	wl@predict.type = predict.type 
   pds = wl@par.descs
   # pass defaults
   pv = list()
@@ -37,5 +36,6 @@ make.learner = function(class, id, predict.type="response", ..., par.vals=list()
   }
   pv = insert(pv, par.vals)
 	wl = set.hyper.pars(wl, ..., par.vals=pv)
+  wl = set.predict.type(wl, predict.type)
 	return(wl)
 }
