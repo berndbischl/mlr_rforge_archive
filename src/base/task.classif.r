@@ -60,7 +60,7 @@ setMethod(
 			}
 			
 			# check costs if passed
-      check.costs(costs, task)
+      check.costs(costs, dd)
       
 			hw = length(weights) > 0
 			hb = length(blocking) > 0

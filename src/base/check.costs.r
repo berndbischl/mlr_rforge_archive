@@ -1,6 +1,6 @@
 # internal function to check whether costs are in correct format
 # matrix with 0 rows/cols = no costs 
-check.costs = function(costs, task.desc, data.desc) {
+check.costs = function(costs, data.desc) {
   if (!is.matrix(costs) || mode(costs) != "numeric")
     stop("Costs have to be a numerical matrix!")
   if (!all(dim(costs) == 0)) {
