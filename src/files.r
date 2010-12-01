@@ -31,7 +31,8 @@ base.files <<- c(
 		"base/get.learners.r",
 		"base/set.hyper.pars.r",
 		"base/set.id.r",
-		
+    "base/set.predict.type.r",
+    
     "base/wrapped.model.r",
     "base/wrapped.model.make.r",
     "base/learner.failure.r",
