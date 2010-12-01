@@ -102,7 +102,6 @@ base.files <<- c(
 #		"base/tune/control.ps.r",
 		"base/tune/control.optim.r",
 		"base/tune/control.cmaes.r",
-		"base/tune/check.ranges.r",
 		"base/tune/combine.ranges.r",
 		"base/tune/tune.r",
 		"base/tune/tune.threshold.r",

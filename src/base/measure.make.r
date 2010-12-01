@@ -2,7 +2,7 @@
 #' Create a performance measure.
 #' 
 #' @param id [string] \cr
-#'   Name of measure. Default is "costs".
+#'   Name of measure. 
 #' @param minimize [boolean] \cr
 #'   Should the measure be minimized? Default is TRUE. Otherwise you are effectively specifying a benefits matrix.
 #' @param req.task.type [boolean] \cr
@@ -10,13 +10,12 @@
 #' @param fun [function] \cr
 #'   Should the measure be minimized? Default is TRUE. Otherwise you are effectively specifying a benefits matrix.
 #' @param extra.pars [list] \cr
-#'   Matrix of misclassification costs. Rows and columns have to be named with class labels, order does not matter. 
-#'   Rows indicate predicted and columns the true classes.
+#'   List of extra arguments which will always be passed to fun.   	  
 #' 
 #' @return \code{\linkS4class{measure}} 
 #' 
-#' @exportMethod make.cost.measure
-#' @rdname make.cost.measure
+#' @exportMethod make.measure
+#' @rdname make.measure
 #' @seealso \code{\link{measures}}, \code{\link{make.measure}}
 #' @title Construct performance measure.
 

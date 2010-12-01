@@ -6,17 +6,17 @@ roxygen()
 #' Measures the quality of predictions w.r.t. some performance measures.
 #' 
 #' @param pred [\code{\linkS4class{prediction}}] \cr
-#' 		  Prediction object to evaluate.
-#' @param measures [see \code{\link{measures}}]
-#'        Performance measures. 
-#' @param aggr [see \code{\link{aggregations}}]
-#'        Aggregation functions. 
-#' 		  Ignored if not a \code{\linkS4class{resample.prediction}}
+#'   Prediction object to evaluate.
+#' @param measure [\code{\linkS4class{measure}}]
+#'   Performance measure. 
 #' @param task [\code{\linkS4class{learn.task}}]\cr 
-#'        Optionally specifies learning task, very rarely needed.
+#'   Learning task, might be requested by performance measure, usually not needed.
+#' @param model [\code{\linkS4class{learn.task}}]\cr 
+#'   Model built on training data, might be requested by performance measure, usually not needed.
+#' @param pred.train [\code{\linkS4class{prediction}}]\cr 
+#'   Predictions on training data, might be requested by performance measure, usually not needed.
 #' 
-#' @return A list with with possibly three named components: "measures" is a data.frame of performance values,
-#' 		   "aggr" a data.frame of aggregated values 
+#' @return A single numerical performance value.
 #' 
 #' @exportMethod performance
 #' @rdname performance
