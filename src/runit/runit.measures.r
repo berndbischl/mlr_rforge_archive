@@ -1,15 +1,22 @@
 test.measures <- function() {
 	
 	ct = binaryclass.task
+  
+  mymeasure = make.measure(id="foo", minimize=TRUE,  
+    fun=function(task, model, pred.test, pred.train, pars) {
+      tt = pred.test
+      1
+    }
+  )
+	ms = c(mmce, acc, tp, fp, tn, fn, tpr, fpr, tnr, fnr, ppv, npv, mcc, f1, mymeasure)
 	
-	learners = c("classif.lda", "classif.rpart")
-	ms = c("mmce", "acc", "tp", "fp", "tn", "fn", "tpr", "fpr", "tnr", "fnr", "ppv", "npv", "mcc", "f1" )
-	res = make.res.desc("cv", iters=3)
-	m = train("classif.rpart", task=ct, subset=binaryclass.train.inds)
+  res = make.res.desc("cv", iters=3)
+	
+  m = train("classif.rpart", task=ct, subset=binaryclass.train.inds)
 	pred = predict(m, task=ct, subset=binaryclass.test.inds)
-	perf = performance(pred, measures=ms)
-	print(perf)
-	ms = c("mmce", bla=function(x, task) 1)
-	perf = performance(pred, measures=ms)
-	checkEquals(names(perf$measures), c("mmce", "bla"))
+  for (m in ms)
+    perf = performance(pred, measure=m)
+	
+  r = resample("classif.rpart", ct, res, measures=ms)
+	checkEquals(names(r$measures), c("mmce", "acc", "tp", "fp", "tn", "fn", "tpr", "fpr", "tnr", "fnr", "ppv", "npv", "mcc", "f1", "foo"))
 }

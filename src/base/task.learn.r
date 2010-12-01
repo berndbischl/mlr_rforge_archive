@@ -54,7 +54,7 @@ setMethod(
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
 			if(missing(data))
-				return(.Object)					
+				return(make.empty(.Object))					
 			
 			.Object@data = data
 			.Object@weights = weights
