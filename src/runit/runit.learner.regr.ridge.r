@@ -42,7 +42,7 @@ test.ridge <- function() {
 	for (i in 1:folds)
 		cv.i@inds[[i]] <- setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
 	wl = make.learner("regr.ridge", lambda=0.3)
-	rf = resample(wl, regr.task, cv.i)
+	rf = resample(wl, regr.task, cv.i)$pred
 	for (i in 1:folds) {
 		test.i = get.test.set(cv.i, i)
 		xs = as.list(rf)
