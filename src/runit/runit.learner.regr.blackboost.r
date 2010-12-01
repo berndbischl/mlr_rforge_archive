@@ -1,5 +1,6 @@
 
 test.blackboost.regr <- function() {
+  library(mboost)
 	parset.list1 = list(
 			list(family=GaussReg(), tree_controls=ctree_control(maxdepth=2)),
 			list(family=GaussReg(), tree_controls=ctree_control(maxdepth=4), control=boost_control(nu=0.03))
