@@ -46,7 +46,7 @@ test.ridge <- function() {
   p = as.data.frame(r$pred)
 	for (i in 1:folds) {
 		test.i = get.test.set(cv.i, i)
-    rf.p = p[test.i, "response"]
+    rf.p = subset(p, id=test.i, select="response", drop=TRUE)    
 		names(rf.p) <- NULL
 		checkEquals(rf.p, cvl.res$predictions[test.i])		
 	}

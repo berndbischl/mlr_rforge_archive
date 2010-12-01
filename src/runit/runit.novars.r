@@ -1,13 +1,8 @@
 test.novars <- function() {
-	m = train("classif.lda", multiclass.task, vars=character(0))
-	checkTrue(is(m["learner.model"], "novars"))	
-	p = predict(m, newdata=multiclass.df)
-	p = predict(m, newdata=multiclass.df, type="prob")
-	checkTrue(setequal(colnames(as.data.frame(p)), c("prob.setosa", "prob.virginica", "prob.versicolor", "truth", "response")))	
-
 	wl = make.learner("classif.lda", predict.type="prob")
 	m = train(wl, multiclass.task, vars=character(0))
-	checkTrue(is(m["learner"], "classif.lda"))	
+  checkTrue(is(m["learner.model"], "novars"))	
+  checkTrue(is(m["learner"], "classif.lda"))	
 	checkEquals(m["learner"]["predict.type"], "prob")	
 	p = predict(m, newdata=multiclass.df)
 	checkTrue(setequal(colnames(as.data.frame(p)), c("prob.setosa", "prob.virginica", "prob.versicolor", "truth", "response")))	
