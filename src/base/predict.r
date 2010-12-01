@@ -63,12 +63,6 @@ setMethod(
 			}
 			
 			# we can check this for regression as well as those return prob = FALSE
-			if ("prob" == type && !wl["probs"]) {
-				stop("Trying to predict probs, but ", wl["id"], " does not support that!")
-			}
-			if ("decision" == type && !wl["decision"]) {
-				stop("Trying to predict decision values, but ", wl["id"], " does not support that!")
-			}
 
 			hps = wl["pars.setting"][wl["pars.predict"]]
 			

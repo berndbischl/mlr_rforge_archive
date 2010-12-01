@@ -4,7 +4,8 @@ test.predict <- function() {
 	data = multiclass.df
 	formula = multiclass.formula
 	
-	
+	wl.lda = make.learner("classif.lda", predict.type="prob")
+  
 	cm2 <- train("classif.lda", multiclass.task, subset=inds)
 	cp2 <- predict(cm2, newdata=data[inds,])
 	cp2b <- predict(cm2, newdata=data[inds,-5])
@@ -14,7 +15,7 @@ test.predict <- function() {
 	checkEquals(cp2["response"], pred2)
 	checkEquals(cp2b["response"], pred2)
 	
-	cm3 <- train("classif.lda", multiclass.task, subset=inds)
+	cm3 <- train(wl.lda, multiclass.task, subset=inds)
 	cp3 <- predict(cm3, newdata=data[multiclass.test.inds,])
 	ext3 <- lda(formula, data=data[inds,])
 	pred3 <- predict(ext3,newdata=data[multiclass.test.inds,])$class
@@ -36,37 +37,26 @@ test.predict <- function() {
 	checkTrue(setequal(cn3, c("response", "truth")))
 	checkTrue(setequal(cn4, c("id", "response", "truth")))
 	
-	cm5 = train("classif.lda", binaryclass.task, subset=binaryclass.train.inds)
-	cp5a = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds, type="response")
-	cp5b = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds, type="prob")
-	cp5c = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds, type="prob", threshold=0)
-	cp5d = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds, type="prob", threshold=1)
-	cp5e = predict(cm5, task=binaryclass.task, subset=1, type="prob")
+	cm5 = train(wl.lda, binaryclass.task, subset=binaryclass.train.inds)
+	cp5a = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds)
+	cp5b = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds)
+	cp5c = set.threshold(cp5b, 0)
+  cp5d = set.threshold(cp5b, 1)
+	cp5e = predict(cm5, task=binaryclass.task, subset=1)
 	checkEquals(cp5a["response"], cp5b["response"])
 	f1 = factor(rep(binaryclass.task["positive"], length(binaryclass.test.inds)), levels=binaryclass.task["class.levels"])
 	checkEquals(cp5c["response"], f1)
 	f2 = factor(rep(binaryclass.task["negative"], length(binaryclass.test.inds)), levels=binaryclass.task["class.levels"])
 	checkEquals(cp5d["response"], f2)
 	checkTrue(setequal(levels(cp5e["response"]), c("M", "R")))
-	
-	
-	cm6 = train("classif.lvq1", multiclass.task)
-	checkException(predict(cm6, multiclass.task, type="prob"), silent=TRUE)
-	s = geterrmessage()
-	checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
-	
+		
 	# check strange chars in labels
 	df = binaryclass.df
 	levels(df[,binaryclass.target]) = c(-1,1)
 	ct = make.task(data=df, target=binaryclass.target)
-	cm7 = train("classif.lda", task=ct)
-	cp7 = predict(cm7, task=ct, type="prob")
+	cm7 = train(wl.lda, task=ct)
+	cp7 = predict(cm7, task=ct)
 	checkEquals(colnames(cp7@df), c("id", "truth", "prob.-1", "prob.1", "response"))
-	
-	cm8 = train("regr.lm", regr.task)
-	checkException(predict(cm8, regr.task, type="prob"), silent=TRUE)
-	s = geterrmessage()
-	checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
 	
 	# check error in predict
 	df = na.omit(BreastCancer[,-1]) 

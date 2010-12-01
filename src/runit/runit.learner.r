@@ -30,4 +30,16 @@ test.learner <- function() {
 	checkEquals(wl["factors"], T)
 	checkEquals(wl["characters"], F)
 	
+  checkException(make.learner("classif.lvq1", predict.type="prob"), silent=TRUE)
+  s = geterrmessage()
+  checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
+  
+  checkException(make.learner("regr.lm", predict.type="prob"), silent=TRUE)
+  s = geterrmessage()
+  checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
+  
+  wl = make.learner("classif.lvq1")
+  checkException(set.predict.type(wl, "prob"), silent=TRUE)
+  s = geterrmessage()
+  checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
 }
