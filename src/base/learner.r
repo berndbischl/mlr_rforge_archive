@@ -3,13 +3,18 @@ roxygen()
 #' @include learner.desc.r
 roxygen()
 
-# todo supports getters
-# hyperpars getter, read all getters
-
 #' Abstract base class for learning algorithms.
 #'  
+#' How to change object later on: Look at setters.
+#' 
+#' Tresholds for class labels: If you set \code{predict.type} to "prob" or "decision", the label with the maximum value is selected.
+#' You can change labels of a prediction object later by using the function \code{\link{set.threshold}} or find optimal, 
+#' non-default thresholds by using \code{\link{make.et.wrapper}}.
+#' 
+#' How to add further functionality to a learner: Look at subclasses of \code{\linkS4class{base.wrapper}}.
+#' 
 #' Getter.\cr
-#' Note that all getters of \code{\linkS4class{learner.desc}} can also be used. 
+#' Note that all getters of \code{\linkS4class{learner.desc}} can also be used, as as it internally encapsulates some information of the learner. 
 #' 
 #' \describe{
 #'  \item{is.classif [boolean]}{Is this learner for classification tasks?}
@@ -23,6 +28,9 @@ roxygen()
 #'  \item{predict.threshold [character]}{Threshold to produce class labels if type is not "response".} 
 #'	\item{desc [\code{\linkS4class{learner.desc}}]}{Properties object to describe functionality of the learner.}
 #' }
+#' 
+#' Setters: \code{\link{set.id}}, \code{\link{set.hyper.pars}}, \code{\link{set.predict.type}}  
+#' 
 #' @exportClass learner
 #' @title Base class for inducers. 
 
@@ -129,36 +137,3 @@ setMethod(
 )
 
 
-#' @rdname to.string
-setMethod(f = "to.string",
-          signature = signature("learner"),
-          def = function(x) {
-            hps = x["par.vals"]
-            hps.ns = names(hps)
-            hps = Map(function(n, v) hyper.par.val.to.name(n,v,x), hps.ns, hps)
-            hps = paste(hps.ns, hps, sep="=", collapse=" ")
-            is.classif = x["is.classif"]
-            type = if (is.null(is.classif))
-              "Unknown"
-            else if (is.classif)
-              "Classification"
-            else
-              "Regression"
-            pack = paste(x["pack"], collapse=",")
-            return(paste(
-                         ##todo regression. also check when applied to task!!
-                         type, " learner ", x["id"], " from package ", pack, "\n",
-                         "Class: ", class(x), "\n",
-                         "Hyperparameters: ", hps, "\n\n",
-                         "Supported features Nums:", x["numerics"],
-                         " Factors:", x["factors"],
-                         " Chars:", x["characters"], "\n",
-                         "Supports missings: ", x["missings"], "\n", 
-                         "Supports weights: ", x["weights"], "\n", 
-                         "Supports multiclass: ", x["multiclass"], "\n",
-                         "Supports probabilities: ", x["probs"], "\n", 
-                         "Supports decision values: ", x["decision"], "\n", 
-                         "Supports costs: ", x["costs"], "\n", 
-                         sep =""					
-                         ))
-          })

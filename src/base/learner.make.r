@@ -1,7 +1,13 @@
-#todo: threshold for more than 2 classes? cutoff in 
-
-#' Create learner object. 
+#' Create learner object.
 #' 
+#' How to change object later on: Look at setters of \code{\linkS4class{learner}}.
+#' 
+#' Tresholds for class labels: If you set \code{predict.type} to "prob" or "decision", the label with the maximum value is selected.
+#' You can change labels of a prediction object later by using the function \code{\link{set.threshold}} or find optimal, 
+#' non-default thresholds by using \code{\link{make.et.wrapper}}.
+#' 
+#' How to add further functionality to a learner: Look at subclasses of \code{\linkS4class{base.wrapper}}.
+#'  
 #' @param class [string] \cr
 #'        Class of learner to create.
 #' @param id [string]\cr 

@@ -5,16 +5,12 @@ roxygen()
 
 #' Wraps an already implemented learning method from R to make it accessible to mlr.
 #'  
-#' Getter.\cr
-#' 
 #' @exportClass rlearner
 #' @title Base class for inducers. 
 
 setClass(
 		"rlearner",
-		contains = c("learner"),
-		representation = representation(
-		)
+		contains = c("learner")
 )
 
 #' Getter.
@@ -60,4 +56,52 @@ setClass("rlearner.classif", contains = c("rlearner"))
 #' @exportClass rlearner.regr
 #' @title Base class for regression learners. 
 setClass("rlearner.regr", contains = c("rlearner"))
+
+
+#' @rdname to.string
+setMethod(f = "to.string",
+  signature = signature("rlearner.classif"),
+  def = function(x) {
+    hps = x["par.vals"]
+    hps.ns = names(hps)
+    hps = Map(function(n, v) hyper.par.val.to.name(n,v,x), hps.ns, hps)
+    hps = paste(hps.ns, hps, sep="=", collapse=" ")
+    pack = paste(x["pack"], collapse=",")
+    return(paste(
+        "Classification learner id=", x["id"], " from package ", pack, "\n",
+        "Class: ", class(x), "\n",
+        "Predict-Type: ", x["predict.type"], "\n",
+        "Hyperparameters: ", hps, "\n\n",
+        "Supported features Nums:", x["numerics"], " Factors:", x["factors"], "\n",
+        "Supports missings: ", x["missings"], "\n", 
+        "Supports weights: ", x["weights"], "\n", 
+        "Supports multiclass: ", x["multiclass"], "\n",
+        "Supports probabilities: ", x["probs"], "\n", 
+        "Supports decision values: ", x["decision"], "\n", 
+        "Supports costs: ", x["costs"], "\n", 
+        sep =""					
+      ))
+})
+
+#' @rdname to.string
+setMethod(f = "to.string",
+  signature = signature("rlearner.regr"),
+  def = function(x) {
+    hps = x["par.vals"]
+    hps.ns = names(hps)
+    hps = Map(function(n, v) hyper.par.val.to.name(n,v,x), hps.ns, hps)
+    hps = paste(hps.ns, hps, sep="=", collapse=" ")
+    pack = paste(x["pack"], collapse=",")
+    return(paste(
+        "Regression learner id=", x["id"], " from package ", pack, "\n",
+        "Class: ", class(x), "\n",
+        "Hyperparameters: ", hps, "\n\n",
+        "Supported features Nums:", x["numerics"], " Factors:", x["factors"], "\n",
+        "Supports missings: ", x["missings"], "\n", 
+        "Supports weights: ", x["weights"], "\n", 
+        sep =""					
+      ))
+  })
+
+
 
