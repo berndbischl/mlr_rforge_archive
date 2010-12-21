@@ -8,7 +8,6 @@ roxygen()
 #' \describe{
 #'  \item{numerics [boolean]}{Can numeric inputs be processed?}
 #'  \item{factors [boolean]}{Can factor inputs be processed?}
-#'  \item{characters [boolean]}{Can character inputs be processed?}
 #'  \item{missings [boolean]}{Can missing values be processed?}
 #'  \item{weights [boolean]}{Can case weights be used?}
 #'  \item{multiclass [boolean]}{Can probabilities be predicted?}
@@ -34,13 +33,12 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learner.desc"),
-		def = function(.Object, missings, numerics, factors, characters, weights) {
+		def = function(.Object, missings, numerics, factors, weights) {
 			if (missing(missings))
 				return(.Object)
 			.Object@props$missings = missings 
 			.Object@props$numerics = numerics 
 			.Object@props$factors = factors 
-			.Object@props$characters = characters 
 			.Object@props$weights = weights
 			return(.Object)
 		}
@@ -67,8 +65,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learner.desc.regr"),
-		def = function(.Object, missings, numerics, factors, characters, weights) {
-			callNextMethod(.Object, missings, numerics, factors, characters, weights)
+		def = function(.Object, missings, numerics, factors, weights) {
+			callNextMethod(.Object, missings, numerics, factors, weights)
 		}
 )
 
@@ -84,12 +82,12 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learner.desc.classif"),
-		def = function(.Object, missings, numerics, factors, characters, weights, oneclass, twoclass, multiclass, probs, decision, costs) {
+		def = function(.Object, missings, numerics, factors, weights, oneclass, twoclass, multiclass, probs, decision, costs) {
 			.Object@props$multiclass = multiclass 
 			.Object@props$probs = probs 
 			.Object@props$decision = decision 
 			.Object@props$costs = costs 
-			callNextMethod(.Object, missings, numerics, factors, characters, weights)
+			callNextMethod(.Object, missings, numerics, factors, weights)
 		}
 )
 
