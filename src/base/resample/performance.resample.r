@@ -2,25 +2,23 @@
 
 setMethod(
   f = "performance",
-  signature = signature(pred="resample.prediction", measure="measure", task="learn.task", model="list", pred.train="missing"),
-  def = function(pred, measure, task, model, pred.train) {
+  signature = signature(pred="resample.prediction", measure="measure", task="learn.task", model="list"),
+  def = function(pred, measure, task, model) {
     n = pred@instance["iters"]
     preds = as.list(pred)
     test = if (is.null(preds$test)) replicate(n, NULL) else preds$test
-    train = if (is.null(preds$train)) replicate(n, NULL) else preds$train
-    mapply(function(m,p1,p2) measure@fun(task, m, p1, p2, pars=measure@pars) , model, test, train, SIMPLIFY=TRUE)
+    mapply(function(m,p1,p2) measure@fun(task, m, p1, p2, pars=measure@extra.pars) , model, test, SIMPLIFY=TRUE)
   }
 )
 
 setMethod(
   f = "performance",
-  signature = signature(pred="resample.prediction", measure="measure", task="learn.task", model="list", pred.train="missing"),
-  def = function(pred, measure, task, model, pred.train) {
+  signature = signature(pred="resample.prediction", measure="measure", task="learn.task", model="list"),
+  def = function(pred, measure, task, model) {
     n = pred@instance["iters"]
     preds = as.list(pred)
     test = if (is.null(preds$test)) replicate(n, NULL) else preds$test
-    train = if (is.null(preds$train)) replicate(n, NULL) else preds$train
-    mapply(function(m,p1,p2) measure@fun(task, m, p1, p2, pars=measure@pars) , model, test, train, SIMPLIFY=TRUE)
+    mapply(function(m,p1,p2) measure@fun(task, m, p1, p2, pars=measure@extra.pars) , model, test, SIMPLIFY=TRUE)
   }
 )
 

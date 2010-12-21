@@ -33,8 +33,10 @@ setClass(
 		representation = representation(
 				desc = "resample.desc", 
 				size = "integer",
-				inds = "list"
-		)
+				inds = "list",
+        predict = "factor",
+        group = "factor"
+    )
 )
 
 
@@ -51,6 +53,7 @@ setMethod(
 				error("You passed a non-integer to arg 'size' of resample.instance!")
 			.Object@size = as.integer(size)
 			.Object@inds = inds
+      .Object@predict = factor(rep("test", length(inds)), levels=c("train", "test", "both"))
 			return(.Object)
 		}
 )
@@ -61,12 +64,10 @@ setMethod(
 		f = "[",
 		signature = signature("resample.instance"),
 		def = function(x,i,j,...,drop) {
-			if (i == "size")
-				return(x@size)
-			
+			if (i %in% c("size", "group", "predict"))
+				return(callNextMethod(x,i,j, ..., drop=grop))
 			if (i == "iters")
 				return(length(x@inds))
-			
 			return(x@desc[i,...,drop=drop])
 		}
 )
