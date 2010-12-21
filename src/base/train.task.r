@@ -100,7 +100,7 @@ train.task2 <- function(learner, task, subset, vars, extra.train.pars, check.fct
 		time.train = as.numeric(st[3])
 	}
 
-  make.wrapped.model(wl, learner.model, task@data.desc, task@task.desc, hps, subset, vars, time.train)
+  make.wrapped.model(wl, learner.model, task@data.desc, task@task.desc, task@control, hps, subset, vars, time.train)
 }
 	
 
