@@ -1,5 +1,8 @@
 #' @include task.classif.r
+roxygen()
 #' @include task.regr.r
+roxygen()
+#' @include prepare.df.r
 roxygen()
 
 #' Defines a learning task for a given data set. 
@@ -25,7 +28,7 @@ roxygen()
 #' @param blocking [factor] \cr 	
 #'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.
 #' @param control [\code{\linkS4class{prepare.control}}] \cr 	
-#'	Optional control object used for preparing the data.frame. For defaults look at \code{\link{prepare.control}}.
+#'	 Optional control object used for preparing the data.frame. For defaults look at \code{\link{prepare.control}}.
 #' @param costs [matrix] \cr 	
 #'   An optional matrix of misclassification costs to be used in the fitting process. 
 #'   If the used classifier can handle cost matrices it is passed down to its train function, otherwise it is ignored.
@@ -88,7 +91,7 @@ setMethod(
     exclude="character", 
     weights="numeric", 
     blocking="factor",
-    control="prep.control",
+    control="prepare.control",
     costs="matrix",
     positive="character"
   ),

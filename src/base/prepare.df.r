@@ -57,7 +57,7 @@ setMethod(
 
 prepare.control = function(ints.as = "numeric", chars.as = "factor", drop.class.levels = TRUE, 
   impute.inf = .Machine$double.xmax, impute.large = .Machine$double.xmax, large = Inf) {
-	new("prepare.control", ints.as, chars.as, drop.class.levels, impute.inf, impute.large)
+	new("prepare.control", ints.as, chars.as, drop.class.levels, impute.inf, impute.large, large)
 }
 
 
