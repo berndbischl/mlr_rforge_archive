@@ -1,40 +1,67 @@
-
-#' @exportClass grid.control
-#' @rdname grid.control 
+roxygen()
+#' @exportClass prepare.control
+#' @rdname prepare.control-class
+#' @title Control object for data preparation.
+#' @seealso \code{\link{make.task}}
 
 setClass(
 		"prepare.control",
 		representation = representation(
-				props = "list"
+				ints.as = "character",
+				chars.as = "character",
+				drop.class.levels = "logical",
+				impute.inf = "numeric",
+				impute.large = "numeric"
 		)
 )
+
+#---------------- constructor---- -----------------------------------------------------
 
 #' Constructor.
 
 setMethod(
 		f = "initialize",
 		signature = signature("prepare.control"),
-		def = function(.Object, props) {
-			if (missing(props)) {
-				props = list(ints.as = "numeric", chars.as = "factor", drop.class.levels=TRUE, impute.inf="maxval")
-			}
-			.Object@props = props 		
+		def = function(.Object, ints.as, chars.as, drop.class.levels, impute.inf, impute.large) {
+			.Object@ints.as = ints.as
+			.Object@chars.as = chars.as
+			.Object@drop.class.levels = drop.class.levels
+			.Object@impute.inf = impute.inf
+			.Object@impute.large = impute.large
 			return(.Object)
 		}
 )
 
 
-prepare.control = function(ints.as, chars.as, drop.class.levels, impute.inf, maxval) {
-  
+roxygen()
+#' Construct a control object for data preparation.
+#'
+#' @param ints.as [string]\cr
+#'   Should integer input variables be converted to either "numeric" or "factor". Default is "numeric".
+#' @param chars.as [string]\cr
+#'   Default is "factor".
+#' @param drop.class.levels [logical]\cr
+#'   Should empty class levels be dropped? Default is TRUE.
+#' @param impute.inf [string]\cr
+#'   Value infinite values in the data are replaced by. Default ist .Machine$double.xmax. 
+#' @return \code{\linkS4class{prepare.control}}.
+#' @export
+#' @rdname prepare.control
+#' @title Construct prepare.control object.
+
+
+prepare.control = function(ints.as = "numeric", chars.as = "factor", drop.class.levels = TRUE, impute.inf = .Machine$double.xmax, impute.large = NA) {
+	new("prepare.control", ints.as, chars.as, drop.class.levels, impute.inf, impute.large)
 }
 
 
 prep.data = function(is.classif, data, target, exclude=c(), control) {
 	
-	ints.as = control@props$ints.as
-	chars.as = control@props$chars.as
-	drop.class.levels = control@props$drop.class.levels
-	impute.inf = control@props$impute.inf
+	ints.as = control@ints.as
+	chars.as = control@chars.as
+	drop.class.levels = control@drop.class.levels
+	impute.inf = control@impute.inf
+	impute.large = control@impute.large
 	
 	if (is.classif && !is.null(data[[target]])) {
 		targets = data[, target]
@@ -85,11 +112,11 @@ prep.data = function(is.classif, data, target, exclude=c(), control) {
 				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
 					warning("Converting char variable to factor: ", cn)
 			}
-			if (impute.inf == "maxval" && is.numeric(v) && any(is.infinite(v))) {
-				v[is.infinite(v)] = sign(v[is.infinite(v)]) * .Machine$double.xmax  
+			if (is.numeric(v) && any(is.infinite(v))) {
+				v[is.infinite(v)] = sign(v[is.infinite(v)]) * impute.inf  
 				data[,i] = v
 				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
-					warning("Converting inf values to +-.Machine$double.xmax: ", cn)
+					warning("Converting inf values to +-", impute.inf, ": ", cn)
 			}
 		}
 	}
