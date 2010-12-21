@@ -100,7 +100,7 @@ prep.data = function(is.classif, data, target, exclude=c(), control) {
 	
 	cns = colnames(data)
 	exclude = c(exclude, target)
-  conv.in = conv.if = conv.cf = character(0) 
+  conv.in = conv.if = conv.cf = conv.inf  = conv.large = character(0) 
 	for (i in 1:ncol(data)) {
 		cn = cns[i]
 		v = data[, i]
