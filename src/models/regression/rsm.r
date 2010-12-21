@@ -18,7 +18,6 @@ setMethod(
       missings = FALSE,
       numerics = TRUE,
       factors = FALSE,
-      characters = FALSE,
       weights = FALSE
     )
     

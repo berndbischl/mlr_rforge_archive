@@ -16,7 +16,6 @@ setMethod(
 					missings = TRUE,
 					numerics = TRUE,
 					factors = TRUE,
-					characters = FALSE,
 					weights = TRUE
 			)
 			callNextMethod(.Object, pack="rpart",	desc=desc, )
