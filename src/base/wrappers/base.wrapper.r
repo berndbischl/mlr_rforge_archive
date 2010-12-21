@@ -66,13 +66,6 @@ setMethod(
 					return(c(x@learner["par.descs", ...], x["par.descs", par.top.wrapper.only=TRUE, ...]))
 				}					
 			}
-			if(i == "par.descs.name") {
-				if(par.top.wrapper.only) 
-					return(callNextMethod())
-				else {
-					return(c(x@learner["par.descs.name", ...], x["par.descs.name", par.top.wrapper.only=TRUE, ...]))
-				}					
-			}
 			if(i == "par.descs.when") {
 				if(par.top.wrapper.only) 
 					return(callNextMethod())
@@ -85,13 +78,6 @@ setMethod(
 					return(callNextMethod())
 				else {
 					return(c(x@learner["par.vals", ...], x["par.vals", par.top.wrapper.only=TRUE, ...]))
-				}					
-			}
-			if(i == "par.vals.name") {
-				if(par.top.wrapper.only) 
-					return(callNextMethod())
-				else {
-					return(c(x@learner["par.vals.name", ...], x["par.vals.name", par.top.wrapper.only=TRUE, ...]))
 				}					
 			}
 			return(x@learner[i])
@@ -114,7 +100,7 @@ setMethod(
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
 			args = list(...)
-			args = args[!(names(args) %in% .learner["par.vals.name", par.top.wrapper.only=TRUE])]
+			args = args[!(names(args) %in% names(.learner["par.vals", par.top.wrapper.only=TRUE]))]
 			f.args = list(.learner@learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs)
 			f.args = c(f.args, args)
 			do.call(train.learner, f.args)
@@ -133,7 +119,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			args = list(...)
-			args = args[!(names(args) %in% .learner["par.vals.name", par.top.wrapper.only=TRUE])]
+			args = args[!(names(args) %in% names(.learner["par.vals", par.top.wrapper.only=TRUE]))]
 			f.args = list(.learner@learner, .model, .newdata, .type)
 			f.args = c(f.args, args)
 			do.call(pred.learner, f.args)
@@ -151,7 +137,7 @@ setMethod(
 	
 	def = function(learner, ..., par.vals=list()) {
 		ns = names(par.vals)
-		pds.n = learner["par.descs.name", par.top.wrapper.only=TRUE]
+		pds.n = names(learner["par.descs", par.top.wrapper.only=TRUE])
 		for (i in seq(length=length(par.vals))) {
 			if (ns[i] %in% pds.n) {
 				learner = callNextMethod(learner, par.vals=par.vals[i])
@@ -162,4 +148,21 @@ setMethod(
 		return(learner)
 	} 
 )
+
+
+#' @rdname set.predict.type 
+setMethod(
+  f = "set.predict.type",
+  
+  signature = signature(
+    learner="base.wrapper", 
+    type="character" 
+  ),
+  
+  def = function(learner, type) {
+    learner@learner = set.predict.type(learner@learner, type)
+    return(learner)
+  } 
+)
+
 

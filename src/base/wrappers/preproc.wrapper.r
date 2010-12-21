@@ -76,7 +76,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
-			fun.args = .learner["par.vals.name", par.top.wrapper.only=TRUE]
+			fun.args = names(.learner["par.vals", par.top.wrapper.only=TRUE])
 			ww = .learner
 			fun.args = list(...)[fun.args]		
 			fun.args$data = .data
