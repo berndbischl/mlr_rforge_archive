@@ -5,27 +5,26 @@ roxygen()
 #' @include task.desc.r
 roxygen()
 
-#' A learning task is a general description object for a machine learning experiment. 
-#' It wraps the data source and specifies - through its subclasses - the type of the task (e.g. classification or regression), 
+#' General description object for a machine learning task. 
+#' It encapsulates the data and specifies - through its subclasses - the type of the task (either classification or regression), 
 #' the target variable and other details of the problem. As this is just an abstract base class, 
-#' you should not instantiate it directly but use the inheriting classes and their factory methods.
+#' you should not instantiate it directly but use \code{\link{make.task}.
 #'  
 #' Getter.\cr
-#' Note that all getters of \code{\linkS4class{task.desc}} and \code{\linkS4class{data.desc}} can also be used. 
+#' Note that all getters of \code{\linkS4class{task.desc}} and \code{\linkS4class{data.desc}} can also be used, as they internally encapsulate some information of the task. 
 #' 
 #' \describe{
-#' 	\item{data [data.frame]. Optional parameters: row, col}{The data.frame is returned, possibly indexed by row/col. If col is missing, only columns which were not excluded are returned.}
+#' 	\item{data [data.frame] Optional parameters: exclude=TRUE}{Encapsulated data. Excluded variables are excluded iff \code{exclude} == TRUE.}
 #'  \item{input.names [character]}{The names of the input variables (without excluded variables).}
-#'  \item{targets [character]. Optional parameters: row}{If row is missing all target values are returned. Otherwise they are indexed by row.}
-#'  \item{weights [numeric]. Optional parameters: row}{If row is missing all case weights are returned. Otherwise they are indexed by row. NULL if no weights were set.}
-#'  \item{rows.with.missing [integer]}{Index vector for rows which contain missing values.}
-#'  \item{cols.with.missing [integer]}{Index vector for columns which contain missing values.}
-#'  \item{rows.with.inf [integer]}{Index vector for rows which contain infinite numerical values.}
-#'  \item{cols.with.inf [integer]}{Index vector for columns which contain infinite numerical values.}
+#'  \item{targets [character]}{Target column of data.}
+#'  \item{weights [numeric]}{Case weights are returned. NULL if no weights were set.}
+#'  \item{blocking [factor]}{Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration. NULL if no blocking was set.}
 #' }
 #' 
+#' Subclasses: \code{\linkS4class{classif.task}}, \code{\linkS4class{regr.task}}
+#' 
 #' @exportClass learn.task
-#' @seealso \code{\link{make.task}}
+#' @seealso \code{\link{make.task}}, 
 #' @title Base class for learning tasks.
 
 
@@ -80,50 +79,33 @@ setMethod(
 			
 			dd = x@data.desc
 			td = x@task.desc
-			row = args$row
-			col = args$col
-			
-			if (i == "target.name") {
-				return(dd["target"])
-			}
+      exc = args$exclude
+      exc = if (is.null(exc)) TRUE else exc
+      
+      
+      
 			if (i == "input.names"){
-				return(setdiff(colnames(x@data), c(x["excluded"], x["target.name"])))
+				return(setdiff(colnames(x@data), c(x["exclude"], x["target"])))
 			}
-			
-			if (is.null(row))
-				row = 1:nrow(x@data)
 			
 			if (i == "targets") {
-				return(x@data[row, x["target.name"]])
+				return(x@data[, x["target"]])
 			}
 			if (i == "weights") {
 				if (!td["has.weights"])
 					return(NULL)
-				return(x@weights[row])
+				return(x@weights)
 			}
 			if (i == "blocking") {
 				if (!td["has.blocking"])
 					return(NULL)
-				return(x@blocking[row])
+				return(x@blocking)
 			}
 			if (i == "data"){
-				if (is.null(col))
-					col = setdiff(colnames(x@data), x["excluded"])
-				if (missing(drop))
-					drop = (length(col) == 1)
-				return(x@data[row, col, drop=drop])				
-			}
-			if (i == "rows.with.missing"){
-				return(sum(apply(x["data"], 1, function(x) any(is.na(x)))))
-			}
-			if (i == "cols.with.missing"){
-				return(sum(apply(x["data"], 2, function(x) any(is.na(x)))))
-			}
-			if (i == "rows.with.inf"){
-				return(sum(apply(x["data"], 1, function(x) any(is.infinite(x)))))
-			}
-			if (i == "cols.with.inf"){
-				return(sum(apply(x["data"], 2, function(x) any(is.infinite(x)))))
+        if (exc) {
+          return(x@data[, setdiff(colnames(x@data), x["exclude"])])
+        } else
+          return(x@data)				
 			}
 			y = td[i]
 			if (!is.null(y))

@@ -9,14 +9,12 @@ roxygen()
 #' 
 #' \describe{
 #'  \item{target [string]}{Name of target variable.}
-#'  \item{excluded [character]}{Names of excluded covariates.}
+#'  \item{exclude [character]}{Names of excluded covariates.}
 #'  \item{size [integer]}{Number of cases.}
 #'  \item{dim [integer]}{Number of covariates.}
-#'  \item{excluded [character]}{Names of excluded variables.}
 #'  \item{n.num [integer]}{Number of numerical covariates.}
 #'  \item{n.int [integer]}{Number of integer covariates.}
 #'  \item{n.fact [integer]}{Number of factor covariates.}
-#'  \item{n.char [integer]}{Number of character covariates.}
 #' 	\item{has.missing [boolean]}{Are missing values present?}
 #' 	\item{has.inf [boolean]}{Are infinite numerical values present?}
 #'  \item{is.classif [boolean]}{Factor target variable?}
@@ -44,18 +42,17 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("data.desc"),
-		def = function(.Object, data, target, excluded, prepare.control) {
-			i = which(colnames(data) %in% c(target, excluded))
+		def = function(.Object, data, target, exclude, prepare.control) {
+			i = which(colnames(data) %in% c(target, exclude))
 			df2 = data[, -i, drop=FALSE]
 			.Object@props$target = target 
-			.Object@props$excluded = excluded 
+			.Object@props$exclude = exclude 
 			.Object@props$obs = nrow(data)
 			inputs = c()
 			inputs = c(
 					n.num = sum(sapply(df2, is.numeric)), 
 					n.int  = sum(sapply(df2, is.integer)),
-					n.fact = sum(sapply(df2, is.factor)),
-					n.char = sum(sapply(df2, is.character))
+					n.fact = sum(sapply(df2, is.factor))
 			)
 			.Object@props$inputs = inputs
 			.Object@props$has.missing = any(is.na(df2))
@@ -78,8 +75,8 @@ setMethod(
 		def = function(x,i,j,...,drop) {
 			if (i == "target") 
 				return(x@props$target)
-			if (i == "excluded") 
-				return(x@props$excluded)
+			if (i == "exclude") 
+				return(x@props$exclude)
 			if (i == "size") 
 				return(x@props$obs)
 			if (i == "dim") 
@@ -90,8 +87,6 @@ setMethod(
 				return(as.integer(x@props$inputs["n.int"]))
 			if (i == "n.fact") 
 				return(as.integer(x@props$inputs["n.fact"]))
-			if (i == "n.char") 
-				return(as.integer(x@props$inputs["n.char"]))
 			if (i == "has.missing") 
 				return(x@props$has.missing)
 			if (i == "has.inf") 

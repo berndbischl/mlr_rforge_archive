@@ -38,11 +38,11 @@ setMethod(
 			if (missing(newdata)) {
 				if (missing(subset))
 					subset = 1:task["size"]
-				newdata = task["data", row=subset]
+				newdata = task["data"][subset, drop=FALSE]
 			} else {
         if (!is.data.frame(newdata) || nrow(newdata) == 0)
           stop("newdata must be a data.frame with at least one row!")
-				newdata = prep.data(dd["is.classif"], newdata, dd["target"], dd["excluded"], dd["prepare.control"])			
+				newdata = prep.data(dd["is.classif"], newdata, dd["target"], dd["exclude"], dd["prepare.control"])			
 			}
 			
 			type = wl["predict.type"]
@@ -108,7 +108,7 @@ setMethod(
 						st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)
 					else
 						st = system.time(p <- try(do.call(pred.learner, pars), silent=TRUE), gcFirst=FALSE)
-					time.predict = st[3]
+					time.predict = as.numeric(st[3])
 					# was there an error during prediction?
 					if(is(p, "try-error")) {
 						msg = as.character(p)

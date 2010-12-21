@@ -17,7 +17,7 @@ roxygen()
 #'        A data frame containing the variables for the modeling.
 #' @param target [string] \cr
 #'  	  Name of the target variable.
-#' @param excluded [character]
+#' @param exclude [character]
 #'        Names of inputs, which should be generally disregarded, e.g. IDs, etc. Default is zero-length vector. 
 #' @param weights [numeric] \cr 	
 #'        An optional vector of weights to be used in the fitting process. Default is not to use weights.
@@ -42,14 +42,14 @@ roxygen()
 
 setGeneric(
   name = "make.task",
-  def = function(id, data, target, excluded, weights, blocking, costs, positive) {
+  def = function(id, data, target, exclude, weights, blocking, costs, positive) {
     if(missing(id)) {
       id = deparse(substitute(data))
       if (!is.character(id) || length(id) != 1)
         stop("Cannot infer id for task automatically. Please set it manually!")
     }
-    if (missing(excluded))
-      excluded = character(0)
+    if (missing(exclude))
+      exclude = character(0)
     if (missing(weights))
       weights = numeric(0)
     else if (is.integer(weights))
@@ -74,14 +74,14 @@ setMethod(
     id="character", 
     data="data.frame", 
     target="character", 
-    excluded="character", 
+    exclude="character", 
     weights="numeric", 
     blocking="factor",
     costs="matrix",
     positive="character"
   ),
   
-  def = function(id, data, target, excluded, weights, blocking, costs, positive) {
+  def = function(id, data, target, exclude, weights, blocking, costs, positive) {
     
     if(length(weights) > 0 && length(weights) != nrow(data))
       stop("Weights have to be of the same length as number of rows in data! Or pass none at all.")
@@ -98,13 +98,13 @@ setMethod(
       stop("Cannot infer the type of task from the target data type. Please transform it!")
     
     if (type == "classif") {
-      new("classif.task", id=id, target=target, data=data, excluded=excluded, weights=weights, blocking=blocking, costs=costs, positive=positive)
+      new("classif.task", id=id, target=target, data=data, exclude=exclude, weights=weights, blocking=blocking, costs=costs, positive=positive)
     } else {
       if(!is.na(positive))
         stop("You cannot define a positive class for regression!")
       if (!(all(dim(costs) == 0)))
         stop("You cannot define a cost matrix for regression!")
-      new("regr.task", id=id, target=target, data=data, excluded=excluded, weights=weights, blocking=blocking)
+      new("regr.task", id=id, target=target, data=data, exclude=exclude, weights=weights, blocking=blocking)
     }
   }
 )

@@ -24,13 +24,13 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
-		def = function(.Object, id, target, data, excluded, weights, blocking, costs, positive) {
+		def = function(.Object, id, target, data, exclude, weights, blocking, costs, positive) {
 			if (missing(data))
 				return(.Object)
 			
 			prep.ctrl = new("prepare.control")
-			data = prep.data(TRUE, data, target, excluded, prep.ctrl)			
-			dd = new("data.desc", data=data, target=target, excluded=excluded, prepare.control=prep.ctrl)
+			data = prep.data(TRUE, data, target, exclude, prep.ctrl)			
+			dd = new("data.desc", data=data, target=target, exclude=exclude, prepare.control=prep.ctrl)
 			n = dd["class.nr"]
 			levs = dd["class.levels"]
 			
@@ -78,14 +78,21 @@ setMethod(
 		signature = signature("classif.task"),
 		def = function(x) {
 			di = paste(capture.output(x["class.dist"]), collapse="\n")
+      rwm = sum(apply(x["data"], 1, function(x) any(is.na(x))))
+      cwm = sum(apply(x["data"], 2, function(x) any(is.na(x))))
+      rwi = sum(apply(x["data"], 1, function(x) any(is.infinite(x))))
+      cwi = sum(apply(x["data"], 2, function(x) any(is.infinite(x))))
+      
 			return(
 					paste(
 							"Classification problem ", x["id"], "\n",
-							"Features Nums:", x["n.num"], " Factors:", x["n.fact"], " Chars:", x["n.char"], "\n",
+							"Features Nums:", x["n.num"], " Factors:", x["n.fact"], "\n",
 							"Observations: ", x["size"] , "\n",
-							"Missings: ", x["has.missing"], "\n", 
-							ifelse(x["has.missing"], paste("in", x["rows.with.missing"], "observations and", x["cols.with.missing"], "features\n"), ""), 
-							"Classes: ", x["class.nr"], "\n",
+              "Missings: ", x["has.missing"], "\n", 
+              ifelse(x["has.missing"], paste("in", rwm, "observations and", cwm, "features\n"), ""), 
+              "Infinites: ", x["has.inf"], "\n", 
+              ifelse(x["has.inf"], paste("in", rwi, "observations and", cwi, "features\n"), ""), 
+              "Classes: ", x["class.nr"], "\n",
 							di, "\n",
 							ifelse(x["is.binary"], paste("Positive class:", x["positive"], "\n"), ""),
 							sep=""

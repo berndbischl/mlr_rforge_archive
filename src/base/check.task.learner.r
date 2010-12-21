@@ -16,9 +16,6 @@ check.task.learner <- function(lt, learner) {
 	if (dd["n.fact"] > 0 && !wl["factors"]) {
 		msg <- paste("Data set has factor inputs, but", wl["id"], "does not support that!")
 	}
-	if (dd["n.char"] > 0 && !wl["characters"]) {
-		msg <- paste("Data set has character inputs, but", wl["id"], "does not support that!")
-	}
 	return(list(msg=msg))
 }
 

@@ -18,7 +18,7 @@ setMethod(
 )
 
 
-prep.data = function(is.classif, data, target, excluded=c(), control) {
+prep.data = function(is.classif, data, target, exclude=c(), control) {
 	
 	ints.as = control@props$ints.as
 	chars.as = control@props$chars.as
@@ -54,11 +54,11 @@ prep.data = function(is.classif, data, target, excluded=c(), control) {
 	}	
 	
 	cns = colnames(data)
-	excluded = c(excluded, target)
+	exclude = c(exclude, target)
 	for (i in 1:ncol(data)) {
 		cn = cns[i]
 		v = data[, i]
-		if (!(cn  %in% excluded)) {
+		if (!(cn  %in% exclude)) {
 			if (ints.as == "numeric" && is.integer(v)) {
 				data[,i] = as.numeric(v)
 				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")

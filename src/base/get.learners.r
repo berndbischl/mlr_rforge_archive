@@ -111,7 +111,6 @@ setMethod(
 
       numerics = ifelse(x["n.num"]>0, TRUE, NA)
       factors = ifelse(x["n.fact"]>0, TRUE, NA)
-      characters = ifelse(x["n.char"]>0, TRUE, NA)
       missings = ifelse(x["has.missing"], TRUE, NA)
       weights = ifelse(x["has.weights"], TRUE, NA)
       
