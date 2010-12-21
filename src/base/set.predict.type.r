@@ -1,4 +1,4 @@
-#' Set predict type of learner object - whether classes, probabilities or decision values should be predicted. 
+#' Set predict type of classification learner object - whether classes, probabilities or decision values should be predicted. 
 #' 
 #' @param learner [\code{\linkS4class{learner}}]\cr 
 #'        Learner object.   
@@ -29,6 +29,9 @@ setMethod(
   ),
   
   def = function(learner, type) {
+    if (!learner["is.classif"]) {
+      stop("Predict type can only be changed for classification learner!")
+    }
     if ("prob" == type && !learner["probs"]) {
       stop("Trying to predict probs, but ", learner["id"], " does not support that!")
     }
