@@ -15,29 +15,24 @@ setClass(
 )
 
 
-
-#---------------- constructor---- -----------------------------------------------------
-
 #' Constructor.
 #' @title regr.task constructor
 
 setMethod(
 		f = "initialize",
 		signature = signature("regr.task"),
-		def = function(.Object, id, data, weights, blocking, target, exclude) {
+		def = function(.Object, id, data, weights, blocking, target, exclude, control) {
 				
 			if (missing(data))
 				return(.Object)
 			
-			prep.ctrl = new("prepare.control")
-			data = prep.data(FALSE, data, target, exclude, prep.ctrl)			
-			dd = new("data.desc", data=data, target=target, exclude=exclude, prepare.control=prep.ctrl)
+			dd = new("data.desc", data=data, target=target, exclude=exclude)
 			hw = length(weights) > 0
 			hb = length(blocking) > 0
 			td = new("task.desc", task.class="regr.task", id=id, has.weights=hw, has.blocking=hb, 
 					costs=matrix(0,0,0), positive=as.character(NA), negative=as.character(NA)) 
 			
-			callNextMethod(.Object, data=data, weights=weights, blocking=blocking,
+			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, control=control,
 					data.desc=dd, task.desc=td)
 		}
 )

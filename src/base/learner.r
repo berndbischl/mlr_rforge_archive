@@ -42,7 +42,6 @@ setClass(
 				pack = "character",
 				desc = "learner.desc",
 				predict.type = "character",
-				predict.threshold = "numeric",					
 				par.descs = "list",
 				par.vals = "list"
 		)		

@@ -16,21 +16,17 @@ setClass(
 
 
 
-#---------------- constructor---- -----------------------------------------------------
-
 #' Constructor.
 #' @title classif.task constructor
 
 setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
-		def = function(.Object, id, target, data, exclude, weights, blocking, costs, positive) {
+		def = function(.Object, id, target, data, exclude, weights, blocking, control=control, costs, positive) {
 			if (missing(data))
 				return(.Object)
 			
-			prep.ctrl = new("prepare.control")
-			data = prep.data(TRUE, data, target, exclude, prep.ctrl)			
-			dd = new("data.desc", data=data, target=target, exclude=exclude, prepare.control=prep.ctrl)
+			dd = new("data.desc", data=data, target=target, exclude=exclude)
 			n = dd["class.nr"]
 			levs = dd["class.levels"]
 			
@@ -67,7 +63,7 @@ setMethod(
 			td = new("task.desc", task.class="classif.task", id=id, has.weights=hw, has.blocking=hb,
 							costs=costs, positive=pos, negative=neg)			
 			
-			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, data.desc=dd, task.desc=td)
+			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, control=control, data.desc=dd, task.desc=td)
 		}
 )
 

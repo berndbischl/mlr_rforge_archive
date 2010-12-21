@@ -20,6 +20,7 @@ roxygen()
 #'	\item{learner model [any]}{Underlying model from used R package.}
 #'	\item{subset [integer]}{Subset used for training.}
 #'	\item{fail [NULL | string]}{Generally NULL but if the training failed, the error message of the underlying train function.}
+#'	\item{prepare.control [\code{\linkS4class{prepare.control}}]}{Control object used for preparing the training data.frame.}
 #' }
 #' 
 #' @title Induced model of learner.
@@ -31,7 +32,8 @@ setClass(
 				learner = "learner",
 				learner.model = "ANY",
 				data.desc = "data.desc",
-				task.desc = "task.desc",
+        prep.control = "prepare.control",					
+        task.desc = "task.desc",
 				subset = "integer",
 				vars = "character",
 				time = "numeric"
@@ -43,13 +45,14 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("wrapped.model"),
-  def = function(.Object, learner, model, data.desc, task.desc, subset, vars, time) {
+  def = function(.Object, learner, model, data.desc, task.desc, prep.control, subset, vars, time) {
     if (missing(learner))
       return(make.empty(.Object))
     .Object@learner = learner
     .Object@learner.model = model
     .Object@data.desc = data.desc
     .Object@task.desc = task.desc
+    .Object@prep.control = prep.control
     .Object@subset = subset
     .Object@vars = vars
     .Object@time = time

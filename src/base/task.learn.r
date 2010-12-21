@@ -19,6 +19,7 @@ roxygen()
 #'  \item{targets [character]}{Target column of data.}
 #'  \item{weights [numeric]}{Case weights are returned. NULL if no weights were set.}
 #'  \item{blocking [factor]}{Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration. NULL if no blocking was set.}
+#'	\item{prepare.control [\code{\linkS4class{prepare.control}}]}{Control object used for preparing the data.frame.}
 #' }
 #' 
 #' Subclasses: \code{\linkS4class{classif.task}}, \code{\linkS4class{regr.task}}
@@ -35,7 +36,8 @@ setClass(
 				data = "data.frame",
 				weights = "numeric",
 				blocking = "factor",
-				data.desc = "data.desc",
+        control = "prepare.control",
+        data.desc = "data.desc",
 				task.desc = "task.desc"
 		)
 )
@@ -48,7 +50,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, data, weights, blocking, data.desc, task.desc) {
+		def = function(.Object, data, weights, blocking, control, data.desc, task.desc) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
@@ -57,7 +59,8 @@ setMethod(
 			
 			.Object@data = data
 			.Object@weights = weights
-			.Object@blocking = blocking
+      .Object@blocking = blocking
+      .Object@control = control
 			.Object@data.desc = data.desc
 			.Object@task.desc = task.desc
 			

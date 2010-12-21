@@ -42,7 +42,7 @@ setMethod(
 			} else {
         if (!is.data.frame(newdata) || nrow(newdata) == 0)
           stop("newdata must be a data.frame with at least one row!")
-				newdata = prep.data(dd["is.classif"], newdata, dd["target"], dd["exclude"], dd["prepare.control"])			
+				newdata = prep.data(dd["is.classif"], newdata, dd["target"], dd["exclude"], model["prep.control"])			
 			}
 			
 			type = wl["predict.type"]
