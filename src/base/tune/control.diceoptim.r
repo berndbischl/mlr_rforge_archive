@@ -12,8 +12,6 @@ setClass(
 
 #' Control structure for EGO tuning with DiceOptim. 
 #' 
-#' @param minimize [logical] \cr 
-#'       Minimize performance measure? Default is TRUE. 
 #' @param path [boolean]\cr
 #'        Should optimization path be saved?
 #' @param lower [numeric] \cr
@@ -33,10 +31,8 @@ setClass(
 
 setGeneric(
   name = "DiceOptim.control",
-  def = function(minimize, path, par.descs, scale,
+  def = function(path, par.descs, scale,
     init.des.points, seq.loops, ...) {
-    if (missing(minimize))
-      minimize=TRUE
     if (missing(path))
       path = FALSE
     if (missing(scale))
@@ -54,11 +50,11 @@ setGeneric(
 
 setMethod(
   f = "DiceOptim.control",
-  signature = signature(minimize="logical", path="logical", par.descs="list", scale="function",
+  signature = signature(path="logical", par.descs="list", scale="function",
     init.des.points="integer", seq.loops="integer"),
-  def = function(minimize, path, par.descs, scale,
+  def = function(path, par.descs, scale,
     init.des.points, seq.loops, ...) {
-    new("DiceOptim.control", minimize=minimize, path=path,
+    new("DiceOptim.control", path=path,
       par.descs=par.descs, scale=scale, 
       meta.learner=meta.learner, init.des.points=init.des.points, seq.des.points=seq.des.points, seq.loops=seq.loops, ...)
   }

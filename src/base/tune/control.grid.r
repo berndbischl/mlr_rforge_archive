@@ -11,8 +11,6 @@ setClass(
 
 #' Control structure for grid search tuning. 
 #' 
-#' @param minimize [logical] \cr 
-#'       Minimize performance measure? Default is TRUE. 
 #' @param path [boolean]\cr
 #'        Should optimization path be saved?
 #' @param ranges [\code{\link{list}}] \cr 
@@ -31,9 +29,7 @@ setClass(
 
 setGeneric(
 		name = "grid.control",
-		def = function(minimize, path, ranges, scale) {
-			if (missing(minimize))
-				minimize=TRUE
+		def = function(path, ranges, scale) {
 			if (missing(path))
 				path=FALSE
 			if (missing(ranges))
@@ -49,14 +45,13 @@ setGeneric(
 
 setMethod(
 		f = "grid.control",
-		signature = signature(minimize="logical", path="logical", ranges="list", scale="function"),
-		def = function(minimize, path, ranges, scale) {
+		signature = signature(path="logical", ranges="list", scale="function"),
+		def = function(path, ranges, scale) {
 			pds = list()
 			for (i in 1:length(ranges)) {
 				pd = new("par.desc.disc", par.name=names(ranges)[i], vals=as.list(ranges[[i]]))
 				pds[[i]] = pd 
 			}
-			new("grid.control", minimize=minimize, path=path,
-					start=list(), par.descs=pds, scale=scale)
+			new("grid.control", path=path, start=list(), par.descs=pds, scale=scale)
 		}
 )

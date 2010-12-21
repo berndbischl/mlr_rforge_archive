@@ -18,8 +18,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("sequential.control"),
-		def = function(.Object, minimize, path, max.vars, method, alpha, beta) {
-			.Object = callNextMethod(.Object, minimize, path=path, 
+		def = function(.Object, path, max.vars, method, alpha, beta) {
+			.Object = callNextMethod(.Object, path=path, 
 					maxit=.Machine$integer.max, max.vars=max.vars)
 			.Object@alpha = alpha 			
 			.Object@beta = beta 	
@@ -31,8 +31,6 @@ setMethod(
 
 #' Control structure for sequential variable selection. 
 #' 
-#' @param minimize [logical] \cr 
-#'       Minimize performance measure? Default is TRUE.
 #' @param path [boolean]\cr
 #'        Should optimization path be saved?
 #' @param max.vars [integer] \cr 
@@ -53,9 +51,7 @@ setMethod(
 
 setGeneric(
 		name = "sequential.control",
-		def = function(minimize, path, max.vars, method, alpha, beta) {
-			if (missing(minimize))
-				minimize=TRUE
+		def = function(path, max.vars, method, alpha, beta) {
 			if (missing(path))
 				path = FALSE
 			if (missing(max.vars))
@@ -77,11 +73,9 @@ setGeneric(
 
 setMethod(
 		f = "sequential.control",
-		signature = signature(minimize="logical", path="logical",
-				max.vars="integer", method="character", alpha="numeric", beta="numeric"),
-		def = function(minimize, path, max.vars, method, alpha, beta) {
-			new("sequential.control", minimize=minimize, path=path, 
-					max.vars=max.vars, method=method, alpha=alpha, beta=beta)
+		signature = signature(path="logical",	max.vars="integer", method="character", alpha="numeric", beta="numeric"),
+		def = function(path, max.vars, method, alpha, beta) {
+			new("sequential.control", path=path, max.vars=max.vars, method=method, alpha=alpha, beta=beta)
 		}
 )
 

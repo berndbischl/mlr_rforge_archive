@@ -12,8 +12,6 @@ setClass(
 
 #' Control structure for CMA-ES tuning. 
 #' 
-#' @param minimize [logical] \cr 
-#'       Minimize performance measure? Default is TRUE. 
 #' @param path [boolean]\cr
 #'        Should optimization path be saved?
 #' @param start [numeric] \cr
@@ -35,9 +33,7 @@ setClass(
 
 setGeneric(
   name = "spot.control",
-  def = function(minimize, path, par.descs, scale, ...) {
-    if (missing(minimize))
-      minimize=TRUE
+  def = function(path, par.descs, scale, ...) {
     if (missing(path))
       path = FALSE
     
@@ -66,9 +62,9 @@ setGeneric(
 
 setMethod(
   f = "spot.control",
-  signature = signature(minimize="logical", path="logical", par.descs="list", scale="function"),
-  def = function(minimize, path, par.descs, scale, ...) {
-    new("spot.control", minimize=minimize, path=path,
+  signature = signature(path="logical", par.descs="list", scale="function"),
+  def = function(path, par.descs, scale, ...) {
+    new("spot.control", path=path,
       start=list(), par.descs=par.descs, scale=scale, ...)
   }
 )

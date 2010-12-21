@@ -12,8 +12,6 @@ setClass(
 
 #' Control structure for CMA-ES tuning. 
 #' 
-#' @param minimize [logical] \cr 
-#'       Minimize performance measure? Default is TRUE. 
 #' @param path [boolean]\cr
 #'        Should optimization path be saved?
 #' @param start [numeric] \cr
@@ -35,9 +33,7 @@ setClass(
 
 setGeneric(
 		name = "cmaes.control",
-		def = function(minimize, path, start, lower, upper, scale, ...) {
-			if (missing(minimize))
-				minimize=TRUE
+		def = function(path, start, lower, upper, scale, ...) {
 			if (missing(path))
 				path = FALSE
 			if (missing(start))
@@ -65,15 +61,14 @@ setGeneric(
 
 setMethod(
 		f = "cmaes.control",
-		signature = signature(minimize="logical", path="logical", start="numeric", lower="numeric", upper="numeric", scale="function"),
-		def = function(minimize, path, start, lower, upper, scale, ...) {
+		signature = signature(path="logical", start="numeric", lower="numeric", upper="numeric", scale="function"),
+		def = function(path, start, lower, upper, scale, ...) {
 			pds = list()
 			for (i in 1:length(start)) {
 				pd = new("par.desc.num", par.name=names(start)[i], lower=lower[i], upper=upper[i])
 				pds[[i]] = pd 
 			}
-			new("cmaes.control", minimize=minimize, path=path,
-					start=as.list(start), par.descs=pds, scale=scale, ...)
+			new("cmaes.control", path=path,	start=as.list(start), par.descs=pds, scale=scale, ...)
 		}
 )
 

@@ -19,23 +19,19 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("myspo.control"),
-  def = function(.Object, minimize, path, par.descs, scale, 
+  def = function(.Object, path, par.descs, scale, 
     meta.learner, init.des.points, seq.des.points, seq.loops,...) {
-    if (missing(minimize))
-      return(.Object)
     .Object@meta.learner = meta.learner
     .Object@init.des.points = init.des.points
     .Object@seq.des.points = seq.des.points
     .Object@seq.loops = seq.loops
-    .Object = callNextMethod(.Object=.Object, minimize, path, start=list(), par.descs, scale, ...)
+    .Object = callNextMethod(.Object=.Object, path, start=list(), par.descs, scale, ...)
     return(.Object)
   }
 )
 
 #' Control structure for CMA-ES tuning. 
 #' 
-#' @param minimize [logical] \cr 
-#'       Minimize performance measure? Default is TRUE. 
 #' @param path [boolean]\cr
 #'        Should optimization path be saved?
 #' @param start [numeric] \cr
@@ -57,10 +53,8 @@ setMethod(
 
 setGeneric(
   name = "myspo.control",
-  def = function(minimize, path, par.descs, scale, 
+  def = function(path, par.descs, scale, 
     meta.learner, init.des.points, seq.des.points, seq.loops, ...) {
-    if (missing(minimize))
-      minimize=TRUE
     if (missing(path))
       path = FALSE
     if (missing(scale))

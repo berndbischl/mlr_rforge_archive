@@ -22,13 +22,13 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("varsel.control"),
-		def = function(.Object, minimize, path, maxit, max.vars) {
-			if (missing(minimize))
-				return(.Object)
+		def = function(.Object, path, maxit, max.vars) {
+      if (missing(path))
+        return(make.empty(.Object))
 			.Object@compare = "diff" 			
 			.Object@max.vars = as.integer(max.vars) 			
 			.Object@maxit = as.integer(maxit) 		
-			.Object = callNextMethod(.Object=.Object, minimize=minimize, path=path)
+			.Object = callNextMethod(.Object=.Object, path=path)
 			return(.Object)
 		}
 )

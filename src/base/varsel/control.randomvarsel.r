@@ -17,8 +17,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("randomvarsel.control"),
-		def = function(.Object, minimize,path, maxit, max.vars, method, prob) {
-			.Object = callNextMethod(.Object, minimize, path=path, maxit=maxit, max.vars=max.vars)
+		def = function(.Object, path, maxit, max.vars, method, prob) {
+			.Object = callNextMethod(.Object, path=path, maxit=maxit, max.vars=max.vars)
 			.Object@method = method 			
 			.Object@prob = prob 			
 			return(.Object)
@@ -28,8 +28,6 @@ setMethod(
 
 #' Control structure for random variable selection. 
 #' 
-#' @param minimize [logical] \cr 
-#'       Minimize performance measure? Default is TRUE.
 #' @param path [boolean]\cr
 #'        Should optimization path be saved?
 #' @param maxit [integer] \cr 
@@ -47,9 +45,7 @@ setMethod(
 
 setGeneric(
 		name = "randomvarsel.control",
-		def = function(minimize, path, maxit, method, prob) {
-			if (missing(minimize))
-				minimize=TRUE
+		def = function(path, maxit, method, prob) {
 			if (missing(path))
 				path = FALSE
 			if (missing(maxit))
@@ -68,11 +64,9 @@ setGeneric(
 
 setMethod(
 		f = "randomvarsel.control",
-		signature = signature(minimize="logical", path="logical",
-				maxit="integer", method="character", prob="numeric"),
-		def = function(minimize, path, maxit, method, prob) {
-			new("randomvarsel.control", minimize=minimize, path=path,
-					maxit=maxit, max.vars=.Machine$integer.max, method=method, prob=prob)
+		signature = signature(path="logical",	maxit="integer", method="character", prob="numeric"),
+		def = function(path, maxit, method, prob) {
+			new("randomvarsel.control", path=path, maxit=maxit, max.vars=.Machine$integer.max, method=method, prob=prob)
 		}
 )
 

@@ -16,7 +16,6 @@ setClass(
 		"opt.control",
 		contains = c("object"),
 		representation = representation(
-				minimize = "logical",
 				path = "logical",
 				extra.args = "list"
 		)
@@ -27,10 +26,9 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.control"),
-		def = function(.Object, minimize, path, ...) {
-			if (missing(minimize))
-				return(.Object)
-			.Object@minimize = minimize
+		def = function(.Object, path, ...) {
+      if (missing(path))
+        return(make.empty(.Object))
 			.Object@path = path
 			.Object@extra.args = list(...)
 			return(.Object)
