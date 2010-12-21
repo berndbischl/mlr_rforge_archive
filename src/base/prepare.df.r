@@ -1,9 +1,15 @@
+
+#' @exportClass grid.control
+#' @rdname grid.control 
+
 setClass(
 		"prepare.control",
 		representation = representation(
 				props = "list"
 		)
 )
+
+#' Constructor.
 
 setMethod(
 		f = "initialize",
@@ -16,6 +22,11 @@ setMethod(
 			return(.Object)
 		}
 )
+
+
+prepare.control = function(ints.as, chars.as, drop.class.levels, impute.inf, maxval) {
+  
+}
 
 
 prep.data = function(is.classif, data, target, exclude=c(), control) {
