@@ -1,8 +1,8 @@
 #' @include base.wrapper.r
 
 
-#' Fuses a base learner with a preprocessing method. Creates a learner object, which can be
-#' used like any other learner object, but which internally preprocesses the data as requested. 
+#' Fuses a base learner with empirical thresholding. Creates a learner object, which can be
+#' used like any other learner object, but which chooses . 
 #' If the train or predict function is called on it, the preprocessing is always invoked before.
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
@@ -20,15 +20,32 @@
 #' @export
 
 make.et.wrapper = function(learner, id=as.character(NA), measures, aggr, task, minimze=TRUE, thresholds=50) {
+    
 	if (is.character(learner))
 		learner = make.learner(learner)
 	fun = function(pred, measures=measures, aggr=aggr, task=task, minimize=minimize, thresholds=thresholds) {
-		tt = tune.threshold(pred, measures, aggr, task, minimize=minimize, thresholds=thresholds) 
+    if (control["tune.threshold"] && task["class.nr"] != 2) 
+		  stop("You can only tune the threshold for binary classification!")
+
+    tt = tune.threshold(pred, measures, aggr, task, minimize=minimize, thresholds=thresholds) 
 	}	
 	make.postproc.wrapper(learner, id=id, fun=fun)
 }
 
 
+
+#' @export
+#' @rdname resample.fit 
+setMethod(
+  f = "resample.fit",
+  signature = signature(learner="et.wrapper", task="learn.task", resampling="resample.instance", 
+    par.vals="list", vars="character", extract="function"),
+  def = function(learner, task, resampling, par.vals, vars, extract) {
+    p = callNextMethod(learner, task, resampling, par.vals, vars, extract)
+    x = tune.threshold(p, measure, aggr, task, thresholds=10)
+        if (missing(measures))
+  }
+)
 
 
 

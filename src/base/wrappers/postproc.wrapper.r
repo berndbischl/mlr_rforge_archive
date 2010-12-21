@@ -4,8 +4,9 @@ setClass(
 		"postproc.wrapper",
 		contains = c("base.wrapper"),
 		representation = representation(
-				fun = "function",
-				defaults = "list"
+				fun1 = "function",
+        fun2 = "function",
+        defaults = "list"
 		)
 )
 
@@ -66,6 +67,17 @@ setMethod(
 )	
 
 
-
-
+#' @export
+#' @rdname resample.fit 
+setMethod(
+  f = "resample.fit",
+  signature = signature(learner="postproc.wrapper", task="learn.task", resampling="resample.instance", 
+    par.vals="list", vars="character", extract="function"),
+  def = function(learner, task, resampling, par.vals, vars, extract) {
+    p = callNextMethod(learner, task, resampling, par.vals, vars, extract)    
+    fun.args = .learner["hyper.pars"]
+    fun.args$pred = p
+    p = do.call(.learner@fun, fun.args)
+  }
+)
 
