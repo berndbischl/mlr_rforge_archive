@@ -37,6 +37,7 @@ setClass(
     extra.pars = "list",
     minimize = "logical",
     req.task.type = "character",
+    req.binary = "logical",
     req.pred.type = "character",
     req.pred = "logical",
     req.model = "logical",

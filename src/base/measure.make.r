@@ -22,9 +22,11 @@
 
 setGeneric(
   name = "make.measure",
-  def = function(id, minimize, req.task.type, req.pred.type, fun, extra.pars) {
+  def = function(id, minimize, req.task.type, req.binary, req.pred.type, fun, extra.pars) {
     if (missing(req.task.type))
       req.task.type = c("classif", "regr")
+    if (missing(req.binary))
+      req.binary = FALSE
     if (missing(req.pred.type))
       req.pred.type = c("response", "prob", "decsison")
     if (missing(extra.pars))
@@ -36,13 +38,16 @@ setGeneric(
 
 setMethod(
   f = "make.measure",
-  signature = signature(id="character", minimize="logical", req.task.type="character", req.pred.type="character", fun="function", extra.pars="list"),
-  def = function(id, minimize, req.task.type, req.pred.type, fun, extra.pars) {
+  signature = signature(id="character", minimize="logical", req.task.type="character", req.binary="logical", 
+    req.pred.type="character", fun="function", extra.pars="list"),
+  def = function(id, minimize, req.task.type, req.binary, req.pred.type, fun, extra.pars) {
     fun1 = fun
     formals(fun1) = list()
     v = codetools:::findGlobals(fun1, merge=FALSE)$variables
-    new("measure", id=id, fun=fun, extra.pars=extra.pars, minimize=minimize, req.task.type=req.task.type, req.pred.type=req.pred.type, 
-      req.pred="pred" %in% v, req.model="model" %in% v, req.task="task" %in% v,
+    if (req.binary && !identical(req.task.type, "classif"))
+      stop("req.binary can only be set to TRUE, if req.task.type is set to 'classif'!")
+    new("measure", id=id, fun=fun, extra.pars=extra.pars, minimize=minimize, req.task.type=req.task.type, req.binary=req.binary,
+      req.pred.type=req.pred.type, req.pred="pred" %in% v, req.model="model" %in% v, req.task="task" %in% v,
       aggr = list(aggr.mean)
     )
   }
