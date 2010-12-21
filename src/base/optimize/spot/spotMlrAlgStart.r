@@ -42,7 +42,9 @@ spotMlrAlgStart <- function(io.apdFileName, io.desFileName, io.resFileName){
           spotStep <- des$STEP[k]
         }
         seed <- des$SEED[k]+i
-        p = resample.fit(.spotMlr$learner, .spotMlr$task, .spotMlr$resampling, par.vals=parset)
+        ????????? par.vals
+        wl = set.hyper.pars(.spotMlr$learner, par.vals=parset)
+        p = resample(wl, .spotMlr$task, .spotMlr$resampling)
         perf = performance(p, measures=.spotMlr$measures, aggr=.spotMlr$aggr)
         # take first measure and aggr to optimize 
         y = perf$aggr[1, 1]

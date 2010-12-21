@@ -1,25 +1,36 @@
-resample.fit.iter <- function(learner, task, rin, vars, i, measures, prediction, model, extract) {
+resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
 	train.i = get.train.set(rin, i)
 	test.i = get.test.set(rin, i)
 	
-	m = train(learner, task, subset=train.i, vars=vars)
+	m = train(learner, task, subset=train.i)
 	p = predict(m, task=task, subset=test.i)
   
   # does a measure require to calculate pred.train?
-  ptrain = any(sapply(measures, function(m) m["req.pred.train"]))
-  if (ptrain) {
+  ptrain = any(sapply(measures, function(m) m["req.pred"]))
+  ms.train = rep(NA, length(measures))
+  ms.test = rep(NA, length(measures))
+  pred.train = NULL
+  pred.test = NULL
+  if (rin["predict"][i] == "train") {
+    pred.train = predict(m, task, subset=train.i)
+    ms.train = sapply(measures, function(pm) performance(task=task, model=m, pred=pred.train, measure=pm))
+  } else if (rin["predict"][i] == "test") {
+    pred.test = predict(m, task, subset=test.i)
+    ms.test = sapply(measures, function(pm) performance(task=task, model=m, pred=pred.test, measure=pm))    
+  } else { # "both"
     pred.train = predict(m, task, subset=train.i) 
-    ms = sapply(measures, function(pm) performance(task=task, model=m, pred=p, pred.train=pred.train, measure=pm))
-  } else {
-    pred.train = NULL
-    ms = sapply(measures, function(pm) performance(task=task, model=m, pred=p, measure=pm))
+    ms.train = sapply(measures, function(pm) performance(task=task, model=m, pred=pred.train, measure=pm))
+    pred.test = predict(m, task, subset=test.i)
+    ms.test = sapply(measures, function(pm) performance(task=task, model=m, pred=pred.test, measure=pm))    
   }
+  
 	ex = lapply(extract, function(f) f(pm))
   list(
-    measures = ms,
+    measures.test = ms.test,
+    measures.train = ms.train,
     model = if (model) m else NULL,  
-    pred.test = if (prediction) p else NULL,
-    pred.train = if (prediction) pred.train else NULL,
+    pred.test = pred.test,
+    pred.train = pred.train,
     extract = ex
   )
 }
@@ -28,23 +39,19 @@ eval.rf <- function(learner, task, resampling, measures, aggr, control, par) {
 
 	if (is(control, "tune.control")) {
 		par.vals = .mlr.scale.par(par, control)
-		vars = task["input.names"]
 	} else {
 		par.vals = list()
-		vars = par
 	}
 	# todo 
 #	if (control["tune.threshold"]) 
 #		type = "prob"
-	learner = set.hyper.pars(par.vals)
-	r = resample(learner, task, resampling, vars=vars)
-	th = as.numeric(NA)
-	if (control["tune.threshold"]) { 
-		thr = tune.threshold(rf, measures, aggr, task, minimize=control["minimize"], thresholds=control["thresholds"])
-		rf = thr$pred
-		th = thr$th
-	}
-	perf = performance(rf, measures=measures, aggr=aggr, task=task)
-	list(perf=perf, th=th)
+	learner = set.hyper.pars(learner, par.vals)
+	r = resample(learner, task, resampling, measures=measures)
+#	th = as.numeric(NA)
+#	if (control["tune.threshold"]) { 
+#		thr = tune.threshold(rf, measures, aggr, task, minimize=control["minimize"], thresholds=control["thresholds"])
+#		rf = thr$pred
+#		th = thr$th
+#	}
 }
 
