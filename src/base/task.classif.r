@@ -87,15 +87,20 @@ setMethod(
 					paste(
 							"Classification problem ", x["id"], "\n",
 							"Features Nums:", x["n.num"], " Factors:", x["n.fact"], "\n",
-							"Observations: ", x["size"] , "\n",
+              "Exclude: ", x["exclude"], "\n",
+              "Observations: ", x["size"] , "\n",
               "Missings: ", x["has.missing"], "\n", 
               ifelse(x["has.missing"], paste("in", rwm, "observations and", cwm, "features\n"), ""), 
               "Infinites: ", x["has.inf"], "\n", 
-              ifelse(x["has.inf"], paste("in", rwi, "observations and", cwi, "features\n"), ""), 
+              ifelse(x["has.inf"], paste("in", rwi, "observations and", cwi, "features\n"), ""),
+              "Target: ", x["target"], "\n", 
               "Classes: ", x["class.nr"], "\n",
 							di, "\n",
 							ifelse(x["is.binary"], paste("Positive class:", x["positive"], "\n"), ""),
-							sep=""
+              "Has weights: ", x["has.weights"], "\n", 
+              "Has blocking: ", x["has.blocking"], "\n",
+              "Has costs: ", all(dim(x["costs"])!=0), "\n", 
+              sep=""
 					)
 			)
 		}

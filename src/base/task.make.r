@@ -49,14 +49,20 @@ setGeneric(
     }
     if (missing(exclude))
       exclude = character(0)
-    if (missing(weights))
+    if (missing(weights)) {
       weights = numeric(0)
-    else if (is.integer(weights))
-      weights = as.numeric(weights)
+    } else {
+        if (is.integer(weights))
+          weights = as.numeric(weights)
+        check.arg(weights, "numeric", nrow(data))
+    }
     if (missing(blocking))
       blocking = factor(c())
+    else 
+      check.arg(blocking, "factor", nrow(data))
     if (missing(costs)) 
       costs = matrix(0,0,0)
+    check.arg(costs, "matrix")
     if (missing(positive))
       positive = as.character(NA)
     check.arg(positive, "character", 1)
@@ -87,7 +93,32 @@ setMethod(
     if(length(blocking) > 0 && length(blocking) != nrow(data))
       stop("Blockings have to be of the same length as number of rows in data! Or pass none at all.")
     
-    check.task(data, target)
+    cns = colnames(data)
+    x = duplicated(cns)
+    if(any(x))
+      stop("Duplicated column names in data.frame are not allowed: ", paste(cns[x], collapse=","))
+    if (!(target %in% cns)) {
+      stop(paste("Column names of data.frame don't contain target var: ", target))
+    }
+    
+    # todo: rpart does not like (), bug there?
+    forbidden  = c("[", "]", "(", ")", ",", " ")
+    forbidden2 = c("[", "]", "(", ")", ",", "<WHITESPACE>")
+    #forbidden = c("[", "]")
+    i = sapply(forbidden, function(x) length(grep(x, cns, fixed=TRUE)) > 0)
+    if (any(i))
+      stop(paste("Column names should not contain: ", paste(forbidden2, collapse=" ")))
+    if (any(is.na(data[, target]))) {
+      stop("Target values contain missings!")
+    }
+    if (any(is.infinite(data[, target]))) {
+      stop("Target values contain infinite values!")
+    }
+    
+    if (!all(exclude %in% cns))
+      stop("Trying to exclude non-existing variables: ", setdiff(exclude, cns))
+    if (target %in% exclude)
+      stop("Trying to exclude target variable!")
     
     if(is.factor(data[,target]) || is.character(data[,target]) || is.logical(data[,target]))
       type = "classif"
