@@ -24,9 +24,7 @@ setClass(
 
 setGeneric(
   name = "modelsel.control",
-  def = function(minimize, path) {
-    if (missing(minimize))
-      minimize=TRUE
+  def = function(path) {
     if (missing(path))
       path=FALSE
     standardGeneric("modelsel.control")
