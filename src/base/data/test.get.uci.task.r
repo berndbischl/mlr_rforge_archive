@@ -89,8 +89,8 @@ ct <- get.uci.task("balance-scale", id = "a")
 ct
 str(ct)
 
-#   excluded; further variables to exclude
-ct <- get.uci.task("balance-scale", excluded = "weight-left")
+#   exclude; further variables to exclude
+ct <- get.uci.task("balance-scale", exclude = "weight-left")
 ct
 str(ct)
 
@@ -102,7 +102,7 @@ ct <- get.uci.task("kdd_synthetic_control", handle.ids = "remove", exclude = "co
 ct
 str(ct)
 
-ct <- get.uci.task("flags", handle.multiple.targets = list(target = "zone", handle.2nd.targets = "exclude"), excluded = "quarters")
+ct <- get.uci.task("flags", handle.multiple.targets = list(target = "zone", handle.2nd.targets = "exclude"), exclude = "quarters")
 ct
 str(ct)
 

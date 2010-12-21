@@ -8,7 +8,7 @@
 # handle.nas:               na.omit, default = NULL
 # ...:                      further arguments to make.task, supported are
 #                           id; as default name is used
-#                           excluded; further variables to exclude
+#                           exclude; further variables to exclude
 #                           weights
 #                           blocking
 #                           costs

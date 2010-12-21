@@ -9,26 +9,26 @@
 # handle.nas:               
 # name:                     name of UCI data set
 # id :                      id of the task; as default name is used
-# excluded:                 further variables to exclude
+# :                 further variables to exclude
 # ...:                      further arguments to make.task
 
 arff.to.task <- function(file, target, ids, handle.multiple.targets, handle.ids, handle.train.test, handle.nas, name, 
-    id = name, excluded = character(0), ...) {
+    id = name, exclude = character(0), ...) {
     removed <- character(0)
 
     # ids
-    if(handle.ids == "exclude") excluded <- c(excluded, ids) else removed <- c(removed, ids)
+    if(handle.ids == "exclude") exclude <- c(exclude, ids) else removed <- c(removed, ids)
     # multiple targets
     if(length(target > 1)) {
         if(!is.null(handle.multiple.targets$target)) {
             index <- target %in% handle.multiple.targets$target
             if(any(index)) {
-                if(handle.multiple.targets$handle.2nd.targets == "exclude") excluded <- c(excluded, target[!index]) 
+                if(handle.multiple.targets$handle.2nd.targets == "exclude") exclude <- c(exclude, target[!index]) 
                 if(handle.multiple.targets$handle.2nd.targets == "remove") removed <- c(removed, target[!index])
                 target <- target[index]
             } else stop("chosen target not available")
         } else {
-            if(handle.multiple.targets$handle.2nd.targets == "exclude") excluded <- c(excluded, target[-1]) 
+            if(handle.multiple.targets$handle.2nd.targets == "exclude") exclude <- c(exclude, target[-1]) 
             if(handle.multiple.targets$handle.2nd.targets == "remove") removed <- c(removed, target[-1])
             target <- target[1]
         }
@@ -43,7 +43,7 @@ arff.to.task <- function(file, target, ids, handle.multiple.targets, handle.ids,
         data$test <- data.frame(mlr_segment = mlr_segment[1:nr["test"]], data$test)
         data$train <- data.frame(mlr_segment = mlr_segment[(nr["test"]+1):sum(nr)], data$train, row.names = (nr["test"]+1):sum(nr))
         data <- unsplit(data, mlr_segment)
-        excluded <- c(excluded, "mlr_segment")  # exclude mlr_segment from task
+        exclude <- c(exclude, "mlr_segment")  # exclude mlr_segment from task
     } else {
         data <- read.arff2(file, remove = removed)
     }
@@ -70,6 +70,6 @@ arff.to.task <- function(file, target, ids, handle.multiple.targets, handle.ids,
     #names(data) <- gsub(pattern = "([][(),])", replacement = "93 91 40 41 13", x = names(data))
     names(data) <- gsub(' +', "_", names(data))# ' ' oder ' +'?
 
-    ct <- make.task(id = id, data = data, target = target, excluded = excluded, ...)
+    ct <- make.task(id = id, data = data, target = target, exclude = exclude, ...)
     return(ct)
 }
