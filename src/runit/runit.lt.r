@@ -35,8 +35,6 @@ test.mlr.learn.task <- function() {
 	df[2,1:3] = NA
 	ct = make.task(data=df, target=multiclass.target)	
 	checkTrue(ct["has.missing"])
-	checkEquals(ct["rows.with.missing"], 2)
-	checkEquals(ct["cols.with.missing"], 3)
 	
 	# check inf accessors
 	#df = multiclass.df

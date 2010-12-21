@@ -1,11 +1,9 @@
-#'	\item{target.name [string]}{The name of the target variable.}
-#' }
 
 test.task.desc <- function() {
 	costs = matrix(1:4, 2, 2)
 	rownames(costs) = colnames(costs) = c("M", "R") 
 	ct = make.task(target="Class", binaryclass.df, id="mytask", costs=costs, 
-			positive="M", excluded="V1")
+			positive="M", exclude="V1")
 	checkEquals(ct["id"], "mytask")	
 	checkEquals(ct["costs"], costs)	
 	checkEquals(ct["positive"], "M")	
