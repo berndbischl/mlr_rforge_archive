@@ -2,30 +2,29 @@
 #' @include task.regr.r
 roxygen()
 
-#' Defines a learning task for a data set and is the starting point 
-#' for further steps like training, predicting new data, resampling and tuning and benchmarking.
+#' Defines a learning task for a given data set. 
 #' The type (classification or regression) is automatically inferred from the target variable.
 #' It might perform some data conversions in the data.frame, like converting integer input features to numerics, 
 #' but will generally warn about this. 
-#' Whether a classification or regression task is created depends on the data type of the target variable. Factors, logicals or characters
-#' produce classification tasks, numerics produce regression tasks. Integer target variables have to be changed manually. 
-#' 
+#' Whether a classification or regression task is created depends on the data type of the target variable. 
+#' A factor, logical or character vector produces a classification task (and the vector is converted to a factor), 
+#' numerics produce regression tasks. Integer target variables have to be changed manually. 
 #' 
 #' @param id [string]\cr 
-#'        Id string for object. Used to select the object from a named list, etc.  
+#'   Id string for object. Used to select the object from a named list, etc. Default is the name of the passed R variable.  
 #' @param data [data.frame] \cr 	
-#'        A data frame containing the variables for the modeling.
+#'   A data frame containing the input and target variables for modeling.
 #' @param target [string] \cr
-#'  	  Name of the target variable.
+#'   Name of the target variable.
 #' @param exclude [character]
-#'        Names of inputs, which should be generally disregarded, e.g. IDs, etc. Default is zero-length vector. 
+#'   Names of inputs, which should be generally disregarded, e.g. IDs, etc. Default is zero-length vector. 
 #' @param weights [numeric] \cr 	
-#'        An optional vector of weights to be used in the fitting process. Default is not to use weights.
+#'   An optional vector of case weights to be used in the fitting process (if the learner cannot handle weights, they are ignored). Default is not to use weights.
 #' @param blocking [factor] \cr 	
-#'        An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.   
+#'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.   
 #' @param costs [matrix] \cr 	
 #'   An optional matrix of misclassification costs to be used in the fitting process. 
-#'   If the used classifier can handle cost matrices it is passed down to its train function. 
+#'   If the used classifier can handle cost matrices it is passed down to its train function, otherwise it is ignored.
 #'   Rows indicate true classes, columns predicted classes.
 #' 	 Don't pass this in case of regression.	
 #' @param positive [string] \cr 	

@@ -1,8 +1,8 @@
 #' @include task.learn.r
 roxygen()
 
-#' General description object for a classification experiment.   
-#' Instantiate it by using its factory method.
+#' General description object for a classification task.
+#' Use \code{\link{make.task} to create it.   
 #' 
 #' @exportClass classif.task
 #' @title Classification task.

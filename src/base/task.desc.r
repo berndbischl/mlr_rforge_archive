@@ -1,7 +1,7 @@
 #' @include object.r
 roxygen()
 
-#' Description object for task.
+#' Description object for task, encapsulates basic statistics without complete data set.
 #' 
 #' Getter.\cr
 #' 
@@ -16,6 +16,7 @@ roxygen()
 #'  \item{negative [string]}{Negative class label for binary classification,, NA else.}
 #' }
 #' @exportClass task.desc
+#' @seealso \code{\linkS4class{learn.task}}
 #' @title Description object for task. 
 
 setClass(

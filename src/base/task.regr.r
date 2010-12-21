@@ -2,8 +2,8 @@
 roxygen()
 
 
-#' General description object for a regression experiment.  
-#' Instantiate it by using its factory method.
+#' General description object for a regression task.  
+#' Use \code{\link{make.task} to create it.   
 #' 
 #' @exportClass regr.task
 #' @title Regression task.
