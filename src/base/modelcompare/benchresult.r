@@ -17,7 +17,7 @@
 #' You can reduce these lists by using the optional arguments 'task' and 'learner'. 
 #' 'drop' is by default TRUE, which means that the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
 #' 
-#' The following getters all return list of lists of lists: opt.result, opt.par, opt.perf, opt.path, tuned.par, sel.var
+#' The following getters all return list of lists of lists: model, opt.result, opt.par, opt.perf, opt.path, tuned.par, sel.var
 #' The first list iterates the tasks, the second one the learners, both are named by respective IDs, the third list iterates the
 #' resampling iterations. You can reduce these lists by using the optional arguments 'task' and 'learner'. 
 #' 'drop' is by default TRUE, which means that the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
@@ -29,6 +29,7 @@
 #' 	 \item{iters [numeric]}{Named numerical vector which lists the number of iterations for every task. Names are IDs of task.}
 #' 	 \item{prediction [see above] }{List of list of predictions for every task/learner. }
 #' 	 \item{conf.mat [see above] }{List of list of confusion matrices for every task/learner. }
+#' 	 \item{model [see above] }{List of list of list of models for every task/learner/iteration. Entry is NULL if no models were saved.}
 #' 	 \item{opt.result [see above] }{List of list of list of \code{\linkS4class{opt.result}} for every task/learner/iteration. Entry is NULL if no optimization was done.}
 #' 	 \item{opt.perf [see above] }{List of list of list of performance vectors of optimal settings for every task/learner/iteration. Note that this performance refers to the inner resampling! Entry is NULL if no optimization was done.}
 #' 	 \item{opt.par [see above] }{List of list of list of optimal settings for every task/learner/iteration. Entry is NULL if no optimization was done.}
@@ -145,6 +146,11 @@ setMethod(
 				preds = lapply(preds, function(y) y[learner])
 				return(mydrop(preds))
 			}		
+      
+      if (i == "model"){
+        return(lapply(x@models[task], function(y) y[learner]))
+      }
+      
 			# reduce to selected tasks
 			ors = x@opt.results[task]
 			# reduce to selected learners
