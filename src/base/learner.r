@@ -15,15 +15,13 @@ roxygen()
 #'  \item{is.classif [boolean]}{Is this learner for classification tasks?}
 #'  \item{is.regr [boolean]}{Is this learner for regression tasks?}
 #'  \item{id [string]}{Id string of learner.}
-#' 	\item{pack [string]}{Package were underlying learner is implemented.}
-#'	\item{desc [\code{\linkS4class{learner.desc}}]}{Properties object to describe functionality of the learner.}
+#' 	\item{pack [char]}{Package(s) required for underlying learner.}
 #' 	\item{par.vals [list]}{List of fixed hyperparameters and respective values for this learner.}
-#' 	\item{par.vals.name [character]}{Names of currently fixed hyperparameters.}
 #' 	\item{par.descs [list]}{Named list of \code{\linkS4class{par.desc}} description objects for all possible hyperparameters for this learner.}
-#' 	\item{par.descs.name [character]}{Names of all hyperparameters for which description objects exist.}
 #' 	\item{par.descs.when [character]}{Named character vector. Specifies when a cetrain hyperparameter is used. Possible entries are 'train', 'predict' or 'both'.}
 #'  \item{predict.type [character]}{What should be predicted: 'response', 'prob' or 'decision'.}
 #'  \item{predict.threshold [character]}{Threshold to produce class labels if type is not "response".} 
+#'	\item{desc [\code{\linkS4class{learner.desc}}]}{Properties object to describe functionality of the learner.}
 #' }
 #' @exportClass learner
 #' @title Base class for inducers. 
@@ -110,11 +108,9 @@ setMethod(
         names(pds) = sapply(pds, function(y) y@par.name)
         return(pds)
       } 
-			if (i == "par.descs.name") 
-				return(sapply(x@par.descs, function(y) y@par.name))
 			if (i == "par.descs.when") {
 				w=sapply(x@par.descs, function(y) y@when)
-				names(w) = x["par.descs.name", ...]
+				names(w) = names(x["par.descs", ...])
 				return(w)
 			}
 			
@@ -128,9 +124,6 @@ setMethod(
 			if (i == "par.vals")  {
 				return( ps[ (w[ns] %in% par.when) | (w[ns] == "both") ] ) 
 			}			
-			if (i == "par.vals.name")  {
-				return(names(x["par.vals", ...]))
-			}
 			callNextMethod()
 		}
 )
@@ -154,7 +147,9 @@ setMethod(f = "to.string",
             pack = paste(x["pack"], collapse=",")
             return(paste(
                          ##todo regression. also check when applied to task!!
-                         type, " learner ", x["id"], " from package ", pack, "\n\n",
+                         type, " learner ", x["id"], " from package ", pack, "\n",
+                         "Class: ", class(x), "\n",
+                         "Hyperparameters: ", hps, "\n\n",
                          "Supported features Nums:", x["numerics"],
                          " Factors:", x["factors"],
                          " Chars:", x["characters"], "\n",
@@ -164,7 +159,6 @@ setMethod(f = "to.string",
                          "Supports probabilities: ", x["probs"], "\n", 
                          "Supports decision values: ", x["decision"], "\n", 
                          "Supports costs: ", x["costs"], "\n", 
-                         "Hyperparameters: ", hps, "\n",
                          sep =""					
                          ))
           })
