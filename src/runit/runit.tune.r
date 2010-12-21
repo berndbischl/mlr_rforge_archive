@@ -24,7 +24,7 @@ test.tune <- function() {
 	}
 	
 	# check multiple measures
-	ms = c("acc", "mmce", "time.train") 
+	ms = c("acc", "mmce", "time.fit") 
 	tr2 = tune("classif.rpart", multiclass.task, cv.instance, control=ctrl)
 	
 	
