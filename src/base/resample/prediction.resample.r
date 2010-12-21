@@ -119,7 +119,7 @@ setAs("resample.prediction", "prediction",
 			df = from@df
 			df$iter = NULL
 			new("prediction", task.desc=from@task.desc, data.desc=from@data.desc, 
-					type=from@type, df=df, threshold=from@threshold, sum(from@time.train), sum(from@time.predict))						
+					type=from@type, df=df, threshold=from@threshold, sum(from@time.fit), sum(from@time.predict))						
 		}
 )
 
