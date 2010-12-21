@@ -25,8 +25,10 @@ tune.grid <- function(learner, task, resampling, measures, aggr, control) {
 
 
 tune.1 <- function(learner, task, resampling, ranges, measures, aggr, control) {
-	check.ranges(ranges)
-
+  ns = names(ranges)
+  if(any(is.na(ns) | ns == "")) {
+    stop("All element of a ranges list have to be named!")
+  }
 	
 	# todo: make this better 
 	if (length(ranges) == 0) {

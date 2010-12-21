@@ -39,6 +39,8 @@ roxygen()
 
 
 tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE, path=FALSE) {
+  if (is.character(learner))
+    learner <- make.learner(learner)
 	if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
@@ -71,7 +73,8 @@ tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE
 	
 	or@opt$par = .mlr.scale.par(or@opt$par, control)
 	if (model) {
-		or@model = train(learner, task, par.vals=or["par"]) 	
+    learner = set.hyper.pars(learner, or["par"])
+		or@model = train(learner, task) 	
 	}
 	
 	return(or)			
