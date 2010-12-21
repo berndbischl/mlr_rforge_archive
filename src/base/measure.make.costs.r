@@ -38,17 +38,17 @@ setMethod(
   signature = signature(id="character", minimize="logical", costs="matrix", task="classif.task"),
   def = function(id="costs", minimize=TRUE, costs, task) {
     check.costs(costs, task@data.desc) 
-    make.measure(id="costs", minimize=minimize, pars=list(costs), 
-      fun=function(pred.test, pred.train, model, task, pars) {
-        costs = pars[[1]]
+    make.measure(id="costs", minimize=minimize, extra.pars=list(costs), 
+      fun=function(task, model, pred, extra.pars) {
+        costs = extra.pars[[1]]
         # cannot index with NA
-        r = pred.test["response"]    
+        r = pred["response"]    
         if (any(is.na(r)))
           return(as.numeric(NA))
         cc = function(truth, pred) {
           costs[truth, pred]
         }
-        Reduce(sum, Map(cc, as.character(pred.test["truth"]), as.character(r)))
+        Reduce(sum, Map(cc, as.character(pred["truth"]), as.character(r)))
       }
     )
   }

@@ -13,8 +13,7 @@ roxygen()
 #' \describe{
 #' 	\item{id [string]}{Name of the measure.}
 #' 	\item{minimize [boolean]}{Should the performance measure be minimized?}
-#'  \item{req.pred.test [boolean]}{Does the calculation require the prediction of a test test?).}
-#'  \item{req.pred.train [boolean]}{Does the calculation require the prediction of a test test?).}
+#'  \item{req.pred [boolean]}{Does the calculation require the prediction of the test set?).}
 #'  \item{req.task [boolean]}{Does the calculation require the task? Usually the case when you want to look a feature values in order to calculate the performance.).}
 #' 	\item{req.task.type [character]}{For which tasks can the measure be used?}
 #' 	\item{req.binary [boolean]}{Can the measure only be used for binary classification?}
@@ -39,10 +38,10 @@ setClass(
     minimize = "logical",
     req.task.type = "character",
     req.pred.type = "character",
-    req.pred.test = "logical",
-    req.pred.train = "logical",
+    req.pred = "logical",
     req.model = "logical",
-    req.task = "logical"
+    req.task = "logical",
+    aggr = "list"
   )
 )
 

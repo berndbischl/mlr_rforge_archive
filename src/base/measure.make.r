@@ -1,14 +1,15 @@
-
-#' Create a performance measure.
+#' Construct your own performance measure.
 #' 
 #' @param id [string] \cr
 #'   Name of measure. 
 #' @param minimize [boolean] \cr
+#'   Should the measure be minimized? Default is TRUE. 
+#' @param req.task.type [string] \cr
 #'   Should the measure be minimized? Default is TRUE. Otherwise you are effectively specifying a benefits matrix.
-#' @param req.task.type [boolean] \cr
-#'   Should the measure be minimized? Default is TRUE. Otherwise you are effectively specifying a benefits matrix.
+#' @param req.binary [boolean] \cr
+#'   Is the measure only applicable to binary classification? Only reasonable if \code{req.task.type} is "classif". Default is FALSE. 
 #' @param fun [function] \cr
-#'   Should the measure be minimized? Default is TRUE. Otherwise you are effectively specifying a benefits matrix.
+#'   Calculates performance value. Must have signature (task, model, pred, extra.pars). 
 #' @param extra.pars [list] \cr
 #'   List of extra arguments which will always be passed to fun.   	  
 #' 
@@ -17,7 +18,7 @@
 #' @exportMethod make.measure
 #' @rdname make.measure
 #' @seealso \code{\link{measures}}, \code{\link{make.measure}}
-#' @title Construct performance measure.
+#' @title Construct your own performance measure.
 
 setGeneric(
   name = "make.measure",
@@ -41,7 +42,9 @@ setMethod(
     formals(fun1) = list()
     v = codetools:::findGlobals(fun1, merge=FALSE)$variables
     new("measure", id=id, fun=fun, extra.pars=extra.pars, minimize=minimize, req.task.type=req.task.type, req.pred.type=req.pred.type, 
-      req.pred.test="pred.test" %in% v, req.pred.train="pred.train" %in% v, req.model="model" %in% v, req.task="task" %in% v)
+      req.pred="pred" %in% v, req.model="model" %in% v, req.task="task" %in% v,
+      aggr = list(aggr.mean)
+    )
   }
 )
 
@@ -54,8 +57,6 @@ make.measures = function(xs) {
   if (is(xs, "measure")) {
     return(list(xs))
   }
-  return(xs)
-  return(ys)	
 }
 
 default.measures = function(x) {
