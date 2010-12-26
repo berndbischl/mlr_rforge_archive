@@ -6,9 +6,6 @@
 #' 		  Prediction object to use for tuning the treshold.
 #' @param measures [see \code{\link{measures}}]
 #'        Performance measures.
-#' @param aggr [see \code{\link{aggregations}}]
-#'        Aggregation functions. 
-#' 		  Ignored if not a \code{\linkS4class{resample.prediction}}
 #' @param task [\code{\linkS4class{learn.task}}] \cr
 #'        Learning task. Rarely neeeded, only when required for the performance measure. 
 #' @param minimize [logical] \cr 
@@ -23,13 +20,10 @@
 #' @seealso \code{\link{tune}}
 #' @title Tune prediction threshold.
 
-tune.threshold = function(pred, measures, aggr, task, minimize=TRUE, thresholds=10) {
+tune.threshold = function(pred, measures, task, minimize=TRUE, thresholds=10) {
 	if (missing(measures))
 		measures = default.measures(pred@task.desc)
 	measures = make.measures(measures)
-	if (missing(aggr))
-		aggr = default.aggr(pred)
-	aggr = make.aggrs(aggr)
   
   pos = pred@task.desc["positive"]
   neg = pred@task.desc["negative"]
@@ -46,7 +40,7 @@ tune.threshold = function(pred, measures, aggr, task, minimize=TRUE, thresholds=
 	f = function(x) {
 		labels = prob.threshold(probs=probs, pos=pos, neg=neg, levels=levs, threshold=x)
 		pred@df$response = labels
-		perf = performance(pred, measures=measures, aggr=aggr, task=task)
+		perf = performance(pred, measures=measures, task=task)
 		return(perf$aggr[1,1])
 	}
 	probs.sorted = sort(unique(probs))

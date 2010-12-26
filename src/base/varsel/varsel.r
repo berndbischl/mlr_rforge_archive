@@ -15,8 +15,6 @@
 #'        Control object for search method. Also selects the optimization algorithm for feature selection. 
 #' @param measures [see \code{\link{measures}}]\cr
 #'        Performance measures. 
-#' @param aggr [see \code{\link{aggregations}}]\cr
-#'        Aggregation functions. 
 #' @param model [boolean]\cr
 #'        Should a final model be fitted on the complete data with the best found features? Default is FALSE.
 #' @param path [boolean]\cr
@@ -30,17 +28,13 @@
 #'   
 #' @title Variable selection.
 
-varsel <- function(learner, task, resampling, control, measures, aggr, model=FALSE, path=FALSE) {
+varsel <- function(learner, task, resampling, control, measures, model=FALSE, path=FALSE) {
   # convert to instance so all pars are evaluated on the same splits
   if (is(resampling, "resample.desc")) 
     resampling = make.res.instance(resampling, task=task)
   if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
-	
-	if (missing(aggr))
-		aggr = default.aggr(resampling)
-	aggr = make.aggrs(aggr)
 	
 	cl = as.character(class(control))
 	
@@ -58,7 +52,7 @@ varsel <- function(learner, task, resampling, control, measures, aggr, model=FAL
 	
 	control@path = path
 	or = sel.func(learner=learner, task=task, resampling=resampling, 
-			measures=measures, aggr=aggr, control=control) 
+			measures=measures, control=control) 
 	if (model) {
 		or@model = train(learner, task, vars=or["par"]) 	
 	}

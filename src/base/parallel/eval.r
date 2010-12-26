@@ -35,7 +35,7 @@ resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
   )
 }
 
-eval.rf <- function(learner, task, resampling, measures, aggr, control, par) {
+eval.rf <- function(learner, task, resampling, measures, control, par) {
 
 	if (is(control, "tune.control")) {
 		par.vals = .mlr.scale.par(par, control)
@@ -49,7 +49,7 @@ eval.rf <- function(learner, task, resampling, measures, aggr, control, par) {
 	r = resample(learner, task, resampling, measures=measures)
 #	th = as.numeric(NA)
 #	if (control["tune.threshold"]) { 
-#		thr = tune.threshold(rf, measures, aggr, task, minimize=control["minimize"], thresholds=control["thresholds"])
+#		thr = tune.threshold(rf, measures, task, minimize=control["minimize"], thresholds=control["thresholds"])
 #		rf = thr$pred
 #		th = thr$th
 #	}

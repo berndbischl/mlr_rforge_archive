@@ -14,8 +14,7 @@ setClass(
 		representation = representation(
 				resampling = "resample.desc",
 				control = "opt.control",
-				measures = "list",
-				aggr = "list"
+				measures = "list"
 		)
 )
 
@@ -25,13 +24,12 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.wrapper"),
-		def = function(.Object, learner, id, resampling, control, measures, aggr) {
+		def = function(.Object, learner, id, resampling, control, measures) {
 			if (missing(learner))
 				return(.Object)
 			.Object@resampling = resampling
 			.Object@control = control
 			.Object@measures = measures
-			.Object@aggr = aggr
 			callNextMethod(.Object, learner, id, par.descs=list(), par.vals=list())
 		}
 )
@@ -73,10 +71,10 @@ setMethod(
 			lt = make.task(data=.data, target=.targetvar)	
 			if (wl["opt.type"] == "tune")
 				or = tune(bl, task=lt, resampling=wl@resampling, control=ctrl, 
-						measures=wl@measures, aggr=wl@aggr, model=TRUE, path=ctrl["path"])
+						measures=wl@measures, model=TRUE, path=ctrl["path"])
 			else if (wl["opt.type"] == "varsel")
 				or = varsel(bl, task=lt, resampling=wl@resampling, control=ctrl, 
-						measures=wl@measures, aggr=wl@aggr, model=TRUE, path=ctrl["path"])
+						measures=wl@measures, model=TRUE, path=ctrl["path"])
 			else 
 				stop("Unknown type: ", wl["opt.type"])
 				
@@ -90,16 +88,13 @@ setMethod(
 )
 
 
-make.opt.wrapper = function(learner, id, resampling, control, measures, aggr) {
+make.opt.wrapper = function(learner, id, resampling, control, measures) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	if (missing(measures))
 		measures = default.measures(learner)
 	measures = make.measures(measures)
-	if (missing(aggr))
-		aggr = default.aggr(resampling)
-	aggr = make.aggrs(aggr)
-	new("opt.wrapper", learner, id, resampling, control, measures, aggr=aggr)
+	new("opt.wrapper", learner, id, resampling, control, measures)
 }
 
 
