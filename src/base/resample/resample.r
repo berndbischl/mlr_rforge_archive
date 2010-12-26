@@ -73,10 +73,8 @@ setMethod(
     for (i in 1:length(measures)) {
       m = measures[[i]]
       mid = m["id"]
-      print(mid)
       p1 = ms.test[, mid]
       p2 = ms.train[, mid]
-      print(m@aggr)
       a = sapply(m@aggr, function(a) a@fun(p1, p2, rin["group"], pred))
       names(a) = paste(mid, sapply(m@aggr, function(a) a["id"]))
       aggr = c(aggr, a)
