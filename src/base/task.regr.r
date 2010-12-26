@@ -3,7 +3,7 @@ roxygen()
 
 
 #' General description object for a regression task.  
-#' Use \code{\link{make.task} to create it.   
+#' Use \code{\link{make.task}} to create it.   
 #' 
 #' @exportClass regr.task
 #' @title Regression task.

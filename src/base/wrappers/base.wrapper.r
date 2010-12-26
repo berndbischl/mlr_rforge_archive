@@ -1,13 +1,16 @@
 #' @include learner.r
 roxygen()
+#' @include set.id.r
+roxygen()
+#' @include set.hyper.pars.r
+roxygen()
+#' @include set.predict.type.r
+roxygen()
 #' @include train.learner.r
 roxygen()
 #' @include pred.learner.r
 roxygen()
-#' @include set.hyper.pars.r
-roxygen()
-#' @include set.id.r
-roxygen()
+
 
 #' Abstract base class to wrap something around a learner.
 #' @exportClass base.wrapper

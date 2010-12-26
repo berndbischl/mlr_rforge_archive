@@ -2,7 +2,7 @@
 roxygen()
 
 #' General description object for a classification task.
-#' Use \code{\link{make.task} to create it.   
+#' Use \code{\link{make.task}} to create it.   
 #' 
 #' @exportClass classif.task
 #' @title Classification task.
