@@ -24,7 +24,8 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
 	
 	if (missing(measures))
 		measures = default.measures(task)
-	measures = make.measures(measures)
+  if (is(measures, "measure"))
+    measures = list(measures)   
 	
 	if (is(learner, "opt.wrapper")) {
 		learner@control@path = paths

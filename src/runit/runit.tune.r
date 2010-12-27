@@ -2,7 +2,7 @@ test.tune <- function() {
 	cp <- c(0.05, 0.9)
 	minsplit <- c(1:3)
 	ranges = list(cp = cp, minsplit=minsplit)
-	ctrl = grid.control(ranges=ranges)
+	ctrl = grid.control(ranges=ranges, path=T)
 	folds = 3
 	
 	tr <- tune.rpart(formula=multiclass.formula, data=multiclass.df, cp=cp, minsplit=minsplit,
@@ -10,7 +10,7 @@ test.tune <- function() {
 	
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
-	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, control=ctrl, model=TRUE, path=TRUE)
+	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, control=ctrl, model=TRUE)
 	
 	# todo test scale with tune.e1071 and scaled grid!
 	
@@ -19,8 +19,8 @@ test.tune <- function() {
 		ms <- tr$performances[i,"minsplit"]
 		pp = tr2["path", as.data.frame=TRUE]
 		j <- which(pp$cp == cp & pp$minsplit == ms )
-		checkEqualsNumeric(tr$performances[i,"error"], pp[j,"mean.mmce"])    
-		checkEqualsNumeric(tr$performances[i,"dispersion"], pp[j,"sd.mmce"])    
+		checkEqualsNumeric(tr$performances[i,"error"], pp[j,"mmce.mean"])    
+		checkEqualsNumeric(tr$performances[i,"dispersion"], pp[j,"mmce.sd"])    
 	}
 	
 	# check multiple measures

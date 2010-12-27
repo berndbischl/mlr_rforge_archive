@@ -13,8 +13,6 @@
 #'        Control object for search method. Also selects the optimization algorithm for feature selection. 
 #' @param measures [see \code{\link{measures}}]
 #'        Performance measures. 
-#' @param aggr [see \code{\link{aggregations}}]
-#'        Aggregation functions. 
 #' 
 #' @return \code{\linkS4class{learner}}.
 #' 
@@ -24,7 +22,7 @@
 #'   
 #' @title Fuse learner with variable selection.
 
-make.varsel.wrapper <- function(learner, id=as.character(NA), resampling, measures, aggr, control) {
-	make.opt.wrapper(learner, id, resampling, control, measures, aggr)
+make.varsel.wrapper <- function(learner, id=as.character(NA), resampling, measures, control) {
+	make.opt.wrapper(learner, id, resampling, control, measures)
 }
 

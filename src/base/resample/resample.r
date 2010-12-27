@@ -1,5 +1,30 @@
-#todo remove par.vals? 
-
+#' Given a resampling strategy, which defines sets of training and test indices, 
+#' fits the selected learner using the training sets and performs predictions for the test sets. 
+#' For construction of the resampling strategies use the factory methods \code{\link{make.res.desc}} and 
+#' \code{\link{make.res.instance}}.
+#' 
+#' Optionally either the complete, fitted models or - to save memory - extracted parts from the models
+#' can be returned.
+#'
+#' @param learner [\code{\linkS4class{learner}} or \code{\link{character}}]\cr 
+#'        Learning algorithm.   
+#' @param task [\code{\linkS4class{learn.task}}] \cr
+#'        Learning task.
+#' @param resampling [\code{\linkS4class{resample.desc}} or \code{\linkS4class{resample.instance}}] \cr
+#'        Resampling strategy. 
+#' @param vars [\code{\link{character}}] \cr 
+#'        Vector of variable names to use in training the model. Default is to use all variables.
+#' @param extract [\code{\link{function}}] \cr 
+#'       Function used to extract information from fitted models, e.g. can be used to save the complete list of fitted models. 
+#'        Default is to extract nothing. 
+#' @return \code{\linkS4class{resample.prediction}}.
+#' 
+#' @export
+#' @rdname resample.fit 
+#' 
+#' @usage resample.fit(learner, task, resampling, par.vals, vars, extract)
+#'
+#' @title Fit models according to a resampling strategy.
 
 setGeneric(
   name = "resample",
@@ -76,7 +101,7 @@ setMethod(
       p1 = ms.test[, mid]
       p2 = ms.train[, mid]
       a = sapply(m@aggr, function(a) a@fun(p1, p2, rin["group"], pred))
-      names(a) = paste(mid, sapply(m@aggr, function(a) a["id"]))
+      names(a) = paste(mid, sapply(m@aggr, function(a) a["id"]), sep=".")
       aggr = c(aggr, a)
     }
     

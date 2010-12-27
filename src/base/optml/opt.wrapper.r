@@ -93,7 +93,8 @@ make.opt.wrapper = function(learner, id, resampling, control, measures) {
 		learner = make.learner(learner)
 	if (missing(measures))
 		measures = default.measures(learner)
-	measures = make.measures(measures)
+  if (is(measures, "measure"))
+    measures = list(measures)   
 	new("opt.wrapper", learner, id, resampling, control, measures)
 }
 

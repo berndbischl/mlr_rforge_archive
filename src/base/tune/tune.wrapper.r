@@ -14,8 +14,6 @@
 #'        Control object for search method. Also selects the optimization algorithm for tuning.   
 #' @param measures [see \code{\link{measures}}]
 #'        Performance measures. 
-#' @param aggr [see \code{\link{aggregations}}]
-#'        Aggregation functions. 
 #' 
 #' @return \code{\linkS4class{learner}}.
 #' 
@@ -25,7 +23,7 @@
 #'   
 #' @title Fuse learner with tuning.
 
-make.tune.wrapper <- function(learner, id=as.character(NA), resampling, control, measures, aggr) {
-	make.opt.wrapper(learner, id, resampling, control, measures, aggr)
+make.tune.wrapper <- function(learner, id=as.character(NA), resampling, control, measures) {
+	make.opt.wrapper(learner, id, resampling, control, measures)
 }
 

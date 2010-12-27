@@ -1,5 +1,5 @@
 
-varsel.random = function(learner, task, resampling, measures, aggr, control) {
+varsel.random = function(learner, task, resampling, measures, control) {
 	all.vars = task["input.names"]
 	m = length(all.vars) 
 	prob = control["prob"]
@@ -10,8 +10,8 @@ varsel.random = function(learner, task, resampling, measures, aggr, control) {
 		states[[i]] = vs
 	}
 	
-	es = eval.states.varsel(learner, task, resampling, measures, aggr, control, states, "random")
-	bs = select.best.state(es, control)
+	es = eval.states.varsel(learner, task, resampling, measures, control, states, "random")
+	bs = select.best.state(es, measures[[1]])
 	
 	path = add.path.els.varsel(list(), es, bs)
 	new("opt.result", control=control, opt=make.path.el(bs), path=path)

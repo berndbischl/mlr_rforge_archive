@@ -139,7 +139,7 @@ coalesce = function (...) {
 
 path2dataframe = function(path) {
 	p = path[[1]]
-	cns = c(names(p$par), "threshold", names(p$perf), "evals", "event", "accept")
+	cns = c(names(p$par), names(p$perf), "evals", "event", "accept")
 	df = matrix(0, length(path), length(cns))
 	colnames(df) = cns
 	n = length(p$par)
@@ -150,7 +150,7 @@ path2dataframe = function(path) {
 	for (i in 1:length(path)) {
 		p = path[[i]]
 		df[i, 1:n] = unlist(p$par)  
-		df[i, (n+1):(k-2)] = c(p$threshold, unlist(p$perf), p$evals)  
+		df[i, (n+1):(k-2)] = c(unlist(p$perf), p$evals)  
 		df[i, k-1] = p$event  
 		df[i, k] = p$accept  
 	}

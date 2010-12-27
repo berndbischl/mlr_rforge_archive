@@ -1,5 +1,5 @@
 
-varsel.hybrid2 = function(learner, task, resampling, measures, aggr, control=sequential.control()) {
+varsel.hybrid2 = function(learner, task, resampling, measures, control=sequential.control()) {
 	
 	path = list()
 	all.vars = task["input.names"]
@@ -16,7 +16,7 @@ varsel.hybrid2 = function(learner, task, resampling, measures, aggr, control=seq
 	
 	start = all.vars[as.logical(rbinom(m, 1, 0.5))]
 	#cat("start:", start, "\n")
-	state = eval.state.varsel(learner, task, resampling, measures, aggr, par=start, "start")
+	state = eval.state.varsel(learner, task, resampling, measures, par=start, "start")
 	path = add.path.varsel(path, state, T)		
 	#print(get.perf(state))
 	
@@ -48,8 +48,8 @@ varsel.hybrid2 = function(learner, task, resampling, measures, aggr, control=seq
 			new.bin = (vs.bin != mut)
 			new.vars = all.vars[new.bin]
 			op = ifelse(greedy, "mut.greedy", "mut.normal")
-			new.state = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, op)
-			cc = compare.diff(state, new.state, control, measures, aggr, threshold=control$gamma)	&& 
+			new.state = eval.state.varsel(learner, task, resampling, measures, par=new.vars, op)
+			cc = compare.diff(state, new.state, control, measures, threshold=control$gamma)	&& 
 					(length(new.state$par) > 0)
 			path = add.path.varsel(path, new.state, cc)
 			if (!greedy)

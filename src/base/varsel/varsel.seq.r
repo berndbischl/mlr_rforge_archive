@@ -10,7 +10,7 @@
 
 
 # todo: maxit, max.vars
-varsel.seq = function(learner, task, resampling, measures, aggr, control) {
+varsel.seq = function(learner, task, resampling, measures, control) {
 	
 	seq.step = function(forward, state, gen.new.states, compare) {
 		not.used = setdiff(all.vars, state$par)
@@ -22,16 +22,16 @@ varsel.seq = function(learner, task, resampling, measures, aggr, control) {
 		event = ifelse(forward, "forward", "backward")
 		
 		es = eval.states.varsel(learner=learner, task=task, resampling=resampling, 
-				measures=measures, aggr=aggr, control=control, pars=new.states, event=event)
+				measures=measures, control=control, pars=new.states, event=event)
 		#print(unlist(vals))
 		
-		s = select.best.state(es, control)
+		s = select.best.state(es, measures[[1]])
 		if (forward)
 			thresh = control["alpha"]
 		# if backward step and we have too many vars we do always go to the next best state with one less var.
 		else
 			thresh = ifelse(length(state$par) <= control["max.vars"], control["beta"], -Inf)
-		if (!compare(state, s, control, measures, aggr, thresh)) {
+		if (!compare(state, s, control, measures, thresh)) {
 			s = NULL
       changed = "<>"
     } else {
@@ -85,7 +85,7 @@ varsel.seq = function(learner, task, resampling, measures, aggr, control) {
 			stop(paste("Unknown method:", method))
 	) 
 	
-	state = eval.state.varsel(learner, task, resampling, measures, aggr, control, par=start.vars, event="start")
+	state = eval.state.varsel(learner, task, resampling, measures, control, par=start.vars, event="start")
 	
 	path = add.path.varsel(path, state, accept=TRUE)		
 	

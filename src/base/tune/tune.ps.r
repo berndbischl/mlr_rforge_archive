@@ -1,10 +1,10 @@
 ## todo make path and parallel
 #
-#tune.ps <- function(learner, task, resampling, measures, aggr, control) {
+#tune.ps <- function(learner, task, resampling, measures, control) {
 #	print(resampling)
 #	g = function(p) {
 #		print(resampling)
-#		rp = eval.rf(learner=learner, task=task, resampling=resampling, measures=measures, aggr=aggr, 
+#		rp = eval.rf(learner=learner, task=task, resampling=resampling, measures=measures,  
 #				parset=p, ps.scale=scale, ps.names=names(control$start), vars=NULL)
 #		rp$aggr[1,1]
 #	} 

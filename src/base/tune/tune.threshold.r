@@ -23,7 +23,8 @@
 tune.threshold = function(pred, measures, task, minimize=TRUE, thresholds=10) {
 	if (missing(measures))
 		measures = default.measures(pred@task.desc)
-	measures = make.measures(measures)
+  if (is(measures, "measure"))
+    measures = list(measures)   
   
   pos = pred@task.desc["positive"]
   neg = pred@task.desc["negative"]

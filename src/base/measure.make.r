@@ -48,21 +48,10 @@ setMethod(
       stop("req.binary can only be set to TRUE, if req.task.type is set to 'classif'!")
     new("measure", id=id, fun=fun, extra.pars=extra.pars, minimize=minimize, req.task.type=req.task.type, req.binary=req.binary,
       req.pred.type=req.pred.type, req.pred="pred" %in% v, req.model="model" %in% v, req.task="task" %in% v,
-      aggr = list(aggr.mean)
+      aggr = list(aggr.mean, aggr.sd)
     )
   }
 )
-
-
-
-make.measures = function(xs) {
-  if (length(xs)==0)
-    return(list())
-  # single function to list
-  if (is(xs, "measure")) {
-    return(list(xs))
-  }
-}
 
 default.measures = function(x) {
   if (x["is.classif"])

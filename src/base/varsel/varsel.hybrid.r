@@ -1,5 +1,5 @@
 
-varsel.hybrid = function(learner, task, resampling, measures, aggr, control=sequential.control()) {
+varsel.hybrid = function(learner, task, resampling, measures, control=sequential.control()) {
 	
 	path = list()
 	all.vars = task["input.names"]
@@ -18,7 +18,7 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, control=sequ
 	
 	start = all.vars[as.logical(rbinom(m, 1, 0.5))]
 	#cat("start:", start, "\n")
-	state = eval.state.varsel(learner, task, resampling, measures, aggr, par=start, "start")
+	state = eval.state.varsel(learner, task, resampling, measures, par=start, "start")
 	path = add.path.varsel(path, state, T)		
 	#print(get.perf(state))
 	
@@ -48,9 +48,9 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, control=sequ
 			new.vars = all.vars[new.bin]
 			#print(new.bin)
 			#cat("new.vars:", new.vars, "\n")
-			new.state = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, "mutate")
+			new.state = eval.state.varsel(learner, task, resampling, measures, par=new.vars, "mutate")
 			#print(get.perf(new.state))
-			cc = compare.diff(state, new.state, control, measures, aggr, threshold=control$gamma)	&& 
+			cc = compare.diff(state, new.state, control, measures, threshold=control$gamma)	&& 
 					(length(new.state$par) > 0)
 			path = add.path.varsel(path, new.state, cc)
 			mut.succ = c(mut.succ, as.numeric(cc))
@@ -85,10 +85,10 @@ varsel.hybrid = function(learner, task, resampling, measures, aggr, control=sequ
 					new.vars = c(state$par, v)
 				}
 				#cat("newvars:", new.vars, "\n")
-				new.state = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, op)
+				new.state = eval.state.varsel(learner, task, resampling, measures, par=new.vars, op)
 				#print(get.perf(new.state))
 				thresh = ifelse(op=="plus", control$alpha, control$beta)
-				cc = compare.diff(state, new.state, control, measures, aggr, thresh)
+				cc = compare.diff(state, new.state, control, measures, thresh)
 				path = add.path.varsel(path, new.state, cc)							
 				if (cc) {
 					#print("accept")

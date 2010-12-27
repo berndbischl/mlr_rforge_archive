@@ -1,10 +1,10 @@
 
-varsel.bestcor = function(learner, task, resampling, measures, aggr, control=sequential.control()) {
+varsel.bestcor = function(learner, task, resampling, measures, control=sequential.control()) {
 	all.vars = task["input.names"]
 	path = list()
 	
 	start.vars = character(0)	
-	state = eval.state.varsel(learner, task, resampling, measures, aggr, par=start.vars, event="start")
+	state = eval.state.varsel(learner, task, resampling, measures, par=start.vars, event="start")
 	
 	path = add.path.varsel(path, state, T)		
 	data = na.omit(task["data"])
@@ -24,8 +24,8 @@ varsel.bestcor = function(learner, task, resampling, measures, aggr, control=seq
 			new.vars = c(state$par, v)
 			if (get(".mlr.vareval", envir= .GlobalEnv) >= control$maxit)
 				break
-			s = eval.state.varsel(learner, task, resampling, measures, aggr, par=new.vars, "forward")
-			cc = compare.diff(state, s, control, measures, aggr, control$alpha)
+			s = eval.state.varsel(learner, task, resampling, measures, par=new.vars, "forward")
+			cc = compare.diff(state, s, control, measures, control$alpha)
 			path = add.path.varsel(path, s, accept=cc)		
 			if (cc) {
 				state = s

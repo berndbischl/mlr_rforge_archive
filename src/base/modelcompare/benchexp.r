@@ -64,9 +64,8 @@ bench.exp <- function(learners, tasks, resampling, measures,
   
 	if (missing(measures))
 		measures = default.measures(tasks[[1]])
-	measures = make.measures(measures)
-	
-	
+  if (is(measures, "measure"))
+    measures = list(measures)   
 	
 	#bs = array(-1, nrow=resampling["iters"], ncol=n)
 	## add dim for every loss ?? hmm, those are not always the same size...

@@ -5,21 +5,11 @@
 
 # get a single perf value for a state: first measure, aggregated by first aggr function
 get.perf = function(state) {
-	state$rp$aggr[1,1]
-}
-
-# get all aggr. perf values for a state in a vector
-flat.perfs = function(state) {
-	mm = state$rp$aggr
-	ns = expand.grid(rownames(mm), colnames(mm))
-	ns = apply(ns, 1, function(i) paste(i[1], i[2], sep="."))
-	mm =  as.numeric(as.matrix(mm))
-	names(mm) = ns 
-	return(mm)	
+	state$rp[1]
 }
 
 make.path.el = function(es, accept=0) {
-	list(par = es$par, perf = flat.perfs(es), evals=es$evals, event=es$event, accept=accept)
+	list(par = es$par, perf = es$rp, evals=es$evals, event=es$event, accept=accept)
 }
 
 make.es = function(par, rp, evals, event) {
@@ -43,18 +33,18 @@ add.path.els = function(global.eval.var, path, ess, best) {
 } 
 
 
-eval.state = function(global.eval.var, learner, task, resampling, measures, aggr, control, par, event) {
+eval.state = function(global.eval.var, learner, task, resampling, measures, control, par, event) {
 	rp = eval.rf(learner=learner, task=task, resampling=resampling,  
-			measures=measures, aggr=aggr, control=control, par=par)
+			measures=measures, control=control, par=par)
 	evals = get(global.eval.var, envir=.GlobalEnv)+1
 	assign(global.eval.var, evals, envir=.GlobalEnv)
 	make.es(par=par, rp=rp, evals=evals, event=event)
 }
 
 # evals a set of var-lists and return the corresponding states
-eval.states = function(global.eval.var, eval.fun, learner, task, resampling, measures, aggr, control, pars, event) {
+eval.states = function(global.eval.var, eval.fun, learner, task, resampling, measures, control, pars, event) {
 	rps = eval.fun(learner=learner, task=task, resampling=resampling,  
-			measures=measures, aggr=aggr, control=control, pars=pars)
+			measures=measures, control=control, pars=pars)
 	evals = get(global.eval.var, envir=.GlobalEnv)
 	evals2 = evals + length(pars)
 	assign(global.eval.var, evals2, envir=.GlobalEnv)
@@ -65,11 +55,11 @@ eval.states = function(global.eval.var, eval.fun, learner, task, resampling, mea
 
 # compare 2 states.  
 # TRUE : state2 is significantly better than state1  
-# compare = function(state1, state2, control, measures, aggr, threshold) 
+# compare = function(state1, state2, control, measures, threshold) 
 
 
 # use the difference in performance   
-compare.diff = function(state1, state2, control, measures, aggr, threshold) {
+compare.diff = function(state1, state2, control, measures, threshold) {
 	m1 = get.perf(state1)
 	m2 = get.perf(state2)
 	d = ifelse(control["minimize"], 1, -1) * (m1 - m2)
@@ -79,9 +69,9 @@ compare.diff = function(state1, state2, control, measures, aggr, threshold) {
 
 
 # select the best state from a list by using get.perf
-select.best.state = function(states, control) {
+select.best.state = function(states, measure) {
 	perfs = sapply(states, get.perf)
-	if (control["minimize"])
+	if (measure["minimize"])
 		i = which.min(perfs)
 	else 
 		i = which.max(perfs)

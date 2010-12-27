@@ -1,4 +1,4 @@
-tune.grid <- function(learner, task, resampling, measures, aggr, control) {
+tune.grid <- function(learner, task, resampling, measures, control) {
 	# convert to instance so all pars are evaluated on the same splits
 	if (is(resampling, "resample.desc")) 
 		resampling = make.res.instance(resampling, task=task)
@@ -7,24 +7,24 @@ tune.grid <- function(learner, task, resampling, measures, aggr, control) {
   names(ranges) = control["par.names"]	
 	# if theres more than one ranges 
 	if(length(ranges) > 0 && all((names(ranges) == "ranges"))) {
-		ors = lapply(ranges, function(r) {tune.1(learner, task, resampling, ranges, measures, aggr, control)})
+		ors = lapply(ranges, function(r) {tune.1(learner, task, resampling, ranges, measures, control)})
 		
 		ps = lapply(ors, function(x) x@path)
 		ps = Reduce(c, ps)
 		perfs = sapply(ors, function(x) x@opt$perf[1])
-		if (control["minimize"])
+		if (measures[[1]]["minimize"])
 			i = which.min(perfs)
 		else				
 			i = which.max(perfs)
 		new("opt.result", control=control, opt=ors[[i]]@opt, path=ps)
 	}else {
-		tune.1(learner, task, resampling, ranges, measures, aggr, control)
+		tune.1(learner, task, resampling, ranges, measures, control)
 	}
 }
 
 
 
-tune.1 <- function(learner, task, resampling, ranges, measures, aggr, control) {
+tune.1 <- function(learner, task, resampling, ranges, measures, control) {
   ns = names(ranges)
   if(any(is.na(ns) | ns == "")) {
     stop("All element of a ranges list have to be named!")
@@ -33,7 +33,7 @@ tune.1 <- function(learner, task, resampling, ranges, measures, aggr, control) {
 	# todo: make this better 
 	if (length(ranges) == 0) {
 		bs = eval.state.tune(learner=learner, task=task, resampling=resampling,  
-				measures=measures, aggr=aggr, control=control, 
+				measures=measures, control=control, 
 				par=list(), event="grid")
 		path = add.path.tune(list(), bs, T)	
 	} else {
@@ -41,10 +41,10 @@ tune.1 <- function(learner, task, resampling, ranges, measures, aggr, control) {
 		
 		parsets = lapply(seq(length=nrow(grid)), function(i) as.list(grid[i,,drop=FALSE]))	
 		es = eval.states.tune(learner=learner, task=task, resampling=resampling,  
-				measures=measures, aggr=aggr, control=control, 
+				measures=measures, control=control, 
 				pars=parsets, event="grid")
 		
-		bs = select.best.state(es, control)
+		bs = select.best.state(es, measures[[1]])
 		path = add.path.els.tune(path=list(), ess=es, best=bs)
 	}
 	new("opt.result", control=control, opt=make.path.el(bs), path=path)

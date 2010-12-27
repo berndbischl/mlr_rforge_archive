@@ -28,6 +28,11 @@ aggr.mean = new("aggr",
   fun = function(perf.test, perf.train, group, pred) mean(perf.test)
 )
 
+aggr.sd = new("aggr",
+  id = "sd",
+  fun = function(perf.test, perf.train, group, pred) sd(perf.test)
+)
+
 
 set.aggr = function(x, aggr) {
   if (!is.list(aggr))

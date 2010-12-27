@@ -24,8 +24,6 @@ roxygen()
 #'        Performance measures. 
 #' @param model [boolean]\cr
 #'        Should a final model be fitted on the complete data with the best found hyperparameters? Default is FALSE.
-#' @param path [boolean]\cr
-#'        Should optimization path be saved? Default is FALSE.
 #' 
 #' @return \code{\linkS4class{opt.result}}.
 #' 
@@ -36,14 +34,14 @@ roxygen()
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, control, measures, model=FALSE, path=FALSE) {
+tune <- function(learner, task, resampling, control, measures, model=FALSE) {
   if (is.character(learner))
     learner <- make.learner(learner)
 	if (missing(measures))
 		measures = default.measures(task)
-	measures = make.measures(measures)
-	
-	cl = as.character(class(control))
+  if (is(measures, "measure"))
+    measures = list(measures)   
+  cl = as.character(class(control))
 	optim.func = switch(cl,
 			grid.control = tune.grid,
 #			pattern = tune.ps,
@@ -61,7 +59,6 @@ tune <- function(learner, task, resampling, control, measures, model=FALSE, path
 	#.mlr.local$n.eval <<- 0
 	#export.tune(learner, task, loss, scale)
 	
-	control@path = path
 	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures)
 
 	

@@ -47,6 +47,8 @@ eval.rf <- function(learner, task, resampling, measures, control, par) {
 #		type = "prob"
 	learner = set.hyper.pars(learner, par.vals)
 	r = resample(learner, task, resampling, measures=measures)
+  return(r$aggr)
+  
 #	th = as.numeric(NA)
 #	if (control["tune.threshold"]) { 
 #		thr = tune.threshold(rf, measures, task, minimize=control["minimize"], thresholds=control["thresholds"])
