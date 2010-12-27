@@ -14,7 +14,6 @@ test.learner <- function() {
 	checkEquals(wl["costs"], T)
 	checkEquals(wl["numerics"], T)
 	checkEquals(wl["factors"], T)
-	checkEquals(wl["characters"], F)
 
 	wl = make.learner("regr.lm")
 	checkEquals(wl["is.classif"], F)
@@ -28,7 +27,6 @@ test.learner <- function() {
 	checkEquals(wl["costs"], F)
 	checkEquals(wl["numerics"], T)
 	checkEquals(wl["factors"], T)
-	checkEquals(wl["characters"], F)
 	
   checkException(make.learner("classif.lvq1", predict.type="prob"), silent=TRUE)
   s = geterrmessage()

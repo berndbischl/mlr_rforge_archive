@@ -42,7 +42,6 @@ make.learner = function(class, id, predict.type="response", ..., par.vals=list()
   }
   pv = insert(pv, par.vals)
 	wl = set.hyper.pars(wl, ..., par.vals=pv)
-  if (wl["is.classif"])
-    wl = set.predict.type(wl, predict.type)
+  wl = set.predict.type(wl, predict.type)
 	return(wl)
 }

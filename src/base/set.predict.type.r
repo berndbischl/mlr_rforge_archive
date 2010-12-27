@@ -30,7 +30,7 @@ setMethod(
   
   def = function(learner, type) {
     if (!learner["is.classif"]) {
-      stop("Predict type can only be changed for classification learner!")
+      stop("Trying to predict probs, but only classifiers support that!")
     }
     if ("prob" == type && !learner["probs"]) {
       stop("Trying to predict probs, but ", learner["id"], " does not support that!")

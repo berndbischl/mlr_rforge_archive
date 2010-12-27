@@ -110,9 +110,7 @@ cv.test <- function(t.name, df, target, folds=2, parset=list(), tune.train, tune
 		cv.instance <- e1071.cv.to.mlr.cv(tr)
 		wl = do.call("make.learner", c(t.name, parset))
 		lt = make.task(data=df, target=target)
-		print(123)
 		ms = resample(wl, lt, cv.instance)$measures.test
-		print(123)
     if (is(lt, "classif.task")) { 
       checkEqualsNumeric(mean(ms["mmce"]), tr$performances[1,2])
       checkEqualsNumeric(sd  (ms["mmce"]), tr$performances[1,3])

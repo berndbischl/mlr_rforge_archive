@@ -19,7 +19,6 @@ test.predict <- function() {
 	cp3 <- predict(cm3, newdata=data[multiclass.test.inds,])
 	ext3 <- lda(formula, data=data[inds,])
 	pred3 <- predict(ext3,newdata=data[multiclass.test.inds,])$class
-	
 	checkEquals(cp3["response"], pred3)
 	
 	cp4 <- predict(cm3, task=multiclass.task, subset=multiclass.test.inds)
@@ -29,13 +28,7 @@ test.predict <- function() {
 	
 	df3 = as.data.frame(cp3)
 	df4 = as.data.frame(cp4)
-
-	checkEquals(df3$truth, df4$truth)
-	checkEquals(df3$response, df4$response)
-	cn3 = colnames(df3)
-	cn4 = colnames(df4)
-	checkTrue(setequal(cn3, c("response", "truth")))
-	checkTrue(setequal(cn4, c("id", "response", "truth")))
+	checkEquals(df3, df4[,-1])
 	
 	cm5 = train(wl.lda, binaryclass.task, subset=binaryclass.train.inds)
 	cp5a = predict(cm5, task=binaryclass.task, subset=binaryclass.test.inds)
