@@ -54,7 +54,7 @@ setMethod(
 			)
 			.Object@props$inputs = inputs
 			.Object@props$has.missing = any(is.na(df2))
-			.Object@props$has.inf = any(is.na(df2))
+			.Object@props$has.inf = any(is.infinite(df2))
 			y = data[, target]
 			if(is.factor(y))
 				.Object@props$classes =	{tab=table(y);cl=as.integer(tab); names(cl)=names(tab);cl}

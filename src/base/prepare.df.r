@@ -128,7 +128,7 @@ prep.data = function(is.classif, data, target, exclude=c(), control) {
 			}
       # large
       if (is.numeric(v)) {
-        j = abs(v) > large 
+        j = !is.na(v) & abs(v) > large 
         if (any(j)) {
           conv.large = c(conv.large, cn)
           v[j] = sign(v[j]) * impute.large  
