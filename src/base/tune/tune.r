@@ -22,8 +22,6 @@ roxygen()
 #'        Control object for search method. Also selects the optimization algorithm for tuning.   
 #' @param measures [see \code{\link{measures}}]\cr
 #'        Performance measures. 
-#' @param aggr [see \code{\link{aggregations}}]\cr
-#'        Aggregation functions. 
 #' @param model [boolean]\cr
 #'        Should a final model be fitted on the complete data with the best found hyperparameters? Default is FALSE.
 #' @param path [boolean]\cr
@@ -38,16 +36,12 @@ roxygen()
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE, path=FALSE) {
+tune <- function(learner, task, resampling, control, measures, model=FALSE, path=FALSE) {
   if (is.character(learner))
     learner <- make.learner(learner)
 	if (missing(measures))
 		measures = default.measures(task)
 	measures = make.measures(measures)
-	if (missing(aggr))
-		aggr = default.aggr(resampling)
-	aggr = make.aggrs(aggr)
-	
 	
 	cl = as.character(class(control))
 	optim.func = switch(cl,
@@ -68,7 +62,7 @@ tune <- function(learner, task, resampling, control, measures, aggr, model=FALSE
 	#export.tune(learner, task, loss, scale)
 	
 	control@path = path
-	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures, aggr=aggr)
+	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures)
 
 	
 	or@opt$par = .mlr.scale.par(or@opt$par, control)
