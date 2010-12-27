@@ -2,7 +2,7 @@
 
 #' Defines the technical mode and level of parallelization when executing code.
 #'
-#' Note that when you parallelize a function, e.g. \code{\link{resample.fit}}, this also works when the function is internally called by 
+#' Note that when you parallelize a function, e.g. \code{\link{resample}}, this also works when the function is internally called by 
 #' \code{mlr} in a more complex function, e.g. \code{\link{bench.exp}}. 
 #' 
 #' @param mode [string] \cr
@@ -16,7 +16,7 @@
 #'   Number of requested cpus. Default is \code{\link[Rmpi]{mpi.universe.size}}() for snowfall/MPI, ignored for for sfCluster and 1 otherwise. 
 #' @param level [string] \cr
 #'   What is parallelized / what is a job. 
-#' 	 "resample": \code{\link{resample.fit}} is parallelized and a job is train / test.
+#' 	 "resample": \code{\link{resample}} is parallelized and a job is train / test.
 #'   "tune": \code{\link{tune}} is parallelized and a job is a resampled evaluation of one hyperparameter setting.  
 #'   "varsel": \code{\link{varsel}} is parallelized and a job is a resampled evaluation of a feature set.
 #'   "bench": \code{\link{bench.exp}} is parallelized and a job is completely evaluating one learner on one data set.

@@ -108,7 +108,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 			bm = results[[counter]]
 			counter = counter+1
 			rr = bm$result
-			rf = bm$resample.fit
+			rf = bm$resample
 			# remove tune perf
 			rr = rr[, names(measures)]
 			bs[[j]][,i,] = as.matrix(rr)

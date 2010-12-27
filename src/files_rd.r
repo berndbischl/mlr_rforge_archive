@@ -59,7 +59,7 @@ allowed.rd.files <<- c(
 		"get.test.set.Rd",
 		"resample.update.Rd",
 		"resample.done.Rd",
-		"resample.fit.Rd",
+		"resample.Rd",
 		"resample.prediction-class.Rd",
 		"as.ROCR.preds.Rd",
 		

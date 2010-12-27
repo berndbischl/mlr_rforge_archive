@@ -31,21 +31,3 @@ make.et.wrapper = function(learner, id=as.character(NA), measures, aggr, task, m
 	}	
 	make.postproc.wrapper(learner, id=id, fun=fun)
 }
-
-
-
-#' @export
-#' @rdname resample.fit 
-setMethod(
-  f = "resample.fit",
-  signature = signature(learner="et.wrapper", task="learn.task", resampling="resample.instance", 
-    par.vals="list", vars="character", extract="function"),
-  def = function(learner, task, resampling, par.vals, vars, extract) {
-    p = callNextMethod(learner, task, resampling, par.vals, vars, extract)
-    x = tune.threshold(p, measure, aggr, task, thresholds=10)
-        if (missing(measures))
-  }
-)
-
-
-

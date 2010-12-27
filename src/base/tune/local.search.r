@@ -32,7 +32,7 @@ local.search = function(learner, task, res, par.vals, y, par.descs, control) {
   pv = par.vals[[pn]]
   offs = generate.offspring(earner, task, res, par.vals, y, par.descs, control)
   new.vals[[pn]] = new.val
-  p = resample.fit(learner, task, res, par.vals=new.vals)
+  p = resample(learner, task, res, par.vals=new.vals)
   perf = performance(p, task, measures=measures, aggr=aggr)
   
   if (perf < y)

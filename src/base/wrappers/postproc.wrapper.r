@@ -68,12 +68,11 @@ setMethod(
 
 
 #' @export
-#' @rdname resample.fit 
+#' @rdname resample 
 setMethod(
-  f = "resample.fit",
-  signature = signature(learner="postproc.wrapper", task="learn.task", resampling="resample.instance", 
-    par.vals="list", vars="character", extract="function"),
-  def = function(learner, task, resampling, par.vals, vars, extract) {
+  f = "resample",
+  signature = signature(learner="postproc.wrapper", task="learn.task", resampling="resample.instance", measures="list", models="logical", extract="list"),
+  def = function(learner, task, resampling, measures, models, extract) {
     p = callNextMethod(learner, task, resampling, par.vals, vars, extract)    
     fun.args = .learner["hyper.pars"]
     fun.args$pred = p

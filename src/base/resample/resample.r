@@ -20,10 +20,8 @@
 #' @return \code{\linkS4class{resample.prediction}}.
 #' 
 #' @export
-#' @rdname resample.fit 
+#' @rdname resample 
 #' 
-#' @usage resample.fit(learner, task, resampling, par.vals, vars, extract)
-#'
 #' @title Fit models according to a resampling strategy.
 
 setGeneric(

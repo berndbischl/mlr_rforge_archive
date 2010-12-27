@@ -41,7 +41,7 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
 	}
 
 	
-	rr = resample.fit(learner, task, resampling, extract=extract)
+	rr = resample(learner, task, resampling, extract=extract)
 	result = data.frame(matrix(nrow=resampling["iters"]+1, ncol=0))
 	ex = rr@extracted
 	
@@ -60,6 +60,6 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
 		mods = lapply(rr@extracted, function(x) x$model)
 	ors = NULL
 	ors = lapply(rr@extracted, function(x) x$or)
-	return(list(result=result, conf.mat=cm, resample.fit=rr, models=mods, ors=ors))
+	return(list(result=result, conf.mat=cm, resample=rr, models=mods, ors=ors))
 }
 

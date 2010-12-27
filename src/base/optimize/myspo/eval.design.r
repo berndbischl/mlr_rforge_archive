@@ -6,7 +6,7 @@ eval.des.with.fun = function(des, fun, control) {
     y = do.call(fun, pv)
     #on.learner = .mlr.local$errorhandler.setup$on.learner
     #errorhandler.setup(on.learner="quiet")
-    #p = resample.fit(learner, task, resampling, par.vals=pv)
+    #p = resample(learner, task, resampling, par.vals=pv)
     #errorhandler.setup(on.learner=on.learner)
     #perf = performance(p, measures=measures, aggr=aggr)
     #y = perf$aggr[1,1]
