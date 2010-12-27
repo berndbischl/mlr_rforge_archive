@@ -64,7 +64,7 @@ tune <- function(learner, task, resampling, control, measures, model=FALSE) {
 	
 	or@opt$par = .mlr.scale.par(or@opt$par, control)
 	if (model) {
-    learner = set.hyper.pars(learner, or["par"])
+    learner = set.hyper.pars(learner, par.vals=or["par"])
 		or@model = train(learner, task) 	
 	}
 	

@@ -15,9 +15,12 @@
 setGeneric(
     name = "set.hyper.pars",
     def = function(learner, ..., par.vals) {
+      x = list(...)      
       if (missing(par.vals))
         par.vals = list()
-      par.vals = insert(par.vals, list(...))
+      if(!all.names(x))
+        stop("All parameter settings have to be named arguments!")
+      par.vals = insert(par.vals, x)
       standardGeneric("set.hyper.pars")
     }
 )

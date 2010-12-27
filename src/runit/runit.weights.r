@@ -15,5 +15,5 @@ test.weights <- function() {
 	
 	checkException(make.task(data=multiclass.df, target=multiclass.target, weights=1:2))
 	s = geterrmessage()
-	checkTrue(length(grep("Weights have to be of the same length", s)) >0 )
+	checkTrue(length(grep("Argument weights must be of length", s)) >0 )
 }

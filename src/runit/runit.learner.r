@@ -34,7 +34,7 @@ test.learner <- function() {
   
   checkException(make.learner("regr.lm", predict.type="prob"), silent=TRUE)
   s = geterrmessage()
-  checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
+  checkTrue(length(grep("Trying to predict prob, but", s)) >0 )
   
   wl = make.learner("classif.lvq1")
   checkException(set.predict.type(wl, "prob"), silent=TRUE)
