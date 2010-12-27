@@ -2,13 +2,13 @@ test.resample = function() {
 	cv.i <- make.res.instance("cv", binaryclass.task, iters=3)
 	
 	mylda = make.learner("classif.lda", predict.type="prob")
-	rf1 = resample("classif.lda", binaryclass.task, cv.i, predictions=TRUE)$pred
-	rf2 = resample(mylda, binaryclass.task, cv.i, predictions=TRUE)$pred
+	rf1 = resample("classif.lda", binaryclass.task, cv.i)$pred
+	rf2 = resample(mylda, binaryclass.task, cv.i)$pred
 	mylda = make.learner("classif.lda", predict.type="prob")
-	rf3 = resample(mylda, binaryclass.task, cv.i, predictions=TRUE)$pred
+	rf3 = resample(mylda, binaryclass.task, cv.i)$pred
   rf3 = set.threshold(rf3, 0)
 	mylda = make.learner("classif.lda", predict.type="prob")
-	rf4 = resample(mylda, binaryclass.task, cv.i, predictions=TRUE)$pred
+	rf4 = resample(mylda, binaryclass.task, cv.i)$pred
   rf4 = set.threshold(rf4, 1)
   
 	checkEquals(rf1["response"], rf2["response"])
