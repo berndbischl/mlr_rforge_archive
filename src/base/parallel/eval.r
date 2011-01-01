@@ -1,8 +1,8 @@
-resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
+resample.fit.iter <- function(learner, task, rin, i, measures, vars, model, extract) {
 	train.i = get.train.set(rin, i)
 	test.i = get.test.set(rin, i)
 	
-	m = train(learner, task, subset=train.i)
+	m = train(learner, task, subset=train.i, vars=vars)
 	p = predict(m, task=task, subset=test.i)
   
   # does a measure require to calculate pred.train?
@@ -24,7 +24,7 @@ resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
     ms.test = sapply(measures, function(pm) performance(task=task, model=m, pred=pred.test, measure=pm))    
   }
   
-	ex = lapply(extract, function(f) f(pm))
+	ex = extract(m)
   list(
     measures.test = ms.test,
     measures.train = ms.train,
@@ -39,14 +39,16 @@ eval.rf <- function(learner, task, resampling, measures, control, par) {
 
 	if (is(control, "tune.control")) {
 		par.vals = .mlr.scale.par(par, control)
+    vars = task["input.names"]
 	} else {
 		par.vals = list()
-	}
+    vars =  par
+  }
 	# todo 
 #	if (control["tune.threshold"]) 
 #		type = "prob"
   learner = set.hyper.pars(learner, par.vals=par.vals)
-	r = resample(learner, task, resampling, measures=measures)
+	r = resample(learner, task, resampling, measures=measures, vars=vars)
   return(r$aggr)
   
 #	th = as.numeric(NA)

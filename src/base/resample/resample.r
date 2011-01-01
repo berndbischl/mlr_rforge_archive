@@ -26,7 +26,7 @@
 
 setGeneric(
   name = "resample",
-  def = function(learner, task, resampling, measures, models, extract) {
+  def = function(learner, task, resampling, measures, vars, models, extract) {
     if (is.character(learner))
       learner = make.learner(learner)
     if (is(resampling, "resample.desc")) 
@@ -35,10 +35,14 @@ setGeneric(
       measures = default.measures(task)
     if (is(measures, "measure"))
       measures = list(measures)
+    if (missing(vars))
+      vars = task["input.names"]
+    if (length(vars) == 0)
+      vars = character(0)
     if (missing(models))
       models = FALSE
     if (missing(extract))
-      extract = list()
+      extract = function(m){}
     standardGeneric("resample")
   }
 )
@@ -47,8 +51,8 @@ setGeneric(
 #' @rdname resample 
 setMethod(
   f = "resample",
-  signature = signature(learner="learner", task="learn.task", resampling="resample.instance", measures="list", models="logical", extract="list"),
-  def = function(learner, task, resampling, measures, models, extract) {
+  signature = signature(learner="learner", task="learn.task", resampling="resample.instance", measures="list", vars="character", models="logical", extract="function"),
+  def = function(learner, task, resampling, measures, vars, models, extract) {
     n = task["size"]
     r = resampling["size"]
     if (n != r)
@@ -59,7 +63,7 @@ setMethod(
     
     if (is(rin, "resample.instance.nonseq")) {
       rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
-        rin=rin, measures=measures, model=models, extract=extract)
+        rin=rin, measures=measures, vars=vars, model=models, extract=extract)
     } else {
       rs  = list()
       # sequential resampling cannot be (easily) parallized!
@@ -71,7 +75,7 @@ setMethod(
         m = train(learner, task, subset=train.i)
         p = predict(m, task=task, subset=test.i)
         ex = extract(m)
-        rs[[i]] = list(pred=p, extracted=ex)
+        rs[[i]] = list(pred=p, extract=ex)
         rin = resample.update(rin, task, m, p)
         i = i + 1
       }				
@@ -109,7 +113,7 @@ setMethod(
       aggr = aggr,
       pred = pred,
       models = if(models) lapply(rs, function(x) x$model) else NULL, 
-      extract = if(is.function(extract)) lapply(rs, function(x) x$extracted) else NULL
+      extract = if(is.function(extract)) lapply(rs, function(x) x$extract) else NULL
     )
   }
 )
