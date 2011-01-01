@@ -71,10 +71,10 @@ setMethod(
 			lt = make.task(data=.data, target=.targetvar)	
 			if (wl["opt.type"] == "tune")
 				or = tune(bl, task=lt, resampling=wl@resampling, control=ctrl, 
-						measures=wl@measures, model=TRUE, path=ctrl["path"])
+						measures=wl@measures, model=TRUE)
 			else if (wl["opt.type"] == "varsel")
 				or = varsel(bl, task=lt, resampling=wl@resampling, control=ctrl, 
-						measures=wl@measures, model=TRUE, path=ctrl["path"])
+						measures=wl@measures, model=TRUE)
 			else 
 				stop("Unknown type: ", wl["opt.type"])
 				

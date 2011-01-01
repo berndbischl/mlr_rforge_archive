@@ -59,11 +59,11 @@ eval.states = function(global.eval.var, eval.fun, learner, task, resampling, mea
 
 
 # use the difference in performance   
-compare.diff = function(state1, state2, control, measures, threshold) {
+compare.diff = function(state1, state2, control, measure, threshold) {
 	m1 = get.perf(state1)
 	m2 = get.perf(state2)
-	d = ifelse(control["minimize"], 1, -1) * (m1 - m2)
-	(d > threshold)	
+	d = ifelse(measure["minimize"], 1, -1) * (m1 - m2)
+  (d > threshold)	
 }
 
 
