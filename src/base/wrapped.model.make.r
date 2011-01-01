@@ -9,6 +9,10 @@ make.wrapped.model = function(learner, model, data.desc, task.desc, prep.control
     or = attr(model, "opt.result")
     attr(model, "opt.result") = NULL
     m = new("opt.model", learner, model, data.desc, task.desc, prep.control, subset, vars, time, or)  
+  } else if(is(learner, "filter.wrapper")) {
+    vars = attr(model, "filter.result")
+    attr(model, "filter.result") = NULL
+    m = new("wrapped.model", learner, model, data.desc, task.desc, prep.control, subset, vars, time)  
   } else {
     # create normal model
     m = new("wrapped.model", learner, model, data.desc, task.desc, prep.control, subset, vars, time)    

@@ -165,81 +165,81 @@ fn = make.measure(id="fn", minimize=TRUE, req.task.type="classif", req.binary=TR
 
 tpr = make.measure(id="tpr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    tp@fun(task, model, pred, extra.pars) / 
+    tp@fun(pred=pred) / 
       sum(pred["truth"] == pred@task.desc["positive"])    
   }
 )
 
 tnr = make.measure(id="tnr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    tn@fun(task, model, pred, extra.pars) / 
+    tn@fun(pred=pred) / 
       sum(pred["truth"] == pred@task.desc["negative"])  
   }
 )
 
 fpr = make.measure(id="fpr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    fp@fun(task, model, pred, extra.pars) / 
+    fp@fun(pred=pred) / 
       sum(pred["truth"] == pred@task.desc["negative"])  
   }
 )
 
 fnr = make.measure(id="fnr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    fn@fun(task, model, pred, extra.pars) / 
+    fn@fun(pred=pred) / 
       sum(pred["truth"] == pred@task.desc["positive"])  
   }
 )
 
 ppv = make.measure(id="ppv", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    tp@fun(task, model, pred, extra.pars) / 
+    tp@fun(pred=pred) / 
       sum(pred["response"] == pred@task.desc["positive"])  
   }
 )
 
 npv = make.measure(id="npv", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    tn@fun(task, model, pred, extra.pars) / 
+    tn@fun(pred=pred) / 
       sum(pred["response"] == pred@task.desc["negative"])  
   }
 )
 
 fdr = make.measure(id="fdr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    fp@fun(task, model, pred, extra.pars) / 
+    fp@fun(pred=pred) / 
       sum(pred["response"] == pred@task.desc["positive"])  
   }
 )
 
 mcc = make.measure(id="mcc", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    (tp@fun(task, model, pred, extra.pars) * 
-    tn@fun(task, model, pred, extra.pars) - 
-    fp@fun(task, model, pred, extra.pars) * 
-    fn@fun(task, model, pred, extra.pars)) /  
+    (tp@fun(pred=pred) * 
+    tn@fun(pred=pred) - 
+    fp@fun(pred=pred) * 
+    fn@fun(pred=pred)) /  
     sqrt(prod(table(pred["truth"], pred["response"])))
   }
 )
 
 f1 = make.measure(id="f1", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    2*tp@fun(task, model, pred, extra.pars) / 
+    2*tp@fun(pred=pred) / 
     (sum(pred["truth"] == pred@task.desc["positive"]) + sum(pred["response"] == pred@task.desc["positive"])) 
   }
 )
 
 gmean = make.measure(id="gmean", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    sqrt(tpr@fun(task, model, pred, extra.pars) * 
-         tnr@fun(task, model, pred, extra.pars)) 
+    sqrt(tpr@fun(pred=pred) * 
+         tnr@fun(pred=pred)) 
   }
 )
 
 gpr = make.measure(id="gpr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    sqrt(ppv@fun(task, model, pred, extra.pars) * 
-         tpr@fun(task, model, pred, extra.pars)) 
+    sqrt(ppv@fun(pred=pred) * 
+         tpr@fun(pred=pred)) 
   }
 )
 
