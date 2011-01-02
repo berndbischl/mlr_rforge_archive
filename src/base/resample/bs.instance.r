@@ -16,7 +16,7 @@ setMethod(
 	inds = boot(1:size, R=desc["iters"], function(data,inds) inds)$t
 	inds = as.list(as.data.frame(t(inds)))
 	names(inds) = NULL
-	callNextMethod(.Object, desc=desc, size=size, inds=inds)
+	callNextMethod(.Object, desc=desc, size=size, train.inds=inds)
   }
 )
 

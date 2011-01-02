@@ -1,50 +1,46 @@
 
 #' Generates an instance object for a resampling strategy. 
 #' 
-#' @param x [string or  \code{\linkS4class{resample.desc}}] \cr
-#' 	  "cv" for cross-validation, "stratcv" for stratified cross-validation,  "repcv" for repeated cross-validation,\cr
-#'		"bs" for out-of-bag bootstrap, "bs632" for B632 bootstrap, "bs632plus" for B632+ bootstrap,\cr
-#'    "subsample" for subsampling, "holdout" for holdout.	 			
-#' @param task [\code{\link{integer}}] \cr
+#' @param desc [\code{\linkS4class{resample.desc}}] \cr
+#'   Resampling description.
+#' @param task [\code{\linkS4class{learn.task}}] \cr
 #'		Data of task to resample from. Prefer to pass this instead of \code{size}.
 #' @param size [\code{\link{integer}}] \cr
-#'		Size of the data set to resample.
-#' @param iters [integer] \cr
-#'		Number of resampling iterations. Not needed for "holdout". 	 			
-#' @param ... [any] \cr
-#'		Further parameters for strategies.\cr 
-#'			split: Percentage of training cases for "holdout", "subsample".\cr
-#'			reps: Repeats for "repcv"
+#'		Size of the data set to resample. Can be used instead of \code{task}.
+#' @param predict [character | factor] \cr
+#'   What to predict during resampling: "train", "test" or "both" sets. If missing, 
+#'   predict behaviour of \code{desc} is taken - which is usually "test".
 #' 
 #' @return A \code{\linkS4class{resample.instance}} object.
 #' @export 
+#' @seealso code{\link{make.res.desc}}, \code{\link{resample}} 
 #' @rdname make.res.instance
 #' @title Construct resampling instance
 
 setGeneric(
 		name = "make.res.instance",
-		def = function(x, task, size, iters, ...) {
+		def = function(desc, task, size, predict) {
       if (!missing(size) && is.numeric(size))
         size = as.integer(size)
-      if (!missing(iters) && is.numeric(iters))
-        iters = as.integer(iters)
-      if (identical(x, "holdout") && missing(iters))
-        iters = as.integer(NA)
+      if (missing(predict))
+        predict = desc["predict"]
+      if (is.character(predict) && length(predict) == 1)
+        predict = replicate(desc["iters"], predict)
+      if (is.character(predict))
+        predict = factor(predict, levels=c("train", "test", "both"))
       standardGeneric("make.res.instance")
 		}
 )
 
+
 #' @export 
 #' @rdname make.res.instance
 
-
 setMethod(
 		f = "make.res.instance",
-		signature = c(x="character", task="missing", size="integer", iters="integer"),
-		def = function(x, task, size, iters, ...) {
-			desc = make.res.desc(x, iters=iters, ...)
-			cc = paste(x, "instance", sep=".")
-			make.res.i(cc, desc=desc, size=size, task=NULL)
+		signature = c(desc="resample.desc", task="missing", size="integer", predict="factor"),
+		def = function(desc, task, size, predict) {
+			make.res.i(desc@instance.class, desc=desc, size=size, task=NULL, predict=predict)
 		}
 )
 
@@ -53,39 +49,14 @@ setMethod(
 
 setMethod(
 		f = "make.res.instance",
-		signature = c(x="character", task="learn.task", size="missing", iters="integer"),
-		def = function(x, task, size, iters, ...) {
-			desc = make.res.desc(x, iters=iters, ...)
-			cc = paste(x, "instance", sep=".")
-			make.res.i(cc, desc=desc, task=task, blocking=task["blocking"])
+		signature = c(desc="resample.desc", task="learn.task", size="missing", predict="factor"),
+		def = function(desc, task, size, predict) {
+			make.res.i(desc@instance.class, desc=desc, task=task, blocking=task["blocking"], predict=predict)
 		}
 )
 
 
-#' @export 
-#' @rdname make.res.instance
-
-setMethod(
-		f = "make.res.instance",
-		signature = c(x="resample.desc", task="missing", size="integer", iters="missing"),
-		def = function(x, task, size, iters, ...) {
-			make.res.i(x@instance.class, desc=x, size=size, task=NULL)
-		}
-)
-
-#' @export 
-#' @rdname make.res.instance
-
-setMethod(
-		f = "make.res.instance",
-		signature = c(x="resample.desc", task="learn.task", size="missing", iters="missing"),
-		def = function(x, task, size, iters, ...) {
-			make.res.i(x@instance.class, desc=x, task=task, blocking=task["blocking"])
-		}
-)
-
-
-make.res.i = function(i.class, desc, task=NULL, size=as.integer(NA), blocking=factor(c())) {
+make.res.i = function(i.class, desc, task=NULL, size=as.integer(NA), blocking=factor(c()), predict) {
   if (!is.null(task)) {
     size = task["size"]
   }
@@ -102,5 +73,10 @@ make.res.i = function(i.class, desc, task=NULL, size=as.integer(NA), blocking=fa
 	} else { 
 		inst = new(i.class, desc=desc, size=size, task=task)
 	}
+  if (length(predict) != desc["iters"])
+    stop("Argument predict must be of same length as number of iterations!")
+  if (!setequal(levels(predict), c("train", "test", "both")))
+    stop("Argument predict must only contain: train, test, both!")
+  inst@predict = predict
 	return(inst)
 }

@@ -1,6 +1,6 @@
 resample.fit.iter <- function(learner, task, rin, i, measures, vars, model, extract) {
-	train.i = get.train.set(rin, i)
-	test.i = get.test.set(rin, i)
+	train.i = rin["train.inds"][[i]]
+  test.i = rin["test.inds"][[i]]
 	
 	m = train(learner, task, subset=train.i, vars=vars)
 	p = predict(m, task=task, subset=test.i)

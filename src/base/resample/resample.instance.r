@@ -3,18 +3,19 @@ roxygen()
 
 #' Base class for specific resampling draws like cross-validation or bootstrapping.
 #' This class encapsulates training and test sets generated from the data set for a number of iterations. 
-#' It mainly stores a set of integer vectors indicating the training examples for each iteration.
+#' It mainly stores a set of integer vectors indicating the training and test examples for each iteration.
 #' Don't create objects from this class directly but use the corresponding subclasses.
 #' For construction simply use the factory method \code{\link{make.res.instance}}. 
 #' 
 #' Getter.
 #' 
 #' \describe{
+#'  \item{desc [\code{\linkS4class{resample.desc}}]}{Resample description.}
 #' 	\item{size [integer]}{Number of observations.}
-#' 	\item{name [character]}{The name of the resample description object, i.e. the type of resampling.}
-#' 	\item{iters [integer]}{The number of resampling iterations.}
-#'  \item{train.inds [list | integer] Optional parameter: j}{If j is a single integer, the vector of training indices for the jth iteration. Otherwise, the list of indices for iterations. Missing j means list of all indices.}
-#'  \item{test.inds [list | integer] Optional parameter: j}{If j is a single integer, the vector of test indices for the jth iteration. Otherwise, the list of indices for iterations j. Missing j means list of all indices.}
+#'  \item{train.inds [list]}{List of of training indices for all iterations.}
+#'  \item{test.inds [list]}{List of test indices for all iterations.}
+#'  \item{predict [factor]}{What to predict during resampling: "train", "test" or "both" sets.}
+#'  \item{group [factor]}{Optional grouping of resampling iterations.}
 #' }
 #' 
 #' @rdname resample.instance-class
@@ -33,7 +34,8 @@ setClass(
 		representation = representation(
 				desc = "resample.desc", 
 				size = "integer",
-				inds = "list",
+				train.inds = "list",
+        test.inds = "list",
         predict = "factor",
         group = "factor"
     )
@@ -45,16 +47,30 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("resample.instance"),
-		def = function(.Object, desc, size, inds) {
+		def = function(.Object, desc, size, train.inds, test.inds, group=c()) {
 			if (missing(desc))
 				return(.Object)
 			.Object@desc = desc
 			if (round(size) != size)
 				error("You passed a non-integer to arg 'size' of resample.instance!")
 			.Object@size = as.integer(size)
-			.Object@inds = inds
-      .Object@predict = factor(rep("test", length(inds)), levels=c("train", "test", "both"))
-			return(.Object)
+      if (missing(test.inds) && !missing(train.inds)) {
+        # shuffle data set and remove inds
+        test.inds = sample(1:size)
+        test.inds = lapply(train.inds, function(x)  setdiff(test.inds, x))
+      }
+      if (!missing(test.inds) && missing(train.inds)) {
+        # shuffle data set and remove inds
+        train.inds = sample(1:size)
+        train.inds = lapply(test.inds, function(x) setdiff(train.inds, x))
+      }
+      if (length(train.inds) != length(test.inds))
+        error("Lengths of 'train.inds' and 'test.inds' must be equal!")
+      .Object@train.inds = train.inds
+      .Object@test.inds = test.inds
+      .Object@predict = factor(rep("test", desc["iters"]), levels=c("train", "test", "both"))
+      .Object@group = group
+      return(.Object)
 		}
 )
 
@@ -64,11 +80,9 @@ setMethod(
 		f = "[",
 		signature = signature("resample.instance"),
 		def = function(x,i,j,...,drop) {
-			if (i %in% c("size", "group", "predict"))
-				return(callNextMethod(x,i,j, ..., drop=grop))
-			if (i == "iters")
-				return(length(x@inds))
-			return(x@desc[i,...,drop=drop])
+      if (i == "iters")
+        return(length(x@train.inds))
+      callNextMethod(x,i,j,...,drop) 
 		}
 )
 
@@ -82,9 +96,8 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Instance for ", x@desc@name,  " with ", x["iters"], " iterations and ", x@size, " cases\n",
-							paste(capture.output(str(x@inds)), collapse="\n"), 
-							"\n", sep=""
+							"Instance for ", x@desc@id,  " with ", x["iters"], " iterations and ", x@size, " cases",
+							sep=""
 					)
 			)
 		}

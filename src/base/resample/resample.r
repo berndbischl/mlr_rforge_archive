@@ -69,9 +69,8 @@ setMethod(
       # sequential resampling cannot be (easily) parallized!
       i = 1
       while (!resample.done(rin)) {
-        train.i = get.train.set(rin, i)
-        ts = get.test.set(rin, i)
-        test.i = ts$inds
+        train.i = rin["train.inds"][[i]]
+        test.i = rin["test.inds"][[i]]
         m = train(learner, task, subset=train.i)
         p = predict(m, task=task, subset=test.i)
         ex = extract(m)

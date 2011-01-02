@@ -13,9 +13,12 @@ setMethod(
 		f = "initialize",
 		signature = signature("repcv.instance"),
 		def = function(.Object, desc, size, task) {
-			inds = replicate(desc["reps"], make.res.instance("cv", iters=desc["iters"], size=size)@inds, simplify=FALSE)
-			inds = Reduce(c, inds)
-			callNextMethod(.Object, desc=desc, size=size, inds=inds)
+      d = make.res.desc("cv", iters=desc["iters"])
+			i = replicate(desc["reps"], make.res.instance(d, size=size), simplify=FALSE)
+			train.inds = Reduce(c, lapply(i, function(j) j@train.inds))
+      test.inds = Reduce(c, lapply(i, function(j) j@test.inds))
+      g = as.factor(rep(1:desc["reps"], each=desc["iters"]))
+      callNextMethod(.Object, desc=desc, size=size, train.inds=train.inds, test.inds=test.inds, group=g)
 		}
 )
 
@@ -25,9 +28,8 @@ setMethod(
   def = function(x) {
     return(
       paste(
-        "Instance for ", x["name"],  " with ", x@desc@iters, " iterations, ", x["reps"], " repetitions and ", x@size, " cases\n",
-        paste(capture.output(str(x@inds)), collapse="\n"), 
-        "\n", sep=""
+        "Instance for ", x["desc"]["id"],  " with ", x["desc"]["iters"], " iterations, ", x["desc"]["reps"], " repetitions and ", x["size"], " cases",
+        sep=""
       )
     )
   }

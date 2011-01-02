@@ -6,12 +6,15 @@ e1071.cv.to.mlr.cv <- function(e1071.tune.result) {
   
   size <- max(melt.list(inds)$value)
   folds <- length(inds)
+  
+  d = make.res.desc("cv", iters=folds)
+  cv.instance = make.res.instance(d, size=size)
 
-  cv.instance <- make.res.instance("cv", size=size, iters=folds)
-
-  for (i in 1:folds)
-    cv.instance@inds[[i]] = inds[[i]]
-    
+  for (i in 1:folds) {
+    cv.instance@train.inds[[i]] = inds[[i]]
+    cv.instance@test.inds[[i]] = setdiff(1:size, inds[[i]])
+  }
+  
   return (cv.instance)
 }
 
@@ -23,11 +26,13 @@ e1071.bs.to.mlr.bs <- function(e1071.tune.result) {
   size <- length(inds[[1]])
   iters <- length(inds)
   
-  bs.instance <- make.res.instance("bs", size=size, iters=iters)
+  d = make.res.desc("bs", iters=iters)
+  bs.instance = make.res.instance(d, size=size)
 
-  for (i in 1:iters)
-	bs.instance@inds[[i]] = inds[[i]]
-  
+  for (i in 1:iters) {
+	  bs.instance@train.inds[[i]] = inds[[i]]
+    bs.instance@test.inds[[i]] = setdiff(1:size, inds[[i]])
+  }
   return (bs.instance)
 }
 

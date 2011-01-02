@@ -5,7 +5,7 @@ setClass(
 		contains = c("base.wrapper"),
 		representation = representation(
 				fun = "function",
-				defaults = "list"
+        defaults = "list"
 		)
 )
 
@@ -81,6 +81,7 @@ setMethod(
 			fun.args = list(...)[fun.args]		
 			fun.args$data = .data
       fun.args$targetvar = .targetvar
+      fun.args$model = NULL
       .data = do.call(.learner@fun, fun.args)
 			callNextMethod(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...)
 		}
@@ -101,6 +102,7 @@ setMethod(
 			fun.args = .model@learner["par.vals", par.top.wrapper.only=TRUE]
 			fun.args$data = .newdata	
       fun.args$targetvar = .model["data.desc"]["target"]
+      fun.args$model = .model
       .newdata = do.call(.learner@fun, fun.args)
 			callNextMethod(.learner, .model, .newdata, .type, ...)
 		}

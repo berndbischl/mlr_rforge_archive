@@ -24,10 +24,7 @@ setMethod(
     test.inds = lapply(class.inds, function(x) suppressWarnings(split(sample(x), 1:k)))
     # combine them all, so we have the test.inds
     test.inds = Reduce(function(i1, i2) Map(c, i1, i2), test.inds)
-    # now shuffle data set and remove test inds
-    inds = sample(1:task["size"])
-    inds = lapply(test.inds, function(x) setdiff(inds, x))
-    callNextMethod(.Object, desc=desc, size=size, inds=inds)
+    callNextMethod(.Object, desc=desc, size=size, test.inds=test.inds)
   }
 )
 

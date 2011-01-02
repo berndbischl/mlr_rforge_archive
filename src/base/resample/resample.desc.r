@@ -1,28 +1,27 @@
 #' Base class for description of resampling algorithms.
-#' A description of a resampling algorithm contains all necessary information to provide a resampling.instance, 
-#' when given the size of the data set.
+#' A description of a resampling algorithm contains all necessary information to 
+#' create a \code{\linkS4class{resample.instance}}, when given the size of the data set.
 #' For construction simply use the factory method \code{\link{make.res.desc}}. 
 #' 
 #' Getter.
 #' 
 #' \describe{
 #' 	\item{instance.class [character]}{S4 class name of the corresponding resample.instance}
-#' 	\item{name [character]}{Name of this resampling algorithm}
+#' 	\item{id [string]}{Name of resampling strategy}
 #' 	\item{iters [numeric]}{Number of iterations. Note that this the complete number of generated train/test sets, so for a 10 times repeated 5fold cross-validation it would be 50.}
+#'  \item{predict [string]}{What to predict during resampling: "train", "test" or "both" sets.}
 #' } 
 #' @exportClass resample.desc 
 #' @title resample.desc
 
-# todo validation for size
 setClass(
 		"resample.desc", 
 		contains = c("object"),
 		representation = representation(
 				instance.class = "character", 
-				name = "character", 
+				id = "character", 
 				iters = "integer",
-				aggr.iter = "list",
-				props = "list"
+        predict = "character"
 		)
 )
 
@@ -32,34 +31,16 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("resample.desc"),
-		def = function(.Object, instance.class, name, iters, aggr.iter, ...) {
-			if (missing(name))
+		def = function(.Object, instance.class, id, iters, predict="test") {
+			if (missing(id))
 				return(.Object)					
 			.Object@instance.class = instance.class
-			.Object@name = name
+			.Object@id = id
 			.Object@iters = iters
-			if (missing(aggr.iter))
-				aggr.iter = list("mean", "sd")				
-			.Object@aggr.iter = aggr.iter
-			.Object@props = list(...)
-			return(.Object)
+      .Object@predict = predict
+      return(.Object)
 		}
 )
-
-
-#' @rdname resample.desc-class
-
-setMethod(
-		f = "[",
-		signature = signature("resample.desc"),
-		def = function(x,i,j,...,drop) {
-			if (i %in% names(x@props)) {
-				return(x@props[[i]])
-			}
-			callNextMethod(x,i,j,...,drop=drop)
-		}
-)
-
 
 
 #' @rdname to.string
@@ -70,8 +51,10 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							x["name"], " with ", x@iters, " iterations.\n",	sep=""
-					)
+							x["id"], " with ", x@iters, " iterations.\n",	
+              "Predict: ", x["predict"], 
+              sep=""
+          )
 			)
 		}
 )
