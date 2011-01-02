@@ -25,3 +25,25 @@ add.path.els.tune = function(path, ess, best) {
 	add.path.els(".mlr.tuneeval", path, ess, best)	
 } 
 
+make.pds.from.lowup = function(ns, lower, upper) {
+  pds = list()
+  if (length(lower) == 1 && is.null(names(lower))) {
+    lower = rep(lower, length(start))
+    names(lower) = ns
+  }
+  if (length(upper) == 1 && is.null(names(upper))) {
+    upper = rep(upper, length(start))
+    names(upper) = ns
+  }
+  if (!setequal(ns, names(lower)))
+    stop("Names of argument lower should be:", paste(ns, collapse=", "))
+  if (!setequal(ns, names(upper)))
+    stop("Names of argument upper should be:", paste(ns, collapse=", "))
+  for (i in 1:length(ns)) {
+    p = ns[i]
+    pd = new("par.desc.num", par.name=p, lower=lower[p], upper=upper[p])
+    pds[[i]] = pd 
+  }
+  return(pds)
+}
+
