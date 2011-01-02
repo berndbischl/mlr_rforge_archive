@@ -5,7 +5,7 @@ test.blocking = function() {
 	b = as.factor(rep(1:30, 5))	
 	ct = make.task(target=multiclass.target, data=multiclass.df, blocking=b)
 	checkTrue(ct["has.blocking"])
-	res = make.res.instance("cv", iters=3, task=ct)
+	res = make.res.instance(make.res.desc("cv", iters=3), task=ct)
 	for (j in 1:res["iters"]) {
 		train.j = res["train.inds"][[j]]
 		test.j = res["train.inds"][[j]]

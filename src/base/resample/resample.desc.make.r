@@ -27,7 +27,9 @@
 setGeneric(
   name = "make.res.desc",
   def = function(method, iters, predict, ...) {
-    if (!missing(iters) && is.numeric(iters))
+    if (missing(iters))
+      iters = 1L
+    if (is.numeric(iters))
       iters = as.integer(iters)
     if (missing(predict))
       predict = "test"

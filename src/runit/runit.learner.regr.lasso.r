@@ -36,15 +36,17 @@ test.lasso <- function() {
 	#extra cv test	
 	folds=5
 	cvl.res <- cvl(regr.formula, data=regr.df, lambda1=0.3, fold=folds)
-	cv.i <- make.res.instance("cv", regr.task, iters=folds)
-	for (i in 1:folds)
-		cv.i@inds[[i]] <- setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
+  res = make.res.instance(make.res.desc("cv", iters=folds), task=regr.task)
+	for (i in 1:folds) {
+    res@train.inds[[i]] = setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
+    res@test.inds[[i]] = which(cvl.res$fold == i)
+  }
 	wl = make.learner("regr.lasso", lambda=0.3)
-	r = resample(wl, regr.task, cv.i)
+	r = resample(wl, regr.task, res)
   p = as.data.frame(r$pred)
 #	print(rf@preds[[1]])
 	for (i in 1:folds) {
-    test.i = get.test.set(cv.i, i)
+    test.i = get.test.set(res, i)
     rf.p = subset(p, subset=(iter==i), select="response", drop=TRUE)    
 		checkEquals(rf.p, cvl.res$predictions[test.i])		
 	}
