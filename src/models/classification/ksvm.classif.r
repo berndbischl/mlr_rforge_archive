@@ -87,10 +87,11 @@ setMethod(
 			
 			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
 			f = as.formula(paste(.targetvar, "~."))
+      pm = .learner["predict.type"] == "prob"
 			if (length(xs$control) > 0)
-				args = c(list(f, data=.data, fit=FALSE, kpar=xs$control), xs$args)
+				args = c(list(f, data=.data, fit=FALSE, kpar=xs$control), xs$args, prob.model=pm)
 			else
-				args = c(list(f, data=.data, fit=FALSE), xs$args)
+				args = c(list(f, data=.data, fit=FALSE), xs$args, prob.model=pm)
 			do.call(ksvm, args)
 			
 		}
