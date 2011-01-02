@@ -46,7 +46,7 @@ make.preproc.wrapper = function(learner, id=as.character(NA), fun, ...) {
 	args = list(...)
 	if (ns[1] != "data")
 		stop("First argument in preproc function has to be data without a default value!")		
-	ns = ns[-1]
+	ns = ns[-(1:2)]
 	if (!setequal(names(args), ns))
 		stop("All arguments of preproc function except 'data' need default values passed in ... argument.")
 	pds = list()
@@ -80,7 +80,8 @@ setMethod(
 			ww = .learner
 			fun.args = list(...)[fun.args]		
 			fun.args$data = .data
-			.data = do.call(.learner@fun, fun.args)
+      fun.args$targetvar = .targetvar
+      .data = do.call(.learner@fun, fun.args)
 			callNextMethod(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...)
 		}
 )
@@ -99,7 +100,8 @@ setMethod(
 		def = function(.learner, .model, .newdata, .type, ...) {
 			fun.args = .model@learner["par.vals", par.top.wrapper.only=TRUE]
 			fun.args$data = .newdata	
-			.newdata = do.call(.learner@fun, fun.args)
+      fun.args$targetvar = .model["data.desc"]["target"]
+      .newdata = do.call(.learner@fun, fun.args)
 			callNextMethod(.learner, .model, .newdata, .type, ...)
 		}
 )	

@@ -10,7 +10,6 @@ setClass(
 		"filter.wrapper",
 		contains = c("base.wrapper"),
 		representation = representation(
-				vars = "character"
 		)
 )
 
@@ -19,9 +18,15 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("filter.wrapper"),
-		def = function(.Object, learner, vars) {
-			.Object@vars = vars
-			callNextMethod(.Object, learner)
+		def = function(.Object, learner, filter.method, filter.threshold) {
+      pds = list(
+        new("par.desc.disc", par.name="filter.method", 
+          vals=c("linear.correlation", "rank.correlation", "information.gain", "gain.ratio", 
+            "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")),
+        new("par.desc.num", par.name="filter.threshold")
+      )
+      pvs = list(filter.threshold=filter.threshold, filter.method=filter.method)
+			callNextMethod(.Object, learner, id=learner["id"], par.descs=pds, par.vals=pvs, pack="FSelector")
 		}
 )
 
@@ -32,8 +37,6 @@ setMethod(
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
-#' @param id [string] \cr
-#'        Id for resulting learner object. If missing, id of "learner" argument is used.
 #' @param vars [character]\cr 
 #'        Selected variables.  
 #' 
@@ -41,8 +44,9 @@ setMethod(
 #' 
 #' @title Fuse learner with filter method.
 #' @export
-make.filter.wrapper = function(learner, id=as.character(NA), vars) {
-	new("filter.wrapper", learner=learner, id=id, vars=vars)
+make.filter.wrapper = function(learner, filter.method="information.gain", filter.threshold) {
+  # todo check that for these inputs havew to be all num. or accept error in train and NA in predict?
+	new("filter.wrapper", learner=learner, filter.method=filter.method, filter.threshold=filter.threshold)
 }
 
 
@@ -60,11 +64,61 @@ setMethod(
 				.costs="matrix" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {	
-			vars = .learner@vars
-			vars = c(vars, .targetvar)
-			.data = .data[, vars, drop=FALSE]
-			callNextMethod(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...)
+		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+      args = list(...)
+      method = args$filter.method
+      th = args$filter.threshold
+      f = as.formula(paste(.targetvar, "~."))
+      if (method == "linear.correlation") {
+        x = linear.correlation(f, .data)
+      } else if (method == "rank.correlation") {
+        x = rank.correlation(f, .data)
+      } else if (method == "information.gain") {
+        x = information.gain(f, .data)
+      } else if (method == "gain.ratio") {
+        x = gain.ratio(f, .data)
+      } else if (method == "symmetrical.uncertainty") {
+        x = symmetrical.uncertainty(f, .data)
+      } else if (method == "chi.squared") {
+        x = chi.squared(f, .data)
+      } else if (method == "random.forest.importance") {
+        x = random.forest.importance(f, .data)
+      } else if (method == "relief") {
+        x = relief(f, .data)
+      } else if (method == "oneR") {
+        x = oneR(f, .data)
+      }
+      
+      imp = x[,1]
+      names(imp) = rownames(x)
+      vars = names(which(imp > th))
+      .data = .data[, c(vars, .targetvar), drop=FALSE]  
+
+      if (length(vars) > 0)
+			  m = callNextMethod(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...)
+      else
+        m = new("novars", targets=.data[, .targetvar], data.desc=.data.desc, task.desc=.task.desc)
+      # set the vars as attribute, so we can extract it later 
+      attr(m, "filter.result") = vars
+      return(m)
 		}
 )
+
+#' @rdname pred.learner
+
+setMethod(
+  f = "pred.learner",
+  signature = signature(
+    .learner = "filter.wrapper", 
+    .model = "wrapped.model", 
+    .newdata = "data.frame", 
+    .type = "character" 
+  ),
+  
+  def = function(.learner, .model, .newdata, .type, ...) {
+    vars = .model["vars"] 
+    .newdata = .newdata[, vars, drop=FALSE]  
+    callNextMethod(.learner, .model, .newdata, .type, ...)
+  }
+) 
 
