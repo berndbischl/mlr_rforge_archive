@@ -6,8 +6,8 @@ test.cv.instance = function() {
   checkEquals(folds, 3)
 
   for (i in 1:folds) {
-    i1 = get.train.set(rin, i)
-    i2 = get.test.set(rin, i)
+    i1 = rin["train.inds"][[i]]
+    i2 = rin["test.inds"][[i]]
     checkTrue(min(i1) >= 1)
     checkTrue(max(i1) <= 25)
     checkTrue(min(i2) >= 1)

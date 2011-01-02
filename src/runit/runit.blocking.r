@@ -7,8 +7,8 @@ test.blocking = function() {
 	checkTrue(ct["has.blocking"])
 	res = make.res.instance("cv", iters=3, task=ct)
 	for (j in 1:res["iters"]) {
-		train.j = get.train.set(res, j)
-		test.j = get.test.set(res, j)
+		train.j = res["train.inds"][[j]]
+		test.j = res["train.inds"][[j]]
 		tab = table(b[train.j])
 		checkTrue(setequal(c(0,5), unique(as.numeric(tab))))
 		tab = table(b[test.j])

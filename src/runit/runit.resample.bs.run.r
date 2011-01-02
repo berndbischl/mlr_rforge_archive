@@ -6,8 +6,8 @@ test.bs.instance = function() {
   checkEquals(iters, 3)
 
   for (i in 1:iters) {
-    i1 <- get.train.set(rin, i)
-    i2 <- get.test.set(rin, i)
+    i1 = rin["train.inds"][[i]]
+    i2 = rin["test.inds"][[i]]
     checkEquals(length(i1), 25)
     checkEquals(length(i2), 25 - length(unique(i1)))
     checkTrue(min(i1) >= 1)
