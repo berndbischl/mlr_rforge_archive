@@ -20,12 +20,9 @@
 #' @param models [logical] \cr
 #'        Should all fitted models be stored?
 #'        Default is FALSE.
-#' @param paths [logical] \cr
-#'        Should the optimization paths be stored?
-#'        Default is FALSE.
 #' @return \code{\linkS4class{bench.result}}.
 #' 
-#' @usage bench.exp(learners, tasks, resampling, measures, conf.mats=TRUE, predictions=FALSE, models=FALSE, paths=FALSE)
+#' @usage bench.exp(learners, tasks, resampling, measures, conf.mats=TRUE, predictions=FALSE, models=FALSE)
 #' 
 #' @note You can also get automatic, internal tuning by using \code{\link{make.tune.wrapper}} with your learner. 
 #' 
@@ -37,7 +34,7 @@
 
 # todo: check unique ids
 bench.exp <- function(learners, tasks, resampling, measures,  
-		conf.mats=TRUE, predictions=FALSE, models=FALSE, paths=FALSE)  {
+		conf.mats=TRUE, predictions=FALSE, models=FALSE)  {
 	
 	if (!is.list(learners) && length(learners) == 1) {
 		learners = list(learners)
@@ -82,7 +79,7 @@ bench.exp <- function(learners, tasks, resampling, measures,
 	inds = as.matrix(expand.grid(1:length(learners), 1:length(tasks)))
 	inds = lapply(1:nrow(inds), function(i) inds[i,])
 	results = mylapply(inds, benchmark_par, from="bench", learners=learners, tasks=tasks, resampling=resampling,
-			measures=measures, conf.mat=conf.mats, models=models, paths=paths)
+			measures=measures, conf.mat=conf.mats, models=models)
 	
 	counter = 1
 	for (j in 1:length(tasks)) {

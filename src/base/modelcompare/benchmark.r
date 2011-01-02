@@ -1,10 +1,10 @@
 #' @include task.learn.r
 #' @include opt.wrapper.r
 
-benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, models, paths) {
+benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, models) {
 	i = ind[1]
 	j = ind[2]
-  .mlr.benchmark(learners[[i]], tasks[[j]], resampling, measures, conf.mat, models, paths)
+  .mlr.benchmark(learners[[i]], tasks[[j]], resampling, measures, conf.mat, models)
 }
 
 
@@ -14,7 +14,7 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
 #' @export 
 #' @title Helper fucntion for bench.exp. Internal use.
 
-.mlr.benchmark = function(learner, task, resampling, measures, conf.mat, models, paths) {
+.mlr.benchmark = function(learner, task, resampling, measures, conf.mat, models) {
 	
 	if (is.character(learner)) {
 		learner = make.learner(learner)
@@ -29,7 +29,6 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
 	
 	extract = function(m){}
 	if (is(learner, "opt.wrapper")) {
-		learner@control@path = paths
 		extract = function(x) x["opt.result"]
 	}
 
