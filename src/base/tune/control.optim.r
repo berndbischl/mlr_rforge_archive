@@ -57,7 +57,7 @@ setMethod(
 		f = "optim.control",
 		signature = signature(path="logical", start="numeric", lower="numeric", upper="numeric", scale="function"),
 		def = function(path, start, lower, upper, scale, ...) {
-      pds = make.pds.from.uplow(names(start), lower, upper)
+      pds = make.pds.from.lowup(names(start), lower, upper)
       new("optim.control", path=path,
 					start=as.list(start), par.descs=pds, scale=scale, ...)
 		}
