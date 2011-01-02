@@ -33,3 +33,22 @@ setMethod(
 		}
 )
 
+#' @rdname to.string
+setMethod(
+  f = "to.string",
+  signature = signature("varsel.control"),
+  def = function(x) {
+    return(
+      paste(
+        "Control object for varsel of class: ", class(x), "\n",
+        "Save path: ", x@path, "\n",
+        "Max. vars: ", x@max.vars, "\n",
+        "Max. iter: ", x@maxit,  
+        sep=""
+      )
+    )
+  }
+)
+
+
+

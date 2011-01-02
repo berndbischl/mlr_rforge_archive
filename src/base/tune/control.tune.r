@@ -88,6 +88,7 @@ setMethod(
       paste(
         "Control object for tuning of class: ", class(x), "\n",
         "Optimized parameters: ", ns, "\n",
+        "Save path: ", x@path, "\n",
         "Scaling function used: ", !identical(x@scale, identity), "\n",
         "Lower bounds: ", lo, "\n",
         "Upper bounds: ", up, "\n",
