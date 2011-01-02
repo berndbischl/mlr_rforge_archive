@@ -63,7 +63,7 @@ b632 = new("aggr",
 )
 
 #' @export b632plus
-b632 = new("aggr",
+b632plus = new("aggr",
   id = "b632plus",
   fun = function(perf.test, perf.train, group, pred) {
     y1 = pred["truth"]
@@ -83,7 +83,7 @@ b632 = new("aggr",
 )
 
 #' @export testgroup.mean
-repcv = new("aggr",
+testgroup.mean = new("aggr",
   id = "testgroup.mean",
   fun = function(perf.test, perf.train, group, pred) {
     mean(sapply(split(perf.test, group), mean))  
