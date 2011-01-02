@@ -19,5 +19,8 @@ test.repcv.instance = function() {
     }
     checkEquals(sort(unique(bag)), 1:150)
   }
+  
+  m = set.aggr(mmce, testgroup.mean)
+  resample("classif.lda", multiclass.task, rin)
 }
 

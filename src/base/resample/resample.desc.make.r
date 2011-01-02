@@ -1,6 +1,7 @@
 #' Generates a description object for a resampling strategy.
 #' 
-#' repcv: Set aggregation function  on your preferred performance to measure to "repcv". 
+#' repcv: Use "repcv", then set aggregation function 
+#'   on your preferred performance to measure to "testgroup.mean". 
 #' B632: Use "bs" for bootstrap and set predict to "both", then set aggregation function 
 #'   on your preferred performance to measure to "b632". 
 #' B632+: Use "bs" for bootstrap and set predict to "both", then set aggregation function 
