@@ -47,7 +47,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("resample.instance"),
-		def = function(.Object, desc, size, train.inds, test.inds, group=c()) {
+		def = function(.Object, desc, size, train.inds, test.inds, group=factor()) {
 			if (missing(desc))
 				return(.Object)
 			.Object@desc = desc
