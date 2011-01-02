@@ -25,7 +25,7 @@
 #			# maybe allow to draw smaller bs sample with n elements
 #			res.i = make.bs.instance(size=N, iters=m)
 #			
-#			rf <- resample.fit(ct, res.i, parset=parset, models=TRUE)
+#			rf <- resample(ct, res.i, parset=parset, models=TRUE)
 #			# maybe predict all example, not only oob
 #
 #			
@@ -123,7 +123,7 @@
 #			res.i = make.bs.instance(size=N, iters=wrapped.learner@iters)
 #			
 #			# dont pred here, coz we do this later
-#			rf <- resample.fit(ct, res.i, , models=TRUE)
+#			rf <- resample(ct, res.i, , models=TRUE)
 #			models <- rf@models
 #
 #			used = numeric(N)
