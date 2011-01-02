@@ -7,7 +7,7 @@ test.fnn.regr <- function() {
     list(k=10)
   )
   
-  rfd = regr.df[,-4]
+  rdf = regr.df[,-4]
   rtrain = regr.train[,-4]
   rtest = regr.test[,-4]
   rtask = make.task("regrtask", data=rdf, target="medv")  
