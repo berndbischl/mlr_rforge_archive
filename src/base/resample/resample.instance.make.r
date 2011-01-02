@@ -63,12 +63,16 @@ make.res.i = function(i.class, desc, task=NULL, size=as.integer(NA), blocking=fa
 	if (length(blocking) > 1) {
     if (is(desc, "stratcv.desc"))
       stop("Blocking can currently not be mixed with stratification in resampling!")
-		levs = levels(blocking)
+    if (is(desc, "repcv.desc"))
+      stop("Blocking can currently not be mixed with repcv!")
+    levs = levels(blocking)
 		size2 = length(levs)
 		# create instance for blocks
 		inst = new(i.class, desc=desc, size=size2)
 		# now exchange block indices with indices of elements of this block and shuffle
-    inst@inds = lapply(inst@inds, function(i) sample(which(blocking %in% levs[i]))) 
+    inst@train.inds = lapply(inst@train.inds, function(i) sample(which(blocking %in% levs[i]))) 
+    ti = sample(1:size)
+    inst@test.inds = lapply(inst@train.inds, function(x)  setdiff(ti, x))
     inst@size = size
 	} else { 
 		inst = new(i.class, desc=desc, size=size, task=task)

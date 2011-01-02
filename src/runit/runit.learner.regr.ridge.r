@@ -47,7 +47,7 @@ test.ridge <- function() {
   r = resample(wl, regr.task, res)
   p = as.data.frame(r$pred)
 	for (i in 1:folds) {
-    test.i = get.test.set(res, i)
+    test.i = res["test.inds"][[i]]
     rf.p = subset(p, subset=(iter==i), select="response", drop=TRUE)    
 		checkEquals(rf.p, cvl.res$predictions[test.i])		
 	}
