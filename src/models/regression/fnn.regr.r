@@ -71,10 +71,7 @@ setMethod(
     m = .model["learner.model"]
     pars = list(train=m$train, test=.newdata, y=m$y)  
     pars = c(pars, m$parset, list(...))
-    p = do.call(FNN::knn.reg, pars)
-    attr(p, "nn.index") = NULL
-    attr(p, "nn.dist") = NULL
-    return(p)
+    do.call(FNN::knn.reg, pars)$pred
   }
 )	
 
