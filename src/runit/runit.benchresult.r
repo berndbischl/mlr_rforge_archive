@@ -14,35 +14,22 @@ test.benchresult = function() {
 	res = make.res.desc("subsample", iter=outer.len)
 	be = bench.exp(tasks=multiclass.task, learners=learners, resampling=res)
 	
-	x = be["perf", learner="classif.rpart"]
+	x = as.array(be, learner="classif.rpart", sets="test", drop=TRUE)
 	checkTrue(is.numeric(x) && length(x) == outer.len)
-	x = be["perf", learner="classif.ksvm"]
-	checkTrue(is.numeric(x) && length(x) == outer.len)
-	x = be["perf", learner="foo"]
-	checkTrue(is.numeric(x) && length(x) == outer.len)
-
-	x = be["perf", learner="classif.rpart", drop=FALSE]
-	y = be["perf", learner="classif.rpart"]
-	y = array(y, dim=c(outer.len,1,1), dimnames=list(1:outer.len, "classif.rpart", "mmce"))
-	y = list(multiclass=y)
-	checkEquals(x, y)
-	x = be["perf", learner="classif.ksvm", drop=FALSE]
-	y = be["perf", learner="classif.ksvm"]
-	y = array(y, dim=c(outer.len,1,1), dimnames=list(1:outer.len, "classif.ksvm", "mmce"))
-	y = list(multiclass=y)
-	checkEquals(x, y)
-	x = be["perf", learner="foo", drop=FALSE]
-	y = be["perf", learner="foo"]
-	y = array(y, dim=c(outer.len,1,1), dimnames=list(1:outer.len, "foo", "mmce"))
-	y = list(multiclass=y)
-	checkEquals(x, y)
-
-	x1 = be["perf", learner="classif.rpart"]
-	x2 = be["perf", learner="classif.ksvm"]
-	y =  be["perf", learner=c("classif.rpart", "classif.ksvm")]
+  x = as.array(be, learner="classif.ksvm", sets="test", drop=TRUE)
+  checkTrue(is.numeric(x) && length(x) == outer.len)
+  x = as.array(be, learner="classif.foo", sets="test", drop=TRUE)
+  checkTrue(is.numeric(x) && length(x) == outer.len)
+  x = as.array(be)
+  checkEquals(dimnames(x), 
+    list(as.character(1:outer.len), c("test", "train"), c("classif.rpart","classif.ksvm","foo"), "mmce", "multiclass"))
+  
+  x1 = as.array(be, learner="classif.rpart", sets="test", drop=TRUE)
+  x2 = as.array(be, learner="classif.ksvm", sets="test", drop=TRUE)
+  y = as.array(be, learner=c("classif.rpart", "classif.ksvm"), sets="test", drop=TRUE)
 	checkEquals(cbind(classif.rpart=x1,classif.ksvm=x2), y)
 	
-	x = be["tuned.par"]
+	x = be["opt.par"]
 	checkTrue(is.list(x) && length(x) == 3)
 	checkTrue(is.null(x[[1]]) && !is.null(x[[2]]) && !is.null(x[[3]]))
 	x1 = be["tuned.par", learner="classif.ksvm"]

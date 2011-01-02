@@ -198,21 +198,24 @@ setMethod(
 setMethod(
   f = "as.array",
   signature = signature("bench.result"),
-  def = function(x, tasks=x["task.ids"], learners=x["learner.ids"], sets=c("test", "train"), measures=x["measure.ids"], ...) {
+  def = function(x, tasks=x["task.ids"], learners=x["learner.ids"], sets=c("test", "train"), measures=x["measure.ids"], drop=FALSE, ...) {
     iters = x["iters"]
     if (length(unique(iters)) != 1)
       stop("Resamplings in bench.exp have different numbers of iterations, restrict as.array to a single task!")
-    iters = iters[1]
     dimns = list(1:iters, sets, learners, measures, tasks)
     y = array(NA, dim=sapply(dimns, length), dimnames=dimns)
     # be sure to remove iter column
     for (j in 1:length(tasks)) {
       for (i in 1:length(learners)) {
-        y[,1,i,,j] = as.matrix(x@res.results[[j]][[i]]$measures.test[,measures])
-        y[,2,i,,j] = as.matrix(x@res.results[[j]][[i]]$measures.train[,measures])
+        for (k in sets) {
+          if (k == "test")
+            y[,k,i,,j] = as.matrix(x@res.results[[tasks[j]]][[learners[i]]]$measures.test[,measures])
+          else
+            y[,k,i,,j] = as.matrix(x@res.results[[tasks[j]]][[learners[i]]]$measures.train[,measures])
+        }
       }
     }
     #names(y) = x["tasks"]
-    return(y)
+    return(y[,,,,,drop=drop])
   }
 )
