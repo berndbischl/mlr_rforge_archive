@@ -17,7 +17,7 @@
 #' You can reduce these lists by using the optional arguments 'task' and 'learner'. 
 #' 'drop' is by default TRUE, which means that the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
 #' 
-#' The following getters all return list of lists of lists: model, opt.result, opt.par, opt.perf, opt.path, tuned.par, sel.var
+#' The following getters all return list of lists of lists: model, opt.result, opt.par, opt.perf, opt.path
 #' The first list iterates the tasks, the second one the learners, both are named by respective IDs, the third list iterates the
 #' resampling iterations. You can reduce these lists by using the optional arguments 'task' and 'learner'. 
 #' 'drop' is by default TRUE, which means that the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
@@ -34,9 +34,6 @@
 #' 	 \item{opt.perf [see above] }{List of list of list of performance vectors of optimal settings for every task/learner/iteration. Note that this performance refers to the inner resampling! Entry is NULL if no optimization was done.}
 #' 	 \item{opt.par [see above] }{List of list of list of optimal settings for every task/learner/iteration. Entry is NULL if no optimization was done.}
 #' 	 \item{opt.path [see above] }{List of list of list of optimization paths for every task/learner/iteration. Entry is NULL if no optimization was done.}
-#' 	 \item{tuned.par [see above] }{List of list of list of optimal hyperparameters for every task/learner/iteration. Entry is NULL if no tuning was done. Basically a different name for "opt.par".}
-#' 	 \item{sel.var [see above] }{List of list of list of optimal features for every task/learner/iteration. Entry is NULL if no feature selection was done.. Basically a different name for "opt.par".}
-#'   \item{perf [see above] }{List of 3 dim. arrays of performance values for every data set.}
 #' }
 #' 
 #' @rdname bench.result-class
@@ -124,19 +121,6 @@ setMethod(
       iter = args$iter
 			if (is.null(iter))
 				iter = lapply(x["iters"][task], function(y) 1:y)
-      aggr = args$aggr
-			if (is.null(aggr))
-				aggr=list()
-      else if (any(sapply(aggr, function(a) identical(a, "resampling")))) {
-        if (length(aggr) > 1) 
-          stop("If you use aggr='resampling', you cannot pass other aggregation functions currently!")
-        ress = x@resamplings
-        aggr = lapply(ress, function(x) x["aggr.iter"])
-        if(any(sapply(aggr, function(a) !identical(a, aggr[[1]]))))
-          stop("If you use aggr='resampling', the aggregation functions of all resampling strategies in the bench.exp have to be identical currently!")
-        aggr = aggr[[1]]        
-      }
-			#aggr = make.aggrs(aggr)
 			
       if (i == "res.result"){
         # reduce to selected tasks / learners
@@ -144,7 +128,10 @@ setMethod(
         rrs = lapply(rrs, function(y) y[learner])
         return(mydrop(rrs))
       }   
-			if (i == "prediction"){
+      if (i == "aggr"){
+        return(mydrop(rec.lapply(x["res.result", task=task, learner=learner, drop=FALSE], function(y) y$aggr, depth=2)))
+      }   
+      if (i == "prediction"){
         return(mydrop(rec.lapply(x["res.result", task=task, learner=learner, drop=FALSE], function(y) y$pred, depth=2)))
 			}		      
       if (i == "model"){
@@ -163,17 +150,6 @@ setMethod(
 			}
 			if (i == "opt.par"){
 				return(mydrop(rec.lapply(ors, function(y) y["par"])))
-			}
-			if (i == "tuned.par"){
-				tps = rec.lapply(ors, function(y) y["tuned.par"])
-				if (!is.null(as.data.frame) && as.data.frame) {
-					tps = rec.lapply(tps, function(y) as.data.frame(y), depth=3)
-					tps = rec.lapply(tps, function(y) Reduce(rbind, y), depth=2) 
-				}
-				return(mydrop(tps))
-			}
-			if (i == "sel.var"){
-				return(mydrop(rec.lapply(ors, function(y) y["sel.var"])))
 			}
 			if (i == "opt.perf"){
 				return(mydrop(rec.lapply(ors, function(y) y["perf"])))
@@ -197,8 +173,22 @@ setMethod(
 		f = "to.string",
 		signature = signature("bench.result"),
 		def = function(x) {
-			p = x["perf", aggr=list(mean=mean, sd=sd)]
-			p = paste(capture.output(p), collapse="\n")
+      s = ""
+      tt = x["task.ids"]
+      ll = x["learner.ids"]
+      k = length(x@res.results[[1]][[1]]$aggr)
+      y = ""
+      for (a in tt) {
+        w = matrix(NA, nrow=length(ll), ncol=k)
+        for (j in 1:length(ll)) {
+          w[j, ] = x@res.results[[a]][[j]]$aggr
+        }
+        rownames(w) = ll
+        colnames(w) = names(x@res.results[[a]][[1]]$aggr)
+        w = paste(capture.output(w), collapse="\n")
+        y = paste(y, a, "\n", w)
+      }
+      y
 		}
 )
 
@@ -218,19 +208,11 @@ setMethod(
     # be sure to remove iter column
     for (j in 1:length(tasks)) {
       for (i in 1:length(learners)) {
-        y[,2,i,,j] = as.matrix(x@res.results[[j]][[i]]$measures.test[,measures])
-        y[,1,i,,j] = as.matrix(x@res.results[[j]][[i]]$measures.train[,measures])
+        y[,1,i,,j] = as.matrix(x@res.results[[j]][[i]]$measures.test[,measures])
+        y[,2,i,,j] = as.matrix(x@res.results[[j]][[i]]$measures.train[,measures])
       }
     }
     #names(y) = x["tasks"]
     return(y)
   }
 )
-
-
-
-
-### todo: pretty print method for this case: only aggregated values, always the same learners
-
-
-

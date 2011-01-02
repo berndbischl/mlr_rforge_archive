@@ -17,28 +17,30 @@ test.benchexp <- function() {
 	learners = list("classif.lda", rpart.tuner)
 
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer)
-	checkEquals(mean(be@perf[[1]][1:3,,"mmce"]), be["perf", aggr="mean"])
-	
+  a = as.array(be)
+  checkEquals(mean(a[,"test","classif.lda","mmce",multiclass.task["id"]]), 
+    be["aggr", task=multiclass.task["id"], learner="classif.lda"]$aggr["mmce.test.mean"],
+    checkNames=FALSE)
+ 
 	outer2 = make.res.desc("holdout")
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer2)
-	x = be["perf", aggr="mean"]
-	checkTrue(!is.na(x))
-	
+  checkTrue(!is.na(be["aggr"]["mmce.test.mean"]))
+  
 	wl = make.learner("classif.lda")
 	be = bench.exp(wl,  multiclass.task, resampling=outer)
 	print(be)	
 	be = bench.exp(rpart.tuner,  multiclass.task, resampling=outer)
 	print(be)
-	ms = list("acc", time="time", foo=function(x,task) 1)
-	be = bench.exp(learners, multiclass.task, resampling=outer, measures=ms)
-	print(be)	
-	x = be["perf", learner=c("classif.lda", "classif.rpart"), drop=FALSE]
-	checkTrue(is.list(x))
-	checkEquals(length(x), 1)
-	checkEquals(dim(x[[1]]), c(3, 2, 3))	
-	x = be["perf", learner=c("classif.lda", "classif.rpart"), measure="acc", drop=FALSE]
-	checkEquals(length(x), 1)
-	checkEquals(dim(x[[1]]), c(3, 2, 1))	
+  foo = make.measure(id="foo", minimize=TRUE,  
+    fun=function(task, model, pred, extra.pars) {
+      tt = pred
+      1
+    }
+  )
+	be = bench.exp(learners, multiclass.task, resampling=outer, measures=list(acc, time.all, foo))
+	print(be)
+  a = as.array(be)
+	checkEquals(dim(a), c(outer["iters"], 2, length(learners), 3, 1))	
 	
 	be = bench.exp("regr.lm", regr.task, resampling=outer)
 	print(be)
