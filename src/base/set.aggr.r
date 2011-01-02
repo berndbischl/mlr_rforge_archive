@@ -28,7 +28,7 @@ setMethod(
   
   signature = signature(
     measure="measure", 
-    x="list" 
+    aggr="list" 
   ),
   
   def = function(measure, aggrs) {
