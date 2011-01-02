@@ -13,7 +13,7 @@ setClass(
 #' Control structure for EGO tuning with DiceOptim. 
 #' 
 #' @param path [boolean]\cr
-#'        Should optimization path be saved?
+#'   Should optimization path be saved? Default is TRUE.
 #' @param lower [numeric] \cr
 #'    Named vector of lower boundary constraints. Default is -Inf. 
 #' @param upper [numeric] \cr
@@ -34,7 +34,7 @@ setGeneric(
   def = function(path, par.descs, scale,
     init.des.points, seq.loops, ...) {
     if (missing(path))
-      path = FALSE
+      path = TRUE
     if (missing(scale))
       scale=identity
     if (missing(init.des.points))

@@ -12,7 +12,7 @@ setClass(
 #' Control structure for grid search tuning. 
 #' 
 #' @param path [boolean]\cr
-#'        Should optimization path be saved?
+#'   Should optimization path be saved? Default is TRUE.
 #' @param ranges [\code{\link{list}}] \cr 
 #' 		A list of named vectors/lists of possible values for each hyperparameter. 
 #'      You can also pass a list of such ranges by using [\code{\link{combine.ranges}}] 
@@ -31,7 +31,7 @@ setGeneric(
 		name = "grid.control",
 		def = function(path, ranges, scale) {
 			if (missing(path))
-				path=FALSE
+				path=TRUE
 			if (missing(ranges))
 				ranges=list()
 			if (missing(scale))

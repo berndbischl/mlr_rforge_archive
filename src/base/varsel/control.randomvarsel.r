@@ -29,7 +29,7 @@ setMethod(
 #' Control structure for random variable selection. 
 #' 
 #' @param path [boolean]\cr
-#'        Should optimization path be saved?
+#'   Should optimization path be saved? Default is TRUE.
 #' @param maxit [integer] \cr 
 #'       Maximal number of variable sets to evaluate. Default is 100.
 #' @param method [numeric] \cr 
@@ -47,7 +47,7 @@ setGeneric(
 		name = "randomvarsel.control",
 		def = function(path, maxit, method, prob) {
 			if (missing(path))
-				path = FALSE
+				path = TRUE
 			if (missing(maxit))
 				maxit = 100
 			if (is.numeric(maxit))

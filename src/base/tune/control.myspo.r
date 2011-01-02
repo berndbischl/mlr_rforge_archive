@@ -33,7 +33,7 @@ setMethod(
 #' Control structure for CMA-ES tuning. 
 #' 
 #' @param path [boolean]\cr
-#'        Should optimization path be saved?
+#'   Should optimization path be saved? Default is TRUE.
 #' @param start [numeric] \cr
 #'    Named vector of initial values.
 #' @param lower [numeric] \cr
@@ -56,7 +56,7 @@ setGeneric(
   def = function(path, par.descs, scale, 
     meta.learner, init.des.points, seq.des.points, seq.loops, ...) {
     if (missing(path))
-      path = FALSE
+      path = TRUE
     if (missing(scale))
       scale=identity
     if (missing(meta.learner))

@@ -13,7 +13,7 @@ setClass(
 #' Control structure for CMA-ES tuning. 
 #' 
 #' @param path [boolean]\cr
-#'        Should optimization path be saved?
+#'   Should optimization path be saved? Default is TRUE.
 #' @param start [numeric] \cr
 #'    Named vector of initial values.
 #' @param lower [numeric] \cr
@@ -35,7 +35,7 @@ setGeneric(
   name = "spot.control",
   def = function(path, par.descs, scale, ...) {
     if (missing(path))
-      path = FALSE
+      path = TRUE
     
     #todo: convencience!!
     

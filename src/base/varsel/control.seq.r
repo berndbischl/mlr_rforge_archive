@@ -32,7 +32,7 @@ setMethod(
 #' Control structure for sequential variable selection. 
 #' 
 #' @param path [boolean]\cr
-#'        Should optimization path be saved?
+#'   Should optimization path be saved? Default is TRUE.
 #' @param max.vars [integer] \cr 
 #'        Maximal number of allowed variables in the final set. Default is max. integer.
 #' @param method [\code{\link{character}}] \cr
@@ -53,7 +53,7 @@ setGeneric(
 		name = "sequential.control",
 		def = function(path, max.vars, method, alpha, beta) {
 			if (missing(path))
-				path = FALSE
+				path = TRUE
 			if (missing(max.vars))
 				max.vars = .Machine$integer.max
 			if (is.numeric(max.vars))
