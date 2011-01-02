@@ -24,7 +24,7 @@ tune.optim = function(learner, task, resampling, measures, control) {
 	
   if (method == "L-BFGS-B") {
     or = optim(par=start, f=g, method=method, lower=low, upper=up, control=args)
-  } else 
+  } else {
     or = optim(par=start, f=g, method=method, control=args)
   }
 	par = as.list(or$par)
