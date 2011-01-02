@@ -47,7 +47,6 @@ setClass(
 )
 
 #' @rdname measure-class
-
 setMethod(
   f = "[",
   signature = signature("measure"),
@@ -55,4 +54,21 @@ setMethod(
     callNextMethod()
   }
 )
+
+#' @rdname to.string
+setMethod(
+  f = "to.string",
+  signature = signature("measure"),
+  def = function(x) {
+    return(
+      paste(
+        "Performance measure: ", x["id"], "\n",
+        "Minimize: ", x["minimize"], "\n",
+        "Aggregated by: ", paste(sapply(x["aggr"], function(a) a["id"]), collapse=","),
+        sep=""
+      )
+    )
+  }
+)
+
 
