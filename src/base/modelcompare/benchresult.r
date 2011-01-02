@@ -51,11 +51,10 @@ setClass(
 		representation = representation(
 				task.descs = "list",
 				data.descs = "list",
-				resamplings = "list",
-				perf = "list",
-				predictions = "list",
-				models = "list",
-				conf.mats = "list",
+        learners = "list",
+        resamplings = "list",
+        measures = "list",
+				res.results = "list",
 				opt.results = "list" 
 		)
 )
@@ -89,44 +88,43 @@ setMethod(
 			}
 			
 			if (i == "iters") {
-				return(sapply(x@perf, function(y) return(dim(y)[1] - 1)))
+				return(sapply(x@resamplings, function(y) y["iters"]))
 			}
-			if (i == "learners") {
-				return(dimnames(x@perf[[1]])[[2]])
+			if (i == "learner.ids") {
+				return(sapply(x@learners, function(y) y["id"]))
 			}
-			if (i == "measures") {
-				return(dimnames(x@perf[[1]])[[3]])
-			}
-			if (i == "tasks") {
-				return(names(x@perf))
-			}
-
+      if (i == "measure.ids") {
+        return(sapply(x@measures, function(y) y["id"]))
+      }
+      if (i == "task.ids") {
+        return(names(x@task.descs))
+      }
 			
 			args = list(...)
 			as.data.frame = args$as.data.frame
 			
 			task = args$task
 			if (is.null(task))
-				task = x["tasks"]
-      rest.task = setdiff(task, x["tasks"])
+				task = x["task.ids"]
+      rest.task = setdiff(task, x["task.ids"])
       if (length(rest.task)>0)
         stop("Task ids are not in bench.result: ", paste(rest.task, collapse=", "))      
       learner = args$learner
 			if (is.null(learner))
-				learner = x["learners"]
-      rest.learner = setdiff(learner, x["learners"])
+				learner = x["learner.ids"]
+      rest.learner = setdiff(learner, x["learner.ids"])
       if (length(rest.learner)>0)
-        stop("Learner ids are not in bench.result: ", paste(rest.learner, collapse=", "))      
+        stop("Learner ids are not in bench.result: ", paste(rest.learner, collapse=", "))
 			measure = args$measure
 			if (is.null(measure))
-				measure = x["measures"]
-      rest.measure = setdiff(measure, x["measures"])
+				measure = x["measure.ids"]
+      rest.measure = setdiff(measure, x["measure.ids"])
       if (length(rest.measure)>0)
         stop("Measures are not in bench.result: ", paste(rest.measure, collapse=", "))      
       iter = args$iter
 			if (is.null(iter))
 				iter = lapply(x["iters"][task], function(y) 1:y)
-			aggr = args$aggr
+      aggr = args$aggr
 			if (is.null(aggr))
 				aggr=list()
       else if (any(sapply(aggr, function(a) identical(a, "resampling")))) {
@@ -138,17 +136,22 @@ setMethod(
           stop("If you use aggr='resampling', the aggregation functions of all resampling strategies in the bench.exp have to be identical currently!")
         aggr = aggr[[1]]        
       }
-			aggr = make.aggrs(aggr)
+			#aggr = make.aggrs(aggr)
 			
+      if (i == "res.result"){
+        # reduce to selected tasks / learners
+        rrs = x@res.results[task]
+        rrs = lapply(rrs, function(y) y[learner])
+        return(mydrop(rrs))
+      }   
 			if (i == "prediction"){
-				# reduce to selected tasks / learners
-				preds = x@predictions[task]
-				preds = lapply(preds, function(y) y[learner])
-				return(mydrop(preds))
-			}		
-      
+        return(mydrop(rec.lapply(x["res.result", task=task, learner=learner, drop=FALSE], function(y) y$pred, depth=2)))
+			}		      
       if (i == "model"){
-        return(lapply(x@models[task], function(y) y[learner]))
+        return(mydrop(rec.lapply(x["res.result", task=task, learner=learner, drop=FALSE], function(y) y$model, depth=2)))
+      }
+      if (i == "conf.mat"){
+        return(mydrop(rec.lapply(x["prediction", task=task, learner=learner, drop=FALSE], function(y) conf.matrix(y), depth=2)))
       }
       
 			# reduce to selected tasks
@@ -178,48 +181,7 @@ setMethod(
 			if (i == "opt.path"){
 				return(mydrop(rec.lapply(ors, function(y) y["path", as.data.frame=as.data.frame])))
 			}
-			if (i == "conf.mat"){
-        # reduce to selected tasks / learners
-        cms = x@conf.mats[task]
-        cms = lapply(cms, function(y) y[learner])
-				return(mydrop(cms))
-			}
 			
-			if (i == "perf") {
-				# reduce to selected tasks
-				p = x@perf[task]
-				# reduce to selected elements
-				if (is.null(aggr$combine))
-					g = function(arr, is) arr[is, learner, measure, drop=FALSE]
-				else			
-					g = function(arr, is) arr[c(is, "combine"), learner, measure, drop=FALSE]
-				p = Map(g, p, is=iter)
-				# aggregate
-				if (length(aggr) > 0) {
-					gg = function(arr) {
-						lapply(names(aggr), function(nn) {
-									if (nn == "combine")
-										h = function(y) y[length(y)]
-									else {
-										# dont choose combine el from array
-										last.el = ifelse(is.null(aggr$combine), 0, 1)
-                    h = function(y) aggr[[nn]](y[1:(length(y)-last.el)])
-									}
-									t(apply(arr, c(2,3), h))
-								})
-					}	
-					p = lapply(p, gg) 
-					# put all aggr. values as columns together
-					# combine aggr names with measure names
-					aggr.ms = sapply(names(aggr), function(a) paste(a, measure, sep="."))
-					p = lapply(p, function(arrs) {
-								y = Reduce(rbind, arrs)
-								rownames(y) = aggr.ms  
-								return(y)
-					})
-				}
-				return(mydrop(p))
-			}
 			callNextMethod()
 		}
 )
@@ -239,6 +201,33 @@ setMethod(
 			p = paste(capture.output(p), collapse="\n")
 		}
 )
+
+#'  Convert to array of performance values.
+#' @rdname bench.result-class 
+#' @export
+setMethod(
+  f = "as.array",
+  signature = signature("bench.result"),
+  def = function(x, tasks=x["task.ids"], learners=x["learner.ids"], sets=c("test", "train"), measures=x["measure.ids"], ...) {
+    iters = x["iters"]
+    if (length(unique(iters)) != 1)
+      stop("Resamplings in bench.exp have different numbers of iterations, restrict as.array to a single task!")
+    iters = iters[1]
+    dimns = list(1:iters, sets, learners, measures, tasks)
+    y = array(NA, dim=sapply(dimns, length), dimnames=dimns)
+    # be sure to remove iter column
+    for (j in 1:length(tasks)) {
+      for (i in 1:length(learners)) {
+        y[,2,i,,j] = as.matrix(x@res.results[[j]][[i]]$measures.test[,measures])
+        y[,1,i,,j] = as.matrix(x@res.results[[j]][[i]]$measures.train[,measures])
+      }
+    }
+    #names(y) = x["tasks"]
+    return(y)
+  }
+)
+
+
 
 
 ### todo: pretty print method for this case: only aggregated values, always the same learners

@@ -27,39 +27,18 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
   if (is(measures, "measure"))
     measures = list(measures)   
 	
+	extract = function(m){}
 	if (is(learner, "opt.wrapper")) {
 		learner@control@path = paths
-		if (models) 
-			extract = function(x) list(model=x, or=x["opt.result"])
-		else 
-			extract = function(x) list(or=x["opt.result"])
-	} else {
-		if (models)	
-			extract = function(x) {list(model=x)} 
-		else 
-			extract = function(x) {}
+		extract = function(x) x["opt.result"]
 	}
 
 	
-	rr = resample(learner, task, resampling, extract=extract)
-	result = data.frame(matrix(nrow=resampling["iters"]+1, ncol=0))
-	ex = rr@extracted
+	rr = resample(learner, task, resampling, measures=measures, models=models, extract=extract)
 	
-	
-	rp = performance(rr, measures=measures, aggr=list("combine"), task=task)
-	cm = NULL
-	if (is(task, "classif.task") && conf.mat)			
-		cm = conf.matrix(rr)
-  ms = rp$measures
-  # add in combine because we cannot get that later if we throw away preds
-  ms = rbind(ms, cbind(iter=0, rp$aggr))
-	result = cbind(result, ms)
-	rownames(result) = rownames(ms)
-	mods = NULL
-	if (models) 
-		mods = lapply(rr@extracted, function(x) x$model)
 	ors = NULL
-	ors = lapply(rr@extracted, function(x) x$or)
-	return(list(result=result, conf.mat=cm, resample=rr, models=mods, ors=ors))
+  if (is(learner, "opt.wrapper"))
+    ors = rr$extract
+  return(list(res.result=rr, ors=ors))
 }
 
