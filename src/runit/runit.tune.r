@@ -19,8 +19,8 @@ test.tune <- function() {
 		cp <- tr$performances[i,"cp"]
 		ms <- tr$performances[i,"minsplit"]
 		j <- which(pp$cp == cp & pp$minsplit == ms )
-		checkEqualsNumeric(tr$performances[i,"error"], pp[j,"mmce.mean"])    
-		checkEqualsNumeric(tr$performances[i,"dispersion"], pp[j,"mmce.sd"])    
+		checkEqualsNumeric(tr$performances[i,"error"], pp[j,"mmce.test.mean"])    
+		checkEqualsNumeric(tr$performances[i,"dispersion"], pp[j,"mmce.test.sd"])    
 	}
 	
 	# check multiple measures
