@@ -13,6 +13,6 @@ test.novars <- function() {
 	m = train("regr.lm", regr.task, vars=c())
 	p = predict(m, newdata=multiclass.df)
 	checkTrue(all(p["response"] == mean(p["response"]))) 
-  rf = resample("regr.lm", regr.task, res, vars=c(), predictions=TRUE)$pred
+  rf = resample("regr.lm", regr.task, res, vars=c())$pred
 	checkEquals(length(unique(rf["response"])), 2) 
 }

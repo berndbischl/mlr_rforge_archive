@@ -3,8 +3,8 @@ test.measures <- function() {
 	ct = binaryclass.task
   
   mymeasure = make.measure(id="foo", minimize=TRUE,  
-    fun=function(task, model, pred.test, pred.train, pars) {
-      tt = pred.test
+    fun=function(task, model, pred, extra.pars) {
+      tt = pred
       1
     }
   )
@@ -18,5 +18,5 @@ test.measures <- function() {
     perf = performance(pred, measure=m)
 	
   r = resample("classif.rpart", ct, res, measures=ms)
-	checkEquals(names(r$measures), c("mmce", "acc", "tp", "fp", "tn", "fn", "tpr", "fpr", "tnr", "fnr", "ppv", "npv", "mcc", "f1", "foo"))
+	checkEquals(names(r$measures.test), c("iter", "mmce", "acc", "tp", "fp", "tn", "fn", "tpr", "fpr", "tnr", "fnr", "ppv", "npv", "mcc", "f1", "foo"))
 }

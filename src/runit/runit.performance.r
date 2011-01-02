@@ -1,32 +1,29 @@
 test.performance <- function() {
 	
 	res = make.res.desc("holdout")
-	rf = resample("classif.rpart", task=binaryclass.task, resampling=res)
-	performance(rf, measures=c("acc", "time"))
-
+	rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=list(acc, time.all))
+  
 	res = make.res.desc("bs", iters=3)
-	rf = resample("classif.rpart", task=binaryclass.task, resampling=res)
-	performance(rf, measures=c("acc", "time"))
-	performance(rf, measures=c("acc", "time"), aggr="mean")
-	performance(rf, measures=c("acc", "time"), aggr=c("mean", "combine"))
-	
+	rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=list(acc, time.all))
+  m = set.aggr(acc, test.median)
+  rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=m)
+  
 	# custom measure
 	res = make.res.desc("cv", iters=3)
-	rf = resample("classif.rpart", task=binaryclass.task, resampling=res)
+	r = resample("classif.rpart", task=binaryclass.task, resampling=res)
 	
-	mymeasure = function(x, task) {
+	mymeasure = make.measure(id="mym", minimize=TRUE,  
+    fun=function(task, model, pred, extra.pars) {
 		# normal test error
-		e1 = mean(x["truth"] != x["response"])
+		e1 = mean(pred["truth"] != pred["response"])
 		# we do this manually 
-		id = x["id"]
-		tn = x["data.desc"]["target"]
-		t2 = task["data"][id, tn]
-		e2 = mean(t2 != x["response"])
+		id = pred["id"]
+		t2 = task["targets"][id]
+		e2 = mean(t2 != pred["response"])
 		checkEquals(e1, e2)
-	}
-	attr(mymeasure, "id") = "mym"
+	})
 	
-	performance(rf, measures=mymeasure, task=binaryclass.task)
+	performance(r$pred, measure=mymeasure, task=binaryclass.task)
 	
 	# losses
 	

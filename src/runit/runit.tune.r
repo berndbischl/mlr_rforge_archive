@@ -32,6 +32,29 @@ test.tune <- function() {
 	control = grid.control(ranges=list(C=-1:1, sigma=-1:1), scale=function(x)10^x)
 	tune("classif.ksvm", multiclass.task, cv.instance, control=control)
 	
+  # check order of constraints and start in control objects
+  x = optim.control(start=c(a=1,b=2,c=1), lower=c(b=22, c=23, a=21), upper=c(c=33,b=32,a=31))
+  checkEquals(x["start"]["a"],  1)  
+  checkEquals(x["start"]["b"],  2)  
+  checkEquals(x["start"]["c"],  3)  
+  checkEquals(x["lower"]["a"], 11)  
+  checkEquals(x["lower"]["b"], 12)  
+  checkEquals(x["lower"]["c"], 13)  
+  checkEquals(x["upper"]["a"], 21)  
+  checkEquals(x["upper"]["b"], 22)  
+  checkEquals(x["upper"]["c"], 23)  
+  
+  x = cmaes.control(start=c(a=1,b=2,c=1), lower=c(b=22, c=23, a=21), upper=c(c=33,b=32,a=31))
+  checkEquals(x["start"]["a"],  1)  
+  checkEquals(x["start"]["b"],  2)  
+  checkEquals(x["start"]["c"],  3)  
+  checkEquals(x["lower"]["a"], 11)  
+  checkEquals(x["lower"]["b"], 12)  
+  checkEquals(x["lower"]["c"], 13)  
+  checkEquals(x["upper"]["a"], 21)  
+  checkEquals(x["upper"]["b"], 22)  
+  checkEquals(x["upper"]["c"], 23)  
+  
 	# tune wrapper
 	res = make.res.desc("cv", iters=2)
 	ranges = list(minsplit=seq(3,10,2))
@@ -78,9 +101,6 @@ test.tune <- function() {
 	ctrl = cmaes.control(start=c(C=0, sigma=0), maxit=5, scale=function(x) 2^x)
 	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)
 	
-	
-#	# check pattern search
-#	control = ps.control(start=list(C=0, sigma=0), scale=function(x)10^x)
-#	tr3 <- tune("classif.ksvm", multiclass.task, resampling=cv.instance, method="pattern", control=control)
+  	
 }
 

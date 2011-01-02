@@ -3,34 +3,34 @@ test.varsel <- function() {
 
 	# check all methods
 	
-	ctrl = sequential.control(method="sfs", alpha=0.01)
-	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=TRUE)
+	ctrl = sequential.control(method="sfs", alpha=0.01, path=TRUE)
+	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
 	checkTrue(length(vr["path"]) > 1) 
 	
-	ctrl = sequential.control(method="sbs", beta=0.01)
-	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=TRUE)
+	ctrl = sequential.control(method="sbs", beta=0.01, path=TRUE)
+	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
 	checkTrue(length(vr["path"]) > 1) 
 
-	ctrl = sequential.control(method="sffs", alpha=0.01)
-	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=TRUE)
+	ctrl = sequential.control(method="sffs", alpha=0.01, path=TRUE)
+	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
 	checkTrue(length(vr["path"]) > 1) 
 	
-	ctrl = sequential.control(method="sfbs", beta=0.01)
-	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=TRUE)
+	ctrl = sequential.control(method="sfbs", beta=0.01, path=TRUE)
+	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
 	checkTrue(length(vr["path"]) > 1) 
 
 	# check maxit
-	ctrl = randomvarsel.control(maxit=4)
-	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, path=TRUE)
+	ctrl = randomvarsel.control(maxit=4, path=TRUE)
+	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
 	checkEquals(length(vr["path"]), 4) 
 	
 	# check max.vars
-	ctrl = sequential.control(alpha=0, max.vars=1, method="sfs")
-	vr = varsel("classif.lda", task=binaryclass.task, resampling=inner, control=ctrl, path=TRUE)
+	ctrl = sequential.control(alpha=0, max.vars=1, method="sfs", path=TRUE)
+	vr = varsel("classif.lda", task=binaryclass.task, resampling=inner, control=ctrl)
 	checkEquals(length(vr["par"]), 1) 
 
-	ctrl = sequential.control(beta=1, max.vars=58, method="sbs")
-	vr = varsel("classif.lda", task=binaryclass.task, resampling=inner, control=ctrl, path=TRUE)
+	ctrl = sequential.control(beta=1, max.vars=58, method="sbs", path=TRUE)
+	vr = varsel("classif.lda", task=binaryclass.task, resampling=inner, control=ctrl)
 	checkEquals(length(vr["par"]), 58) 
 	
 	

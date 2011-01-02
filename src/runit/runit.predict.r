@@ -56,8 +56,7 @@ test.predict <- function() {
 	ct = make.task(data=df, target="Class")
 	res = make.res.desc("cv", iters=10)
 	p = resample("classif.randomForest", ct, res)
-	perf = performance(p)
-	checkTrue(all(is.na(perf$measures$mmce)))
+	checkTrue(all(is.na(p$measures.test$mmce)))
 	
 	#todo dec values!!!
 }
