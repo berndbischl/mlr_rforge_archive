@@ -1,9 +1,12 @@
-
-
 tune.cmaes = function(learner, task, resampling, measures, control) {
   require.packs("cmaes", "tune.cmaes")
-	path = list()
-	
+
+  path = list()
+  ns = control["par.names"]
+  start = unlist(control["start"])[ns]
+  low = control["lower"]
+  up = control["upper"]
+  
 	g = function(p) {
 		p2 = as.list(p)
 		names(p2) = ns
@@ -30,15 +33,11 @@ tune.cmaes = function(learner, task, resampling, measures, control) {
   
 	args = control@extra.args
 	
-	ns = names(control["start"])
-	start = as.numeric(control["start"])
-	
   if (.mlr.local$parallel.setup$mode != "local" && .mlr.local$parallel.setup$level == "tune") {
     g=g2
     args$vectorized=TRUE    
   }  
-
-  or = cma_es(par=start, fn=g, lower=control["lower"], upper=control["upper"], control=args)
+  or = cma_es(par=start, fn=g, lower=low, upper=up, control=args)
 	par = as.list(or$par)
 	names(par) = ns
 	opt = get.path.el(path, par)
