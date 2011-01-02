@@ -1,14 +1,3 @@
-
-# todo maximize!!!!!!!!!!!!!!!!!!!!!!
-# todo maximize!!!!!!!!!!!!!!!!!!!!!!
-# todo maximize!!!!!!!!!!!!!!!!!!!!!!
-# todo maximize!!!!!!!!!!!!!!!!!!!!!!
-# todo maximize!!!!!!!!!!!!!!!!!!!!!!
-# todo maximize!!!!!!!!!!!!!!!!!!!!!!
-# be sel best usw.
-
-
-
 # todo: maxit, max.vars
 varsel.seq = function(learner, task, resampling, measures, control) {
 	
@@ -31,7 +20,7 @@ varsel.seq = function(learner, task, resampling, measures, control) {
 		# if backward step and we have too many vars we do always go to the next best state with one less var.
 		else
 			thresh = ifelse(length(state$par) <= control["max.vars"], control["beta"], -Inf)
-		if (!compare(state, s, control, measures, thresh)) {
+		if (!compare(state, s, control, measures[[1]], thresh)) {
 			s = NULL
       changed = "<>"
     } else {

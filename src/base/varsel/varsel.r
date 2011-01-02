@@ -17,8 +17,6 @@
 #'        Performance measures. 
 #' @param model [boolean]\cr
 #'        Should a final model be fitted on the complete data with the best found features? Default is FALSE.
-#' @param path [boolean]\cr
-#'        Should optimization path be saved? Default is FALSE.
 #' 
 #' @return \code{\linkS4class{opt.result}}.
 #' 
@@ -28,7 +26,10 @@
 #'   
 #' @title Variable selection.
 
-varsel <- function(learner, task, resampling, control, measures, model=FALSE, path=FALSE) {
+varsel <- function(learner, task, resampling, control, measures, model=FALSE) {
+  if (is.character(learner))
+    learner <- make.learner(learner)
+  # todo: should we really do this here??
   # convert to instance so all pars are evaluated on the same splits
   if (is(resampling, "resample.desc")) 
     resampling = make.res.instance(resampling, task=task)
@@ -42,7 +43,8 @@ varsel <- function(learner, task, resampling, control, measures, model=FALSE, pa
 	sel.func = switch(cl,
 			sequential.control = varsel.seq,
 			randomvarsel.control = varsel.random,
-			stop(paste("Feature selection algorithm for", cl, "does not exist!"))
+      exhvarsel.control = varsel.exhaustive,
+      stop(paste("Feature selection algorithm for", cl, "does not exist!"))
 	)
 
 	if (missing(control)) {
@@ -51,7 +53,6 @@ varsel <- function(learner, task, resampling, control, measures, model=FALSE, pa
 	
 	assign(".mlr.vareval", 0, envir=.GlobalEnv)
 	
-	control@path = path
 	or = sel.func(learner=learner, task=task, resampling=resampling, 
 			measures=measures, control=control) 
 	if (model) {
