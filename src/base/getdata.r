@@ -1,7 +1,7 @@
 
 get.data = function(task, subset, vars, with.target=TRUE, class.as.num=FALSE) {
   tn = task["target"]
-  if (length(vars) == task["dim"] && with.target)
+  if (missing(vars) && with.target)
     d = task@data[subset, ]
   else {
     v = if (with.target) c(vars, tn) else vars 
