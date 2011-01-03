@@ -70,7 +70,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.task["target"], "~."))
+			f = .task["formula"]
 			if (.task["has.costs"]) {
 				lev = levels(task["data"][.subset, .vars][, .targetvar])
 				.costs = .costs[lev, lev] 

@@ -81,7 +81,7 @@ setMethod(
 #			} 
 			
 			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
-			f = as.formula(paste(.task["target"], "~."))
+			f = .task["formula"]
       pm = .learner["predict.type"] == "prob"
 			if (length(xs$control) > 0)
 				args = c(list(f, data=.task["data"][.subset, .vars], fit=FALSE, kpar=xs$control), xs$args, prob.model=pm)

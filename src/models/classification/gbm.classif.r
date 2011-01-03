@@ -58,9 +58,9 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.task["target"], "~."))
-			task["data"][.subset, .vars][, .targetvar] = as.numeric(task["data"][.subset, .vars][, .targetvar] == .task.desc["positive"])
-			gbm(f, data=.task["data"][.subset, .vars], weights=.weights, keeptask["data"][.subset, .vars]=FALSE, verbose=FALSE, ...)
+			f = .task["formula"]
+			d = get.data(.task, .subset, .vars, class.as.numeric=TRUE)
+			gbm(get.formula, data=d, weights=.weights, keep.data=FALSE, verbose=FALSE, ...)
 		}
 )
 

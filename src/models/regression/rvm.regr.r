@@ -67,7 +67,7 @@ setMethod(
     def = function(.learner, .task, .subset, .vars,  ...) {
       
       xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
-      f = as.formula(paste(.task["target"], "~."))
+      f = .task["formula"]
       if (length(xs$control) > 0)
         args = c(list(f, data=.task["data"][.subset, .vars], fit=FALSE, kpar=xs$control), xs$args)
       else
