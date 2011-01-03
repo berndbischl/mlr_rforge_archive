@@ -9,8 +9,6 @@
 #' \describe{
 #'  \item{opt.type [string]}{Currently 'tune' or 'varsel'.}
 #'  \item{par [list | character]}{Named list of hyperparameter values or character vector of variables, identified as optimal.}
-#'	\item{tuned.par [list]}{If tuning was performed, best found set of hyperparameters.}
-#'	\item{sel.vars [character]}{If variable selection was performed, best found set of variables.}
 #'  \item{perf [numeric]}{Performance values of 'par'.}
 #'  \item{path [list | data.frame]. Optional parameters: as.data.frame}{Optimization path. Can be converted to a data.frame if as.data.frame is TRUE.}
 #'  \item{model [\code{\linkS4class{wrapped.model}}]}{Model fitted with settings in 'par'. Will be NULL, if fitting was not requested.}
@@ -59,23 +57,13 @@ setMethod(
 			if (i == "opt.type"){
 				return(x@control["opt.type"])
 			}
-			if (i == "tuned.par"){
-				if (x["opt.type"] != "tune")
-					return(NULL)
-				return(x["par"])
-			}
-			if (i == "sel.var"){
-				if (x["opt.type"] != "varsel")
-					return(NULL)
-				return(x["par"])
-			}
 			if (i == "perf") {
 				return(x@opt$perf)
 			}
 			if (i == "learner") {
 				if (x["opt.type"] != "tune")
 					return(NULL)
-				wl = set.hyper.pars(x@learner, x["tuned.par"])
+				wl = set.hyper.pars(x@learner, x["par"])
 				return(wl)
 			}
 			if (i == "path") {
