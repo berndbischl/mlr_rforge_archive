@@ -6,7 +6,6 @@ allowed.rd.files <<- c(
 		"object-class.Rd",
 		"to.string.Rd",
 
-		"data.desc-class.Rd",
 		"task.desc-class.Rd",
 		"learn.task-class.Rd",
 		"learn.task-class.Rd",
@@ -20,7 +19,6 @@ allowed.rd.files <<- c(
 		"args.to.control.Rd",
 		
 		"par.desc-class.Rd",
-		"learner.desc-class.Rd",
 		"learner-class.Rd",
 		"rlearner-class.Rd",
 		"rlearner.classif-class.Rd",

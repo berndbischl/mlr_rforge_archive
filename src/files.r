@@ -11,10 +11,7 @@ base.files <<- c(
 		"base/io/read.arff.r",
 		"base/data/data.chars.r",
 
-		"base/learner.desc.r",
-			
 		"base/prepare.df.r",
-		"base/data.desc.r",
 		"base/task.desc.r",
 		"base/task.learn.r",
 		"base/task.classif.r",
