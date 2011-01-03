@@ -34,7 +34,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = .task["formula"]
-			icr(f, data=.task["data"][.subset, .vars], ...)
+			icr(f, data=get.data(.task, .subset, .vars), ...)
 		}
 )
 

@@ -34,7 +34,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = .task["formula"]
-			earth(f, data=.task["data"][.subset, .vars], ...)
+			earth(f, data=get.data(.task, .subset, .vars), ...)
 		}
 )
 

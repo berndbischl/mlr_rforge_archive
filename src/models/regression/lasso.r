@@ -40,7 +40,7 @@ setMethod(
 			if (length(i) > 0) {
 				names(args)[i] = "lambda1"
 			}
-			pars <- list(f, data=.task["data"][.subset, .vars])
+			pars <- list(f, data=get.data(.task, .subset, .vars))
 			pars <- c(pars, args)
 			do.call(penalized, pars)
 		}

@@ -33,7 +33,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = .task["formula"]
-			rpart(f, data=.task["data"][.subset, .vars], weights=.weights, ...)
+			rpart(f, data=get.data(.task, .subset, .vars), weights=.weights, ...)
 		}
 )
 
