@@ -32,7 +32,7 @@ setMethod(
     if (!learner["is.classif"] && type != "response") {
       stop("Trying to predict ", type, ", but only classifiers support that!")
     }
-    if ("prob" == type && !learner["probs"]) {
+    if ("prob" == type && !learner["prob"]) {
       stop("Trying to predict probs, but ", learner["id"], " does not support that!")
     }
     if ("decision" == type && !learner["decision"]) {

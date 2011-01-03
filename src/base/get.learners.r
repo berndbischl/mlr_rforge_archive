@@ -87,7 +87,7 @@ setMethod(
 						( is.na(missings) || missings == x["missings"] ) &&
 						( is.na(multiclass) || multiclass == x["multiclass"] ) &&
 						( is.na(weights) || weights == x["weights"]  ) &&
-						( is.na(probs) || probs == x["probs"] ) &&
+						( is.na(probs) || probs == x["prob"] ) &&
 						( is.na(decision) || decision == x["decision"]  ) &&
 						( is.na(costs) || costs == x["costs"]  )
 			}

@@ -35,7 +35,7 @@ setMethod(
         def = function(x,i,j,...,drop) {
             if (i == "multiclass")
                 return(TRUE)
-            if (i == "probs")
+            if (i == "prob")
                 return(FALSE)
             if (i == "decision")
                 return(FALSE)
