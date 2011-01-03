@@ -5,8 +5,7 @@ setClass(
 		contains = c("base.wrapper"),
 		representation = representation(
         fun = "function",
-        control.fun = "function",
-        control = "list"
+        control.fun = "function"
     )
 )
 
@@ -78,7 +77,6 @@ setMethod(
       fargs = .learner["par.vals", par.top.wrapper.only=TRUE]
       tn = .task["target"]
       ctrl = .learner@control.fun(data=d, targetvar=tn, args=fargs)
-      xx <<- ctrl
       d = .learner@fun(data=d, targetvar=tn, args=fargs, control = ctrl)
       if (!is.data.frame(d))
         stop("Preprocessing must result in a data.frame!")
@@ -106,7 +104,7 @@ setMethod(
       fargs = .model@learner["par.vals", par.top.wrapper.only=TRUE]
       tn = .model["task.desc"]["target"]
       m = nrow(.newdata)
-      .newdata = .learner@fun(data=.newdata, targetvar=tn, args=fargs, control=.learner@control)
+      .newdata = .learner@fun(data=.newdata, targetvar=tn, args=fargs, control=.model@control)
       if (!is.data.frame( .newdata))
         stop("Preprocessing must result in a data.frame!")
       if (nrow(.newdata) != m)
@@ -115,6 +113,22 @@ setMethod(
 		}
 )	
 
+setClass(
+  "preproc.model",
+  contains = c("wrapped.model"),
+  representation = representation(
+    control = "list"
+  )
+)
+
+setMethod(
+  f = "initialize",
+  signature = signature("preproc.model"),
+  def = function(.Object, learner, model, task.desc, prep.control, subset, vars, time, control) {
+    .Object@control = control
+    callNextMethod(.Object, learner, model, task.desc, prep.control, subset, vars, time)
+  }
+)
 
 
 
