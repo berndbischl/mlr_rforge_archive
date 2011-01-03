@@ -101,7 +101,7 @@ setMethod(
 				.costs="ANY" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+		def = function(.learner, .task, .subset, .vars,  ...) {
 			args = list(...)
 			args = args[!(names(args) %in% names(.learner["par.vals", par.top.wrapper.only=TRUE]))]
 			f.args = list(.learner@learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs)

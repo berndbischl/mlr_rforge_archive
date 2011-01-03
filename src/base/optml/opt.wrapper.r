@@ -63,7 +63,7 @@ setMethod(
 				.costs="ANY" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+		def = function(.learner, .task, .subset, .vars,  ...) {
 			wl = .learner
 			bl = wl@learner
 			ctrl = wl@control
