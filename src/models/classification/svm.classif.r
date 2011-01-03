@@ -61,7 +61,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = .task["formula"]
-			svm(f, data=.task["data"][.subset, .vars], ...)
+			svm(f, data=get.data(.task, .subset, .vars), ...)
 		}
 )
 

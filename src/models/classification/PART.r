@@ -49,7 +49,7 @@ setMethod(
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = .task["formula"]
 			ctrl = Weka_control(...)
-			PART(f, data=.task["data"][.subset, .vars], control=ctrl)
+			PART(f, data=get.data(.task, .subset, .vars), control=ctrl)
 		}
 )
 

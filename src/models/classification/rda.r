@@ -66,7 +66,7 @@ setMethod(
     # todo: disable crossval. no, is done automaticall if pars are set.
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = .task["formula"]
-			rda(f, data=.task["data"][.subset, .vars], ...)
+			rda(f, data=get.data(.task, .subset, .vars), ...)
 		}
 )
 

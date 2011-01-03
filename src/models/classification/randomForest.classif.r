@@ -63,7 +63,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = .task["formula"]
-			randomForest(f, data=.task["data"][.subset, .vars], ...)
+			randomForest(f, data=get.data(.task, .subset, .vars), ...)
 		}
 )
 

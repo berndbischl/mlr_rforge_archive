@@ -64,9 +64,9 @@ setMethod(
 			if (.task["has.costs"]) {
 				lev = levels(.task["data"][.subset, .vars][, .targetvar])
 				.costs = .costs[lev, lev] 
-				rpart(f, data=.task["data"][.subset, .vars], weights=.weights, parms=list(loss=.costs), ...)
+				rpart(f, data=get.data(.task, .subset, .vars), weights=.weights, parms=list(loss=.costs), ...)
 			} else
-				rpart(f, data=.task["data"][.subset, .vars], weights=.weights, ...)
+				rpart(f, data=get.data(.task, .subset, .vars), weights=.weights, ...)
 		}
 )
 

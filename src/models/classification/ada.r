@@ -74,9 +74,9 @@ setMethod(
 			if (.task["has.costs"]) {
 				lev = levels(task["data"][.subset, .vars][, .targetvar])
 				.costs = .costs[lev, lev] 
-				ada(f, data=.task["data"][.subset, .vars], parms=list(loss=.costs), ...)
+				ada(f, data=get.data(.task, .subset, .vars), parms=list(loss=.costs), ...)
 			} else
-				ada(f, data=.task["data"][.subset, .vars], ...)
+				ada(f, data=get.data(.task, .subset, .vars), ...)
 		}
 )
 

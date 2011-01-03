@@ -46,7 +46,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = .task["formula"]
-			adaboost.M1(f, data=.task["data"][.subset, .vars], ...)
+			adaboost.M1(f, data=get.data(.task, .subset, .vars), ...)
 		}
 )
 

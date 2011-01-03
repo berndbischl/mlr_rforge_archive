@@ -84,9 +84,9 @@ setMethod(
 			f = .task["formula"]
       pm = .learner["predict.type"] == "prob"
 			if (length(xs$control) > 0)
-				args = c(list(f, data=.task["data"][.subset, .vars], fit=FALSE, kpar=xs$control), xs$args, prob.model=pm)
+				args = c(list(f, data=get.data(.task, .subset, .vars), fit=FALSE, kpar=xs$control), xs$args, prob.model=pm)
 			else
-				args = c(list(f, data=.task["data"][.subset, .vars], fit=FALSE), xs$args, prob.model=pm)
+				args = c(list(f, data=get.data(.task, .subset, .vars), fit=FALSE), xs$args, prob.model=pm)
 			do.call(ksvm, args)
 			
 		}

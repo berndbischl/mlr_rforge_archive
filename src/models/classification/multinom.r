@@ -62,7 +62,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = .task["formula"]
-			multinom(f, data=.task["data"][.subset, .vars], weights=.weights, ...)
+			multinom(f, data=get.data(.task, .subset, .vars), weights=.weights, ...)
 		}
 )
 

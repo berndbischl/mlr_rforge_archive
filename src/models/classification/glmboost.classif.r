@@ -58,7 +58,7 @@ setMethod(
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			xs = args.to.control(boost_control, c("mstop", "nu", "risk"), list(...))
 			f = .task["formula"]
-			args = c(list(f, data=.task["data"][.subset, .vars], weights=.weights, control=xs$control), xs$args)
+			args = c(list(f, data=get.data(.task, .subset, .vars), weights=.weights, control=xs$control), xs$args)
 			do.call(glmboost, args)
 		}
 )
