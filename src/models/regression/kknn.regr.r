@@ -7,11 +7,6 @@ setClass(
 )
 
 
-
-predict.kknn.model2 <- function(model, newdata, ...) {
-}
-
-
 setMethod(
 		f = "initialize",
 		signature = signature("regr.kknn"),
@@ -38,7 +33,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars, ...) {
-			list(target=.targetvar, data=get.data(.task, .subset, .vars), parset=list(...))
+			list(td=.task["task.desc"], data=get.data(.task, .subset, .vars), parset=list(...))
 		}
 )
 
@@ -55,7 +50,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, ...) {
 			m <- .model["learner.model"]
-			f <- as.formula(paste(m$target, "~."))
+			f = m$td["formula"]
 			# this is stupid but kknn forces it....
 			.newdata[, m$target] <- 0
 			pars <- list(formula=f, train=m$data, test=.newdata)  

@@ -44,9 +44,8 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset, .vars, ...) {
-    i = which(colnames(.task["data"][.subset, .vars])==.targetvar)
-    y = task["data"][.subset, .vars][,i]
-    train = task["data"][.subset, .vars][,-i]
+    y = .task["targets"][.subset]
+    train = get.data(.task, .subset, .vars, with.target=FALSE)
     list(train=train, y=y, parset=list(...))
   }
 )
