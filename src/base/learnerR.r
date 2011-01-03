@@ -79,7 +79,8 @@ setClass("rlearner.classif",
   representation = representation(
     classes="logical",
     predict="logical",
-    costs="logical"
+    costs="logical",
+    predict.type = "character"
   )  
 )
 

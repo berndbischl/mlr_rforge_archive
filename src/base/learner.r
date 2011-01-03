@@ -18,11 +18,25 @@ roxygen()
 #'  \item{is.regr [boolean]}{Is this learner for regression tasks?}
 #'  \item{id [string]}{Id string of learner.}
 #' 	\item{pack [char]}{Package(s) required for underlying learner.}
+#'  \item{doubles [boolean]}{Can real-valued inputs be processed?}
+#'  \item{factors [boolean]}{Can factor inputs be processed?}
+#'  \item{missings [boolean]}{Can missing values be processed?}
+#'  \item{weights [boolean]}{Can case weights be used?}
 #' 	\item{par.vals [list]}{List of fixed hyperparameters and respective values for this learner.}
 #' 	\item{par.descs [list]}{Named list of \code{\linkS4class{par.desc}} description objects for all possible hyperparameters for this learner.}
 #' 	\item{par.descs.when [character]}{Named character vector. Specifies when a cetrain hyperparameter is used. Possible entries are 'train', 'predict' or 'both'.}
+#' }
+#' 
+#' Further getters for classifiers.\cr
+#' 
+#' \describe{
+#'  \item{oneclass [boolean]}{Can oneclass problems be handled?}
+#'  \item{twoclass [boolean]}{Can twoclass problems be handled?}
+#'  \item{multiclass [boolean]}{Can multiclass problems be handled?}
+#'  \item{costs [boolean]}{Can misclassification costs be directly used during training?}
+#'  \item{prob [boolean]}{Can probabilities be predicted?}
+#'  \item{decision [boolean]}{Can probabilities be predicted?}
 #'  \item{predict.type [character]}{What should be predicted: 'response', 'prob' or 'decision'.}
-#'  \item{predict.threshold [character]}{Threshold to produce class labels if type is not "response".} 
 #' }
 #' 
 #' Setters: \code{\link{set.id}}, \code{\link{set.hyper.pars}}, \code{\link{set.predict.type}}  
@@ -36,7 +50,6 @@ setClass(
 		representation = representation(
 				id = "character",
 				pack = "character",
-				predict.type = "character",
 				par.descs = "list",
 				par.vals = "list"
 		)		
