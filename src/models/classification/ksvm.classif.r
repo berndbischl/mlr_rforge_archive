@@ -26,7 +26,7 @@ setMethod(
 					missings = FALSE,
 					doubles = TRUE,
 					factors = TRUE,
-					probs = TRUE,
+					prob = TRUE,
 					decision = TRUE,
 					weights = FALSE,	
 					costs = FALSE 
