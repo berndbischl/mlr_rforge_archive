@@ -74,29 +74,29 @@ make.multiclass.wrapper = function(learner, id=as.character(NA), method, codemat
 #' @rdname train.learner
 
 setMethod(
-        f = "train.learner",
-        signature = signature(
-                .learner="multiclass.wrapper", 
-                .task="classif.task", .subset="integer", .vars="character" 
-        ),
-        
-        def = function(.learner, .task, .subset, .vars,  ...) {   
-            cm = .learner["codematrix"]
-            y = .data[,.targetvar]
-            x = multi.to.binary(y, cm)
-            k = length(x$row.inds) 
-            levs = .data.desc["class.levels"]
-            models = list()
-            args = list(...)
-            for (i in 1:k) {
-                data2 = .data[x$row.inds[[i]], ]
-                data2[, .targetvar] = x$targets[[i]] 
-                ct = make.task(data=data2, target=.targetvar, positive="1")
-                m = train(.learner["learner"], task=ct, par.vals=args)
-                models[[i]] = m 
-            }
-            return(models)
-        }
+  f = "train.learner",
+  signature = signature(
+    .learner="multiclass.wrapper", 
+    .task="classif.task", .subset="integer", .vars="character" 
+  ),
+  
+  def = function(.learner, .task, .subset, .vars,  ...) {   
+    cm = .learner["codematrix"]
+    y = .data[,.targetvar]
+    x = multi.to.binary(y, cm)
+    k = length(x$row.inds) 
+    levs = .task.desc["class.levels"]
+    models = list()
+    args = list(...)
+    for (i in 1:k) {
+      data2 = .data[x$row.inds[[i]], ]
+      data2[, .targetvar] = x$targets[[i]] 
+      ct = make.task(data=data2, target=.targetvar, positive="1")
+      m = train(.learner["learner"], task=ct, par.vals=args)
+      models[[i]] = m 
+    }
+    return(models)
+  }
 )
 
 #' @rdname pred.learner
@@ -158,22 +158,22 @@ multi.to.binary = function(target, codematrix){
     return(list(row.inds=row.inds, targets=targets))
 }
 
-cm.onevsrest = function(data.desc, task.desc) {
-    n = data.desc["class.nr"]
+cm.onevsrest = function(task.desc) {
+    n = task.desc["class.nr"]
     cm = matrix(-1, n, n)
     diag(cm) = 1
-    rownames(cm) = data.desc["class.levels"]
+    rownames(cm) = task.desc["class.levels"]
     return(cm)
 } 
 
-cm.onevsone = function(data.desc, task.desc) {
-    n = data.desc["class.nr"]
+cm.onevsone = function(task.desc) {
+    n = task.desc["class.nr"]
     cm = matrix(0, n, choose(n, 2))
     combs = combn(n, 2)
     for (i in 1:ncol(combs)) {
         j = combs[,i]
         cm[j, i] = c(1, -1) 
     }
-    rownames(cm) = data.desc["class.levels"]
+    rownames(cm) = task.desc["class.levels"]
     return(cm)
 } 

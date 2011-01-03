@@ -53,15 +53,11 @@ setMethod(
 
 setMethod(
 		f = "train.learner",
-		signature = signature(
-				.learner="opt.wrapper", 
-				.targetvar="character", 
-				.data="data.frame", 
-				.task.desc="task.desc", 
-				.weights="numeric", 
-				.costs="ANY" 
-		),
-		
+    signature = signature(
+      .learner="opt.wrapper", 
+      .task="learn.task", .subset="integer", .vars="character"
+    ),
+      
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			wl = .learner
 			bl = wl@learner

@@ -5,7 +5,7 @@ setClass(
 		contains = c("base.wrapper"),
 		representation = representation(
 				fun = "function",
-        defaults = "list"
+        pred.args = "list"
 		)
 )
 
@@ -65,25 +65,20 @@ make.preproc.wrapper = function(learner, id=as.character(NA), fun, ...) {
 
 setMethod(
 		f = "train.learner",
-		signature = signature(
-				.learner="preproc.wrapper", 
-				.targetvar="character", 
-				.data="data.frame", 
-				.data.desc="data.desc", 
-				.task.desc="task.desc", 
-				.weights="numeric", 
-				.costs="ANY" 
-		),
-		
-		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+    signature = signature(
+      .learner="preproc.wrapper", 
+      .task="learn.task", .subset="integer", .vars="character"
+    ),
+      
+		def = function(.learner, .task, .subset, .vars,  ...) {
 			fun.args = names(.learner["par.vals", par.top.wrapper.only=TRUE])
-			ww = .learner
 			fun.args = list(...)[fun.args]		
 			fun.args$data = .data
       fun.args$targetvar = .targetvar
       fun.args$model = NULL
-      .data = do.call(.learner@fun, fun.args)
-			callNextMethod(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...)
+      fun.args$pred.args = NULL
+      y = do.call(.learner@fun, fun.args)
+			callNextMethod(.learner, .targetvar, y$data, .task.desc, .weights, .costs,  ...)
 		}
 )
 
@@ -101,8 +96,9 @@ setMethod(
 		def = function(.learner, .model, .newdata, .type, ...) {
 			fun.args = .model@learner["par.vals", par.top.wrapper.only=TRUE]
 			fun.args$data = .newdata	
-      fun.args$targetvar = .model["data.desc"]["target"]
+      fun.args$targetvar = .model["task.desc"]["target"]
       fun.args$model = .model
+      fun.args$pred.args = .model["pred.args"]
       .newdata = do.call(.learner@fun, fun.args)
 			callNextMethod(.learner, .model, .newdata, .type, ...)
 		}

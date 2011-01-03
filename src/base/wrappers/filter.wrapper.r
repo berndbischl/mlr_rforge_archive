@@ -54,17 +54,12 @@ make.filter.wrapper = function(learner, filter.method="information.gain", filter
 #' @rdname train.learner
 setMethod(
 		f = "train.learner",
-		signature = signature(
-				.learner="filter.wrapper", 
-				.targetvar="character", 
-				.data="data.frame", 
-				.data.desc="data.desc", 
-				.task.desc="task.desc", 
-				.weights="numeric", 
-				.costs="matrix" 
-		),
+    signature = signature(
+      .learner="filter.wrapper", 
+      .task="learn.task", .subset="integer", .vars="character"
+    ),
 		
-		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+		def = function(.learner, .task, .subset, .vars,  ...) {
       args = list(...)
       method = args$filter.method
       th = args$filter.threshold
@@ -95,9 +90,9 @@ setMethod(
       .data = .data[, c(vars, .targetvar), drop=FALSE]  
 
       if (length(vars) > 0)
-			  m = callNextMethod(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...)
+			  m = callNextMethod(.learner, .targetvar, .data, .task.desc, .weights, .costs,  ...)
       else
-        m = new("novars", targets=.data[, .targetvar], data.desc=.data.desc, task.desc=.task.desc)
+        m = new("novars", targets=.data[, .targetvar], task.desc=.task.desc)
       # set the vars as attribute, so we can extract it later 
       attr(m, "filter.result") = vars
       return(m)
