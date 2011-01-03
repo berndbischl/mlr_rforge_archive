@@ -60,14 +60,21 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = .task["formula"]
-			if (.task["has.costs"]) {
-				lev = levels(.task["data"][.subset, .vars][, .targetvar])
-				.costs = .costs[lev, lev] 
-				rpart(f, data=get.data(.task, .subset, .vars), weights=.weights, parms=list(loss=.costs), ...)
-			} else
-				rpart(f, data=get.data(.task, .subset, .vars), weights=.weights, ...)
-		}
+      f = .task["formula"]
+      d = get.data(.task, .subset, .vars)
+      if (.task["has.costs"]) {
+        lev = levels(.task["data"][.subset, .vars][, .targetvar])
+        .costs = .costs[lev, lev]
+        if (.task["has.weights"])
+          rpart(f, data=d, weights=.task["weights"][.subset], parms=list(loss=.costs), ...)
+        else 
+          rpart(f, data=d, parms=list(loss=.costs), ...)
+      } else
+      if (.task["has.weights"])
+        rpart(f, data=d, weights=.task["weights"][.subset], ...)
+      else 
+        rpart(f, data=d, ...)
+    }
 )
 
 #' @rdname pred.learner

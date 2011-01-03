@@ -52,10 +52,9 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset, .vars,  ...) {
-    i = which(colnames(.task["data"][.subset, .vars])==.targetvar)
-    cl = task["targets"][.subset]
-    train = task["data"][.subset, .vars]
-    list(train=train, cl=cl, parset=list(...))
+    y = .task["targets"][.subset]
+    train = get.data(.task, .subset, .vars, with.target=FALSE)
+    list(train=train, y=y, parset=list(...))
   }
 )
 
@@ -72,7 +71,7 @@ setMethod(
   
   def = function(.learner, .model, .newdata, .type, ...) {
     m = .model["learner.model"]
-    pars = list(train=m$train, test=.newdata, cl=m$cl)  
+    pars = list(train=m$train, test=.newdata, cl=m$y)  
     pars = c(pars, m$parset, list(...))
     p = do.call(FNN::knn, pars)
     attr(p, "nn.index") = NULL

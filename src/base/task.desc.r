@@ -109,7 +109,7 @@ setMethod(
         else 
           return(as.character(NA))
       if (i == "has.costs") 
-        if(x["is.classif"]) return(all(dim(x@costs)==0)) else return(as.logical(NA))
+        if(x["is.classif"]) return(all(dim(x@costs)!=0)) else return(as.logical(NA))
       
 			callNextMethod()
 		}
