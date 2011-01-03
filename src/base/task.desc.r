@@ -61,13 +61,13 @@ setMethod(
     .Object@size = nrow(data)
     y = data[, target]
     .Object@n.feat = c(
-      num = sum(sapply(df, is.numeric)) - is.numeric(y), 
-      int  = sum(sapply(df, is.integer)) - is.integer(y),
-      fact = sum(sapply(df, is.factor)) - is.factor(y),
-      char = sum(sapply(df, is.character) - is.character(y))
+      num = sum(sapply(data, is.numeric)) - is.numeric(y), 
+      int  = sum(sapply(data, is.integer)) - is.integer(y),
+      fact = sum(sapply(data, is.factor)) - is.factor(y),
+      char = sum(sapply(data, is.character)) - is.character(y)
     )
-    .Object@has.missing = any(is.na(df))
-    .Object@has.inf = any(is.infinite(df))
+    .Object@has.missing = any(is.na(data))
+    .Object@has.inf = any(is.infinite(data))
     if(is.factor(y))
       .Object@class.dist = {tab=table(y);cl=as.integer(tab); names(cl)=names(tab);cl}
     else

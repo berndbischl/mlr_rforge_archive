@@ -141,7 +141,7 @@ setMethod(
       stop("Cannot infer the type of task from the target data type. Please transform it!")
     
     
-    data = prep.data(type=="classif", data, target, ntrol)			
+    data = prep.data(type=="classif", data, target, control)			
     
     if (type == "classif") {
       new("classif.task", id=id, target=target, data=data, weights=weights, blocking=blocking, control=control, costs=costs, positive=positive)
