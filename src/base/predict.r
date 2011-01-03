@@ -33,7 +33,6 @@ setMethod(
 			model = object
 			wl = model["learner"]
 			td = model@task.desc
-			dd = model@data.desc
 			
 			if (missing(newdata)) {
 				if (missing(subset))
@@ -42,7 +41,7 @@ setMethod(
 			} else {
         if (!is.data.frame(newdata) || nrow(newdata) == 0)
           stop("newdata must be a data.frame with at least one row!")
-				newdata = prep.data(dd["is.classif"], newdata, dd["target"], dd["exclude"], model["prep.control"])			
+				newdata = prep.data(td["is.classif"], newdata, td["target"], td["exclude"], model["prep.control"])			
 			}
 			
 			type = wl["predict.type"]
@@ -51,7 +50,7 @@ setMethod(
       require.packs(wl["pack"], paste("learner", learner["id"]))
 			
 			cns = colnames(newdata)
-			tn = dd["target"]
+			tn = td["target"]
 			t.col = which(cns == tn)
 			# get truth and drop target col, if target in newdata
 			if (length(t.col) == 1) {
@@ -72,7 +71,7 @@ setMethod(
 			logger.debug(level="predict", rownames(newdata))
 			
 			if (wl["is.classif"]) {
-				levs = dd["class.levels"]
+				levs = td["class.levels"]
 			}
 			
 			response = NULL
@@ -81,7 +80,7 @@ setMethod(
 			
 			# was there an error in building the model? --> return NAs
 			if(is(model["learner.model"], "learner.failure")) {
-				p = predict_nas(wl, model, newdata, type, levs, dd, td)
+				p = predict_nas(wl, model, newdata, type, levs, td)
 				time.predict = as.numeric(NA)
 			} else {
 				pars <- list(
@@ -114,7 +113,7 @@ setMethod(
 						msg = as.character(p)
 						if (.mlr.local$errorhandler.setup$on.learner.error == "warn")
 							warning("Could not predict the learner: ", msg)
-						p = predict_nas(wl, model, newdata, type, levs, dd, td)
+						p = predict_nas(wl, model, newdata, type, levs, td)
 						time.predict = as.numeric(NA)
 					}
 				}
@@ -153,12 +152,12 @@ setMethod(
 				ids = NULL			
 			else
 				ids = subset
-			make.prediction(data.desc=dd, task.desc=td, id=ids, truth=truth, 
+			make.prediction(task.desc=td, id=ids, truth=truth, 
 					type=type, y=p, time=time.predict)
 		}
 )
 
-predict_nas = function(learner, model, newdata, type, levs, data.desc, task.desc) {
+predict_nas = function(learner, model, newdata, type, levs, task.desc) {
 	if (learner["is.classif"]) {
 		p = switch(type, 
 				response = factor(rep(NA, nrow(newdata)), levels=levs),
