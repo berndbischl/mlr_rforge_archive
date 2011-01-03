@@ -9,7 +9,7 @@ test.learner <- function() {
   checkEquals(wl["oneclass"], F)
   checkEquals(wl["twoclass"], T)
   checkEquals(wl["multiclass"], T)
-	checkEquals(wl["probs"], T)
+	checkEquals(wl["prob"], T)
 	checkEquals(wl["decision"], F)
 	checkEquals(wl["missings"], T)
 	checkEquals(wl["weights"], T)
