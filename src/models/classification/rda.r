@@ -61,15 +61,10 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.rda", 
-				.targetvar="character", 
-				.data="data.frame", 
-				.data.desc="data.desc", 
-				.task.desc="task.desc", 
-				.weights="numeric", 
-				.costs="matrix" 
+				.task="classif.task", .subset="integer", .vars="character" 
 		),
     # todo: disable crossval. no, is done automaticall if pars are set.
-		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			rda(f, data=.data, ...)
 		}

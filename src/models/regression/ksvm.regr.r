@@ -31,15 +31,10 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="regr.ksvm", 
-				.targetvar="character", 
-				.data="data.frame", 
-				.data.desc="data.desc", 
-				.task.desc="task.desc", 
-				.weights="numeric", 
-				.costs="missing" 
+				.task="regr.task", .subset="integer", .vars="character" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, ...) {
+		def = function(.learner, .task, .subset, .vars, ...) {
 			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda"), list(...))
 			f = as.formula(paste(.targetvar, "~."))
 			# difference in missing(kpar) and kpar=list()!

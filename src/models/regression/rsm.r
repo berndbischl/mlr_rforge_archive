@@ -35,15 +35,10 @@ setMethod(
   f = "train.learner",
   signature = signature(
     .learner="regr.rsm", 
-    .targetvar="character", 
-    .data="data.frame", 
-    .data.desc="data.desc", 
-    .task.desc="task.desc", 
-    .weights="numeric", 
-    .costs="missing" 
+    .task="regr.task", .subset="integer", .vars="character" 
   ),
   
-  def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, ...) {
+  def = function(.learner, .task, .subset, .vars, ...) {
     mf = list(...)$modelfun
     vs = setdiff(colnames(.data), .targetvar)
     vs2 = paste(vs, collapse=",")

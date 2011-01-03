@@ -43,15 +43,10 @@
 #		f = "train.learner",
 #		signature = signature(
 #				.learner="classif.hda", 
-#				.targetvar="character", 
-#				.data="data.frame", 
-#				.data.desc="data.desc", 
-#				.task.desc="task.desc", 
-#				.weights="numeric", 
-#				.costs="matrix" 
+#				.task="classif.task", .subset="integer", .vars="character" 
 #		),
 #		
-#		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+#		def = function(.learner, .task, .subset, .vars,  ...) {
 #			f = as.formula(paste(.targetvar, "~."))
 #			hda(f, data=.data, crule=TRUE, ...)
 #		}

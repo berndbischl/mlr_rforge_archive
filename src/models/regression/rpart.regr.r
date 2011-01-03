@@ -28,15 +28,10 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="regr.rpart", 
-				.targetvar="character", 
-				.data="data.frame", 
-				.data.desc="data.desc", 
-				.task.desc="task.desc", 
-				.weights="numeric", 
-				.costs="missing"
+				.task="regr.task", .subset="integer", .vars="character"
 		),
 		
-		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = as.formula(paste(.targetvar, "~."))
 			rpart(f, data=.data, weights=.weights, ...)
 		}

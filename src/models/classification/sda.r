@@ -46,15 +46,10 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.sda", 
-				.targetvar="character", 
-				.data="data.frame", 
-				.data.desc="data.desc", 
-				.task.desc="task.desc", 
-				.weights="numeric", 
-				.costs="matrix" 
+				.task="classif.task", .subset="integer", .vars="character" 
 		),
 		
-		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+		def = function(.learner, .task, .subset, .vars,  ...) {
 			targetcol <- which(names(.data) == .targetvar)
 			sda(Xtrain = as.matrix(.data[,-targetcol]), L = as.factor(.data[,targetcol]), ...)
 		}

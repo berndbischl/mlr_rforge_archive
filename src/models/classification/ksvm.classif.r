@@ -68,17 +68,12 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.ksvm", 
-				.targetvar="character", 
-				.data="data.frame", 
-				.data.desc="data.desc", 
-				.task.desc="task.desc", 
-				.weights="numeric", 
-				.costs="matrix" 
+				.task="classif.task", .subset="integer", .vars="character" 
 		),
 		
 		# todo custom kernel. freezes? check mailing list
 		# todo unify cla + regr, test all sigma stuff
-		def = function(.learner, .targetvar, .data, .data.desc, .task.desc, .weights, .costs,  ...) {
+		def = function(.learner, .task, .subset, .vars,  ...) {
 			
 #			# there's a strange behaviour in r semantics here wgich forces this, see do.call and the comment about substitute
 #			if (!is.null(args$kernel) && is.function(args$kernel) && !is(args$kernel,"kernel")) {
