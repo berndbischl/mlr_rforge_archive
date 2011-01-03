@@ -12,7 +12,7 @@ test.learner <- function() {
 	checkEquals(wl["missings"], T)
 	checkEquals(wl["weights"], T)
 	checkEquals(wl["costs"], T)
-	checkEquals(wl["numerics"], T)
+	checkEquals(wl["doubles"], T)
 	checkEquals(wl["factors"], T)
 
 	wl = make.learner("regr.lm")
@@ -25,7 +25,7 @@ test.learner <- function() {
 	checkEquals(wl["missings"], F)
 	checkEquals(wl["weights"], T)
 	checkEquals(wl["costs"], F)
-	checkEquals(wl["numerics"], T)
+	checkEquals(wl["doubles"], T)
 	checkEquals(wl["factors"], T)
 	
   checkException(make.learner("classif.lvq1", predict.type="prob"), silent=TRUE)
