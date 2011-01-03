@@ -1,7 +1,5 @@
 #' @include object.r
 roxygen()
-#' @include learner.desc.r
-roxygen()
 
 #' Abstract base class for learning algorithms.
 #'  
@@ -14,7 +12,6 @@ roxygen()
 #' How to add further functionality to a learner: Look at subclasses of \code{\linkS4class{base.wrapper}}.
 #' 
 #' Getter.\cr
-#' Note that all getters of \code{\linkS4class{learner.desc}} can also be used, as as it internally encapsulates some information of the learner. 
 #' 
 #' \describe{
 #'  \item{is.classif [boolean]}{Is this learner for classification tasks?}
@@ -26,7 +23,6 @@ roxygen()
 #' 	\item{par.descs.when [character]}{Named character vector. Specifies when a cetrain hyperparameter is used. Possible entries are 'train', 'predict' or 'both'.}
 #'  \item{predict.type [character]}{What should be predicted: 'response', 'prob' or 'decision'.}
 #'  \item{predict.threshold [character]}{Threshold to produce class labels if type is not "response".} 
-#'	\item{desc [\code{\linkS4class{learner.desc}}]}{Properties object to describe functionality of the learner.}
 #' }
 #' 
 #' Setters: \code{\link{set.id}}, \code{\link{set.hyper.pars}}, \code{\link{set.predict.type}}  
@@ -40,7 +36,6 @@ setClass(
 		representation = representation(
 				id = "character",
 				pack = "character",
-				desc = "learner.desc",
 				predict.type = "character",
 				par.descs = "list",
 				par.vals = "list"
@@ -52,14 +47,11 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learner"),
-		def = function(.Object, id, pack, desc, par.descs, par.vals) {			
-			if (missing(desc))
-				return(.Object)
+		def = function(.Object, id, pack, par.descs, par.vals) {			
 			if (missing(id))
-				id = as.character(class(.Object))
+				return(make.empty(.Object))
 			.Object@id = id
 			.Object@pack = pack
-			.Object@desc = desc
 			.Object@predict.type = "response"
 			require.packs(pack, for.string=paste("learner", id))
 			if (missing(par.descs))
@@ -81,34 +73,6 @@ setMethod(
 		signature = signature("learner"),
 		def = function(x,i,j,...,drop) {
 			check.getter.args(x, c("par.when", "par.top.wrapper.only"), j, ...)
-			
-			if (i == "probs") {
-				return(ifelse(x["is.regr"], F, x@desc["probs"]))
-			}
-			if (i == "decision") {
-				return(ifelse(x["is.regr"], F, x@desc["decision"]))
-			}
-			if (i == "multiclass") {
-				return(ifelse(x["is.regr"], F, x@desc["multiclass"]))
-			}
-			if (i == "missings") {
-				return(x@desc["missings"])
-			}
-			if (i == "costs") {
-				return(ifelse(x["is.regr"], F, x@desc["costs"]))
-			}
-			if (i == "weights") {
-				return(x@desc["weights"])
-			}
-			if (i == "doubles") {
-				return(x@desc["doubles"])
-			}
-			if (i == "factors") {
-				return(x@desc["factors"])
-			}
-			if (i == "characters") {
-				return(x@desc["characters"])
-			}
       
       if (i == "par.descs") {
         pds = x@par.descs
