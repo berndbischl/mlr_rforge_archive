@@ -10,30 +10,24 @@
 #' "aggr" can be used to aggregate the results accross the resampling interations (see \code{\link{aggregations}}). 
 #' The default is not to do any aggregation. You can also set "aggr" to "resampling" which does the default aggregation 
 #' of the used resampling stratgegy.    
-#' 'drop' is by default TRUE, which means that the structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
 #' 
 #' The following getters all return list of lists of objects: prediction, conf.mat
 #' The first list iterates the tasks, the second one the learners, both are named by respective IDs.
 #' You can reduce these lists by using the optional arguments 'task' and 'learner'. 
-#' 'drop' is by default TRUE, which means that the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
 #' 
 #' The following getters all return list of lists of lists: model, opt.result, opt.par, opt.perf, opt.path
 #' The first list iterates the tasks, the second one the learners, both are named by respective IDs, the third list iterates the
 #' resampling iterations. You can reduce these lists by using the optional arguments 'task' and 'learner'. 
-#' 'drop' is by default TRUE, which means that the list structures are simplified as much as possible, if you don't want this set 'drop' to FALSE. 
 #' 
 #' \describe{
 #'   \item{learners [character]}{IDs of learners used in experiment.}
 #'   \item{tasks [character]}{IDs of tasks used in experiment.}
 #'   \item{measures [character]}{Names of measures recorded in experiment.}
 #' 	 \item{iters [numeric]}{Named numerical vector which lists the number of iterations for every task. Names are IDs of task.}
-#' 	 \item{prediction [see above] }{List of list of predictions for every task/learner. }
-#' 	 \item{conf.mat [see above] }{List of list of confusion matrices for every task/learner. }
-#' 	 \item{model [see above] }{List of list of list of models for every task/learner/iteration. Entry is NULL if no models were saved.}
-#' 	 \item{opt.result [see above] }{List of list of list of \code{\linkS4class{opt.result}} for every task/learner/iteration. Entry is NULL if no optimization was done.}
-#' 	 \item{opt.perf [see above] }{List of list of list of performance vectors of optimal settings for every task/learner/iteration. Note that this performance refers to the inner resampling! Entry is NULL if no optimization was done.}
-#' 	 \item{opt.par [see above] }{List of list of list of optimal settings for every task/learner/iteration. Entry is NULL if no optimization was done.}
-#' 	 \item{opt.path [see above] }{List of list of list of optimization paths for every task/learner/iteration. Entry is NULL if no optimization was done.}
+#' 	 \item{predictions [see above] }{List of list of predictions for every task/learner. }
+#' 	 \item{conf.mats [see above] }{List of list of confusion matrices for every task/learner. }
+#' 	 \item{models [see above] }{List of list of list of models for every task/learner/iteration. Entry is NULL if no models were saved.}
+#' 	 \item{opt.results [see above] }{List of list of list of \code{\linkS4class{opt.result}} for every task/learner/iteration. Entry is NULL if no optimization was done.}
 #' }
 #' 
 #' @rdname bench.result-class
@@ -47,7 +41,6 @@ setClass(
 		contains = c("object"),
 		representation = representation(
 				task.descs = "list",
-				data.descs = "list",
         learners = "list",
         resamplings = "list",
         measures = "list",
@@ -62,28 +55,7 @@ setMethod(
 		f = "[",
 		signature = signature("bench.result"),
 		def = function(x,i,j,...,drop) {
-			mylistdrop = function(y) {
-				if(is.data.frame(y) || !is.list(y)) 
-					y
-				else {
-					if (length(y) == 1)
-						mylistdrop(y[[1]])
-					else
-						lapply(y, mylistdrop)
-				}
-			}
-			
-			mydrop = function(y) {
-				if(!drop)
-					return(y)
-				z = mylistdrop(y)
-				rec.lapply(z, function (w) {
-					if(is.array(w)) drop(w) 
-					else if(is.data.frame(w)) w[,,drop=TRUE]
-					else w
-				})
-			}
-			
+
 			if (i == "iters") {
 				return(sapply(x@resamplings, function(y) y["iters"]))
 			}
@@ -97,67 +69,18 @@ setMethod(
         return(names(x@task.descs))
       }
 			
-			args = list(...)
-			as.data.frame = args$as.data.frame
-			
-			task = args$task
-			if (is.null(task))
-				task = x["task.ids"]
-      rest.task = setdiff(task, x["task.ids"])
-      if (length(rest.task)>0)
-        stop("Task ids are not in bench.result: ", paste(rest.task, collapse=", "))      
-      learner = args$learner
-			if (is.null(learner))
-				learner = x["learner.ids"]
-      rest.learner = setdiff(learner, x["learner.ids"])
-      if (length(rest.learner)>0)
-        stop("Learner ids are not in bench.result: ", paste(rest.learner, collapse=", "))
-			measure = args$measure
-			if (is.null(measure))
-				measure = x["measure.ids"]
-      rest.measure = setdiff(measure, x["measure.ids"])
-      if (length(rest.measure)>0)
-        stop("Measures are not in bench.result: ", paste(rest.measure, collapse=", "))      
-      iter = args$iter
-			if (is.null(iter))
-				iter = lapply(x["iters"][task], function(y) 1:y)
-			
-      if (i == "res.result"){
-        # reduce to selected tasks / learners
-        rrs = x@res.results[task]
-        rrs = lapply(rrs, function(y) y[learner])
-        return(mydrop(rrs))
+      if (i == "aggrs"){
+        return(rec.lapply(x["res.results"], function(y) y$aggr, depth=2))
       }   
-      if (i == "aggr"){
-        return(mydrop(rec.lapply(x["res.result", task=task, learner=learner, drop=FALSE], function(y) y$aggr, depth=2)))
-      }   
-      if (i == "prediction"){
-        return(mydrop(rec.lapply(x["res.result", task=task, learner=learner, drop=FALSE], function(y) y$pred, depth=2)))
+      if (i == "predictions"){
+        return(rec.lapply(x["res.results"], function(y) y$pred, depth=2))
 			}		      
-      if (i == "model"){
-        return(mydrop(rec.lapply(x["res.result", task=task, learner=learner, drop=FALSE], function(y) y$model, depth=2)))
+      if (i == "models"){
+        return(rec.lapply(x["res.results"], function(y) y$model, depth=2))
       }
-      if (i == "conf.mat"){
-        return(mydrop(rec.lapply(x["prediction", task=task, learner=learner, drop=FALSE], function(y) conf.matrix(y), depth=2)))
+      if (i == "conf.mats"){
+        return(rec.lapply(x["predictions"], function(y) conf.matrix(y), depth=2))
       }
-      
-			# reduce to selected tasks
-			ors = x@opt.results[task]
-			# reduce to selected learners
-			ors = lapply(ors, function(y) y[learner])
-			if (i == "opt.result"){
-				return(mydrop(ors))
-			}
-			if (i == "opt.par"){
-				return(mydrop(rec.lapply(ors, function(y) y["par"])))
-			}
-			if (i == "opt.perf"){
-				return(mydrop(rec.lapply(ors, function(y) y["perf"])))
-			}
-			if (i == "opt.path"){
-				return(mydrop(rec.lapply(ors, function(y) y["path", as.data.frame=as.data.frame])))
-			}
-			
 			callNextMethod()
 		}
 )
@@ -186,7 +109,7 @@ setMethod(
         rownames(w) = ll
         colnames(w) = names(x@res.results[[a]][[1]]$aggr)
         w = paste(capture.output(w), collapse="\n")
-        y = paste(y, a, "\n", w)
+        y = paste(y, "\n\n", a, "\n", w, sep="")
       }
       y
 		}
@@ -215,7 +138,101 @@ setMethod(
         }
       }
     }
-    #names(y) = x["tasks"]
     return(y[,,,,,drop=drop])
   }
 )
+
+
+#' Extract tuned parameters for one learner from a code{\linkS4class{bench.result}}. 
+#' 
+#' @param br [\code{\linkS4class{bench.result}}]\cr 
+#'   Result of benchmark experiment.   
+#' @param task [string]\cr 
+#'   Id of task used in \code{br}. If there was only one task, this argument can be missing.    
+#' @param learner.id [string]\cr 
+#'   Id of tuned learner used in \code{br}. If there was only one learner, this argument can be missing.    
+#'        
+#' @return Data.frame 
+#' @exportMethod tuned.pars
+#' @title Extract tuned parameters from bench.result.
+#' @rdname tuned.pars
+
+setGeneric(
+  name = "tuned.pars",
+  def = function(br, task.id, learner.id, as.data.frame) {
+    if (missing(task.id) && length(br["task.ids"])==1)
+      task.id = br["task.ids"]
+    if (missing(learner.id) && length(br["learner.ids"])==1)
+      learner.id = br["learner.ids"]
+    if (missing(as.data.frame))
+      as.data.frame=TRUE
+    standardGeneric("tuned.pars")
+  }
+)
+
+#' @rdname tuned.pars 
+setMethod(
+  f = "tuned.pars",
+  signature = signature(br="bench.result", task.id="character", learner.id="character", as.data.frame="logical"),
+  def = function(br, task.id, learner.id, as.data.frame) {
+    if (!(task.id %in% br["task.ids"]))
+      stop("Task id ", task.id, " was not used in bench.result, only: ", paste(br["task.ids"], collapse=","))
+    if (!(learner.id %in% br["learner.ids"]))
+      stop("Learner ", learner.id, " was not used in bench.result, only: ", paste(br["learner.ids"], collapse=","))
+    x = br["opt.results"][[task.id]][[learner.id]]
+    if (is.null(x) || x[[1]]["opt.type"] != "tune")
+      stop("Learner id ", learner.id, " was not tuned in bench.result!")
+    if (as.data.frame)
+      as.data.frame(Reduce(rbind, lapply(x, function(y) as.data.frame(y["par"]))))
+    else
+      lapply(x, function(y) y["par"])
+  } 
+)
+
+#' Extract optimized features for one learner from a code{\linkS4class{bench.result}}. 
+#' 
+#' @param br [\code{\linkS4class{bench.result}}]\cr 
+#'   Result of benchmark experiment.   
+#' @param task [string]\cr 
+#'   Id of task used in \code{br}. If there was only one task, this argument can be missing.    
+#' @param learner.id [string]\cr 
+#'   Id of learner with variable selection used in \code{br}. If there was only one learner, this argument can be missing.    
+#'        
+#' @return Data.frame 
+#' @exportMethod sel.vars
+#' @title Extract optimized features from bench.result.
+#' @rdname sel.vars
+
+setGeneric(
+  name = "sel.vars",
+  def = function(br, task.id, learner.id, as.data.frame) {
+    if (missing(task.id) && length(br["task.ids"])==1)
+      task.id = br["task.ids"]
+    if (missing(learner.id) && length(br["learner.ids"])==1)
+      learner.id = br["learner.ids"]
+    if (missing(as.data.frame))
+      as.data.frame=TRUE
+    standardGeneric("sel.vars")
+  }
+)
+
+#' @rdname sel.vars 
+setMethod(
+  f = "sel.vars",
+  signature = signature(br="bench.result", task.id="character", learner.id="character", as.data.frame="logical"),
+  def = function(br, task.id, learner.id, as.data.frame) {
+    if (!(task.id %in% br["task.ids"]))
+      stop("Task id ", task.id, " was not used in bench.result, only: ", paste(br["task.ids"], collapse=","))
+    if (!(learner.id %in% br["learner.ids"]))
+      stop("Learner ", learner.id, " was not used in bench.result, only: ", paste(br["learner.ids"], collapse=","))
+    x = br["opt.results"][[task.id]][[learner.id]]
+    if (is.null(x) || x[[1]]["opt.type"] != "varsel")
+      stop("Learner id ", learner.id, " was not used for varsel in bench.result!")
+    if (as.data.frame)
+      as.data.frame(Reduce(rbind, lapply(x, function(y) vars.to.binary(y["par"], all.vars=br["task.descs"][[task.id]]["input.names"]))))
+    else
+      lapply(x, function(y) y["par"])
+  } 
+)
+
+
