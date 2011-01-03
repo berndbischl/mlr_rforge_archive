@@ -34,10 +34,11 @@ setMethod(
 			)
 
       par.descs = list(
-          new("par.desc.double", par.name="lambda", default=1, lower=0)
+        new("par.desc.double", par.name="lambda", default=1, lower=0),
+        new("par.desc.unknown", par.name="index")
       )
       
-			callNextMethod(.Object, pack="grplasso", desc=desc, par.descs=par.descs, par.vals=list(lambda = 1))
+      callNextMethod(.Object, pack="grplasso", desc=desc, par.descs=par.descs, par.vals=list(lambda = 1))
 		}
 )
 

@@ -97,7 +97,7 @@ setMethod(
 					set.seed(.mlr.local$debug.seed)
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
-				
+				# todo: capture outout, see learner sda
 				if(is(model["learner.model"], "novars")) {
 					p = predict_novars(model["learner.model"], newdata, type)
 					time.predict = 0
