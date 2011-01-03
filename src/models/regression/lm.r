@@ -32,12 +32,12 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="regr.lm", 
-				.task="regr.task", .subset="integer", .vars="character" 
+				.task="regr.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars, ...) {
+		def = function(.learner, .task, .subset, ...) {
 			f = .task["formula"]
-      d = get.data(.task, .subset, .vars)
+      d = get.data(.task, .subset)
       if (.task["has.weights"]) {
         # strange bug in lm concerning weights
         do.call(lm, list(f, data=d, weights=.task["weights"][.subset]))

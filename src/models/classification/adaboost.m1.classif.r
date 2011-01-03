@@ -43,12 +43,12 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.adaboost.M1", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			adaboost.M1(f, data=get.data(.task, .subset, .vars), ...)
+			adaboost.M1(f, data=get.data(.task, .subset), ...)
 		}
 )
 

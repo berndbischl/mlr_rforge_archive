@@ -45,15 +45,15 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.ctree", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			ns = c("teststat", "testtype", "mincriterion", "minsplit", "minbucket", "stump", 
 					"nresample", "maxsurrogate", "mtry", "savesplitstats", "maxdepth")
 			xs = args.to.control(ctree_control, ns, list(...))
 			f = .task["formula"]
-			args = c(list(f, data=get.data(.task, .subset, .vars), control=xs$control), xs$args)
+			args = c(list(f, data=get.data(.task, .subset), control=xs$control), xs$args)
 			do.call(ctree, args)
 		}
 )

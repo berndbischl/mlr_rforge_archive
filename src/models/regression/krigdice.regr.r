@@ -38,13 +38,12 @@ setMethod(
     f = "train.learner",
     signature = signature(
         .learner="regr.km", 
-        .task="regr.task", .subset="integer", .vars="character" 
+        .task="regr.task", .subset="integer" 
     ),
     
-    def = function(.learner, .task, .subset, .vars,  ...) {
-      y = task["data"][.subset, .vars][,.targetvar]
-      task["data"][.subset, .vars][,.targetvar]=NULL
-      km(design=task["data"][.subset, .vars], response=y, ...)
+    def = function(.learner, .task, .subset,  ...) {
+      y = task["targets"][.subset]
+      km(design=get.data(.task, .subset, with.target=FALSE), response=y, ...)
     }
 )
 

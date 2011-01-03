@@ -45,12 +45,12 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.logreg", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			glm(f, data=get.data(.task, .subset, .vars), model=FALSE, family="binomial", ...)
+			glm(f, data=get.data(.task, .subset), model=FALSE, family="binomial", ...)
 		}
 )
 

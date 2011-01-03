@@ -57,9 +57,9 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.lpsvm", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
 			kpar = list()
 			args = list(...)

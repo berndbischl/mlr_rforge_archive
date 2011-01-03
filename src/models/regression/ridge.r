@@ -35,17 +35,17 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="regr.ridge", 
-				.task="regr.task", .subset="integer", .vars="character" 
+				.task="regr.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars, ...) {
+		def = function(.learner, .task, .subset, ...) {
 			f = .task["formula"]
 			args = list(...)
 			i = which(names(args) == "lambda") 
 			if (length(i) > 0) {
 				names(args)[i] = "lambda2"
 			}
-			pars <- list(f, data=get.data(.task, .subset, .vars))
+			pars <- list(f, data=get.data(.task, .subset))
 			pars <- c(pars, args)
 			do.call(penalized, pars)
 		}

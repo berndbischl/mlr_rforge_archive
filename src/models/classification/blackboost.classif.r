@@ -66,14 +66,14 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.blackboost", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {		
+		def = function(.learner, .task, .subset,  ...) {		
 			xs = args.to.control(boost_control, c("mstop", "nu", "risk"), list(...))
 			ys = args.to.control(ctree_control, c("teststat", "testtype", "mincriterion", "maxdepth"), xs$args)
 			f = .task["formula"]
-      args = c(list(f, data=get.data(.task, .subset, .vars), control=xs$control, tree_control=ys$control), ys$args)
+      args = c(list(f, data=get.data(.task, .subset), control=xs$control, tree_control=ys$control), ys$args)
 			if (.task["has.weights"])
         args$weights = .task["weights"][.subset] 
 			do.call(blackboost, args)

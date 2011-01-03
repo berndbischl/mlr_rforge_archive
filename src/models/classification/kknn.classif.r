@@ -49,11 +49,11 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.kknn", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
-			list(td=.task["task.desc"], data=get.data(.task, .subset, .vars), parset=list(...))
+		def = function(.learner, .task, .subset,  ...) {
+			list(td=.task["task.desc"], data=get.data(.task, .subset), parset=list(...))
 		}
 )
 

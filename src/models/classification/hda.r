@@ -43,12 +43,12 @@
 #		f = "train.learner",
 #		signature = signature(
 #				.learner="classif.hda", 
-#				.task="classif.task", .subset="integer", .vars="character" 
+#				.task="classif.task", .subset="integer" 
 #		),
 #		
-#		def = function(.learner, .task, .subset, .vars,  ...) {
+#		def = function(.learner, .task, .subset,  ...) {
 #			f = .task["formula"]
-#			hda(f, data=get.data(.task, .subset, .vars), crule=TRUE, ...)
+#			hda(f, data=get.data(.task, .subset), crule=TRUE, ...)
 #		}
 #)
 #

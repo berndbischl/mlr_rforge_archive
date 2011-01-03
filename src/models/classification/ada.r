@@ -68,17 +68,17 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.ada", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
 			if (.task["has.costs"]) {
-				lev = levels(task["data"][.subset, .vars][, .targetvar])
+				lev = levels(task["data"][.subset,][, .targetvar])
 				.costs = .costs[lev, lev] 
-				ada(f, data=get.data(.task, .subset, .vars), parms=list(loss=.costs), ...)
+				ada(f, data=get.data(.task, .subset), parms=list(loss=.costs), ...)
 			} else
-				ada(f, data=get.data(.task, .subset, .vars), ...)
+				ada(f, data=get.data(.task, .subset), ...)
 		}
 )
 

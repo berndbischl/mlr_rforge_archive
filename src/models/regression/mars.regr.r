@@ -31,12 +31,12 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="regr.mars", 
-				.task="regr.task", .subset="integer", .vars="character" 
+				.task="regr.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
-			targetcol <- which(names(task["data"][.subset, .vars]) == .targetvar)
-			mars(x = as.matrix(task["data"][.subset, .vars][,-targetcol]), y = as.vector(task["data"][.subset, .vars][,targetcol]), ...)
+		def = function(.learner, .task, .subset,  ...) {
+			d = get.data(.task, .subset, with.target=FALSE)
+			mars(x = as.matrix(d), y = task["targets"][.subset], ...)
 		}
 )
 

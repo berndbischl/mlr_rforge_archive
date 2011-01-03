@@ -43,15 +43,15 @@ setMethod(
     f = "train.learner",
     signature = signature(
         .learner="regr.nnet", 
-        .task="regr.task", .subset="integer", .vars="character" 
+        .task="regr.task", .subset="integer" 
     ),
     
-    def = function(.learner, .task, .subset, .vars,  ...) {
+    def = function(.learner, .task, .subset,  ...) {
       f = .task["formula"]
       if (.task["has.weights"])
-        nnet(f, data=get.data(.task, .subset, .vars), linout=T, weights=.task["weights"][.subset], ...)
+        nnet(f, data=get.data(.task, .subset), linout=T, weights=.task["weights"][.subset], ...)
       else  
-        nnet(f, data=get.data(.task, .subset, .vars), linout=T, ...)
+        nnet(f, data=get.data(.task, .subset), linout=T, ...)
     }
 )
 

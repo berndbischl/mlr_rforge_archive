@@ -61,15 +61,15 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.multinom", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
       if (.task["has.weights"])
-        multinom(f, data=get.data(.task, .subset, .vars), weights=.task["weights"][.subset], ...)
+        multinom(f, data=get.data(.task, .subset), weights=.task["weights"][.subset], ...)
       else  
-        multinom(f, data=get.data(.task, .subset, .vars), ...)			
+        multinom(f, data=get.data(.task, .subset), ...)			
 		}
 )
 

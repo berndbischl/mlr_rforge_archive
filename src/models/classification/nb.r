@@ -50,12 +50,12 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.naiveBayes", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			naiveBayes(f, data=get.data(.task, .subset, .vars), ...)
+			naiveBayes(f, data=get.data(.task, .subset), ...)
 		}
 )
 

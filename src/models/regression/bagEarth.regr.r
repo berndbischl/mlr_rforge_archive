@@ -31,12 +31,12 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="regr.bagEarth", 
-				.task="regr.task", .subset="integer", .vars="character" 
+				.task="regr.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			bagEarth(f, data=get.data(.task, .subset, .vars), ...)
+			bagEarth(f, data=get.data(.task, .subset), ...)
 		}
 )
 

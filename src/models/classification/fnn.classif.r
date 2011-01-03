@@ -50,12 +50,12 @@ setMethod(
   f = "train.learner",
   signature = signature(
     .learner="classif.fnn", 
-    .task="classif.task", .subset="integer", .vars="character" 
+    .task="classif.task", .subset="integer" 
   ),
   
-  def = function(.learner, .task, .subset, .vars,  ...) {
+  def = function(.learner, .task, .subset,  ...) {
     y = .task["targets"][.subset]
-    train = get.data(.task, .subset, .vars, with.target=FALSE)
+    train = get.data(.task, .subset, with.target=FALSE)
     list(train=train, y=y, parset=list(...))
   }
 )

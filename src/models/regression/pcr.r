@@ -31,12 +31,12 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="regr.pcr", 
-				.task="regr.task", .subset="integer", .vars="character" 
+				.task="regr.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			pcr(f, data=get.data(.task, .subset, .vars), ...)
+			pcr(f, data=get.data(.task, .subset), ...)
 		}
 )
 

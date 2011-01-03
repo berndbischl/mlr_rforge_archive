@@ -62,18 +62,18 @@ setMethod(
     f = "train.learner",
     signature = signature(
         .learner="regr.rvm", 
-        .task="regr.task", .subset="integer", .vars="character" 
+        .task="regr.task", .subset="integer" 
     ),
     
     # todo unify cla + regr, test all sigma stuff
-    def = function(.learner, .task, .subset, .vars,  ...) {
+    def = function(.learner, .task, .subset,  ...) {
       
       xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
       f = .task["formula"]
       if (length(xs$control) > 0)
-        args = c(list(f, data=get.data(.task, .subset, .vars), fit=FALSE, kpar=xs$control), xs$args)
+        args = c(list(f, data=get.data(.task, .subset), fit=FALSE, kpar=xs$control), xs$args)
       else
-        args = c(list(f, data=get.data(.task, .subset, .vars), fit=FALSE), xs$args)
+        args = c(list(f, data=get.data(.task, .subset), fit=FALSE), xs$args)
       do.call(rvm, args)
       
     }

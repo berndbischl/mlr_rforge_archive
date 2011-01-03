@@ -45,13 +45,13 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.PART", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
 			ctrl = Weka_control(...)
-			PART(f, data=get.data(.task, .subset, .vars), control=ctrl)
+			PART(f, data=get.data(.task, .subset), control=ctrl)
 		}
 )
 

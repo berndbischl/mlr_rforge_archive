@@ -37,12 +37,12 @@ setMethod(
   f = "train.learner",
   signature = signature(
     .learner="regr.rsm", 
-    .task="regr.task", .subset="integer", .vars="character" 
+    .task="regr.task", .subset="integer" 
   ),
   
-  def = function(.learner, .task, .subset, .vars, ...) {
+  def = function(.learner, .task, .subset, ...) {
     mf = list(...)$modelfun
-    vs = setdiff(colnames(task["data"][.subset, .vars]), .targetvar)
+    vs = setdiff(colnames(task["data"][.subset,]), .targetvar)
     vs2 = paste(vs, collapse=",")
     g = function(x) paste(x, "(", vs2, ")", sep="") 
     mf = switch(mf,
@@ -52,7 +52,7 @@ setMethod(
       stop("Unknown modelfun: ", mf)
     )
     f = as.formula(paste(.targetvar, "~", mf))
-    myargs = list(f, task["data"][.subset, .vars])
+    myargs = list(f, get.data(.task, .subset))
     # strange behaviour in rsm forces us to use do.call...
     do.call(rsm, myargs)
   }

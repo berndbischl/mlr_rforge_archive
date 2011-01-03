@@ -70,12 +70,12 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.ksvm", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
 		# todo custom kernel. freezes? check mailing list
 		# todo unify cla + regr, test all sigma stuff
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			
 #			# there's a strange behaviour in r semantics here wgich forces this, see do.call and the comment about substitute
 #			if (!is.null(args$kernel) && is.function(args$kernel) && !is(args$kernel,"kernel")) {
@@ -86,9 +86,9 @@ setMethod(
 			f = .task["formula"]
       pm = .learner["predict.type"] == "prob"
 			if (length(xs$control) > 0)
-				args = c(list(f, data=get.data(.task, .subset, .vars), fit=FALSE, kpar=xs$control), xs$args, prob.model=pm)
+				args = c(list(f, data=get.data(.task, .subset), fit=FALSE, kpar=xs$control), xs$args, prob.model=pm)
 			else
-				args = c(list(f, data=get.data(.task, .subset, .vars), fit=FALSE), xs$args, prob.model=pm)
+				args = c(list(f, data=get.data(.task, .subset), fit=FALSE), xs$args, prob.model=pm)
 			do.call(ksvm, args)
 			
 		}

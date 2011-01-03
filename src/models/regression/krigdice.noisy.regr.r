@@ -38,14 +38,14 @@ setMethod(
   f = "train.learner",
   signature = signature(
     .learner="regr.km.noisy", 
-    .task="regr.task", .subset="integer", .vars="character" 
+    .task="regr.task", .subset="integer" 
   ),
   
-  def = function(.learner, .task, .subset, .vars,  ...) {
-    y = task["data"][.subset, .vars][,.targetvar]
-    task["data"][.subset, .vars][,.targetvar]=NULL
-    m = km(design=task["data"][.subset, .vars], response=y, nugget.estim=TRUE, ...)
-    m = km(design=task["data"][.subset, .vars], response=y, nugget.estim=FALSE, 
+  def = function(.learner, .task, .subset,  ...) {
+    y = .task["targets"]
+    d = get.data(.task, .subset, with.target=FALSE)
+    m = km(design=d, response=y, nugget.estim=TRUE, ...)
+    m = km(design=d, response=y, nugget.estim=FALSE, 
       coef.trend=m@trend.coef, coef.var=m@covariance@sd2, coef.cov=m@covariance@range.val)   
   }
 )

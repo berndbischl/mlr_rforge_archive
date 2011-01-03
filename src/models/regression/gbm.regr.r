@@ -43,15 +43,15 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="regr.gbm", 
-				.task="regr.task", .subset="integer", .vars="character" 
+				.task="regr.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
       if (.task["has.weights"])
-        gbm(f, data=get.data(.task, .subset, .vars), keep.data=FALSE, weights=.task["weights"][.subset], ...)
+        gbm(f, data=get.data(.task, .subset), keep.data=FALSE, weights=.task["weights"][.subset], ...)
       else  
-        gbm(f, data=get.data(.task, .subset, .vars), keep.data=FALSE, ...)
+        gbm(f, data=get.data(.task, .subset), keep.data=FALSE, ...)
 		}
 )
 

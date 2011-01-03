@@ -47,14 +47,14 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.grplasso", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
 			# todo: bug in grplasso: index cant be passed with formula interface....
-			y = as.numeric(task["data"][.subset, .vars][,.targetvar] == pos) 
-			x = as.matrix(task["data"][.subset, .vars][, !(colnames(task["data"][.subset, .vars]) == .targetvar)])
+			y = as.numeric(task["targets"][.subset] == .task["positive"]) 
+			x = as.matrix(get.data(.task, .subset, with.target=FALSE))
 			x = cbind(1, x)
 			grplasso(x, y, weights=.weights, ...)
 		}

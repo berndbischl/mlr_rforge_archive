@@ -56,12 +56,12 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.gbm", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			d = get.data(.task, .subset, .vars, class.as.numeric=TRUE)
+			d = get.data(.task, .subset, class.as.numeric=TRUE)
       if (.task["has.weights"])
         gbm(f, data=d, keep.data=FALSE, verbose=FALSE, weights=.task["weights"][.subset], ...)
       else  

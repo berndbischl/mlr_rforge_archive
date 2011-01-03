@@ -54,13 +54,13 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.glmboost", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			xs = args.to.control(boost_control, c("mstop", "nu", "risk"), list(...))
 			f = .task["formula"]
-			args = c(list(f, data=get.data(.task, .subset, .vars), control=xs$control), xs$args)
+			args = c(list(f, data=get.data(.task, .subset), control=xs$control), xs$args)
       if (.task["has.weights"])
         args$weights = .task["weights"][.subset] 
 			do.call(glmboost, args)

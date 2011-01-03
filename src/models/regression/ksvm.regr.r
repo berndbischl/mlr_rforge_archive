@@ -33,17 +33,17 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="regr.ksvm", 
-				.task="regr.task", .subset="integer", .vars="character" 
+				.task="regr.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars, ...) {
+		def = function(.learner, .task, .subset, ...){
 			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda"), list(...))
 			f = .task["formula"]
 			# difference in missing(kpar) and kpar=list()!
 			if (length(xs$control) > 0)
-				args = c(list(f, data=get.data(.task, .subset, .vars), fit=FALSE, kpar=xs$control), xs$args)
+				args = c(list(f, data=get.data(.task, .subset), fit=FALSE, kpar=xs$control), xs$args)
 			else
-				args = c(list(f, data=get.data(.task, .subset, .vars), fit=FALSE), xs$args)
+				args = c(list(f, data=get.data(.task, .subset), fit=FALSE), xs$args)
 			do.call(ksvm, args)
 		}
 )

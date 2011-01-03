@@ -44,20 +44,20 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.lvq1", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
-			inputs = setdiff(colnames(task["data"][.subset, .vars]), .targetvar)
-			
+		def = function(.learner, .task, .subset,  ...) {
+			y = .task["targets"][.subset]
+      d = get.data(.task, .subset, with.target=FALSE)
 			cdbk.args = insert(list(), list(...), c("size", "k", "prior"))
-			cdbk.args$x = task["data"][.subset, .vars][,inputs] 
-			cdbk.args$cl = task["data"][.subset, .vars][,.targetvar] 
+			cdbk.args$x = d
+			cdbk.args$cl = y 
 			codebk = do.call(lvqinit, cdbk.args)  
 
 			lvq.args = insert(list(), list(...), c("niter", "alpha"))
-			lvq.args$x = task["data"][.subset, .vars][,inputs] 
-			lvq.args$cl = task["data"][.subset, .vars][,.targetvar] 
+			lvq.args$x = y 
+			lvq.args$cl = d 
 			lvq.args$codebk = codebk 
 			do.call(lvq1, lvq.args)  
 		}

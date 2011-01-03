@@ -58,14 +58,13 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.rpart", 
-				.task="classif.task", .subset="integer", .vars="character" 
+				.task="classif.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
       f = .task["formula"]
-      d = get.data(.task, .subset, .vars)
+      d = get.data(.task, .subset)
       if (.task["has.costs"]) {
-        lev = levels(.task["data"][.subset, .vars][, .targetvar])
         .costs = .costs[lev, lev]
         if (.task["has.weights"])
           rpart(f, data=d, weights=.task["weights"][.subset], parms=list(loss=.costs), ...)

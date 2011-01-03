@@ -31,12 +31,12 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="regr.icr", 
-				.task="regr.task", .subset="integer", .vars="character" 
+				.task="regr.task", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			icr(f, data=get.data(.task, .subset, .vars), ...)
+			icr(f, data=get.data(.task, .subset), ...)
 		}
 )
 
