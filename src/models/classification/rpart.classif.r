@@ -6,6 +6,8 @@ roxygen()
 roxygen()
 #' @include pred.learner.r
 roxygen()
+#' @include task.classif.r
+roxygen()
 
 
 # todo: parms has to be in hyperparamter list

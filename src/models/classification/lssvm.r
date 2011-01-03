@@ -1,3 +1,5 @@
+#' @include task.classif.r
+roxygen()
 #' @include learnerR.r
 roxygen()
 #' @include wrapped.model.r
@@ -5,6 +7,8 @@ roxygen()
 #' @include train.learner.r
 roxygen()
 #' @include pred.learner.r
+roxygen()
+#' @include task.classif.r
 roxygen()
 
 

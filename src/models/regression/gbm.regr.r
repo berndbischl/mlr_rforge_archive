@@ -1,6 +1,7 @@
 #' @include learnerR.r
 roxygen()
-
+#' @include task.regr.r
+roxygen()
 
 setClass(
 		"regr.gbm", 

@@ -6,6 +6,8 @@ roxygen()
 roxygen()
 #' @include pred.learner.r
 roxygen()
+#' @include task.regr.r
+roxygen()
 
 setClass(
   "regr.fnn", 

@@ -9,6 +9,8 @@ roxygen()
 roxygen()
 #' @include pred.learner.r
 roxygen()
+#' @include task.classif.r
+roxygen()
 
 
 setClass(
