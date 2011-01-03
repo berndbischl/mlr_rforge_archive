@@ -4,6 +4,8 @@ get.data = function(task, subset, vars, with.target=TRUE, class.as.num=FALSE) {
   if (missing(vars) && with.target)
     d = task@data[subset, ]
   else {
+    if (missing(vars))
+      vars = task["input.names"]
     v = if (with.target) c(vars, tn) else vars 
     d = task@data[subset, v]
   }    
