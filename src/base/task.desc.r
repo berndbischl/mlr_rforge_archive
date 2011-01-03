@@ -10,6 +10,7 @@ roxygen()
 #'  \item{is.classif [boolean]}{Classification task?}
 #'  \item{is.regr [boolean]}{Regression task?}
 #'  \item{target [string]}{Name of target variable.}
+#'  \item{formula [formula]}{Formula of form: target~.}
 #'  \item{size [integer]}{Number of cases.}
 #'  \item{dim [integer]}{Number of covariates.}
 #'  \item{n.feat [integer]}{Number of covariates, named vector with entries: 'double', 'fact', 'int', 'char', 'log'.}
@@ -91,6 +92,9 @@ setMethod(
 				return(x@task.class == "classif.task")
 			if (i == "is.regr")
 				return(x@task.class == "regr.task")
+      if (i == "formula") {
+        return(as.formula(paste(x["target"], "~.")))
+      }
       if (i == "dim") 
         return(sum(x@n.feat))
       if (i == "class.levels") 

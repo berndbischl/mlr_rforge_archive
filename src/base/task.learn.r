@@ -79,11 +79,10 @@ setMethod(
 			if (i == "input.names"){
 				return(setdiff(colnames(x@data), x["target"]))
 			}
-			
 			if (i == "targets") {
 				return(x@data[, x["target"]])
 			}
-			if (i == "weights") {
+      if (i == "weights") {
 				if (!td["has.weights"])
 					return(NULL)
 				return(x@weights)
