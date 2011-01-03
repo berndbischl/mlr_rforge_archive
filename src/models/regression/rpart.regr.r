@@ -31,10 +31,13 @@ setMethod(
 				.task="regr.task", .subset="integer", .vars="character"
 		),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = .task["formula"]
-			rpart(f, data=get.data(.task, .subset, .vars), weights=.weights, ...)
-		}
+    def = function(.learner, .task, .subset, .vars,  ...) {
+      f = .task["formula"]
+      if (.task["has.weights"])
+        rpart(f, data=get.data(.task, .subset, .vars), weights=.task["weights"][.subset], ...)
+      else  
+        rpart(f, data=get.data(.task, .subset, .vars), ...)
+    }
 )
 
 #' @rdname pred.learner

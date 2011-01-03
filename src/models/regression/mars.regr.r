@@ -16,7 +16,7 @@ setMethod(
 					missings = FALSE,
 					doubles = TRUE,
 					factors = TRUE,
-					weights = TRUE
+					weights = FALSE
 			)
 			
 			callNextMethod(.Object, pack="mda", desc=desc)
