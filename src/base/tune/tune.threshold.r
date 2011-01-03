@@ -28,7 +28,7 @@ tune.threshold = function(pred, measures, task, minimize=TRUE, thresholds=10) {
   
   pos = pred@task.desc["positive"]
   neg = pred@task.desc["negative"]
-  levs = pred@data.desc["class.levels"]
+  levs = pred@task.desc["class.levels"]
   probs = pred["prob"]
   
   # brutally return NA if we find any NA in the pred. probs...

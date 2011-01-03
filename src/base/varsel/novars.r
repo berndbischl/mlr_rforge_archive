@@ -3,7 +3,6 @@ setClass(
 		contains = c("object"),
 		representation = representation(
 				task.desc = "task.desc",
-				data.desc = "data.desc",
 				targets = "vector"
 		)
 )
