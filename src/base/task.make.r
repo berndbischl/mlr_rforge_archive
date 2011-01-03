@@ -7,13 +7,13 @@ roxygen()
 
 #' Defines a learning task for a given data set. 
 #' The type (classification or regression) is automatically inferred from the target variable.
-#' It might perform some data conversions in the data.frame, like converting integer input features to numerics, 
+#' It might perform some data conversions in the data.frame, like converting integer input features to doubles, 
 #' but will generally warn about this. If you want to change default preprocessing behaviour, look at
 #' \code{\link{prepare.control}}, construct the control object yourself and pass it into the \code{control} argument 
 #' of \code{make.task}.
 #' Whether a classification or regression task is created depends on the data type of the target variable. 
 #' A factor, logical or character vector produces a classification task (and the vector is converted to a factor), 
-#' numerics produce regression tasks. Integer target variables have to be changed manually. 
+#' doubles produce regression tasks. Integer target variables have to be changed manually. 
 #' 
 #' @param id [string]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. Default is the name of the passed R variable.  

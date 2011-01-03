@@ -100,8 +100,8 @@ setMethod(
 			if (i == "weights") {
 				return(x@desc["weights"])
 			}
-			if (i == "numerics") {
-				return(x@desc["numerics"])
+			if (i == "doubles") {
+				return(x@desc["doubles"])
 			}
 			if (i == "factors") {
 				return(x@desc["factors"])

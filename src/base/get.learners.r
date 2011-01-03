@@ -9,8 +9,8 @@ roxygen()
 #' 
 #' @param x [string | \code{\linkS4class{learn.task}}] \cr
 #' 			Type of the learning algorithm, either "classif" or "regr" or task to solve
-#' @param numerics [boolean] \cr
-#' 			Supports numeric inputs? Pass only when x is a string.
+#' @param doubles [boolean] \cr
+#' 			Supports real-valued inputs? Pass only when x is a string.
 #' @param factors [boolean] \cr
 #' 			Supports factor inputs? Pass only when x is a string.
 #' @param characters [boolean] \cr
@@ -52,7 +52,7 @@ setMethod(
 		
 		def = function(
 				x = NA, 
-				numerics = NA, 
+				doubles = NA, 
 				factors = NA,
 				characters = NA,
 				missings = NA,
@@ -81,7 +81,7 @@ setMethod(
 			
 			
 			f <- function(x) {
-				( is.na(numerics) || numerics == x["numerics"] ) &&
+				( is.na(doubles) || doubles == x["doubles"] ) &&
 						( is.na(factors) || factors == x["factors"] ) &&
 						( is.na(characters) || characters == x["characters"] ) &&
 						( is.na(missings) || missings == x["missings"] ) &&
@@ -109,18 +109,18 @@ setMethod(
 		def = function(x, probs=NA, decision=NA, costs=NA) {
 			type = ifelse(x["is.classif"], "classif", "regr")
 
-      numerics = ifelse(x["n.num"]>0, TRUE, NA)
-      factors = ifelse(x["n.fact"]>0, TRUE, NA)
+      doubles = ifelse(x["n.feat"]["double"]>0, TRUE, NA)
+      factors = ifelse(x["n.feat"]["fact"]>0, TRUE, NA)
       missings = ifelse(x["has.missing"], TRUE, NA)
       weights = ifelse(x["has.weights"], TRUE, NA)
       
       if (type == "classif") {
         multiclass = ifelse(x["is.binary"], NA, TRUE)
         costs = ifelse(x["has.costs"], TRUE, costs)
-        wls = get.learners(type, numerics, factors, characters, missings, weights, 
+        wls = get.learners(type, doubles, factors, characters, missings, weights, 
             multiclass, probs, decision, costs)
       } else {
-        wls = get.learners(type, numerics, factors, characters, missings, weights) 
+        wls = get.learners(type, doubles, factors, characters, missings, weights) 
       }	 
 			return(wls)
 		}
