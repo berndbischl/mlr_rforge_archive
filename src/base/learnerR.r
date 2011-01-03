@@ -18,54 +18,7 @@ setClass(
   )    
 )
 
-#' Getter.
-#' @rdname rlearner-class
 
-setMethod(
-		f = "[",
-		signature = signature("rlearner"),
-		def = function(x,i,j,...,drop) {
-			if (i == "is.classif") {
-				return(is(x, "rlearner.classif"))
-			}
-			if (i == "is.regr") {
-				return(is(x, "rlearner.regr"))
-			}
-      if (i == "doubles") {
-        return(x@feat["doubles"])
-      }
-      if (i == "factors") {
-        return(x@feat["factors"])
-      }
-			callNextMethod()
-		}
-)
-
-#' Getter.
-#' @rdname rlearner-class
-
-setMethod(
-  f = "[",
-  signature = signature("rlearner.classif"),
-  def = function(x,i,j,...,drop) {
-    if (i == "prob") {
-      return(x@predict["prob"])
-    }
-    if (i == "decision") {
-      return(x@predict["decision"])
-    }
-    if (i == "oneclass") {
-      return(x@classes["oneclass"])
-    }
-    if (i == "twoclass") {
-      return(x@classes["twoclass"])
-    }
-    if (i == "multiclass") {
-      return(x@classes["multiclass"])
-    }
-    callNextMethod()
-  }
-)
 
 
 #---------------- constructor---- -----------------------------------------------------
@@ -133,6 +86,57 @@ setMethod(
     callNextMethod(.Object, id=id, pack=pack, par.desc=par.descs, par.vals=par.vals)
   }
 )
+
+
+#' Getter.
+#' @rdname rlearner-class
+
+setMethod(
+    f = "[",
+    signature = signature("rlearner"),
+    def = function(x,i,j,...,drop) {
+      if (i == "is.classif") {
+        return(is(x, "rlearner.classif"))
+      }
+      if (i == "is.regr") {
+        return(is(x, "rlearner.regr"))
+      }
+      if (i == "doubles") {
+        return(x@feat["doubles"])
+      }
+      if (i == "factors") {
+        return(x@feat["factors"])
+      }
+      callNextMethod()
+    }
+)
+
+#' Getter.
+#' @rdname rlearner-class
+
+setMethod(
+  f = "[",
+  signature = signature("rlearner.classif"),
+  def = function(x,i,j,...,drop) {
+    if (i == "prob") {
+      return(as.logical(x@predict["prob"]))
+    }
+    if (i == "decision") {
+      return(as.logical(x@predict["decision"]))
+    }
+    if (i == "oneclass") {
+      return(as.logical(x@classes["oneclass"]))
+    }
+    if (i == "twoclass") {
+      return(as.logical(x@classes["twoclass"]))
+    }
+    if (i == "multiclass") {
+      return(as.logical(x@classes["multiclass"]))
+    }
+    callNextMethod()
+  }
+)
+
 
 #' @rdname to.string
 setMethod(f = "to.string",

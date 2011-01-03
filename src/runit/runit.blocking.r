@@ -25,7 +25,7 @@ test.blocking = function() {
 	
 	# test blocking in bench.exp
 	be = bench.exp(tasks=ct, learners="classif.lda", resampling=res)
-	p = be["prediction", learner="classif.lda"]
+	p = be["predictions"][[1]][[1]]
 	res2 = be@resamplings[[1]]
 	for (j in 1:res2["iters"]) {
 		test.j = p@df[p@df$iter == j, "id"]
