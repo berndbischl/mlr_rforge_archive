@@ -13,7 +13,7 @@ setMethod(
 		signature = signature("regr.lasso"),
 		def = function(.Object) {
 			
-			desc = new("learner.desc.regr",
+			desc = c(
 					missings = TRUE,
 					doubles = TRUE,
 					factors = TRUE,

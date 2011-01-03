@@ -22,7 +22,7 @@ setMethod(
 		signature = signature("classif.ada"),
 		def = function(.Object) {
 			
-			desc = new("learner.desc.classif",
+			desc = c(
 					oneclass = FALSE,
 					twoclass = TRUE,
 					multiclass = FALSE,

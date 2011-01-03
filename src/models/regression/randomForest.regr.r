@@ -12,7 +12,7 @@ setMethod(
 		signature = signature("regr.randomForest"),
 		def = function(.Object) {
 			
-			desc = new("learner.desc.regr",
+			desc = c(
 					missings = FALSE,
 					doubles = TRUE,
 					factors = TRUE,

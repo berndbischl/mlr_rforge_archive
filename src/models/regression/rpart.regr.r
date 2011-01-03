@@ -12,7 +12,7 @@ setMethod(
 		signature = signature("regr.rpart"),
 		def = function(.Object) {
 			
-			desc = new("learner.desc.regr",
+			desc = c(
 					missings = TRUE,
 					doubles = TRUE,
 					factors = TRUE,

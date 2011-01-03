@@ -20,7 +20,7 @@ setMethod(
 		def = function(.Object) {
 			
 			#checked:
-			desc = new("learner.desc.classif",
+			desc = c(
 					oneclass = FALSE,
 					twoclass = TRUE,
 					multiclass = TRUE,

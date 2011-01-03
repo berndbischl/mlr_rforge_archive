@@ -19,7 +19,7 @@ setMethod(
 		signature = signature("classif.lvq1"),
 		def = function(.Object) {
 			
-			desc = new("learner.desc.classif",
+			desc = c(
 					oneclass = FALSE,
 					twoclass = TRUE,
 					multiclass = TRUE,

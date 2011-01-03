@@ -12,7 +12,7 @@ setMethod(
   signature = signature("regr.sg.libsvr"),
   def = function(.Object) {
     
-    desc = new("learner.desc.regr",
+    desc = c(
       missings = FALSE,
       doubles = TRUE,
       factors = FALSE,

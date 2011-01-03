@@ -18,7 +18,7 @@ setMethod(
 		signature = signature("classif.loclda"),
 		def = function(.Object) {
 			
-			desc = new("learner.desc.classif",
+			desc = c(
 					oneclass = FALSE,
 					twoclass = TRUE,
 					multiclass = TRUE,
