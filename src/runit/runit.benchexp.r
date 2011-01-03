@@ -19,12 +19,12 @@ test.benchexp <- function() {
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer)
   a = as.array(be)
   checkEquals(mean(a[,"test","classif.lda","mmce",multiclass.task["id"]]), 
-    be["aggr", task=multiclass.task["id"], learner="classif.lda"]["mmce.test.mean"],
+    be["aggrs"][[multiclass.task["id"]]][["classif.lda"]]["mmce.test.mean"],
     checkNames=FALSE)
  
 	outer2 = make.res.desc("holdout")
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer2)
-  checkTrue(!is.na(be["aggr"]["mmce.test.mean"]))
+  checkTrue(!is.na(be["aggrs"]["mmce.test.mean"]))
   
 	wl = make.learner("classif.lda")
 	be = bench.exp(wl,  multiclass.task, resampling=outer)

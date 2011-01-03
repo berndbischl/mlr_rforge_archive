@@ -11,7 +11,7 @@
 #' The default is not to do any aggregation. You can also set "aggr" to "resampling" which does the default aggregation 
 #' of the used resampling stratgegy.    
 #' 
-#' The following getters all return list of lists of objects: prediction, conf.mat
+#' The following getters all return list of lists of objects: aggrs, predictions, conf.mats
 #' The first list iterates the tasks, the second one the learners, both are named by respective IDs.
 #' You can reduce these lists by using the optional arguments 'task' and 'learner'. 
 #' 
@@ -20,13 +20,14 @@
 #' resampling iterations. You can reduce these lists by using the optional arguments 'task' and 'learner'. 
 #' 
 #' \describe{
-#'   \item{learners [character]}{IDs of learners used in experiment.}
-#'   \item{tasks [character]}{IDs of tasks used in experiment.}
-#'   \item{measures [character]}{Names of measures recorded in experiment.}
+#'   \item{learner.ids [character]}{IDs of learners used in experiment.}
+#'   \item{task.ids [character]}{IDs of tasks used in experiment.}
+#'   \item{measure.ids [character]}{IDs of measures recorded in experiment.}
 #' 	 \item{iters [numeric]}{Named numerical vector which lists the number of iterations for every task. Names are IDs of task.}
+#'   \item{aggrs [see above] }{List of list of aggregated performance vectors for every task/learner. }
+#'   \item{conf.mats [see above] }{List of list of confusion matrices for every task/learner. }
 #' 	 \item{predictions [see above] }{List of list of predictions for every task/learner. }
-#' 	 \item{conf.mats [see above] }{List of list of confusion matrices for every task/learner. }
-#' 	 \item{models [see above] }{List of list of list of models for every task/learner/iteration. Entry is NULL if no models were saved.}
+#'   \item{models [see above] }{List of list of list of models for every task/learner/iteration. Entry is NULL if no models were saved.}
 #' 	 \item{opt.results [see above] }{List of list of list of \code{\linkS4class{opt.result}} for every task/learner/iteration. Entry is NULL if no optimization was done.}
 #' }
 #' 
