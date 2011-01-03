@@ -24,16 +24,18 @@ setMethod(
 		signature = signature("classif.task"),
 		def = function(.Object, id, target, data, exclude, weights, blocking, control=control, costs, positive) {
 			if (missing(data))
-				return(.Object)
+				return(make.empty(.Object))
 			
-			dd = new("data.desc", data=data, target=target, exclude=exclude)
-			n = dd["class.nr"]
-			levs = dd["class.levels"]
-			
+      check.costs(costs, levels(data[, target]))
+
+      td = new("task.desc", data, target, exclude, "classif.task", id, 
+        length(weights) > 0, length(blocking) > 0, costs, as.character(NA))      
+
 			# init positive
 			pos = positive 
 			neg = as.character(NA)
-			if (n == 1) {
+      levs = td["class.levels"]
+			if (td["class.nr"] == 1) {
 				if (is.na(pos)) {
 					pos = levs[1]
 				} else {
@@ -41,7 +43,7 @@ setMethod(
 						stop(paste("Trying to set a positive class", pos, "which is not a value of the target variable:", paste(levs, collapse=",")))
 				}
 				neg = paste("not_", pos)
-			} else if (n == 2) {
+			} else if (td["class.nr"] == 2) {
 				if (is.na(pos)) {
 					pos = levs[1] 					
 				}
@@ -53,17 +55,10 @@ setMethod(
 			} else {
 				if (!is.na(pos))
 					stop("Cannot set a positive class for a multiclass problem!")
-			}
-			
-			# check costs if passed
-      check.costs(costs, dd)
+			}			
+			td@positive = pos
       
-			hw = length(weights) > 0
-			hb = length(blocking) > 0
-			td = new("task.desc", task.class="classif.task", id=id, has.weights=hw, has.blocking=hb,
-							costs=costs, positive=pos, negative=neg)			
-			
-			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, control=control, data.desc=dd, task.desc=td)
+			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, control=control, task.desc=td)
 		}
 )
 
@@ -82,7 +77,8 @@ setMethod(
 			return(
 					paste(
 							"Classification problem ", x["id"], "\n",
-							"Features Nums:", x["n.num"], " Factors:", x["n.fact"], "\n",
+							"Features Nums:", x["n.feat"]["num"], " Factors:", x["n.feat"]["fact"], 
+              " Ints:", x["n.feat"]["int"], " Chars:", x["n.feat"]["char"], "\n",
               "Exclude: ", x["exclude"], "\n",
               "Observations: ", x["size"] , "\n",
               "Missings: ", x["has.missing"], "\n", 

@@ -24,16 +24,12 @@ setMethod(
 		def = function(.Object, id, data, weights, blocking, target, exclude, control) {
 				
 			if (missing(data))
-				return(.Object)
-			
-			dd = new("data.desc", data=data, target=target, exclude=exclude)
-			hw = length(weights) > 0
-			hb = length(blocking) > 0
-			td = new("task.desc", task.class="regr.task", id=id, has.weights=hw, has.blocking=hb, 
-					costs=matrix(0,0,0), positive=as.character(NA), negative=as.character(NA)) 
-			
-			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, control=control,
-					data.desc=dd, task.desc=td)
+        return(make.empty(.Object))
+      
+      td = new("task.desc", data, target, exclude, "regr.task", id, 
+        length(weights) > 0, length(blocking) > 0, matrix(0,0,0), as.character(NA))      
+      
+			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, control=control, task.desc=td)
 		}
 )
 
@@ -53,7 +49,8 @@ setMethod(
 			return(
 					paste(
 							"Regression problem ", x["id"], "\n",
-							"Features Nums:", x["n.num"], " Factors:", x["n.fact"], "\n",
+              "Features Nums:", x["n.feat"]["num"], " Factors:", x["n.feat"]["fact"], 
+              " Ints:", x["n.feat"]["int"], " Chars:", x["n.feat"]["char"], "\n",
               "Exclude: ", x["exclude"], "\n",
               "Observations: ", x["size"] , "\n",
 							"Missings: ", x["has.missing"], "\n", 

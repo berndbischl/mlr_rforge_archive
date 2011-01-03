@@ -1,7 +1,5 @@
 #' @include object.r
 roxygen()
-#' @include data.desc.r
-roxygen()
 #' @include task.desc.r
 roxygen()
 
@@ -11,7 +9,7 @@ roxygen()
 #' you should not instantiate it directly but use \code{\link{make.task}}.
 #'  
 #' Getter.\cr
-#' Note that all getters of \code{\linkS4class{task.desc}} and \code{\linkS4class{data.desc}} can also be used, as they internally encapsulate some information of the task. 
+#' Note that all getters of \code{\linkS4class{task.desc}} can also be used, as they internally encapsulate some information of the task. 
 #' 
 #' \describe{
 #' 	\item{data [data.frame] Optional parameters: exclude=TRUE}{Encapsulated data. Excluded variables are excluded iff \code{exclude} == TRUE.}
@@ -49,7 +47,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learn.task"),
-		def = function(.Object, data, weights, blocking, control, data.desc, task.desc) {
+		def = function(.Object, data, weights, blocking, control, task.desc) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
@@ -60,10 +58,7 @@ setMethod(
 			.Object@weights = weights
       .Object@blocking = blocking
       .Object@control = control
-			.Object@data.desc = data.desc
 			.Object@task.desc = task.desc
-			
-#			.Object@data.desc <- make.data.desc(.Object["data"], target)
 			
 			return(.Object)
 		}
@@ -79,7 +74,6 @@ setMethod(
 			args = list(...)
 			argnames = names(args)
 			
-			dd = x@data.desc
 			td = x@task.desc
       exc = args$exclude
       exc = if (is.null(exc)) TRUE else exc
@@ -110,9 +104,6 @@ setMethod(
           return(x@data)				
 			}
 			y = td[i]
-			if (!is.null(y))
-				return(y)
-			y = dd[i]
 			if (!is.null(y))
 				return(y)
 			

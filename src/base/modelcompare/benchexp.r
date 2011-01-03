@@ -64,7 +64,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 	learner.names = character()
 	task.names = sapply(tasks, function(x) x["id"])	
 	resamplings = list()
-	tds = dds = rrs = ors = list()
+	tds = rrs = ors = list()
 	
 	inds = as.matrix(expand.grid(1:length(learners), 1:length(tasks)))
 	inds = lapply(1:nrow(inds), function(i) inds[i,])
@@ -82,7 +82,6 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 			resamplings[[j]] = resampling
 		}		
 		tds[[j]] = task@task.desc
-		dds[[j]] = task@data.desc
 		for (i in 1:length(learners)) {
 			wl = learners[[i]]
 			learner.names[i] = wl["id"]
@@ -96,11 +95,10 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 		names(ors[[j]]) = learner.names
 	}
   names(tds) = task.names
-  names(dds) = task.names
   names(resamplings) = task.names
   names(rrs) = task.names
 	names(ors) = task.names
-	return(new("bench.result", task.descs=tds, data.descs=dds, learners=learners, resamplings=resamplings, 
+	return(new("bench.result", task.descs=tds, learners=learners, resamplings=resamplings, 
       measures=measures, res.results = rrs, opt.results = ors
 	))
 }

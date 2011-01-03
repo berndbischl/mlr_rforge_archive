@@ -37,7 +37,7 @@ setMethod(
   f = "make.cost.measure",
   signature = signature(id="character", minimize="logical", costs="matrix", task="classif.task"),
   def = function(id="costs", minimize=TRUE, costs, task) {
-    check.costs(costs, task@data.desc) 
+    check.costs(costs, task["class.levels"]) 
     make.measure(id="costs", minimize=minimize, extra.pars=list(costs), 
       fun=function(task, model, pred, extra.pars) {
         costs = extra.pars[[1]]
