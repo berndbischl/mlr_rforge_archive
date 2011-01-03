@@ -65,7 +65,6 @@ setMethod(
 				return(make.empty(.Object))
 			.Object@id = id
 			.Object@pack = pack
-			.Object@predict.type = "response"
 			require.packs(pack, for.string=paste("learner", id))
 			if (missing(par.descs))
 				par.descs = list()

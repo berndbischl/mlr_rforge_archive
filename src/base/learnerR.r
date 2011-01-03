@@ -103,6 +103,7 @@ setMethod(
     .Object@classes = c(desc["oneclass"], desc["twoclass"], desc["multiclass"])
     .Object@predict = c(desc["prob"], desc["decision"])
     .Object@costs = desc["costs"]
+    .Object@predict.type = "response"
     callNextMethod(.Object, id=id, pack=pack, par.desc=par.descs, par.vals=par.vals)
   }
 )

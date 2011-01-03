@@ -43,8 +43,7 @@ setMethod(
           stop("newdata must be a data.frame with at least one row!")
 				newdata = prep.data(td["is.classif"], newdata, td["target"], model["prep.control"])			
 			}
-			
-			type = wl["predict.type"]
+			type = if (wl["is.classif"]) wl["predict.type"] else "response" 
 
       # load pack. if we saved a model and loaded it later just for prediction this is necessary
       require.packs(wl["pack"], paste("learner", learner["id"]))
@@ -61,7 +60,7 @@ setMethod(
 				truth = NULL
 			}
 			
-			# we can check this for regression as well as those return prob = FALSE
+      # we can check this for regression as well as those return prob = FALSE
 
 			hps = wl["pars.setting"][wl["pars.predict"]]
 			
