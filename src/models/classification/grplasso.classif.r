@@ -51,7 +51,6 @@ setMethod(
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
 			f = .task["formula"]
-			pos = .task.desc["positive"]
 			# todo: bug in grplasso: index cant be passed with formula interface....
 			y = as.numeric(task["data"][.subset, .vars][,.targetvar] == pos) 
 			x = as.matrix(task["data"][.subset, .vars][, !(colnames(task["data"][.subset, .vars]) == .targetvar)])
