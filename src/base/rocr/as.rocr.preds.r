@@ -30,7 +30,7 @@ setMethod(
 		f = "as.ROCR.preds",
 		signature = signature(x="prediction"), 
 		def = function(x) {
-			if(x@data.desc["class.nr"] != 2) {
+			if(x@task.desc["class.nr"] != 2) {
 				stop("More than 2 classes!")
 			}
 			p = x["prob"] 
@@ -48,7 +48,7 @@ setMethod(
   f = "as.ROCR.preds",
   signature = signature(x="resample.prediction"), 
   def = function(x) {
-    if(x@data.desc["class.nr"] != 2) {
+    if(x@task.desc["class.nr"] != 2) {
       stop("More than 2 classes!")
     }
     if(is.null(x["prob"])) {

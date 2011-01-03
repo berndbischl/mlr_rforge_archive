@@ -57,7 +57,6 @@ setMethod(
 				.learner="opt.wrapper", 
 				.targetvar="character", 
 				.data="data.frame", 
-				.data.desc="data.desc", 
 				.task.desc="task.desc", 
 				.weights="numeric", 
 				.costs="ANY" 

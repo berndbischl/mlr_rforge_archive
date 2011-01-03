@@ -14,9 +14,9 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("opt.model"),
-  def = function(.Object, learner, model, data.desc, task.desc, prep.control, subset, vars, time, opt.result) {
+  def = function(.Object, learner, model, task.desc, prep.control, subset, vars, time, opt.result) {
     .Object@opt.result = opt.result
-    callNextMethod(.Object, learner, model, data.desc, task.desc, prep.control, subset, vars, time)
+    callNextMethod(.Object, learner, model, task.desc, prep.control, subset, vars, time)
   }
 )
 
