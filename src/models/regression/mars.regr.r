@@ -36,7 +36,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			d = get.data(.task, .subset, with.target=FALSE)
-			mars(x = as.matrix(d), y = task["targets"][.subset], ...)
+			mars(x = as.matrix(d), y = .task["targets"][.subset], ...)
 		}
 )
 

@@ -21,7 +21,7 @@ setMethod(
 					weights = TRUE
 			)
 			
-			callNextMethod(.Object, pack="mboost", desc=desc)
+			callNextMethod(.Object, pack=c("mboost", "party"), desc=desc)
 		}
 )
 

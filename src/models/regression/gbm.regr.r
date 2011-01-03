@@ -33,7 +33,7 @@ setMethod(
           new("par.desc.double", par.name="train.fraction", default=1, lower=0, upper=1)
       )
       
-			callNextMethod(.Object, pack="gbm", desc=desc, par.vals=list(distribution = "gaussian"))
+			callNextMethod(.Object, pack="gbm", desc=desc, par.descs=par.descs, par.vals=list(distribution = "gaussian"))
 		}
 )
 
