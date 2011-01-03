@@ -81,7 +81,7 @@ test.tune <- function() {
 	r = list(minsplit=c(3,30), n=c(1,60))
 	ctrl = grid.control(ranges=r)
 	tr = tune(wl, binaryclass.task, res, control=ctrl)
-	
+  checkTrue(!any(is.na(tr["perf"])))
 	
 	# nelder mead with optim
 	ctrl = optim.control(start=c(C=0, sigma=0), maxit=10, scale=function(x) 2^x)

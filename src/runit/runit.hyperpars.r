@@ -9,11 +9,11 @@ test.hyperpars <- function() {
 	checkEquals(m["fail"], NULL) 
 	checkEquals(m["learner"]["par.vals"], list(minsplit=10)) 
 	
-	fun = function(data, x, y) {
-		data[,2] = x*data[,2]
+	fun = function(data, targetvar, args, control) {
+		data[,2] = args$x * data[,2]
 		return(data)
 	}
-	wl2 = make.preproc.wrapper(wl1, fun=fun, x=1, y=2)
+	wl2 = make.preproc.wrapper(wl1, fun=fun, args=list(x=1, y=2))
 	
 	checkTrue(setequal(wl2["par.vals"], list(minsplit=10, x=1, y=2))) 
 	checkTrue(setequal(wl2["par.vals", par.when="train"], list(minsplit=10, x=1, y=2))) 

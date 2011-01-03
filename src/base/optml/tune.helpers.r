@@ -28,11 +28,11 @@ add.path.els.tune = function(path, ess, best) {
 make.pds.from.lowup = function(ns, lower, upper) {
   pds = list()
   if (length(lower) == 1 && is.null(names(lower))) {
-    lower = rep(lower, length(start))
+    lower = rep(lower, length(ns))
     names(lower) = ns
   }
   if (length(upper) == 1 && is.null(names(upper))) {
-    upper = rep(upper, length(start))
+    upper = rep(upper, length(ns))
     names(upper) = ns
   }
   if (!setequal(ns, names(lower)))
