@@ -37,7 +37,7 @@ setMethod(
           new("par.desc.double", par.name="lambda", default=1, lower=0)
       )
       
-			callNextMethod(.Object, pack="grplasso", desc=desc, par.vals=list(lambda = 1))
+			callNextMethod(.Object, pack="grplasso", desc=desc, par.descs=par.descs, par.vals=list(lambda = 1))
 		}
 )
 
@@ -56,8 +56,11 @@ setMethod(
 			y = as.numeric(.task["targets"][.subset] == .task["positive"]) 
 			x = as.matrix(get.data(.task, .subset, with.target=FALSE))
 			x = cbind(1, x)
-			grplasso(x, y, weights=.weights, ...)
-		}
+      if (.task["has.weights"])
+			  grplasso(x, y, weights=.weights, ...)
+      else
+        grplasso(x, y, ...)
+    }
 )
 
 #' @rdname pred.learner

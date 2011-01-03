@@ -39,16 +39,15 @@ eval.rf <- function(learner, task, resampling, measures, control, par) {
 
 	if (is(control, "tune.control")) {
 		par.vals = .mlr.scale.par(par, control)
-    vars = task["input.names"]
-	} else {
-    stop()
-		par.vals = list()
-    vars =  par
+    learner = set.hyper.pars(learner, par.vals=par.vals)
   }
+  if (is(control, "varsel.control")) {
+    task = subset.task(task, vars=par)
+  }
+  
 	# todo 
 #	if (control["tune.threshold"]) 
 #		type = "prob"
-  learner = set.hyper.pars(learner, par.vals=par.vals)
 	r = resample(learner, task, resampling, measures=measures)
   return(r$aggr)
   

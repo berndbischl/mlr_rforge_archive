@@ -102,10 +102,10 @@ setMethod(
         return(is(x, "rlearner.regr"))
       }
       if (i == "doubles") {
-        return(x@feat["doubles"])
+        return(as.logical(x@feat["doubles"]))
       }
       if (i == "factors") {
-        return(x@feat["factors"])
+        return(as.logical(x@feat["factors"]))
       }
       callNextMethod()
     }
