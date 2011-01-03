@@ -40,12 +40,12 @@ setMethod(
   
   def = function(.learner, .task, .subset, .vars, ...) {
     size_cache = 100
-    y = .data[, .targetvar]
-    .data[, .targetvar] = NULL
+    y = task["data"][.subset, .vars][, .targetvar]
+    task["data"][.subset, .vars][, .targetvar] = NULL
     # shogun wants features in as column vectors
-    .data = t(as.matrix(.data))
+    task["data"][.subset, .vars] = t(as.matrix(task["data"][.subset, .vars]))
     pars <<- list(...)
-    sg('set_features', 'TRAIN', .data)
+    sg('set_features', 'TRAIN', task["data"][.subset, .vars])
     sg('set_labels', 'TRAIN', y)
     sg('new_regression', pars$type)
     sg.set.hyper.pars(pars)
@@ -53,7 +53,7 @@ setMethod(
     svm = sg('get_svm')
     # todo: saving traindat is very inefficient....
     names(svm) = c("bias", "alphas")
-    list(svm=svm, control=pars, traindat=.data, y=y)
+    list(svm=svm, control=pars, traindat=task["data"][.subset, .vars], y=y)
   }
 )
 

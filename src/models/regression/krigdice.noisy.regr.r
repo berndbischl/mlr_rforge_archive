@@ -40,10 +40,10 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset, .vars,  ...) {
-    y = .data[,.targetvar]
-    .data[,.targetvar]=NULL
-    m = km(design=.data, response=y, nugget.estim=TRUE, ...)
-    m = km(design=.data, response=y, nugget.estim=FALSE, 
+    y = task["data"][.subset, .vars][,.targetvar]
+    task["data"][.subset, .vars][,.targetvar]=NULL
+    m = km(design=task["data"][.subset, .vars], response=y, nugget.estim=TRUE, ...)
+    m = km(design=task["data"][.subset, .vars], response=y, nugget.estim=FALSE, 
       coef.trend=m@trend.coef, coef.var=m@covariance@sd2, coef.cov=m@covariance@range.val)   
   }
 )

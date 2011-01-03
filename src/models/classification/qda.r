@@ -51,8 +51,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			qda(f, data=.data, ...)
+			f = as.formula(paste(.task["target"], "~."))
+			qda(f, data=.task["data"][.subset, .vars], ...)
 		}
 )
 

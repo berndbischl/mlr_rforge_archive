@@ -33,8 +33,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			targetcol <- which(names(.data) == .targetvar)
-			mars(x = as.matrix(.data[,-targetcol]), y = as.vector(.data[,targetcol]), ...)
+			targetcol <- which(names(task["data"][.subset, .vars]) == .targetvar)
+			mars(x = as.matrix(task["data"][.subset, .vars][,-targetcol]), y = as.vector(task["data"][.subset, .vars][,targetcol]), ...)
 		}
 )
 

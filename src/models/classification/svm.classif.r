@@ -60,8 +60,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			svm(f, data=.data, ...)
+			f = as.formula(paste(.task["target"], "~."))
+			svm(f, data=.task["data"][.subset, .vars], ...)
 		}
 )
 

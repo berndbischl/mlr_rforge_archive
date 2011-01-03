@@ -60,13 +60,13 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			if (!all(dim(.costs)) == 0) {
-				lev = levels(.data[, .targetvar])
+			f = as.formula(paste(.task["target"], "~."))
+			if (.task["has.costs"]) {
+				lev = levels(.task["data"][.subset, .vars][, .targetvar])
 				.costs = .costs[lev, lev] 
-				rpart(f, data=.data, weights=.weights, parms=list(loss=.costs), ...)
+				rpart(f, data=.task["data"][.subset, .vars], weights=.weights, parms=list(loss=.costs), ...)
 			} else
-				rpart(f, data=.data, weights=.weights, ...)
+				rpart(f, data=.task["data"][.subset, .vars], weights=.weights, ...)
 		}
 )
 

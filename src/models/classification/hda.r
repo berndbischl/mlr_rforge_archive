@@ -47,8 +47,8 @@
 #		),
 #		
 #		def = function(.learner, .task, .subset, .vars,  ...) {
-#			f = as.formula(paste(.targetvar, "~."))
-#			hda(f, data=.data, crule=TRUE, ...)
+#			f = as.formula(paste(.task["target"], "~."))
+#			hda(f, data=.task["data"][.subset, .vars], crule=TRUE, ...)
 #		}
 #)
 #

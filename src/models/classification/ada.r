@@ -70,13 +70,13 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			if (!all(dim(.costs)) == 0) {
-				lev = levels(.data[, .targetvar])
+			f = as.formula(paste(.task["target"], "~."))
+			if (.task["has.costs"]) {
+				lev = levels(task["data"][.subset, .vars][, .targetvar])
 				.costs = .costs[lev, lev] 
-				ada(f, data=.data, parms=list(loss=.costs), ...)
+				ada(f, data=.task["data"][.subset, .vars], parms=list(loss=.costs), ...)
 			} else
-				ada(f, data=.data, ...)
+				ada(f, data=.task["data"][.subset, .vars], ...)
 		}
 )
 

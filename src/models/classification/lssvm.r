@@ -56,11 +56,11 @@ setMethod(
 #			} 
 			
 			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
-			f = as.formula(paste(.targetvar, "~."))
+			f = as.formula(paste(.task["target"], "~."))
 			if (length(xs$control) > 0)
-				args = c(list(f, data=.data, fit=FALSE, kpar=xs$control), xs$args)
+				args = c(list(f, data=.task["data"][.subset, .vars], fit=FALSE, kpar=xs$control), xs$args)
 			else
-				args = c(list(f, data=.data, fit=FALSE), xs$args)
+				args = c(list(f, data=.task["data"][.subset, .vars], fit=FALSE), xs$args)
 			do.call(lssvm, args)
 			
 		}

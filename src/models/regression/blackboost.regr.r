@@ -35,8 +35,8 @@ setMethod(
 		def = function(.learner, .task, .subset, .vars, ...) {
 			xs = args.to.control(boost_control, c("mstop", "nu", "risk"), list(...))
 			ys = args.to.control(ctree_control, c("teststat", "testtype", "mincriterion", "maxdepth"), xs$args)
-			f = as.formula(paste(.targetvar, "~."))
-			args = c(list(f, data=.data, weights=.weights, control=xs$control, tree_control=ys$control), ys$args)
+			f = as.formula(paste(.task["target"], "~."))
+			args = c(list(f, data=.task["data"][.subset, .vars], weights=.weights, control=xs$control, tree_control=ys$control), ys$args)
 			do.call(blackboost, args)
 		}
 )

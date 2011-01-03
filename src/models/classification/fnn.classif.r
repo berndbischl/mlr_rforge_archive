@@ -52,9 +52,9 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset, .vars,  ...) {
-    i = which(colnames(.data)==.targetvar)
-    cl = .data[,i]
-    train = .data[,-i]
+    i = which(colnames(.task["data"][.subset, .vars])==.targetvar)
+    cl = task["targets"][.subset]
+    train = task["data"][.subset, .vars]
     list(train=train, cl=cl, parset=list(...))
   }
 )

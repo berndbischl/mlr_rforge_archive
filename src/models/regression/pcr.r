@@ -33,8 +33,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			pcr(f, data=.data, ...)
+			f = as.formula(paste(.task["target"], "~."))
+			pcr(f, data=.task["data"][.subset, .vars], ...)
 		}
 )
 

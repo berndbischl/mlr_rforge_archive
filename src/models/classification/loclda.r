@@ -45,8 +45,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			loclda(f, data=.data, ...)
+			f = as.formula(paste(.task["target"], "~."))
+			loclda(f, data=.task["data"][.subset, .vars], ...)
 		}
 )
 

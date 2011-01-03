@@ -47,9 +47,9 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
+			f = as.formula(paste(.task["target"], "~."))
 			ctrl = Weka_control(...)
-			JRip(f, data=.data, control=ctrl)
+			JRip(f, data=.task["data"][.subset, .vars], control=ctrl)
 		}
 )
 

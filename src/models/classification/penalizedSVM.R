@@ -58,7 +58,7 @@ setMethod(
 				.task="classif.task", .subset="integer", .vars="character" 
 		),
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
+			f = as.formula(paste(.task["target"], "~."))
 			kpar = list()
 			args = list(...)
 			args.names <- names(args)

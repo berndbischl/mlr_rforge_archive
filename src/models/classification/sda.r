@@ -50,8 +50,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			targetcol <- which(names(.data) == .targetvar)
-			sda(Xtrain = as.matrix(.data[,-targetcol]), L = as.factor(.data[,targetcol]), ...)
+			targetcol <- which(names(task["data"][.subset, .vars]) == .targetvar)
+			sda(Xtrain = as.matrix(task["data"][.subset, .vars][,-targetcol]), L = as.factor(task["data"][.subset, .vars][,targetcol]), ...)
 		}
 )
 

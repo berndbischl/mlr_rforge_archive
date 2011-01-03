@@ -45,8 +45,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			adaboost.M1(f, data=.data, ...)
+			f = as.formula(paste(.task["target"], "~."))
+			adaboost.M1(f, data=.task["data"][.subset, .vars], ...)
 		}
 )
 

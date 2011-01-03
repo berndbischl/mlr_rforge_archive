@@ -40,9 +40,9 @@ setMethod(
     ),
     
     def = function(.learner, .task, .subset, .vars,  ...) {
-      y = .data[,.targetvar]
-      .data[,.targetvar]=NULL
-      km(design=.data, response=y, ...)
+      y = task["data"][.subset, .vars][,.targetvar]
+      task["data"][.subset, .vars][,.targetvar]=NULL
+      km(design=task["data"][.subset, .vars], response=y, ...)
     }
 )
 

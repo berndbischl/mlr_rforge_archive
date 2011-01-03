@@ -45,8 +45,8 @@ setMethod(
     ),
     
     def = function(.learner, .task, .subset, .vars,  ...) {
-      f = as.formula(paste(.targetvar, "~."))
-      nnet(f, data=.data, weights=.weights, linout=T, ...)
+      f = as.formula(paste(.task["target"], "~."))
+      nnet(f, data=.task["data"][.subset, .vars], weights=.weights, linout=T, ...)
     }
 )
 

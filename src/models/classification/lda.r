@@ -52,8 +52,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			lda(f, data=.data, ...)
+			f = as.formula(paste(.task["target"], "~."))
+			lda(f, data=.task["data"][.subset, ], ...)
 		}
 )
 

@@ -50,8 +50,8 @@ setMethod(
 			ns = c("teststat", "testtype", "mincriterion", "minsplit", "minbucket", "stump", 
 					"nresample", "maxsurrogate", "mtry", "savesplitstats", "maxdepth")
 			xs = args.to.control(ctree_control, ns, list(...))
-			f = as.formula(paste(.targetvar, "~."))
-			args = c(list(f, data=.data, control=xs$control), xs$args)
+			f = as.formula(paste(.task["target"], "~."))
+			args = c(list(f, data=.task["data"][.subset, .vars], control=xs$control), xs$args)
 			do.call(ctree, args)
 		}
 )

@@ -34,13 +34,13 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars, ...) {
-			f = as.formula(paste(.targetvar, "~."))
+			f = as.formula(paste(.task["target"], "~."))
 			args = list(...)
 			i = which(names(args) == "lambda") 
 			if (length(i) > 0) {
 				names(args)[i] = "lambda1"
 			}
-			pars <- list(f, data=.data)
+			pars <- list(f, data=.task["data"][.subset, .vars])
 			pars <- c(pars, args)
 			do.call(penalized, pars)
 		}

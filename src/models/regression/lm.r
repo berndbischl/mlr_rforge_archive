@@ -34,8 +34,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars, ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			lm(f, data=.data, weights=.weights, ...)
+			f = as.formula(paste(.task["target"], "~."))
+			lm(f, data=.task["data"][.subset, .vars], weights=.weights, ...)
 		}
 )
 

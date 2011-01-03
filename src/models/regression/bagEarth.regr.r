@@ -33,8 +33,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, .vars,  ...) {
-			f = as.formula(paste(.targetvar, "~."))
-			bagEarth(f, data=.data, ...)
+			f = as.formula(paste(.task["target"], "~."))
+			bagEarth(f, data=.task["data"][.subset, .vars], ...)
 		}
 )
 
