@@ -1,5 +1,7 @@
 #' @include learnerR.r
 roxygen()
+#' @include regr.classif.r
+roxygen()
 
 setClass(
 		"regr.blackboost", 
