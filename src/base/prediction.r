@@ -28,7 +28,6 @@ setClass(
 				type = "character",
 				df = "data.frame",
 				threshold = "numeric",
-				data.desc = "data.desc",
 				task.desc = "task.desc",
 				time = "numeric"
 		)
@@ -39,13 +38,12 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("prediction"),
-		def = function(.Object, data.desc, task.desc, type, df, threshold, time) {
+		def = function(.Object, task.desc, type, df, threshold, time) {
 			if (missing(df))
 				return(make.empty(.Object))
 			.Object@type = type			
 			.Object@df = df			
 			.Object@threshold = threshold			
-			.Object@data.desc = data.desc			
 			.Object@task.desc = task.desc	
 			.Object@time = time			
 			return(.Object)
@@ -53,7 +51,7 @@ setMethod(
 )
 
 
-make.prediction = function(data.desc, task.desc, id, truth, type, y, time) {
+make.prediction = function(task.desc, id, truth, type, y, time) {
 	xs = list()
 	# if null no col in df present
 	xs[["id"]] = id
@@ -81,12 +79,12 @@ make.prediction = function(data.desc, task.desc, id, truth, type, y, time) {
   
 	
   if (type != "response") {
-    th = rep(1/data.desc["class.nr"], data.desc["class.nr"])
-    names(th) = data.desc["class.levels"]
-    p = new("prediction", data.desc, task.desc, type, df, th, time)
+    th = rep(1/task.desc["class.nr"], task.desc["class.nr"])
+    names(th) = task.desc["class.levels"]
+    p = new("prediction", task.desc, type, df, th, time)
     return(set.threshold(p, th))
   } else {
-    return(new("prediction", data.desc, task.desc, type, df, as.numeric(NA), time))
+    return(new("prediction", task.desc, type, df, as.numeric(NA), time))
   }  
 }
 
@@ -117,11 +115,11 @@ setMethod(
 				if (length(cns) == 0)
 					return(NULL)
 				# no class chosen and we are binary: return prob for pos. class
-				if (is.null(class) && x@data.desc["is.binary"]) {
+				if (is.null(class) && x@task.desc["is.binary"]) {
 					return(x@df[, paste("prob", x@task.desc["positive"], sep=".")])
 				}
 				if (is.null(class))
-					class = x@data.desc["class.levels"]
+					class = x@task.desc["class.levels"]
 				cns2 = sapply(strsplit(cns, "prob."), function(z) z[2])
 				jj = which(cns2 %in% class)
 				y = x@df[, cns[jj]]
@@ -176,5 +174,5 @@ setMethod(
 #	weights = Reduce(c, lapply(preds, function(x) x@weights))
 #	prob = Reduce(rbind, lapply(preds, function(x) x@prob))
 #	decision = Reduce(rbind, lapply(preds, function(x) x@decision))
-#	return(new("prediction", data.desc=preds[[1]]@data.desc, task.desc=preds[[1]]@task.desc, id=id, response=response, target=target, weights=weights, prob=prob, decision=decision));
+#	return(new("prediction", task.desc=preds[[1]]@task.desc, id=id, response=response, target=target, weights=weights, prob=prob, decision=decision));
 #}

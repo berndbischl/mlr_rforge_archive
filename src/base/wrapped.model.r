@@ -1,7 +1,5 @@
 #' @include object.r
 roxygen()
-#' @include data.desc.r
-roxygen()
 #' @include task.desc.r
 roxygen()
 #' @include learner.r
@@ -13,7 +11,7 @@ roxygen()
 #' information about second-level optimization like tuned hyperparameters or selected variables. 
 #' 
 #' Getter.\cr
-#' Note that all getters of \code{\linkS4class{task.desc}} and \code{\linkS4class{data.desc}} can also be used. 
+#' Note that all getters of \code{\linkS4class{task.desc}} can also be used. 
 #' 
 #' \describe{
 #'	\item{learner [{\linkS4class{learner}}]}{Learner that was used to fit the model.}
@@ -31,7 +29,6 @@ setClass(
 		representation = representation(
 				learner = "learner",
 				learner.model = "ANY",
-				data.desc = "data.desc",
         prep.control = "prepare.control",					
         task.desc = "task.desc",
 				subset = "integer",
@@ -45,12 +42,11 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("wrapped.model"),
-  def = function(.Object, learner, model, data.desc, task.desc, prep.control, subset, vars, time) {
+  def = function(.Object, learner, model, task.desc, prep.control, subset, vars, time) {
     if (missing(learner))
       return(make.empty(.Object))
     .Object@learner = learner
     .Object@learner.model = model
-    .Object@data.desc = data.desc
     .Object@task.desc = task.desc
     .Object@prep.control = prep.control
     .Object@subset = subset
@@ -95,10 +91,7 @@ setMethod(
 			y = x@task.desc[i]
 			if (!is.null(y))
 				return(y)
-			y = x@data.desc[i]
-			if (!is.null(y))
-				return(y)
-			
+
 			callNextMethod()
 		}
 )

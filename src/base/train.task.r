@@ -69,7 +69,7 @@ train.task2 <- function(learner, task, subset, vars, extra.train.pars, check.fct
 		ws = rep(1, length(subset)) 
 	
 	# make pars list for train call
-	pars = list(.learner=wl, .target=tn, .data=data.subset, .data.desc=task@data.desc, .task.desc=task@task.desc, .weights=ws)
+	pars = list(.learner=wl, .target=tn, .data=data.subset, .task.desc=task@task.desc, .weights=ws)
 	# only pass train hyper pars to rlearner
 	hps = wl["par.vals", par.when="train"]
 	pars = c(pars, extra.train.pars, hps)
@@ -81,7 +81,7 @@ train.task2 <- function(learner, task, subset, vars, extra.train.pars, check.fct
 	
 	# no vars? then use no vars model
 	if (length(vars) == 0) {
-		learner.model = new("novars", targets=data.subset[, tn], data.desc=task@data.desc, task.desc=task@task.desc)
+		learner.model = new("novars", targets=data.subset[, tn], task.desc=task@task.desc)
 		time.train = 0
 	} else {
 		# set the seed
@@ -100,7 +100,7 @@ train.task2 <- function(learner, task, subset, vars, extra.train.pars, check.fct
 		time.train = as.numeric(st[3])
 	}
 
-  make.wrapped.model(wl, learner.model, task@data.desc, task@task.desc, task@control, hps, subset, vars, time.train)
+  make.wrapped.model(wl, learner.model, task@task.desc, task@control, hps, subset, vars, time.train)
 }
 	
 

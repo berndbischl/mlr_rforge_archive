@@ -69,7 +69,7 @@ b632plus = new("aggr",
     y1 = pred["truth"]
     y2 = pred["response"]
     grid = expand.grid(y1, y2, KEEP.OUT.ATTRS=FALSE)
-    pred2 = make.prediction(data.desc=pred@data.desc, task.desc=pred@task.desc, 
+    pred2 = make.prediction(task.desc=pred@task.desc, 
       id=NULL, truth=grid[,1], type="response", y=grid[,2], group=NULL, 
       threshold=as.numeric(NA), 
       time.train=as.numeric(NA), time.predict=as.numeric(NA)) 

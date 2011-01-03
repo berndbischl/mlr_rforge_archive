@@ -48,7 +48,6 @@ setMethod(
         stop("You need to pass pred for measure ", m["id"])
       pred2 = pred
       td = pred@task.desc
-      dd = pred@data.desc                    
     } else {
       pred2 = NULL          
     }
@@ -57,7 +56,6 @@ setMethod(
         stop("You need to pass model for measure ", m["id"])
       model2 = model  
       td = model@task.desc
-      dd = model@data.desc
     } else {
       model2 = NULL
     }
@@ -66,14 +64,13 @@ setMethod(
         stop("You need to pass task for measure ", m["id"])
       task2 = task 
       td = task@task.desc
-      dd = task@data.desc
     } else {
       task2 = NULL
     }
     rqt = m["req.task.type"]
     if ((td["is.classif"] && identical(rqt, "regr")) || (td["is.regr"] && !("regr" %in% rqt))) 
       stop("Wrong task type ", td@task.class, " for measure ", m["id"], "!")
-    if (m["req.task.type"] == "binary" && !dd["is.binary"])
+    if (m["req.task.type"] == "binary" && !td["is.binary"])
       stop("Multiclass problems cannot be used for measure ", m["id"], "!")
     if (identical(m["req.pred.type"], "prob")) {
       if (!is.null(pred2) && pred2["type"] != "prob")

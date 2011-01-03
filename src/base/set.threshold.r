@@ -31,13 +31,12 @@ setMethod(
   ),
   
   def = function(pred, threshold) {
-    dd = pred@data.desc
     td = pred@task.desc
     if (!td["is.classif"])
       stop("Threshold can only be set for classification predictions!")
     if (pred["type"] != "prob")
       stop("Threshold can currently only be set for type 'prob'!")
-    levs = dd["class.levels"]
+    levs = td["class.levels"]
     if (length(levs) == 2 && is.numeric(threshold) && length(threshold) == 1) {
       threshold = c(threshold, 1-threshold)
       names(threshold) = c(td["positive"], td["negative"])

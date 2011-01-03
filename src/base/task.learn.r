@@ -37,7 +37,6 @@ setClass(
 				weights = "numeric",
 				blocking = "factor",
         control = "prepare.control",
-        data.desc = "data.desc",
 				task.desc = "task.desc"
 		)
 )
