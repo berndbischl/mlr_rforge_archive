@@ -56,8 +56,8 @@ setMethod(
 			codebk = do.call(lvqinit, cdbk.args)  
 
 			lvq.args = insert(list(), list(...), c("niter", "alpha"))
-			lvq.args$x = y 
-			lvq.args$cl = d 
+			lvq.args$x = d 
+			lvq.args$cl = y 
 			lvq.args$codebk = codebk 
 			do.call(lvq1, lvq.args)  
 		}
