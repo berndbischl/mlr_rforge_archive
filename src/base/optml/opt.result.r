@@ -74,10 +74,10 @@ setMethod(
 				return(ys)
 			}
 			if (i == "model"){
-				# todo: bad style to determine no model fit was requested
-				if (is.null(x@model@data.desc))
+				if (is.empty(x@model@data.desc))
 					return(NULL)
-				return(x@model)
+        else
+				  return(x@model)
 			}
 			callNextMethod(x,i,j,...,drop=drop)
 		}

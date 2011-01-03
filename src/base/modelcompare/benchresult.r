@@ -15,7 +15,7 @@
 #' The first list iterates the tasks, the second one the learners, both are named by respective IDs.
 #' You can reduce these lists by using the optional arguments 'task' and 'learner'. 
 #' 
-#' The following getters all return list of lists of lists: model, opt.result, opt.par, opt.perf, opt.path
+#' The following getters all return list of lists of lists: models, opt.results
 #' The first list iterates the tasks, the second one the learners, both are named by respective IDs, the third list iterates the
 #' resampling iterations. You can reduce these lists by using the optional arguments 'task' and 'learner'. 
 #' 

@@ -15,8 +15,6 @@ test.opt.wrapper <- function() {
 	
 	or = m["opt.result"]
 	checkEquals(or["par"], list(kernel="rbfdot", C=1))
-	checkEquals(or["tuned.par"], list(kernel="rbfdot", C=1))
-	checkEquals(or["sel.var"], NULL)
 	
 	checkTrue(!is.null(or["perf"]))
 	checkTrue(is.null(or["model"]))

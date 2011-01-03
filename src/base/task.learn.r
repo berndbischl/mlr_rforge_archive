@@ -101,3 +101,15 @@ setMethod(
 			callNextMethod()
 		}
 )
+
+
+subset.task = function(task, subset, vars) {
+  lt = task
+  lt@data = get.data(lt, subset, vars)
+  lt@blocking = lt@blocking[subset]
+  lt@weights = lt@weights[subset]
+  lt@task.desc = new("task.desc", lt@data, lt["target"], class(lt), lt["id"], 
+    lt["has.weights"], lt["has.blocking"], lt["costs"], lt["positive"])
+  return(lt)
+} 
+
