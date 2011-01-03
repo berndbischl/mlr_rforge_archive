@@ -51,8 +51,8 @@ setMethod(
     if (!setequal(names(desc), ns))
       stop("Logical description of ", id, " must exactly contain: ", paste(ns, collapse=","))
     .Object@feat = c(desc["doubles"], desc["factors"])  
-    .Object@weights = desc["weights"]  
-    .Object@missings = desc["missings"]
+    .Object@weights = as.logical(desc["weights"])  
+    .Object@missings = as.logical(desc["missings"])
     .Object@classes = c(desc["oneclass"], desc["twoclass"], desc["multiclass"])
     .Object@predict = c(desc["prob"], desc["decision"])
     .Object@costs = desc["costs"]
@@ -81,8 +81,8 @@ setMethod(
     if (!setequal(names(desc), ns))
     stop("Logical description of ", id, " must exactly contain: ", paste(ns, collapse=","))
     .Object@feat = c(desc["doubles"], desc["factors"])  
-    .Object@weights = desc["weights"]  
-    .Object@missings = desc["missings"]
+    .Object@weights = as.logical(desc["weights"])  
+    .Object@missings = as.logical(desc["missings"])
     callNextMethod(.Object, id=id, pack=pack, par.desc=par.descs, par.vals=par.vals)
   }
 )

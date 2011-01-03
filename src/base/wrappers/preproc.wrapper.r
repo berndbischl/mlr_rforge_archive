@@ -46,7 +46,9 @@ make.preproc.wrapper = function(learner, id=as.character(NA), fun, control, args
 		learner = make.learner(learner)
   if (missing(control))
     control=function(data, targetvar, args) NULL
-	if (any(names(formals(fun)) != c("data", "targetvar", "args", "control")))
+  if (missing(args))
+    args=list()
+  if (any(names(formals(fun)) != c("data", "targetvar", "args", "control")))
 		stop("Arguments in preproc function have to be: data, targetvar, args, control")		
   if (any(names(formals(control)) != c("data", "targetvar", "args")))
     stop("Arguments in control function have to be: data, targetvar, args")    

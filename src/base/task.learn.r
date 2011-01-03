@@ -108,7 +108,7 @@ setMethod(
 #if (sum(x) > 0)
 #  stop("Trying to subset with vars which are not inputs: ", paste(vars[x], collapse=","))
 
-subset.task = function(task, subset, vars) {
+subset.task = function(task, subset=1:task["size"], vars) {
   task = change.data(task, get.data(task, subset, vars))
   task@blocking = task@blocking[subset]
   task@weights = task@weights[subset]
