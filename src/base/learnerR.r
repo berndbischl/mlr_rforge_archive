@@ -133,6 +133,12 @@ setMethod(
     if (i == "multiclass") {
       return(as.logical(x@classes["multiclass"]))
     }
+    if (i == "par.vals.string") {
+      p = x["par.vals"]
+      ns = names(p)
+      p = Map(function(n, v) hyper.par.val.to.name(n,v,x), ns, p)
+      return(paste(ns, p, sep="=", collapse=","))
+    }
     callNextMethod()
   }
 )
@@ -142,16 +148,12 @@ setMethod(
 setMethod(f = "to.string",
   signature = signature("rlearner.classif"),
   def = function(x) {
-    hps = x["par.vals"]
-    hps.ns = names(hps)
-    hps = Map(function(n, v) hyper.par.val.to.name(n,v,x), hps.ns, hps)
-    hps = paste(hps.ns, hps, sep="=", collapse=" ")
     pack = paste(x["pack"], collapse=",")
     return(paste(
         "Classification learner id=", x["id"], " from package ", pack, "\n",
         "Class: ", class(x), "\n",
         "Predict-Type: ", x["predict.type"], "\n",
-        "Hyperparameters: ", hps, "\n\n",
+        "Hyperparameters: ", x["par.vals.string"], "\n\n",
         "Supported features Doubles:", x["doubles"], " Factors:", x["factors"], "\n",
         "Supports missings: ", x["missings"], "\n", 
         "Supports weights: ", x["weights"], "\n", 
@@ -167,15 +169,11 @@ setMethod(f = "to.string",
 setMethod(f = "to.string",
   signature = signature("rlearner.regr"),
   def = function(x) {
-    hps = x["par.vals"]
-    hps.ns = names(hps)
-    hps = Map(function(n, v) hyper.par.val.to.name(n,v,x), hps.ns, hps)
-    hps = paste(hps.ns, hps, sep="=", collapse=" ")
     pack = paste(x["pack"], collapse=",")
     return(paste(
         "Regression learner id=", x["id"], " from package ", pack, "\n",
         "Class: ", class(x), "\n",
-        "Hyperparameters: ", hps, "\n\n",
+        "Hyperparameters: ", x["par.vals.string"], "\n\n",
         "Supported features Doubles:", x["doubles"], " Factors:", x["factors"], "\n",
         "Supports missings: ", x["missings"], "\n", 
         "Supports weights: ", x["weights"], "\n", 

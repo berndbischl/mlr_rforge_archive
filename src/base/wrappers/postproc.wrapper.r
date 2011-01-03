@@ -73,7 +73,7 @@ setMethod(
   f = "resample",
   signature = signature(learner="postproc.wrapper", task="learn.task", resampling="resample.instance", measures="list", models="logical", extract="function"),
   def = function(learner, task, resampling, measures, models, extract) {
-    p = callNextMethod(learner, task, resampling, par.vals, vars, extract)    
+    p = callNextMethod(learner, task, resampling, par.vals, extract)    
     fun.args = .learner["hyper.pars"]
     fun.args$pred = p
     p = do.call(.learner@fun, fun.args)

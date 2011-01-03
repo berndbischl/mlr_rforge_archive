@@ -27,12 +27,10 @@ setMethod(
   signature = signature("opt.model"),
   def = function(x) {
     s = callNextMethod(x)
-    op = x@opt.result["par"]
-    op = paste(names(op), op, sep="=", collapse=" ")
     return(
       paste(
         s, "\n",
-        "Opt. pars: ", op,
+        "Opt. pars: ", x["opt.result"]["par.string"],
         sep=""
       )
     )

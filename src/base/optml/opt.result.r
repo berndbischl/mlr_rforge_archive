@@ -54,6 +54,16 @@ setMethod(
 			if (i == "par") {
 				return(x@opt$par)
 			}
+      if (i == "par.string") {
+        p = x["par"]
+        if (x["opt.type"] == "tune") {
+          ns = names(p)
+          p = Map(function(n, v) hyper.par.val.to.name(n,v,x), ns, p)
+          return(paste(ns, p, sep="=", collapse=","))
+        } else {
+          return(paste(length(x["par"]), "sel. vars"))
+        }
+      }
 			if (i == "opt.type"){
 				return(x@control["opt.type"])
 			}
@@ -88,13 +98,10 @@ setMethod(
 		f = "to.string",
 		signature = signature("opt.result"),
 		def = function(x) {
-			return(
+      return(
 					paste(
-							"Optimization result: \n",
-							paste(capture.output(x["par"]), collapse="\n"),
-							"\n",
-							paste(capture.output(x["perf"]), collapse="\n"),
-							"\n",
+							"Opt. pars: ", x["par.string"], "\n",
+							paste(capture.output(x["perf"]), collapse="\n"),"\n",
 							sep=""
 					)
 			)

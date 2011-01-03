@@ -85,7 +85,7 @@ setMethod(
       if (nrow(d) != .task["size"])
         stop("Preprocessing may not change number of cases!")
       .task = change.data(.task, d)
-			m = callNextMethod(.learner, .task, .subset, .vars, ...)
+			m = callNextMethod(.learner, .task, .subset, ...)
       attr(m, "control") = ctrl
       return(m)
 		}

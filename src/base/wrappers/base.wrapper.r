@@ -97,7 +97,7 @@ setMethod(
 		def = function(.learner, .task, .subset,  ...) {
 			args = list(...)
 			args = args[!(names(args) %in% names(.learner["par.vals", par.top.wrapper.only=TRUE]))]
-			f.args = list(.learner@learner, .task, .subset, .vars)
+			f.args = list(.learner@learner, .task, .subset)
 			f.args = c(f.args, args)
 			do.call(train.learner, f.args)
 		}
