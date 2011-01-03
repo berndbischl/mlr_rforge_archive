@@ -102,14 +102,23 @@ setMethod(
 		}
 )
 
+# todo: maybe dont do this check for speed reasons?
+## reduce data to subset and selected vars
+#x = !vars %in% task["input.names"]
+#if (sum(x) > 0)
+#  stop("Trying to subset with vars which are not inputs: ", paste(vars[x], collapse=","))
 
 subset.task = function(task, subset, vars) {
-  lt = task
-  lt@data = get.data(lt, subset, vars)
-  lt@blocking = lt@blocking[subset]
-  lt@weights = lt@weights[subset]
-  lt@task.desc = new("task.desc", lt@data, lt["target"], class(lt), lt["id"], 
-    lt["has.weights"], lt["has.blocking"], lt["costs"], lt["positive"])
-  return(lt)
+  task = change.data(task, get.data(task, subset, vars))
+  task@blocking = task@blocking[subset]
+  task@weights = task@weights[subset]
+  return(task)
+} 
+
+change.data = function(task, data) {
+  task@data = data
+  task@task.desc = new("task.desc", task@data, task["target"], class(task), task["id"], 
+    task["has.weights"], task["has.blocking"], task["costs"], task["positive"])
+  return(task)
 } 
 
