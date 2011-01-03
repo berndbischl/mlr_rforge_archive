@@ -105,7 +105,7 @@ setMethod(
         if(x["is.classif"]) return(x["class.nr"] == 2) else return(as.logical(NA))
       if (i == "negative") 
         if(x["is.classif"] && x["is.binary"]) 
-          return(setdiff(x["class.levels", x["positive"]])) 
+          return(setdiff(x["class.levels"], x["positive"])) 
         else 
           return(as.character(NA))
       if (i == "has.costs") 

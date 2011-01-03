@@ -2,6 +2,8 @@
 roxygen()
 #' @include task.desc.r
 roxygen()
+#' @include prepare.df.r
+roxygen()
 
 #' General description object for a machine learning task. 
 #' It encapsulates the data and specifies - through its subclasses - the type of the task (either classification or regression), 
