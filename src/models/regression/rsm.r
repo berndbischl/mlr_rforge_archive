@@ -42,9 +42,8 @@ setMethod(
   
   def = function(.learner, .task, .subset, ...) {
     mf = list(...)$modelfun
-    vs = setdiff(colnames(task["data"][.subset,]), .targetvar)
-    vs2 = paste(vs, collapse=",")
-    g = function(x) paste(x, "(", vs2, ")", sep="") 
+    vs = paste(.task["input.names"], collapse=",")
+    g = function(x) paste(x, "(", vs, ")", sep="") 
     mf = switch(mf,
       FO = g("FO"),
       TWI = paste(g("TWI"), "+", g("FO")),

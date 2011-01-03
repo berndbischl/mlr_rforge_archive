@@ -43,7 +43,7 @@ setMethod(
 				ns = names(flags)
 				if (!all.names(flags) || any(duplicated(ns)))
 					stop("par.desc: ", par.name, " : All elements of flag list have to be uniquely named!")
-				if (!(ns %in% c("optimize", "pass.default")))
+				if (!all(ns %in% c("optimize", "pass.default")))
 					stop("par.desc: ", par.name, " : Only flags 'optimize' and 'pass.default' are supported!")
 				if (!all(sapply(flags, function(x) is.logical(x) || length(x)==1)))
 					stop("par.desc: ", par.name, " : Only boolean flags are supported!")

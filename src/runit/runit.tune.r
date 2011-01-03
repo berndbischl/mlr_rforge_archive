@@ -66,17 +66,17 @@ test.tune <- function() {
 	#tune chain
 	wl = make.learner("classif.rpart", minsplit=10, cp=0.01, predict.type="prob")
 	
-	fun = function(data, n) {
-		target = binaryclass.target
-		cns2 = colnames(data)
-		set.seed(1)
-		cns = setdiff(cns2, target)
-		cns = sample(cns, n)
-		if (target %in% cns2)
-			cns = c(cns, target)
+  pc = function(data, targetvar, args) {
+    cns = setdiff(colnames(data), targetvar)
+    set.seed(1)
+    v = sample(cns, args$n)
+    list(vars=v)
+  }
+  fun = function(data, targetvar, args, control) {
+    cns = union(control$vars, targetvar)
 		data[,cns, drop=FALSE]
 	}
-	wl = make.preproc.wrapper(wl, fun=fun, n=3)
+	wl = make.preproc.wrapper(wl, fun=fun, control=pc, args=list(n=3))
 	
 	r = list(minsplit=c(3,30), n=c(1,60))
 	ctrl = grid.control(ranges=r)

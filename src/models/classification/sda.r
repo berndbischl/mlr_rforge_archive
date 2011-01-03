@@ -53,7 +53,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			d = as.matrix(get.data(.task, .subset, with.target=FALSE))
-			sda(Xtrain = d, L = task["targets"][.subset], ...)
+			sda(Xtrain = d, L = .task["targets"][.subset], ...)
 		}
 )
 
