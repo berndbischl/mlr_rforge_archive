@@ -74,7 +74,7 @@ setMethod(
 				return(ys)
 			}
 			if (i == "model"){
-				if (is.empty(x@model@data.desc))
+				if (is.empty(x@model))
 					return(NULL)
         else
 				  return(x@model)
