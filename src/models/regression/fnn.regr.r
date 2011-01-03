@@ -26,7 +26,7 @@ setMethod(
     
     # l is for reject option. cannot be done with mlr atm
     par.descs = list(
-      new("par.desc.num", par.name="k", default=1L, lower=1L),
+      new("par.desc.double", par.name="k", default=1L, lower=1L),
       new("par.desc.log", par.name="use.all", default=TRUE, requires=expression(algorithm == "VR")),
       new("par.desc.disc", par.name="algorithm", default="cover_tree", vals=list("cover_tree", "kd_tree", "VR"))
     )

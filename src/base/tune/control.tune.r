@@ -46,12 +46,12 @@ setMethod(
 				return(sapply(pds, function(y) y@par.name))
 			}
 			if (i == "lower") {
-				y = sapply(pds, function(y) ifelse(is(y, "par.desc.num"), y@lower, NA))
+				y = sapply(pds, function(y) ifelse(is(y, "par.desc.double"), y@lower, NA))
 				names(y) = x["par.names"]
         return(Filter(function(w) !is.na(w), y))
       }
 			if (i == "upper") {
-				y = sapply(pds, function(y) ifelse(is(y, "par.desc.num"), y@upper, NA))
+				y = sapply(pds, function(y) ifelse(is(y, "par.desc.double"), y@upper, NA))
 				names(y) = x["par.names"] 
         return(Filter(function(w) !is.na(w), y))
       }		

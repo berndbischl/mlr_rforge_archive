@@ -1,7 +1,7 @@
 
 
 init.design = function(par.descs, n.points) {
-  inds.num = which(sapply(par.descs, function(x) is(x, "par.desc.num")))
+  inds.num = which(sapply(par.descs, function(x) is(x, "par.desc.double")))
   inds.rest = (1:length(par.descs))[-inds.num] 
   
   # LH sampling for numerics and ints

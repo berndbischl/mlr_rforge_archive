@@ -8,7 +8,7 @@ generate.offspring = function(learner, task, res, par.vals, y, par.descs, contro
     pn = par.desc["par.name"]
     pv = par.vals[[pn]]
     # todo check requires of pars
-    if (is(pd, "par.desc.num")) {
+    if (is(pd, "par.desc.double")) {
       step.size = step.sizes[pn]
       new.val = pv + s*step.size  
     } else if (is(pd, "par.desc.log")) {

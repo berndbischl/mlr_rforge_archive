@@ -30,23 +30,23 @@ setMethod(
       par.descs = list(
           new("par.desc.disc", par.name="kernel", default="rbfdot", 
               vals=c("vanilladot", "polydot", "rbfdot", "tanhdot", "laplacedot", "besseldot", "anovadot", "splinedot", "stringdot")),
-          new("par.desc.num", par.name="tau", lower=0, default=0.01),
-          new("par.desc.num", par.name="sigma",
+          new("par.desc.double", par.name="tau", lower=0, default=0.01),
+          new("par.desc.double", par.name="sigma",
               lower=0, requires=expression(kernel %in% c("rbfdot", "anovadot", "besseldot", "laplacedot"))),
-          new("par.desc.num", par.name="degree", default=3L, lower=1L, 
+          new("par.desc.double", par.name="degree", default=3L, lower=1L, 
               requires=expression(kernel %in% c("polydot", "anovadot", "besseldot"))),
-          new("par.desc.num", par.name="scale", default=1, lower=0, 
+          new("par.desc.double", par.name="scale", default=1, lower=0, 
               requires=expression(kernel %in% c("polydot", "tanhdot"))),
-          new("par.desc.num", par.name="offset", default=1, 
+          new("par.desc.double", par.name="offset", default=1, 
               requires=expression(kernel %in% c("polydot", "tanhdot"))),
-          new("par.desc.num", par.name="order", default=1L, 
+          new("par.desc.double", par.name="order", default=1L, 
               requires=expression(kernel == "besseldot")),
-          new("par.desc.num", par.name="alpha", default=5L, lower=0L),
-          new("par.desc.num", par.name="var", default=0.1, lower=0),
+          new("par.desc.double", par.name="alpha", default=5L, lower=0L),
+          new("par.desc.double", par.name="var", default=0.1, lower=0),
           new("par.desc.log", par.name="var.fix", default=FALSE),
-          new("par.desc.num", par.name="iterations", default=100L, lower=0L),
-          new("par.desc.num", par.name="tol", default=.Machine$double.eps, lower=0),
-      		new("par.desc.num", par.name="minmaxdiff", default=0.001, lower=0)
+          new("par.desc.double", par.name="iterations", default=100L, lower=0L),
+          new("par.desc.double", par.name="tol", default=.Machine$double.eps, lower=0),
+      		new("par.desc.double", par.name="minmaxdiff", default=0.001, lower=0)
       )
       
       callNextMethod(.Object, pack="kernlab", desc=desc)

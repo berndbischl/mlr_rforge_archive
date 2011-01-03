@@ -33,21 +33,21 @@ setMethod(
 			)
 
 			par.descs = list(
-        new("par.desc.num", par.name="size", default=3L, lower=0L, flags=list(pass.default=TRUE)),
-        new("par.desc.num", par.name="maxit", default=100L, lower=1L),
+        new("par.desc.double", par.name="size", default=3L, lower=0L, flags=list(pass.default=TRUE)),
+        new("par.desc.double", par.name="maxit", default=100L, lower=1L),
         # nnet seems to set these manually and hard for classification.....
 #        new("par.desc.log", par.name="linout", default=FALSE, requires=expression(entropy==FALSE && softmax==FALSE && censored==FALSE)),
 #        new("par.desc.log", par.name="entropy", default=FALSE, requires=expression(linout==FALSE && softmax==FALSE && censored==FALSE)),
 #        new("par.desc.log", par.name="softmax", default=FALSE, requires=expression(entropy==FALSE && linout==FALSE && censored==FALSE)),
 #        new("par.desc.log", par.name="censored", default=FALSE, requires=expression(linout==FALSE && softmax==FALSE && entropy==FALSE)),
         new("par.desc.log", par.name="skip", default=FALSE),
-        new("par.desc.num", par.name="rang", default=0.7),
-        new("par.desc.num", par.name="decay", default=0),
+        new("par.desc.double", par.name="rang", default=0.7),
+        new("par.desc.double", par.name="decay", default=0),
         new("par.desc.log", par.name="Hess", default=FALSE, flags=list(optimize=FALSE)),
         new("par.desc.log", par.name="trace", default=TRUE, flags=list(optimize=FALSE)),
-        new("par.desc.num", par.name="MaxNWts", default=1000L),
-        new("par.desc.num", par.name="abstoll", default=1.0e-4),
-        new("par.desc.num", par.name="reltoll", default=1.0e-8)
+        new("par.desc.double", par.name="MaxNWts", default=1000L),
+        new("par.desc.double", par.name="abstoll", default=1.0e-4),
+        new("par.desc.double", par.name="reltoll", default=1.0e-8)
       )
       			
 			callNextMethod(.Object, pack="nnet", desc=desc, par.descs=par.descs)

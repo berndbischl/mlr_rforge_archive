@@ -6,7 +6,7 @@ opt.meta.model.seq.des = function(n, meta.model, constr.model, curdes, cury, con
 }
 
 opt.meta.model.bfgs = function(n, meta.model, constr.model, curdes, cury, control) {
-  inds.num = which(sapply(par.descs, function(x) is(x, "par.desc.num")))
+  inds.num = which(sapply(par.descs, function(x) is(x, "par.desc.double")))
   inds.rest = (1:length(par.descs))[-inds.num] 
   names.num = sapply(par.descs, function(x) x["par.name"])[inds.num]
   names.rest = sapply(par.descs, function(x) x["par.name"])[inds.rest]
@@ -27,7 +27,7 @@ opt.meta.model.bfgs = function(n, meta.model, constr.model, curdes, cury, contro
   }
  
   bfgs = function(disc.vals) {
-    #start = unlist(sel.random(par.descs, "par.desc.num"))
+    #start = unlist(sel.random(par.descs, "par.desc.double"))
     start = unlist(curdes[which.min(cury), names.num])
     g1 = function(x) g(x, disc.vals=disc.vals)
     or = optim(fn=g1, par=start, method="L-BFGS-B")
@@ -53,7 +53,7 @@ opt.meta.model.bfgs = function(n, meta.model, constr.model, curdes, cury, contro
 
 opt.meta.model.CL = function(n, meta.model, constr.model, curdes, cury, control) {
   par.descs = control$par.descs
-  inds.num = which(sapply(par.descs, function(x) is(x, "par.desc.num")))
+  inds.num = which(sapply(par.descs, function(x) is(x, "par.desc.double")))
   inds.rest = (1:length(par.descs))[-inds.num] 
   names.num = sapply(par.descs, function(x) x["par.name"])[inds.num]
   names.rest = sapply(par.descs, function(x) x["par.name"])[inds.rest]
@@ -84,7 +84,7 @@ get.bounds = function(par.descs, bound) {
   z = list()
   for (i in seq(length=length(par.descs))) {
     pd = par.descs[[i]]
-    if (is(pd, "par.desc.num"))
+    if (is(pd, "par.desc.double"))
       z[[pd["par.name"]]] = pd[bound]
   }
   return(z)

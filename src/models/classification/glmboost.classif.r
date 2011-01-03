@@ -37,8 +37,8 @@ setMethod(
 			x = callNextMethod(.Object, pack="mboost", desc=desc)
 			par.descs = list(
 					new("par.desc.disc", par.name="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
-					new("par.desc.num", par.name="mstop", default=100L, lower=1L),
-					new("par.desc.num", par.name="nu", default=0.1, lower=0, upper=1),				
+					new("par.desc.double", par.name="mstop", default=100L, lower=1L),
+					new("par.desc.double", par.name="nu", default=0.1, lower=0, upper=1),				
 					new("par.desc.log", par.name="center", default=FALSE)
 			)
 			x@par.descs = par.descs

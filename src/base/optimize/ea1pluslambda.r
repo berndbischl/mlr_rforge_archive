@@ -5,7 +5,7 @@ ea1pluslambda = function(f, par.descs, control) {
   step.sizes = list()
   for (i in 1:m) {
     pd = par.descs[[i]]
-    if (is(pd, "par.desc.num")) 
+    if (is(pd, "par.desc.double")) 
       step.sizes[[pd["par.name"]]] = (pd["upper"] - pd["lower"]) / 100
   }
   step.sizes = as.numeric(step.sizes)
@@ -14,7 +14,7 @@ ea1pluslambda = function(f, par.descs, control) {
   offspring = list()
   for (i in 1:m) {
     pd = par.descs[[i]]
-    if (is(pd, "par.desc.num")) 
+    if (is(pd, "par.desc.double")) 
       step.sizes[[pd["par.name"]]] = (pd["upper"] - pd["lower"]) / 100
   }
   #ys = sapply(1:nrow(offspring), function(i) do.call(f, data.frame.row.to.list(offspring, i)))

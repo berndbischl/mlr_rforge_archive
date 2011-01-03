@@ -23,7 +23,7 @@ setMethod(
         new("par.desc.disc", par.name="filter.method", 
           vals=c("linear.correlation", "rank.correlation", "information.gain", "gain.ratio", 
             "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")),
-        new("par.desc.num", par.name="filter.threshold")
+        new("par.desc.double", par.name="filter.threshold")
       )
       pvs = list(filter.threshold=filter.threshold, filter.method=filter.method)
 			callNextMethod(.Object, learner, id=learner["id"], par.descs=pds, par.vals=pvs, pack="FSelector")

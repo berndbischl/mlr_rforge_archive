@@ -41,7 +41,7 @@ make.pds.from.lowup = function(ns, lower, upper) {
     stop("Names of argument upper should be:", paste(ns, collapse=", "))
   for (i in 1:length(ns)) {
     p = ns[i]
-    pd = new("par.desc.num", par.name=p, lower=lower[p], upper=upper[p])
+    pd = new("par.desc.double", par.name=p, lower=lower[p], upper=upper[p])
     pds[[i]] = pd 
   }
   return(pds)

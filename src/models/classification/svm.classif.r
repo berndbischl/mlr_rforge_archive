@@ -34,16 +34,16 @@ setMethod(
 			
       par.descs = list(
         new("par.desc.disc", par.name="type", default="C-classification", vals=c("C-classification", "nu-classification")),
-        new("par.desc.num", par.name="cost",  default=1, lower=0, requires=expression(type=="C-classification")),
-        new("par.desc.num", par.name="nu", default=0.5, requires=expression(type=="nu-classification")),
+        new("par.desc.double", par.name="cost",  default=1, lower=0, requires=expression(type=="C-classification")),
+        new("par.desc.double", par.name="nu", default=0.5, requires=expression(type=="nu-classification")),
         new("par.desc.disc", par.name="kernel", default="radial", vals=c("linear", "polynomial", "radial", "sigmoid")),
-        new("par.desc.num", par.name="degree", default=3L, lower=1L, requires=expression(kernel=="polynomial")),
-        new("par.desc.num", par.name="coef0", default=0, requires=expression(kernel=="polynomial" || kernel=="sigmoid")),
-        new("par.desc.num", par.name="gamma",  default=3L, lower=1L, requires=expression(kernel!="linear")),
-        new("par.desc.num", par.name="tolerance", default=0.001, lower=0),
+        new("par.desc.double", par.name="degree", default=3L, lower=1L, requires=expression(kernel=="polynomial")),
+        new("par.desc.double", par.name="coef0", default=0, requires=expression(kernel=="polynomial" || kernel=="sigmoid")),
+        new("par.desc.double", par.name="gamma",  default=3L, lower=1L, requires=expression(kernel!="linear")),
+        new("par.desc.double", par.name="tolerance", default=0.001, lower=0),
         new("par.desc.log", par.name="shrinking", default=TRUE),
         new("par.desc.log", par.name="probability", default=FALSE, flags=list(optimize=FALSE)),
-        new("par.desc.num", par.name="cachesize", default=40L, flags=list(optimize=FALSE))
+        new("par.desc.double", par.name="cachesize", default=40L, flags=list(optimize=FALSE))
       )
       
 			callNextMethod(.Object, pack="e1071", desc=desc, par.descs=par.descs)

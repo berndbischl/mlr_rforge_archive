@@ -10,7 +10,7 @@ setGeneric(
 
 setMethod(
   f = "sample.pardesc",
-  signature = signature(n="integer", pd="par.desc.num"),
+  signature = signature(n="integer", pd="par.desc.double"),
   def = function(n, pd) {
     x = runif(n, pd["lower"], pd["upper"])
     if (pd["data.type"] == "integer")

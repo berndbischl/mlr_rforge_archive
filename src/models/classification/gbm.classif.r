@@ -35,12 +35,12 @@ setMethod(
       
       par.descs = list(      
           new("par.desc.disc", par.name="distribution", default="bernoulli", vals=c("bernoulli", "adaboost")),
-          new("par.desc.num", par.name="n.trees", default=100L, lower=1L),
-          new("par.desc.num", par.name="interaction.depth", default=1L, lower=1L),
-          new("par.desc.num", par.name="n.minobsinnode", default=10L, lower=1L),
-          new("par.desc.num", par.name="shrinkage", default=0.001, lower=0),
-          new("par.desc.num", par.name="bag.fraction", default=0.5, lower=0, upper=1),
-          new("par.desc.num", par.name="train.fraction", default=1, lower=0, upper=1)
+          new("par.desc.double", par.name="n.trees", default=100L, lower=1L),
+          new("par.desc.double", par.name="interaction.depth", default=1L, lower=1L),
+          new("par.desc.double", par.name="n.minobsinnode", default=10L, lower=1L),
+          new("par.desc.double", par.name="shrinkage", default=0.001, lower=0),
+          new("par.desc.double", par.name="bag.fraction", default=0.5, lower=0, upper=1),
+          new("par.desc.double", par.name="train.fraction", default=1, lower=0, upper=1)
       )
       callNextMethod(.Object, pack="gbm", desc=desc,	
           par.descs=par.descs, par.vals=list(distribution = "bernoulli"))

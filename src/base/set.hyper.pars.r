@@ -56,9 +56,9 @@ setMethod(
           if (is(pd, "par.desc.log")) {
             if(!is.logical(p) || length(p) != 1)
               stop(class(learner), ": Par ", n, " has to be a single boolean value!")
-          } else if (is(pd, "par.desc.num")){
+          } else if (is(pd, "par.desc.double")){
             if(!is.numeric(p) || length(p) != 1)
-              stop(class(learner), ": Par ", n, " has to be a single numerical value!")
+              stop(class(learner), ": Par ", n, " has to be a single double value!")
             if (pd["data.type"] == "integer")
               p = as.integer(p)
             if (p < pd["lower"] || p > pd["upper"])

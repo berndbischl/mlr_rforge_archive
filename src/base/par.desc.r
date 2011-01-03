@@ -76,7 +76,7 @@ setClass(
 
 
 setClass(
-	"par.desc.num",
+	"par.desc.double",
 	contains = c("par.desc"),
 	representation = representation(
 		data.type = "character",
@@ -87,7 +87,7 @@ setClass(
 #' Constructor.
 setMethod(
 		f = "initialize",
-		signature = signature("par.desc.num"),
+		signature = signature("par.desc.double"),
 		def = function(.Object, par.name, data.type, default="missing", when="train", lower=-Inf, upper=Inf, flags=list(), requires=expression(TRUE)) {
 			if (missing(data.type))
 				data.type = ifelse(is.integer(lower) || is.integer(upper) || is.integer(default), "integer", "numeric")

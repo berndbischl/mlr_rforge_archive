@@ -33,18 +33,18 @@ setMethod(
 			)
 			
 			par.descs = list(
-					new("par.desc.num", par.name="ntree", default=500L, lower=1L),
-					new("par.desc.num", par.name="mtry", lower=1),
+					new("par.desc.double", par.name="ntree", default=500L, lower=1L),
+					new("par.desc.double", par.name="mtry", lower=1),
 					new("par.desc.log", par.name="replace", default=TRUE),
-					new("par.desc.num", par.name="sampsize", lower=1L),
-					new("par.desc.num", par.name="nodesize", default=1L, lower=1L),
-					new("par.desc.num", par.name="maxnodes", lower=1L),
+					new("par.desc.double", par.name="sampsize", lower=1L),
+					new("par.desc.double", par.name="nodesize", default=1L, lower=1L),
+					new("par.desc.double", par.name="maxnodes", lower=1L),
         
           new("par.desc.log", par.name="importance", default=FALSE, flags=list(optimize=FALSE)),
           new("par.desc.log", par.name="localImp", default=FALSE, flags=list(optimize=FALSE)),
           new("par.desc.log", par.name="norm.votes", default=TRUE, flags=list(optimize=FALSE)),
           new("par.desc.log", par.name="keep.inbag", default=FALSE, flags=list(optimize=FALSE)),
-          new("par.desc.num", par.name="maxnodes", lower=1L)
+          new("par.desc.double", par.name="maxnodes", lower=1L)
 			)
 
       callNextMethod(.Object, pack="randomForest", desc=desc, par.descs=par.descs)

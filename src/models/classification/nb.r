@@ -33,8 +33,8 @@ setMethod(
 			)
 			
       par.descs = list(
-        new("par.desc.num", par.name="laplace", default=0, lower=0)
-        #new("par.desc.num", par.name="threshold", default=0.001, lower=0)
+        new("par.desc.double", par.name="laplace", default=0, lower=0)
+        #new("par.desc.double", par.name="threshold", default=0.001, lower=0)
       )
       
       
