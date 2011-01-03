@@ -9,7 +9,6 @@
 #	export(".mlr.task", task)
 #	export(".mlr.rin", resample.instance)
 #	export(".mlr.parset", parset)
-#	export(".mlr.vars", vars)
 #	export(".mlr.type", type)
 #	export(".mlr.extract", extract)
 #}

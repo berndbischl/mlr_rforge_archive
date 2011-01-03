@@ -55,15 +55,15 @@ setMethod(
 		f = "train.learner",
     signature = signature(
       .learner="opt.wrapper", 
-      .task="learn.task", .subset="integer", .vars="character"
+      .task="learn.task", .subset="integer"
     ),
       
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			wl = .learner
 			bl = wl@learner
 			ctrl = wl@control
       
-      lt = subset.task(.task, .subset, .vars)
+      lt = subset.task(.task, .subset)
 			if (wl["opt.type"] == "tune")
 				or = tune(bl, task=lt, resampling=wl@resampling, control=ctrl, 
 						measures=wl@measures, model=TRUE)

@@ -24,17 +24,13 @@ roxygen()
 
 setGeneric(
 		name = "train",
-		def = function(learner, task, subset, vars) {
+		def = function(learner, task, subset) {
 			if (is.character(learner))
 				learner <- make.learner(learner)
 			if (missing(subset))
 				subset <- 1:task["size"]
       if (is.numeric(subset))
         subset = as.integer(subset)
-			if (missing(vars))
-				vars <- task["input.names"]
-			if (length(vars) == 0)
-				vars <- character(0)
 			standardGeneric("train")
 		}
 )
@@ -48,11 +44,10 @@ setMethod(
 		signature = signature(
 				learner="learner", 
 				task="learn.task", 
-				subset="integer", 
-				vars="character"
+				subset="integer" 
 		),
 		
-		def = function(learner, task, subset, vars) {
+		def = function(learner, task, subset) {
       
       # todo: do we still need this, and the loading when exporting a learner? 
       # pack is loaded when learner is constructed
@@ -67,15 +62,9 @@ setMethod(
       
       wl <- learner
       tn <- task["target"]
-      
-      
-      # reduce data to subset and selected vars
-      x = !vars %in% task["input.names"]
-      if (sum(x) > 0)
-        stop("Trying to train with vars which are not inputs: ", paste(vars[x], collapse=","))
-      
+                
       # make pars list for train call
-      pars = list(.learner=wl, .task=task, .subset=subset, .vars=vars)
+      pars = list(.learner=wl, .task=task, .subset=subset)
       # only pass train hyper pars to rlearner
       hps = wl["par.vals", par.when="train"]
       pars = c(pars, hps)
@@ -85,6 +74,7 @@ setMethod(
       logger.debug(level="train", "on", length(subset), "examples:")
       logger.debug(level="train", subset)
       
+      vars = task["input.names"]
       # no vars? then use no vars model
       if (length(vars) == 0) {
         learner.model = new("novars", targets=task["data"][subset, tn], task.desc=task@task.desc)

@@ -29,15 +29,13 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("base.wrapper"),
-		def = function(.Object, learner, id, desc, par.descs, par.vals, pack=as.character(c())) {
+		def = function(.Object, learner, id, par.descs, par.vals, pack=as.character(c())) {
 			if (missing(learner))
-				return(.Object)
+				return(make.empty(.Object))
 			.Object@learner = learner
 			if (is.na(id))
 				id = learner["id"]
-			if (missing(desc))
-				desc = learner@desc
-			callNextMethod(.Object, id=id, desc=desc, par.descs=par.descs, par.vals=par.vals, pack=pack)
+			callNextMethod(.Object, id=id, par.descs=par.descs, par.vals=par.vals, pack=pack)
 		}
 )
 
@@ -93,13 +91,13 @@ setMethod(
 		f = "train.learner",
     signature = signature(
       .learner="base.wrapper", 
-      .task="learn.task", .subset="integer", .vars="character"
+      .task="learn.task", .subset="integer"
     ),
       
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
 			args = list(...)
 			args = args[!(names(args) %in% names(.learner["par.vals", par.top.wrapper.only=TRUE]))]
-			f.args = list(.learner@learner, .targetvar, .data, .task.desc, .weights, .costs)
+			f.args = list(.learner@learner, .task, .subset, .vars)
 			f.args = c(f.args, args)
 			do.call(train.learner, f.args)
 		}
@@ -162,5 +160,30 @@ setMethod(
     return(learner)
   } 
 )
+
+#' @rdname to.string
+setMethod(f = "to.string",
+  signature = signature("base.wrapper"),
+  def = function(x) {
+    s = ""
+    y = x 
+    while (is(y, "base.wrapper")) {
+      s = paste(s, class(y), "->", sep="")
+      y = y@learner
+    }
+    s = paste(s, class(y))
+    
+    hps = x["par.vals"]
+    hps.ns = names(hps)
+    hps = Map(function(n, v) hyper.par.val.to.name(n,v,x), hps.ns, hps)
+    hps = paste(hps.ns, hps, sep="=", collapse=" ")
+
+    return(paste(
+        s, "\n",
+        "Hyperparameters: ", hps, "\n\n",
+        sep = ""         
+      ))
+  })
+
 
 

@@ -56,10 +56,10 @@ setMethod(
 		f = "train.learner",
     signature = signature(
       .learner="filter.wrapper", 
-      .task="learn.task", .subset="integer", .vars="character"
+      .task="learn.task", .subset="integer"
     ),
 		
-		def = function(.learner, .task, .subset, .vars,  ...) {
+		def = function(.learner, .task, .subset,  ...) {
       args = list(...)
       method = args$filter.method
       th = args$filter.threshold

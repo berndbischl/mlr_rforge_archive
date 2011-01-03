@@ -77,10 +77,10 @@ setMethod(
   f = "train.learner",
   signature = signature(
     .learner="multiclass.wrapper", 
-    .task="classif.task", .subset="integer", .vars="character" 
+    .task="classif.task", .subset="integer" 
   ),
   
-  def = function(.learner, .task, .subset, .vars,  ...) {   
+  def = function(.learner, .task, .subset,  ...) {   
     cm = .learner["codematrix"]
     y = .data[,.targetvar]
     x = multi.to.binary(y, cm)
