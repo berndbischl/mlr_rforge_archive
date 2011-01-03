@@ -15,7 +15,7 @@ setMethod(
 			
 			desc = new("learner.desc.regr",
 					missings = FALSE,
-					numerics = TRUE,
+					doubles = TRUE,
 					factors = TRUE,
 					weights = TRUE
 			)

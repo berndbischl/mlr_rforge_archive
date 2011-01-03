@@ -24,7 +24,7 @@ setMethod(
 					twoclass = TRUE,
 					multiclass = FALSE,
 					missings = FALSE,
-					numerics = TRUE,
+					doubles = TRUE,
 					factors = FALSE,
 					probs = TRUE,
 					decision = FALSE,

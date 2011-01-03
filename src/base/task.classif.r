@@ -73,12 +73,11 @@ setMethod(
       cwm = sum(apply(x["data"], 2, function(x) any(is.na(x))))
       rwi = sum(apply(x["data"], 1, function(x) any(is.infinite(x))))
       cwi = sum(apply(x["data"], 2, function(x) any(is.infinite(x))))
-      
+      feat = paste(capture.output(x["n.feat"]), collapse="\n")
 			return(
 					paste(
 							"Classification problem ", x["id"], "\n",
-							"Features:", x["n.feat"]["num"], " Factors:", x["n.feat"]["fact"], 
-              " Ints:", x["n.feat"]["int"], " Chars:", x["n.feat"]["char"], "\n",
+							"Features:\n", feat, "\n", 
               "Observations: ", x["size"] , "\n",
               "Missings: ", x["has.missing"], "\n", 
               ifelse(x["has.missing"], paste("in", rwm, "observations and", cwm, "features\n"), ""), 

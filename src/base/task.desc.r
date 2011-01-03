@@ -12,7 +12,7 @@ roxygen()
 #'  \item{target [string]}{Name of target variable.}
 #'  \item{size [integer]}{Number of cases.}
 #'  \item{dim [integer]}{Number of covariates.}
-#'  \item{n.feat [integer]}{Number of numerical covariates.}
+#'  \item{n.feat [integer]}{Number of covariates, named vector with entries: 'double', 'fact', 'int', 'char', 'log'.}
 #'  \item{has.missing [boolean]}{Are missing values present?}
 #'  \item{has.inf [boolean]}{Are infinite numerical values present?}
 #'  \item{class.levels [character]}{Possible classes. NA if not classification.}
@@ -61,10 +61,11 @@ setMethod(
     .Object@size = nrow(data)
     y = data[, target]
     .Object@n.feat = c(
-      num = sum(sapply(data, is.numeric)) - is.numeric(y), 
+      double = sum(sapply(data, is.double)) - is.double(y), 
       int  = sum(sapply(data, is.integer)) - is.integer(y),
       fact = sum(sapply(data, is.factor)) - is.factor(y),
-      char = sum(sapply(data, is.character)) - is.character(y)
+      char = sum(sapply(data, is.character)) - is.character(y),
+      log = sum(sapply(data, is.logical)) - is.logical(y)
     )
     .Object@has.missing = any(is.na(data))
     .Object@has.inf = any(is.infinite(data))

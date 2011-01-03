@@ -19,7 +19,7 @@ setMethod(
     
     desc <- new("learner.desc.regr",
       missings = FALSE,
-      numerics = TRUE,
+      doubles = TRUE,
       factors = FALSE,
       weights = FALSE
     )
