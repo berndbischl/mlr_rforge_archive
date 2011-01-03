@@ -10,8 +10,6 @@ roxygen()
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 
 #'        An index vector specifying the training cases to be used for fitting. By default the complete data set is used. 
-#' @param vars [\code{\link{character}}] \cr
-#'       Vector of variable names to use in training the model. Default is to use all variables.
 #' 
 #' @return \code{\linkS4class{wrapped.model}}. 
 #'

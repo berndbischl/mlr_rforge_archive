@@ -1,8 +1,8 @@
-resample.fit.iter <- function(learner, task, rin, i, measures, vars, model, extract) {
+resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
 	train.i = rin["train.inds"][[i]]
   test.i = rin["test.inds"][[i]]
 	
-	m = train(learner, task, subset=train.i, vars=vars)
+	m = train(learner, task, subset=train.i)
 	p = predict(m, task=task, subset=test.i)
   
   # does a measure require to calculate pred.train?

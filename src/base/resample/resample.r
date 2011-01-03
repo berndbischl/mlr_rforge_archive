@@ -12,8 +12,6 @@
 #'        Learning task.
 #' @param resampling [\code{\linkS4class{resample.desc}} or \code{\linkS4class{resample.instance}}] \cr
 #'        Resampling strategy. 
-#' @param vars [\code{\link{character}}] \cr 
-#'        Vector of variable names to use in training the model. Default is to use all variables.
 #' @param extract [\code{\link{function}}] \cr 
 #'       Function used to extract information from fitted models, e.g. can be used to save the complete list of fitted models. 
 #'        Default is to extract nothing. 
@@ -26,7 +24,7 @@
 
 setGeneric(
   name = "resample",
-  def = function(learner, task, resampling, measures, vars, models, extract) {
+  def = function(learner, task, resampling, measures, models, extract) {
     if (is.character(learner))
       learner = make.learner(learner)
     if (is(resampling, "resample.desc")) 
@@ -35,10 +33,6 @@ setGeneric(
       measures = default.measures(task)
     if (is(measures, "measure"))
       measures = list(measures)
-    if (missing(vars))
-      vars = task["input.names"]
-    if (length(vars) == 0)
-      vars = character(0)
     if (missing(models))
       models = FALSE
     if (missing(extract))
@@ -51,8 +45,8 @@ setGeneric(
 #' @rdname resample 
 setMethod(
   f = "resample",
-  signature = signature(learner="learner", task="learn.task", resampling="resample.instance", measures="list", vars="character", models="logical", extract="function"),
-  def = function(learner, task, resampling, measures, vars, models, extract) {
+  signature = signature(learner="learner", task="learn.task", resampling="resample.instance", measures="list", models="logical", extract="function"),
+  def = function(learner, task, resampling, measures, models, extract) {
     n = task["size"]
     r = resampling["size"]
     if (n != r)
@@ -63,7 +57,7 @@ setMethod(
     
     if (is(rin, "resample.instance.nonseq")) {
       rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
-        rin=rin, measures=measures, vars=vars, model=models, extract=extract)
+        rin=rin, measures=measures, model=models, extract=extract)
     } else {
       rs  = list()
       # sequential resampling cannot be (easily) parallized!
