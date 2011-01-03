@@ -22,13 +22,13 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("classif.task"),
-		def = function(.Object, id, target, data, exclude, weights, blocking, control=control, costs, positive) {
+		def = function(.Object, id, target, data, weights, blocking, control=control, costs, positive) {
 			if (missing(data))
 				return(make.empty(.Object))
 			
       check.costs(costs, levels(data[, target]))
 
-      td = new("task.desc", data, target, exclude, "classif.task", id, 
+      td = new("task.desc", data, target, "classif.task", id, 
         length(weights) > 0, length(blocking) > 0, costs, as.character(NA))      
 
 			# init positive
@@ -77,9 +77,8 @@ setMethod(
 			return(
 					paste(
 							"Classification problem ", x["id"], "\n",
-							"Features Nums:", x["n.feat"]["num"], " Factors:", x["n.feat"]["fact"], 
+							"Features:", x["n.feat"]["num"], " Factors:", x["n.feat"]["fact"], 
               " Ints:", x["n.feat"]["int"], " Chars:", x["n.feat"]["char"], "\n",
-              "Exclude: ", x["exclude"], "\n",
               "Observations: ", x["size"] , "\n",
               "Missings: ", x["has.missing"], "\n", 
               ifelse(x["has.missing"], paste("in", rwm, "observations and", cwm, "features\n"), ""), 

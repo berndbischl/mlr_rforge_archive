@@ -61,7 +61,7 @@ prepare.control = function(ints.as = "numeric", chars.as = "factor", drop.class.
 }
 
 
-prep.data = function(is.classif, data, target, exclude=c(), control) {
+prep.data = function(is.classif, data, target, control) {
 	
 	ints.as = control@ints.as
 	chars.as = control@chars.as
@@ -99,12 +99,11 @@ prep.data = function(is.classif, data, target, exclude=c(), control) {
 	}	
 	
 	cns = colnames(data)
-	exclude = c(exclude, target)
   conv.in = conv.if = conv.cf = conv.inf  = conv.large = character(0) 
 	for (i in 1:ncol(data)) {
 		cn = cns[i]
 		v = data[, i]
-		if (!(cn  %in% exclude)) {
+		if (cn  != target) {
 			if (ints.as == "numeric" && is.integer(v)) {
         conv.in = c(conv.in, cn)
 				data[,i] = as.numeric(v)

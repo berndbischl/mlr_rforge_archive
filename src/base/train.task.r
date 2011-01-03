@@ -11,7 +11,7 @@ roxygen()
 #' @param subset [\code{\link{integer}}] \cr 
 #'        An index vector specifying the training cases to be used for fitting. By default the complete data set is used. 
 #' @param vars [\code{\link{character}}] \cr
-#'       Vector of variable names to use in training the model. Default is to use all variables, except the excluded in the task.
+#'       Vector of variable names to use in training the model. Default is to use all variables.
 #' 
 #' @return \code{\linkS4class{wrapped.model}}. 
 #'
@@ -38,70 +38,6 @@ setGeneric(
 			standardGeneric("train")
 		}
 )
-
-
-train.task2 <- function(learner, task, subset, vars, extra.train.pars, check.fct) {
-
-	# todo: do we still need this, and the loading when exporting a learner? 
-	# pack is loaded when learner is constructed
-	# export: probably yes...
-	require.packs(learner["pack"], paste("learner", learner["id"]))
-	
-	check.result <- check.fct(task, learner)
-	if (check.result$msg != "") {
-		stop(check.result$msg)
-	}
-	
-	wl <- learner
-	tn <- task["target"]
-		
-	
-	# reduce data to subset and selected vars
-  x = !vars %in% task["input.names"]
-	if (sum(x) > 0)
-		stop("Trying to train with vars which are not inputs: ", paste(vars[x], collapse=","))
-	data.subset = task["data"][subset, c(vars, tn), drop=FALSE]
-	
-	# todo: maybe don't pass weights for performance reasons when none set?
-	if (task["has.weights"])
-		ws = task["weights"][subset]
-	else
-		ws = rep(1, length(subset)) 
-	
-	# make pars list for train call
-	pars = list(.learner=wl, .target=tn, .data=data.subset, .task.desc=task@task.desc, .weights=ws)
-	# only pass train hyper pars to rlearner
-	hps = wl["par.vals", par.when="train"]
-	pars = c(pars, extra.train.pars, hps)
-	
-	logger.debug(level="train", "mlr train:", wl["id"], "with pars:")
-	logger.debug(level="train", hps)
-	logger.debug(level="train", "on", length(subset), "examples:")
-	logger.debug(level="train", subset)
-	
-	# no vars? then use no vars model
-	if (length(vars) == 0) {
-		learner.model = new("novars", targets=data.subset[, tn], task.desc=task@task.desc)
-		time.train = 0
-	} else {
-		# set the seed
-		if(!is.null(.mlr.local$debug.seed)) {
-			set.seed(.mlr.local$debug.seed)
-			warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
-		}
-		
-		st = system.time(or <- capture.output({
-			if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
-				learner.model <- do.call(train.learner, pars)
-			else
-				learner.model <- try(do.call(train.learner, pars), silent=TRUE)
-			}), gcFirst = FALSE)
-		logger.debug(level="train", or)
-		time.train = as.numeric(st[3])
-	}
-
-  make.wrapped.model(wl, learner.model, task@task.desc, task@control, hps, subset, vars, time.train)
-}
 	
 
 #' @export
@@ -117,13 +53,59 @@ setMethod(
 		),
 		
 		def = function(learner, task, subset, vars) {
-			if (is(task, "classif.task")) {
-				extra.train.pars = list(.costs = task["costs"])
-				ctf = check.task.learner.classif
-			} else {
-				extra.train.pars = list()
-				ctf = check.task.learner
-			}
-			train.task2(learner, task, subset, vars, extra.train.pars, ctf)
+      
+      # todo: do we still need this, and the loading when exporting a learner? 
+      # pack is loaded when learner is constructed
+      # export: probably yes...
+      require.packs(learner["pack"], paste("learner", learner["id"]))
+      
+      check.result = if (is(task, "classif.task")) check.task.learner.classif(task, learner) else check.task.learner(task, learner)
+      
+      if (check.result$msg != "") {
+        stop(check.result$msg)
+      }
+      
+      wl <- learner
+      tn <- task["target"]
+      
+      
+      # reduce data to subset and selected vars
+      x = !vars %in% task["input.names"]
+      if (sum(x) > 0)
+        stop("Trying to train with vars which are not inputs: ", paste(vars[x], collapse=","))
+      
+      # make pars list for train call
+      pars = list(.learner=wl, .task=task, .subset=subset, .vars=vars)
+      # only pass train hyper pars to rlearner
+      hps = wl["par.vals", par.when="train"]
+      pars = c(pars, hps)
+      
+      logger.debug(level="train", "mlr train:", wl["id"], "with pars:")
+      logger.debug(level="train", hps)
+      logger.debug(level="train", "on", length(subset), "examples:")
+      logger.debug(level="train", subset)
+      
+      # no vars? then use no vars model
+      if (length(vars) == 0) {
+        learner.model = new("novars", targets=task["data"][subset, tn], task.desc=task@task.desc)
+        time.train = 0
+      } else {
+        # set the seed
+        if(!is.null(.mlr.local$debug.seed)) {
+          set.seed(.mlr.local$debug.seed)
+          warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
+        }
+        
+        st = system.time(or <- capture.output({
+              if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
+                learner.model <- do.call(train.learner, pars)
+              else
+                learner.model <- try(do.call(train.learner, pars), silent=TRUE)
+            }), gcFirst = FALSE)
+        logger.debug(level="train", or)
+        time.train = as.numeric(st[3])
+      }
+      
+      make.wrapped.model(wl, learner.model, task@task.desc, task@control, hps, subset, vars, time.train)
 		}
 )

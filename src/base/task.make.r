@@ -22,7 +22,7 @@ roxygen()
 #' @param target [string] \cr
 #'   Name of the target variable.
 #' @param exclude [character]
-#'   Names of inputs, which should be generally disregarded, e.g. IDs, etc. Default is zero-length vector. 
+#'   Names of inputs, which should be discarded, e.g. IDs, etc. Default is zero-length vector. 
 #' @param weights [numeric] \cr 	
 #'   An optional vector of case weights to be used in the fitting process (if the learner cannot handle weights, they are ignored). Default is not to use weights.
 #' @param blocking [factor] \cr 	
@@ -130,6 +130,9 @@ setMethod(
     if (target %in% exclude)
       stop("Trying to exclude target variable!")
     
+    if (length(exclude) > 0)
+      data = data[, setdiff(colnames(data), exclude)]
+    
     if(is.factor(data[,target]) || is.character(data[,target]) || is.logical(data[,target]))
       type = "classif"
     else if(is.numeric(data[,target]) && !is.integer(data[,target]))
@@ -138,16 +141,16 @@ setMethod(
       stop("Cannot infer the type of task from the target data type. Please transform it!")
     
     
-    data = prep.data(type=="classif", data, target, exclude, control)			
+    data = prep.data(type=="classif", data, target, ntrol)			
     
     if (type == "classif") {
-      new("classif.task", id=id, target=target, data=data, exclude=exclude, weights=weights, blocking=blocking, control=control, costs=costs, positive=positive)
+      new("classif.task", id=id, target=target, data=data, weights=weights, blocking=blocking, control=control, costs=costs, positive=positive)
     } else {
       if(!is.na(positive))
         stop("You cannot define a positive class for regression!")
       if (!(all(dim(costs) == 0)))
         stop("You cannot define a cost matrix for regression!")
-      new("regr.task", id=id, target=target, data=data, exclude=exclude, weights=weights, blocking=blocking, control=control)
+      new("regr.task", id=id, target=target, data=data, weights=weights, blocking=blocking, control=control)
     }
   }
 )

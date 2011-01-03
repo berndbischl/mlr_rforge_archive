@@ -12,8 +12,8 @@ roxygen()
 #' Note that all getters of \code{\linkS4class{task.desc}} can also be used, as they internally encapsulate some information of the task. 
 #' 
 #' \describe{
-#' 	\item{data [data.frame] Optional parameters: exclude=TRUE}{Encapsulated data. Excluded variables are excluded iff \code{exclude} == TRUE.}
-#'  \item{input.names [character]}{The names of the input variables (without excluded variables).}
+#' 	\item{data [data.frame]}{Encapsulated data.}
+#'  \item{input.names [character]}{The names of the input variables.}
 #'  \item{targets [character]}{Target column of data.}
 #'  \item{weights [numeric]}{Case weights are returned. NULL if no weights were set.}
 #'  \item{blocking [factor]}{Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration. NULL if no blocking was set.}
@@ -75,13 +75,9 @@ setMethod(
 			argnames = names(args)
 			
 			td = x@task.desc
-      exc = args$exclude
-      exc = if (is.null(exc)) TRUE else exc
-      
-      
       
 			if (i == "input.names"){
-				return(setdiff(colnames(x@data), c(x["exclude"], x["target"])))
+				return(setdiff(colnames(x@data), x["target"]))
 			}
 			
 			if (i == "targets") {
@@ -96,12 +92,6 @@ setMethod(
 				if (!td["has.blocking"])
 					return(NULL)
 				return(x@blocking)
-			}
-			if (i == "data"){
-        if (exc) {
-          return(x@data[, setdiff(colnames(x@data), x["exclude"])])
-        } else
-          return(x@data)				
 			}
 			y = td[i]
 			if (!is.null(y))

@@ -10,7 +10,6 @@ roxygen()
 #'  \item{is.classif [boolean]}{Classification task?}
 #'  \item{is.regr [boolean]}{Regression task?}
 #'  \item{target [string]}{Name of target variable.}
-#'  \item{exclude [character]}{Names of excluded covariates.}
 #'  \item{size [integer]}{Number of cases.}
 #'  \item{dim [integer]}{Number of covariates.}
 #'  \item{n.feat [integer]}{Number of numerical covariates.}
@@ -38,7 +37,6 @@ setClass(
 				task.class = "character",
         id = "character",
         target = "character",
-        exclude = "character",
         size = "integer",
         n.feat = "integer",
         class.dist = "integer",
@@ -55,23 +53,21 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("task.desc"),
-  def = function(.Object, data, target, exclude, task.class, id, has.weights, has.blocking, costs, positive) {
+  def = function(.Object, data, target, task.class, id, has.weights, has.blocking, costs, positive) {
     .Object@task.class = task.class
     .Object@id = id
-    i = which(colnames(data) %in% c(target, exclude))
-    df2 = data[, -i, drop=FALSE]
+    i = which(colnames(data) %in% c(target))
     .Object@target = target 
-    .Object@exclude = exclude 
     .Object@size = nrow(data)
-    .Object@n.feat = c(
-      num = sum(sapply(df2, is.numeric)), 
-      int  = sum(sapply(df2, is.integer)),
-      fact = sum(sapply(df2, is.factor)),
-      char = sum(sapply(df2, is.character))
-    )
-    .Object@has.missing = any(is.na(df2))
-    .Object@has.inf = any(is.infinite(df2))
     y = data[, target]
+    .Object@n.feat = c(
+      num = sum(sapply(df, is.numeric)) - is.numeric(y), 
+      int  = sum(sapply(df, is.integer)) - is.integer(y),
+      fact = sum(sapply(df, is.factor)) - is.factor(y),
+      char = sum(sapply(df, is.character) - is.character(y))
+    )
+    .Object@has.missing = any(is.na(df))
+    .Object@has.inf = any(is.infinite(df))
     if(is.factor(y))
       .Object@class.dist = {tab=table(y);cl=as.integer(tab); names(cl)=names(tab);cl}
     else
@@ -107,6 +103,9 @@ setMethod(
           return(setdiff(x["class.levels", x["positive"]])) 
         else 
           return(as.character(NA))
+      if (i == "has.costs") 
+        if(x["is.classif"]) return(all(dim(x@costs)==0)) else return(as.logical(NA))
+      
 			callNextMethod()
 		}
 )
