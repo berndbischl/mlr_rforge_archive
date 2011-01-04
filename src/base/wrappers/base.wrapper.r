@@ -33,7 +33,7 @@ setMethod(
 			if (missing(learner))
 				return(make.empty(.Object))
 			.Object@learner = learner
-			callNextMethod(.Object, par.descs=par.descs, par.vals=par.vals, pack=pack)
+      callNextMethod(.Object, id=learner["id"], par.descs=par.descs, par.vals=par.vals, pack=pack)
 		}
 )
 

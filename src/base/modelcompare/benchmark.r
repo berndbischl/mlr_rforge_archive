@@ -29,7 +29,7 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
 	
 	extract = function(m){}
 	if (is(learner, "opt.wrapper")) {
-		extract = function(m) x["opt.result"]
+		extract = function(m) m["opt.result"]
 	}
 
 	

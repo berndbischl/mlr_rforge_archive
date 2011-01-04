@@ -7,11 +7,9 @@ allowed.rd.files <<- c(
 		"to.string.Rd",
 
 		"task.desc-class.Rd",
-		"learn.task-class.Rd",
-		"learn.task-class.Rd",
 		"classif.task-class.Rd",
 		"regr.task-class.Rd",
-		"make.task.Rd",
+    "prepare.control.Rd",
 		"make.task.Rd",
 		
 		"train.learner.Rd",
@@ -26,14 +24,16 @@ allowed.rd.files <<- c(
 		"make.learner.Rd",
 		"set.hyper.pars.Rd",
 		"set.id.Rd",
-		"learners.Rd",
+    "set.predict.type.Rd",
+    "learners.Rd",
 		"get.learners.Rd",
 		
 		"train.Rd",
 		"wrapped.model-class.Rd",
 		"predict.Rd",
 		"prediction-class.Rd",
-		
+    "set.threshold.Rd",
+    
 		"performance.Rd",
 		"conf.matrix.Rd",
 		"aggregations.Rd",

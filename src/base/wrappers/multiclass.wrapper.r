@@ -81,6 +81,7 @@ setMethod(
   def = function(.learner, .task, .subset,  ...) {
     tn = .task["target"]   
     cm = .learner["codematrix"]
+    d = get.data(.task, .subset)
     y = .task["targets"][.subset]
     x = multi.to.binary(y, cm)
     k = length(x$row.inds) 
@@ -88,7 +89,7 @@ setMethod(
     models = list()
     args = list(...)
     for (i in 1:k) {
-      data2 = .data[x$row.inds[[i]], ]
+      data2 = d[x$row.inds[[i]], ]
       data2[, tn] = x$targets[[i]] 
       ct = change.data(.task, data2)
       m = train(.learner["learner"], task=ct, par.vals=args)
