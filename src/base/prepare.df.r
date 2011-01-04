@@ -1,9 +1,5 @@
-#' Control object for data preparation.
-#' 
 #' @exportClass prepare.control
-#' @rdname prepare.control-class
-#' @title Control object for data preparation.
-#' @seealso \code{\link{make.task}}
+#' @rdname prepare.control
 
 setClass(
 		"prepare.control",
@@ -34,10 +30,10 @@ setMethod(
 )
 
 
-#' Construct a control object for data preparation.
+#' Control structure for basic data preparation.
 #'
 #' @param ints.as [string]\cr
-#'   Should integer input variables be converted to either "numeric" or "factor". Default is "numeric".
+#'   Should integer input variables be converted to either "double" or "factor". Default is "double".
 #' @param chars.as [string]\cr
 #'   Conversion of character input variables. Currently only "factor" is supported.
 #' @param drop.class.levels [boolean]\cr
@@ -49,13 +45,13 @@ setMethod(
 #' @param large [numeric]\cr
 #'   Threshold for capping in \code{impute.large}. Default is \code{Inf}. 
 #' 
-#' @return \code{\linkS4class{prepare.control}}.
+#' @return Control structure for data preparation.
 #' @export
 #' @rdname prepare.control
-#' @title Construct prepare.control object.
+#' @title Control for basic basic data preparation.
 
 
-prepare.control = function(ints.as = "numeric", chars.as = "factor", drop.class.levels = TRUE, 
+prepare.control = function(ints.as = "double", chars.as = "factor", drop.class.levels = TRUE, 
   impute.inf = .Machine$double.xmax, impute.large = .Machine$double.xmax, large = Inf) {
 	new("prepare.control", ints.as, chars.as, drop.class.levels, impute.inf, impute.large, large)
 }
@@ -104,7 +100,7 @@ prep.data = function(is.classif, data, target, control) {
 		cn = cns[i]
 		v = data[, i]
 		if (cn  != target) {
-			if (ints.as == "numeric" && is.integer(v)) {
+			if (ints.as == "double" && is.integer(v)) {
         conv.in = c(conv.in, cn)
 				data[,i] = as.numeric(v)
 			}
@@ -138,7 +134,7 @@ prep.data = function(is.classif, data, target, control) {
 	}
   if (.mlr.local$errorhandler.setup$on.convert.var == "warn") {
     if (length(conv.in) > 0)
-      warning("Converting integer variable to numeric: ", paste(conv.in, collapse=","))
+      warning("Converting integer variable to double: ", paste(conv.in, collapse=","))
     if (length(conv.if) > 0)
       warning("Converting integer variable to factor: ", paste(conv.if, collapse=","))
     if (length(conv.cf) > 0)
