@@ -1,31 +1,67 @@
 #' @include base.wrapper.r
 
 
-#' Fuses a base learner with empirical thresholding. Creates a learner object, which can be
-#' used like any other learner object, but which chooses . 
-#' If the train or predict function is called on it, the preprocessing is always invoked before.
+setClass(
+  "et.wrapper",
+  contains = c("base.wrapper")
+)
+
+setMethod(
+  f = "[",
+  signature = signature("et.wrapper"),
+  def = function(x,i,j,...,drop) {
+    if (i == "prob")
+      return(FALSE)
+    if (i == "decision")
+      return(FALSE)
+    callNextMethod()
+  }
+)
+
+#' Fuses a classifier with thresholding. Creates a learner object, which can be
+#' used like any other learner object, but which produces discrete class labels 
+#' from probailities of teh base learner according to thresholds.
+#' These thresholds are additional hyperparameters of the new learner and 
+#' can therefore be tuned. 
+#' 
+#' See \code{\link{set.threshold}} for details of thresholding.  
 #'
-#' @param learner [\code{\linkS4class{learner}} or string]\cr 
-#'        Learning algorithm. See \code{\link{learners}}.  
-#' @param fun [function] \cr
-#'        Function to preprocess a data.frame. First argument must be called 'data', which will be preprocessed and subsequently returned.
-#' @param ... [any] \cr
-#'        Optional parameters to control the preprocessing. Passed to fun.   
+#' @param learner [\code{\linkS4class{learner}}]\cr 
+#'   Learning algorithm. See \code{\link{learners}}.  
+#' @param classes [character] \cr
+#'   Classes of future classification task.
 #' 
 #' @return \code{\linkS4class{learner}}.
 #' 
-#' @title Fuse learner with preprocessing.
+#' @title Fuse learner with probability thresholding.
 #' @export
 
-make.et.wrapper = function(learner, measures, task, thresholds=50) {
-    
-	if (is.character(learner))
-		learner = make.learner(learner)
-	fun = function(pred, measures=measures, task=task, thresholds=thresholds) {
-    if (control["tune.threshold"] && task["class.nr"] != 2) 
-		  stop("You can only tune the threshold for binary classification!")
-
-    tt = tune.threshold(pred, measures, task, thresholds=thresholds) 
-	}	
-	make.postproc.wrapper(learner, fun=fun)
+make.et.wrapper = function(learner, classes) {
+  if (is.character(learner))
+    learner = make.learner(learner)
+  if (!learner["is.classif"])
+    stop("Only classifiers can be used as base learners!")
+  if (learner["predict.type"] != "prob")
+    stop("The predict.type of the base learner must be 'prob'!")
+  a = as.list(rep(0.5, length(classes)))
+  names(a) = classes
+  pds = lapply(classes, function(x) new("par.desc.double", par.name=x, lower=0, upper=1))
+  new("et.wrapper", learner=learner, par.descs=pds, par.vals=a)
 }
+
+setMethod(
+  f = "pred.learner",
+  signature = signature(
+    .learner = "et.wrapper", 
+    .model = "wrapped.model", 
+    .newdata = "data.frame", 
+    .type = "character" 
+  ),
+  
+  def = function(.learner, .model, .newdata, .type, ...) {
+    p = callNextMethod(.learner, .model, .newdata, .type="prob", ...)
+    myargs = .learner["par.vals", par.top.wrapper.only=TRUE]
+    myargs = unlist(myargs)
+    set.threshold(p, threshold=myargs)
+  }
+) 
