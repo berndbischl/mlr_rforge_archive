@@ -120,7 +120,6 @@ setMethod(
 #'
 #' @export
 #' @rdname subset
-#' @importFrom base subset
 #' @seealso \code{\link{get.data}} 
 #' @title Subset data in task.
 
