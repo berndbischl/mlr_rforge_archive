@@ -7,7 +7,8 @@ allowed.rd.files <<- c(
 		"to.string.Rd",
 
 		"task.desc-class.Rd",
-		"classif.task-class.Rd",
+    "learn.task-class.Rd",
+    "classif.task-class.Rd",
 		"regr.task-class.Rd",
     "prepare.control.Rd",
 		"make.task.Rd",
