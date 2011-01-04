@@ -56,7 +56,7 @@ varsel <- function(learner, task, resampling, control, measures, model=FALSE) {
 	or = sel.func(learner=learner, task=task, resampling=resampling, 
 			measures=measures, control=control) 
 	if (model) {
-    task = subset.task(task, vars=or["par"])
+    task = subset(task, vars=or["par"])
 		or@model = train(learner, task) 	
 	}
 	return(or)

@@ -42,7 +42,7 @@ eval.rf <- function(learner, task, resampling, measures, control, par) {
     learner = set.hyper.pars(learner, par.vals=par.vals)
   }
   if (is(control, "varsel.control")) {
-    task = subset.task(task, vars=par)
+    task = subset(task, vars=par)
   }
   
 	# todo 

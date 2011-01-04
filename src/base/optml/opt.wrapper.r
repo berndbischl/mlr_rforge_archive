@@ -63,7 +63,7 @@ setMethod(
 			bl = wl@learner
 			ctrl = wl@control
       
-      lt = subset.task(.task, .subset)
+      lt = subset(.task, .subset)
 			if (wl["opt.type"] == "tune")
 				or = tune(bl, task=lt, resampling=wl@resampling, control=ctrl, 
 						measures=wl@measures, model=TRUE)

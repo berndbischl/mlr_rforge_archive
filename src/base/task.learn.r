@@ -108,12 +108,32 @@ setMethod(
 #if (sum(x) > 0)
 #  stop("Trying to subset with vars which are not inputs: ", paste(vars[x], collapse=","))
 
-subset.task = function(task, subset=1:task["size"], vars) {
-  task = change.data(task, get.data(task, subset, vars))
-  task@blocking = task@blocking[subset]
-  task@weights = task@weights[subset]
-  return(task)
-} 
+#' Subset data in task. 
+#' 
+#' @param x [\code{\linkS4class{learn.task}}]\cr 
+#'   Specifies learning task. If this is passed, data from this task is predicted.   
+#' @param subset [integer] \cr 
+#'   Index vector to subset the data in the task to use for prediction. 
+#' @param vars [character] \cr 
+#'   New observations which should be predicted. Alternatively pass this instead of task. 
+#' @return \code{\linkS4class{learn.task}} with changed data.
+#'
+#' @export
+#' @rdname subset
+#' @importFrom base subset
+#' @seealso \code{\link{get.data}} 
+#' @title Subset data in task.
+
+setMethod(
+  f = "subset",
+  signature = signature(x="learn.task"),
+  def = function(x, subset=1:x["size"], vars) {
+    x = change.data(x, get.data(x, subset, vars))
+    x@blocking = x@blocking[subset]
+    x@weights = x@weights[subset]
+    return(x)
+  }
+)
 
 change.data = function(task, data) {
   task@data = data
