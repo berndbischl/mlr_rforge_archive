@@ -1,15 +1,25 @@
-
-get.data = function(task, subset=1:task["size"], vars, with.target=TRUE, class.as.num=FALSE) {
+# todo: mabye optimize for speed for defaault values
+# todo: test
+get.data = function(task, subset=1:task["size"], vars, target.extra=FALSE, 
+  class.as=c("factor", "01", "-1+1")) {
+  
+  match.arg(class.as)
+  if (missing(vars))
+    vars = task["input.names"]
   tn = task["target"]
-  if (missing(vars) && with.target)
-    d = task@data[subset,,drop=FALSE]
-  else {
-    if (missing(vars))
-      vars = task["input.names"]
-    v = if (with.target) c(vars, tn) else vars 
-    d = task@data[subset, v, drop=FALSE]
-  }    
-  if (task["is.classif"] && with.target && class.as.num)
-    d[, tn] = as.numeric(d[, tn] == task["positive"]) 
-  return(d)              
+  
+  # reduce to subset
+  d = task@data[subset,,drop=FALSE]
+    
+  # maybe recode y
+  if (task["is.classif"] && class.as=="01")
+    d[, tn] = as.numeric(d[, tn] == task["positive"])
+  else if (task["is.classif"] && class.as=="-1+1")
+    d[, tn] = 2*as.numeric(d[, tn] == task["positive"])-1
+    
+  # reduce to vars
+  if (target.extra) 
+    list(data=d[,vars,drop=FALSE], target=d[, tn])
+  else
+    d[,vars,drop=FALSE]              
 }

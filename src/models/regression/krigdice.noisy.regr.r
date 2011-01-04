@@ -42,10 +42,9 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset,  ...) {
-    y = .task["targets"]
-    d = get.data(.task, .subset, with.target=FALSE)
-    m = km(design=d, response=y, nugget.estim=TRUE, ...)
-    m = km(design=d, response=y, nugget.estim=FALSE, 
+    d = get.data(.task, .subset, target.extra=TRUE)
+    m = km(design=d$data, response=d$data, nugget.estim=TRUE, ...)
+    m = km(design=d$data, response=d$data, nugget.estim=FALSE, 
       coef.trend=m@trend.coef, coef.var=m@covariance@sd2, coef.cov=m@covariance@range.val)   
   }
 )

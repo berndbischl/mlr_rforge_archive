@@ -35,8 +35,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {
-			d = get.data(.task, .subset, with.target=FALSE)
-			mars(x = as.matrix(d), y = .task["targets"][.subset], ...)
+			d = get.data(.task, .subset, target.extra=TRUE)
+			mars(x = as.matrix(d$data), y = d$target, ...)
 		}
 )
 

@@ -46,9 +46,8 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset, ...) {
-    y = .task["targets"][.subset]
-    train = get.data(.task, .subset, with.target=FALSE)
-    list(train=train, y=y, parset=list(...))
+    d = get.data(.task, .subset, target.extra=TRUE)
+    list(train=d, parset=list(...))
   }
 )
 
@@ -65,7 +64,7 @@ setMethod(
   
   def = function(.learner, .model, .newdata, ...) {
     m = .model["learner.model"]
-    pars = list(train=m$train, test=.newdata, y=m$y)  
+    pars = list(train=m$train$data, test=.newdata, y=m$train$target)  
     pars = c(pars, m$parset, list(...))
     do.call(FNN::knn.reg, pars)$pred
   }

@@ -29,7 +29,7 @@ setMethod(
   ),
   
   def = function(learner, type) {
-    if (!learner["is.classif"] && type != "response") {
+    if (!learner["is.classif"]) {
       stop("Trying to predict ", type, ", but only classifiers support that!")
     }
     if ("prob" == type && !learner["prob"]) {

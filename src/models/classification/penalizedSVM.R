@@ -24,13 +24,13 @@ setMethod(
 			desc = c(
 					oneclass = FALSE,
 					twoclass = TRUE,
-					multiclass = TRUE,
+					multiclass = FALSE,
 					missings = FALSE,
 					doubles = TRUE,
-					factors = TRUE,
-					prob = TRUE, 
+					factors = FALSE,
+					prob = FALSE, 
 					decision = FALSE,
-					weights = TRUE,	
+					weights = FALSE,	
 					costs = FALSE 
 			)
 			
@@ -41,10 +41,9 @@ setMethod(
         new("par.desc.double", par.name="seed", default=123),
         new("par.desc.double", par.name="maxIter", default=700L),
         new("par.desc.double", par.name="k", default=5L),
-        new("par.desc.double", par.name="nu", defaul=0),
-        new("par.desc.log", par.name="output", default=0L, lower=0L, upper=1L),
-        new("par.desc.double", par.name="delta", default=0.001),
-        new("par.desc.double", par.name="epsi", default=0.0001)
+        new("par.desc.double", par.name="nu", default=0, lower=0),
+        new("par.desc.double", par.name="delta", default=0.001, lower=0),
+        new("par.desc.double", par.name="epsi", default=0.0001, lower=0)
       )
       
 			callNextMethod(.Object, pack="penalizedSVM", desc=desc, par.descs=par.descs)
@@ -60,11 +59,8 @@ setMethod(
 				.task="classif.task", .subset="integer" 
 		),
 		def = function(.learner, .task, .subset,  ...) {
-			f = .task["formula"]
-			kpar = list()
-			args = list(...)
-			args.names <- names(args)
-		
+			d = get.data(.task, .subset, target.extra=TRUE, class.as="-1+1")
+			lpsvm(A=d$data, y=d$target, ...)
 		}
 )
 
