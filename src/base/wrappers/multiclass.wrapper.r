@@ -50,19 +50,19 @@ setMethod(
 #' will be able to handle multi-class problems too.
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
-#'        Learning algorithm. See \code{\link{learners}}.  
+#'   Learning algorithm. See \code{\link{learners}}.  
 #' @param method [string] \cr
-#'        Currently unsupported.
-#' @param codematrix [matrix] \cr
-#'        ECOC codematrix with entries +1,-1,0. Columns define new binary problems, rows correspond to classes.
-#' @param ... [any] \cr
-#'        Optional parameters. Not used currently.   
+#'   "onevsone" or "onevsrest". Default is "onevsrest".
 #' 
 #' @return \code{\linkS4class{learner}}.
 #' 
 #' @title Fuse learner with multiclass method.
 #' @export
-make.multiclass.wrapper = function(learner, method="onevsrest", ...) {
+
+# param codematrix [matrix] \cr
+#  ECOC codematrix with entries +1,-1,0. Columns define new binary problems, rows correspond to classes.
+
+make.multiclass.wrapper = function(learner, method="onevsrest") {
   if (is.character(learner))
     learner = make.learner(learner)
   w = new("multiclass.wrapper", learner=learner)
