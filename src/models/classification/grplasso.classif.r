@@ -56,9 +56,9 @@ setMethod(
 			d = get.data(.task, .subset, target.extra=TRUE, class.as="01")
 			x = cbind(1, as.matrix(d$data))
       if (.task["has.weights"])
-			  grplasso(x, y, weights=.weights, ...)
+			  grplasso(x, d$target, weights=.task["weights"][.subset], ...)
       else
-        grplasso(x, y, ...)
+        grplasso(x, d$target, ...)
     }
 )
 
