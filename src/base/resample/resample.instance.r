@@ -94,9 +94,10 @@ setMethod(
 		f = "to.string",
 		signature = signature("resample.instance"),
 		def = function(x) {
+      d = paste(capture.output(x["desc"]), collapse="\n")
 			return(
 					paste(
-							"Instance for ", x@desc@id,  " with ", x["iters"], " iterations and ", x@size, " cases",
+							"Resample instance on ", x["size"], " cases for:\n", d,
 							sep=""
 					)
 			)
