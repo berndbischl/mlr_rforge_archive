@@ -1,9 +1,9 @@
 
 test.repcv.instance = function() {
-  rin = make.res.instance(make.res.desc("repcv", iters=10, reps=3), task=multiclass.task)
+  rin = make.res.instance(make.res.desc("repcv", folds=10, reps=3), task=multiclass.task)
   
-  folds = rin["iters"]
-  checkEquals(folds, 10*3)
+  iters = rin["iters"]
+  checkEquals(iters, 10*3)
   reps = rin["desc"]["reps"]
   checkEquals(reps, 3)
   
