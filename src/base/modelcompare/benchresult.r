@@ -68,7 +68,7 @@ setMethod(
         return(sapply(x@measures, function(y) y["id"]))
       }
       if (i == "task.ids") {
-        return(names(x@descs))
+        return(names(x@task.descs))
       }
 			
       if (i == "aggrs"){
