@@ -53,8 +53,6 @@ allowed.rd.files <<- c(
 		"make.res.desc.Rd",
 		"resample.desc-class.Rd",
 		"resample.instance-class.Rd",
-		"get.train.set.Rd",
-		"get.test.set.Rd",
 		"resample.update.Rd",
 		"resample.done.Rd",
 		"resample.Rd",
