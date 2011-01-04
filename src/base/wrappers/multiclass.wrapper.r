@@ -10,21 +10,21 @@ setClass(
         "multiclass.wrapper",   
         contains = c("base.wrapper"),
         representation = representation(
-                codematrix = "matrix",
-                method = "function"
+          cm.fun = "function"
         )       
 )
 
 #' Constructor.
 
 setMethod(
-        f = "initialize",
-        signature = signature("multiclass.wrapper"),
-        def = function(.Object, learner, codematrix) {
-            .Object = callNextMethod(.Object, learner, par.descs=list(), par.vals=list())
-            .Object@codematrix = codematrix
-            return(.Object)
-        }
+  f = "initialize",
+  signature = signature("multiclass.wrapper"),
+  def = function(.Object, learner) {
+    pds = list(
+      new("par.desc.disc", par.name="method", vals=c("onevsone", "onevsrest"), default="onevsrest")
+    )
+    callNextMethod(.Object, learner, par.descs=pds, par.vals=list())
+  }
 )
 
 #' @rdname multiclass.wrapper-class
@@ -62,10 +62,11 @@ setMethod(
 #' 
 #' @title Fuse learner with multiclass method.
 #' @export
-make.multiclass.wrapper = function(learner, method, codematrix, ...) {
-    if (is.character(learner))
-        learner = make.learner(learner)
-    new("multiclass.wrapper", learner=learner, codematrix=codematrix)
+make.multiclass.wrapper = function(learner, method="onevsrest", ...) {
+  if (is.character(learner))
+    learner = make.learner(learner)
+  w = new("multiclass.wrapper", learner=learner)
+  set.hyper.pars(w, method=method)
 }
 
 
@@ -79,22 +80,37 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset,  ...) {
-    tn = .task["target"]   
-    cm = .learner["codematrix"]
-    d = get.data(.task, .subset)
-    y = .task["targets"][.subset]
-    x = multi.to.binary(y, cm)
-    k = length(x$row.inds) 
-    levs = .task.desc["class.levels"]
-    models = list()
+    .task = subset(.task, .subset)
+    tn = .task["target"]
+    d = .task["data"]
+    y = .task["targets"]
     args = list(...)
+    # remove hyperpar of wrapper
+    args$method = NULL
+    myargs = .learner["par.vals", par.top.wrapper.only=TRUE]
+    
+    # build codematrix
+    cmfun = switch(myargs$method,
+      onevsrest = cm.onevsrest,
+      onevsone = cm.onevsone
+    )
+    cm = cmfun(.task["desc"])
+    x = multi.to.binary(y, cm)
+    
+    # now fit models
+    k = length(x$row.inds) 
+    levs = .task["class.levels"]
+    models = list()
+    base = set.hyper.pars(.learner["learner"], par.vals=args)
     for (i in 1:k) {
       data2 = d[x$row.inds[[i]], ]
       data2[, tn] = x$targets[[i]] 
       ct = change.data(.task, data2)
-      m = train(.learner["learner"], task=ct, par.vals=args)
+      m = train(base, task=ct)
       models[[i]] = m 
     }
+    # store cm as last el.
+    models[[i+1]] = cm 
     return(models)
   }
 )
@@ -102,35 +118,35 @@ setMethod(
 #' @rdname pred.learner
 
 setMethod(
-        f = "pred.learner",
-        signature = signature(
-                .learner = "multiclass.wrapper", 
-                .model = "wrapped.model", 
-                .newdata = "data.frame", 
-                .type = "character" 
-        ),
-        
-        def = function(.learner, .model, .newdata, .type, ...) {
-            models = .model["learner.model"]
-            cm = .model["learner"]["codematrix"]
-            k = length(models)
-            p = matrix(0, nrow(.newdata), ncol=k)
-            # we use hamming decoding here
-            for (i in 1:k) {
-                m = models[[i]]
-                p[,i] = as.integer(as.character(predict(m, newdata=.newdata, ...)["response"]))
-            }
-            rns = rownames(cm)
-            y = apply(p, 1, function(v) {
-                # todo: break ties
-                #j = which.min(apply(cm, 1, function(z) sum(abs(z - v))))
-                d <- apply(cm, 1, function(z) sum(abs(z - v)))
-                j <- which(d == min(d))
-                j <- sample(rep(j,2), size = 1)
-                rns[j]
-            })
-            as.factor(y)
-        }
+  f = "pred.learner",
+  signature = signature(
+    .learner = "multiclass.wrapper", 
+    .model = "wrapped.model", 
+    .newdata = "data.frame", 
+    .type = "character" 
+  ),
+  
+  def = function(.learner, .model, .newdata, .type, ...) {
+    models = .model["learner.model"]
+    cm = models[[length(models)]]
+    k = length(models)-1
+    p = matrix(0, nrow(.newdata), ncol=k)
+    # we use hamming decoding here
+    for (i in 1:k) {
+      m = models[[i]]
+      p[,i] = as.integer(as.character(predict(m, newdata=.newdata, ...)["response"]))
+    }
+    rns = rownames(cm)
+    y = apply(p, 1, function(v) {
+        # todo: break ties
+        #j = which.min(apply(cm, 1, function(z) sum(abs(z - v))))
+        d <- apply(cm, 1, function(z) sum(abs(z - v)))
+        j <- which(d == min(d))
+        j <- sample(rep(j,2), size = 1)
+        rns[j]
+      })
+    as.factor(y)
+  }
 )   
 
 
@@ -177,3 +193,4 @@ cm.onevsone = function(task.desc) {
     rownames(cm) = task.desc["class.levels"]
     return(cm)
 } 
+
