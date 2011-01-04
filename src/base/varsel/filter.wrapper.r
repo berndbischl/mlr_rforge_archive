@@ -62,38 +62,14 @@ setMethod(
 		def = function(.learner, .task, .subset,  ...) {
 		  tn = .task["target"]
       args = list(...)
-      method = args$filter.method
-      th = args$filter.threshold
-      f = .task["formula"]
-      if (method == "linear.correlation") {
-        x = linear.correlation(f, .data)
-      } else if (method == "rank.correlation") {
-        x = rank.correlation(f, .data)
-      } else if (method == "information.gain") {
-        x = information.gain(f, .data)
-      } else if (method == "gain.ratio") {
-        x = gain.ratio(f, .data)
-      } else if (method == "symmetrical.uncertainty") {
-        x = symmetrical.uncertainty(f, .data)
-      } else if (method == "chi.squared") {
-        x = chi.squared(f, .data)
-      } else if (method == "random.forest.importance") {
-        x = random.forest.importance(f, .data)
-      } else if (method == "relief") {
-        x = relief(f, .data)
-      } else if (method == "oneR") {
-        x = oneR(f, .data)
-      }
-      
-      imp = x[,1]
-      names(imp) = rownames(x)
-      vars = names(which(imp > th))
-      .data = .data[, c(vars, tn), drop=FALSE]  
-
-      if (length(vars) > 0)
+      .task = subset(.task, subset=.subset)  
+      f = varfilter(.task, args$filter.method, args$filter.threshold)
+      if (length(vars) > 0) {
+        .task = subset(.task, vars=f$vars)  
 			  m = callNextMethod(.learner, .task, .subset, ...)
-      else
+      } else {
         m = new("novars", targets=.task["targets"][.subset], task.desc=.task["desc"])
+      }
       # set the vars as attribute, so we can extract it later 
       attr(m, "filter.result") = vars
       return(m)
