@@ -51,7 +51,8 @@ setClass(
 				id = "character",
 				pack = "character",
 				par.descs = "list",
-				par.vals = "list"
+				par.vals = "list",
+        predict.type = "character"
 		)		
 )
 
@@ -72,6 +73,7 @@ setMethod(
 			callNextMethod(.Object)
 			if (!missing(par.vals))
 				.Object = set.hyper.pars(.Object, par.vals=par.vals)
+      .Object@predict.type = "response"
 			return(.Object)
 		}
 )

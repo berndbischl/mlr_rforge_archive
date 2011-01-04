@@ -29,7 +29,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("base.wrapper"),
-		def = function(.Object, learner, par.descs, par.vals, pack=as.character(c())) {
+		def = function(.Object, learner, par.descs, par.vals=list(), pack=as.character(c())) {
 			if (missing(learner))
 				return(make.empty(.Object))
 			.Object@learner = learner
@@ -46,12 +46,12 @@ setMethod(
 		signature = signature("base.wrapper"),
 		def = function(x,i,j,...,drop) {
 			check.getter.args(x, c("par.top.wrapper.only", "par.when"), j, ...)
-			if(i == "id") {
-				return(x@id)
-			}			
-			if (i == "learner")
-				return(x@learner)
-			if(i == "pack") {
+      
+      # these belong to base.wrapper and can be different from basic rlearner 
+			if(i %in% c("id", "learner", "predict.type"))
+				callNextMethod()
+      
+      if(i == "pack") {
 				return(c(x@learner["pack"], x@pack))
 			}			
 			
@@ -143,21 +143,6 @@ setMethod(
 	} 
 )
 
-
-#' @rdname set.predict.type 
-setMethod(
-  f = "set.predict.type",
-  
-  signature = signature(
-    learner="base.wrapper", 
-    type="character" 
-  ),
-  
-  def = function(learner, type) {
-    learner@learner = set.predict.type(learner@learner, type)
-    return(learner)
-  } 
-)
 
 #' @rdname to.string
 setMethod(f = "to.string",
