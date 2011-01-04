@@ -100,6 +100,3 @@ testgroup.mean = new("aggr",
     mean(sapply(split(perf.test, group), mean))  
   }
 )
-
-m = set.aggr(mmce, b632plus)
-print(resample("classif.lda", multiclass.task, res, measures=m)$aggr)
