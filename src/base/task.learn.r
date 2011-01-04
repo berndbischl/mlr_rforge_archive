@@ -33,7 +33,7 @@ setClass(
 		"learn.task",
 		contains = c("object"),
 		representation = representation(
-				data = "data.frame",
+				dataenv = "environment",
 				weights = "numeric",
 				blocking = "factor",
         control = "prepare.control",
@@ -56,8 +56,9 @@ setMethod(
 			if(missing(data))
 				return(make.empty(.Object))					
 			
-			.Object@data = data
-			.Object@weights = weights
+			.Object@dataenv = new.env()
+      .Object@dataenv$data = data
+      .Object@weights = weights
       .Object@blocking = blocking
       .Object@control = control
 			.Object@desc = task.desc
@@ -78,11 +79,14 @@ setMethod(
 			
 			td = x@desc
       
-			if (i == "input.names"){
-				return(setdiff(colnames(x@data), x["target"]))
+      if (i == "data"){
+        return(x@dataenv$data)
+      }
+      if (i == "input.names"){
+				return(setdiff(colnames(x["data"]), x["target"]))
 			}
 			if (i == "targets") {
-				return(x@data[, x["target"]])
+				return(x["data"][, x["target"]])
 			}
       if (i == "weights") {
 				if (!td["has.weights"])
@@ -128,38 +132,56 @@ setMethod(
 #' @rdname subset
 #' @seealso \code{\link{get.data}} 
 #' @title Extract data in task. 
-# todo: mabye optimize for speed for defaault values
 # todo: test
-get.data = function(task, subset=1:task["size"], vars, target.extra=FALSE, 
+get.data = function(task, subset, vars, target.extra=FALSE, 
   class.as=c("factor", "01", "-1+1")) {
   
-  match.arg(class.as)
-  if (missing(vars))
-    vars = task["input.names"]
-  tn = task["target"]
-  
-  # reduce to subset
-  d = task@data[subset,,drop=FALSE]
-  
   # maybe recode y
-  if (task["is.classif"] && task["is.binary"] && class.as=="01")
-    d[, tn] = as.numeric(d[, tn] == task["positive"])
-  else if (task["is.classif"] && task["is.binary"] && class.as=="-1+1")
-    d[, tn] = 2*as.numeric(d[, tn] == task["positive"])-1
+  rec.y = function(y) {
+    if (class.as=="01")
+      as.numeric(y == task["positive"])
+    else if (class.as=="-1+1")
+      2*as.numeric(y == task["positive"])-1
+    else
+      y
+  }
   
-  # reduce to vars
-  if (target.extra) 
-    list(data=d[,vars,drop=FALSE], target=d[, tn])
-  else
-    d[,c(vars, tn),drop=FALSE]              
+  tn = task["target"]
+  ms = missing(subset) || identical(subset, 1:task["size"])
+  mv = missing(vars) || identical(vars, 1:task["input.names"])
+  
+  if (target.extra) {
+    list(
+      data = 
+        if (ms && mv) 
+          {d=task["data"];d[,tn]=NULL} 
+        else if (ms)
+          task["data"][,vars,drop=FALSE]
+        else if (mv)
+          task["data"][subset,,drop=FALSE]
+        else
+          task["data"][subset,vars,drop=FALSE],
+      target = 
+        if (ms)
+          rec.y(task["targets"])
+        else
+          rec.y(task["targets"][subset])
+    )
+  } else {
+    d = 
+      if (ms && mv) 
+        task["data"] 
+      else if (ms)
+        task["data"][,c(vars, tn),drop=FALSE]
+      else if (mv)
+        task["data"][subset,,drop=FALSE]
+      else
+        task["data"][subset,vars,drop=FALSE]
+    if (class.as != "factor")
+      d[,tn] = rec.y(d[, tn])
+    return(d)
+  }
 }
-
-
-# todo: maybe dont do this check for speed reasons?
-## reduce data to subset and selected vars
-#x = !vars %in% task["input.names"]
-#if (sum(x) > 0)
-#  stop("Trying to subset with vars which are not inputs: ", paste(vars[x], collapse=","))
 
 #' Subset data in task. 
 #' 
@@ -188,8 +210,9 @@ setMethod(
 )
 
 change.data = function(task, data) {
-  task@data = data
-  task@desc = new("task.desc", task@data, task["target"], class(task), task["id"], 
+  task@dataenv = new.env()
+  task@dataenv$data = data
+  task@desc = new("task.desc", task["data"], task["target"], class(task), task["id"], 
     task["has.weights"], task["has.blocking"], task["costs"], task["positive"])
   return(task)
 } 
