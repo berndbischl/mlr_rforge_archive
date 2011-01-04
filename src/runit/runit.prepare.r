@@ -41,5 +41,4 @@ test.prepare <- function(){
     checkEquals(length(levels(df[,multiclass.target])), 3)
     checkEquals(length(unique(ct["targets"])), 2)
     checkEquals(length(levels(ct["targets"])), 2)
-  }
 }

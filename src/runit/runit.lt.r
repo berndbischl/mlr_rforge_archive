@@ -41,7 +41,7 @@ test.mlr.learn.task <- function() {
 	df[1,1:3] = Inf
 	df[2,1:3] = Inf
 	ct = make.task(data=df, target=multiclass.target)	
-	checkTrue(ct["has.inf"])
+	checkTrue(!ct["has.inf"])
   
   # check logical and character targets
   df = multiclass.df
