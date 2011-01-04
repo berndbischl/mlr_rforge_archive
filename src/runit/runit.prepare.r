@@ -1,19 +1,33 @@
 
 test.prepare <- function(){
-  if (!use.package) {
-  	test.dataset <- data.frame(1:3, c("bli", "bla", "blub"))
+  	d = data.frame(a=1:3, b=c("bli", "bla", "blub"), c=c(TRUE, TRUE, FALSE), y=c(1,1,1))
   	
-  	pc = prepare.control(ints.as="numeric", chars.as = "factor")
-  	ints2nums = prep.data(is.classif=FALSE, data = test.dataset, target = "ints", control=pc)  
-  	checkTrue(is.numeric(ints2nums[,1]))
-  	
-    pc = prepare.control(ints.as="factor", chars.as = "factor")
-  	ints2factors = prep.data(is.classif=FALSE, data = test.dataset, target = "ints", control=pc)  
-  	checkTrue(is.factor(ints2factors[,1]))
-  	
-    pc = prepare.control(ints.as="factor", chars.as = "factor")
-  	chars2factors <- prep.data(is.classif=FALSE, data = test.dataset, target = "chars", control=pc) 
-  	checkTrue(is.factor(chars2factors[,1]))
+  	pc = prepare.control(ints.as="double", chars.as = "factor", logs.as="factor")
+    ct = make.task(data=d, target="y", control=pc) 
+    checkEquals(ct["n.feat"], c(1,0,2,0,0), checkNames=FALSE)
+    pc = prepare.control(ints.as="factor", chars.as = "factor", logs.as="factor")
+    ct = make.task(data=d, target="y", control=pc) 
+    checkEquals(ct["n.feat"], c(0,0,3,0,0), checkNames=FALSE)
+    pc = prepare.control(ints.as="double", chars.as = "factor", logs.as="double")
+    ct = make.task(data=d, target="y", control=pc) 
+    checkEquals(ct["n.feat"], c(2,0,1,0,0), checkNames=FALSE)
+    pc = prepare.control(ints.as="factor", chars.as = "factor", logs.as="double")
+    ct = make.task(data=d, target="y", control=pc) 
+    checkEquals(ct["n.feat"], c(1,0,2,0,0), checkNames=FALSE)
+    
+    pc = prepare.control(ints.as="double", chars.as = "factor", logs.as="factor")
+    ct = make.task(data=d, target="b", control=pc) 
+    checkEquals(ct["n.feat"], c(2,0,1,0,0), checkNames=FALSE)
+    pc = prepare.control(ints.as="factor", chars.as = "factor", logs.as="factor")
+    ct = make.task(data=d, target="b", control=pc) 
+    checkEquals(ct["n.feat"], c(1,0,2,0,0), checkNames=FALSE)
+    pc = prepare.control(ints.as="double", chars.as = "factor", logs.as="double")
+    ct = make.task(data=d, target="b", control=pc) 
+    checkEquals(ct["n.feat"], c(3,0,0,0,0), checkNames=FALSE)
+    pc = prepare.control(ints.as="factor", chars.as = "factor", logs.as="double")
+    ct = make.task(data=d, target="b", control=pc) 
+    checkEquals(ct["n.feat"], c(2,0,1,0,0), checkNames=FALSE)
+    
   	
   	# check inf accessors
   	df = multiclass.df

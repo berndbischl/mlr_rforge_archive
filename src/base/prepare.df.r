@@ -6,7 +6,8 @@ setClass(
 		representation = representation(
 				ints.as = "character",
 				chars.as = "character",
-				drop.class.levels = "logical",
+        logs.as = "character",
+        drop.class.levels = "logical",
 				impute.inf = "numeric",
 				impute.large = "numeric",
         large = "numeric"
@@ -18,10 +19,11 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("prepare.control"),
-		def = function(.Object, ints.as, chars.as, drop.class.levels, impute.inf, impute.large, large) {
+		def = function(.Object, ints.as, chars.as, logs.as, drop.class.levels, impute.inf, impute.large, large) {
 			.Object@ints.as = ints.as
 			.Object@chars.as = chars.as
-			.Object@drop.class.levels = drop.class.levels
+      .Object@logs.as = logs.as
+      .Object@drop.class.levels = drop.class.levels
 			.Object@impute.inf = impute.inf
 			.Object@impute.large = impute.large
       .Object@large = large
@@ -36,6 +38,8 @@ setMethod(
 #'   Should integer input variables be converted to either "double" or "factor". Default is "double".
 #' @param chars.as [string]\cr
 #'   Conversion of character input variables. Currently only "factor" is supported.
+#' @param logs.as [string]\cr
+#'   Should logical input variables be converted to either "double" or "factor". Default is "factor".
 #' @param drop.class.levels [boolean]\cr
 #'   Should empty class levels be dropped? Default is TRUE.
 #' @param impute.inf [numeric]\cr
@@ -51,9 +55,17 @@ setMethod(
 #' @title Control for basic basic data preparation.
 
 
-prepare.control = function(ints.as = "double", chars.as = "factor", drop.class.levels = TRUE, 
+prepare.control = function(
+  ints.as = c("double", "factor"), 
+  chars.as = c("factor"), 
+  logs.as = c("factor", "double"), 
+  drop.class.levels = TRUE,
   impute.inf = .Machine$double.xmax, impute.large = .Machine$double.xmax, large = Inf) {
-	new("prepare.control", ints.as, chars.as, drop.class.levels, impute.inf, impute.large, large)
+  
+  match.arg(ints.as)
+  match.arg(chars.as)
+  match.arg(logs.as)
+  new("prepare.control", ints.as, chars.as, logs.as, drop.class.levels, impute.inf, impute.large, large)
 }
 
 
@@ -61,7 +73,8 @@ prep.data = function(is.classif, data, target, control) {
 	
 	ints.as = control@ints.as
 	chars.as = control@chars.as
-	drop.class.levels = control@drop.class.levels
+  logs.as = control@logs.as
+  drop.class.levels = control@drop.class.levels
 	impute.inf = control@impute.inf
 	impute.large = control@impute.large
 	large = control@large
@@ -71,7 +84,7 @@ prep.data = function(is.classif, data, target, control) {
 		
 		#convert target to factor
 		if (!is.factor(targets)) {
-			if(is.integer(data[, target]) || is.character(targets) || is.logical(factor)) {
+			if(is.integer(targets) || is.character(targets) || is.logical(targets)) {
 				if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
 					warning("Converting target col. to factor.")
 				data[, target] = as.factor(targets)
@@ -95,23 +108,38 @@ prep.data = function(is.classif, data, target, control) {
 	}	
 	
 	cns = colnames(data)
-  conv.in = conv.if = conv.cf = conv.inf  = conv.large = character(0) 
+  conv.in = conv.if = conv.ln = conv.lf = conv.cf = conv.inf  = conv.large = character(0) 
 	for (i in 1:ncol(data)) {
 		cn = cns[i]
 		v = data[, i]
 		if (cn  != target) {
-			if (ints.as == "double" && is.integer(v)) {
-        conv.in = c(conv.in, cn)
-				data[,i] = as.numeric(v)
-			}
-			if (ints.as == "factor" && is.integer(v)) {
-        conv.if = c(conv.if, cn)
-        data[,i] = as.factor(v)
-			}
-			if (chars.as == "factor" && is.character(v)) {
-        conv.cf = c(conv.cf, cn)
-        data[,i] = as.factor(v)
-			}
+      if (is.integer(v)) {
+        if (ints.as == "double") {
+          conv.in = c(conv.in, cn)
+          data[,i] = as.numeric(v)
+        } else if (ints.as == "factor") {
+          conv.if = c(conv.if, cn)
+          data[,i] = as.factor(v)
+        } else 
+          stop("Integer inputs must be converted!")
+      }
+      if (is.character(v)) {
+        if (chars.as == "factor") {
+          conv.cf = c(conv.cf, cn)
+          data[,i] = as.factor(v)
+        } else 
+          stop("Character inputs must be converted!")
+      }
+      if (is.logical(v)) {
+        if (logs.as == "double") {
+          conv.ln = c(conv.ln, cn)
+          data[,i] = as.numeric(v)
+        } else if (logs.as == "factor") {
+          conv.lf = c(conv.lf, cn)
+          data[,i] = as.factor(v)
+        } else 
+          stop("Logical inputs must be converted!")
+      }
       # infs
 			if (is.numeric(v)) {
         j = is.infinite(v)
@@ -137,6 +165,10 @@ prep.data = function(is.classif, data, target, control) {
       warning("Converting integer variable to double: ", paste(conv.in, collapse=","))
     if (length(conv.if) > 0)
       warning("Converting integer variable to factor: ", paste(conv.if, collapse=","))
+    if (length(conv.ln) > 0)
+      warning("Converting logical variable to double: ", paste(conv.ln, collapse=","))
+    if (length(conv.lf) > 0)
+      warning("Converting logical variable to factor: ", paste(conv.lf, collapse=","))
     if (length(conv.cf) > 0)
       warning("Converting char variable to factor: ", paste(conv.cf, collapse=","))
     if (length(conv.inf) > 0)
