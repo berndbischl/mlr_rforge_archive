@@ -2,7 +2,7 @@ setClass(
 		"novars",
 		contains = c("object"),
 		representation = representation(
-				task.desc = "task.desc",
+				desc = "task.desc",
 				targets = "vector"
 		)
 )
@@ -12,7 +12,7 @@ predict_novars = function(object, newdata, type) {
 	m = object
 	tars = m["targets"]
 	# for regression return constant mean
-	if (m["task.desc"]["is.regr"])
+	if (m["desc"]["is.regr"])
 		return(rep(mean(tars), nrow(newdata)))
 	tab = prop.table(table(tars))
 	probs = as.numeric(tab) 

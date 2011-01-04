@@ -31,7 +31,7 @@ setMethod(
   ),
   
   def = function(pred, threshold) {
-    td = pred@task.desc
+    td = pred@desc
     if (!td["is.classif"])
       stop("Threshold can only be set for classification predictions!")
     if (pred["type"] != "prob")

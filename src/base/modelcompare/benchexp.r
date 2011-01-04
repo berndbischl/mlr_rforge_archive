@@ -82,7 +82,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 		} else {
 			resamplings[[j]] = resampling
 		}		
-		tds[[j]] = task@task.desc
+		tds[[j]] = task@desc
 		for (i in 1:length(learners)) {
 			wl = learners[[i]]
 			learner.names[i] = wl["id"]

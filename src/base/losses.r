@@ -54,7 +54,7 @@
 #		fun=function(x, task) as.numeric(x["truth"] != x["response"]) 
 #	else if (name=="costs") 
 #		fun=function(x, task) { 
-#			cm = x@task.desc["costs"]
+#			cm = x@desc["costs"]
 #			if (all(dim(cm) == 0))
 #				stop("No costs were defined in task!")
 #			cc = function(truth, pred) {

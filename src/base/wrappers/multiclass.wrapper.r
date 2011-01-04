@@ -78,9 +78,10 @@ setMethod(
     .task="classif.task", .subset="integer" 
   ),
   
-  def = function(.learner, .task, .subset,  ...) {   
+  def = function(.learner, .task, .subset,  ...) {
+    tn = .task["target"]   
     cm = .learner["codematrix"]
-    y = .data[,.targetvar]
+    y = .task["targets"][.subset]
     x = multi.to.binary(y, cm)
     k = length(x$row.inds) 
     levs = .task.desc["class.levels"]
@@ -88,8 +89,8 @@ setMethod(
     args = list(...)
     for (i in 1:k) {
       data2 = .data[x$row.inds[[i]], ]
-      data2[, .targetvar] = x$targets[[i]] 
-      ct = make.task(data=data2, target=.targetvar, positive="1")
+      data2[, tn] = x$targets[[i]] 
+      ct = change.data(.task, data2)
       m = train(.learner["learner"], task=ct, par.vals=args)
       models[[i]] = m 
     }

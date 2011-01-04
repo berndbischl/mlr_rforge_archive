@@ -30,7 +30,7 @@ setClass(
 				learner = "learner",
 				learner.model = "ANY",
         prep.control = "prepare.control",					
-        task.desc = "task.desc",
+        desc = "task.desc",
 				subset = "integer",
 				vars = "character",
 				time = "numeric"
@@ -47,7 +47,7 @@ setMethod(
       return(make.empty(.Object))
     .Object@learner = learner
     .Object@learner.model = model
-    .Object@task.desc = task.desc
+    .Object@desc = task.desc
     .Object@prep.control = prep.control
     .Object@subset = subset
     .Object@vars = vars
@@ -88,7 +88,7 @@ setMethod(
 		def = function(x,i,j,...,drop) {
 			args = list(...)
 			
-			y = x@task.desc[i]
+			y = x@desc[i]
 			if (!is.null(y))
 				return(y)
 

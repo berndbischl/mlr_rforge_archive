@@ -75,7 +75,7 @@ setMethod(
       vars = task["input.names"]
       # no vars? then use no vars model
       if (length(vars) == 0) {
-        learner.model = new("novars", targets=task["data"][subset, tn], task.desc=task@task.desc)
+        learner.model = new("novars", targets=task["data"][subset, tn], task.desc=task@desc)
         time.train = 0
       } else {
         # set the seed
@@ -94,6 +94,6 @@ setMethod(
         time.train = as.numeric(st[3])
       }
       
-      make.wrapped.model(wl, learner.model, task@task.desc, task@control, hps, subset, vars, time.train)
+      make.wrapped.model(wl, learner.model, task@desc, task@control, hps, subset, vars, time.train)
 		}
 )

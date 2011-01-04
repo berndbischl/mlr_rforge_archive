@@ -60,10 +60,11 @@ setMethod(
     ),
 		
 		def = function(.learner, .task, .subset,  ...) {
+		  tn = .task["target"]
       args = list(...)
       method = args$filter.method
       th = args$filter.threshold
-      f = as.formula(paste(.targetvar, "~."))
+      f = .task["formula"]
       if (method == "linear.correlation") {
         x = linear.correlation(f, .data)
       } else if (method == "rank.correlation") {
@@ -87,12 +88,12 @@ setMethod(
       imp = x[,1]
       names(imp) = rownames(x)
       vars = names(which(imp > th))
-      .data = .data[, c(vars, .targetvar), drop=FALSE]  
+      .data = .data[, c(vars, tn), drop=FALSE]  
 
       if (length(vars) > 0)
-			  m = callNextMethod(.learner, .targetvar, .data, .task.desc, .weights, .costs,  ...)
+			  m = callNextMethod(.learner, .task, .subset, ...)
       else
-        m = new("novars", targets=.data[, .targetvar], task.desc=.task.desc)
+        m = new("novars", targets=.task["targets"][.subset], task.desc=.task["desc"])
       # set the vars as attribute, so we can extract it later 
       attr(m, "filter.result") = vars
       return(m)

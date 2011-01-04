@@ -28,7 +28,7 @@ setClass(
 				type = "character",
 				df = "data.frame",
 				threshold = "numeric",
-				task.desc = "task.desc",
+				desc = "task.desc",
 				time = "numeric"
 		)
 )
@@ -44,7 +44,7 @@ setMethod(
 			.Object@type = type			
 			.Object@df = df			
 			.Object@threshold = threshold			
-			.Object@task.desc = task.desc	
+			.Object@desc = task.desc	
 			.Object@time = time			
 			return(.Object)
 		}
@@ -115,11 +115,11 @@ setMethod(
 				if (length(cns) == 0)
 					return(NULL)
 				# no class chosen and we are binary: return prob for pos. class
-				if (is.null(class) && x@task.desc["is.binary"]) {
-					return(x@df[, paste("prob", x@task.desc["positive"], sep=".")])
+				if (is.null(class) && x@desc["is.binary"]) {
+					return(x@df[, paste("prob", x@desc["positive"], sep=".")])
 				}
 				if (is.null(class))
-					class = x@task.desc["class.levels"]
+					class = x@desc["class.levels"]
 				cns2 = sapply(strsplit(cns, "prob."), function(z) z[2])
 				jj = which(cns2 %in% class)
 				y = x@df[, cns[jj]]
@@ -174,5 +174,5 @@ setMethod(
 #	weights = Reduce(c, lapply(preds, function(x) x@weights))
 #	prob = Reduce(rbind, lapply(preds, function(x) x@prob))
 #	decision = Reduce(rbind, lapply(preds, function(x) x@decision))
-#	return(new("prediction", task.desc=preds[[1]]@task.desc, id=id, response=response, target=target, weights=weights, prob=prob, decision=decision));
+#	return(new("prediction", task.desc=preds[[1]]@desc, id=id, response=response, target=target, weights=weights, prob=prob, decision=decision));
 #}

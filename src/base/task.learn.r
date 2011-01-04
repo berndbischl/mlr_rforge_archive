@@ -37,7 +37,7 @@ setClass(
 				weights = "numeric",
 				blocking = "factor",
         control = "prepare.control",
-				task.desc = "task.desc"
+				desc = "task.desc"
 		)
 )
 
@@ -60,7 +60,7 @@ setMethod(
 			.Object@weights = weights
       .Object@blocking = blocking
       .Object@control = control
-			.Object@task.desc = task.desc
+			.Object@desc = task.desc
 			
 			return(.Object)
 		}
@@ -76,7 +76,7 @@ setMethod(
 			args = list(...)
 			argnames = names(args)
 			
-			td = x@task.desc
+			td = x@desc
       
 			if (i == "input.names"){
 				return(setdiff(colnames(x@data), x["target"]))
@@ -136,7 +136,7 @@ setMethod(
 
 change.data = function(task, data) {
   task@data = data
-  task@task.desc = new("task.desc", task@data, task["target"], class(task), task["id"], 
+  task@desc = new("task.desc", task@data, task["target"], class(task), task["id"], 
     task["has.weights"], task["has.blocking"], task["costs"], task["positive"])
   return(task)
 } 

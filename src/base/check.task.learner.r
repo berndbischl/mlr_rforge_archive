@@ -5,7 +5,7 @@ check.task.learner <- function(lt, learner) {
 	wl <- learner
 	data <- lt["data"]
 	msg <- ""
-	td <- lt@task.desc
+	td <- lt@desc
 	
 	if (td["has.missing"] && !wl["missings"]) {
 		msg <- paste("Data set has missing values, but", wl["id"], "does not support that!")
@@ -22,7 +22,7 @@ check.task.learner <- function(lt, learner) {
 check.task.learner.classif <- function(lt, learner) {
 	msg <- check.task.learner(lt, learner)
 
-	td <- lt@task.desc
+	td <- lt@desc
 	
 	if (td["class.nr"]> 2 && !learner["multiclass"]) {
 		msg <- paste("Data set is a multiclass-problem, but", learner["id"], "does not support that!")

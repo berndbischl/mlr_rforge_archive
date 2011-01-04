@@ -98,7 +98,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
       fargs = .model@learner["par.vals", par.top.wrapper.only=TRUE]
-      tn = .model["task.desc"]["target"]
+      tn = .model["desc"]["target"]
       m = nrow(.newdata)
       .newdata = .learner@predict(data=.newdata, targetvar=tn, args=fargs, control=.model@control)
       if (!is.data.frame( .newdata))

@@ -75,7 +75,7 @@ b632plus = new("aggr",
       y1 = df2$truth
       y2 = df2$response
       grid = expand.grid(y1, y2, KEEP.OUT.ATTRS=FALSE)
-      pred2 = make.prediction(task.desc=pred@task.desc, 
+      pred2 = make.prediction(task.desc=pred@desc, 
         id=NULL, truth=grid[,1], type="response", y=grid[,2],  
         time=as.numeric(NA))
       print(nrow(df2))

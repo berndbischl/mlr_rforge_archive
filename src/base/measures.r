@@ -159,28 +159,28 @@ auc = make.measure(id="auc", minimize=FALSE, req.task.type="binary" ,req.pred.ty
 #' @export tp
 tp = make.measure(id="tp", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    sum(pred["truth"] == pred["response"] & pred["response"] == pred@task.desc["positive"])  
+    sum(pred["truth"] == pred["response"] & pred["response"] == pred@desc["positive"])  
   }
 )
 
 #' @export tn
 tn = make.measure(id="tn", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    sum(pred["truth"] == pred["response"] & pred["response"] == pred@task.desc["negative"])  
+    sum(pred["truth"] == pred["response"] & pred["response"] == pred@desc["negative"])  
   }
 )
 
 #' @export fp
 fp = make.measure(id="fp", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    sum(pred["truth"] != pred["response"] & pred["response"] == pred@task.desc["positive"])  
+    sum(pred["truth"] != pred["response"] & pred["response"] == pred@desc["positive"])  
   }
 )
 
 #' @export fn
 fn = make.measure(id="fn", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    sum(pred["truth"] != pred["response"] & pred["response"] == pred@task.desc["negative"])  
+    sum(pred["truth"] != pred["response"] & pred["response"] == pred@desc["negative"])  
   }
 )
 
@@ -189,7 +189,7 @@ fn = make.measure(id="fn", minimize=TRUE, req.task.type="classif", req.binary=TR
 tpr = make.measure(id="tpr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     tp@fun(pred=pred) / 
-      sum(pred["truth"] == pred@task.desc["positive"])    
+      sum(pred["truth"] == pred@desc["positive"])    
   }
 )
 
@@ -197,7 +197,7 @@ tpr = make.measure(id="tpr", minimize=FALSE, req.task.type="classif", req.binary
 tnr = make.measure(id="tnr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     tn@fun(pred=pred) / 
-      sum(pred["truth"] == pred@task.desc["negative"])  
+      sum(pred["truth"] == pred@desc["negative"])  
   }
 )
 
@@ -205,7 +205,7 @@ tnr = make.measure(id="tnr", minimize=FALSE, req.task.type="classif", req.binary
 fpr = make.measure(id="fpr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     fp@fun(pred=pred) / 
-      sum(pred["truth"] == pred@task.desc["negative"])  
+      sum(pred["truth"] == pred@desc["negative"])  
   }
 )
 
@@ -213,7 +213,7 @@ fpr = make.measure(id="fpr", minimize=TRUE, req.task.type="classif", req.binary=
 fnr = make.measure(id="fnr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     fn@fun(pred=pred) / 
-      sum(pred["truth"] == pred@task.desc["positive"])  
+      sum(pred["truth"] == pred@desc["positive"])  
   }
 )
 
@@ -221,7 +221,7 @@ fnr = make.measure(id="fnr", minimize=TRUE, req.task.type="classif", req.binary=
 ppv = make.measure(id="ppv", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     tp@fun(pred=pred) / 
-      sum(pred["response"] == pred@task.desc["positive"])  
+      sum(pred["response"] == pred@desc["positive"])  
   }
 )
 
@@ -229,7 +229,7 @@ ppv = make.measure(id="ppv", minimize=FALSE, req.task.type="classif", req.binary
 npv = make.measure(id="npv", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     tn@fun(pred=pred) / 
-      sum(pred["response"] == pred@task.desc["negative"])  
+      sum(pred["response"] == pred@desc["negative"])  
   }
 )
 
@@ -237,7 +237,7 @@ npv = make.measure(id="npv", minimize=FALSE, req.task.type="classif", req.binary
 fdr = make.measure(id="fdr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     fp@fun(pred=pred) / 
-      sum(pred["response"] == pred@task.desc["positive"])  
+      sum(pred["response"] == pred@desc["positive"])  
   }
 )
 
@@ -256,7 +256,7 @@ mcc = make.measure(id="mcc", minimize=FALSE, req.task.type="classif", req.binary
 f1 = make.measure(id="f1", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     2*tp@fun(pred=pred) / 
-    (sum(pred["truth"] == pred@task.desc["positive"]) + sum(pred["response"] == pred@task.desc["positive"])) 
+    (sum(pred["truth"] == pred@desc["positive"]) + sum(pred["response"] == pred@desc["positive"])) 
   }
 )
 

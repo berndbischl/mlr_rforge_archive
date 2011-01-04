@@ -47,7 +47,7 @@ setMethod(
       if (is.empty(pred))
         stop("You need to pass pred for measure ", m["id"])
       pred2 = pred
-      td = pred@task.desc
+      td = pred@desc
     } else {
       pred2 = NULL          
     }
@@ -55,7 +55,7 @@ setMethod(
       if (is.empty(model))
         stop("You need to pass model for measure ", m["id"])
       model2 = model  
-      td = model@task.desc
+      td = model@desc
     } else {
       model2 = NULL
     }
@@ -63,7 +63,7 @@ setMethod(
       if (is.empty(task))
         stop("You need to pass task for measure ", m["id"])
       task2 = task 
-      td = task@task.desc
+      td = task@desc
     } else {
       task2 = NULL
     }

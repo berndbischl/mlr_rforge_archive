@@ -32,7 +32,7 @@ setMethod(
 
 			model = object
 			wl = model["learner"]
-			td = model@task.desc
+			td = model@desc
 			
 			if (missing(newdata)) {
 				if (missing(subset))
