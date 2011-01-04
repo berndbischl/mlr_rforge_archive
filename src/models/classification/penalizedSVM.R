@@ -35,15 +35,11 @@ setMethod(
 			)
 			
       par.descs = list(
+        new("par.desc.disc", par.name="fs.method", default="scad", vals=c("scad","1norm", "DrHSVM", "scad+L2")),
         new("par.desc.double", par.name="maxevals", default=500L),
         new("par.desc.log", par.name="calc.class.weights", default=FALSE),
-        new("par.desc.log", par.name="verbose", default=TRUE),
-        new("par.desc.double", par.name="seed", default=123),
-        new("par.desc.double", par.name="maxIter", default=700L),
-        new("par.desc.double", par.name="k", default=5L),
-        new("par.desc.double", par.name="nu", default=0, lower=0),
-        new("par.desc.double", par.name="delta", default=0.001, lower=0),
-        new("par.desc.double", par.name="epsi", default=0.0001, lower=0)
+        new("par.desc.double", par.name="lambda1", lower=0),
+        new("par.desc.double", par.name="lambda2", lower=0)
       )
       
 			callNextMethod(.Object, pack="penalizedSVM", desc=desc, par.descs=par.descs)
@@ -60,7 +56,9 @@ setMethod(
 		),
 		def = function(.learner, .task, .subset,  ...) {
 			d = get.data(.task, .subset, target.extra=TRUE, class.as="-1+1")
-			lpsvm(A=d$data, y=d$target, ...)
+			svm.fs(x=as.matrix(d$data), y=d$target, verbose=FALSE, grid.search="discrete", parms.coding="none",
+        lambda1.set=2, lambda2.set=2, inner.val.method="cv", cross.inner=2,
+        set.seed=runif(1, 1, .Machine$integer.max), ...)
 		}
 )
 
