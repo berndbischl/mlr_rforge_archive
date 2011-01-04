@@ -148,17 +148,17 @@ get.data = function(task, subset, vars, target.extra=FALSE,
   
   tn = task["target"]
   ms = missing(subset) || identical(subset, 1:task["size"])
-  mv = missing(vars) || identical(vars, 1:task["input.names"])
+  mv = missing(vars) || identical(vars, task["input.names"])
   
   if (target.extra) {
     list(
       data = 
         if (ms && mv) 
-          {d=task["data"];d[,tn]=NULL} 
+          {d=task["data"];d[,tn]=NULL;d} 
         else if (ms)
           task["data"][,vars,drop=FALSE]
         else if (mv)
-          task["data"][subset,,drop=FALSE]
+          {d=task["data"][subset,,drop=FALSE];d[,tn]=NULL;d} 
         else
           task["data"][subset,vars,drop=FALSE],
       target = 
@@ -201,10 +201,12 @@ get.data = function(task, subset, vars, target.extra=FALSE,
 setMethod(
   f = "subset",
   signature = signature(x="learn.task"),
-  def = function(x, subset=1:x["size"], vars) {
+  def = function(x, subset, vars) {
     x = change.data(x, get.data(x, subset, vars))
-    x@blocking = x@blocking[subset]
-    x@weights = x@weights[subset]
+    if (!missing(subset)) {
+      x@blocking = x@blocking[subset]
+      x@weights = x@weights[subset]
+    }  
     return(x)
   }
 )

@@ -28,6 +28,8 @@ make.learner = function(class, id, predict.type="response", ..., par.vals=list()
 	if (class == "")
 		stop("Cannot create learner from empty string!")	
 	wl = new(class)
+  if(!is(wl, "rlearner"))
+    stop("Learner must be a basic rlearner!")
 	if (!missing(id))
 		wl@id = id
   pds = wl@par.descs
