@@ -109,6 +109,12 @@ setMethod(
 			if (i == "par.vals")  {
 				return( ps[ (w[ns] %in% par.when) | (w[ns] == "both") ] ) 
 			}			
+      if (i == "par.vals.string") {
+        p = x["par.vals"]
+        ns = names(p)
+        p = Map(function(n, v) hyper.par.val.to.name(n,v,x), ns, p)
+        return(paste(ns, p, sep="=", collapse=","))
+      }
 			callNextMethod()
 		}
 )

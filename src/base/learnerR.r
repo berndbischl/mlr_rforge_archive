@@ -131,12 +131,6 @@ setMethod(
     if (i == "multiclass") {
       return(as.logical(x@classes["multiclass"]))
     }
-    if (i == "par.vals.string") {
-      p = x["par.vals"]
-      ns = names(p)
-      p = Map(function(n, v) hyper.par.val.to.name(n,v,x), ns, p)
-      return(paste(ns, p, sep="=", collapse=","))
-    }
     callNextMethod()
   }
 )
