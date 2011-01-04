@@ -49,7 +49,7 @@ setMethod(
 #' @title Fuse learner with filter method.
 #' @export
 make.filter.wrapper = function(learner, method="information.gain", threshold) {
-  # todo check that for these inputs havew to be all num. or accept error in train and NA in predict?
+  # todo check that for some the inputs have to be all num. or accept error in train and NA in predict?
 	w = new("filter.wrapper", learner=learner)
   set.hyper.pars(w, method=method, threshold=threshold)
 }
