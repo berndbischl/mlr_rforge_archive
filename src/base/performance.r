@@ -3,7 +3,7 @@ roxygen()
 #' @include measure.r
 roxygen()
 
-#' Measures the quality of predictions w.r.t. some performance measures.
+#' Measures the quality of a prediction w.r.t. some performance measures.
 #' 
 #' @param pred [\code{\linkS4class{prediction}}] \cr
 #'   Prediction object to evaluate.
@@ -11,17 +11,15 @@ roxygen()
 #'   Performance measure. 
 #' @param task [\code{\linkS4class{learn.task}}]\cr 
 #'   Learning task, might be requested by performance measure, usually not needed.
-#' @param model [\code{\linkS4class{learn.task}}]\cr 
+#' @param model [\code{\linkS4class{wrapped.model}}]\cr 
 #'   Model built on training data, might be requested by performance measure, usually not needed.
 #' 
-#' @return A single numerical performance value.
+#' @return A single numerical performance value. 
 #' 
 #' @exportMethod performance
 #' @rdname performance
 #'
 #' @title Measure performance.
-
-
 
 setGeneric(
 		name = "performance",
