@@ -38,7 +38,10 @@ allowed.rd.files <<- c(
 		"performance.Rd",
 		"conf.matrix.Rd",
 		"aggregations.Rd",
-		"measures.Rd",
+    "measure-class.Rd",
+    "make.measure.Rd",
+    "make.cost.measure.Rd",
+    "measures.Rd",
 		"losses.Rd",
 		
 		"ROCR_performance.Rd",
@@ -90,7 +93,8 @@ allowed.rd.files <<- c(
 		"sequential.control.Rd",
 		"randomvarsel.control.Rd",
 		"varsel.Rd",
-		"make.varsel.wrapper.Rd",
+    "varfilter.Rd",
+    "make.varsel.wrapper.Rd",
 		
 		
 		"bench.exp.Rd",
