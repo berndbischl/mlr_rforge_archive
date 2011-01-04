@@ -133,8 +133,7 @@ setMethod(
 #' @seealso \code{\link{get.data}} 
 #' @title Extract data in task. 
 # todo: test
-get.data = function(task, subset, vars, target.extra=FALSE, 
-  class.as=c("factor", "01", "-1+1")) {
+get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
   
   # maybe recode y
   rec.y = function(y) {
