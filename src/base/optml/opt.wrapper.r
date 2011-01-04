@@ -24,13 +24,13 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.wrapper"),
-		def = function(.Object, learner, id, resampling, control, measures) {
+		def = function(.Object, learner, resampling, control, measures) {
 			if (missing(learner))
 				return(.Object)
 			.Object@resampling = resampling
 			.Object@control = control
 			.Object@measures = measures
-			callNextMethod(.Object, learner, id, par.descs=list(), par.vals=list())
+			callNextMethod(.Object, learner, par.descs=list(), par.vals=list())
 		}
 )
 
@@ -83,14 +83,14 @@ setMethod(
 )
 
 
-make.opt.wrapper = function(learner, id, resampling, control, measures) {
+make.opt.wrapper = function(learner, resampling, control, measures) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	if (missing(measures))
 		measures = default.measures(learner)
   if (is(measures, "measure"))
     measures = list(measures)   
-	new("opt.wrapper", learner, id, resampling, control, measures)
+	new("opt.wrapper", learner, resampling, control, measures)
 }
 
 

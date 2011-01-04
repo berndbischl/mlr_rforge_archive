@@ -6,8 +6,6 @@
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
-#' @param id [string] \cr
-#'        Id for resulting learner object. If missing, id of "learner" argument is used.
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'        Resampling strategy to evaluate points in hyperparameter space.
 #' @param control 
@@ -23,7 +21,7 @@
 #'   
 #' @title Fuse learner with tuning.
 
-make.tune.wrapper <- function(learner, id=as.character(NA), resampling, control, measures) {
-	make.opt.wrapper(learner, id, resampling, control, measures)
+make.tune.wrapper <- function(learner, resampling, control, measures) {
+	make.opt.wrapper(learner, resampling, control, measures)
 }
 

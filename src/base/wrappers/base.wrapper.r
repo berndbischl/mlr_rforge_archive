@@ -29,13 +29,11 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("base.wrapper"),
-		def = function(.Object, learner, id, par.descs, par.vals, pack=as.character(c())) {
+		def = function(.Object, learner, par.descs, par.vals, pack=as.character(c())) {
 			if (missing(learner))
 				return(make.empty(.Object))
 			.Object@learner = learner
-			if (is.na(id))
-				id = learner["id"]
-			callNextMethod(.Object, id=id, par.descs=par.descs, par.vals=par.vals, pack=pack)
+			callNextMethod(.Object, par.descs=par.descs, par.vals=par.vals, pack=pack)
 		}
 )
 

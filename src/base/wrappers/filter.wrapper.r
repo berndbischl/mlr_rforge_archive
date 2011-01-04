@@ -26,7 +26,7 @@ setMethod(
         new("par.desc.double", par.name="filter.threshold")
       )
       pvs = list(filter.threshold=filter.threshold, filter.method=filter.method)
-			callNextMethod(.Object, learner, id=learner["id"], par.descs=pds, par.vals=pvs, pack="FSelector")
+			callNextMethod(.Object, learner, par.descs=pds, par.vals=pvs, pack="FSelector")
 		}
 )
 

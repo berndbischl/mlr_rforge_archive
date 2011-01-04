@@ -14,10 +14,10 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("preproc.wrapper"),
-		def = function(.Object, learner, id, train, predict, par.descs, par.vals) {
+		def = function(.Object, learner, train, predict, par.descs, par.vals) {
 			.Object@train = train
       .Object@predict = predict
-      callNextMethod(.Object, learner=learner, id=id, par.descs=par.descs, par.vals=par.vals)
+      callNextMethod(.Object, learner=learner, par.descs=par.descs, par.vals=par.vals)
 		}
 )
 
@@ -28,8 +28,6 @@ setMethod(
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
-#' @param id [string] \cr
-#'        Id for resulting learner object. If missing, id of "learner" argument is used.
 #' @param fun [function] \cr
 #'        Function to preprocess a data.frame. First argument must be called 'data', which will be preprocessed and subsequently returned.
 #' @param ... [any] \cr
@@ -40,7 +38,7 @@ setMethod(
 #' @title Fuse learner with preprocessing.
 #' @export
 
-make.preproc.wrapper = function(learner, id=as.character(NA), train, predict, args) {
+make.preproc.wrapper = function(learner, train, predict, args) {
 	if (is.character(learner))
 		learner = make.learner(learner)
   if (missing(args))
@@ -57,7 +55,7 @@ make.preproc.wrapper = function(learner, id=as.character(NA), train, predict, ar
 		pds[[i]] = new("par.desc.unknown", par.name=n, when="both", default=p)
 		pvs[[n]] = p
 	}
-	new("preproc.wrapper", learner=learner, id=id, train=train, predict=predict, par.descs=pds, par.vals=pvs)
+	new("preproc.wrapper", learner=learner, train=train, predict=predict, par.descs=pds, par.vals=pvs)
 }
 
 
