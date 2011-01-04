@@ -1,7 +1,7 @@
 
 
 test.parallel.warn = function() {
-  res = make.res.instance("cv", iters=2, task=binaryclass.task)
+  res = make.res.desc("cv", iters=2)
   level = .mlr.local$logger.setup$global.level
   logger.setup(level="warn")
   opwd = .mlr.local$errorhandler.setup$on.par.without.desc

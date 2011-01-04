@@ -2,9 +2,7 @@
 
 test.parallel.tune = function() {
   
-  ct = make.task(data=iris, target="Species")
-  multiclass.task = ct
-  res = make.res.instance("subsample", iters=4, task=multiclass.task)
+  res = make.res.instance(make.res.desc("subsample", iters=4), task=multiclass.task)
   
   ctrl = grid.control(ranges=list(sigma=c(0.1, 1, 10)))
   
