@@ -46,10 +46,10 @@ setMethod(
 		signature = signature("base.wrapper"),
 		def = function(x,i,j,...,drop) {
 			check.getter.args(x, c("par.top.wrapper.only", "par.when"), j, ...)
-      
+
       # these belong to base.wrapper and can be different from basic rlearner 
 			if(i %in% c("id", "learner", "predict.type"))
-				callNextMethod()
+				return(callNextMethod())
       
       if(i == "pack") {
 				return(c(x@learner["pack"], x@pack))
