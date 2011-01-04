@@ -41,7 +41,7 @@ setGeneric(
       if(!all.names(start))
         stop("Argument start has to be properly named!")
 			if (missing(lower))
-			  lower[]=-Inf	
+			  lower=-Inf	
 			if (missing(upper))
 			  upper=Inf				
 			if (missing(scale))
