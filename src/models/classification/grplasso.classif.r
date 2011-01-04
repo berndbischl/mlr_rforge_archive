@@ -53,7 +53,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			# todo: bug in grplasso: index cant be passed with formula interface....
-			d = get.data(.task, .subset, traget.extra=TRUE, class.as="01")
+			d = get.data(.task, .subset, target.extra=TRUE, class.as="01")
 			x = cbind(1, as.matrix(d$data))
       if (.task["has.weights"])
 			  grplasso(x, y, weights=.weights, ...)
