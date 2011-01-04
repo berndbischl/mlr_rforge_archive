@@ -21,5 +21,5 @@ get.data = function(task, subset=1:task["size"], vars, target.extra=FALSE,
   if (target.extra) 
     list(data=d[,vars,drop=FALSE], target=d[, tn])
   else
-    d[,vars,drop=FALSE]              
+    d[,c(vars, tn),drop=FALSE]              
 }
