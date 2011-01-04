@@ -95,7 +95,7 @@ setMethod(
       mid = m["id"]
       p1 = ms.test[, mid]
       p2 = ms.train[, mid]
-      a = sapply(m@aggr, function(a) a@fun(p1, p2, rin["group"], pred))
+      a = sapply(m@aggr, function(a) a@fun(p1, p2, m, rin["group"], pred))
       names(a) = paste(mid, sapply(m@aggr, function(a) a["id"]), sep=".")
       aggr = c(aggr, a)
     }

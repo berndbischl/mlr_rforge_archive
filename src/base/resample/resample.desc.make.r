@@ -48,10 +48,11 @@ setMethod(
     cc = paste(method, "desc", sep=".")
     if (!missing(iters)) {
       iters = as.integer(iters)
-      d = new(cc, iters=iters, predict=predict, ...)
+      d = new(cc, iters=iters, ...)
     } else {
-      d = new(cc, predict=predict, ...)
+      d = new(cc, ...)
     }
+    d@predict = predict
     return(d)
   }
 )

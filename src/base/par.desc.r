@@ -73,6 +73,14 @@ setClass(
 	"par.desc.unknown",
 	contains = c("par.desc")
 )
+#' Constructor.
+setMethod(
+  f = "initialize",
+  signature = signature("par.desc.unknown"),
+  def = function(.Object, par.name, default="missing", when="train", flags=list(optimize=FALSE), requires=expression(TRUE)) {
+    callNextMethod(.Object, par.name, default, when, flags, requires)
+  }
+)
 
 
 setClass(

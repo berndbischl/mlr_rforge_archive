@@ -138,11 +138,4 @@ test.benchresult = function() {
   be = bench.exp(learners=wl, tasks=multiclass.task, resampling=res)
   x = as.array(be, sets="test", drop=TRUE)
   checkEquals(as.numeric(r$aggr["mmce.test.sd"]), sd(x)) 
-
-  res = make.res.desc("bs", iters=3)
-  wl = "classif.lda"
-  m = set.aggr(mmce, b632plus)
-  r = resample(wl, multiclass.task, res, measures=m)
-  be = bench.exp(learners=wl, tasks=multiclass.task, resampling=res)
-  checkEquals(perf$aggr[,1], be["perf", aggr="resampling"], checkNames = FALSE) 
 }	

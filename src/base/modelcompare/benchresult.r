@@ -46,7 +46,8 @@ setClass(
         resamplings = "list",
         measures = "list",
 				res.results = "list",
-				opt.results = "list" 
+				opt.results = "list", 
+        input.names = "list"
 		)
 )
 
@@ -229,9 +230,10 @@ setMethod(
     x = br["opt.results"][[task.id]][[learner.id]]
     if (is.null(x) || x[[1]]["opt.type"] != "varsel")
       stop("Learner id ", learner.id, " was not used for varsel in bench.result!")
-    if (as.data.frame)
-      as.data.frame(Reduce(rbind, lapply(x, function(y) vars.to.binary(y["par"], all.vars=br["task.descs"][[task.id]]["input.names"]))))
-    else
+    if (as.data.frame) {
+      avs = br["input.names"][[task.id]]
+      as.data.frame(Reduce(rbind, init=NULL, lapply(x, function(y) vars.to.binary(y["par"], all.vars=avs))))
+    } else
       lapply(x, function(y) y["par"])
   } 
 )
