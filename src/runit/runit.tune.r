@@ -66,23 +66,22 @@ test.tune <- function() {
 	#tune chain
 	wl = make.learner("classif.rpart", minsplit=10, cp=0.01, predict.type="prob")
 	
-  pc = function(data, targetvar, args) {
-    cns = setdiff(colnames(data), targetvar)
+  f1 = function(data, targetvar, args) {
     set.seed(1)
-    v = sample(cns, args$n)
-    list(vars=v)
+    v = sample(setdiff(colnames(data), targetvar), args$n)
+    list(data=data[, c(v, targetvar), drop=FALSE], control=list(vars=v))
   }
-  fun = function(data, targetvar, args, control) {
-    cns = union(control$vars, targetvar)
-		data[,cns, drop=FALSE]
+  f2 = function(data, targetvar, args, control) {
+    data[, control$vars, drop=FALSE]
 	}
-	wl = make.preproc.wrapper(wl, fun=fun, control=pc, args=list(n=3))
-	
+	wl = make.preproc.wrapper(wl, train=f1, predict=f2, args=list(n=3))
+  
 	r = list(minsplit=c(3,30), n=c(1,60))
 	ctrl = grid.control(ranges=r)
 	tr = tune(wl, binaryclass.task, res, control=ctrl)
   checkTrue(!any(is.na(tr["perf"])))
-	
+  checkEquals(tr["par"]$n, 60)
+  
 	# nelder mead with optim
 	ctrl = optim.control(start=c(C=0, sigma=0), maxit=10, scale=function(x) 2^x)
 	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)

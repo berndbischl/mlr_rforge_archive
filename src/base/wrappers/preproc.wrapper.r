@@ -4,8 +4,8 @@ setClass(
 		"preproc.wrapper",
 		contains = c("base.wrapper"),
 		representation = representation(
-        fun = "function",
-        control.fun = "function"
+        train = "function",
+        predict = "function"
     )
 )
 
@@ -14,9 +14,9 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("preproc.wrapper"),
-		def = function(.Object, learner, id, fun, control, par.descs, par.vals) {
-			.Object@fun = fun
-      .Object@control.fun = control
+		def = function(.Object, learner, id, train, predict, par.descs, par.vals) {
+			.Object@train = train
+      .Object@predict = predict
       callNextMethod(.Object, learner=learner, id=id, par.descs=par.descs, par.vals=par.vals)
 		}
 )
@@ -40,17 +40,15 @@ setMethod(
 #' @title Fuse learner with preprocessing.
 #' @export
 
-make.preproc.wrapper = function(learner, id=as.character(NA), fun, control, args) {
+make.preproc.wrapper = function(learner, id=as.character(NA), train, predict, args) {
 	if (is.character(learner))
 		learner = make.learner(learner)
-  if (missing(control))
-    control=function(data, targetvar, args) NULL
   if (missing(args))
     args=list()
-  if (any(names(formals(fun)) != c("data", "targetvar", "args", "control")))
-		stop("Arguments in preproc function have to be: data, targetvar, args, control")		
-  if (any(names(formals(control)) != c("data", "targetvar", "args")))
-    stop("Arguments in control function have to be: data, targetvar, args")    
+  if (any(names(formals(train)) != c("data", "targetvar", "args")))
+		stop("Arguments in preproc train function have to be: data, targetvar, args")		
+  if (any(names(formals(predict)) != c("data", "targetvar", "args", "control")))
+    stop("Arguments in preproc predict function have to be: data, targetvar, args, control")    
 	pds = list()
 	pvs = list()
 	for (i in seq(length=length(args))) {
@@ -59,7 +57,7 @@ make.preproc.wrapper = function(learner, id=as.character(NA), fun, control, args
 		pds[[i]] = new("par.desc.unknown", par.name=n, when="both", default=p)
 		pvs[[n]] = p
 	}
-	new("preproc.wrapper", learner=learner, id=id, fun=fun, control=control, par.descs=pds, par.vals=pvs)
+	new("preproc.wrapper", learner=learner, id=id, train=train, predict=predict, par.descs=pds, par.vals=pvs)
 }
 
 
@@ -76,15 +74,15 @@ setMethod(
       d = get.data(.task, .subset)
       fargs = .learner["par.vals", par.top.wrapper.only=TRUE]
       tn = .task["target"]
-      ctrl = .learner@control.fun(data=d, targetvar=tn, args=fargs)
-      d = .learner@fun(data=d, targetvar=tn, args=fargs, control = ctrl)
-      if (!is.data.frame(d))
-        stop("Preprocessing must result in a data.frame!")
-      if (nrow(d) != .task["size"])
-        stop("Preprocessing may not change number of cases!")
-      .task = change.data(.task, d)
+      p = .learner@train(data=d, targetvar=tn, args=fargs)
+      if (!(is.list(p) && length(p)==2 && all(names(p) == c("data", "control")) 
+          && is.data.frame(p$data) && is.list(p$control)))
+        stop("Preprocessing train must result in list wil elements data[data.frame] and control[list]!")
+      if (nrow(p$data) != length(.subset))
+        stop("Preprocessing train may not change number of cases!")
+      .task = change.data(.task, p$data)
 			m = callNextMethod(.learner, .task, .subset, ...)
-      attr(m, "control") = ctrl
+      attr(m, "control") = p$control
       return(m)
 		}
 )
@@ -104,11 +102,11 @@ setMethod(
       fargs = .model@learner["par.vals", par.top.wrapper.only=TRUE]
       tn = .model["task.desc"]["target"]
       m = nrow(.newdata)
-      .newdata = .learner@fun(data=.newdata, targetvar=tn, args=fargs, control=.model@control)
+      .newdata = .learner@predict(data=.newdata, targetvar=tn, args=fargs, control=.model@control)
       if (!is.data.frame( .newdata))
         stop("Preprocessing must result in a data.frame!")
       if (nrow(.newdata) != m)
-        stop("Preprocessing may not change number of cases!")
+        stop("Preprocessing predict may not change number of cases!")
 			callNextMethod(.learner, .model, .newdata, .type, ...)
 		}
 )	

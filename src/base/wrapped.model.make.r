@@ -12,7 +12,7 @@ make.wrapped.model = function(learner, model, task.desc, prep.control, hps, subs
   } else if(is(learner, "preproc.wrapper")) {
     ctrl = attr(model, "control")
     attr(model, "control") = NULL
-    m = new("wrapped.model", learner, model, task.desc, prep.control, subset, vars, time)  
+    m = new("preproc.model", learner, model, task.desc, prep.control, subset, vars, time, ctrl)  
   } else if(is(learner, "filter.wrapper")) {
     vars = attr(model, "filter.result")
     attr(model, "filter.result") = NULL
