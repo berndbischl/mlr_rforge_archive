@@ -12,7 +12,9 @@ allowed.rd.files <<- c(
 		"regr.task-class.Rd",
     "prepare.control.Rd",
 		"make.task.Rd",
-		
+    "subset.Rd",
+    "get.data.Rd",
+    
 		"train.learner.Rd",
 		"pred.learner.Rd",
 		"args.to.control.Rd",

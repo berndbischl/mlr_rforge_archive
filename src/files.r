@@ -20,7 +20,6 @@ base.files <<- c(
     "base/check.costs.r",
     
 		"base/par.desc.r",
-    "base/getdata.r",
     "base/learner.r",
 		"base/learnerR.r",
 		"base/learner.make.r",
@@ -86,7 +85,6 @@ base.files <<- c(
 #		"base/wrappers/novars.r",
 		"base/wrappers/preproc.wrapper.r",
 		"base/wrappers/multiclass.wrapper.r",
-		"base/wrappers/filter.wrapper.r",
 		
 		"base/optml/opt.control.r",
 		"base/optml/opt.result.r",
@@ -125,7 +123,8 @@ base.files <<- c(
 		"base/varsel/varsel.r",
     "base/varsel/filter.r",
     "base/varsel/varsel.wrapper.r",
-		
+    "base/varsel/filter.wrapper.r",
+    
 		
 		"base/modelcompare/benchmark.r",
 		"base/modelcompare/benchexp.r",

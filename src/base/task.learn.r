@@ -102,6 +102,59 @@ setMethod(
 		}
 )
 
+
+#' Extract data in task. Useful in \code{link{train.learner}} when you add a learning 
+#' machine to the package.
+#' 
+#' @param task [\code{\linkS4class{learn.task}}]\cr 
+#'   Learning task.   
+#' @param subset [integer] \cr 
+#'   Selected cases. Default is all cases. 
+#' @param vars [character] \cr 
+#'   Selected inputs. 
+#' @param target.extra [boolean] \cr 
+#'   Should target vector be returned separately?. 
+#'   If not, a single data.frame including the target is returned, otherwise a list 
+#'   with the input data.frame and and an extra vector for he targets.
+#'   Default is FALSE. 
+#' @param class.as [string] \cr
+#'   Should target classes be recoded? Only for binary classification.
+#'   Possible are "factor" (do nothing), "01", and "-1+1". 
+#'   Default is "factor".
+#'    
+#' @return Either a data.frame or a list with data.frame \code{data} and vector \code{target}.
+#'
+#' @export
+#' @rdname subset
+#' @seealso \code{\link{get.data}} 
+#' @title Extract data in task. 
+# todo: mabye optimize for speed for defaault values
+# todo: test
+get.data = function(task, subset=1:task["size"], vars, target.extra=FALSE, 
+  class.as=c("factor", "01", "-1+1")) {
+  
+  match.arg(class.as)
+  if (missing(vars))
+    vars = task["input.names"]
+  tn = task["target"]
+  
+  # reduce to subset
+  d = task@data[subset,,drop=FALSE]
+  
+  # maybe recode y
+  if (task["is.classif"] && task["is.binary"] && class.as=="01")
+    d[, tn] = as.numeric(d[, tn] == task["positive"])
+  else if (task["is.classif"] && task["is.binary"] && class.as=="-1+1")
+    d[, tn] = 2*as.numeric(d[, tn] == task["positive"])-1
+  
+  # reduce to vars
+  if (target.extra) 
+    list(data=d[,vars,drop=FALSE], target=d[, tn])
+  else
+    d[,c(vars, tn),drop=FALSE]              
+}
+
+
 # todo: maybe dont do this check for speed reasons?
 ## reduce data to subset and selected vars
 #x = !vars %in% task["input.names"]
@@ -111,11 +164,11 @@ setMethod(
 #' Subset data in task. 
 #' 
 #' @param x [\code{\linkS4class{learn.task}}]\cr 
-#'   Specifies learning task. If this is passed, data from this task is predicted.   
+#'   Learning task.   
 #' @param subset [integer] \cr 
-#'   Index vector to subset the data in the task to use for prediction. 
+#'   Selected cases. Default is all cases. 
 #' @param vars [character] \cr 
-#'   New observations which should be predicted. Alternatively pass this instead of task. 
+#'   Selected inputs. Note that target feature is always included! Default is all vars. 
 #' @return \code{\linkS4class{learn.task}} with changed data.
 #'
 #' @export
