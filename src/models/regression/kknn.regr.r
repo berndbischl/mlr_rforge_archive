@@ -35,7 +35,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, ...) {
-			list(td=.task["task.desc"], data=get.data(.task, .subset), parset=list(...))
+			list(td=.task["desc"], data=get.data(.task, .subset), parset=list(...))
 		}
 )
 
