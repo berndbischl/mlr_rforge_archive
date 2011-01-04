@@ -75,7 +75,7 @@ setMethod(
       vars = task["input.names"]
       # no vars? then use no vars model
       if (length(vars) == 0) {
-        learner.model = new("novars", targets=task["data"][subset, tn], task.desc=task@desc)
+        learner.model = new("novars", targets=task["data"][subset, tn], desc=task@desc)
         time.train = 0
       } else {
         # set the seed
