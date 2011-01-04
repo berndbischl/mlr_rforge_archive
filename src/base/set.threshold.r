@@ -1,15 +1,18 @@
 #' Set threshold of prediction object (if prediction was for classification). 
 #' Creates corresponding discrete class response for the newly set threshold. 
 #' For binary classification: The positive class is predicted if the probability or decision value exceeds the threshold. 
-#' For multiclass: Probabilities/decision values are divided by corresponding thresholds and the class with maximum resulting value is selected. 
+#' For multiclass: Probabilities/decision values are divided by corresponding thresholds and the class with maximum resulting value is selected.
+#' The result of both are equivalent if in the multi-threshold case the labels are greater than 0 and sum to 1.  
 #' 
-#' @param pred [\code{\linkS4class{prediction}}] \cr
-#'   Prediction object.
+#' @param pred [\code{\linkS4class{prediction}} | double matrix] \cr
+#'   Prediction object or matrix of probabilities. If a matrix, column names have to be class labels.
 #' @param threshold [numeric] \cr
-#'   Threshold to produce class labels. For multiclass classification has to be a named vector, where names correspond to class labels.
-#'   For binary classification it should be a single numerical value, but the former format for multiclass is also allowed. 
+#'   Threshold to produce class labels. Has to be a named vector, where names correspond to class labels.
+#'   Only if pred is a prediction object resulting from binary classification
+#'   it can be a single numerical threshold for the positive class. 
 #' 		    
-#' @return \code{\linkS4class{prediction}} with changed threshold and corresponding response.
+#' @return Either a \code{\linkS4class{prediction}} with changed threshold and corresponding response,  
+#'   or a factor if \code{pred} was a matrix. 
 #' @exportMethod set.threshold
 #' @title Set threshold of prediction object.
 #' @rdname set.threshold 
@@ -52,5 +55,24 @@ setMethod(
   } 
 )
 
+#' @rdname set.threshold 
+setMethod(
+  f = "set.threshold",
+  
+  signature = signature(
+    pred = "matrix", 
+    threshold = "numeric" 
+  ),
+  
+  def = function(pred, threshold) {
+    levs = colnames(pred)
+    if (length(threshold) != length(levs) || !all.names(threshold) || any(names(threshold) != levs))
+      stop("Threshold must have same names as columns of prob matrix!")
+    # resort so we have same order in threshold and p
+    threshold = threshold[levs] 
+    resp = sapply(1:nrow(pred), function(i) vote.max.val(pred[i,]/threshold, levs))
+    factor(resp, levels=levs)
+  } 
+)
 
 
