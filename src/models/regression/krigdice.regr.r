@@ -42,8 +42,8 @@ setMethod(
     ),
     
     def = function(.learner, .task, .subset,  ...) {
-      y = .task["targets"][.subset]
-      km(design=get.data(.task, .subset, with.target=FALSE), response=y, ...)
+      d = get.data(.task, .subset, target.extra=TRUE)
+      km(design=d$data, response=d$target, ...)
     }
 )
 
