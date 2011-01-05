@@ -20,13 +20,13 @@ test.hyperpars <- function() {
 	wl2 = make.preproc.wrapper(wl1, train=f1, predict=f2, args=list(x=1, y=2))
 	
 	checkTrue(setequal(wl2["par.vals"], list(minsplit=10, x=1, y=2))) 
-	checkTrue(setequal(wl2["par.vals", par.when="train"], list(minsplit=10, x=1, y=2))) 
-	checkTrue(setequal(wl2["par.vals", par.top.wrapper.only=TRUE], list(x=1, y=2))) 
-
+	checkTrue(setequal(wl2["par.train"], list(minsplit=10, x=1, y=2))) 
+  checkTrue(setequal(wl2@par.vals, list(x=1, y=2))) 
+  
 	wl3 = set.hyper.pars(wl2, minsplit=77, x=88)
 	checkTrue(setequal(wl3["par.vals"], list(minsplit=77, x=88, y=2))) 
-	checkTrue(setequal(wl3["par.vals", par.when="train"], list(minsplit=77, x=88, y=2))) 
-	checkTrue(setequal(wl3["par.vals", par.top.wrapper.only=TRUE], list(x=88, y=2))) 
+	checkTrue(setequal(wl3["par.train"], list(minsplit=77, x=88, y=2))) 
+	checkTrue(setequal(wl3@par.vals, list(x=88, y=2))) 
 	
 	m = train(wl2, task=multiclass.task)
 	checkTrue(setequal(m["learner"]["par.vals"], list(minsplit=10, x=1, y=2))) 
