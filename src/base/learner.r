@@ -7,7 +7,7 @@ roxygen()
 #' 
 #' Tresholds for class labels: If you set \code{predict.type} to "prob" or "decision", the label with the maximum value is selected.
 #' You can change labels of a prediction object later by using the function \code{\link{set.threshold}} or find optimal, 
-#' non-default thresholds by using \code{\link{make.et.wrapper}}.
+#' non-default thresholds by using \code{\link{make.probth.wrapper}} and tuning it.
 #' 
 #' How to add further functionality to a learner: Look at subclasses of \code{\linkS4class{base.wrapper}}.
 #' 
@@ -22,9 +22,10 @@ roxygen()
 #'  \item{factors [boolean]}{Can factor inputs be processed?}
 #'  \item{missings [boolean]}{Can missing values be processed?}
 #'  \item{weights [boolean]}{Can case weights be used?}
-#' 	\item{par.vals [list]}{List of fixed hyperparameters and respective values for this learner.}
-#' 	\item{par.descs [list]}{Named list of \code{\linkS4class{par.desc}} description objects for all possible hyperparameters for this learner.}
-#' 	\item{par.descs.when [character]}{Named character vector. Specifies when a cetrain hyperparameter is used. Possible entries are 'train', 'predict' or 'both'.}
+#' 	\item{par.vals [named list]}{List of set hyperparameters.}
+#'  \item{par.train [named list]}{List of set hyperparameters which are passed to train function.}
+#'  \item{par.predict [named list]}{List of set hyperparameters which are passed to predict function.}
+#' 	\item{par.descs [named list]}{Named list of \code{\linkS4class{par.desc}} description objects for all possible hyperparameters.}
 #' }
 #' 
 #' Further getters for classifiers.\cr
@@ -69,6 +70,7 @@ setMethod(
 			require.packs(pack, for.string=paste("learner", id))
 			if (missing(par.descs))
 				par.descs = list()
+      names(par.descs) = sapply(par.descs, function(y) y@par.name)
 			.Object@par.descs = par.descs
 			callNextMethod(.Object)
 			if (!missing(par.vals))
@@ -86,29 +88,16 @@ setMethod(
 		f = "[",
 		signature = signature("learner"),
 		def = function(x,i,j,...,drop) {
-			check.getter.args(x, c("par.when", "par.top.wrapper.only"), j, ...)
-      
-      if (i == "par.descs") {
-        pds = x@par.descs
-        names(pds) = sapply(pds, function(y) y@par.name)
-        return(pds)
-      } 
-			if (i == "par.descs.when") {
-				w=sapply(x@par.descs, function(y) y@when)
-				names(w) = names(x["par.descs", ...])
-				return(w)
-			}
-			
-			args = list(...)
-			par.when = args$par.when
-			if(is.null(par.when)) par.when = c("train", "predict", "both")
-			ps = x@par.vals
-			ns = names(ps)
-			w = x["par.descs.when"]
-
-			if (i == "par.vals")  {
-				return( ps[ (w[ns] %in% par.when) | (w[ns] == "both") ] ) 
-			}			
+      if (i == "par.train")  {
+        ns = names(Filter(function(y) y@when %in% c("train", "both"), x@par.descs))
+        ns = intersect(ns, names(x@par.vals))
+        return(x["par.vals"][ns])
+      }     
+      if (i == "par.predict")  {
+        ns = names(Filter(function(y) y@when %in% c("predict", "both"), x@par.descs))
+        ns = intersect(ns, names(x@par.vals))
+        return(x["par.vals"][ns])
+      }     
       if (i == "par.vals.string") {
         p = x["par.vals"]
         ns = names(p)

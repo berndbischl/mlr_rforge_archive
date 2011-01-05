@@ -33,7 +33,11 @@ setMethod(
 			if (missing(learner))
 				return(make.empty(.Object))
 			.Object@learner = learner
-      callNextMethod(.Object, id=learner["id"], par.descs=par.descs, par.vals=par.vals, pack=pack)
+      w = callNextMethod(.Object, id=learner["id"], par.descs=par.descs, par.vals=par.vals, pack=pack)
+      ns = intersect(names(w@par.descs), names(learner["par.descs"]))
+      if (length(ns) > 0)
+        stop("Hyperparameter names in wrapper clash with base learner names: ", paste(ns, collapse=","))
+      return(w)
 		}
 )
 
@@ -45,8 +49,6 @@ setMethod(
 		f = "[",
 		signature = signature("base.wrapper"),
 		def = function(x,i,j,...,drop) {
-			check.getter.args(x, c("par.top.wrapper.only", "par.when"), j, ...)
-
       # these belong to base.wrapper and can be different from basic rlearner 
 			if(i %in% c("id", "learner", "predict.type"))
 				return(callNextMethod())
@@ -54,32 +56,19 @@ setMethod(
       if(i == "pack") {
 				return(c(x@learner["pack"], x@pack))
 			}			
-			
-			args = list(...)
-			par.top.wrapper.only = args$par.top.wrapper.only
-			if (is.null(par.top.wrapper.only)) par.top.wrapper.only=FALSE
 			if(i == "par.descs") {
-				if(par.top.wrapper.only) 
-					return(callNextMethod())
-				else {
-					return(c(x@learner["par.descs", ...], x["par.descs", par.top.wrapper.only=TRUE, ...]))
-				}					
+        return(c(x@learner["par.descs"], x@par.descs))
 			}
-			if(i == "par.descs.when") {
-				if(par.top.wrapper.only) 
-					return(callNextMethod())
-				else {
-					return(c(x@learner["par.descs.when", ...], x["par.descs.when", par.top.wrapper.only=TRUE, ...]))
-				}					
-			}
-			if(i == "par.vals") {
-				if(par.top.wrapper.only) 
-					return(callNextMethod())
-				else {
-					return(c(x@learner["par.vals", ...], x["par.vals", par.top.wrapper.only=TRUE, ...]))
-				}					
-			}
-			return(x@learner[i])
+      if(i == "par.vals") {
+        return(c(x@learner["par.vals"], x@par.vals))
+      }
+      if(i == "par.train") {
+        return(c(x@learner["par.train"], callNextMethod()))
+      }
+      if(i == "par.predict") {
+        return(c(x@learner["par.predict"], callNextMethod()))
+      }
+      return(x@learner[i])
 		}
 )
 
