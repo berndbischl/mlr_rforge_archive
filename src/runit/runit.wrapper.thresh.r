@@ -3,7 +3,7 @@ test.thresh.wrapper <- function() {
   v = make.learner("classif.lda", predict.type="prob")
   v = make.probth.wrapper(v, classes=cl)
   pv = as.list(rep(1,3))
-  names(pv) = cl
+  names(pv) = paste("probth", cl, sep=".")
   
   res = make.res.desc("cv", iters=2)
   for (i in 1:length(cl)) {
