@@ -48,7 +48,7 @@ setMethod(
         cc = function(truth, pred) {
           costs[truth, pred]
         }
-        Reduce(sum, Map(cc, as.character(pred["truth"]), as.character(r)))
+        Reduce(mean, Map(cc, as.character(pred["truth"]), as.character(r)))
       }
     )
   }
