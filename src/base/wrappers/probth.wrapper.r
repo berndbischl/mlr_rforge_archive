@@ -59,13 +59,10 @@ setMethod(
   ),
   
   def = function(.learner, .model, .newdata, .type, ...) {
-    p = callNextMethod(.learner, .model, .newdata, .type="prob", ...)
-    myargs = .learner["par.vals", par.top.wrapper.only=TRUE]
-    myargs = unlist(myargs)
+    p = pred.learner(.learner@learner, .model, .newdata, .type="prob")
+    ths = unlist(list(...))
     # remove "probth"    
-    ns = names(myargs)
-    ns = sapply(strsplit(ns, "\\."), function(x) x[2])
-    names(myargs) = ns
-    set.threshold(p, threshold=myargs)
+    names(ths) = sapply(strsplit(ns, "\\."), function(x) x[2])
+    set.threshold(p, threshold=ths)
   }
 ) 

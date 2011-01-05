@@ -75,21 +75,21 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset,  ...) {
+    pvs = .learner@par.vals
+    
     .task = subset(.task, .subset)
     tn = .task["target"]
     levs = .task["class.levels"]
     d = .task["data"]
     y = .task["targets"]
-    args = list(...)
-    meth = args$mcw.method
-    cust = args$mcw.custom
-    if (is.null(cust)) { 
-      meth= switch(meth,
+        
+    if (is.null(pvs$mcw.custom)) { 
+      meth = switch(pvs$mcw.method,
         onevsrest = cm.onevsrest,
         onevsone = cm.onevsone
       )
     } else{
-      meth= cust
+      meth= pvs$mcw.custom
     }
     # build codematrix
     cm = meth(.task)
@@ -107,7 +107,7 @@ setMethod(
       data2 = d[x$row.inds[[i]], ]
       data2[, tn] = x$targets[[i]] 
       ct = change.data(.task, data2)
-      models[[i]] = callNextMethod(.learner, ct, 1:ct["size"], ...)
+      models[[i]] = train.learner(.learner@learner, ct, 1:ct["size"], ...)
     }
     # store cm as last el.
     models[[i+1]] = cm 

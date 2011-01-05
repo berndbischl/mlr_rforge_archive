@@ -54,14 +54,14 @@ setMethod(
     ),
 		
 		def = function(.learner, .task, .subset,  ...) {
+      pvs = .learner@par.vals 
       .task = subset(.task, subset=.subset)  
       tn = .task["target"]
-      args = list(...)
-      vars = varfilter(.task, args$fw.method, args$fw.threshold)$vars
+      vars = varfilter(.task, pvs$fw.method, fw.threshold)$vars
       if (length(vars) > 0) {
         .task = subset(.task, vars=vars)  
         # !we have already subsetted!
-			  m = callNextMethod(.learner, .task, 1:.task["size"], ...)
+			  m = train.learner(.learner@learner, .task, 1:.task["size"], ...)
       } else {
         # !we have already subsetted!
         m = new("novars", targets=.task["targets"], task.desc=.task["desc"])
@@ -84,9 +84,8 @@ setMethod(
   ),
   
   def = function(.learner, .model, .newdata, .type, ...) {
-    vars = .model["vars"] 
-    .newdata = .newdata[, vars, drop=FALSE]  
-    callNextMethod(.learner, .model, .newdata, .type, ...)
+    .newdata = .newdata[, .model["vars"], drop=FALSE]  
+    predict.learner(.learner@learner, .model, .newdata, .type, ...)
   }
 ) 
 

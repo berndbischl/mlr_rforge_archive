@@ -66,17 +66,19 @@ setMethod(
     ),
       
 		def = function(.learner, .task, .subset,  ...) {
+      pvs = .learner@par.vals
+      
       d = get.data(.task, .subset)
-      fargs = .learner["par.vals", par.top.wrapper.only=TRUE]
       tn = .task["target"]
-      p = .learner@train(data=d, targetvar=tn, args=fargs)
+      p = .learner@train(data=d, targetvar=tn, args=pvs)
       if (!(is.list(p) && length(p)==2 && all(names(p) == c("data", "control")) 
           && is.data.frame(p$data) && is.list(p$control)))
         stop("Preprocessing train must result in list wil elements data[data.frame] and control[list]!")
       if (nrow(p$data) != length(.subset))
         stop("Preprocessing train may not change number of cases!")
       .task = change.data(.task, p$data)
-			m = callNextMethod(.learner, .task, .subset, ...)
+      # we have already subsetted!
+			m = train.learner(.learner@learner, .task, 1:.task["size"], ...)
       attr(m, "control") = p$control
       return(m)
 		}
@@ -94,15 +96,14 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-      fargs = .model@learner["par.vals", par.top.wrapper.only=TRUE]
-      tn = .model["desc"]["target"]
+      pvs = .model@learner@par.vals
       m = nrow(.newdata)
-      .newdata = .learner@predict(data=.newdata, targetvar=tn, args=fargs, control=.model@control)
+      .newdata = .learner@predict(.newdata, .model["desc"]["target"], pvs, .model@control)
       if (!is.data.frame( .newdata))
         stop("Preprocessing must result in a data.frame!")
       if (nrow(.newdata) != m)
         stop("Preprocessing predict may not change number of cases!")
-			callNextMethod(.learner, .model, .newdata, .type, ...)
+			pred.learner(.learner@learner, .model, .newdata, .type, ...)
 		}
 )	
 
