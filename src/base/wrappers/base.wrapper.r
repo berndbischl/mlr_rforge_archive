@@ -153,14 +153,9 @@ setMethod(f = "to.string",
     }
     s = paste(s, class(y))
     
-    hps = x["par.vals"]
-    hps.ns = names(hps)
-    hps = Map(function(n, v) hyper.par.val.to.name(n,v,x), hps.ns, hps)
-    hps = paste(hps.ns, hps, sep="=", collapse=" ")
-
     return(paste(
         s, "\n",
-        "Hyperparameters: ", hps, "\n\n",
+        "Hyperparameters: ", x["par.vals.string"], "\n\n",
         sep = ""         
       ))
   })

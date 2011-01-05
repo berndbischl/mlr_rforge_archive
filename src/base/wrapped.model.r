@@ -64,14 +64,12 @@ setMethod(
 		f = "to.string",
 		signature = signature("wrapped.model"),
 		def = function(x) {
-			ps = x["learner"]["par.vals"]
-			ps = paste(names(ps), ps, sep="=", collapse=" ")
-			
 			return(
 					paste(
 							"Learner model for ", x@learner["id"], "\n",  
 							"Trained on obs: ", length(x@subset), "\n",
-							"Hyperparameters: ", ps,
+              "Used features: ", length(x@vars), "\n",
+              "Hyperparameters: ", x@learner["par.vals.string"],
 							sep=""
 					)
 			)
