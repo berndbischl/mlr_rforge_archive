@@ -33,6 +33,8 @@ setClass(
 #' @title Fuse learner with filter method.
 #' @export
 make.filter.wrapper = function(learner, fw.method="information.gain", fw.threshold) {
+  if (is.character(learner))
+    learner = make.learner(learner)
   # todo check that for some the inputs have to be all num. or accept error in train and NA in predict?
   pds = list(
     new("par.desc.disc", par.name="fw.method",
@@ -40,7 +42,8 @@ make.filter.wrapper = function(learner, fw.method="information.gain", fw.thresho
         "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")),
     new("par.desc.double", par.name="fw.threshold")
   )
-	w = new("filter.wrapper", learner=learner, pack="FSelector", par.descs=pds, par.vals=list(fw.threshold=fw.threshold))
+	new("filter.wrapper", learner=learner, pack="FSelector", par.descs=pds, 
+    par.vals=list(fw.method=fw.method, fw.threshold=fw.threshold))
 }
 
 
@@ -57,14 +60,14 @@ setMethod(
       pvs = .learner@par.vals 
       .task = subset(.task, subset=.subset)  
       tn = .task["target"]
-      vars = varfilter(.task, pvs$fw.method, fw.threshold)$vars
+      vars = varfilter(.task, pvs$fw.method, pvs$fw.threshold)$vars
       if (length(vars) > 0) {
         .task = subset(.task, vars=vars)  
         # !we have already subsetted!
 			  m = train.learner(.learner@learner, .task, 1:.task["size"], ...)
       } else {
         # !we have already subsetted!
-        m = new("novars", targets=.task["targets"], task.desc=.task["desc"])
+        m = new("novars", targets=.task["targets"], desc=.task["desc"])
       }
       # set the vars as attribute, so we can extract it later 
       attr(m, "filter.result") = vars
@@ -85,7 +88,7 @@ setMethod(
   
   def = function(.learner, .model, .newdata, .type, ...) {
     .newdata = .newdata[, .model["vars"], drop=FALSE]  
-    predict.learner(.learner@learner, .model, .newdata, .type, ...)
+    pred.learner(.learner@learner, .model, .newdata, .type, ...)
   }
 ) 
 
