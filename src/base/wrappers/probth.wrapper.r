@@ -2,13 +2,13 @@
 
 
 setClass(
-  "et.wrapper",
+  "probth.wrapper",
   contains = c("base.wrapper")
 )
 
 setMethod(
   f = "[",
-  signature = signature("et.wrapper"),
+  signature = signature("probth.wrapper"),
   def = function(x,i,j,...,drop) {
     if (i == "prob")
       return(FALSE)
@@ -36,7 +36,7 @@ setMethod(
 #' @title Fuse learner with probability thresholding.
 #' @export
 
-make.et.wrapper = function(learner, classes) {
+make.probth.wrapper = function(learner, classes) {
   if (is.character(learner))
     learner = make.learner(learner)
   if (!learner["is.classif"])
@@ -44,15 +44,15 @@ make.et.wrapper = function(learner, classes) {
   if (learner["predict.type"] != "prob")
     stop("The predict.type of the base learner must be 'prob'!")
   a = as.list(rep(0.5, length(classes)))
-  names(a) = classes
-  pds = lapply(classes, function(x) new("par.desc.double", par.name=x, lower=0, upper=1))
-  new("et.wrapper", learner=learner, par.descs=pds, par.vals=a)
+  names(a) = paste("probth", classes, sep=".")
+  pds = lapply(names(a), function(x) new("par.desc.double", par.name=x, lower=0, upper=1))
+  new("probth.wrapper", learner=learner, par.descs=pds, par.vals=a)
 }
 
 setMethod(
   f = "pred.learner",
   signature = signature(
-    .learner = "et.wrapper", 
+    .learner = "probth.wrapper", 
     .model = "wrapped.model", 
     .newdata = "data.frame", 
     .type = "character" 
@@ -62,6 +62,10 @@ setMethod(
     p = callNextMethod(.learner, .model, .newdata, .type="prob", ...)
     myargs = .learner["par.vals", par.top.wrapper.only=TRUE]
     myargs = unlist(myargs)
+    # remove "probth"    
+    ns = names(myargs)
+    ns = sapply(strsplit(ns, "\\."), function(x) x[2])
+    names(myargs) = ns
     set.threshold(p, threshold=myargs)
   }
 ) 
