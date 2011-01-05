@@ -1,5 +1,5 @@
 
-
+source("src/helpers.r")
 source("src/runit/helpers.r")
 source("src/runit/make.runit.tests.r")
 
