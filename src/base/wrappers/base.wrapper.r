@@ -49,6 +49,11 @@ setMethod(
 		f = "[",
 		signature = signature("base.wrapper"),
 		def = function(x,i,j,...,drop) {
+      
+      head = list(...)$head
+      if (is.null(head)) 
+        head = FALSE
+      
       # these belong to base.wrapper and can be different from basic rlearner 
 			if(i %in% c("id", "learner", "predict.type"))
 				return(callNextMethod())
@@ -57,10 +62,16 @@ setMethod(
 				return(c(x@learner["pack"], x@pack))
 			}			
 			if(i == "par.descs") {
-        return(c(x@learner["par.descs"], x@par.descs))
+        if (head)
+          return(callNextMethod())
+        else
+          return(c(x@learner["par.descs"], x@par.descs))
 			}
       if(i == "par.vals") {
-        return(c(x@learner["par.vals"], x@par.vals))
+        if (head)
+          return(callNextMethod())
+        else
+          return(c(x@learner["par.vals"], x@par.vals))
       }
       if(i == "par.train") {
         return(c(x@learner["par.train"], callNextMethod()))
@@ -118,7 +129,7 @@ setMethod(
 	
 	def = function(learner, ..., par.vals=list()) {
 		ns = names(par.vals)
-		pds.n = names(learner["par.descs", par.top.wrapper.only=TRUE])
+		pds.n = names(learner@par.descs)
 		for (i in seq(length=length(par.vals))) {
 			if (ns[i] %in% pds.n) {
 				learner = callNextMethod(learner, par.vals=par.vals[i])

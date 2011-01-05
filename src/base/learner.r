@@ -70,7 +70,6 @@ setMethod(
 			require.packs(pack, for.string=paste("learner", id))
 			if (missing(par.descs))
 				par.descs = list()
-      names(par.descs) = sapply(par.descs, function(y) y@par.name)
 			.Object@par.descs = par.descs
 			callNextMethod(.Object)
 			if (!missing(par.vals))
@@ -88,6 +87,11 @@ setMethod(
 		f = "[",
 		signature = signature("learner"),
 		def = function(x,i,j,...,drop) {
+      if (i == "par.descs")  {
+        pds = x@par.descs
+        names(pds) = sapply(pds, function(y) y@par.name)
+        return(pds)
+      }     
       if (i == "par.train")  {
         ns = names(Filter(function(y) y@when %in% c("train", "both"), x@par.descs))
         ns = intersect(ns, names(x@par.vals))
