@@ -32,12 +32,11 @@ setMethod(
 		def = function(.Object, learner, par.descs, par.vals=list(), pack=as.character(c())) {
 			if (missing(learner))
 				return(make.empty(.Object))
-			.Object@learner = learner
-      w = callNextMethod(.Object, id=learner["id"], par.descs=par.descs, par.vals=par.vals, pack=pack)
-      ns = intersect(names(w@par.descs), names(learner["par.descs"]))
+      ns = intersect(sapply(par.descs, function(x) x$par.name), names(learner["par.descs"]))
       if (length(ns) > 0)
         stop("Hyperparameter names in wrapper clash with base learner names: ", paste(ns, collapse=","))
-      return(w)
+			.Object@learner = learner
+      callNextMethod(.Object, id=learner["id"], par.descs=par.descs, par.vals=par.vals, pack=pack)
 		}
 )
 
