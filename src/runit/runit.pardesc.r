@@ -4,7 +4,9 @@ test.pardesc <- function() {
   
   v = make.learner("classif.rpart", predict.type="prob")
   checkTrue(all.names(v["par.descs"]))
- 
+  v = make.learner("classif.mda")
+  checkTrue(all.names(v["par.descs"]))
+  
   w = new("base.wrapper", learner=v, par.descs=list(pd1))
   checkTrue(all.names(w["par.descs"]))
   w = make.probth.wrapper(v, classes=multiclass.task["class.levels"])

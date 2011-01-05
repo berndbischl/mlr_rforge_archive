@@ -21,12 +21,12 @@ test.hyperpars <- function() {
 	
 	checkTrue(setequal(wl2["par.vals"], list(minsplit=10, x=1, y=2))) 
 	checkTrue(setequal(wl2["par.train"], list(minsplit=10, x=1, y=2))) 
-  checkTrue(setequal(wl2@par.vals, list(x=1, y=2))) 
+  checkTrue(setequal(wl2["par.vals", head=T], list(x=1, y=2))) 
   
 	wl3 = set.hyper.pars(wl2, minsplit=77, x=88)
 	checkTrue(setequal(wl3["par.vals"], list(minsplit=77, x=88, y=2))) 
 	checkTrue(setequal(wl3["par.train"], list(minsplit=77, x=88, y=2))) 
-	checkTrue(setequal(wl3@par.vals, list(x=88, y=2))) 
+	checkTrue(setequal(wl3["par.vals", head=T], list(x=88, y=2))) 
 	
 	m = train(wl2, task=multiclass.task)
 	checkTrue(setequal(m["learner"]["par.vals"], list(minsplit=10, x=1, y=2))) 
