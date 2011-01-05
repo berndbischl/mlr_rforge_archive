@@ -63,37 +63,37 @@ test.sum = new("aggr",
 #' @export train.mean
 train.mean = new("aggr",
   id = "train.mean",
-  fun = function(perf.test, perf.train, measure, group, pred) mean(perf.test)
+  fun = function(perf.test, perf.train, measure, group, pred) mean(perf.train)
 )
 
 #' @export train.sd
 train.sd = new("aggr",
   id = "train.sd",
-  fun = function(perf.test, perf.train, measure, group, pred) sd(perf.test)
+  fun = function(perf.test, perf.train, measure, group, pred) sd(perf.train)
 )
 
 #' @export train.median
 train.median = new("aggr",
   id = "train.median",
-  fun = function(perf.test, perf.train, measure, group, pred) median(perf.test)
+  fun = function(perf.test, perf.train, measure, group, pred) median(perf.train)
 )
 
 #' @export train.min
 train.min = new("aggr",
   id = "train.min",
-  fun = function(perf.test, perf.train, measure, group, pred) min(perf.test)
+  fun = function(perf.test, perf.train, measure, group, pred) min(perf.train)
 )
 
 #' @export train.max
 train.max = new("aggr",
   id = "train.max",
-  fun = function(perf.test, perf.train, measure, group, pred) max(perf.test)
+  fun = function(perf.test, perf.train, measure, group, pred) max(perf.train)
 )
 
 #' @export train.sum
 train.sum = new("aggr",
   id = "train.sum",
-  fun = function(perf.test, perf.train, measure, group, pred) sum(perf.test)
+  fun = function(perf.test, perf.train, measure, group, pred) sum(perf.train)
 )
 
 
