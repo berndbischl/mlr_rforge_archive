@@ -8,23 +8,7 @@ roxygen()
 #' @title Wrapper class for learners to handle multi-class problems.
 setClass(
         "multiclass.wrapper",   
-        contains = c("base.wrapper"),
-        representation = representation(
-          cm.fun = "function"
-        )       
-)
-
-#' Constructor.
-
-setMethod(
-  f = "initialize",
-  signature = signature("multiclass.wrapper"),
-  def = function(.Object, learner) {
-    pds = list(
-      new("par.desc.disc", par.name="method", vals=c("onevsone", "onevsrest"), default="onevsrest")
-    )
-    callNextMethod(.Object, learner, par.descs=pds, par.vals=list())
-  }
+        contains = c("base.wrapper")
 )
 
 #' @rdname multiclass.wrapper-class
@@ -51,22 +35,33 @@ setMethod(
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
-#' @param method [string] \cr
+#' @param method [string | function] \cr
 #'   "onevsone" or "onevsrest". Default is "onevsrest".
+#'   You can also pass a function, with signature \code{function(task)}
+#'   returns a ECOC codematrix with entries +1,-1,0. 
+#'   Columns define new binary problems, rows correspond to classes 
+#'   (rows must be named). 0 means class is not included in binary problem.   
 #' 
 #' @return \code{\linkS4class{learner}}.
 #' 
 #' @title Fuse learner with multiclass method.
 #' @export
 
-# param codematrix [matrix] \cr
-#  ECOC codematrix with entries +1,-1,0. Columns define new binary problems, rows correspond to classes.
-
 make.multiclass.wrapper = function(learner, method="onevsrest") {
   if (is.character(learner))
     learner = make.learner(learner)
-  w = new("multiclass.wrapper", learner=learner)
-  set.hyper.pars(w, method=method)
+  pds = list(
+    new("par.desc.disc", par.name="method", vals=c("onevsone", "onevsrest"), default="onevsrest"),
+    new("par.desc.unknown", par.name="custom")
+  )
+  w = new("multiclass.wrapper", learner=learner, par.descs=pds)
+  if (is.function(method)) {
+    if (any(names(formals(method)) != c("task")))
+      stop("Arguments in multiclass codematrix function have to be: task")   
+    set.hyper.pars(w, custom=method)
+  } else {
+    set.hyper.pars(w, method=method)
+  }
 }
 
 
@@ -82,24 +77,33 @@ setMethod(
   def = function(.learner, .task, .subset,  ...) {
     .task = subset(.task, .subset)
     tn = .task["target"]
+    levs = .task["class.levels"]
     d = .task["data"]
     y = .task["targets"]
     args = list(...)
     # remove hyperpar of wrapper
     args$method = NULL
-    myargs = .learner["par.vals", par.top.wrapper.only=TRUE]
-    
+    args$custom = NULL
+    method = .learner["par.vals", par.top.wrapper.only=TRUE]$method
+    custom = .learner["par.vals", par.top.wrapper.only=TRUE]$custom
+    if (is.null(custom)) { 
+      method = switch(method,
+        onevsrest = cm.onevsrest,
+        onevsone = cm.onevsone
+      )
+    } else{
+      method = custom
+    }
     # build codematrix
-    cmfun = switch(myargs$method,
-      onevsrest = cm.onevsrest,
-      onevsone = cm.onevsone
-    )
-    cm = cmfun(.task["desc"])
+    cm = method(.task)
+    if (!setequal(rownames(cm), levs))
+      stop("Rownames of codematrix must be class levels!")
+    if (!all(cm == 1 | cm == -1 | cm == 0))
+      stop("Codematrix must only contain: -1,0,+1!")
     x = multi.to.binary(y, cm)
     
     # now fit models
     k = length(x$row.inds) 
-    levs = .task["class.levels"]
     models = list()
     base = set.hyper.pars(.learner["learner"], par.vals=args)
     for (i in 1:k) {
@@ -174,23 +178,23 @@ multi.to.binary = function(target, codematrix){
     return(list(row.inds=row.inds, targets=targets))
 }
 
-cm.onevsrest = function(task.desc) {
-    n = task.desc["class.nr"]
+cm.onevsrest = function(task) {
+    n = task["class.nr"]
     cm = matrix(-1, n, n)
     diag(cm) = 1
-    rownames(cm) = task.desc["class.levels"]
+    rownames(cm) = task["class.levels"]
     return(cm)
 } 
 
-cm.onevsone = function(task.desc) {
-    n = task.desc["class.nr"]
+cm.onevsone = function(task) {
+    n = task["class.nr"]
     cm = matrix(0, n, choose(n, 2))
     combs = combn(n, 2)
     for (i in 1:ncol(combs)) {
         j = combs[,i]
         cm[j, i] = c(1, -1) 
     }
-    rownames(cm) = task.desc["class.levels"]
+    rownames(cm) = task["class.levels"]
     return(cm)
 } 
 
