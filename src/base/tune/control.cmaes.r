@@ -38,7 +38,7 @@ setGeneric(
 				path = TRUE
 			if (missing(start))
 				stop("You have to provide a start value!")
-      if(!all.names(start))
+      if(!all.els.named(start))
         stop("Argument start has to be properly named!")
 			if (missing(lower))
 			  lower=-Inf	

@@ -101,7 +101,7 @@ check.list.type = function(xs, type, name=deparse(substitute(xs))) {
 
 
 ##' Returns TRUE if all entries in the name attribute of \code{xs} valid names.
-all.names = function(xs) {
+all.els.named = function(xs) {
 	ns = names(xs)
 	(length(xs) == 0) || (!is.null(ns) && !any(is.na(ns)) && !any(ns == ""))
 }

@@ -13,14 +13,14 @@ test.helpers = function() {
 		xs = list(make.learner("classif.rpart"))
 		checkTrue(check.list.type(xs, c("rlearner")))
 		
-		checkTrue(all.names(list()))
-		checkTrue(all.names(list(x=1)))
-		checkTrue(all.names(list(x=1, y=2)))
-		checkTrue(!all.names(list(1,2)))
+		checkTrue(all.els.named(list()))
+		checkTrue(all.els.named(list(x=1)))
+		checkTrue(all.els.named(list(x=1, y=2)))
+		checkTrue(!all.els.named(list(1,2)))
 		xs = list(1,2)
 		names(xs)[1] = "a"
-		checkTrue(!all.names(xs))
+		checkTrue(!all.els.named(xs))
 		names(xs)[2] = "b"
-		checkTrue(all.names(xs))
+		checkTrue(all.els.named(xs))
 	}
 }

@@ -41,7 +41,7 @@ setMethod(
 			.Object@flags = flags
 			if (length(flags) > 0) { 
 				ns = names(flags)
-				if (!all.names(flags) || any(duplicated(ns)))
+				if (!all.els.named(flags) || any(duplicated(ns)))
 					stop("par.desc: ", par.name, " : All elements of flag list have to be uniquely named!")
 				if (!all(ns %in% c("optimize", "pass.default")))
 					stop("par.desc: ", par.name, " : Only flags 'optimize' and 'pass.default' are supported!")
@@ -138,7 +138,7 @@ setMethod(
             names(vals)[i] = as.character(v)
         }
       }  
-      if(!all.names(vals)) {
+      if(!all.els.named(vals)) {
         stop("Not all values for par. ", par.name,  " were named and names could not be guessed!")
       }
       if (default != "missing") {

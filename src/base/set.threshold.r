@@ -66,7 +66,7 @@ setMethod(
   
   def = function(pred, threshold) {
     levs = colnames(pred)
-    if (length(threshold) != length(levs) || !all.names(threshold) || any(names(threshold) != levs))
+    if (length(threshold) != length(levs) || !all.els.named(threshold) || any(names(threshold) != levs))
       stop("Threshold must have same names as columns of prob matrix!")
     # resort so we have same order in threshold and p
     threshold = threshold[levs] 
