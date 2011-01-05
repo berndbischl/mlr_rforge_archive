@@ -102,12 +102,11 @@ setMethod(
     # now fit models
     k = length(x$row.inds) 
     models = list()
-    base = set.hyper.pars(.learner["learner"], par.vals=args)
     for (i in 1:k) {
       data2 = d[x$row.inds[[i]], ]
       data2[, tn] = x$targets[[i]] 
       ct = change.data(.task, data2)
-      models[[i]] = train.learner(.learner@learner, ct, 1:ct["size"], ...)
+      models[[i]] = train(.learner@learner, ct)
     }
     # store cm as last el.
     models[[i+1]] = cm 

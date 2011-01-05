@@ -2,9 +2,9 @@ test.pardesc <- function() {
   pd1 = new("par.desc.double", par.name="x", default=0.001, lower=0)
   checkEquals(pd1["data.type"], "numeric")
   
-  v = make.learner("classif.rpart", predict.type="prob")
-  checkTrue(all.names(v["par.descs"]))
   v = make.learner("classif.mda")
+  checkTrue(all.names(v["par.descs"]))
+  v = make.learner("classif.rpart", predict.type="prob")
   checkTrue(all.names(v["par.descs"]))
   
   w = new("base.wrapper", learner=v, par.descs=list(pd1))

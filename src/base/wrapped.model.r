@@ -66,7 +66,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Learner model for ", x@learner["id"], "\n",  
+							"Learner model for id=", x@learner["id"], " class=", class(x@learner), "\n",  
 							"Trained on obs: ", length(x@subset), "\n",
               "Used features: ", length(x@vars), "\n",
               "Hyperparameters: ", x@learner["par.vals.string"],
