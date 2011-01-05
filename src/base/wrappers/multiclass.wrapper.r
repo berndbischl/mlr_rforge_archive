@@ -47,20 +47,20 @@ setMethod(
 #' @title Fuse learner with multiclass method.
 #' @export
 
-make.multiclass.wrapper = function(learner, method="onevsrest") {
+make.multiclass.wrapper = function(learner, mcw.method="onevsrest") {
   if (is.character(learner))
     learner = make.learner(learner)
   pds = list(
-    new("par.desc.disc", par.name="method", vals=c("onevsone", "onevsrest"), default="onevsrest"),
-    new("par.desc.unknown", par.name="custom")
+    new("par.desc.disc", par.name="mcw.method", vals=c("onevsone", "onevsrest"), default="onevsrest"),
+    new("par.desc.unknown", par.name="mcw.custom")
   )
   w = new("multiclass.wrapper", learner=learner, par.descs=pds)
-  if (is.function(method)) {
-    if (any(names(formals(method)) != c("task")))
+  if (is.function(mcw.method)) {
+    if (any(names(formals(mcw.method)) != c("task")))
       stop("Arguments in multiclass codematrix function have to be: task")   
-    set.hyper.pars(w, custom=method)
+    set.hyper.pars(w, mcw.custom=mcw.method)
   } else {
-    set.hyper.pars(w, method=method)
+    set.hyper.pars(w, mcw.method=mcw.method)
   }
 }
 
@@ -81,21 +81,18 @@ setMethod(
     d = .task["data"]
     y = .task["targets"]
     args = list(...)
-    # remove hyperpar of wrapper
-    args$method = NULL
-    args$custom = NULL
-    method = .learner["par.vals", par.top.wrapper.only=TRUE]$method
-    custom = .learner["par.vals", par.top.wrapper.only=TRUE]$custom
-    if (is.null(custom)) { 
-      method = switch(method,
+    meth = args$mcw.method
+    cust = args$mcw.custom
+    if (is.null(cust)) { 
+      meth= switch(meth,
         onevsrest = cm.onevsrest,
         onevsone = cm.onevsone
       )
     } else{
-      method = custom
+      meth= cust
     }
     # build codematrix
-    cm = method(.task)
+    cm = meth(.task)
     if (!setequal(rownames(cm), levs))
       stop("Rownames of codematrix must be class levels!")
     if (!all(cm == 1 | cm == -1 | cm == 0))
@@ -110,8 +107,7 @@ setMethod(
       data2 = d[x$row.inds[[i]], ]
       data2[, tn] = x$targets[[i]] 
       ct = change.data(.task, data2)
-      m = train(base, task=ct)
-      models[[i]] = m 
+      models[[i]] = callNextMethod(.learner, ct, 1:ct["size"], ...)
     }
     # store cm as last el.
     models[[i+1]] = cm 

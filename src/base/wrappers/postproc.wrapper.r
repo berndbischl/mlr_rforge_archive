@@ -4,9 +4,7 @@ setClass(
 		"postproc.wrapper",
 		contains = c("base.wrapper"),
 		representation = representation(
-				fun1 = "function",
-        fun2 = "function",
-        defaults = "list"
+				fun = "function"
 		)
 )
 
@@ -15,10 +13,14 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("postproc.wrapper"),
-		def = function(.Object, learner, fun, ...) {
-			.Object = set.hyper.pars(.Object, parset=list(...))
-			.Object@fun = fun
-			callNextMethod(.Object, learner)
+		def = function(.Object, learner, fun, args) {
+      .Object@fun = fun
+      pds = list()
+      for (i in seq(length=length(args))) {
+        n = names(args)[i]
+        pds[[i]] = new("par.desc.unknown", par.name=n, when="predict")
+      }
+      callNextMethod(.Object, learner=learner, par.descs=pds, par.vals=args) 
 		}
 )
 
@@ -38,10 +40,14 @@ setMethod(
 #' @title Fuse learner with postprocessing.
 #' @export
 
-make.postproc.wrapper = function(learner, fun, ...) {
-	if (is.character(learner))
-		learner = make.learner(learner)
-	new("postproc.wrapper", learner=learner, fun=fun, ...)
+make.postproc.wrapper = function(learner, fun, args, ...) {
+  if (is.character(learner))
+    learner = make.learner(learner)
+  if (missing(args))
+    args=list()
+  if (any(names(formals(fun)) != c("pred", "args")))
+    stop("Arguments in postproc function have to be: pred, args")   
+	new("postproc.wrapper", learner=learner, fun=fun, args=args)
 }
 
 
@@ -58,23 +64,9 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			p = callNextMethod(.learner, .model, .newdata, .type, ...)
-			fun.args = .learner["hyper.pars"]
-			fun.args$pred = p
-			p = do.call(.learner@fun, fun.args)  		
+      myargs = .learner["par.vals", par.top.wrapper.only=TRUE]
+      p = .learner@fun(p, myargs)
 		}
 )	
 
-
-#' @export
-#' @rdname resample 
-setMethod(
-  f = "resample",
-  signature = signature(learner="postproc.wrapper", task="learn.task", resampling="resample.instance", measures="list", models="logical", extract="function"),
-  def = function(learner, task, resampling, measures, models, extract) {
-    p = callNextMethod(learner, task, resampling, par.vals, extract)    
-    fun.args = .learner["hyper.pars"]
-    fun.args$pred = p
-    p = do.call(.learner@fun, fun.args)
-  }
-)
 

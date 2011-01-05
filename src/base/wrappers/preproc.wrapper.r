@@ -14,10 +14,15 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("preproc.wrapper"),
-		def = function(.Object, learner, train, predict, par.descs, par.vals) {
+		def = function(.Object, learner, train, predict, args) {
 			.Object@train = train
       .Object@predict = predict
-      callNextMethod(.Object, learner=learner, par.descs=par.descs, par.vals=par.vals)
+      pds = list()
+      for (i in seq(length=length(args))) {
+        n = names(args)[i]
+        pds[[i]] = new("par.desc.unknown", par.name=n, when="both")
+      }
+      callNextMethod(.Object, learner=learner, par.descs=pds, par.vals=args)
 		}
 )
 
@@ -47,15 +52,7 @@ make.preproc.wrapper = function(learner, train, predict, args) {
 		stop("Arguments in preproc train function have to be: data, targetvar, args")		
   if (any(names(formals(predict)) != c("data", "targetvar", "args", "control")))
     stop("Arguments in preproc predict function have to be: data, targetvar, args, control")    
-	pds = list()
-	pvs = list()
-	for (i in seq(length=length(args))) {
-		n = names(args)[i]
-		p = args[[i]]
-		pds[[i]] = new("par.desc.unknown", par.name=n, when="both", default=p)
-		pvs[[n]] = p
-	}
-	new("preproc.wrapper", learner=learner, train=train, predict=predict, par.descs=pds, par.vals=pvs)
+	new("preproc.wrapper", learner=learner, train=train, predict=predict, args=args)
 }
 
 

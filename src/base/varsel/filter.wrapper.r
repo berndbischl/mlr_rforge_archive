@@ -13,22 +13,6 @@ setClass(
 		)
 )
 
-#' Constructor.
-
-setMethod(
-		f = "initialize",
-		signature = signature("filter.wrapper"),
-		def = function(.Object, learner) {
-      pds = list(
-        new("par.desc.disc", par.name="method",
-          vals=c("linear.correlation", "rank.correlation", "information.gain", "gain.ratio", 
-            "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")),
-        new("par.desc.double", par.name="threshold")
-      )
-			callNextMethod(.Object, learner, par.descs=pds, par.vals=list(), pack="FSelector")
-		}
-)
-
 
 #' Fuses a base learner with a filter method. Creates a learner object, which can be
 #' used like any other learner object. 
@@ -38,20 +22,25 @@ setMethod(
 #' 
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
-#' @param method [string] \cr
+#' @param fw.method [string] \cr
 #'   Filter method. Available are:
 #'   linear.correlation, rank.correlation, information.gain, gain.ratio, symmetrical.uncertainty, chi.squared, random.forest.importance, relief, oneR
-#' @param threshold [single double] \cr
+#' @param fw.threshold [single double] \cr
 #'   Only features whose importance value exceed this are selected.  
 #' 
 #' @return \code{\linkS4class{learner}}.
 #' 
 #' @title Fuse learner with filter method.
 #' @export
-make.filter.wrapper = function(learner, method="information.gain", threshold) {
+make.filter.wrapper = function(learner, fw.method="information.gain", fw.threshold) {
   # todo check that for some the inputs have to be all num. or accept error in train and NA in predict?
-	w = new("filter.wrapper", learner=learner)
-  set.hyper.pars(w, method=method, threshold=threshold)
+  pds = list(
+    new("par.desc.disc", par.name="fw.method",
+      vals=c("linear.correlation", "rank.correlation", "information.gain", "gain.ratio", 
+        "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")),
+    new("par.desc.double", par.name="fw.threshold")
+  )
+	w = new("filter.wrapper", learner=learner, pack="FSelector", par.descs=pds, par.vals=list(fw.threshold=fw.threshold))
 }
 
 
@@ -68,13 +57,7 @@ setMethod(
       .task = subset(.task, subset=.subset)  
       tn = .task["target"]
       args = list(...)
-      
-      # remove hyperpar of wrapper
-      args$method = NULL
-      args$threshold = NULL
-      myargs = .learner["par.vals", par.top.wrapper.only=TRUE]
-      
-      vars = varfilter(.task, myargs$method, myargs$threshold)$vars
+      vars = varfilter(.task, args$fw.method, args$fw.threshold)$vars
       if (length(vars) > 0) {
         .task = subset(.task, vars=vars)  
         # !we have already subsetted!
