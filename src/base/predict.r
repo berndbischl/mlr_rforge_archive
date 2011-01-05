@@ -60,12 +60,8 @@ setMethod(
 				truth = NULL
 			}
 			
-      # we can check this for regression as well as those return prob = FALSE
-
-			hps = wl["pars.setting"][wl["pars.predict"]]
-			
 			logger.debug(level="predict", "mlr predict:", wl["id"], "with pars:")
-			logger.debug(level="predict", hps)
+			logger.debug(level="predict", model["learner"]["par.vals.string"])
 			logger.debug(level="predict", "on", nrow(newdata), "examples:")
 			logger.debug(level="predict", rownames(newdata))
 			
@@ -87,11 +83,12 @@ setMethod(
 						.model = model, 
 						.newdata=newdata
 				)
-				pars = c(pars, hps) 
-				if (wl["is.classif"]) {
+        # only pass train hyper pars as basic rlearner in ...
+        pars = c(pars, wl["leaf.learner"]["par.predict"])
+
+        if (wl["is.classif"]) {
 					pars$.type = type
 				}
-				#pars = insert.matching(pars, list()) 
 				
 				if(!is.null(.mlr.local$debug.seed)) {
 					set.seed(.mlr.local$debug.seed)

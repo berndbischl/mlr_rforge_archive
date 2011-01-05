@@ -1,4 +1,4 @@
-make.wrapped.model = function(learner, model, task.desc, prep.control, hps, subset, vars, time) {
+make.wrapped.model = function(learner, model, task.desc, prep.control, subset, vars, time) {
   # if error happened we use a failure model
   if(is(model, "try-error")) {
     msg = as.character(model)

@@ -63,12 +63,11 @@ setMethod(
                 
       # make pars list for train call
       pars = list(.learner=wl, .task=task, .subset=subset)
-      # only pass train hyper pars to rlearner
-      hps = wl["par.vals", par.when="train"]
-      pars = c(pars, hps)
+      # only pass train hyper pars as basic rlearner in ...
+      pars = c(pars, wl["leaf.learner"]["par.train"])
       
       logger.debug(level="train", "mlr train:", wl["id"], "with pars:")
-      logger.debug(level="train", hps)
+      logger.debug(level="train", wl["par.vals.string"])
       logger.debug(level="train", "on", length(subset), "examples:")
       logger.debug(level="train", subset)
       
@@ -94,6 +93,6 @@ setMethod(
         time.train = as.numeric(st[3])
       }
       
-      make.wrapped.model(wl, learner.model, task@desc, task@control, hps, subset, vars, time.train)
+      make.wrapped.model(wl, learner.model, task@desc, task@control, subset, vars, time.train)
 		}
 )

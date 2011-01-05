@@ -68,6 +68,12 @@ setMethod(
       if(i == "par.predict") {
         return(c(x@learner["par.predict"], callNextMethod()))
       }
+      if(i == "leaf.learner") {
+        y = x@learner 
+        while (is(y, "base.wrapper")) 
+          y = y@learner
+        return(y)  
+      }
       return(x@learner[i])
 		}
 )
@@ -75,19 +81,15 @@ setMethod(
 
 #' @rdname train.learner
 setMethod(
-		f = "train.learner",
-    signature = signature(
-      .learner="base.wrapper", 
-      .task="learn.task", .subset="integer"
-    ),
-      
-		def = function(.learner, .task, .subset,  ...) {
-			args = list(...)
-			args = args[!(names(args) %in% names(.learner["par.vals", par.top.wrapper.only=TRUE]))]
-			f.args = list(.learner@learner, .task, .subset)
-			f.args = c(f.args, args)
-			do.call(train.learner, f.args)
-		}
+  f = "train.learner",
+  signature = signature(
+    .learner="base.wrapper", 
+    .task="learn.task", .subset="integer"
+  ),
+  
+  def = function(.learner, .task, .subset,  ...) {
+    train.learner(.learner@learner, .task, .subset, ...)
+  }
 )
 
 #' @rdname pred.learner
@@ -101,11 +103,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			args = list(...)
-			args = args[!(names(args) %in% names(.learner["par.vals", par.top.wrapper.only=TRUE]))]
-			f.args = list(.learner@learner, .model, .newdata, .type)
-			f.args = c(f.args, args)
-			do.call(pred.learner, f.args)
+			pred.learner(.learner@learner, .model, .newdata, .type, ...)
 		}
 )	
 
