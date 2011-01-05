@@ -16,7 +16,7 @@ test.multiclass.wrapper <- function() {
     m
   } 
 
-  w = make.multiclass.wrapper("classif.logreg", method=cm)
+  w = make.multiclass.wrapper("classif.lda", method="onevsone")
   res = make.res.desc("cv", iters=2)
   r = resample(w, multiclass.task, res)
   checkTrue(!any(is.na(r$aggr)))

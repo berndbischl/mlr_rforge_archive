@@ -1,7 +1,7 @@
 test.thresh.wrapper <- function() {
   cl = multiclass.task["class.levels"]
   v = make.learner("classif.lda", predict.type="prob")
-  v = make.et.wrapper(v, classes=cl)
+  v = make.probth.wrapper(v, classes=cl)
   pv = as.list(rep(1,3))
   names(pv) = cl
   
