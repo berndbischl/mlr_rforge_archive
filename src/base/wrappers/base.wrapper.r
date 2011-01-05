@@ -64,13 +64,13 @@ setMethod(
         if (head)
           return(callNextMethod())
         else
-          return(c(x@learner["par.descs"], x@par.descs))
+          return(c(x@learner["par.descs"], callNextMethod()))
 			}
       if(i == "par.vals") {
         if (head)
           return(callNextMethod())
         else
-          return(c(x@learner["par.vals"], x@par.vals))
+          return(c(x@learner["par.vals"], callNextMethod()))
       }
       if(i == "par.train") {
         return(c(x@learner["par.train"], callNextMethod()))

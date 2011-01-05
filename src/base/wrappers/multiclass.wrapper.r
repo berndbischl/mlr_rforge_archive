@@ -75,7 +75,7 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset,  ...) {
-    pvs = .learner@par.vals
+    pvs = .learner["par.vals", head=TRUE]
     
     .task = subset(.task, .subset)
     tn = .task["target"]

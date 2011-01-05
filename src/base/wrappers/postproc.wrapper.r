@@ -64,8 +64,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			p = callNextMethod(.learner, .model, .newdata, .type, ...)
-      myargs = .learner["par.vals", par.top.wrapper.only=TRUE]
-      p = .learner@fun(p, myargs)
+      p = .learner@fun(pred=p, args=.learner["par.vals", head=TRUE])
 		}
 )	
 

@@ -60,9 +60,9 @@ setMethod(
   
   def = function(.learner, .model, .newdata, .type, ...) {
     p = pred.learner(.learner@learner, .model, .newdata, .type="prob")
-    ths = unlist(list(...))
+    ths = unlist(.learner["par.vals", head=TRUE])
     # remove "probth"    
-    names(ths) = sapply(strsplit(ns, "\\."), function(x) x[2])
+    names(ths) = sapply(strsplit(names(ths), "\\."), function(x) x[2])
     set.threshold(p, threshold=ths)
   }
 ) 
