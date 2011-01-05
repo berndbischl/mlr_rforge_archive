@@ -54,7 +54,7 @@ setMethod(
         head = FALSE
       
       # these belong to base.wrapper and can be different from basic rlearner 
-			if(i %in% c("id", "learner", "predict.type"))
+			if(i %in% c("id", "learner", "predict.type", "par.vals.string"))
 				return(callNextMethod())
       
       if(i == "pack") {
@@ -128,7 +128,7 @@ setMethod(
 	
 	def = function(learner, ..., par.vals=list()) {
 		ns = names(par.vals)
-		pds.n = names(learner@par.descs)
+		pds.n = sapply(learner@par.descs, function(x) x@par.name)
 		for (i in seq(length=length(par.vals))) {
 			if (ns[i] %in% pds.n) {
 				learner = callNextMethod(learner, par.vals=par.vals[i])

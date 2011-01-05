@@ -62,20 +62,15 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("learner"),
-		def = function(.Object, id, pack, par.descs, par.vals) {			
+		def = function(.Object, id, pack, par.descs=list(), par.vals=list()) {			
 			if (missing(id))
 				return(make.empty(.Object))
 			.Object@id = id
 			.Object@pack = pack
 			require.packs(pack, for.string=paste("learner", id))
-			if (missing(par.descs))
-				par.descs = list()
 			.Object@par.descs = par.descs
-			callNextMethod(.Object)
-			if (!missing(par.vals))
-				.Object = set.hyper.pars(.Object, par.vals=par.vals)
       .Object@predict.type = "response"
-			return(.Object)
+      set.hyper.pars(.Object, par.vals=par.vals)
 		}
 )
 
