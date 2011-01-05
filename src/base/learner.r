@@ -93,12 +93,12 @@ setMethod(
         return(pds)
       }     
       if (i == "par.train")  {
-        ns = names(Filter(function(y) y@when %in% c("train", "both"), x@par.descs))
+        ns = names(Filter(function(y) y@when %in% c("train", "both"), x["par.descs"]))
         ns = intersect(ns, names(x@par.vals))
         return(x["par.vals"][ns])
       }     
       if (i == "par.predict")  {
-        ns = names(Filter(function(y) y@when %in% c("predict", "both"), x@par.descs))
+        ns = names(Filter(function(y) y@when %in% c("predict", "both"), x["par.descs"]))
         ns = intersect(ns, names(x@par.vals))
         return(x["par.vals"][ns])
       }     
