@@ -53,6 +53,51 @@ test.max = new("aggr",
   fun = function(perf.test, perf.train, measure, group, pred) max(perf.test)
 )
 
+#' @export test.sum
+test.sum = new("aggr",
+  id = "test.sum",
+  fun = function(perf.test, perf.train, measure, group, pred) sum(perf.test)
+)
+
+
+#' @export train.mean
+train.mean = new("aggr",
+  id = "train.mean",
+  fun = function(perf.test, perf.train, measure, group, pred) mean(perf.test)
+)
+
+#' @export train.sd
+train.sd = new("aggr",
+  id = "train.sd",
+  fun = function(perf.test, perf.train, measure, group, pred) sd(perf.test)
+)
+
+#' @export train.median
+train.median = new("aggr",
+  id = "train.median",
+  fun = function(perf.test, perf.train, measure, group, pred) median(perf.test)
+)
+
+#' @export train.min
+train.min = new("aggr",
+  id = "train.min",
+  fun = function(perf.test, perf.train, measure, group, pred) min(perf.test)
+)
+
+#' @export train.max
+train.max = new("aggr",
+  id = "train.max",
+  fun = function(perf.test, perf.train, measure, group, pred) max(perf.test)
+)
+
+#' @export train.sum
+train.sum = new("aggr",
+  id = "train.sum",
+  fun = function(perf.test, perf.train, measure, group, pred) sum(perf.test)
+)
+
+
+
 
 #' @export b632
 b632 = new("aggr",
