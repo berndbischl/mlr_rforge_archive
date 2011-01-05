@@ -105,6 +105,9 @@ setMethod(
       if (i == "factors") {
         return(as.logical(x@feat["factors"]))
       }
+      if (i == "leaf.learner") {
+        return(x)
+      }
       callNextMethod()
     }
 )
