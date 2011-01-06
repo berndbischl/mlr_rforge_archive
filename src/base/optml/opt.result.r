@@ -55,11 +55,8 @@ setMethod(
 				return(x@opt$par)
 			}
       if (i == "par.string") {
-        p = x["par"]
         if (x["opt.type"] == "tune") {
-          ns = names(p)
-          p = Map(function(n, v) hyper.par.val.to.name(n,v,x), ns, p)
-          return(paste(ns, p, sep="=", collapse=","))
+          return(par.vals.string(x["par"], x@learner))
         } else {
           return(paste(length(x["par"]), "sel. vars"))
         }

@@ -100,17 +100,7 @@ setMethod(
         return(x["par.vals"][ns])
       }     
       if (i == "par.vals.string") {
-        pv = x["par.vals"]
-        ns = names(pv)
-        pv = Map(function(n, v) hyper.par.val.to.name(n,v,x), ns, pv)
-        # print class for complex values
-        pv = lapply(pv, function(x) 
-            if(is.vector(x) && length(x) == 1)
-              x
-            else
-              paste("<", class(x), ">", sep="")
-        )
-        return(paste(ns, pv, sep="=", collapse=","))
+        return(par.vals.string(x["par.vals"], x))
       }
 			callNextMethod()
 		}

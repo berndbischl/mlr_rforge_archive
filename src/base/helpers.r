@@ -206,6 +206,20 @@ hyper.par.val.to.name = function(par.name, par.val, learner) {
   return(par.val)
 }
 
+par.vals.string = function(pv, learner) {
+  ns = names(pv)
+  pv = Map(function(n, v) hyper.par.val.to.name(n,v,learner), ns, pv)
+  # print class for complex values
+  pv = lapply(pv, function(x) 
+      if(is.vector(x) && length(x) == 1)
+        if (is.double(x)) formatC(x, digits=3) else x
+      else
+        paste("<", class(x), ">", sep="")
+  )
+  return(paste(ns, pv, sep="=", collapse=","))
+}
+
+
 # converts a row of a data.frame to a list
 # - factors are converted to chars
 data.frame.row.to.list = function(x, i) {
