@@ -52,8 +52,6 @@ varsel <- function(learner, task, resampling, control, measures, model=FALSE) {
 		stop("You have to pass a control object!")
 	}
 	
-	assign(".mlr.vareval", 0, envir=.GlobalEnv)
-	
 	or = sel.func(learner=learner, task=task, resampling=resampling, 
 			measures=measures, control=control) 
 	if (model) {

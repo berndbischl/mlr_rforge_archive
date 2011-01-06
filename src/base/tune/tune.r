@@ -57,8 +57,6 @@ tune <- function(learner, task, resampling, control, measures, model=FALSE) {
 		stop("You have to pass a control object!")
 	}
 	
-	assign(".mlr.tuneeval", 0, envir=.GlobalEnv)
-	
 	#.mlr.local$n.eval <<- 0
 	#export.tune(learner, task, loss, scale)
 	

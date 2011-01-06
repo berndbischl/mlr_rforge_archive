@@ -16,38 +16,33 @@ make.es = function(par, rp, evals, event) {
 	return(list(par=par, rp=rp, evals=evals, event=event))
 }
 
-add.path = function(global.eval.var, path, es, accept) {
-	a = ifelse(accept, get(global.eval.var, envir=.GlobalEnv), -1)
+add.path = function(path, es, accept) {
+	a = ifelse(accept, {, -1)
 	pe = make.path.el(es, accept = a)
 	path[[length(path) + 1]] = pe
 	return(path)
 } 
 
 # best = NULL means no acceptable new element was found
-add.path.els = function(global.eval.var, path, ess, best) {
+add.path.els = function(path, ess, best) {
 	for (i in 1:length(ess)) {
 		es = ess[[i]]
-		path = add.path(global.eval.var, path, es, !is.null(best$par) && setequal(es$par, best$par))
+		path = add.path(path, es, !is.null(best$par) && setequal(es$par, best$par))
 	}
 	return(path)
 } 
 
 
-eval.state = function(global.eval.var, learner, task, resampling, measures, control, par, event) {
+eval.state = function(learner, task, resampling, measures, control, par, event) {
 	rp = eval.rf(learner=learner, task=task, resampling=resampling,  
 			measures=measures, control=control, par=par)
-	evals = get(global.eval.var, envir=.GlobalEnv)+1
-	assign(global.eval.var, evals, envir=.GlobalEnv)
 	make.es(par=par, rp=rp, evals=evals, event=event)
 }
 
 # evals a set of var-lists and return the corresponding states
-eval.states = function(global.eval.var, eval.fun, learner, task, resampling, measures, control, pars, event) {
+eval.states = function(eval.fun, learner, task, resampling, measures, control, pars, event) {
 	rps = eval.fun(learner=learner, task=task, resampling=resampling,  
 			measures=measures, control=control, pars=pars)
-	evals = get(global.eval.var, envir=.GlobalEnv)
-	evals2 = evals + length(pars)
-	assign(global.eval.var, evals2, envir=.GlobalEnv)
 	f = function(x1,x2,x3,x4) make.es(par=x1, rp=x2, evals=x3, event=x4) 
 	Map(f, pars, rps, (evals+1):evals2, event)
 }

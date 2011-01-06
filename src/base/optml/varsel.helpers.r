@@ -6,21 +6,21 @@ eval.varsets = function(learner, task, resampling, measures, control, pars) {
 
 # evals a set of var-lists and return the corresponding states
 eval.states.varsel = function(learner, task, resampling, measures, control, pars, event) {
-	eval.states(".mlr.vareval", eval.varsets, learner=learner, task=task, resampling=resampling, 
+	eval.states(eval.varsets, learner=learner, task=task, resampling=resampling, 
 			measures=measures, control=control, pars=pars, event=event)
 }
 
 eval.state.varsel = function(learner, task, resampling, measures, control, par, event) {
-	eval.state(".mlr.vareval", learner, task, resampling, measures, control, par, event)
+	eval.state(learner, task, resampling, measures, control, par, event)
 }
 
 
 add.path.varsel = function(path, es, accept) {
-	add.path(".mlr.vareval", path, es, accept)
+	add.path(path, es, accept)
 } 
 
 add.path.els.varsel = function(path, ess, best) {
-	add.path.els(".mlr.vareval", path, ess, best)	
+	add.path.els(path, ess, best)	
 } 
 
 vars.to.logical = function(vars, all.vars) {

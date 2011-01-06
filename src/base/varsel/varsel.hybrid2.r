@@ -22,12 +22,12 @@ varsel.hybrid2 = function(learner, task, resampling, measures, control=sequentia
 	
 	# big loop for mut + local
 	mut.succ = c()
-	while (get(".mlr.vareval", envir= .GlobalEnv) < control$maxit) {
+	while (get.opt.evals() < control$maxit) {
 		
 		# mutate til successful
 		vs.bin = all.vars %in% state$par
 		#print(vs.bin)
-		while (get(".mlr.vareval", envir= .GlobalEnv) < control$maxit) {
+		while (get.opt.evals() < control$maxit) {
 			greedy = (rbinom(1, 1, prob.greedy) == 1)
 			if (greedy) {
 				probs = abs(as.numeric(vs.bin) - cors.y)

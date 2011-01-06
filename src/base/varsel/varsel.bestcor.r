@@ -18,11 +18,10 @@ varsel.bestcor = function(learner, task, resampling, measures, control=sequentia
 		#print(state$par)
 		found = FALSE
 		for (i in seq(along.with=not.used)) {
-			#print(.mlr.vareval)
 			v = not.used[i]
 			#cat(v, "\n")
 			new.vars = c(state$par, v)
-			if (get(".mlr.vareval", envir= .GlobalEnv) >= control$maxit)
+			if (get.opt.evals() >= control$maxit)
 				break
 			s = eval.state.varsel(learner, task, resampling, measures, par=new.vars, "forward")
 			cc = compare.diff(state, s, control, measures, control$alpha)

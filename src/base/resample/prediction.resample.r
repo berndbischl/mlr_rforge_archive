@@ -55,7 +55,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							"Resampling result for: ", to.string(x@instance@desc),
+							"Resampled prediction for: ", to.string(x@instance@desc),
 							#"Learner models were ", ifelse(length(x@models)==0,"not", ""), " saved\n\n",
 							#paste(capture.output(str(x@preds)), collapse="\n"), 
 							"\n", sep=""
@@ -112,12 +112,13 @@ setMethod(
 		}
 )
 
+#tests!
 
 setAs("resample.prediction", "prediction", 
 		function(from, to) {
 			df = from@df
 			df$iter = NULL
 			new("prediction", task.desc=from@desc,  
-					type=from@type, df=df, threshold=from@threshold, sum(from@time.fit), sum(from@time.predict))						
+					type=from@type, df=df, threshold=from@threshold, sum(from@time.fit), sum(from@time))						
 		}
 )
