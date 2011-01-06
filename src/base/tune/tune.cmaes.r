@@ -1,21 +1,13 @@
 tune.cmaes = function(learner, task, resampling, measures, control) {
   require.packs("cmaes", "tune.cmaes")
 
-  path = list()
+  penv = new.env()
   ns = control["par.names"]
   start = unlist(control["start"])[ns]
   low = control["lower"]
   up = control["upper"]
   
-	g = function(p) {
-		p2 = as.list(p)
-		names(p2) = ns
-		es = eval.state.tune(learner, task, resampling, measures, control, p2, "optim")
-		path <<- add.path.tune(path, es, accept=TRUE)		
-		perf = get.perf(es)
-		logger.info(level="tune", paste(ns, "=", p), ":", perf)
-		return(perf)
-	}
+  g = make.tune.f(ns, penv, learner, task, resampling, measures, control, p2, "optim")
 
   g2 = function(p) {
     p2 = as.list(as.data.frame(p))
@@ -40,6 +32,6 @@ tune.cmaes = function(learner, task, resampling, measures, control) {
   or = cma_es(par=start, fn=g, lower=low, upper=up, control=args)
 	par = as.list(or$par)
 	names(par) = ns
-	opt = get.path.el(path, par)
-	new("opt.result", control=control, opt=opt, path=path)
+	opt = get.path.el(penv$path, par)
+	new("opt.result", control=control, opt=opt, path=penv$path)
 }
