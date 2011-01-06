@@ -6,7 +6,7 @@ tune.optim = function(learner, task, resampling, measures, control) {
   low = control["lower"]
   up = control["upper"]
 	
-	g = make.tune.f(ns, penv, learner, task, resampling, measures, control, p2, "optim")
+	g = make.tune.f(ns, penv, learner, task, resampling, measures, control)
 		
 	args = control@extra.args
 	method = args$method
