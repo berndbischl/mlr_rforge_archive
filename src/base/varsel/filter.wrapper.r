@@ -42,8 +42,9 @@ make.filter.wrapper = function(learner, fw.method="information.gain", fw.thresho
         "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")),
     new("par.desc.double", par.name="fw.threshold")
   )
-	new("filter.wrapper", learner=learner, pack="FSelector", par.descs=pds, 
+	w = new("filter.wrapper", learner=learner, pack="FSelector", par.descs=pds, 
     par.vals=list(fw.method=fw.method, fw.threshold=fw.threshold))
+  set.predict.type(w, learner["predict.type"])
 }
 
 

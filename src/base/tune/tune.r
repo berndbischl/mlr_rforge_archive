@@ -1,3 +1,5 @@
+#todo: check whether optimization can be paralleized if req. by user
+
 #' @include task.learn.r
 roxygen()
 
@@ -47,7 +49,8 @@ tune <- function(learner, task, resampling, control, measures, model=FALSE) {
 #			pattern = tune.ps,
 			cmaes.control = tune.cmaes,
 			optim.control = tune.optim,
-			stop(paste("Tuning algorithm for", cl, "does not exist!"))
+      DiceOptim.control = tune.diceoptim,
+      stop(paste("Tuning algorithm for", cl, "does not exist!"))
 	)		
 	
 	if (missing(control)) {

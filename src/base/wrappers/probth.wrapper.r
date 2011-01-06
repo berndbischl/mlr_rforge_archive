@@ -46,7 +46,8 @@ make.probth.wrapper = function(learner, classes) {
   a = as.list(rep(0.5, length(classes)))
   names(a) = paste("probth", classes, sep=".")
   pds = lapply(names(a), function(x) new("par.desc.double", par.name=x, lower=0, upper=1))
-  new("probth.wrapper", learner=learner, par.descs=pds, par.vals=a)
+  w = new("probth.wrapper", learner=learner, par.descs=pds, par.vals=a)
+  set.predict.type(w, "response")
 }
 
 setMethod(
