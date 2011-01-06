@@ -15,11 +15,12 @@ myspo = function(fun, control) {
   loop = 1  
   while(loop <= control$seq.loops) {
     print(loop)
-    #seqdes = seq.design(pds, control$seq.des.points, tmm$constr.model)
+    seqdes = seq.design(pds, control$seq.des.points, tmm$constr.model)
     #print(str(seqdes))
     newdes = choose.new.points(1, tmm$meta.model, tmm$constr.model, curdes, cury, control)
+    #newdes = rbind(newdes, unlist(sel.random(pds, "par.desc.num")))
     newy = eval.des.with.fun(newdes, fun, control)
-    print(cbind(newdes, newy))
+    #print(cbind(newdes, newy))
     curdes = rbind(curdes, newdes)
     cury = c(cury, newy)
     tmm = train.meta.model(ml, cl, curdes, cury, control)
