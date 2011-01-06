@@ -1,6 +1,6 @@
 myspo.optcontrol = function(minimize=TRUE, par.descs, scale=identity, 
   meta.learner="regr.randomForest", constr.learner="classif.randomForest", 
-  init.des.points=50L, seq.method, seq.des.points=10000L, seq.loops=500, ...) {
+  init.des.points=50L, seq.method="draw", seq.des.points=10000L, seq.loops=500, ...) {
   list(minimize=minimize, par.descs=par.descs, scale=identity, 
     meta.learner=meta.learner, constr.learner=constr.learner, 
     init.des.points=init.des.points, 
