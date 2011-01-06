@@ -7,7 +7,7 @@ tune.cmaes = function(learner, task, resampling, measures, control) {
   low = control["lower"]
   up = control["upper"]
   
-  g = make.tune.f(ns, penv, learner, task, resampling, measures, control, p2, "optim")
+  g = make.tune.f(ns, penv, learner, task, resampling, measures, control)
 
   g2 = function(p) {
     p2 = as.list(as.data.frame(p))

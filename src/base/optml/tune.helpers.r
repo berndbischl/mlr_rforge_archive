@@ -52,10 +52,10 @@ make.tune.f = function(ns, penv, learner, task, resampling, measures, control) {
     p2 = as.list(p)
     names(p2) = ns
     es = eval.state.tune(learner, task, resampling, measures, control, p2, "optim")
-    penv$path = add.path.tune(path$path, es, accept=TRUE)   
+    penv$path = add.path.tune(penv$path, es, accept=TRUE)   
     perf = get.perf(es)
     logger.info(level="tune", paste(ns, "=", formatC(p, digits=3)), ":", formatC(perf, digits=3))
-    return(perf)
+    ifelse(measures[[1]]["minimize"], 1 , -1) * perf
   }  
 }
 
