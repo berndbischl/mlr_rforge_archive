@@ -47,12 +47,70 @@ spo_function <- function(f) {
 
 myspo(..., spo_function(f), ...)
 
-myspo <- function(par, fun, bounds, model, control) {
-  if (is.character(par)) {
-    if (par == "lhs") {
-      par <- lhs_from_bounds(bounds)
-    }
+myspo <- function(par, fun, bounds, learner, control) {
+  
+  while(loop <= control$seq.loops) {
+    xs = propose.points(n, model, control)
+    ys = unlist(mylapply(xs, fun))
+    op = add.els(op, xs, ys)
+    rt = make.task(opt.path)
+    model = train(learner, rt)
+    loop = loop + 1    
   }
 }
 
+
+make.tas
+
+
 myspo(lhs_from_bounds(bounds, 200), fun, bounds, model, control)
+
+opt.path: s4object, liste von listen
+ableiten für extra sachen
+enthält pro iteratuin: x werte, y werte (wenn mehr), iteration 
+as.data.frame, print, subset, plot
+
+
+#' @export
+setMethod(
+  f = "make.task",
+  
+  signature = signature(
+    id="character", 
+    data="opt.path", 
+    target="missing", 
+    exclude="missing", 
+    weights="missing", 
+    blocking="missing",
+    control="missing",
+    costs="missing",
+    positive="missing"
+  ),
+  
+  def = function(id, data, target, exclude, weights, blocking, control, costs, positive) {
+    
+    df = as.data.frame(data)
+    #subset only to xs and first y
+    df[]
+    make.task(data=df, target=<first y name>)
+  }
+)
+
+
+setClass(
+  "opt.path",
+  contains = c("object"),
+  representation = representation(
+    els = "list"
+  )
+)
+
+setMethod(
+  f = "as.data.frame",
+  signature = signature("prediction"),
+  def = function(x, row.names = NULL, optional = FALSE,...) {
+    return(x@df)
+  }
+)
+
+
