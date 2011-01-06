@@ -20,40 +20,30 @@
 #' @seealso \code{\link{tune}}
 #' @title Tune prediction threshold.
 
-tune.threshold = function(pred, measures, task, minimize=TRUE, thresholds=10) {
+tune.threshold = function(pred, measure, task, model, thresholds=100) {
+  td = pred["desc"]
 	if (missing(measures))
-		measures = default.measures(pred@desc)
-  if (is(measures, "measure"))
-    measures = list(measures)   
-  
-  pos = pred@desc["positive"]
-  neg = pred@desc["negative"]
-  levs = pred@desc["class.levels"]
+		measure = default.measures(td)[[1]]
   probs = pred["prob"]
   
+  if (is.null(probs))
+    stop("No probs in prediction! Maybe you forgot type='prob'?")
   # brutally return NA if we find any NA in the pred. probs...
   if (any(is.na(probs))) {
     return(list(th=NA, pred=pred, th.seq=numeric(0), perf=numeric(0)))
   }
-  
-	if (is.null(probs))
-		stop("No probs in prediction! Maybe you forgot type='prob'?")
+  sig = ifelse(measure["minimize"],1,-1)
 	f = function(x) {
-		labels = prob.threshold(probs=probs, pos=pos, neg=neg, levels=levs, threshold=x)
-		pred@df$response = labels
-		perf = performance(pred, measures=measures, task=task)
-		return(perf$aggr[1,1])
+    pred2 = set.threshold(pred, x)
+		sig*performance(pred, measure, task, model)
 	}
 	probs.sorted = sort(unique(probs))
 	len = min(thresholds, length(probs.sorted))
 	probs.seq = probs.sorted[seq(1, length(probs.sorted), length=len)]
 	vals = sapply(probs.seq, f)
-	if (minimize)
-		j = which.min(vals)
-	else
-		j = which.max(vals)
+  j = which.min(vals)
 	th = probs.seq[j]
 	labels = prob.threshold(probs=probs, pos=pos, neg=neg, levels=levs, threshold=th)
 	pred@df$response = labels
-	return(list(th=th, pred=pred, th.seq=probs.seq, perf=vals))
+	return(list(th=th, pred=pred, th.seq=probs.seq, vals=vals))
 }
