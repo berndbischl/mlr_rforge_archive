@@ -31,16 +31,21 @@ setClass(
 
 setGeneric(
   name = "DiceOptim.control",
-  def = function(path, par.descs, scale,
-    init.des.points, seq.loops, ...) {
+  def = function(path, lower, upper, scale, init.des.points, ...) {
     if (missing(path))
       path = TRUE
+    if(!all.els.named(lower))
+      stop("Argument lower has to be properly named!")
+    if(!all.els.named(upper))
+      stop("Argument upper has to be properly named!")
+    if(!setequal(names(lower), names(upper)))
+      stop("Arguments lower,upper must have the same names!")
+    if (any(is.infinite(c(lower, upper)) | is.na(c(lower, upper))))
+      stop("Arguments lower,upper must not be infinite or NA!")
     if (missing(scale))
       scale=identity
     if (missing(init.des.points))
       init.des.points = 5L
-    if (missing(seq.loops))
-      seq.loops = 5L
     standardGeneric("DiceOptim.control")
   }
 )
@@ -50,12 +55,10 @@ setGeneric(
 
 setMethod(
   f = "DiceOptim.control",
-  signature = signature(path="logical", par.descs="list", scale="function",
-    init.des.points="integer", seq.loops="integer"),
-  def = function(path, par.descs, scale,
-    init.des.points, seq.loops, ...) {
-    new("DiceOptim.control", path=path,
-      par.descs=par.descs, scale=scale, 
-      meta.learner=meta.learner, init.des.points=init.des.points, seq.des.points=seq.des.points, seq.loops=seq.loops, ...)
+  signature = signature(path="logical", lower="numeric", upper="numeric", scale="function", init.des.points="integer" ),
+  def = function(path, lower, upper, scale, init.des.points, ...) {
+    pds = make.pds.from.lowup(names(lower), lower, upper)
+    new("DiceOptim.control", path=path, par.descs=pds, start=list(), scale=scale, 
+      init.des.points=init.des.points,  ...)
   }
 )
