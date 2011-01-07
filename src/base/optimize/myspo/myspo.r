@@ -97,20 +97,5 @@ setMethod(
 )
 
 
-setClass(
-  "opt.path",
-  contains = c("object"),
-  representation = representation(
-    els = "list"
-  )
-)
-
-setMethod(
-  f = "as.data.frame",
-  signature = signature("prediction"),
-  def = function(x, row.names = NULL, optional = FALSE,...) {
-    return(x@df)
-  }
-)
 
 
