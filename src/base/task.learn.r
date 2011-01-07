@@ -210,6 +210,7 @@ setMethod(
   }
 )
 
+# we create a new env, so the reference is not changed
 change.data = function(task, data) {
   task@dataenv = new.env()
   task@dataenv$data = data
