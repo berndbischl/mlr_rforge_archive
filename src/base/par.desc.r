@@ -37,6 +37,7 @@ setMethod(
       .Object@name = name
       .Object@type = type
       .Object@constraints = constraints
+      .Object
 		}
 )
 

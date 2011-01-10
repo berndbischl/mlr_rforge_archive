@@ -33,7 +33,6 @@ integer.parameter = function(name, lower=-Inf, upper=Inf, default) {
 #' @return  \code\linkS4class{par.desc}}
 #' @rdname par.desc
 logical.parameter = function(name) {
-  constraints = list(vals=vals)
   new("par.desc", name, "logical", list())
 } 
 
