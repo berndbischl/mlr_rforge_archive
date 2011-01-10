@@ -21,6 +21,7 @@ base.files <<- c(
     
 		"base/par.desc.r",
     "base/par.desc.make.r",
+    "base/par.desc.feasible.r",
     "base/learner.r",
 		"base/learnerR.r",
 		"base/learner.make.r",

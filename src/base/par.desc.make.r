@@ -22,6 +22,10 @@ numeric.parameter = function(name, lower=-Inf, upper=Inf) {
 #' @return  \code\linkS4class{par.desc}}
 #' @rdname par.desc
 integer.parameter = function(name, lower=-Inf, upper=Inf, default) {
+  if (is.numeric(lower) && lower == as.integer(lower))
+    lower = as.integer(lower)
+  if (is.numeric(upper) && upper == as.integer(upper))
+    upper = as.integer(upper)
   check.arg(lower, "integer", 1)
   check.arg(upper, "integer", 1)
   constraints = list(lower=as.integer(lower), upper=as.integer(upper))
