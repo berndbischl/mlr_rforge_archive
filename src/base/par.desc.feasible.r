@@ -1,16 +1,19 @@
-#' Is a value compliable with the bounds / type of a variable.
-#' 
-#' @param x [single value] \cr
-#'   Value to check.  
-#' @param bounds [par.desc] \cr
-#'   Variable description.
-#' 
-#' @rdname is.feasible
-#' @exportMethod is.feasible
-#' @return [boolean].
-#' 
-#' @title Find matching learning algorithms.
-
+##' Check if a parameter setting satisfies the constraints of the
+##' parameter description.
+##' 
+##' @param x [single value] \cr
+##'   Value to check.  
+##' @param bounds [par.desc] \cr
+##'   Variable description.
+##' @return If \code{x} is a single value, a logical, else a vector of
+##' logicals as long as the vector \code{x}. Note that for discrete
+##' parameters a heuristic is used to figure out if \code{x} is a list
+##' of parameters or in fact a discrete parameter of type list.
+##' 
+##' @rdname is.feasible
+##' @exportMethod is.feasible
+##' 
+##' @title Check if parameter setting is valid.
 setGeneric(
   name = "is.feasible",
   def = function(x, bounds) {
