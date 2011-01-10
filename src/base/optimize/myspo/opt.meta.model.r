@@ -80,15 +80,15 @@ sel.random = function(par.descs, parclass) {
 
 
 
-get.bounds = function(par.descs, bound) {
-  z = list()
-  for (i in seq(length=length(par.descs))) {
-    pd = par.descs[[i]]
-    if (is(pd, "par.desc.double"))
-      z[[pd["par.name"]]] = pd[bound]
-  }
-  return(z)
-}  
+#get.bounds = function(par.descs, bound) {
+#  z = list()
+#  for (i in seq(length=length(par.descs))) {
+#    pd = par.descs[[i]]
+#    if (is(pd, "par.desc.double"))
+#      z[[pd["par.name"]]] = pd[bound]
+#  }
+#  return(z)
+#}  
   
 get.ranges = function(par.descs) {
   z = list()
