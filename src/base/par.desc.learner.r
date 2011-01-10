@@ -10,7 +10,6 @@
 #' }
 #' @exportClass par.desc
 #' @title Description class for a hyperparameter. 
-
 setClass(
   "par.desc.learner",
   contains = c("par.desc"),
@@ -23,9 +22,7 @@ setClass(
   )	
 )
 
-
 #' @rdname par.desc.learner-class
-
 setMethod(
   f = "[",
   signature = signature("par.desc.learner"),

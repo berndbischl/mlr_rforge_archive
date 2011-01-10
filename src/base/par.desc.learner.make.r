@@ -51,3 +51,49 @@
 #  }
 #)
 
+
+numeric.learner.parameter <- function(name, lower=-Inf, upper=Inf,
+                                      default, when="train",
+                                      flags=NULL, requires=expression()) {
+  p <- numeric.learner(name, lower, upper)
+  learner.parameter.from.parameter(p, default, when, flags, requires)
+}
+
+
+integer.learner.parameter <- function(name, lower=-Inf, upper=Inf,
+                                      default, when="train",
+                                      flags=NULL, requires=expression()) {
+  p <- integer.learner(name, lower, upper)
+  learner.parameter.from.parameter(p, default, when, flags, requires)
+}
+
+
+discrete.learner.parameter <- function(name, vals,
+                                      default, when="train",
+                                      flags=NULL, requires=expression()) {
+  p <- discrete.learner(name, vals)
+  learner.parameter.from.parameter(p, default, when, flags, requires)
+}
+
+logical.learner.parameter <- function(name,
+                                      default, when="train",
+                                      flags=NULL, requires=expression()) {
+  p <- logical.learner(name, vals)
+  learner.parameter.from.parameter(p, default, when, flags, requires)
+}
+
+learner.parameter.from.parameter <- function(p, default, when, flags, requires) {
+  if (!is.list(flags))
+    stop("'flags' must be a list.")
+  if (!is.expression(requires))
+    stop("'requires' must be an R expression.")
+  if (!missing(default) && !is.feasible(default, p))
+    stop("'default' must be missing or a feasible parameter setting.")  
+  check.arg(when, "character", 1)
+  
+  pp <- new("par.desc.learner",
+            name=p@name, type=p@type, constraints=p@constraints,
+            has.default=!missing(default),
+            default=if (missing(default)) NULL else default,
+            when=when, flags=flags, requires=requires)
+}
