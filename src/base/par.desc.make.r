@@ -4,7 +4,7 @@
 #' @param upper [single numeric] \cr
 #'   Upper bound. Default is \code{Inf}.
 #' @return  \code\linkS4class{par.desc}}
-#' @rdname par.desc
+#' @rdname par.desc-class
 numeric.parameter = function(name, lower=-Inf, upper=Inf) {
   if (is.integer(lower))
     lower = as.numeric(lower)
@@ -12,6 +12,8 @@ numeric.parameter = function(name, lower=-Inf, upper=Inf) {
     upper = as.numeric(upper)
   check.arg(lower, "numeric", 1)
   check.arg(upper, "numeric", 1)
+  if (upper < lower)
+    stop("No possible value!")
   constraints = list(lower=as.numeric(lower), upper=as.numeric(upper))
   new("par.desc", name, "numeric", constraints)
 } 
@@ -24,7 +26,7 @@ numeric.parameter = function(name, lower=-Inf, upper=Inf) {
 #' @param upper [single numeric] \cr
 #'   Upper bound. Default is \code{Inf}.
 #' @return  \code\linkS4class{par.desc}}
-#' @rdname par.desc
+#' @rdname par.desc-class
 integer.parameter = function(name, lower=-.Machine$integer.max, upper=.Machine$integer.max, default) {
   if (is.numeric(lower) && lower == as.integer(lower))
     lower = as.integer(lower)
@@ -32,6 +34,8 @@ integer.parameter = function(name, lower=-.Machine$integer.max, upper=.Machine$i
     upper = as.integer(upper)
   check.arg(lower, "integer", 1)
   check.arg(upper, "integer", 1)
+  if (upper < lower)
+    stop("No possible value!")
   constraints = list(lower=as.integer(lower), upper=as.integer(upper))
   new("par.desc", name, "integer", constraints)
 } 
@@ -39,7 +43,7 @@ integer.parameter = function(name, lower=-.Machine$integer.max, upper=.Machine$i
 
 #' Boolean variable for optimization.
 #' @return  \code\linkS4class{par.desc}}
-#' @rdname par.desc
+#' @rdname par.desc-class
 logical.parameter = function(name) {
   new("par.desc", name, "logical", list())
 } 
@@ -48,7 +52,7 @@ logical.parameter = function(name) {
 #' @param vals [named list] \cr
 #'   Possible values.
 #' @return  \code\linkS4class{par.desc}}
-#' @rdname par.desc
+#' @rdname par.desc-class
 discrete.parameter = function(name, vals) {
   check.arg(vals, "list")
   if (is.vector(vals))

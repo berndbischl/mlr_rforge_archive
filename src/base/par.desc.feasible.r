@@ -17,6 +17,8 @@
 setGeneric(
   name = "is.feasible",
   def = function(x, bounds) {
+    if (length(x) == 0)
+      return(FALSE)
     standardGeneric("is.feasible")      
   }
 )
@@ -28,12 +30,14 @@ setMethod(
   def = function(x, bounds) {
     type = bounds["type"]
     if (type == "numeric")
-      is.numeric(x) & x >= bounds["lower"] & y <= bounds["upper"] 
-    if (type == "integer")
-      (is.integer(x) || (is.numeric(x) && all(x == as.integer(x)))) & x >= bounds["lower"] && y <= bounds["upper"]
-    else if (type == "discrete")
-      if(is.null(x)) any(is.null(bound["vals"])) else x %in% bounds["vals"]
-    else if (type == "logical")
+      is.numeric(x) & x >= bounds["lower"] & x <= bounds["upper"] 
+    else if (type == "integer")
+      (is.integer(x) || (is.numeric(x) && all(x == as.integer(x)))) & x >= bounds["lower"] && x <= bounds["upper"]
+    else if (type == "discrete") {
+      g = function(y) !is.na(Position(function(v) identical(y, v), bounds["vals"]))
+      if (length(x == 1)) return(g(x)) else return(sapply(x, g))
+      #if(is.null(x)) any(is.null(bound["vals"])) else x %in% bounds["vals"]
+    } else if (type == "logical")
       is.logical(x) & !is.na(x)
     else 
       stop("Unknown type!")
