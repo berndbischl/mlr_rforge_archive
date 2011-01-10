@@ -47,7 +47,7 @@ setMethod(
   f = "[",
   signature = signature("par.desc"),
   def = function(x,i,j,...,drop) {
-    type = x["type"]
+    type = x@type
     if (i == "vals") {
       if (type != "discrete")
         return(NULL)

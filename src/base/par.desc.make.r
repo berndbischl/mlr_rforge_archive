@@ -8,7 +8,7 @@
 numeric.parameter = function(name, lower=-Inf, upper=Inf) {
   check.arg(lower, "numeric", 1)
   check.arg(upper, "numeric", 1)
-  constraints = list(lower=lower, upper=upper)
+  constraints = list(lower=as.numeric(lower), upper=as.numeric(upper))
   new("par.desc", name, "numeric", constraints)
 } 
 
@@ -22,9 +22,9 @@ numeric.parameter = function(name, lower=-Inf, upper=Inf) {
 #' @return  \code\linkS4class{par.desc}}
 #' @rdname par.desc
 integer.parameter = function(name, lower=-Inf, upper=Inf, default) {
-  check.arg(lower, "numeric", 1)
-  check.arg(upper, "numeric", 1)
-  constraints = list(lower=lower, upper=upper)
+  check.arg(lower, "integer", 1)
+  check.arg(upper, "integer", 1)
+  constraints = list(lower=as.integer(lower), upper=as.integer(upper))
   new("par.desc", name, "integer", constraints)
 } 
 
@@ -42,6 +42,7 @@ logical.parameter = function(name) {
 #' @return  \code\linkS4class{par.desc}}
 #' @rdname par.desc
 discrete.parameter = function(name, vals) {
+  check.arg(vals, "list")
   if (is.vector(vals))
     vals = as.list(vals)
   n = length(vals)
