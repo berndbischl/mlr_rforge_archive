@@ -28,10 +28,10 @@ setMethod(
       is.numeric(x) & x >= bounds["lower"] & y <= bounds["upper"] 
     if (type == "integer")
       (is.integer(x) || (is.numeric(x) && all(x == as.integer(x)))) & x >= bounds["lower"] && y <= bounds["upper"]
-    else if (type == "vals")
+    else if (type == "discrete")
       x %in% bounds["vals"]
     else if (type == "logical")
-      is.logical(x)
+      is.logical(x) & x %in% c(TRUE, FALSE)
     else 
       stop("Unknown type!")
   }

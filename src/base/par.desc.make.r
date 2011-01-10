@@ -6,6 +6,10 @@
 #' @return  \code\linkS4class{par.desc}}
 #' @rdname par.desc
 numeric.parameter = function(name, lower=-Inf, upper=Inf) {
+  if (is.integer(lower))
+    lower = as.numeric(lower)
+  if (is.integer(upper))
+    upper = as.numeric(upper)
   check.arg(lower, "numeric", 1)
   check.arg(upper, "numeric", 1)
   constraints = list(lower=as.numeric(lower), upper=as.numeric(upper))
@@ -21,7 +25,7 @@ numeric.parameter = function(name, lower=-Inf, upper=Inf) {
 #'   Upper bound. Default is \code{Inf}.
 #' @return  \code\linkS4class{par.desc}}
 #' @rdname par.desc
-integer.parameter = function(name, lower=-Inf, upper=Inf, default) {
+integer.parameter = function(name, lower=-.Machine$integer.max, upper=.Machine$integer.max, default) {
   if (is.numeric(lower) && lower == as.integer(lower))
     lower = as.integer(lower)
   if (is.numeric(upper) && upper == as.integer(upper))

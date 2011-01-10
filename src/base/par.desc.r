@@ -55,13 +55,13 @@ setMethod(
         return(x@constraints$vals)
     }
     if (i == "lower") {
-      if (type != "numeric" || type != "integer")
+      if (type != "numeric" && type != "integer")
         return(NULL)
       else
         return(x@constraints$lower)
     }
     if (i == "upper") {
-      if (type != "numeric" || type != "integer")
+      if (type != "numeric" && type != "integer")
         return(NULL)
       else
         return(x@constraints$lower)
