@@ -20,6 +20,7 @@ base.files <<- c(
     "base/check.costs.r",
     
 		"base/par.desc.r",
+    "base/par.desc.make.r",
     "base/learner.r",
 		"base/learnerR.r",
 		"base/learner.make.r",
