@@ -29,9 +29,9 @@ setMethod(
     if (type == "integer")
       (is.integer(x) || (is.numeric(x) && all(x == as.integer(x)))) & x >= bounds["lower"] && y <= bounds["upper"]
     else if (type == "discrete")
-      x %in% bounds["vals"]
+      if(is.null(x)) any(is.null(bound["vals"])) else x %in% bounds["vals"]
     else if (type == "logical")
-      is.logical(x) & x %in% c(TRUE, FALSE)
+      is.logical(x) & !is.na(x)
     else 
       stop("Unknown type!")
   }

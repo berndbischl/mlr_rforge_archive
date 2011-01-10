@@ -64,7 +64,7 @@ setMethod(
       if (type != "numeric" && type != "integer")
         return(NULL)
       else
-        return(x@constraints$lower)
+        return(x@constraints$upper)
     }
     callNextMethod()
   }
