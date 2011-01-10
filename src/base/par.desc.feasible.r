@@ -21,27 +21,18 @@ setGeneric(
 #' @rdname is.feasible
 setMethod(
   f = "is.feasible",
-  signature = signature(x="numeric", bounds="par.desc.double"),
+  signature = signature(x="ANY", bounds="par.desc"),
   def = function(x, bounds) {
-    length(x)==1 && x >= bounds["lower"] && y <= bounds["upper"] && (bounds["data.type"] == "numeric" || is.integer(x) || x == as.integer(x))
+    type = bounds["type"]
+    if (type == "numeric")
+      is.numeric(x) & x >= bounds["lower"] & y <= bounds["upper"] 
+    if (type == "integer")
+      (is.integer(x) || (is.numeric(x) && all(x == as.integer(x)))) & x >= bounds["lower"] && y <= bounds["upper"]
+    else if (type == "vals")
+      x %in% bounds["vals"]
+    else if (type == "logical")
+      is.logical(x)
+    else 
+      stop("Unknown type!")
   }
 )
-
-#' @rdname is.feasible
-setMethod(
-  f = "is.feasible",
-  signature = signature(x="numeric", bounds="par.desc.disc"),
-  def = function(x, bounds) {
-    length(x)==1 && any(sapply(bounds["vals"], function(a) identical(x, a)))
-  }
-)
-
-#' @rdname is.feasible
-setMethod(
-  f = "is.feasible",
-  signature = signature(x="logical", bounds="par.desc.log"),
-  def = function(x, bounds) {
-    length(x)==1 
-  }
-)
-
