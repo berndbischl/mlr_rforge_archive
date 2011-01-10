@@ -36,27 +36,27 @@ setMethod(
 
       # to do: stringdot pars and check order, scale and offset limits
       par.descs = list(
-          new("par.desc.log", par.name="scaled", default=TRUE),
-          new("par.desc.disc", par.name="type", default="C-svc", vals=c("C-svc", "nu-svc", "C-bsvc", "spoc-svc", "kbb-svc")),
-          new("par.desc.disc", par.name="kernel", default="rbfdot", 
+          logical.learner.parameter(name="scaled", default=TRUE),
+          discrete.learner.parameter(name="type", default="C-svc", vals=c("C-svc", "nu-svc", "C-bsvc", "spoc-svc", "kbb-svc")),
+          discrete.learner.parameter(name="kernel", default="rbfdot", 
               vals=c("vanilladot", "polydot", "rbfdot", "tanhdot", "laplacedot", "besseldot", "anovadot", "splinedot", "stringdot")),
-          new("par.desc.double", par.name="C",
+          numeric.learner.parameter(name="C",
               lower=0, default=1, requires=expression(type %in% c("C-svc", "C-bsvc", "spoc-svc", "kbb-svc"))),
-          new("par.desc.double", par.name="nu",
+          numeric.learner.parameter(name="nu",
               lower=0, default=0.2, requires=expression(type == "nu-svc")),
-          new("par.desc.double", par.name="sigma",
+          numeric.learner.parameter(name="sigma",
               lower=0, requires=expression(kernel %in% c("rbfdot", "anovadot", "besseldot", "laplacedot"))),
-          new("par.desc.double", par.name="degree", default=3L, lower=1L, 
+          integer.learner.parameter(name="degree", default=3L, lower=1L, 
               requires=expression(kernel %in% c("polydot", "anovadot", "besseldot"))),
-          new("par.desc.double", par.name="scale", default=1, lower=0, 
+          numeric.learner.parameter(name="scale", default=1, lower=0, 
               requires=expression(kernel %in% c("polydot", "tanhdot"))),
-          new("par.desc.double", par.name="offset", default=1, 
+          numeric.learner.parameter(name="offset", default=1, 
               requires=expression(kernel %in% c("polydot", "tanhdot"))),
-          new("par.desc.double", par.name="order", default=1L, 
+          integer.learner.parameter(name="order", default=1L, 
               requires=expression(kernel == "besseldot")),
-          new("par.desc.double", par.name="tol", default=0.001, lower=0),
-          new("par.desc.log", par.name="shrinking", default=TRUE),
-          new("par.desc.double", par.name="class.weights", default=1, lower=0)
+          numeric.learner.parameter(name="tol", default=0.001, lower=0),
+          logical.learner.parameter(name="shrinking", default=TRUE),
+          numeric.learner.parameter(name="class.weights", default=1, lower=0)
       )
       
 			callNextMethod(.Object, pack="kernlab", desc=desc, par.descs=par.descs)

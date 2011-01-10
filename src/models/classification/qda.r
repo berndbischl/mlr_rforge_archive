@@ -35,8 +35,8 @@ setMethod(
 			)
 			
       par.descs = list(
-        new("par.desc.disc", par.name="method", default="moment", vals=c("moment", "mle", "mve", "t")),
-        new("par.desc.double", par.name="nu", default=5L , lower=2L, requires=expression(method == "t"))
+        discrete.learner.parameter(name="method", default="moment", vals=c("moment", "mle", "mve", "t")),
+        numeric.learner.parameter(name="nu", default=5L , lower=2L, requires=expression(method == "t"))
       )
       
 			callNextMethod(.Object, pack="MASS", desc=desc, par.descs=par.descs)

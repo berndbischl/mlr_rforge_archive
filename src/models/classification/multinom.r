@@ -39,16 +39,16 @@ setMethod(
 			
       
       par.descs = list(
-        new("par.desc.log", par.name="Hess", default=FALSE, flags=list(optimize=FALSE)),
-        new("par.desc.disc", par.name="summ", default=0L, vals=0:3),
-        new("par.desc.log", par.name="censored", default=FALSE),
-        new("par.desc.log", par.name="model", default=FALSE),
-        new("par.desc.double", par.name="maxit", default=100L, lower=1L),
-        new("par.desc.double", par.name="rang", default=0.7),
-        new("par.desc.double", par.name="decay", default=0),
-        new("par.desc.log", par.name="trace", default=TRUE, flags=list(optimize=FALSE)),
-        new("par.desc.double", par.name="abstoll", default=1.0e-4),
-        new("par.desc.double", par.name="reltoll", default=1.0e-8)
+        logical.learner.parameter(name="Hess", default=FALSE, flags=list(optimize=FALSE)),
+        discrete.learner.parameter(name="summ", default=0L, vals=0:3),
+        logical.learner.parameter(name="censored", default=FALSE),
+        logical.learner.parameter(name="model", default=FALSE),
+        integer.learner.parameter(name="maxit", default=100L, lower=1L),
+        numeric.learner.parameter(name="rang", default=0.7),
+        numeric.learner.parameter(name="decay", default=0),
+        logical.learner.parameter(name="trace", default=TRUE, flags=list(optimize=FALSE)),
+        numeric.learner.parameter(name="abstoll", default=1.0e-4),
+        numeric.learner.parameter(name="reltoll", default=1.0e-8)
       )
       
 			callNextMethod(.Object, pack="nnet", desc=desc, par.descs=par.descs)

@@ -24,13 +24,13 @@ setMethod(
 			)
 			
       par.descs = list(      
-          new("par.desc.disc", par.name="distribution", default="gaussian", vals=c("gaussian", "laplace")),
-          new("par.desc.double", par.name="n.trees", default=100L, lower=1L),
-          new("par.desc.double", par.name="interaction.depth", default=1L, lower=1L),
-          new("par.desc.double", par.name="n.minobsinnode", default=10L, lower=1L),
-          new("par.desc.double", par.name="shrinkage", default=0.001, lower=0),
-          new("par.desc.double", par.name="bag.fraction", default=0.5, lower=0, upper=1),
-          new("par.desc.double", par.name="train.fraction", default=1, lower=0, upper=1)
+          discrete.learner.parameter(name="distribution", default="gaussian", vals=c("gaussian", "laplace")),
+          integer.learner.parameter(name="n.trees", default=100L, lower=1L),
+          integer.learner.parameter(name="interaction.depth", default=1L, lower=1L),
+          integer.learner.parameter(name="n.minobsinnode", default=10L, lower=1L),
+          numeric.learner.parameter(name="shrinkage", default=0.001, lower=0),
+          numeric.learner.parameter(name="bag.fraction", default=0.5, lower=0, upper=1),
+          numeric.learner.parameter(name="train.fraction", default=1, lower=0, upper=1)
       )
       
 			callNextMethod(.Object, pack="gbm", desc=desc, par.descs=par.descs, par.vals=list(distribution = "gaussian"))
