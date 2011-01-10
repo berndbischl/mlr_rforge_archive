@@ -9,6 +9,8 @@ setClass(
   "opt.path",
   contains = c("object"),
   representation = representation(
+    x.names = "character",
+    y.names = "character",
     env = "environment"
   )
 )
@@ -19,7 +21,9 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("opt.path"),
-  def = function(.Object) {
+  def = function(.Object, x.names, y.names) {
+    .Object@x.names = x.names
+    .Object@y.names = y.names
     .Object@env$path = list()
     return(.Object)
   }
@@ -49,39 +53,46 @@ setMethod(
 )
 
 
-# todo test!!!
-# todo: should subset be integer? where should the help page(s) be?
-#' The following 
-#' 
-#' @export
-#' @rdname subset
-#' @seealso \code{\link{get.data}} 
-#' @title Subset mlr objects.
-
+#' @rdname to.string
 setMethod(
-  f = "subset",
-  signature = signature(x="learn.task"),
-  def = function (x, subset, select, ...) { 
-    if (missing(subset)) 
-      r = 1:length(x)
-    if (!is.integer(subset)) 
-      stop("'subset' must be to integer!")
-    if (missing(select)) 
-      select = names(env$path[[1]])
-    if (!is.character(select)) 
-      stop("'select' must be to integer!")
-    p = lapply(env$path, function(y) y[select])
-    p$env = new.env()
-    p$env$path = p[subset]
-    p
-  }  
+  f = "to.string",
+  signature = signature("opt.path"),
+  def = function(x) {
+    return(paste("Opt. path of length: ", length(as.list(x))))
+  }
 )
 
 
 #this changes the reference! return NULL to remind!
-add.path.el = function(op, x) {
-  append(op@env$path, x)
+add.path.el = function(op, x, dob=length(as.list(op))) {
+  x$dob = dob
+  x$tod = as.integer(NA)
+  op@env$path = append(op@env$path, list(x))
   NULL
 }
+
+
+set.tod = function(op, x) {
+  
+} 
+
+library(RUnit)
+
+  op = new("opt.path", x.names=c("x1", "x2"), y.names=c("y1", "y2"))
+  add.path.el(op, list(x1=1, x2="a", y1=1, y2=3))
+  add.path.el(op, list(x1=2, x2="a", y1=1, y2=3))
+  
+  x = as.list(op)
+  checkTrue(is.list(x))
+  checkEquals(length(x), 2)
+  checkTrue(is.list(x[[1]]))
+  checkTrue(is.list(x[[2]]))
+  checkEquals(length(x[[1]]), 4)
+  checkEquals(length(x[[2]]), 4)
+  
+  x = as.data.frame(op)
+  checkTrue(is.data.frame(x))
+  checkEquals(nrow(x), 2)
+  checkEquals(ncol(x), 4)
 
 
