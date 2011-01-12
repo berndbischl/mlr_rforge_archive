@@ -54,31 +54,31 @@
 
 numeric.learner.parameter <- function(name, lower=-Inf, upper=Inf,
                                       default, when="train",
-                                      flags=NULL, requires=expression()) {
-  p <- numeric.learner(name, lower, upper)
+                                      flags=list(), requires=expression()) {
+  p <- numeric.parameter(name, lower, upper)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 
 
 integer.learner.parameter <- function(name, lower=-Inf, upper=Inf,
                                       default, when="train",
-                                      flags=NULL, requires=expression()) {
-  p <- integer.learner(name, lower, upper)
+                                      flags=list(), requires=expression()) {
+  p <- integer.parameter(name, lower, upper)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 
 
 discrete.learner.parameter <- function(name, vals,
                                       default, when="train",
-                                      flags=NULL, requires=expression()) {
-  p <- discrete.learner(name, vals)
+                                      flags=list(), requires=expression()) {
+  p <- discrete.parameter(name, vals)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 
 logical.learner.parameter <- function(name,
                                       default, when="train",
-                                      flags=NULL, requires=expression()) {
-  p <- logical.learner(name, vals)
+                                      flags=list(), requires=expression()) {
+  p <- logical.parameter(name, vals)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 

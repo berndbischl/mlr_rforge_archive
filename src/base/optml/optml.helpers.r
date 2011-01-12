@@ -16,21 +16,21 @@ make.es = function(par, rp, evals, event) {
 	return(list(par=par, rp=rp, evals=evals, event=event))
 }
 
-add.path = function(path, es, accept) {
-	a = ifelse(accept, {, -1)
-	pe = make.path.el(es, accept = a)
-	path[[length(path) + 1]] = pe
-	return(path)
-} 
-
-# best = NULL means no acceptable new element was found
-add.path.els = function(path, ess, best) {
-	for (i in 1:length(ess)) {
-		es = ess[[i]]
-		path = add.path(path, es, !is.null(best$par) && setequal(es$par, best$par))
-	}
-	return(path)
-} 
+#add.path = function(path, es, accept) {
+#	a = ifelse(accept, {, -1)
+#	pe = make.path.el(es, accept = a)
+#	path[[length(path) + 1]] = pe
+#	return(path)
+#} 
+#
+## best = NULL means no acceptable new element was found
+#add.path.els = function(path, ess, best) {
+#	for (i in 1:length(ess)) {
+#		es = ess[[i]]
+#		path = add.path(path, es, !is.null(best$par) && setequal(es$par, best$par))
+#	}
+#	return(path)
+#} 
 
 
 eval.state = function(learner, task, resampling, measures, control, par, event) {

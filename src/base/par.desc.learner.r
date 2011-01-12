@@ -22,6 +22,23 @@ setClass(
   )	
 )
 
+
+#' Constructor.
+setMethod(f = "initialize",
+  signature = signature("par.desc.learner"),
+  def = function(.Object, name, type, constraints, has.default, default, when, flags, requires) {
+    if (missing(has.default))
+      return(make.empty(.Object))
+    .Object@has.default = has.default
+    .Object@default = default
+    .Object@when = when
+    .Object@flags = flags
+    .Object@requires = requires
+    callNextMethod(.Object, name, type, constraints)
+})
+
+
+
 #' @rdname par.desc.learner-class
 setMethod(
   f = "[",

@@ -54,6 +54,8 @@ logical.parameter = function(name) {
 #' @return  \code\linkS4class{par.desc}}
 #' @rdname par.desc-class
 discrete.parameter = function(name, vals) {
+  if (is.vector(vals))
+    vals = as.list(vals)
   check.arg(vals, "list")
   if (is.vector(vals))
     vals = as.list(vals)

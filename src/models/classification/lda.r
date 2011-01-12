@@ -35,7 +35,7 @@ setMethod(
 			
 			par.descs = list(
 					discrete.learner.parameter(name="method", default="moment", vals=c("moment", "mle", "mve", "t")),
-					numeric.learner.parameter(name="nu", default="missing", lower=1L, requires=expression(method=="t")),
+					numeric.learner.parameter(name="nu", lower=1L, requires=expression(method=="t")),
           numeric.learner.parameter(name="tol", default=1.0e-4, lower=0)
       )
 			
