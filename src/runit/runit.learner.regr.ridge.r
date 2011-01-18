@@ -8,13 +8,6 @@ test.ridge <- function() {
 			list(lambda2 = 2)
 	)
 	
-	parset.list2 <- list(
-			list(),
-			list(lambda = 0.3),
-			list(lambda = 1),
-			list(lambda = 2)
-	)
-	
 	old.predicts.list = list()
 	old.probs.list = list()
 	
@@ -32,8 +25,6 @@ test.ridge <- function() {
 	}
 	
 	simple.test.parsets("regr.ridge", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list)
-	simple.test.parsets("regr.ridge", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list2)
-	
 	
 	#extra cv test	
 	folds=5

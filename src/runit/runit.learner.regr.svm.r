@@ -6,7 +6,12 @@ test.svm.regr <- function() {
 			list(C = 0.3, kpar=list(sigma=2)),
 			list(C = 0.3, kpar=list(sigma=2), epsilon=0.3)
 	)
-	
+  parset.list2 <- list(
+    list(),
+    list(C = 0.3, sigma=2),
+    list(C = 0.3, sigma=2, epsilon=0.3)
+  )
+  
 	old.predicts.list = list()
 	
 	for (i in 1:length(parset.list)) {
@@ -18,7 +23,7 @@ test.svm.regr <- function() {
 		p <- predict(m, newdata=regr.test)
 		old.predicts.list[[i]] <- p[,1]
 	}
-	simple.test.parsets("regr.ksvm", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list)
+	simple.test.parsets("regr.ksvm", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list2)
 	
 
 }
