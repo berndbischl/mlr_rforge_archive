@@ -8,8 +8,8 @@ test.blackboost.classif <- function(){
 	)
 	
 	parset.list2 = list(
-			list(family=Binomial(), maxdepth=2),
-			list(family=Binomial(), maxdepth=4, nu=0.03)
+			list(family="Binomial", maxdepth=2),
+			list(family="Binomial", maxdepth=4, nu=0.03)
 	)
 	
 	old.predicts.list = list()

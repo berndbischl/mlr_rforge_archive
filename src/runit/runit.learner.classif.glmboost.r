@@ -6,8 +6,8 @@ test.glmboost.classif <- function(){
 	)
 	
 	parset.list2 = list(
-			list(family=Binomial(), nu=0.03),
-			list(family=Binomial(), mstop=600, center=TRUE)
+			list(family="Binomial", nu=0.03),
+			list(family="Binomial", mstop=600, center=TRUE)
 	)
 	
 	old.predicts.list = list()

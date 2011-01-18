@@ -45,14 +45,14 @@ setMethod(
         logical.learner.parameter(name="model.coef", default=TRUE),
         logical.learner.parameter(name="bag.shift", default=FALSE),
         integer.learner.parameter(name="max.iter", default=20L, lower=1L),
-        integer.learner.parameter(name="delta", default=1e-10, lower=0),
+        numeric.learner.parameter(name="delta", default=1e-10, lower=0),
         integer.learner.parameter(name="minsplit", default=20L, lower=1L),
         integer.learner.parameter(name="minbucket", lower=1L),
         numeric.learner.parameter(name="cp", default=0.01, lower=0, upper=1),
         integer.learner.parameter(name="maxcompete", default=4L, lower=0L, flags=list(optimize=FALSE)),
         integer.learner.parameter(name="maxsurrogate", default=5L, lower=0L, flags=list(optimize=FALSE)),
-        discrete.learner.parameter(name="usesurrogate", default=2, vals=0:2),
-        discrete.learner.parameter(name="surrogatestyle", default=0, vals=0:1),
+        discrete.learner.parameter(name="usesurrogate", default=2L, vals=0:2),
+        discrete.learner.parameter(name="surrogatestyle", default=0L, vals=0:1),
         # we use 30 as upper limit, see docs of rpart.control
         integer.learner.parameter(name="maxdepth", default=30L, lower=1L, upper=30L)
       )

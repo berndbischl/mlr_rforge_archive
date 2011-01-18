@@ -33,10 +33,10 @@ setMethod(
 					costs = FALSE
 			)
 			par.descs = list(
-					numeric.learner.parameter(name="lambda", default="missing", lower=0, upper=1),
-					numeric.learner.parameter(name="gamma ", default="missing", lower=0, upper=1),
+					numeric.learner.parameter(name="lambda", lower=0, upper=1),
+					numeric.learner.parameter(name="gamma", lower=0, upper=1),
 					logical.learner.parameter(name="crossval", default=TRUE),
-					numeric.learner.parameter(name="fold", default=10L, lower=1L),
+          integer.learner.parameter(name="fold", default=10L, lower=1L),
 					numeric.learner.parameter(name="train.fraction", default=0.5, lower=0, upper=1),
 					logical.learner.parameter(name="crossval", default=TRUE),
 					discrete.learner.parameter(name="schedule", default=1L, vals=1:2, requires=expression(simAnn==FALSE)),
@@ -44,7 +44,7 @@ setMethod(
 					numeric.learner.parameter(name="halflife", default=0.1, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
 					numeric.learner.parameter(name="zero.temp", default=0.01, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
 					numeric.learner.parameter(name="alpha", default=2, lower=1, requires=expression(simAnn==TRUE || schedule==2)),
-					numeric.learner.parameter(name="K", default=100L, lower=1L, requires=expression(simAnn==TRUE || schedule==2)),
+          integer.learner.parameter(name="K", default=100L, lower=1L, requires=expression(simAnn==TRUE || schedule==2)),
 					discrete.learner.parameter(name="kernel", default="triangular", 
 							vals=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian")),
           logical.learner.parameter(name="trafo", default=TRUE),

@@ -33,7 +33,10 @@ setMethod(
 					weights = FALSE,
 					costs = FALSE
 			)
-			callNextMethod(.Object, pack="RWeka", desc=desc)
+      par.descs = list(
+        integer.learner.parameter(name="B", default=6L, lower=1L)
+      )
+			callNextMethod(.Object, pack="RWeka", desc=desc, par.descs=par.descs)
 		}
 )
 

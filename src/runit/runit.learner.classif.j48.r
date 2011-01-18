@@ -13,8 +13,9 @@ test.J48 <- function() {
 	
 	for (i in 1:length(parset.list)) {
 		parset <- parset.list[[i]]
-		ctrl = do.call(Weka_control, parset)
 		set.seed(debug.seed)
+    parset$Q = as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max))
+    ctrl = do.call(Weka_control, parset)
 		m = J48(formula=multiclass.formula, data=multiclass.train, control=ctrl)
 		p  <- predict(m, newdata=multiclass.test, type="class")
 		p2 <- predict(m, newdata=multiclass.test, type="prob")
@@ -26,7 +27,7 @@ test.J48 <- function() {
 	prob.test.parsets  ("classif.J48", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt <- function (formula, data, subset, ...) {
-		J48(formula, data=data[subset,], control=Weka_control(...))
+		J48(formula, data=data[subset,], control=Weka_control(..., Q = as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max))))
 	}
 	
 	tp <- function(model, newdata) predict(model, newdata, type="class")

@@ -60,7 +60,7 @@ numeric.learner.parameter <- function(name, lower=-Inf, upper=Inf,
 }
 
 
-integer.learner.parameter <- function(name, lower=-Inf, upper=Inf,
+integer.learner.parameter <- function(name, lower=-.Machine$integer.max, upper=.Machine$integer.max,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
   p <- integer.parameter(name, lower, upper)
@@ -78,7 +78,13 @@ discrete.learner.parameter <- function(name, vals,
 logical.learner.parameter <- function(name,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
-  p <- logical.parameter(name, vals)
+  p <- logical.parameter(name)
+  learner.parameter.from.parameter(p, default, when, flags, requires)
+}
+
+
+untyped.learner.parameter <- function(name, default, when="train", flags=list(), requires=expression()) {
+  p <- untyped.parameter(name)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 

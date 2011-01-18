@@ -25,7 +25,7 @@
 
 errorhandler.setup <- function(
 		on.learner.error="warn",
-		on.par.without.desc="warn",
+		on.par.without.desc="stop",
 		on.convert.var="warn"
 	) {
 	if (!(on.learner.error %in% c("quiet", "warn", "stop")))

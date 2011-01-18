@@ -86,7 +86,7 @@ setMethod(
 		def = function(x,i,j,...,drop) {
       if (i == "par.descs")  {
         pds = x@par.descs
-        names(pds) = sapply(pds, function(y) y@par.name)
+        names(pds) = sapply(pds, function(y) y@name)
         return(pds)
       }     
       if (i == "par.train")  {

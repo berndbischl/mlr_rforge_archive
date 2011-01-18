@@ -34,7 +34,20 @@ setMethod(
 					weights = TRUE,
 					costs = FALSE
 			)
-			callNextMethod(.Object, pack="party", desc=desc)
+      par.descs = list(
+        discrete.learner.parameter(name="teststat", default="quad", vals=c("quad", "max")),
+        discrete.learner.parameter(name="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
+        numeric.learner.parameter(name="mincriterion", default=0.95, lower=0, upper=1),
+        integer.learner.parameter(name="minsplit", default=20L, lower=1L),
+        integer.learner.parameter(name="minbucket", default=7L, lower=1L),
+        logical.learner.parameter(name="stump", default=FALSE),
+        integer.learner.parameter(name="nresample", default=9999L, lower=1L, requires=expression(testtype=="MonteCarlo")),
+        integer.learner.parameter(name="maxsurrogate", default=0L, lower=0L),
+        integer.learner.parameter(name="mtry", default=0L, lower=0L),
+        logical.learner.parameter(name="savesplitstats", default=TRUE),
+        integer.learner.parameter(name="maxdepth", default=0L, lower=0L)
+      )
+      callNextMethod(.Object, pack="party", desc=desc, par.descs=par.descs)
 		}
 )
 

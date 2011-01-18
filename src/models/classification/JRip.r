@@ -33,7 +33,15 @@ setMethod(
 					weights = FALSE,
 					costs = FALSE
 			)
-			callNextMethod(.Object, pack="RWeka", desc=desc)
+      
+      par.descs = list(
+        integer.learner.parameter(name="F", default=3L, lower=2L),
+        numeric.learner.parameter(name="N", default=2, lower=0),
+        integer.learner.parameter(name="O", default=2L, lower=1L),
+        logical.learner.parameter(name="E", default=FALSE),
+        logical.learner.parameter(name="P", default=FALSE)
+      )      
+			callNextMethod(.Object, pack="RWeka", desc=desc, par.descs=par.descs)
 		}
 )
 
@@ -49,7 +57,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			ctrl = Weka_control(...)
+			ctrl = Weka_control(..., S=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
 			JRip(f, data=get.data(.task, .subset), control=ctrl)
 		}
 )

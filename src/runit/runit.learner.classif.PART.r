@@ -13,11 +13,14 @@ test.PART <- function() {
 	
 	for (i in 1:length(parset.list)) {
 		parset <- parset.list[[i]]
+    set.seed(debug.seed)
+    parset$Q = as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max))
 		ctrl = do.call(Weka_control, parset)
-		set.seed(debug.seed)
 		m = PART(formula=multiclass.formula, data=multiclass.train, control=ctrl)
-		p  <- predict(m, newdata=multiclass.test, type="class")
-		p2 <- predict(m, newdata=multiclass.test, type="prob")
+    set.seed(debug.seed)
+    p  <- predict(m, newdata=multiclass.test, type="class")
+    set.seed(debug.seed)
+    p2 <- predict(m, newdata=multiclass.test, type="prob")
 		old.predicts.list[[i]] <- p
 		old.probs.list[[i]] <- p2
 	}
@@ -26,7 +29,8 @@ test.PART <- function() {
 	prob.test.parsets  ("classif.PART", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt <- function (formula, data, subset, ...) {
-		PART(formula, data=data[subset,], control=Weka_control(...))
+    set.seed(debug.seed)
+		PART(formula, data=data[subset,], control=Weka_control(..., Q = as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max))))
 	}
 	
 	tp <- function(model, newdata) predict(model, newdata, type="class")

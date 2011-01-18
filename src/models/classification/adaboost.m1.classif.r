@@ -32,8 +32,16 @@ setMethod(
 					weights = FALSE,
 					costs = FALSE
 			)
-			
-			callNextMethod(.Object, pack="adabag", desc=desc)
+      
+      par.descs = list(
+        logical.learner.parameter(name="boos", default=TRUE),
+        integer.learner.parameter(name="mfinal", default=100L, lower=1L),
+        discrete.learner.parameter(name="coeflearn", default="Breiman", vals=c("Breiman", "Freund")),
+        integer.learner.parameter(name="minsplit", default=5L, lower=1L),
+        numeric.learner.parameter(name="cp", default=0.01, lower=0),
+        integer.learner.parameter(name="maxdepth", lower=1L, upper=30L)
+      )
+			callNextMethod(.Object, pack="adabag", desc=desc, par.descs=par.descs)
 		}
 )
 

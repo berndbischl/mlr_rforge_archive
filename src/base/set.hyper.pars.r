@@ -48,30 +48,11 @@ setMethod(
             stop(msg)
           if (.mlr.local$errorhandler.setup$on.par.without.desc == "warn")
             warning(msg)
-          pd = new("par.desc.unknown", par.name=n, default=p)
-          learner@par.descs = append(learner@par.descs, pd)
           learner@par.vals[[n]] = p
         } else {
-          # normal case: description there. now check for correct value
-          if (is(pd, "par.desc.log")) {
-            if(!is.logical(p) || length(p) != 1)
-              stop(class(learner), ": Par ", n, " has to be a single boolean value!")
-          } else if (is(pd, "par.desc.double")){
-            if(!is.numeric(p) || length(p) != 1)
-              stop(class(learner), ": Par ", n, " has to be a single double value!")
-            if (pd["data.type"] == "integer")
-              p = as.integer(p)
-            if (p < pd["lower"] || p > pd["upper"])
-              stop(class(learner), ": Par ", n, " has to be between bounds ", pd["lower"], " and ", pd["upper"], "!")
-          } else if (is(pd, "par.desc.disc")){
-            vals = pd["vals"]
-            # we allow the usage of name for complex values
-            if (is.character(p) && p %in% names(vals))
-              p = vals[[p]]
-            y = sapply(vals, function(x) isTRUE(all.equal(x, p)))
-            if (!(any(y)))
-              stop(class(learner), ": Given value of par. ", n, " has to be among allowed values!")
-          }
+          isf = is.feasible(p, pd)
+          if (length(isf) != 1 || !isf)
+            stop("'", n, "' must be a feasible parameter setting.")  
           learner@par.vals[[n]] = p
         }
       }

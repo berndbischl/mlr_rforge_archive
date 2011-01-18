@@ -58,7 +58,7 @@ setMethod(
 			d = get.data(.task, .subset, target.extra=TRUE, class.as="-1+1")
 			svm.fs(x=as.matrix(d$data), y=d$target, verbose=FALSE, grid.search="discrete", parms.coding="none",
         lambda1.set=2, lambda2.set=2, inner.val.method="cv", cross.inner=2,
-        set.seed=runif(1, 1, .Machine$integer.max), ...)
+        set.seed=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
 		}
 )
 

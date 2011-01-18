@@ -6,10 +6,10 @@
 #' @return  \code\linkS4class{par.desc}}
 #' @rdname par.desc-class
 numeric.parameter = function(name, lower=-Inf, upper=Inf) {
-  if (is.integer(lower))
-    lower = as.numeric(lower)
-  if (is.integer(upper))
-    upper = as.numeric(upper)
+  #if (is.integer(lower))
+  #  lower = as.numeric(lower)
+  #if (is.integer(upper))
+  #  upper = as.numeric(upper)
   check.arg(lower, "numeric", 1)
   check.arg(upper, "numeric", 1)
   if (upper < lower)
@@ -28,10 +28,10 @@ numeric.parameter = function(name, lower=-Inf, upper=Inf) {
 #' @return  \code\linkS4class{par.desc}}
 #' @rdname par.desc-class
 integer.parameter = function(name, lower=-.Machine$integer.max, upper=.Machine$integer.max, default) {
-  if (is.numeric(lower) && lower == as.integer(lower))
-    lower = as.integer(lower)
-  if (is.numeric(upper) && upper == as.integer(upper))
-    upper = as.integer(upper)
+  #if (is.numeric(lower) && lower == as.integer(lower))
+  #  lower = as.integer(lower)
+  #if (is.numeric(upper) && upper == as.integer(upper))
+  #  upper = as.integer(upper)
   check.arg(lower, "integer", 1)
   check.arg(upper, "integer", 1)
   if (upper < lower)
@@ -80,4 +80,10 @@ discrete.parameter = function(name, vals) {
   new("par.desc", name, "discrete", constraints)
 } 
 
+#' Untyped variable for optimization.
+#' @return  \code\linkS4class{par.desc}}
+#' @rdname par.desc-class
+untyped.parameter = function(name) {
+  new("par.desc", name, "untyped", list())
+} 
 

@@ -212,7 +212,7 @@ par.vals.string = function(pv, learner) {
   # print class for complex values
   pv = lapply(pv, function(x) 
       if(is.vector(x) && length(x) == 1)
-        if (is.double(x)) formatC(x, digits=3) else x
+        if (is.double(x)) round(x,3) else x
       else
         paste("<", class(x), ">", sep="")
   )

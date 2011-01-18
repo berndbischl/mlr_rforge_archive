@@ -52,7 +52,7 @@ setMethod(
           integer.learner.parameter(name="maxsurrogate", default=0L, lower=0L),
           integer.learner.parameter(name="mtry", default=0L, lower=0L),
 					logical.learner.parameter(name="savesplitstats", default=TRUE),
-					numeric.learner.parameter(name="maxdepth", default=0L, lower=0L)
+          integer.learner.parameter(name="maxdepth", default=0L, lower=0L)
 			)
 			# we have to load the package first for Binomial()
 			x@par.descs = par.descs

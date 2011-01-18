@@ -34,11 +34,15 @@ setMethod(
     else if (type == "integer")
       (is.integer(x) || (is.numeric(x) && all(x == as.integer(x)))) & x >= bounds["lower"] && x <= bounds["upper"]
     else if (type == "discrete") {
-      g = function(y) !is.na(Position(function(v) identical(y, v), bounds["vals"]))
-      if (length(x == 1)) return(g(x)) else return(sapply(x, g))
+      g = function(y) 
+        !is.na(Position(function(v) identical(y, v), bounds["vals"])) ||
+        !is.na(Position(function(v) identical(y, v), names(bounds["vals"]))) 
+      if (length(x) == 1) return(g(x)) else return(sapply(x, g))
       #if(is.null(x)) any(is.null(bound["vals"])) else x %in% bounds["vals"]
-    } else if (type == "logical")
+    } else if (type == "logical") {
       is.logical(x) & !is.na(x)
+    } else if (type == "untyped")
+      TRUE
     else 
       stop("Unknown type!")
   }

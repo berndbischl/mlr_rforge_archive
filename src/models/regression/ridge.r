@@ -21,8 +21,10 @@ setMethod(
 					factors = TRUE,
 					weights = FALSE
 			)
-			
-			callNextMethod(.Object, pack="penalized", desc=desc)
+      par.descs = list(
+        numeric.learner.parameter(name="lambda2", default=0, lower=0),
+      )
+			callNextMethod(.Object, pack="penalized", desc=desc, par.descs=par.descs)
 		}
 )
 
@@ -39,16 +41,9 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, ...) {
-			f = .task["formula"]
-			args = list(...)
-			i = which(names(args) == "lambda") 
-			if (length(i) > 0) {
-				names(args)[i] = "lambda2"
-			}
-			pars <- list(f, data=get.data(.task, .subset))
-			pars <- c(pars, args)
-			do.call(penalized, pars)
-		}
+      f = .task["formula"]
+      penalized(f, data=get.data(.task, .subset), ...)
+    }
 )
 
 

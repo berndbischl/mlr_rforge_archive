@@ -35,18 +35,18 @@ setMethod(
 			)
 			
 			par.descs = list(
-					numeric.learner.parameter(name="ntree", default=500L, lower=1L),
-					numeric.learner.parameter(name="mtry", lower=1),
+					integer.learner.parameter(name="ntree", default=500L, lower=1L),
+          integer.learner.parameter(name="mtry", lower=1L),
 					logical.learner.parameter(name="replace", default=TRUE),
-					numeric.learner.parameter(name="sampsize", lower=1L),
-					numeric.learner.parameter(name="nodesize", default=1L, lower=1L),
-					numeric.learner.parameter(name="maxnodes", lower=1L),
+          integer.learner.parameter(name="sampsize", lower=1L),
+          integer.learner.parameter(name="nodesize", default=1L, lower=1L),
+          integer.learner.parameter(name="maxnodes", lower=1L),
         
           logical.learner.parameter(name="importance", default=FALSE, flags=list(optimize=FALSE)),
           logical.learner.parameter(name="localImp", default=FALSE, flags=list(optimize=FALSE)),
           logical.learner.parameter(name="norm.votes", default=TRUE, flags=list(optimize=FALSE)),
           logical.learner.parameter(name="keep.inbag", default=FALSE, flags=list(optimize=FALSE)),
-          numeric.learner.parameter(name="maxnodes", lower=1L)
+          integer.learner.parameter(name="maxnodes", lower=1L)
 			)
 
       callNextMethod(.Object, pack="randomForest", desc=desc, par.descs=par.descs)

@@ -13,8 +13,9 @@ test.JRip <- function() {
 	
 	for (i in 1:length(parset.list)) {
 		parset <- parset.list[[i]]
-		ctrl = do.call(Weka_control, parset)
 		set.seed(debug.seed)
+    parset$S = as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max))
+    ctrl = do.call(Weka_control, parset)
 		m = JRip(formula=multiclass.formula, data=multiclass.train, control=ctrl)
 		p  <- predict(m, newdata=multiclass.test, type="class")
 		p2 <- predict(m, newdata=multiclass.test, type="prob")
@@ -26,7 +27,7 @@ test.JRip <- function() {
 	prob.test.parsets  ("classif.JRip", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt <- function (formula, data, subset, ...) {
-		JRip(formula, data=data[subset,], control=Weka_control(...))
+		JRip(formula, data=data[subset,], control=Weka_control(..., S = as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max))))
 	}
 	
 	tp <- function(model, newdata) predict(model, newdata, type="class")
