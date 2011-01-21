@@ -86,10 +86,10 @@ test.discrete_parameters <- function() {
   checkTrue(is.feasible("e", dp))
 
   ## Vectorized:
-  checkTrue(c(TRUE, TRUE, TRUE),
+  checkEquals(c(TRUE, TRUE, TRUE),
             is.feasible(list(2.2, 2L, f), dp))
   checkEquals(c(TRUE, FALSE),
-              is.feasible(2L, NULL, dp))
+              is.feasible(list(2L, NULL), dp))
   
   checkTrue(!is.feasible(2, dp))
   checkTrue(!is.feasible("f", dp))
@@ -99,8 +99,7 @@ test.discrete_parameters <- function() {
 
   ## Error conditions:
   checkException(discrete.parameter(name="x", vals=list(a=1, "a")))
-  checkExcpetion(discrete.parameter(name="x", vals=c(1, 2, 3)))
-  checkExcpetion(discrete.parameter(name="x", vals=list()))  
+  checkException(discrete.parameter(name="x", vals=list()))  
 }
 
 test.integer_parameters <- function() {
@@ -108,7 +107,7 @@ test.integer_parameters <- function() {
   checkEquals("integer", ip["type"])
   checkEquals(-1L, ip["lower"])
   checkEquals(1L, ip["upper"])
-  checkTrue(!is.numeric(ip["lower"])) ## Force type conversion!
+  checkTrue(is.integer(ip["lower"])) 
   
   checkTrue(is.feasible(-1, ip))
   checkTrue(is.feasible(-1L, ip))
@@ -125,9 +124,9 @@ test.integer_parameters <- function() {
   checkTrue(!is.feasible(NA, ip))
   checkTrue(!is.feasible("bam", ip))
   
-  ip <- integer.parameter(name="x", lower=0, upper=Inf)
+  ip <- integer.parameter(name="x", lower=0)
   checkTrue(is.feasible(2L, ip))
-  checkTrue(is.feasible(Inf, ip))
+  checkTrue(!is.feasible(Inf, ip))
   checkTrue(!is.feasible(-2L, ip))
   checkTrue(!is.feasible(-Inf, ip))
   checkTrue(!is.feasible(NULL, ip))

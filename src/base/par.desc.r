@@ -74,3 +74,25 @@ setMethod(
     callNextMethod()
   }
 )
+
+
+
+setMethod(
+  f = "to.string",
+  signature = signature("par.desc"),
+  def = function(x) {
+    type = x["type"]
+    if (type == "numeric")
+      paste("Numeric parameter '", x["name"], "'. Bounds: ", x["lower"], ",", x["upper"], sep="")  
+    else if (type == "integer")
+      paste("Integer parameter '", x["name"], "'. Bounds: ", x["lower"], ",", x["upper"], sep="")  
+    else if (type == "discrete") {
+      paste("Discrete parameter '", x["name"], "'. Values: ", paste(names(x["vals"]), collapse=","), sep="") 
+    } else if (type == "logical") {
+      paste("Logical parameter '", x["name"], "'.", sep="") 
+    } else if (type == "untyped"){
+      paste("Untyped parameter '", x["name"], "'.", sep="") 
+    } else 
+      stop("Unknown type!")
+  }
+)

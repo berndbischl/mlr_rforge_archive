@@ -33,25 +33,6 @@
 #.Object@requires = requires						
 #return(.Object)
 
-#
-##' Constructor.
-#setMethod(
-#  f = "initialize",
-#  signature = signature("par.desc.disc"),
-#  def = function(.Object, name, default="missing", when="train", vals, flags=list(), requires=expression(TRUE)) {
-#    if (default != "missing") {
-#      if (is.character(default) && default %in% names(vals))
-#        default = vals[[default]]
-#      y = sapply(vals, function(x) isTRUE(all.equal(x, default)))
-#      if (!(any(y)))
-#        stop("Default value of par. ", name,  " has to be among allowed values!")
-#    }
-#    .Object@vals = vals					
-#    callNextMethod(.Object, name, default, when, flags, requires)
-#  }
-#)
-
-
 numeric.learner.parameter <- function(name, lower=-Inf, upper=Inf,
                                       default, when="train",
                                       flags=list(), requires=expression()) {

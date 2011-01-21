@@ -32,7 +32,7 @@ setMethod(
     if (type == "numeric")
       is.numeric(x) & x >= bounds["lower"] & x <= bounds["upper"] 
     else if (type == "integer")
-      (is.integer(x) || (is.numeric(x) && all(x == as.integer(x)))) & x >= bounds["lower"] && x <= bounds["upper"]
+      (is.integer(x) | (is.numeric(x) & (x == as.integer(x)))) & x >= bounds["lower"] & x <= bounds["upper"]
     else if (type == "discrete") {
       g = function(y) 
         !is.na(Position(function(v) identical(y, v), bounds["vals"])) ||

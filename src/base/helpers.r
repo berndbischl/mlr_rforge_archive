@@ -198,7 +198,7 @@ almost.equal <- function(e1, e2) {
 hyper.par.val.to.name = function(par.name, par.val, learner) {
   pds = learner["par.descs"]
   pd = pds[[par.name]]
-  if(!is.null(pd) && is(pd, "par.desc.disc")) {
+  if(!is.null(pd) && is(pd, "par.desc") && pd["type"] == "discrete") {
     vals = pd["vals"]
     i = which(sapply(vals, function(x) almost.equal(par.val, x)))
     return(names(vals)[i])

@@ -36,7 +36,7 @@ roxygen()
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, control, measures, model=FALSE) {
+tune <- function(learner, task, resampling, measure, bounds, control, log) {
   if (is.character(learner))
     learner <- make.learner(learner)
 	if (missing(measures))
