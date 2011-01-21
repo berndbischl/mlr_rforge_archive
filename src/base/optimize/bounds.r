@@ -8,7 +8,7 @@ setClass(
   "bounds",
   contains = c("object"),
   representation = representation(
-    vars = "list"
+    pars = "list"
   )
 )
 
@@ -74,10 +74,6 @@ setMethod(
       return(sapply(v, function(y) y["par.name"]))
     }     
     if (i == "lower")  {
-      v = Filter(function(y) is(y, "par.desc.double"), x@vars)
-      z = sapply(v, function(y) y["lower"])
-      names(z) = sapply(v, function(y) y@par.name)
-      return(z)
     }     
     if (i == "upper")  {
       v = Filter(function(y) is(y, "par.desc.double"), x@vars)
@@ -153,6 +149,53 @@ setMethod(
   }
 )
 
+
+setGeneric(name = "lower", def = function(x) standardGeneric("lower"))
+
+setMethod(
+  f = "lower",
+  signature = signature(x="par.desc"), 
+  def = function(x) 
+    if(!x@type %in% c("integer", "numeric")) 
+      stop("Only available for numeric or integer parameter!") 
+    else 
+      x@lower
+)
+
+setMethod(
+  f = "lower",
+  signature = signature(x="bounds"), 
+  def = function(x) { 
+    v = Filter(function(y) y@type %in% c("integer", "numeric"), x@pars)
+    z = sapply(v, function(y) y@lower)
+    names(z) = sapply(v, function(y) y@name)
+    return(z)
+    
+  }
+)
+
+setGeneric(name = "upper", def = function(x) standardGeneric("lower"))
+
+setMethod(
+  f = "upper",
+  signature = signature(x="par.desc"), 
+  def = function(x) 
+    if(!x@type %in% c("integer", "numeric")) 
+      stop("Only available for numeric or integer parameter!") 
+    else 
+      x@upper
+)
+
+setMethod(
+  f = "upper",
+  signature = signature(x="bounds"), 
+  def = function(x) { 
+    v = Filter(function(y) y@type %in% c("integer", "numeric"), x@pars)
+    z = sapply(v, function(y) y@upper)
+    names(z) = sapply(v, function(y) y@name)
+    return(z)
+  }
+)
 
 
 
