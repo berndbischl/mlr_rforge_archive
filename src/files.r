@@ -83,7 +83,9 @@ base.files <<- c(
     "base/rocr/ROCR_performance.R",
     "base/rocr/ROCR_performance_plots.R",
     "base/rocr/ROCR_mlr_plots.r",
-		
+
+    "base/optimize/bounds.r",
+        
 		"base/wrappers/base.wrapper.r",
 #		"base/wrappers/novars.r",
 		"base/wrappers/preproc.wrapper.r",

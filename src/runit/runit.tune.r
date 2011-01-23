@@ -1,8 +1,6 @@
 test.tune <- function() {
-	cp <- c(0.05, 0.9)
-	minsplit <- c(1:3)
-	ranges = list(cp = cp, minsplit=minsplit)
-	ctrl = grid.control(ranges=ranges, path=T)
+  bounds = make.bounds(discrete.parameter("cp", vals=c(0.05, 0.9)), discrete.parameter("minsplit", vals=1:3))
+	ctrl = grid.control()
 	folds = 3
 	
 	tr <- tune.rpart(formula=multiclass.formula, data=multiclass.df, cp=cp, minsplit=minsplit,

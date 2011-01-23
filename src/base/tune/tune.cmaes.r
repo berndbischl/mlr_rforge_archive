@@ -1,6 +1,9 @@
 tune.cmaes = function(learner, task, resampling, measures, control) {
   require.packs("cmaes", "tune.cmaes")
 
+  if (any(sapply(bounds@pars, function(x) !(x@type %in% c("numeric", "integer")))))
+    stop("CMAES can only be applied to numeric and integer parameters!")
+  
   penv = new.env()
   ns = control["par.names"]
   start = unlist(control["start"])[ns]

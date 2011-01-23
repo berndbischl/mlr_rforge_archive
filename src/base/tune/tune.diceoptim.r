@@ -1,6 +1,8 @@
-tune.diceoptim = function(learner, task, resampling, measures, control) {
+tune.diceoptim = function(learner, task, resampling, measure, bounds, control) {
   require.packs(c("DiceOptim", "lhs"), "tune.diceoptim")
   
+  if (any(sapply(bounds@pars, function(x) !(x@type %in% c("numeric", "integer")))))
+    stop("DiceOptim can only be applied to numeric and integer parameters!")
   
   args = control@extra.args
   print(args)

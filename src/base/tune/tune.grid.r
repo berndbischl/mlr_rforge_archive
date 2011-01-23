@@ -1,25 +1,14 @@
-tune.grid <- function(learner, task, resampling, measures, control) {
+tune.grid <- function(learner, task, resampling, measure, bounds, control) {
+  if (any(sapply(bounds@pars, function(x) x@type != "discrete")))
+    stop("Grid search can only be applied to discrete parameters!")
+  # todo: should we really do this? or allow both possibilities? what about wrapper?
 	# convert to instance so all pars are evaluated on the same splits
 	if (is(resampling, "resample.desc")) 
 		resampling = make.res.instance(resampling, task=task)
   # drop names from par.descs
   ranges = lapply(control["par.descs"], function(y) unlist(y["vals", names=FALSE])) 
   names(ranges) = control["par.names"]	
-	# if theres more than one ranges 
-	if(length(ranges) > 0 && all((names(ranges) == "ranges"))) {
-		ors = lapply(ranges, function(r) {tune.1(learner, task, resampling, ranges, measures, control)})
-		
-		ps = lapply(ors, function(x) x@path)
-		ps = Reduce(c, ps)
-		perfs = sapply(ors, function(x) x@opt$perf[1])
-		if (measures[[1]]["minimize"])
-			i = which.min(perfs)
-		else				
-			i = which.max(perfs)
-		new("opt.result", control=control, opt=ors[[i]]@opt, path=ps)
-	}else {
-		tune.1(learner, task, resampling, ranges, measures, control)
-	}
+	tune.1(learner, task, resampling, ranges, measures, control)
 }
 
 
@@ -48,16 +37,6 @@ tune.1 <- function(learner, task, resampling, ranges, measures, control) {
 		path = add.path.els.tune(path=list(), ess=es, best=bs)
 	}
 	new("opt.result", control=control, opt=make.path.el(bs), path=path)
-
-#	if (.ps$mode %in% c("snowfall", "sfCluster")) {
-#		sfExport("learner")
-#		sfExport("task")
-#		sfExport("resample.instance")
-#		if (.ps$level == "tune") {
-#			sfExport("parsets")
-#			sfExport("measure")
-#		}
-#	} 
 }
 
 

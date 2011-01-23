@@ -1,7 +1,7 @@
 
-#' Bounds for a bunch of parameters. Are initially created, then mainly queried for information but not mutated. 
+#' Bounds for a bunch of parameters. Are initially created, then mainly queried for information but not changed. 
 #'  
-#' @exportClass opt.path
+#' @exportClass bounds
 #' @title Optimazation path
 
 setClass(
@@ -18,12 +18,14 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("bounds"),
-  def = function(.Object, vars) {
-    for (i in seq(length=length(vars))) {
-      if (!is(vars[[i]], "par.desc"))
-        stop("All bounds vars must be of type 'par.desc'!")
-    }
-    .Object@vars = vars
+  def = function(.Object, pars) {
+    if(any(sapply(pars, function(x) !is(x, "par.desc"))))
+      stop("All bounds parameters must be of class 'par.desc'!")
+    ns = sapply(pars, function(x) x@name)
+    if (any(duplicated(ns)))
+      stop("All bounds parameters must have unique names!")
+    names(pars) = ns
+    .Object@pars = pars
     return(.Object)
   }
 )
@@ -35,21 +37,12 @@ setMethod(
   f = "as.list",
   signature = signature("bounds"),
   def = function(x, row.names = NULL, optional = FALSE,...) {
-    z = x@vars
+    z = x@pars
     names(z) = sapply(z, function(y) y["par.name"])
     z
   }
 )
 
-
-#' @rdname to.string
-setMethod(
-  f = "to.string",
-  signature = signature("opt.path"),
-  def = function(x) {
-    return(paste("Opt. path of length: ", length(as.list(x))))
-  }
-)
 
 #' Getter.
 #' @rdname bounds-class
@@ -59,30 +52,30 @@ setMethod(
   signature = signature("bounds"),
   def = function(x,i,j,...,drop) {
     if (i == "names")  {
-      return(sapply(x@vars, function(y) y["par.name"]))
+      return(sapply(x@pars, function(y) y["par.name"]))
     }     
     if (i == "nums")  {
-      v = Filter(function(y) is(y, "par.desc.double") && y["data.type"] == "numeric", x@vars)
+      v = Filter(function(y) is(y, "par.desc.double") && y["data.type"] == "numeric", x@pars)
       return(sapply(v, function(y) y["par.name"]))
     }     
     if (i == "ints")  {
-      v = Filter(function(y) is(y, "par.desc.double") && y["data.type"] == "integer", x@vars)
+      v = Filter(function(y) is(y, "par.desc.double") && y["data.type"] == "integer", x@pars)
       return(sapply(v, function(y) y["par.name"]))
     }     
     if (i == "discs")  {
-      v = Filter(function(y) is(y, "par.desc.disc"), x@vars)
+      v = Filter(function(y) is(y, "par.desc.disc"), x@pars)
       return(sapply(v, function(y) y["par.name"]))
     }     
     if (i == "lower")  {
     }     
     if (i == "upper")  {
-      v = Filter(function(y) is(y, "par.desc.double"), x@vars)
+      v = Filter(function(y) is(y, "par.desc.double"), x@pars)
       z = sapply(v, function(y) y["upper"])
       names(z) = sapply(v, function(y) y@par.name)
       return(z)
     }     
     if (i == "vals")  {
-      v = Filter(function(y) is(y, "par.desc.disc"), x@vars)
+      v = Filter(function(y) is(y, "par.desc.disc"), x@pars)
       z = lapply(v, function(y) y["vals"])
       names(z) = sapply(v, function(y) y@par.name)
       return(z)
@@ -94,7 +87,7 @@ setMethod(
 
 #' Construct a bounds object.
 #' 
-#' @param vars [list of \code{\linkS4class{learn.task}}] \cr
+#' @param pars [list of \code{\linkS4class{learn.task}}] \cr
 #' 			Type of the learning algorithm, either "classif" or "regr" or task to solve
 #' @param doubles [boolean] \cr
 #' 			Supports real-valued inputs? Pass only when x is a string.
@@ -121,31 +114,29 @@ setMethod(
 #' @title Find matching learning algorithms.
 
 
-make.bounds = function(vars) {
-  new("bounds", vars=vars)
+make.bounds = function(...) {
+  args = list(...)
+  if (length(args) == 0)
+    stop("Bounds are empty!")
+  new("bounds", pars=args)
 }
 
-source("D:\\sync\\projekte\\mlr\\src\\base\\helpers.r")
-source("D:\\sync\\projekte\\mlr\\src\\base\\par.desc.r")
 
-b = make.bounds(list(
-    new("par.desc.double", par.name="x1", lower=2, upper=7),
-    new("par.desc.double", par.name="x2", lower=3L),
-    discrete.learner.parameter(par.name="x3", vals=c("a", "b"))
-))
+#' @rdname to.string
+setMethod(
+  f = "to.string",
+  signature = signature("bounds"),
+  def = function(x) {
+    paste(sapply(x@pars, to.string), collapse="\n")
+  }
+)
 
 
 setMethod(
   f = "is.feasible",
   signature = signature(x="list", bounds="bounds"),
   def = function(x, bounds) {
-    ns = names(x)
-    stopifnot(all(ns %in% bounds["names"]))
-    for (i in seq(length=length(x))) {
-      if (!is.feasible(x[[i]], bounds@vars[[ns[i]]]))
-        return(FALSE)
-    }  
-    TRUE
+    all(mapply(is.feasible, x, bounds@pars))
   }
 )
 
@@ -167,14 +158,13 @@ setMethod(
   signature = signature(x="bounds"), 
   def = function(x) { 
     v = Filter(function(y) y@type %in% c("integer", "numeric"), x@pars)
-    z = sapply(v, function(y) y@lower)
+    z = sapply(v, function(y) y@constraints$lower)
     names(z) = sapply(v, function(y) y@name)
     return(z)
-    
   }
 )
 
-setGeneric(name = "upper", def = function(x) standardGeneric("lower"))
+setGeneric(name = "upper", def = function(x) standardGeneric("upper"))
 
 setMethod(
   f = "upper",
@@ -191,7 +181,7 @@ setMethod(
   signature = signature(x="bounds"), 
   def = function(x) { 
     v = Filter(function(y) y@type %in% c("integer", "numeric"), x@pars)
-    z = sapply(v, function(y) y@upper)
+    z = sapply(v, function(y) y@constraints$upper)
     names(z) = sapply(v, function(y) y@name)
     return(z)
   }

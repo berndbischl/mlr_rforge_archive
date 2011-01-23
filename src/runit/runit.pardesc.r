@@ -34,7 +34,7 @@
 test.numeric_parameters <- function() {
   np <- numeric.parameter(name="x", lower=-1L, upper=1)
   checkEquals("numeric", np["type"])
-  checkEquals(-1, np["lower"])
+  checkEquals(-1, np@lower)
   checkEquals(1, np["upper"])
   checkTrue(!is.integer(np["lower"])) ## Force type conversion!
   
