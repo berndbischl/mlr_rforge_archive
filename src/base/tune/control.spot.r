@@ -16,13 +16,6 @@ setClass(
 #'   Should optimization path be saved? Default is TRUE.
 #' @param start [numeric] \cr
 #'    Named vector of initial values.
-#' @param lower [numeric] \cr
-#'    Named vector of lower boundary constraints. Default is -Inf. 
-#' @param upper [numeric] \cr
-#'    Named vector of upper boundary constraints. Default is Inf. 
-#' @param scale [\code{\link{function}}] \cr 
-#'    A function to scale the hyperparameters. E.g. maybe you want to optimize in some log-space.
-#'    Has to take a vector and return a scaled one. Default is identity function.
 #' @param ... Further control parameters passed to the \code{control} argument of \code{\link[spot]{spot}}.
 #'        
 #' @return Control structure for tuning.
@@ -33,26 +26,12 @@ setClass(
 
 setGeneric(
   name = "spot.control",
-  def = function(path, par.descs, scale, ...) {
+  def = function(path, par.descs, ...) {
     if (missing(path))
       path = TRUE
     
     #todo: convencience!!
     
-#    if (missing(lower))
-#    {lower=start;lower[]=-Inf}  
-#    if (length(lower)==1)
-#      lower = rep(lower, length(start))
-#    if (is.null(names(lower)))
-#      names(lower) = names(start)
-#    if (missing(upper))
-#    {upper=start;upper[]=Inf}       
-#    if (length(upper)==1)
-#      upper = rep(upper, length(start))
-#    if (is.null(names(upper)))
-#      names(upper) = names(start)
-    if (missing(scale))
-      scale=identity
     standardGeneric("spot.control")
   }
 )
@@ -62,10 +41,10 @@ setGeneric(
 
 setMethod(
   f = "spot.control",
-  signature = signature(path="logical", par.descs="list", scale="function"),
-  def = function(path, par.descs, scale, ...) {
+  signature = signature(path="logical", par.descs="list"),
+  def = function(path, par.descs, ...) {
     new("spot.control", path=path,
-      start=list(), par.descs=par.descs, scale=scale, ...)
+      start=list(), par.descs=par.descs, ...)
   }
 )
 

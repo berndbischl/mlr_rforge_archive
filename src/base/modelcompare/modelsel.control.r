@@ -44,6 +44,6 @@ setMethod(
       pds[[i]] = pd 
     }
     new("modelsel.control", minimize=minimize, path=path,
-      start=list(), par.descs=pds, scale=scale)
+      start=list(), par.descs=pds)
   }
 )

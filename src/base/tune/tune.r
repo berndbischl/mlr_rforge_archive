@@ -58,7 +58,6 @@ tune <- function(learner, task, resampling, measure, bounds, control, log) {
 	}
 	
 	#.mlr.local$n.eval <<- 0
-	#export.tune(learner, task, loss, scale)
 	
 	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures)
 

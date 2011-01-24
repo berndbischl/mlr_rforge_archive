@@ -4,6 +4,11 @@ tune.diceoptim = function(learner, task, resampling, measure, bounds, control) {
   if (any(sapply(bounds@pars, function(x) !(x@type %in% c("numeric", "integer")))))
     stop("DiceOptim can only be applied to numeric and integer parameters!")
   
+  low = lower(bounds)
+  up = upper(bounds)
+  if (any(is.infinite(c(low, up))))
+    stop("DiceOptim requires finite box constraints!")
+  
   args = control@extra.args
   print(args)
   des = init.design(control@par.descs, args$init.des.points)

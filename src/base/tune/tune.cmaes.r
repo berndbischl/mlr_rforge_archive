@@ -3,12 +3,14 @@ tune.cmaes = function(learner, task, resampling, measures, control) {
 
   if (any(sapply(bounds@pars, function(x) !(x@type %in% c("numeric", "integer")))))
     stop("CMAES can only be applied to numeric and integer parameters!")
+  ns = sapply(bounds@pars, function(x) x@id)
+  if (length(control@start) != length(ns))
+    stop(" Length of 'start' has to match numer of parameters in bounds!")
+  low = lower(bounds)
+  up = upper(bounds)
   
   penv = new.env()
-  ns = control["par.names"]
   start = unlist(control["start"])[ns]
-  low = control["lower"]
-  up = control["upper"]
   
   g = make.tune.f(ns, penv, learner, task, resampling, measures, control)
 

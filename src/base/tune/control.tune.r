@@ -12,8 +12,7 @@ setClass(
 		"tune.control",
 		contains = c("opt.control"),
 		representation = representation(
-				start = "list",
-				scale = "function"
+				start = "list"
 		)
 )
 
@@ -22,11 +21,10 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("tune.control"),
-		def = function(.Object, path, start, scale, ...) {
+		def = function(.Object, path, start, ...) {
       if (missing(path))
         return(make.empty(.Object))
 			.Object@start = start 			
-			.Object@scale = scale 		
 			.Object = callNextMethod(.Object=.Object, path=path, ...)
 			return(.Object)
 		}
@@ -43,7 +41,6 @@ setMethod(
       paste(
         "Control object for tuning of class: ", class(x), "\n",
         "Save path: ", x@path, "\n",
-        "Scaling function used: ", !identical(x@scale, identity), "\n",
         sep=""
       )
     )

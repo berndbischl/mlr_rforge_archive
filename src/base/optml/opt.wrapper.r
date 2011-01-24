@@ -24,12 +24,12 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.wrapper"),
-		def = function(.Object, learner, resampling, control, measures) {
+		def = function(.Object, learner, resampling, control, measure) {
 			if (missing(learner))
 				return(.Object)
 			.Object@resampling = resampling
 			.Object@control = control
-			.Object@measures = measures
+			.Object@measure = measure
 			callNextMethod(.Object, learner, par.descs=list(), par.vals=list())
 		}
 )

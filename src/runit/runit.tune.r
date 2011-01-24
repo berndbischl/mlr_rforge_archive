@@ -95,9 +95,49 @@ test.tune <- function() {
 	
 	
 	# cmaes with optim
-	ctrl = cmaes.control(start=c(C=0, sigma=0), maxit=5, scale=function(x) 2^x)
-	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)
 	
   	
 }
+
+test.tune.cmaes = function() {
+  res = make.res.desc("cv", iters=2)
+  b1 = make.bounds(
+    numeric.parameter("cp", lower=0.001, upper=1), 
+    integer.parameter("minsplit", lower=1, upper=10)
+  )
+  
+  b1 = make.bounds(
+    numeric.parameter("C", scale=function(x) 2^x), 
+    numeric.parameter("sigma", scale=function(x) 2^x) 
+  )
+  b2 = make.bounds(
+    numeric.parameter("C", scale=function(x) 2^x), 
+    discrete.parameter("kernel", vals=c("rbfdot", "polydot"))
+  )
+  
+  ctrl1 = cmaes.control(start=c(C=0, sigma=0), maxit=5)
+  tr1 = tune("classif.ksvm", multiclass.task, res, control=ctrl1)
+  
+  ctrl = diceoptim.control()
+  
+  ctrl1 = cmaes.control(start=c(C=0), maxit=5)
+  checkException(tune("classif.ksvm", multiclass.task, cv.instance, bounds=b1, control=ctrl2))
+  checkException(tune("classif.ksvm", multiclass.task, cv.instance, bounds=b1, control=ctrl2))
+} 
+
+
+
+test.tune.diceoptim = function() {
+  res = make.res.desc("cv", iters=2)
+  b1 = make.bounds(numeric.parameter("cp", lower=0.001, upper=1), integer.parameter("minsplit", lower=1, upper=10))
+  
+  ctrl = diceoptim.control()
+  
+  tr1 = tune("classif.rpart", multiclass.task, cv.instance, control=ctrl)
+  
+  b2 = make.bounds(numeric.parameter("cp", lower=0.001, upper=1), integer.parameter("minsplit", lower=1, upper=10))
+  checkException(tune("classif.rpart", multiclass.task, cv.instance, control=ctrl))
+  
+} 
+  
 

@@ -21,7 +21,7 @@ setMethod(
   def = function(.Object, pars) {
     if(any(sapply(pars, function(x) !is(x, "par.desc"))))
       stop("All bounds parameters must be of class 'par.desc'!")
-    ns = sapply(pars, function(x) x@name)
+    ns = sapply(pars, function(x) x@id)
     if (any(duplicated(ns)))
       stop("All bounds parameters must have unique names!")
     names(pars) = ns
@@ -159,7 +159,7 @@ setMethod(
   def = function(x) { 
     v = Filter(function(y) y@type %in% c("integer", "numeric"), x@pars)
     z = sapply(v, function(y) y@constraints$lower)
-    names(z) = sapply(v, function(y) y@name)
+    names(z) = sapply(v, function(y) y@id)
     return(z)
   }
 )
@@ -182,7 +182,7 @@ setMethod(
   def = function(x) { 
     v = Filter(function(y) y@type %in% c("integer", "numeric"), x@pars)
     z = sapply(v, function(y) y@constraints$upper)
-    names(z) = sapply(v, function(y) y@name)
+    names(z) = sapply(v, function(y) y@id)
     return(z)
   }
 )

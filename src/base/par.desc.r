@@ -1,81 +1,46 @@
-##' Description class for an optimization parameter.
-##' 
-##' Construct them with \code{numeric.parameter},
-##' \code{integer.parameter}, \code{logical.parameter} or
-##' \code{discrete.parameter}. 
-##'  
-##' Getter.\cr
-##' 
-##' \describe{
-##'  \item{name [string]}{Name of parameter.}
-##'  \item{type [string]}{Type of parameter: numeric, integer, discrete, logical,
-##'    unknown.}
-##'  \item{lower [single numeric | NULL]}{Lower bound for numeric/integer parameter.
-##'    \code{NULL} otherwise.}
-##'  \item{upper [single numeric | NULL]}{Upper bound for numeric/integer parameter.
-##'    \code{NULL} otherwise.}
-##'  \item{vals [named list]}{Allowed values for discrete parameter. \code{NULL}
-##'    otherwise.}
-##' }
-##' 
-##' @exportClass par.desc
-##'
-##' @seealso \code{\link{is.feasible}} to check if a parameter setting
-##' is valid, \code{\link{random.val}} to generate a random parameter
-##' setting, \code{\link{par.desc.learner}} to describe parameters of
-##' learner and \code{\link{bounds}} to retrieve the bounds of a
-##' numeric or integer parameter.
-##' 
-##' @title Description class for an optimization parameter.
+#' Description class for an optimization parameter.
+#' 
+#' Construct them with \code{link{numeric.parameter}}, \code{\link{integer.parameter}, 
+#' \code{\link{logical.parameter}} or \code{\link{discrete.parameter}}. 
+#' 
+#' 
+#' @slot id [character(1)] Name of parameter.  
+#' @slot type [character(1)] Type of parameter: 'numeric', 'integer', 'discrete', 'logical'.  
+#' @slot constraints [list] List of constraints, for numeric/integer this contains this contains numeric(1) 
+#'   entries 'lower' and 'upper', for 'discrete' it contains the named list 'vals' of values.  
+#' @slot scale [function(x)] Optional function to rescale a parameter. Defaults to 'identity'.   
+#' 
+#' @exportClass par.desc
+#'
+#' @seealso \code{\link{is.feasible}}, \code{\link{random.val}},  \code{\link{par.desc.learner}},  \code{\link{make.bounds}} 
+#' 
+#' @title Description class for an optimization parameter.
 setClass("par.desc",
          contains = c("object"),
          representation = representation(
-           name = "character",
+           id = "character",
            type = "character",
-           constraints = "list"
-           ))
+           constraints = "list",
+           scale = "function" 
+))
 
 #' Constructor.
 setMethod(f = "initialize",
           signature = signature("par.desc"),
-          def = function(.Object, name, type, constraints) {
-            if (missing(name))
+          def = function(.Object, id, type, constraints, scale) {
+            if (missing(id))
               return(make.empty(.Object))
-            .Object@name = name
+            .Object@id = id
             .Object@type = type
             .Object@constraints = constraints
+            ns = names(formals(scale))
+            .Object@scale = scale
             .Object
           })
 
-#' @rdname par.desc-class
-setMethod(
-  f = "[",
-  signature = signature("par.desc"),
-  def = function(x,i,j,...,drop) {
-    type = x@type
-    if (i == "vals") {
-      if (type != "discrete")
-        return(NULL)
-      else
-        return(x@constraints$vals)
-    }
-    if (i == "lower") {
-      if (type != "numeric" && type != "integer")
-        return(NULL)
-      else
-        return(x@constraints$lower)
-    }
-    if (i == "upper") {
-      if (type != "numeric" && type != "integer")
-        return(NULL)
-      else
-        return(x@constraints$upper)
-    }
-    callNextMethod()
-  }
-)
 
 
+#' @rdname to.string
 
 setMethod(
   f = "to.string",
