@@ -7,9 +7,6 @@
 #'		Data of task to resample from. Prefer to pass this instead of \code{size}.
 #' @param size [\code{\link{integer}}] \cr
 #'		Size of the data set to resample. Can be used instead of \code{task}.
-#' @param predict [character | factor] \cr
-#'   What to predict during resampling: "train", "test" or "both" sets. If missing, 
-#'   predict behaviour of \code{desc} is taken - which is usually "test".
 #' 
 #' @return A \code{\linkS4class{resample.instance}} object.
 #' @export 
@@ -19,15 +16,9 @@
 
 setGeneric(
 		name = "make.res.instance",
-		def = function(desc, task, size, predict) {
+		def = function(desc, task, size) {
       if (!missing(size) && is.numeric(size))
         size = as.integer(size)
-      if (missing(predict))
-        predict = desc["predict"]
-      if (is.character(predict) && length(predict) == 1)
-        predict = replicate(desc["iters"], predict)
-      if (is.character(predict))
-        predict = factor(predict, levels=c("train", "test", "both"))
       standardGeneric("make.res.instance")
 		}
 )
@@ -38,9 +29,9 @@ setGeneric(
 
 setMethod(
 		f = "make.res.instance",
-		signature = c(desc="resample.desc", task="missing", size="integer", predict="factor"),
-		def = function(desc, task, size, predict) {
-			make.res.i(desc@instance.class, desc=desc, size=size, task=NULL, predict=predict)
+		signature = c(desc="resample.desc", task="missing", size="integer"),
+		def = function(desc, task, size) {
+			make.res.i(desc@instance.class, desc=desc, size=size, task=NULL)
 		}
 )
 
@@ -49,14 +40,14 @@ setMethod(
 
 setMethod(
 		f = "make.res.instance",
-		signature = c(desc="resample.desc", task="learn.task", size="missing", predict="factor"),
-		def = function(desc, task, size, predict) {
-			make.res.i(desc@instance.class, desc=desc, task=task, blocking=task["blocking"], predict=predict)
+		signature = c(desc="resample.desc", task="learn.task", size="missing"),
+		def = function(desc, task, size) {
+			make.res.i(desc@instance.class, desc=desc, task=task, blocking=task["blocking"])
 		}
 )
 
 
-make.res.i = function(i.class, desc, task=NULL, size=as.integer(NA), blocking=factor(c()), predict) {
+make.res.i = function(i.class, desc, task=NULL, size=as.integer(NA), blocking=factor(c())) {
   if (!is.null(task)) {
     size = task["size"]
   }
@@ -77,10 +68,5 @@ make.res.i = function(i.class, desc, task=NULL, size=as.integer(NA), blocking=fa
 	} else { 
 		inst = new(i.class, desc=desc, size=size, task=task)
 	}
-  if (length(predict) != desc["iters"])
-    stop("Argument predict must be of same length as number of iterations!")
-  if (!setequal(levels(predict), c("train", "test", "both")))
-    stop("Argument predict must only contain: train, test, both!")
-  inst@predict = predict
 	return(inst)
 }

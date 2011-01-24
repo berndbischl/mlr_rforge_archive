@@ -1,21 +1,37 @@
 #' Given a resampling strategy, which defines sets of training and test indices, 
-#' fits the selected learner using the training sets and performs predictions for the test sets. 
+#' fits the selected learner using the training sets and performs predictions for the training/test sets.
+#' (This depends on what you selected in the resampling strategy, see parameter \code{predict} in \code{\link{make.res.desc}}.)
+#' Then performance measures are calculated and aggregated. You are able to return all fitted models (parameter \code{models})
+#' or extract specific parts of the models (parameter \code{extract}) as returning all of them completely might be memory intensive.    
+#' 
 #' For construction of the resampling strategies use the factory methods \code{\link{make.res.desc}} and 
 #' \code{\link{make.res.instance}}.
-#' 
-#' Optionally either the complete, fitted models or - to save memory - extracted parts from the models
-#' can be returned.
 #'
-#' @param learner [\code{\linkS4class{learner}} or \code{\link{character}}]\cr 
-#'        Learning algorithm.   
+#' @param learner [\code{\linkS4class{learner}} | \code{\link{character}}]\cr 
+#'   Learning algorithm.   
 #' @param task [\code{\linkS4class{learn.task}}] \cr
-#'        Learning task.
+#'   Learning task.
 #' @param resampling [\code{\linkS4class{resample.desc}} or \code{\linkS4class{resample.instance}}] \cr
-#'        Resampling strategy. 
-#' @param extract [\code{\link{function}}] \cr 
-#'       Function used to extract information from fitted models, e.g. can be used to save the complete list of fitted models. 
-#'        Default is to extract nothing. 
-#' @return \code{\linkS4class{resample.prediction}}.
+#'   Resampling strategy. If a description is passed, it is instantiated automatically.
+#' @param measures [\code{\linkS4class{measure}} | list of \code{\linkS4class{measure}}] \cr
+#'   Performance measures to evaluate. See \code{\link{measures}}.
+#' @param models [logical(1)] \cr 
+#'   Should all fitted models be returned? Default is \code{FALSE}. 
+#' @param extract [function(model)] \cr 
+#'   Function used to extract information from a fitted model during resampling. 
+#'   Is applied to every \code\{linkS4class{wrapped.model}} resulting from calls to \code{\link{train}} during resampling.
+#'   Default is to extract nothing. 
+#' @return .
+#' 
+#' @return List of 
+#' \describe {
+#'   \item{measures.test [data.frame]}{Rows correspond to test sets in resampling iterations, columns to performance measures.}  	
+#'   \item{measures.train [data.frame]}{Rows correspond to training sets in resampling iterations, columns to performance measures.}  	
+#'   \item{aggr [named numeric]}{Vector of aggregated performance values. Names are coded like this <measure>.<aggregation>.}  	
+#'   \item{pred [\code{\linkS4class{resample.prediction}}]}{Container for all predictions during resampling.}  	
+#'   \item{models [list of \code\{linkS4class{wrapped.model}}]}{List of fitted models or \code{NULL}.}  	
+#'   \item{extract [list]}{List of extracted parts from fitted models or \code{NULL}.}  	
+#' } 
 #' 
 #' @export
 #' @rdname resample 

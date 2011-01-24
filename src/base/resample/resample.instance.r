@@ -7,16 +7,10 @@ roxygen()
 #' Don't create objects from this class directly but use the corresponding subclasses.
 #' For construction simply use the factory method \code{\link{make.res.instance}}. 
 #' 
-#' Getter.
-#' 
-#' \describe{
-#'  \item{desc [\code{\linkS4class{resample.desc}}]}{Resample description.}
-#' 	\item{size [integer]}{Number of observations.}
-#'  \item{train.inds [list]}{List of of training indices for all iterations.}
-#'  \item{test.inds [list]}{List of test indices for all iterations.}
-#'  \item{predict [factor]}{What to predict during resampling: "train", "test" or "both" sets.}
-#'  \item{group [factor]}{Optional grouping of resampling iterations.}
-#' }
+#' @slot desc [\code{\linkS4class{resample.desc}}] Resample description. 
+#' @slot train.inds [list of integer] List of of training indices for all iterations. 
+#' @slot test.inds [list of integer] List of of test indices for all iterations. 
+#' @slot group [factor] Optional grouping of resampling iterations. This encodes whether specfic iterations 'belong together' (e.g. repeated CV), and it can later be used to aggregate performance values accordingly. Default is 'factor()'. 
 #' 
 #' @rdname resample.instance-class
 #' 
@@ -36,7 +30,6 @@ setClass(
 				size = "integer",
 				train.inds = "list",
         test.inds = "list",
-        predict = "factor",
         group = "factor"
     )
 )
@@ -68,7 +61,6 @@ setMethod(
         error("Lengths of 'train.inds' and 'test.inds' must be equal!")
       .Object@train.inds = train.inds
       .Object@test.inds = test.inds
-      .Object@predict = factor(rep("test", desc["iters"]), levels=c("train", "test", "both"))
       .Object@group = group
       return(.Object)
 		}
