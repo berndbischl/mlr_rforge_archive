@@ -7,7 +7,8 @@ roxygen()
 #' Don't create objects from this class directly but use the corresponding subclasses.
 #' For construction simply use the factory method \code{\link{make.res.instance}}. 
 #' 
-#' @slot desc [\code{\linkS4class{resample.desc}}] Resample description. 
+#' @slot desc [\code{\linkS4class{resample.desc}}] Resample description that was used to create the instance. 
+#' @slot size [integer(1)] Number of observations.  
 #' @slot train.inds [list of integer] List of of training indices for all iterations. 
 #' @slot test.inds [list of integer] List of of test indices for all iterations. 
 #' @slot group [factor] Optional grouping of resampling iterations. This encodes whether specfic iterations 'belong together' (e.g. repeated CV), and it can later be used to aggregate performance values accordingly. Default is 'factor()'. 

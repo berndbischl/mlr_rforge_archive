@@ -86,7 +86,6 @@ allowed.rd.files <<- c(
 		
 		"tune.Rd",
 		"tune.threshold.Rd",
-		"combine.ranges.Rd",
 		"tune.control-class.Rd",
 		"grid.control.Rd",
 #		"ps.control.Rd",
