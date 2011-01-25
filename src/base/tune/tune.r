@@ -14,18 +14,16 @@ roxygen()
 #' The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal hyperparameters.
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
-#'        Learning algorithm. See \code{\link{learners}}.  
+#'   Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{learn.task}}] \cr
-#'        Learning task.   
+#'   Learning task.   
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
-#'        Resampling strategy to evaluate points in hyperparameter space. At least for grid search, if you pass a description, 
-#' 		  it is instantiated at one, so all points are evaluated on the same training/test sets.	
+#'   Resampling strategy to evaluate points in hyperparameter space. At least for grid search, if you pass a description, 
+#'   it is instantiated at one, so all points are evaluated on the same training/test sets.	
 #' @param control [\code{\linkS4class{tune.control}}] \cr
-#'        Control object for search method. Also selects the optimization algorithm for tuning.   
-#' @param measures [see \code{\link{measures}}]\cr
-#'        Performance measures. 
-#' @param model [boolean]\cr
-#'        Should a final model be fitted on the complete data with the best found hyperparameters? Default is FALSE.
+#'   Control object for search method. Also selects the optimization algorithm for tuning.   
+#' @param measure [\code{\linkS4class{measure}}]\cr
+#'   Performance measure to optimize. 
 #' 
 #' @return \code{\linkS4class{opt.result}}.
 #' 
@@ -39,10 +37,8 @@ roxygen()
 tune <- function(learner, task, resampling, measure, bounds, control, log) {
   if (is.character(learner))
     learner <- make.learner(learner)
-	if (missing(measures))
-		measures = default.measures(task)
-  if (is(measures, "measure"))
-    measures = list(measures)   
+	if (missing(measure))
+		measure = default.measures(task)[[1]]
   cl = as.character(class(control))
 	optim.func = switch(cl,
 			grid.control = tune.grid,
@@ -59,7 +55,7 @@ tune <- function(learner, task, resampling, measure, bounds, control, log) {
 	
 	#.mlr.local$n.eval <<- 0
 	
-	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures)
+	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measure=measure)
 
 	
 	or@opt$par = .mlr.scale.par(or@opt$par, bounds)

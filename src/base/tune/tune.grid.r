@@ -1,4 +1,4 @@
-tune.grid <- function(learner, task, resampling, measure, bounds, control) {
+tune.grid <- function(learner, task, resampling, measure, bounds, control, logger) {
   if (any(sapply(bounds@pars, function(x) x@type != "discrete")))
     stop("Grid search can only be applied to discrete parameters!")
   # todo: should we really do this? or allow both possibilities? what about wrapper?
@@ -8,12 +8,12 @@ tune.grid <- function(learner, task, resampling, measure, bounds, control) {
   # drop names from par.descs
   ranges = lapply(control["par.descs"], function(y) unlist(y["vals", names=FALSE])) 
   names(ranges) = control["par.names"]	
-	tune.1(learner, task, resampling, ranges, measures, control)
+	tune.1(learner, task, resampling, ranges, measure, control)
 }
 
 
 
-tune.1 <- function(learner, task, resampling, ranges, measures, control) {
+tune.1 <- function(learner, task, resampling, ranges, measure, control) {
   ns = names(ranges)
   if(any(is.na(ns) | ns == "")) {
     stop("All element of a ranges list have to be named!")
@@ -22,7 +22,7 @@ tune.1 <- function(learner, task, resampling, ranges, measures, control) {
 	# todo: make this better 
 	if (length(ranges) == 0) {
 		bs = eval.state.tune(learner=learner, task=task, resampling=resampling,  
-				measures=measures, control=control, 
+				measure=measure, control=control, 
 				par=list(), event="grid")
 		path = add.path.tune(list(), bs, T)	
 	} else {
@@ -30,10 +30,10 @@ tune.1 <- function(learner, task, resampling, ranges, measures, control) {
 		
 		parsets = lapply(seq(length=nrow(grid)), function(i) as.list(grid[i,,drop=FALSE]))	
 		es = eval.states.tune(learner=learner, task=task, resampling=resampling,  
-				measures=measures, control=control, 
+				measure=measure, control=control, 
 				pars=parsets, event="grid")
 		
-		bs = select.best.state(es, measures[[1]])
+		bs = select.best.state(es, measure)
 		path = add.path.els.tune(path=list(), ess=es, best=bs)
 	}
 	new("opt.result", control=control, opt=make.path.el(bs), path=path)

@@ -3,15 +3,13 @@
 #' 
 #' 
 #' @param pred [\code{\linkS4class{prediction}}] \cr
-#' 		  Prediction object to use for tuning the treshold.
-#' @param measures [see \code{\link{measures}}]
-#'        Performance measures.
+#'   Prediction object to use for tuning the treshold.
+#' @param measure [\code{\linkS4class{measure}}]\cr
+#'   Performance measure to optimize. 
 #' @param task [\code{\linkS4class{learn.task}}] \cr
-#'        Learning task. Rarely neeeded, only when required for the performance measure. 
-#' @param minimize [logical] \cr 
-#'       Minimize performance measure? Default is TRUE.
+#'   Learning task. Rarely neeeded, only when required for the performance measure. 
 #' @param thresholds [integer] \cr
-#' 		  Number of thresholds to try in tuning.  	
+#'   Number of thresholds to try in tuning.  	
 #' 
 #' @return A list with with the following components: "th" is the optimal threshold, pred a prediction object based on "th", 
 #' 		  		"th.seq" a numerical vector of threhold values which were tried and "perf" their respective performance values.  	 
@@ -22,7 +20,7 @@
 
 tune.threshold = function(pred, measure, task, model, thresholds=100) {
   td = pred["desc"]
-	if (missing(measures))
+	if (missing(measure))
 		measure = default.measures(td)[[1]]
   probs = pred["prob"]
   

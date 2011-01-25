@@ -104,8 +104,10 @@ setMethod(
 )
 
 
+#' @exportMethod lower
 setGeneric(name = "lower", def = function(x) standardGeneric("lower"))
 
+#' @export 
 setMethod(
   f = "lower",
   signature = signature(x="par.desc"), 
@@ -116,6 +118,7 @@ setMethod(
       x@constraints$lower
 )
 
+#' @export 
 setMethod(
   f = "lower",
   signature = signature(x="bounds"), 
@@ -127,8 +130,10 @@ setMethod(
   }
 )
 
+#' @exportMethod upper
 setGeneric(name = "upper", def = function(x) standardGeneric("upper"))
 
+#' @export 
 setMethod(
   f = "upper",
   signature = signature(x="par.desc"), 
@@ -139,6 +144,7 @@ setMethod(
       x@constraints$upper
 )
 
+#' @export 
 setMethod(
   f = "upper",
   signature = signature(x="bounds"), 

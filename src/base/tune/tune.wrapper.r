@@ -5,13 +5,13 @@
 #' hyperparameters and returned.    
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
-#'        Learning algorithm. See \code{\link{learners}}.  
+#'   Learning algorithm. See \code{\link{learners}}.  
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
-#'        Resampling strategy to evaluate points in hyperparameter space.
-#' @param control 
-#'        Control object for search method. Also selects the optimization algorithm for tuning.   
-#' @param measures [see \code{\link{measures}}]
-#'        Performance measures. 
+#'   Resampling strategy to evaluate points in hyperparameter space.
+#' @param control [\code{\linkS4class{tune.control}}] \cr
+#'   Control object for search method. Also selects the optimization algorithm for tuning.   
+#' @param measure [\code{\linkS4class{measure}}]\cr
+#'   Performance measure to optimize. 
 #' 
 #' @return \code{\linkS4class{learner}}.
 #' 
@@ -21,7 +21,7 @@
 #'   
 #' @title Fuse learner with tuning.
 
-make.tune.wrapper <- function(learner, resampling, control, measures) {
-	make.opt.wrapper(learner, resampling, control, measures)
+make.tune.wrapper <- function(learner, resampling, control, measure) {
+	make.opt.wrapper(learner, resampling, control, measure)
 }
 

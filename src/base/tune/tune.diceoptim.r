@@ -1,4 +1,4 @@
-tune.diceoptim = function(learner, task, resampling, measure, bounds, control) {
+tune.diceoptim = function(learner, task, resampling, measure, bounds, control, logger) {
   require.packs(c("DiceOptim", "lhs"), "tune.diceoptim")
   
   if (any(sapply(bounds@pars, function(x) !(x@type %in% c("numeric", "integer")))))
@@ -16,7 +16,7 @@ tune.diceoptim = function(learner, task, resampling, measure, bounds, control) {
   ns = colnames(des)
 
   penv = new.env()
-  f = make.tune.f(ns, penv, learner, task, resampling, measures, control) 
+  f = make.tune.f(ns, penv, learner, task, resampling, measure, control, logger) 
   
   y = apply(des, 1, f) 
   
