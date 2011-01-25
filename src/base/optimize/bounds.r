@@ -48,47 +48,6 @@ setMethod(
 )
 
 
-#' Getter.
-#' @rdname bounds-class
-
-setMethod(
-  f = "[",
-  signature = signature("bounds"),
-  def = function(x,i,j,...,drop) {
-    if (i == "names")  {
-      return(sapply(x@pars, function(y) y["par.name"]))
-    }     
-    if (i == "nums")  {
-      v = Filter(function(y) is(y, "par.desc.double") && y["data.type"] == "numeric", x@pars)
-      return(sapply(v, function(y) y["par.name"]))
-    }     
-    if (i == "ints")  {
-      v = Filter(function(y) is(y, "par.desc.double") && y["data.type"] == "integer", x@pars)
-      return(sapply(v, function(y) y["par.name"]))
-    }     
-    if (i == "discs")  {
-      v = Filter(function(y) is(y, "par.desc.disc"), x@pars)
-      return(sapply(v, function(y) y["par.name"]))
-    }     
-    if (i == "lower")  {
-    }     
-    if (i == "upper")  {
-      v = Filter(function(y) is(y, "par.desc.double"), x@pars)
-      z = sapply(v, function(y) y["upper"])
-      names(z) = sapply(v, function(y) y@par.name)
-      return(z)
-    }     
-    if (i == "vals")  {
-      v = Filter(function(y) is(y, "par.desc.disc"), x@pars)
-      z = lapply(v, function(y) y["vals"])
-      names(z) = sapply(v, function(y) y@par.name)
-      return(z)
-    }     
-    callNextMethod()
-  }
-)
-
-
 #' Construct a bounds object.
 #' 
 #' @param pars [list of \code{\linkS4class{learn.task}}] \cr
@@ -154,7 +113,7 @@ setMethod(
     if(!x@type %in% c("integer", "numeric")) 
       stop("Only available for numeric or integer parameter!") 
     else 
-      x@lower
+      x@constraints$lower
 )
 
 setMethod(
@@ -177,7 +136,7 @@ setMethod(
     if(!x@type %in% c("integer", "numeric")) 
       stop("Only available for numeric or integer parameter!") 
     else 
-      x@upper
+      x@constraints$upper
 )
 
 setMethod(

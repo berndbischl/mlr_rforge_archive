@@ -36,9 +36,9 @@ setMethod(
     
     # l is for reject option. cannot be done with mlr atm
     par.descs = list(
-      integer.learner.parameter(name="k", default=1L, lower=1L),
-      logical.learner.parameter(name="use.all", default=TRUE, requires=expression(algorithm == "VR")),
-      discrete.learner.parameter(name="algorithm", default="cover_tree", vals=list("cover_tree", "kd_tree", "VR"))
+      integer.learner.parameter(id="k", default=1L, lower=1L),
+      logical.learner.parameter(id="use.all", default=TRUE, requires=expression(algorithm == "VR")),
+      discrete.learner.parameter(id="algorithm", default="cover_tree", vals=list("cover_tree", "kd_tree", "VR"))
     )
     callNextMethod(.Object, pack="FNN", desc=desc, par.descs=par.descs)
   }

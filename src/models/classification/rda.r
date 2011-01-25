@@ -33,24 +33,24 @@ setMethod(
 					costs = FALSE
 			)
 			par.descs = list(
-					numeric.learner.parameter(name="lambda", lower=0, upper=1),
-					numeric.learner.parameter(name="gamma", lower=0, upper=1),
-					logical.learner.parameter(name="crossval", default=TRUE),
-          integer.learner.parameter(name="fold", default=10L, lower=1L),
-					numeric.learner.parameter(name="train.fraction", default=0.5, lower=0, upper=1),
-					logical.learner.parameter(name="crossval", default=TRUE),
-					discrete.learner.parameter(name="schedule", default=1L, vals=1:2, requires=expression(simAnn==FALSE)),
-					numeric.learner.parameter(name="T.start", default=0.1, lower=0, requires=expression(simAnn==TRUE)),
-					numeric.learner.parameter(name="halflife", default=0.1, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
-					numeric.learner.parameter(name="zero.temp", default=0.01, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
-					numeric.learner.parameter(name="alpha", default=2, lower=1, requires=expression(simAnn==TRUE || schedule==2)),
-          integer.learner.parameter(name="K", default=100L, lower=1L, requires=expression(simAnn==TRUE || schedule==2)),
-					discrete.learner.parameter(name="kernel", default="triangular", 
+					numeric.learner.parameter(id="lambda", lower=0, upper=1),
+					numeric.learner.parameter(id="gamma", lower=0, upper=1),
+					logical.learner.parameter(id="crossval", default=TRUE),
+          integer.learner.parameter(id="fold", default=10L, lower=1L),
+					numeric.learner.parameter(id="train.fraction", default=0.5, lower=0, upper=1),
+					logical.learner.parameter(id="crossval", default=TRUE),
+					discrete.learner.parameter(id="schedule", default=1L, vals=1:2, requires=expression(simAnn==FALSE)),
+					numeric.learner.parameter(id="T.start", default=0.1, lower=0, requires=expression(simAnn==TRUE)),
+					numeric.learner.parameter(id="halflife", default=0.1, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
+					numeric.learner.parameter(id="zero.temp", default=0.01, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
+					numeric.learner.parameter(id="alpha", default=2, lower=1, requires=expression(simAnn==TRUE || schedule==2)),
+          integer.learner.parameter(id="K", default=100L, lower=1L, requires=expression(simAnn==TRUE || schedule==2)),
+					discrete.learner.parameter(id="kernel", default="triangular", 
 							vals=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian")),
-          logical.learner.parameter(name="trafo", default=TRUE),
-          logical.learner.parameter(name="SimAnn", default=FALSE),
+          logical.learner.parameter(id="trafo", default=TRUE),
+          logical.learner.parameter(id="SimAnn", default=FALSE),
           # change default, so error is only estimated at request of user
-          logical.learner.parameter(name="estimate.error", default=FALSE, flags=list(optimize=FALSE, pass.default=TRUE))
+          logical.learner.parameter(id="estimate.error", default=FALSE, flags=list(optimize=FALSE, pass.default=TRUE))
 			)
 			
 			callNextMethod(.Object, pack="klaR", desc=desc, par.descs=par.descs)

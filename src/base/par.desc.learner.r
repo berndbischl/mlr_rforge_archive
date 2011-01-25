@@ -29,7 +29,7 @@ setClass(
 #' Constructor.
 setMethod(f = "initialize",
   signature = signature("par.desc.learner"),
-  def = function(.Object, name, type, constraints, has.default, default, when, flags, requires) {
+  def = function(.Object, id, type, constraints, has.default, default, when, flags, requires) {
     if (missing(has.default))
       return(make.empty(.Object))
     .Object@has.default = has.default
@@ -37,7 +37,7 @@ setMethod(f = "initialize",
     .Object@when = when
     .Object@flags = flags
     .Object@requires = requires
-    callNextMethod(.Object, name, type, constraints)
+    callNextMethod(.Object, id, type, constraints)
 })
 
 

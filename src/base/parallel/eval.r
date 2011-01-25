@@ -11,10 +11,11 @@ resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
   ms.test = rep(NA, length(measures))
   pred.train = NULL
   pred.test = NULL
-  if (rin["predict"][i] == "train") {
+  pp = rin@desc@predict 
+  if (pp == "train") {
     pred.train = predict(m, task, subset=train.i)
     ms.train = sapply(measures, function(pm) performance(task=task, model=m, pred=pred.train, measure=pm))
-  } else if (rin["predict"][i] == "test") {
+  } else if (pp == "test") {
     pred.test = predict(m, task, subset=test.i)
     ms.test = sapply(measures, function(pm) performance(task=task, model=m, pred=pred.test, measure=pm))    
   } else { # "both"
@@ -35,10 +36,10 @@ resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
   )
 }
 
-eval.rf <- function(learner, task, resampling, measures, control, par) {
+eval.rf <- function(learner, task, resampling, measures, bounds, control, par) {
 
 	if (is(control, "tune.control")) {
-		par.vals = .mlr.scale.par(par, control)
+		par.vals = .mlr.scale.par(par, bounds)
     learner = set.hyper.pars(learner, par.vals=par.vals)
   }
   if (is(control, "varsel.control")) {

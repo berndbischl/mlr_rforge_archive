@@ -35,11 +35,11 @@ setMethod(
 			)
       
       par.descs = list(
-        integer.learner.parameter(name="F", default=3L, lower=2L),
-        numeric.learner.parameter(name="N", default=2, lower=0),
-        integer.learner.parameter(name="O", default=2L, lower=1L),
-        logical.learner.parameter(name="E", default=FALSE),
-        logical.learner.parameter(name="P", default=FALSE)
+        integer.learner.parameter(id="F", default=3L, lower=2L),
+        numeric.learner.parameter(id="N", default=2, lower=0),
+        integer.learner.parameter(id="O", default=2L, lower=1L),
+        logical.learner.parameter(id="E", default=FALSE),
+        logical.learner.parameter(id="P", default=FALSE)
       )      
 			callNextMethod(.Object, pack="RWeka", desc=desc, par.descs=par.descs)
 		}

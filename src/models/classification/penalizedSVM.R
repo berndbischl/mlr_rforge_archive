@@ -35,11 +35,11 @@ setMethod(
 			)
 			
       par.descs = list(
-        discrete.learner.parameter(name="fs.method", default="scad", vals=c("scad","1norm", "DrHSVM", "scad+L2")),
-        numeric.learner.parameter(name="maxevals", default=500L),
-        logical.learner.parameter(name="calc.class.weights", default=FALSE),
-        numeric.learner.parameter(name="lambda1", lower=0),
-        numeric.learner.parameter(name="lambda2", lower=0)
+        discrete.learner.parameter(id="fs.method", default="scad", vals=c("scad","1norm", "DrHSVM", "scad+L2")),
+        numeric.learner.parameter(id="maxevals", default=500L),
+        logical.learner.parameter(id="calc.class.weights", default=FALSE),
+        numeric.learner.parameter(id="lambda1", lower=0),
+        numeric.learner.parameter(id="lambda2", lower=0)
       )
       
 			callNextMethod(.Object, pack="penalizedSVM", desc=desc, par.descs=par.descs)

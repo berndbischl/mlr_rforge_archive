@@ -1,11 +1,11 @@
 #' @include control.tune.r
 roxygen()
 
-#' @exportClass DiceOptim.control
-#' @rdname DiceOptim.control 
+#' @exportClass diceoptim.control
+#' @rdname diceOptim.control 
 
 setClass(
-  "DiceOptim.control",
+  "diceoptim.control",
   contains = c("tune.control")
 )
 
@@ -17,19 +17,19 @@ setClass(
 #' @param ... Further control parameters passed to the \code{control} argument of \code{\link[DiceOptim]{optim}}.
 #'        
 #' @return Control structure for tuning.
-#' @exportMethod DiceOptim.control
-#' @rdname DiceOptim.control 
+#' @exportMethod diceoptim.control
+#' @rdname diceoptim.control 
 #' @title Control for tuning with DiceOptim. 
 
 
 setGeneric(
-  name = "DiceOptim.control",
+  name = "diceoptim.control",
   def = function(path, init.des.points, ...) {
     if (missing(path))
       path = TRUE
     if (missing(init.des.points))
       init.des.points = 5L
-    standardGeneric("DiceOptim.control")
+    standardGeneric("diceoptim.control")
   }
 )
 
@@ -37,9 +37,9 @@ setGeneric(
 #' @rdname myspo.control 
 
 setMethod(
-  f = "DiceOptim.control",
+  f = "diceoptim.control",
   signature = signature(path="logical", init.des.points="integer" ),
   def = function(path, init.des.points, ...) {
-    new("DiceOptim.control", path=path, start=list(), init.des.points=init.des.points,  ...)
+    new("diceoptim.control", path=path, start=list(), init.des.points=init.des.points,  ...)
   }
 )

@@ -24,7 +24,7 @@ setMethod(
     )
     
     par.descs = list(      
-      discrete.learner.parameter(name="modelfun", default="FO", vals=c("FO", "TWI", "SO"), flags=list(pass.default=TRUE))
+      discrete.learner.parameter(id="modelfun", default="FO", vals=c("FO", "TWI", "SO"), flags=list(pass.default=TRUE))
     )
     
     callNextMethod(.Object, pack="rsm", desc=desc, par.descs=par.descs)

@@ -49,7 +49,7 @@ tune <- function(learner, task, resampling, measure, bounds, control, log) {
 #			pattern = tune.ps,
 			cmaes.control = tune.cmaes,
 			optim.control = tune.optim,
-      DiceOptim.control = tune.diceoptim,
+      diceoptim.control = tune.diceoptim,
       stop(paste("Tuning algorithm for", cl, "does not exist!"))
 	)		
 	
@@ -62,7 +62,7 @@ tune <- function(learner, task, resampling, measure, bounds, control, log) {
 	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measures=measures)
 
 	
-	or@opt$par = .mlr.scale.par(or@opt$par, control)
+	or@opt$par = .mlr.scale.par(or@opt$par, bounds)
 	if (model) {
     learner = set.hyper.pars(learner, par.vals=or["par"])
 		or@model = train(learner, task) 	
@@ -78,13 +78,7 @@ tune <- function(learner, task, resampling, measure, bounds, control, log) {
 #' @seealso \code{\link{tune.control}}
 #' @title Scale parameter vector. Internal use.
 
-.mlr.scale.par <- function(p, control) {
-	sc = control["scale"]
-	if (identical(sc, identity))
-		y = as.list(p)
-	else
-		y = as.list(sc(unlist(p)))
-	names(y) = control["par.names"]
-	return(y)
+.mlr.scale.par <- function(v, bounds) {
+  mapply(function(p, x) p@scale(x), bounds, v)
 }
 

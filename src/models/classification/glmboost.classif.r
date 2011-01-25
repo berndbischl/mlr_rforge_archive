@@ -38,10 +38,10 @@ setMethod(
 			# cannot pass the function Binomial without lopading the package in the super constructor...
 			x = callNextMethod(.Object, pack="mboost", desc=desc)
 			par.descs = list(
-					discrete.learner.parameter(name="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
-          integer.learner.parameter(name="mstop", default=100L, lower=1L),
-					numeric.learner.parameter(name="nu", default=0.1, lower=0, upper=1),				
-					logical.learner.parameter(name="center", default=FALSE)
+					discrete.learner.parameter(id="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
+          integer.learner.parameter(id="mstop", default=100L, lower=1L),
+					numeric.learner.parameter(id="nu", default=0.1, lower=0, upper=1),				
+					logical.learner.parameter(id="center", default=FALSE)
 			)
 			x@par.descs = par.descs
 			set.hyper.pars(x, family="Binomial")

@@ -34,7 +34,7 @@ setMethod(
 			)
 			
       par.descs = list (
-        logical.learner.parameter(name="diagonal", default=FALSE)
+        logical.learner.parameter(id="diagonal", default=FALSE)
       )
       
       

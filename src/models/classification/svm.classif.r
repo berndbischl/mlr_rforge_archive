@@ -35,17 +35,17 @@ setMethod(
 			)
 			
       par.descs = list(
-        discrete.learner.parameter(name="type", default="C-classification", vals=c("C-classification", "nu-classification")),
-        numeric.learner.parameter(name="cost",  default=1, lower=0, requires=expression(type=="C-classification")),
-        numeric.learner.parameter(name="nu", default=0.5, requires=expression(type=="nu-classification")),
-        discrete.learner.parameter(name="kernel", default="radial", vals=c("linear", "polynomial", "radial", "sigmoid")),
-        integer.learner.parameter(name="degree", default=3L, lower=1L, requires=expression(kernel=="polynomial")),
-        numeric.learner.parameter(name="coef0", default=0, requires=expression(kernel=="polynomial" || kernel=="sigmoid")),
-        integer.learner.parameter(name="gamma",  default=3L, lower=1L, requires=expression(kernel!="linear")),
-        numeric.learner.parameter(name="tolerance", default=0.001, lower=0),
-        logical.learner.parameter(name="shrinking", default=TRUE),
-        logical.learner.parameter(name="probability", default=FALSE, flags=list(optimize=FALSE)),
-        numeric.learner.parameter(name="cachesize", default=40L, flags=list(optimize=FALSE))
+        discrete.learner.parameter(id="type", default="C-classification", vals=c("C-classification", "nu-classification")),
+        numeric.learner.parameter(id="cost",  default=1, lower=0, requires=expression(type=="C-classification")),
+        numeric.learner.parameter(id="nu", default=0.5, requires=expression(type=="nu-classification")),
+        discrete.learner.parameter(id="kernel", default="radial", vals=c("linear", "polynomial", "radial", "sigmoid")),
+        integer.learner.parameter(id="degree", default=3L, lower=1L, requires=expression(kernel=="polynomial")),
+        numeric.learner.parameter(id="coef0", default=0, requires=expression(kernel=="polynomial" || kernel=="sigmoid")),
+        integer.learner.parameter(id="gamma",  default=3L, lower=1L, requires=expression(kernel!="linear")),
+        numeric.learner.parameter(id="tolerance", default=0.001, lower=0),
+        logical.learner.parameter(id="shrinking", default=TRUE),
+        logical.learner.parameter(id="probability", default=FALSE, flags=list(optimize=FALSE)),
+        numeric.learner.parameter(id="cachesize", default=40L, flags=list(optimize=FALSE))
       )
       
 			callNextMethod(.Object, pack="e1071", desc=desc, par.descs=par.descs)

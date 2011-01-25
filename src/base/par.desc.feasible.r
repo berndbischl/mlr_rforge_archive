@@ -1,22 +1,22 @@
 #' @include par.desc.r
 roxygen()
 
-##' Check if a parameter setting satisfies the constraints of the
-##' parameter description.
-##' 
-##' @param x [single value] \cr
-##'   Value to check.  
-##' @param bounds [par.desc] \cr
-##'   Variable description.
-##' @return If \code{x} is a single value, a logical, else a vector of
-##' logicals as long as the vector \code{x}. Note that for discrete
-##' parameters a heuristic is used to figure out if \code{x} is a list
-##' of parameters or in fact a discrete parameter of type list.
-##' 
-##' @rdname is.feasible
-##' @exportMethod is.feasible
-##' 
-##' @title Check if parameter setting is valid.
+#' Check if a parameter setting satisfies the constraints of the
+#' parameter description.
+#' 
+#' @param x [single value] \cr
+#'   Value to check.  
+#' @param bounds [par.desc] \cr
+#'   Variable description.
+#' @return If \code{x} is a single value, a logical, else a vector of
+#' logicals as long as the vector \code{x}. Note that for discrete
+#' parameters a heuristic is used to figure out if \code{x} is a list
+#' of parameters or in fact a discrete parameter of type list.
+#' 
+#' @rdname is.feasible
+#' @exportMethod is.feasible
+#' 
+#' @title Check if parameter setting is valid.
 setGeneric(
   name = "is.feasible",
   def = function(x, bounds) {
@@ -33,13 +33,13 @@ setMethod(
   def = function(x, bounds) {
     type = bounds["type"]
     if (type == "numeric")
-      is.numeric(x) & x >= bounds["lower"] & x <= bounds["upper"] 
+      is.numeric(x) & x >= lower(bounds) & x <= upper(bounds)
     else if (type == "integer")
-      (is.integer(x) | (is.numeric(x) & (x == as.integer(x)))) & x >= bounds["lower"] & x <= bounds["upper"]
+      (is.integer(x) | (is.numeric(x) & (x == as.integer(x)))) & x >= bounds@constraints$lower & x <= bounds@constraints$upper
     else if (type == "discrete") {
       g = function(y) 
-        !is.na(Position(function(v) identical(y, v), bounds["vals"])) ||
-        !is.na(Position(function(v) identical(y, v), names(bounds["vals"]))) 
+        !is.na(Position(function(v) identical(y, v), bounds@constraints$vals)) ||
+        !is.na(Position(function(v) identical(y, v), bounds@constraints$vals)) 
       if (length(x) == 1) return(g(x)) else return(sapply(x, g))
       #if(is.null(x)) any(is.null(bound["vals"])) else x %in% bounds["vals"]
     } else if (type == "logical") {

@@ -35,8 +35,8 @@ setMethod(
 			)
 			
       par.descs = list(
-        numeric.learner.parameter(name="laplace", default=0, lower=0)
-        #numeric.learner.parameter(name="threshold", default=0.001, lower=0)
+        numeric.learner.parameter(id="laplace", default=0, lower=0)
+        #numeric.learner.parameter(id="threshold", default=0.001, lower=0)
       )
       
       

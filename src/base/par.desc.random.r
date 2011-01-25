@@ -27,11 +27,12 @@ setMethod(
   def = function(n, x) {
     type = x["type"]
     if (type == "numeric")
-      runif(n, min=x["lower"], max=x["upper"])
+      runif(n, min=x@constraints$lower, max=x@constraints$upper)
     else if (type == "integer")
-      as.integer(round(runif(n, min=x["lower"], max=x["upper"])))
+      as.integer(round(runif(n, min=x@constraints$lower, max=x@constraints$upper)))
     else if (type == "discrete") {
-      as.factor(sample(names(x["vals"]), n, replace=TRUE))
+      #todo: should this return names or values?
+      sample(names(x@constraints$vals), n, replace=TRUE)
     } else if (type == "logical") {
       sample(c(TRUE, FALSE), n, replace=TRUE)
     } else if (type == "untyped")

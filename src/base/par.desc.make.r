@@ -6,7 +6,7 @@
 #' @param upper [single numeric] \cr
 #'   Upper bound. Default is \code{Inf}.
 #' @return  \code{\linkS4class{par.desc}}
-numeric.parameter = function(name, lower=-Inf, upper=Inf) {
+numeric.parameter = function(id, lower=-Inf, upper=Inf) {
   if (is.integer(lower))
     lower = as.numeric(lower)
   if (is.integer(upper))
@@ -16,7 +16,7 @@ numeric.parameter = function(name, lower=-Inf, upper=Inf) {
   if (upper < lower)
     stop("No possible value!")
   constraints = list(lower=as.numeric(lower), upper=as.numeric(upper))
-  new("par.desc", name, "numeric", constraints)
+  new("par.desc", id, "numeric", constraints)
 } 
 
 
@@ -27,7 +27,7 @@ numeric.parameter = function(name, lower=-Inf, upper=Inf) {
 #' @param upper [single numeric] \cr
 #'   Upper bound. Default is \code{Inf}.
 #' @return  \code{\linkS4class{par.desc}}
-integer.parameter = function(name, lower=-.Machine$integer.max, upper=.Machine$integer.max, default) {
+integer.parameter = function(id, lower=-.Machine$integer.max, upper=.Machine$integer.max, default) {
   if (is.numeric(lower) && length(lower)==1 && is.finite(lower) && lower==as.integer(lower))
     lower = as.integer(lower)
   if (is.numeric(upper) && length(upper)==1 && is.finite(upper) && upper==as.integer(upper))
@@ -37,21 +37,21 @@ integer.parameter = function(name, lower=-.Machine$integer.max, upper=.Machine$i
   if (upper < lower)
     stop("No possible value!")
   constraints = list(lower=as.integer(lower), upper=as.integer(upper))
-  new("par.desc", name, "integer", constraints)
+  new("par.desc", id, "integer", constraints)
 } 
 
 
 #' Boolean variable for optimization.
 #' @return  \code{\linkS4class{par.desc}}
-logical.parameter = function(name) {
-  new("par.desc", name, "logical", list())
+logical.parameter = function(id) {
+  new("par.desc", id, "logical", list())
 } 
 
 #' Discrete variable for optimization.
 #' @param vals [named list] \cr
 #'   Possible values.
 #' @return  \code\linkS4class{par.desc}}
-discrete.parameter = function(name, vals) {
+discrete.parameter = function(id, vals) {
   if (is.vector(vals))
     vals = as.list(vals)
   check.arg(vals, "list")
@@ -71,17 +71,17 @@ discrete.parameter = function(name, vals) {
     }
   }  
   if(!all.els.named(vals)) {
-    stop("Not all values for par. ", name,  " were named and names could not be guessed!")
+    stop("Not all values for par. ", id,  " were named and names could not be guessed!")
   }
   if(any(duplicated(names(vals))))
-    stop("Not all names for par. ", name,  " are unique!")
+    stop("Not all names for par. ", id,  " are unique!")
   constraints = list(vals=vals)
-  new("par.desc", name, "discrete", constraints)
+  new("par.desc", id, "discrete", constraints)
 } 
 
 #' Untyped variable for optimization.
 #' @return \code{\linkS4class{par.desc}}
-untyped.parameter = function(name) {
-  new("par.desc", name, "untyped", list())
+untyped.parameter = function(id) {
+  new("par.desc", id, "untyped", list())
 } 
 

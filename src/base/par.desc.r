@@ -5,27 +5,26 @@
 #' @title Description class for an optimization parameter.
 
 setClass("par.desc",
-         contains = c("object"),
-         representation = representation(
-           id = "character",
-           type = "character",
-           constraints = "list",
-           scale = "function" 
+  contains = c("object"),
+  representation = representation(
+    id = "character",
+    type = "character",
+    constraints = "list",
+    scale = "function" 
 ))
 
 #' Constructor.
 setMethod(f = "initialize",
-          signature = signature("par.desc"),
-          def = function(.Object, id, type, constraints, scale) {
-            if (missing(id))
-              return(make.empty(.Object))
-            .Object@id = id
-            .Object@type = type
-            .Object@constraints = constraints
-            ns = names(formals(scale))
-            .Object@scale = scale
-            .Object
-          })
+  signature = signature("par.desc"),
+  def = function(.Object, id, type, constraints, scale=identity) {
+    if (missing(id))
+      return(make.empty(.Object))
+    .Object@id = id
+    .Object@type = type
+    .Object@constraints = constraints
+    .Object@scale = scale
+    .Object
+})
 
 
 
@@ -36,9 +35,9 @@ setMethod(
   def = function(x) {
     type = x["type"]
     if (type == "numeric")
-      paste("Numeric parameter '", x["name"], "'. Bounds: ", x["lower"], ",", x["upper"], sep="")  
+      paste("Numeric parameter '", x["name"], "'. Bounds: ", lower(x), ",", upper(x), sep="")  
     else if (type == "integer")
-      paste("Integer parameter '", x["name"], "'. Bounds: ", x["lower"], ",", x["upper"], sep="")  
+      paste("Integer parameter '", x["name"], "'. Bounds: ", lower(x), ",", upper(x), sep="")  
     else if (type == "discrete") {
       paste("Discrete parameter '", x["name"], "'. Values: ", paste(names(x["vals"]), collapse=","), sep="") 
     } else if (type == "logical") {

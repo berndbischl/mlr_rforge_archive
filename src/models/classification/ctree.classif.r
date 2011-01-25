@@ -35,17 +35,17 @@ setMethod(
 					costs = FALSE
 			)
       par.descs = list(
-        discrete.learner.parameter(name="teststat", default="quad", vals=c("quad", "max")),
-        discrete.learner.parameter(name="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
-        numeric.learner.parameter(name="mincriterion", default=0.95, lower=0, upper=1),
-        integer.learner.parameter(name="minsplit", default=20L, lower=1L),
-        integer.learner.parameter(name="minbucket", default=7L, lower=1L),
-        logical.learner.parameter(name="stump", default=FALSE),
-        integer.learner.parameter(name="nresample", default=9999L, lower=1L, requires=expression(testtype=="MonteCarlo")),
-        integer.learner.parameter(name="maxsurrogate", default=0L, lower=0L),
-        integer.learner.parameter(name="mtry", default=0L, lower=0L),
-        logical.learner.parameter(name="savesplitstats", default=TRUE),
-        integer.learner.parameter(name="maxdepth", default=0L, lower=0L)
+        discrete.learner.parameter(id="teststat", default="quad", vals=c("quad", "max")),
+        discrete.learner.parameter(id="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
+        numeric.learner.parameter(id="mincriterion", default=0.95, lower=0, upper=1),
+        integer.learner.parameter(id="minsplit", default=20L, lower=1L),
+        integer.learner.parameter(id="minbucket", default=7L, lower=1L),
+        logical.learner.parameter(id="stump", default=FALSE),
+        integer.learner.parameter(id="nresample", default=9999L, lower=1L, requires=expression(testtype=="MonteCarlo")),
+        integer.learner.parameter(id="maxsurrogate", default=0L, lower=0L),
+        integer.learner.parameter(id="mtry", default=0L, lower=0L),
+        logical.learner.parameter(id="savesplitstats", default=TRUE),
+        integer.learner.parameter(id="maxdepth", default=0L, lower=0L)
       )
       callNextMethod(.Object, pack="party", desc=desc, par.descs=par.descs)
 		}

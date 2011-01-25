@@ -37,15 +37,15 @@ setMethod(
     x = callNextMethod(.Object, pack="mda", desc=desc)
     
     par.descs <- list(
-      untyped.learner.parameter(name="subclasses", default=2L),
-      integer.learner.parameter(name="iter", default=5L, lower=1L),
-      integer.learner.parameter(name="dimension", lower=1L),
-      discrete.learner.parameter(name="method", default="polyreg", 
+      untyped.learner.parameter(id="subclasses", default=2L),
+      integer.learner.parameter(id="iter", default=5L, lower=1L),
+      integer.learner.parameter(id="dimension", lower=1L),
+      discrete.learner.parameter(id="method", default="polyreg", 
         vals=list(polyreg=polyreg, mars=mars, bruto=bruto, gen.ridge=gen.ridge)),
-      logical.learner.parameter(name="trace", default=FALSE, flags=list(optimize=FALSE)),
+      logical.learner.parameter(id="trace", default=FALSE, flags=list(optimize=FALSE)),
       # change default and pass it to reduce mem
-      logical.learner.parameter(name="keep.fitted", default=FALSE, flags=list(optimize=FALSE, pass.default=TRUE)),
-      integer.learner.parameter(name="tries", default=5L, lower=1L)
+      logical.learner.parameter(id="keep.fitted", default=FALSE, flags=list(optimize=FALSE, pass.default=TRUE)),
+      integer.learner.parameter(id="tries", default=5L, lower=1L)
     )
 
     x@par.descs = par.descs

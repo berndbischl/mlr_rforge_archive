@@ -34,9 +34,9 @@ setMethod(
 			)
 			#todo: find out what ykernel and contrasts really do 
 			par.descs = list(
-        integer.learner.parameter(name="k", default=7L, lower=1L),
-				numeric.learner.parameter(name="distance", default=2, lower=0),
-				discrete.learner.parameter(name="kernel", default="triangular", 
+        integer.learner.parameter(id="k", default=7L, lower=1L),
+				numeric.learner.parameter(id="distance", default=2, lower=0),
+				discrete.learner.parameter(id="kernel", default="triangular", 
 						vals=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian"))
 			)
 			callNextMethod(.Object, pack="kknn", desc=desc, par.descs=par.descs)

@@ -14,8 +14,6 @@ tune.diceoptim = function(learner, task, resampling, measure, bounds, control) {
   des = init.design(control@par.descs, args$init.des.points)
   print(str(des))
   ns = colnames(des)
-  low = control["lower"][ns]
-  up = control["upper"][ns]
 
   penv = new.env()
   f = make.tune.f(ns, penv, learner, task, resampling, measures, control) 

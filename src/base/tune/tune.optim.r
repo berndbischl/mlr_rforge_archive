@@ -7,8 +7,8 @@ tune.optim = function(learner, task, resampling, measure, bounds, control) {
   penv = new.env()
   ns = control["par.names"]
   start = unlist(control["start"])[ns]
-  low = control["lower"]
-  up = control["upper"]
+  low = lower(bounds)
+  up = upper(bounds)
 	
 	g = make.tune.f(ns, penv, learner, task, resampling, measures, control)
 		
