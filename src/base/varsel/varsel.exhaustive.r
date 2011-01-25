@@ -10,7 +10,7 @@ varsel.exhaustive = function(learner, task, resampling, measures, control) {
     states = c(states, lapply(1:ncol(x), function(j) all.vars[x[,j]]))
   }
   
-  es = eval.states.varsel(learner, task, resampling, measures, control, states, "exh")
+  es = eval.states(learner, task, resampling, measures, control, states, "exh")
   bs = select.best.state(es, measures[[1]])
   
   path = add.path.els.varsel(list(), es, bs)

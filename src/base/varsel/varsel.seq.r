@@ -10,7 +10,7 @@ varsel.seq = function(learner, task, resampling, measures, control) {
 		
 		event = ifelse(forward, "forward", "backward")
 		
-		es = eval.states.varsel(learner=learner, task=task, resampling=resampling, 
+		es = eval.states(learner=learner, task=task, resampling=resampling, 
 				measures=measures, control=control, pars=new.states, event=event)
 		#print(unlist(vals))
 		

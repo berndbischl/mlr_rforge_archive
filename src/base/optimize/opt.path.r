@@ -1,11 +1,11 @@
 
-##' Optimazation path. Optimizers log their evaluated points
-##' iteratively into this object.
-##' 
-##' Can be converted to a list or data.frame.
-##' 
-##' @exportClass opt.path
-##' @title Optimazation path
+#' Optimazation path. Optimizers log their evaluated points
+#' iteratively into this object.
+#' 
+#' Can be converted to a list or data.frame.
+#' 
+#' @exportClass opt.path
+#' @title Optimazation path
 setClass(
   "opt.path",
   contains = c("object"),
@@ -16,7 +16,7 @@ setClass(
   )
 )
 
-##' Constructor.
+#' Constructor.
 setMethod(
   f = "initialize",
   signature = signature("opt.path"),
@@ -32,22 +32,26 @@ setMethod(
   }
 )
 
-##' Convert to data.frame
-##' @rdname opt.path-class 
-##' @export
+make.opt.path = function(bounds, y.names) {
+  new("opt.path", sapply(bounds, function(p) p@id), y.names)
+}
+
+#' Convert to data.frame
+#' @rdname opt.path-class 
+#' @export
 setMethod(
   f = "as.data.frame",
   signature = signature("opt.path"),
   def = function(x, row.names = NULL, optional = FALSE,...) {
-    df <- do.call(rbind, lapply(x@env$path, as.data.frame))
+    df <- do.call(rbind, lapply(x@env$path, function(e) cbind(as.data.frame(e$x),as.data.frame(t(e$y)))))
     df[[".dob"]] <- x@env$dob
     df[[".eol"]] <- x@env$eol
     df
   }
 )
 
-##' Convert an optimization path to a list.
-##' @rdname opt.path-class
+#' Convert an optimization path to a list.
+#' @rdname opt.path-class
 setMethod(
   f = "as.list",
   signature = signature("opt.path"),
@@ -65,33 +69,31 @@ setMethod(
   }
 )
 
-##' Add a new element to the optimiztion path.
-##'
-##' @param op Optimization path.
-##' @param z List of parameter settings.
-##' @param dob Date of birth of the new parameters. 
-##' @param eol End of life of the parameters. Defaults to unknown (NA).
-##' @return NULL. This function is called for its side effects, namely
-##'   adding z to the optimization path.
-##' @export
-add.path.el = function(op, z, dob=length(as.list(op)), eol=NA) {
-  stopifnot(inherits(op, "opt.path"),
-            setequal(names(z), c(op@x.names, op@y.names)),
+#' Add a new element to the optimiztion path.
+#'
+#' @param op Optimization path.
+#' @param z List of parameter settings.
+#' @param dob Date of birth of the new parameters. 
+#' @param eol End of life of the parameters. Defaults to unknown (NA).
+#' @return NULL. This function is called for its side effects, namely
+#'   adding z to the optimization path.
+add.path.el = function(op, x, y, dob=length(as.list(op)), eol=NA) {
+  stopifnot(inherits(op, "opt.path"),          
             is.na(eol) || eol >= dob)
             
-  op@env$path = append(op@env$path, list(z))
+  op@env$path = append(op@env$path, list(list(x=x, y=y)))
   op@env$dob = append(op@env$dob, dob)
   op@env$eol = append(op@env$eol, eol)
   NULL
 }
 
-##' Convert a parameter list to its position in the optimiztion path.
-##'
-##' @param op Optimization path.
-##' @param z List of parameter settings.
-##' @param cand Expression limiting the path elements searched.
-##' @return Index of \code{z} in optimization path or if \code{z} is
-##'  not present \code{NA}.
+#' Convert a parameter list to its position in the optimiztion path.
+#'
+#' @param op Optimization path.
+#' @param z List of parameter settings.
+#' @param cand Expression limiting the path elements searched.
+#' @return Index of \code{z} in optimization path or if \code{z} is
+#'  not present \code{NA}.
 param.to.position <- function(op, z, cand) {
   if (!missing(cand)) {
     r <- eval(eval(substitute(substitute(cand, op@env))), parent.frame())
@@ -106,14 +108,13 @@ param.to.position <- function(op, z, cand) {
   }
 }
 
-##' Set the end of life of a parameter vector.
-##'
-##' @param op Optimization path.
-##' @param z List of parameter settings.
-##' @param endoflife End of life of parameter setting.
-##' @return NULL, this function is called for its side effect, namely
-##'   modifing the optimization path.
-##' @export
+#' Set the end of life of a parameter vector.
+#'
+#' @param op Optimization path.
+#' @param z List of parameter settings.
+#' @param endoflife End of life of parameter setting.
+#' @return NULL, this function is called for its side effect, namely
+#'   modifing the optimization path.
 set.eol = function(op, z, endoflife=length(as.list(op))) {
   stopifnot(inherits(op, "opt.path"), endoflife == as.integer(endoflife))
   if (!is.integer(z))
@@ -124,12 +125,11 @@ set.eol = function(op, z, endoflife=length(as.list(op))) {
   NULL
 } 
 
-##' Get the date of birth or end of life a list parameter settings.
-##'
-##' @param op Optimization path.
-##' @param z List of parameter settings.
-##' @return The date of birth or end of life of \code{z}.
-##' @export
+#' Get the date of birth or end of life a list parameter settings.
+#'
+#' @param op Optimization path.
+#' @param z List of parameter settings.
+#' @return The date of birth or end of life of \code{z}.
 get.dob = function(op, z) {
   stopifnot(inherits(op, "opt.path"))
   if (!is.integer(z)) {
@@ -140,7 +140,7 @@ get.dob = function(op, z) {
   op@env$dob[z]
 }
 
-##' @rdname get.dob
+#' @rdname get.dob
 get.eol = function(op, z) {
   stopifnot(inherits(op, "opt.path"))
   if (!is.integer(z)) {
@@ -151,28 +151,3 @@ get.eol = function(op, z) {
   op@env$eol[z]
 }
 
-if (TRUE) {
-  library(RUnit)
-  
-  op = new("opt.path", x.names=c("x1", "x2"), y.names=c("y1", "y2"))
-  p1 <- list(x1=1, x2="a", y1=1, y2=3)
-  p2 <- list(x1=1, x2="a", y1=1, y2=3)
-  add.path.el(op, p1)
-  add.path.el(op, p2)
-
-  set.eol(op, p1, 2)
-  checkEquals(get.eol(op, p1), 2L)
-
-  x = as.list(op)
-  checkTrue(is.list(x))
-  checkEquals(length(x), 2)
-  checkTrue(is.list(x[[1]]))
-  checkTrue(is.list(x[[2]]))
-  checkEquals(length(x[[1]]), 4)
-  checkEquals(length(x[[2]]), 4)
-  
-  x = as.data.frame(op)
-  checkTrue(is.data.frame(x))
-  checkEquals(nrow(x), 2)
-  checkEquals(ncol(x), 6)
-}

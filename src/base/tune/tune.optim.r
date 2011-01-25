@@ -1,16 +1,15 @@
 # todo: add optimize if only 1 par
-tune.optim = function(learner, task, resampling, measure, bounds, control, logger) {
+tune.optim = function(learner, task, resampling, measure, bounds, control, opt.path, logger) {
 
   if (any(sapply(bounds@pars, function(x) !(x@type %in% c("numeric", "integer")))))
     stop("Optim can only be applied to numeric and integer parameters!")
   
-  penv = new.env()
   ns = control["par.names"]
   start = unlist(control["start"])[ns]
   low = lower(bounds)
   up = upper(bounds)
 	
-	g = make.tune.f(ns, penv, learner, task, resampling, measure, control, logger)
+	g = make.tune.f(learner, task, resampling, measure, bounds, control, opt.path)
 		
 	args = control@extra.args
 	method = args$method
@@ -25,5 +24,5 @@ tune.optim = function(learner, task, resampling, measure, bounds, control, logge
   }
 	par = as.list(or$par)
 	opt = get.path.el(penv$path, par)
-	new("opt.result", control=control, opt=opt, path=penv$path)
+	new("opt.result", control=control, opt=opt, path=opt.path)
 }

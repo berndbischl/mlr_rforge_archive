@@ -32,20 +32,14 @@ make.es = function(par, rp, evals, event) {
 #	return(path)
 #} 
 
-
-eval.state = function(learner, task, resampling, measures, control, par, event) {
-	rp = eval.rf(learner=learner, task=task, resampling=resampling,  
-			measures=measures, control=control, par=par)
-	make.es(par=par, rp=rp, evals=evals, event=event)
+eval.states = function(learner, task, resampling, measures, bounds, control, pars) {
+  y = mylapply(xs=pars, from="opt", f=eval.rf, learner=learner, task=task, resampling=resampling, 
+    measures=measures, bounds=bounds, control=control)
+  
+  for (i in 1:length(pars))
+    add.el(opt.path, pars[[i]], y[i])
 }
 
-# evals a set of var-lists and return the corresponding states
-eval.states = function(eval.fun, learner, task, resampling, measures, control, pars, event) {
-	rps = eval.fun(learner=learner, task=task, resampling=resampling,  
-			measures=measures, control=control, pars=pars)
-	f = function(x1,x2,x3,x4) make.es(par=x1, rp=x2, evals=x3, event=x4) 
-	Map(f, pars, rps, (evals+1):evals2, event)
-}
 
 
 # compare 2 states.  

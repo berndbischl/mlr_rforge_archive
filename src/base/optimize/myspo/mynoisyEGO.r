@@ -56,7 +56,7 @@ myCL.nsteps = function(model, fun, control) {
   g2 = function(p) {
     p2 = as.list(as.data.frame(p))
     p2 = lapply(p2, function(x) {x=as.list(x);names(x)=ns;x})
-    es = eval.states.tune(learner, task, resampling, measures, aggr, control, p2, "optim")
+    es = eval.states(learner, task, resampling, measures, aggr, control, p2, "optim")
     path <<- add.path.els.tune(path=path, ess=es, best=NULL)
     perf = sapply(es, get.perf)
     # cma es does not like NAs which might be produced if the learner gets values which result in a degenerated model

@@ -55,10 +55,11 @@ tune <- function(learner, task, resampling, measure, bounds, control, log) {
 	
 	#.mlr.local$n.eval <<- 0
 	
-	or = optim.func(learner, task, resampling, measure, bounds, control)
+	opt.path = new("opt.path", x.names=sapply(bounds@pars, function(p) p@id), y.names=measure@id)
+  or = optim.func(learner, task, resampling, measure, bounds, control, opt.path)
 
 	
-	or@opt$par = .mlr.scale.par(or@opt$par, bounds)
+	or@opt$par = .mlr.scale.vals(or@opt$par, bounds)
 	if (model) {
     learner = set.hyper.pars(learner, par.vals=or["par"])
 		or@model = train(learner, task) 	
@@ -74,7 +75,7 @@ tune <- function(learner, task, resampling, measure, bounds, control, log) {
 #' @seealso \code{\link{tune.control}}
 #' @title Scale parameter vector. Internal use.
 
-.mlr.scale.par <- function(v, bounds) {
-  mapply(function(p, x) p@scale(x), bounds, v)
+.mlr.scale.val <- function(v, bounds) {
+  mapply(function(par, x) par@scale(x), bounds@pars, v)
 }
 

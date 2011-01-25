@@ -1,7 +1,7 @@
 test.bounds <- function() {
-  np1 = numeric.parameter(name="x1", lower=-1L, upper=1)
-  np2 = numeric.parameter(name="x2", lower=0, upper=Inf)
-  dp1 = discrete.parameter(name="x3", vals=list(a="char", b=2L, c=2.2, "e"))
+  np1 = numeric.parameter(id="x1", lower=-1L, upper=1)
+  np2 = numeric.parameter(id="x2", lower=0, upper=Inf)
+  dp1 = discrete.parameter(id="x3", vals=list(a="char", b=2L, c=2.2, "e"))
   
   b1 = make.bounds(np1, np2, dp1)
   

@@ -36,16 +36,14 @@ resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
   )
 }
 
-eval.rf <- function(learner, task, resampling, measures, bounds, control, par) {
-
-	if (is(control, "tune.control")) {
-		par.vals = .mlr.scale.par(par, bounds)
+eval.rf = function(learner, task, resampling, measures, bounds, control, par) {
+  if (is(control, "tune.control")) {
+		par.vals = .mlr.scale.val(par, bounds)
     learner = set.hyper.pars(learner, par.vals=par.vals)
   }
   if (is(control, "varsel.control")) {
     task = subset(task, vars=par)
   }
-  
 	# todo 
 #	if (control["tune.threshold"]) 
 #		type = "prob"

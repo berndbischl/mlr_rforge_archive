@@ -17,8 +17,7 @@
 #' @param level [string] \cr
 #'   What is parallelized / what is a job. 
 #' 	 "resample": \code{\link{resample}} is parallelized and a job is train / test.
-#'   "tune": \code{\link{tune}} is parallelized and a job is a resampled evaluation of one hyperparameter setting.  
-#'   "varsel": \code{\link{varsel}} is parallelized and a job is a resampled evaluation of a feature set.
+#'   "opt": \code{\link{tune}} and \code{\link{varsel}} are parallelized and a job is a resampled evaluation of one hyperparameter setting/feature set.  
 #'   "bench": \code{\link{bench.exp}} is parallelized and a job is completely evaluating one learner on one data set.
 #' @param ... [any] \cr
 #'        Optional parameters, only passed to \code{\link[snowfall]{sfInit}} currently. 
@@ -35,7 +34,7 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 	}
   
   # check level
-  if (!(level %in% c("resample", "tune", "varsel", "bench"))) {
+  if (!(level %in% c("resample", "opt", "bench"))) {
     .mlr.local$parallel.setup$mode = "local"
     stop("Unknown parallel level: ", level)
   }
