@@ -4,7 +4,7 @@ make.tune.f = function(learner, task, resampling, measure, bounds, control, opt.
     names(p2) = sapply(bounds@pars, function(p) p@id)
     # todo: what about operators that generate the new state? accepted?
     y = eval.rf(learner, task, resampling, measure, bounds, control, p2) 
-    add.el(opt.path, x=p2, y=y)   
+    add.path.el(opt.path, x=p2, y=y)   
     perf = get.perf(es)
     logger.info(level="tune", paste(ns, "=", formatC(p, digits=3)), ":", formatC(perf, digits=3))
     ifelse(measures[[1]]["minimize"], 1 , -1) * perf

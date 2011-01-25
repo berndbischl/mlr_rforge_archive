@@ -8,14 +8,13 @@ tune.grid <- function(learner, task, resampling, measure, bounds, control, opt.p
   # drop names from par.descs
   vals = values(bounds, only.names=TRUE) 
   
-  grid = expand.grid(vals, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+  grid = expand.grid(vals, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE) 
   parsets = lapply(seq(length=nrow(grid)), function(i) as.list(grid[i,,drop=FALSE]))
-  es = eval.states(learner, task, resampling, measure, bounds, control, parsets)
+  parsets = lapply(parsets, function(ns) par.valnames.to.vals(ns, bounds))
+  y = unlist(eval.states(learner, task, resampling, measure, bounds, control, opt.path, parsets))
+  j = which.min(y)
   
-  bs = select.best.state(es, measure)
-  path = add.path.els.tune(path=list(), ess=es, best=bs)
-  
-  new("opt.result", control=control, opt=make.path.el(bs), path=path)
+  new("opt.result", control=control, par=parsets[[j]], y=y[j], path=path)
 }
 
 

@@ -32,12 +32,13 @@ make.es = function(par, rp, evals, event) {
 #	return(path)
 #} 
 
-eval.states = function(learner, task, resampling, measures, bounds, control, pars) {
+eval.states = function(learner, task, resampling, measures, bounds, control, opt.path, pars) {
   y = mylapply(xs=pars, from="opt", f=eval.rf, learner=learner, task=task, resampling=resampling, 
     measures=measures, bounds=bounds, control=control)
   
   for (i in 1:length(pars))
-    add.el(opt.path, pars[[i]], y[i])
+    add.path.el(opt.path, pars[[i]], y[i])
+  return(y)
 }
 
 

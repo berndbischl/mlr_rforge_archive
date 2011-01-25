@@ -24,8 +24,9 @@ setClass(
 		representation = representation(
 				learner = "learner",
 				control = "opt.control",
-				opt = "list",
-				path = "list",
+				par = "list",
+        y = "numeric",
+				path = "opt.path",
 				model = "wrapped.model"
 		)
 )
@@ -34,12 +35,14 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.result"),
-		def = function(.Object, control, opt, path) {
+		def = function(.Object, control, par, y, path) {
 			if (missing(control))
 				return(.Object)
 			.Object@control = control 			
-			.Object@opt = opt
-			if (control["path"])
+			.Object@par = par
+      .Object@y = y
+      .Object@opt = opt
+      if (control["path"])
 				.Object@path = path 			
 			return(.Object)
 		}
@@ -52,7 +55,7 @@ setMethod(
 		def = function(x,i,j,...,drop) {
 			args = list(...)
 			if (i == "par") {
-				return(x@opt$par)
+				return(x@par)
 			}
       if (i == "par.string") {
         if (x["opt.type"] == "tune") {

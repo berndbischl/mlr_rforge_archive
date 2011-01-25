@@ -35,9 +35,8 @@ varsel <- function(learner, task, resampling, control, measures, model=FALSE) {
   if (is(resampling, "resample.desc")) 
     resampling = make.res.instance(resampling, task=task)
   if (missing(measures))
-    measures = default.measures(task)
-  if (is(measures, "measure"))
-    measures = list(measures) 	
+    measures = default.measures(task)[[1]]
+  measure = set.aggr(measure, measure@aggr[[1]])
 	
 	cl = as.character(class(control))
 	

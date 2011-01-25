@@ -39,6 +39,7 @@ tune <- function(learner, task, resampling, measure, bounds, control, log) {
     learner <- make.learner(learner)
 	if (missing(measure))
 		measure = default.measures(task)[[1]]
+  measure = set.aggr(measure, measure@aggr[[1]])
   cl = as.character(class(control))
 	optim.func = switch(cl,
 			grid.control = tune.grid,

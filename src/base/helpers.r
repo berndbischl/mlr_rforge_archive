@@ -195,6 +195,12 @@ almost.equal <- function(e1, e2) {
   isTRUE(all.equal(e1, e2))
 }
 
+
+par.valnames.to.vals = function(names, bounds) {
+  mapply(function(par, n) par@constraints$vals[n], bounds@pars, names)
+}
+
+
 hyper.par.val.to.name = function(par.name, par.val, learner) {
   pds = learner["par.descs"]
   pd = pds[[par.name]]
