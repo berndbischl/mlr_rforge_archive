@@ -41,7 +41,6 @@ setMethod(
 			.Object@control = control 			
 			.Object@par = par
       .Object@y = y
-      .Object@opt = opt
       if (control["path"])
 				.Object@path = path 			
 			return(.Object)

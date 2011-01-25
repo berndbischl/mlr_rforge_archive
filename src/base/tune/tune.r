@@ -24,6 +24,8 @@ roxygen()
 #'   Control object for search method. Also selects the optimization algorithm for tuning.   
 #' @param measure [\code{\linkS4class{measure}}]\cr
 #'   Performance measure to optimize. 
+#' @param model [boolean]\cr
+#'   Should a final model be fitted on the complete data with the best found hyperparameters? Default is FALSE.
 #' 
 #' @return \code{\linkS4class{opt.result}}.
 #' 
@@ -34,7 +36,7 @@ roxygen()
 #' @title Hyperparameter tuning
 
 
-tune <- function(learner, task, resampling, measure, bounds, control, log) {
+tune <- function(learner, task, resampling, measure, bounds, control, model=FALSE, log) {
   if (is.character(learner))
     learner <- make.learner(learner)
 	if (missing(measure))
@@ -60,9 +62,9 @@ tune <- function(learner, task, resampling, measure, bounds, control, log) {
   or = optim.func(learner, task, resampling, measure, bounds, control, opt.path)
 
 	
-	or@opt$par = .mlr.scale.vals(or@opt$par, bounds)
+	or@par = .mlr.scale.val(or@par, bounds)
 	if (model) {
-    learner = set.hyper.pars(learner, par.vals=or["par"])
+    learner = set.hyper.pars(learner, par.vals=or@par)
 		or@model = train(learner, task) 	
 	}
 	
@@ -77,6 +79,6 @@ tune <- function(learner, task, resampling, measure, bounds, control, log) {
 #' @title Scale parameter vector. Internal use.
 
 .mlr.scale.val <- function(v, bounds) {
-  mapply(function(par, x) par@scale(x), bounds@pars, v)
+  Map(function(par, x) par@scale(x), bounds@pars, v)
 }
 

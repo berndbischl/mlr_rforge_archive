@@ -197,7 +197,7 @@ almost.equal <- function(e1, e2) {
 
 
 par.valnames.to.vals = function(names, bounds) {
-  mapply(function(par, n) par@constraints$vals[n], bounds@pars, names)
+  Map(function(par, n) par@constraints$vals[n], bounds@pars, names)
 }
 
 

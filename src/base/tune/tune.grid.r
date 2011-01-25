@@ -14,7 +14,7 @@ tune.grid <- function(learner, task, resampling, measure, bounds, control, opt.p
   y = unlist(eval.states(learner, task, resampling, measure, bounds, control, opt.path, parsets))
   j = which.min(y)
   
-  new("opt.result", control=control, par=parsets[[j]], y=y[j], path=path)
+  new("opt.result", control=control, par=parsets[[j]], y=y[j], path=opt.path)
 }
 
 
