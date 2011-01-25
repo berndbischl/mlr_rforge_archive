@@ -35,9 +35,9 @@ setMethod(
   def = function(x) {
     type = x["type"]
     if (type == "numeric")
-      paste("Numeric parameter '", x@id, "'. Bounds: ", lower(x), ",", x@constraints$lower, sep="")  
+      paste("Numeric parameter '", x@id, "'. Bounds: ", x@constraints$lower, ",", x@constraints$upper, sep="")  
     else if (type == "integer")
-      paste("Integer parameter '", x@id, "'. Bounds: ", lower(x), ",", x@constraints$upper, sep="")  
+      paste("Integer parameter '", x@id, "'. Bounds: ", x@constraints$lower, ",", x@constraints$upper, sep="")  
     else if (type == "discrete") {
       paste("Discrete parameter '", x@id, "'. Values: ", paste(names(x@constraints$vals), collapse=","), sep="") 
     } else if (type == "logical") {
