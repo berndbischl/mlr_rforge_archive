@@ -20,8 +20,8 @@
 #' @param ... [any] \cr
 #'		Further parameters for strategies.\cr 
 #'			split [numeric(1)]: Proportion of training cases for 'holdout' and 'subsample' from between 0 and 1. Default is 2/3.\cr
-#'			reps [integer(1)]: Repeats for 'repcv'. Here 'iters' = 'folds' x 'reps'. Default is 10. \cr
-#'			folds [integer(1)]: Folds in the repeated CV for 'repcv'. Here 'iters' = 'folds' x 'reps'. Default is 10. 
+#'			reps [integer(1)]: Repeats for 'repcv'. Here 'iters' = 'folds' x 'reps'. Default is 2. \cr
+#'			folds [integer(1)]: Folds in the repeated CV for 'repcv'. Here 'iters' = 'folds' x 'reps'. Default is 5. 
 #' 
 #' @return \code{\linkS4class{resample.desc}}.
 #' @export 
