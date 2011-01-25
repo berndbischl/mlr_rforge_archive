@@ -105,12 +105,12 @@ setMethod(
 
 
 #' @exportMethod lower
-setGeneric(name = "lower", def = function(x) standardGeneric("lower"))
+setGeneric(name = "lower", def = function(x, select) standardGeneric("lower"))
 
 #' @export 
 setMethod(
   f = "lower",
-  signature = signature(x="par.desc"), 
+  signature = signature(x="par.desc", select="missing"), 
   def = function(x) 
     if(!x@type %in% c("integer", "numeric")) 
       stop("Only available for numeric or integer parameter!") 
@@ -121,9 +121,9 @@ setMethod(
 #' @export 
 setMethod(
   f = "lower",
-  signature = signature(x="bounds"), 
-  def = function(x) { 
-    v = Filter(function(y) y@type %in% c("integer", "numeric"), x@pars)
+  signature = signature(x="bounds", select="character"), 
+  def = function(x, select=c("integer", "numeric")) { 
+    v = Filter(function(y) y@type %in% select, x@pars)
     z = sapply(v, function(y) y@constraints$lower)
     names(z) = sapply(v, function(y) y@id)
     return(z)
@@ -131,12 +131,12 @@ setMethod(
 )
 
 #' @exportMethod upper
-setGeneric(name = "upper", def = function(x) standardGeneric("upper"))
+setGeneric(name = "upper", def = function(x, select) standardGeneric("upper"))
 
 #' @export 
 setMethod(
   f = "upper",
-  signature = signature(x="par.desc"), 
+  signature = signature(x="par.desc", select="missing"), 
   def = function(x) 
     if(!x@type %in% c("integer", "numeric")) 
       stop("Only available for numeric or integer parameter!") 
@@ -147,14 +147,39 @@ setMethod(
 #' @export 
 setMethod(
   f = "upper",
-  signature = signature(x="bounds"), 
-  def = function(x) { 
-    v = Filter(function(y) y@type %in% c("integer", "numeric"), x@pars)
+  signature = signature(x="bounds", select="character"), 
+  def = function(x, select=c("integer", "numeric")) { 
+    v = Filter(function(y) y@type %in% select, x@pars)
     z = sapply(v, function(y) y@constraints$upper)
     names(z) = sapply(v, function(y) y@id)
     return(z)
   }
 )
 
+#' @exportMethod values
+setGeneric(name = "values", def = function(x, select) standardGeneric("values"))
+
+#' @export 
+setMethod(
+  f = "values",
+  signature = signature(x="par.desc", select="missing"), 
+  def = function(x, select=c("discrete", "logical")) 
+    if(!x@type %in% select) 
+      stop("Only available for numeric or integer parameter!") 
+    else 
+      x@constraints$vals
+)
+
+#' @export 
+setMethod(
+  f = "values",
+  signature = signature(x="bounds", select="character"), 
+  def = function(x, select=c("integer", "numeric")) { 
+    v = Filter(function(y) y@type %in% c("discrete", "logical"), x@pars)
+    z = sapply(v, function(y) y@constraints$vals)
+    names(z) = sapply(v, function(y) y@id)
+    return(z)
+  }
+)
 
 

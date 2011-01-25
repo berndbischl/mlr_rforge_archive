@@ -1,19 +1,3 @@
-eval.varsets = function(learner, task, resampling, measures, control, pars) {
-	rps = mylapply(xs=pars, from="varsel", f=eval.rf, 
-			learner=learner, task=task, resampling=resampling, measures=measures, control=control)
-	return(rps)
-}
-
-# evals a set of var-lists and return the corresponding states
-eval.states.varsel = function(learner, task, resampling, measures, control, pars, event) {
-	eval.states(eval.varsets, learner=learner, task=task, resampling=resampling, 
-			measures=measures, control=control, pars=pars, event=event)
-}
-
-eval.state.varsel = function(learner, task, resampling, measures, control, par, event) {
-	eval.state(learner, task, resampling, measures, control, par, event)
-}
-
 
 add.path.varsel = function(path, es, accept) {
 	add.path(path, es, accept)

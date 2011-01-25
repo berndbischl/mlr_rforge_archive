@@ -1,7 +1,7 @@
 test.tune <- function() {
   cp = c(0.05, 0.9)
   minsplit = 1:3 
-  bounds = make.bounds(discrete.parameter("cp", vals=cp), discrete.parameter("minsplit", vals=minsplit))
+  b1 = make.bounds(discrete.parameter("cp", vals=cp), discrete.parameter("minsplit", vals=minsplit))
 	ctrl = grid.control()
 	folds = 3
 	
@@ -10,7 +10,7 @@ test.tune <- function() {
 	
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
-	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, control=ctrl)
+	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, bounds=b1, control=ctrl)
   pp = tr2["path", as.data.frame=TRUE]
   
 	# todo test scale with tune.e1071 and scaled grid!

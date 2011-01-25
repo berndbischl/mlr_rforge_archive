@@ -128,7 +128,7 @@ setMethod(
 	
 	def = function(learner, ..., par.vals=list()) {
 		ns = names(par.vals)
-		pds.n = sapply(learner@par.descs, function(x) x@par.name)
+		pds.n = sapply(learner@par.descs, function(x) x@id)
 		for (i in seq(length=length(par.vals))) {
 			if (ns[i] %in% pds.n) {
 				learner = callNextMethod(learner, par.vals=par.vals[i])

@@ -55,7 +55,7 @@ tune <- function(learner, task, resampling, measure, bounds, control, log) {
 	
 	#.mlr.local$n.eval <<- 0
 	
-	or = optim.func(learner=learner, task=task, resampling=resampling, control=control, measure=measure)
+	or = optim.func(learner, task, resampling, measure, bounds, control)
 
 	
 	or@opt$par = .mlr.scale.par(or@opt$par, bounds)

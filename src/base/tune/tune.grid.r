@@ -29,9 +29,7 @@ tune.1 <- function(learner, task, resampling, ranges, measure, control) {
 		grid = expand.grid(ranges, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
 		
 		parsets = lapply(seq(length=nrow(grid)), function(i) as.list(grid[i,,drop=FALSE]))	
-		es = eval.states.tune(learner=learner, task=task, resampling=resampling,  
-				measure=measure, control=control, 
-				pars=parsets, event="grid")
+		es = eval.states.tune(learner, task, resampling, measure, bounds, control, parsets, event="grid")
 		
 		bs = select.best.state(es, measure)
 		path = add.path.els.tune(path=list(), ess=es, best=bs)
