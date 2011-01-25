@@ -1,3 +1,7 @@
+#' @include par.desc.r
+roxygen()
+#' @include par.desc.feasible.r
+roxygen()
 
 #' Bounds for a bunch of parameters. Are initially created, then mainly queried for information but not changed. 
 #'  

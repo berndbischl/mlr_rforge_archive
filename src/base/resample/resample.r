@@ -19,19 +19,17 @@
 #'   Should all fitted models be returned? Default is \code{FALSE}. 
 #' @param extract [function(model)] \cr 
 #'   Function used to extract information from a fitted model during resampling. 
-#'   Is applied to every \code\{linkS4class{wrapped.model}} resulting from calls to \code{\link{train}} during resampling.
+#'   Is applied to every \code{\linkS4class{wrapped.model}} resulting from calls to \code{\link{train}} during resampling.
 #'   Default is to extract nothing. 
-#' @return .
 #' 
-#' @return List of 
-#' \describe {
-#'   \item{measures.test [data.frame]}{Rows correspond to test sets in resampling iterations, columns to performance measures.}  	
-#'   \item{measures.train [data.frame]}{Rows correspond to training sets in resampling iterations, columns to performance measures.}  	
-#'   \item{aggr [named numeric]}{Vector of aggregated performance values. Names are coded like this <measure>.<aggregation>.}  	
-#'   \item{pred [\code{\linkS4class{resample.prediction}}]}{Container for all predictions during resampling.}  	
-#'   \item{models [list of \code\{linkS4class{wrapped.model}}]}{List of fitted models or \code{NULL}.}  	
-#'   \item{extract [list]}{List of extracted parts from fitted models or \code{NULL}.}  	
-#' } 
+#' @return List of \cr
+#'   measures.test [data.frame] Rows correspond to test sets in resampling iterations, columns to performance measures.\cr
+#'   measures.train [data.frame] Rows correspond to training sets in resampling iterations, columns to performance measures.\cr
+#'   aggr [named numeric] Vector of aggregated performance values. Names are coded like this <measure>.<aggregation>.\cr
+#'   pred [\code{\linkS4class{resample.prediction}}] Container for all predictions during resampling.\cr
+#'   models [list of \code{\linkS4class{wrapped.model}}] List of fitted models or \code{NULL}.\cr
+#'   extract [list] List of extracted parts from fitted models or \code{NULL}.
+#' 
 #' 
 #' @export
 #' @rdname resample 

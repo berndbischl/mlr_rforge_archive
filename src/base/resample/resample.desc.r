@@ -3,10 +3,10 @@
 #' create a \code{\linkS4class{resample.instance}}, when given the size of the data set.
 #' For construction simply use the factory method \code{\link{make.res.desc}}. 
 #' 
-#' @slot instance.class [character(1)] S4 class name of the corresponding resample.instance. 
-#' @slot id [character(1)] Name of resampling strategy. 
-#' @slot iters [integer(1)] Number of iterations. Note that this is always the complete number of generated train/test sets, so for a 10 times repeated 5fold cross-validation it would be 50. 
-#' @slot predict [character(1)] What to predict during resampling: 'train', 'test' or 'both' sets.
+#' @slot instance.class S4 class name of the corresponding resample.instance. 
+#' @slot id Name of resampling strategy. 
+#' @slot iters Number of iterations. Note that this is always the complete number of generated train/test sets, so for a 10 times repeated 5fold cross-validation it would be 50. 
+#' @slot predict What to predict during resampling: 'train', 'test' or 'both' sets.
 #'  
 #' @exportClass resample.desc 
 #' @title Base class for description of resampling algorithms.

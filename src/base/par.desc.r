@@ -1,20 +1,9 @@
 #' Description class for an optimization parameter.
 #' 
-#' Construct them with \code{link{numeric.parameter}}, \code{\link{integer.parameter}, 
-#' \code{\link{logical.parameter}} or \code{\link{discrete.parameter}}. 
-#' 
-#' 
-#' @slot id [character(1)] Name of parameter.  
-#' @slot type [character(1)] Type of parameter: 'numeric', 'integer', 'discrete', 'logical'.  
-#' @slot constraints [list] List of constraints, for numeric/integer this contains this contains numeric(1) 
-#'   entries 'lower' and 'upper', for 'discrete' it contains the named list 'vals' of values.  
-#' @slot scale [function(x)] Optional function to rescale a parameter. Defaults to 'identity'.   
-#' 
 #' @exportClass par.desc
-#'
-#' @seealso \code{\link{is.feasible}}, \code{\link{random.val}},  \code{\link{par.desc.learner}},  \code{\link{make.bounds}} 
-#' 
+#' @seealso \code{\link{is.feasible}}, \code{\link{random.val}}, \code{\link{par.desc.learner}}, \code{\link{make.bounds}} 
 #' @title Description class for an optimization parameter.
+
 setClass("par.desc",
          contains = c("object"),
          representation = representation(
@@ -41,7 +30,6 @@ setMethod(f = "initialize",
 
 
 #' @rdname to.string
-
 setMethod(
   f = "to.string",
   signature = signature("par.desc"),

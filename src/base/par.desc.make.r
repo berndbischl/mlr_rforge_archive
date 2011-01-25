@@ -5,8 +5,7 @@
 #'   Lower bound. Default is \code{-Inf}.
 #' @param upper [single numeric] \cr
 #'   Upper bound. Default is \code{Inf}.
-#' @return  \code\linkS4class{par.desc}}
-#' @rdname par.desc-class
+#' @return  \code{\linkS4class{par.desc}}
 numeric.parameter = function(name, lower=-Inf, upper=Inf) {
   if (is.integer(lower))
     lower = as.numeric(lower)
@@ -27,8 +26,7 @@ numeric.parameter = function(name, lower=-Inf, upper=Inf) {
 #'   Lower bound. Default is \code{-Inf}.
 #' @param upper [single numeric] \cr
 #'   Upper bound. Default is \code{Inf}.
-#' @return  \code\linkS4class{par.desc}}
-#' @rdname par.desc-class
+#' @return  \code{\linkS4class{par.desc}}
 integer.parameter = function(name, lower=-.Machine$integer.max, upper=.Machine$integer.max, default) {
   if (is.numeric(lower) && length(lower)==1 && is.finite(lower) && lower==as.integer(lower))
     lower = as.integer(lower)
@@ -44,8 +42,7 @@ integer.parameter = function(name, lower=-.Machine$integer.max, upper=.Machine$i
 
 
 #' Boolean variable for optimization.
-#' @return  \code\linkS4class{par.desc}}
-#' @rdname par.desc-class
+#' @return  \code{\linkS4class{par.desc}}
 logical.parameter = function(name) {
   new("par.desc", name, "logical", list())
 } 
@@ -54,7 +51,6 @@ logical.parameter = function(name) {
 #' @param vals [named list] \cr
 #'   Possible values.
 #' @return  \code\linkS4class{par.desc}}
-#' @rdname par.desc-class
 discrete.parameter = function(name, vals) {
   if (is.vector(vals))
     vals = as.list(vals)
@@ -84,8 +80,7 @@ discrete.parameter = function(name, vals) {
 } 
 
 #' Untyped variable for optimization.
-#' @return  \code\linkS4class{par.desc}}
-#' @rdname par.desc-class
+#' @return \code{\linkS4class{par.desc}}
 untyped.parameter = function(name) {
   new("par.desc", name, "untyped", list())
 } 

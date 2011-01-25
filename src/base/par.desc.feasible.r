@@ -1,3 +1,6 @@
+#' @include par.desc.r
+roxygen()
+
 ##' Check if a parameter setting satisfies the constraints of the
 ##' parameter description.
 ##' 

@@ -1,3 +1,6 @@
+#' @include par.desc.r
+roxygen()
+
 #' Description class for a hyperparameter.
 #'  
 #' Getter.\cr
