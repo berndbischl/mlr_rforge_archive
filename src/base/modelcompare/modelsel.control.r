@@ -40,7 +40,7 @@ setMethod(
   def = function(minimize, path) {
     pds = list()
     for (i in 1:length(ranges)) {
-      pd = new("par.desc.disc", par.name=names(ranges)[i], vals=as.list(ranges[[i]]))
+      pd = discrete.learner.parameter(id=names(ranges)[i], vals=as.list(ranges[[i]]))
       pds[[i]] = pd 
     }
     new("modelsel.control", minimize=minimize, path=path,

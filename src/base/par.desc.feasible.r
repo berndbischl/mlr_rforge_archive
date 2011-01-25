@@ -39,7 +39,7 @@ setMethod(
     else if (type == "discrete") {
       g = function(y) 
         !is.na(Position(function(v) identical(y, v), bounds@constraints$vals)) ||
-        !is.na(Position(function(v) identical(y, v), bounds@constraints$vals)) 
+        !is.na(Position(function(v) identical(y, v), names(bounds@constraints$vals))) 
       if (length(x) == 1) return(g(x)) else return(sapply(x, g))
       #if(is.null(x)) any(is.null(bound["vals"])) else x %in% bounds["vals"]
     } else if (type == "logical") {
