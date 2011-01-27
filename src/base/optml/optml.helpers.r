@@ -4,17 +4,6 @@
 #state: list(vars, rp) 
 
 # get a single perf value for a state: first measure, aggregated by first aggr function
-get.perf = function(state) {
-	state$rp[1]
-}
-
-make.path.el = function(es, accept=0) {
-	list(par = es$par, perf = es$rp, evals=es$evals, event=es$event, accept=accept)
-}
-
-make.es = function(par, rp, evals, event) {
-	return(list(par=par, rp=rp, evals=evals, event=event))
-}
 
 #add.path = function(path, es, accept) {
 #	a = ifelse(accept, {, -1)
@@ -32,12 +21,13 @@ make.es = function(par, rp, evals, event) {
 #	return(path)
 #} 
 
-eval.states = function(learner, task, resampling, measures, bounds, control, opt.path, pars) {
+eval.states = function(learner, task, resampling, measures, par.set, control, opt.path, pars) {
   y = mylapply(xs=pars, from="opt", f=eval.rf, learner=learner, task=task, resampling=resampling, 
-    measures=measures, bounds=bounds, control=control)
+    measures=measures, par.set=par.set, control=control)
   
   for (i in 1:length(pars))
-    add.path.el(opt.path, pars[[i]], y[i])
+    add.path.el(opt.path, x=pars[[i]], y=y[[i]])
+  
   return(y)
 }
 
@@ -56,26 +46,7 @@ compare.diff = function(state1, state2, control, measure, threshold) {
   (d > threshold)	
 }
 
-
-
-# select the best state from a list by using get.perf
-select.best.state = function(states, measure) {
-	perfs = sapply(states, get.perf)
-	if (measure["minimize"])
-		i = which.min(perfs)
-	else 
-		i = which.max(perfs)
-  # all perfs can be NA if all learners failed, then select randomly
-  if (all(is.na(perfs))) {
-    warning("All evaluated states had NA performance, selecting 1 randomly!")
-    i = sample(1:length(perfs), 1)
-  }
-	return(states[[i]])
+makeOptimizationPathFromMeasures = function(par.set, measures) {
+  minimize = Reduce(c, lapply(measures, function(m) rep(m@minimize, length(m@aggr))))
+  makeOptimizationPath(par.set, measuresAggrNames(measures), minimize)
 }
-
-# retrieve el from path
-get.path.el = function(path, par) {
-	Find(function(x) identical(x$par, par), path)
-} 
-
-

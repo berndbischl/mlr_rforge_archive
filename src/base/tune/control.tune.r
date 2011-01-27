@@ -2,10 +2,20 @@
 roxygen()
 
 #' Abstract base class for control objects for tuning. 
-#' Cannot be instatiated. 
+#' Cannot be instantiated. 
+#' 
+#' \describe{
+#' \item{grid.control}{Grid search. 
+#'   All kinds of parameter types can be handled, but you have discretize them yourself by always passing a \code\link{discrete.parameter}.
+#' \item{optim.control}{\code{\link[stats]{optim}}. \code{\linkCovaraiance Matrix Adaption Evolutionary Strategy. 
+#'   Can handle numeric and integer hyperparameters. For integers the internally proposed numeric values are rounded.}
+#' \item{cmaes.control}{CMA Evolution Strategy. Can handle numeric and integer hyperparameters. 
+#'   For integers the internally proposed numeric values are rounded.}
+#' }
+#' 
+#' Subclasses: \code{\linkS4class{grid.control}}, \code{\linkS4class{optim.control}}, \code{\linkS4class{cmaes.control}}
 #' 
 #' @exportClass tune.control
-#' @seealso \code{\linkS4class{grid.control}}, \code{\linkS4class{optim.control}}, \code{\linkS4class{cmaes.control}} 
 #' @title Base class for control objects for tuning.
 
 setClass(
@@ -21,11 +31,11 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("tune.control"),
-		def = function(.Object, path, start, ...) {
+		def = function(.Object, path, same.resampling.instance, start, ...) {
       if (missing(path))
         return(make.empty(.Object))
 			.Object@start = start 			
-			.Object = callNextMethod(.Object=.Object, path=path, ...)
+			.Object = callNextMethod(.Object=.Object, path=path, same.resampling.instance=same.resampling.instance, ...)
 			return(.Object)
 		}
 )
@@ -41,6 +51,7 @@ setMethod(
       paste(
         "Control object for tuning of class: ", class(x), "\n",
         "Save path: ", x@path, "\n",
+        "Same resampling instance: ", x@same.resampling.instance, "\n",
         sep=""
       )
     )

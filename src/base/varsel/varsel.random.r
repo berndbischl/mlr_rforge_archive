@@ -11,7 +11,7 @@ varsel.random = function(learner, task, resampling, measures, control) {
 	}
 	
 	es = eval.states(learner, task, resampling, measures, control, states, "random")
-	bs = select.best.state(es, measures[[1]])
+	bs = select.best.state(es, measures)
 	
 	path = add.path.els.varsel(list(), es, bs)
 	new("opt.result", control=control, opt=make.path.el(bs), path=path)

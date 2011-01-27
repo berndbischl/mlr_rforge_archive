@@ -1,9 +1,9 @@
-make.tune.f = function(learner, task, resampling, measure, bounds, control, opt.path) {
+make.tune.f = function(learner, task, resampling, measure, par.set, control, opt.path) {
   function(p) {
     p2 = as.list(p)
-    names(p2) = sapply(bounds@pars, function(p) p@id)
+    names(p2) = sapply(par.set@pars, function(p) p@id)
     # todo: what about operators that generate the new state? accepted?
-    y = eval.rf(learner, task, resampling, measure, bounds, control, p2) 
+    y = eval.rf(learner, task, resampling, measure, par.set, control, p2) 
     add.path.el(opt.path, x=p2, y=y)   
     perf = get.perf(es)
     logger.info(level="tune", paste(ns, "=", formatC(p, digits=3)), ":", formatC(perf, digits=3))

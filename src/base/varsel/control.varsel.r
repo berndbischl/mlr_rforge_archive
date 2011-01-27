@@ -2,10 +2,11 @@
 roxygen()
 
 #' Abstract base class for control objects for variable selection. 
-#' Cannot be instatiated. 
+#' Cannot be instantiated.
+#' 
+#' Subclasses: \code{\link{sequential.control}}, \code{\link{randomvarsel.control}}
 #' 
 #' @exportClass varsel.control
-#' @seealso \code{\link{sequential.control}}, \code{\link{randomvarsel.control}} 
 #' @title Base class for control objects for variable selection.
 
 setClass(

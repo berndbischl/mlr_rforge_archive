@@ -13,7 +13,9 @@ setClass(
 #' Control structure for CMA-ES tuning. 
 #' 
 #' @param path [boolean]\cr
-#'   Should optimization path be saved? Default is TRUE.
+#'   Should optimization path be saved? Default is \code{TRUE}.
+#' @param same.resampling.instance [logical] \cr
+#'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
 #' @param start [numeric] \cr
 #'    Named vector of initial values.
 #' @param ... Further control parameters passed to the \code{control} argument of \code{\link[spot]{spot}}.
@@ -41,9 +43,9 @@ setGeneric(
 
 setMethod(
   f = "spot.control",
-  signature = signature(path="logical", par.descs="list"),
-  def = function(path, par.descs, ...) {
-    new("spot.control", path=path,
+  signature = signature(path="logical", same.resampling.instance="logical", par.descs="list"),
+  def = function(path, same.resampling.instance, par.descs, ...) {
+    new("spot.control", path=path, same.resampling.instance=same.resampling.instance,
       start=list(), par.descs=par.descs, ...)
   }
 )

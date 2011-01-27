@@ -3,13 +3,13 @@ roxygen()
 #' @include par.desc.feasible.r
 roxygen()
 
-#' Bounds for a bunch of parameters. Are initially created, then mainly queried for information but not changed. 
+#' A bunch of parameters. Is initially created, then mainly queried for information but not changed. 
 #'  
-#' @exportClass bounds
-#' @title Optimazation path
+#' @exportClass ParameterSet
+#' @title Optimization path
 
 setClass(
-  "bounds",
+  "ParameterSet",
   contains = c("object"),
   representation = representation(
     pars = "list"
@@ -21,13 +21,13 @@ setClass(
 
 setMethod(
   f = "initialize",
-  signature = signature("bounds"),
+  signature = signature("ParameterSet"),
   def = function(.Object, pars) {
     if(any(sapply(pars, function(x) !is(x, "par.desc"))))
-      stop("All bounds parameters must be of class 'par.desc'!")
+      stop("All parameters must be of class 'par.desc'!")
     ns = sapply(pars, function(x) x@id)
     if (any(duplicated(ns)))
-      stop("All bounds parameters must have unique names!")
+      stop("All parameters must have unique names!")
     names(pars) = ns
     .Object@pars = pars
     return(.Object)
@@ -35,11 +35,11 @@ setMethod(
 )
 
 #'  Convert to list.
-#' @rdname bounds-class 
+#' @rdname ParameterSet-class 
 #' @export
 setMethod(
   f = "as.list",
-  signature = signature("bounds"),
+  signature = signature("ParameterSet"),
   def = function(x, row.names = NULL, optional = FALSE,...) {
     z = x@pars
     names(z) = sapply(z, function(y) y["par.name"])
@@ -48,7 +48,7 @@ setMethod(
 )
 
 
-#' Construct a bounds object.
+#' Construct a ParameterSet object.
 #' 
 #' @param pars [list of \code{\linkS4class{learn.task}}] \cr
 #' 			Type of the learning algorithm, either "classif" or "regr" or task to solve
@@ -77,18 +77,18 @@ setMethod(
 #' @title Find matching learning algorithms.
 
 
-make.bounds = function(...) {
+makeParameterSet = function(...) {
   args = list(...)
   if (length(args) == 0)
-    stop("Bounds are empty!")
-  new("bounds", pars=args)
+    stop("No parameters were passed!")
+  new("ParameterSet", pars=args)
 }
 
 
 #' @rdname to.string
 setMethod(
   f = "to.string",
-  signature = signature("bounds"),
+  signature = signature("ParameterSet"),
   def = function(x) {
     paste(sapply(x@pars, to.string), collapse="\n")
   }
@@ -97,9 +97,9 @@ setMethod(
 
 setMethod(
   f = "is.feasible",
-  signature = signature(x="list", bounds="bounds"),
-  def = function(x, bounds) {
-    all(mapply(is.feasible, x, bounds@pars))
+  signature = signature(x="list", par.set="ParameterSet"),
+  def = function(x, par.set) {
+    all(mapply(is.feasible, x, par.set@pars))
   }
 )
 
@@ -121,7 +121,7 @@ setMethod(
 #' @export 
 setMethod(
   f = "lower",
-  signature = signature(x="bounds"), 
+  signature = signature(x="ParameterSet"), 
   def = function(x, select=c("integer", "numeric")) { 
     v = Filter(function(y) y@type %in% select, x@pars)
     z = sapply(v, function(y) y@constraints$lower)
@@ -147,7 +147,7 @@ setMethod(
 #' @export 
 setMethod(
   f = "upper",
-  signature = signature(x="bounds"), 
+  signature = signature(x="ParameterSet"), 
   def = function(x, select=c("integer", "numeric")) { 
     v = Filter(function(y) y@type %in% select, x@pars)
     z = sapply(v, function(y) y@constraints$upper)
@@ -177,7 +177,7 @@ setMethod(
 #' @export 
 setMethod(
   f = "values",
-  signature = signature(x="bounds"), 
+  signature = signature(x="ParameterSet"), 
   def = function(x, select=c("discrete", "logical"), only.names=FALSE) { 
     v = Filter(function(y) y@type %in% select, x@pars)
     if (only.names)
@@ -186,6 +186,28 @@ setMethod(
       z = lapply(v, function(y) y@constraints$vals)
     names(z) = sapply(v, function(y) y@id)
     return(z)
+  }
+)
+
+
+#' @exportMethod trafoVal
+setGeneric(name = "trafoVal", def = function(par, val) standardGeneric("trafoVal"))
+
+#' @export 
+setMethod(
+  f = "trafoVal",
+  signature = signature(par="par.desc", val="ANY"), 
+  def = function(par, val) {
+    par@trafo(val)
+  }
+)
+
+#' @export 
+setMethod(
+  f = "trafoVal",
+  signature = signature(par="ParameterSet", val="list"), 
+  def = function(par, val) {
+    Map(trafoVal, par@pars, val)
   }
 )
 

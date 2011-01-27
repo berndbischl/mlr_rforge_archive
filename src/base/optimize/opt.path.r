@@ -12,6 +12,7 @@ setClass(
   representation = representation(
     x.names = "character",
     y.names = "character",
+    minimize = "logical",
     env = "environment"
   )
 )
@@ -20,11 +21,16 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("opt.path"),
-  def = function(.Object, x.names, y.names) {
+  def = function(.Object, x.names, y.names, minimize) {
     if (length(intersect(x.names, y.names)) > 0)
-      stop("x.names and y.names must be unique.")
+      stop("'x.names' and 'y.names' must be unique.")
+    if (length(minimize) != length(y.names))
+      stop("'y.names' and 'minimize' must be of the same length!")
     .Object@x.names = x.names
     .Object@y.names = y.names
+    names(minimize) = y.names
+    .Object@minimize = minimize
+    .Object@env = new.env()
     .Object@env$path = list()
     .Object@env$dob  = integer()
     .Object@env$eol  = integer()
@@ -32,8 +38,8 @@ setMethod(
   }
 )
 
-make.opt.path = function(bounds, y.names) {
-  new("opt.path", sapply(bounds, function(p) p@id), y.names)
+makeOptimizationPath = function(par.set, y.names, minimize) {
+  new("opt.path", names(par.set@pars), y.names, minimize)
 }
 
 #' Convert to data.frame
@@ -149,5 +155,32 @@ get.eol = function(op, z) {
       stop("No element found matching the given parameter settings. Cannot get EoL!")
   }
   op@env$eol[z]
+}
+
+
+
+setMethod(
+  f = "subset",
+  signature = signature(x="opt.path"),
+  def = function(x, dobs) {
+    p = x@env$path[x@env$dob %in% dobs]
+    op = new("opt.path", x@x.names, x@y.names, x@minimize)
+    op@env$path = p
+    return(op)
+  }
+)
+
+getBestElement = function(op, y.name, dobs) {
+  op = subset(op, dobs)
+  y = sapply(op@env$path, function(e) e$y[y.name])
+  if (op@minimize[y.name])
+    i = which.min(y)
+  else 
+    i = which.max(y)
+  if (all(is.na(y))) {
+    warning("All elements had NA fitness, selecting 1 randomly!")
+    i = sample(1:length(y), 1)
+  }
+  return(op@env$path[[i]])
 }
 

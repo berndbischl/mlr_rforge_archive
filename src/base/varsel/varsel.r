@@ -1,43 +1,40 @@
-
 #' Optimizes the variables for a classification or regression problem by choosing a variable selection wrapper approach.
-#' Allows for different optimization methods.
-#' The specific details of the search algorithm are set by passing a control object.
-#' Currently you can use \code{\link{sequential.control}}, \code{\link{randomvarsel.control}} 
-#' and \code{\link{exhvarsel.control}}. 
-#' The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal variables.
+#' Allows for different optimization methods, such as forward search or a genetic algorithm.
+#' You can select such an algorithm (and its settings)
+#' by passing a corresponding control object. For a complete list of implemented algorithms look at the 
+#' subclasses of [\code{\linkS4class{varsel.control}}].
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
-#'        Learning algorithm. See \code{\link{learners}}.  
+#'   Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{learn.task}}] \cr
-#'        Learning task.   
+#'   Learning task.   
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
-#'        Resampling strategy to evaluate points in hyperparameter space.
+#'   Resampling strategy to evaluate feature sets. If you pass a description, 
+#'   it is instantiated once at the beginning by default, so all feature sets are evaluated on the same training/test sets.
+#'   If you want to change that behaviour, look at the control object.  
+#' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
+#'   Resampling strategy to evaluate points in hyperparameter space.
 #' @param control [see \code{\link{varsel.control}}]
-#'        Control object for search method. Also selects the optimization algorithm for feature selection. 
-#' @param measures [see \code{\link{measures}}]\cr
-#'        Performance measures. 
-#' @param model [boolean]\cr
-#'        Should a final model be fitted on the complete data with the best found features? Default is FALSE.
+#'   Control object for search method. Also selects the optimization algorithm for feature selection. 
+#' @param measures [list of \code{\linkS4class{measure}}]\cr
+#'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
 #' 
 #' @return \code{\linkS4class{opt.result}}.
 #' 
 #' @export
-#'
-#' @seealso \code{\link{varsel.control}}, \code{\link{make.varsel.wrapper}} 
-#'   
+#' @seealso \code{\link{make.varsel.wrapper}} 
 #' @title Variable selection.
 
-varsel <- function(learner, task, resampling, control, measures, model=FALSE) {
+varsel <- function(learner, task, resampling, control, measures) {
   if (is.character(learner))
     learner <- make.learner(learner)
-  # todo: should we really do this here??
-  # convert to instance so all pars are evaluated on the same splits
-  if (is(resampling, "resample.desc")) 
-    resampling = make.res.instance(resampling, task=task)
+  if (is(resampling, "resample.desc") && control@same.resampling.instance)
+    resampling = make.resample.instance(resampling, task=task)
   if (missing(measures))
-    measures = default.measures(task)[[1]]
-  measure = set.aggr(measure, measure@aggr[[1]])
-	
+    measures = default.measures(task)
+  if (is(measures, "measure"))
+    measures = list(measures)   
+  
 	cl = as.character(class(control))
 	
 	sel.func = switch(cl,
@@ -50,9 +47,8 @@ varsel <- function(learner, task, resampling, control, measures, model=FALSE) {
 	if (missing(control)) {
 		stop("You have to pass a control object!")
 	}
-	
-	or = sel.func(learner=learner, task=task, resampling=resampling, 
-			measures=measures, control=control) 
+  opt.path = makeOptimizationPathFromMeasures(par.set, measures)
+  or = sel.func(learner, task, resampling, measures, par.set, control, opt.path)
 	if (model) {
     task = subset(task, vars=or["par"])
 		or@model = train(learner, task) 	

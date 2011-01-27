@@ -17,6 +17,7 @@ setClass(
 		contains = c("object"),
 		representation = representation(
 				path = "logical",
+        same.resampling.instance = "logical",        
 				extra.args = "list"
 		)
 )
@@ -26,10 +27,11 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.control"),
-		def = function(.Object, path, ...) {
+		def = function(.Object, path, same.resampling.instance, ...) {
       if (missing(path))
         return(make.empty(.Object))
 			.Object@path = path
+      .Object@same.resampling.instance = same.resampling.instance
 			.Object@extra.args = list(...)
 			return(.Object)
 		}

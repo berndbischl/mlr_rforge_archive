@@ -100,7 +100,7 @@ setMethod(
       return(
 					paste(
 							"Opt. pars: ", x["par.string"], "\n",
-							paste(capture.output(x["perf"]), collapse="\n"),"\n",
+							paste(paste(names(x@y), formatC(x@y, digits=3), sep="="), collapse=" "), 
 							sep=""
 					)
 			)

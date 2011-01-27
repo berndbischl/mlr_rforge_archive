@@ -13,6 +13,8 @@ setClass(
 #' 
 #' @param path [boolean]\cr
 #'   Should optimization path be saved? Default is TRUE.
+#' @param same.resampling.instance [logical] \cr
+#'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
 #' 		    
 #' @return Control structure for tuning.
 #' @exportMethod grid.control
@@ -22,10 +24,12 @@ setClass(
 
 setGeneric(
 		name = "grid.control",
-		def = function(path) {
+		def = function(path, same.resampling.instance) {
 			if (missing(path))
 				path=TRUE
-			standardGeneric("grid.control")
+      if (missing(same.resampling.instance))
+        same.resampling.instance = TRUE
+      standardGeneric("grid.control")
 		}
 )
 
@@ -34,8 +38,8 @@ setGeneric(
 
 setMethod(
 		f = "grid.control",
-		signature = signature(path="logical"),
-		def = function(path) {
-			new("grid.control", path=path, start=list())
+		signature = signature(path="logical", same.resampling.instance="logical"),
+		def = function(path, same.resampling.instance) {
+			new("grid.control", path=path, same.resampling.instance=same.resampling.instance, start=list())
 		}
 )

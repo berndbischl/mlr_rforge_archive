@@ -1,5 +1,4 @@
-
-varsel.exhaustive = function(learner, task, resampling, measures, control) {
+varsel.exhaustive = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   all.vars = task["input.names"]
   m = length(all.vars) 
   max.vars = control["max.vars"]
@@ -10,9 +9,9 @@ varsel.exhaustive = function(learner, task, resampling, measures, control) {
     states = c(states, lapply(1:ncol(x), function(j) all.vars[x[,j]]))
   }
   
-  es = eval.states(learner, task, resampling, measures, control, states, "exh")
-  bs = select.best.state(es, measures[[1]])
+  eval.states(learner, task, resampling, measures, control, states, "exh")
+  y.name = measureAggrNames(measures[[1]])[1]
+  e = getBestElement(opt.path, y.name, dobs=1)
   
-  path = add.path.els.varsel(list(), es, bs)
-  new("opt.result", control=control, opt=make.path.el(bs), path=path)
+  new("opt.result", control=control, par=e$x, y=e$y, path=path)
 } 

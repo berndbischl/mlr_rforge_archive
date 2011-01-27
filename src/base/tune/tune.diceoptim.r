@@ -1,11 +1,11 @@
-tune.diceoptim = function(learner, task, resampling, measure, bounds, control, opt.path, logger) {
+tune.diceoptim = function(learner, task, resampling, measures, par.set, control, opt.path, logger) {
   require.packs(c("DiceOptim", "lhs"), "tune.diceoptim")
   
-  if (any(sapply(bounds@pars, function(x) !(x@type %in% c("numeric", "integer")))))
+  if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer")))))
     stop("DiceOptim can only be applied to numeric and integer parameters!")
   
-  low = lower(bounds)
-  up = upper(bounds)
+  low = lower(par.set)
+  up = upper(par.set)
   if (any(is.infinite(c(low, up))))
     stop("DiceOptim requires finite box constraints!")
   
@@ -15,7 +15,7 @@ tune.diceoptim = function(learner, task, resampling, measure, bounds, control, o
   print(str(des))
   ns = colnames(des)
 
-  f = make.tune.f(learner, task, resampling, measure, bounds, control, opt.path) 
+  f = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path) 
   
   y = apply(des, 1, f) 
   

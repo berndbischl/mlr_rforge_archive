@@ -1,5 +1,5 @@
 # todo: maxit, max.vars
-varsel.seq = function(learner, task, resampling, measures, control) {
+varsel.seq = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
 	
 	seq.step = function(forward, state, gen.new.states, compare) {
 		not.used = setdiff(all.vars, state$par)
@@ -14,7 +14,7 @@ varsel.seq = function(learner, task, resampling, measures, control) {
 				measures=measures, control=control, pars=new.states, event=event)
 		#print(unlist(vals))
 		
-		s = select.best.state(es, measures[[1]])
+		s = select.best.state(es, measures)
 		if (forward)
 			thresh = control["alpha"]
 		# if backward step and we have too many vars we do always go to the next best state with one less var.
@@ -114,6 +114,7 @@ varsel.seq = function(learner, task, resampling, measures, control) {
 			}
 		}
 	}
+    
 	new("opt.result", control=control, opt=make.path.el(state), path=path)
 }
 

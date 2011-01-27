@@ -7,43 +7,46 @@ roxygen()
 #todo instantiate resample description for others than grid search????
 
 #' Optimizes the hyperparameters of a learner for a classification or regression problem.
-#' Allows for different optimization methods, commonly grid search is used but other search techniques
-#' are available as well.
-#' The specific details of the search algorithm are set by passing a control object.   
-#' 
-#' The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal hyperparameters.
+#' Allows for different optimization methods, such as grid search, evolutionary strategies 
+#' or sequential parameter optimization. You can select such an algorithm (and its settings)
+#' by passing a corresponding control object. For a complete list of implemented algorithms look at the 
+#' subclasses of [\code{\linkS4class{tune.control}}].
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{learn.task}}] \cr
 #'   Learning task.   
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
-#'   Resampling strategy to evaluate points in hyperparameter space. At least for grid search, if you pass a description, 
-#'   it is instantiated at one, so all points are evaluated on the same training/test sets.	
+#'   Resampling strategy to evaluate points in hyperparameter space. If you pass a description, 
+#'   it is instantiated once at the beginning by default, so all points are evaluated on the same training/test sets.
+#'   If you want to change that behaviour, look at the control object. 	
+#' @param par.set [\code{\linkS4class{ParameterSet}}] \cr
+#'   Collection of parameters and their constraints for optimization.   
 #' @param control [\code{\linkS4class{tune.control}}] \cr
 #'   Control object for search method. Also selects the optimization algorithm for tuning.   
-#' @param measure [\code{\linkS4class{measure}}]\cr
-#'   Performance measure to optimize. 
-#' @param model [boolean]\cr
-#'   Should a final model be fitted on the complete data with the best found hyperparameters? Default is FALSE.
+#' @param measures [list of \code{\linkS4class{measure}}]\cr
+#'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
+#' @param log.fun [function(task, learner, resampling, val)]\cr
+#'   ???? 
 #' 
 #' @return \code{\linkS4class{opt.result}}.
-#' 
 #' @export
-#'
-#' @seealso \code{\link{grid.control}}, \code{\link{optim.control}}, \code{\link{cmaes.control}}
-#'   
-#' @title Hyperparameter tuning
+#' @seealso \code{\link{make.tune.wrapper}} 
+#' @title Hyperparameter tuning.
 
 
-tune <- function(learner, task, resampling, measure, bounds, control, model=FALSE, log) {
+tune <- function(learner, task, resampling, measures, par.set, control, log.fun) {
   if (is.character(learner))
     learner <- make.learner(learner)
-	if (missing(measure))
-		measure = default.measures(task)[[1]]
-  measure = set.aggr(measure, measure@aggr[[1]])
+  if (is(resampling, "resample.desc") && control@same.resampling.instance)
+    resampling = make.resample.instance(resampling, task=task)
+	if (missing(measures))
+		measures = default.measures(task)
+  if (is(measures, "measure"))
+    measures = list(measures)   
+  
   cl = as.character(class(control))
-	optim.func = switch(cl,
+	sel.func = switch(cl,
 			grid.control = tune.grid,
 #			pattern = tune.ps,
 			cmaes.control = tune.cmaes,
@@ -56,18 +59,10 @@ tune <- function(learner, task, resampling, measure, bounds, control, model=FALS
 		stop("You have to pass a control object!")
 	}
 	
-	#.mlr.local$n.eval <<- 0
+  opt.path = makeOptimizationPathFromMeasures(par.set, measures)
+  or = sel.func(learner, task, resampling, measures, par.set, control, opt.path)
 	
-	opt.path = new("opt.path", x.names=sapply(bounds@pars, function(p) p@id), y.names=measure@id)
-  or = optim.func(learner, task, resampling, measure, bounds, control, opt.path)
-
-	
-	or@par = .mlr.scale.val(or@par, bounds)
-	if (model) {
-    learner = set.hyper.pars(learner, par.vals=or@par)
-		or@model = train(learner, task) 	
-	}
-	
+	or@par = .mlr.scale.val(or@par, par.set)
 	return(or)			
 }
 
@@ -78,7 +73,7 @@ tune <- function(learner, task, resampling, measure, bounds, control, model=FALS
 #' @seealso \code{\link{tune.control}}
 #' @title Scale parameter vector. Internal use.
 
-.mlr.scale.val <- function(v, bounds) {
-  Map(function(par, x) par@scale(x), bounds@pars, v)
+.mlr.scale.val <- function(v, par.set) {
+  Map(function(par, x) par@trafo(x), par.set@pars, v)
 }
 
