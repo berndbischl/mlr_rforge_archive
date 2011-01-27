@@ -196,8 +196,8 @@ almost.equal <- function(e1, e2) {
 }
 
 
-par.valnames.to.vals = function(names, bounds) {
-  Map(function(par, n) par@constraints$vals[n], bounds@pars, names)
+par.valnames.to.vals = function(names, par.set) {
+  Map(function(par, n) par@constraints$vals[[n]], par.set@pars, names)
 }
 
 
@@ -244,3 +244,10 @@ check.arg = function(x, cl, len) {
 }
 
 
+measureAggrNames = function(measure) {
+  paste(measure@id, sapply(measure@aggr, function(a) a@id), sep=".")
+}
+
+measuresAggrNames = function(measures) {
+  Reduce(c, lapply(measures, measureAggrNames))
+}

@@ -7,7 +7,7 @@
 #'   Upper bound. Default is \code{Inf}.
 #' @return  \code{\linkS4class{par.desc}}
 #' @export 
-numeric.parameter = function(id, lower=-Inf, upper=Inf, scale=identity) {
+numeric.parameter = function(id, lower=-Inf, upper=Inf, trafo=identity) {
   if (is.integer(lower))
     lower = as.numeric(lower)
   if (is.integer(upper))
@@ -17,7 +17,7 @@ numeric.parameter = function(id, lower=-Inf, upper=Inf, scale=identity) {
   if (upper < lower)
     stop("No possible value!")
   constraints = list(lower=as.numeric(lower), upper=as.numeric(upper))
-  new("par.desc", id, "numeric", constraints, scale)
+  new("par.desc", id, "numeric", constraints, trafo)
 } 
 
 
@@ -29,7 +29,7 @@ numeric.parameter = function(id, lower=-Inf, upper=Inf, scale=identity) {
 #'   Upper bound. Default is \code{Inf}.
 #' @return  \code{\linkS4class{par.desc}}
 #' @export 
-integer.parameter = function(id, lower=-.Machine$integer.max, upper=.Machine$integer.max, scale=identity) {
+integer.parameter = function(id, lower=-.Machine$integer.max, upper=.Machine$integer.max, trafo=identity) {
   if (is.numeric(lower) && length(lower)==1 && is.finite(lower) && lower==as.integer(lower))
     lower = as.integer(lower)
   if (is.numeric(upper) && length(upper)==1 && is.finite(upper) && upper==as.integer(upper))
@@ -39,7 +39,7 @@ integer.parameter = function(id, lower=-.Machine$integer.max, upper=.Machine$int
   if (upper < lower)
     stop("No possible value!")
   constraints = list(lower=as.integer(lower), upper=as.integer(upper))
-  new("par.desc", id, "integer", constraints, scale)
+  new("par.desc", id, "integer", constraints, trafo)
 } 
 
 
@@ -82,6 +82,15 @@ discrete.parameter = function(id, vals) {
   constraints = list(vals=vals)
   new("par.desc", id, "discrete", constraints)
 } 
+
+
+#' Function variable for optimization.
+#' @return \code{\linkS4class{par.desc}}
+#' @export 
+function.parameter = function(id) {
+  new("par.desc", id, "function", list())
+} 
+
 
 #' Untyped variable for optimization.
 #' @return \code{\linkS4class{par.desc}}
