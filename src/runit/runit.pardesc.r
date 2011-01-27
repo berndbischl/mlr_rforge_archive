@@ -157,3 +157,18 @@ test.logical_parameters <- function() {
   checkTrue(!is.feasible(1, bp))
   checkTrue(!is.feasible(NULL, bp))  
 }
+
+test.function_parameters <- function() {
+  fp = function.parameter(id="x")
+  checkEquals("function", fp["type"])
+  checkTrue(is.feasible(identity, fp))
+  
+  checkEquals(c(TRUE, TRUE, FALSE),
+    is.feasible(list(identity, identity, TRUE), fp))
+  
+  checkTrue(!is.feasible("bam", fp))
+  checkTrue(!is.feasible(1L, fp))
+  checkTrue(!is.feasible(1, fp))
+  checkTrue(!is.feasible(NULL, fp))  
+}
+

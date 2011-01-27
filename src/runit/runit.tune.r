@@ -1,7 +1,7 @@
 test.tune <- function() {
   cp = c(0.05, 0.9)
   minsplit = 1:3 
-  b1 = make.bounds(discrete.parameter("cp", vals=cp), discrete.parameter("minsplit", vals=minsplit))
+  b1 = makeParameterSet(discrete.parameter("cp", vals=cp), discrete.parameter("minsplit", vals=minsplit))
 	ctrl = grid.control()
 	folds = 3
 	
@@ -10,8 +10,8 @@ test.tune <- function() {
 	
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
-	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, bounds=b1, control=ctrl)
-  pp = tr2["path", as.data.frame=TRUE]
+	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, par.set=b1, control=ctrl)
+  pp = as.data.frame(tr2@path)
   
 	# todo test scale with tune.e1071 and scaled grid!
 	
@@ -29,7 +29,7 @@ test.tune <- function() {
 	
 	
 	# check grid and scale
-	control = grid.control(ranges=list(C=-1:1, sigma=-1:1), scale=function(x)10^x)
+	control = grid.control(ranges=list(C=-1:1, sigma=-1:1), trafo=function(x)10^x)
 	tune("classif.ksvm", multiclass.task, cv.instance, control=control)
 	
   # check order of constraints and start in control objects
@@ -83,11 +83,11 @@ test.tune <- function() {
   checkEquals(tr["par"]$n, 60)
   
 	# nelder mead with optim
-	ctrl = optim.control(start=c(C=0, sigma=0), maxit=10, scale=function(x) 2^x)
+	ctrl = optim.control(start=c(C=0, sigma=0), maxit=10, trafo=function(x) 2^x)
 	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)
 	
 	# SA with optim
-	ctrl = optim.control(start=c(C=0, sigma=0), maxit=10, method="SANN", scale=function(x) 2^x)
+	ctrl = optim.control(start=c(C=0, sigma=0), maxit=10, method="SANN", trafo=function(x) 2^x)
 	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)
 	
 	
@@ -103,17 +103,17 @@ test.tune <- function() {
 
 test.tune.cmaes = function() {
   res = make.res.desc("cv", iters=2)
-  b1 = make.bounds(
+  b1 = makeParameterSet(
     numeric.parameter("cp", lower=0.001, upper=1), 
     integer.parameter("minsplit", lower=1, upper=10)
   )
   
-  b1 = make.bounds(
-    numeric.parameter("C", scale=function(x) 2^x), 
-    numeric.parameter("sigma", scale=function(x) 2^x) 
+  b1 = makeParameterSet(
+    numeric.parameter("C", trafo=function(x) 2^x), 
+    numeric.parameter("sigma", trafo=function(x) 2^x) 
   )
-  b2 = make.bounds(
-    numeric.parameter("C", scale=function(x) 2^x), 
+  b2 = makeParameterSet(
+    numeric.parameter("C", trafo=function(x) 2^x), 
     discrete.parameter("kernel", vals=c("rbfdot", "polydot"))
   )
   
@@ -123,21 +123,21 @@ test.tune.cmaes = function() {
   ctrl = diceoptim.control()
   
   ctrl1 = cmaes.control(start=c(C=0), maxit=5)
-  checkException(tune("classif.ksvm", multiclass.task, cv.instance, bounds=b1, control=ctrl2))
-  checkException(tune("classif.ksvm", multiclass.task, cv.instance, bounds=b1, control=ctrl2))
+  checkException(tune("classif.ksvm", multiclass.task, cv.instance, par.set=b1, control=ctrl2))
+  checkException(tune("classif.ksvm", multiclass.task, cv.instance, par.set=b1, control=ctrl2))
 } 
 
 
 
 test.tune.diceoptim = function() {
   res = make.res.desc("cv", iters=2)
-  b1 = make.bounds(numeric.parameter("cp", lower=0.001, upper=1), integer.parameter("minsplit", lower=1, upper=10))
+  b1 = makeParameterSet(numeric.parameter("cp", lower=0.001, upper=1), integer.parameter("minsplit", lower=1, upper=10))
   
   ctrl = diceoptim.control()
   
   tr1 = tune("classif.rpart", multiclass.task, cv.instance, control=ctrl)
   
-  b2 = make.bounds(numeric.parameter("cp", lower=0.001, upper=1), integer.parameter("minsplit", lower=1, upper=10))
+  b2 = makeParameterSet(numeric.parameter("cp", lower=0.001, upper=1), integer.parameter("minsplit", lower=1, upper=10))
   checkException(tune("classif.rpart", multiclass.task, cv.instance, control=ctrl))
   
 } 
