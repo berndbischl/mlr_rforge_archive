@@ -6,7 +6,7 @@ roxygen()
 #' 
 #' \describe{
 #' \item{grid.control}{Grid search. 
-#'   All kinds of parameter types can be handled, but you have discretize them yourself by always passing a \code\link{discrete.parameter}.
+#'   All kinds of parameter types can be handled, but you have discretize them yourself by always using \code\link{makeDiscreteParameter}.
 #' \item{optim.control}{\code{\link[stats]{optim}}. \code{\linkCovaraiance Matrix Adaption Evolutionary Strategy. 
 #'   Can handle numeric and integer hyperparameters. For integers the internally proposed numeric values are rounded.}
 #' \item{cmaes.control}{CMA Evolution Strategy. Can handle numeric and integer hyperparameters. 

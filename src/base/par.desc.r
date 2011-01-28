@@ -1,5 +1,7 @@
 #' Description class for an optimization parameter.
 #'
+#' Subclasses: \code{\linkS4class{LearnerParameter}}
+#' 
 #' @slot id Name of parameter. 
 #' @slot type Data type of parameter. Possible types are 'numeric', 'integer', 'ordered', 'discrete', 'function', 'untyped'.
 #' @slot constraints Contains further information of simple contraints. 
@@ -8,7 +10,7 @@
 #' @slot trafo When values for the parameter are generated in any way, this function will always be applied directly aftwerwards. Function must accept a parameter value as the first argument and return a transformed one.
 #' 
 #' @exportClass Parameter
-#' @seealso \code{\link{LearnerParameter}}, \code{\link{makeParameterSet}} 
+#' @seealso \code{\link{makeParameterSet}} 
 #' @title Description class for an optimization parameter.
 
 setClass("Parameter",
@@ -49,6 +51,10 @@ setMethod(
       paste("Discrete parameter '", x@id, "'. Values: ", paste(names(x@constraints$vals), collapse=","), sep="") 
     } else if (type == "logical") {
       paste("Logical parameter '", x@id, "'.", sep="") 
+    } else if (type == "ordered") {
+      paste("Ordered parameter '", x@id, "'.", sep="") 
+    } else if (type == "function"){
+      paste("Function parameter '", x@id, "'.", sep="") 
     } else if (type == "untyped"){
       paste("Untyped parameter '", x@id, "'.", sep="") 
     } else 

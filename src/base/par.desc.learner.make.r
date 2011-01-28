@@ -17,7 +17,7 @@
 makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
-  p <- numeric.parameter(id, lower, upper)
+  p <- makeNumericParameter(id, lower, upper)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 
@@ -25,7 +25,7 @@ makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
 makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.Machine$integer.max,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
-  p <- integer.parameter(id, lower, upper)
+  p <- makeIntegerParameter(id, lower, upper)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 
@@ -33,20 +33,20 @@ makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.
 makeDiscreteLearnerParameter <- function(id, vals,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
-  p <- discrete.parameter(id, vals)
+  p <- makeDiscreteParameter(id, vals)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 
 makeLogicalLearnerParameter <- function(id,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
-  p <- logical.parameter(id)
+  p <- makeLogicalParameter(id)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 
 
 untyped.learner.parameter <- function(id, default, when="train", flags=list(), requires=expression()) {
-  p <- untyped.parameter(id)
+  p <- makeUntypedParameter(id)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 

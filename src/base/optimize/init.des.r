@@ -32,11 +32,11 @@ make.design = function(n, par.set, fun, fun.args) {
 }
 
 
-p1 = numeric.parameter(id="x1", lower=1.1, upper=5.0, trafo=function(x) round(x,2))
-p2 = integer.parameter(id="x2", lower=9, upper=11)
-p3 = discrete.parameter(id="x3", vals=list(1,2,3))
-p4 = logical.parameter(id="x4")
-p5 = discrete.parameter(id="x5", vals=list("a", "b", "c", "d"))
+p1 = makeNumericParameter(id="x1", lower=1.1, upper=5.0, trafo=function(x) round(x,2))
+p2 = makeIntegerParameter(id="x2", lower=9, upper=11)
+p3 = makeDiscreteParameter(id="x3", vals=list(1,2,3))
+p4 = makeLogicalParameter(id="x4")
+p5 = makeDiscreteParameter(id="x5", vals=list("a", "b", "c", "d"))
 
 b = makeParameterSet(p1, p2, p3, p4, p5)
 

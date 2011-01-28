@@ -141,8 +141,8 @@ fun = function(x) {
 }
 
 bounds = make.bounds(
-  numeric.parameter("x1", lower=-10, upper=10),
-  numeric.parameter("x2", lower=-10, upper=10)
+  makeNumericParameter("x1", lower=-10, upper=10),
+  makeNumericParameter("x2", lower=-10, upper=10)
 )
 
 set.seed(1)

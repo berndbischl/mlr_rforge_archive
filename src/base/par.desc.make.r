@@ -1,4 +1,5 @@
 #todo: switch on init conversion later, switch off now for tests
+#todo: ordered
 
 #' Numerical variable for optimization.
 #' @param lower [single numeric] \cr
@@ -7,7 +8,7 @@
 #'   Upper bound. Default is \code{Inf}.
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
-numeric.parameter = function(id, lower=-Inf, upper=Inf, trafo=identity) {
+makeNumericParameter = function(id, lower=-Inf, upper=Inf, trafo=identity) {
   if (is.integer(lower))
     lower = as.numeric(lower)
   if (is.integer(upper))
@@ -29,7 +30,7 @@ numeric.parameter = function(id, lower=-Inf, upper=Inf, trafo=identity) {
 #'   Upper bound. Default is \code{Inf}.
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
-integer.parameter = function(id, lower=-.Machine$integer.max, upper=.Machine$integer.max, trafo=identity) {
+makeIntegerParameter = function(id, lower=-.Machine$integer.max, upper=.Machine$integer.max, trafo=identity) {
   if (is.numeric(lower) && length(lower)==1 && is.finite(lower) && lower==as.integer(lower))
     lower = as.integer(lower)
   if (is.numeric(upper) && length(upper)==1 && is.finite(upper) && upper==as.integer(upper))
@@ -46,7 +47,7 @@ integer.parameter = function(id, lower=-.Machine$integer.max, upper=.Machine$int
 #' Boolean variable for optimization.
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
-logical.parameter = function(id) {
+makeLogicalParameter = function(id) {
   new("Parameter", id, "logical", list())
 } 
 
@@ -55,7 +56,7 @@ logical.parameter = function(id) {
 #'   Possible values.
 #' @return  \code\linkS4class{Parameter}}
 #' @export 
-discrete.parameter = function(id, vals) {
+makeDiscreteParameter = function(id, vals) {
   if (is.vector(vals))
     vals = as.list(vals)
   check.arg(vals, "list")
@@ -87,7 +88,7 @@ discrete.parameter = function(id, vals) {
 #' Function variable for optimization.
 #' @return \code{\linkS4class{Parameter}}
 #' @export 
-function.parameter = function(id) {
+makeFunctionParameter = function(id) {
   new("Parameter", id, "function", list())
 } 
 
@@ -95,7 +96,7 @@ function.parameter = function(id) {
 #' Untyped variable for optimization.
 #' @return \code{\linkS4class{Parameter}}
 #' @export 
-untyped.parameter = function(id) {
+makeUntypedParameter = function(id) {
   new("Parameter", id, "untyped", list())
 } 
 
