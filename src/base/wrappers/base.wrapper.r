@@ -29,14 +29,14 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("base.wrapper"),
-		def = function(.Object, learner, par.descs, par.vals=list(), pack=as.character(c())) {
+		def = function(.Object, learner, par.set, par.vals=list(), pack=as.character(c())) {
 			if (missing(learner))
 				return(make.empty(.Object))
-      ns = intersect(sapply(par.descs, function(x) x@par.name), names(learner["par.descs"]))
+      ns = intersect(sapply(par.set, function(x) x@par.name), names(learner@par.set))
       if (length(ns) > 0)
         stop("Hyperparameter names in wrapper clash with base learner names: ", paste(ns, collapse=","))
 			.Object@learner = learner
-      callNextMethod(.Object, id=learner["id"], par.descs=par.descs, par.vals=par.vals, pack=pack)
+      callNextMethod(.Object, id=learner["id"], par.set=par.set, par.vals=par.vals, pack=pack)
 		}
 )
 
@@ -60,11 +60,11 @@ setMethod(
       if(i == "pack") {
 				return(c(x@learner["pack"], x@pack))
 			}			
-			if(i == "par.descs") {
+			if(i == "par.set") {
         if (head)
           return(callNextMethod())
         else
-          return(c(x@learner["par.descs"], callNextMethod()))
+          return(c(x@learner@par.set, callNextMethod()))
 			}
       if(i == "par.vals") {
         if (head)
@@ -128,7 +128,7 @@ setMethod(
 	
 	def = function(learner, ..., par.vals=list()) {
 		ns = names(par.vals)
-		pds.n = sapply(learner@par.descs, function(x) x@id)
+		pds.n = sapply(learner@par.set, function(x) x@id)
 		for (i in seq(length=length(par.vals))) {
 			if (ns[i] %in% pds.n) {
 				learner = callNextMethod(learner, par.vals=par.vals[i])

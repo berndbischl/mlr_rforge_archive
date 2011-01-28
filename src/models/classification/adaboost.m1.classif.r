@@ -33,7 +33,7 @@ setMethod(
 					costs = FALSE
 			)
       
-      par.descs = list(
+      par.set = list(
         logical.learner.parameter(id="boos", default=TRUE),
         integer.learner.parameter(id="mfinal", default=100L, lower=1L),
         discrete.learner.parameter(id="coeflearn", default="Breiman", vals=c("Breiman", "Freund")),
@@ -41,7 +41,7 @@ setMethod(
         numeric.learner.parameter(id="cp", default=0.01, lower=0),
         integer.learner.parameter(id="maxdepth", lower=1L, upper=30L)
       )
-			callNextMethod(.Object, pack="adabag", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="adabag", desc=desc, par.set=par.set)
 		}
 )
 

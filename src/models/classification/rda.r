@@ -32,7 +32,7 @@ setMethod(
 					weights = FALSE,			
 					costs = FALSE
 			)
-			par.descs = list(
+			par.set = list(
 					numeric.learner.parameter(id="lambda", lower=0, upper=1),
 					numeric.learner.parameter(id="gamma", lower=0, upper=1),
 					logical.learner.parameter(id="crossval", default=TRUE),
@@ -53,7 +53,7 @@ setMethod(
           logical.learner.parameter(id="estimate.error", default=FALSE, flags=list(optimize=FALSE, pass.default=TRUE))
 			)
 			
-			callNextMethod(.Object, pack="klaR", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="klaR", desc=desc, par.set=par.set)
 		}
 )
 

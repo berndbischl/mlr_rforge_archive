@@ -5,7 +5,7 @@ tune.grid <- function(learner, task, resampling, measures, par.set, control, opt
   # convert to instance so all pars are evaluated on the same splits
   if (is(resampling, "resample.desc")) 
     resampling = make.res.instance(resampling, task=task)
-  # drop names from par.descs
+  # drop names from par.set
   vals = values(par.set, only.names=TRUE) 
   
   grid = expand.grid(vals, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE) 

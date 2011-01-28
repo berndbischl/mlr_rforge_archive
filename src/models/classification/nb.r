@@ -34,13 +34,13 @@ setMethod(
 					costs = FALSE
 			)
 			
-      par.descs = list(
+      par.set = list(
         numeric.learner.parameter(id="laplace", default=0, lower=0)
         #numeric.learner.parameter(id="threshold", default=0.001, lower=0)
       )
       
       
-			callNextMethod(.Object, pack="e1071", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="e1071", desc=desc, par.set=par.set)
 		}
 )
 

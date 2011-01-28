@@ -1,7 +1,7 @@
 
 
 spotMlrWriteRoi = function(path, control) {
-  pds = control@par.descs
+  pds = control@par.set
 	n = length(pds)
   tab = data.frame(name=rep("a", n), low=0, high=1, type="x", stringsAsFactors = FALSE)
 	for (i in 1:n) {

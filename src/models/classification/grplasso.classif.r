@@ -33,12 +33,12 @@ setMethod(
 					costs = FALSE
 			)
 
-      par.descs = list(
+      par.set = list(
         numeric.learner.parameter(id="lambda", default=1, lower=0),
         new("par.desc.unknown", id="index")
       )
       
-      callNextMethod(.Object, pack="grplasso", desc=desc, par.descs=par.descs, par.vals=list(lambda = 1))
+      callNextMethod(.Object, pack="grplasso", desc=desc, par.set=par.set, par.vals=list(lambda = 1))
 		}
 )
 

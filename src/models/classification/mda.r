@@ -36,7 +36,7 @@ setMethod(
  
     x = callNextMethod(.Object, pack="mda", desc=desc)
     
-    par.descs <- list(
+    par.set <- list(
       untyped.learner.parameter(id="subclasses", default=2L),
       integer.learner.parameter(id="iter", default=5L, lower=1L),
       integer.learner.parameter(id="dimension", lower=1L),
@@ -48,7 +48,7 @@ setMethod(
       integer.learner.parameter(id="tries", default=5L, lower=1L)
     )
 
-    x@par.descs = par.descs
+    x@par.set = par.set
     return(x)
   }
 )

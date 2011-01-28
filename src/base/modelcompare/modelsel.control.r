@@ -38,12 +38,6 @@ setMethod(
   f = "modelsel.control",
   signature = signature(minimize="logical", path="logical"),
   def = function(minimize, path) {
-    pds = list()
-    for (i in 1:length(ranges)) {
-      pd = discrete.learner.parameter(id=names(ranges)[i], vals=as.list(ranges[[i]]))
-      pds[[i]] = pd 
-    }
-    new("modelsel.control", minimize=minimize, path=path,
-      start=list(), par.descs=pds)
+    new("modelsel.control", minimize=minimize, path=path,  start=list())
   }
 )

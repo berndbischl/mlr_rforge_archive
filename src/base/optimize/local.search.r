@@ -1,9 +1,9 @@
 
-generate.offspring = function(learner, task, res, par.vals, y, par.descs, control) {
+generate.offspring = function(learner, task, res, par.vals, y, par.set, control) {
   new.vals = list()
   for (j in 1:control["lambda"]) {
-    i = sample(1:length(par.descs), 1)
-    pd = par.descs[[i]]
+    i = sample(1:length(par.set), 1)
+    pd = par.set[[i]]
     s = sample(c(-1L,1L), 1)
     pn = par.desc["par.name"]
     pv = par.vals[[pn]]
@@ -25,18 +25,18 @@ generate.offspring = function(learner, task, res, par.vals, y, par.descs, contro
 }
 
 
-local.search = function(learner, task, res, par.vals, y, par.descs, control) {
-  pd = par.descs[[i]]
+local.search = function(learner, task, res, par.vals, y, par.set, control) {
+  pd = par.set[[i]]
   s = sample(c(-1L,1L), 1)
   pn = par.desc["par.name"]
   pv = par.vals[[pn]]
-  offs = generate.offspring(earner, task, res, par.vals, y, par.descs, control)
+  offs = generate.offspring(earner, task, res, par.vals, y, par.set, control)
   new.vals[[pn]] = new.val
   p = resample(learner, task, res, par.vals=new.vals)
   perf = performance(p, task, measures=measures, aggr=aggr)
   
   if (perf < y)
-    Recall(learner, task, res, par.vals, y, par.descs, step.sizes)  
+    Recall(learner, task, res, par.vals, y, par.set, step.sizes)  
   else  
-    Recall(learner, task, res, par.vals, y, par.descs, step.sizes)  
+    Recall(learner, task, res, par.vals, y, par.set, step.sizes)  
 }

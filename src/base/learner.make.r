@@ -32,7 +32,7 @@ make.learner = function(class, id, predict.type="response", ..., par.vals=list()
     stop("Learner must be a basic rlearner!")
 	if (!missing(id))
 		wl@id = id
-  pds = wl["par.descs"]
+  pds = wl@par.set
   # pass defaults
   pv = list()
   for (j in seq(length=length(pds))) {

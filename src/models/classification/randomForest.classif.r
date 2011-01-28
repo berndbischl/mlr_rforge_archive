@@ -34,7 +34,7 @@ setMethod(
 					costs = FALSE
 			)
 			
-			par.descs = list(
+			par.set = list(
 					integer.learner.parameter(id="ntree", default=500L, lower=1L),
           integer.learner.parameter(id="mtry", lower=1L),
 					logical.learner.parameter(id="replace", default=TRUE),
@@ -49,7 +49,7 @@ setMethod(
           integer.learner.parameter(id="maxnodes", lower=1L)
 			)
 
-      callNextMethod(.Object, pack="randomForest", desc=desc, par.descs=par.descs)
+      callNextMethod(.Object, pack="randomForest", desc=desc, par.set=par.set)
 		}
 )
 

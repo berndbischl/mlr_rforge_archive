@@ -54,7 +54,7 @@ make.multiclass.wrapper = function(learner, mcw.method="onevsrest") {
     discrete.learner.parameter(id="mcw.method", vals=c("onevsone", "onevsrest"), default="onevsrest"),
     function.learner.parameter(id="mcw.custom")
   )
-  w = new("multiclass.wrapper", learner=learner, par.descs=pds)
+  w = new("multiclass.wrapper", learner=learner, par.set=pds)
   if (is.function(mcw.method)) {
     if (any(names(formals(mcw.method)) != c("task")))
       stop("Arguments in multiclass codematrix function have to be: task")   

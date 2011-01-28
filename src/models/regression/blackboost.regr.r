@@ -20,7 +20,7 @@ setMethod(
 					factors = TRUE,
 					weights = TRUE
 			)
-      par.descs = list(
+      par.set = list(
         discrete.learner.parameter(id="family", default="Gaussian", vals=list(Gaussian=Gaussian(), Huber=Huber(), Laplace=Laplace())),
         integer.learner.parameter(id="mstop", default=100L, lower=1L),
         numeric.learner.parameter(id="nu", default=0.1, lower=0, upper=1),
@@ -36,7 +36,7 @@ setMethod(
         logical.learner.parameter(id="savesplitstats", default=TRUE),
         integer.learner.parameter(id="maxdepth", default=0L, lower=0L)
       )
-			callNextMethod(.Object, pack=c("mboost", "party"), desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack=c("mboost", "party"), desc=desc, par.set=par.set)
 		}
 )
 

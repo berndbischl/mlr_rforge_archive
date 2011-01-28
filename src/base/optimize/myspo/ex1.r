@@ -4,13 +4,13 @@ set.seed(1)
 #f1 = function(x) sin(x/2)* (-x^2 + 400)* ifelse(abs(x) > 20, exp(-x^2) , 1)
 #f2 = function(x) f1(x) + rnorm(1, 0, 30)
 #
-#par.descs = list(      
+#par.set = list(      
 #  new("par.desc.double", par.name="x", lower=-25, upper=10)
 #)
 #
 ##ml = make.learner("regr.km.noisy")
 #ml = make.learner("regr.km")
-#ctrl = myspo.optcontrol(par.descs=par.descs, meta.learner=ml, 
+#ctrl = myspo.optcontrol(par.set=par.set, meta.learner=ml, 
 #  seq.method="DiceOptim.CL", seq.loops=20, init.des.points=15)
 #z = myspo(f2, control=ctrl) 
 

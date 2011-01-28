@@ -38,7 +38,7 @@ setMethod(
 			)
 			
 			x = callNextMethod(.Object, pack=c("mboost", "party"), desc=desc)
-			par.descs = list(
+			par.set = list(
 					discrete.learner.parameter(id="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
           integer.learner.parameter(id="mstop", default=100L, lower=1L),
 					numeric.learner.parameter(id="nu", default=0.1, lower=0, upper=1),
@@ -55,7 +55,7 @@ setMethod(
           integer.learner.parameter(id="maxdepth", default=0L, lower=0L)
 			)
 			# we have to load the package first for Binomial()
-			x@par.descs = par.descs
+			x@par.set = par.set
 			set.hyper.pars(x, family="Binomial")
 		}
 )

@@ -37,7 +37,7 @@ setMethod(
 					costs = TRUE
 			)
 			
-      par.descs = list(
+      par.set = list(
         discrete.learner.parameter(id="type", default="discrete", vals=c("discrete", "real", "gentle")),
         integer.learner.parameter(id="iter", default=50L, lower=1L),
         numeric.learner.parameter(id="nu", default=0.1, lower=0),
@@ -57,7 +57,7 @@ setMethod(
         integer.learner.parameter(id="maxdepth", default=30L, lower=1L, upper=30L)
       )
       
-			callNextMethod(.Object, pack="ada", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="ada", desc=desc, par.set=par.set)
 		}
 )
 

@@ -34,7 +34,7 @@ setMethod(
 					costs = FALSE 
 			)
 			
-      par.descs = list(
+      par.set = list(
         discrete.learner.parameter(id="type", default="C-classification", vals=c("C-classification", "nu-classification")),
         numeric.learner.parameter(id="cost",  default=1, lower=0, requires=expression(type=="C-classification")),
         numeric.learner.parameter(id="nu", default=0.5, requires=expression(type=="nu-classification")),
@@ -48,7 +48,7 @@ setMethod(
         numeric.learner.parameter(id="cachesize", default=40L, flags=list(optimize=FALSE))
       )
       
-			callNextMethod(.Object, pack="e1071", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="e1071", desc=desc, par.set=par.set)
 		}
 )
 

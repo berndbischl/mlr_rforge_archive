@@ -1,9 +1,9 @@
-seq.design = function(par.descs, n.points, constr.model) {
+seq.design = function(par.set, n.points, constr.model) {
   des = as.data.frame(matrix(0, 0, 0))
   while(nrow(des) < n.points) {
     des2 = as.data.frame(matrix(0, n.points, 0))
-    for (i in seq(length=length(par.descs))) {
-      pd = par.descs[[i]]
+    for (i in seq(length=length(par.set))) {
+      pd = par.set[[i]]
       des2[[pd["par.name"]]] = sample.pardesc(n.points, pd)
     }
     if (!is.null(constr.model)) {

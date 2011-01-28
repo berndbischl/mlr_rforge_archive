@@ -4,7 +4,7 @@
 #myspo = function(fun, control) {
 #  # todo req.packs
 #  require(lhs)
-#  pds = control$par.descs
+#  pds = control$par.set
 #  control$constr.learner = make.learner("classif.randomForest")
 #  ml = control$meta.learner
 #  cl = control$constr.learner  

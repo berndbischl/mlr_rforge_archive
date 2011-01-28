@@ -30,7 +30,7 @@ setMethod(
 			.Object@resampling = resampling
 			.Object@control = control
 			.Object@measures = measures
-			callNextMethod(.Object, learner, par.descs=list(), par.vals=list())
+			callNextMethod(.Object, learner, par.set=list(), par.vals=list())
 		}
 )
 

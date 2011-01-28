@@ -20,7 +20,7 @@ setMethod(
         n = names(args)[i]
         pds[[i]] = new("par.desc.unknown", par.name=n, when="predict")
       }
-      callNextMethod(.Object, learner=learner, par.descs=pds, par.vals=args) 
+      callNextMethod(.Object, learner=learner, par.set=pds, par.vals=args) 
 		}
 )
 

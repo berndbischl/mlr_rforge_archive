@@ -14,7 +14,7 @@ make.combine.wrapper = function(learners) {
   a = as.list(rep(0.5, length(learners)))
   names(a) = paste("", sapply(learners, function(x) x["id"]), sep="")
   pds = lapply(names(a), function(x) numeric.learner.parameter(id=x, lower=0, upper=1))
-  w@par.descs = pds
+  w@par.set = pds
   w@par.vals = a
   w@predict.type = "prob"
   w

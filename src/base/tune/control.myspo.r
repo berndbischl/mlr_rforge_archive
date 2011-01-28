@@ -19,13 +19,13 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("myspo.control"),
-  def = function(.Object, path, par.descs, 
+  def = function(.Object, path, par.set, 
     meta.learner, init.des.points, seq.des.points, seq.loops,...) {
     .Object@meta.learner = meta.learner
     .Object@init.des.points = init.des.points
     .Object@seq.des.points = seq.des.points
     .Object@seq.loops = seq.loops
-    .Object = callNextMethod(.Object=.Object, path, start=list(), par.descs, ...)
+    .Object = callNextMethod(.Object=.Object, path, start=list(), par.set, ...)
     return(.Object)
   }
 )
@@ -46,7 +46,7 @@ setMethod(
 
 setGeneric(
   name = "myspo.control",
-  def = function(path, par.descs,  
+  def = function(path, par.set,  
     meta.learner, init.des.points, seq.des.points, seq.loops, ...) {
     if (missing(path))
       path = TRUE
@@ -69,12 +69,12 @@ setGeneric(
 
 setMethod(
   f = "myspo.control",
-  signature = signature(minimize="logical", path="logical", par.descs="list", 
+  signature = signature(minimize="logical", path="logical", par.set="list", 
     meta.learner="learner", init.des.points="integer", seq.des.points="integer", seq.loops="integer"),
-  def = function(minimize, path, par.descs, 
+  def = function(minimize, path, par.set, 
     meta.learner, init.des.points, seq.des.points, seq.loops, ...) {
     new("myspo.control", minimize=minimize, path=path,
-      par.descs=par.descs, meta.learner=meta.learner, init.des.points=init.des.points, seq.des.points=seq.des.points, seq.loops=seq.loops, ...)
+      par.set=par.set, meta.learner=meta.learner, init.des.points=init.des.points, seq.des.points=seq.des.points, seq.loops=seq.loops, ...)
   }
 )
 

@@ -33,12 +33,12 @@ setMethod(
 					costs = FALSE
 			)
 			
-      par.descs = list (
+      par.set = list (
         logical.learner.parameter(id="diagonal", default=FALSE)
       )
       
       
-			callNextMethod(.Object, pack="sda", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="sda", desc=desc, par.set=par.set)
 		}
 )
 

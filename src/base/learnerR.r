@@ -41,7 +41,7 @@ setClass("rlearner.classif",
 setMethod(
   f = "initialize",
   signature = signature("rlearner.classif"),
-  def = function(.Object, id, pack, desc, par.descs=list(), par.vals=list()) {
+  def = function(.Object, id, pack, desc, par.set=list(), par.vals=list()) {
     if (missing(desc))
       return(make.empty(.Object))
     if (missing(id))
@@ -55,7 +55,7 @@ setMethod(
     .Object@classes = c(desc["oneclass"], desc["twoclass"], desc["multiclass"])
     .Object@predict = c(desc["prob"], desc["decision"])
     .Object@costs = as.logical(desc["costs"])
-    callNextMethod(.Object, id=id, pack=pack, par.desc=par.descs, par.vals=par.vals)
+    callNextMethod(.Object, id=id, pack=pack, par.set=par.set, par.vals=par.vals)
   }
 )
 
@@ -70,7 +70,7 @@ setClass("rlearner.regr", contains = c("rlearner"))
 setMethod(
   f = "initialize",
   signature = signature("rlearner.regr"),
-  def = function(.Object, id, pack, desc, par.descs=list(), par.vals=list()) {
+  def = function(.Object, id, pack, desc, par.set=list(), par.vals=list()) {
     if (missing(desc))
       return(make.empty(.Object))
     if (missing(id))
@@ -81,7 +81,7 @@ setMethod(
     .Object@feat = c(desc["doubles"], desc["factors"])  
     .Object@weights = as.logical(desc["weights"])  
     .Object@missings = as.logical(desc["missings"])
-    callNextMethod(.Object, id=id, pack=pack, par.desc=par.descs, par.vals=par.vals)
+    callNextMethod(.Object, id=id, pack=pack, par.set=par.set, par.vals=par.vals)
   }
 )
 

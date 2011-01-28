@@ -34,7 +34,7 @@ setMethod(
 					weights = FALSE,
 					costs = FALSE
 			)
-      par.descs = list(
+      par.set = list(
         logical.learner.parameter(id="U"),
         logical.learner.parameter(id="O"),
         numeric.learner.parameter(id="C", default=0.25, lower=0),
@@ -47,7 +47,7 @@ setMethod(
         logical.learner.parameter(id="A"),
         logical.learner.parameter(id="J")
       )      
-			callNextMethod(.Object, pack="RWeka", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="RWeka", desc=desc, par.set=par.set)
 		}
 )
 

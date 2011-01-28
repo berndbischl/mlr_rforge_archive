@@ -36,7 +36,7 @@ setMethod(
     
     def = function(learner, ..., par.vals) {
       ns = names(par.vals)
-      pds = learner["par.descs"]
+      pds = learner@par.set
       for (i in seq(length=length(par.vals))) {
         n = ns[i]
         p = par.vals[[i]]

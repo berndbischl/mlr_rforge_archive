@@ -28,7 +28,7 @@ setClass(
 
 setGeneric(
   name = "spot.control",
-  def = function(path, par.descs, ...) {
+  def = function(path, par.set, ...) {
     if (missing(path))
       path = TRUE
     
@@ -43,10 +43,10 @@ setGeneric(
 
 setMethod(
   f = "spot.control",
-  signature = signature(path="logical", same.resampling.instance="logical", par.descs="list"),
-  def = function(path, same.resampling.instance, par.descs, ...) {
+  signature = signature(path="logical", same.resampling.instance="logical", par.set="list"),
+  def = function(path, same.resampling.instance, par.set, ...) {
     new("spot.control", path=path, same.resampling.instance=same.resampling.instance,
-      start=list(), par.descs=par.descs, ...)
+      start=list(), par.set=par.set, ...)
   }
 )
 

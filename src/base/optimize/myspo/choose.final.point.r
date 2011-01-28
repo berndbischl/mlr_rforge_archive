@@ -1,6 +1,6 @@
 choose.final.point = function(meta.model, constr.model, fun, curdes, cury, control) {
-  #des = opt.meta.model.bfgs(1, meta.model, constr.model, par.descs, curdes, cury, control) 
-   #seqdes = seq.design(control$par.descs, control$seq.des.points*10L, constr.model)
+  #des = opt.meta.model.bfgs(1, meta.model, constr.model, par.set, curdes, cury, control) 
+   #seqdes = seq.design(control$par.set, control$seq.des.points*10L, constr.model)
   
   #maybe do something different here for some stragegies? optimize meta model more thoroughly?....
   des = choose.new.points(1, meta.model, constr.model, curdes, cury, control)
@@ -19,7 +19,7 @@ choose.final.point = function(meta.model, constr.model, fun, curdes, cury, contr
     des
   }
   
-  #des = opt.meta.model.bfgs(1, meta.model, constr.model, par.descs, curdes, cury, co
+  #des = opt.meta.model.bfgs(1, meta.model, constr.model, par.set, curdes, cury, co
   y.meta = eval.des.with.meta.model(des, meta.model)
   repdes = des[rep(1,30),,drop=FALSE]
   y.real = eval.des.with.fun(repdes, fun, control)

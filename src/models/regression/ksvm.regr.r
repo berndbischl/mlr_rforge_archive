@@ -22,7 +22,7 @@ setMethod(
 					factors = TRUE,
 					weights = FALSE
 			)
-      par.descs = list(
+      par.set = list(
         logical.learner.parameter(id="scaled", default=TRUE),
         discrete.learner.parameter(id="type", default="eps-svr", vals=c("eps-svr", "nu-svr", "eps-bsvr")),
         discrete.learner.parameter(id="kernel", default="rbfdot", 
@@ -45,7 +45,7 @@ setMethod(
         logical.learner.parameter(id="shrinking", default=TRUE)
       )
       
-			callNextMethod(.Object, pack="kernlab", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="kernlab", desc=desc, par.set=par.set)
 		}
 )
 

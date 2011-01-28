@@ -23,7 +23,7 @@ setMethod(
 					weights = TRUE
 			)
 			
-      par.descs = list(      
+      par.set = list(      
           discrete.learner.parameter(id="distribution", default="gaussian", vals=c("gaussian", "laplace")),
           integer.learner.parameter(id="n.trees", default=100L, lower=1L),
           integer.learner.parameter(id="interaction.depth", default=1L, lower=1L),
@@ -33,7 +33,7 @@ setMethod(
           numeric.learner.parameter(id="train.fraction", default=1, lower=0, upper=1)
       )
       
-			callNextMethod(.Object, pack="gbm", desc=desc, par.descs=par.descs, par.vals=list(distribution = "gaussian"))
+			callNextMethod(.Object, pack="gbm", desc=desc, par.set=par.set, par.vals=list(distribution = "gaussian"))
 		}
 )
 

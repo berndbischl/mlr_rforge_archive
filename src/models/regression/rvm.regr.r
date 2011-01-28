@@ -29,7 +29,7 @@ setMethod(
       )
       
       # to do: stringdot pars and check order, scale and offset limits
-      par.descs = list(
+      par.set = list(
           discrete.learner.parameter(id="kernel", default="rbfdot", 
               vals=c("vanilladot", "polydot", "rbfdot", "tanhdot", "laplacedot", "besseldot", "anovadot", "splinedot", "stringdot")),
           numeric.learner.parameter(id="tau", lower=0, default=0.01),

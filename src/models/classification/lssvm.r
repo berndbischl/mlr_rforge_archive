@@ -37,7 +37,7 @@ setMethod(
 			)
 
       # to do: stringdot pars and check order, scale and offset limits
-      par.descs = list(
+      par.set = list(
         logical.learner.parameter(id="scaled", default=TRUE),
         discrete.learner.parameter(id="kernel", default="rbfdot", 
           vals=c("vanilladot", "polydot", "rbfdot", "tanhdot", "laplacedot", "besseldot", "anovadot", "splinedot", "stringdot")),
@@ -55,7 +55,7 @@ setMethod(
           requires=expression(kernel == "besseldot")),
         numeric.learner.parameter(id="tol", default=0.0001, lower=0)
       )
-			callNextMethod(.Object, pack="kernlab", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="kernlab", desc=desc, par.set=par.set)
 		}
 )
 

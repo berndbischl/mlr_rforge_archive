@@ -35,7 +35,7 @@ setMethod(
 					weights = TRUE,
 					costs = TRUE
 			)
-			par.descs = list(
+			par.set = list(
           integer.learner.parameter(id="minsplit", default=20L, lower=1L),
           integer.learner.parameter(id="minbucket", lower=1L),
 					numeric.learner.parameter(id="cp", default=0.01, lower=0, upper=1),
@@ -47,7 +47,7 @@ setMethod(
           integer.learner.parameter(id="maxdepth", default=30L, lower=1L, upper=30L)
 			)
 			
-			callNextMethod(.Object, pack="rpart", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="rpart", desc=desc, par.set=par.set)
 		}
 )
 

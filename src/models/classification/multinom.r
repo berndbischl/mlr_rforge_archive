@@ -38,7 +38,7 @@ setMethod(
 			)
 			
       
-      par.descs = list(
+      par.set = list(
         logical.learner.parameter(id="Hess", default=FALSE, flags=list(optimize=FALSE)),
         discrete.learner.parameter(id="summ", default=0L, vals=0:3),
         logical.learner.parameter(id="censored", default=FALSE),
@@ -51,7 +51,7 @@ setMethod(
         numeric.learner.parameter(id="reltoll", default=1.0e-8)
       )
       
-			callNextMethod(.Object, pack="nnet", desc=desc, par.descs=par.descs)
+			callNextMethod(.Object, pack="nnet", desc=desc, par.set=par.set)
 		}
 )
 
