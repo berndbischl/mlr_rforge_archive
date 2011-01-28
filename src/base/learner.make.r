@@ -32,14 +32,14 @@ make.learner = function(class, id, predict.type="response", ..., par.vals=list()
     stop("Learner must be a basic rlearner!")
 	if (!missing(id))
 		wl@id = id
-  pds = wl@par.set
+  pds = wl@par.set@pars
   # pass defaults
   pv = list()
   for (j in seq(length=length(pds))) {
     pd = pds[[j]]
     if (pd["pass.default"]) {
       pv[[length(pv)+1]] = pd["default"]
-      names(pv)[length(pv)] = pd["name"]
+      names(pv)[length(pv)] = pd["id"]
     }
   }
   pv = insert(pv, par.vals)

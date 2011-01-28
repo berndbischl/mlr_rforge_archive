@@ -37,7 +37,7 @@ setMethod(
 			)
 
       # to do: stringdot pars and check order, scale and offset limits
-      par.set = list(
+      par.set = makeParameterSet(
         makeLogicalLearnerParameter(id="scaled", default=TRUE),
         makeDiscreteLearnerParameter(id="kernel", default="rbfdot", 
           vals=c("vanilladot", "polydot", "rbfdot", "tanhdot", "laplacedot", "besseldot", "anovadot", "splinedot", "stringdot")),

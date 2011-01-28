@@ -28,7 +28,7 @@ setMethod(
           weights = TRUE
       )
       
-      par.set = list(
+      par.set = makeParameterSet(
         makeIntegerLearnerParameter(id="size", default=3L, lower=0, flags=list(pass.default=TRUE)),
         makeIntegerLearnerParameter(id="maxit", default=100L, lower=1L)
       )

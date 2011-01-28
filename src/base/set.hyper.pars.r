@@ -36,11 +36,11 @@ setMethod(
     
     def = function(learner, ..., par.vals) {
       ns = names(par.vals)
-      pds = learner@par.set
+      pars = learner@par.set@pars
       for (i in seq(length=length(par.vals))) {
         n = ns[i]
         p = par.vals[[i]]
-        pd = pds[[n]]
+        pd = pars[[n]]
         if (is.null(pd)) {
           # no description: stop warn or quiet
           msg = paste(class(learner), ": Setting par ", n, " without description!", sep="")

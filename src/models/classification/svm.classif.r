@@ -34,7 +34,7 @@ setMethod(
 					costs = FALSE 
 			)
 			
-      par.set = list(
+      par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="type", default="C-classification", vals=c("C-classification", "nu-classification")),
         makeNumericLearnerParameter(id="cost",  default=1, lower=0, requires=expression(type=="C-classification")),
         makeNumericLearnerParameter(id="nu", default=0.5, requires=expression(type=="nu-classification")),

@@ -34,7 +34,7 @@ setMethod(
 					costs = FALSE
 			)
 			
-      par.set = list(
+      par.set = makeParameterSet(
         makeNumericLearnerParameter(id="laplace", default=0, lower=0)
         #makeNumericLearnerParameter(id="threshold", default=0.001, lower=0)
       )

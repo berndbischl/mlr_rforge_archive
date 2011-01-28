@@ -21,7 +21,7 @@ setMethod(
 					factors = TRUE,
 					weights = FALSE
 			)
-      par.set = list(
+      par.set = makeParameterSet(
         makeNumericLearnerParameter(id="lambda1", default=0, lower=0)
       )
       callNextMethod(.Object, pack="penalized", desc=desc, par.set=par.set)

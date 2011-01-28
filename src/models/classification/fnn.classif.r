@@ -35,7 +35,7 @@ setMethod(
     )
     
     # l is for reject option. cannot be done with mlr atm
-    par.set = list(
+    par.set = makeParameterSet(
       makeIntegerLearnerParameter(id="k", default=1L, lower=1L),
       makeLogicalLearnerParameter(id="use.all", default=TRUE, requires=expression(algorithm == "VR")),
       makeDiscreteLearnerParameter(id="algorithm", default="cover_tree", vals=list("cover_tree", "kd_tree", "VR"))

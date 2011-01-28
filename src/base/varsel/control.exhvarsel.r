@@ -39,6 +39,8 @@ setGeneric(
   def = function(path, same.resampling.instance, max.vars) {
     if (missing(path))
       path = TRUE
+    if (missing(same.resampling.instance))
+      same.resampling.instance = TRUE
     if (missing(max.vars))
       max.vars = .Machine$integer.max
     if (is.numeric(max.vars))
@@ -52,7 +54,7 @@ setGeneric(
 setMethod(
   f = "exhvarsel.control",
   signature = signature(path="logical", same.resampling.instance="logical", max.vars="integer"),
-  def = function(path, same.resampling, max.vars) {
+  def = function(path, same.resampling.instance, max.vars) {
     new("exhvarsel.control", path=path, same.resampling.instance=same.resampling.instance, max.vars=max.vars)
   }
 )

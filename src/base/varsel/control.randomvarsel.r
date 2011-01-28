@@ -50,7 +50,9 @@ setGeneric(
 		def = function(path, same.resampling.instance, maxit, method, prob) {
 			if (missing(path))
 				path = TRUE
-			if (missing(maxit))
+      if (missing(same.resampling.instance))
+        same.resampling.instance = TRUE
+      if (missing(maxit))
 				maxit = 100
 			if (is.numeric(maxit))
 				maxit = as.integer(maxit)
@@ -66,8 +68,8 @@ setGeneric(
 
 setMethod(
 		f = "randomvarsel.control",
-		signature = signature(path="logical", same.resampling, same.resampling.instance="logical",	maxit="integer", method="character", prob="numeric"),
-		def = function(path, maxit, method, prob) {
+		signature = signature(path="logical", same.resampling.instance="logical",	maxit="integer", method="character", prob="numeric"),
+		def = function(path, same.resampling.instance, maxit, method, prob) {
 			new("randomvarsel.control", path=path, same.resampling.instance=same.resampling.instance, maxit=maxit, max.vars=.Machine$integer.max, method=method, prob=prob)
 		}
 )

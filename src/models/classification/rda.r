@@ -32,13 +32,12 @@ setMethod(
 					weights = FALSE,			
 					costs = FALSE
 			)
-			par.set = list(
+			par.set = makeParameterSet(
 					makeNumericLearnerParameter(id="lambda", lower=0, upper=1),
 					makeNumericLearnerParameter(id="gamma", lower=0, upper=1),
 					makeLogicalLearnerParameter(id="crossval", default=TRUE),
           makeIntegerLearnerParameter(id="fold", default=10L, lower=1L),
 					makeNumericLearnerParameter(id="train.fraction", default=0.5, lower=0, upper=1),
-					makeLogicalLearnerParameter(id="crossval", default=TRUE),
 					makeDiscreteLearnerParameter(id="schedule", default=1L, vals=1:2, requires=expression(simAnn==FALSE)),
 					makeNumericLearnerParameter(id="T.start", default=0.1, lower=0, requires=expression(simAnn==TRUE)),
 					makeNumericLearnerParameter(id="halflife", default=0.1, lower=0, requires=expression(simAnn==TRUE || schedule==1)),

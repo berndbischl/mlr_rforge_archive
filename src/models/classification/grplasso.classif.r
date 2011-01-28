@@ -33,9 +33,9 @@ setMethod(
 					costs = FALSE
 			)
 
-      par.set = list(
+      par.set = makeParameterSet(
         makeNumericLearnerParameter(id="lambda", default=1, lower=0),
-        new("par.desc.unknown", id="index")
+        makeUntypedLearnerParameter(id="index")
       )
       
       callNextMethod(.Object, pack="grplasso", desc=desc, par.set=par.set, par.vals=list(lambda = 1))

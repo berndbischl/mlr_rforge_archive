@@ -20,7 +20,7 @@ setMethod(
 					factors = TRUE,
 					weights = TRUE
 			)
-      par.set = list(
+      par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="family", default="Gaussian", vals=list(Gaussian=Gaussian(), Huber=Huber(), Laplace=Laplace())),
         makeIntegerLearnerParameter(id="mstop", default=100L, lower=1L),
         makeNumericLearnerParameter(id="nu", default=0.1, lower=0, upper=1),

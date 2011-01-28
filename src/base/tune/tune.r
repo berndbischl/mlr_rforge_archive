@@ -44,6 +44,8 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun)
 		measures = default.measures(task)
   if (is(measures, "measure"))
     measures = list(measures)   
+  if (length(par.set@pars) == 0)
+    stop("No parameters were passed!")
   
   cl = as.character(class(control))
 	sel.func = switch(cl,

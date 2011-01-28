@@ -38,7 +38,7 @@ setMethod(
 			)
 			
 			x = callNextMethod(.Object, pack=c("mboost", "party"), desc=desc)
-			par.set = list(
+			par.set = makeParameterSet(
 					makeDiscreteLearnerParameter(id="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
           makeIntegerLearnerParameter(id="mstop", default=100L, lower=1L),
 					makeNumericLearnerParameter(id="nu", default=0.1, lower=0, upper=1),

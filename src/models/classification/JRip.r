@@ -34,7 +34,7 @@ setMethod(
 					costs = FALSE
 			)
       
-      par.set = list(
+      par.set = makeParameterSet(
         makeIntegerLearnerParameter(id="F", default=3L, lower=2L),
         makeNumericLearnerParameter(id="N", default=2, lower=0),
         makeIntegerLearnerParameter(id="O", default=2L, lower=1L),

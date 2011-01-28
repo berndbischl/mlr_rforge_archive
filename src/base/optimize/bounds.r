@@ -79,8 +79,6 @@ setMethod(
 
 makeParameterSet = function(...) {
   args = list(...)
-  if (length(args) == 0)
-    stop("No parameters were passed!")
   new("ParameterSet", pars=args)
 }
 

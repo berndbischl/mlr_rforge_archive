@@ -20,7 +20,7 @@ setMethod(
 					factors = TRUE,
 					weights = FALSE
 			)
-      par.set = list(
+      par.set = makeParameterSet(
         makeIntegerLearnerParameter(id="k", default=7L, lower=1L),
         makeNumericLearnerParameter(id="distance", default=2, lower=0),
         makeDiscreteLearnerParameter(id="kernel", default="triangular", 

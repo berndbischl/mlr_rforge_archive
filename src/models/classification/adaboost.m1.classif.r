@@ -33,7 +33,7 @@ setMethod(
 					costs = FALSE
 			)
       
-      par.set = list(
+      par.set = makeParameterSet(
         makeLogicalLearnerParameter(id="boos", default=TRUE),
         makeIntegerLearnerParameter(id="mfinal", default=100L, lower=1L),
         makeDiscreteLearnerParameter(id="coeflearn", default="Breiman", vals=c("Breiman", "Freund")),

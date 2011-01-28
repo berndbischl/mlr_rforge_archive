@@ -53,10 +53,12 @@ setMethod(
 
 setGeneric(
 		name = "sequential.control",
-		def = function(pathsame.resampling.instance, max.vars, method, alpha, beta) {
+		def = function(path, same.resampling.instance, max.vars, method, alpha, beta) {
 			if (missing(path))
 				path = TRUE
-			if (missing(max.vars))
+      if (missing(same.resampling.instance))
+        same.resampling.instance = TRUE
+      if (missing(max.vars))
 				max.vars = .Machine$integer.max
 			if (is.numeric(max.vars))
 				max.vars = as.integer(max.vars)
@@ -76,7 +78,7 @@ setGeneric(
 setMethod(
 		f = "sequential.control",
 		signature = signature(path="logical",	same.resampling.instance="logical", max.vars="integer", method="character", alpha="numeric", beta="numeric"),
-		def = function(path, same.resampling, max.vars, method, alpha, beta) {
+		def = function(path, same.resampling.instance, max.vars, method, alpha, beta) {
 			new("sequential.control", path=path, same.resampling.instance=same.resampling.instance, max.vars=max.vars, method=method, alpha=alpha, beta=beta)
 		}
 )

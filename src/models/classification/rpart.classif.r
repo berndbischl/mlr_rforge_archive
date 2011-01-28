@@ -35,7 +35,7 @@ setMethod(
 					weights = TRUE,
 					costs = TRUE
 			)
-			par.set = list(
+			par.set = makeParameterSet(
           makeIntegerLearnerParameter(id="minsplit", default=20L, lower=1L),
           makeIntegerLearnerParameter(id="minbucket", lower=1L),
 					makeNumericLearnerParameter(id="cp", default=0.01, lower=0, upper=1),

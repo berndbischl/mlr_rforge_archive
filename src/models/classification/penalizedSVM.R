@@ -34,7 +34,7 @@ setMethod(
 					costs = FALSE 
 			)
 			
-      par.set = list(
+      par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="fs.method", default="scad", vals=c("scad","1norm", "DrHSVM", "scad+L2")),
         makeNumericLearnerParameter(id="maxevals", default=500L),
         makeLogicalLearnerParameter(id="calc.class.weights", default=FALSE),

@@ -35,7 +35,7 @@ setMethod(
 					costs = FALSE
 			)			
       
-      par.set = list(      
+      par.set = makeParameterSet(      
           makeDiscreteLearnerParameter(id="distribution", default="bernoulli", vals=c("bernoulli", "adaboost")),
           makeIntegerLearnerParameter(id="n.trees", default=100L, lower=1L),
           makeIntegerLearnerParameter(id="interaction.depth", default=1L, lower=1L),

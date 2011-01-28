@@ -33,7 +33,7 @@ setMethod(
 					costs = FALSE
 			)
 			
-			par.set = list(
+			par.set = makeParameterSet(
 					makeDiscreteLearnerParameter(id="method", default="moment", vals=c("moment", "mle", "mve", "t")),
 					makeNumericLearnerParameter(id="nu", lower=2, requires=expression(method=="t")),
           makeNumericLearnerParameter(id="tol", default=1.0e-4, lower=0)

@@ -22,7 +22,7 @@ setMethod(
 					factors = TRUE,
 					weights = FALSE
 			)
-      par.set = list(
+      par.set = makeParameterSet(
         makeLogicalLearnerParameter(id="scaled", default=TRUE),
         makeDiscreteLearnerParameter(id="type", default="eps-svr", vals=c("eps-svr", "nu-svr", "eps-bsvr")),
         makeDiscreteLearnerParameter(id="kernel", default="rbfdot", 

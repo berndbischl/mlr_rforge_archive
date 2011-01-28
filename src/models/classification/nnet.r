@@ -34,7 +34,7 @@ setMethod(
 					costs = FALSE
 			)
 
-			par.set = list(
+			par.set = makeParameterSet(
         makeIntegerLearnerParameter(id="size", default=3L, lower=0L, flags=list(pass.default=TRUE)),
         makeIntegerLearnerParameter(id="maxit", default=100L, lower=1L),
         # nnet seems to set these manually and hard for classification.....

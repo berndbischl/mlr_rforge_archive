@@ -23,7 +23,7 @@ setMethod(
       weights = FALSE
     )
     
-    par.set = list(      
+    par.set = makeParameterSet(      
       makeDiscreteLearnerParameter(id="modelfun", default="FO", vals=c("FO", "TWI", "SO"), flags=list(pass.default=TRUE))
     )
     

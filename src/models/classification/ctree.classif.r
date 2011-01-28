@@ -34,7 +34,7 @@ setMethod(
 					weights = TRUE,
 					costs = FALSE
 			)
-      par.set = list(
+      par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="teststat", default="quad", vals=c("quad", "max")),
         makeDiscreteLearnerParameter(id="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
         makeNumericLearnerParameter(id="mincriterion", default=0.95, lower=0, upper=1),

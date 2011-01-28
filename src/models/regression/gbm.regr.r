@@ -23,7 +23,7 @@ setMethod(
 					weights = TRUE
 			)
 			
-      par.set = list(      
+      par.set = makeParameterSet(      
           makeDiscreteLearnerParameter(id="distribution", default="gaussian", vals=c("gaussian", "laplace")),
           makeIntegerLearnerParameter(id="n.trees", default=100L, lower=1L),
           makeIntegerLearnerParameter(id="interaction.depth", default=1L, lower=1L),

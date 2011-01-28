@@ -38,7 +38,7 @@ setMethod(
 			)
 			
       
-      par.set = list(
+      par.set = makeParameterSet(
         makeLogicalLearnerParameter(id="Hess", default=FALSE, flags=list(optimize=FALSE)),
         makeDiscreteLearnerParameter(id="summ", default=0L, vals=0:3),
         makeLogicalLearnerParameter(id="censored", default=FALSE),

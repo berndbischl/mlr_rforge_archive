@@ -41,7 +41,7 @@ setClass("rlearner.classif",
 setMethod(
   f = "initialize",
   signature = signature("rlearner.classif"),
-  def = function(.Object, id, pack, desc, par.set=list(), par.vals=list()) {
+  def = function(.Object, id, pack, desc, par.set=makeParameterSet(), par.vals=list()) {
     if (missing(desc))
       return(make.empty(.Object))
     if (missing(id))
@@ -70,7 +70,7 @@ setClass("rlearner.regr", contains = c("rlearner"))
 setMethod(
   f = "initialize",
   signature = signature("rlearner.regr"),
-  def = function(.Object, id, pack, desc, par.set=list(), par.vals=list()) {
+  def = function(.Object, id, pack, desc, par.set=makeParameterSet(), par.vals=list()) {
     if (missing(desc))
       return(make.empty(.Object))
     if (missing(id))

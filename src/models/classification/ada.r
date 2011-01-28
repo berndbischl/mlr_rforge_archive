@@ -37,7 +37,7 @@ setMethod(
 					costs = TRUE
 			)
 			
-      par.set = list(
+      par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="type", default="discrete", vals=c("discrete", "real", "gentle")),
         makeIntegerLearnerParameter(id="iter", default=50L, lower=1L),
         makeNumericLearnerParameter(id="nu", default=0.1, lower=0),

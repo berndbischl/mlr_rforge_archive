@@ -202,7 +202,7 @@ par.valnames.to.vals = function(names, par.set) {
 
 
 hyper.par.val.to.name = function(par.name, par.val, learner) {
-  pds = learner@par.set
+  pds = learner@par.set@pars
   pd = pds[[par.name]]
   if(!is.null(pd) && is(pd, "Parameter") && pd["type"] == "discrete") {
     vals = pd["vals"]
