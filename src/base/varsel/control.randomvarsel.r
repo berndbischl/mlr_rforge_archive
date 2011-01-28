@@ -17,8 +17,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("randomvarsel.control"),
-		def = function(.Object, path, maxit, max.vars, method, prob) {
-			.Object = callNextMethod(.Object, path=path, maxit=maxit, max.vars=max.vars)
+		def = function(.Object, path, same.resampling.instance, maxit, max.vars, method, prob) {
+			.Object = callNextMethod(.Object, path=path, same.resampling.instance=same.resampling.instance, maxit=maxit, max.vars=max.vars)
 			.Object@method = method 			
 			.Object@prob = prob 			
 			return(.Object)
@@ -30,12 +30,14 @@ setMethod(
 #' 
 #' @param path [boolean]\cr
 #'   Should optimization path be saved? Default is TRUE.
+#' @param same.resampling.instance [logical] \cr
+#'   Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
 #' @param maxit [integer] \cr 
-#'       Maximal number of variable sets to evaluate. Default is 100.
+#'   Maximal number of variable sets to evaluate. Default is 100.
 #' @param method [numeric] \cr 
-#'		Currently only "binomial" is implemented. Samples variables from a binomial distribution. 		        
+#'   Currently only "binomial" is implemented. Samples variables from a binomial distribution. 		        
 #' @param prob [numeric] \cr 
-#'		Parameter for binomial distribution. 		        
+#'   Parameter for binomial distribution. 		        
 #' 		    
 #' @return Control structure.
 #' @exportMethod randomvarsel.control
@@ -45,7 +47,7 @@ setMethod(
 
 setGeneric(
 		name = "randomvarsel.control",
-		def = function(path, maxit, method, prob) {
+		def = function(path, same.resampling.instance, maxit, method, prob) {
 			if (missing(path))
 				path = TRUE
 			if (missing(maxit))
@@ -64,9 +66,9 @@ setGeneric(
 
 setMethod(
 		f = "randomvarsel.control",
-		signature = signature(path="logical",	maxit="integer", method="character", prob="numeric"),
+		signature = signature(path="logical", same.resampling, same.resampling.instance="logical",	maxit="integer", method="character", prob="numeric"),
 		def = function(path, maxit, method, prob) {
-			new("randomvarsel.control", path=path, maxit=maxit, max.vars=.Machine$integer.max, method=method, prob=prob)
+			new("randomvarsel.control", path=path, same.resampling.instance=same.resampling.instance, maxit=maxit, max.vars=.Machine$integer.max, method=method, prob=prob)
 		}
 )
 

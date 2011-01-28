@@ -18,8 +18,8 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("sequential.control"),
-		def = function(.Object, path, max.vars, method, alpha, beta) {
-			.Object = callNextMethod(.Object, path=path, 
+		def = function(.Object, path, same.resampling.instance, max.vars, method, alpha, beta) {
+			.Object = callNextMethod(.Object, path=path, same.resampling.instance=same.resampling.instance, 
 					maxit=.Machine$integer.max, max.vars=max.vars)
 			.Object@alpha = alpha 			
 			.Object@beta = beta 	
@@ -33,15 +33,17 @@ setMethod(
 #' 
 #' @param path [boolean]\cr
 #'   Should optimization path be saved? Default is TRUE.
+#' @param same.resampling.instance [logical] \cr
+#'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
 #' @param max.vars [integer] \cr 
-#'        Maximal number of allowed variables in the final set. Default is max. integer.
+#'   Maximal number of allowed variables in the final set. Default is max. integer.
 #' @param method [\code{\link{character}}] \cr
-#'        Search method. Currently supported are sequential forward search "sfs", sequential backward search "sbs", 
-#'        sequential floating forward search "sffs", sequential floating backward search "sfbs". Default is "sfs".    
+#'   Search method. Currently supported are sequential forward search "sfs", sequential backward search "sbs", 
+#'   sequential floating forward search "sffs", sequential floating backward search "sfbs". Default is "sfs".    
 #' @param alpha [numeric] \cr 
-#'  	 sfs, sffs: In a forward step, minimal improvement of performance measure. Can be negative.        
+#'   sfs, sffs: In a forward step, minimal improvement of performance measure. Can be negative.        
 #' @param beta [numeric] \cr 
-#'  	 sbs, sfbs: In a backward step, minimal improvement of performance measure. Can be negative.        
+#'   sbs, sfbs: In a backward step, minimal improvement of performance measure. Can be negative.        
 #' 		    
 #' @return Control structure.
 #' @exportMethod sequential.control
@@ -51,7 +53,7 @@ setMethod(
 
 setGeneric(
 		name = "sequential.control",
-		def = function(path, max.vars, method, alpha, beta) {
+		def = function(pathsame.resampling.instance, max.vars, method, alpha, beta) {
 			if (missing(path))
 				path = TRUE
 			if (missing(max.vars))
@@ -73,9 +75,9 @@ setGeneric(
 
 setMethod(
 		f = "sequential.control",
-		signature = signature(path="logical",	max.vars="integer", method="character", alpha="numeric", beta="numeric"),
-		def = function(path, max.vars, method, alpha, beta) {
-			new("sequential.control", path=path, max.vars=max.vars, method=method, alpha=alpha, beta=beta)
+		signature = signature(path="logical",	same.resampling.instance="logical", max.vars="integer", method="character", alpha="numeric", beta="numeric"),
+		def = function(path, same.resampling, max.vars, method, alpha, beta) {
+			new("sequential.control", path=path, same.resampling.instance=same.resampling.instance, max.vars=max.vars, method=method, alpha=alpha, beta=beta)
 		}
 )
 
