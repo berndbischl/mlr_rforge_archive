@@ -14,6 +14,19 @@
 
 
 
+#' Numerical parameter for a learner.
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @param lower [numeric(1)] \cr
+#'   Lower bound. Default is \code{-Inf}.
+#' @param upper [numeric(1)] \cr
+#'   Upper bound. Default is \code{Inf}.
+#' @param default [numeric(1)]
+#'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param when [character(1)]
+#'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @return  \code{\linkS4class{Parameter}}
+#' @export 
 makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
@@ -22,6 +35,19 @@ makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
 }
 
 
+#' Integer parameter for a learner.
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @param lower [numeric(1)] \cr
+#'   Lower bound. Default is \code{-.Machine$integer.max}.
+#' @param upper [numeric(1)] \cr
+#'   Upper bound. Default is \code{.Machine$integer.max}.
+#' @param default [integer(1)]
+#'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param when [character(1)]
+#'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @return  \code{\linkS4class{Parameter}}
+#' @export 
 makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.Machine$integer.max,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
@@ -30,6 +56,19 @@ makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.
 }
 
 
+#' Numerical parameter for a learner.
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @param vals [list | vector] \cr
+#'   Lower bound. Default is \code{-Inf}.
+#' @param upper [numeric(1)] \cr
+#'   Upper bound. Default is \code{Inf}.
+#' @param default [any]
+#'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param when [character(1)]
+#'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @return  \code{\linkS4class{Parameter}}
+#' @export 
 makeDiscreteLearnerParameter <- function(id, vals,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
@@ -37,6 +76,15 @@ makeDiscreteLearnerParameter <- function(id, vals,
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 
+#' Logical parameter for a learner.
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @param default [logical(1)]
+#'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param when [character(1)]
+#'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @return  \code{\linkS4class{Parameter}}
+#' @export 
 makeLogicalLearnerParameter <- function(id,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
@@ -45,7 +93,16 @@ makeLogicalLearnerParameter <- function(id,
 }
 
 
-untyped.learner.parameter <- function(id, default, when="train", flags=list(), requires=expression()) {
+#' Untyped parameter for a learner.
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @param default [any]
+#'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param when [character(1)]
+#'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @return  \code{\linkS4class{Parameter}}
+#' @export 
+makeUntypedLearnerParameter <- function(id, default, when="train", flags=list(), requires=expression()) {
   p <- makeUntypedParameter(id)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }

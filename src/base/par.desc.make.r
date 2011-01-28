@@ -2,9 +2,11 @@
 #todo: ordered
 
 #' Numerical variable for optimization.
-#' @param lower [single numeric] \cr
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @param lower [numeric(1)] \cr
 #'   Lower bound. Default is \code{-Inf}.
-#' @param upper [single numeric] \cr
+#' @param upper [numeric(1)] \cr
 #'   Upper bound. Default is \code{Inf}.
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
@@ -24,9 +26,11 @@ makeNumericParameter = function(id, lower=-Inf, upper=Inf, trafo=identity) {
 
 
 #' Integer variable for optimization.
-#' @param lower [single numeric] \cr
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @param lower [numeric(1)] \cr
 #'   Lower bound. Default is \code{-Inf}.
-#' @param upper [single numeric] \cr
+#' @param upper [numeric(1)] \cr
 #'   Upper bound. Default is \code{Inf}.
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
@@ -52,6 +56,8 @@ makeLogicalParameter = function(id) {
 } 
 
 #' Discrete variable for optimization.
+#' @param id [character(1)]
+#'   Name of parameter.
 #' @param vals [named list] \cr
 #'   Possible values.
 #' @return  \code\linkS4class{Parameter}}
@@ -86,6 +92,8 @@ makeDiscreteParameter = function(id, vals) {
 
 
 #' Function variable for optimization.
+#' @param id [character(1)]
+#'   Name of parameter.
 #' @return \code{\linkS4class{Parameter}}
 #' @export 
 makeFunctionParameter = function(id) {
@@ -94,6 +102,8 @@ makeFunctionParameter = function(id) {
 
 
 #' Untyped variable for optimization.
+#' @param id [character(1)]
+#'   Name of parameter.
 #' @return \code{\linkS4class{Parameter}}
 #' @export 
 makeUntypedParameter = function(id) {

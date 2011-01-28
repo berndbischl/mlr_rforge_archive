@@ -1,13 +1,18 @@
-#' Draw n random values from a variable description.
+#' Draw \code{n} random values uniformly from a parameter description.
 #' 
 #' @param n [integer] \cr
-#'   Value to check.  
-#' @param x [Parameter] \cr
-#'   Variable description.
+#'   Values to sample.  
+#' @param x [\code{\linkS4class{Parameter}}] \cr
+#'   Parameter description.
 #' 
 #' @rdname random.val
 #' @export 
-#' @return [atomic value].
+#' @return Vector of values. Will be 
+#'   \code{numeric(n)} for a numeric parameter, 
+#'   \code{integer(n)} for a numeric parameter,
+#'   \code{character(n)} for a numeric parameter,
+#'   \code{logical(n)} for a logical parameter,
+#'   \code{list(n) of } for a logical parameter,
 
 
 setGeneric(

@@ -37,7 +37,7 @@ setMethod(
     x = callNextMethod(.Object, pack="mda", desc=desc)
     
     par.set <- list(
-      untyped.learner.parameter(id="subclasses", default=2L),
+      makeUntypedLearnerParameter(id="subclasses", default=2L),
       makeIntegerLearnerParameter(id="iter", default=5L, lower=1L),
       makeIntegerLearnerParameter(id="dimension", lower=1L),
       makeDiscreteLearnerParameter(id="method", default="polyreg", 
