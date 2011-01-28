@@ -1,6 +1,6 @@
 #' @include Parameter.R
 roxygen()
-#' @include par.desc.feasible.r
+#' @include Parameter_feasible.R
 roxygen()
 
 #' A bunch of parameters. Is initially created, then mainly queried for information but not changed. 
