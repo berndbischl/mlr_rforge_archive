@@ -1,4 +1,4 @@
-#' @include Parameter.r
+#' @include Parameter.R
 roxygen()
 
 #' Description class for a hyperparameter.

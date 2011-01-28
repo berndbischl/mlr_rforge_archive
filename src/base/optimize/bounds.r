@@ -1,4 +1,4 @@
-#' @include Parameter.r
+#' @include Parameter.R
 roxygen()
 #' @include par.desc.feasible.r
 roxygen()

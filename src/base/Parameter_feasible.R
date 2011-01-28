@@ -1,4 +1,4 @@
-#' @include Parameter.r
+#' @include Parameter.R
 roxygen()
 
 #' Check if a parameter setting satisfies the constraints of the
