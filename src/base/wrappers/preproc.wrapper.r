@@ -14,15 +14,11 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("preproc.wrapper"),
-		def = function(.Object, learner, train, predict, args) {
+		def = function(.Object, learner, train, predict, par.set, par.vals) {
 			.Object@train = train
       .Object@predict = predict
       pds = list()
-      for (i in seq(length=length(args))) {
-        n = names(args)[i]
-        pds[[i]] = new("Parameter.unknown", par.name=n, when="both")
-      }
-      callNextMethod(.Object, learner=learner, par.set=pds, par.vals=args)
+      callNextMethod(.Object, learner=learner, par.set=par.set, par.vals=par.vals)
 		}
 )
 
@@ -43,16 +39,16 @@ setMethod(
 #' @title Fuse learner with preprocessing.
 #' @export
 
-make.preproc.wrapper = function(learner, train, predict, args) {
+make.preproc.wrapper = function(learner, train, predict, par.set) {
 	if (is.character(learner))
 		learner = make.learner(learner)
-  if (missing(args))
-    args=list()
+  if (missing(par.set))
+    par.set=list()
   if (any(names(formals(train)) != c("data", "targetvar", "args")))
 		stop("Arguments in preproc train function have to be: data, targetvar, args")		
   if (any(names(formals(predict)) != c("data", "targetvar", "args", "control")))
     stop("Arguments in preproc predict function have to be: data, targetvar, args, control")    
-	new("preproc.wrapper", learner=learner, train=train, predict=predict, args=args)
+	new("preproc.wrapper", learner=learner, train=train, predict=predict, par.set=par.set)
 }
 
 

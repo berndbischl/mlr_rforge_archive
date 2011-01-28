@@ -70,6 +70,7 @@ setMethod(
 			.Object@id = id
 			.Object@pack = pack
 			require.packs(pack, for.string=paste("learner", id))
+      names(par.set) = sapply(par.set, function(x) x@id)
 			.Object@par.set = par.set
       .Object@predict.type = "response"
       set.hyper.pars(.Object, par.vals=par.vals)

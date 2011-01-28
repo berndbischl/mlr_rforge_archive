@@ -16,10 +16,6 @@ setMethod(
 		def = function(.Object, learner, fun, args) {
       .Object@fun = fun
       pds = list()
-      for (i in seq(length=length(args))) {
-        n = names(args)[i]
-        pds[[i]] = new("Parameter.unknown", par.name=n, when="predict")
-      }
       callNextMethod(.Object, learner=learner, par.set=pds, par.vals=args) 
 		}
 )
