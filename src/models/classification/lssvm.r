@@ -38,22 +38,22 @@ setMethod(
 
       # to do: stringdot pars and check order, scale and offset limits
       par.set = list(
-        logical.learner.parameter(id="scaled", default=TRUE),
-        discrete.learner.parameter(id="kernel", default="rbfdot", 
+        makeLogicalLearnerParameter(id="scaled", default=TRUE),
+        makeDiscreteLearnerParameter(id="kernel", default="rbfdot", 
           vals=c("vanilladot", "polydot", "rbfdot", "tanhdot", "laplacedot", "besseldot", "anovadot", "splinedot", "stringdot")),
-        numeric.learner.parameter(id="tau", lower=0, default=0.01),
-        logical.learner.parameter(id="reduced", default=TRUE),
-        numeric.learner.parameter(id="sigma",
+        makeNumericLearnerParameter(id="tau", lower=0, default=0.01),
+        makeLogicalLearnerParameter(id="reduced", default=TRUE),
+        makeNumericLearnerParameter(id="sigma",
           lower=0, requires=expression(kernel %in% c("rbfdot", "anovadot", "besseldot", "laplacedot"))),
-        integer.learner.parameter(id="degree", default=3L, lower=1L, 
+        makeIntegerLearnerParameter(id="degree", default=3L, lower=1L, 
           requires=expression(kernel %in% c("polydot", "anovadot", "besseldot"))),
-        numeric.learner.parameter(id="scale", default=1, lower=0, 
+        makeNumericLearnerParameter(id="scale", default=1, lower=0, 
           requires=expression(kernel %in% c("polydot", "tanhdot"))),
-        numeric.learner.parameter(id="offset", default=1, 
+        makeNumericLearnerParameter(id="offset", default=1, 
           requires=expression(kernel %in% c("polydot", "tanhdot"))),
-        integer.learner.parameter(id="order", default=1L, 
+        makeIntegerLearnerParameter(id="order", default=1L, 
           requires=expression(kernel == "besseldot")),
-        numeric.learner.parameter(id="tol", default=0.0001, lower=0)
+        makeNumericLearnerParameter(id="tol", default=0.0001, lower=0)
       )
 			callNextMethod(.Object, pack="kernlab", desc=desc, par.set=par.set)
 		}

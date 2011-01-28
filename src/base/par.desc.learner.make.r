@@ -14,7 +14,7 @@
 
 
 
-numeric.learner.parameter <- function(id, lower=-Inf, upper=Inf,
+makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
   p <- numeric.parameter(id, lower, upper)
@@ -22,7 +22,7 @@ numeric.learner.parameter <- function(id, lower=-Inf, upper=Inf,
 }
 
 
-integer.learner.parameter <- function(id, lower=-.Machine$integer.max, upper=.Machine$integer.max,
+makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.Machine$integer.max,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
   p <- integer.parameter(id, lower, upper)
@@ -30,14 +30,14 @@ integer.learner.parameter <- function(id, lower=-.Machine$integer.max, upper=.Ma
 }
 
 
-discrete.learner.parameter <- function(id, vals,
+makeDiscreteLearnerParameter <- function(id, vals,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
   p <- discrete.parameter(id, vals)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 
-logical.learner.parameter <- function(id,
+makeLogicalLearnerParameter <- function(id,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
   p <- logical.parameter(id)
@@ -59,7 +59,7 @@ learner.parameter.from.parameter <- function(p, default, when, flags, requires) 
     stop("'default' must be missing or a feasible parameter setting.")  
   check.arg(when, "character", 1)
   
-  pp <- new("Parameter.learner",
+  pp <- new("LearnerParameter",
             id=p@id, type=p@type, constraints=p@constraints,
             has.default=!missing(default),
             default=if (missing(default)) NULL else default,

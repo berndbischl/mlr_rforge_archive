@@ -21,7 +21,7 @@ setMethod(
 					weights = FALSE
 			)
       par.set = list(
-        numeric.learner.parameter(id="degree", default=1, lower=1)
+        makeNumericLearnerParameter(id="degree", default=1, lower=1)
       )
 			callNextMethod(.Object, pack="earth", desc=desc, apr.descs=par.set)
 		}

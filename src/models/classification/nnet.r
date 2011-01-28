@@ -35,21 +35,21 @@ setMethod(
 			)
 
 			par.set = list(
-        integer.learner.parameter(id="size", default=3L, lower=0L, flags=list(pass.default=TRUE)),
-        integer.learner.parameter(id="maxit", default=100L, lower=1L),
+        makeIntegerLearnerParameter(id="size", default=3L, lower=0L, flags=list(pass.default=TRUE)),
+        makeIntegerLearnerParameter(id="maxit", default=100L, lower=1L),
         # nnet seems to set these manually and hard for classification.....
-#        logical.learner.parameter(id="linout", default=FALSE, requires=expression(entropy==FALSE && softmax==FALSE && censored==FALSE)),
-#        logical.learner.parameter(id="entropy", default=FALSE, requires=expression(linout==FALSE && softmax==FALSE && censored==FALSE)),
-#        logical.learner.parameter(id="softmax", default=FALSE, requires=expression(entropy==FALSE && linout==FALSE && censored==FALSE)),
-#        logical.learner.parameter(id="censored", default=FALSE, requires=expression(linout==FALSE && softmax==FALSE && entropy==FALSE)),
-        logical.learner.parameter(id="skip", default=FALSE),
-        numeric.learner.parameter(id="rang", default=0.7),
-        numeric.learner.parameter(id="decay", default=0),
-        logical.learner.parameter(id="Hess", default=FALSE, flags=list(optimize=FALSE)),
-        logical.learner.parameter(id="trace", default=TRUE, flags=list(optimize=FALSE)),
-        integer.learner.parameter(id="MaxNWts", default=1000L),
-        numeric.learner.parameter(id="abstoll", default=1.0e-4),
-        numeric.learner.parameter(id="reltoll", default=1.0e-8)
+#        makeLogicalLearnerParameter(id="linout", default=FALSE, requires=expression(entropy==FALSE && softmax==FALSE && censored==FALSE)),
+#        makeLogicalLearnerParameter(id="entropy", default=FALSE, requires=expression(linout==FALSE && softmax==FALSE && censored==FALSE)),
+#        makeLogicalLearnerParameter(id="softmax", default=FALSE, requires=expression(entropy==FALSE && linout==FALSE && censored==FALSE)),
+#        makeLogicalLearnerParameter(id="censored", default=FALSE, requires=expression(linout==FALSE && softmax==FALSE && entropy==FALSE)),
+        makeLogicalLearnerParameter(id="skip", default=FALSE),
+        makeNumericLearnerParameter(id="rang", default=0.7),
+        makeNumericLearnerParameter(id="decay", default=0),
+        makeLogicalLearnerParameter(id="Hess", default=FALSE, flags=list(optimize=FALSE)),
+        makeLogicalLearnerParameter(id="trace", default=TRUE, flags=list(optimize=FALSE)),
+        makeIntegerLearnerParameter(id="MaxNWts", default=1000L),
+        makeNumericLearnerParameter(id="abstoll", default=1.0e-4),
+        makeNumericLearnerParameter(id="reltoll", default=1.0e-8)
       )
       			
 			callNextMethod(.Object, pack="nnet", desc=desc, par.set=par.set)

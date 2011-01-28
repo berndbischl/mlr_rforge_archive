@@ -38,14 +38,14 @@ setMethod(
     
     par.set <- list(
       untyped.learner.parameter(id="subclasses", default=2L),
-      integer.learner.parameter(id="iter", default=5L, lower=1L),
-      integer.learner.parameter(id="dimension", lower=1L),
-      discrete.learner.parameter(id="method", default="polyreg", 
+      makeIntegerLearnerParameter(id="iter", default=5L, lower=1L),
+      makeIntegerLearnerParameter(id="dimension", lower=1L),
+      makeDiscreteLearnerParameter(id="method", default="polyreg", 
         vals=list(polyreg=polyreg, mars=mars, bruto=bruto, gen.ridge=gen.ridge)),
-      logical.learner.parameter(id="trace", default=FALSE, flags=list(optimize=FALSE)),
+      makeLogicalLearnerParameter(id="trace", default=FALSE, flags=list(optimize=FALSE)),
       # change default and pass it to reduce mem
-      logical.learner.parameter(id="keep.fitted", default=FALSE, flags=list(optimize=FALSE, pass.default=TRUE)),
-      integer.learner.parameter(id="tries", default=5L, lower=1L)
+      makeLogicalLearnerParameter(id="keep.fitted", default=FALSE, flags=list(optimize=FALSE, pass.default=TRUE)),
+      makeIntegerLearnerParameter(id="tries", default=5L, lower=1L)
     )
 
     x@par.set = par.set

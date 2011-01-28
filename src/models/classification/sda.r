@@ -34,7 +34,7 @@ setMethod(
 			)
 			
       par.set = list (
-        logical.learner.parameter(id="diagonal", default=FALSE)
+        makeLogicalLearnerParameter(id="diagonal", default=FALSE)
       )
       
       

@@ -35,17 +35,17 @@ setMethod(
 					costs = FALSE
 			)
       par.set = list(
-        logical.learner.parameter(id="U"),
-        logical.learner.parameter(id="O"),
-        numeric.learner.parameter(id="C", default=0.25, lower=0),
-        integer.learner.parameter(id="M", default=2L, lower=1L),
-        logical.learner.parameter(id="R"),
-        integer.learner.parameter(id="N", default=3L, lower=2L),
-        logical.learner.parameter(id="B"),
-        logical.learner.parameter(id="S"),
-        logical.learner.parameter(id="L"),
-        logical.learner.parameter(id="A"),
-        logical.learner.parameter(id="J")
+        makeLogicalLearnerParameter(id="U"),
+        makeLogicalLearnerParameter(id="O"),
+        makeNumericLearnerParameter(id="C", default=0.25, lower=0),
+        makeIntegerLearnerParameter(id="M", default=2L, lower=1L),
+        makeLogicalLearnerParameter(id="R"),
+        makeIntegerLearnerParameter(id="N", default=3L, lower=2L),
+        makeLogicalLearnerParameter(id="B"),
+        makeLogicalLearnerParameter(id="S"),
+        makeLogicalLearnerParameter(id="L"),
+        makeLogicalLearnerParameter(id="A"),
+        makeLogicalLearnerParameter(id="J")
       )      
 			callNextMethod(.Object, pack="RWeka", desc=desc, par.set=par.set)
 		}

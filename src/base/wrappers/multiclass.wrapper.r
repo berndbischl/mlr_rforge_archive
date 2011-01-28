@@ -51,7 +51,7 @@ make.multiclass.wrapper = function(learner, mcw.method="onevsrest") {
   if (is.character(learner))
     learner = make.learner(learner)
   pds = list(
-    discrete.learner.parameter(id="mcw.method", vals=c("onevsone", "onevsrest"), default="onevsrest"),
+    makeDiscreteLearnerParameter(id="mcw.method", vals=c("onevsone", "onevsrest"), default="onevsrest"),
     function.learner.parameter(id="mcw.custom")
   )
   w = new("multiclass.wrapper", learner=learner, par.set=pds)

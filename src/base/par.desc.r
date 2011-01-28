@@ -3,13 +3,12 @@
 #' @slot id Name of parameter. 
 #' @slot type Data type of parameter. Possible types are 'numeric', 'integer', 'ordered', 'discrete', 'function', 'untyped'.
 #' @slot constraints Contains further information of simple contraints. 
-#' For 'numeric' and 'integer' in contains box constraints 'lower' and 'upper', both \code{numeric(1)}. 
-#' For 'discrete' and 'ordered' in contains possible values 'vals' as a list. 
-#' @slot type Data type of parameter. Possible types are 'numeric', 'integer', 'ordered', 'discrete', 'function', 'untyped'.
+#' For 'numeric' and 'integer' it contains box constraints 'lower' and 'upper', both \code{numeric(1)}. 
+#' For 'discrete' and 'ordered' it contains possible values 'vals' as a list, for 'ordered' the order of the list reflects the implied ordering. 
 #' @slot trafo When values for the parameter are generated in any way, this function will always be applied directly aftwerwards. Function must accept a parameter value as the first argument and return a transformed one.
 #' 
 #' @exportClass Parameter
-#' @seealso \code{\link{Parameter.learner}}, \code{\link{makeParameterSet}} 
+#' @seealso \code{\link{LearnerParameter}}, \code{\link{makeParameterSet}} 
 #' @title Description class for an optimization parameter.
 
 setClass("Parameter",

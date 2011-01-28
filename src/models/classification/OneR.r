@@ -34,7 +34,7 @@ setMethod(
 					costs = FALSE
 			)
       par.set = list(
-        integer.learner.parameter(id="B", default=6L, lower=1L)
+        makeIntegerLearnerParameter(id="B", default=6L, lower=1L)
       )
 			callNextMethod(.Object, pack="RWeka", desc=desc, par.set=par.set)
 		}

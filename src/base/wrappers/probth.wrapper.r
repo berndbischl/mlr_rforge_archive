@@ -45,7 +45,7 @@ make.probth.wrapper = function(learner, classes) {
     stop("The predict.type of the base learner must be 'prob'!")
   a = as.list(rep(0.5, length(classes)))
   names(a) = paste("probth", classes, sep=".")
-  pds = lapply(names(a), function(x) numeric.learner.parameter(id=x, lower=0, upper=1))
+  pds = lapply(names(a), function(x) makeNumericLearnerParameter(id=x, lower=0, upper=1))
   w = new("probth.wrapper", learner=learner, par.set=pds, par.vals=a)
   set.predict.type(w, "response")
 }

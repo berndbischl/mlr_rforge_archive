@@ -34,7 +34,7 @@ setMethod(
 			)
 
       par.set = list(
-        numeric.learner.parameter(id="lambda", default=1, lower=0),
+        makeNumericLearnerParameter(id="lambda", default=1, lower=0),
         new("par.desc.unknown", id="index")
       )
       

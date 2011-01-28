@@ -35,8 +35,8 @@ setMethod(
 			)
 			
       par.set = list(
-        numeric.learner.parameter(id="laplace", default=0, lower=0)
-        #numeric.learner.parameter(id="threshold", default=0.001, lower=0)
+        makeNumericLearnerParameter(id="laplace", default=0, lower=0)
+        #makeNumericLearnerParameter(id="threshold", default=0.001, lower=0)
       )
       
       

@@ -36,27 +36,27 @@ setMethod(
 
       # to do: stringdot pars and check order, scale and offset limits
       par.set = list(
-          logical.learner.parameter(id="scaled", default=TRUE),
-          discrete.learner.parameter(id="type", default="C-svc", vals=c("C-svc", "nu-svc", "C-bsvc", "spoc-svc", "kbb-svc")),
-          discrete.learner.parameter(id="kernel", default="rbfdot", 
+          makeLogicalLearnerParameter(id="scaled", default=TRUE),
+          makeDiscreteLearnerParameter(id="type", default="C-svc", vals=c("C-svc", "nu-svc", "C-bsvc", "spoc-svc", "kbb-svc")),
+          makeDiscreteLearnerParameter(id="kernel", default="rbfdot", 
               vals=c("vanilladot", "polydot", "rbfdot", "tanhdot", "laplacedot", "besseldot", "anovadot", "splinedot", "stringdot")),
-          numeric.learner.parameter(id="C",
+          makeNumericLearnerParameter(id="C",
               lower=0, default=1, requires=expression(type %in% c("C-svc", "C-bsvc", "spoc-svc", "kbb-svc"))),
-          numeric.learner.parameter(id="nu",
+          makeNumericLearnerParameter(id="nu",
               lower=0, default=0.2, requires=expression(type == "nu-svc")),
-          numeric.learner.parameter(id="sigma",
+          makeNumericLearnerParameter(id="sigma",
               lower=0, requires=expression(kernel %in% c("rbfdot", "anovadot", "besseldot", "laplacedot"))),
-          integer.learner.parameter(id="degree", default=3L, lower=1L, 
+          makeIntegerLearnerParameter(id="degree", default=3L, lower=1L, 
               requires=expression(kernel %in% c("polydot", "anovadot", "besseldot"))),
-          numeric.learner.parameter(id="scale", default=1, lower=0, 
+          makeNumericLearnerParameter(id="scale", default=1, lower=0, 
               requires=expression(kernel %in% c("polydot", "tanhdot"))),
-          numeric.learner.parameter(id="offset", default=1, 
+          makeNumericLearnerParameter(id="offset", default=1, 
               requires=expression(kernel %in% c("polydot", "tanhdot"))),
-          integer.learner.parameter(id="order", default=1L, 
+          makeIntegerLearnerParameter(id="order", default=1L, 
               requires=expression(kernel == "besseldot")),
-          numeric.learner.parameter(id="tol", default=0.001, lower=0),
-          logical.learner.parameter(id="shrinking", default=TRUE),
-          numeric.learner.parameter(id="class.weights", default=1, lower=0)
+          makeNumericLearnerParameter(id="tol", default=0.001, lower=0),
+          makeLogicalLearnerParameter(id="shrinking", default=TRUE),
+          makeNumericLearnerParameter(id="class.weights", default=1, lower=0)
       )
       
 			callNextMethod(.Object, pack="kernlab", desc=desc, par.set=par.set)

@@ -21,20 +21,20 @@ setMethod(
 					weights = TRUE
 			)
       par.set = list(
-        discrete.learner.parameter(id="family", default="Gaussian", vals=list(Gaussian=Gaussian(), Huber=Huber(), Laplace=Laplace())),
-        integer.learner.parameter(id="mstop", default=100L, lower=1L),
-        numeric.learner.parameter(id="nu", default=0.1, lower=0, upper=1),
-        discrete.learner.parameter(id="teststat", default="quad", vals=c("quad", "max")),
-        discrete.learner.parameter(id="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
-        numeric.learner.parameter(id="mincriterion", default=0.95, lower=0, upper=1),
-        integer.learner.parameter(id="minsplit", default=20L, lower=1L),
-        integer.learner.parameter(id="minbucket", default=7L, lower=1L),
-        logical.learner.parameter(id="stump", default=FALSE),
-        integer.learner.parameter(id="nresample", default=9999L, lower=1L, requires=expression(testtype=="MonteCarlo")),
-        integer.learner.parameter(id="maxsurrogate", default=0L, lower=0L),
-        integer.learner.parameter(id="mtry", default=0L, lower=0L),
-        logical.learner.parameter(id="savesplitstats", default=TRUE),
-        integer.learner.parameter(id="maxdepth", default=0L, lower=0L)
+        makeDiscreteLearnerParameter(id="family", default="Gaussian", vals=list(Gaussian=Gaussian(), Huber=Huber(), Laplace=Laplace())),
+        makeIntegerLearnerParameter(id="mstop", default=100L, lower=1L),
+        makeNumericLearnerParameter(id="nu", default=0.1, lower=0, upper=1),
+        makeDiscreteLearnerParameter(id="teststat", default="quad", vals=c("quad", "max")),
+        makeDiscreteLearnerParameter(id="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
+        makeNumericLearnerParameter(id="mincriterion", default=0.95, lower=0, upper=1),
+        makeIntegerLearnerParameter(id="minsplit", default=20L, lower=1L),
+        makeIntegerLearnerParameter(id="minbucket", default=7L, lower=1L),
+        makeLogicalLearnerParameter(id="stump", default=FALSE),
+        makeIntegerLearnerParameter(id="nresample", default=9999L, lower=1L, requires=expression(testtype=="MonteCarlo")),
+        makeIntegerLearnerParameter(id="maxsurrogate", default=0L, lower=0L),
+        makeIntegerLearnerParameter(id="mtry", default=0L, lower=0L),
+        makeLogicalLearnerParameter(id="savesplitstats", default=TRUE),
+        makeIntegerLearnerParameter(id="maxdepth", default=0L, lower=0L)
       )
 			callNextMethod(.Object, pack=c("mboost", "party"), desc=desc, par.set=par.set)
 		}

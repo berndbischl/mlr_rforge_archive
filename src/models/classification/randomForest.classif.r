@@ -35,18 +35,18 @@ setMethod(
 			)
 			
 			par.set = list(
-					integer.learner.parameter(id="ntree", default=500L, lower=1L),
-          integer.learner.parameter(id="mtry", lower=1L),
-					logical.learner.parameter(id="replace", default=TRUE),
-          integer.learner.parameter(id="sampsize", lower=1L),
-          integer.learner.parameter(id="nodesize", default=1L, lower=1L),
-          integer.learner.parameter(id="maxnodes", lower=1L),
+					makeIntegerLearnerParameter(id="ntree", default=500L, lower=1L),
+          makeIntegerLearnerParameter(id="mtry", lower=1L),
+					makeLogicalLearnerParameter(id="replace", default=TRUE),
+          makeIntegerLearnerParameter(id="sampsize", lower=1L),
+          makeIntegerLearnerParameter(id="nodesize", default=1L, lower=1L),
+          makeIntegerLearnerParameter(id="maxnodes", lower=1L),
         
-          logical.learner.parameter(id="importance", default=FALSE, flags=list(optimize=FALSE)),
-          logical.learner.parameter(id="localImp", default=FALSE, flags=list(optimize=FALSE)),
-          logical.learner.parameter(id="norm.votes", default=TRUE, flags=list(optimize=FALSE)),
-          logical.learner.parameter(id="keep.inbag", default=FALSE, flags=list(optimize=FALSE)),
-          integer.learner.parameter(id="maxnodes", lower=1L)
+          makeLogicalLearnerParameter(id="importance", default=FALSE, flags=list(optimize=FALSE)),
+          makeLogicalLearnerParameter(id="localImp", default=FALSE, flags=list(optimize=FALSE)),
+          makeLogicalLearnerParameter(id="norm.votes", default=TRUE, flags=list(optimize=FALSE)),
+          makeLogicalLearnerParameter(id="keep.inbag", default=FALSE, flags=list(optimize=FALSE)),
+          makeIntegerLearnerParameter(id="maxnodes", lower=1L)
 			)
 
       callNextMethod(.Object, pack="randomForest", desc=desc, par.set=par.set)

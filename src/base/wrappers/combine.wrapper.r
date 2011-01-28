@@ -13,7 +13,7 @@ make.combine.wrapper = function(learners) {
   w@learners=learners
   a = as.list(rep(0.5, length(learners)))
   names(a) = paste("", sapply(learners, function(x) x["id"]), sep="")
-  pds = lapply(names(a), function(x) numeric.learner.parameter(id=x, lower=0, upper=1))
+  pds = lapply(names(a), function(x) makeNumericLearnerParameter(id=x, lower=0, upper=1))
   w@par.set = pds
   w@par.vals = a
   w@predict.type = "prob"

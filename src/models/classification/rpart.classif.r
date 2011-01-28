@@ -36,15 +36,15 @@ setMethod(
 					costs = TRUE
 			)
 			par.set = list(
-          integer.learner.parameter(id="minsplit", default=20L, lower=1L),
-          integer.learner.parameter(id="minbucket", lower=1L),
-					numeric.learner.parameter(id="cp", default=0.01, lower=0, upper=1),
-          integer.learner.parameter(id="maxcompete", default=4L, lower=0L, flags=list(optimize=FALSE)),
-          integer.learner.parameter(id="maxsurrogate", default=5L, lower=0L, flags=list(optimize=FALSE)),
-					discrete.learner.parameter(id="usesurrogate", default=2L, vals=0:2),
-					discrete.learner.parameter(id="surrogatestyle", default=0L, vals=0:1),
+          makeIntegerLearnerParameter(id="minsplit", default=20L, lower=1L),
+          makeIntegerLearnerParameter(id="minbucket", lower=1L),
+					makeNumericLearnerParameter(id="cp", default=0.01, lower=0, upper=1),
+          makeIntegerLearnerParameter(id="maxcompete", default=4L, lower=0L, flags=list(optimize=FALSE)),
+          makeIntegerLearnerParameter(id="maxsurrogate", default=5L, lower=0L, flags=list(optimize=FALSE)),
+					makeDiscreteLearnerParameter(id="usesurrogate", default=2L, vals=0:2),
+					makeDiscreteLearnerParameter(id="surrogatestyle", default=0L, vals=0:1),
           # we use 30 as upper limit, see docs of rpart.control
-          integer.learner.parameter(id="maxdepth", default=30L, lower=1L, upper=30L)
+          makeIntegerLearnerParameter(id="maxdepth", default=30L, lower=1L, upper=30L)
 			)
 			
 			callNextMethod(.Object, pack="rpart", desc=desc, par.set=par.set)

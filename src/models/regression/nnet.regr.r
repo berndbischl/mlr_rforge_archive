@@ -29,8 +29,8 @@ setMethod(
       )
       
       par.set = list(
-        integer.learner.parameter(id="size", default=3L, lower=0, flags=list(pass.default=TRUE)),
-        integer.learner.parameter(id="maxit", default=100L, lower=1L)
+        makeIntegerLearnerParameter(id="size", default=3L, lower=0, flags=list(pass.default=TRUE)),
+        makeIntegerLearnerParameter(id="maxit", default=100L, lower=1L)
       )
       
       callNextMethod(.Object, pack="nnet", desc=desc, par.set=par.set)

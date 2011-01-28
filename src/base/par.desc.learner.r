@@ -14,7 +14,7 @@ roxygen()
 #' @exportClass Parameter
 #' @title Description class for a hyperparameter. 
 setClass(
-  "Parameter.learner",
+  "LearnerParameter",
   contains = c("Parameter"),
   representation = representation(
     has.default = "logical",
@@ -28,7 +28,7 @@ setClass(
 
 #' Constructor.
 setMethod(f = "initialize",
-  signature = signature("Parameter.learner"),
+  signature = signature("LearnerParameter"),
   def = function(.Object, id, type, constraints, has.default, default, when, flags, requires) {
     if (missing(has.default))
       return(make.empty(.Object))
@@ -42,10 +42,10 @@ setMethod(f = "initialize",
 
 
 
-#' @rdname Parameter.learner-class
+#' @rdname LearnerParameter-class
 setMethod(
   f = "[",
-  signature = signature("Parameter.learner"),
+  signature = signature("LearnerParameter"),
   def = function(x,i,j,...,drop) {
     if (i == "pass.default") {
       passd = x@flags$pass.default

@@ -34,12 +34,12 @@ setMethod(
 			)
       
       par.set = list(
-        logical.learner.parameter(id="boos", default=TRUE),
-        integer.learner.parameter(id="mfinal", default=100L, lower=1L),
-        discrete.learner.parameter(id="coeflearn", default="Breiman", vals=c("Breiman", "Freund")),
-        integer.learner.parameter(id="minsplit", default=5L, lower=1L),
-        numeric.learner.parameter(id="cp", default=0.01, lower=0),
-        integer.learner.parameter(id="maxdepth", lower=1L, upper=30L)
+        makeLogicalLearnerParameter(id="boos", default=TRUE),
+        makeIntegerLearnerParameter(id="mfinal", default=100L, lower=1L),
+        makeDiscreteLearnerParameter(id="coeflearn", default="Breiman", vals=c("Breiman", "Freund")),
+        makeIntegerLearnerParameter(id="minsplit", default=5L, lower=1L),
+        makeNumericLearnerParameter(id="cp", default=0.01, lower=0),
+        makeIntegerLearnerParameter(id="maxdepth", lower=1L, upper=30L)
       )
 			callNextMethod(.Object, pack="adabag", desc=desc, par.set=par.set)
 		}
