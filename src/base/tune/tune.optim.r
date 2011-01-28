@@ -4,7 +4,7 @@ tune.optim = function(learner, task, resampling, measures, par.set, control, opt
   if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer")))))
     stop("Optim can only be applied to numeric and integer parameters!")
   
-  ns = control["par.names"]
+  ns = names(par.set@pars)
   start = unlist(control["start"])[ns]
   low = lower(par.set)
   up = upper(par.set)

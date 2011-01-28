@@ -16,7 +16,6 @@
 #' @seealso \code{\link{varsel}}, \code{\link{varsel.control}} 
 #' @title Fuse learner with variable selection.
 
-make.varsel.wrapper <- function(learner, resampling, measures, control) {
-	make.opt.wrapper(learner, resampling, control, measures)
+make.varsel.wrapper = function(learner, resampling, measures, par.set, control, log.fun) {
+  make.opt.wrapper(learner, resampling, measures, par.set, control, log.fun)
 }
-

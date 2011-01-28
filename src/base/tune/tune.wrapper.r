@@ -1,3 +1,4 @@
+#todo: document args
 #' Fuses a base learner with a search strategy to select its hyperparameters. Creates a learner object, which can be
 #' used like any other learner object, but which internally uses tune. If the train function is called on it, the search strategy and resampling are invoked
 #' to select an optimal set of hyperparameter values. Finally, a model is fitted on the complete training data with these optimal
@@ -20,7 +21,7 @@
 #'   
 #' @title Fuse learner with tuning.
 
-make.tune.wrapper <- function(learner, resampling, control, measures) {
-	make.opt.wrapper(learner, resampling, control, measures)
+make.tune.wrapper = function(learner, resampling, measures, par.set, control, log.fun) {
+	make.opt.wrapper(learner, resampling, measures, par.set, control, log.fun)
 }
 

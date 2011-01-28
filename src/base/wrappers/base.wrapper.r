@@ -32,7 +32,7 @@ setMethod(
 		def = function(.Object, learner, par.set, par.vals=list(), pack=as.character(c())) {
 			if (missing(learner))
 				return(make.empty(.Object))
-      ns = intersect(sapply(par.set, function(x) x@par.name), names(learner@par.set@pars))
+      ns = intersect(names(par.set@pars), names(learner@par.set@pars))
       if (length(ns) > 0)
         stop("Hyperparameter names in wrapper clash with base learner names: ", paste(ns, collapse=","))
 			.Object@learner = learner

@@ -17,7 +17,11 @@ test.hyperpars <- function() {
     data[,2] = args$x * data[,2]
     return(data)
   }  
-	wl2 = make.preproc.wrapper(wl1, train=f1, predict=f2, args=list(x=1, y=2))
+  ps = makeParameterSet(
+    makeNumericLearnerParameter(id="x"),
+    makeNumericLearnerParameter(id="y")
+  )
+	wl2 = make.preproc.wrapper(wl1, train=f1, predict=f2, par.set=ps)
 	
 	checkTrue(setequal(wl2["par.vals"], list(minsplit=10, x=1, y=2))) 
 	checkTrue(setequal(wl2["par.train"], list(minsplit=10, x=1, y=2))) 

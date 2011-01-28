@@ -43,7 +43,7 @@ make.preproc.wrapper = function(learner, train, predict, par.set) {
 	if (is.character(learner))
 		learner = make.learner(learner)
   if (missing(par.set))
-    par.set=list()
+    par.set=makeParameterSet()
   if (any(names(formals(train)) != c("data", "targetvar", "args")))
 		stop("Arguments in preproc train function have to be: data, targetvar, args")		
   if (any(names(formals(predict)) != c("data", "targetvar", "args", "control")))

@@ -5,8 +5,8 @@
 #' @param x [\code{\linkS4class{Parameter}}] \cr
 #'   Parameter description.
 #' 
-#' @rdname random.val
-#' @export 
+#' @rdname randomVal
+#' @exportMethod randomVal
 #' @return Vector of values. Will be 
 #'   \code{numeric(n)} for a numeric parameter, 
 #'   \code{integer(n)} for a numeric parameter,
@@ -16,18 +16,18 @@
 
 
 setGeneric(
-  name = "random.val",
+  name = "randomVal",
   def = function(n, x) {
     if (is.numeric(n))
       n = as.integer(n)
-    standardGeneric("random.val")      
+    standardGeneric("randomVal")      
   }
 )
 
 
-#' @rdname random.val
+#' @rdname randomVal
 setMethod(
-  f = "random.val",
+  f = "randomVal",
   signature = signature(n="integer", x="Parameter"),
   def = function(n, x) {
     type = x["type"]

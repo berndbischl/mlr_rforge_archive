@@ -31,6 +31,7 @@ setMethod(
           lower=0, default=1, requires=expression(type %in% c("eps-svr", "eps-bsvr"))),
         makeNumericLearnerParameter(id="nu",
           lower=0, default=0.2, requires=expression(type == "nu-svr")),
+        makeNumericLearnerParameter(id="epsilon", lower=0, default=0.1),
         makeNumericLearnerParameter(id="sigma",
           lower=0, requires=expression(kernel %in% c("rbfdot", "anovadot", "besseldot", "laplacedot"))),
         makeIntegerLearnerParameter(id="degree", default=3L, lower=1L, 

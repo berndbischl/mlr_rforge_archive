@@ -13,9 +13,11 @@ setClass(
 		contains = c("base.wrapper"),
 		representation = representation(
 				resampling = "resample.desc",
-				control = "opt.control",
-				measures = "list"
-		)
+        measures = "list",
+        par.set = "ParameterSet",
+        control = "opt.control",
+        log.fun = "function"
+    )
 )
 
 
@@ -83,14 +85,14 @@ setMethod(
 )
 
 
-make.opt.wrapper = function(learner, resampling, control, measures) {
+make.opt.wrapper = function(learner, resampling, measures, par.set, control, log.fun) {
 	if (is.character(learner))
 		learner = make.learner(learner)
 	if (missing(measures))
 		measures = default.measures(learner)
   if (is(measures, "measure"))
     measures = list(measures)   
-	new("opt.wrapper", learner, resampling, control, measures)
+	new("opt.wrapper", learner, resampling, measures, par.set, control, log.fun)
 }
 
 

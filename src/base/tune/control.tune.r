@@ -34,6 +34,8 @@ setMethod(
 		def = function(.Object, path, same.resampling.instance, start, ...) {
       if (missing(path))
         return(make.empty(.Object))
+      if (!is.null(names(start)))
+        stop("'start' has to be a unamed list, but in the correct order!")        
 			.Object@start = start 			
 			.Object = callNextMethod(.Object=.Object, path=path, same.resampling.instance=same.resampling.instance, ...)
 			return(.Object)

@@ -35,8 +35,6 @@ setGeneric(
         same.resampling.instance = TRUE
       if (missing(start))
 				stop("You have to provide a start value!")
-      if(!all.els.named(start))
-        stop("Argument start has to be properly named!")
 			standardGeneric("optim.control")
 		}
 )
