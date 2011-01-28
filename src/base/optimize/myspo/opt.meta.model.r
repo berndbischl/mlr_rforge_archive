@@ -6,7 +6,7 @@ opt.meta.model.seq.des = function(n, meta.model, constr.model, curdes, cury, con
 }
 
 opt.meta.model.bfgs = function(n, meta.model, constr.model, curdes, cury, control) {
-  inds.num = which(sapply(par.set, function(x) is(x, "par.desc.double")))
+  inds.num = which(sapply(par.set, function(x) is(x, "Parameter.double")))
   inds.rest = (1:length(par.set))[-inds.num] 
   names.num = sapply(par.set, function(x) x["par.name"])[inds.num]
   names.rest = sapply(par.set, function(x) x["par.name"])[inds.rest]
@@ -27,7 +27,7 @@ opt.meta.model.bfgs = function(n, meta.model, constr.model, curdes, cury, contro
   }
  
   bfgs = function(disc.vals) {
-    #start = unlist(sel.random(par.set, "par.desc.double"))
+    #start = unlist(sel.random(par.set, "Parameter.double"))
     start = unlist(curdes[which.min(cury), names.num])
     g1 = function(x) g(x, disc.vals=disc.vals)
     or = optim(fn=g1, par=start, method="L-BFGS-B")
@@ -39,7 +39,7 @@ opt.meta.model.bfgs = function(n, meta.model, constr.model, curdes, cury, contro
   
   for (j in 1:n) {
     if (length(inds.rest) > 0) 
-      disc.vals = sel.random(par.set, c("par.desc.log", "par.desc.disc"))
+      disc.vals = sel.random(par.set, c("Parameter.log", "Parameter.disc"))
     else      
       disc.vals = list()
     bfgs(disc.vals)
@@ -53,7 +53,7 @@ opt.meta.model.bfgs = function(n, meta.model, constr.model, curdes, cury, contro
 
 opt.meta.model.CL = function(n, meta.model, constr.model, curdes, cury, control) {
   par.set = control$par.set
-  inds.num = which(sapply(par.set, function(x) is(x, "par.desc.double")))
+  inds.num = which(sapply(par.set, function(x) is(x, "Parameter.double")))
   inds.rest = (1:length(par.set))[-inds.num] 
   names.num = sapply(par.set, function(x) x["par.name"])[inds.num]
   names.rest = sapply(par.set, function(x) x["par.name"])[inds.rest]
@@ -84,7 +84,7 @@ sel.random = function(par.set, parclass) {
 #  z = list()
 #  for (i in seq(length=length(par.set))) {
 #    pd = par.set[[i]]
-#    if (is(pd, "par.desc.double"))
+#    if (is(pd, "Parameter.double"))
 #      z[[pd["par.name"]]] = pd[bound]
 #  }
 #  return(z)
@@ -94,9 +94,9 @@ get.ranges = function(par.set) {
   z = list()
   for (i in seq(length=length(par.set))) {
     pd = par.set[[i]]
-    if (is(pd, "par.desc.disc"))
+    if (is(pd, "Parameter.disc"))
       z[[pd["par.name"]]] = names(pd["vals"])
-    if (is(pd, "par.desc.log"))
+    if (is(pd, "Parameter.log"))
       z[[pd["par.name"]]] = c("TRUE", "FALSE")
   }
   return(z)

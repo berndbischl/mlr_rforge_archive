@@ -1,4 +1,4 @@
-#' @include par.desc.r
+#' @include Parameter.r
 roxygen()
 
 #' Description class for a hyperparameter.
@@ -11,11 +11,11 @@ roxygen()
 #'  \item{when [string]}{Specifies when a cetrain hyperparameter is used. Possible entries are 'train', 'predict' or 'both'.}
 #'  \item{requires [list]}{Requirements for a parameter to be effective.}
 #' }
-#' @exportClass par.desc
+#' @exportClass Parameter
 #' @title Description class for a hyperparameter. 
 setClass(
-  "par.desc.learner",
-  contains = c("par.desc"),
+  "Parameter.learner",
+  contains = c("Parameter"),
   representation = representation(
     has.default = "logical",
     default = "ANY",
@@ -28,7 +28,7 @@ setClass(
 
 #' Constructor.
 setMethod(f = "initialize",
-  signature = signature("par.desc.learner"),
+  signature = signature("Parameter.learner"),
   def = function(.Object, id, type, constraints, has.default, default, when, flags, requires) {
     if (missing(has.default))
       return(make.empty(.Object))
@@ -42,10 +42,10 @@ setMethod(f = "initialize",
 
 
 
-#' @rdname par.desc.learner-class
+#' @rdname Parameter.learner-class
 setMethod(
   f = "[",
-  signature = signature("par.desc.learner"),
+  signature = signature("Parameter.learner"),
   def = function(x,i,j,...,drop) {
     if (i == "pass.default") {
       passd = x@flags$pass.default

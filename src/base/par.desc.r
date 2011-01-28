@@ -8,11 +8,11 @@
 #' @slot type Data type of parameter. Possible types are 'numeric', 'integer', 'ordered', 'discrete', 'function', 'untyped'.
 #' @slot trafo When values for the parameter are generated in any way, this function will always be applied directly aftwerwards. Function must accept a parameter value as the first argument and return a transformed one.
 #' 
-#' @exportClass par.desc
-#' @seealso \code{\link{par.desc.learner}}, \code{\link{makeParameterSet}} 
+#' @exportClass Parameter
+#' @seealso \code{\link{Parameter.learner}}, \code{\link{makeParameterSet}} 
 #' @title Description class for an optimization parameter.
 
-setClass("par.desc",
+setClass("Parameter",
   contains = c("object"),
   representation = representation(
     id = "character",
@@ -23,7 +23,7 @@ setClass("par.desc",
 
 #' Constructor.
 setMethod(f = "initialize",
-  signature = signature("par.desc"),
+  signature = signature("Parameter"),
   def = function(.Object, id, type, constraints, trafo=identity) {
     if (missing(id))
       return(make.empty(.Object))
@@ -39,7 +39,7 @@ setMethod(f = "initialize",
 #' @rdname to.string
 setMethod(
   f = "to.string",
-  signature = signature("par.desc"),
+  signature = signature("Parameter"),
   def = function(x) {
     type = x["type"]
     if (type == "numeric")

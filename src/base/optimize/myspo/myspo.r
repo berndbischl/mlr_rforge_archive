@@ -19,7 +19,7 @@
 #    seqdes = seq.design(pds, control$seq.des.points, tmm$constr.model)
 #    ## print(str(seqdes))
 #    newdes = choose.new.points(1, tmm$meta.model, tmm$constr.model, curdes, cury, control)
-#    ## newdes = rbind(newdes, unlist(sel.random(pds, "par.desc.num")))
+#    ## newdes = rbind(newdes, unlist(sel.random(pds, "Parameter.num")))
 #    ## newy = fun(newdes, control)
 #    newy = eval.des.with.fun(newdes, fun, control)
 #    ## print(cbind(newdes, newy))

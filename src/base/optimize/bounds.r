@@ -1,6 +1,6 @@
-#' @include par.desc.r
+#' @include Parameter.r
 roxygen()
-#' @include par.desc.feasible.r
+#' @include Parameter.feasible.r
 roxygen()
 
 #' A bunch of parameters. Is initially created, then mainly queried for information but not changed. 
@@ -23,8 +23,8 @@ setMethod(
   f = "initialize",
   signature = signature("ParameterSet"),
   def = function(.Object, pars) {
-    if(any(sapply(pars, function(x) !is(x, "par.desc"))))
-      stop("All parameters must be of class 'par.desc'!")
+    if(any(sapply(pars, function(x) !is(x, "Parameter"))))
+      stop("All parameters must be of class 'Parameter'!")
     ns = sapply(pars, function(x) x@id)
     if (any(duplicated(ns)))
       stop("All parameters must have unique names!")
@@ -110,7 +110,7 @@ setGeneric(name = "lower", def = function(x, ...) standardGeneric("lower"))
 #' @export 
 setMethod(
   f = "lower",
-  signature = signature(x="par.desc"), 
+  signature = signature(x="Parameter"), 
   def = function(x) 
     if(!x@type %in% c("integer", "numeric")) 
       stop("Only available for numeric or integer parameter!") 
@@ -136,7 +136,7 @@ setGeneric(name = "upper", def = function(x, ...) standardGeneric("upper"))
 #' @export 
 setMethod(
   f = "upper",
-  signature = signature(x="par.desc"), 
+  signature = signature(x="Parameter"), 
   def = function(x) 
     if(!x@type %in% c("integer", "numeric")) 
       stop("Only available for numeric or integer parameter!") 
@@ -162,7 +162,7 @@ setGeneric(name = "values", def = function(x, ...) standardGeneric("values"))
 #' @export 
 setMethod(
   f = "values",
-  signature = signature(x="par.desc"), 
+  signature = signature(x="Parameter"), 
   def = function(x, only.names=FALSE) 
     if(!x@type %in% c("discrete", "logical")) 
       stop("Only available for numeric or integer parameter!") 
@@ -196,7 +196,7 @@ setGeneric(name = "trafoVal", def = function(par, val) standardGeneric("trafoVal
 #' @export 
 setMethod(
   f = "trafoVal",
-  signature = signature(par="par.desc", val="ANY"), 
+  signature = signature(par="Parameter", val="ANY"), 
   def = function(par, val) {
     par@trafo(val)
   }

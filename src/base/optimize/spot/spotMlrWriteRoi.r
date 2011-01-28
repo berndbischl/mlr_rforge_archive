@@ -6,11 +6,11 @@ spotMlrWriteRoi = function(path, control) {
   tab = data.frame(name=rep("a", n), low=0, high=1, type="x", stringsAsFactors = FALSE)
 	for (i in 1:n) {
 		pd = pds[[i]]
-    if (!is(pd, "par.desc.double"))
+    if (!is(pd, "Parameter.double"))
       stop("wraong type!")
 		type = switch(pd["data.type"], numeric="FLOAT", integer="INT")
-		#lower = ifelse(is(pd, "par.desc.double"), pd["lower"], 1)
-		#upper = ifelse(is(pd, "par.desc.double"), pd["upper"], length(pd["vals"]))
+		#lower = ifelse(is(pd, "Parameter.double"), pd["lower"], 1)
+		#upper = ifelse(is(pd, "Parameter.double"), pd["upper"], length(pd["vals"]))
     lower = pd["lower"]
     upper = pd["upper"]
     tab[i, "name"] = pd["par.name"]

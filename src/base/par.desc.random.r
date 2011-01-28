@@ -2,7 +2,7 @@
 #' 
 #' @param n [integer] \cr
 #'   Value to check.  
-#' @param x [par.desc] \cr
+#' @param x [Parameter] \cr
 #'   Variable description.
 #' 
 #' @rdname random.val
@@ -23,7 +23,7 @@ setGeneric(
 #' @rdname random.val
 setMethod(
   f = "random.val",
-  signature = signature(n="integer", x="par.desc"),
+  signature = signature(n="integer", x="Parameter"),
   def = function(n, x) {
     type = x["type"]
     if (type == "numeric")

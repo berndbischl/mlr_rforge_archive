@@ -5,7 +5,7 @@ set.seed(1)
 #f2 = function(x) f1(x) + rnorm(1, 0, 30)
 #
 #par.set = list(      
-#  new("par.desc.double", par.name="x", lower=-25, upper=10)
+#  new("Parameter.double", par.name="x", lower=-25, upper=10)
 #)
 #
 ##ml = make.learner("regr.km.noisy")

@@ -1,4 +1,4 @@
-#' @include par.desc.r
+#' @include Parameter.r
 roxygen()
 
 #' Check if a parameter setting satisfies the constraints of the
@@ -6,7 +6,7 @@ roxygen()
 #' 
 #' @param x [single value] \cr
 #'   Value to check.  
-#' @param par.set [par.desc] \cr
+#' @param par.set [Parameter] \cr
 #'   Variable description.
 #' @return If \code{x} is a single value, a logical, else a vector of
 #' logicals as long as the vector \code{x}. Note that for discrete
@@ -29,7 +29,7 @@ setGeneric(
 #' @rdname is.feasible
 setMethod(
   f = "is.feasible",
-  signature = signature(x="ANY", par.set="par.desc"),
+  signature = signature(x="ANY", par.set="Parameter"),
   def = function(x, par.set) {
     type = par.set["type"]
     if (type == "numeric")

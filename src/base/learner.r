@@ -27,7 +27,7 @@ roxygen()
 #' 	\item{par.vals [named list]}{List of set hyperparameters.}
 #'  \item{par.train [named list]}{List of set hyperparameters which are passed to train function.}
 #'  \item{par.predict [named list]}{List of set hyperparameters which are passed to predict function.}
-#' 	\item{par.set [named list]}{Named list of \code{\linkS4class{par.desc}} description objects for all possible hyperparameters.}
+#' 	\item{par.set [named list]}{Named list of \code{\linkS4class{Parameter}} description objects for all possible hyperparameters.}
 #' }
 #' 
 #' Further getters for classifiers.\cr

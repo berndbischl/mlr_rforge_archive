@@ -20,7 +20,7 @@ setMethod(
       pds = list()
       for (i in seq(length=length(args))) {
         n = names(args)[i]
-        pds[[i]] = new("par.desc.unknown", par.name=n, when="both")
+        pds[[i]] = new("Parameter.unknown", par.name=n, when="both")
       }
       callNextMethod(.Object, learner=learner, par.set=pds, par.vals=args)
 		}
