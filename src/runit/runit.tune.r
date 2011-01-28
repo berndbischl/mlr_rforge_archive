@@ -1,7 +1,7 @@
 test.tune <- function() {
   cp = c(0.05, 0.9)
   minsplit = 1:3 
-  b1 = makeParameterSet(discrete.parameter("cp", vals=cp), discrete.parameter("minsplit", vals=minsplit))
+  b1 = makeParameterSet(makeDiscreteParameter("cp", vals=cp), makeDiscreteParameter("minsplit", vals=minsplit))
 	ctrl = grid.control()
 	folds = 3
 	
@@ -104,17 +104,17 @@ test.tune <- function() {
 test.tune.cmaes = function() {
   res = make.res.desc("cv", iters=2)
   b1 = makeParameterSet(
-    numeric.parameter("cp", lower=0.001, upper=1), 
-    integer.parameter("minsplit", lower=1, upper=10)
+    makeNumericParameter("cp", lower=0.001, upper=1), 
+    makeIntegerParameter("minsplit", lower=1, upper=10)
   )
   
   b1 = makeParameterSet(
-    numeric.parameter("C", trafo=function(x) 2^x), 
-    numeric.parameter("sigma", trafo=function(x) 2^x) 
+    makeNumericParameter("C", trafo=function(x) 2^x), 
+    makeNumericParameter("sigma", trafo=function(x) 2^x) 
   )
   b2 = makeParameterSet(
-    numeric.parameter("C", trafo=function(x) 2^x), 
-    discrete.parameter("kernel", vals=c("rbfdot", "polydot"))
+    makeNumericParameter("C", trafo=function(x) 2^x), 
+    makeDiscreteParameter("kernel", vals=c("rbfdot", "polydot"))
   )
   
   ctrl1 = cmaes.control(start=c(C=0, sigma=0), maxit=5)
@@ -131,13 +131,13 @@ test.tune.cmaes = function() {
 
 test.tune.diceoptim = function() {
   res = make.res.desc("cv", iters=2)
-  b1 = makeParameterSet(numeric.parameter("cp", lower=0.001, upper=1), integer.parameter("minsplit", lower=1, upper=10))
+  b1 = makeParameterSet(makeNumericParameter("cp", lower=0.001, upper=1), makeIntegerParameter("minsplit", lower=1, upper=10))
   
   ctrl = diceoptim.control()
   
   tr1 = tune("classif.rpart", multiclass.task, cv.instance, control=ctrl)
   
-  b2 = makeParameterSet(numeric.parameter("cp", lower=0.001, upper=1), integer.parameter("minsplit", lower=1, upper=10))
+  b2 = makeParameterSet(makeNumericParameter("cp", lower=0.001, upper=1), makeIntegerParameter("minsplit", lower=1, upper=10))
   checkException(tune("classif.rpart", multiclass.task, cv.instance, control=ctrl))
   
 } 
