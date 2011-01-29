@@ -1,7 +1,3 @@
-
-
-
-
 test.opt.wrapper <- function() {
 	
 	outer = make.res.instance(make.res.desc("holdout"), task=multiclass.task)
