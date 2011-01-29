@@ -17,7 +17,6 @@ setMethod(
 		def = function(.Object, learner, train, predict, par.set, par.vals) {
 			.Object@train = train
       .Object@predict = predict
-      pds = list()
       callNextMethod(.Object, learner=learner, par.set=par.set, par.vals=par.vals)
 		}
 )
@@ -28,18 +27,18 @@ setMethod(
 #' If the train or predict function is called on it, the preprocessing is always invoked before.
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
-#'        Learning algorithm. See \code{\link{learners}}.  
+#'   Learning algorithm. See \code{\link{learners}}.  
 #' @param fun [function] \cr
-#'        Function to preprocess a data.frame. First argument must be called 'data', which will be preprocessed and subsequently returned.
+#'   Function to preprocess a data.frame. First argument must be called 'data', which will be preprocessed and subsequently returned.
 #' @param ... [any] \cr
-#'        Optional parameters to control the preprocessing. Passed to fun.   
+#'   Optional parameters to control the preprocessing. Passed to fun.   
 #' 
 #' @return \code{\linkS4class{learner}}.
 #' 
 #' @title Fuse learner with preprocessing.
 #' @export
 
-make.preproc.wrapper = function(learner, train, predict, par.set) {
+make.preproc.wrapper = function(learner, train, predict, par.set, par.vals) {
 	if (is.character(learner))
 		learner = make.learner(learner)
   if (missing(par.set))
@@ -48,7 +47,7 @@ make.preproc.wrapper = function(learner, train, predict, par.set) {
 		stop("Arguments in preproc train function have to be: data, targetvar, args")		
   if (any(names(formals(predict)) != c("data", "targetvar", "args", "control")))
     stop("Arguments in preproc predict function have to be: data, targetvar, args, control")    
-	new("preproc.wrapper", learner=learner, train=train, predict=predict, par.set=par.set)
+	new("preproc.wrapper", learner=learner, train=train, predict=predict, par.set=par.set, par.vals=par.vals)
 }
 
 
