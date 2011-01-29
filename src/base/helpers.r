@@ -200,28 +200,10 @@ par.valnames.to.vals = function(names, par.set) {
   Map(function(par, n) par@constraints$vals[[n]], par.set@pars, names)
 }
 
-
-hyper.par.val.to.name = function(par.name, par.val, learner) {
-  pds = learner@par.set@pars
-  pd = pds[[par.name]]
-  if(!is.null(pd) && is(pd, "Parameter") && pd["type"] == "discrete") {
-    vals = pd["vals"]
-    i = which(sapply(vals, function(x) almost.equal(par.val, x)))
-    return(names(vals)[i])
-  }
-  return(par.val)
-}
-
 par.vals.string = function(pv, learner) {
   ns = names(pv)
-  pv = Map(function(n, v) hyper.par.val.to.name(n,v,learner), ns, pv)
-  # print class for complex values
-  pv = lapply(pv, function(x) 
-      if(is.vector(x) && length(x) == 1)
-        if (is.double(x)) round(x,3) else x
-      else
-        paste("<", class(x), ">", sep="")
-  )
+  pars = learner@par.set@pars[ns]
+  pv = Map(valToString, pars, pv)
   return(paste(ns, pv, sep="=", collapse=","))
 }
 

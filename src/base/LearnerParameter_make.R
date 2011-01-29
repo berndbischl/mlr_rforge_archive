@@ -107,6 +107,21 @@ makeUntypedLearnerParameter <- function(id, default, when="train", flags=list(),
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
 
+
+#' Function parameter for a learner.
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @param default [any]
+#'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param when [character(1)]
+#'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @return  \code{\linkS4class{Parameter}}
+#' @export 
+makeFunctionLearnerParameter <- function(id, default, when="train", flags=list(), requires=expression()) {
+  p <- makeFunctionParameter(id)
+  learner.parameter.from.parameter(p, default, when, flags, requires)
+}
+
 learner.parameter.from.parameter <- function(p, default, when, flags, requires) {
   if (!is.list(flags))
     stop("'flags' must be a list.")

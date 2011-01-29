@@ -38,7 +38,7 @@ setMethod(
       (is.integer(x) | (is.numeric(x) & (x == as.integer(x)))) & x >= par.set@constraints$lower & x <= par.set@constraints$upper
     else if (type == "discrete") {
       g = function(y) 
-        !is.na(Position(function(v) identical(y, v), par.set@constraints$vals)) ||
+        !is.na(Position(function(v) isTRUE(all.equal(y, v)), par.set@constraints$vals)) ||
         !is.na(Position(function(v) identical(y, v), names(par.set@constraints$vals))) 
       if (length(x) == 1) return(g(x)) else return(sapply(x, g))
       #if(is.null(x)) any(is.null(bound["vals"])) else x %in% par.set["vals"]

@@ -61,3 +61,25 @@ setMethod(
       stop("Unknown type!")
   }
 )
+
+valToString = function(par, val) {
+  type = par["type"]
+  if (type == "numeric")
+    formatC(val, digits=3)  
+  else if (type == "integer" || type == "logical")
+    as.character(val)  
+  else if (type == "discrete" || type == "ordered") {
+    vals = par@constraints$vals
+    if (is.character(val) && length(val) == 1 && val %in% names(vals)) {
+      val
+    } else {
+        i = which(sapply(vals, function(v) almost.equal(val, v)))
+        names(vals)[i]
+    }
+  } else if (type == "function"){
+    "<function>" 
+  } else if (type == "untyped"){
+    class(val)
+  }
+}
+
