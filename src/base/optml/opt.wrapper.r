@@ -70,11 +70,11 @@ setMethod(
       lt = subset(.task, .subset)
 			if (wl["opt.type"] == "tune") {
 				or = tune(bl, lt, wl@resampling, wl@measures, wl@opt.pars, ctrl)
-        bl = set.hyper.pars(bl, par.vals=or@par)
+        bl = set.hyper.pars(bl, par.vals=or@x)
         m = train(bl, lt)
       } else if (wl["opt.type"] == "varsel") {
 				or = varsel(bl, lt, wl@resampling, control=ctrl, measures=wl@measures)
-        lt = subset(lt, vars=or@par)
+        lt = subset(lt, vars=or@x)
         m = train(bl, lt)
       }	else 
 				stop("Unknown type: ", wl["opt.type"])

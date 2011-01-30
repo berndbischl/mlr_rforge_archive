@@ -1,15 +1,18 @@
 
-make.varsel.f = function(learner, task, resampling, measures, control) {
+make.varsel.f = function(learner, task, resampling, measures, par.set, control, log.fun) {
   function(p) {
-    p2 = as.list(p)
-    names(p2) = ns
-    es = eval.state.tune(learner, task, resampling, measures, control, p2, "optim")
-    perf = get.perf(es)
-    logger.info(level="tune", paste(ns, "=", formatC(p, digits=3)), ":", formatC(perf, digits=3))
-    ifelse(measures[[1]]["minimize"], 1 , -1) * perf
+    if (is.integer(p))
+      p2 = binary.to.vars(p)
+    y = eval.state(learner, task, resampling, measures, control, p2)
+    log.fun(learner, task, resampling, measures, par.set, control, opt.path, p2, y)
+    ifelse(measures[[1]]["minimize"], 1 , -1) * y[1]
   }  
 }
 
+
+log.fun.varsel = function(learner, task, resampling, measures, par.set, control, opt.path, x, y) {
+  logger.info(level="opt", paste(length(x), " : ", formatC(perf, digits=3)))
+}
 
 
 vars.to.logical = function(vars, all.vars) {
