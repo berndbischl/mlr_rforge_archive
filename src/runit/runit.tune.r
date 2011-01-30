@@ -1,9 +1,10 @@
 test.tune <- function() {
-  
-  
   cp = c(0.05, 0.9)
   minsplit = 1:3 
-  b1 = makeParameterSet(makeDiscreteParameter("cp", vals=cp), makeDiscreteParameter("minsplit", vals=minsplit))
+  ps1 = makeParameterSet(
+    makeDiscreteParameter("cp", vals=cp), 
+    makeDiscreteParameter("minsplit", vals=minsplit)
+  )
 	ctrl = grid.control()
 	folds = 3
 	
@@ -12,7 +13,7 @@ test.tune <- function() {
 	
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
-	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, par.set=b1, control=ctrl)
+	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, par.set=ps1, control=ctrl)
   pp = as.data.frame(tr2@path)
   
 	# todo test scale with tune.e1071 and scaled grid!
@@ -27,43 +28,16 @@ test.tune <- function() {
 	
 	# check multiple measures
 	ms = c("acc", "mmce", "time.fit") 
-	tr2 = tune("classif.rpart", multiclass.task, cv.instance, control=ctrl)
-	
-	
-	# check grid and scale
-	control = grid.control(ranges=list(C=-1:1, sigma=-1:1), trafo=function(x)10^x)
-	tune("classif.ksvm", multiclass.task, cv.instance, control=control)
-	
-  # check order of constraints and start in control objects
-  x = optim.control(start=c(a=11,b=12,c=13), lower=c(b=22, c=23, a=21), upper=c(c=33,b=32,a=31))
-  checkEquals(x["start"][["a"]],  11, checkNames=FALSE)  
-  checkEquals(x["start"][["b"]],  12, checkNames=FALSE)  
-  checkEquals(x["start"][["c"]],  13, checkNames=FALSE)  
-  checkEquals(x["lower"]["a"], 21, checkNames=FALSE)  
-  checkEquals(x["lower"]["b"], 22, checkNames=FALSE)  
-  checkEquals(x["lower"]["c"], 23, checkNames=FALSE)  
-  checkEquals(x["upper"]["a"], 31, checkNames=FALSE)  
-  checkEquals(x["upper"]["b"], 32, checkNames=FALSE)  
-  checkEquals(x["upper"]["c"], 33, checkNames=FALSE)  
-  
-  x = cmaes.control(start=c(a=11,b=12,c=13), lower=c(b=22, c=23, a=21), upper=c(c=33,b=32,a=31))
-  checkEquals(x["start"][["a"]], 11, checkNames=FALSE)  
-  checkEquals(x["start"][["b"]], 12, checkNames=FALSE)  
-  checkEquals(x["start"][["c"]], 13, checkNames=FALSE)  
-  checkEquals(x["lower"]["a"], 21, checkNames=FALSE)  
-  checkEquals(x["lower"]["b"], 22, checkNames=FALSE)  
-  checkEquals(x["lower"]["c"], 23, checkNames=FALSE)  
-  checkEquals(x["upper"]["a"], 31, checkNames=FALSE)  
-  checkEquals(x["upper"]["b"], 32, checkNames=FALSE)  
-  checkEquals(x["upper"]["c"], 33, checkNames=FALSE)  
+	tr2 = tune("classif.rpart", multiclass.task, cv.instance, par.set=ps1, control=ctrl)
   
 	# tune wrapper
 	res = make.res.desc("cv", iters=2)
-	ranges = list(minsplit=seq(3,10,2))
-	wl = make.tune.wrapper("classif.rpart", resampling=res, control=grid.control(ranges=ranges))
+  ps2 = makeParameterSet(
+    makeDiscreteParameter("minsplit", vals=seq(3,10,2))
+  )  
+	wl = make.tune.wrapper("classif.rpart", resampling=res, par.set=ps2, control=ctrl)
 	m = train(wl,  multiclass.task)
 	# todo check opt. parameter is same as with tune
-	
 	
 	#tune chain
 	wl = make.learner("classif.rpart", minsplit=10, cp=0.01, predict.type="prob")
@@ -76,30 +50,57 @@ test.tune <- function() {
   f2 = function(data, targetvar, args, control) {
     data[, control$vars, drop=FALSE]
 	}
-	wl = make.preproc.wrapper(wl, train=f1, predict=f2, args=list(n=3))
+  ps3 = makeParameterSet(
+    makeIntegerLearnerParameter("n", lower=1, upper=60)
+  ) 
+	wl = make.preproc.wrapper(wl, train=f1, predict=f2, par.set=ps3, par.vals=list(n=3))
   
-	r = list(minsplit=c(3,30), n=c(1,60))
-	ctrl = grid.control(ranges=r)
-	tr = tune(wl, binaryclass.task, res, control=ctrl)
-  checkTrue(!any(is.na(tr["perf"])))
-  checkEquals(tr["par"]$n, 60)
+  ps4 = makeParameterSet(
+    makeDiscreteParameter("minsplit", vals=c(3L,30L)),
+    makeDiscreteParameter("n", vals=c(1L,60L))
+  ) 
+	tr = tune(wl, binaryclass.task, res, par.set=ps4, control=ctrl)
+  checkTrue(!any(is.na(tr["y"])))
+  checkEquals(tr@x$n, 60)
   
-	# nelder mead with optim
-	ctrl = optim.control(start=c(C=0, sigma=0), maxit=10, trafo=function(x) 2^x)
-	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)
-	
-	# SA with optim
-	ctrl = optim.control(start=c(C=0, sigma=0), maxit=10, method="SANN", trafo=function(x) 2^x)
-	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)
-	
-	
-	# BFGS with optim
-	ctrl = optim.control(start=c(C=1, sigma=1), maxit=5, lower=0.5, upper=2, method="L-BFGS-B")
-	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)
-	
-	
-  checkException("classif.rpart", multiclass.task, cv.instance, par.set=makeParameterSet(), control=ctrl)
+  checkException(tune("classif.rpart", multiclass.task, cv.instance, par.set=makeParameterSet(), control=ctrl))
 }
+
+
+test.tune.optim = function() {
+  res = make.res.desc("cv", iters=2)
+  ps1 = makeParameterSet(
+    makeNumericParameter("C", trafo=function(x) 2^x), 
+    makeNumericParameter("sigma", trafo=function(x) 2^x)
+  )
+  ps2 = makeParameterSet(
+    makeNumericParameter("cp", lower=0.001, upper=1), 
+    makeIntegerParameter("minsplit", lower=1)
+  )
+  ps3 = makeParameterSet(
+    makeNumericParameter("cp", lower=0.001, upper=1), 
+    makeDiscreteParameter("minsplit", vals=c(1,2))
+  )
+  
+  # nelder mead with optim
+  ctrl = optim.control(method="Nelder-Mead", start=c(1, 1), maxit=10)
+  tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
+  ctrl = optim.control(method="Nelder-Mead", start=c(0.05, 5), maxit=10)
+  checkException(tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl))
+  
+  ctrl = optim.control(method="SANN", start=c(1, 1), maxit=10)
+  tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
+  ctrl = optim.control(method="SANN", start=c(0.05, 5), maxit=10)
+  checkException(tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl))
+  
+  ctrl = optim.control(method="L-BFGS-B", start=c(1, 1), maxit=10)
+  tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
+  ctrl = optim.control(method="L-BFGS-B", start=c(0.05, 5), maxit=10)
+  tr = tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl)
+  
+  checkException(tune("classif.rpart", multiclass.task, res, par.set=ps3, control=ctrl))
+} 
+
 
 test.tune.cmaes = function() {
   res = make.res.desc("cv", iters=2)
@@ -115,7 +116,7 @@ test.tune.cmaes = function() {
   ctrl1 = cmaes.control(start=c(0.05, 5L), maxit=5)
   tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl1)
   
-  checkException(tune("classif.rpart", multiclass.task, res, par.set=b2, control=ctrl1))
+  checkException(tune("classif.rpart", multiclass.task, res, par.set=ps2, control=ctrl1))
 } 
 
 

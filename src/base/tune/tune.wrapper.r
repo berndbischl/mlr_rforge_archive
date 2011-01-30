@@ -12,6 +12,8 @@
 #'   Control object for search method. Also selects the optimization algorithm for tuning.   
 #' @param measures [list of \code{\linkS4class{measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
+#' @param log.fun [function()]\cr
+#'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
 #' 
 #' @return \code{\linkS4class{learner}}.
 #' 
@@ -21,7 +23,9 @@
 #'   
 #' @title Fuse learner with tuning.
 
-make.tune.wrapper = function(learner, resampling, measures, par.set, control, log.fun=function() NULL) {
+make.tune.wrapper = function(learner, resampling, measures, par.set, control, log.fun) {
+  if (missing(log.fun))
+    log.fun = log.fun.tune
 	make.opt.wrapper(learner, resampling, measures, par.set, control, log.fun)
 }
 

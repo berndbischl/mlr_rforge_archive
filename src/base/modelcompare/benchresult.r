@@ -185,9 +185,9 @@ setMethod(
     if (is.null(x) || x[[1]]["opt.type"] != "tune")
       stop("Learner id ", learner.id, " was not tuned in bench.result!")
     if (as.data.frame)
-      as.data.frame(Reduce(rbind, lapply(x, function(y) as.data.frame(y["par"]))))
+      as.data.frame(Reduce(rbind, lapply(x, function(y) as.data.frame(y@x))))
     else
-      lapply(x, function(y) y["par"])
+      lapply(x, function(y) y@x)
   } 
 )
 
@@ -232,9 +232,9 @@ setMethod(
       stop("Learner id ", learner.id, " was not used for varsel in bench.result!")
     if (as.data.frame) {
       avs = br["input.names"][[task.id]]
-      as.data.frame(Reduce(rbind, init=NULL, lapply(x, function(y) vars.to.binary(y["par"], all.vars=avs))))
+      as.data.frame(Reduce(rbind, init=NULL, lapply(x, function(y) vars.to.binary(y@x, all.vars=avs))))
     } else
-      lapply(x, function(y) y["par"])
+      lapply(x, function(y) y@x)
   } 
 )
 

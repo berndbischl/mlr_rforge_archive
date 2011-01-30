@@ -179,7 +179,7 @@ setMethod(
   def = function(x, select=c("discrete", "logical"), only.names=FALSE) { 
     v = Filter(function(y) y@type %in% select, x@pars)
     if (only.names)
-      z = sapply(v, function(y) names(y@constraints$vals))
+      z = lapply(v, function(y) names(y@constraints$vals))
     else
       z = lapply(v, function(y) y@constraints$vals)
     names(z) = sapply(v, function(y) y@id)
@@ -216,14 +216,22 @@ setMethod(
   def = function(par, val) {
     if (all.els.named(val)) {
       ns = names(val)
-      val = Map(valToString, par.set@pars[ns], val)
+      val = Map(valToString, par@pars[ns], val)
     } else {  
-      ns = names(par.set@pars)
-      val = Map(valToString, par.set@pars, val)
+      ns = names(par@pars)
+      val = Map(valToString, par@pars, val)
     }
     paste(ns, val, sep="=", collapse=",")
   }
 )
+
+# todo: check that learner and normal parameters are not mixed
+c.ParameterSet = function(..., recursive=FALSE) {
+  pss = list(...)
+  pars = Reduce(c, lapply(pss, function(ps) ps@pars))
+  new("ParameterSet", pars=pars)  
+}
+
 
 
 

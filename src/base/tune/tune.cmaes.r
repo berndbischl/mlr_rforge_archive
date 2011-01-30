@@ -9,9 +9,8 @@ tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt
   low = lower(par.set)
   up = upper(par.set)
   
-  start = unlist(control["start"])[ns]
-  
-  g = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path)
+  start = unlist(control@start)
+  g = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path, log.fun)
 
   g2 = function(p) {
     p2 = as.list(as.data.frame(p))
@@ -34,6 +33,6 @@ tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt
     args$vectorized=TRUE    
   }  
   or = cma_es(par=start, fn=g, lower=low, upper=up, control=args)
-	e = getBestElement(op.path, measureAggrNames(measures[[1]])[1])
+	e = getBestElement(opt.path, measureAggrNames(measures[[1]])[1])
 	new("opt.result", learner, control, e$x, e$y, opt.path)
 }

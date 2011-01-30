@@ -27,17 +27,17 @@ test.varsel <- function() {
 	# check max.vars
 	ctrl = sequential.control(alpha=0, max.vars=1, method="sfs", path=TRUE)
 	vr = varsel("classif.lda", task=binaryclass.task, resampling=inner, control=ctrl)
-	checkEquals(length(vr["par"]), 1) 
+	checkEquals(length(vr@x), 1) 
 
 	ctrl = sequential.control(beta=1, max.vars=58, method="sbs", path=TRUE)
 	vr = varsel("classif.lda", task=binaryclass.task, resampling=inner, control=ctrl)
-	checkEquals(length(vr["par"]), 58) 
+	checkEquals(length(vr@x), 58) 
 	
 	
 	# check empty model
 	ctrl = sequential.control(method="sfs", alpha=10)
 	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, model=TRUE)
-	checkEquals(vr["par"], character(0)) 
+	checkEquals(vr@x, character(0)) 
 	checkTrue(is(vr["model"], "wrapped.model")) 
 	checkTrue(is(vr["model"]["learner.model"], "novars")) 
 	

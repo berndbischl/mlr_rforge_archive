@@ -26,8 +26,8 @@ roxygen()
 #'   Control object for search method. Also selects the optimization algorithm for tuning.   
 #' @param measures [list of \code{\linkS4class{measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
-#' @param log.fun [function(task, learner, resampling, val)]\cr
-#'   ???? 
+#' @param log.fun [function(learner, task, resampling, measure, par.set, control, opt.path, x, y)]\cr
+#'   Called after every hyperparameter evaluation. Default is to print performance via mlr logger. 
 #' 
 #' @return \code{\linkS4class{opt.result}}.
 #' @export
@@ -35,7 +35,7 @@ roxygen()
 #' @title Hyperparameter tuning.
 
 
-tune <- function(learner, task, resampling, measures, par.set, control, log.fun=function() NULL) {
+tune <- function(learner, task, resampling, measures, par.set, control, log.fun) {
   if (is.character(learner))
     learner <- make.learner(learner)
   if (is(resampling, "resample.desc") && control@same.resampling.instance)
@@ -46,6 +46,8 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun=
     measures = list(measures)   
   if (length(par.set@pars) == 0)
     stop("No parameters were passed!")
+  if (missing(log.fun))
+    log.fun = log.fun.tune
   
   cl = as.character(class(control))
 	sel.func = switch(cl,
@@ -62,20 +64,10 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun=
 	}
 	
   opt.path = makeOptimizationPathFromMeasures(names(par.set@pars), measures)
-  or = sel.func(learner, task, resampling, measures, par.set, control, opt.path)
+  or = sel.func(learner, task, resampling, measures, par.set, control, opt.path, log.fun)
 	
-	or@par = .mlr.scale.val(or@par, par.set)
+	or@x = trafoVal(par.set, or@x)
 	return(or)			
 }
 
-
-#' Scale parameter vector. Internal use.
-#' 
-#' @export
-#' @seealso \code{\link{tune.control}}
-#' @title Scale parameter vector. Internal use.
-
-.mlr.scale.val <- function(v, par.set) {
-  Map(function(par, x) par@trafo(x), par.set@pars, v)
-}
 

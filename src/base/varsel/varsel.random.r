@@ -1,4 +1,4 @@
-varsel.random = function(learner, task, resampling, measures, control, opt.path, log.fun) {
+varsel.random = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
 	all.vars = task["input.names"]
 	m = length(all.vars) 
 	prob = control["prob"]

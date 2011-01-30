@@ -1,5 +1,5 @@
 # todo: maxit, max.vars
-varsel.seq = function(learner, task, resampling, measures, control, opt.path, log.fun) {
+varsel.seq = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
 	
 	seq.step = function(forward, state, gen.new.states, compare) {
 		not.used = setdiff(all.vars, state$par)
@@ -115,7 +115,7 @@ varsel.seq = function(learner, task, resampling, measures, control, opt.path, lo
 		}
 	}
 
-  e = getBestElement(op.path, measureAggrNames(measures[[1]])[1])
+  e = getBestElement(opt.path, measureAggrNames(measures[[1]])[1])
   new("opt.result", learner, control, e$x, e$y, opt.path)
 }
 

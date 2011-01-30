@@ -97,7 +97,7 @@ setMethod(
         return(x["par.vals"][ns])
       }     
       if (i == "par.vals.string") {
-        return(valToString(x@par.set, x["par.vals"]))
+        return(valToString(x["par.set"], x["par.vals"]))
       }
 			callNextMethod()
 		}

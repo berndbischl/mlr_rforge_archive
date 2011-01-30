@@ -10,12 +10,16 @@
 #'   Control object for search method. Also selects the optimization algorithm for feature selection. 
 #' @param measures [list of \code{\linkS4class{measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
+#' @param log.fun [function(learner, task, resampling, measure, par.set, control, opt.path, x, y)]\cr
+#'   Called after every hyperparameter evaluation. Default is to print performance via mlr logger. 
 #' 
 #' @return \code{\linkS4class{learner}}.
 #' @export
 #' @seealso \code{\link{varsel}}, \code{\link{varsel.control}} 
 #' @title Fuse learner with variable selection.
 
-make.varsel.wrapper = function(learner, resampling, measures, par.set, control, log.fun=function() NULL) {
+make.varsel.wrapper = function(learner, resampling, measures, par.set, control, log.fun) {
+  if (missing(log.fun))
+    log.fun = log.fun.varsel
   make.opt.wrapper(learner, resampling, measures, par.set, control, log.fun)
 }

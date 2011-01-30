@@ -43,10 +43,13 @@ setMethod(
   signature = signature("Parameter"),
   def = function(x) {
     type = x["type"]
+    ut = !identical(x@trafo, identity)
     if (type == "numeric")
-      paste("Numeric parameter '", x@id, "'. Constraints: ", x@constraints$lower, ",", x@constraints$upper, sep="")  
+      paste("Numeric parameter '", x@id, "'. Constraints: ", x@constraints$lower, ",", x@constraints$upper, 
+        ". Custom trafo: ", ut, sep="")  
     else if (type == "integer")
-      paste("Integer parameter '", x@id, "'. Constraints: ", x@constraints$lower, ",", x@constraints$upper, sep="")  
+      paste("Integer parameter '", x@id, "'. Constraints: ", x@constraints$lower, ",", x@constraints$upper, 
+        ". Custom trafo: ", ut, sep="")  
     else if (type == "discrete") {
       paste("Discrete parameter '", x@id, "'. Values: ", paste(names(x@constraints$vals), collapse=","), sep="") 
     } else if (type == "logical") {
