@@ -123,14 +123,20 @@ test.tune.cmaes = function() {
 
 test.tune.diceoptim = function() {
   res = make.res.desc("cv", iters=2)
-  b1 = makeParameterSet(makeNumericParameter("cp", lower=0.001, upper=1), makeIntegerParameter("minsplit", lower=1, upper=10))
+  ps1 = makeParameterSet(
+    makeNumericParameter("cp", lower=0.001, upper=1), 
+    makeIntegerParameter("minsplit", lower=1, upper=10)
+  )
   
   ctrl = diceoptim.control()
   
-  tr1 = tune("classif.rpart", multiclass.task, cv.instance, control=ctrl)
+  tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl)
   
-  b2 = makeParameterSet(makeNumericParameter("cp", lower=0.001, upper=1), makeIntegerParameter("minsplit", lower=1, upper=10))
-  checkException(tune("classif.rpart", multiclass.task, cv.instance, control=ctrl))
+  ps2 = makeParameterSet(
+    makeNumericParameter("cp", lower=0.001, upper=1), 
+    makeIntegerParameter("minsplit", lower=1, upper=10)
+  )
+  checkException(tune("classif.rpart", multiclass.task, cv.instance, par.set=ps2, control=ctrl))
   
 } 
   

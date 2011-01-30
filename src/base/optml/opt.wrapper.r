@@ -79,8 +79,6 @@ setMethod(
       }	else 
 				stop("Unknown type: ", wl["opt.type"])
 				
-			# we dont need the model as we directly return it
-			or@model = new("wrapped.model")
 			# set the opt result as attribute, so we can extract it later 
 			attr(m, "opt.result") = or
 			return(m)

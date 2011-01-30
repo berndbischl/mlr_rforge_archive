@@ -1,7 +1,4 @@
-
 test.hyperpars <- function() {
-	
-	
 	wl1 = make.learner("classif.rpart", minsplit=10)
 	checkEquals(wl1["par.vals"], list(minsplit=10)) 
 	
@@ -36,6 +33,7 @@ test.hyperpars <- function() {
 	checkTrue(setequal(m["learner"]["par.vals"], list(minsplit=10, x=1, y=2))) 
   
   # check warnings
+  errorhandler.setup(on.par.without.desc="warn")  
   checkWarning(make.learner("classif.rpart", foo=1), "Setting par foo without")  
   errorhandler.setup(on.par.without.desc="quiet")
   checkWarning(make.learner("classif.rpart", foo=1), FALSE)  

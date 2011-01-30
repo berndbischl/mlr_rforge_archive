@@ -12,8 +12,10 @@ test.benchexp <- function() {
 	s = geterrmessage()
 	checkTrue(length(grep("No tasks were", s)) >0 )
 	
-	r = list(minsplit=seq(3,10,2))
-	rpart.tuner = make.tune.wrapper("classif.rpart", resampling=inner, control=grid.control(ranges=r))
+  ps1 = makeParameterSet(
+    makeDiscreteParameter("minsplit", vals=seq(3,10,2))
+  )
+	rpart.tuner = make.tune.wrapper("classif.rpart", resampling=inner, par.set=ps1, control=grid.control())
 	learners = list("classif.lda", rpart.tuner)
 
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer)

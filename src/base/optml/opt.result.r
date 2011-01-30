@@ -51,7 +51,7 @@ setMethod(
 			}
       if (i == "par.string") {
         if (x["opt.type"] == "tune") {
-          return(valStoString(x@learner@learner, x@x))
+          return(valToString(x@learner["par.set"], x@x))
         } else {
           return(paste(length(x@x), "sel. vars"))
         }

@@ -76,7 +76,7 @@ setMethod(
   def = function(par, val) {
     type = par["type"]
     if (type == "numeric")
-      formatC(val, digits=3)  
+      as.character(round(val, 3))  
     else if (type == "integer" || type == "logical")
       as.character(val)  
     else if (type == "discrete" || type == "ordered") {

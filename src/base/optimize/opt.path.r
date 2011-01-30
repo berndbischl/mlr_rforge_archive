@@ -173,7 +173,7 @@ get.eol = function(op, z) {
 setMethod(
   f = "subset",
   signature = signature(x="opt.path"),
-  def = function(x, dob=op@env$dob, eol=op@env$eol) {
+  def = function(x, dob=x@env$dob, eol=x@env$eol) {
     p = x@env$path[x@env$dob %in% dob & x@env$eol %in% eol]
     op = new("opt.path", x@x.names, x@y.names, x@minimize)
     op@env$path = p
