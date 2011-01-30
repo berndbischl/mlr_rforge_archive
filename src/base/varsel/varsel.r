@@ -25,11 +25,11 @@
 #' @seealso \code{\link{make.varsel.wrapper}} 
 #' @title Variable selection.
 
-varsel <- function(learner, task, resampling, control, measures) {
+varsel <- function(learner, task, resampling, control, measures, log.fun=function() NULL) {
   if (is.character(learner))
     learner <- make.learner(learner)
   if (is(resampling, "resample.desc") && control@same.resampling.instance)
-    resampling = make.resample.instance(resampling, task=task)
+    resampling = make.res.instance(resampling, task=task)
   if (missing(measures))
     measures = default.measures(task)
   if (is(measures, "measure"))
@@ -47,8 +47,8 @@ varsel <- function(learner, task, resampling, control, measures) {
 	if (missing(control)) {
 		stop("You have to pass a control object!")
 	}
-  opt.path = makeOptimizationPathFromMeasures(par.set, measures)
-  or = sel.func(learner, task, resampling, measures, par.set, control, opt.path)
+  opt.path = makeOptimizationPathFromMeasures(task["input.names"], measures)
+  or = sel.func(learner, task, resampling, measures, control, opt.path, log.fun)
 	if (model) {
     task = subset(task, vars=or["par"])
 		or@model = train(learner, task) 	

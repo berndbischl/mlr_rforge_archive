@@ -38,7 +38,7 @@ setMethod(
 #' @title Fuse learner with preprocessing.
 #' @export
 
-make.preproc.wrapper = function(learner, train, predict, par.set, par.vals) {
+make.preproc.wrapper = function(learner, train, predict, par.set=makeParameterSet(), par.vals=list()) {
 	if (is.character(learner))
 		learner = make.learner(learner)
   if (missing(par.set))

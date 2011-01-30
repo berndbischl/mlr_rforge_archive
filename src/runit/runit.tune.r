@@ -1,4 +1,6 @@
 test.tune <- function() {
+  
+  
   cp = c(0.05, 0.9)
   minsplit = 1:3 
   b1 = makeParameterSet(makeDiscreteParameter("cp", vals=cp), makeDiscreteParameter("minsplit", vals=minsplit))
@@ -96,9 +98,7 @@ test.tune <- function() {
 	tr = tune("classif.ksvm", binaryclass.task, res, control=ctrl)
 	
 	
-	# cmaes with optim
-	
-  	
+  checkException("classif.rpart", multiclass.task, cv.instance, par.set=makeParameterSet(), control=ctrl)
 }
 
 test.tune.cmaes = function() {

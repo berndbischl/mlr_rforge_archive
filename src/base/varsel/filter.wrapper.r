@@ -36,13 +36,13 @@ make.filter.wrapper = function(learner, fw.method="information.gain", fw.thresho
   if (is.character(learner))
     learner = make.learner(learner)
   # todo check that for some the inputs have to be all num. or accept error in train and NA in predict?
-  pds = list(
+  ps = makeParameterSet(
     makeDiscreteLearnerParameter(id="fw.method",
       vals=c("linear.correlation", "rank.correlation", "information.gain", "gain.ratio", 
         "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")),
     makeNumericLearnerParameter(id="fw.threshold")
   )
-	w = new("filter.wrapper", learner=learner, pack="FSelector", par.set=pds, 
+	w = new("filter.wrapper", learner=learner, pack="FSelector", par.set=ps, 
     par.vals=list(fw.method=fw.method, fw.threshold=fw.threshold))
   set.predict.type(w, learner["predict.type"])
 }

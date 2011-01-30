@@ -21,7 +21,7 @@
 #'   
 #' @title Fuse learner with tuning.
 
-make.tune.wrapper = function(learner, resampling, measures, par.set, control, log.fun) {
+make.tune.wrapper = function(learner, resampling, measures, par.set, control, log.fun=function() NULL) {
 	make.opt.wrapper(learner, resampling, measures, par.set, control, log.fun)
 }
 

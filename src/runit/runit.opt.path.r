@@ -29,10 +29,10 @@ test.opt.path <- function() {
   checkEquals(length(op2@env$path), 1)
   checkEquals(op2@env$path[[1]], op@env$path[[2]])
   
-  checkEquals(getBestElement(op, y.name="y1", dobs=1:2), op@env$path[[1]])
-  checkEquals(getBestElement(op, y.name="y2", dobs=1:2), op@env$path[[1]])
-  checkEquals(getBestElement(op, y.name="y1", dobs=1), op@env$path[[1]])
-  checkEquals(getBestElement(op, y.name="y2", dobs=1), op@env$path[[1]])
-  checkEquals(getBestElement(op, y.name="y1", dobs=2), op@env$path[[2]])
-  checkEquals(getBestElement(op, y.name="y2", dobs=2), op@env$path[[2]])
+  checkEquals(getBestElement(op, y.name="y1", dob=1:2), op@env$path[[1]])
+  checkEquals(getBestElement(op, y.name="y2", dob=1:2), op@env$path[[1]])
+  checkEquals(getBestElement(op, y.name="y1", dob=1), op@env$path[[1]])
+  checkEquals(getBestElement(op, y.name="y2", dob=1), op@env$path[[1]])
+  checkEquals(getBestElement(op, y.name="y1", dob=2), op@env$path[[2]])
+  checkEquals(getBestElement(op, y.name="y2", dob=2), op@env$path[[2]])
 }  

@@ -35,11 +35,11 @@ roxygen()
 #' @title Hyperparameter tuning.
 
 
-tune <- function(learner, task, resampling, measures, par.set, control, log.fun) {
+tune <- function(learner, task, resampling, measures, par.set, control, log.fun=function() NULL) {
   if (is.character(learner))
     learner <- make.learner(learner)
   if (is(resampling, "resample.desc") && control@same.resampling.instance)
-    resampling = make.resample.instance(resampling, task=task)
+    resampling = make.res.instance(resampling, task=task)
 	if (missing(measures))
 		measures = default.measures(task)
   if (is(measures, "measure"))
@@ -61,7 +61,7 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun)
 		stop("You have to pass a control object!")
 	}
 	
-  opt.path = makeOptimizationPathFromMeasures(par.set, measures)
+  opt.path = makeOptimizationPathFromMeasures(names(par.set@pars), measures)
   or = sel.func(learner, task, resampling, measures, par.set, control, opt.path)
 	
 	or@par = .mlr.scale.val(or@par, par.set)

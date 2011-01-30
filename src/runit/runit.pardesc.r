@@ -91,7 +91,6 @@ test.discrete_parameters <- function() {
   checkEquals(c(TRUE, FALSE),
               is.feasible(list(2L, NULL), dp))
   
-  checkTrue(!is.feasible(2, dp))
   checkTrue(!is.feasible("f", dp))
   checkTrue(!is.feasible(sum, dp))
   checkTrue(!is.feasible(NULL, dp))

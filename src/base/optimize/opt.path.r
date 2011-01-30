@@ -38,8 +38,8 @@ setMethod(
   }
 )
 
-makeOptimizationPath = function(par.set, y.names, minimize) {
-  new("opt.path", names(par.set@pars), y.names, minimize)
+makeOptimizationPath = function(x.names, y.names, minimize) {
+  new("opt.path", x.names, y.names, minimize)
 }
 
 #' Convert to data.frame
@@ -159,19 +159,41 @@ get.eol = function(op, z) {
 
 
 
+#' Subset optimiztion path.
+#'
+#' @param op [\code{\linkS4class{opt.path}}]\cr
+#'   Optimization path.
+#' @param dob [integer]
+#'   Possible dates of birth for subset. Defaults to all. 
+#' @param eol [integer]
+#'   Possible end of life for subset. Defaults to all. 
+#' @return Subsetted \code{\linkS4class{opt.path}}. 
+#' @export
 setMethod(
   f = "subset",
   signature = signature(x="opt.path"),
-  def = function(x, dobs) {
-    p = x@env$path[x@env$dob %in% dobs]
+  def = function(x, dob=op@env$dob, eol=op@env$eol) {
+    p = x@env$path[x@env$dob %in% dob & x@env$eol %in% eol]
     op = new("opt.path", x@x.names, x@y.names, x@minimize)
     op@env$path = p
     return(op)
   }
 )
 
-getBestElement = function(op, y.name, dobs) {
-  op = subset(op, dobs)
+#' Get best element from optimiztion path.
+#'
+#' @param op [\code{\linkS4class{opt.path}}]\cr
+#'   Optimization path.
+#' @param y.name [character(1)] 
+#'   Name of target value to decide which element is best.  
+#' @param dob [integer]
+#'   Possible dates of birth to select best element from. Defaults to all. 
+#' @param eol [integer]
+#'   Possible end of life to select best element from. Defaults to all. 
+#' @return List with elements 'x' [list] and 'y' [named numeric]. 
+#' @export
+getBestElement = function(op, y.name=y.names[1], dob=op@env$dob, eol=op@env$eol) {
+  op = subset(op, dob, eol)
   y = sapply(op@env$path, function(e) e$y[y.name])
   if (op@minimize[y.name])
     i = which.min(y)

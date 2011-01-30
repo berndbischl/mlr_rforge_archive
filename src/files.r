@@ -25,6 +25,7 @@ base.files <<- c(
     "base/Parameter_randomVal.R",
     "base/LearnerParameter.R",
     "base/LearnerParameter_make.R",
+    "base/optimize/bounds.r",
     "base/learner.r",
 		"base/learnerR.r",
 		"base/learner.make.r",
@@ -85,7 +86,6 @@ base.files <<- c(
     "base/rocr/ROCR_performance_plots.R",
     "base/rocr/ROCR_mlr_plots.r",
 
-    "base/optimize/bounds.r",
     "base/optimize/opt.path.r",
     
 		"base/wrappers/base.wrapper.r",

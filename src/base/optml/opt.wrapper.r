@@ -14,7 +14,7 @@ setClass(
 		representation = representation(
 				resampling = "resample.desc",
         measures = "list",
-        par.set = "ParameterSet",
+        opt.pars = "ParameterSet",
         control = "opt.control",
         log.fun = "function"
     )
@@ -26,14 +26,16 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("opt.wrapper"),
-		def = function(.Object, learner, resampling, control, measures) {
+		def = function(.Object, learner, resampling, measures, par.set, control, log.fun) {
 			if (missing(learner))
 				return(.Object)
 			.Object@resampling = resampling
-			.Object@control = control
-			.Object@measures = measures
-			callNextMethod(.Object, learner, par.set=list(), par.vals=list())
-		}
+      .Object@measures = measures
+      .Object@opt.pars = par.set
+      .Object@control = control
+      .Object@log.fun = log.fun
+      .Object = callNextMethod(.Object, learner, par.set=makeParameterSet(), par.vals=list())
+    }
 )
 
 
@@ -66,16 +68,17 @@ setMethod(
 			ctrl = wl@control
       
       lt = subset(.task, .subset)
-			if (wl["opt.type"] == "tune")
-				or = tune(bl, task=lt, resampling=wl@resampling, control=ctrl, 
-						measures=wl@measures, model=TRUE)
-			else if (wl["opt.type"] == "varsel")
-				or = varsel(bl, task=lt, resampling=wl@resampling, control=ctrl, 
-						measures=wl@measures, model=TRUE)
-			else 
+			if (wl["opt.type"] == "tune") {
+				or = tune(bl, lt, wl@resampling, wl@measures, wl@opt.pars, ctrl)
+        bl = set.hyper.pars(bl, par.vals=or@par)
+        m = train(bl, lt)
+      } else if (wl["opt.type"] == "varsel") {
+				or = varsel(bl, lt, wl@resampling, control=ctrl, measures=wl@measures)
+        lt = subset(lt, vars=or@par)
+        m = train(bl, lt)
+      }	else 
 				stop("Unknown type: ", wl["opt.type"])
 				
-			m = or@model["learner.model"]
 			# we dont need the model as we directly return it
 			or@model = new("wrapped.model")
 			# set the opt result as attribute, so we can extract it later 

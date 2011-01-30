@@ -1,4 +1,4 @@
-tune.diceoptim = function(learner, task, resampling, measures, par.set, control, opt.path, logger) {
+tune.diceoptim = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   require.packs(c("DiceOptim", "lhs"), "tune.diceoptim")
   
   if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer")))))
@@ -25,6 +25,6 @@ tune.diceoptim = function(learner, task, resampling, measures, par.set, control,
   j = which.min(or$value)
   
   par = as.list(or$par[j,])
-  opt = get.path.el(penv$path, par)
-  new("opt.result", control=control, opt=opt, path=opt.path)
+  e = getBestElement(opt.path)
+  new("opt.result", learner, control, e$x, e$y, opt.path)
 }

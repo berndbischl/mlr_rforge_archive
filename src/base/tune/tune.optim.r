@@ -1,5 +1,5 @@
 # todo: add optimize if only 1 par
-tune.optim = function(learner, task, resampling, measures, par.set, control, opt.path, logger) {
+tune.optim = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
 
   if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer")))))
     stop("Optim can only be applied to numeric and integer parameters!")

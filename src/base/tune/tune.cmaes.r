@@ -1,4 +1,4 @@
-tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt.path, logger) {
+tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   require.packs("cmaes", "tune.cmaes")
 
   if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer")))))
@@ -34,8 +34,6 @@ tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt
     args$vectorized=TRUE    
   }  
   or = cma_es(par=start, fn=g, lower=low, upper=up, control=args)
-	par = as.list(or$par)
-	names(par) = ns
-	opt = get.path.el(penv$path, par)
-	new("opt.result", control=control, opt=opt, path=opt.path)
+	e = getBestElement(op.path, measureAggrNames(measures[[1]])[1])
+	new("opt.result", learner, control, e$x, e$y, opt.path)
 }

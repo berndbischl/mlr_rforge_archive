@@ -11,7 +11,6 @@ test.par.set <- function() {
   checkEquals(lower(b1), c(x1=-1, x2=0))
   checkEquals(upper(b1), c(x1= 1, x2=Inf))
     
-  checkException(makeParameterSet())
   checkException(makeParameterSet(1))
   checkException(makeParameterSet(makeNumericParameter(name="x"), makeNumericParameter(name="x")))
   
