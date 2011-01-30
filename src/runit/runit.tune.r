@@ -103,28 +103,19 @@ test.tune <- function() {
 
 test.tune.cmaes = function() {
   res = make.res.desc("cv", iters=2)
-  b1 = makeParameterSet(
+  ps1 = makeParameterSet(
     makeNumericParameter("cp", lower=0.001, upper=1), 
     makeIntegerParameter("minsplit", lower=1, upper=10)
   )
-  
-  b1 = makeParameterSet(
-    makeNumericParameter("C", trafo=function(x) 2^x), 
-    makeNumericParameter("sigma", trafo=function(x) 2^x) 
-  )
-  b2 = makeParameterSet(
-    makeNumericParameter("C", trafo=function(x) 2^x), 
-    makeDiscreteParameter("kernel", vals=c("rbfdot", "polydot"))
+  ps2 = makeParameterSet(
+    makeNumericParameter("cp", lower=0.001, upper=1), 
+    makeDiscreteParameter("minsplit", vals=c(1,2))
   )
   
-  ctrl1 = cmaes.control(start=c(C=0, sigma=0), maxit=5)
-  tr1 = tune("classif.ksvm", multiclass.task, res, control=ctrl1)
+  ctrl1 = cmaes.control(start=c(0.05, 5L), maxit=5)
+  tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl1)
   
-  ctrl = diceoptim.control()
-  
-  ctrl1 = cmaes.control(start=c(C=0), maxit=5)
-  checkException(tune("classif.ksvm", multiclass.task, cv.instance, par.set=b1, control=ctrl2))
-  checkException(tune("classif.ksvm", multiclass.task, cv.instance, par.set=b1, control=ctrl2))
+  checkException(tune("classif.rpart", multiclass.task, res, par.set=b2, control=ctrl1))
 } 
 
 

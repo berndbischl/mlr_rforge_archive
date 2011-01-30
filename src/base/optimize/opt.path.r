@@ -83,6 +83,7 @@ setMethod(
 #' @param eol End of life of the parameters. Defaults to unknown (NA).
 #' @return NULL. This function is called for its side effects, namely
 #'   adding z to the optimization path.
+#' @export 
 add.path.el = function(op, x, y, dob=length(as.list(op)), eol=NA) {
   stopifnot(inherits(op, "opt.path"),          
             is.na(eol) || eol >= dob)

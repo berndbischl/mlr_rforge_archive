@@ -209,4 +209,21 @@ setMethod(
   }
 )
 
+#' @export 
+setMethod(
+  f = "valToString",
+  signature = signature(par="ParameterSet", val="list"), 
+  def = function(par, val) {
+    if (all.els.named(val)) {
+      ns = names(val)
+      val = Map(valToString, par.set@pars[ns], val)
+    } else {  
+      ns = names(par.set@pars)
+      val = Map(valToString, par.set@pars, val)
+    }
+    paste(ns, val, sep="=", collapse=",")
+  }
+)
+
+
 

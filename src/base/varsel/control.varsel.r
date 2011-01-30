@@ -23,13 +23,13 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("varsel.control"),
-		def = function(.Object, path, maxit, max.vars) {
+		def = function(.Object, path, same.resampling.instance, maxit, max.vars) {
       if (missing(path))
         return(make.empty(.Object))
 			.Object@compare = "diff" 			
 			.Object@max.vars = as.integer(max.vars) 			
 			.Object@maxit = as.integer(maxit) 		
-			.Object = callNextMethod(.Object=.Object, path=path)
+			.Object = callNextMethod(.Object, path, same.resampling.instance)
 			return(.Object)
 		}
 )
@@ -43,6 +43,7 @@ setMethod(
       paste(
         "Control object for varsel of class: ", class(x), "\n",
         "Save path: ", x@path, "\n",
+        "Same resampling instance: ", x@same.resampling.instance, "\n",
         "Max. vars: ", x@max.vars, "\n",
         "Max. iter: ", x@maxit,  
         sep=""

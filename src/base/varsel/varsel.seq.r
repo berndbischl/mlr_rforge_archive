@@ -74,7 +74,7 @@ varsel.seq = function(learner, task, resampling, measures, control, opt.path, lo
 			stop(paste("Unknown method:", method))
 	) 
 	
-	state = eval.state.varsel(learner, task, resampling, measures, control, par=start.vars, event="start")
+	state = eval.state(learner, task, resampling, measures, control, par=start.vars)
 	
 	path = add.path.varsel(path, state, accept=TRUE)		
 	

@@ -3,12 +3,12 @@ test.benchresult = function() {
 	outer.len = 3
 	inner = make.res.desc("cv", iter=2)
 
-	ranges.svm = list(C=1:2)
-	ctrl = grid.control(ranges=ranges.svm)
-	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, control=ctrl)
+	ps = makeParameterSet(makeDiscreteParameter("C", vals=1:2))
+	ctrl = grid.control()
+	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, par.set=ps, control=ctrl)
 	
 	wl = make.learner("classif.ksvm", id="foo")
-	blubb = make.tune.wrapper(wl, resampling=inner, control=ctrl)
+	blubb = make.tune.wrapper(wl, resampling=inner, control=ctrl, par.set=ps)
 	
 	learners = c("classif.rpart", svm.tuner, blubb)
 	res = make.res.desc("subsample", iter=outer.len)

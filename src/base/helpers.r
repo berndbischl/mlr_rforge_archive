@@ -200,14 +200,6 @@ par.valnames.to.vals = function(names, par.set) {
   Map(function(par, n) par@constraints$vals[[n]], par.set@pars, names)
 }
 
-par.vals.string = function(pv, learner) {
-  ns = names(pv)
-  pars = learner@par.set@pars[ns]
-  pv = Map(valToString, pars, pv)
-  return(paste(ns, pv, sep="=", collapse=","))
-}
-
-
 # converts a row of a data.frame to a list
 # - factors are converted to chars
 data.frame.row.to.list = function(x, i) {
