@@ -18,8 +18,8 @@
 #' @seealso \code{\link{varsel}}, \code{\link{varsel.control}} 
 #' @title Fuse learner with variable selection.
 
-make.varsel.wrapper = function(learner, resampling, measures, par.set, control, log.fun) {
+make.varsel.wrapper = function(learner, resampling, measures, control, log.fun) {
   if (missing(log.fun))
     log.fun = log.fun.varsel
-  make.opt.wrapper(learner, resampling, measures, par.set, control, log.fun)
+  make.opt.wrapper(learner, resampling, measures, makeParameterSet(), control, log.fun)
 }

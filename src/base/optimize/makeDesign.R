@@ -1,5 +1,4 @@
-make.design = function(n, par.set, fun, fun.args) {
-  
+makeDesign = function(n, par.set, fun, fun.args) {
   lower = lower(par.set)
   upper = upper(par.set)
   vals = values(par.set)
@@ -30,16 +29,3 @@ make.design = function(n, par.set, fun, fun.args) {
   colnames(des) = sapply(pars, function(x) x@id)
   return(des)
 }
-
-
-p1 = makeNumericParameter(id="x1", lower=1.1, upper=5.0, trafo=function(x) round(x,2))
-p2 = makeIntegerParameter(id="x2", lower=9, upper=11)
-p3 = makeDiscreteParameter(id="x3", vals=list(1,2,3))
-p4 = makeLogicalParameter(id="x4")
-p5 = makeDiscreteParameter(id="x5", vals=list("a", "b", "c", "d"))
-
-b = makeParameterSet(p1, p2, p3, p4, p5)
-
-d = init.design(10, b, randomLHS, list())
-#print(d)
-
