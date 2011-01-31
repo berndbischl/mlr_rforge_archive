@@ -48,7 +48,7 @@ setMethod(
       feat = paste(capture.output(x["n.feat"]), collapse="\n")
       return(
 					paste(
-							"Regression problem ", x@id, "\n",
+							"Regression problem ", x@desc@id, "\n",
               "Features:\n", feat, "\n", 
               "Observations: ", x["size"] , "\n",
 							"Missings: ", x["has.missing"], "\n", 
