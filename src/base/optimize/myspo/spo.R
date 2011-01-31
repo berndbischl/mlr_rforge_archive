@@ -41,7 +41,8 @@ spo = function(fun, par.set, des, learner, control, opt.path) {
     loop = loop + 1  
   }
   res.vals = Reduce(rbind, res.vals)
-  res.vals = cbind(seq.loop=control$resample.at, res.vals)
+  res.vals = as.data.frame(cbind(seq.loop=control$resample.at, res.vals))
+  rownames(res.vals) = NULL
   return(res.vals)
 }
 
