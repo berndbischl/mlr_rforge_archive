@@ -50,6 +50,7 @@ setMethod(
   signature = signature("opt.path"),
   def = function(x, row.names = NULL, optional = FALSE,...) {
     df <- do.call(rbind, lapply(x@env$path, function(e) cbind(as.data.frame(e$x),as.data.frame(t(e$y)))))
+    colnames(df)[(ncol(df)-length(x@y.names)+1):ncol(df)] = x@y.names
     df[[".dob"]] <- x@env$dob
     df[[".eol"]] <- x@env$eol
     df

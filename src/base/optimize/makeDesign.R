@@ -1,4 +1,6 @@
 makeDesign = function(n, par.set, fun, fun.args) {
+  mlr:::require.packs("lhs", "makeDesign")
+  
   lower = lower(par.set)
   upper = upper(par.set)
   vals = values(par.set)

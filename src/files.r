@@ -87,6 +87,7 @@ base.files <<- c(
     "base/rocr/ROCR_mlr_plots.r",
 
     "base/optimize/opt.path.r",
+    "base/optimize/makeDesign.R",
     
 		"base/wrappers/base.wrapper.r",
 #		"base/wrappers/novars.r",

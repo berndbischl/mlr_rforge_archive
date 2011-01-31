@@ -1,9 +1,13 @@
-myspo.optcontrol = function(minimize=TRUE, par.set, meta.learner="regr.randomForest", constr.learner="classif.randomForest", 
-  init.des.points=50L, seq.method="draw", seq.des.points=10000L, seq.loops=500, ...) {
-  list(minimize=minimize, par.set=par.set, 
-    meta.learner=meta.learner, constr.learner=constr.learner, 
-    init.des.points=init.des.points, 
-    seq.method = seq.method, seq.des.points=seq.des.points, seq.loops=seq.loops,
-    y.name = "ymyspo")
+makeSPOControl = function(seq.loops=10, propose.points=1, propose.points.method="seq.design", 
+  seq.design.points=100, seq.design.fun=randomLHS, seq.design.args=list()) {
+  
+  list( 
+    seq.loops = seq.loops, 
+    propose.points = propose.points,
+    propose.points.method = propose.points.method,
+    seq.design.points = seq.design.points, 
+    seq.design.fun = seq.design.fun, 
+    seq.design.points = seq.design.points 
+  )
 }
 
