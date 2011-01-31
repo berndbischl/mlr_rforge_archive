@@ -9,7 +9,7 @@ roxygen()
 #'   Prediction object to evaluate.
 #' @param measure [\code{\linkS4class{measure}}]
 #'   Performance measure. 
-#' @param task [\code{\linkS4class{learn.task}}]\cr 
+#' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'   Learning task, might be requested by performance measure, usually not needed.
 #' @param model [\code{\linkS4class{wrapped.model}}]\cr 
 #'   Model built on training data, might be requested by performance measure, usually not needed.

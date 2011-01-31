@@ -4,7 +4,7 @@
 
 #' @param learners [string | \code{\linkS4class{learner}} | list of the previous two] \cr
 #' 		  Defines the learning algorithms which should be compared.
-#' @param tasks [\code{\link{learn.task}} | list of the previous] \cr
+#' @param tasks [\code{\link{LearnTask}} | list of the previous] \cr
 #'        Defines the tasks.
 #' @param resampling [resampling desc | resampling instance | list of the previous two] \cr
 #'        Defines the resampling strategies for the tasks.

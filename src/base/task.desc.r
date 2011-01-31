@@ -28,7 +28,7 @@ roxygen()
 #' }
 #' 
 #' @exportClass task.desc
-#' @seealso \code{\linkS4class{learn.task}}
+#' @seealso \code{\linkS4class{LearnTask}}
 #' @title Description object for task. 
 
 setClass(

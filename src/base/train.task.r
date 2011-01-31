@@ -1,12 +1,12 @@
 #' @include task.learn.r
 roxygen()
 
-#' Given a \code{\linkS4class{learn.task}}, creates a model for the learning machine 
+#' Given a \code{\linkS4class{LearnTask}}, creates a model for the learning machine 
 #' which can be used for predictions on new data. 
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
-#' @param task [\code{\linkS4class{learn.task}}]\cr 
+#' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'        Specifies learning task.   
 #' @param subset [\code{\link{integer}}] \cr 
 #'        An index vector specifying the training cases to be used for fitting. By default the complete data set is used. 

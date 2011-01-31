@@ -14,7 +14,7 @@ roxygen()
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
-#' @param task [\code{\linkS4class{learn.task}}] \cr
+#' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task.   
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'   Resampling strategy to evaluate points in hyperparameter space. If you pass a description, 

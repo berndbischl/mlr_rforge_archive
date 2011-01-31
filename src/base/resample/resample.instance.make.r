@@ -3,7 +3,7 @@
 #' 
 #' @param desc [\code{\linkS4class{resample.desc}}] \cr
 #'   Resampling description.
-#' @param task [\code{\linkS4class{learn.task}}] \cr
+#' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'		Data of task to resample from. Prefer to pass this instead of \code{size}.
 #' @param size [\code{\link{integer}}] \cr
 #'		Size of the data set to resample. Can be used instead of \code{task}.

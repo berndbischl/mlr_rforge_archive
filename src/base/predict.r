@@ -7,7 +7,7 @@ roxygen()
 #' 
 #' @param object [\code{\linkS4class{wrapped.model}}] \cr 
 #'        Wrapped model, trained from a learn task.  
-#' @param task [\code{\linkS4class{learn.task}}]\cr 
+#' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'        Specifies learning task. If this is passed, data from this task is predicted.   
 #' @param subset [integer] \cr 
 #'        Index vector to subset the data in the task to use for prediction. 

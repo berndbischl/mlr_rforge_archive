@@ -9,7 +9,7 @@
 #'
 #' @param learner [\code{\linkS4class{learner}} | \code{\link{character}}]\cr 
 #'   Learning algorithm.   
-#' @param task [\code{\linkS4class{learn.task}}] \cr
+#' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task.
 #' @param resampling [\code{\linkS4class{resample.desc}} or \code{\linkS4class{resample.instance}}] \cr
 #'   Resampling strategy. If a description is passed, it is instantiated automatically.

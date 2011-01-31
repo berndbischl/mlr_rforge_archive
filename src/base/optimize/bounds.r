@@ -50,7 +50,7 @@ setMethod(
 
 #' Construct a ParameterSet object.
 #' 
-#' @param pars [list of \code{\linkS4class{learn.task}}] \cr
+#' @param pars [list of \code{\linkS4class{LearnTask}}] \cr
 #' 			Type of the learning algorithm, either "classif" or "regr" or task to solve
 #' @param doubles [boolean] \cr
 #' 			Supports real-valued inputs? Pass only when x is a string.

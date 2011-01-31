@@ -4,7 +4,7 @@
 #'
 #' @param learners [string | \code{\linkS4class{learner}} | list of the previous two] \cr
 #'   	Defines the learning algorithms which should be compared.
-#' @param task [\code{\linkS4class{learn.task}}] \cr
+#' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   	Learning task.   
 #' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
 #'   	Resampling strategy to evaluate points in hyperparameter space. At least for grid search, if you pass a description, 

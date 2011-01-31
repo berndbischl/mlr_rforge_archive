@@ -6,7 +6,7 @@
 #'   Prediction object to use for tuning the treshold.
 #' @param measure [\code{\linkS4class{measure}}]\cr
 #'   Performance measure to optimize. 
-#' @param task [\code{\linkS4class{learn.task}}] \cr
+#' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task. Rarely neeeded, only when required for the performance measure. 
 #' @param thresholds [integer] \cr
 #'   Number of thresholds to try in tuning.  	

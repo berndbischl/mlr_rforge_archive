@@ -2,7 +2,7 @@
 #' 
 #' Look at package FSelector for details on the filter algorithms. 
 #' 
-#' @param x [\code{\linkS4class{learn.task}}]\cr 
+#' @param x [\code{\linkS4class{LearnTask}}]\cr 
 #'   Task to filter features from.   
 #' @param method [string] \cr
 #'   Filter method. Available are:

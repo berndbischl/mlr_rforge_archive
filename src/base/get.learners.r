@@ -3,11 +3,11 @@ roxygen()
 
 #' Returns the names of learning algorithms which have specific characteristics, e.g.
 #' whether it supports missing values, misclassification costs, case weights,...
-#' or which are are able to solve a given \code{\linkS4class{learn.task}}. 
+#' or which are are able to solve a given \code{\linkS4class{LearnTask}}. 
 #' 
 #' The default of all boolean parameters is NA, meaning: property is not required, don't care.
 #' 
-#' @param x [string | \code{\linkS4class{learn.task}}] \cr
+#' @param x [string | \code{\linkS4class{LearnTask}}] \cr
 #' 			Type of the learning algorithm, either "classif" or "regr" or task to solve
 #' @param doubles [boolean] \cr
 #' 			Supports real-valued inputs? Pass only when x is a string.

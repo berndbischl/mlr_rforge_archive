@@ -13,7 +13,7 @@
 #' 'quiet': Same as 'warn' but without the warning.\cr
 #' Default is 'warn'. 
 #' @param on.convert.var [string] \cr
-#' What should happen if an a variable is converted during the creation of a \code{\linkS4class{learn.task}}: 'warn' or 'quiet'.\cr 
+#' What should happen if an a variable is converted during the creation of a \code{\linkS4class{LearnTask}}: 'warn' or 'quiet'.\cr 
 #' Currently, integers are converted to doubles, characters to factors and for classification, target levels without corresponding observation are dropped.\cr 
 #' 'warn': Warning on conversion.\cr
 #' 'quiet': Conversion done quietly.\cr

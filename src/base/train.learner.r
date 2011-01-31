@@ -3,7 +3,7 @@
 #' You have to implement this method if you want to add another learner to this package. 
 #' @param .learner [\code{\linkS4class{learner}}] \cr  
 #'   Wrapped learner from this package. 
-#' @param .task [\code{\linkS4class{learn.task}}] \cr
+#' @param .task [\code{\linkS4class{LearnTask}}] \cr
 #'   Task to train learner on.
 #' @param .subset [integer] \cr
 #'   Subset of cases, index task with this.

@@ -106,7 +106,7 @@ setMethod(
 #' Extract data in task. Useful in \code{link{train.learner}} when you add a learning 
 #' machine to the package.
 #' 
-#' @param task [\code{\linkS4class{learn.task}}]\cr 
+#' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'   Learning task.   
 #' @param subset [integer] \cr 
 #'   Selected cases. Default is all cases. 
@@ -180,13 +180,13 @@ get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
 
 #' Subset data in task. 
 #' 
-#' @param x [\code{\linkS4class{learn.task}}]\cr 
+#' @param x [\code{\linkS4class{LearnTask}}]\cr 
 #'   Learning task.   
 #' @param subset [integer] \cr 
 #'   Selected cases. Default is all cases. 
 #' @param vars [character] \cr 
 #'   Selected inputs. Note that target feature is always included! Default is all vars. 
-#' @return \code{\linkS4class{learn.task}} with changed data.
+#' @return \code{\linkS4class{LearnTask}} with changed data.
 #'
 #' @export
 #' @rdname subset
@@ -217,7 +217,7 @@ change.data = function(task, data) {
 
 
 #' Get feature names of task. 
-#' @param task [\code{\linkS4class{learn.task}}]\cr 
+#' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'   Learning task.   
 #' @return Character vector
 #' @rdname getFeatureNames

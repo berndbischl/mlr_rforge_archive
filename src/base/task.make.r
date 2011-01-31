@@ -39,7 +39,7 @@ roxygen()
 #' 	 Don't pass this in case of regression.	
 #' 
 #' 
-#' @return \code{\linkS4class{learn.task}}.
+#' @return \code{\linkS4class{LearnTask}}.
 #' 
 #' @export
 #' @rdname make.task
