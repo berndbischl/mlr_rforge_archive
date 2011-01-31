@@ -1,3 +1,4 @@
+# todo: remove iters from some desc. we also can use length of train.inds in instance
 #' Base class for description of resampling algorithms.
 #' A description of a resampling algorithm contains all necessary information to 
 #' create a \code{\linkS4class{resample.instance}}, when given the size of the data set.

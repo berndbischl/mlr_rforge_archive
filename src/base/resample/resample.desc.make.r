@@ -11,7 +11,7 @@
 #'   'b632plus' via \code{\link{set.aggr}}.
 #' 
 #' @param method [string] \cr
-#'   'cv' for cross-validation, 'stratcv' for stratified cross-validation,  'repcv' for repeated cross-validation,\cr
+#'   'cv' for cross-validation, 'loo' for leave-one-out, 'stratcv' for stratified cross-validation,  'repcv' for repeated cross-validation,\cr
 #'   'bs' for out-of-bag bootstrap, 'subsample' for subsampling, 'holdout' for holdout.	
 #' @param iters [integer] \cr
 #'   Number of resampling iterations. Ignored for 'holdout'. Default is 10.	 			
