@@ -38,6 +38,7 @@ setMethod(
   }
 )
 
+#' @export 
 makeOptimizationPath = function(x.names, y.names, minimize) {
   new("opt.path", x.names, y.names, minimize)
 }

@@ -88,6 +88,7 @@ base.files <<- c(
 
     "base/optimize/opt.path.r",
     "base/optimize/makeDesign.R",
+    "base/optimize/spo.R",
     
 		"base/wrappers/base.wrapper.r",
 #		"base/wrappers/novars.r",

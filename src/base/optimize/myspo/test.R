@@ -17,15 +17,17 @@ ps = makeParameterSet(
 
 set.seed(1)
 des = makeDesign(30, ps, randomLHS, list())
-des$y = evalDesign(des, fun)
+des$y = sapply(1:nrow(des), function(i) fun(as.list(des[i,])))
 
 ctrl = makeSPOControl(
-  seq.loops=100, propose.points=1, 
+  seq.loops=10, propose.points=1, 
   propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list()
 )
 
-opt.path = mlr:::makeOptimizationPath(names(ps@pars), "y", minimize=TRUE) 
-myspo(fun, ps, des, "regr.randomForest", ctrl, opt.path)
-plot(as.data.frame(opt.path)$y)
+opt.path = makeOptimizationPath(names(ps@pars), "y", minimize=TRUE)
+#w = make.learner("regr.rsm", modelfun="SO")
+w = make.learner("regr.randomForest")
+r = myspo(fun, ps, des, w, ctrl, opt.path)
+#plot(as.data.frame(opt.path)$y, ylim=c(0,10))
 
