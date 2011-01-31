@@ -1,5 +1,5 @@
 varsel.exhaustive = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
-  all.vars = task["input.names"]
+  all.vars = getFeatureNames(task)
   m = length(all.vars) 
   max.vars = control["max.vars"]
   

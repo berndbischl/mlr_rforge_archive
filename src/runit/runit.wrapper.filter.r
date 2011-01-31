@@ -1,7 +1,7 @@
 test.filter.wrapper <- function() {
   w = make.filter.wrapper("classif.lda", fw.method="chi.squared", fw.threshold=-1)
   m = train(w, binaryclass.task)
-  checkEquals(m["vars"], binaryclass.task["input.names"])
+  checkEquals(m["vars"], getFeatureNames(binaryclass.task))
   w = make.filter.wrapper("classif.lda", fw.method="chi.squared", fw.threshold=100000)
   m = train(w, binaryclass.task)
   checkEquals(m["vars"], character(0))

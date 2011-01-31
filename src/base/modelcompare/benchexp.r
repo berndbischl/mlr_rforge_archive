@@ -73,7 +73,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 	counter = 1
 	for (j in 1:length(tasks)) {
 		task = tasks[[j]]
-    ins[[j]] = task["input.names"]
+    ins[[j]] = getFeatureNames(task)
     rrs[[j]] = list()
 		ors[[j]] = list()
 		if (is(resampling, "resample.desc")) {

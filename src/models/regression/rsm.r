@@ -42,7 +42,7 @@ setMethod(
   
   def = function(.learner, .task, .subset, ...) {
     mf = list(...)$modelfun
-    vs = paste(.task["input.names"], collapse=",")
+    vs = paste(getFeatureNames(.task), collapse=",")
     g = function(x) paste(x, "(", vs, ")", sep="") 
     mf = switch(mf,
       FO = g("FO"),

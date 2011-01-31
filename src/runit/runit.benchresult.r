@@ -50,11 +50,11 @@ test.benchresult = function() {
 	
 	learners = c("classif.rpart", vs)
 	be = bench.exp(tasks=multiclass.task, learners=learners, resampling=res)
-	x = replicate(3, multiclass.task["input.names"], F)
+	x = replicate(3, getFeatureNames(multiclass.task), F)
 	y = sel.vars(be, learner.id="classif.lda", as.data.frame=FALSE)
 	checkEquals(x, y)  
   x = as.data.frame(matrix(1, 3, 4))
-  colnames(x) = multiclass.task["input.names"]
+  colnames(x) = getFeatureNames(multiclass.task)
   y = sel.vars(be, learner.id="classif.lda")
   checkEquals(x, y)  
   

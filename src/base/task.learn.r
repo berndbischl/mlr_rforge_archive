@@ -15,7 +15,6 @@ roxygen()
 #' 
 #' \describe{
 #' 	\item{data [data.frame]}{Encapsulated data.}
-#'  \item{input.names [character]}{The names of the input variables.}
 #'  \item{targets [character]}{Target column of data.}
 #'  \item{weights [numeric]}{Case weights are returned. NULL if no weights were set.}
 #'  \item{blocking [factor]}{Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration. NULL if no blocking was set.}
@@ -82,9 +81,6 @@ setMethod(
       if (i == "data"){
         return(x@dataenv$data)
       }
-      if (i == "input.names"){
-				return(setdiff(colnames(x["data"]), x["target"]))
-			}
 			if (i == "targets") {
 				return(x["data"][, x["target"]])
 			}
@@ -147,7 +143,7 @@ get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
   
   tn = task["target"]
   ms = missing(subset) || identical(subset, 1:task["size"])
-  mv = missing(vars) || identical(vars, task["input.names"])
+  mv = missing(vars) || identical(vars, getFeatureNames(task))
   
   if (target.extra) {
     list(
@@ -218,4 +214,22 @@ change.data = function(task, data) {
     task["has.weights"], task["has.blocking"], task["costs"], task["positive"])
   return(task)
 } 
+
+
+#' Get feature names of task. 
+#' @param task [\code{\linkS4class{learn.task}}]\cr 
+#'   Learning task.   
+#' @return Character vector
+#' @rdname getFeatureNames
+#' @title Get feature names of task.
+#' @exportMethod getFeatureNames
+setGeneric(name = "getFeatureNames", def = function(task) standardGeneric("getFeatureNames"))
+#' @rdname getFeatureNames
+setMethod(
+  f = "getFeatureNames",
+  signature = signature(task="learn.task"), 
+  def = function(task) {
+    setdiff(colnames(task@dataenv$data), task["target"])
+  } 
+)
 

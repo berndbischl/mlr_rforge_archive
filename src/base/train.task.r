@@ -71,7 +71,7 @@ setMethod(
       logger.debug(level="train", "on", length(subset), "examples:")
       logger.debug(level="train", subset)
       
-      vars = task["input.names"]
+      vars = getFeatureNames(task)
       # no vars? then use no vars model
       if (length(vars) == 0) {
         learner.model = new("novars", targets=task["data"][subset, tn], desc=task@desc)

@@ -53,7 +53,7 @@ varsel.seq = function(learner, task, resampling, measures, par.set, control, opt
 		return(new.states)
 	}
 	
-	all.vars = task["input.names"]
+  all.vars = getFeatureNames(task)
 	path = list()
 	
 	method = control["method"]
