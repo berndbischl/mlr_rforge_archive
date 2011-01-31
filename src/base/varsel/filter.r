@@ -34,7 +34,7 @@ setGeneric(
 setMethod(
   f = "varfilter",
   
-  signature = signature(task="learn.task", method="character", threshold="numeric"),
+  signature = signature(task="LearnTask", method="character", threshold="numeric"),
   
   def = function(task, method, threshold, ...) {
     require.packs("FSelector")

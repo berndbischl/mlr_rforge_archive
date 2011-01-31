@@ -26,7 +26,7 @@ export <- function(name, obj) {
 	doit = TRUE
 	# multicore does not require to export because mem is duplicated after fork (still copy-on-write)
 	if (.mlr.local$parallel.setup$mode != "local" && .mlr.local$parallel.setup$mode != "multicore") {
-		if (is(obj, "learn.task")) {
+		if (is(obj, "LearnTask")) {
 			hash = digest(list(name, obj))
 			if (exists(hash, envir=.mlr.export)) 
 				doit = FALSE

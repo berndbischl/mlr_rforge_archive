@@ -104,7 +104,7 @@ setMethod(
 setMethod(
 		f = "get.learners",
 		
-		signature = signature(x = "learn.task"),
+		signature = signature(x = "LearnTask"),
 		
 		def = function(x, probs=NA, decision=NA, costs=NA) {
 			type = ifelse(x["is.classif"], "classif", "regr")

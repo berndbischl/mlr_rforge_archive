@@ -29,7 +29,7 @@ roxygen()
 
 
 setClass(
-		"learn.task",
+		"LearnTask",
 		contains = c("object"),
 		representation = representation(
 				dataenv = "environment",
@@ -47,7 +47,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("learn.task"),
+		signature = signature("LearnTask"),
 		def = function(.Object, data, weights, blocking, control, task.desc) {
 			
 			# constructor is called in setClass of inheriting classes 
@@ -70,7 +70,7 @@ setMethod(
 
 setMethod(
 		f = "[",
-		signature = signature("learn.task"),
+		signature = signature("LearnTask"),
 		def = function(x,i,j,...,drop) {
 			check.getter(x,i,j,...,drop)
 			args = list(...)
@@ -195,7 +195,7 @@ get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
 
 setMethod(
   f = "subset",
-  signature = signature(x="learn.task"),
+  signature = signature(x="LearnTask"),
   def = function(x, subset, vars) {
     x = change.data(x, get.data(x, subset, vars))
     if (!missing(subset)) {
@@ -227,7 +227,7 @@ setGeneric(name = "getFeatureNames", def = function(task) standardGeneric("getFe
 #' @rdname getFeatureNames
 setMethod(
   f = "getFeatureNames",
-  signature = signature(task="learn.task"), 
+  signature = signature(task="LearnTask"), 
   def = function(task) {
     setdiff(colnames(task@dataenv$data), task["target"])
   } 

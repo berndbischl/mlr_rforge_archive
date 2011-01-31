@@ -27,7 +27,7 @@ setGeneric(
       if (missing(pred))
         pred = new("prediction")
       if (missing(task))
-        task = new("learn.task")
+        task = new("LearnTask")
       if (missing(model))
         model = new("wrapped.model")
       standardGeneric("performance")
@@ -38,7 +38,7 @@ setGeneric(
 
 setMethod(
   f = "performance",
-  signature = signature(pred="prediction", measure="measure", task="learn.task", model="wrapped.model"),
+  signature = signature(pred="prediction", measure="measure", task="LearnTask", model="wrapped.model"),
   def = function(pred, measure, task, model) {
     m = measure
     if (m["req.pred"]) {

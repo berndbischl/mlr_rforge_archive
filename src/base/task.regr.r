@@ -11,7 +11,7 @@ roxygen()
 
 setClass(
 		"regr.task",
-		contains = c("learn.task")
+		contains = c("LearnTask")
 )
 
 

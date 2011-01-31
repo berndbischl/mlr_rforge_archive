@@ -54,7 +54,7 @@ setMethod(
 		f = "train.learner",
     signature = signature(
       .learner="filter.wrapper", 
-      .task="learn.task", .subset="integer"
+      .task="LearnTask", .subset="integer"
     ),
 		
 		def = function(.learner, .task, .subset,  ...) {

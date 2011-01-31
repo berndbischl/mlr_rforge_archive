@@ -40,7 +40,7 @@ setMethod(
 
 setMethod(
 		f = "make.res.instance",
-		signature = c(desc="resample.desc", task="learn.task", size="missing"),
+		signature = c(desc="resample.desc", task="LearnTask", size="missing"),
 		def = function(desc, task, size) {
 			make.res.i(desc@instance.class, desc=desc, task=task, blocking=task["blocking"])
 		}

@@ -41,7 +41,7 @@ setMethod(
 		
 		signature = signature(
 				learner="learner", 
-				task="learn.task", 
+				task="LearnTask", 
 				subset="integer" 
 		),
 		
