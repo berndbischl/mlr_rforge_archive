@@ -20,8 +20,8 @@ test.benchexp <- function() {
 
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer)
   a = as.array(be)
-  checkEquals(mean(a[,"test","classif.lda","mmce",multiclass.task@id]), 
-    be["aggrs"][[multiclass.task@id]][["classif.lda"]]["mmce.test.mean"],
+  checkEquals(mean(a[,"test","classif.lda","mmce",multiclass.task@desc@id]), 
+    be["aggrs"][[multiclass.task@desc@id]][["classif.lda"]]["mmce.test.mean"],
     checkNames=FALSE)
  
 	outer2 = make.res.desc("holdout")
