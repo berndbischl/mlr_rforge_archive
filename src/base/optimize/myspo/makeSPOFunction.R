@@ -1,6 +1,7 @@
 #' @export
 makeSPOFunction = function(fun) {
+  force(fun)
   function(x, ...) {
-    f(unlist(x), ...)
+    fun(unlist(x), ...)
   }
 }

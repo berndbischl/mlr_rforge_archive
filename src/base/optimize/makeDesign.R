@@ -1,5 +1,5 @@
 #' @export
-makeDesign = function(n, par.set, fun, fun.args) {
+makeDesign = function(n, par.set, fun=randomLHS, fun.args=list()) {
   require.packs("lhs", "makeDesign")
   
   lower = lower(par.set)
