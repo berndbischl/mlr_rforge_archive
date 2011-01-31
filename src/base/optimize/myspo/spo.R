@@ -40,7 +40,9 @@ spo = function(fun, par.set, des, learner, control, opt.path) {
     model = train(learner, rt)
     loop = loop + 1  
   }
-  return(Reduce(rbind, res.vals))
+  res.vals = Reduce(rbind, res.vals)
+  res.vals = cbind(seq.loop=control$resample.at, res.vals)
+  return(res.vals)
 }
 
 

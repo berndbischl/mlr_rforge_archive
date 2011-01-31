@@ -27,8 +27,12 @@ setMethod(
           factors = FALSE,
           weights = FALSE
       )
-      
-      callNextMethod(.Object, pack="DiceKriging", desc=desc)
+       
+      par.set = makeParameterSet(
+        makeDiscreteLearnerParameter(id="covtype", default="matern5_2", 
+          vals=list("gauss", "matern5_2", "matern3_2", "exp", "powexp")) 
+      )
+      callNextMethod(.Object, pack="DiceKriging", desc=desc, par.set=par.set)
     }
 )
 
