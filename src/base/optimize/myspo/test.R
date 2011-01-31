@@ -28,6 +28,6 @@ ctrl = makeSPOControl(
 opt.path = makeOptimizationPath(names(ps@pars), "y", minimize=TRUE)
 #w = make.learner("regr.rsm", modelfun="SO")
 w = make.learner("regr.randomForest")
-r = myspo(fun, ps, des, w, ctrl, opt.path)
+r = spo(fun, ps, des, w, ctrl, opt.path)
 #plot(as.data.frame(opt.path)$y, ylim=c(0,10))
 
