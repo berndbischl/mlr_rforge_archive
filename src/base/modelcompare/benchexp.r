@@ -44,7 +44,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 	if (length(tasks) == 0)
 		stop("No tasks were passed!")
 	check.list.type(tasks, "LearnTask")
-  ids = sapply(tasks, function(x) x@id)
+  ids = sapply(tasks, function(x) x@desc@id)
   if (any(duplicated(ids)))
     stop("Tasks need unique ids!")
   

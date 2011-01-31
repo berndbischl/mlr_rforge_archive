@@ -17,7 +17,7 @@ test.performance <- function() {
 		# normal test error
 		e1 = mean(pred["truth"] != pred["response"])
 		# we do this manually 
-		id = pred@id
+		id = pred["id"]
 		t2 = task["targets"][id]
 		e2 = mean(t2 != pred["response"])
 		checkEquals(e1, e2)
