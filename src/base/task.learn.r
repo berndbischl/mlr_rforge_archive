@@ -23,7 +23,7 @@ roxygen()
 #' 
 #' Subclasses: \code{\linkS4class{classif.task}}, \code{\linkS4class{regr.task}}
 #' 
-#' @exportClass learn.task
+#' @exportClass LearnTask
 #' @seealso \code{\link{make.task}} 
 #' @title Base class for learning tasks.
 
@@ -66,7 +66,7 @@ setMethod(
 		}
 )
 
-#' @rdname learn.task-class
+#' @rdname LearnTask-class
 
 setMethod(
 		f = "[",
