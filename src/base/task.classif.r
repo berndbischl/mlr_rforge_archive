@@ -76,7 +76,7 @@ setMethod(
       feat = paste(capture.output(x["n.feat"]), collapse="\n")
 			return(
 					paste(
-							"Classification problem ", x["id"], "\n",
+							"Classification problem ", x@id, "\n",
 							"Features:\n", feat, "\n", 
               "Observations: ", x["size"] , "\n",
               "Missings: ", x["has.missing"], "\n", 

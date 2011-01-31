@@ -34,7 +34,7 @@ setMethod(
   def = function(x) {
     return(
       paste(
-        x["id"],  " with ", x["iters"], " iterations: ", x["iters"]/x["reps"] ," folds and ", x["reps"] ," reps.\n",
+        x@id,  " with ", x["iters"], " iterations: ", x["iters"]/x["reps"] ," folds and ", x["reps"] ," reps.\n",
         sep=""
       )
     )

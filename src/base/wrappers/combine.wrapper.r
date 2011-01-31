@@ -12,7 +12,7 @@ make.combine.wrapper = function(learners) {
   w = new("combine.wrapper")
   w@learners=learners
   a = as.list(rep(0.5, length(learners)))
-  names(a) = paste("", sapply(learners, function(x) x["id"]), sep="")
+  names(a) = paste("", sapply(learners, function(x) x@id), sep="")
   pds = lapply(names(a), function(x) makeNumericLearnerParameter(id=x, lower=0, upper=1))
   w@par.set = pds
   w@par.vals = a
@@ -73,7 +73,7 @@ setMethod(
     colnames(p) = levs
     for (i in 1:k) {
       m = models[[i]]
-      b = a[m@learner["id"]]
+      b = a[m@learner@id]
       p = p + b * predict(m, newdata=.newdata,  ...)["prob"][, levs]
     }
     p

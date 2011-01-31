@@ -83,9 +83,9 @@ test.benchresult = function() {
   
   x = be["conf.mats"]
   checkTrue(is.list(x) && length(x) == 2 && is.list(x[[1]]) && length(x[[1]]) == 2)  
-  x1 = x[[multiclass.task["id"]]]
+  x1 = x[[multiclass.task@id]]
   checkTrue(is.list(x1) && length(x1) == 2 && is.matrix(x1[[1]]))  
-  x1 = x[[multiclass.task["id"]]][["classif.rpart"]]
+  x1 = x[[multiclass.task@id]][["classif.rpart"]]
   checkTrue(is.matrix(x1))  
   
 	ranges.svm = list(C=1:2, sigma=1:2)

@@ -49,7 +49,7 @@ setMethod(
 		def = function(x) {
 			return(
 					paste(
-							x["id"], " with ", x@iters, " iterations.\n",	
+							x@id, " with ", x@iters, " iterations.\n",	
               "Predict: ", x["predict"], 
               sep=""
           )

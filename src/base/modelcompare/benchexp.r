@@ -34,7 +34,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 		stop("No learners were passed!")
 	check.list.type(learners, c("character", "learner"))
 	learners = lapply(learners, function(x) if (is.character(x)) make.learner(x) else x)
-  ids = sapply(learners, function(x) x["id"])
+  ids = sapply(learners, function(x) x@id)
 	if (any(duplicated(ids)))
 		stop("Learners need unique ids!")
 	
@@ -44,7 +44,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 	if (length(tasks) == 0)
 		stop("No tasks were passed!")
 	check.list.type(tasks, "learn.task")
-  ids = sapply(tasks, function(x) x["id"])
+  ids = sapply(tasks, function(x) x@id)
   if (any(duplicated(ids)))
     stop("Tasks need unique ids!")
   
@@ -52,7 +52,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 		measures = default.measures(tasks[[1]])
   if (is(measures, "measure"))
     measures = list(measures)   
-	ms.names = sapply(measures, function(m) m["id"])
+	ms.names = sapply(measures, function(m) m@id)
   
 	## add dim for every loss ?? hmm, those are not always the same size...
 	if (length(tasks) > 1 && is(resampling, "resample.instance")) {
@@ -61,7 +61,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 	dims = c(resampling["iters"], 2, n, length(measures))
 	
 	learner.names = character()
-	task.names = sapply(tasks, function(x) x["id"])	
+	task.names = sapply(tasks, function(x) x@id)	
 	resamplings = list()
 	tds = ins = rrs = ors = list()
 	
@@ -84,7 +84,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 		tds[[j]] = task@desc
 		for (i in 1:length(learners)) {
 			wl = learners[[i]]
-			learner.names[i] = wl["id"]
+			learner.names[i] = wl@id
 			bm = results[[counter]]
 			counter = counter+1
 		  

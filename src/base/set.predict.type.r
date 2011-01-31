@@ -33,10 +33,10 @@ setMethod(
       stop("Trying to predict ", type, ", but only classifiers support that!")
     }
     if ("prob" == type && !learner["prob"]) {
-      stop("Trying to predict probs, but ", learner["id"], " does not support that!")
+      stop("Trying to predict probs, but ", learner@id, " does not support that!")
     }
     if ("decision" == type && !learner["decision"]) {
-      stop("Trying to predict decision values, but ", learner["id"], " does not support that!")
+      stop("Trying to predict decision values, but ", learner@id, " does not support that!")
     }
     learner@predict.type = type
     return(learner)

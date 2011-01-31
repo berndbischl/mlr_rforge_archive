@@ -43,7 +43,7 @@ setMethod(
     m = measure
     if (m["req.pred"]) {
       if (is.empty(pred))
-        stop("You need to pass pred for measure ", m["id"])
+        stop("You need to pass pred for measure ", m@id)
       pred2 = pred
       td = pred@desc
     } else {
@@ -51,7 +51,7 @@ setMethod(
     }
     if (m["req.model"]) {
       if (is.empty(model))
-        stop("You need to pass model for measure ", m["id"])
+        stop("You need to pass model for measure ", m@id)
       model2 = model  
       td = model@desc
     } else {
@@ -59,7 +59,7 @@ setMethod(
     }
     if (m["req.task"]) {
       if (is.empty(task))
-        stop("You need to pass task for measure ", m["id"])
+        stop("You need to pass task for measure ", m@id)
       task2 = task 
       td = task@desc
     } else {
@@ -67,12 +67,12 @@ setMethod(
     }
     rqt = m["req.task.type"]
     if ((td["is.classif"] && identical(rqt, "regr")) || (td["is.regr"] && !("regr" %in% rqt))) 
-      stop("Wrong task type ", td@task.class, " for measure ", m["id"], "!")
+      stop("Wrong task type ", td@task.class, " for measure ", m@id, "!")
     if (m["req.task.type"] == "binary" && !td["is.binary"])
-      stop("Multiclass problems cannot be used for measure ", m["id"], "!")
+      stop("Multiclass problems cannot be used for measure ", m@id, "!")
     if (identical(m["req.pred.type"], "prob")) {
       if (!is.null(pred2) && pred2["type"] != "prob")
-        stop("Probabilities in prediction objects are required by measure ", m["id"], "!")
+        stop("Probabilities in prediction objects are required by measure ", m@id, "!")
     }
     measure@fun(task2, model2, pred2, m@extra.pars)
   }

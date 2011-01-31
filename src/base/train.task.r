@@ -50,7 +50,7 @@ setMethod(
       # todo: do we still need this, and the loading when exporting a learner? 
       # pack is loaded when learner is constructed
       # export: probably yes...
-      require.packs(learner["pack"], paste("learner", learner["id"]))
+      require.packs(learner["pack"], paste("learner", learner@id))
       
       check.result = if (is(task, "classif.task")) check.task.learner.classif(task, learner) else check.task.learner(task, learner)
       
@@ -66,7 +66,7 @@ setMethod(
       # only pass train hyper pars as basic rlearner in ...
       pars = c(pars, wl["leaf.learner"]["par.train"])
       
-      logger.debug(level="train", "mlr train:", wl["id"], "with pars:")
+      logger.debug(level="train", "mlr train:", wl@id, "with pars:")
       logger.debug(level="train", wl["par.vals.string"])
       logger.debug(level="train", "on", length(subset), "examples:")
       logger.debug(level="train", subset)

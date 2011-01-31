@@ -62,10 +62,10 @@ setMethod(
 				return(sapply(x@resamplings, function(y) y["iters"]))
 			}
 			if (i == "learner.ids") {
-				return(sapply(x@learners, function(y) y["id"]))
+				return(sapply(x@learners, function(y) y@id))
 			}
       if (i == "measure.ids") {
-        return(sapply(x@measures, function(y) y["id"]))
+        return(sapply(x@measures, function(y) y@id))
       }
       if (i == "task.ids") {
         return(names(x@task.descs))

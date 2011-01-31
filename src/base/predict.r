@@ -46,7 +46,7 @@ setMethod(
 			type = if (wl["is.classif"]) wl["predict.type"] else "response" 
 
       # load pack. if we saved a model and loaded it later just for prediction this is necessary
-      require.packs(wl["pack"], paste("learner", learner["id"]))
+      require.packs(wl["pack"], paste("learner", learner@id))
 			
 			cns = colnames(newdata)
 			tn = td["target"]
@@ -60,7 +60,7 @@ setMethod(
 				truth = NULL
 			}
 			
-			logger.debug(level="predict", "mlr predict:", wl["id"], "with pars:")
+			logger.debug(level="predict", "mlr predict:", wl@id, "with pars:")
 			logger.debug(level="predict", model["learner"]["par.vals.string"])
 			logger.debug(level="predict", "on", nrow(newdata), "examples:")
 			logger.debug(level="predict", rownames(newdata))

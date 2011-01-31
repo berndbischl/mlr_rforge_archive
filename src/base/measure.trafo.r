@@ -5,7 +5,7 @@
 # Evaluates measure only on training set
 
 inbag = function(pm) {
-  id = paste("inbag", pm["id"], sep=".")
+  id = paste("inbag", pm@id, sep=".")
   make.measure(id=id, minimize=pm["minimize"], pars=list(pm@fun), 
     fun=function(pred.test, pred.train, model, task, pars) {
       pars[[1]](pred.test=pred.train)
@@ -23,7 +23,7 @@ oob = function(pm) {
 # Should probably only be used with bootstrap resampling. 
 
 b632 = function(pm) {
-  id = paste("b632", pm["id"], sep=".")
+  id = paste("b632", pm@id, sep=".")
   make.measure(id=id, minimize=pm["minimize"], pars=list(pm@fun),
     fun=function(pred.test, pred.train, model, task, pars) {
       w = 0.632
@@ -38,7 +38,7 @@ b632 = function(pm) {
 # Should probably only be used with bootstrap resampling. 
 
 b632plus = function(pm) {
-  id = paste("b632", pm["id"], sep=".")
+  id = paste("b632", pm@id, sep=".")
   make.measure(id=id, minimize=pm["minimize"], pars=list(pm@fun), 
     fun=function(pred.test, pred.train, model, task, pars) {
       w = 0.632

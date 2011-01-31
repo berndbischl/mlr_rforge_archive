@@ -36,7 +36,7 @@ setMethod(
       if (length(ns) > 0)
         stop("Hyperparameter names in wrapper clash with base learner names: ", paste(ns, collapse=","))
 			.Object@learner = learner
-      callNextMethod(.Object, id=learner["id"], par.set=par.set, par.vals=par.vals, pack=pack)
+      callNextMethod(.Object, id=learner@id, par.set=par.set, par.vals=par.vals, pack=pack)
 		}
 )
 

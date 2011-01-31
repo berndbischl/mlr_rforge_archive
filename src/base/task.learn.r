@@ -214,7 +214,7 @@ setMethod(
 change.data = function(task, data) {
   task@dataenv = new.env()
   task@dataenv$data = data
-  task@desc = new("task.desc", task["data"], task["target"], class(task), task["id"], 
+  task@desc = new("task.desc", task["data"], task["target"], class(task), task@id, 
     task["has.weights"], task["has.blocking"], task["costs"], task["positive"])
   return(task)
 } 

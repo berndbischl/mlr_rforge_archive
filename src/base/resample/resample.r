@@ -89,13 +89,13 @@ setMethod(
     }
     ms.test = lapply(rs, function(x) x$measures.test)
     ms.test = as.data.frame(matrix(Reduce(rbind, ms.test), nrow=iters))
-    colnames(ms.test) = sapply(measures, function(pm) pm["id"])
+    colnames(ms.test) = sapply(measures, function(pm) pm@id)
     rownames(ms.test) = NULL
     ms.test = cbind(iter=1:iters, ms.test)
     
     ms.train = lapply(rs, function(x) x$measures.train)
     ms.train = as.data.frame(matrix(Reduce(rbind, ms.train), nrow=iters))
-    colnames(ms.train) = sapply(measures, function(pm) pm["id"])
+    colnames(ms.train) = sapply(measures, function(pm) pm@id)
     rownames(ms.train) = NULL
     ms.train = cbind(iter=1:iters, ms.train)
     
@@ -106,11 +106,11 @@ setMethod(
     aggr = c()
     for (i in 1:length(measures)) {
       m = measures[[i]]
-      mid = m["id"]
+      mid = m@id
       p1 = ms.test[, mid]
       p2 = ms.train[, mid]
       a = sapply(m@aggr, function(a) a@fun(p1, p2, m, rin["group"], pred))
-      names(a) = paste(mid, sapply(m@aggr, function(a) a["id"]), sep=".")
+      names(a) = paste(mid, sapply(m@aggr, function(a) a@id), sep=".")
       aggr = c(aggr, a)
     }
     
