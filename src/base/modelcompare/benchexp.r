@@ -61,7 +61,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 	dims = c(resampling["iters"], 2, n, length(measures))
 	
 	learner.names = character()
-	task.names = sapply(tasks, function(x) x@id)	
+	task.names = sapply(tasks, function(x) x@desc@id)	
 	resamplings = list()
 	tds = ins = rrs = ors = list()
 	
