@@ -54,7 +54,7 @@ setMethod(
 make.prediction = function(task.desc, id, truth, type, y, time) {
 	xs = list()
 	# if null no col in df present
-	xs[@id] = id
+	xs[["id"]] = id
 	xs[["truth"]] = truth
   if (type == "response") {
     xs[["response"]] = y
