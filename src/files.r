@@ -100,6 +100,9 @@ base.files <<- c(
 		"base/wrappers/preproc.wrapper.r",
 		"base/wrappers/multiclass.wrapper.r",
     "base/wrappers/probth.wrapper.r",
+    "base/optml/opt.wrapper.r",
+    "base/wrappers/makeVarselWrapper.r",
+    "base/varsel/filter.wrapper.r",
     
 		"base/optml/opt.control.r",
 		"base/optml/opt.result.r",
@@ -107,7 +110,6 @@ base.files <<- c(
 		"base/optml/tune.helpers.r",
 		"base/optml/varsel.helpers.r",
     "base/optml/opt.model.r",
-    "base/optml/opt.wrapper.r",
 		
 		"base/tune/control.tune.r",
 		"base/tune/control.grid.r",
@@ -138,8 +140,6 @@ base.files <<- c(
 		"base/varsel/varsel.seq.r",
 		"base/varsel/varsel.r",
     "base/varsel/filter.r",
-    "base/varsel/varsel.wrapper.r",
-    "base/varsel/filter.wrapper.r",
     
 		
 		"base/modelcompare/benchmark.r",
