@@ -39,7 +39,7 @@ varsel <- function(learner, task, resampling, control, measures, bit.names, bits
   if (missing(bit.names))
     bit.names = getFeatureNames(task)
   if (missing(bits.to.features))
-    bits.to.features = function(x, task) binary.to.vars(x, getFeatures(task)) 
+    bits.to.features = function(x, task) binary.to.vars(x, getFeatureNames(task)) 
   if (missing(log.fun))
     log.fun = log.fun.varsel
   

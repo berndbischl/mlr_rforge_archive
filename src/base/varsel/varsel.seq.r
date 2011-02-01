@@ -1,31 +1,26 @@
 # todo: maxit, max.vars
+# todo: compare relative
 varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, log.fun) {
 	
-	seq.step = function(forward, x, gen.new.states, compare) {
+	seq.step = function(forward, x, y, gen.new.states, compare) {
 		xs = gen.new.states(x)
-		if (length(new.states) == 0)
+		if (length(xs) == 0)
 			return(NULL)
-		vals = list()
 		
-		eval.states(learner, task, resampling, measures, control, lapply(xs, bits.to.features))
+		eval.states(learner, task, resampling, measures, makeParameterSet(), control, opt.path, lapply(xs, function(z) bits.to.features(z, task)))
 		
-		s = select.best.state(es, measures)
-		if (forward)
-			thresh = control["alpha"]
+		best = getBestElement(opt.path, eol=NA)
+		thresh = ifelse(forward, control["alpha"], control["beta"]) 
 		# if backward step and we have too many vars we do always go to the next best state with one less var.
+    if (forward && compare() )
 		else
-			thresh = ifelse(length(state$par) <= control["max.vars"], control["beta"], -Inf)
-		if (!compare(state, s, control, measures[[1]], thresh)) {
-			s = NULL
-      changed = "<>"
-    } else {
-      # symmetric diff for changed feature
-      changed = setdiff(union(state$par, s$par), intersect(state$par, s$par))
-    } 
-
-    logger.info(level="varsel", paste("varsel: forward=",forward, " features=", length(state$par), " perf=", round(get.perf(state), 3), " feat=", changed, sep=""))      
-    set.eol(opt.path, x) 
-		return(list(path=path, state=s))
+			thresh = if( || sum(x2) <= control["max.vars"]) && 
+		if (sum(best$x) <= control["max.vars"] && )
+    if (!compare(x, x2, control, measures[[1]], thresh)) {
+			x2 = NULL
+    }
+    set.eol(opt.path, x)
+    return(x2)
 	}
 	
 	gen.new.states.sfs = function(x) {
@@ -50,15 +45,15 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     xs
   }
   
-  all.vars = getFeatureNames(task)
+  dim = task["dim"]
 	
 	method = control["method"]
 	
-	start.vars = switch(method,
-			sfs = character(0),
-			sbs = all.vars,
-			sffs = character(0),
-			sfbs = all.vars,
+	x = switch(method,
+			sfs = rep(0, dim),
+			sbs = rep(1, dim),
+			sffs = rep(0, dim),
+			sfbs = rep(1, dim),
 			stop(paste("Unknown method:", method))
 	) 
 	
@@ -70,28 +65,22 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
 			stop(paste("Unknown method:", method))
 	) 
 	
-	state = eval.rf(learner, task, resampling, measures, NULL, control, start.vars)
-	
-	path = add.path.varsel(path, state, accept=TRUE)		
-	
-	compare = compare.diff
+	y = eval.rf(learner, task, resampling, measures, NULL, control, bits.to.features(x, task))
+	path = add.path.el(opt.path, x=x, y=y)		
 	
 	forward = (method %in% c("sfs", "sffs"))
 	
-	while (TRUE) {
+	while (!is.null(x)) {
 		logger.debug("current:")
-		logger.debug(state$par)
+		logger.debug(x)
 		#cat("forward:", forward, "\n")
 		# if forward step and we habe enuff features: stop
-		if (forward && control["max.vars"] <= length(state$par))
+		if (forward && control["max.vars"] <= sum(x))
 			break
-		s = seq.step(forward, state, gen.new.states, compare)	
+		x = seq.step(forward, x, gen.new.states, compare)	
 		#print(s$rp$measures["mean", "mmce"])
-		if (is.null(s$state)) {
+		if (is.null(x)) 
 			break;
-		} else {
-			state = s$state
-		}
 		
 		while (method %in% c("sffs", "sfbs")) {
 			#cat("forward:", !forward, "\n")
@@ -100,14 +89,9 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
 					sfbs = gen.new.states.sfs
 			) 
 			# if forward step and we habe enuff features: stop
-			if (!forward && control["max.vars"] <= length(state$par))
+			if (!forward && control["max.vars"] <= sum(x))
 				break
-			s = seq.step(!forward, state, gns, compare)
-			if (is.null(s$state)) {
-				break;
-			} else {
-				state = s$state
-			}
+			x = seq.step(!forward, x, gns, compare)
 		}
 	}
 

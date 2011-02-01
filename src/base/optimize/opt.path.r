@@ -195,7 +195,7 @@ setMethod(
 #'   Possible end of life to select best element from. Defaults to all. 
 #' @return List with elements 'x' [list] and 'y' [named numeric]. 
 #' @export
-getBestElement = function(op, y.name=y.names[1], dob=op@env$dob, eol=op@env$eol) {
+getBestElement = function(op, y.name=op@y.names[1], dob=op@env$dob, eol=op@env$eol) {
   op = subset(op, dob, eol)
   y = sapply(op@env$path, function(e) e$y[y.name])
   if (op@minimize[y.name])

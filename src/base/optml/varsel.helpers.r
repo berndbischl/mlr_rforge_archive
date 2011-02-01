@@ -11,6 +11,7 @@ make.varsel.f = function(learner, task, resampling, measures, par.set, control, 
 
 log.fun.varsel = function(learner, task, resampling, measures, par.set, control, opt.path, x, y) {
   logger.info(level="opt", paste(length(x), " : ", formatC(perf, digits=3)))
+  #logger.info(level="varsel", paste("varsel: forward=",forward, " features=", length(state$par), " perf=", round(get.perf(state), 3), " feat=", changed, sep=""))      
 }
 
 

@@ -1,3 +1,4 @@
+#todo: fix parallel g2
 tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   require.packs("cmaes", "tune.cmaes")
 

@@ -40,10 +40,7 @@ eval.states = function(learner, task, resampling, measures, par.set, control, op
 
 # use the difference in performance   
 compare.diff = function(state1, state2, control, measure, threshold) {
-	m1 = get.perf(state1)
-	m2 = get.perf(state2)
-	d = ifelse(measure["minimize"], 1, -1) * (m1 - m2)
-  (d > threshold)	
+	ifelse(measure["minimize"], 1, -1) * (state1$y[1] - state2$y[1]) > threshold
 }
 
 makeOptimizationPathFromMeasures = function(x.names, measures) {
