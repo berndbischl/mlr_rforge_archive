@@ -1,8 +1,7 @@
 
 make.varsel.f = function(learner, task, resampling, measures, par.set, control, log.fun) {
-  function(p) {
-    if (is.integer(p))
-      p2 = binary.to.vars(p)
+  function(x) {
+    p2 = bits.to.features(x, task)
     y = eval.rf(learner, task, resampling, measures, par.set, control, p2) 
     log.fun(learner, task, resampling, measures, par.set, control, opt.path, p2, y)
     ifelse(measures[[1]]["minimize"], 1 , -1) * y[1]

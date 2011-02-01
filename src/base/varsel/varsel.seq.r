@@ -1,18 +1,13 @@
 # todo: maxit, max.vars
-varsel.seq = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
+varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, log.fun) {
 	
-	seq.step = function(forward, state, gen.new.states, compare) {
-		not.used = setdiff(all.vars, state$par)
-		new.states = gen.new.states(state$par, not.used)
+	seq.step = function(forward, x, gen.new.states, compare) {
+		xs = gen.new.states(x)
 		if (length(new.states) == 0)
 			return(NULL)
 		vals = list()
 		
-		event = ifelse(forward, "forward", "backward")
-		
-		es = eval.states(learner=learner, task=task, resampling=resampling, 
-				measures=measures, control=control, pars=new.states, event=event)
-		#print(unlist(vals))
+		eval.states(learner, task, resampling, measures, control, lapply(xs, bits.to.features))
 		
 		s = select.best.state(es, measures)
 		if (forward)
@@ -29,32 +24,33 @@ varsel.seq = function(learner, task, resampling, measures, par.set, control, opt
     } 
 
     logger.info(level="varsel", paste("varsel: forward=",forward, " features=", length(state$par), " perf=", round(get.perf(state), 3), " feat=", changed, sep=""))      
-		path <<- add.path.els.varsel(path, es, s)
+    set.eol(opt.path, x) 
 		return(list(path=path, state=s))
 	}
 	
-	gen.new.states.sfs = function(vars, not.used) {
-		new.states = list()
-		for (i in seq(along=not.used)) {
-			#cat(not.used[i], " ")
-			new.states[[i]] = c(vars, not.used[i])
-		}
-		#cat("\n")
-		return(new.states)
+	gen.new.states.sfs = function(x) {
+    xs = list()
+    for (i in 1:length(x))
+      if (x[i] == 0) {
+        y = x
+        y[i] = 1
+        xs[[length(xs)+1]] = y
+      }
+    xs
 	}
 	
-	
-	gen.new.states.sbs = function(vars, not.used) {
-		new.states = list()
-		for (i in seq(along=vars)) {
-			new.states[[i]] = setdiff(vars, vars[i])
-		}
-		#cat("\n")
-		return(new.states)
-	}
-	
+	gen.new.states.sbs = function(x) {
+    xs = list()
+    for (i in 1:length(x))
+      if (x[i] == 1) {
+        y = x
+        y[i] = 0
+        xs[[length(xs)+1]] = y
+      }
+    xs
+  }
+  
   all.vars = getFeatureNames(task)
-	path = list()
 	
 	method = control["method"]
 	
@@ -74,7 +70,7 @@ varsel.seq = function(learner, task, resampling, measures, par.set, control, opt
 			stop(paste("Unknown method:", method))
 	) 
 	
-	state = eval.state(learner, task, resampling, measures, control, par=start.vars)
+	state = eval.rf(learner, task, resampling, measures, NULL, control, start.vars)
 	
 	path = add.path.varsel(path, state, accept=TRUE)		
 	

@@ -24,10 +24,10 @@
 #' @return \code{\linkS4class{opt.result}}.
 #' 
 #' @export
-#' @seealso \code{\link{make.varsel.wrapper}} 
+#' @seealso \code{\link{makeVarselWrapper}} 
 #' @title Variable selection.
 
-varsel <- function(learner, task, resampling, control, measures, log.fun) {
+varsel <- function(learner, task, resampling, control, measures, bit.names, bits.to.features, log.fun) {
   if (is.character(learner))
     learner <- make.learner(learner)
   if (is(resampling, "resample.desc") && control@same.resampling.instance)
@@ -36,6 +36,10 @@ varsel <- function(learner, task, resampling, control, measures, log.fun) {
     measures = default.measures(task)
   if (is(measures, "measure"))
     measures = list(measures)   
+  if (missing(bit.names))
+    bit.names = getFeatureNames(task)
+  if (missing(bits.to.features))
+    bits.to.features = function(x, task) binary.to.vars(x, getFeatures(task)) 
   if (missing(log.fun))
     log.fun = log.fun.varsel
   
@@ -52,7 +56,7 @@ varsel <- function(learner, task, resampling, control, measures, log.fun) {
 		stop("You have to pass a control object!")
 	}
   opt.path = makeOptimizationPathFromMeasures(getFeatureNames(task), measures)
-  or = sel.func(learner, task, resampling, measures, makeParameterSet(), control, opt.path, log.fun)
+  or = sel.func(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, log.fun)
 	if (model) {
     task = subset(task, vars=or@x)
 		or@model = train(learner, task) 	
