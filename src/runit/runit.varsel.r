@@ -41,7 +41,7 @@ test.varsel <- function() {
 	checkTrue(is(vr["model"], "wrapped.model")) 
 	checkTrue(is(vr["model"]["learner.model"], "novars")) 
 	
-	wl = make.varsel.wrapper("classif.lda", resampling=inner, control=ctrl)
+	wl = makeVarselWrapper("classif.lda", resampling=inner, control=ctrl)
 	outer = make.res.desc("cv", iter=2)
 	be = bench.exp(wl, task=multiclass.task, resampling=outer)
 

@@ -46,7 +46,7 @@ test.benchresult = function() {
 	checkTrue(all(x$C == 1 | x$C == 2))
 
 	ctrl = sequential.control(method="sbs", beta=100)
-	vs = make.varsel.wrapper("classif.lda", resampling=inner, control=ctrl)
+	vs = makeVarselWrapper("classif.lda", resampling=inner, control=ctrl)
 	
 	learners = c("classif.rpart", vs)
 	be = bench.exp(tasks=multiclass.task, learners=learners, resampling=res)
