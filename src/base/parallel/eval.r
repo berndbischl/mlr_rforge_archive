@@ -36,9 +36,9 @@ resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
   )
 }
 
+# todo: remove?
 eval.rf = function(learner, task, resampling, measures, par.set, control, val) {
   if (is(control, "tune.control")) {
-		val = trafoVal(par.set, val)
     learner = set.hyper.pars(learner, par.vals=val)
   }
   if (is(control, "varsel.control")) {
