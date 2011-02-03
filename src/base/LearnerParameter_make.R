@@ -1,19 +1,3 @@
-##double    
-#if (missing(data.type))
-#  data.type = ifelse(is.integer(lower) || is.integer(upper) || is.integer(default), "integer", "numeric")
-#.Object@lower = lower					
-#.Object@upper = upper
-#if (missing(default))
-#  default = 
-#    .Object@deafult
-#if (!(default == "missing" || (lower <= default && upper >= default)))
-#  stop("Default value of par. ", id, " has to be in lower/upper limits or 'missing'!")
-#callNextMethod(.Object, id, default, when, flags, requires)
-#}
-
-
-
-
 #' Numerical parameter for a learner.
 #' @param id [character(1)]
 #'   Name of parameter.
@@ -30,6 +14,26 @@
 makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
                                       default, when="train",
                                       flags=list(), requires=expression()) {
+  p <- makeNumericParameter(id, lower, upper)
+  learner.parameter.from.parameter(p, default, when, flags, requires)
+}
+
+#' Numerical vector parameter for a learner.
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @param lower [numeric(1)] \cr
+#'   Lower bound. Default is \code{-Inf}.
+#' @param upper [numeric(1)] \cr
+#'   Upper bound. Default is \code{Inf}.
+#' @param default [numeric(1)]
+#'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param when [character(1)]
+#'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @return  \code{\linkS4class{Parameter}}
+#' @export 
+makeNumericVectorLearnerParameter <- function(id, lower=-Inf, upper=Inf,
+  default, when="train",
+  flags=list(), requires=expression()) {
   p <- makeNumericParameter(id, lower, upper)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }

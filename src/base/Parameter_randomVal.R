@@ -33,6 +33,8 @@ setMethod(
     type = x["type"]
     if (type == "numeric")
       runif(n, min=x@constraints$lower, max=x@constraints$upper)
+    if (type == "vector")
+      runif(n, min=x@constraints$lower, max=x@constraints$upper)
     else if (type == "integer")
       as.integer(round(runif(n, min=x@constraints$lower, max=x@constraints$upper)))
     else if (type == "discrete") {

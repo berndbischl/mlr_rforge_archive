@@ -3,10 +3,11 @@
 #' Subclasses: \code{\linkS4class{LearnerParameter}}
 #' 
 #' @slot id Name of parameter. 
-#' @slot type Data type of parameter. Possible types are 'numeric', 'integer', 'ordered', 'discrete', 'function', 'untyped'.
+#' @slot type Data type of parameter. Possible types are 'numeric', 'numericvector', 'integer', 'ordered', 'discrete', 'function', 'untyped'.
 #' @slot constraints Contains further information of simple contraints. 
 #' For 'numeric' and 'integer' it contains box constraints 'lower' and 'upper', both \code{numeric(1)}. 
 #' For 'discrete' and 'ordered' it contains possible values 'vals' as a list, for 'ordered' the order of the list reflects the implied ordering. 
+#' For 'numericvector' it contains box constraints 'lower' and 'upper', both \code{numeric(dimension of vector)}. 
 #' @slot trafo When values for the parameter are generated in any way, this function will always be applied directly aftwerwards. Function must accept a parameter value as the first argument and return a transformed one.
 #' 
 #' @exportClass Parameter
@@ -47,6 +48,10 @@ setMethod(
     if (type == "numeric")
       paste("Numeric parameter '", x@id, "'. Constraints: ", x@constraints$lower, ",", x@constraints$upper, 
         ". Custom trafo: ", ut, sep="")  
+    if (type == "numericvector")
+      paste("Numeric vector parameter '", x@id, "'. Constraints: ", 
+        paste(x@constraints$lower, collapse=","), ",", paste(x@constraints$upper, collapse=","), 
+        ". Custom trafo: ", ut, sep="")  
     else if (type == "integer")
       paste("Integer parameter '", x@id, "'. Constraints: ", x@constraints$lower, ",", x@constraints$upper, 
         ". Custom trafo: ", ut, sep="")  
@@ -77,6 +82,8 @@ setMethod(
     type = par["type"]
     if (type == "numeric")
       as.character(round(val, 3))  
+    if (type == "numericvector")
+      paste(as.character(round(val, 3)), collapse=",")  
     else if (type == "integer" || type == "logical")
       as.character(val)  
     else if (type == "discrete" || type == "ordered") {

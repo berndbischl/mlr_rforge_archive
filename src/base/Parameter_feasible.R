@@ -6,12 +6,9 @@ roxygen()
 #' 
 #' @param x [single value] \cr
 #'   Value to check.  
-#' @param par.set [Parameter] \cr
+#' @param par [Parameter] \cr
 #'   Variable description.
-#' @return If \code{x} is a single value, a logical, else a vector of
-#' logicals as long as the vector \code{x}. Note that for discrete
-#' parameters a heuristic is used to figure out if \code{x} is a list
-#' of parameters or in fact a discrete parameter of type list.
+#' @return logical(1) 
 #' 
 #' @rdname is.feasible
 #' @exportMethod is.feasible
@@ -19,7 +16,7 @@ roxygen()
 #' @title Check if parameter setting is valid.
 setGeneric(
   name = "is.feasible",
-  def = function(x, par.set) {
+  def = function(par, x) {
     if (length(x) == 0)
       return(FALSE)
     standardGeneric("is.feasible")      
@@ -29,33 +26,24 @@ setGeneric(
 #' @rdname is.feasible
 setMethod(
   f = "is.feasible",
-  signature = signature(x="ANY", par.set="Parameter"),
-  def = function(x, par.set) {
-    type = par.set["type"]
+  signature = signature(par="Parameter", x="ANY"),
+  def = function(par, x) {
+    type = par["type"]
     if (type == "numeric")
-      is.numeric(x) & x >= lower(par.set) & x <= upper(par.set)
+      is.numeric(x) && length(x) == 1 && x >= lower(par) & x <= upper(par)
+    if (type == "numericvector")
+      is.numeric(x) && length(x) == length(par@lower) && all(x >= lower(par)) & all(x <= upper(par))
     else if (type == "integer")
-      (is.integer(x) | (is.numeric(x) & (x == as.integer(x)))) & x >= par.set@constraints$lower & x <= par.set@constraints$upper
+      is.numeric(x) && length(x) == 1 && (x == as.integer(x)) && x >= lower(par) & x <= upper(par)
     else if (type == "discrete") {
-      g = function(y) 
-        !is.na(Position(function(v) isTRUE(all.equal(y, v)), par.set@constraints$vals)) ||
-        !is.na(Position(function(v) identical(y, v), names(par.set@constraints$vals))) 
-      if (length(x) == 1) return(g(x)) else return(sapply(x, g))
-      #if(is.null(x)) any(is.null(bound["vals"])) else x %in% par.set["vals"]
+        !is.na(Position(function(v) isTRUE(all.equal(x, v)), par@constraints$vals)) ||
+        !is.na(Position(function(v) identical(x, v), names(par@constraints$vals))) 
     } else if (type == "logical") {
-      is.logical(x) & !is.na(x)
+      is.logical(x) && length(x) == 1 && isTRUE(x)
     } else if (type == "function") {
-      if (is.function(x))
-        TRUE
-      else if (is.list(x))
-        sapply(x, is.function)
-      else
-        FALSE
+      is.function(x)
     } else if (type == "untyped")
-      if (is.vector(x))
-        rep(TRUE, length(x))
-      else
-        TRUE
+      TRUE
     else 
       stop("Unknown type!")
   }

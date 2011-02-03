@@ -19,11 +19,31 @@ makeNumericParameter = function(id, lower=-Inf, upper=Inf, trafo=identity) {
   check.arg(upper, "numeric", 1)
   if (upper < lower)
     stop("No possible value!")
-  constraints = list(lower=as.numeric(lower), upper=as.numeric(upper))
+  constraints = list(lower=lower, upper=upper)
   new("Parameter", id, "numeric", constraints, trafo)
 } 
 
-
+#' Numeric vector variable for optimization.
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @return \code{\linkS4class{Parameter}}
+#' @export 
+makeNumericVectorParameter = function(id, dim, lower=-Inf, upper=Inf, trafo=identity) {
+  if (is.integer(lower))
+    lower = as.numeric(lower)
+  if (is.integer(upper))
+    upper = as.numeric(upper)
+  if (is.numeric(lower) && length(lower) == 1)
+    lower = rep(lower, dim)
+  if (is.numeric(upper) && length(upper) == 1)
+    upper = rep(upper, dim)
+  check.arg(lower, "numeric", dim)
+  check.arg(upper, "numeric", dim)
+  if (any(upper < lower))
+    stop("No possible value!")
+  constraints = list(lower=lower, upper=upper)
+  new("Parameter", id, "numericvector", list())
+} 
 
 #' Integer variable for optimization.
 #' @param id [character(1)]
@@ -43,7 +63,7 @@ makeIntegerParameter = function(id, lower=-.Machine$integer.max, upper=.Machine$
   check.arg(upper, "integer", 1)
   if (upper < lower)
     stop("No possible value!")
-  constraints = list(lower=as.integer(lower), upper=as.integer(upper))
+  constraints = list(lower=lower, upper=upper)
   new("Parameter", id, "integer", constraints, trafo)
 } 
 
@@ -109,4 +129,7 @@ makeFunctionParameter = function(id) {
 makeUntypedParameter = function(id) {
   new("Parameter", id, "untyped", list())
 } 
+
+
+
 

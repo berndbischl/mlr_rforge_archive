@@ -101,6 +101,81 @@ test.discrete_parameters <- function() {
   checkException(makeDiscreteParameter(id="x", vals=list()))  
 }
 
+
+test.numericvector_parameters <- function() {
+  stop(123)
+  #todo
+#  np <- makeNumericParameter(id="x", lower=-1L, upper=1)
+#  checkEquals("numeric", np["type"])
+#  checkEquals(-1, lower(np))
+#  checkEquals(1, upper(np))
+#  checkTrue(!is.integer(lower(np))) ## Force type conversion!
+#  
+#  checkTrue(is.feasible(-1, np))
+#  checkTrue(is.feasible(1, np))
+#  checkTrue(is.feasible(0, np))
+#  
+#  ## Vectorized:
+#  checkEquals(c(FALSE, TRUE, TRUE, TRUE, FALSE),
+#    is.feasible(c(-2, -1, 0, 1, 2), np))
+#  
+#  checkTrue(!is.feasible(2, np))
+#  checkTrue(!is.feasible(Inf, np))
+#  checkTrue(!is.feasible(-Inf, np))
+#  checkTrue(!is.feasible(NA, np))
+#  checkTrue(!is.feasible("bam", np))
+#  
+#  np <- makeNumericParameter(id="x", lower=0, upper=Inf)
+#  checkTrue(is.feasible(2, np))
+#  checkTrue(is.feasible(Inf, np))
+#  checkTrue(!is.feasible(-2, np))
+#  checkTrue(!is.feasible(-Inf, np))
+#  checkTrue(!is.feasible(NULL, np))
+#  
+#  ## Error conditions:
+#  checkException(makeNumericParameter(id="x", lower="bam", upper=1))
+#  checkException(makeNumericParameter(id="x", lower=NA, upper=1))
+#  checkException(makeNumericParameter(id="x", lower=NULL, upper=1))
+#  checkException(makeNumericParameter(id="x", lower=0, upper="bam"))
+#  checkException(makeNumericParameter(id="x", lower=0, upper=NA))
+#  checkException(makeNumericParameter(id="x", lower=0, upper=NULL))
+#  checkException(makeNumericParameter(id="x", lower=1, upper=-1))
+#  checkException(makeNumericParameter(id="x", lower=c(-1, 1), upper=2))
+#  checkException(makeNumericParameter(id="x", lower=-1, upper=c(1, 2)))
+}
+
+test.discrete_parameters <- function() {
+  f <- function(x) 2 * x
+  dp <- makeDiscreteParameter(id="x",
+    vals=list(a="char", b=2L, c=2.2, d=f, "e"))
+  checkEquals("discrete", dp["type"])
+  checkTrue(is.feasible("char", dp))
+  checkTrue(is.feasible(2L, dp))
+  checkTrue(is.feasible(2.2, dp))
+  checkTrue(is.feasible(f, dp))
+  ff <- function(x) 2 * x
+  checkTrue(is.feasible(ff, dp))
+  checkTrue(is.feasible(function(x) 2 * x, dp))
+  checkTrue(is.feasible("e", dp))
+  
+  ## Vectorized:
+  checkEquals(c(TRUE, TRUE, TRUE),
+    is.feasible(list(2.2, 2L, f), dp))
+  checkEquals(c(TRUE, FALSE),
+    is.feasible(list(2L, NULL), dp))
+  
+  checkTrue(!is.feasible("f", dp))
+  checkTrue(!is.feasible(sum, dp))
+  checkTrue(!is.feasible(NULL, dp))
+  
+  
+  ## Error conditions:
+  checkException(makeDiscreteParameter(id="x", vals=list(a=1, "a")))
+  checkException(makeDiscreteParameter(id="x", vals=list()))  
+}
+
+
+
 test.integer_parameters <- function() {
   ip <- makeIntegerParameter(id="x", lower=-1L, upper=1)
   checkEquals("integer", ip["type"])
