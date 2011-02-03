@@ -22,7 +22,7 @@ base.files <<- c(
 		"base/Parameter.R",
     "base/Parameter_make.R",
     "base/Parameter_feasible.R",
-    "base/Parameter_randomVal.R",
+#    "base/Parameter_randomVal.R",
     "base/LearnerParameter.R",
     "base/LearnerParameter_make.R",
     "base/optimize/bounds.r",
@@ -88,6 +88,13 @@ base.files <<- c(
     "base/rocr/ROCR_performance_plots.R",
     "base/rocr/ROCR_mlr_plots.r",
 
+    "base/optml/opt.control.r",
+    "base/optml/opt.result.r",
+    "base/optml/optml.helpers.r",
+    "base/optml/tune.helpers.r",
+    "base/optml/varsel.helpers.r",
+    "base/optml/opt.model.r",
+    
     "base/optimize/opt.path.r",
     "base/optimize/makeDesign.R",
     "base/optimize/myspo/makeSPOFunction.R",
@@ -104,12 +111,6 @@ base.files <<- c(
     "base/wrappers/makeVarselWrapper.r",
     "base/varsel/filter.wrapper.r",
     
-		"base/optml/opt.control.r",
-		"base/optml/opt.result.r",
-		"base/optml/optml.helpers.r",
-		"base/optml/tune.helpers.r",
-		"base/optml/varsel.helpers.r",
-    "base/optml/opt.model.r",
 		
 		"base/tune/control.tune.r",
 		"base/tune/control.grid.r",

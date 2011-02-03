@@ -31,15 +31,17 @@ setMethod(
     type = par["type"]
     if (type == "numeric")
       is.numeric(x) && length(x) == 1 && x >= lower(par) & x <= upper(par)
-    if (type == "numericvector")
-      is.numeric(x) && length(x) == length(par@lower) && all(x >= lower(par)) & all(x <= upper(par))
     else if (type == "integer")
       is.numeric(x) && length(x) == 1 && (x == as.integer(x)) && x >= lower(par) & x <= upper(par)
+    else if (type == "numericvector")
+      is.numeric(x) && length(x) == length(lower(par)) && all(x >= lower(par)) & all(x <= upper(par))
+    else if (type == "integervector")
+      is.numeric(x) && length(x) == length(lower(par)) && all(x == as.integer(x)) && all(x >= lower(par)) & all(x <= upper(par))
     else if (type == "discrete") {
         !is.na(Position(function(v) isTRUE(all.equal(x, v)), par@constraints$vals)) ||
         !is.na(Position(function(v) identical(x, v), names(par@constraints$vals))) 
     } else if (type == "logical") {
-      is.logical(x) && length(x) == 1 && isTRUE(x)
+      is.logical(x) && length(x) == 1 && !is.na(x)
     } else if (type == "function") {
       is.function(x)
     } else if (type == "untyped")

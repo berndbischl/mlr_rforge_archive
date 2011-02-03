@@ -46,14 +46,18 @@ setMethod(
     type = x["type"]
     ut = !identical(x@trafo, identity)
     if (type == "numeric")
-      paste("Numeric parameter '", x@id, "'. Constraints: ", x@constraints$lower, ",", x@constraints$upper, 
-        ". Custom trafo: ", ut, sep="")  
-    if (type == "numericvector")
-      paste("Numeric vector parameter '", x@id, "'. Constraints: ", 
-        paste(x@constraints$lower, collapse=","), ",", paste(x@constraints$upper, collapse=","), 
+      paste("Numeric parameter '", x@id, "'. Constraints: ", x@constraints$lower, " to ", x@constraints$upper, 
         ". Custom trafo: ", ut, sep="")  
     else if (type == "integer")
-      paste("Integer parameter '", x@id, "'. Constraints: ", x@constraints$lower, ",", x@constraints$upper, 
+      paste("Integer parameter '", x@id, "'. Constraints: ", x@constraints$lower, " to ", x@constraints$upper, 
+        ". Custom trafo: ", ut, sep="")  
+    else if (type == "numericvector")
+      paste("Numeric vector parameter '", x@id, "'. Constraints: ", 
+        paste(x@constraints$lower, collapse=","), " to ", paste(x@constraints$upper, collapse=","), 
+        ". Custom trafo: ", ut, sep="")  
+    else if (type == "integervector")
+      paste("Numeric vector parameter '", x@id, "'. Constraints: ", 
+        paste(x@constraints$lower, collapse=","), " to ", paste(x@constraints$upper, collapse=","), 
         ". Custom trafo: ", ut, sep="")  
     else if (type == "discrete") {
       paste("Discrete parameter '", x@id, "'. Values: ", paste(names(x@constraints$vals), collapse=","), sep="") 

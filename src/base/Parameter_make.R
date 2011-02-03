@@ -8,6 +8,8 @@
 #'   Lower bound. Default is \code{-Inf}.
 #' @param upper [numeric(1)] \cr
 #'   Upper bound. Default is \code{Inf}.
+#' @param trafo [function(x)] \cr
+#'   Function to transform parameter. Is applied to the parameter before it is passed to its corresponding fitness function. Default is \code{\link{identity}}.   
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
 makeNumericParameter = function(id, lower=-Inf, upper=Inf, trafo=identity) {
@@ -26,6 +28,14 @@ makeNumericParameter = function(id, lower=-Inf, upper=Inf, trafo=identity) {
 #' Numeric vector variable for optimization.
 #' @param id [character(1)]
 #'   Name of parameter.
+#' @param dim [integer(1)] \cr
+#'   Length of vector.
+#' @param lower [numeric(dim)] \cr
+#'   Lower bound. Default is \code{-Inf}.
+#' @param upper [numeric(dim)] \cr
+#'   Upper bound. Default is \code{Inf}.
+#' @param trafo [function(x)] \cr
+#'   Function to transform parameter. Is applied to the parameter before it is passed to its corresponding fitness function. Default is \code{\link{identity}}.   
 #' @return \code{\linkS4class{Parameter}}
 #' @export 
 makeNumericVectorParameter = function(id, dim, lower=-Inf, upper=Inf, trafo=identity) {
@@ -42,7 +52,7 @@ makeNumericVectorParameter = function(id, dim, lower=-Inf, upper=Inf, trafo=iden
   if (any(upper < lower))
     stop("No possible value!")
   constraints = list(lower=lower, upper=upper)
-  new("Parameter", id, "numericvector", list())
+  new("Parameter", id, "numericvector", constraints, trafo)
 } 
 
 #' Integer variable for optimization.
@@ -52,6 +62,8 @@ makeNumericVectorParameter = function(id, dim, lower=-Inf, upper=Inf, trafo=iden
 #'   Lower bound. Default is \code{-Inf}.
 #' @param upper [numeric(1)] \cr
 #'   Upper bound. Default is \code{Inf}.
+#' @param trafo [function(x)] \cr
+#'   Function to transform parameter. Is applied to the parameter before it is passed to its corresponding fitness function. Default is \code{\link{identity}}.   
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
 makeIntegerParameter = function(id, lower=-.Machine$integer.max, upper=.Machine$integer.max, trafo=identity) {
@@ -66,6 +78,37 @@ makeIntegerParameter = function(id, lower=-.Machine$integer.max, upper=.Machine$
   constraints = list(lower=lower, upper=upper)
   new("Parameter", id, "integer", constraints, trafo)
 } 
+
+#' Numeric vector variable for optimization.
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @param dim [integer(1)] \cr
+#'   Length of vector.
+#' @param lower [numeric(dim)] \cr
+#'   Lower bound. Default is \code{-Inf}.
+#' @param upper [numeric(dim)] \cr
+#'   Upper bound. Default is \code{Inf}.
+#' @param trafo [function(x)] \cr
+#'   Function to transform parameter. Is applied to the parameter before it is passed to its corresponding fitness function. Default is \code{\link{identity}}.   
+#' @return \code{\linkS4class{Parameter}}
+#' @export 
+makeIntegerVectorParameter = function(id, dim, lower=-.Machine$integer.max, upper=.Machine$integer.max, trafo=identity) {
+  if (is.integer(lower) && all(is.finite(lower)) && all(lower==as.integer(lower)))
+    lower = as.integer(lower)
+  if (is.integer(upper) && all(is.finite(upper)) && all(upper==as.integer(upper)))
+    upper = as.integer(upper)
+  if (is.integer(lower) && length(lower) == 1)
+    lower = rep(lower, dim)
+  if (is.integer(upper) && length(upper) == 1)
+    upper = rep(upper, dim)
+  check.arg(lower, "integer", dim)
+  check.arg(upper, "integer", dim)
+  if (any(upper < lower))
+    stop("No possible value!")
+  constraints = list(lower=lower, upper=upper)
+  new("Parameter", id, "integervector", constraints, trafo)
+} 
+
 
 
 #' Boolean variable for optimization.

@@ -110,8 +110,8 @@ setMethod(
   f = "lower",
   signature = signature(x="Parameter"), 
   def = function(x) 
-    if(!x@type %in% c("integer", "numeric")) 
-      stop("Only available for numeric or integer parameter!") 
+    if(!x@type %in% c("integer", "numeric", "numericvector", "integervector")) 
+      stop("Only available for numeric, integer, numericvector and integervector parameter!") 
     else 
       x@constraints$lower
 )
@@ -136,8 +136,8 @@ setMethod(
   f = "upper",
   signature = signature(x="Parameter"), 
   def = function(x) 
-    if(!x@type %in% c("integer", "numeric")) 
-      stop("Only available for numeric or integer parameter!") 
+    if(!x@type %in% c("integer", "numeric", "numericvector", "integervector")) 
+      stop("Only available for numeric, integer, numericvector and integervector parameter!") 
     else 
       x@constraints$upper
 )
