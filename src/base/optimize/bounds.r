@@ -97,7 +97,7 @@ setMethod(
   f = "is.feasible",
   signature = signature(par="ParameterSet", x="list"),
   def = function(par, x) {
-    all(mapply(is.feasible, x, par@pars))
+    all(mapply(is.feasible, par@pars, x))
   }
 )
 

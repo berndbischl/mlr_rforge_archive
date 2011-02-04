@@ -50,7 +50,7 @@ setMethod(
             warning(msg)
           learner@par.vals[[n]] = p
         } else {
-          isf = is.feasible(p, pd)
+          isf = is.feasible(pd, p)
           if (length(isf) != 1 || !isf)
             stop("'", n, "' must be a feasible parameter setting.")
           # if valname of discrete par was used, transform it to real value

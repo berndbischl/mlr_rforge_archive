@@ -103,12 +103,14 @@ base.files <<- c(
     "base/optimize/myspo/spo.R",
     
 		"base/wrappers/base.wrapper.r",
-#		"base/wrappers/novars.r",
+    "base/wrappers/BaseCombiner.R",
+    #		"base/wrappers/novars.r",
 		"base/wrappers/preproc.wrapper.r",
 		"base/wrappers/multiclass.wrapper.r",
     "base/wrappers/probth.wrapper.r",
     "base/optml/opt.wrapper.r",
     "base/wrappers/makeVarselWrapper.r",
+    "base/wrappers/makeCombineWrapperRegrAvg.R",
     "base/varsel/filter.wrapper.r",
     
 		

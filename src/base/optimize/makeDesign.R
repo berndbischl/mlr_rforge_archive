@@ -1,5 +1,22 @@
-#todo test
-#' @export
+#todo: links to lhs functions
+#todo: describe and check vector paramters
+#' Draws a sample from a set of parameters using a design function from the package lhs.
+#'
+#' @param n [integer(1)]\cr 
+#'   Number of samples in design.   
+#' @param par.set [\code{\linkS4class{ParameterSet}}]] \cr
+#'   Set of parameters.
+#' @param fun [function] \cr
+#'   Function from package lhs. Possible are: maximinLHS, randomLHS, geneticLHS, improvedLHS, , optAugmentLHS, optimumLHS 
+#' @param fun.args [list] \cr
+#'   List of further arguments passed to \code{fun}. 
+#' @param trafo [logical(1)] \cr
+#'   Transform all parameters by using theirs respective transformation functions. Default is \code{TRUE}. 
+#' @return The created design as a data.frame. Columns are named by the ids of the parameters. The data type of a column 
+#'   is defined in the following way. Numeric parameters generate numeric columns, integer parameters generate integer columns, 
+#'   logical parameters generate logical columns, discrete parameters generate factor column (factor levels are names of the possible values
+#'   of the discrete parameter).  
+#' @export 
 makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
   require.packs("lhs", "makeDesign")
   

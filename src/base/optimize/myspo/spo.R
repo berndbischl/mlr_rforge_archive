@@ -15,8 +15,31 @@
 #
 
 
-#todo: set seed to make reproducible
+#' Optimizes a function with sequential parameter optimization.
+#'
+#' @param fun [function(x, ...)]\cr 
+#'   Fitness function to minimize. The first argument has to be a list of values. The function has to return a single numerical value.    
+#' @param propose.points [integer(1)]\cr 
+#'   Number of proposed points after optimizing the surrogate model with \code{propose.points.methods}.   
+#' @param propose.points.method [character(1)]\cr 
+#'   How should points be proposed by using the surrogate model. Possible are: 
+#'   'seq.design': Use a large design of points and evaluate the surrogate model at each. The best \code{propose.points} are selected.    
+#' @param seq.design.points [integer(1)]\cr 
+#'   Number of points in sequential design. Only used if \code{propose.points.method} is 'seq.design.' Default is 10000.   
+#' @param seq.design.points [integer(1)]\cr 
+#'   Number of points in sequential design. Only used if \code{propose.points.method} is 'seq.design.' Default is 10000.   
+#' @param seq.design.fun [function] \cr
+#'   Function from package lhs for the sequentail design. Possible are: maximinLHS, randomLHS, geneticLHS, improvedLHS, , optAugmentLHS, optimumLHS.
+#'   Only used if \code{propose.points.method} is 'seq.design.' Default is 'randomLHS'. 
+#' @param seq.design.args [list] \cr
+#'   List of further arguments passed to \code{seq.design.fun}.  
+#'   Only used if \code{propose.points.method} is 'seq.design.' Default is empty list.
+#' @param save.model.at [integer] \cr
+#'   Vector of sequential optimzation iterations when the model should be saved. Iteration 1 is the model fit for the initial design.
+#'   Default is \code{c(1, seq.loops)}.
+#' @return The control object.  
 #' @export 
+
 spo = function(fun, par.set, des, learner, control, opt.path) {
   if (length(opt.path@y.names) > 1)
     stop("'opt.path' should only contain one 'y' column!")
