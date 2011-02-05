@@ -11,7 +11,7 @@ tune.diceoptim = function(learner, task, resampling, measures, par.set, control,
   
   args = control@extra.args
   print(args)
-  des = init.design(control@par.set, args$init.des.points)
+  des = makeDesign(args$init.des.points, par.set)
   print(str(des))
   ns = colnames(des)
 

@@ -1,4 +1,3 @@
-
 test.knn.classif <- function() {
 	library(kknn)
   parset.list <- list(
@@ -12,17 +11,16 @@ test.knn.classif <- function() {
   old.probs.list = list()
   
   for (i in 1:length(parset.list)) {
-
     parset <- parset.list[[i]]
     pars <- list(formula=multiclass.formula, train=multiclass.train, test=multiclass.test)
     pars <- c(pars, parset)
     set.seed(debug.seed)
     m <- do.call(kknn, pars)
     p <- predict(m, newdata=multiclass.test)
-	old.predicts.list[[i]] <- p
-	old.probs.list[[i]] <- m$prob
+    old.predicts.list[[i]] <- p
+    old.probs.list[[i]] <- m$prob
   }
-	
+  
   simple.test.parsets("classif.kknn", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
   prob.test.parsets  ("classif.kknn", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
   

@@ -56,10 +56,5 @@ varsel <- function(learner, task, resampling, control, measures, bit.names, bits
 		stop("You have to pass a control object!")
 	}
   opt.path = makeOptimizationPathFromMeasures(getFeatureNames(task), measures)
-  or = sel.func(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, log.fun)
-	if (model) {
-    task = subset(task, vars=or@x)
-		or@model = train(learner, task) 	
-	}
-	return(or)
+  sel.func(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, log.fun)
 }
