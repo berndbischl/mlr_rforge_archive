@@ -3,6 +3,9 @@ test.opt.path <- function() {
   add.path.el(op, list(x1=1, x2="a"), c(y1=1, y2=4))
   add.path.el(op, list(x1=2, x2="a"), c(y1=3, y2=2))
   checkEquals(op@env$dob, 1:2)
+  setEoL(op, 1L, 7)
+  setEoL(op, list(x1=2, x2="a"), 8)
+  checkEquals(op@env$eol, 7:8)
   
   x = as.list(op)
   checkTrue(is.list(x))

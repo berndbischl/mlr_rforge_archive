@@ -37,12 +37,12 @@ resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
 }
 
 # todo: remove?
-eval.rf = function(learner, task, resampling, measures, par.set, control, val) {
+eval.rf = function(learner, task, resampling, measures, par.set, bits.to.features, control, val) {
   if (is(control, "tune.control")) {
     learner = set.hyper.pars(learner, par.vals=val)
   }
   if (is(control, "varsel.control")) {
-    task = subset(task, vars=val)
+    task = subset(task, vars=bits.to.features(val, task))
   }
 	# todo 
 #	if (control["tune.threshold"]) 

@@ -6,13 +6,13 @@ roxygen()
 #' the classes with the maximum values. 
 #' 
 #' @param object [\code{\linkS4class{wrapped.model}}] \cr 
-#'        Wrapped model, trained from a learn task.  
+#'   Wrapped model, trained from a learn task.  
 #' @param task [\code{\linkS4class{LearnTask}}]\cr 
-#'        Specifies learning task. If this is passed, data from this task is predicted.   
+#'   Specifies learning task. If this is passed, data from this task is predicted.   
 #' @param subset [integer] \cr 
-#'        Index vector to subset the data in the task to use for prediction. 
+#'   Index vector to subset the data in the task to use for prediction. 
 #' @param newdata [\code{\link{data.frame}}] \cr 
-#'        New observations which should be predicted. Alternatively pass this instead of task. 
+#'   New observations which should be predicted. Alternatively pass this instead of task. 
 #' @return \code{\linkS4class{prediction}}.
 #'
 #' @export

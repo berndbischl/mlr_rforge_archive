@@ -21,9 +21,9 @@
 #	return(path)
 #} 
 
-eval.states = function(learner, task, resampling, measures, par.set, control, opt.path, pars) {
+eval.states = function(learner, task, resampling, measures, par.set, bits.to.features, control, opt.path, pars) {
   y = mylapply(xs=pars, from="opt", f=eval.rf, learner=learner, task=task, resampling=resampling, 
-    measures=measures, par.set=par.set, control=control)
+    measures=measures, par.set=par.set, bits.to.features=bits.to.features, control=control)
   
   for (i in 1:length(pars))
     add.path.el(opt.path, x=pars[[i]], y=y[[i]])

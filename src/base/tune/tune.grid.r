@@ -10,7 +10,7 @@ tune.grid <- function(learner, task, resampling, measures, par.set, control, opt
   grid = expand.grid(vals, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
   vals = lapply(seq(length=nrow(grid)), function(i) as.list(grid[i,,drop=FALSE]))
   vals = lapply(vals, function(val) par.valnames.to.vals(val, par.set))
-  eval.states(learner, task, resampling, measures, par.set, control, opt.path, vals)
+  eval.states(learner, task, resampling, measures, par.set, NULL, control, opt.path, vals)
   e = getBestElement(opt.path, measureAggrNames(measures[[1]])[1])
   new("opt.result", learner, control, e$x, e$y, opt.path)
 }

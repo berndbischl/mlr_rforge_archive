@@ -78,18 +78,25 @@ setMethod(
 )
 
 #' Add a new element to the optimiztion path.
-#'
-#' @param op Optimization path.
-#' @param z List of parameter settings.
-#' @param dob Date of birth of the new parameters. 
-#' @param eol End of life of the parameters. Defaults to unknown (NA).
+#' 
+#' @param op [\code{\linkS4class{opt.path}}] \cr 
+#'   Optimization path.  
+#' @param x [list]\cr 
+#'   List of parameter settings for a point in input space.   
+#' @param y [numeric] \cr 
+#'   Vector of fitness values. 
+#' @param dob [integer(1)] \cr 
+#'   Date of birth of the new parameters. Default is length of path + 1.  
+#' @param eol [integer(1)] \cr 
+#'   End of life of point. Defaults to unknown (NA). 
 #' @return NULL. This function is called for its side effects, namely
-#'   adding z to the optimization path.
+#'   adding \code{x} to the optimization path.
 #' @export 
-add.path.el = function(op, x, y, dob=length(as.list(op)), eol=NA) {
+add.path.el = function(op, x, y, dob, eol=NA) {
   stopifnot(inherits(op, "opt.path"),          
             is.na(eol) || eol >= dob)
-            
+  if (missing(dob))        
+    dob=length(op@env$path)+1
   op@env$path = append(op@env$path, list(list(x=x, y=y)))
   op@env$dob = append(op@env$dob, dob)
   op@env$eol = append(op@env$eol, eol)
@@ -99,38 +106,45 @@ add.path.el = function(op, x, y, dob=length(as.list(op)), eol=NA) {
 #' Convert a parameter list to its position in the optimiztion path.
 #'
 #' @param op Optimization path.
-#' @param z List of parameter settings.
+#' @param x List of parameter settings.
 #' @param cand Expression limiting the path elements searched.
-#' @return Index of \code{z} in optimization path or if \code{z} is
+#' @return Index of \code{x} in optimization path or if \code{x} is
 #'  not present \code{NA}.
-param.to.position <- function(op, z, cand) {
+param.to.position <- function(op, x, cand) {
   if (!missing(cand)) {
     r <- eval(eval(substitute(substitute(cand, op@env))), parent.frame())
     idx <- which(r)
-    tmp <- Position(function(zz) identical(z, zz), op@env$path[idx])
+    tmp <- Position(function(zz) identical(x, zz), op@env$path[idx])
     if (!is.na(tmp))
       idx[tmp]
     else
       tmp
   } else {
-    Position(function(zz) identical(z, zz), op@env$path)
+    Position(function(e) identical(x, e$x), op@env$path)
   }
 }
 
 #' Set the end of life of a parameter vector.
 #'
-#' @param op Optimization path.
-#' @param z List of parameter settings.
-#' @param endoflife End of life of parameter setting.
+#' @param op [\code{\linkS4class{opt.path}}] \cr 
+#'   Optimization path.  
+#' @param x [integer(1) | list]\cr 
+#'   List of parameter settings for a point in input space or an integer index for a path element.   
+#' @param eol [integer(1)] \cr 
+#'   End of life of point. 
+#' @return NULL. This function is called for its side effects, namely
+#'   adding \code{x} to the optimization path.
+#' @export 
 #' @return NULL, this function is called for its side effect, namely
 #'   modifing the optimization path.
-set.eol = function(op, z, endoflife=length(as.list(op))) {
-  stopifnot(inherits(op, "opt.path"), endoflife == as.integer(endoflife))
-  if (!is.integer(z))
-    z <- param.to.position(op, z, is.na(eol) & dob <= endoflife)
-  if (is.na(z))
+setEoL = function(op, x, eol) {
+  if (is.numeric(x) && length(x) == 1 && x == as.integer(x))
+    x = as.integer(x)
+  if (!is.integer(x))
+    x = param.to.position(op, x)
+  if (is.na(x))
     stop("No element found matching the given parameter settings. Cannot set EoL!")
-  op@env$eol[z] <- as.integer(endoflife)
+  op@env$eol[x] = as.integer(eol)
   NULL
 } 
 

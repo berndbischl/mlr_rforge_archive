@@ -17,7 +17,7 @@ setClass(
 		representation = representation(
 				learner = "learner",
 				control = "opt.control",
-				x = "list",
+				x = "ANY",
         y = "numeric",
 				path = "opt.path"
 		)
