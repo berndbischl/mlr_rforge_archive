@@ -1,0 +1,5 @@
+- correlation between features as hier. cluster
+- univariate measures for feature influence on target
+- Olaf:PCP der (numerischen) Feature pro Klasse (siehe varsel Plot).
+
+

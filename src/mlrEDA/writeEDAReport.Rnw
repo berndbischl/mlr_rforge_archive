@@ -1,0 +1,27 @@
+\begin{frame}{Setup: Data}
+Currently 26 sets, will be at least 50 shortly
+\begin{tiny}
+<<echo=FALSE,results=tex>>=
+source("e:/sync/paper/reisensburg2010_local/src/read_bes.r")
+bes <<- read.bes()
+source("e:/sync/paper/reisensburg2010_local/talk/ds_table.r")
+xtable(make.ds.tab(bes))
+@
+\end{tiny}
+\end{frame}
+
+\begin{frame}{Results: Normality of Performance Values}
+\setkeys{Gin}{width=0.75\textwidth}
+\begin{center}
+<<echo=FALSE,fig=TRUE>>=
+library(lattice)
+source("e:/sync/paper/reisensburg2010_local/talk/make_perf.r")
+perf <<- make.perf(bes)
+norm.sharp = aggregate(mmce ~ alg + ds, data=perf, FUN=function(x) ifelse(length(unique(x))==1, 0, shapiro.test(x)))
+colnames(norm.sharp)[3] = "pval"
+print(levelplot(pval~ds*alg, norm.sharp, scales=list(x=list(rot=90)))) 
+@
+\end{center}
+\end{frame}
+
+

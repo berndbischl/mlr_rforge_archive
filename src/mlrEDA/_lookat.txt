@@ -1,0 +1,5 @@
+FactoMineR
+LearnEDA
+YaleToolkit
+http://orange.biolab.si/screenshots.psp
+http://www.itl.nist.gov/div898/handbook/eda/eda.htm
