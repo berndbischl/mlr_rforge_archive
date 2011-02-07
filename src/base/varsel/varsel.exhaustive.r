@@ -1,15 +1,14 @@
 varsel.exhaustive = function(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, log.fun) {
-  all.vars = getFeatureNames(task)
-  m = length(all.vars) 
-  max.vars = control["max.vars"]
-  
-  states = list()
-  for (i in 1:max.vars) {
-    x = combn(1:m, i)
-    states = c(states, lapply(1:ncol(x), function(j) all.vars[x[,j]]))
+  for (i in 1:control["max.vars"]) {
+    x = combn(1:length(bit.names), i)
+    s = lapply(1:ncol, 2, function(v) { 
+        b = rep(0, length(bit.names))
+        b[v] = 1
+        b
+    })
+    states = c(states, s)
   }
-  
-  eval.states(learner, task, resampling, measures, control, states, "exh")
+  eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, states)
   e = getBestElement(opt.path, measureAggrNames(measures[[1]])[1])
-  new("opt.result", learner, control, e$x, e$y, opt.path)
+  new("opt.result", learner, control, bits.to.features(e$x, task), e$y, opt.path)
 } 
