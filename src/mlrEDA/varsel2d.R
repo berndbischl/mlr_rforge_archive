@@ -41,6 +41,9 @@ varsel2d <- function(learner, task, resampling, measures, control, pairs, remove
     measures = list(measures)   
   if (!(is(control, "sequential.control") && control@method == "sfs"))
     stop("'control' must be sequential.control with method 'sfs'!")
+  # todo: document this! really do this? maybe dont have the user pass the control...!
+  control@alpha = -Inf
+  control@max.vars = 2L  
   if (missing(pairs))
     pairs = 4L
   if (missing(remove))
@@ -49,7 +52,8 @@ varsel2d <- function(learner, task, resampling, measures, control, pairs, remove
     stop("'remove' must be 1 or 2!")
   
   ors = list()
-  errs = data.frame()
+  errs = matrix(TRUE, nrow=task["size"], pairs)
+  mode(errs) = "logical"
   
   for (i in 1:pairs) {
     bit.names = mlr:::getFeatureNames(task)
@@ -57,15 +61,15 @@ varsel2d <- function(learner, task, resampling, measures, control, pairs, remove
       stop("Not enough features left to find another pair!")
     bits.to.features = function(x, task) binary.to.vars(x, bit.names)
     opt.path = makeOptimizationPathFromMeasures(bit.names, measures)
-    ors[[i]] = varsel.seq(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path)
+    ors[[i]] = varsel(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path)
     task2d = subset(task, vars=ors[[i]]@x)
     r = resample(learner, task2d, resampling)
     e = r$pred["truth"] != r$pred["response"]
-    errs = cbind(errs, e[order(r$pred["id"])])
+    errs[,i] = e[order(r$pred["id"])]
     vars = setdiff(bit.names, ors[[i]]@x[1:remove])
     task = subset(task, vars=vars)
   } 
-  return(list(ors, errs))
+  return(list(ors=ors, errs=errs))
 }
 
 # todo: for regression cut thru y: high, medium, low
