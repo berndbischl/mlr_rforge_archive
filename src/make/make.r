@@ -34,12 +34,12 @@ show_warnings <- function() {
 }
 
  
-make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, install=FALSE) {
+make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, install=FALSE) {
 	src.dir  <<- file.path(project.dir, "src")
 	pkg.dir  <<- file.path(project.dir, "pkg")
 	
-	build.dir  <<- file.path(pkg.dir, "mlr")
-	rox.dir  <<- file.path(pkg.dir, "mlr.roxygen")
+	build.dir  <<- file.path(pkg.dir, pack.name)
+	rox.dir  <<- file.path(pkg.dir, paste(pack.name, "roxygen", sep="."))
 	r.build.dir    <<- file.path(build.dir, "R") 
 	r.rox.dir    <<- file.path(rox.dir, "R") 
 	man.build.dir  <<- file.path(build.dir, "man") 
@@ -47,7 +47,7 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 	data.build.dir  <<- file.path(build.dir, "data") 
 	#html.dir <- file.path(project.dir, "html") 
 	
-	message("Building mlr to '", pkg.dir, "' ...")
+	message("Building package to '", pkg.dir, "' ...")
 	message("Cleaning up ...")
 	
 	if(unlink(file.path(r.build.dir, list.files(r.build.dir))) != 0) 
@@ -110,15 +110,15 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
   
 	if (build || install) {
 		setwd(pkg.dir)
-    run_command("R CMD build mlr", msg="Bulding 'mlr'")
+    run_command(paste("R CMD build", pack.name), msg="Building package")
 	}
 	if (binary) {
 		setwd(pkg.dir)
-    run_command("R CMD build --binary mlr", msg="Bulding binary package")
+    run_command(paste("R CMD build --binary", pack.name), msg="Bulding binary package")
 	}
 	if (check) {
 		setwd(pkg.dir)
-    s <- run_command("R CMD check mlr", intern=TRUE)
+    s <- run_command(paste("R CMD check", pack.name), intern=TRUE)
     cat(s, sep="\n")
 		err.i <- grep("Error|Fehler|ERROR", s)
 		if (length(err.i) > 0) {
@@ -127,23 +127,24 @@ make <- function(only.allowed.rds=TRUE, build=TRUE, check=TRUE, binary=FALSE, in
 			cat(s[err.i], sep="\n")
 		} else {
       ## Remove crufty directory...
-      unlink(file.path(pkg.dir, "mlr.Rcheck"), recursive=TRUE)
+      unlink(file.path(pkg.dir, paste(pack.name, "Rcheck", sep=".")), recursive=TRUE)
     }
 	}
 		
 	if (install) {
-		fs = sort(list.files(pkg.dir, pattern="mlr.*tar.gz"))
+		fs = sort(list.files(pkg.dir, pattern=paste(pack.name, "*tar.gz", sep=".")))
 		f = fs[length(fs)]
 		f = file.path(pkg.dir, f)
-    run_command("R CMD INSTALL %s", f, msg="Installing package")
+    run_command("R CMD INSTALL --html %s", f, msg="Installing package")
 	}
   message("--------------------------------------------------------------------------------")
 	setwd(project.dir)
 }
+
 
 if (!exists("build")) build <- TRUE
 if (!exists("check")) check <- TRUE
 if (!exists("binary")) binary <- FALSE
 if (!exists("install")) install <- FALSE
 
-make(build=build, check=check, binary=binary, install=install)
+make(build=F, check=F, binary=T, install=F)
