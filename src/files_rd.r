@@ -7,7 +7,7 @@ allowed.rd.files <<- c(
 		"to.string.Rd",
 
 		"task.desc-class.Rd",
-    "learn.task-class.Rd",
+    "LearnTask-class.Rd",
     "classif.task-class.Rd",
 		"regr.task-class.Rd",
     "prepare.control.Rd",
@@ -98,7 +98,7 @@ allowed.rd.files <<- c(
 		"randomvarsel.control.Rd",
 		"varsel.Rd",
     "varfilter.Rd",
-    "make.varsel.wrapper.Rd",
+    "makeVarselWrapper.Rd",
 		
 		
 		"bench.exp.Rd",
