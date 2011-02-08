@@ -68,7 +68,7 @@ make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binar
   message("Creating DESCRIPTION file ...")
 	desc.file <- file.path(build.dir, "DESCRIPTION")
 	rev.nr <- get.rev.nr()
-	write.desc(desc.file, rev.nr)
+	writeDesc(desc.file, rev.nr)
 
   message("--------------------------------------------------------------------------------")
   message("Generating documentation")
