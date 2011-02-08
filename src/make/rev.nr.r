@@ -1,11 +1,11 @@
 get.rev.nr = function(pack.name) {
   if (.Platform$OS.type == "unix") {
     wd = getwd()
-    setwd(file.path(project.dir, src, pack.name))
+    setwd(file.path(project.dir, "src", pack.name))
     rev.nr = as.numeric(gsub("M", "", system("svnversion", intern=TRUE)))
     setwd(wd)
   } else {
-        working.copy = file.path(project.dir, src, pack.name)
+        working.copy = file.path(project.dir, "src", pack.name)
         rev.in  = file.path(src.dir, "make", "rev_nr")
         rev.out = file.path(src.dir, "make", "rev_nr.out")
         svn.path = paste("\"", svn.path, "\"", sep="")
