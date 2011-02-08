@@ -1,28 +1,28 @@
-
-
 setGeneric(
   name = "plotFeatureDistrib",
-  def = function(x, x.name, df, target) {
+  def = function(x.name, x, data, target) {
+    if (missing(x))
+      x = data[, x.name]
     standardGeneric("plotFeatureDistrib")
   }
 )
 
 setMethod(
   f = "plotFeatureDistrib",
-  signature = signature(x="numeric", x.name="character", df="data.frame", target="character"),
-  def = function(x, x.name, df, target) {
+  signature = signature(x.name="character", x="numeric", data="data.frame", target="character"),
+  def = function(x.name, x, data, target) {
     a = aes_string(x=x.name, colour=target)
-    ggplot(df, a) + 
+    ggplot(data, a) + 
       geom_density(size=3) + 
       geom_histogram(aes(y = ..density..), alpha=0.5)
 })    
 
 setMethod(
   f = "plotFeatureDistrib",
-  signature = signature(x="integer", x.name="character", df="data.frame", target="character"),
-  def = function(x, x.name, df, target) {
+  signature = signature(x.name="character", x="integer", data="data.frame", target="character"),
+  def = function(x.name, x, data, target) {
     a = aes_string(x=x.name, colour=target)
-    ggplot(df, a) + 
+    ggplot(data, a) + 
       geom_density(size=3) + 
       geom_histogram(aes(y = ..density..), alpha=0.5)
 })    
@@ -30,10 +30,10 @@ setMethod(
 
 setMethod(
   f = "plotFeatureDistrib",
-  signature = signature(x="logical", x.name="character", df="data.frame", target="character"),
-  def = function(x, x.name, df, target) {
+  signature = signature(x.name="character", x="logical", data="data.frame", target="character"),
+  def = function(x.name, x, data, target) {
     a = aes_string(x=x.name)
-    ggplot(df, a) +
+    ggplot(data, a) +
       geom_histogram(aes(y=..density..)) +
       facet_wrap(as.formula(paste("~", target))) 
   })    
@@ -41,10 +41,10 @@ setMethod(
 
 setMethod(
   f = "plotFeatureDistrib",
-  signature = signature(x="factor", x.name="character", df="data.frame", target="character"),
-  def = function(x, x.name, df, target) {
+  signature = signature(x.name="character", x="factor", data="data.frame", target="character"),
+  def = function(x.name, x, data, target) {
     a = aes_string(x=x.name)
-    ggplot(df, a) +
+    ggplot(data, a) +
       geom_histogram(aes(y=..density..)) +
       facet_wrap(as.formula(paste("~", target))) 
   })    

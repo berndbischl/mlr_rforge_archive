@@ -84,7 +84,11 @@ plot.varsel2d = function(task, ors, trafo.x=identity, trafo.y=identity) {
     v1 = trafo.x(v1)
     v2 = trafo.x(v2)
     df = rbind(df, data.frame(plot=i, v1=v1, v2=v2, y=y, errs=errs[,i]))
-  }    
+  }
+  
+  plot2d()
+  
+  
   df$plot = as.factor(df$plot)
   
   plt <- ggplot(df, aes(x=v1, y=v2, label=fun, colour=y))
