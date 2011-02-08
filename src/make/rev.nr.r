@@ -1,6 +1,6 @@
 get.rev.nr = function(pack.name) {
   if (.Platform$OS.type == "unix") {
-    wd = getd()
+    wd = getwd()
     setwd(file.path(project.dir, src, pack.name))
     rev.nr = as.numeric(gsub("M", "", system("svnversion", intern=TRUE)))
     setwd(wd)
