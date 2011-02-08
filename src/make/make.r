@@ -49,7 +49,7 @@ make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binar
 	if(unlink(file.path(man.build.dir, list.files(man.build.dir))) != 0)
     stop(sprintf("Could not delete directory '%s'.", man.build.dir))		
 	
-	code.files <- file.path(src.dir, c(base.files, classif.files, regr.files))
+	code.files <- file.path(src.dir, pack.files)
 
   message("--------------------------------------------------------------------------------")
   message(sprintf("Creating base package under '%s'.", pkg.dir))

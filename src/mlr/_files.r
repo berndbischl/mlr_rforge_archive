@@ -1,4 +1,4 @@
-base.files <<- c(
+pack.files = c(
 		"mlr/log/log.r",
 		"mlr/errorhandler.r",
 ##		"mlr/packagedesc.r",
@@ -152,10 +152,10 @@ base.files <<- c(
 		"mlr/parallel/export.r",
 		"mlr/parallel/eval.r",
 		"mlr/parallel/mylapply.r",
-		"mlr/parallel/parallel.r"
-)
+		"mlr/parallel/parallel.r",
+    
+#################    
 
-classif.files <<- c( 		
 		"mlr/models/classification/ada.r",
 		"mlr/models/classification/adaboost.m1.classif.r",
 		"mlr/models/classification/blackboost.classif.r",
@@ -185,11 +185,11 @@ classif.files <<- c(
 		"mlr/models/classification/rda.r",
 		"mlr/models/classification/rpart.classif.r",
 		"mlr/models/classification/sda.r",
-		"mlr/models/classification/svm.classif.r"
+		"mlr/models/classification/svm.classif.r",
 		##		"mlr/models/classification/metacost.r"
-)
+    
+##########
 
-regr.files <<- c( 	
 #		"mlr/models/regression/bagEarth.regr.r",
 		"mlr/models/regression/blackboost.regr.r",
 		"mlr/models/regression/earth.regr.r",
