@@ -1,8 +1,13 @@
 get.rev.nr = function(pack.name) {
   if (.Platform$OS.type == "unix") {
     wd = getwd()
+    # only use rev nr of correct src dir
     setwd(file.path(project.dir, "src", pack.name))
-    rev.nr = as.numeric(gsub("M", "", system("svnversion", intern=TRUE)))
+    # remove M for modified
+    rev.nr = gsub("M", "", system("svnversion -c", intern=TRUE))
+    # use max nr in mixed revision
+    rev.nr = strsplit(rev.nr, ":")[[1]]
+    rev.nr = as.integer(rev(rev.nr)[1])
     setwd(wd)
   } else {
         working.copy = file.path(project.dir, "src", pack.name)

@@ -1,5 +1,7 @@
 #' @include learner.r
 roxygen()
+#' @include task.learn.r
+roxygen()
 #' @include set.id.r
 roxygen()
 #' @include set.hyper.pars.r
@@ -9,6 +11,8 @@ roxygen()
 #' @include train.learner.r
 roxygen()
 #' @include pred.learner.r
+roxygen()
+#' @include wrapped.model.r
 roxygen()
 
 

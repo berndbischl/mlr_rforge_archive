@@ -1,3 +1,10 @@
+#' @include learner.r
+roxygen()
+#' @include opt.path.r
+roxygen()
+#' @include opt.control.r
+roxygen()
+
 #' Container for results of hyperparameter tuning or variable selection.
 #' Contains the obtained optimal parameter vector, its performance values
 #' and the optimization path which lead there. 

@@ -1,3 +1,6 @@
+#' @include object.r
+roxygen()
+
 #' Description class for an optimization parameter.
 #'
 #' Subclasses: \code{\linkS4class{LearnerParameter}}

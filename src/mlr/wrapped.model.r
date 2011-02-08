@@ -4,6 +4,8 @@ roxygen()
 roxygen()
 #' @include learner.r
 roxygen()
+#' @include prepare.df.r
+roxygen()
 
 
 #' Result from \code{\link{train}}. It internally stores the underlying fitted model,
