@@ -82,9 +82,11 @@ make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binar
 	file.copy(from=file.path(rox.dir, "NAMESPACE"), to=build.dir, overwrite = TRUE) 
 	file.copy(from=file.path(rox.dir, "DESCRIPTION"), to=build.dir, overwrite = TRUE)
   
-  message("Copying ROCR documentation into base package ...")
-	man.rocr.dir = file.path(src.dir, "base", "rocr", "man")
-	file.copy(from=file.path(man.rocr.dir, list.files(man.rocr.dir)), to=man.build.dir)
+  if (pack.name == "mlr")  {
+    message("Copying ROCR documentation into base package ...")
+    man.rocr.dir = file.path(src.dir, "mlr", "rocr", "man")
+    file.copy(from=file.path(man.rocr.dir, list.files(man.rocr.dir)), to=man.build.dir)
+  }
 		
 	if (only.allowed.rds) {
 		rds <- list.files(man.build.dir, all=TRUE)
