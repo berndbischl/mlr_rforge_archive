@@ -33,7 +33,7 @@ while getopts "bczi" optname
     esac
   done
 
-rargs="build<-$build; check<-$check; binary<-$binary; install<-$install; source('src/make/make.r')"
+rargs="build<-$build; check<-$check; binary<-$binary; install<-$install; source('src/make/make_mlr.R')"
 echo $rargs
 Rscript -e "$rargs"
 
