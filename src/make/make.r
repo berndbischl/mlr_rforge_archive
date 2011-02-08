@@ -8,12 +8,6 @@ if (file.exists("src/make/config.r")) {
   project.dir <- getwd()
 }
 
-source("src/make/desc.r")
-source("src/make/rev.nr.r")
-source("src/make/remove.r")
-source("src/files.r")
-source("src/files_rd.r")
-
 run_command <- function(cmd, ..., intern=FALSE, msg=NULL) {
   fullcmd <- sprintf(cmd, ...)
   message("--------------------------------------------------------------------------------")
@@ -142,9 +136,3 @@ make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binar
 }
 
 
-if (!exists("build")) build <- TRUE
-if (!exists("check")) check <- TRUE
-if (!exists("binary")) binary <- FALSE
-if (!exists("install")) install <- FALSE
-
-make(build=F, check=F, binary=T, install=F)
