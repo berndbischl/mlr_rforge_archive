@@ -17,7 +17,7 @@ test.resample = function() {
 	f2 = factor(rep(binaryclass.task["negative"], cv.i["size"]), levels=binaryclass.task["class.levels"])
 	checkEquals(rf4["response"], f2)
 	
-	ct = make.task(data=iris[,c("Species", "Petal.Width")], target="Species")
+	ct = makeClassifTask(data=iris[,c("Species", "Petal.Width")], target="Species")
 	fit = resample("classif.lda", ct, make.res.desc("cv", iters=2))	
 }
 

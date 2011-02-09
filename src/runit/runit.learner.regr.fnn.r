@@ -10,7 +10,7 @@ test.fnn.regr <- function() {
   rdf = regr.df[,-4]
   rtrain = regr.train[,-4]
   rtest = regr.test[,-4]
-  rtask = make.task("regrtask", data=rdf, target="medv")  
+  rtask = makeRegrTask("regrtask", data=rdf, target="medv")  
   
   old.predicts.list1 = list()
   

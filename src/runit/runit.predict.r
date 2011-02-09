@@ -46,14 +46,14 @@ test.predict <- function() {
 	# check strange chars in labels
 	df = binaryclass.df
 	levels(df[,binaryclass.target]) = c(-1,1)
-	ct = make.task(data=df, target=binaryclass.target)
+	ct = makeClassifTask(data=df, target=binaryclass.target)
 	cm7 = train(wl.lda, task=ct)
 	cp7 = predict(cm7, task=ct)
 	checkEquals(colnames(cp7@df), c("id", "truth", "prob.-1", "prob.1", "response"))
 	
 	# check error in predict
 	df = na.omit(BreastCancer[,-1]) 
-	ct = make.task(data=df, target="Class")
+	ct = makeClassifTask(data=df, target="Class")
 	res = make.res.desc("cv", iters=10)
 	p = resample("classif.randomForest", ct, res)
 	checkTrue(all(is.na(p$measures.test$mmce)))

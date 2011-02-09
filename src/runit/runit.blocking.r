@@ -3,7 +3,7 @@
 test.blocking = function() {
 	df = multiclass.df
 	b = as.factor(rep(1:30, 5))	
-	ct = make.task(target=multiclass.target, data=multiclass.df, blocking=b)
+	ct = makeClassifTask(target=multiclass.target, data=multiclass.df, blocking=b)
 	checkTrue(ct["has.blocking"])
 	res = make.res.instance(make.res.desc("cv", iters=3), task=ct)
 	for (j in 1:res["iters"]) {

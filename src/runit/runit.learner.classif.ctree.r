@@ -31,7 +31,7 @@ test.ctree <- function() {
 	df[,1] = 1:150
 	df1 = df[seq(1,150,2), ]
 	df2 = df[seq(2,150,2), ]
-	ct = make.task(target="Species", data=df1)
+	ct = makeClassifTask(target="Species", data=df1)
 	m = train("classif.ctree", ct)
 	predict(m, newdata=df2)
 	

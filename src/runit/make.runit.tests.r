@@ -6,8 +6,13 @@ simple.test <- function(t.name, df, target, train.inds, old.predicts, parset=lis
 	test <- df[-inds,]
 	
 	wl = do.call("make.learner", c(t.name, parset))
-	ct = make.task(data=df, target=target)
-	cm = try(train(wl, ct, subset=inds))
+  if (is.numeric(df[, target]))
+    task = makeRegrTask(data=df, target=target)
+  else if (is.factor(df[, target]))
+    task = makeClassifTask(data=df, target=target)
+  else 
+    stop("Should not happen!")
+  cm = try(train(wl, task, subset=inds))
 	if(class(cm)[1] == "learner.failure"){
 		checkTrue(class(old.predicts)=="try-error")
 	}else{
@@ -37,7 +42,7 @@ prob.test <- function(t.name, df, target, train.inds, old.probs, parset=list()) 
 	train <- df[inds,]
 	test <- df[-inds,]
 	
-	ct <- make.task(data=df, target=target)
+	ct <- makeClassifTask(data=df, target=target)
 	
 	wl = do.call("make.learner", c(t.name, parset, predict.type="prob"))
 	cm <- try(train(wl, ct, subset=inds))
@@ -109,9 +114,14 @@ cv.test <- function(t.name, df, target, folds=2, parset=list(), tune.train, tune
 	} else {
 		cv.instance <- e1071.cv.to.mlr.cv(tr)
 		wl = do.call("make.learner", c(t.name, parset))
-		lt = make.task(data=df, target=target)
+    if (is.numeric(df[, target]))
+      lt = makeRegrTask(data=df, target=target)
+    else if (is.factor(df[, target]))
+      lt = makeClassifTask(data=df, target=target)
+    else 
+      stop("Should not happen!")    
 		ms = resample(wl, lt, cv.instance)$measures.test
-    if (is(lt, "classif.task")) { 
+    if (is(lt, "ClassifTask")) { 
       checkEqualsNumeric(mean(ms["mmce"]), tr$performances[1,2])
       checkEqualsNumeric(sd  (ms["mmce"]), tr$performances[1,3])
     } else {
@@ -140,10 +150,15 @@ bs.test <- function(t.name, df, target, iters=3, parset=list(), tune.train, tune
 	
 	bs.instance <- e1071.bs.to.mlr.bs(tr)
 	
-	ct = make.task(data=df, target=target)
-	ms = resample(t.name, ct, bs.instance)$measures.test
+  if (is.numeric(df[, target]))
+      task = makeRegrTask(data=df, target=target)
+    else if (is.factor(df[, target]))
+      task = makeClassifTask(data=df, target=target)
+    else 
+      stop("Should not happen!")
+   ms = resample(t.name, task, bs.instance)$measures.test
   
-	if (is(ct, "classif.task")) { 
+	if (is(task, "ClassifTask")) { 
 		checkEqualsNumeric(mean(ms["mmce"]), tr$performances[1,2])
 		checkEqualsNumeric(sd  (ms["mmce"]), tr$performances[1,3])
 	} else {

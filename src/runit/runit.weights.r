@@ -1,6 +1,6 @@
 test.weights <- function() {
 	ws = 1:nrow(regr.df)
-	rt = make.task(target=regr.target, data=regr.df, weights=ws)
+	rt = makeRegrTask(target=regr.target, data=regr.df, weights=ws)
 	m = train("regr.lm", task=rt)
 	p = predict(m, task=rt, subset=30:100)
 	df = as.data.frame(p)
@@ -13,7 +13,7 @@ test.weights <- function() {
 	checkEquals(p2, p["response"], checkNames=FALSE)
 	
 	
-	checkException(make.task(data=multiclass.df, target=multiclass.target, weights=1:2))
+	checkException(makeClassifTask(data=multiclass.df, target=multiclass.target, weights=1:2))
 	s = geterrmessage()
 	checkTrue(length(grep("Argument weights must be of length", s)) >0 )
 }

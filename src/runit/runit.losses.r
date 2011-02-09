@@ -2,7 +2,7 @@
 #
 #	costs = matrix(c(0,1,2,0), 2, 2)
 #	rownames(costs) = colnames(costs) = c("M", "R")
-#	ct = make.task(data=binaryclass.df, target=binaryclass.target, costs=costs, positive="M")
+#	ct = makeClassifTask(data=binaryclass.df, target=binaryclass.target, costs=costs, positive="M")
 #
 #	m = train("classif.lda", task=ct, subset=binaryclass.train.inds)
 #	pred = predict(m, task=ct, subset=binaryclass.test.inds)

@@ -2,20 +2,20 @@
 test.task.desc <- function() {
 	costs = matrix(1:4, 2, 2)
 	rownames(costs) = colnames(costs) = c("M", "R") 
-	ct = make.task(target="Class", binaryclass.df, id="mytask", costs=costs, 
+	ct = makeClassifTask(target="Class", binaryclass.df, id="mytask", costs=costs, 
 			positive="M", exclude="V1")
 	checkEquals(ct@desc@id, "mytask")	
 	checkEquals(ct["costs"], costs)	
 	checkEquals(ct["positive"], "M")	
 	checkEquals(ct["negative"], "R")
 
-	ct = make.task(target="Species", multiclass.df, id="mytask2")
+	ct = makeClassifTask(target="Species", multiclass.df, id="mytask2")
 	checkEquals(ct@desc@id, "mytask2")	
 	checkEquals(dim(ct["costs"]), c(0,0))	
 	checkTrue(is.na(ct["positive"]))
 	checkTrue(is.na(ct["negative"]))
 	
-	rt = make.task(target="medv", regr.df, id="mytask3") 
+	rt = makeRegrTask(target="medv", regr.df, id="mytask3") 
 	checkEquals(rt@desc@id, "mytask3")	
 	checkEquals(dim(rt["costs"]), c(0,0))	
 	checkTrue(is.na(rt["positive"]))
@@ -39,10 +39,10 @@ test.task.desc <- function() {
   # check missing values
   df = multiclass.df
   df[1,1] = as.numeric(NA)
-  ct = make.task(target="Species", data=df)
+  ct = makeClassifTask(target="Species", data=df)
   checkEquals(ct["has.missing"], T) 
   
-  ct = make.task(target=binaryclass.target, data=binaryclass.df, exclude="V1")
+  ct = makeClassifTask(target=binaryclass.target, data=binaryclass.df, exclude="V1")
   checkEquals(ct["size"], 208)  
   checkEquals(ct["dim"], 59)  
   checkEquals(ct["n.feat"]["double"], 59, checkNames=FALSE)  

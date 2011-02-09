@@ -1,6 +1,6 @@
 test.benchmark <- function() {
 	if (!use.package) {
-		ct = make.task("iris", data=iris, target="Species")
+		ct = makeClassifTask("iris", data=iris, target="Species")
 		outer = make.res.desc("holdout") 
 		inner = new("cv.desc", iters=3L)
 		
