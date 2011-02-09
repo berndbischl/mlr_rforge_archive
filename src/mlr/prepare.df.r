@@ -106,7 +106,22 @@ prep.data = function(is.classif, data, target, control) {
 			}	
 		}
 	}	
-	
+  if (is.regr && !is.null(data[[target]])) {
+    targets = data[, target]
+    #convert target to numeric
+    if (!is.numeric(targets)) {
+      if(is.integer(targets)) {
+        if (.mlr.local$errorhandler.setup$on.convert.var == "warn")
+          warning("Converting target col. to numeric.")
+        data[, target] = as.numeric(targets)
+      } else {
+        stop("Unsuitable target col. for classification data!")       
+      }
+    } 
+    targets = data[, target]
+  } 
+  
+  
 	cns = colnames(data)
   conv.in = conv.if = conv.ln = conv.lf = conv.cf = conv.inf  = conv.large = character(0) 
 	for (i in 1:ncol(data)) {

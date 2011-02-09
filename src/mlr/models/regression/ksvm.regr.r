@@ -56,7 +56,7 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="regr.ksvm", 
-				.task="regr.task", .subset="integer" 
+				.task="RegrTask", .subset="integer" 
 		),
 		
 		def = function(.learner, .task, .subset, ...){

@@ -10,7 +10,7 @@ roxygen()
 #' @param costs [Numerical matrix] \cr
 #'   Matrix of misclassification costs. Rows and columns have to be named with class labels, order does not matter. 
 #'   Rows indicate true classes, columns predicted classes.
-#' @param task [\code{\linkS4class{classif.task}}]\cr 
+#' @param task [\code{\linkS4class{ClassifTask}}]\cr 
 #'   Classification task. Has to be passed, so validity of matrix names can be checked.
 #' @param mean.costs [single logical] \cr
 #'   Should costs be averaged (TRUE) or summed (FALSE) over all cases in one test set prediction? Default is TRUE.
@@ -40,7 +40,7 @@ setGeneric(
 
 setMethod(
   f = "make.cost.measure",
-  signature = signature(id="character", minimize="logical", costs="matrix", task="classif.task"),
+  signature = signature(id="character", minimize="logical", costs="matrix", task="ClassifTask"),
   def = function(id="costs", minimize=TRUE, costs, task, mean.costs) {
     check.costs(costs, task["class.levels"]) 
     make.measure(id="costs", minimize=minimize, extra.pars=list(costs, mean.costs), 

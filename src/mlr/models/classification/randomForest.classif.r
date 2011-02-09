@@ -51,14 +51,15 @@ setMethod(
 		}
 )
 
-
+#todo: randomforest crashes, when 1 feature is in data and has 0 variance, this 
+# happens in forward search! also fix regr.
 #' @rdname train.learner
 
 setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.randomForest", 
-				.task="classif.task", .subset="integer" 
+				.task="ClassifTask", .subset="integer" 
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {

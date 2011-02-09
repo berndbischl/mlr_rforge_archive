@@ -9,7 +9,7 @@ source("D:\\sync\\projekte\\mlr\\src\\mlrEDA\\varsel2d.R")
 set.seed(1)
 dd = iris
 dd$foo = sample(c(T,F), 150, replace=T)
-ct = make.task(data=dd, target="Species")
+ct = makeClassifTask(data=dd, target="Species")
 
 
 #report(dd, "Species")

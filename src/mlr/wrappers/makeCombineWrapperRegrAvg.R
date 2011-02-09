@@ -28,7 +28,7 @@ setMethod(
   f = "train.learner",
   signature = signature(
     .learner="CombineWrapperRegrAvg", 
-    .task="classif.task", .subset="integer" 
+    .task="ClassifTask", .subset="integer" 
   ),
   
   def = function(.learner, .task, .subset,  ...) {

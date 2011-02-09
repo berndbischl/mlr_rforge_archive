@@ -46,7 +46,7 @@ spo = function(fun, par.set, des, learner, control, opt.path) {
   y.name = opt.path@y.names
   for (i in 1:nrow(des))
     add.path.el(opt.path, x=as.list(des[i,colnames(des)!=y.name]), y=des[i,y.name])
-  rt = make.task(target=y.name, data=des)
+  rt = makeRegrTask(target=y.name, data=des)
   model = train(learner, rt)
   loop = 1
   res.vals = list()
@@ -59,7 +59,7 @@ spo = function(fun, par.set, des, learner, control, opt.path) {
     xs = proposePoints(model, par.set, control)
     y = sapply(xs, fun)
     Map(function(x, y1) add.path.el(opt.path, x=x, y=y1), xs, y)
-    rt = make.task(target=y.name, data = as.data.frame(opt.path), exclude=c(".dob", ".eol"))
+    rt = makeRegrTask(target=y.name, data = as.data.frame(opt.path), exclude=c(".dob", ".eol"))
     model = train(learner, rt)
     loop = loop + 1  
   }

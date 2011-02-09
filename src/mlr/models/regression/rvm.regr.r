@@ -62,7 +62,7 @@ setMethod(
     f = "train.learner",
     signature = signature(
         .learner="regr.rvm", 
-        .task="regr.task", .subset="integer" 
+        .task="RegrTask", .subset="integer" 
     ),
     
     # todo unify cla + regr, test all sigma stuff

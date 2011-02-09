@@ -89,9 +89,9 @@ setMethod(
 		signature = signature("task.desc"),
 		def = function(x,i,j,...,drop) {
       if (i == "is.classif")
-				return(x@task.class == "classif.task")
+				return(x@task.class == "ClassifTask")
 			if (i == "is.regr")
-				return(x@task.class == "regr.task")
+				return(x@task.class == "RegrTask")
       if (i == "formula") {
         return(as.formula(paste(x["target"], "~.")))
       }

@@ -52,7 +52,7 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.lpsvm", 
-				.task="classif.task", .subset="integer" 
+				.task="ClassifTask", .subset="integer" 
 		),
 		def = function(.learner, .task, .subset,  ...) {
 			d = get.data(.task, .subset, target.extra=TRUE, class.as="-1+1")

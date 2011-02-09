@@ -7,8 +7,7 @@ roxygen()
 
 #' General description object for a machine learning task. 
 #' It encapsulates the data and specifies - through its subclasses - the type of the task (either classification or regression), 
-#' the target variable and other details of the problem. As this is just an abstract base class, 
-#' you should not instantiate it directly but use \code{\link{make.task}}.
+#' the target variable and other details of the problem. 
 #'  
 #' Getter.\cr
 #' Note that all getters of \code{\linkS4class{task.desc}} can also be used, as they internally encapsulate some information of the task. 
@@ -21,10 +20,10 @@ roxygen()
 #'	\item{prepare.control [\code{\linkS4class{prepare.control}}]}{Control object used for preparing the data.frame.}
 #' }
 #' 
-#' Subclasses: \code{\linkS4class{classif.task}}, \code{\linkS4class{regr.task}}
+#' Subclasses: \code{\linkS4class{ClassifTask}}, \code{\linkS4class{RegrTask}}
 #' 
 #' @exportClass LearnTask
-#' @seealso \code{\link{make.task}} 
+#' @seealso \code{\link{makeClassifTask}}, \code{\link{makeRegrTask}} 
 #' @title Base class for learning tasks.
 
 

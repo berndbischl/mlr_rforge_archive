@@ -52,7 +52,7 @@ setMethod(
       # export: probably yes...
       require.packs(learner["pack"], paste("learner", learner@id))
       
-      check.result = if (is(task, "classif.task")) check.task.learner.classif(task, learner) else check.task.learner(task, learner)
+      check.result = if (is(task, "ClassifTask")) check.task.learner.classif(task, learner) else check.task.learner(task, learner)
       
       if (check.result$msg != "") {
         stop(check.result$msg)

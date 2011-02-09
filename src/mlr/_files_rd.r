@@ -8,10 +8,11 @@ allowed.rd.files <<- c(
 
 		"task.desc-class.Rd",
     "LearnTask-class.Rd",
-    "classif.task-class.Rd",
-		"regr.task-class.Rd",
+    "ClassifTask-class.Rd",
+		"RegrTask-class.Rd",
     "prepare.control.Rd",
-		"make.task.Rd",
+		"makeClassifTask.Rd",
+    "makeRegrTask.Rd",
     "subset.Rd",
     "get.data.Rd",
     

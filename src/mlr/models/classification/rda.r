@@ -62,7 +62,7 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.rda", 
-				.task="classif.task", .subset="integer" 
+				.task="ClassifTask", .subset="integer" 
 		),
     # todo: disable crossval. no, is done automaticall if pars are set.
 		def = function(.learner, .task, .subset,  ...) {

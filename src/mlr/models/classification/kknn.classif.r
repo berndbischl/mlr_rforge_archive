@@ -49,7 +49,7 @@ setMethod(
 		f = "train.learner",
 		signature = signature(
 				.learner="classif.kknn", 
-				.task="classif.task", .subset="integer" 
+				.task="ClassifTask", .subset="integer" 
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {

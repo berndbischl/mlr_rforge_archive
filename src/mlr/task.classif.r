@@ -1,34 +1,34 @@
 #' @include task.learn.r
 roxygen()
 
-#' General description object for a classification task.
-#' Use \code{\link{make.task}} to create it.   
+#' Class for a classification  task.  
+#' Use \code{\link{makeClassifTask}} to create it.   
 #' 
-#' @exportClass classif.task
+#' @exportClass ClassifTask
 #' @title Classification task.
-#' @seealso \code{\link{make.task}}
+#' @seealso \code{\link{makeClassifTask}}
 
 
 setClass(
-		"classif.task",
+		"ClassifTask",
 		contains = c("LearnTask")
 )
 
 
 
 #' Constructor.
-#' @title classif.task constructor
+#' @title ClassifTask constructor
 
 setMethod(
 		f = "initialize",
-		signature = signature("classif.task"),
+		signature = signature("ClassifTask"),
 		def = function(.Object, id, target, data, weights, blocking, control=control, costs, positive) {
 			if (missing(data))
 				return(make.empty(.Object))
 			
       check.costs(costs, levels(data[, target]))
 
-      td = new("task.desc", data, target, "classif.task", id, 
+      td = new("task.desc", data, target, "ClassifTask", id, 
         length(weights) > 0, length(blocking) > 0, costs, as.character(NA))      
 
 			# init positive
@@ -66,7 +66,7 @@ setMethod(
 #' @rdname to.string
 setMethod(
 		f = "to.string",
-		signature = signature("classif.task"),
+		signature = signature("ClassifTask"),
 		def = function(x) {
 			di = paste(capture.output(x["class.dist"]), collapse="\n")
       rwm = sum(apply(x["data"], 1, function(x) any(is.na(x))))

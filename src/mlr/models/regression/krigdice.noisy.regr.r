@@ -38,7 +38,7 @@ setMethod(
   f = "train.learner",
   signature = signature(
     .learner="regr.km.noisy", 
-    .task="regr.task", .subset="integer" 
+    .task="RegrTask", .subset="integer" 
   ),
   
   def = function(.learner, .task, .subset,  ...) {

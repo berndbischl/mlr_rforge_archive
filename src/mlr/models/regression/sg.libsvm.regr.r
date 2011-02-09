@@ -37,7 +37,7 @@ setMethod(
   f = "train.learner",
   signature = signature(
     .learner="regr.sg.libsvr", 
-    .task="regr.task", .subset="integer" 
+    .task="RegrTask", .subset="integer" 
   ),
   
   def = function(.learner, .task, .subset, ...) {
