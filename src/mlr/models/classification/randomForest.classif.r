@@ -2,9 +2,9 @@
 roxygen()
 #' @include WrappedModel.R
 roxygen()
-#' @include train.learner.r
+#' @include trainLearner.r
 roxygen()
-#' @include pred.learner.r
+#' @include predictLearner.r
 roxygen()
 #' @include ClassifTask.R
 roxygen()
@@ -53,10 +53,10 @@ setMethod(
 
 #todo: randomforest crashes, when 1 feature is in data and has 0 variance, this 
 # happens in forward search! also fix regr.
-#' @rdname train.learner
+#' @rdname trainLearner
 
 setMethod(
-		f = "train.learner",
+		f = "trainLearner",
 		signature = signature(
 				.learner="classif.randomForest", 
 				.task="ClassifTask", .subset="integer" 
@@ -68,10 +68,10 @@ setMethod(
 		}
 )
 
-#' @rdname pred.learner
+#' @rdname predictLearner
 
 setMethod(
-		f = "pred.learner",
+		f = "predictLearner",
 		signature = signature(
 				.learner = "classif.randomForest", 
 				.model = "WrappedModel", 

@@ -100,9 +100,9 @@ setMethod(
 					time.predict = 0
 				} else {
 					if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
-						st = system.time(p <- do.call(pred.learner, pars), gcFirst=FALSE)
+						st = system.time(p <- do.call(predictLearner, pars), gcFirst=FALSE)
 					else
-						st = system.time(p <- try(do.call(pred.learner, pars), silent=TRUE), gcFirst=FALSE)
+						st = system.time(p <- try(do.call(predictLearner, pars), silent=TRUE), gcFirst=FALSE)
 					time.predict = as.numeric(st[3])
 					# was there an error during prediction?
 					if(is(p, "try-error")) {
@@ -118,28 +118,28 @@ setMethod(
 						# the levels of the predicted classes might not be complete....
 						# be sure to add the levels at the end, otherwise data gets changed!!!
 						if (!is.factor(p))
-							stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
+							stop("predictLearner for ", class(wl), " has returned a class ", class(p), " instead of a factor!")
 						levs2 = levels(p)
 						if (length(levs2) != length(levs) || any(levs != levs2))
 							p = factor(p, levels=levs)
 						
 					} else if (type == "prob") {
 						if (!is.matrix(p))
-							stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
+							stop("predictLearner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
 						cns = colnames(p)
 						if (is.null(cns) || length(cns) == 0)
-							stop("pred.learner for ", class(wl), " has returned not the class levels as column names, but no column names at all!")
+							stop("predictLearner for ", class(wl), " has returned not the class levels as column names, but no column names at all!")
 						if (!setequal(cns, levs))
-							stop("pred.learner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
+							stop("predictLearner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
 					} else if (type == "decision") {
 						if (!is.matrix(p))
-							stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
+							stop("predictLearner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
 					} else {
 						stop(paste("Unknown type", type, "in predict!"))
 					}	
 				} else if (is(model, "WrappedModel.Regr")) {
 					if (class(p) != "numeric")
-						stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
+						stop("predictLearner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
 				}
 				logger.debug(level="predict", "prediction:")
 				logger.debug(level="predict", p)

@@ -52,7 +52,7 @@ make.probth.wrapper = function(learner, classes) {
 }
 
 setMethod(
-  f = "pred.learner",
+  f = "predictLearner",
   signature = signature(
     .learner = "probth.wrapper", 
     .model = "WrappedModel", 
@@ -61,7 +61,7 @@ setMethod(
   ),
   
   def = function(.learner, .model, .newdata, .type, ...) {
-    p = pred.learner(.learner@learner, .model, .newdata, .type="prob")
+    p = predictLearner(.learner@learner, .model, .newdata, .type="prob")
     ths = unlist(.learner["par.vals", head=TRUE])
     # remove "probth"    
     names(ths) = sapply(strsplit(names(ths), "\\."), function(x) x[2])

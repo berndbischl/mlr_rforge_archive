@@ -51,10 +51,10 @@ make.preproc.wrapper = function(learner, train, predict, par.set=makeParameterSe
 }
 
 
-#' @rdname train.learner
+#' @rdname trainLearner
 
 setMethod(
-		f = "train.learner",
+		f = "trainLearner",
     signature = signature(
       .learner="preproc.wrapper", 
       .task="LearnTask", .subset="integer"
@@ -73,16 +73,16 @@ setMethod(
         stop("Preprocessing train may not change number of cases!")
       .task = change.data(.task, p$data)
       # we have already subsetted!
-			m = train.learner(.learner@learner, .task, 1:.task["size"], ...)
+			m = trainLearner(.learner@learner, .task, 1:.task["size"], ...)
       attr(m, "control") = p$control
       return(m)
 		}
 )
 
-#' @rdname pred.learner
+#' @rdname predictLearner
 
 setMethod(
-		f = "pred.learner",
+		f = "predictLearner",
 		signature = signature(
 				.learner = "preproc.wrapper", 
 				.model = "WrappedModel", 
@@ -98,7 +98,7 @@ setMethod(
         stop("Preprocessing must result in a data.frame!")
       if (nrow(.newdata) != m)
         stop("Preprocessing predict may not change number of cases!")
-			pred.learner(.learner@learner, .model, .newdata, .type, ...)
+			predictLearner(.learner@learner, .model, .newdata, .type, ...)
 		}
 )	
 

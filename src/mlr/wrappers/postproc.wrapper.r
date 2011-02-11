@@ -47,10 +47,10 @@ make.postproc.wrapper = function(learner, fun, args, ...) {
 }
 
 
-#' @rdname pred.learner
+#' @rdname predictLearner
 
 setMethod(
-		f = "pred.learner",
+		f = "predictLearner",
 		signature = signature(
 				.learner = "postproc.wrapper", 
 				.model = "WrappedModel", 

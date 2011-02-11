@@ -33,10 +33,10 @@ setMethod(
 )
 
 
-#' @rdname train.learner
+#' @rdname trainLearner
 
 setMethod(
-  f = "train.learner",
+  f = "trainLearner",
   signature = signature(
     .learner="combine.wrapper", 
     .task="ClassifTask", .subset="integer" 
@@ -53,10 +53,10 @@ setMethod(
   }
 )
 
-#' @rdname pred.learner
+#' @rdname predictLearner
 
 setMethod(
-  f = "pred.learner",
+  f = "predictLearner",
   signature = signature(
     .learner = "combine.wrapper", 
     .model = "WrappedModel", 

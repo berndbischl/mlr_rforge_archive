@@ -65,10 +65,10 @@ make.multiclass.wrapper = function(learner, mcw.method="onevsrest") {
 }
 
 
-#' @rdname train.learner
+#' @rdname trainLearner
 
 setMethod(
-  f = "train.learner",
+  f = "trainLearner",
   signature = signature(
     .learner="multiclass.wrapper", 
     .task="ClassifTask", .subset="integer" 
@@ -114,10 +114,10 @@ setMethod(
   }
 )
 
-#' @rdname pred.learner
+#' @rdname predictLearner
 
 setMethod(
-  f = "pred.learner",
+  f = "predictLearner",
   signature = signature(
     .learner = "multiclass.wrapper", 
     .model = "WrappedModel", 

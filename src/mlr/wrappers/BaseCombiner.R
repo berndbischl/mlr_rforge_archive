@@ -8,9 +8,9 @@ roxygen()
 roxygen()
 #' @include setPredictType.R
 roxygen()
-#' @include train.learner.r
+#' @include trainLearner.r
 roxygen()
-#' @include pred.learner.r
+#' @include predictLearner.r
 roxygen()
 #' @include WrappedModel.R
 roxygen()
@@ -42,9 +42,9 @@ setMethod(
 )
 
 
-#' @rdname train.learner
+#' @rdname trainLearner
 setMethod(
-  f = "train.learner",
+  f = "trainLearner",
   signature = signature(
     .learner="BaseCombiner", 
     .task="LearnTask", .subset="integer"

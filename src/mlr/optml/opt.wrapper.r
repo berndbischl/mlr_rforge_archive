@@ -53,10 +53,10 @@ setMethod(
 )
 
 
-#' @rdname train.learner
+#' @rdname trainLearner
 
 setMethod(
-		f = "train.learner",
+		f = "trainLearner",
     signature = signature(
       .learner="opt.wrapper", 
       .task="LearnTask", .subset="integer"

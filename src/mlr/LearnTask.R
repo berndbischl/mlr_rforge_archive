@@ -102,7 +102,7 @@ setMethod(
 )
 
 
-#' Extract data in task. Useful in \code{\link{train.learner}} when you add a learning 
+#' Extract data in task. Useful in \code{\link{trainLearner}} when you add a learning 
 #' machine to the package.
 #' 
 #' @param task [\code{\linkS4class{LearnTask}}]\cr 

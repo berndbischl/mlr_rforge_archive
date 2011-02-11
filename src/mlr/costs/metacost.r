@@ -4,7 +4,7 @@
 #
 #
 #setMethod(
-#		f = "train.learner",
+#		f = "trainLearner",
 #		
 #		signature = c(
 #				wrapped.learner="classif.ksvm", 
@@ -65,9 +65,9 @@
 #roxygen()
 ##' @include WrappedModel.R
 #roxygen()
-##' @include train.learner.r
+##' @include trainLearner.r
 #roxygen()
-##' @include pred.learner.r
+##' @include predictLearner.r
 #roxygen()
 #
 #setClass(
@@ -99,10 +99,10 @@
 ##	
 ##}
 #
-##' @rdname train.learner
+##' @rdname trainLearner
 #
 #setMethod(
-#		f = "train.learner",
+#		f = "trainLearner",
 #		
 #		signature = c(
 #				wrapped.learner="metacost", 
@@ -161,7 +161,7 @@
 #			print(result)
 #			print(labs)
 #			return(
-#					train.learner(wrapped.learner@learner, target, data, weights, matrix(0,0,0), parset)
+#					trainLearner(wrapped.learner@learner, target, data, weights, matrix(0,0,0), parset)
 #			)
 #		}
 #	

@@ -17,8 +17,8 @@ allowed.rd.files <<- c(
     "get.data.Rd",
     "getFeatureNames.Rd",
     
-		"train.learner.Rd",
-		"pred.learner.Rd",
+		"trainLearner.Rd",
+		"predictLearner.Rd",
 		"args.to.control.Rd",
 		
 		"par.desc-class.Rd",

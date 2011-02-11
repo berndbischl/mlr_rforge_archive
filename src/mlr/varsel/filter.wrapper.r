@@ -49,9 +49,9 @@ make.filter.wrapper = function(learner, fw.method="information.gain", fw.thresho
 
 
 
-#' @rdname train.learner
+#' @rdname trainLearner
 setMethod(
-		f = "train.learner",
+		f = "trainLearner",
     signature = signature(
       .learner="filter.wrapper", 
       .task="LearnTask", .subset="integer"
@@ -65,7 +65,7 @@ setMethod(
       if (length(vars) > 0) {
         .task = subset(.task, vars=vars)  
         # !we have already subsetted!
-			  m = train.learner(.learner@learner, .task, 1:.task["size"], ...)
+			  m = trainLearner(.learner@learner, .task, 1:.task["size"], ...)
       } else {
         # !we have already subsetted!
         m = new("novars", targets=.task["targets"], desc=.task["desc"])
@@ -76,10 +76,10 @@ setMethod(
 		}
 )
 
-#' @rdname pred.learner
+#' @rdname predictLearner
 
 setMethod(
-  f = "pred.learner",
+  f = "predictLearner",
   signature = signature(
     .learner = "filter.wrapper", 
     .model = "WrappedModel", 
@@ -89,7 +89,7 @@ setMethod(
   
   def = function(.learner, .model, .newdata, .type, ...) {
     .newdata = .newdata[, .model["vars"], drop=FALSE]  
-    pred.learner(.learner@learner, .model, .newdata, .type, ...)
+    predictLearner(.learner@learner, .model, .newdata, .type, ...)
   }
 ) 
 

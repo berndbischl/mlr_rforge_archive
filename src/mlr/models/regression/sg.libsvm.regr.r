@@ -25,7 +25,7 @@ setMethod(
   }
 )
 
-#' @rdname train.learner
+#' @rdname trainLearner
 
 sg.setHyperPars = function(control) {
   sg('set_kernel', 'GAUSSIAN', 'REAL', control$size_cache, control$width)
@@ -34,7 +34,7 @@ sg.setHyperPars = function(control) {
 
 
 setMethod(
-  f = "train.learner",
+  f = "trainLearner",
   signature = signature(
     .learner="regr.sg.libsvr", 
     .task="RegrTask", .subset="integer" 
@@ -58,10 +58,10 @@ setMethod(
   }
 )
 
-#' @rdname pred.learner
+#' @rdname predictLearner
 
 setMethod(
-  f = "pred.learner",
+  f = "predictLearner",
   signature = signature(
     .learner = "regr.sg.libsvr", 
     .model = "WrappedModel", 

@@ -2,9 +2,9 @@
 roxygen()
 #' @include WrappedModel.R
 roxygen()
-#' @include train.learner.r
+#' @include trainLearner.r
 roxygen()
-#' @include pred.learner.r
+#' @include predictLearner.r
 roxygen()
 #' @include ClassifTask.R
 roxygen()
@@ -56,10 +56,10 @@ setMethod(
 		}
 )
 
-#' @rdname train.learner
+#' @rdname trainLearner
 
 setMethod(
-		f = "train.learner",
+		f = "trainLearner",
 		signature = signature(
 				.learner="classif.nnet", 
 				.task="ClassifTask", .subset="integer" 
@@ -74,10 +74,10 @@ setMethod(
 		}
 )
 
-#' @rdname pred.learner
+#' @rdname predictLearner
 
 setMethod(
-		f = "pred.learner",
+		f = "predictLearner",
 		signature = signature(
 				.learner = "classif.nnet", 
 				.model = "WrappedModel", 

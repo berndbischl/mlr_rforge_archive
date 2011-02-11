@@ -17,13 +17,13 @@ roxygen()
 #' 		    
 #' @return Model of the underlying learner.
 #' 
-#' @exportMethod pred.learner
-#' @rdname pred.learner
+#' @exportMethod predictLearner
+#' @rdname predictLearner
 #' @title Internal prediction method for learner. 
 
 setGeneric(
-		name = "pred.learner",
+		name = "predictLearner",
 		def = function(.learner, .model, .newdata, .type, ...) {
-			standardGeneric("pred.learner")
+			standardGeneric("predictLearner")
 		}
 )

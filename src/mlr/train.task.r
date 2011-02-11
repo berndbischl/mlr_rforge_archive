@@ -85,9 +85,9 @@ setMethod(
         
         st = system.time(or <- capture.output({
               if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
-                learner.model <- do.call(train.learner, pars)
+                learner.model <- do.call(trainLearner, pars)
               else
-                learner.model <- try(do.call(train.learner, pars), silent=TRUE)
+                learner.model <- try(do.call(trainLearner, pars), silent=TRUE)
             }), gcFirst = FALSE)
         logger.debug(level="train", or)
         time.train = as.numeric(st[3])

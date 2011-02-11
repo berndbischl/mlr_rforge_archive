@@ -12,15 +12,15 @@
 #' 		    
 #' @return Model of the underlying learner.
 #' 
-#' @exportMethod train.learner
+#' @exportMethod trainLearner
 #' @seealso \code{\link{get.data}}
-#' @rdname train.learner
+#' @rdname trainLearner
 #' @title Internal training method for learner. 
 
 setGeneric(
-		name = "train.learner",
+		name = "trainLearner",
 		def = function(.learner, .task, .subset,  ...) {
-			standardGeneric("train.learner")
+			standardGeneric("trainLearner")
 		}
 )
 
