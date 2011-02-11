@@ -1,6 +1,6 @@
 
 
-test.resample.prediction = function() {
+test.ResamplePrediction = function() {
   rin1 = make.res.instance(make.res.desc("bs", iters=4), task=multiclass.task)  
   rin2 = make.res.instance(make.res.desc("cv", iters=7), task=multiclass.task)  
   rin3 = make.res.instance(make.res.desc("subsample", iters=2), task=multiclass.task)  

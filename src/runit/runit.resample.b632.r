@@ -16,7 +16,7 @@ test.b632 <- function() {
   # checkEquals(ls2, ag[2, "mmce"])
   # checkEquals(mean(c(ls1, ls2)), perf1$aggr[1, "mmce"])
   #  # check that combine works at least
-  #  p2 = as(p, "grouped.prediction")
+  #  p2 = as(p, "grouped.Prediction")
   #  checkTrue(setequal(colnames(p2@df), c("truth", "response", "id", "group")))
   # perf2 = performance(p, measures=c("mmce"), aggr="combine")
 }
