@@ -47,7 +47,7 @@ pack.files = c(
 		"mlr/pred.learner.r",
 		"mlr/prediction.r",
 		"mlr/predict.r",
-		"mlr/set.threshold.r",
+		"mlr/setThreshold.R",
 		#"mlr/loss.r",
     "mlr/aggr.r",
     "mlr/measure.r",

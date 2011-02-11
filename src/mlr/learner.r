@@ -10,7 +10,7 @@ roxygen()
 #' How to change object later on: Look at setters.
 #' 
 #' Tresholds for class labels: If you set \code{predict.type} to "prob" or "decision", the label with the maximum value is selected.
-#' You can change labels of a prediction object later by using the function \code{\link{set.threshold}} or find optimal, 
+#' You can change labels of a prediction object later by using the function \code{\link{setThreshold}} or find optimal, 
 #' non-default thresholds by using \code{\link{make.probth.wrapper}} and tuning it.
 #' 
 #' How to add further functionality to a learner: Look at subclasses of \code{\linkS4class{base.wrapper}}.

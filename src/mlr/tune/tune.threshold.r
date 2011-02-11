@@ -32,7 +32,7 @@ tune.threshold = function(pred, measure, task, model, thresholds=100) {
   }
   sig = ifelse(measure["minimize"],1,-1)
 	f = function(x) {
-    pred2 = set.threshold(pred, x)
+    pred2 = setThreshold(pred, x)
 		sig*performance(pred, measure, task, model)
 	}
 	probs.sorted = sort(unique(probs))

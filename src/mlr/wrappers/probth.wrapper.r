@@ -24,7 +24,7 @@ setMethod(
 #' These thresholds are additional hyperparameters of the new learner and 
 #' can therefore be tuned. 
 #' 
-#' See \code{\link{set.threshold}} for details of thresholding.  
+#' See \code{\link{setThreshold}} for details of thresholding.  
 #'
 #' @param learner [\code{\linkS4class{learner}}]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
@@ -65,6 +65,6 @@ setMethod(
     ths = unlist(.learner["par.vals", head=TRUE])
     # remove "probth"    
     names(ths) = sapply(strsplit(names(ths), "\\."), function(x) x[2])
-    set.threshold(p, threshold=ths)
+    setThreshold(p, threshold=ths)
   }
 ) 

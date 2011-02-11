@@ -37,7 +37,7 @@ allowed.rd.files <<- c(
 		"wrapped.model-class.Rd",
 		"predict.Rd",
 		"prediction-class.Rd",
-    "set.threshold.Rd",
+    "setThreshold.Rd",
     
 		"performance.Rd",
 		"conf.matrix.Rd",

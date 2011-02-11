@@ -6,10 +6,10 @@ test.resample = function() {
 	rf2 = resample(mylda, binaryclass.task, cv.i)$pred
 	mylda = makeLearner("classif.lda", predict.type="prob")
 	rf3 = resample(mylda, binaryclass.task, cv.i)$pred
-  rf3 = set.threshold(rf3, 0)
+  rf3 = setThreshold(rf3, 0)
 	mylda = makeLearner("classif.lda", predict.type="prob")
 	rf4 = resample(mylda, binaryclass.task, cv.i)$pred
-  rf4 = set.threshold(rf4, 1)
+  rf4 = setThreshold(rf4, 1)
   
 	checkEquals(rf1["response"], rf2["response"])
 	f1 = factor(rep(binaryclass.task["positive"], cv.i["size"]), levels=binaryclass.task["class.levels"])

@@ -13,20 +13,20 @@
 #' 		    
 #' @return Either a \code{\linkS4class{prediction}} with changed threshold and corresponding response,  
 #'   or a factor if \code{pred} was a matrix. 
-#' @exportMethod set.threshold
+#' @exportMethod setThreshold
 #' @title Set threshold of prediction object.
-#' @rdname set.threshold 
+#' @rdname setThreshold 
 
 setGeneric(
-  name = "set.threshold",
+  name = "setThreshold",
   def = function(pred, threshold) {
-    standardGeneric("set.threshold")			
+    standardGeneric("setThreshold")			
   }
 )
 
-#' @rdname set.threshold 
+#' @rdname setThreshold 
 setMethod(
-  f = "set.threshold",
+  f = "setThreshold",
   
   signature = signature(
     pred = "prediction", 
@@ -55,9 +55,9 @@ setMethod(
   } 
 )
 
-#' @rdname set.threshold 
+#' @rdname setThreshold 
 setMethod(
-  f = "set.threshold",
+  f = "setThreshold",
   
   signature = signature(
     pred = "matrix", 

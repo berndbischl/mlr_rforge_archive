@@ -82,7 +82,7 @@ make.prediction = function(task.desc, id, truth, type, y, time) {
     th = rep(1/task.desc["class.nr"], task.desc["class.nr"])
     names(th) = task.desc["class.levels"]
     p = new("prediction", task.desc, type, df, th, time)
-    return(set.threshold(p, th))
+    return(setThreshold(p, th))
   } else {
     return(new("prediction", task.desc, type, df, as.numeric(NA), time))
   }  

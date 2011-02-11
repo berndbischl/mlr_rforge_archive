@@ -18,7 +18,7 @@ roxygen()
 #' @export
 #' @rdname predict
 #' @importFrom stats predict
-#' @seealso \code{\link{train}}, \code{\link{set.threshold}}
+#' @seealso \code{\link{train}}, \code{\link{setThreshold}}
 #' @title Predict new data.
 
 
