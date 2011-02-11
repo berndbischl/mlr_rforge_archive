@@ -29,7 +29,7 @@ pack.files = c(
     "mlr/optimize/bounds.r",
     "mlr/learner.r",
 		"mlr/learnerR.r",
-		"mlr/learner.make.r",
+		"mlr/makeLearner.R",
 		"mlr/learners.r",
 		"mlr/get.learners.r",
 		"mlr/setHyperPars.R",
