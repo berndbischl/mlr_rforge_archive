@@ -2,7 +2,7 @@
 roxygen()
 #' @include set.id.r
 roxygen()
-#' @include setHyperPars.r
+#' @include setHyperPars.R
 roxygen()
 #' @include set.predict.type.r
 roxygen()
