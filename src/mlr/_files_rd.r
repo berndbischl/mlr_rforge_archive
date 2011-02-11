@@ -15,6 +15,7 @@ allowed.rd.files <<- c(
     "makeRegrTask.Rd",
     "subset.Rd",
     "get.data.Rd",
+    "getFeatureNames.Rd",
     
 		"train.learner.Rd",
 		"pred.learner.Rd",

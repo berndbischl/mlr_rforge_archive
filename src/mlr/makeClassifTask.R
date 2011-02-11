@@ -1,22 +1,17 @@
 #' @include task.classif.r
 roxygen()
-#' @include task.regr.r
-roxygen()
 #' @include prepare.df.r
 roxygen()
 
 #' Defines a classification task for a given data set. 
-#' The type (classification or regression) is automatically inferred from the target variable.
 #' It might perform some data conversions in the data.frame, like converting integer input features to doubles, 
 #' but will generally warn about this. If you want to change default preprocessing behaviour, look at
 #' \code{\link{prepare.control}}, construct the control object yourself and pass it into the \code{control} argument 
 #' of \code{makeClassifTask}.
-#' Whether a classification or regression task is created depends on the data type of the target variable. 
-#' A factor, logical or character vector produces a classification task (and the vector is converted to a factor), 
-#' doubles produce regression tasks. Integer target variables have to be changed manually. 
+#' The target variable is converted to a factor if it is a logical, integer or character vector. 
 #' 
 #' @param id [string]\cr 
-#'   Id string for object. Used to select the object from a named list, etc. Default is the name of the passed R variable.  
+#'   Id string for object. Used to select the object from a named list, etc. Default is the name of R variable passed to \code{data}.  
 #' @param data [data.frame] \cr   
 #'   A data frame containing the input and target variables for modeling.
 #' @param target [string] \cr
@@ -33,10 +28,8 @@ roxygen()
 #'   An optional matrix of misclassification costs to be used in the fitting process. 
 #'   If the used classifier can handle cost matrices it is passed down to its train function, otherwise it is ignored.
 #'   Rows indicate true classes, columns predicted classes.
-#'   Don't pass this in case of regression. 
 #' @param positive [string] \cr   
 #'   Positive class for binary classification. Default is the first factor level of the target attribute. 
-#'   Don't pass this in case of regression. 
 #' 
 #' 
 #' @return \code{\linkS4class{LearnTask}}.

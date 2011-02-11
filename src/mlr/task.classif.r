@@ -1,7 +1,7 @@
 #' @include task.learn.r
 roxygen()
 
-#' Class for a classification  task.  
+#' A classification task.  
 #' Use \code{\link{makeClassifTask}} to create it.   
 #' 
 #' @exportClass ClassifTask

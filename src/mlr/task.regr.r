@@ -2,7 +2,7 @@
 roxygen()
 
 
-#' Class for a regression task.  
+#' A regression task.  
 #' Use \code{\link{makeRegrTask}} to create it.   
 #' 
 #' @exportClass RegrTask

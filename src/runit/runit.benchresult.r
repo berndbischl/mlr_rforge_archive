@@ -88,9 +88,8 @@ test.benchresult = function() {
   x1 = x[[multiclass.task@desc@id]][["classif.rpart"]]
   checkTrue(is.matrix(x1))  
   
-	ranges.svm = list(C=1:2, sigma=1:2)
-	ctrl = grid.control(ranges=ranges.svm)
-	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, control=ctrl)
+	ps = makeParameterSet(makeDiscreteParameter("C", vals=1:2), makeDiscreteParameter("sigma", vals=1:2))
+	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, par.set=ps, control=grid.control())
 	learners = c(svm.tuner)
 	be = bench.exp(tasks=tasks, learners=learners, resampling=res)
   

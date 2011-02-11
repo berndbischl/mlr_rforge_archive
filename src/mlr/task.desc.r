@@ -1,7 +1,7 @@
 #' @include object.r
 roxygen()
 
-#' Description object for task, encapsulates basic statistics without having to storing complete data set.
+#' Description object for task, encapsulates basic statistics without having to store the complete data set.
 #' 
 #' Getter.\cr
 #' 
@@ -16,15 +16,15 @@ roxygen()
 #'  \item{n.feat [integer]}{Number of covariates, named vector with entries: 'double', 'fact', 'int', 'char', 'log'.}
 #'  \item{has.missing [boolean]}{Are missing values present?}
 #'  \item{has.inf [boolean]}{Are infinite numerical values present?}
-#'  \item{class.levels [character]}{Possible classes. NA if not classification.}
+#'  \item{class.levels [character]}{Class labels. NA if not classification.}
 #'  \item{class.nr [integer]}{Number of classes. NA if not classification.}
 #'  \item{class.dist [integer]}{Class distribution. Named vector. NA if not classification.}
-#'  \item{is.binary [boolean]}{Binary classification?. NA if not classification.}
+#'  \item{is.binary [boolean]}{Binary classification? NA if not classification.}
 #'  \item{has.weights [boolean]}{Are weights available in task for covariates?}
 #'  \item{has.blocking [boolean]}{Is blocking available in task for observations?}
 #'  \item{costs [matrix]}{Cost matrix, of dimension (0,0) if not available.}
 #'  \item{positive [string]}{Positive class label for binary classification, NA else.}
-#'  \item{negative [string]}{Negative class label for binary classification,, NA else.}
+#'  \item{negative [string]}{Negative class label for binary classification, NA else.}
 #' }
 #' 
 #' @exportClass task.desc

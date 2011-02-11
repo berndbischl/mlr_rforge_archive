@@ -5,7 +5,7 @@ roxygen()
 #' @include prepare.df.r
 roxygen()
 
-#' General description object for a machine learning task. 
+#' A machine learning task. 
 #' It encapsulates the data and specifies - through its subclasses - the type of the task (either classification or regression), 
 #' the target variable and other details of the problem. 
 #'  
@@ -102,7 +102,7 @@ setMethod(
 )
 
 
-#' Extract data in task. Useful in \code{link{train.learner}} when you add a learning 
+#' Extract data in task. Useful in \code{\link{train.learner}} when you add a learning 
 #' machine to the package.
 #' 
 #' @param task [\code{\linkS4class{LearnTask}}]\cr 
@@ -112,9 +112,9 @@ setMethod(
 #' @param vars [character] \cr 
 #'   Selected inputs. 
 #' @param target.extra [boolean] \cr 
-#'   Should target vector be returned separately?. 
+#'   Should target vector be returned separately? 
 #'   If not, a single data.frame including the target is returned, otherwise a list 
-#'   with the input data.frame and and an extra vector for he targets.
+#'   with the input data.frame and and an extra vector for the targets.
 #'   Default is FALSE. 
 #' @param class.as [string] \cr
 #'   Should target classes be recoded? Only for binary classification.
@@ -124,7 +124,7 @@ setMethod(
 #' @return Either a data.frame or a list with data.frame \code{data} and vector \code{target}.
 #'
 #' @export
-#' @rdname subset
+#' @rdname get.data
 #' @seealso \code{\link{get.data}} 
 #' @title Extract data in task. 
 # todo: test
@@ -219,7 +219,7 @@ change.data = function(task, data) {
 #' Get feature names of task. 
 #' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'   Learning task.   
-#' @return Character vector
+#' @return [character].
 #' @rdname getFeatureNames
 #' @title Get feature names of task.
 #' @exportMethod getFeatureNames

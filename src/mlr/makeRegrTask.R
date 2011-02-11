@@ -1,5 +1,3 @@
-#' @include task.classif.r
-roxygen()
 #' @include task.regr.r
 roxygen()
 #' @include prepare.df.r
@@ -12,7 +10,7 @@ roxygen()
 #' of \code{makeRegrTask}.
 #' 
 #' @param id [string]\cr 
-#'   Id string for object. Used to select the object from a named list, etc. Default is the name of the passed R variable.  
+#'   Id string for object. Used to select the object from a named list, etc. Default is the name of R variable passed to \code{data}.  
 #' @param data [data.frame] \cr   
 #'   A data frame containing the input and target variables for modeling.
 #' @param target [string] \cr
