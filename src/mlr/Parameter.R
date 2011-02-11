@@ -89,7 +89,7 @@ setMethod(
     type = par["type"]
     if (type == "numeric")
       as.character(round(val, 3))  
-    if (type == "numericvector")
+    else if (type == "numericvector")
       paste(as.character(round(val, 3)), collapse=",")  
     else if (type == "integer" || type == "logical")
       as.character(val)  
