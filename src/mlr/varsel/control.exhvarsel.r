@@ -14,7 +14,7 @@ setMethod(
     f = "initialize",
     signature = signature("exhvarsel.control"),
     def = function(.Object, path, same.resampling.instance, max.vars) {
-      callNextMethod(.Object, path=path, max.vars=max.vars, maxit=.Machine$integer.max)
+      callNextMethod(.Object, path=path, same.resampling.instance=same.resampling.instance, max.vars=max.vars, maxit=.Machine$integer.max)
     }
 )
 
