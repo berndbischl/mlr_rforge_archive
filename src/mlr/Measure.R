@@ -29,7 +29,7 @@ roxygen()
 
 
 setClass(
-  "measure",
+  "Measure",
   contains = c("object"),
   representation = representation(
     id = "character",
@@ -49,7 +49,7 @@ setClass(
 #' @rdname measure-class
 setMethod(
   f = "[",
-  signature = signature("measure"),
+  signature = signature("Measure"),
   def = function(x,i,j,...,drop) {
     callNextMethod()
   }
@@ -58,7 +58,7 @@ setMethod(
 #' @rdname to.string
 setMethod(
   f = "to.string",
-  signature = signature("measure"),
+  signature = signature("Measure"),
   def = function(x) {
     return(
       paste(

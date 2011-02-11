@@ -28,23 +28,23 @@ roxygen()
 #' @param costs [boolean] \cr
 #' 			Supports non-standard misclassification costs?
 #' 
-#' @rdname get.learners
+#' @rdname getLearners
 #' @export 
 #' 
 #' @title Find matching learning algorithms.
 
 setGeneric(
-		name = "get.learners",
+		name = "getLearners",
 		def = function(x, ...) {
-			standardGeneric("get.learners")
+			standardGeneric("getLearners")
 		}
 )
 
 
 #' @export
-#' @rdname get.learners 
+#' @rdname getLearners 
 setMethod(
-		f = "get.learners",
+		f = "getLearners",
 		
 		signature = signature(
 				x = "character" 
@@ -100,9 +100,9 @@ setMethod(
 )			
 
 #' @export
-#' @rdname get.learners 
+#' @rdname getLearners 
 setMethod(
-		f = "get.learners",
+		f = "getLearners",
 		
 		signature = signature(x = "LearnTask"),
 		
@@ -117,10 +117,10 @@ setMethod(
       if (type == "classif") {
         multiclass = ifelse(x["is.binary"], NA, TRUE)
         costs = ifelse(x["has.costs"], TRUE, costs)
-        wls = get.learners(type, doubles, factors, characters, missings, weights, 
+        wls = getLearners(type, doubles, factors, characters, missings, weights, 
             multiclass, probs, decision, costs)
       } else {
-        wls = get.learners(type, doubles, factors, characters, missings, weights) 
+        wls = getLearners(type, doubles, factors, characters, missings, weights) 
       }	 
 			return(wls)
 		}

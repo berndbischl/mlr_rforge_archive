@@ -9,25 +9,25 @@
 #'        Aggregation functions.
 #'        
 #' @return \code{\linkS4class{measure}} with changed aggregation behaviour.
-#' @exportMethod set.aggr
+#' @exportMethod setAggr
 #' @title Set aggregation functions of measure. 
-#' @rdname set.aggr 
+#' @rdname setAggr 
 
 setGeneric(
-  name = "set.aggr",
+  name = "setAggr",
   def = function(measure, aggrs) {
     if (!is.list(aggrs))
       aggrs = list(aggrs)
-    standardGeneric("set.aggr")
+    standardGeneric("setAggr")
   }
 )
 
-#' @rdname set.aggr 
+#' @rdname setAggr 
 setMethod(
-  f = "set.aggr",
+  f = "setAggr",
   
   signature = signature(
-    measure="measure", 
+    measure="Measure", 
     aggr="list" 
   ),
   

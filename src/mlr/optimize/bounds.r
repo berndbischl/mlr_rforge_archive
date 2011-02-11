@@ -71,7 +71,7 @@ setMethod(
 #' @param costs [boolean] \cr
 #' 			Supports non-standard misclassification costs?
 #' 
-#' @rdname get.learners
+#' @rdname makeParameterSet
 #' @export 
 #' 
 #' @title Find matching learning algorithms.

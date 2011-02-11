@@ -24,7 +24,7 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
 	
 	if (missing(measures))
 		measures = default.measures(task)
-  if (is(measures, "measure"))
+  if (is(measures, "Measure"))
     measures = list(measures)   
 	
 	extract = function(m){}

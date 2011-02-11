@@ -38,7 +38,7 @@ setGeneric(
 
 setMethod(
   f = "performance",
-  signature = signature(pred="prediction", measure="measure", task="LearnTask", model="WrappedModel"),
+  signature = signature(pred="prediction", measure="Measure", task="LearnTask", model="WrappedModel"),
   def = function(pred, measure, task, model) {
     m = measure
     if (m["req.pred"]) {

@@ -32,7 +32,7 @@ allowed.rd.files <<- c(
 		"setId.Rd",
     "setPredictType.Rd",
     "learners.Rd",
-		"get.learners.Rd",
+		"getLearners.Rd",
 		
 		"train.Rd",
 		"WrappedModel-class.Rd",

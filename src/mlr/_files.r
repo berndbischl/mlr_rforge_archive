@@ -31,7 +31,7 @@ pack.files = c(
 		"mlr/learnerR.r",
 		"mlr/makeLearner.R",
 		"mlr/learners.r",
-		"mlr/get.learners.r",
+		"mlr/getLearners.R",
 		"mlr/setHyperPars.R",
 		"mlr/setId.R",
     "mlr/setPredictType.R",
@@ -41,7 +41,7 @@ pack.files = c(
     "mlr/learner.failure.r",
 		
 		"mlr/trainLearner.R",
-		"mlr/train.task.r",
+		"mlr/train.R",
 		"mlr/check.task.learner.r",
 		
 		"mlr/predictLearner.R",
@@ -54,7 +54,7 @@ pack.files = c(
     "mlr/measure.make.r",
     "mlr/measure.make.costs.r",
     "mlr/measures.r",
-		"mlr/set.aggr.r",
+		"mlr/setAggr.r",
     "mlr/performance.r",
     
 		"mlr/resample/resample.desc.r",

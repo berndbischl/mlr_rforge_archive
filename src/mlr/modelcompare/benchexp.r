@@ -50,7 +50,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
   
 	if (missing(measures))
 		measures = default.measures(tasks[[1]])
-  if (is(measures, "measure"))
+  if (is(measures, "Measure"))
     measures = list(measures)   
 	ms.names = sapply(measures, function(m) m@id)
   

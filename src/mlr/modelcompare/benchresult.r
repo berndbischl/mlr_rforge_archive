@@ -4,8 +4,8 @@
 #' 
 #' The "perf" getter is probably the most common one, it returns a list of 3 dim. arrays of performance values for every data set.
 #' The dimension are: learners, resampling iterations and measures.
-#' You can reduce the list or the contained array by using the optional arguments "task", "learner", "measure", "iter" and "aggr". 
-#' "task" and "learners" must be set to a char vector of IDs repectively, "measure" to names of recorded performance measures in the experiment,
+#' You can reduce the list or the contained array by using the optional arguments "task", "learner", "Measure", "iter" and "aggr". 
+#' "task" and "learners" must be set to a char vector of IDs repectively, "Measure" to names of recorded performance measures in the experiment,
 #' "iter" to an integer vector of selected resampling interations. The default for these is to select everything. 
 #' "aggr" can be used to aggregate the results accross the resampling interations (see \code{\link{aggregations}}). 
 #' The default is not to do any aggregation. You can also set "aggr" to "resampling" which does the default aggregation 

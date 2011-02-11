@@ -32,7 +32,7 @@ varsel <- function(learner, task, resampling, control, measures, bit.names, bits
     resampling = make.res.instance(resampling, task=task)
   if (missing(measures))
     measures = default.measures(task)
-  if (is(measures, "measure"))
+  if (is(measures, "Measure"))
     measures = list(measures)   
   if (missing(bit.names))
     bit.names = getFeatureNames(task)
