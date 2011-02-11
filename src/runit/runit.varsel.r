@@ -19,7 +19,7 @@ test.varsel <- function() {
 	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
 	checkTrue(length(as.list(vr@path)) > 1) 
   
-  ctrl = exhaustive.control(max.vars=2)
+  ctrl = exhvarsel.control(max.vars=2)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
   checkEquals(length(as.list(vr@path)), 11) 
   checkEquals(vr@x, 2) 
@@ -42,7 +42,7 @@ test.varsel <- function() {
 	ctrl = sequential.control(method="sfs", alpha=10)
 	vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, model=TRUE)
 	checkEquals(vr@x, character(0)) 
-	checkTrue(is(vr["model"], "wrapped.model")) 
+	checkTrue(is(vr["model"], "WrappedModel")) 
 	checkTrue(is(vr["model"]["learner.model"], "novars")) 
 	
 	wl = makeVarselWrapper("classif.lda", resampling=inner, control=ctrl)

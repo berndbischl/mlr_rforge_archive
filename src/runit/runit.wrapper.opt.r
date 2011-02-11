@@ -13,4 +13,7 @@ test.opt.wrapper <- function() {
 	
 	checkTrue(!is.null(or["y"]))
 	checkTrue(!is.null(or["path"]))
+  
+  p = predict(m, task=multiclass.task)
+  checkTrue(!any(is.na(p["response"])))
 }

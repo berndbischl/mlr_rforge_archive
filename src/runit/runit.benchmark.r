@@ -22,7 +22,7 @@ test.benchmark <- function() {
 		checkTrue(length(bm$ors[[1]]@path) == length(ranges$minsplit))
 		checkTrue(is.list(bm$res.result))
 		checkEquals(length(bm$res.result$models), 1)
-		checkTrue(is(bm$res.result$models[[1]], "wrapped.model"))
+		checkTrue(is(bm$res.result$models[[1]], "WrappedModel"))
 		checkTrue(is(bm$res.result$models[[1]]["learner.model"], "rpart"))
     
     bm = .mlr.benchmark(wl, ct, outer, models=FALSE)
