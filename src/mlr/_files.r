@@ -241,9 +241,3 @@ load.all.libs <- function() {
 	library(cmaes)
 }
 
-load.all.sources <- function(prefix) {
-	fs = c(base.files, classif.files, regr.files)
-	for (f in fs) {
-		source(file.path(prefix, f))
-	}
-}

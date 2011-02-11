@@ -23,7 +23,9 @@ if (use.package) {
   }
   source("src/mlr/_files.r")
   load.all.libs()
-  load.all.sources("src")
+  for (f in pack.files) {
+    source(file.path("src", f))
+  }
 } 
 
 
