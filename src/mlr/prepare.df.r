@@ -106,7 +106,8 @@ prep.data = function(is.classif, data, target, control) {
 			}	
 		}
 	}	
-  if (is.regr && !is.null(data[[target]])) {
+  #regression
+  if (!is.classif && !is.null(data[[target]])) {
     targets = data[, target]
     #convert target to numeric
     if (!is.numeric(targets)) {
