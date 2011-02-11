@@ -16,7 +16,8 @@ pack.files = c(
 		"mlr/task.learn.r",
 		"mlr/task.classif.r",
 		"mlr/task.regr.r",
-		"mlr/task.make.r",
+		"mlr/makeClassifTask.R",
+    "mlr/makeRegrTask.R",
     "mlr/check.costs.r",
     
 		"mlr/Parameter.R",
