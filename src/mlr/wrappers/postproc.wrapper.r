@@ -27,7 +27,7 @@ setMethod(
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
 #' @param fun [function] \cr
-#'        Function to postprocess a prediction object. First argument must be called 'pred', which will be postprocessed and subsequently returned.
+#'        Function to postprocess a \code{\linkS4class{Prediction}} object (first argument). Must be postprocessed and subsequently returned.
 #' @param ... [any] \cr
 #'        Optional parameters to control the postprocessing. Passed to fun.   
 #' 

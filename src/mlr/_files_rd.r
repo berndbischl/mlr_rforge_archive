@@ -37,7 +37,7 @@ allowed.rd.files <<- c(
 		"train.Rd",
 		"WrappedModel-class.Rd",
 		"predict.Rd",
-		"prediction-class.Rd",
+		"Prediction-class.Rd",
     "setThreshold.Rd",
     
 		"performance.Rd",
@@ -65,7 +65,7 @@ allowed.rd.files <<- c(
 		"resample.update.Rd",
 		"resample.done.Rd",
 		"resample.Rd",
-		"resample.prediction-class.Rd",
+		"ResamplePrediction-class.Rd",
 		"as.ROCR.preds.Rd",
 		
 #		"set.train.par.Rd",

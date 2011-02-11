@@ -45,7 +45,7 @@ pack.files = c(
 		"mlr/check.task.learner.r",
 		
 		"mlr/predictLearner.R",
-		"mlr/prediction.r",
+		"mlr/Prediction.R",
 		"mlr/predict.r",
 		"mlr/setThreshold.R",
 		#"mlr/loss.r",
@@ -76,7 +76,7 @@ pack.files = c(
     "mlr/resample/bs.instance.r",
     "mlr/resample/subsample.instance.r",
 		"mlr/resample/holdout.instance.r",
-		"mlr/resample/prediction.resample.r",
+		"mlr/resample/ResamplePrediction.R",
 		"mlr/resample/resample.r",
 		"mlr/conf.matrix.r",
 

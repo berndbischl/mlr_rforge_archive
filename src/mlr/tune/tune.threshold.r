@@ -2,7 +2,7 @@
 #' Currently only implemented for probabilities and binary classification. 
 #' 
 #' 
-#' @param pred [\code{\linkS4class{prediction}}] \cr
+#' @param pred [\code{\linkS4class{Prediction}}] \cr
 #'   Prediction object to use for tuning the treshold.
 #' @param measure [\code{\linkS4class{measure}}]\cr
 #'   Performance measure to optimize. 
