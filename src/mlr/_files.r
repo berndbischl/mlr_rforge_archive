@@ -13,7 +13,7 @@ pack.files = c(
 
 		"mlr/prepare.df.r",
 		"mlr/task.desc.r",
-		"mlr/task.learn.r",
+		"mlr/LearnTask.R",
 		"mlr/task.classif.r",
 		"mlr/task.regr.r",
 		"mlr/makeClassifTask.R",

@@ -1,6 +1,6 @@
 #todo: check whether optimization can be paralleized if req. by user
 
-#' @include task.learn.r
+#' @include LearnTask.R
 roxygen()
 
 

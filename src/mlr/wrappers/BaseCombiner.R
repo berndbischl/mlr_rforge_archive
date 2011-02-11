@@ -1,6 +1,6 @@
 #' @include learner.r
 roxygen()
-#' @include task.learn.r
+#' @include LearnTask.R
 roxygen()
 #' @include setId.R
 roxygen()

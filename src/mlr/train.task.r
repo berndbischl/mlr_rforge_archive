@@ -1,4 +1,4 @@
-#' @include task.learn.r
+#' @include LearnTask.R
 roxygen()
 
 #' Given a \code{\linkS4class{LearnTask}}, creates a model for the learning machine 

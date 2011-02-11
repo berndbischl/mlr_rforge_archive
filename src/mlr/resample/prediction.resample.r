@@ -1,6 +1,6 @@
 #' @include prediction.r
 roxygen()
-#' @include task.learn.r
+#' @include LearnTask.R
 roxygen()
 #' @include resample.instance.r
 roxygen()

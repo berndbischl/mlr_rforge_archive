@@ -1,4 +1,4 @@
-#' @include task.learn.r
+#' @include LearnTask.R
 roxygen()
 
 #' Returns the names of learning algorithms which have specific characteristics, e.g.
