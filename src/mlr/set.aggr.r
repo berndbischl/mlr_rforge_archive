@@ -22,7 +22,7 @@ setGeneric(
   }
 )
 
-#' @rdname setHyperPars 
+#' @rdname set.aggr 
 setMethod(
   f = "set.aggr",
   
