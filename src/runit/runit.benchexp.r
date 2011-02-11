@@ -33,7 +33,7 @@ test.benchexp <- function() {
 	print(be)	
 	be = bench.exp(rpart.tuner,  multiclass.task, resampling=outer)
 	print(be)
-  foo = make.measure(id="foo", minimize=TRUE,  
+  foo = makeMeasure(id="foo", minimize=TRUE,  
     fun=function(task, model, pred, extra.pars) {
       tt = pred
       1

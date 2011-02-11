@@ -37,7 +37,7 @@ varsel2d <- function(learner, task, resampling, measures, control, pairs, remove
     resampling = make.res.instance(resampling, task=task)
   if (missing(measures))
     measures = mlr:::default.measures(task)
-  if (is(measures, "measure"))
+  if (is(measures, "Measure"))
     measures = list(measures)   
   if (!(is(control, "sequential.control") && control@method == "sfs"))
     stop("'control' must be sequential.control with method 'sfs'!")
