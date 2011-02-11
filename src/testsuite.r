@@ -21,7 +21,7 @@ if (use.package) {
     ts.dirs = "src/runit"
     ts.file.regexp = "^runit.*"
   }
-  source("src/files.r")
+  source("src/mlr/_files.r")
   load.all.libs()
   load.all.sources("src")
 } 
