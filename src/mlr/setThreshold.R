@@ -1,17 +1,17 @@
-#' Set threshold of prediction object (if prediction was for classification). 
+#' Set threshold of rediction object (if prediction was for classification). 
 #' Creates corresponding discrete class response for the newly set threshold. 
 #' For binary classification: The positive class is predicted if the probability or decision value exceeds the threshold. 
 #' For multiclass: Probabilities/decision values are divided by corresponding thresholds and the class with maximum resulting value is selected.
 #' The result of both are equivalent if in the multi-threshold case the labels are greater than 0 and sum to 1.  
 #' 
-#' @param pred [\code{\linkS4class{prediction}} | double matrix] \cr
+#' @param pred [\code{\linkS4class{Prediction}} | double matrix] \cr
 #'   Prediction object or matrix of probabilities. If a matrix, column names have to be class labels.
 #' @param threshold [numeric] \cr
 #'   Threshold to produce class labels. Has to be a named vector, where names correspond to class labels.
 #'   Only if pred is a prediction object resulting from binary classification
 #'   it can be a single numerical threshold for the positive class. 
 #' 		    
-#' @return Either a \code{\linkS4class{prediction}} with changed threshold and corresponding response,  
+#' @return Either a \code{\linkS4class{Prediction}} with changed threshold and corresponding response,  
 #'   or a factor if \code{pred} was a matrix. 
 #' @exportMethod setThreshold
 #' @title Set threshold of prediction object.
@@ -29,7 +29,7 @@ setMethod(
   f = "setThreshold",
   
   signature = signature(
-    pred = "prediction", 
+    pred = "Prediction", 
     threshold = "numeric" 
   ),
   

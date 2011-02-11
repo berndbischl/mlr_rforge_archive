@@ -7,7 +7,7 @@
 #'        predict. Default is "response". "decision" is experimental. Ignored for
 #'        regression.	 
 #' 		    
-#' @return \code{\linkS4class{learner}} with changed prediction behaviour.
+#' @return \code{\linkS4class{learner}} with changed Prediction behaviour.
 #' @exportMethod setPredictType
 #' @title Set predict type of learner object.
 #' @rdname set.predict.pars 
