@@ -41,7 +41,7 @@ setMethod(
         makeDiscreteLearnerParameter(id="kernel", default="radial", vals=c("linear", "polynomial", "radial", "sigmoid")),
         makeIntegerLearnerParameter(id="degree", default=3L, lower=1L, requires=expression(kernel=="polynomial")),
         makeNumericLearnerParameter(id="coef0", default=0, requires=expression(kernel=="polynomial" || kernel=="sigmoid")),
-        makeIntegerLearnerParameter(id="gamma",  default=3L, lower=1L, requires=expression(kernel!="linear")),
+        makeNumericParameter(id="gamma", lower=0, requires=expression(kernel!="linear")),
         makeNumericLearnerParameter(id="tolerance", default=0.001, lower=0),
         makeLogicalLearnerParameter(id="shrinking", default=TRUE),
         makeLogicalLearnerParameter(id="probability", default=FALSE, flags=list(optimize=FALSE)),
