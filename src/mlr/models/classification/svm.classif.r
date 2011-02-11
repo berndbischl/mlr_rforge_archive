@@ -44,7 +44,6 @@ setMethod(
         makeNumericLearnerParameter(id="gamma", lower=0, requires=expression(kernel!="linear")),
         makeNumericLearnerParameter(id="tolerance", default=0.001, lower=0),
         makeLogicalLearnerParameter(id="shrinking", default=TRUE),
-        makeLogicalLearnerParameter(id="probability", default=FALSE, flags=list(optimize=FALSE)),
         makeNumericLearnerParameter(id="cachesize", default=40L, flags=list(optimize=FALSE))
       )
       
@@ -63,7 +62,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			svm(f, data=get.data(.task, .subset), ...)
+			svm(f, data=get.data(.task, .subset), probability=.learner["predict.type"] == "prob", ...)
 		}
 )
 
