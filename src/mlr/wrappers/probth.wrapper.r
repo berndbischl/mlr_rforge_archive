@@ -55,7 +55,7 @@ setMethod(
   f = "pred.learner",
   signature = signature(
     .learner = "probth.wrapper", 
-    .model = "wrapped.model", 
+    .model = "WrappedModel", 
     .newdata = "data.frame", 
     .type = "character" 
   ),

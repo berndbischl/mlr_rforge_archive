@@ -85,7 +85,7 @@ setMethod(
 		f = "pred.learner",
 		signature = signature(
 				.learner = "preproc.wrapper", 
-				.model = "wrapped.model", 
+				.model = "WrappedModel", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),
@@ -104,7 +104,7 @@ setMethod(
 
 setClass(
   "preproc.model",
-  contains = c("wrapped.model"),
+  contains = c("WrappedModel"),
   representation = representation(
     control = "list"
   )

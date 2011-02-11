@@ -12,7 +12,7 @@ roxygen()
 roxygen()
 #' @include pred.learner.r
 roxygen()
-#' @include wrapped.model.r
+#' @include WrappedModel.R
 roxygen()
 
 

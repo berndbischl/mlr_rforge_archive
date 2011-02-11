@@ -50,7 +50,7 @@ setMethod(
 		f = "pred.learner",
 		signature = signature(
 				.learner = "regr.kknn", 
-				.model = "wrapped.model", 
+				.model = "WrappedModel", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),

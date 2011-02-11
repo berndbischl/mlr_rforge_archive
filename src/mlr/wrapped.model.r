@@ -26,7 +26,7 @@ roxygen()
 #' @title Induced model of learner.
  
 setClass(
-		"wrapped.model",
+		"WrappedModel",
 		contains = c("object"),
 		representation = representation(
 				learner = "learner",
@@ -43,7 +43,7 @@ setClass(
 
 setMethod(
   f = "initialize",
-  signature = signature("wrapped.model"),
+  signature = signature("WrappedModel"),
   def = function(.Object, learner, model, task.desc, prep.control, subset, vars, time) {
     if (missing(learner))
       return(make.empty(.Object))
@@ -64,7 +64,7 @@ setMethod(
 
 setMethod(
 		f = "to.string",
-		signature = signature("wrapped.model"),
+		signature = signature("WrappedModel"),
 		def = function(x) {
 			return(
 					paste(
@@ -80,11 +80,11 @@ setMethod(
 
 
 #' Getter.
-#' @rdname wrapped.model-class
+#' @rdname WrappedModel-class
 
 setMethod(
 		f = "[",
-		signature = signature("wrapped.model"),
+		signature = signature("WrappedModel"),
 		def = function(x,i,j,...,drop) {
 			args = list(...)
 			

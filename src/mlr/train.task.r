@@ -11,7 +11,7 @@ roxygen()
 #' @param subset [\code{\link{integer}}] \cr 
 #'        An index vector specifying the training cases to be used for fitting. By default the complete data set is used. 
 #' 
-#' @return \code{\linkS4class{wrapped.model}}. 
+#' @return \code{\linkS4class{WrappedModel}}. 
 #'
 #' @export
 #'
@@ -93,6 +93,6 @@ setMethod(
         time.train = as.numeric(st[3])
       }
       
-      make.wrapped.model(wl, learner.model, task@desc, task@control, subset, vars, time.train)
+      makeWrappedModel(wl, learner.model, task@desc, task@control, subset, vars, time.train)
 		}
 )

@@ -49,7 +49,7 @@ setMethod(
 		f = "pred.learner",
 		signature = signature(
 				.learner = "regr.lasso", 
-				.model = "wrapped.model", 
+				.model = "WrappedModel", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),

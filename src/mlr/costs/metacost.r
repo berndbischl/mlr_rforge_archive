@@ -63,7 +63,7 @@
 
 ##' @include learnerR.r
 #roxygen()
-##' @include wrapped.model.r
+##' @include WrappedModel.R
 #roxygen()
 ##' @include train.learner.r
 #roxygen()

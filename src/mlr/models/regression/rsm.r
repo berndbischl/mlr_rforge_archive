@@ -63,7 +63,7 @@ setMethod(
   f = "pred.learner",
   signature = signature(
     .learner = "regr.rsm", 
-    .model = "wrapped.model", 
+    .model = "WrappedModel", 
     .newdata = "data.frame", 
     .type = "missing" 
   ),

@@ -1,7 +1,7 @@
-#' @include wrapped.model.r
+#' @include WrappedModel.R
 roxygen()
 
-#' Mainly for internal use. Predicts new data with wrapped.model. 
+#' Mainly for internal use. Predicts new data with WrappedModel. 
 #' You have to implement this method if you want to add another learner to this package. 
 #' @param .learner [\\code{\\linkS4class{learner}}] \cr  
 #'        Wrapped learner from this package. 

@@ -35,7 +35,7 @@ allowed.rd.files <<- c(
 		"get.learners.Rd",
 		
 		"train.Rd",
-		"wrapped.model-class.Rd",
+		"WrappedModel-class.Rd",
 		"predict.Rd",
 		"prediction-class.Rd",
     "setThreshold.Rd",

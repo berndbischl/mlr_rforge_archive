@@ -11,7 +11,7 @@ roxygen()
 #'   Performance measure. 
 #' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'   Learning task, might be requested by performance measure, usually not needed.
-#' @param model [\code{\linkS4class{wrapped.model}}]\cr 
+#' @param model [\code{\linkS4class{WrappedModel}}]\cr 
 #'   Model built on training data, might be requested by performance measure, usually not needed.
 #' 
 #' @return A single numerical performance value. 
@@ -29,7 +29,7 @@ setGeneric(
       if (missing(task))
         task = new("LearnTask")
       if (missing(model))
-        model = new("wrapped.model")
+        model = new("WrappedModel")
       standardGeneric("performance")
 		}
 )
@@ -38,7 +38,7 @@ setGeneric(
 
 setMethod(
   f = "performance",
-  signature = signature(pred="prediction", measure="measure", task="LearnTask", model="wrapped.model"),
+  signature = signature(pred="prediction", measure="measure", task="LearnTask", model="WrappedModel"),
   def = function(pred, measure, task, model) {
     m = measure
     if (m["req.pred"]) {

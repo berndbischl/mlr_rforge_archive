@@ -1,11 +1,11 @@
-#' @include wrapped.model.r
+#' @include WrappedModel.R
 roxygen()
 #' @include opt.result.r
 roxygen()
 
 setClass(
   "opt.model",
-  contains = c("wrapped.model"),
+  contains = c("WrappedModel"),
   representation = representation(
     opt.result = "opt.result"
   )

@@ -59,7 +59,7 @@ setMethod(
   f = "pred.learner",
   signature = signature(
     .learner = "combine.wrapper", 
-    .model = "wrapped.model", 
+    .model = "WrappedModel", 
     .newdata = "data.frame", 
     .type = "character" 
   ),

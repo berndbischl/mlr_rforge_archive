@@ -1,4 +1,4 @@
-make.wrapped.model = function(learner, model, task.desc, prep.control, subset, vars, time) {
+makeWrappedModel = function(learner, model, task.desc, prep.control, subset, vars, time) {
   # if error happened we use a failure model
   if(is(model, "try-error")) {
     msg = as.character(model)
@@ -16,10 +16,10 @@ make.wrapped.model = function(learner, model, task.desc, prep.control, subset, v
   } else if(is(learner, "filter.wrapper")) {
     vars = attr(model, "filter.result")
     attr(model, "filter.result") = NULL
-    m = new("wrapped.model", learner, model, task.desc, prep.control, subset, vars, time)  
+    m = new("WrappedModel", learner, model, task.desc, prep.control, subset, vars, time)  
   } else {
     # create normal model
-    m = new("wrapped.model", learner, model, task.desc, prep.control, subset, vars, time)    
+    m = new("WrappedModel", learner, model, task.desc, prep.control, subset, vars, time)    
   }
   return(m)
 }

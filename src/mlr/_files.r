@@ -36,8 +36,8 @@ pack.files = c(
 		"mlr/setId.R",
     "mlr/setPredictType.R",
     
-    "mlr/wrapped.model.r",
-    "mlr/wrapped.model.make.r",
+    "mlr/WrappedModel.R",
+    "mlr/WrappedModel.make.r",
     "mlr/learner.failure.r",
 		
 		"mlr/train.learner.r",

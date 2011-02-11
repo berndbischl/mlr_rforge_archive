@@ -82,7 +82,7 @@ setMethod(
   f = "pred.learner",
   signature = signature(
     .learner = "filter.wrapper", 
-    .model = "wrapped.model", 
+    .model = "WrappedModel", 
     .newdata = "data.frame", 
     .type = "character" 
   ),

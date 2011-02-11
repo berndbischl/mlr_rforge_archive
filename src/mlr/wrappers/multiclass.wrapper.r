@@ -120,7 +120,7 @@ setMethod(
   f = "pred.learner",
   signature = signature(
     .learner = "multiclass.wrapper", 
-    .model = "wrapped.model", 
+    .model = "WrappedModel", 
     .newdata = "data.frame", 
     .type = "character" 
   ),

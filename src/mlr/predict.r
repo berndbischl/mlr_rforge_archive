@@ -1,11 +1,11 @@
-#' include wrapped.model.r
+#' include WrappedModel.R
 roxygen()
 
 #' Predict the target variable of new data using a fitted model. If the type is set to "prob" or "decision"
 #' probabilities or decision values will be stored in the resulting object. The resulting class labels are 
 #' the classes with the maximum values. 
 #' 
-#' @param object [\code{\linkS4class{wrapped.model}}] \cr 
+#' @param object [\code{\linkS4class{WrappedModel}}] \cr 
 #'   Wrapped model, trained from a learn task.  
 #' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'   Specifies learning task. If this is passed, data from this task is predicted.   
@@ -25,7 +25,7 @@ roxygen()
 #todo decision
 setMethod(
 		f = "predict",
-		signature = signature(object="wrapped.model"),
+		signature = signature(object="WrappedModel"),
 		def = function(object, task, newdata, subset) {
 			if (!missing(task) && !missing(newdata)) 
 				stop("Pass either a task object or a newdata data.frame to predict, but not both!")
@@ -137,7 +137,7 @@ setMethod(
 					} else {
 						stop(paste("Unknown type", type, "in predict!"))
 					}	
-				} else if (is(model, "wrapped.model.regr")) {
+				} else if (is(model, "WrappedModel.Regr")) {
 					if (class(p) != "numeric")
 						stop("pred.learner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
 				}

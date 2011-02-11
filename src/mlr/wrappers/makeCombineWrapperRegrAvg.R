@@ -42,7 +42,7 @@ setMethod(
   f = "pred.learner",
   signature = signature(
     .learner = "CombineWrapperRegrAvg", 
-    .model = "wrapped.model", 
+    .model = "WrappedModel", 
     .newdata = "data.frame", 
     .type = "character" 
   ),

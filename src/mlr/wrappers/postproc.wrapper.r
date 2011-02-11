@@ -53,7 +53,7 @@ setMethod(
 		f = "pred.learner",
 		signature = signature(
 				.learner = "postproc.wrapper", 
-				.model = "wrapped.model", 
+				.model = "WrappedModel", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),

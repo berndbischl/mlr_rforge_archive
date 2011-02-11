@@ -66,7 +66,7 @@ setMethod(
 		f = "pred.learner",
 		signature = signature(
 				.learner = "regr.blackboost", 
-				.model = "wrapped.model", 
+				.model = "WrappedModel", 
 				.newdata = "data.frame", 
 				.type = "missing" 
 		),

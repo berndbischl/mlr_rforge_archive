@@ -2,7 +2,7 @@
 
 #' @include learnerR.r
 roxygen()
-#' @include wrapped.model.r
+#' @include WrappedModel.R
 roxygen()
 #' @include train.learner.r
 roxygen()
@@ -91,7 +91,7 @@ setMethod(
 		f = "pred.learner",
 		signature = signature(
 				.learner = "classif.ada", 
-				.model = "wrapped.model", 
+				.model = "WrappedModel", 
 				.newdata = "data.frame", 
 				.type = "character" 
 		),

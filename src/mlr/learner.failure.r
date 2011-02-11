@@ -1,9 +1,9 @@
-#' @include wrapped.model.r
+#' @include WrappedModel.R
 roxygen()
 
 setClass(
   "failure.model",
-  contains = c("wrapped.model")
+  contains = c("WrappedModel")
 )
 
 #' Getter.

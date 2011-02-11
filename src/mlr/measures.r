@@ -41,7 +41,7 @@
 #' \itemize{ 
 #' 		\item{\bold{time.fit}}{\cr Time of fitting the model}
 #' 		\item{\bold{time.predict}}{\cr Time of predicting test set}
-#' 		\item{\bold{time}}{\cr time.fit + train.predict}
+#' 		\item{\bold{time.both}}{\cr time.fit + train.predict}
 #' }
 #'  
 #' @title Performance measures.
