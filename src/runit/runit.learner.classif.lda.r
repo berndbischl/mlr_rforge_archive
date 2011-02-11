@@ -21,7 +21,7 @@ test.lda <- function() {
 	ct = makeClassifTask(data=mc2, target=multiclass.target)
 	res = make.res.desc("cv", iters=2)
 	rf = resample("classif.lda", ct, resampling=res)
-	wl = make.learner("classif.lda", predict.type="prob")
+	wl = makeLearner("classif.lda", predict.type="prob")
 	rf = resample(wl, ct, resampling=res)
 	# todo check na
 	

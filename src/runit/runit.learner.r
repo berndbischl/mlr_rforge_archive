@@ -2,7 +2,7 @@
 
 
 test.learner <- function() {
-	wl = make.learner("classif.rpart", minsplit=3)
+	wl = makeLearner("classif.rpart", minsplit=3)
 	checkEquals(wl["is.classif"], T)
 	checkEquals(wl["is.regr"], F)
 	checkEquals(wl@id, "classif.rpart")
@@ -17,7 +17,7 @@ test.learner <- function() {
 	checkEquals(wl["doubles"], T)
 	checkEquals(wl["factors"], T)
 
-	wl = make.learner("regr.lm")
+	wl = makeLearner("regr.lm")
 	checkEquals(wl["is.classif"], F)
 	checkEquals(wl["is.regr"], T)
 	checkEquals(wl@id, "regr.lm")
@@ -30,15 +30,15 @@ test.learner <- function() {
 	checkEquals(wl["doubles"], T)
 	checkEquals(wl["factors"], T)
 	
-  checkException(make.learner("classif.lvq1", predict.type="prob"), silent=TRUE)
+  checkException(makeLearner("classif.lvq1", predict.type="prob"), silent=TRUE)
   s = geterrmessage()
   checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
   
-  checkException(make.learner("regr.lm", predict.type="prob"), silent=TRUE)
+  checkException(makeLearner("regr.lm", predict.type="prob"), silent=TRUE)
   s = geterrmessage()
   checkTrue(length(grep("Trying to predict prob, but", s)) >0 )
   
-  wl = make.learner("classif.lvq1")
+  wl = makeLearner("classif.lvq1")
   checkException(set.predict.type(wl, "prob"), silent=TRUE)
   s = geterrmessage()
   checkTrue(length(grep("Trying to predict probs, but", s)) >0 )

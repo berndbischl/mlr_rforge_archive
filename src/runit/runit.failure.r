@@ -6,7 +6,7 @@ test.failure <- function() {
 	checkTrue(all(is.na(p["response"])))
 	
 	
-	wl = make.learner("regr.ksvm", epsilon=10)
+	wl = makeLearner("regr.ksvm", epsilon=10)
 	m = train(wl, regr.task)	
 	checkTrue(!is.null(m["fail"]))
 	p=predict(m, newdata=regr.df)

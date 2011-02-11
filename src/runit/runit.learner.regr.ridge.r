@@ -34,7 +34,7 @@ test.ridge <- function() {
     res@train.inds[[i]] = setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
     res@test.inds[[i]] = which(cvl.res$fold == i)
   }
-  wl = make.learner("regr.ridge", lambda2=0.3)
+  wl = makeLearner("regr.ridge", lambda2=0.3)
   r = resample(wl, regr.task, res)
   p = as.data.frame(r$pred)
 	for (i in 1:folds) {

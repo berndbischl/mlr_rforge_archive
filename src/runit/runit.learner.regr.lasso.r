@@ -32,7 +32,7 @@ test.lasso <- function() {
     res@train.inds[[i]] = setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
     res@test.inds[[i]] = which(cvl.res$fold == i)
   }
-	wl = make.learner("regr.lasso", lambda1=0.3)
+	wl = makeLearner("regr.lasso", lambda1=0.3)
 	r = resample(wl, regr.task, res)
   p = as.data.frame(r$pred)
 #	print(rf@preds[[1]])

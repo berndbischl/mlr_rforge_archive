@@ -1,6 +1,6 @@
 test.novars <- function() {
   ct = subset(multiclass.task, vars=c())
-	wl = make.learner("classif.lda", predict.type="prob")
+	wl = makeLearner("classif.lda", predict.type="prob")
 	m = train(wl, ct)
   checkTrue(is(m["learner.model"], "novars"))	
   checkTrue(is(m["learner"], "classif.lda"))	

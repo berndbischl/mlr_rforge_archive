@@ -1,7 +1,7 @@
 test.tostring <- function() {
 	print(binaryclass.task)
 	print(regr.task)
-	wl = make.learner("classif.lda")
+	wl = makeLearner("classif.lda")
 	print(wl)
   f1 = function(data, targetvar, args) list(data=data, control=list()) 
   f2 = function(data, targetvar, args, control) data

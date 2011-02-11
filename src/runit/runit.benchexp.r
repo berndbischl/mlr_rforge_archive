@@ -28,7 +28,7 @@ test.benchexp <- function() {
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer2)
   checkTrue(!is.na(be["aggrs"]["mmce.test.mean"]))
   
-	wl = make.learner("classif.lda")
+	wl = makeLearner("classif.lda")
 	be = bench.exp(wl,  multiclass.task, resampling=outer)
 	print(be)	
 	be = bench.exp(rpart.tuner,  multiclass.task, resampling=outer)

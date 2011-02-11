@@ -7,7 +7,7 @@ test.benchresult = function() {
 	ctrl = grid.control()
 	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, par.set=ps, control=ctrl)
 	
-	wl = make.learner("classif.ksvm", id="foo")
+	wl = makeLearner("classif.ksvm", id="foo")
 	blubb = make.tune.wrapper(wl, resampling=inner, control=ctrl, par.set=ps)
 	
 	learners = c("classif.rpart", svm.tuner, blubb)

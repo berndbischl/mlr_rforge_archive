@@ -5,7 +5,7 @@ simple.test <- function(t.name, df, target, train.inds, old.predicts, parset=lis
 	train <- df[inds,]
 	test <- df[-inds,]
 	
-	wl = do.call("make.learner", c(t.name, parset))
+	wl = do.call("makeLearner", c(t.name, parset))
   if (is.numeric(df[, target]))
     task = makeRegrTask(data=df, target=target)
   else if (is.factor(df[, target]))
@@ -44,7 +44,7 @@ prob.test <- function(t.name, df, target, train.inds, old.probs, parset=list()) 
 	
 	ct <- makeClassifTask(data=df, target=target)
 	
-	wl = do.call("make.learner", c(t.name, parset, predict.type="prob"))
+	wl = do.call("makeLearner", c(t.name, parset, predict.type="prob"))
 	cm <- try(train(wl, ct, subset=inds))
 	
 	if(class(cm@learner.model)[1] == "learner.failure"){
@@ -113,7 +113,7 @@ cv.test <- function(t.name, df, target, folds=2, parset=list(), tune.train, tune
 		warning("tune produced error!")
 	} else {
 		cv.instance <- e1071.cv.to.mlr.cv(tr)
-		wl = do.call("make.learner", c(t.name, parset))
+		wl = do.call("makeLearner", c(t.name, parset))
     if (is.numeric(df[, target]))
       lt = makeRegrTask(data=df, target=target)
     else if (is.factor(df[, target]))

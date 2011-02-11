@@ -4,7 +4,7 @@ test.predict <- function() {
 	data = multiclass.df
 	formula = multiclass.formula
 	
-	wl.lda = make.learner("classif.lda", predict.type="prob")
+	wl.lda = makeLearner("classif.lda", predict.type="prob")
   
 	cm2 <- train("classif.lda", multiclass.task, subset=inds)
 	cp2 <- predict(cm2, newdata=data[inds,])

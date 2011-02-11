@@ -10,7 +10,7 @@ test.helpers = function() {
 		checkTrue(check.list.type(xs, c("character", "numeric")))
 		checkException(check.list.type(xs, c("learner", "logical")))
 		
-		xs = list(make.learner("classif.rpart"))
+		xs = list(makeLearner("classif.rpart"))
 		checkTrue(check.list.type(xs, c("rlearner")))
 		
 		checkTrue(all.els.named(list()))

@@ -1,5 +1,5 @@
 test.hyperpars <- function() {
-	wl1 = make.learner("classif.rpart", minsplit=10)
+	wl1 = makeLearner("classif.rpart", minsplit=10)
 	checkEquals(wl1["par.vals"], list(minsplit=10)) 
 	
 	m = train(wl1, task=multiclass.task)
@@ -24,7 +24,7 @@ test.hyperpars <- function() {
 	checkTrue(setequal(wl2["par.train"], list(minsplit=10, x=1, y=2))) 
   checkTrue(setequal(wl2["par.vals", head=T], list(x=1, y=2))) 
   
-	wl3 = set.hyper.pars(wl2, minsplit=77, x=88)
+	wl3 = setHyperPars(wl2, minsplit=77, x=88)
 	checkTrue(setequal(wl3["par.vals"], list(minsplit=77, x=88, y=2))) 
 	checkTrue(setequal(wl3["par.train"], list(minsplit=77, x=88, y=2))) 
 	checkTrue(setequal(wl3["par.vals", head=T], list(x=88, y=2))) 
@@ -34,9 +34,9 @@ test.hyperpars <- function() {
   
   # check warnings
   errorhandler.setup(on.par.without.desc="warn")  
-  checkWarning(make.learner("classif.rpart", foo=1), "Setting par foo without")  
+  checkWarning(makeLearner("classif.rpart", foo=1), "Setting par foo without")  
   errorhandler.setup(on.par.without.desc="quiet")
-  checkWarning(make.learner("classif.rpart", foo=1), FALSE)  
+  checkWarning(makeLearner("classif.rpart", foo=1), FALSE)  
   errorhandler.setup()
   
 }

@@ -40,7 +40,7 @@ test.tune <- function() {
 	# todo check opt. parameter is same as with tune
 	
 	#tune chain
-	wl = make.learner("classif.rpart", minsplit=10, cp=0.01, predict.type="prob")
+	wl = makeLearner("classif.rpart", minsplit=10, cp=0.01, predict.type="prob")
 	
   f1 = function(data, targetvar, args) {
     set.seed(1)
