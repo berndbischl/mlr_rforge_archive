@@ -43,7 +43,7 @@ spotMlrAlgStart <- function(io.apdFileName, io.desFileName, io.resFileName){
         }
         seed <- des$SEED[k]+i
         ????????? par.vals
-        wl = set.hyper.pars(.spotMlr$learner, par.vals=parset)
+        wl = setHyperPars(.spotMlr$learner, par.vals=parset)
         p = resample(wl, .spotMlr$task, .spotMlr$resampling)
         perf = performance(p, measures=.spotMlr$measures, aggr=.spotMlr$aggr)
         # take first measure and aggr to optimize 

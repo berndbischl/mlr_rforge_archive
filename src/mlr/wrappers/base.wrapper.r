@@ -2,7 +2,7 @@
 roxygen()
 #' @include set.id.r
 roxygen()
-#' @include set.hyper.pars.r
+#' @include setHyperPars.r
 roxygen()
 #' @include set.predict.type.r
 roxygen()
@@ -117,9 +117,9 @@ setMethod(
 		}
 )	
 
-#' @rdname set.hyper.pars 
+#' @rdname setHyperPars 
 setMethod(
-	f = "set.hyper.pars",
+	f = "setHyperPars",
 	
 	signature = signature(
 			learner="base.wrapper", 
@@ -133,7 +133,7 @@ setMethod(
 			if (ns[i] %in% pds.n) {
 				learner = callNextMethod(learner, par.vals=par.vals[i])
 			} else {	
-				learner@learner = set.hyper.pars(learner@learner, par.vals=par.vals[i])
+				learner@learner = setHyperPars(learner@learner, par.vals=par.vals[i])
 			}
 		}
 		return(learner)

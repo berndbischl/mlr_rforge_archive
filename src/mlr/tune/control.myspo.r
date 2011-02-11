@@ -53,7 +53,7 @@ setGeneric(
     if (missing(meta.learner))
       meta.learner="regr.rpart"
     if (is.character(meta.learner))
-      meta.learner = make.learner(meta.learner)
+      meta.learner = makeLearner(meta.learner)
     if (missing(init.des.points))
       init.des.points = 5L
     if (missing(seq.des.points))

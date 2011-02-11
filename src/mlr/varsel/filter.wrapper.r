@@ -34,7 +34,7 @@ setClass(
 #' @export
 make.filter.wrapper = function(learner, fw.method="information.gain", fw.threshold) {
   if (is.character(learner))
-    learner = make.learner(learner)
+    learner = makeLearner(learner)
   # todo check that for some the inputs have to be all num. or accept error in train and NA in predict?
   ps = makeParameterSet(
     makeDiscreteLearnerParameter(id="fw.method",

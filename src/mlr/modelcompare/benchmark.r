@@ -17,7 +17,7 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
 .mlr.benchmark = function(learner, task, resampling, measures, conf.mat, models) {
 	
 	if (is.character(learner)) {
-		learner = make.learner(learner)
+		learner = makeLearner(learner)
 	}
 	
 	logger.info(paste("bench.exp: task=", task@desc@id, " learner=", learner@id))

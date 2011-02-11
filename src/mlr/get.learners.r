@@ -69,7 +69,7 @@ setMethod(
 			ls <- Filter(function(x) extends(x, top.cl) && x != top.cl , mlr.classes)
 			
 			f <- function(x) {
-				wl <- try(make.learner(x))
+				wl <- try(makeLearner(x))
 				if(is (wl, "try-error")) 
 					return(NULL)
 				else

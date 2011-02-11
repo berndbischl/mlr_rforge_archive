@@ -38,7 +38,7 @@ setMethod(
 
 make.postproc.wrapper = function(learner, fun, args, ...) {
   if (is.character(learner))
-    learner = make.learner(learner)
+    learner = makeLearner(learner)
   if (missing(args))
     args=list()
   if (any(names(formals(fun)) != c("pred", "args")))

@@ -27,7 +27,7 @@ setMethod(
 
 #' @rdname train.learner
 
-sg.set.hyper.pars = function(control) {
+sg.setHyperPars = function(control) {
   sg('set_kernel', 'GAUSSIAN', 'REAL', control$size_cache, control$width)
   sg('svr_tube_epsilon', control$epsilon)
 }
@@ -49,7 +49,7 @@ setMethod(
     sg('set_features', 'TRAIN', train)
     sg('set_labels', 'TRAIN', y)
     sg('new_regression', pars$type)
-    sg.set.hyper.pars(pars)
+    sg.setHyperPars(pars)
     sg('train_regression')
     svm = sg('get_svm')
     # todo: saving traindat is very inefficient....
@@ -78,7 +78,7 @@ setMethod(
     sg('set_features', 'TEST', .newdata)
     sg('set_svm', m$svm$bias, m$svm$alphas)
     ctrl = m$control
-    sg.set.hyper.pars(ctrl)
+    sg.setHyperPars(ctrl)
     sg('classify')
   }
 )	

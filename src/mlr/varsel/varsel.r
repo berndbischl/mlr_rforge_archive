@@ -27,7 +27,7 @@
 
 varsel <- function(learner, task, resampling, control, measures, bit.names, bits.to.features, log.fun) {
   if (is.character(learner))
-    learner <- make.learner(learner)
+    learner <- makeLearner(learner)
   if (is(resampling, "resample.desc") && control@same.resampling.instance)
     resampling = make.res.instance(resampling, task=task)
   if (missing(measures))

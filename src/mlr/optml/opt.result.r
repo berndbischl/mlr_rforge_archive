@@ -69,7 +69,7 @@ setMethod(
 			if (i == "learner") {
 				if (x["opt.type"] != "tune")
 					return(NULL)
-				wl = set.hyper.pars(x@learner, x@x)
+				wl = setHyperPars(x@learner, x@x)
 				return(wl)
 			}
 			if (i == "path") {

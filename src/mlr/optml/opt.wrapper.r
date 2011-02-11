@@ -70,7 +70,7 @@ setMethod(
       lt = subset(.task, .subset)
 			if (wl["opt.type"] == "tune") {
 				or = tune(bl, lt, wl@resampling, wl@measures, wl@opt.pars, ctrl)
-        bl = set.hyper.pars(bl, par.vals=or@x)
+        bl = setHyperPars(bl, par.vals=or@x)
         m = train(bl, lt)
       } else if (wl["opt.type"] == "varsel") {
 				or = varsel(bl, lt, wl@resampling, control=ctrl, measures=wl@measures)
@@ -88,7 +88,7 @@ setMethod(
 
 make.opt.wrapper = function(learner, resampling, measures, par.set, control, log.fun) {
 	if (is.character(learner))
-		learner = make.learner(learner)
+		learner = makeLearner(learner)
 	if (missing(measures))
 		measures = default.measures(learner)
   if (is(measures, "measure"))

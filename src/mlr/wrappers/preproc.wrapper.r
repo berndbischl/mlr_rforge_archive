@@ -40,7 +40,7 @@ setMethod(
 
 make.preproc.wrapper = function(learner, train, predict, par.set=makeParameterSet(), par.vals=list()) {
 	if (is.character(learner))
-		learner = make.learner(learner)
+		learner = makeLearner(learner)
   if (missing(par.set))
     par.set=makeParameterSet()
   if (any(names(formals(train)) != c("data", "targetvar", "args")))

@@ -49,7 +49,7 @@ setMethod(
 
 make.multiclass.wrapper = function(learner, mcw.method="onevsrest") {
   if (is.character(learner))
-    learner = make.learner(learner)
+    learner = makeLearner(learner)
   ps = makeParameterSet(
     makeDiscreteLearnerParameter(id="mcw.method", vals=c("onevsone", "onevsrest"), default="onevsrest"),
     makeFunctionLearnerParameter(id="mcw.custom")
@@ -58,9 +58,9 @@ make.multiclass.wrapper = function(learner, mcw.method="onevsrest") {
   if (is.function(mcw.method)) {
     if (any(names(formals(mcw.method)) != c("task")))
       stop("Arguments in multiclass codematrix function have to be: task")   
-    set.hyper.pars(w, mcw.custom=mcw.method)
+    setHyperPars(w, mcw.custom=mcw.method)
   } else {
-    set.hyper.pars(w, mcw.method=mcw.method)
+    setHyperPars(w, mcw.method=mcw.method)
   }
 }
 

@@ -24,7 +24,7 @@ setGeneric(
 		name = "train",
 		def = function(learner, task, subset) {
 			if (is.character(learner))
-				learner <- make.learner(learner)
+				learner <- makeLearner(learner)
 			if (missing(subset))
 				subset <- 1:task["size"]
       if (is.numeric(subset))

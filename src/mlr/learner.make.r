@@ -24,7 +24,7 @@
 #' 
 #' @export
 #' 
-make.learner = function(class, id, predict.type="response", ..., par.vals=list()) {
+makeLearner = function(class, id, predict.type="response", ..., par.vals=list()) {
 	if (class == "")
 		stop("Cannot create learner from empty string!")	
 	wl = new(class)
@@ -43,7 +43,7 @@ make.learner = function(class, id, predict.type="response", ..., par.vals=list()
     }
   }
   pv = insert(pv, par.vals)
-	wl = set.hyper.pars(wl, ..., par.vals=pv)
+	wl = setHyperPars(wl, ..., par.vals=pv)
   if (predict.type != "response")
     wl = set.predict.type(wl, predict.type)
 	return(wl)

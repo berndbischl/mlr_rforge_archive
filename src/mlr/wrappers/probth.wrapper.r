@@ -38,7 +38,7 @@ setMethod(
 
 make.probth.wrapper = function(learner, classes) {
   if (is.character(learner))
-    learner = make.learner(learner)
+    learner = makeLearner(learner)
   if (!learner["is.classif"])
     stop("Only classifiers can be used as base learners!")
   if (learner["predict.type"] != "prob")

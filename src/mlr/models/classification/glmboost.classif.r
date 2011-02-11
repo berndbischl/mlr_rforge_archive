@@ -44,7 +44,7 @@ setMethod(
 					makeLogicalLearnerParameter(id="center", default=FALSE)
 			)
 			x@par.set = par.set
-			set.hyper.pars(x, family="Binomial")
+			setHyperPars(x, family="Binomial")
 		}
 )
 

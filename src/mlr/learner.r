@@ -44,7 +44,7 @@ roxygen()
 #'  \item{predict.type [character]}{What should be predicted: 'response', 'prob' or 'decision'.}
 #' }
 #' 
-#' Setters: \code{\link{set.id}}, \code{\link{set.hyper.pars}}, \code{\link{set.predict.type}}  
+#' Setters: \code{\link{set.id}}, \code{\link{setHyperPars}}, \code{\link{set.predict.type}}  
 #' 
 #' @exportClass learner
 #' @title Base class for inducers. 
@@ -74,7 +74,7 @@ setMethod(
 			require.packs(pack, for.string=paste("learner", id))
 			.Object@par.set = par.set
       .Object@predict.type = "response"
-      set.hyper.pars(.Object, par.vals=par.vals)
+      setHyperPars(.Object, par.vals=par.vals)
 		}
 )
 

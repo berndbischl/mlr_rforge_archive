@@ -8,12 +8,12 @@
 #'       Optional list of named (hyper)parameters. Alternatively, you can pass via the ... argument.
 #' 		    
 #' @return \code{\linkS4class{learner}} with changed hyperparameters.
-#' @exportMethod set.hyper.pars
+#' @exportMethod setHyperPars
 #' @title Set hyperparamters of learner object.
-#' @rdname set.hyper.pars 
+#' @rdname setHyperPars 
 
 setGeneric(
-    name = "set.hyper.pars",
+    name = "setHyperPars",
     def = function(learner, ..., par.vals) {
       x = list(...)      
       if (missing(par.vals))
@@ -21,13 +21,13 @@ setGeneric(
       if(!all.els.named(x))
         stop("All parameter settings have to be named arguments!")
       par.vals = insert(par.vals, x)
-      standardGeneric("set.hyper.pars")
+      standardGeneric("setHyperPars")
     }
 )
 
-#' @rdname set.hyper.pars 
+#' @rdname setHyperPars 
 setMethod(
-    f = "set.hyper.pars",
+    f = "setHyperPars",
     
     signature = signature(
         learner="learner", 

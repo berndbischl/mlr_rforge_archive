@@ -3,7 +3,7 @@ mynoisyego = function(fun, control) {
   # todo req.packs
   require(lhs)
   pds = control$par.set
-  control$constr.learner = make.learner("classif.randomForest")
+  control$constr.learner = makeLearner("classif.randomForest")
   ml = control$meta.learner
   cl = control$constr.learner  
   

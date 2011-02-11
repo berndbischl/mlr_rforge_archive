@@ -33,7 +33,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 	if (n == 0)
 		stop("No learners were passed!")
 	check.list.type(learners, c("character", "learner"))
-	learners = lapply(learners, function(x) if (is.character(x)) make.learner(x) else x)
+	learners = lapply(learners, function(x) if (is.character(x)) makeLearner(x) else x)
   ids = sapply(learners, function(x) x@id)
 	if (any(duplicated(ids)))
 		stop("Learners need unique ids!")

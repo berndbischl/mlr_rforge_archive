@@ -56,7 +56,7 @@ setMethod(
 			)
 			# we have to load the package first for Binomial()
 			x@par.set = par.set
-			set.hyper.pars(x, family="Binomial")
+			setHyperPars(x, family="Binomial")
 		}
 )
 

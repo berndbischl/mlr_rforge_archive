@@ -8,8 +8,8 @@ set.seed(1)
 #  new("Parameter.double", par.name="x", lower=-25, upper=10)
 #)
 #
-##ml = make.learner("regr.km.noisy")
-#ml = make.learner("regr.km")
+##ml = makeLearner("regr.km.noisy")
+#ml = makeLearner("regr.km")
 #ctrl = myspo.optcontrol(par.set=par.set, meta.learner=ml, 
 #  seq.method="DiceOptim.CL", seq.loops=20, init.des.points=15)
 #z = myspo(f2, control=ctrl) 

@@ -4,7 +4,7 @@ roxygen()
 roxygen()
 #' @include set.id.r
 roxygen()
-#' @include set.hyper.pars.r
+#' @include setHyperPars.R
 roxygen()
 #' @include set.predict.type.r
 roxygen()
