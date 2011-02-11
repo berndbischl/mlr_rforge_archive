@@ -4,9 +4,9 @@
 roxygen()
 #' @include WrappedModel.R
 roxygen()
-#' @include trainLearner.r
+#' @include trainLearner.R
 roxygen()
-#' @include predictLearner.r
+#' @include predictLearner.R
 roxygen()
 #' @include ClassifTask.R
 roxygen()

@@ -40,11 +40,11 @@ pack.files = c(
     "mlr/WrappedModel_make.R",
     "mlr/learner.failure.r",
 		
-		"mlr/trainLearner.r",
+		"mlr/trainLearner.R",
 		"mlr/train.task.r",
 		"mlr/check.task.learner.r",
 		
-		"mlr/predictLearner.r",
+		"mlr/predictLearner.R",
 		"mlr/prediction.r",
 		"mlr/predict.r",
 		"mlr/setThreshold.R",

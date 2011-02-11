@@ -6,9 +6,9 @@ roxygen()
 roxygen()
 #' @include setPredictType.R
 roxygen()
-#' @include trainLearner.r
+#' @include trainLearner.R
 roxygen()
-#' @include predictLearner.r
+#' @include predictLearner.R
 roxygen()
 
 
