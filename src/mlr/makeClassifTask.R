@@ -104,7 +104,7 @@ setMethod(
       data = data[, setdiff(colnames(data), exclude)]
     checkData(data, target, exclude)    
     
-    data = prep.data("classif", data, target, control)      
+    data = prep.data(TRUE, data, target, control)      
     
     new("ClassifTask", id=id, target=target, data=data, weights=weights, blocking=blocking, control=control, costs=costs, positive=positive)
   }

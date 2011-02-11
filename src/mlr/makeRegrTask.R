@@ -84,7 +84,7 @@ setMethod(
     checkData(data, target, exclude)    
     
     
-    data = prep.data("regr", data, target, control)      
+    data = prep.data(FALSE, data, target, control)      
     new("RegrTask", id=id, target=target, data=data, weights=weights, blocking=blocking, control=control)
   }
 )
