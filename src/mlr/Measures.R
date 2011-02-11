@@ -2,8 +2,8 @@
 #' of the prediction (or maybe only the model, think AIC).
 #' The measure itself knows whether it wants to be minimized or maximized and for what tasks it is applicable.
 #' See below for a list of already implemented measures. 
-#' If you want a measure for a misclassification cost matrix, look at \code{\link{make.cost.measure}}.
-#' If you want to implement your own measure, look at \code{\link{make.measure}}. 
+#' If you want a measure for a misclassification cost matrix, look at \code{\link{makeCostMeasure}}.
+#' If you want to implement your own measure, look at \code{\link{makeMeasure}}. 
 #' 
 #' Classification (only mmce and acc can be used for multiclass problems): 
 #' \itemize{ 
@@ -49,28 +49,28 @@ measures = function() {}
 
 #general
 #' @export nvars
-nvars = make.measure(id="nvars", minimize=TRUE,  
+nvars = makeMeasure(id="nvars", minimize=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     length(model["vars"])          
   }
 )
 
 #' @export time.fit
-time.fit = make.measure(id="time.train", minimize=TRUE, 
+time.fit = makeMeasure(id="time.train", minimize=TRUE, 
   fun=function(task, model, pred, extra.pars) {
     model["time"]
   }
 )
 
 #' @export time.predict
-time.predict = make.measure(id="time.predict", minimize=TRUE, 
+time.predict = makeMeasure(id="time.predict", minimize=TRUE, 
   fun=function(task, model, pred, extra.pars) {
     pred["time"]
   }  
 )
 
 #' @export time.all
-time.all = make.measure(id="time.all", minimize=TRUE, 
+time.all = makeMeasure(id="time.all", minimize=TRUE, 
   fun=function(task, model, pred, extra.pars) {
     model["time"] + pred["time"]           
   }  
@@ -79,42 +79,42 @@ time.all = make.measure(id="time.all", minimize=TRUE,
 ### regression ###
 
 #' @export sse
-sse = make.measure(id="sse", minimize=TRUE, req.task.type="regr",
+sse = makeMeasure(id="sse", minimize=TRUE, req.task.type="regr",
   fun=function(task, model, pred, extra.pars) {
     sum((pred["response"] - pred["truth"])^2)          
   }
 )
 
 #' @export mse
-mse = make.measure(id="mse", minimize=TRUE, req.task.type="regr",  
+mse = makeMeasure(id="mse", minimize=TRUE, req.task.type="regr",  
   fun=function(task, model, pred, extra.pars) {
     mean((pred["response"] - pred["truth"])^2)          
   }
 )
 
 #' @export medse
-medse = make.measure(id="medse", minimize=TRUE, req.task.type="regr", 
+medse = makeMeasure(id="medse", minimize=TRUE, req.task.type="regr", 
   fun=function(task, model, pred, extra.pars) {
     median((pred["response"] - pred["truth"])^2)          
   }
 )
 
 #' @export sae
-sae = make.measure(id="sae", minimize=TRUE, req.task.type="regr", 
+sae = makeMeasure(id="sae", minimize=TRUE, req.task.type="regr", 
   fun=function(task, model, pred, extra.pars) {
     sum(abs(pred["response"] - pred["truth"]))          
   }
 )
 
 #' @export mae
-mae = make.measure(id="mae", minimize=TRUE, req.task.type="regr", 
+mae = makeMeasure(id="mae", minimize=TRUE, req.task.type="regr", 
   fun=function(task, model, pred, extra.pars) {
     mean(abs(pred["response"] - pred["truth"]))          
   }
 )
 
 #' @export medae
-medae = make.measure(id="medae", minimize=TRUE, req.task.type="regr", 
+medae = makeMeasure(id="medae", minimize=TRUE, req.task.type="regr", 
   fun=function(task, model, pred, extra.pars) {
     median(abs(pred["response"] - pred["truth"]))          
   }
@@ -124,14 +124,14 @@ medae = make.measure(id="medae", minimize=TRUE, req.task.type="regr",
 # classif_multi
 
 #' @export mmce
-mmce = make.measure(id="mmce", minimize=TRUE, req.task.type="classif",  
+mmce = makeMeasure(id="mmce", minimize=TRUE, req.task.type="classif",  
   fun=function(task, model, pred, extra.pars) {
     mean(pred["response"] != pred["truth"])          
   }
 )
 
 #' @export acc
-acc = make.measure(id="acc", minimize=FALSE, req.task.type="classif",  
+acc = makeMeasure(id="acc", minimize=FALSE, req.task.type="classif",  
   fun=function(task, model, pred, extra.pars) {
     mean(pred["response"] == pred["truth"])          
   }
@@ -142,7 +142,7 @@ acc = make.measure(id="acc", minimize=FALSE, req.task.type="classif",
 # classif_two
 
 #' @export auc
-auc = make.measure(id="auc", minimize=FALSE, req.task.type="binary" ,req.pred.type="prob",  
+auc = makeMeasure(id="auc", minimize=FALSE, req.task.type="binary" ,req.pred.type="prob",  
   fun=function(task, model, pred, extra.pars) {
     # ROCR does not work with NAs
     if (any(is.na(pred["response"])) || length(unique(pred["truth"])) == 1)
@@ -154,28 +154,28 @@ auc = make.measure(id="auc", minimize=FALSE, req.task.type="binary" ,req.pred.ty
 )
 
 #' @export tp
-tp = make.measure(id="tp", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
+tp = makeMeasure(id="tp", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     sum(pred["truth"] == pred["response"] & pred["response"] == pred@desc["positive"])  
   }
 )
 
 #' @export tn
-tn = make.measure(id="tn", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
+tn = makeMeasure(id="tn", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     sum(pred["truth"] == pred["response"] & pred["response"] == pred@desc["negative"])  
   }
 )
 
 #' @export fp
-fp = make.measure(id="fp", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
+fp = makeMeasure(id="fp", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     sum(pred["truth"] != pred["response"] & pred["response"] == pred@desc["positive"])  
   }
 )
 
 #' @export fn
-fn = make.measure(id="fn", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
+fn = makeMeasure(id="fn", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     sum(pred["truth"] != pred["response"] & pred["response"] == pred@desc["negative"])  
   }
@@ -183,7 +183,7 @@ fn = make.measure(id="fn", minimize=TRUE, req.task.type="classif", req.binary=TR
 
 
 #' @export tpr
-tpr = make.measure(id="tpr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
+tpr = makeMeasure(id="tpr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     tp@fun(pred=pred) / 
       sum(pred["truth"] == pred@desc["positive"])    
@@ -191,7 +191,7 @@ tpr = make.measure(id="tpr", minimize=FALSE, req.task.type="classif", req.binary
 )
 
 #' @export tnr
-tnr = make.measure(id="tnr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
+tnr = makeMeasure(id="tnr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     tn@fun(pred=pred) / 
       sum(pred["truth"] == pred@desc["negative"])  
@@ -199,7 +199,7 @@ tnr = make.measure(id="tnr", minimize=FALSE, req.task.type="classif", req.binary
 )
 
 #' @export fpr
-fpr = make.measure(id="fpr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
+fpr = makeMeasure(id="fpr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     fp@fun(pred=pred) / 
       sum(pred["truth"] == pred@desc["negative"])  
@@ -207,7 +207,7 @@ fpr = make.measure(id="fpr", minimize=TRUE, req.task.type="classif", req.binary=
 )
 
 #' @export fnr
-fnr = make.measure(id="fnr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
+fnr = makeMeasure(id="fnr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     fn@fun(pred=pred) / 
       sum(pred["truth"] == pred@desc["positive"])  
@@ -215,7 +215,7 @@ fnr = make.measure(id="fnr", minimize=TRUE, req.task.type="classif", req.binary=
 )
 
 #' @export ppv
-ppv = make.measure(id="ppv", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
+ppv = makeMeasure(id="ppv", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     tp@fun(pred=pred) / 
       sum(pred["response"] == pred@desc["positive"])  
@@ -223,7 +223,7 @@ ppv = make.measure(id="ppv", minimize=FALSE, req.task.type="classif", req.binary
 )
 
 #' @export npv
-npv = make.measure(id="npv", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
+npv = makeMeasure(id="npv", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     tn@fun(pred=pred) / 
       sum(pred["response"] == pred@desc["negative"])  
@@ -231,7 +231,7 @@ npv = make.measure(id="npv", minimize=FALSE, req.task.type="classif", req.binary
 )
 
 #' @export fdr
-fdr = make.measure(id="fdr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
+fdr = makeMeasure(id="fdr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     fp@fun(pred=pred) / 
       sum(pred["response"] == pred@desc["positive"])  
@@ -239,7 +239,7 @@ fdr = make.measure(id="fdr", minimize=TRUE, req.task.type="classif", req.binary=
 )
 
 #' @export mcc
-mcc = make.measure(id="mcc", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
+mcc = makeMeasure(id="mcc", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     (tp@fun(pred=pred) * 
     tn@fun(pred=pred) - 
@@ -250,7 +250,7 @@ mcc = make.measure(id="mcc", minimize=FALSE, req.task.type="classif", req.binary
 )
 
 #' @export f1
-f1 = make.measure(id="f1", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
+f1 = makeMeasure(id="f1", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     2*tp@fun(pred=pred) / 
     (sum(pred["truth"] == pred@desc["positive"]) + sum(pred["response"] == pred@desc["positive"])) 
@@ -258,7 +258,7 @@ f1 = make.measure(id="f1", minimize=FALSE, req.task.type="classif", req.binary=T
 )
 
 #' @export gmean
-gmean = make.measure(id="gmean", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
+gmean = makeMeasure(id="gmean", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     sqrt(tpr@fun(pred=pred) * 
          tnr@fun(pred=pred)) 
@@ -266,7 +266,7 @@ gmean = make.measure(id="gmean", minimize=FALSE, req.task.type="classif", req.bi
 )
 
 #' @export gpr
-gpr = make.measure(id="gpr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
+gpr = makeMeasure(id="gpr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     sqrt(ppv@fun(pred=pred) * 
          tpr@fun(pred=pred)) 

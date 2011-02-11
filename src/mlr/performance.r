@@ -1,6 +1,6 @@
 #' @include prediction.r
 roxygen()
-#' @include measure.r
+#' @include Measure.r
 roxygen()
 
 #' Measures the quality of a prediction w.r.t. some performance measures.

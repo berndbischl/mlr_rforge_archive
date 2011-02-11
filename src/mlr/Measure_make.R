@@ -15,13 +15,13 @@
 #' 
 #' @return \code{\linkS4class{measure}} 
 #' 
-#' @exportMethod make.measure
-#' @rdname make.measure
-#' @seealso \code{\link{measures}}, \code{\link{make.measure}}
+#' @exportMethod makeMeasure
+#' @rdname makeMeasure
+#' @seealso \code{\link{measures}}, \code{\link{makeMeasure}}
 #' @title Construct your own performance measure.
 
 setGeneric(
-  name = "make.measure",
+  name = "makeMeasure",
   def = function(id, minimize, req.task.type, req.binary, req.pred.type, fun, extra.pars) {
     if (missing(req.task.type))
       req.task.type = c("classif", "regr")
@@ -31,13 +31,13 @@ setGeneric(
       req.pred.type = c("response", "prob", "decsison")
     if (missing(extra.pars))
       extra.pars = list()
-    standardGeneric("make.measure")
+    standardGeneric("makeMeasure")
   }
 )
 
 
 setMethod(
-  f = "make.measure",
+  f = "makeMeasure",
   signature = signature(id="character", minimize="logical", req.task.type="character", req.binary="logical", 
     req.pred.type="character", fun="function", extra.pars="list"),
   def = function(id, minimize, req.task.type, req.binary, req.pred.type, fun, extra.pars) {

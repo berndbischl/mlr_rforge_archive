@@ -43,9 +43,9 @@ allowed.rd.files <<- c(
 		"performance.Rd",
 		"conf.matrix.Rd",
 		"aggregations.Rd",
-    "measure-class.Rd",
-    "make.measure.Rd",
-    "make.cost.measure.Rd",
+    "Measure-class.Rd",
+    "makeMeasure.Rd",
+    "makeCostMeasure.Rd",
     "measures.Rd",
 		"losses.Rd",
 		

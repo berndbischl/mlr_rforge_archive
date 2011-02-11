@@ -17,14 +17,14 @@ roxygen()
 #' 
 #' @return \code{\linkS4class{measure}} 
 #' 
-#' @exportMethod make.cost.measure
-#' @rdname make.cost.measure
-#' @seealso \code{\link{measures}}, \code{\link{make.measure}}
+#' @exportMethod makeCostMeasure
+#' @rdname makeCostMeasure
+#' @seealso \code{\link{measures}}, \code{\link{makeMeasure}}
 #' @title Create cost measure.
 
 
 setGeneric(
-  name = "make.cost.measure",
+  name = "makeCostMeasure",
   def = function(id, minimize, costs, task, mean.costs) {
     if (missing(id))
       id = "costs"
@@ -33,17 +33,17 @@ setGeneric(
     if (missing(mean.costs))
       mean.costs = TRUE
     check.arg(mean.costs, "logical", 1)
-    standardGeneric("make.cost.measure")
+    standardGeneric("makeCostMeasure")
   }
 )
 
 
 setMethod(
-  f = "make.cost.measure",
+  f = "makeCostMeasure",
   signature = signature(id="character", minimize="logical", costs="matrix", task="ClassifTask"),
   def = function(id="costs", minimize=TRUE, costs, task, mean.costs) {
     check.costs(costs, task["class.levels"]) 
-    make.measure(id="costs", minimize=minimize, extra.pars=list(costs, mean.costs), 
+    makeMeasure(id="costs", minimize=minimize, extra.pars=list(costs, mean.costs), 
       fun=function(task, model, pred, extra.pars) {
         costs = extra.pars[[1]]
         mean.costs = extra.pars[[2]]

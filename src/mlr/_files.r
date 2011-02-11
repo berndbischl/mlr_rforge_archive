@@ -50,7 +50,7 @@ pack.files = c(
 		"mlr/setThreshold.R",
 		#"mlr/loss.r",
     "mlr/aggr.r",
-    "mlr/measure.r",
+    "mlr/Measure.r",
     "mlr/measure.make.r",
     "mlr/measure.make.costs.r",
     "mlr/measures.r",
