@@ -250,7 +250,7 @@ checkColumnNames = function(data, target, exclude) {
   
 }
 
-checkColumnNames = function(data, target, exclude) {
+checkData = function(data, target, exclude) {
   if (any(is.na(data[, target]))) {
     stop("Target values contain missings!")
   }
