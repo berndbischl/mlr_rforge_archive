@@ -1,13 +1,13 @@
-#' @include prediction.r
+#' @include Prediction.r
 roxygen()
-#' @include prediction.resample.r
+#' @include ResamplePrediction.R
 roxygen()
 
 
 #' Converts predictions to a format package ROCR can handle.
 #' 
-#' @param x [character] \cr
-#'		Predictions. 			
+#' @param x [\code{\linkS4class{Prediction}}] \cr
+#'		Prediction object. 			
 #' 
 #' @exportMethod as.ROCR.preds 
 #' @rdname as.ROCR.preds 
@@ -28,7 +28,7 @@ setGeneric(
 #' @rdname as.ROCR.preds 
 setMethod(
 		f = "as.ROCR.preds",
-		signature = signature(x="prediction"), 
+		signature = signature(x="Prediction"), 
 		def = function(x) {
 			if(x@desc["class.nr"] != 2) {
 				stop("More than 2 classes!")
@@ -46,7 +46,7 @@ setMethod(
 #' @rdname as.ROCR.preds 
 setMethod(
   f = "as.ROCR.preds",
-  signature = signature(x="resample.prediction"), 
+  signature = signature(x="ResamplePrediction"), 
   def = function(x) {
     if(x@desc["class.nr"] != 2) {
       stop("More than 2 classes!")
