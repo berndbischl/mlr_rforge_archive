@@ -1,6 +1,6 @@
 #' @include learnerR.r
 roxygen()
-#' @include task.regr.r
+#' @include RegrTask.R
 roxygen()
 
 setClass(

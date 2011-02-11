@@ -6,7 +6,7 @@ roxygen()
 roxygen()
 #' @include pred.learner.r
 roxygen()
-#' @include task.regr.r
+#' @include RegrTask.R
 roxygen()
 
 

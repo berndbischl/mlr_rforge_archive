@@ -1,4 +1,4 @@
-#' @include task.classif.r
+#' @include ClassifTask.R
 roxygen()
 #' @include prepare.df.r
 roxygen()

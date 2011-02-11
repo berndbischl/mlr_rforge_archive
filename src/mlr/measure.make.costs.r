@@ -1,4 +1,4 @@
-#' @include task.classif.r
+#' @include ClassifTask.R
 roxygen()
 
 #' Creates a measure for non-standard misclassification costs.

@@ -1,4 +1,4 @@
-#' @include task.classif.r
+#' @include ClassifTask.R
 roxygen()
 
 check.task.learner <- function(lt, learner) {

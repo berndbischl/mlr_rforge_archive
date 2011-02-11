@@ -1,4 +1,4 @@
-#' @include task.regr.r
+#' @include RegrTask.R
 roxygen()
 #' @include prepare.df.r
 roxygen()
