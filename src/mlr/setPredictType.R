@@ -8,20 +8,20 @@
 #'        regression.	 
 #' 		    
 #' @return \code{\linkS4class{learner}} with changed prediction behaviour.
-#' @exportMethod set.predict.type
+#' @exportMethod setPredictType
 #' @title Set predict type of learner object.
 #' @rdname set.predict.pars 
 
 setGeneric(
-  name = "set.predict.type",
+  name = "setPredictType",
   def = function(learner, type) {
-    standardGeneric("set.predict.type")
+    standardGeneric("setPredictType")
   }
 )
 
-#' @rdname set.predict.type 
+#' @rdname setPredictType 
 setMethod(
-  f = "set.predict.type",
+  f = "setPredictType",
   
   signature = signature(
     learner="learner", 

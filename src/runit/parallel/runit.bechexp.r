@@ -13,7 +13,7 @@ test.parallel.benchexp = function() {
     return(data)
   }  
   wl = make.preproc.wrapper("classif.lda", train=f1, predict=f2, args=list(x=1, y=2))
-  wl = set.id(wl, "lda2")
+  wl = setId(wl, "lda2")
   learners = list("classif.lda", "classif.rpart", wl)
   
   res = make.res.desc("cv", iters=2)

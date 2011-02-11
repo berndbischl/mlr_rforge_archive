@@ -44,7 +44,7 @@ roxygen()
 #'  \item{predict.type [character]}{What should be predicted: 'response', 'prob' or 'decision'.}
 #' }
 #' 
-#' Setters: \code{\link{set.id}}, \code{\link{setHyperPars}}, \code{\link{set.predict.type}}  
+#' Setters: \code{\link{setId}}, \code{\link{setHyperPars}}, \code{\link{setPredictType}}  
 #' 
 #' @exportClass learner
 #' @title Base class for inducers. 

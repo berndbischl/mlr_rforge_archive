@@ -48,7 +48,7 @@ make.probth.wrapper = function(learner, classes) {
   ps = do.call(makeParameterSet, 
     lapply(names(a), function(x) makeNumericLearnerParameter(id=x, lower=0, upper=1)))
   w = new("probth.wrapper", learner=learner, par.set=ps, par.vals=a)
-  set.predict.type(w, "response")
+  setPredictType(w, "response")
 }
 
 setMethod(

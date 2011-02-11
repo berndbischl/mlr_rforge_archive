@@ -33,8 +33,8 @@ pack.files = c(
 		"mlr/learners.r",
 		"mlr/get.learners.r",
 		"mlr/setHyperPars.R",
-		"mlr/set.id.r",
-    "mlr/set.predict.type.r",
+		"mlr/setId.R",
+    "mlr/setPredictType.R",
     
     "mlr/wrapped.model.r",
     "mlr/wrapped.model.make.r",

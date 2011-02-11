@@ -6,20 +6,20 @@
 #'       New id.
 #' 		    
 #' @return \code{\linkS4class{learner}} with changed id.
-#' @exportMethod set.id
+#' @exportMethod setId
 #' @title Set id of learner object.
-#' @rdname set.id 
+#' @rdname setId 
 
 setGeneric(
-		name = "set.id",
+		name = "setId",
 		def = function(learner, id) {
-			standardGeneric("set.id")			
+			standardGeneric("setId")			
 		}
 )
 
-#' @rdname set.id 
+#' @rdname setId 
 setMethod(
-		f = "set.id",
+		f = "setId",
 		
 		signature = signature(
 				learner="learner", 

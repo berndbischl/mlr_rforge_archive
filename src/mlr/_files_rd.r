@@ -28,8 +28,8 @@ allowed.rd.files <<- c(
 		"rlearner.regr-class.Rd",
 		"makeLearner.Rd",
 		"setHyperPars.Rd",
-		"set.id.Rd",
-    "set.predict.type.Rd",
+		"setId.Rd",
+    "setPredictType.Rd",
     "learners.Rd",
 		"get.learners.Rd",
 		

@@ -45,6 +45,6 @@ makeLearner = function(class, id, predict.type="response", ..., par.vals=list())
   pv = insert(pv, par.vals)
 	wl = setHyperPars(wl, ..., par.vals=pv)
   if (predict.type != "response")
-    wl = set.predict.type(wl, predict.type)
+    wl = setPredictType(wl, predict.type)
 	return(wl)
 }

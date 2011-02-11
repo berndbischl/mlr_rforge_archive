@@ -1,10 +1,10 @@
 #' @include learner.r
 roxygen()
-#' @include set.id.r
+#' @include setId.R
 roxygen()
 #' @include setHyperPars.R
 roxygen()
-#' @include set.predict.type.r
+#' @include setPredictType.R
 roxygen()
 #' @include train.learner.r
 roxygen()
