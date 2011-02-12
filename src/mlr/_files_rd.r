@@ -72,16 +72,18 @@ allowed.rd.files <<- c(
 #		"set.predict.par.Rd",
 #
 
-		"base.wrapper-class.Rd",
-		"opt.wrapper-class.Rd",
-#		"preproc.wrapper-class.Rd",
-		"make.preproc.wrapper.Rd",
-		"make.multiclass.wrapper.Rd",
-    "multiclass.wrapper-class.Rd",
-    "make.probth.wrapper.Rd",
-    "probth.wrapper-class.Rd",
-    "make.filter.wrapper.Rd",
-		"filter.wrapper-class.Rd",
+		"BaseWrapper-class.Rd",
+		"OptWrapper-class.Rd",
+    "makeTuneWrapper.Rd",
+    "makeVarselWrapper.Rd",
+    #		"preproc.wrapper-class.Rd",
+		"makePreprocWrapper.Rd",
+		"makeMulticlassWrapper.Rd",
+    "MulticlassWrapper-class.Rd",
+    "makeProbthWrapper.Rd",
+    "ProbthWrapper-class.Rd",
+    "makeFilterWrapper.Rd",
+		"FilterWrapper-class.Rd",
 		
 		"opt.control-class.Rd",
 		"opt.result-class.Rd",
@@ -93,14 +95,12 @@ allowed.rd.files <<- c(
 #		"ps.control.Rd",
 		"optim.control.Rd",
 		"cmaes.control.Rd",
-		"make.tune.wrapper.Rd",
 		
 		"varsel.control-class.Rd",
 		"sequential.control.Rd",
 		"randomvarsel.control.Rd",
 		"varsel.Rd",
     "varfilter.Rd",
-    "makeVarselWrapper.Rd",
 		
 		
 		"bench.exp.Rd",

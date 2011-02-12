@@ -1,5 +1,5 @@
 #' @include LearnTask.R
-#' @include opt.wrapper.r
+#' @include OptWrapper.R
 
 benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, models) {
 	i = ind[1]

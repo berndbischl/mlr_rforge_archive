@@ -1,4 +1,4 @@
-#' @include base.wrapper.r
+#' @include BaseWrapper.R
 
 setClass(
 		"preproc.wrapper",
