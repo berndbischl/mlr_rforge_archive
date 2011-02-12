@@ -3,7 +3,7 @@ roxygen()
 
 #' A measure object encapsulates a function to evaluate the performance of a prediction.
 #' Information about already implemented measures can be obtained here: \code{\link{measures}}.
-#' User-defined measures can be created with \code{\link{make.measure}}. Also look at the extension point in the web tutorial.
+#' User-defined measures can be created with \code{\link{makeMeasure}}. Also look at the extension point in the web tutorial.
 #' 
 #' A learner is trained on a a training set d1, results in a model m, predicts a test set d2, resulting in the final prediction.
 #' In order to   
@@ -22,8 +22,8 @@ roxygen()
 #'  \item{pars [list]}{Extra parameters for calculation.}
 #' }
 #' 
-#' @exportClass measure
-#' @seealso \code{\link{measures}}, \code{\link{make.measure}}, \code{\link{make.cost.measure}}
+#' @exportClass Measure
+#' @seealso \code{\link{measures}}, \code{\link{makeMeasure}}, \code{\link{makeCostMeasure}}
 #' @title Class for performance measures.
 
 
