@@ -1,4 +1,4 @@
-#' @include base.wrapper.r
+#' @include BaseWrapper.R
 roxygen()
 #' @include resample.desc.r
 roxygen()
