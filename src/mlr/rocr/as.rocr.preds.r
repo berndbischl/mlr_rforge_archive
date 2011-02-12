@@ -1,4 +1,4 @@
-#' @include Prediction.r
+#' @include Prediction.R
 roxygen()
 #' @include ResamplePrediction.R
 roxygen()
