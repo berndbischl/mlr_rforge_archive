@@ -13,7 +13,7 @@ roxygen()
 #'   Index vector to subset the data in the task to use for prediction. 
 #' @param newdata [\code{\link{data.frame}}] \cr 
 #'   New observations which should be predicted. Alternatively pass this instead of task. 
-#' @return \code{\linkS4class{prediction}}.
+#' @return \code{\linkS4class{Prediction}}.
 #'
 #' @export
 #' @rdname predict
@@ -141,14 +141,14 @@ setMethod(
 					if (class(p) != "numeric")
 						stop("predictLearner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")
 				}
-				logger.debug(level="predict", "prediction:")
+				logger.debug(level="predict", "Prediction:")
 				logger.debug(level="predict", p)
 			}
 			if (missing(task))
 				ids = NULL			
 			else
 				ids = subset
-			make.prediction(task.desc=td, id=ids, truth=truth, 
+			makePrediction(task.desc=td, id=ids, truth=truth, 
 					type=type, y=p, time=time.predict)
 		}
 )

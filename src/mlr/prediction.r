@@ -13,7 +13,7 @@
 #'  \item{threshold [numeric]}{Threshold set in predict function.}
 #' }
 #' 
-#' @exportClass prediction
+#' @exportClass Prediction
 #' @title Prediction.
 #' @seealso \code{\link{performance}}
 
@@ -22,7 +22,7 @@
 #Predicted probabilities. If it's a binary problem only the probabilities for the positive class are returned. With "class" you can specifically select which columns of the prob matrix should be returned. Columns names of the returned matrix are always the respective class labels.
 
 setClass(
-		"prediction",
+		"Prediction",
 		contains = c("object"),
 		representation = representation(
 				type = "character",
@@ -37,7 +37,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("prediction"),
+		signature = signature("Prediction"),
 		def = function(.Object, task.desc, type, df, threshold, time) {
 			if (missing(df))
 				return(make.empty(.Object))
@@ -51,7 +51,7 @@ setMethod(
 )
 
 
-make.prediction = function(task.desc, id, truth, type, y, time) {
+makePrediction = function(task.desc, id, truth, type, y, time) {
 	xs = list()
 	# if null no col in df present
 	xs[["id"]] = id
@@ -81,21 +81,21 @@ make.prediction = function(task.desc, id, truth, type, y, time) {
   if (type != "response") {
     th = rep(1/task.desc["class.nr"], task.desc["class.nr"])
     names(th) = task.desc["class.levels"]
-    p = new("prediction", task.desc, type, df, th, time)
+    p = new("Prediction", task.desc, type, df, th, time)
     return(setThreshold(p, th))
   } else {
-    return(new("prediction", task.desc, type, df, as.numeric(NA), time))
+    return(new("Prediction", task.desc, type, df, as.numeric(NA), time))
   }  
 }
 
 
 #' Getter.
-#' @rdname prediction-class
+#' @rdname Prediction-class
 
 
 setMethod(
 		f = "[",
-		signature = signature("prediction"),
+		signature = signature("Prediction"),
 		def = function(x,i,j,...,drop) {
 			args = list(...)
 			class = args$class
@@ -138,11 +138,11 @@ setMethod(
 )
 
 #'  Convert to data.frame
-#' @rdname prediction-class 
+#' @rdname Prediction-class 
 #' @export
 setMethod(
 		f = "as.data.frame",
-		signature = signature("prediction"),
+		signature = signature("Prediction"),
 		def = function(x, row.names = NULL, optional = FALSE,...) {
 			return(x@df)
 		}
@@ -153,7 +153,7 @@ setMethod(
 
 setMethod(
 		f = "to.string",
-		signature = signature("prediction"),
+		signature = signature("Prediction"),
 		def = function(x) {
 			return(
 					paste(
@@ -166,7 +166,7 @@ setMethod(
 )
 
 
-#c.prediction = function(...) {
+#c.Prediction = function(...) {
 #	preds = list(...)
 #	id = Reduce(c, lapply(preds, function(x) x@id))
 #	response = Reduce(c, lapply(preds, function(x) x@response))
@@ -174,5 +174,5 @@ setMethod(
 #	weights = Reduce(c, lapply(preds, function(x) x@weights))
 #	prob = Reduce(rbind, lapply(preds, function(x) x@prob))
 #	decision = Reduce(rbind, lapply(preds, function(x) x@decision))
-#	return(new("prediction", task.desc=preds[[1]]@desc, id=id, response=response, target=target, weights=weights, prob=prob, decision=decision));
+#	return(new("Prediction", task.desc=preds[[1]]@desc, id=id, response=response, target=target, weights=weights, prob=prob, decision=decision));
 #}

@@ -1,11 +1,11 @@
-#' @include prediction.r
+#' @include Prediction.r
 roxygen()
 #' @include Measure.r
 roxygen()
 
 #' Measures the quality of a prediction w.r.t. some performance measures.
 #' 
-#' @param pred [\code{\linkS4class{prediction}}] \cr
+#' @param pred [\code{\linkS4class{Prediction}}] \cr
 #'   Prediction object to evaluate.
 #' @param measure [\code{\linkS4class{measure}}]
 #'   Performance measure. 
@@ -25,7 +25,7 @@ setGeneric(
 		name = "performance",
 		def = function(pred, measure, task, model) {
       if (missing(pred))
-        pred = new("prediction")
+        pred = new("Prediction")
       if (missing(task))
         task = new("LearnTask")
       if (missing(model))
@@ -38,7 +38,7 @@ setGeneric(
 
 setMethod(
   f = "performance",
-  signature = signature(pred="prediction", measure="Measure", task="LearnTask", model="WrappedModel"),
+  signature = signature(pred="Prediction", measure="Measure", task="LearnTask", model="WrappedModel"),
   def = function(pred, measure, task, model) {
     m = measure
     if (m["req.pred"]) {
