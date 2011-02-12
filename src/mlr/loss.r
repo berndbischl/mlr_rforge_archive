@@ -1,11 +1,11 @@
-##' @include prediction.r
+##' @include Prediction.r
 #roxygen()
 ##' @include Measure.r
 #roxygen()
 #
-##' Measures the quality of predictions w.r.t. some performance measures.
+##' Measures the quality of Predictions w.r.t. some performance measures.
 ##' 
-##' @param pred [\code{\linkS4class{prediction}}] \cr
+##' @param pred [\code{\linkS4class{Prediction}}] \cr
 ##'   Prediction object to evaluate.
 ##' 
 ##' @return A single numerical performance value.
@@ -30,7 +30,7 @@
 #
 #setMethod(
 #  f = "loss",
-#  signature = signature(pred="prediction", fun="function", type="character"),
+#  signature = signature(pred="Prediction", fun="function", type="character"),
 #  def = function(pred, fun, type) {
 #    if (type == "response")
 #      fun(pred["truth"], pred["response"])

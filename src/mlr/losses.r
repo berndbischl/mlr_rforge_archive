@@ -1,5 +1,5 @@
-## A loss transforms a vector of predictions (compared to the true responses) into a  vector of numerical values, 
-## measuring the quality of each prediction individually. 
+## A loss transforms a vector of Predictions (compared to the true responses) into a  vector of numerical values, 
+## measuring the quality of each Prediction individually. 
 ##
 ##' Losses can always be passed as a single string (name of a single loss), a character vector of multiple names of losses or 
 ##' a list containing string names of losses and your own loss functions as function objects. The latter ones should 
