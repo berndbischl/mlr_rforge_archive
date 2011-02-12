@@ -1,10 +1,10 @@
-test.multiclass.wrapper <- function() {
-  w = make.multiclass.wrapper("classif.logreg", mcw.method="onevsrest")
+test.MulticlassWrapper <- function() {
+  w = makeMulticlassWrapper("classif.logreg", mcw.method="onevsrest")
   res = make.res.desc("cv", iters=2)
   r = resample(w, multiclass.task, res)
   checkTrue(!any(is.na(r$aggr)))
   
-  w = make.multiclass.wrapper("classif.logreg", mcw.method="onevsone")
+  w = makeMulticlassWrapper("classif.logreg", mcw.method="onevsone")
   res = make.res.desc("cv", iters=2)
   r = resample(w, multiclass.task, res)
   checkTrue(!any(is.na(r$aggr)))
@@ -16,7 +16,7 @@ test.multiclass.wrapper <- function() {
     m
   } 
 
-  w = make.multiclass.wrapper("classif.lda", mcw.method=cm)
+  w = makeMulticlassWrapper("classif.lda", mcw.method=cm)
   res = make.res.desc("cv", iters=2)
   r = resample(w, multiclass.task, res)
   checkTrue(!any(is.na(r$aggr)))

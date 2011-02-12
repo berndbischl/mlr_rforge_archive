@@ -1,4 +1,4 @@
-test.opt.wrapper <- function() {
+test.OptWrapper <- function() {
 	
 	outer = make.res.instance(make.res.desc("holdout"), task=multiclass.task)
   inner = make.res.desc("cv", iters=2)

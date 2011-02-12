@@ -9,8 +9,8 @@ roxygen()
 #' Abstract base class to wrap an optimization algorithm around a learner.
 
 setClass(
-		"opt.wrapper",
-		contains = c("base.wrapper"),
+		"OptWrapper",
+		contains = c("BaseWrapper"),
 		representation = representation(
 				resampling = "resample.desc",
         measures = "list",
@@ -25,7 +25,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("opt.wrapper"),
+		signature = signature("OptWrapper"),
 		def = function(.Object, learner, resampling, measures, par.set, control, log.fun) {
 			if (missing(learner))
 				return(.Object)
@@ -39,11 +39,11 @@ setMethod(
 )
 
 
-#' @rdname opt.wrapper-class
+#' @rdname OptWrapper-class
 
 setMethod(
 		f = "[",
-		signature = signature("opt.wrapper"),
+		signature = signature("OptWrapper"),
 		def = function(x,i,j,...,drop) {
 			if (i == "opt.type"){
 				return(x@control["opt.type"])
@@ -58,7 +58,7 @@ setMethod(
 setMethod(
 		f = "trainLearner",
     signature = signature(
-      .learner="opt.wrapper", 
+      .learner="OptWrapper", 
       .task="LearnTask", .subset="integer"
     ),
       
@@ -86,14 +86,14 @@ setMethod(
 )
 
 
-make.opt.wrapper = function(learner, resampling, measures, par.set, control, log.fun) {
+make.OptWrapper = function(learner, resampling, measures, par.set, control, log.fun) {
 	if (is.character(learner))
 		learner = makeLearner(learner)
 	if (missing(measures))
 		measures = default.measures(learner)
   if (is(measures, "Measure"))
     measures = list(measures)   
-	new("opt.wrapper", learner, resampling, measures, par.set, control, log.fun)
+	new("OptWrapper", learner, resampling, measures, par.set, control, log.fun)
 }
 
 

@@ -13,7 +13,7 @@ roxygen()
 #' You can change labels of a \code{\linkS4class{Prediction}} object later by using the function \code{\link{setThreshold}} or find optimal, 
 #' non-default thresholds by using \code{\link{makeProbthWrapper}} and tuning it.
 #' 
-#' How to add further functionality to a learner: Look at subclasses of \code{\linkS4class{base.wrapper}}.
+#' How to add further functionality to a learner: Look at subclasses of \code{\linkS4class{BaseWrapper}}.
 #' 
 #' Getter.\cr
 #' 

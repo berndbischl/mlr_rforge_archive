@@ -1,8 +1,8 @@
 #' @include BaseWrapper.R
 
 setClass(
-		"postproc.wrapper",
-		contains = c("base.wrapper"),
+		"PostprocWrapper",
+		contains = c("BaseWrapper"),
 		representation = representation(
 				fun = "function"
 		)
@@ -12,7 +12,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("postproc.wrapper"),
+		signature = signature("PostprocWrapper"),
 		def = function(.Object, learner, fun, args) {
       .Object@fun = fun
       pds = list()
@@ -36,14 +36,14 @@ setMethod(
 #' @title Fuse learner with postprocessing.
 #' @export
 
-make.postproc.wrapper = function(learner, fun, args, ...) {
+makePostprocWrapper = function(learner, fun, args, ...) {
   if (is.character(learner))
     learner = makeLearner(learner)
   if (missing(args))
     args=list()
   if (any(names(formals(fun)) != c("pred", "args")))
     stop("Arguments in postproc function have to be: pred, args")   
-	new("postproc.wrapper", learner=learner, fun=fun, args=args)
+	new("PostprocWrapper", learner=learner, fun=fun, args=args)
 }
 
 
@@ -52,7 +52,7 @@ make.postproc.wrapper = function(learner, fun, args, ...) {
 setMethod(
 		f = "predictLearner",
 		signature = signature(
-				.learner = "postproc.wrapper", 
+				.learner = "PostprocWrapper", 
 				.model = "WrappedModel", 
 				.newdata = "data.frame", 
 				.type = "character" 

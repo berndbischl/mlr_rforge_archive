@@ -28,7 +28,7 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
     measures = list(measures)   
 	
 	extract = function(m){}
-	if (is(learner, "opt.wrapper")) {
+	if (is(learner, "OptWrapper")) {
 		extract = function(m) m["opt.result"]
 	}
 
@@ -36,7 +36,7 @@ benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, m
 	rr = resample(learner, task, resampling, measures=measures, models=models, extract=extract)
 	
 	ors = NULL
-  if (is(learner, "opt.wrapper"))
+  if (is(learner, "OptWrapper"))
     ors = rr$extract
   return(list(res.result=rr, ors=ors))
 }

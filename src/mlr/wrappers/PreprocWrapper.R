@@ -1,8 +1,8 @@
 #' @include BaseWrapper.R
 
 setClass(
-		"preproc.wrapper",
-		contains = c("base.wrapper"),
+		"PreprocWrapper",
+		contains = c("BaseWrapper"),
 		representation = representation(
         train = "function",
         predict = "function"
@@ -13,7 +13,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("preproc.wrapper"),
+		signature = signature("PreprocWrapper"),
 		def = function(.Object, learner, train, predict, par.set, par.vals) {
 			.Object@train = train
       .Object@predict = predict
@@ -47,7 +47,7 @@ makePreprocWrapper = function(learner, train, predict, par.set=makeParameterSet(
 		stop("Arguments in preproc train function have to be: data, targetvar, args")		
   if (any(names(formals(predict)) != c("data", "targetvar", "args", "control")))
     stop("Arguments in preproc predict function have to be: data, targetvar, args, control")    
-	new("preproc.wrapper", learner=learner, train=train, predict=predict, par.set=par.set, par.vals=par.vals)
+	new("PreprocWrapper", learner=learner, train=train, predict=predict, par.set=par.set, par.vals=par.vals)
 }
 
 
@@ -56,7 +56,7 @@ makePreprocWrapper = function(learner, train, predict, par.set=makeParameterSet(
 setMethod(
 		f = "trainLearner",
     signature = signature(
-      .learner="preproc.wrapper", 
+      .learner="PreprocWrapper", 
       .task="LearnTask", .subset="integer"
     ),
       
@@ -84,7 +84,7 @@ setMethod(
 setMethod(
 		f = "predictLearner",
 		signature = signature(
-				.learner = "preproc.wrapper", 
+				.learner = "PreprocWrapper", 
 				.model = "WrappedModel", 
 				.newdata = "data.frame", 
 				.type = "character" 

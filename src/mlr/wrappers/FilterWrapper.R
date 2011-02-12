@@ -2,13 +2,13 @@
 #' Wrapper class for learners to filter variables. Experimental. Can currently 
 #' only filter to manually selected variables. 
 #' 
-#' @exportClass filter.wrapper
+#' @exportClass FilterWrapper
 #' @title Wrapper class for learners to filter variables.
 
-#' @exportClass filter.wrapper
+#' @exportClass FilterWrapper
 setClass(
-		"filter.wrapper",
-		contains = c("base.wrapper"),
+		"FilterWrapper",
+		contains = c("BaseWrapper"),
 		representation = representation(
 		)
 )
@@ -32,7 +32,7 @@ setClass(
 #' 
 #' @title Fuse learner with filter method.
 #' @export
-make.filter.wrapper = function(learner, fw.method="information.gain", fw.threshold) {
+makeFilterWrapper = function(learner, fw.method="information.gain", fw.threshold) {
   if (is.character(learner))
     learner = makeLearner(learner)
   # todo check that for some the inputs have to be all num. or accept error in train and NA in predict?
@@ -42,7 +42,7 @@ make.filter.wrapper = function(learner, fw.method="information.gain", fw.thresho
         "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")),
     makeNumericLearnerParameter(id="fw.threshold")
   )
-	w = new("filter.wrapper", learner=learner, pack="FSelector", par.set=ps, 
+	w = new("FilterWrapper", learner=learner, pack="FSelector", par.set=ps, 
     par.vals=list(fw.method=fw.method, fw.threshold=fw.threshold))
   setPredictType(w, learner["predict.type"])
 }
@@ -53,7 +53,7 @@ make.filter.wrapper = function(learner, fw.method="information.gain", fw.thresho
 setMethod(
 		f = "trainLearner",
     signature = signature(
-      .learner="filter.wrapper", 
+      .learner="FilterWrapper", 
       .task="LearnTask", .subset="integer"
     ),
 		
@@ -81,7 +81,7 @@ setMethod(
 setMethod(
   f = "predictLearner",
   signature = signature(
-    .learner = "filter.wrapper", 
+    .learner = "FilterWrapper", 
     .model = "WrappedModel", 
     .newdata = "data.frame", 
     .type = "character" 

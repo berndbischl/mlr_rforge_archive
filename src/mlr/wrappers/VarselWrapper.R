@@ -21,5 +21,5 @@
 makeVarselWrapper = function(learner, resampling, measures, control, log.fun) {
   if (missing(log.fun))
     log.fun = log.fun.varsel
-  make.opt.wrapper(learner, resampling, measures, makeParameterSet(), control, log.fun)
+  make.OptWrapper(learner, resampling, measures, makeParameterSet(), control, log.fun)
 }

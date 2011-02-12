@@ -76,7 +76,7 @@ allowed.rd.files <<- c(
 		"OptWrapper-class.Rd",
     "makeTuneWrapper.Rd",
     "makeVarselWrapper.Rd",
-    #		"preproc.wrapper-class.Rd",
+    #		"PreprocWrapper-class.Rd",
 		"makePreprocWrapper.Rd",
 		"makeMulticlassWrapper.Rd",
     "MulticlassWrapper-class.Rd",

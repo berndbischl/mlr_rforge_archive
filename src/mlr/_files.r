@@ -105,13 +105,12 @@ pack.files = c(
     
 		"mlr/wrappers/BaseWrapper.R",
     "mlr/wrappers/BaseCombiner.R",
-    #		"mlr/wrappers/novars.r",
-    "mlr/tune/TuneWrapper.R",
+    "mlr/wrappers/OptWrapper.R",
+    "mlr/wrappers/TuneWrapper.R",
+    "mlr/wrappers/VarselWrapper.R",
     "mlr/wrappers/PreprocWrapper.R",
 		"mlr/wrappers/MulticlassWrapper.R",
     "mlr/wrappers/ProbthWrapper.R",
-    "mlr/wrappers/OptWrapper.R",
-    "mlr/wrappers/VarselWrapper.R",
     "mlr/wrappers/CombineWrapperRegrAvg.R",
     "mlr/wrappers/FilterWrapper.R",
     

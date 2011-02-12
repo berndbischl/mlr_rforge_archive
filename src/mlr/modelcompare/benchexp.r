@@ -89,7 +89,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 			counter = counter+1
 		  
 			rrs[[j]][[i]] = bm$res.result 
-			if(is(wl, "opt.wrapper")) ors[[j]][[i]] = bm$ors else ors[[j]][i] = list(NULL)
+			if(is(wl, "OptWrapper")) ors[[j]][[i]] = bm$ors else ors[[j]][i] = list(NULL)
 		}
 		names(rrs[[j]]) = learner.names
 		names(ors[[j]]) = learner.names

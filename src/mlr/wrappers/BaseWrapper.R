@@ -13,10 +13,10 @@ roxygen()
 
 
 #' Abstract base class to wrap something around a learner.
-#' @exportClass base.wrapper
+#' @exportClass BaseWrapper
 
 setClass(
-		"base.wrapper",
+		"BaseWrapper",
 		contains = c("learner"),
 		representation = representation(
 			learner = "learner"
@@ -28,7 +28,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("base.wrapper"),
+		signature = signature("BaseWrapper"),
 		def = function(.Object, learner, par.set, par.vals=list(), pack=as.character(c())) {
 			if (missing(learner))
 				return(make.empty(.Object))
@@ -42,18 +42,18 @@ setMethod(
 
 
 
-#' @rdname base.wrapper-class
+#' @rdname BaseWrapper-class
 
 setMethod(
 		f = "[",
-		signature = signature("base.wrapper"),
+		signature = signature("BaseWrapper"),
 		def = function(x,i,j,...,drop) {
       
       head = list(...)$head
       if (is.null(head)) 
         head = FALSE
       
-      # these belong to base.wrapper and can be different from basic rlearner 
+      # these belong to BaseWrapper and can be different from basic rlearner 
 			if(i %in% c("id", "learner", "predict.type", "par.vals.string"))
 				return(callNextMethod())
       
@@ -80,7 +80,7 @@ setMethod(
       }
       if(i == "leaf.learner") {
         y = x@learner 
-        while (is(y, "base.wrapper")) 
+        while (is(y, "BaseWrapper")) 
           y = y@learner
         return(y)  
       }
@@ -93,7 +93,7 @@ setMethod(
 setMethod(
   f = "trainLearner",
   signature = signature(
-    .learner="base.wrapper", 
+    .learner="BaseWrapper", 
     .task="LearnTask", .subset="integer"
   ),
   
@@ -106,7 +106,7 @@ setMethod(
 setMethod(
 		f = "predictLearner",
 		signature = signature(
-				.learner = "base.wrapper", 
+				.learner = "BaseWrapper", 
 				.model = "WrappedModel", 
 				.newdata = "data.frame", 
 				.type = "ANY" 
@@ -122,7 +122,7 @@ setMethod(
 	f = "setHyperPars",
 	
 	signature = signature(
-			learner="base.wrapper", 
+			learner="BaseWrapper", 
 			par.vals="list" 
 	),
 	
@@ -143,11 +143,11 @@ setMethod(
 
 #' @rdname to.string
 setMethod(f = "to.string",
-  signature = signature("base.wrapper"),
+  signature = signature("BaseWrapper"),
   def = function(x) {
     s = ""
     y = x 
-    while (is(y, "base.wrapper")) {
+    while (is(y, "BaseWrapper")) {
       s = paste(s, class(y), "->", sep="")
       y = y@learner
     }

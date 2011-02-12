@@ -1,5 +1,5 @@
 setClass(
-  "combine.wrapper",   
+  "CombineWrapper",   
   contains = c("learner"),
   representation = representation(
     learners = "list"
@@ -8,8 +8,8 @@ setClass(
 
 #todo: names of hyperpars should start with "cw."
 
-make.combine.wrapper = function(learners) {
-  w = new("combine.wrapper")
+makeCombineWrapper = function(learners) {
+  w = new("CombineWrapper")
   w@learners=learners
   a = as.list(rep(0.5, length(learners)))
   names(a) = paste("", sapply(learners, function(x) x@id), sep="")
@@ -23,7 +23,7 @@ make.combine.wrapper = function(learners) {
 
 setMethod(
   f = "[",
-  signature = signature("combine.wrapper"),
+  signature = signature("CombineWrapper"),
   def = function(x,i,j,...,drop) {
     if (i %in% c("oneclass", "twoclass", "multiclass", "doubles", "factors", "is.classif")) {
       return(T)
@@ -38,7 +38,7 @@ setMethod(
 setMethod(
   f = "trainLearner",
   signature = signature(
-    .learner="combine.wrapper", 
+    .learner="CombineWrapper", 
     .task="ClassifTask", .subset="integer" 
   ),
   
@@ -58,7 +58,7 @@ setMethod(
 setMethod(
   f = "predictLearner",
   signature = signature(
-    .learner = "combine.wrapper", 
+    .learner = "CombineWrapper", 
     .model = "WrappedModel", 
     .newdata = "data.frame", 
     .type = "character" 
@@ -82,7 +82,7 @@ setMethod(
 
 #' @rdname to.string
 setMethod(f = "to.string",
-  signature = signature("combine.wrapper"),
+  signature = signature("CombineWrapper"),
   def = function(x) {
     return(paste(
         "",

@@ -4,18 +4,18 @@ roxygen()
 
 #' Wrapper class for learners to handle multi-class problems. 
 #' 
-#' @exportClass multiclass.wrapper
+#' @exportClass MulticlassWrapper
 #' @title Wrapper class for learners to handle multi-class problems.
 setClass(
-        "multiclass.wrapper",   
-        contains = c("base.wrapper")
+        "MulticlassWrapper",   
+        contains = c("BaseWrapper")
 )
 
-#' @rdname multiclass.wrapper-class
+#' @rdname MulticlassWrapper-class
 
 setMethod(
         f = "[",
-        signature = signature("multiclass.wrapper"),
+        signature = signature("MulticlassWrapper"),
         def = function(x,i,j,...,drop) {
             if (i == "multiclass")
                 return(TRUE)
@@ -47,14 +47,14 @@ setMethod(
 #' @title Fuse learner with multiclass method.
 #' @export
 
-make.multiclass.wrapper = function(learner, mcw.method="onevsrest") {
+makeMulticlassWrapper = function(learner, mcw.method="onevsrest") {
   if (is.character(learner))
     learner = makeLearner(learner)
   ps = makeParameterSet(
     makeDiscreteLearnerParameter(id="mcw.method", vals=c("onevsone", "onevsrest"), default="onevsrest"),
     makeFunctionLearnerParameter(id="mcw.custom")
   )
-  w = new("multiclass.wrapper", learner=learner, par.set=ps)
+  w = new("MulticlassWrapper", learner=learner, par.set=ps)
   if (is.function(mcw.method)) {
     if (any(names(formals(mcw.method)) != c("task")))
       stop("Arguments in multiclass codematrix function have to be: task")   
@@ -70,7 +70,7 @@ make.multiclass.wrapper = function(learner, mcw.method="onevsrest") {
 setMethod(
   f = "trainLearner",
   signature = signature(
-    .learner="multiclass.wrapper", 
+    .learner="MulticlassWrapper", 
     .task="ClassifTask", .subset="integer" 
   ),
   
@@ -119,7 +119,7 @@ setMethod(
 setMethod(
   f = "predictLearner",
   signature = signature(
-    .learner = "multiclass.wrapper", 
+    .learner = "MulticlassWrapper", 
     .model = "WrappedModel", 
     .newdata = "data.frame", 
     .type = "character" 

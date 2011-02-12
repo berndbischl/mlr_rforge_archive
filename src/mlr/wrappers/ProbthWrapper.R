@@ -2,13 +2,13 @@
 
 
 setClass(
-  "probth.wrapper",
-  contains = c("base.wrapper")
+  "ProbthWrapper",
+  contains = c("BaseWrapper")
 )
 
 setMethod(
   f = "[",
-  signature = signature("probth.wrapper"),
+  signature = signature("ProbthWrapper"),
   def = function(x,i,j,...,drop) {
     if (i == "prob")
       return(FALSE)
@@ -47,14 +47,14 @@ makeProbthWrapper = function(learner, classes) {
   names(a) = paste("probth", classes, sep=".")
   ps = do.call(makeParameterSet, 
     lapply(names(a), function(x) makeNumericLearnerParameter(id=x, lower=0, upper=1)))
-  w = new("probth.wrapper", learner=learner, par.set=ps, par.vals=a)
+  w = new("ProbthWrapper", learner=learner, par.set=ps, par.vals=a)
   setPredictType(w, "response")
 }
 
 setMethod(
   f = "predictLearner",
   signature = signature(
-    .learner = "probth.wrapper", 
+    .learner = "ProbthWrapper", 
     .model = "WrappedModel", 
     .newdata = "data.frame", 
     .type = "character" 
