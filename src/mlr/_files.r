@@ -51,9 +51,9 @@ pack.files = c(
 		#"mlr/loss.r",
     "mlr/aggr.r",
     "mlr/Measure.R",
-    "mlr/measure.make.r",
-    "mlr/measure.make.costs.r",
-    "mlr/measures.r",
+    "mlr/Measure_make.R",
+    "mlr/Measure_make_cost.R",
+    "mlr/measures.R",
 		"mlr/setAggr.R",
     "mlr/performance.r",
     
