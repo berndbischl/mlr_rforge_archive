@@ -26,7 +26,7 @@
 #'   measures.test [data.frame] Rows correspond to test sets in resampling iterations, columns to performance measures.\cr
 #'   measures.train [data.frame] Rows correspond to training sets in resampling iterations, columns to performance measures.\cr
 #'   aggr [named numeric] Vector of aggregated performance values. Names are coded like this <measure>.<aggregation>.\cr
-#'   pred [\code{\linkS4class{resample.prediction}}] Container for all predictions during resampling.\cr
+#'   pred [\code{\linkS4class{ResamplePrediction}}] Container for all predictions during resampling.\cr
 #'   models [list of \code{\linkS4class{WrappedModel}}] List of fitted models or \code{NULL}.\cr
 #'   extract [list] List of extracted parts from fitted models or \code{NULL}.
 #' 
@@ -101,7 +101,7 @@ setMethod(
     
     preds.test = lapply(rs, function(x) x$pred.test)
     preds.train = lapply(rs, function(x) x$pred.train)
-    pred = new("resample.prediction", instance=rin, preds.test=preds.test, preds.train=preds.train)
+    pred = new("ResamplePrediction", instance=rin, preds.test=preds.test, preds.train=preds.train)
     
     aggr = c()
     for (i in 1:length(measures)) {

@@ -1,4 +1,4 @@
-#' @include prediction.r
+#' @include Prediction.r
 roxygen()
 #' @include LearnTask.R
 roxygen()
@@ -7,8 +7,8 @@ roxygen()
 
 
 setClass(
-		"resample.prediction",
-		contains = c("prediction"),
+		"ResamplePrediction",
+		contains = c("Prediction"),
 		representation = representation(
 				instance="resample.instance" 
 		)
@@ -18,7 +18,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("resample.prediction"),
+		signature = signature("ResamplePrediction"),
 		def = function(.Object, instance, preds.test, preds.train) {
 			p1 = preds.test[[1]]
 			.Object@instance = instance
@@ -50,11 +50,11 @@ setMethod(
 
 setMethod(
 		f = "to.string",
-		signature = signature("resample.prediction"),
+		signature = signature("ResamplePrediction"),
 		def = function(x) {
 			return(
 					paste(
-							"Resampled prediction for: ", to.string(x@instance@desc),
+							"Resampled Prediction for: ", to.string(x@instance@desc),
 							#"Learner models were ", ifelse(length(x@models)==0,"not", ""), " saved\n\n",
 							#paste(capture.output(str(x@preds)), collapse="\n"), 
 							"\n", sep=""
@@ -66,10 +66,10 @@ setMethod(
 #' Getter
 #'
 #'
-#' @rdname resample.prediction-class
+#' @rdname ResamplePrediction-class
 setMethod(
 		f = "[",
-		signature = signature("resample.prediction"),
+		signature = signature("ResamplePrediction"),
 		def = function(x,i,j,...,drop) {
 			if (i == "iters")
 				return(x@instance["iters"])
@@ -77,12 +77,12 @@ setMethod(
 		}
 )
 
-#' Converts object to a list of a \code{\linkS4class{prediction}} objects - one for each iteration.
-#' @rdname resample.prediction-class
+#' Converts object to a list of a \code{\linkS4class{Prediction}} objects - one for each iteration.
+#' @rdname ResamplePrediction-class
 
 setMethod(
 		f = "as.list",
-		signature = signature("resample.prediction"),
+		signature = signature("ResamplePrediction"),
 		def = function(x, all.names = FALSE, ...) {
 			df = x@df
 			iter = as.factor(df$iter)
@@ -93,10 +93,10 @@ setMethod(
       has.test = "test" %in% levels(df$set)
       for(i in 1:x@instance["iters"]) {
         if (has.test)
-          test[[i]] = new("prediction", task.desc=x@desc, 
+          test[[i]] = new("Prediction", task.desc=x@desc, 
             type=x@type, df=subset(dfs[[i]], subset=(set=="test")), threshold=x@threshold, x@time)						
         if (has.train)
-          train[[i]] = new("prediction", task.desc=x@desc, 
+          train[[i]] = new("Prediction", task.desc=x@desc, 
             type=x@type, df=subset(dfs[[i]], subset=(set=="train")), threshold=x@threshold, x@time)						
       }
       list(
@@ -108,11 +108,11 @@ setMethod(
 
 #tests!
 
-setAs("resample.prediction", "prediction", 
+setAs("ResamplePrediction", "Prediction", 
 		function(from, to) {
 			df = from@df
 			df$iter = NULL
-			new("prediction", task.desc=from@desc,  
+			new("Prediction", task.desc=from@desc,  
 					type=from@type, df=df, threshold=from@threshold, sum(from@time.fit), sum(from@time))						
 		}
 )
