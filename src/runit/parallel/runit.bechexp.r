@@ -12,7 +12,7 @@ test.parallel.benchexp = function() {
     data[,2] = args$x * data[,2]
     return(data)
   }  
-  wl = make.preproc.wrapper("classif.lda", train=f1, predict=f2, args=list(x=1, y=2))
+  wl = makePreprocWrapper("classif.lda", train=f1, predict=f2, args=list(x=1, y=2))
   wl = setId(wl, "lda2")
   learners = list("classif.lda", "classif.rpart", wl)
   

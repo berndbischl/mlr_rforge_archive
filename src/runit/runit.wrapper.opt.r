@@ -4,7 +4,7 @@ test.opt.wrapper <- function() {
   inner = make.res.desc("cv", iters=2)
 	
 	ps = makeParameterSet(makeDiscreteParameter(id="C", vals=c(1,100)))
-	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, par.set=ps, control=grid.control())
+	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=grid.control())
 	
 	m = train(svm.tuner, task=multiclass.task)
 	

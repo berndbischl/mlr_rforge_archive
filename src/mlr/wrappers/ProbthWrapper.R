@@ -36,7 +36,7 @@ setMethod(
 #' @title Fuse learner with probability thresholding.
 #' @export
 
-make.probth.wrapper = function(learner, classes) {
+makeProbthWrapper = function(learner, classes) {
   if (is.character(learner))
     learner = makeLearner(learner)
   if (!learner["is.classif"])

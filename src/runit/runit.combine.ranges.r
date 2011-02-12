@@ -5,7 +5,7 @@
 #	ranges=combine.ranges(r1,r2)
 #	tr<- tune("classif.ksvm", binaryclass.task, cv.i, control=grid.control(ranges=ranges))
 #	
-#	svm.tuner <- make.tune.wrapper("classif.ksvm", resampling=cv.i, control=grid.control(ranges=ranges))
+#	svm.tuner <- makeTuneWrapper("classif.ksvm", resampling=cv.i, control=grid.control(ranges=ranges))
 #	be = bench.exp(svm.tuner, binaryclass.task, resampling=cv.i)
 #}	
 #	

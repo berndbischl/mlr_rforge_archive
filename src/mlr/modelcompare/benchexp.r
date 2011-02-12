@@ -15,9 +15,9 @@
 #'        Default is FALSE.
 #' @return \code{\linkS4class{bench.result}}.
 #' 
-#' @note You can also get automatic, internal tuning by using \code{\link{make.tune.wrapper}} with your learner. 
+#' @note You can also get automatic, internal tuning by using \code{\link{makeTuneWrapper}} with your learner. 
 #' 
-#' @seealso \code{\link{make.tune.wrapper}} 
+#' @seealso \code{\link{makeTuneWrapper}} 
 #' @export 
 #' @aliases bench.exp 
 #' @title Benchmark experiment for multiple learners and tasks. 

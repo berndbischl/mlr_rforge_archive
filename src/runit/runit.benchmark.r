@@ -11,7 +11,7 @@ test.benchmark <- function() {
 		ps1 = makeParameterSet(
       makeDiscreteParameter("minsplit", vals=seq(3,10,2))
     ) 
-		wl = make.tune.wrapper("classif.rpart", resampling=inner, par.set=ps1, control=grid.control())
+		wl = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps1, control=grid.control())
 		bm = .mlr.benchmark(wl, ct, outer, models=TRUE)
 		checkTrue(is.list(bm$ors))
 		checkEquals(length(bm$ors), 1)
@@ -30,7 +30,7 @@ test.benchmark <- function() {
 
     # normal benchmark - 2 par
 		ranges <- list(minsplit=seq(3,10,2), cp=c(0.1, 0.11 , 0.09))
-		wl = make.tune.wrapper("classif.rpart", resampling=inner, control=grid.control(ranges=ranges))
+		wl = makeTuneWrapper("classif.rpart", resampling=inner, control=grid.control(ranges=ranges))
 		cbr = .mlr.benchmark(wl, ct, outer, models=FALSE)
 	}
 }

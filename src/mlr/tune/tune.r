@@ -31,7 +31,7 @@ roxygen()
 #' 
 #' @return \code{\linkS4class{opt.result}}.
 #' @export
-#' @seealso \code{\link{make.tune.wrapper}} 
+#' @seealso \code{\link{makeTuneWrapper}} 
 #' @title Hyperparameter tuning.
 
 

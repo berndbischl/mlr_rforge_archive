@@ -35,7 +35,7 @@ test.tune <- function() {
   ps2 = makeParameterSet(
     makeDiscreteParameter("minsplit", vals=seq(3,10,2))
   )  
-	wl = make.tune.wrapper("classif.rpart", resampling=res, par.set=ps2, control=ctrl)
+	wl = makeTuneWrapper("classif.rpart", resampling=res, par.set=ps2, control=ctrl)
 	m = train(wl,  multiclass.task)
 	# todo check opt. parameter is same as with tune
 	
@@ -53,7 +53,7 @@ test.tune <- function() {
   ps3 = makeParameterSet(
     makeIntegerLearnerParameter("n", lower=1, upper=60)
   ) 
-	wl = make.preproc.wrapper(wl, train=f1, predict=f2, par.set=ps3, par.vals=list(n=3))
+	wl = makePreprocWrapper(wl, train=f1, predict=f2, par.set=ps3, par.vals=list(n=3))
   
   ps4 = makeParameterSet(
     makeDiscreteParameter("minsplit", vals=c(3L,30L)),

@@ -5,10 +5,10 @@ test.benchresult = function() {
 
 	ps = makeParameterSet(makeDiscreteParameter("C", vals=1:2))
 	ctrl = grid.control()
-	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, par.set=ps, control=ctrl)
+	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=ctrl)
 	
 	wl = makeLearner("classif.ksvm", id="foo")
-	blubb = make.tune.wrapper(wl, resampling=inner, control=ctrl, par.set=ps)
+	blubb = makeTuneWrapper(wl, resampling=inner, control=ctrl, par.set=ps)
 	
 	learners = c("classif.rpart", svm.tuner, blubb)
 	res = make.res.desc("subsample", iter=outer.len)
@@ -89,7 +89,7 @@ test.benchresult = function() {
   checkTrue(is.matrix(x1))  
   
 	ps = makeParameterSet(makeDiscreteParameter("C", vals=1:2), makeDiscreteParameter("sigma", vals=1:2))
-	svm.tuner = make.tune.wrapper("classif.ksvm", resampling=inner, par.set=ps, control=grid.control())
+	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=grid.control())
 	learners = c(svm.tuner)
 	be = bench.exp(tasks=tasks, learners=learners, resampling=res)
   

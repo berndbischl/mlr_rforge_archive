@@ -23,7 +23,7 @@
 #'   
 #' @title Fuse learner with tuning.
 
-make.tune.wrapper = function(learner, resampling, measures, par.set, control, log.fun) {
+makeTuneWrapper = function(learner, resampling, measures, par.set, control, log.fun) {
   if (missing(log.fun))
     log.fun = log.fun.tune
 	make.opt.wrapper(learner, resampling, measures, par.set, control, log.fun)
