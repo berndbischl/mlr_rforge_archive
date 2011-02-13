@@ -56,7 +56,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
   
 	## add dim for every loss ?? hmm, those are not always the same size...
 	if (length(tasks) > 1 && is(resampling, "resample.instance")) {
-		stop("Cannot pass a resample.instance with more than 1 task. Use a resample.desc!")
+		stop("Cannot pass a resample.instance with more than 1 task. Use a ResampleDesc!")
 	}
 	dims = c(resampling["iters"], 2, n, length(measures))
 	
@@ -76,7 +76,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
     ins[[j]] = getFeatureNames(task)
     rrs[[j]] = list()
 		ors[[j]] = list()
-		if (is(resampling, "resample.desc")) {
+		if (is(resampling, "ResampleDesc")) {
 			resamplings[[j]] = make.res.instance(resampling, task=task)
 		} else {
 			resamplings[[j]] = resampling

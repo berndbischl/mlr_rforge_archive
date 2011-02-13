@@ -23,7 +23,7 @@
 #'			reps [integer(1)]: Repeats for 'repcv'. Here 'iters' = 'folds' x 'reps'. Default is 2. \cr
 #'			folds [integer(1)]: Folds in the repeated CV for 'repcv'. Here 'iters' = 'folds' x 'reps'. Default is 5. 
 #' 
-#' @return \code{\linkS4class{resample.desc}}.
+#' @return \code{\linkS4class{ResampleDesc}}.
 #' @export 
 #' @title Construct resampling description.
 

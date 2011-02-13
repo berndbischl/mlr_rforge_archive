@@ -16,7 +16,7 @@ roxygen()
 #'   Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task.   
-#' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
+#' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
 #'   Resampling strategy to evaluate points in hyperparameter space. If you pass a description, 
 #'   it is instantiated once at the beginning by default, so all points are evaluated on the same training/test sets.
 #'   If you want to change that behaviour, look at the control object. 	
@@ -38,7 +38,7 @@ roxygen()
 tune <- function(learner, task, resampling, measures, par.set, control, log.fun) {
   if (is.character(learner))
     learner <- makeLearner(learner)
-  if (is(resampling, "resample.desc") && control@same.resampling.instance)
+  if (is(resampling, "ResampleDesc") && control@same.resampling.instance)
     resampling = make.res.instance(resampling, task=task)
 	if (missing(measures))
 		measures = default.measures(task)

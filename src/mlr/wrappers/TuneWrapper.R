@@ -6,7 +6,7 @@
 #'
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'   Learning algorithm.   
-#' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{resample.desc}}]\cr
+#' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
 #'   Resampling strategy to evaluate points in hyperparameter space.
 #' @param control [\code{\linkS4class{tune.control}}] \cr
 #'   Control object for search method. Also selects the optimization algorithm for tuning.   

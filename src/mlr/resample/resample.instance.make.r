@@ -1,7 +1,7 @@
 
 #' Generates an instance object for a resampling strategy. 
 #' 
-#' @param desc [\code{\linkS4class{resample.desc}}] \cr
+#' @param desc [\code{\linkS4class{ResampleDesc}}] \cr
 #'   Resampling description.
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'		Data of task to resample from. Prefer to pass this instead of \code{size}.
@@ -29,7 +29,7 @@ setGeneric(
 
 setMethod(
 		f = "make.res.instance",
-		signature = c(desc="resample.desc", task="missing", size="integer"),
+		signature = c(desc="ResampleDesc", task="missing", size="integer"),
 		def = function(desc, task, size) {
 			make.res.i(desc@instance.class, desc=desc, size=size, task=NULL)
 		}
@@ -40,7 +40,7 @@ setMethod(
 
 setMethod(
 		f = "make.res.instance",
-		signature = c(desc="resample.desc", task="LearnTask", size="missing"),
+		signature = c(desc="ResampleDesc", task="LearnTask", size="missing"),
 		def = function(desc, task, size) {
 			make.res.i(desc@instance.class, desc=desc, task=task, blocking=task["blocking"])
 		}

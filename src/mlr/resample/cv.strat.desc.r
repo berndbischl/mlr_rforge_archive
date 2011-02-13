@@ -1,9 +1,9 @@
-#' @include resample.desc.r
+#' @include ResampleDesc.r
 roxygen()
 
 
 setClass("stratcv.desc", 
-  contains = c("resample.desc.nonseq")
+  contains = c("ResampleDesc.nonseq")
 )                                                     
 
 

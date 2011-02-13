@@ -1,8 +1,8 @@
-#' @include resample.desc.r
+#' @include ResampleDesc.r
 roxygen()
 
 setClass("bs.desc", 
-		contains = c("resample.desc.nonseq")
+		contains = c("ResampleDesc.nonseq")
 )                                                     
 
 

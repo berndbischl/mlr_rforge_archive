@@ -1,6 +1,6 @@
 #' @include BaseWrapper.R
 roxygen()
-#' @include resample.desc.r
+#' @include ResampleDesc.r
 roxygen()
 #' @include opt.control.r
 roxygen()
@@ -12,7 +12,7 @@ setClass(
 		"OptWrapper",
 		contains = c("BaseWrapper"),
 		representation = representation(
-				resampling = "resample.desc",
+				resampling = "ResampleDesc",
         measures = "list",
         opt.pars = "ParameterSet",
         control = "opt.control",

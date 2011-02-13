@@ -1,4 +1,4 @@
-#' @include resample.desc.r
+#' @include ResampleDesc.r
 roxygen()
 
 #' Base class for specific resampling draws like cross-validation or bootstrapping.
@@ -7,7 +7,7 @@ roxygen()
 #' Don't create objects from this class directly but use the corresponding subclasses.
 #' For construction simply use the factory method \code{\link{make.res.instance}}. 
 #' 
-#' @slot desc [\code{\linkS4class{resample.desc}}] Resample description that was used to create the instance. 
+#' @slot desc [\code{\linkS4class{ResampleDesc}}] Resample description that was used to create the instance. 
 #' @slot size [integer(1)] Number of observations.  
 #' @slot train.inds [list of integer] List of of training indices for all iterations. 
 #' @slot test.inds [list of integer] List of of test indices for all iterations. 
@@ -17,7 +17,7 @@ roxygen()
 #' 
 #' @note If you want to add another resampling strategy, have a look at the web documentation. 
 #' @exportClass resample.instance
-#' @seealso \code{\linkS4class{resample.desc}}, \code{\link{make.res.instance}}, \code{\link{resample}} 
+#' @seealso \code{\linkS4class{ResampleDesc}}, \code{\link{make.res.instance}}, \code{\link{resample}} 
 #' @title Resampling instance.
 
 
@@ -27,7 +27,7 @@ setClass(
 		contains = c("object"), 
 		# we always have to store training inds because the order might matter
 		representation = representation(
-				desc = "resample.desc", 
+				desc = "ResampleDesc", 
 				size = "integer",
 				train.inds = "list",
         test.inds = "list",

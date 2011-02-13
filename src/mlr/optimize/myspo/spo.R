@@ -53,7 +53,7 @@ spo = function(fun, par.set, des, learner, control, opt.path) {
   while(loop <= control$seq.loops) {
     print(loop)
     if (loop %in% control$resample.at) {
-      r = resample(learner, rt, control$resample.desc, measures=control$resample.measures)
+      r = resample(learner, rt, control$ResampleDesc, measures=control$resample.measures)
       res.vals[[length(res.vals)+1]] = r$aggr
     }
     xs = proposePoints(model, par.set, control)

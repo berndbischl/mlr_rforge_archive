@@ -25,7 +25,7 @@
 #' @export 
 makeSPOControl = function(seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
-  resample.desc = makeResampleDesc("cv", iter=10), resample.at = c(1, seq.loops), resample.measures=list(mse) 
+  ResampleDesc = makeResampleDesc("cv", iter=10), resample.at = c(1, seq.loops), resample.measures=list(mse) 
 ) {
   
   list( 
@@ -35,7 +35,7 @@ makeSPOControl = function(seq.loops=100, propose.points=1, propose.points.method
     seq.design.points = seq.design.points, 
     seq.design.fun = seq.design.fun, 
     seq.design.points = seq.design.points,
-    resample.desc = resample.desc,
+    ResampleDesc = ResampleDesc,
     resample.at = resample.at,
     resample.measures = resample.measures
   )

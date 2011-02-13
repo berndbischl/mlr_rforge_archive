@@ -9,11 +9,11 @@
 #' @slot iters Number of iterations. Note that this is always the complete number of generated train/test sets, so for a 10 times repeated 5fold cross-validation it would be 50. 
 #' @slot predict What to predict during resampling: 'train', 'test' or 'both' sets.
 #'  
-#' @exportClass resample.desc 
+#' @exportClass ResampleDesc 
 #' @title Base class for description of resampling algorithms.
 
 setClass(
-		"resample.desc", 
+		"ResampleDesc", 
 		contains = c("object"),
 		representation = representation(
 				instance.class = "character", 
@@ -28,7 +28,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("resample.desc"),
+		signature = signature("ResampleDesc"),
 		def = function(.Object, instance.class, id, iters, predict="test") {
 			if (missing(id))
 				return(.Object)					
@@ -45,7 +45,7 @@ setMethod(
 
 setMethod(
 		f = "to.string",
-		signature = signature("resample.desc"),
+		signature = signature("ResampleDesc"),
 		def = function(x) {
 			return(
 					paste(
@@ -59,14 +59,14 @@ setMethod(
 
 
 setClass(
-		"resample.desc.seq", 
-		contains = c("resample.desc")
+		"ResampleDesc.seq", 
+		contains = c("ResampleDesc")
 )
 
 
 setClass(
-		"resample.desc.nonseq", 
-		contains = c("resample.desc")
+		"ResampleDesc.nonseq", 
+		contains = c("ResampleDesc")
 )
 
 

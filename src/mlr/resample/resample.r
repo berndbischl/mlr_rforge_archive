@@ -11,7 +11,7 @@
 #'   Learning algorithm.   
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task.
-#' @param resampling [\code{\linkS4class{resample.desc}} or \code{\linkS4class{resample.instance}}] \cr
+#' @param resampling [\code{\linkS4class{ResampleDesc}} or \code{\linkS4class{resample.instance}}] \cr
 #'   Resampling strategy. If a description is passed, it is instantiated automatically.
 #' @param measures [\code{\linkS4class{measure}} | list of \code{\linkS4class{measure}}] \cr
 #'   Performance measures to evaluate. See \code{\link{measures}}.
@@ -41,7 +41,7 @@ setGeneric(
   def = function(learner, task, resampling, measures, models, extract) {
     if (is.character(learner))
       learner = makeLearner(learner)
-    if (is(resampling, "resample.desc")) 
+    if (is(resampling, "ResampleDesc")) 
       resampling = make.res.instance(resampling, task=task)
     if (missing(measures))
       measures = default.measures(task)
