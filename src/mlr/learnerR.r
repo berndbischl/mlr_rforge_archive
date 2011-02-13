@@ -1,6 +1,6 @@
 #' @include object.r
 roxygen()
-#' @include learner.r
+#' @include Learner.R
 roxygen()
 
 #' Wraps an already implemented learning method from R to make it accessible to mlr.

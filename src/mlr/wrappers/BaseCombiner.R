@@ -1,4 +1,4 @@
-#' @include learner.r
+#' @include Learner.R
 roxygen()
 #' @include LearnTask.R
 roxygen()

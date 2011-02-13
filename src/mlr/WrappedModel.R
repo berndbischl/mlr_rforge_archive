@@ -2,7 +2,7 @@
 roxygen()
 #' @include task.desc.r
 roxygen()
-#' @include learner.r
+#' @include Learner.R
 roxygen()
 #' @include prepare.df.r
 roxygen()
