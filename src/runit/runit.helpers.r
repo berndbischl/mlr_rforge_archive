@@ -8,7 +8,7 @@ test.helpers = function() {
 		
 		xs = list("a", "b", 1, 2)
 		checkTrue(check.list.type(xs, c("character", "numeric")))
-		checkException(check.list.type(xs, c("learner", "logical")))
+		checkException(check.list.type(xs, c("Learner", "logical")))
 		
 		xs = list(makeLearner("classif.rpart"))
 		checkTrue(check.list.type(xs, c("rlearner")))

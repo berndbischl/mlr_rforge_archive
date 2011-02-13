@@ -80,7 +80,7 @@ setMethod(
 
 
 #' Getter.
-#' @rdname learner-class
+#' @rdname Learner-class
 
 setMethod(
 		f = "[",

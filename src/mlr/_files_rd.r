@@ -23,7 +23,7 @@ allowed.rd.files <<- c(
 		
 		"par.desc-class.Rd",
     "is.feasible.Rd",
-    "learner-class.Rd",
+    "Learner-class.Rd",
 		"rlearner-class.Rd",
 		"rlearner.classif-class.Rd",
 		"rlearner.regr-class.Rd",

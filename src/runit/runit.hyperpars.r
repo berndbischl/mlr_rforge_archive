@@ -4,7 +4,7 @@ test.hyperpars <- function() {
 	
 	m = train(wl1, task=multiclass.task)
 	checkEquals(m["fail"], NULL) 
-	checkEquals(m["learner"]["par.vals"], list(minsplit=10)) 
+	checkEquals(m@learner["par.vals"], list(minsplit=10)) 
 	
 	f1 = function(data, targetvar, args) {
 		data[,2] = args$x * data[,2]
@@ -30,7 +30,7 @@ test.hyperpars <- function() {
 	checkTrue(setequal(wl3["par.vals", head=T], list(x=88, y=2))) 
 	
 	m = train(wl2, task=multiclass.task)
-	checkTrue(setequal(m["learner"]["par.vals"], list(minsplit=10, x=1, y=2))) 
+	checkTrue(setequal(m@learner["par.vals"], list(minsplit=10, x=1, y=2))) 
   
   # check warnings
   errorhandler.setup(on.par.without.desc="warn")  
