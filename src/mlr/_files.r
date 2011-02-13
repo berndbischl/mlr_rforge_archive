@@ -27,7 +27,7 @@ pack.files = c(
     "mlr/LearnerParameter.R",
     "mlr/LearnerParameter_make.R",
     "mlr/optimize/bounds.r",
-    "mlr/learner.r",
+    "mlr/Learner.R",
 		"mlr/learnerR.r",
 		"mlr/makeLearner.R",
 		"mlr/learners.r",
