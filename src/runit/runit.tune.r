@@ -31,7 +31,7 @@ test.tune <- function() {
 	tr2 = tune("classif.rpart", multiclass.task, cv.instance, par.set=ps1, control=ctrl)
   
 	# tune wrapper
-	res = make.res.desc("cv", iters=2)
+	res = makeResampleDesc("cv", iters=2)
   ps2 = makeParameterSet(
     makeDiscreteParameter("minsplit", vals=seq(3,10,2))
   )  
@@ -68,7 +68,7 @@ test.tune <- function() {
 
 
 test.tune.optim = function() {
-  res = make.res.desc("cv", iters=2)
+  res = makeResampleDesc("cv", iters=2)
   ps1 = makeParameterSet(
     makeNumericParameter("C", trafo=function(x) 2^x), 
     makeNumericParameter("sigma", trafo=function(x) 2^x)
@@ -103,7 +103,7 @@ test.tune.optim = function() {
 
 
 test.tune.cmaes = function() {
-  res = make.res.desc("cv", iters=2)
+  res = makeResampleDesc("cv", iters=2)
   ps1 = makeParameterSet(
     makeNumericParameter("cp", lower=0.001, upper=1), 
     makeIntegerParameter("minsplit", lower=1, upper=10)
@@ -122,7 +122,7 @@ test.tune.cmaes = function() {
 
 
 test.tune.diceoptim = function() {
-  res = make.res.desc("cv", iters=2)
+  res = makeResampleDesc("cv", iters=2)
   ps1 = makeParameterSet(
     makeNumericParameter("cp", lower=0.001, upper=1), 
     makeIntegerParameter("minsplit", lower=1, upper=10)

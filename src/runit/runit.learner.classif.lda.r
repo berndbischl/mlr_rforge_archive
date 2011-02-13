@@ -19,7 +19,7 @@ test.lda <- function() {
 	# test with constant col to produce an error in lda 
 	mc2 = transform(multiclass.df, bam=1)
 	ct = makeClassifTask(data=mc2, target=multiclass.target)
-	res = make.res.desc("cv", iters=2)
+	res = makeResampleDesc("cv", iters=2)
 	rf = resample("classif.lda", ct, resampling=res)
 	wl = makeLearner("classif.lda", predict.type="prob")
 	rf = resample(wl, ct, resampling=res)

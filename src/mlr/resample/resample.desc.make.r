@@ -29,7 +29,7 @@
 
 
 setGeneric(
-  name = "make.res.desc",
+  name = "makeResampleDesc",
   def = function(method, iters, predict, ...) {
     if (missing(iters))
       iters = 10L
@@ -37,16 +37,16 @@ setGeneric(
       iters = as.integer(iters)
     if (missing(predict))
       predict = "test"    
-    standardGeneric("make.res.desc")
+    standardGeneric("makeResampleDesc")
   }
 )
 
 #' @export 
-#' @rdname make.res.desc
+#' @rdname makeResampleDesc
 
 
 setMethod(
-  f = "make.res.desc",
+  f = "makeResampleDesc",
   signature = c(method="character", iters="integer", predict="character"),
   def = function(method, iters, predict, ...) {
     if (!(length(predict) ==1 && predict %in% c("train", "test", "both")))

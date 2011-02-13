@@ -1,6 +1,6 @@
 test.benchexp <- function() {
-	outer = make.res.desc("cv", iters=3)
-	inner = make.res.desc("cv", iters=2)
+	outer = makeResampleDesc("cv", iters=3)
+	inner = makeResampleDesc("cv", iters=2)
 
 	checkException(bench.exp(list(), multiclass.task, resampling=outer), silent=TRUE)
 	s = geterrmessage()
@@ -24,7 +24,7 @@ test.benchexp <- function() {
     be["aggrs"][[multiclass.task@desc@id]][["classif.lda"]]["mmce.test.mean"],
     checkNames=FALSE)
  
-	outer2 = make.res.desc("holdout")
+	outer2 = makeResampleDesc("holdout")
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer2)
   checkTrue(!is.na(be["aggrs"]["mmce.test.mean"]))
   

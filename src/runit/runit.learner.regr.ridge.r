@@ -29,7 +29,7 @@ test.ridge <- function() {
 	#extra cv test	
 	folds=5
 	cvl.res <- cvl(regr.formula, data=regr.df, lambda2=0.3, fold=folds)
-  res = make.res.instance(make.res.desc("cv", iters=folds), task=regr.task)
+  res = make.res.instance(makeResampleDesc("cv", iters=folds), task=regr.task)
   for (i in 1:folds) {
     res@train.inds[[i]] = setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
     res@test.inds[[i]] = which(cvl.res$fold == i)

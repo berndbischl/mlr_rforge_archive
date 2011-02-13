@@ -2,7 +2,7 @@
 
 test.parallel.resample = function() {
   wl = makeLearner("classif.lda", predict.type="prob")
-  res = make.res.instance(make.res.desc("subsample", iters=4), task=binaryclass.task)
+  res = make.res.instance(makeResampleDesc("subsample", iters=4), task=binaryclass.task)
 
   parallel.setup(mode="local")
   p1 = resample(wl, binaryclass.task, res)

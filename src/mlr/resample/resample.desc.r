@@ -2,7 +2,7 @@
 #' Base class for description of resampling algorithms.
 #' A description of a resampling algorithm contains all necessary information to 
 #' create a \code{\linkS4class{resample.instance}}, when given the size of the data set.
-#' For construction simply use the factory method \code{\link{make.res.desc}}. 
+#' For construction simply use the factory method \code{\link{makeResampleDesc}}. 
 #' 
 #' @slot instance.class S4 class name of the corresponding resample.instance. 
 #' @slot id Name of resampling strategy. 

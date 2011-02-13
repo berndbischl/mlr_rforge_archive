@@ -59,7 +59,7 @@ allowed.rd.files <<- c(
 #		"ROCR_xval.Rd",
 		
 		"make.res.instance.Rd",
-		"make.res.desc.Rd",
+		"makeResampleDesc.Rd",
 		"resample.desc-class.Rd",
 		"resample.instance-class.Rd",
 		"resample.update.Rd",

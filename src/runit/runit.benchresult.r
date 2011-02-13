@@ -1,7 +1,7 @@
 test.benchresult = function() {
 	
 	outer.len = 3
-	inner = make.res.desc("cv", iter=2)
+	inner = makeResampleDesc("cv", iter=2)
 
 	ps = makeParameterSet(makeDiscreteParameter("C", vals=1:2))
 	ctrl = grid.control()
@@ -11,7 +11,7 @@ test.benchresult = function() {
 	blubb = makeTuneWrapper(wl, resampling=inner, control=ctrl, par.set=ps)
 	
 	learners = c("classif.rpart", svm.tuner, blubb)
-	res = make.res.desc("subsample", iter=outer.len)
+	res = makeResampleDesc("subsample", iter=outer.len)
 	be = bench.exp(tasks=multiclass.task, learners=learners, resampling=res)
 	
 	x = as.array(be, learner="classif.rpart", sets="test", drop=TRUE)
@@ -130,7 +130,7 @@ test.benchresult = function() {
 	checkEquals(dim(x1), c(binaryclass.task["class.nr"]+1, binaryclass.task["class.nr"]+1))
 	
   # check aggregation
-  res = make.res.desc("cv", iters=3)
+  res = makeResampleDesc("cv", iters=3)
   wl = "classif.lda"
   m = setAggr(mmce, test.sd)
   r = resample(wl, multiclass.task, res, measure=m)

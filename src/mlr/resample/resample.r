@@ -1,10 +1,10 @@
 #' Given a resampling strategy, which defines sets of training and test indices, 
 #' fits the selected learner using the training sets and performs predictions for the training/test sets.
-#' (This depends on what you selected in the resampling strategy, see parameter \code{predict} in \code{\link{make.res.desc}}.)
+#' (This depends on what you selected in the resampling strategy, see parameter \code{predict} in \code{\link{makeResampleDesc}}.)
 #' Then performance measures are calculated and aggregated. You are able to return all fitted models (parameter \code{models})
 #' or extract specific parts of the models (parameter \code{extract}) as returning all of them completely might be memory intensive.    
 #' 
-#' For construction of the resampling strategies use the factory methods \code{\link{make.res.desc}} and 
+#' For construction of the resampling strategies use the factory methods \code{\link{makeResampleDesc}} and 
 #' \code{\link{make.res.instance}}.
 #'
 #' @param learner [\code{\linkS4class{learner}} | \code{\link{character}}]\cr 

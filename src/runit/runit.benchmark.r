@@ -1,7 +1,7 @@
 test.benchmark <- function() {
 	if (!use.package) {
 		ct = makeClassifTask("iris", data=iris, target="Species")
-		outer = make.res.desc("holdout") 
+		outer = makeResampleDesc("holdout") 
 		inner = new("cv.desc", iters=3L)
 		
 		# check empty ranges 

@@ -1,5 +1,5 @@
 test.varsel <- function() {
-	inner = make.res.desc("cv", iter=2)
+	inner = makeResampleDesc("cv", iter=2)
 
 	# check all methods
 	
@@ -46,7 +46,7 @@ test.varsel <- function() {
 	checkTrue(is(vr["model"]["learner.model"], "novars")) 
 	
 	wl = makeVarselWrapper("classif.lda", resampling=inner, control=ctrl)
-	outer = make.res.desc("cv", iter=2)
+	outer = makeResampleDesc("cv", iter=2)
 	be = bench.exp(wl, task=multiclass.task, resampling=outer)
 }
 

@@ -1,7 +1,7 @@
 test.OptWrapper <- function() {
 	
-	outer = make.res.instance(make.res.desc("holdout"), task=multiclass.task)
-  inner = make.res.desc("cv", iters=2)
+	outer = make.res.instance(makeResampleDesc("holdout"), task=multiclass.task)
+  inner = makeResampleDesc("cv", iters=2)
 	
 	ps = makeParameterSet(makeDiscreteParameter(id="C", vals=c(1,100)))
 	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=grid.control())

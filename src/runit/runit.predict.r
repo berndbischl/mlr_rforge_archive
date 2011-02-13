@@ -54,7 +54,7 @@ test.predict <- function() {
 	# check error in predict
 	df = na.omit(BreastCancer[,-1]) 
 	ct = makeClassifTask(data=df, target="Class")
-	res = make.res.desc("cv", iters=10)
+	res = makeResampleDesc("cv", iters=10)
 	p = resample("classif.randomForest", ct, res)
 	checkTrue(all(is.na(p$measures.test$mmce)))
 	
