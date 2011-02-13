@@ -63,7 +63,7 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun)
 		stop("You have to pass a control object!")
 	}
 	
-  opt.path = makeOptimizationPathFromMeasures(names(par.set@pars), measures)
+  opt.path = makeOptPathFromMeasures(names(par.set@pars), measures)
   or = sel.func(learner, task, resampling, measures, par.set, control, opt.path, log.fun)
 	
 	or@x = trafoVal(par.set, or@x)

@@ -7,7 +7,7 @@
 #' @exportClass opt.path
 #' @title Optimazation path
 setClass(
-  "opt.path",
+  "OptPath",
   contains = c("object"),
   representation = representation(
     x.names = "character",
@@ -20,7 +20,7 @@ setClass(
 #' Constructor.
 setMethod(
   f = "initialize",
-  signature = signature("opt.path"),
+  signature = signature("OptPath"),
   def = function(.Object, x.names, y.names, minimize) {
     if (length(intersect(x.names, y.names)) > 0)
       stop("'x.names' and 'y.names' must be unique.")
@@ -39,16 +39,16 @@ setMethod(
 )
 
 #' @export 
-makeOptimizationPath = function(x.names, y.names, minimize) {
-  new("opt.path", x.names, y.names, minimize)
+makeOptPath = function(x.names, y.names, minimize) {
+  new("OptPath", x.names, y.names, minimize)
 }
 
 #' Convert to data.frame
-#' @rdname opt.path-class 
+#' @rdname OptPath-class 
 #' @export
 setMethod(
   f = "as.data.frame",
-  signature = signature("opt.path"),
+  signature = signature("OptPath"),
   def = function(x, row.names = NULL, optional = FALSE,...) {
     df <- do.call(rbind, lapply(x@env$path, function(e) cbind(as.data.frame(e$x),as.data.frame(t(e$y)))))
     colnames(df)[(ncol(df)-length(x@y.names)+1):ncol(df)] = x@y.names
@@ -59,10 +59,10 @@ setMethod(
 )
 
 #' Convert an optimization path to a list.
-#' @rdname opt.path-class
+#' @rdname OptPath-class
 setMethod(
   f = "as.list",
-  signature = signature("opt.path"),
+  signature = signature("OptPath"),
   def = function(x, row.names = NULL, optional = FALSE,...) {
     l <- x@env$path
   }
@@ -71,7 +71,7 @@ setMethod(
 ##' @rdname to.string
 setMethod(
   f = "to.string",
-  signature = signature("opt.path"),
+  signature = signature("OptPath"),
   def = function(x) {
     return(paste("Opt. path of length: ", length(as.list(x))))
   }
@@ -79,7 +79,7 @@ setMethod(
 
 #' Add a new element to the optimiztion path.
 #' 
-#' @param op [\code{\linkS4class{opt.path}}] \cr 
+#' @param op [\code{\linkS4class{OptPath}}] \cr 
 #'   Optimization path.  
 #' @param x [list]\cr 
 #'   List of parameter settings for a point in input space.   
@@ -93,7 +93,7 @@ setMethod(
 #'   adding \code{x} to the optimization path.
 #' @export 
 add.path.el = function(op, x, y, dob, eol=NA) {
-  stopifnot(inherits(op, "opt.path"),          
+  stopifnot(inherits(op, "OptPath"),          
             is.na(eol) || eol >= dob)
   if (missing(dob))        
     dob=length(op@env$path)+1
@@ -126,7 +126,7 @@ param.to.position <- function(op, x, cand) {
 
 #' Set the end of life of a parameter vector.
 #'
-#' @param op [\code{\linkS4class{opt.path}}] \cr 
+#' @param op [\code{\linkS4class{OptPath}}] \cr 
 #'   Optimization path.  
 #' @param x [integer(1) | list]\cr 
 #'   List of parameter settings for a point in input space or an integer index for a path element.   
@@ -154,7 +154,7 @@ setEoL = function(op, x, eol) {
 #' @param z List of parameter settings.
 #' @return The date of birth or end of life of \code{z}.
 get.dob = function(op, z) {
-  stopifnot(inherits(op, "opt.path"))
+  stopifnot(inherits(op, "OptPath"))
   if (!is.integer(z)) {
     z <- param.to.position(op, z)
     if (is.na(tmp))
@@ -165,7 +165,7 @@ get.dob = function(op, z) {
 
 #' @rdname get.dob
 get.eol = function(op, z) {
-  stopifnot(inherits(op, "opt.path"))
+  stopifnot(inherits(op, "OptPath"))
   if (!is.integer(z)) {
     z <- param.to.position(op, z)
     if (is.na(z))
@@ -178,20 +178,20 @@ get.eol = function(op, z) {
 
 #' Subset optimiztion path.
 #'
-#' @param op [\code{\linkS4class{opt.path}}]\cr
+#' @param op [\code{\linkS4class{OptPath}}]\cr
 #'   Optimization path.
 #' @param dob [integer]
 #'   Possible dates of birth for subset. Defaults to all. 
 #' @param eol [integer]
 #'   Possible end of life for subset. Defaults to all. 
-#' @return Subsetted \code{\linkS4class{opt.path}}. 
+#' @return Subsetted \code{\linkS4class{OptPath}}. 
 #' @export
 setMethod(
   f = "subset",
-  signature = signature(x="opt.path"),
+  signature = signature(x="OptPath"),
   def = function(x, dob=x@env$dob, eol=x@env$eol) {
     p = x@env$path[x@env$dob %in% dob & x@env$eol %in% eol]
-    op = new("opt.path", x@x.names, x@y.names, x@minimize)
+    op = new("OptPath", x@x.names, x@y.names, x@minimize)
     op@env$path = p
     return(op)
   }
@@ -199,7 +199,7 @@ setMethod(
 
 #' Get best element from optimiztion path.
 #'
-#' @param op [\code{\linkS4class{opt.path}}]\cr
+#' @param op [\code{\linkS4class{OptPath}}]\cr
 #'   Optimization path.
 #' @param y.name [character(1)] 
 #'   Name of target value to decide which element is best.  

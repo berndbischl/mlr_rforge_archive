@@ -43,7 +43,7 @@ compare.diff = function(state1, state2, control, measure, threshold) {
 	ifelse(measure["minimize"], 1, -1) * (state1$y[1] - state2$y[1]) > threshold
 }
 
-makeOptimizationPathFromMeasures = function(x.names, measures) {
+makeOptPathFromMeasures = function(x.names, measures) {
   minimize = Reduce(c, lapply(measures, function(m) rep(m@minimize, length(m@aggr))))
-  makeOptimizationPath(x.names, measuresAggrNames(measures), minimize)
+  makeOptPath(x.names, measuresAggrNames(measures), minimize)
 }

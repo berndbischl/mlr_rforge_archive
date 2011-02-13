@@ -60,7 +60,7 @@ varsel2d <- function(learner, task, resampling, measures, control, pairs, remove
     if (length(bit.names) < 2)
       stop("Not enough features left to find another pair!")
     bits.to.features = function(x, task) binary.to.vars(x, bit.names)
-    opt.path = makeOptimizationPathFromMeasures(bit.names, measures)
+    opt.path = makeOptPathFromMeasures(bit.names, measures)
     ors[[i]] = varsel(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path)
     task2d = subset(task, vars=ors[[i]]@x)
     r = resample(learner, task2d, resampling)

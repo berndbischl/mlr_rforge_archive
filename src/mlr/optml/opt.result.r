@@ -26,7 +26,7 @@ setClass(
 				control = "opt.control",
 				x = "ANY",
         y = "numeric",
-				path = "opt.path"
+				path = "OptPath"
 		)
 )
 
