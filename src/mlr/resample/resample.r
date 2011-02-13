@@ -59,7 +59,7 @@ setGeneric(
 #' @rdname resample 
 setMethod(
   f = "resample",
-  signature = signature(learner="learner", task="LearnTask", resampling="resample.instance", measures="list", models="logical", extract="function"),
+  signature = signature(learner="Learner", task="LearnTask", resampling="resample.instance", measures="list", models="logical", extract="function"),
   def = function(learner, task, resampling, measures, models, extract) {
     n = task["size"]
     r = resampling["size"]

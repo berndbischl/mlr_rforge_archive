@@ -1,6 +1,6 @@
 setClass(
   "CombineWrapper",   
-  contains = c("learner"),
+  contains = c("Learner"),
   representation = representation(
     learners = "list"
   )

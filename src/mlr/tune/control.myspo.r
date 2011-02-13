@@ -8,8 +8,8 @@ setClass(
   "myspo.control",
   contains = c("tune.control"),
   representation = representation(
-    meta.learner = "learner",
-    constr.learner = "learner",
+    meta.learner = "Learner",
+    constr.learner = "Learner",
     init.des.points = "integer",
     seq.des.points = "integer",
     seq.loops = "integer"
@@ -70,7 +70,7 @@ setGeneric(
 setMethod(
   f = "myspo.control",
   signature = signature(minimize="logical", path="logical", par.set="list", 
-    meta.learner="learner", init.des.points="integer", seq.des.points="integer", seq.loops="integer"),
+    meta.learner="Learner", init.des.points="integer", seq.des.points="integer", seq.loops="integer"),
   def = function(minimize, path, par.set, 
     meta.learner, init.des.points, seq.des.points, seq.loops, ...) {
     new("myspo.control", minimize=minimize, path=path,

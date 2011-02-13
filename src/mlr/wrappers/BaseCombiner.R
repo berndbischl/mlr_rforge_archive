@@ -21,7 +21,7 @@ roxygen()
 
 setClass(
   "BaseCombiner",
-  contains = c("learner"),
+  contains = c("Learner"),
   representation = representation(
     learners = "list"
   )

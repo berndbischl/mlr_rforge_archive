@@ -50,7 +50,7 @@ roxygen()
 #' @title Base class for inducers. 
 
 setClass(
-		"learner",
+		"Learner",
 		contains = c("object"),
 		representation = representation(
 				id = "character",
@@ -65,7 +65,7 @@ setClass(
 #' Constructor.
 setMethod(
 		f = "initialize",
-		signature = signature("learner"),
+		signature = signature("Learner"),
 		def = function(.Object, id, pack, par.set=makeParameterSet(), par.vals=list()) {			
 			if (missing(id))
 				return(make.empty(.Object))
@@ -84,7 +84,7 @@ setMethod(
 
 setMethod(
 		f = "[",
-		signature = signature("learner"),
+		signature = signature("Learner"),
 		def = function(x,i,j,...,drop) {
       if (i == "par.train")  {
         ns = names(Filter(function(y) y@when %in% c("train", "both"), x@par.set@pars))

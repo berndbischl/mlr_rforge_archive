@@ -40,7 +40,7 @@ setMethod(
 		f = "train",
 		
 		signature = signature(
-				learner="learner", 
+				learner="Learner", 
 				task="LearnTask", 
 				subset="integer" 
 		),

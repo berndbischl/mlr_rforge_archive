@@ -17,9 +17,9 @@ roxygen()
 
 setClass(
 		"BaseWrapper",
-		contains = c("learner"),
+		contains = c("Learner"),
 		representation = representation(
-			learner = "learner"
+			learner = "Learner"
 		)
 )
 

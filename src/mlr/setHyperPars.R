@@ -30,7 +30,7 @@ setMethod(
     f = "setHyperPars",
     
     signature = signature(
-        learner="learner", 
+        learner="Learner", 
         par.vals="list" 
     ),
     

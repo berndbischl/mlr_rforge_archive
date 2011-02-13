@@ -24,7 +24,7 @@ setMethod(
   f = "setPredictType",
   
   signature = signature(
-    learner="learner", 
+    learner="Learner", 
     type="character" 
   ),
   

@@ -22,7 +22,7 @@ setMethod(
 		f = "setId",
 		
 		signature = signature(
-				learner="learner", 
+				learner="Learner", 
 				id="character" 
 		),
 		

@@ -31,7 +31,7 @@ setMethod(
 				stop("Pass either a task object or a newdata data.frame to predict, but not both!")
 
 			model = object
-			wl = model["learner"]
+			wl = model@learner
 			td = model@desc
 			
 			if (missing(newdata)) {
@@ -61,7 +61,7 @@ setMethod(
 			}
 			
 			logger.debug(level="predict", "mlr predict:", wl@id, "with pars:")
-			logger.debug(level="predict", model["learner"]["par.vals.string"])
+			logger.debug(level="predict", model@learner["par.vals.string"])
 			logger.debug(level="predict", "on", nrow(newdata), "examples:")
 			logger.debug(level="predict", rownames(newdata))
 			

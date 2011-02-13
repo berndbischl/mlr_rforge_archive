@@ -22,7 +22,7 @@ setClass(
 		"opt.result",
 		contains = c("object"),
 		representation = representation(
-				learner = "learner",
+				learner = "Learner",
 				control = "opt.control",
 				x = "ANY",
         y = "numeric",
@@ -66,7 +66,7 @@ setMethod(
 			if (i == "opt.type"){
 				return(x@control["opt.type"])
 			}
-			if (i == "learner") {
+			if (i == "Learner") {
 				if (x["opt.type"] != "tune")
 					return(NULL)
 				wl = setHyperPars(x@learner, x@x)

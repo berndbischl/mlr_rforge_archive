@@ -10,7 +10,7 @@ roxygen()
 
 setClass(
   "rlearner",
-  contains = c("learner"),
+  contains = c("Learner"),
   representation = representation(
     missings="logical",
     feat="logical",

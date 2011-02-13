@@ -29,7 +29,7 @@ setClass(
 		"WrappedModel",
 		contains = c("object"),
 		representation = representation(
-				learner = "learner",
+				learner = "Learner",
 				learner.model = "ANY",
         prep.control = "prepare.control",					
         desc = "task.desc",
