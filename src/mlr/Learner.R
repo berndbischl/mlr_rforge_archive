@@ -46,7 +46,7 @@ roxygen()
 #' 
 #' Setters: \code{\link{setId}}, \code{\link{setHyperPars}}, \code{\link{setPredictType}}  
 #' 
-#' @exportClass learner
+#' @exportClass Learner
 #' @title Base class for inducers. 
 
 setClass(
