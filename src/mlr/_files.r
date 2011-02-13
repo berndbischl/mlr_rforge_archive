@@ -26,7 +26,7 @@ pack.files = c(
 #    "mlr/Parameter_randomVal.R",
     "mlr/LearnerParameter.R",
     "mlr/LearnerParameter_make.R",
-    "mlr/optimize/bounds.r",
+    "mlr/ParameterSet.R",
     "mlr/Learner.R",
 		"mlr/learnerR.r",
 		"mlr/makeLearner.R",
@@ -96,7 +96,7 @@ pack.files = c(
     "mlr/optml/varsel.helpers.r",
     "mlr/optml/opt.model.r",
     
-    "mlr/optimize/opt.path.r",
+    "mlr/optimize/OptPath.R",
     "mlr/optimize/makeDesign.R",
     "mlr/optimize/myspo/makeSPOFunction.R",
     "mlr/optimize/myspo/makeSPOControl.R",

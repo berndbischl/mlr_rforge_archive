@@ -1,6 +1,6 @@
 #' @include Learner.R
 roxygen()
-#' @include opt.path.r
+#' @include OptPath.R
 roxygen()
 #' @include opt.control.r
 roxygen()

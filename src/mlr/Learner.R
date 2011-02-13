@@ -2,7 +2,7 @@
 
 #' @include object.r
 roxygen()
-#' @include bounds.r
+#' @include ParameterSet.R
 roxygen()
 
 #' Abstract base class for learning algorithms.
