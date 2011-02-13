@@ -1,4 +1,4 @@
-#' @include ResampleDesc.r
+#' @include ResampleDesc.R
 roxygen()
 
 #' Base class for specific resampling draws like cross-validation or bootstrapping.

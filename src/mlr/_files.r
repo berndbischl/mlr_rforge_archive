@@ -57,8 +57,8 @@ pack.files = c(
 		"mlr/setAggr.R",
     "mlr/performance.r",
     
-		"mlr/resample/ResampleDesc.r",
-		"mlr/resample/ResampleDesc.make.r",
+		"mlr/resample/ResampleDesc.R",
+		"mlr/resample/ResampleDesc_make.R",
 		"mlr/resample/resample.instance.r",
 		"mlr/resample/resample.instance.make.r",
 		"mlr/resample/get.train.test.r",

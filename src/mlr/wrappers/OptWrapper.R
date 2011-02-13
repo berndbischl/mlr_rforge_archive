@@ -1,6 +1,6 @@
 #' @include BaseWrapper.R
 roxygen()
-#' @include ResampleDesc.r
+#' @include ResampleDesc.R
 roxygen()
 #' @include opt.control.r
 roxygen()

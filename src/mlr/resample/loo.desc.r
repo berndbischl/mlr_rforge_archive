@@ -1,4 +1,4 @@
-#' @include ResampleDesc.r
+#' @include ResampleDesc.R
 roxygen()
 
 setClass("loo.desc", 
