@@ -21,8 +21,9 @@ test.varsel <- function() {
   
   ctrl = exhvarsel.control(max.vars=2)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
-  checkEquals(length(as.list(vr@path)), 11) 
-  checkEquals(vr@x, 2) 
+  checkEquals(length(as.list(vr@path)), 10) 
+  checkEquals(nrow(as.data.frame(vr@path)), 10) 
+  checkEquals(ncol(as.data.frame(vr@path)), 8) 
   
 	# check maxit
 	ctrl = randomvarsel.control(maxit=4, path=TRUE)

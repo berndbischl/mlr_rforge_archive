@@ -4,7 +4,7 @@
 #' 
 #' Can be converted to a list or data.frame.
 #' 
-#' @exportClass opt.path
+#' @exportClass OptPath
 #' @title Optimazation path
 setClass(
   "OptPath",
@@ -50,7 +50,7 @@ setMethod(
   f = "as.data.frame",
   signature = signature("OptPath"),
   def = function(x, row.names = NULL, optional = FALSE,...) {
-    df <- do.call(rbind, lapply(x@env$path, function(e) cbind(as.data.frame(e$x),as.data.frame(t(e$y)))))
+    df <- do.call(rbind, lapply(x@env$path, function(e) cbind(as.data.frame(as.list(e$x)),as.data.frame(t(e$y)))))
     colnames(df)[(ncol(df)-length(x@y.names)+1):ncol(df)] = x@y.names
     df[[".dob"]] <- x@env$dob
     df[[".eol"]] <- x@env$eol

@@ -8,9 +8,6 @@ pack.files = c(
 #		"mlr/to.string.r",
 		"mlr/object.r",
 		
-		"mlr/io/read.arff.r",
-		"mlr/data/data.chars.r",
-
 		"mlr/prepare.df.r",
 		"mlr/task.desc.r",
 		"mlr/LearnTask.R",
