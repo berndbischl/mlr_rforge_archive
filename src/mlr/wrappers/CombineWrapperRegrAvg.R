@@ -1,3 +1,4 @@
+#' @exportClass CombineWrapperRegrAvg
 setClass(
   "CombineWrapperRegrAvg",   
   contains = c("BaseCombiner"),
@@ -6,6 +7,7 @@ setClass(
   )
 )   
 
+#' @export 
 makeCombineWrapperRegrAvg = function(learners) {
   new("CombineWrapperRegrAvg", learners=learners, par.set=list(), par.vals=list())
 }
@@ -21,20 +23,6 @@ setMethod(
   }
 )
 
-
-#' @rdname trainLearner
-
-setMethod(
-  f = "trainLearner",
-  signature = signature(
-    .learner="CombineWrapperRegrAvg", 
-    .task="ClassifTask", .subset="integer" 
-  ),
-  
-  def = function(.learner, .task, .subset,  ...) {
-    lapply(.learner@learners, function(w) train(w, .task, .subset))
-  }
-)
 
 #' @rdname predictLearner
 

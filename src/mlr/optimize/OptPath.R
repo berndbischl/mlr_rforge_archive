@@ -50,7 +50,7 @@ setMethod(
   f = "as.data.frame",
   signature = signature("OptPath"),
   def = function(x, row.names = NULL, optional = FALSE,...) {
-    df <- do.call(rbind, lapply(x@env$path, function(e) cbind(as.data.frame(as.list(e$x)),as.data.frame(t(e$y)))))
+    df <- do.call(rbind, lapply(x@env$path, function(e) as.data.frame(c(as.list(e$x), as.list(e$y)),optional=TRUE)))
     colnames(df)[(ncol(df)-length(x@y.names)+1):ncol(df)] = x@y.names
     df[[".dob"]] <- x@env$dob
     df[[".eol"]] <- x@env$eol
@@ -82,9 +82,9 @@ setMethod(
 #' @param op [\code{\linkS4class{OptPath}}] \cr 
 #'   Optimization path.  
 #' @param x [list]\cr 
-#'   List of parameter settings for a point in input space.   
+#'   List of parameter settings for a point in input space. Must be in same order as \code{x.names}.  
 #' @param y [numeric] \cr 
-#'   Vector of fitness values. 
+#'   Vector of fitness values.  Must be in same order as \code{y.names}.
 #' @param dob [integer(1)] \cr 
 #'   Date of birth of the new parameters. Default is length of path + 1.  
 #' @param eol [integer(1)] \cr 
@@ -97,6 +97,8 @@ add.path.el = function(op, x, y, dob, eol=NA) {
             is.na(eol) || eol >= dob)
   if (missing(dob))        
     dob=length(op@env$path)+1
+  names(x) = op@x.names
+  names(y) = op@y.names
   op@env$path = append(op@env$path, list(list(x=x, y=y)))
   op@env$dob = append(op@env$dob, dob)
   op@env$eol = append(op@env$eol, eol)
