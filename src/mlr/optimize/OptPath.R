@@ -92,7 +92,7 @@ setMethod(
 #' @return NULL. This function is called for its side effects, namely
 #'   adding \code{x} to the optimization path.
 #' @export 
-add.path.el = function(op, x, y, dob, eol=NA) {
+addPathElement = function(op, x, y, dob, eol=NA) {
   stopifnot(inherits(op, "OptPath"),          
             is.na(eol) || eol >= dob)
   if (missing(dob))        
@@ -116,7 +116,8 @@ param.to.position <- function(op, x, cand) {
   if (!missing(cand)) {
     r <- eval(eval(substitute(substitute(cand, op@env))), parent.frame())
     idx <- which(r)
-    tmp <- Position(function(zz) identical(x, zz), op@env$path[idx])
+    # we do not check names / attribs
+    tmp <- Position(function(zz) all.equal(x, zz,  check.attributes=FALSE), op@env$path[idx])
     if (!is.na(tmp))
       idx[tmp]
     else

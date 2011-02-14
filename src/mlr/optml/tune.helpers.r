@@ -12,7 +12,7 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
     p2 = trafoVal(par.set, p2)
     # todo: what about operators that generate the new state? accepted?
     y = eval.rf(learner, task, resampling, measures, par.set, control, p2) 
-    add.path.el(opt.path, x=p2, y=y)   
+    addPathElement(opt.path, x=p2, y=y)   
     log.fun(learner, task, resampling, measures, par.set, control, opt.path, p2, y)
     ifelse(measures[[1]]["minimize"], 1 , -1) * y[1]
   }  

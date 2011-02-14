@@ -1,7 +1,7 @@
 test.opt.path <- function() {
   op = new("OptPath", x.names=c("x1", "x2"), y.names=c("y1", "y2"), minimize=c(TRUE, FALSE))
-  add.path.el(op, list(x1=1, x2="a"), c(y1=1, y2=4))
-  add.path.el(op, list(x1=2, x2="a"), c(y1=3, y2=2))
+  addPathElement(op, list(x1=1, x2="a"), c(y1=1, y2=4))
+  addPathElement(op, list(x1=2, x2="a"), c(y1=3, y2=2))
   checkEquals(op@env$dob, 1:2)
   setEoL(op, 1L, 7)
   setEoL(op, list(x1=2, x2="a"), 8)

@@ -13,7 +13,7 @@
 #} 
 #
 ## best = NULL means no acceptable new element was found
-#add.path.els = function(path, ess, best) {
+#addPathElements = function(path, ess, best) {
 #	for (i in 1:length(ess)) {
 #		es = ess[[i]]
 #		path = add.path(path, es, !is.null(best$par) && setequal(es$par, best$par))
@@ -26,7 +26,7 @@ eval.states = function(learner, task, resampling, measures, par.set, bits.to.fea
     measures=measures, par.set=par.set, bits.to.features=bits.to.features, control=control)
   
   for (i in 1:length(pars))
-    add.path.el(opt.path, x=pars[[i]], y=y[[i]])
+    addPathElement(opt.path, x=pars[[i]], y=y[[i]])
   
   return(y)
 }
