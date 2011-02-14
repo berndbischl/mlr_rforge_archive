@@ -62,7 +62,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
 	
 	y = eval.rf(learner, task, resampling, measures, NULL, bits.to.features, control, x)
   state = list(x=x, y=y)
-  path = add.path.el(opt.path, x=x, y=y)		
+  path = addPathElement(opt.path, x=x, y=y)		
 	
 	forward = (method %in% c("sfs", "sffs"))
 	while (!is.null(state)) {

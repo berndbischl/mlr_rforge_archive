@@ -117,13 +117,13 @@ param.to.position <- function(op, x, cand) {
     r <- eval(eval(substitute(substitute(cand, op@env))), parent.frame())
     idx <- which(r)
     # we do not check names / attribs
-    tmp <- Position(function(zz) all.equal(x, zz,  check.attributes=FALSE), op@env$path[idx])
+    tmp <- Position(function(zz) all.equal(x, zz, check.attributes=FALSE), op@env$path[idx])
     if (!is.na(tmp))
       idx[tmp]
     else
       tmp
   } else {
-    Position(function(e) identical(x, e$x), op@env$path)
+    Position(function(e) all.equal(x, e$x, check.attributes=FALSE), op@env$path)
   }
 }
 
