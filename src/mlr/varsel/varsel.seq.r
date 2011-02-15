@@ -6,15 +6,17 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     xs = gen.new.states(state$x)
 		if (length(xs) == 0)
 			return(NULL)
+		dob = max(opt.path@env$dob) + 1
+    # die at once
+    eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, xs, dob=dob, eol=dob)
 		
-		eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, xs)
-		
-		best = getBestElement(opt.path, eol=NA)
+		best = getBestElement(opt.path, dob=dob)
 		thresh = ifelse(forward, control["alpha"], control["beta"]) 
 		# if backward step and we have too many vars we do always go to the next best state with one less var.
     if (!compare(state, best, control, measures[[1]], thresh) && (forward || sum(x) < control["max.vars"]))
       return(NULL)
-    setEoL(opt.path, state$x, NA)
+    # best element lives one iteration longer
+    setEoL(opt.path, best$x, dob+1)
     return(best)
 	}
 	
@@ -62,7 +64,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
 	
 	y = eval.rf(learner, task, resampling, measures, NULL, bits.to.features, control, x)
   state = list(x=x, y=y)
-  path = addPathElement(opt.path, x=x, y=y)		
+  path = addPathElement(opt.path, x=x, y=y, dob=1, eol=2)		
 	
 	forward = (method %in% c("sfs", "sffs"))
 	while (!is.null(state)) {

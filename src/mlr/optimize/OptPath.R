@@ -123,7 +123,7 @@ param.to.position <- function(op, x, cand) {
     else
       tmp
   } else {
-    Position(function(e) all.equal(x, e$x, check.attributes=FALSE), op@env$path)
+    Position(function(e) isTRUE(all.equal(x, e$x, check.attributes=FALSE)), op@env$path)
   }
 }
 
@@ -131,20 +131,15 @@ param.to.position <- function(op, x, cand) {
 #'
 #' @param op [\code{\linkS4class{OptPath}}] \cr 
 #'   Optimization path.  
-#' @param x [integer(1) | list]\cr 
-#'   List of parameter settings for a point in input space or an integer index for a path element.   
+#' @param x [list]\cr 
+#'   List of parameter settings for a point in input space.   
 #' @param eol [integer(1)] \cr 
 #'   End of life of point. 
-#' @return NULL. This function is called for its side effects, namely
-#'   adding \code{x} to the optimization path.
 #' @export 
 #' @return NULL, this function is called for its side effect, namely
 #'   modifing the optimization path.
 setEoL = function(op, x, eol) {
-  if (is.numeric(x) && length(x) == 1 && x == as.integer(x))
-    x = as.integer(x)
-  if (!is.integer(x))
-    x = param.to.position(op, x)
+  x = param.to.position(op, x)
   if (is.na(x))
     stop("No element found matching the given parameter settings. Cannot set EoL!")
   op@env$eol[x] = as.integer(eol)
