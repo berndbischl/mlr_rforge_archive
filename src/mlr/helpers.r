@@ -235,14 +235,6 @@ checkColumnNames = function(data, target, exclude) {
     stop(paste("Column names of data.frame don't contain target var: ", target))
   }
   
-  # todo: rpart does not like (), bug there?
-  forbidden  = c("[", "]", "(", ")", ",", " ")
-  forbidden2 = c("[", "]", "(", ")", ",", "<WHITESPACE>")
-  #forbidden = c("[", "]")
-  i = sapply(forbidden, function(x) length(grep(x, cns, fixed=TRUE)) > 0)
-  if (any(i))
-    stop(paste("Column names should not contain: ", paste(forbidden2, collapse=" ")))
-  
   if (!all(exclude %in% cns))
     stop("Trying to exclude non-existing variables: ", setdiff(exclude, cns))
   if (target %in% exclude)

@@ -79,7 +79,25 @@ prep.data = function(is.classif, data, target, control) {
 	impute.large = control@impute.large
 	large = control@large
   
-	if (is.classif && !is.null(data[[target]])) {
+  cns = colnames(data)
+  bad.chars = c("\\[", "]", "\\(", ")", ",", "\\+", "-", "\\*", "/")
+  bcs.collapsed = paste(sapply(bad.chars, function(x) substr(x, nchar(x), nchar(x))), collapse=" ")
+  if (any(sapply(bad.chars, function(bc) length(grep(bc, target)) > 0)))
+    stop("Target name contains one of the special characters: ", bcs.collapsed ,". You have to rename it!")
+        
+  if (any(sapply(bad.chars, function(bc) length(grep(bc, cns)) > 0))) {
+    if (.mlr.local$errorhandler.setup$on.convert.varname == "stop")
+      stop("Feature name contains one of the special characters: ", bcs.collapsed)
+    if (.mlr.local$errorhandler.setup$on.convert.varname == "warn")
+      warning("Converting feature names containing special characters: ", bcs.collapsed)
+    for (bc in bad.chars) {
+      # take last int code when escaping regexp
+      cns = gsub(pattern=bc, replacement=rev(utf8ToInt(bc))[1], cns)
+    }
+    colnames(data) = cns
+  }
+
+  if (is.classif && !is.null(data[[target]])) {
 		targets = data[, target]
 		
 		#convert target to factor

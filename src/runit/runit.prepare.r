@@ -41,4 +41,17 @@ test.prepare <- function(){
     checkEquals(length(levels(df[,multiclass.target])), 3)
     checkEquals(length(unique(ct["targets"])), 2)
     checkEquals(length(levels(ct["targets"])), 2)
+    
+    # check replacement of special chars in colnames
+    mydata = multiclass.df
+    colnames(mydata)[5] = "y+z"
+    checkException(makeClassifTask(data=mydata, target="y+z"), silent=TRUE)
+    s = geterrmessage()
+    checkTrue(length(grep("You have to rename", s)) >0 )
+    colnames(mydata)[1:2] = c("foo[bar]", "foo+bar")
+    colnames(mydata)[5] = multiclass.target
+    checkWarning(makeClassifTask(data=mydata[multiclass.train.inds,], target=multiclass.target), 
+      "Converting feature names containing ")  
+    ct = makeClassifTask(data=mydata[multiclass.train.inds,], target=multiclass.target)
+    checkEquals(getFeatureNames(ct), c("foo91bar93", "foo43bar", "Petal.Length", "Petal.Width"))
 }
