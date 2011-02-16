@@ -16,7 +16,7 @@ roxygen()
 setGeneric(
   name = "iters",
   def = function(x) {
-    standardGeneric("resample.update")
+    standardGeneric("iters")
   }
 )
 
