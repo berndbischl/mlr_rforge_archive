@@ -1,9 +1,9 @@
 
 
 test.ResamplePrediction = function() {
-  rin1 = make.res.instance(makeResampleDesc("bs", iters=4), task=multiclass.task)  
-  rin2 = make.res.instance(makeResampleDesc("cv", iters=7), task=multiclass.task)  
-  rin3 = make.res.instance(makeResampleDesc("subsample", iters=2), task=multiclass.task)  
+  rin1 = makeResampleInstance(makeResampleDesc("bs", iters=4), task=multiclass.task)  
+  rin2 = makeResampleInstance(makeResampleDesc("cv", iters=7), task=multiclass.task)  
+  rin3 = makeResampleInstance(makeResampleDesc("subsample", iters=2), task=multiclass.task)  
   
 	p1 = resample("classif.lda", multiclass.task, rin1)$pred       
 	p2 = resample("classif.lda", multiclass.task, rin2)$pred       

@@ -8,7 +8,7 @@ e1071.cv.to.mlr.cv <- function(e1071.tune.result) {
   folds <- length(inds)
   
   d = makeResampleDesc("cv", iters=folds)
-  cv.instance = make.res.instance(d, size=size)
+  cv.instance = makeResampleInstance(d, size=size)
 
   for (i in 1:folds) {
     cv.instance@train.inds[[i]] = inds[[i]]
@@ -27,7 +27,7 @@ e1071.bs.to.mlr.bs <- function(e1071.tune.result) {
   iters <- length(inds)
   
   d = makeResampleDesc("bs", iters=iters)
-  bs.instance = make.res.instance(d, size=size)
+  bs.instance = makeResampleInstance(d, size=size)
 
   for (i in 1:iters) {
 	  bs.instance@train.inds[[i]] = inds[[i]]

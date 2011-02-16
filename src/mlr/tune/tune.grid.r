@@ -4,7 +4,7 @@ tune.grid <- function(learner, task, resampling, measures, par.set, control, opt
   # todo: should we really do this? or allow both possibilities? what about wrapper?
   # convert to instance so all pars are evaluated on the same splits
   if (is(resampling, "ResampleDesc")) 
-    resampling = make.res.instance(resampling, task=task)
+    resampling = makeResampleInstance(resampling, task=task)
   # drop names from par.set
   vals = values(par.set, only.names=TRUE) 
   grid = expand.grid(vals, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)

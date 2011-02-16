@@ -1,6 +1,6 @@
 
 test.stratcv.instance = function() {
-  rin = make.res.instance(makeResampleDesc("stratcv", iters=10), task=multiclass.task)  
+  rin = makeResampleInstance(makeResampleDesc("stratcv", iters=10), task=multiclass.task)  
   
   folds = rin["iters"]
   checkEquals(folds, 10)

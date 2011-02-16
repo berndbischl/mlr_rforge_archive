@@ -5,7 +5,7 @@
 #' or extract specific parts of the models (parameter \code{extract}) as returning all of them completely might be memory intensive.    
 #' 
 #' For construction of the resampling strategies use the factory methods \code{\link{makeResampleDesc}} and 
-#' \code{\link{make.res.instance}}.
+#' \code{\link{makeResampleInstance}}.
 #'
 #' @param learner [\code{\linkS4class{learner}} | \code{\link{character}}]\cr 
 #'   Learning algorithm.   
@@ -42,7 +42,7 @@ setGeneric(
     if (is.character(learner))
       learner = makeLearner(learner)
     if (is(resampling, "ResampleDesc")) 
-      resampling = make.res.instance(resampling, task=task)
+      resampling = makeResampleInstance(resampling, task=task)
     if (missing(measures))
       measures = default.measures(task)
     if (is(measures, "Measure"))

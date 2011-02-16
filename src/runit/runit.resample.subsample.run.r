@@ -1,8 +1,8 @@
 
 test.subsample.instance = function() {
-  rin = make.res.instance(makeResampleDesc("subsample", iters=2, split=0.25), size=20)
+  rin = makeResampleInstance(makeResampleDesc("subsample", iters=2, split=0.25), size=20)
 	
-	iters <- rin["iters"]
+	iters <- rin@["iters"]
 	checkEquals(iters, 2)
 	
 	

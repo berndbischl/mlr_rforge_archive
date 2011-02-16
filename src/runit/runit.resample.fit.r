@@ -1,5 +1,5 @@
 test.resample = function() {
-	cv.i = make.res.instance(makeResampleDesc("cv", iters=3), binaryclass.task)
+	cv.i = makeResampleInstance(makeResampleDesc("cv", iters=3), binaryclass.task)
 	
 	mylda = makeLearner("classif.lda", predict.type="prob")
 	rf1 = resample("classif.lda", binaryclass.task, cv.i)$pred

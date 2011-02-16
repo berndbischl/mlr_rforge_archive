@@ -11,24 +11,24 @@
 #' @return A \code{\linkS4class{ResampleInstance}} object.
 #' @export 
 #' @seealso code{\link{makeResampleDesc}}, \code{\link{resample}} 
-#' @rdname make.res.instance
+#' @rdname makeResampleInstance
 #' @title Construct resampling instance
 
 setGeneric(
-		name = "make.res.instance",
+		name = "makeResampleInstance",
 		def = function(desc, task, size) {
       if (!missing(size) && is.numeric(size))
         size = as.integer(size)
-      standardGeneric("make.res.instance")
+      standardGeneric("makeResampleInstance")
 		}
 )
 
 
 #' @export 
-#' @rdname make.res.instance
+#' @rdname makeResampleInstance
 
 setMethod(
-		f = "make.res.instance",
+		f = "makeResampleInstance",
 		signature = c(desc="ResampleDesc", task="missing", size="integer"),
 		def = function(desc, task, size) {
 			make.res.i(desc@instance.class, desc=desc, size=size, task=NULL)
@@ -36,10 +36,10 @@ setMethod(
 )
 
 #' @export 
-#' @rdname make.res.instance
+#' @rdname makeResampleInstance
 
 setMethod(
-		f = "make.res.instance",
+		f = "makeResampleInstance",
 		signature = c(desc="ResampleDesc", task="LearnTask", size="missing"),
 		def = function(desc, task, size) {
 			make.res.i(desc@instance.class, desc=desc, task=task, blocking=task["blocking"])

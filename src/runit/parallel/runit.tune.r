@@ -2,7 +2,7 @@
 
 test.parallel.tune = function() {
   
-  res = make.res.instance(makeResampleDesc("subsample", iters=4), task=multiclass.task)
+  res = makeResampleInstance(makeResampleDesc("subsample", iters=4), task=multiclass.task)
   
   ctrl = grid.control(ranges=list(sigma=c(0.1, 1, 10)))
   

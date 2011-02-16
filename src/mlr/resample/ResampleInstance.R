@@ -5,7 +5,7 @@ roxygen()
 #' This class encapsulates training and test sets generated from the data set for a number of iterations. 
 #' It mainly stores a set of integer vectors indicating the training and test examples for each iteration.
 #' Don't create objects from this class directly but use the corresponding subclasses.
-#' For construction simply use the factory method \code{\link{make.res.instance}}. 
+#' For construction simply use the factory method \code{\link{makeResampleInstance}}. 
 #' 
 #' @slot desc [\code{\linkS4class{ResampleDesc}}] Resample description that was used to create the instance. 
 #' @slot size [integer(1)] Number of observations.  
@@ -17,7 +17,7 @@ roxygen()
 #' 
 #' @note If you want to add another resampling strategy, have a look at the web documentation. 
 #' @exportClass ResampleInstance
-#' @seealso \code{\linkS4class{ResampleDesc}}, \code{\link{make.res.instance}}, \code{\link{resample}} 
+#' @seealso \code{\linkS4class{ResampleDesc}}, \code{\link{makeResampleInstance}}, \code{\link{resample}} 
 #' @title Resampling instance.
 
 
