@@ -21,7 +21,7 @@
 #' @param on.convert.varname [string] \cr
 #'   What should happen if an a variable is renamed during the creation of a \code{\linkS4class{LearnTask}}: 'stop', 'warn' or 'quiet'.\cr 
 #'   The following special characters are converted to their UTF8 integer codes, because they might create problems
-#'   later on in a learner if they occur in a feature name: [ ] ( ) , + - * /   
+#'   later on in a learner if they occur in a feature name: [ ] ( ) { } , + - * / =  ~  
 #'   'stop': R exception is generated.\cr
 #'   'warn': Warning on rename.\cr
 #'   'quiet': Renaming done quietly.\cr
