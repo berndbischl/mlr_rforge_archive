@@ -2,7 +2,7 @@
 roxygen()
 #' @include LearnTask.R
 roxygen()
-#' @include ResampleInstance.r
+#' @include ResampleInstance.R
 roxygen()
 
 

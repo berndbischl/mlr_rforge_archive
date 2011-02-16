@@ -1,4 +1,4 @@
-#' @include ResampleInstance.r
+#' @include ResampleInstance.R
 #' @include cv.rep.desc.r
 roxygen()
 

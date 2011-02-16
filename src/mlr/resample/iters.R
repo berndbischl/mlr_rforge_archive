@@ -2,7 +2,7 @@
 roxygen()
 #' @include ResampleInstance.R
 roxygen()
-#' @include bench.result.r
+#' @include benchresult.r
 roxygen()
 
 
