@@ -106,13 +106,13 @@ test.benchresult = function() {
 	checkEquals(names(x1), c("classif.ksvm"))
 	x1 = x1[[1]]
 	checkTrue(is(x1, "ResamplePrediction"))
-	checkEquals(x1["iters"], outer.len)
+	checkEquals(x1@instance@desc@iters, outer.len)
 	x1 = x[[2]]
 	checkTrue(is.list(x1))
 	checkEquals(names(x1), c("classif.ksvm"))
 	x1 = x1[[1]]
 	checkTrue(is(x1, "ResamplePrediction"))
-	checkEquals(x1["iters"], outer.len)
+	checkEquals(x1@instance@desc@iters, outer.len)
 
 	x = be["conf.mats"]
 	checkEquals(names(x), c("multiclass", "binary"))

@@ -58,7 +58,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
 	if (length(tasks) > 1 && is(resampling, "ResampleInstance")) {
 		stop("Cannot pass a ResampleInstance with more than 1 task. Use a ResampleDesc!")
 	}
-	dims = c(resampling["iters"], 2, n, length(measures))
+	dims = c(iters(resampling), 2, n, length(measures))
 	
 	learner.names = character()
 	task.names = sapply(tasks, function(x) x@desc@id)	

@@ -67,7 +67,8 @@ allowed.rd.files <<- c(
 		"resample.Rd",
 		"ResamplePrediction-class.Rd",
 		"as.ROCR.preds.Rd",
-		
+    "iters.Rd",
+    
 #		"set.train.par.Rd",
 #		"set.predict.par.Rd",
 #

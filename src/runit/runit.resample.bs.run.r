@@ -2,7 +2,7 @@
 test.bs.instance = function() {
   rin <- makeResampleInstance(makeResampleDesc("bs", iters=3), size=25)
   
-  iters <- rin["iters"]
+  iters <- rin@desc@iters
   checkEquals(iters, 3)
 
   for (i in 1:iters) {

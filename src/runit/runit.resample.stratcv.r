@@ -2,7 +2,7 @@
 test.stratcv.instance = function() {
   rin = makeResampleInstance(makeResampleDesc("stratcv", iters=10), task=multiclass.task)  
   
-  folds = rin["iters"]
+  folds = rin@desc@iters
   checkEquals(folds, 10)
   
   for (i in 1:folds) {

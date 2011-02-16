@@ -2,7 +2,7 @@
 test.subsample.instance = function() {
   rin = makeResampleInstance(makeResampleDesc("subsample", iters=2, split=0.25), size=20)
 	
-	iters <- rin@["iters"]
+	iters <- rin@desc@iters
 	checkEquals(iters, 2)
 	
 	

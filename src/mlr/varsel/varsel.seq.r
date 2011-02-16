@@ -13,10 +13,11 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
 		best = getBestElement(opt.path, dob=dob)
 		thresh = ifelse(forward, control["alpha"], control["beta"]) 
 		# if backward step and we have too many vars we do always go to the next best state with one less var.
-    if (!compare(state, best, control, measures[[1]], thresh) && (forward || sum(x) < control["max.vars"]))
+    if (!compare(state, best, control, measures[[1]], thresh) && (forward || sum(state$x) <= control["max.vars"]))
       return(NULL)
     # best element lives one iteration longer
     setEoL(opt.path, best$x, dob+1)
+    print(length(as.list(opt.path)))
     return(best)
 	}
 	

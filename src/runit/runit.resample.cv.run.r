@@ -2,7 +2,7 @@
 test.cv.instance = function() {
   rin <- makeResampleInstance(makeResampleDesc("cv", iters=3), size=25)
 
-  folds <- rin["iters"]
+  folds <- rin@desc@iters
   checkEquals(folds, 3)
 
   for (i in 1:folds) {

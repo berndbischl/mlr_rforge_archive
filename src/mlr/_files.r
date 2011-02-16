@@ -76,7 +76,8 @@ pack.files = c(
 		"mlr/resample/ResamplePrediction.R",
 		"mlr/resample/resample.r",
 		"mlr/conf.matrix.r",
-
+    "mlr/resample/iters.R",
+    
     "mlr/rocr/as.rocr.preds.r",
     "mlr/rocr/ROCR_zzz.R",
     "mlr/rocr/ROCR_aux.R",

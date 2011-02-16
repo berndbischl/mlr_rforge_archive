@@ -42,7 +42,7 @@ test.benchexp <- function() {
 	be = bench.exp(learners, multiclass.task, resampling=outer, measures=list(acc, time.all, foo))
 	print(be)
   a = as.array(be)
-	checkEquals(dim(a), c(outer["iters"], 2, length(learners), 3, 1))	
+	checkEquals(dim(a), c(outer@iters, 2, length(learners), 3, 1))	
 	
 	be = bench.exp("regr.lm", regr.task, resampling=outer)
 	print(be)

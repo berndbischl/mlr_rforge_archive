@@ -58,9 +58,6 @@ setMethod(
 		signature = signature("bench.result"),
 		def = function(x,i,j,...,drop) {
 
-			if (i == "iters") {
-				return(sapply(x@resamplings, function(y) y["iters"]))
-			}
 			if (i == "learner.ids") {
 				return(sapply(x@learners, function(y) y@id))
 			}
@@ -124,7 +121,7 @@ setMethod(
   f = "as.array",
   signature = signature("bench.result"),
   def = function(x, tasks=x["task.ids"], learners=x["learner.ids"], sets=c("test", "train"), measures=x["measure.ids"], drop=FALSE, ...) {
-    iters = x["iters"]
+    iters = iters(x)
     if (length(unique(iters)) != 1)
       stop("Resamplings in bench.exp have different numbers of iterations, restrict as.array to a single task!")
     dimns = list(1:iters, sets, learners, measures, tasks)

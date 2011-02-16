@@ -2,7 +2,7 @@
 test.repcv.instance = function() {
   rin = makeResampleInstance(makeResampleDesc("repcv", iters=30, folds=10, reps=3), task=multiclass.task)
   
-  iters = rin["iters"]
+  iters = rin@desc@iters
   checkEquals(iters, 10*3)
   reps = rin["desc"]["reps"]
   checkEquals(reps, 3)

@@ -16,7 +16,7 @@ setMethod(
 		def = function(.Object, desc, size, task) {
 			if (missing(desc))
 				return(.Object)
-			inds = lapply(1:desc["iters"], function(x) sample(1:size, size*desc["split"]))
+			inds = lapply(1:desc@iters, function(x) sample(1:size, size*desc["split"]))
 			callNextMethod(.Object, desc=desc, size=size, train.inds=inds)
 		}
 )

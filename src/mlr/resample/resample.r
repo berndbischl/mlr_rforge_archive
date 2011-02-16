@@ -67,7 +67,7 @@ setMethod(
       stop(paste("Size of data set:", n, "and resampling instance:", r, "differ!"))
     
     rin = resampling
-    iters = rin["iters"]
+    iters = rin@desc@iters
     
     if (is(rin, "ResampleInstance.nonseq")) {
       rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 

@@ -24,7 +24,7 @@ setMethod(
 			.Object@instance = instance
 			type = p1["type"]
       df = data.frame()
-      for (i in 1:instance["iters"]) {
+      for (i in 1:instance@desc@iters) {
         df = rbind(df, cbind(preds.test[[i]]@df, iter=i, set="test"))
         if (!is.null(preds.train[[i]]))
           df = rbind(df, cbind(preds.train[[i]]@df, iter=i, set="train"))                 
@@ -72,7 +72,7 @@ setMethod(
 		signature = signature("ResamplePrediction"),
 		def = function(x,i,j,...,drop) {
 			if (i == "iters")
-				return(x@instance["iters"])
+				return(x@instance@desc@iters)
 			callNextMethod()
 		}
 )
@@ -91,7 +91,7 @@ setMethod(
 			test = train = list()
       has.train = "train" %in% levels(df$set)
       has.test = "test" %in% levels(df$set)
-      for(i in 1:x@instance["iters"]) {
+      for(i in 1:x@instance@desc@iters) {
         if (has.test)
           test[[i]] = new("Prediction", task.desc=x@desc, 
             type=x@type, df=subset(dfs[[i]], subset=(set=="test")), threshold=x@threshold, x@time)						
