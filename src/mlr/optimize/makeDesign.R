@@ -19,6 +19,8 @@
 #' @export 
 makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
   require.packs("lhs", "makeDesign")
+  if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
+    stop("No par.set parameter in 'makeDesign' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")        
   
   lower = lower(par.set)
   upper = upper(par.set)

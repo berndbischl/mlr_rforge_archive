@@ -41,6 +41,8 @@
 #' @export 
 
 spo = function(fun, par.set, des, learner, control, opt.path) {
+  if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
+    stop("No par.set parameter in 'spo' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")        
   if (length(opt.path@y.names) > 1)
     stop("'opt.path' should only contain one 'y' column!")
   y.name = opt.path@y.names

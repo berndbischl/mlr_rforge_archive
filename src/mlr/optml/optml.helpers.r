@@ -1,5 +1,3 @@
-# todo: the global eval vars are very bad, think about parallel! 
-
 
 #state: list(vars, rp) 
 

@@ -72,6 +72,8 @@ setMethod(
 			.Object@id = id
 			.Object@pack = pack
 			require.packs(pack, for.string=paste("learner", id))
+      if(any(sapply(par.set@pars, function(x) !is(x, "LearnerParameter"))))
+        stop("All par.set parameters in learner of class ", class(.Object), " must be of class 'LearnerParameter'!")        
 			.Object@par.set = par.set
       .Object@predict.type = "response"
       setHyperPars(.Object, par.vals=par.vals)
