@@ -83,7 +83,7 @@ prep.data = function(is.classif, data, target, control) {
   
   #todo: these are all candidates for bad chars
   #! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` { | } ~
-  bad.chars = c("\\[", "]", "\\(", ")", "{", "}", ",", "\\+", "-", "\\*", "/", "=", "\\$", "~")
+  bad.chars = c("\\[", "]", "\\(", ")", "\\{", "}", ",", "\\+", "-", "\\*", "/", "=", "\\$", "~")
   bcs.collapsed = paste(sapply(bad.chars, function(x) substr(x, nchar(x), nchar(x))), collapse=" ")
   if (any(sapply(bad.chars, function(bc) length(grep(bc, target)) > 0)))
     stop("Target name contains one of the special characters: ", bcs.collapsed ,". You have to rename it!")
