@@ -12,13 +12,15 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
 		
 		best = getBestElement(opt.path, dob=dob)
     # best element lives one iteration longer
-    setEoL(opt.path, best$x, dob+1)
     thresh = ifelse(forward, control["alpha"], control["beta"]) 
-		# if backward step and we have too many vars we do always go to the next best state with one less var.
-    if (!compare(state, best, control, measures[[1]], thresh) && (forward || sum(best$x) <= control["max.vars"]))
-      return(NULL)
-    else
+    better = compare(state, best, control, measures[[1]], thresh) 
+    # if backward step and we have too many vars we do always go to the next best state with one less var.
+    if ((forward && better) || (!forward && (better || sum(state$x) > control["max.vars"]))) {
+      setEoL(opt.path, best$x, dob+1)
       return(best)
+    } else {
+      return(NULL)
+    }
 	}
 	
 	gen.new.states.sfs = function(x) {
@@ -94,8 +96,12 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
         break;
 		}
 	}
-
-  e = getBestElement(opt.path, measureAggrNames(measures[[1]])[1], dob=max(opt.path@env$dob))
+  # if last generation contains no better element, go to second to last
+  last = max(opt.path@env$dob) 
+  j = which(opt.path@env$dob == last)
+  if (all(opt.path@env$eol[opt.path@env$dob == last] == last))
+    last = last-1
+  e = getBestElement(opt.path, measureAggrNames(measures[[1]])[1], dob=last)
   new("opt.result", learner, control, bits.to.features(e$x, task), e$y, opt.path)
 }
 
