@@ -45,13 +45,13 @@
 #
 #make.loss <- function(name) {
 #	if (name=="squared") 
-#		fun=function(x, task) (x["truth"] - x["response"])^2 
+#		fun=function(x, task) (x["truth"] - x@df$response)^2 
 #	else if (name=="abs") 
-#		fun=function(x, task) abs(x["truth"] - x["response"]) 
+#		fun=function(x, task) abs(x["truth"] - x@df$response) 
 #	else if (name=="residual") 
-#		fun=function(x, task) x["truth"] - x["response"] 
+#		fun=function(x, task) x["truth"] - x@df$response 
 #	else if (name=="zero-one") 
-#		fun=function(x, task) as.numeric(x["truth"] != x["response"]) 
+#		fun=function(x, task) as.numeric(x["truth"] != x@df$response) 
 #	else if (name=="costs") 
 #		fun=function(x, task) { 
 #			cm = x@desc["costs"]
@@ -60,7 +60,7 @@
 #			cc = function(truth, pred) {
 #				cm[truth, pred]
 #			}
-#			unlist(Map(cc, as.character(x["truth"]), as.character(x["response"])))			
+#			unlist(Map(cc, as.character(x["truth"]), as.character(x@df$response)))			
 #		}
 #	else 	
 #		stop(paste("Loss", name, "does not exist!"))

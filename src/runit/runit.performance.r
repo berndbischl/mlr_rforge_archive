@@ -15,11 +15,11 @@ test.performance <- function() {
 	mymeasure = makeMeasure(id="mym", minimize=TRUE,  
     fun=function(task, model, pred, extra.pars) {
 		# normal test error
-		e1 = mean(pred["truth"] != pred["response"])
+		e1 = mean(pred["truth"] != pred@df$response)
 		# we do this manually 
 		id = pred["id"]
 		t2 = task["targets"][id]
-		e2 = mean(t2 != pred["response"])
+		e2 = mean(t2 != pred@df$response)
 		checkEquals(e1, e2)
 	})
 	

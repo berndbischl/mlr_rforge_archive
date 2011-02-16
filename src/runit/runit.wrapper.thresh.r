@@ -10,6 +10,6 @@ test.thresh.wrapper <- function() {
     pv2 = pv; pv2[[i]] = 0
     w = setHyperPars(v, par.vals=pv2)
     r = resample(w, multiclass.task, res)
-    checkTrue(all(r$pred["response"] == cl[i]))
+    checkTrue(all(r$pred@df$response == cl[i]))
   }
 }

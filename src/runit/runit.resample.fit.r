@@ -11,11 +11,11 @@ test.resample = function() {
 	rf4 = resample(mylda, binaryclass.task, cv.i)$pred
   rf4 = setThreshold(rf4, 1)
   
-	checkEquals(rf1["response"], rf2["response"])
+	checkEquals(rf1@df$response, rf2@df$response)
 	f1 = factor(rep(binaryclass.task["positive"], cv.i["size"]), levels=binaryclass.task["class.levels"])
-	checkEquals(rf3["response"], f1)
+	checkEquals(rf3@df$response, f1)
 	f2 = factor(rep(binaryclass.task["negative"], cv.i["size"]), levels=binaryclass.task["class.levels"])
-	checkEquals(rf4["response"], f2)
+	checkEquals(rf4@df$response, f2)
 	
 	ct = makeClassifTask(data=iris[,c("Species", "Petal.Width")], target="Species")
 	fit = resample("classif.lda", ct, makeResampleDesc("cv", iters=2))	

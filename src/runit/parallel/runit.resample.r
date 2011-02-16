@@ -11,8 +11,8 @@ test.parallel.resample = function() {
   parallel.setup(mode="snowfall", level="resample", cpus=2)
   p3 = resample(wl, binaryclass.task, res)
   
-  checkEquals(p1["response"], p2["response"])
-  checkEquals(p1["response"], p3["response"])
+  checkEquals(p1@df$response, p2@df$response)
+  checkEquals(p1@df$response, p3@df$response)
   parallel.setup(mode="local")
 }
 

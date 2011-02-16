@@ -23,7 +23,7 @@ opt.meta.model.bfgs = function(n, meta.model, constr.model, curdes, cury, contro
     disc.vals = lapply(seq(length=length(disc.vals)), function(k) factor(disc.vals[[k]], levels=disc.ranges[[k]]))
     names(disc.vals) = names.rest
     nd = c(nd, disc.vals)
-    predict(meta.model, newdata=as.data.frame(nd))["response"]
+    predict(meta.model, newdata=as.data.frame(nd))@df$response
   }
  
   bfgs = function(disc.vals) {

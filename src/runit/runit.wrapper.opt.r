@@ -15,5 +15,5 @@ test.OptWrapper <- function() {
 	checkTrue(!is.null(or["path"]))
   
   p = predict(m, task=multiclass.task)
-  checkTrue(!any(is.na(p["response"])))
+  checkTrue(!any(is.na(p@df$response)))
 }

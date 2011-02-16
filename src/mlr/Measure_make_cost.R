@@ -48,7 +48,7 @@ setMethod(
         costs = extra.pars[[1]]
         mean.costs = extra.pars[[2]]
         # cannot index with NA
-        r = pred["response"]    
+        r = pred@df$response    
         if (any(is.na(r)))
           return(as.numeric(NA))
         cc = function(truth, pred) {

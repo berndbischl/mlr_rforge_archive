@@ -16,7 +16,7 @@ train.meta.model = function(meta.learner, constr.learner, des, y, control) {
 } 
 
 pred.meta.model = function(meta.model, des) {
-  predict(meta.model, newdata=des)["response"]
+  predict(meta.model, newdata=des)@df$response
 } 
 
 sigma.meta.model = function(meta.model, des) {

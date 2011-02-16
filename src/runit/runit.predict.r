@@ -12,17 +12,17 @@ test.predict <- function() {
 	ext2 <- lda(formula, data=data[inds,])
 	pred2 <- predict(ext2,newdata=data[inds,])$class
 	
-	checkEquals(cp2["response"], pred2)
-	checkEquals(cp2b["response"], pred2)
+	checkEquals(cp2@df$response, pred2)
+	checkEquals(cp2b@df$response, pred2)
 	
 	cm3 <- train(wl.lda, multiclass.task, subset=inds)
 	cp3 <- predict(cm3, newdata=data[multiclass.test.inds,])
 	ext3 <- lda(formula, data=data[inds,])
 	pred3 <- predict(ext3,newdata=data[multiclass.test.inds,])$class
-	checkEquals(cp3["response"], pred3)
+	checkEquals(cp3@df$response, pred3)
 	
 	cp4 <- predict(cm3, task=multiclass.task, subset=multiclass.test.inds)
-	checkEquals(cp4["response"], pred3)
+	checkEquals(cp4@df$response, pred3)
 	checkEquals(cp4["truth"], data[multiclass.test.inds, multiclass.target])
 	checkEquals(cp4["id"], multiclass.test.inds)
 	
@@ -36,12 +36,12 @@ test.predict <- function() {
 	cp5c = setThreshold(cp5b, 0)
   cp5d = setThreshold(cp5b, 1)
 	cp5e = predict(cm5, task=binaryclass.task, subset=1)
-	checkEquals(cp5a["response"], cp5b["response"])
+	checkEquals(cp5a@df$response, cp5b@df$response)
 	f1 = factor(rep(binaryclass.task["positive"], length(binaryclass.test.inds)), levels=binaryclass.task["class.levels"])
-	checkEquals(cp5c["response"], f1)
+	checkEquals(cp5c@df$response, f1)
 	f2 = factor(rep(binaryclass.task["negative"], length(binaryclass.test.inds)), levels=binaryclass.task["class.levels"])
-	checkEquals(cp5d["response"], f2)
-	checkTrue(setequal(levels(cp5e["response"]), c("M", "R")))
+	checkEquals(cp5d@df$response, f2)
+	checkTrue(setequal(levels(cp5e@df$response), c("M", "R")))
 		
 	# check strange chars in labels
 	df = binaryclass.df

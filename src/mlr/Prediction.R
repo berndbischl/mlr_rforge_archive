@@ -57,7 +57,7 @@ makePrediction = function(task.desc, id, truth, type, y, time) {
 	xs[["id"]] = id
 	xs[["truth"]] = truth
   if (type == "response") {
-    xs[["response"]] = y
+    xs[@df$response] = y
   } else if (type == "prob"){
 		xs[["prob"]] = y
 	} else if (type == "decision"){

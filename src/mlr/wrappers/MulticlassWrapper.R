@@ -133,7 +133,7 @@ setMethod(
     # we use hamming decoding here
     for (i in 1:k) {
       m = models[[i]]
-      p[,i] = as.integer(as.character(predict(m, newdata=.newdata, ...)["response"]))
+      p[,i] = as.integer(as.character(predict(m, newdata=.newdata, ...)@df$response))
     }
     rns = rownames(cm)
     y = apply(p, 1, function(v) {

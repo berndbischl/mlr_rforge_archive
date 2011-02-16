@@ -37,7 +37,7 @@ setMethod(
   
   def = function(.learner, .model, .newdata, .type, ...) {
     models = .model["learner.model"]
-    p = sapply(models, function(m) predict(m, newdata=.newdata,  ...)["response"])
+    p = sapply(models, function(m) predict(m, newdata=.newdata,  ...)@df$response)
     p = colMeans(p)
   }
 )   

@@ -26,7 +26,7 @@ test.multinom <- function() {
   wl = makeLearner("classif.multinom", predict.type="prob")
 	m = train(wl, binaryclass.task)
 	p = predict(m, newdata=binaryclass.df)
-	rr = p["response"]
+	rr = p@df$response
 	pp = p["prob"]
 	i = as.integer(pp < 0.5) + 1
 	labs = as.factor(binaryclass.task["class.levels"][i]) 
