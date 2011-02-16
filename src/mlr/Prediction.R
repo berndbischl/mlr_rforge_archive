@@ -102,8 +102,6 @@ setMethod(
 			
 			if (i == "id")
 				return(x@df$id)
-			if (i == "response")
-				return(x@df$response)
 			if (i == "truth")
 				return(x@df$truth)
 			if (i == "iter")
