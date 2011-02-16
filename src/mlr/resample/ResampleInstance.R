@@ -13,17 +13,17 @@ roxygen()
 #' @slot test.inds [list of integer] List of of test indices for all iterations. 
 #' @slot group [factor] Optional grouping of resampling iterations. This encodes whether specfic iterations 'belong together' (e.g. repeated CV), and it can later be used to aggregate performance values accordingly. Default is 'factor()'. 
 #' 
-#' @rdname resample.instance-class
+#' @rdname ResampleInstance-class
 #' 
 #' @note If you want to add another resampling strategy, have a look at the web documentation. 
-#' @exportClass resample.instance
+#' @exportClass ResampleInstance
 #' @seealso \code{\linkS4class{ResampleDesc}}, \code{\link{make.res.instance}}, \code{\link{resample}} 
 #' @title Resampling instance.
 
 
 # todo validation for size
 setClass(
-		"resample.instance",   
+		"ResampleInstance",   
 		contains = c("object"), 
 		# we always have to store training inds because the order might matter
 		representation = representation(
@@ -40,13 +40,13 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("resample.instance"),
+		signature = signature("ResampleInstance"),
 		def = function(.Object, desc, size, train.inds, test.inds, group=factor()) {
 			if (missing(desc))
 				return(.Object)
 			.Object@desc = desc
 			if (round(size) != size)
-				error("You passed a non-integer to arg 'size' of resample.instance!")
+				error("You passed a non-integer to arg 'size' of ResampleInstance!")
 			.Object@size = as.integer(size)
       if (missing(test.inds) && !missing(train.inds)) {
         # shuffle data set and remove inds
@@ -67,11 +67,11 @@ setMethod(
 		}
 )
 
-#' @rdname resample.instance-class
+#' @rdname ResampleInstance-class
 
 setMethod(
 		f = "[",
-		signature = signature("resample.instance"),
+		signature = signature("ResampleInstance"),
 		def = function(x,i,j,...,drop) {
       if (i == "iters")
         return(length(x@train.inds))
@@ -85,7 +85,7 @@ setMethod(
 
 setMethod(
 		f = "to.string",
-		signature = signature("resample.instance"),
+		signature = signature("ResampleInstance"),
 		def = function(x) {
       d = paste(capture.output(x["desc"]), collapse="\n")
 			return(
@@ -99,14 +99,14 @@ setMethod(
 
 
 setClass(
-		"resample.instance.seq", 
-		contains = c("resample.instance")
+		"ResampleInstance.seq", 
+		contains = c("ResampleInstance")
 )
 
 
 setClass(
-		"resample.instance.nonseq", 
-		contains = c("resample.instance")
+		"ResampleInstance.nonseq", 
+		contains = c("ResampleInstance")
 )
 
 

@@ -8,7 +8,7 @@
 #'   Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task.   
-#' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
+#' @param resampling [\code{\linkS4class{ResampleInstance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
 #'   Resampling strategy to evaluate feature sets. If you pass a description, 
 #'   it is instantiated once at the beginning by default, so all feature sets are evaluated on the same training/test sets.
 #'   If you want to change that behaviour, look at the control object.  

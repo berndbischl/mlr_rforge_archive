@@ -1,11 +1,11 @@
-#' @include resample.instance.r
+#' @include ResampleInstance.r
 #' @include subsample.desc.r
 roxygen()
 
 
 setClass(
 		"subsample.instance", 
-		contains = c("resample.instance.nonseq")
+		contains = c("ResampleInstance.nonseq")
 )                                                     
 
 

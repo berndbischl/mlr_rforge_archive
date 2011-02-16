@@ -1,4 +1,4 @@
-#' @include resample.instance.r
+#' @include ResampleInstance.r
 #' @include cv.desc.r
 roxygen()
 
@@ -6,7 +6,7 @@ roxygen()
 
 setClass(
 		"cv.instance", 
-		contains = c("resample.instance.nonseq")
+		contains = c("ResampleInstance.nonseq")
 )                                                     
 
 setMethod(

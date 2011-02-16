@@ -6,7 +6,7 @@
 #'   	Defines the learning algorithms which should be compared.
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   	Learning task.   
-#' @param resampling [\code{\linkS4class{resample.instance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
+#' @param resampling [\code{\linkS4class{ResampleInstance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
 #'   	Resampling strategy to evaluate points in hyperparameter space. At least for grid search, if you pass a description, 
 #'		it is instantiated at one, so all points are evaluated on the same training/test sets.	
 #' @param control [\code{\linkS4class{modelsel.control}}] \cr

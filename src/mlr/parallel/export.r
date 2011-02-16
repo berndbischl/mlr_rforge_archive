@@ -2,12 +2,12 @@
 
 
 
-#export.resample.fit = function(learner, task, resample.instance, parset, vars, type, extract) {
+#export.resample.fit = function(learner, task, ResampleInstance, parset, vars, type, extract) {
 ##	if (!is.null(parent.frame()$caller) && !parent.frame()$caller == "tune") {
 #		
 #	export(".mlr.learner", learner)
 #	export(".mlr.task", task)
-#	export(".mlr.rin", resample.instance)
+#	export(".mlr.rin", ResampleInstance)
 #	export(".mlr.parset", parset)
 #	export(".mlr.type", type)
 #	export(".mlr.extract", extract)

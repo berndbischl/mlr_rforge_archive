@@ -61,7 +61,7 @@ allowed.rd.files <<- c(
 		"make.res.instance.Rd",
 		"makeResampleDesc.Rd",
 		"ResampleDesc-class.Rd",
-		"resample.instance-class.Rd",
+		"ResampleInstance-class.Rd",
 		"resample.update.Rd",
 		"resample.done.Rd",
 		"resample.Rd",

@@ -2,7 +2,7 @@
 roxygen()
 #' @include LearnTask.R
 roxygen()
-#' @include resample.instance.r
+#' @include ResampleInstance.r
 roxygen()
 
 
@@ -10,7 +10,7 @@ setClass(
 		"ResamplePrediction",
 		contains = c("Prediction"),
 		representation = representation(
-				instance="resample.instance" 
+				instance="ResampleInstance" 
 		)
 )
 

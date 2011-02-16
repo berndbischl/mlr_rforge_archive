@@ -15,7 +15,7 @@ setGeneric(
 #' @export
 setMethod(
 		f = "resample.update",
-		signature = signature("resample.instance", "LearnTask", "WrappedModel", "Prediction"),
+		signature = signature("ResampleInstance", "LearnTask", "WrappedModel", "Prediction"),
 		def = function(x, task, model, pred) {
 			return(x)
 		}
@@ -38,7 +38,7 @@ setGeneric(
 
 setMethod(
 		f = "resample.done",
-		signature = signature("resample.instance"),
+		signature = signature("ResampleInstance"),
 		def = function(x, task, model, pred) {
 			return(x)
 		}

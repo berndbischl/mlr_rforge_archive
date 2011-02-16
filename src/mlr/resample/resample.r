@@ -11,7 +11,7 @@
 #'   Learning algorithm.   
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task.
-#' @param resampling [\code{\linkS4class{ResampleDesc}} or \code{\linkS4class{resample.instance}}] \cr
+#' @param resampling [\code{\linkS4class{ResampleDesc}} or \code{\linkS4class{ResampleInstance}}] \cr
 #'   Resampling strategy. If a description is passed, it is instantiated automatically.
 #' @param measures [\code{\linkS4class{measure}} | list of \code{\linkS4class{measure}}] \cr
 #'   Performance measures to evaluate. See \code{\link{measures}}.
@@ -59,7 +59,7 @@ setGeneric(
 #' @rdname resample 
 setMethod(
   f = "resample",
-  signature = signature(learner="Learner", task="LearnTask", resampling="resample.instance", measures="list", models="logical", extract="function"),
+  signature = signature(learner="Learner", task="LearnTask", resampling="ResampleInstance", measures="list", models="logical", extract="function"),
   def = function(learner, task, resampling, measures, models, extract) {
     n = task["size"]
     r = resampling["size"]
@@ -69,7 +69,7 @@ setMethod(
     rin = resampling
     iters = rin["iters"]
     
-    if (is(rin, "resample.instance.nonseq")) {
+    if (is(rin, "ResampleInstance.nonseq")) {
       rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
         rin=rin, measures=measures, model=models, extract=extract)
     } else {

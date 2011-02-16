@@ -8,7 +8,7 @@
 #' @param size [\code{\link{integer}}] \cr
 #'		Size of the data set to resample. Can be used instead of \code{task}.
 #' 
-#' @return A \code{\linkS4class{resample.instance}} object.
+#' @return A \code{\linkS4class{ResampleInstance}} object.
 #' @export 
 #' @seealso code{\link{makeResampleDesc}}, \code{\link{resample}} 
 #' @rdname make.res.instance
