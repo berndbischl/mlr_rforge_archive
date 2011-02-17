@@ -1,4 +1,4 @@
-#' @include opt.control.r
+#' @include OptControl.r
 roxygen()
 
 #' Abstract base class for control objects for tuning. 
@@ -17,7 +17,7 @@ roxygen()
 
 setClass(
 		"tune.control",
-		contains = c("opt.control"),
+		contains = c("OptControl"),
 		representation = representation(
 				start = "list"
 		)

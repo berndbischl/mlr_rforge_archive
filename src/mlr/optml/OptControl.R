@@ -8,12 +8,12 @@
 #'  \item{opt.type [string]}{'tune' or 'varsel'.}
 #' }
 #' 
-#' @exportClass opt.control
+#' @exportClass OptControl
 #' @seealso \code{\linkS4class{tune.control}}, \code{\linkS4class{varsel.control}} 
 #' @title Base class for control objects for optimization.
 
 setClass(
-		"opt.control",
+		"OptControl",
 		contains = c("object"),
 		representation = representation(
 				path = "logical",
@@ -26,7 +26,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("opt.control"),
+		signature = signature("OptControl"),
 		def = function(.Object, path, same.resampling.instance, ...) {
       if (missing(path))
         return(make.empty(.Object))
@@ -38,11 +38,11 @@ setMethod(
 )
 
 
-#' @rdname opt.control-class
+#' @rdname OptControl-class
 
 setMethod(
 		f = "[",
-		signature = signature("opt.control"),
+		signature = signature("OptControl"),
 		def = function(x,i,j,...,drop) {
 			if (i == "opt.type"){
 				if (is(x, "tune.control"))

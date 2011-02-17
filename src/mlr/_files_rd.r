@@ -86,7 +86,7 @@ allowed.rd.files <<- c(
     "makeFilterWrapper.Rd",
 		"FilterWrapper-class.Rd",
 		
-		"opt.control-class.Rd",
+		"OptControl-class.Rd",
 		"opt.result-class.Rd",
 		
 		"tune.Rd",

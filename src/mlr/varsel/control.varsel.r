@@ -1,4 +1,4 @@
-#' @include opt.control.r
+#' @include OptControl.r
 roxygen()
 
 #' Abstract base class for control objects for variable selection. 
@@ -11,7 +11,7 @@ roxygen()
 
 setClass(
 		"varsel.control",
-		contains = c("opt.control"),
+		contains = c("OptControl"),
 		representation = representation(
 				compare = "character",
 				max.vars = "integer", 

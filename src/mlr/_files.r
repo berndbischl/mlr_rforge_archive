@@ -87,7 +87,7 @@ pack.files = c(
     "mlr/rocr/ROCR_performance_plots.R",
     "mlr/rocr/ROCR_mlr_plots.r",
 
-    "mlr/optml/opt.control.r",
+    "mlr/optml/OptControl.R",
     "mlr/optml/opt.result.r",
     "mlr/optml/optml.helpers.r",
     "mlr/optml/tune.helpers.r",

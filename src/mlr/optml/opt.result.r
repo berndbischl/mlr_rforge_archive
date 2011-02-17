@@ -2,7 +2,7 @@
 roxygen()
 #' @include OptPath.R
 roxygen()
-#' @include opt.control.r
+#' @include OptControl.r
 roxygen()
 
 #' Container for results of hyperparameter tuning or variable selection.
@@ -23,7 +23,7 @@ setClass(
 		contains = c("object"),
 		representation = representation(
 				learner = "Learner",
-				control = "opt.control",
+				control = "OptControl",
 				x = "ANY",
         y = "numeric",
 				path = "OptPath"

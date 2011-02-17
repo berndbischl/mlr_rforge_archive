@@ -6,7 +6,7 @@ roxygen()
 
 setClass(
   "modelsel.control",
-  contains = c("opt.control")
+  contains = c("OptControl")
 )
 
 #' Control structure for model selection from a finite amount of learners. 

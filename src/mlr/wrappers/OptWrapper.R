@@ -2,7 +2,7 @@
 roxygen()
 #' @include ResampleDesc.R
 roxygen()
-#' @include opt.control.r
+#' @include OptControl.r
 roxygen()
 
 
@@ -15,7 +15,7 @@ setClass(
 				resampling = "ResampleDesc",
         measures = "list",
         opt.pars = "ParameterSet",
-        control = "opt.control",
+        control = "OptControl",
         log.fun = "function"
     )
 )
