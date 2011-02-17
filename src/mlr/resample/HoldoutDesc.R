@@ -1,8 +1,8 @@
-#' @include SubsampleDesc.r
+#' @include SubsampleDesc.R
 roxygen()
 
 
-setClass("holdout.desc", 
+setClass("HoldoutDesc", 
 		contains = c("SubsampleDesc")
 )               
 
@@ -10,7 +10,7 @@ setClass("holdout.desc",
 
 setMethod(
 		f = "initialize",
-		signature = signature("holdout.desc"),
+		signature = signature("HoldoutDesc"),
 		def = function(.Object, iters, split=2/3, ...) {
 			callNextMethod(.Object, split=split, iters=1L)
 		}

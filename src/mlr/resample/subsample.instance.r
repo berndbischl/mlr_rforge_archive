@@ -1,5 +1,5 @@
 #' @include ResampleInstance.R
-#' @include SubsampleDesc.r
+#' @include SubsampleDesc.R
 roxygen()
 
 

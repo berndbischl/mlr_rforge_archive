@@ -1,5 +1,5 @@
 #' @include subsample.instance.r
-#' @include holdout.desc.r
+#' @include HoldoutDesc.R
 roxygen()
 
 

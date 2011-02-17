@@ -1,5 +1,5 @@
 #' @include ResampleInstance.R
-#' @include cv.strat.desc.r
+#' @include StratCVDesc.r
 roxygen()
 
 
