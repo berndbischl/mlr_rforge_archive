@@ -81,42 +81,42 @@ time.all = makeMeasure(id="time.all", minimize=TRUE,
 #' @export sse
 sse = makeMeasure(id="sse", minimize=TRUE, req.task.type="regr",
   fun=function(task, model, pred, extra.pars) {
-    sum((pred@df$response - pred["truth"])^2)          
+    sum((pred@df$response - pred@df$truth)^2)          
   }
 )
 
 #' @export mse
 mse = makeMeasure(id="mse", minimize=TRUE, req.task.type="regr",  
   fun=function(task, model, pred, extra.pars) {
-    mean((pred@df$response - pred["truth"])^2)          
+    mean((pred@df$response - pred@df$truth)^2)          
   }
 )
 
 #' @export medse
 medse = makeMeasure(id="medse", minimize=TRUE, req.task.type="regr", 
   fun=function(task, model, pred, extra.pars) {
-    median((pred@df$response - pred["truth"])^2)          
+    median((pred@df$response - pred@df$truth)^2)          
   }
 )
 
 #' @export sae
 sae = makeMeasure(id="sae", minimize=TRUE, req.task.type="regr", 
   fun=function(task, model, pred, extra.pars) {
-    sum(abs(pred@df$response - pred["truth"]))          
+    sum(abs(pred@df$response - pred@df$truth))          
   }
 )
 
 #' @export mae
 mae = makeMeasure(id="mae", minimize=TRUE, req.task.type="regr", 
   fun=function(task, model, pred, extra.pars) {
-    mean(abs(pred@df$response - pred["truth"]))          
+    mean(abs(pred@df$response - pred@df$truth))          
   }
 )
 
 #' @export medae
 medae = makeMeasure(id="medae", minimize=TRUE, req.task.type="regr", 
   fun=function(task, model, pred, extra.pars) {
-    median(abs(pred@df$response - pred["truth"]))          
+    median(abs(pred@df$response - pred@df$truth))          
   }
 )
 
@@ -126,14 +126,14 @@ medae = makeMeasure(id="medae", minimize=TRUE, req.task.type="regr",
 #' @export mmce
 mmce = makeMeasure(id="mmce", minimize=TRUE, req.task.type="classif",  
   fun=function(task, model, pred, extra.pars) {
-    mean(pred@df$response != pred["truth"])          
+    mean(pred@df$response != pred@df$truth)          
   }
 )
 
 #' @export acc
 acc = makeMeasure(id="acc", minimize=FALSE, req.task.type="classif",  
   fun=function(task, model, pred, extra.pars) {
-    mean(pred@df$response == pred["truth"])          
+    mean(pred@df$response == pred@df$truth)          
   }
 )
 
@@ -145,7 +145,7 @@ acc = makeMeasure(id="acc", minimize=FALSE, req.task.type="classif",
 auc = makeMeasure(id="auc", minimize=FALSE, req.task.type="binary" ,req.pred.type="prob",  
   fun=function(task, model, pred, extra.pars) {
     # ROCR does not work with NAs
-    if (any(is.na(pred@df$response)) || length(unique(pred["truth"])) == 1)
+    if (any(is.na(pred@df$response)) || length(unique(pred@df$truth)) == 1)
       return(as.numeric(NA))
     
     rpreds = as.ROCR.preds(pred)
@@ -156,28 +156,28 @@ auc = makeMeasure(id="auc", minimize=FALSE, req.task.type="binary" ,req.pred.typ
 #' @export tp
 tp = makeMeasure(id="tp", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    sum(pred["truth"] == pred@df$response & pred@df$response == pred@desc["positive"])  
+    sum(pred@df$truth == pred@df$response & pred@df$response == pred@desc["positive"])  
   }
 )
 
 #' @export tn
 tn = makeMeasure(id="tn", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    sum(pred["truth"] == pred@df$response & pred@df$response == pred@desc["negative"])  
+    sum(pred@df$truth == pred@df$response & pred@df$response == pred@desc["negative"])  
   }
 )
 
 #' @export fp
 fp = makeMeasure(id="fp", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    sum(pred["truth"] != pred@df$response & pred@df$response == pred@desc["positive"])  
+    sum(pred@df$truth != pred@df$response & pred@df$response == pred@desc["positive"])  
   }
 )
 
 #' @export fn
 fn = makeMeasure(id="fn", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
-    sum(pred["truth"] != pred@df$response & pred@df$response == pred@desc["negative"])  
+    sum(pred@df$truth != pred@df$response & pred@df$response == pred@desc["negative"])  
   }
 )
 
@@ -186,7 +186,7 @@ fn = makeMeasure(id="fn", minimize=TRUE, req.task.type="classif", req.binary=TRU
 tpr = makeMeasure(id="tpr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     tp@fun(pred=pred) / 
-      sum(pred["truth"] == pred@desc["positive"])    
+      sum(pred@df$truth == pred@desc["positive"])    
   }
 )
 
@@ -194,7 +194,7 @@ tpr = makeMeasure(id="tpr", minimize=FALSE, req.task.type="classif", req.binary=
 tnr = makeMeasure(id="tnr", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     tn@fun(pred=pred) / 
-      sum(pred["truth"] == pred@desc["negative"])  
+      sum(pred@df$truth == pred@desc["negative"])  
   }
 )
 
@@ -202,7 +202,7 @@ tnr = makeMeasure(id="tnr", minimize=FALSE, req.task.type="classif", req.binary=
 fpr = makeMeasure(id="fpr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     fp@fun(pred=pred) / 
-      sum(pred["truth"] == pred@desc["negative"])  
+      sum(pred@df$truth == pred@desc["negative"])  
   }
 )
 
@@ -210,7 +210,7 @@ fpr = makeMeasure(id="fpr", minimize=TRUE, req.task.type="classif", req.binary=T
 fnr = makeMeasure(id="fnr", minimize=TRUE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     fn@fun(pred=pred) / 
-      sum(pred["truth"] == pred@desc["positive"])  
+      sum(pred@df$truth == pred@desc["positive"])  
   }
 )
 
@@ -245,7 +245,7 @@ mcc = makeMeasure(id="mcc", minimize=FALSE, req.task.type="classif", req.binary=
     tn@fun(pred=pred) - 
     fp@fun(pred=pred) * 
     fn@fun(pred=pred)) /  
-    sqrt(prod(table(pred["truth"], pred@df$response)))
+    sqrt(prod(table(pred@df$truth, pred@df$response)))
   }
 )
 
@@ -253,7 +253,7 @@ mcc = makeMeasure(id="mcc", minimize=FALSE, req.task.type="classif", req.binary=
 f1 = makeMeasure(id="f1", minimize=FALSE, req.task.type="classif", req.binary=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     2*tp@fun(pred=pred) / 
-    (sum(pred["truth"] == pred@desc["positive"]) + sum(pred@df$response == pred@desc["positive"])) 
+    (sum(pred@df$truth == pred@desc["positive"]) + sum(pred@df$response == pred@desc["positive"])) 
   }
 )
 

@@ -54,7 +54,7 @@ setMethod(
         cc = function(truth, pred) {
           costs[truth, pred]
         }
-        y = mapply(cc, as.character(pred["truth"]), as.character(r))
+        y = mapply(cc, as.character(pred@df$truth), as.character(r))
         if (mean.costs) mean(y) else sum(y)
       }
     )

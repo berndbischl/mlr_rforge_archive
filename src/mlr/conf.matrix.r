@@ -29,6 +29,6 @@ setMethod(
   f = "conf.matrix",
   signature = signature(pred="Prediction", relative="logical"),
   def = function(pred, relative) {
-    return(errormatrix(pred["truth"], pred@df$response, relative=relative))
+    return(errormatrix(pred@df$truth, pred@df$response, relative=relative))
   }
 )

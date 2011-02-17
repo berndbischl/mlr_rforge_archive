@@ -102,8 +102,6 @@ setMethod(
 			
 			if (i == "id")
 				return(x@df$id)
-			if (i == "truth")
-				return(x@df$truth)
 			if (i == "iter")
 				return(x@df$iter)
 			if (i == "prob") {

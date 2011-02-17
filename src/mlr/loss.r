@@ -33,11 +33,11 @@
 #  signature = signature(pred="Prediction", fun="function", type="character"),
 #  def = function(pred, fun, type) {
 #    if (type == "response")
-#      fun(pred["truth"], pred@df$response)
+#      fun(pred@df$truth, pred@df$response)
 #    else if (type == "prob")
-#      fun(pred["truth"], pred["prob"])
+#      fun(pred@df$truth, pred["prob"])
 #    else if (type == "decision")
-#      fun(pred["truth"], pred["decision"])
+#      fun(pred@df$truth, pred["decision"])
 #    else
 #      stop("Wrong type!")
 #  }
