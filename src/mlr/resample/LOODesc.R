@@ -1,13 +1,13 @@
 #' @include ResampleDesc.R
 roxygen()
 
-setClass("loo.desc", 
+setClass("LOODesc", 
   contains = c("ResampleDesc.nonseq")
 )                                                     
 
 setMethod(
   f = "initialize",
-  signature = signature("loo.desc"),
+  signature = signature("LOODesc"),
   def = function(.Object, iters=NA, ...) {
     callNextMethod(.Object, "loo.instance", "LOO", iters)
   }

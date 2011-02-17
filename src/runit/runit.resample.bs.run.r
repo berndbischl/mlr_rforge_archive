@@ -1,6 +1,6 @@
 
 test.bs.instance = function() {
-  rin <- makeResampleInstance(makeResampleDesc("bs", iters=3), size=25)
+  rin <- makeResampleInstance(makeResampleDesc("BS", iters=3), size=25)
   
   iters <- rin@desc@iters
   checkEquals(iters, 3)

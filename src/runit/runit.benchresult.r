@@ -11,7 +11,7 @@ test.benchresult = function() {
 	blubb = makeTuneWrapper(wl, resampling=inner, control=ctrl, par.set=ps)
 	
 	learners = c("classif.rpart", svm.tuner, blubb)
-	res = makeResampleDesc("subsample", iter=outer.len)
+	res = makeResampleDesc("Subsample", iter=outer.len)
 	be = bench.exp(tasks=multiclass.task, learners=learners, resampling=res)
 	
 	x = as.array(be, learner="classif.rpart", sets="test", drop=TRUE)

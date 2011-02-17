@@ -1,5 +1,5 @@
 test.b632 <- function() {
-  res = makeResampleDesc("bs", iters=2)
+  res = makeResampleDesc("BS", iters=2)
   m = setAggr(mmce, b632)
   r = resample("classif.rpart", task=binaryclass.task, resampling=res)
   m1 = r$measures.train

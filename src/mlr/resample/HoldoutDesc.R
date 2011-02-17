@@ -1,9 +1,9 @@
-#' @include subsample.desc.r
+#' @include SubsampleDesc.r
 roxygen()
 
 
 setClass("holdout.desc", 
-		contains = c("subsample.desc")
+		contains = c("SubsampleDesc")
 )               
 
 

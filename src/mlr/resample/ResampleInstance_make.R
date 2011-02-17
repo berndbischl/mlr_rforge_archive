@@ -52,7 +52,7 @@ make.res.i = function(i.class, desc, task=NULL, size=as.integer(NA), blocking=fa
     size = task["size"]
   }
 	if (length(blocking) > 1) {
-    if (is(desc, "stratCVDesc"))
+    if (is(desc, "StratCVDesc"))
       stop("Blocking can currently not be mixed with stratification in resampling!")
     if (is(desc, "RepCVDesc"))
       stop("Blocking can currently not be mixed with repcv!")

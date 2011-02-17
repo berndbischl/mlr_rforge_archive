@@ -26,7 +26,7 @@ e1071.bs.to.mlr.bs <- function(e1071.tune.result) {
   size <- length(inds[[1]])
   iters <- length(inds)
   
-  d = makeResampleDesc("bs", iters=iters)
+  d = makeResampleDesc("BS", iters=iters)
   bs.instance = makeResampleInstance(d, size=size)
 
   for (i in 1:iters) {
