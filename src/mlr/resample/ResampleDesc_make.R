@@ -1,27 +1,27 @@
 #todo: include complex example with repcv / b632+!
 #' Generates a description object for a resampling strategy.
 #' 
-#' Repeated cross-validation: Use 'repcv'. Then you have to set the aggregation function for your preferred performance measure to 
+#' Repeated cross-validation: Use 'RepCV'. Then you have to set the aggregation function for your preferred performance measure to 
 #'   'testgroup.mean' via \code{\link{setAggr}}.
-#' B632 bootstrap: Use 'bs' for bootstrap and set predict to 'both'. 
+#' B632 bootstrap: Use 'BS' for bootstrap and set predict to 'both'. 
 #'   Then you have to set the aggregation function for your preferred performance measure to 
 #'   'b632' via \code{\link{setAggr}}.
-#' B632+ bootstrap: Use 'bs' for bootstrap and set predict to 'both'. 
+#' B632+ bootstrap: Use 'BS' for bootstrap and set predict to 'both'. 
 #'   Then you have to set the aggregation function for your preferred performance measure to 
 #'   'b632plus' via \code{\link{setAggr}}.
 #' 
 #' @param method [string] \cr
-#'   'cv' for cross-validation, 'loo' for leave-one-out, 'stratcv' for stratified cross-validation,  'repcv' for repeated cross-validation,\cr
-#'   'bs' for out-of-bag bootstrap, 'subsample' for subsampling, 'holdout' for holdout.	
+#'   'CV' for cross-validation, 'LOO' for leave-one-out, 'StratCV' for stratified cross-validation, 'RepCV' for repeated cross-validation,\cr
+#'   'BS' for out-of-bag bootstrap, 'Subsample' for subsampling, 'Holdout' for holdout.	
 #' @param iters [integer] \cr
-#'   Number of resampling iterations. Ignored for 'holdout'. Default is 10.	 			
+#'   Number of resampling iterations. Ignored for 'Holdout'. Default is 10.	 			
 #' @param predict [character] \cr
 #'   What to predict during resampling: 'train', 'test' or 'both' sets. Default is 'test'.
 #' @param ... [any] \cr
 #'		Further parameters for strategies.\cr 
-#'			split [numeric(1)]: Proportion of training cases for 'holdout' and 'subsample' from between 0 and 1. Default is 2/3.\cr
-#'			reps [integer(1)]: Repeats for 'repcv'. Here 'iters' = 'folds' x 'reps'. Default is 2. \cr
-#'			folds [integer(1)]: Folds in the repeated CV for 'repcv'. Here 'iters' = 'folds' x 'reps'. Default is 5. 
+#'			split [numeric(1)]: Proportion of training cases for 'Holdout' and 'Subsample' from between 0 and 1. Default is 2/3.\cr
+#'			reps [integer(1)]: Repeats for 'RepCV'. Here 'iters' = 'folds' x 'reps'. Default is 2. \cr
+#'			folds [integer(1)]: Folds in the repeated CV for 'RepCV'. Here 'iters' = 'folds' x 'reps'. Default is 5. 
 #' 
 #' @return \code{\linkS4class{ResampleDesc}}.
 #' @export 
