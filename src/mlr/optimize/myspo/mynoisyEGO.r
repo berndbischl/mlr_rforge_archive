@@ -60,7 +60,7 @@ myCL.nsteps = function(model, fun, control) {
     path <<- addPathElements.tune(path=path, ess=es, best=NULL)
     perf = sapply(es, get.perf)
     # cma es does not like NAs which might be produced if the learner gets values which result in a degenerated model
-    if (measures[[1]]["minimize"])
+    if (measures[[1]]@minimize)
       perf[is.na(perf)] = Inf
     else
       perf[is.na(perf)] = -Inf

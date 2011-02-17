@@ -30,7 +30,7 @@ tune.threshold = function(pred, measure, task, model, thresholds=100) {
   if (any(is.na(probs))) {
     return(list(th=NA, pred=pred, th.seq=numeric(0), perf=numeric(0)))
   }
-  sig = ifelse(measure["minimize"],1,-1)
+  sig = ifelse(measure@minimize,1,-1)
 	f = function(x) {
     pred2 = setThreshold(pred, x)
 		sig*performance(pred, measure, task, model)

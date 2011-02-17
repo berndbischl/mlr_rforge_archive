@@ -6,7 +6,7 @@
 
 inbag = function(pm) {
   id = paste("inbag", pm@id, sep=".")
-  makeMeasure(id=id, minimize=pm["minimize"], pars=list(pm@fun), 
+  makeMeasure(id=id, minimize=pm@minimize, pars=list(pm@fun), 
     fun=function(pred.test, pred.train, model, task, pars) {
       pars[[1]](pred.test=pred.train)
     }
@@ -24,7 +24,7 @@ oob = function(pm) {
 
 b632 = function(pm) {
   id = paste("b632", pm@id, sep=".")
-  makeMeasure(id=id, minimize=pm["minimize"], pars=list(pm@fun),
+  makeMeasure(id=id, minimize=pm@minimize, pars=list(pm@fun),
     fun=function(pred.test, pred.train, model, task, pars) {
       w = 0.632
       ptest = pars[[1]](pred.test=pred.test)
@@ -39,7 +39,7 @@ b632 = function(pm) {
 
 b632plus = function(pm) {
   id = paste("b632", pm@id, sep=".")
-  makeMeasure(id=id, minimize=pm["minimize"], pars=list(pm@fun), 
+  makeMeasure(id=id, minimize=pm@minimize, pars=list(pm@fun), 
     fun=function(pred.test, pred.train, model, task, pars) {
       w = 0.632
       ptest = pars[[1]](pred.test=pred.test)

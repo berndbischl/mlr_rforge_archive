@@ -52,7 +52,7 @@ eval.rf = function(learner, task, resampling, measures, par.set, bits.to.feature
   
 #	th = as.numeric(NA)
 #	if (control["tune.threshold"]) { 
-#		thr = tune.threshold(rf, measures, task, minimize=control["minimize"], thresholds=control["thresholds"])
+#		thr = tune.threshold(rf, measures, task, minimize=control@minimize, thresholds=control["thresholds"])
 #		rf = thr$pred
 #		th = thr$th
 #	}

@@ -64,7 +64,7 @@ varsel2d <- function(learner, task, resampling, measures, control, pairs, remove
     ors[[i]] = varsel(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path)
     task2d = subset(task, vars=ors[[i]]@x)
     r = resample(learner, task2d, resampling)
-    e = r$pred["truth"] != r$pred@df$response
+    e = r$pred@df$truth != r$pred@df$response
     errs[,i] = e[order(r$pred["id"])]
     vars = setdiff(bit.names, ors[[i]]@x[1:remove])
     task = subset(task, vars=vars)

@@ -14,7 +14,7 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
     y = eval.rf(learner, task, resampling, measures, par.set, control, p2) 
     addPathElement(opt.path, x=p2, y=y)   
     log.fun(learner, task, resampling, measures, par.set, control, opt.path, p2, y)
-    ifelse(measures[[1]]["minimize"], 1 , -1) * y[1]
+    ifelse(measures[[1]]@minimize, 1 , -1) * y[1]
   }  
 }
 

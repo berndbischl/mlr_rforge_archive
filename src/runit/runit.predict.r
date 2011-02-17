@@ -23,7 +23,7 @@ test.predict <- function() {
 	
 	cp4 <- predict(cm3, task=multiclass.task, subset=multiclass.test.inds)
 	checkEquals(cp4@df$response, pred3)
-	checkEquals(cp4["truth"], data[multiclass.test.inds, multiclass.target])
+	checkEquals(cp4@df$truth, data[multiclass.test.inds, multiclass.target])
 	checkEquals(cp4["id"], multiclass.test.inds)
 	
 	df3 = as.data.frame(cp3)
