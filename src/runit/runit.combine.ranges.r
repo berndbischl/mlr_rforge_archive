@@ -1,5 +1,5 @@
 #test.combine.ranges <- function() {
-#	cv.i <- makeResampleDesc("cv", iters=2)
+#	cv.i <- makeResampleDesc("CV", iters=2)
 #	r1 <- list(kernel="polydot", C=c(1,2), degree=c(2,3))
 #	r2 <- list(kernel="rbfdot", C=c(1,2), sigma=c(4,6))
 #	ranges=combine.ranges(r1,r2)

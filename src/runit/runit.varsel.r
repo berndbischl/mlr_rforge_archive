@@ -1,5 +1,5 @@
 test.varsel <- function() {
-  inner = makeResampleDesc("cv", iter=2)
+  inner = makeResampleDesc("CV", iter=2)
   
   # check all methods
   ctrl = exhvarsel.control(max.vars=2)
@@ -46,7 +46,7 @@ test.varsel <- function() {
   checkEquals(vr@x, character(0)) 
   
   wl = makeVarselWrapper("classif.lda", resampling=inner, control=ctrl)
-  outer = makeResampleDesc("cv", iter=2)
+  outer = makeResampleDesc("CV", iter=2)
   be = bench.exp(wl, task=multiclass.task, resampling=outer)
 }
 

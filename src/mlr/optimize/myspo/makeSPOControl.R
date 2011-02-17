@@ -32,7 +32,7 @@
 makeSPOControl = function(y.name="y", minimize=TRUE, 
   seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
-  resample.desc = makeResampleDesc("cv", iter=10), resample.at = integer(0), resample.measures=list(mse) 
+  resample.desc = makeResampleDesc("CV", iter=10), resample.at = integer(0), resample.measures=list(mse) 
 ) {
   
   list( 

@@ -7,7 +7,7 @@ test.FilterWrapper <- function() {
   checkEquals(m["vars"], character(0))
   checkTrue(is(m["learner.model"], "novars"))
   w = makeFilterWrapper("classif.lda", fw.method="chi.squared", fw.threshold=0.1)
-  res = makeResampleDesc("cv", iters=2)
+  res = makeResampleDesc("CV", iters=2)
   r = resample(w, binaryclass.task, res)
   checkTrue(!any(is.na(r$aggr)))  
 }

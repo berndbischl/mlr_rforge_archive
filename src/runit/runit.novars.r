@@ -7,7 +7,7 @@ test.novars <- function() {
 	checkEquals(m@learner["predict.type"], "prob")	
 	p = predict(m, newdata=multiclass.df)
 	checkTrue(setequal(colnames(as.data.frame(p)), c("prob.setosa", "prob.virginica", "prob.versicolor", "truth", "response")))	
-	res = makeResampleDesc("cv", iter=2)
+	res = makeResampleDesc("CV", iter=2)
 	rf = resample(wl, ct, res)
 	checkTrue(setequal(colnames(as.data.frame(p)), c("prob.setosa", "prob.virginica", "prob.versicolor", "truth", "response")))	
 	

@@ -9,7 +9,7 @@ test.performance <- function() {
   rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=m)
   
 	# custom measure
-	res = makeResampleDesc("cv", iters=3)
+	res = makeResampleDesc("CV", iters=3)
 	r = resample("classif.rpart", task=binaryclass.task, resampling=res)
 	
 	mymeasure = makeMeasure(id="mym", minimize=TRUE,  

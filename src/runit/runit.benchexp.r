@@ -1,6 +1,6 @@
 test.benchexp <- function() {
-	outer = makeResampleDesc("cv", iters=3)
-	inner = makeResampleDesc("cv", iters=2)
+	outer = makeResampleDesc("CV", iters=3)
+	inner = makeResampleDesc("CV", iters=2)
 
 	checkException(bench.exp(list(), multiclass.task, resampling=outer), silent=TRUE)
 	s = geterrmessage()

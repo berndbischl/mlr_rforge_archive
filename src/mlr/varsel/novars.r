@@ -10,7 +10,7 @@ setClass(
 
 predict_novars = function(object, newdata, type) {
 	m = object
-	tars = m["targets"]
+	tars = m)
 	# for regression return constant mean
 	if (m["desc"]["is.regr"])
 		return(rep(mean(tars), nrow(newdata)))

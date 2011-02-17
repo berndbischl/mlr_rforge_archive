@@ -7,7 +7,7 @@ e1071.cv.to.mlr.cv <- function(e1071.tune.result) {
   size <- max(melt.list(inds)$value)
   folds <- length(inds)
   
-  d = makeResampleDesc("cv", iters=folds)
+  d = makeResampleDesc("CV", iters=folds)
   cv.instance = makeResampleInstance(d, size=size)
 
   for (i in 1:folds) {

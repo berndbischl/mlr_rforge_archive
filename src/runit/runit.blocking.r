@@ -5,7 +5,7 @@ test.blocking = function() {
 	b = as.factor(rep(1:30, 5))	
 	ct = makeClassifTask(target=multiclass.target, data=multiclass.df, blocking=b)
 	checkTrue(ct["has.blocking"])
-	res = makeResampleInstance(makeResampleDesc("cv", iters=3), task=ct)
+	res = makeResampleInstance(makeResampleDesc("CV", iters=3), task=ct)
 	for (j in 1:res@desc@iters) {
 		train.j = res["train.inds"][[j]]
 		test.j = res["test.inds"][[j]]
@@ -15,7 +15,7 @@ test.blocking = function() {
 		checkTrue(setequal(c(0,5), unique(as.numeric(tab))))
 	}
 	# test blocking in resample
-	res = makeResampleDesc("cv", iters=3)
+	res = makeResampleDesc("CV", iters=3)
 	p = resample("classif.lda", ct, res)$pred
 	for (j in 1:res@iters) {
 		test.j = p@df[p@df$iter == j, "id"]

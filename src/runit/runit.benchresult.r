@@ -1,7 +1,7 @@
 test.benchresult = function() {
 	
 	outer.len = 3
-	inner = makeResampleDesc("cv", iter=2)
+	inner = makeResampleDesc("CV", iter=2)
 
 	ps = makeParameterSet(makeDiscreteParameter("C", vals=1:2))
 	ctrl = grid.control()
@@ -130,7 +130,7 @@ test.benchresult = function() {
 	checkEquals(dim(x1), c(binaryclass.task["class.nr"]+1, binaryclass.task["class.nr"]+1))
 	
   # check aggregation
-  res = makeResampleDesc("cv", iters=3)
+  res = makeResampleDesc("CV", iters=3)
   wl = "classif.lda"
   m = setAggr(mmce, test.sd)
   r = resample(wl, multiclass.task, res, measure=m)

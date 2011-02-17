@@ -10,7 +10,7 @@
 #	ms = c("mmce", "acc", "tp", "fp", "tn", "fn", "tpr", "fpr", "tnr", "fnr", "ppv", "npv", "mcc", "f1" )
 #	ms = c("mmce", "tpr", "fpr")
 #
-#	res = makeResampleDesc("cv", iters=3)
+#	res = makeResampleDesc("CV", iters=3)
 #	rf = resample("classif.lda", task=ct, resampling=res)
 #	f = mean
 #	attr(f, "id") = "foo"

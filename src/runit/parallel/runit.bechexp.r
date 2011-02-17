@@ -16,7 +16,7 @@ test.parallel.benchexp = function() {
   wl = setId(wl, "lda2")
   learners = list("classif.lda", "classif.rpart", wl)
   
-  res = makeResampleDesc("cv", iters=2)
+  res = makeResampleDesc("CV", iters=2)
 
   parallel.setup(mode="local")
   be = bench.exp(tasks=tasks, learners=learners, resampling=res)

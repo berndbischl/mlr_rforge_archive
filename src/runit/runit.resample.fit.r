@@ -1,5 +1,5 @@
 test.resample = function() {
-	cv.i = makeResampleInstance(makeResampleDesc("cv", iters=3), binaryclass.task)
+	cv.i = makeResampleInstance(makeResampleDesc("CV", iters=3), binaryclass.task)
 	
 	mylda = makeLearner("classif.lda", predict.type="prob")
 	rf1 = resample("classif.lda", binaryclass.task, cv.i)$pred
@@ -18,7 +18,7 @@ test.resample = function() {
 	checkEquals(rf4@df$response, f2)
 	
 	ct = makeClassifTask(data=iris[,c("Species", "Petal.Width")], target="Species")
-	fit = resample("classif.lda", ct, makeResampleDesc("cv", iters=2))	
+	fit = resample("classif.lda", ct, makeResampleDesc("CV", iters=2))	
 }
 
 

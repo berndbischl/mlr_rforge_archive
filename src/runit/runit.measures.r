@@ -10,7 +10,7 @@ test.measures <- function() {
   )
 	ms = c(mmce, acc, tp, fp, tn, fn, tpr, fpr, tnr, fnr, ppv, npv, mcc, f1, mymeasure)
 	
-  res = makeResampleDesc("cv", iters=3)
+  res = makeResampleDesc("CV", iters=3)
 	
   m = train("classif.rpart", task=ct, subset=binaryclass.train.inds)
 	pred = predict(m, task=ct, subset=binaryclass.test.inds)

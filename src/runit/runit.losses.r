@@ -29,7 +29,7 @@
 #	
 #	
 ##	
-##	res = makeResampleDesc("cv", iters=3)
+##	res = makeResampleDesc("CV", iters=3)
 ##	
 ##	perf = performance(pred, measures=ms)
 ##	print(perf)
