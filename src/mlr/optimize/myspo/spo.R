@@ -1,21 +1,5 @@
-
-#f <- function(x, ...) {
-#  stopifnot(is.list(x))
-#  
-#}
-#
-#spo_function <- function(f) {
-#  function(x, ...) {
-#    f(unlist(x), ...)
-#  }
-#}
-#
-#myspo(..., spo_function(f), ...)
-#
-#
-
-
-#' Optimizes a function with sequential parameter optimization.
+#todo: minimize
+#'  Optimizes a function with sequential parameter optimization.
 #'
 #' @param fun [function(x, ...)]\cr 
 #'   Fitness function to minimize. The first argument has to be a list of values. The function has to return a single numerical value.    
@@ -40,12 +24,17 @@
 #' @return The control object.  
 #' @export 
 
-spo = function(fun, par.set, des, learner, control, opt.path) {
+spo = function(fun, par.set, des, learner, control) {
+  if (control$propose.points.method == "EI" && !is(learner, "regr.km")) 
+    stop("Expected improvement can currently only be used with learner 'regr.km'!")        
   if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
-    stop("No par.set parameter in 'spo' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")        
+    stop("No par.set parameter in 'spo' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")
+  opt.path = makeOptPath(y.names=control$y.name, x.names=names(par.set@pars), minimize=control$minimize)
   if (length(opt.path@y.names) > 1)
     stop("'opt.path' should only contain one 'y' column!")
   y.name = opt.path@y.names
+  if (!(y.name %in% colnames(des)))
+    stop("Design 'des' must contain y column of fitness values: ", y.name)
   for (i in 1:nrow(des))
     addPathElement(opt.path, x=as.list(des[i,colnames(des)!=y.name]), y=des[i,y.name])
   rt = makeRegrTask(target=y.name, data=des)
@@ -53,7 +42,6 @@ spo = function(fun, par.set, des, learner, control, opt.path) {
   loop = 1
   res.vals = list()
   while(loop <= control$seq.loops) {
-    print(loop)
     if (loop %in% control$resample.at) {
       r = resample(learner, rt, control$ResampleDesc, measures=control$resample.measures)
       res.vals[[length(res.vals)+1]] = r$aggr
@@ -65,10 +53,8 @@ spo = function(fun, par.set, des, learner, control, opt.path) {
     model = train(learner, rt)
     loop = loop + 1  
   }
-  res.vals = Reduce(rbind, res.vals)
-  res.vals = as.data.frame(cbind(seq.loop=control$resample.at, res.vals))
-  rownames(res.vals) = NULL
-  return(res.vals)
+  e = getBestElement(opt.path, y.name)
+  list(x=e$x, y=e$y, path=opt.path, model=model)
 }
 
 

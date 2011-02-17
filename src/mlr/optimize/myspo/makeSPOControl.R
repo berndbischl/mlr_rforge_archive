@@ -1,6 +1,12 @@
 #todo: document resampling when sure that ok.
 #' Creates a control object for SPO optimization.
 #'
+#' @param y.name [character(1)]\cr 
+#'   Name of y-column for target values in optimization path. Default is 'y'.   
+#' @param minimize [logical(1)]\cr 
+#'   Should target function be minimized? Default is \code{TRUE}.   
+#' @param y.name [character(1)]\cr 
+#'   Name of y-column for target values in optimization path.   
 #' @param seq.loops [integer(1)]\cr 
 #'   Number of sequential optimization steps. Default is 100.   
 #' @param propose.points [integer(1)]\cr 
@@ -23,19 +29,22 @@
 #'   Default is \code{c(1, seq.loops)}.
 #' @return The control object.  
 #' @export 
-makeSPOControl = function(seq.loops=100, propose.points=1, propose.points.method="seq.design", 
+makeSPOControl = function(y.name="y", minimize=TRUE, 
+  seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
-  ResampleDesc = makeResampleDesc("cv", iter=10), resample.at = c(1, seq.loops), resample.measures=list(mse) 
+  resample.desc = makeResampleDesc("cv", iter=10), resample.at = integer(0), resample.measures=list(mse) 
 ) {
   
   list( 
+    y.name = y.name,
+    minimize = minimize,
     seq.loops = seq.loops, 
     propose.points = propose.points,
     propose.points.method = propose.points.method,
     seq.design.points = seq.design.points, 
     seq.design.fun = seq.design.fun, 
-    seq.design.points = seq.design.points,
-    ResampleDesc = ResampleDesc,
+    seq.design.args = seq.design.args,
+    resample.desc = resample.desc,
     resample.at = resample.at,
     resample.measures = resample.measures
   )
