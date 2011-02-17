@@ -11,6 +11,7 @@ roxygen()
 
 
 # todo: parms has to be in hyperparamter list
+# todo: transform arbitrary cost matrices to 0 digaonal, also do this for other classifiers and have option to not take cost matrix form task
 
 setClass(
 		"classif.rpart", 
