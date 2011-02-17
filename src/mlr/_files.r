@@ -63,7 +63,7 @@ pack.files = c(
     "mlr/resample/LOODesc.R",
     "mlr/resample/StratCVDesc.R",
     "mlr/resample/RepCVDesc.R",
-    "mlr/resample/BSDesc.r",
+    "mlr/resample/BSDesc.R",
     "mlr/resample/SubsampleDesc.R",
 		"mlr/resample/HoldoutDesc.R",
 		"mlr/resample/cv.instance.r",
