@@ -60,12 +60,6 @@ setMethod(
       if(i == "pack") {
 				return(c(x@learner["pack"], x@pack))
 			}			
-			if(i == "par.set") {
-        if (head)
-          return(callNextMethod())
-        else
-          return(c(x@learner@par.set, callNextMethod()))
-			}
       if(i == "par.vals") {
         if (head)
           return(callNextMethod())

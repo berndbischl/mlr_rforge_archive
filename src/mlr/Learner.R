@@ -99,10 +99,30 @@ setMethod(
         return(x["par.vals"][ns])
       }     
       if (i == "par.vals.string") {
-        return(valToString(x["par.set"], x["par.vals"]))
+        return(valToString(getParameterSet(x), x["par.vals"]))
       }
 			callNextMethod()
 		}
 )
+
+
+)
+
+#' Get all possible paramter settings for a learner. 
+#' @param learner [\code{\linkS4class{Learner}}]\cr 
+#'   Learner.   
+#' @return [\code{\linkS4class{ParameterSet}}]
+#' @rdname getParameterSet
+#' @exportMethod getParameterSet
+setGeneric(name = "getParameterSet", def = function(learner) standardGeneric("getParameterSet"))
+#' @rdname getParameterSet
+setMethod(
+  f = "getParameterSet",
+  signature = signature(learner="Learner"), 
+  def = function(learner) {
+    learner@par.set
+  } 
+)
+
 
 
