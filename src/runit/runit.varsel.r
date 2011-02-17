@@ -42,10 +42,8 @@ test.varsel <- function() {
   
   # check empty model
   ctrl = sequential.control(method="sfs", alpha=10)
-  vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl, model=TRUE)
+  vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
   checkEquals(vr@x, character(0)) 
-  checkTrue(is(vr["model"], "WrappedModel")) 
-  checkTrue(is(vr["model"]["learner.model"], "novars")) 
   
   wl = makeVarselWrapper("classif.lda", resampling=inner, control=ctrl)
   outer = makeResampleDesc("cv", iter=2)
