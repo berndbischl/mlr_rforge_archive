@@ -2,7 +2,7 @@
 roxygen()
 #' @include ResampleDesc.R
 roxygen()
-#' @include OptControl.r
+#' @include OptControl.R
 roxygen()
 
 

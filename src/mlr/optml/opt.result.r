@@ -2,7 +2,7 @@
 roxygen()
 #' @include OptPath.R
 roxygen()
-#' @include OptControl.r
+#' @include OptControl.R
 roxygen()
 
 #' Container for results of hyperparameter tuning or variable selection.

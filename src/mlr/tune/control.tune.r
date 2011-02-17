@@ -1,4 +1,4 @@
-#' @include OptControl.r
+#' @include OptControl.R
 roxygen()
 
 #' Abstract base class for control objects for tuning. 
