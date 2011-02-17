@@ -9,15 +9,19 @@ setClass(
 
 #' @export 
 makeCombineWrapperRegrAvg = function(learners) {
-  new("CombineWrapperRegrAvg", learners=learners, par.set=list(), par.vals=list())
+  new("CombineWrapperRegrAvg", learners=learners, id="CombineWrapperRegrAvg", 
+    par.set=makeParameterSet(), par.vals=list())
 }
 
+#todo: bad method to set properties!!
 setMethod(
   f = "[",
   signature = signature("CombineWrapperRegrAvg"),
   def = function(x,i,j,...,drop) {
-    if (i %in% c("oneclass", "twoclass", "multiclass", "doubles", "factors", "is.classif")) {
-      return(T)
+    if (i == "is.classif")
+      return(FALSE)
+    if (i %in% c("doubles", "factors")) {
+      return(TRUE)
     }
     callNextMethod()
   }
@@ -32,13 +36,13 @@ setMethod(
     .learner = "CombineWrapperRegrAvg", 
     .model = "WrappedModel", 
     .newdata = "data.frame", 
-    .type = "character" 
+    .type = "missing" 
   ),
   
   def = function(.learner, .model, .newdata, .type, ...) {
     models = .model["learner.model"]
     p = sapply(models, function(m) predict(m, newdata=.newdata,  ...)@df$response)
-    p = colMeans(p)
+    p = rowMeans(p)
   }
 )   
 

@@ -33,11 +33,11 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("BaseCombiner"),
-  def = function(.Object, learners, par.set, par.vals=list(), pack=Reduce(c, sapply(learners, function(x) x@pack))) {
+  def = function(.Object, learners, id, pack=character(0), par.set, par.vals=list()) {
     if (missing(learners))
       return(make.empty(.Object))
     .Object@learners = learners
-    callNextMethod(.Object, par.set=par.set, par.vals=par.vals, pack=pack)
+    callNextMethod(.Object, id=id, pack=pack, par.set=par.set, par.vals=par.vals)
   }
 )
 

@@ -29,7 +29,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("BaseWrapper"),
-		def = function(.Object, learner, par.set, par.vals=list(), pack=as.character(c())) {
+		def = function(.Object, learner, pack=character(0), par.set, par.vals=list()) {
 			if (missing(learner))
 				return(make.empty(.Object))
       ns = intersect(names(par.set@pars), names(learner@par.set@pars))
