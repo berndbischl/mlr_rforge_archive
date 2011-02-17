@@ -21,7 +21,7 @@ plotMDS = function(data, target, exclude=character(0), metric) {
   s = as.data.frame(cmdscale(d))
   colnames(s) = c("mds.x1", "mds.x2")
   s[, target] = data[, target]
-  p = ggplot(s, aes_string(x="mds.x1", y="mds.x2", colour=target)) + geom_point()
-  print(p)
+  ggplot(s, aes_string(x="mds.x1", y="mds.x2", colour=target)) + geom_point()
+  
 }
 

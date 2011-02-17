@@ -1,6 +1,6 @@
 pack.files = c(
   "mlrEDA/summarizeData.R",
-  "mlrEDA/summarizeNAs.R",
+  "mlrEDA/summarizeNA.R",
   "mlrEDA/plotFeatureDistrib.R",
   "mlrEDA/plot2d.R",
   "mlrEDA/plot2d.R",

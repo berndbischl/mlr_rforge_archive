@@ -1,27 +1,61 @@
-\begin{frame}{Setup: Data}
-Currently 26 sets, will be at least 50 shortly
-\begin{tiny}
-<<echo=FALSE,results=tex>>=
-source("e:/sync/paper/reisensburg2010_local/src/read_bes.r")
-bes <<- read.bes()
-source("e:/sync/paper/reisensburg2010_local/talk/ds_table.r")
-xtable(make.ds.tab(bes))
-@
-\end{tiny}
-\end{frame}
+\documentclass{article}
 
-\begin{frame}{Results: Normality of Performance Values}
+\usepackage{amsmath}
+\usepackage{amscd}
+\usepackage[tableposition=top]{caption}
+\usepackage{ifthen}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\begin{verbatim}
+setwd("C:/user/meinke/statet/mlr/src/mlrEDA/")
+
+library(cluster)
+library(mlbench)
+
+library(ggplot2)
+require(xtable)
+
+source("plotPCA.R")
+source("plotMDS.R")
+
+data(PimaIndiansDiabetes)
+data <- PimaIndiansDiabetes
+target <- "diabetes"
+\end{verbatim}
+
+
+
+
+<<label=Summary,echo=FALSE,results=tex>>=
+source("summarizeData.R")
+print(xtable(summarizeData(data), caption = "Important descriptive statistics",
+    label = "desk",table.placement = "tbp",caption.placement = "top"))
+@
+
+
+\begin{figure}
 \setkeys{Gin}{width=0.75\textwidth}
 \begin{center}
+\caption{MDS_Plot}
 <<echo=FALSE,fig=TRUE>>=
-library(lattice)
-source("e:/sync/paper/reisensburg2010_local/talk/make_perf.r")
-perf <<- make.perf(bes)
-norm.sharp = aggregate(mmce ~ alg + ds, data=perf, FUN=function(x) ifelse(length(unique(x))==1, 0, shapiro.test(x)))
-colnames(norm.sharp)[3] = "pval"
-print(levelplot(pval~ds*alg, norm.sharp, scales=list(x=list(rot=90)))) 
+print(plotMDS(data,target) + geom_point())
 @
 \end{center}
-\end{frame}
+\label{MDS}
+\end{figure}
+
+\begin{figure}
+\setkeys{Gin}{width=0.75\textwidth}
+\begin{center}
+\caption{PCA-Scree-Plot}
+<<echo=FALSE,fig=TRUE>>=
+plotPCA(data,target)
+@
+\end{center}
+\label{PCA}
+\end{figure}
 
 
+\end{document}
