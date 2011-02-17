@@ -24,7 +24,7 @@ test.benchexp <- function() {
     be["aggrs"][[multiclass.task@desc@id]][["classif.lda"]]["mmce.test.mean"],
     checkNames=FALSE)
  
-	outer2 = makeResampleDesc("holdout")
+	outer2 = makeResampleDesc("Holdout")
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer2)
   checkTrue(!is.na(be["aggrs"]["mmce.test.mean"]))
   

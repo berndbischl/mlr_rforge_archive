@@ -1,6 +1,6 @@
 test.performance <- function() {
 	
-	res = makeResampleDesc("holdout")
+	res = makeResampleDesc("Holdout")
 	rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=list(acc, time.all))
   
 	res = makeResampleDesc("BS", iters=3)

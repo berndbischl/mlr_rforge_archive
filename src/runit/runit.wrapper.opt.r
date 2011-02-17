@@ -1,6 +1,6 @@
 test.OptWrapper <- function() {
 	
-	outer = makeResampleInstance(makeResampleDesc("holdout"), task=multiclass.task)
+	outer = makeResampleInstance(makeResampleDesc("Holdout"), task=multiclass.task)
   inner = makeResampleDesc("CV", iters=2)
 	
 	ps = makeParameterSet(makeDiscreteParameter(id="C", vals=c(1,100)))
