@@ -1,5 +1,5 @@
 #' @include ResampleInstance.R
-#' @include cv.desc.r
+#' @include CVDesc.r
 roxygen()
 
 setClass(

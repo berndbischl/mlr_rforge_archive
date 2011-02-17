@@ -2,7 +2,7 @@
 roxygen()
 
 
-setClass("stratcv.desc", 
+setClass("stratCVDesc", 
   contains = c("ResampleDesc.nonseq")
 )                                                     
 
@@ -10,7 +10,7 @@ setClass("stratcv.desc",
 
 setMethod(
   f = "initialize",
-  signature = signature("stratcv.desc"),
+  signature = signature("stratCVDesc"),
   def = function(.Object, iters, ...) {
     callNextMethod(.Object, "stratcv.instance", "stratified cross-validation", iters)
   }

@@ -2,7 +2,7 @@
 roxygen()
 
 
-setClass("repcv.desc", 
+setClass("RepCVDesc", 
   contains = c("ResampleDesc.nonseq"),
   representation = representation(
     reps = "integer"
@@ -13,7 +13,7 @@ setClass("repcv.desc",
 
 setMethod(
 		f = "initialize",
-		signature = signature("repcv.desc"),
+		signature = signature("RepCVDesc"),
 		def = function(.Object, iters, reps, folds, ...) {
       if (!is.numeric(reps) || length(reps) != 1)
         stop("Argument 'reps' must be integer and of length 1!")
@@ -30,7 +30,7 @@ setMethod(
 
 setMethod(
   f = "to.string",
-  signature = signature("repcv.desc"),
+  signature = signature("RepCVDesc"),
   def = function(x) {
     return(
       paste(

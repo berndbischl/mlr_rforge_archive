@@ -2,7 +2,7 @@ test.benchmark <- function() {
 	if (!use.package) {
 		ct = makeClassifTask("iris", data=iris, target="Species")
 		outer = makeResampleDesc("holdout") 
-		inner = new("cv.desc", iters=3L)
+		inner = new("CVDesc", iters=3L)
 		
 		# check empty ranges 
 		cbr <- .mlr.benchmark("classif.rpart", task=ct, resampling=outer, models=TRUE)
