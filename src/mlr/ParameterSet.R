@@ -225,7 +225,6 @@ setMethod(
   }
 )
 
-# todo: check that learner and normal parameters are not mixed
 c.ParameterSet = function(..., recursive=FALSE) {
   pss = list(...)
   pars = Reduce(c, lapply(pss, function(ps) ps@pars))

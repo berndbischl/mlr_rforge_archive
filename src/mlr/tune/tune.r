@@ -4,7 +4,6 @@
 roxygen()
 
 
-#todo instantiate resample description for others than grid search????
 
 #' Optimizes the hyperparameters of a learner for a classification or regression problem.
 #' Allows for different optimization methods, such as grid search, evolutionary strategies 

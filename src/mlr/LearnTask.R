@@ -80,9 +80,6 @@ setMethod(
       if (i == "data"){
         return(x@dataenv$data)
       }
-			if (i == "targets") {
-				return(x["data"][, x["target"]])
-			}
       if (i == "weights") {
 				if (!td["has.weights"])
 					return(NULL)
@@ -157,9 +154,9 @@ get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
           task["data"][subset,vars,drop=FALSE],
       target = 
         if (ms)
-          rec.y(task["targets"])
+          rec.y(targets(task))
         else
-          rec.y(task["targets"][subset])
+          rec.y(targets(task)[subset])
     )
   } else {
     d = 
@@ -232,4 +229,39 @@ setMethod(
     setdiff(colnames(task@dataenv$data), task["target"])
   } 
 )
+
+
+#' Get target column of task. 
+#' @param task [\code{\linkS4class{LearnTask}}]\cr 
+#'   Learning task.   
+#' @return A factor for classification or a numeric for regression.
+#' @rdname targets
+#' @exportMethod targets
+setGeneric(name = "targets", def = function(task) standardGeneric("targets"))
+#' @rdname targets
+setMethod(
+  f = "targets",
+  signature = signature(task="LearnTask"), 
+  def = function(task) {
+    return(task@dataenv$data[, task@desc@target])
+  } 
+)
+
+#' Get class levels of task. 
+#' @param task [\code{\linkS4class{ClassifTask}}]\cr 
+#'   Classification task.   
+#' @return [character]
+#' @rdname classLevels
+#' @exportMethod classLevels
+setGeneric(name = "classLevels", def = function(task) standardGeneric("classLevels"))
+#' @rdname classLevels
+setMethod(
+  f = "classLevels",
+  signature = signature(task="ClassifTask"), 
+  def = function(task) {
+    setdiff(colnames(task@dataenv$data), task["target"])
+  } 
+)
+
+
 

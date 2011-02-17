@@ -92,6 +92,3 @@ setMethod(f = "to.string",
 
 
 
-source("D:\\sync\\projekte\\mlr\\src\\test2.r")
-
-

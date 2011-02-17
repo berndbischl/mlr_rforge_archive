@@ -18,7 +18,7 @@ test.performance <- function() {
 		e1 = mean(pred@df$truth != pred@df$response)
 		# we do this manually 
 		id = pred["id"]
-		t2 = task["targets"][id]
+		t2 = targets(task)[id]
 		e2 = mean(t2 != pred@df$response)
 		checkEquals(e1, e2)
 	})

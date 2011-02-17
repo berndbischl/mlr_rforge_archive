@@ -46,10 +46,7 @@ setMethod(
 		),
 		
 		def = function(learner, task, subset) {
-      
-      # todo: do we still need this, and the loading when exporting a learner? 
-      # pack is loaded when learner is constructed
-      # export: probably yes...
+      # make sure that pack for learner ist loaded, probably needed when learner is exported        
       require.packs(learner["pack"], paste("learner", learner@id))
       
       check.result = if (is(task, "ClassifTask")) check.task.learner.classif(task, learner) else check.task.learner(task, learner)
