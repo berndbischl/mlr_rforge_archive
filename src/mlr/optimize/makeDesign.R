@@ -27,7 +27,8 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
   vals = values(par.set)
   pars = par.set@pars
   
-  k = sum(sapply(par.set, function(x) if (x@type %in% c("numericvector", "integervector")) length(lower(x)) else 1))
+  k = sum(sapply(par.set@pars, function(x) 
+        if (x@type %in% c("numericvector", "integervector")) length(lower(x)) else 1))
   des = do.call(fun, c(list(n=n, k=length(pars)), fun.args))
   
   des = as.data.frame(des)
@@ -35,19 +36,20 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
   col = 0
   for (i in 1:length(pars)) {
     p = pars[[i]]
+    cc = rev(col)[1]
     if (p@type %in% c("numericvector", "integervector")) 
-      col = (col[length(col)] + 1) : (col[length(col)] + length(lower(p)))   
+      col = (cc + 1) : (cc + length(lower(p)))   
     else 
-      col = (col[length(col)] + 1) : (col[length(col)] + length(lower(p)))   
+      col = cc + 1    
     if (p@type == "numeric")
       des[,col] = p@trafo((upper(p)-lower(p))*des[,col] + lower(p))
     else if (p@type == "integer")
-      des[,col] = p@trafo(floor((upper(p)-lower(p)+1)*des[,col] + lower(p)))
+      des[,col] = p@trafo(as.integer(floor((upper(p)-lower(p)+1)*des[,col] + lower(p))))
     else if (p@type == "numericvector") {
       des[,col] = t((upper(p)-lower(p))*t(des[,col]) + lower(p))
       des[,col] = apply(des[,col], 1, p@trafo)
     } else if (p@type == "integervector")
-      des[,col] = p@trafo((upper(p)-lower(p))*des[,col] + lower(p))
+      des[,col] = p@trafo(as.integer(floor(upper(p)-lower(p))*des[,col] + lower(p)))
     else if (p@type == "logical")
       des[,col] = ifelse(des[,col] <= 0.5, FALSE, TRUE)
     else if (p@type == "discrete") {
