@@ -14,10 +14,8 @@ test.tune <- function() {
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
 	
 	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, par.set=ps1, control=ctrl)
-  pp = as.data.frame(tr2@path)
-  
-	# todo test scale with tune.e1071 and scaled grid!
-	
+  pp = as.data.frame(tr2@path)  
+	# todo test scale with tune.e1071 and scaled grid!	
 	for(i in 1:nrow(tr$performances)) {
 		cp <- tr$performances[i,"cp"]
 		ms <- tr$performances[i,"minsplit"]
@@ -25,7 +23,9 @@ test.tune <- function() {
 		checkEqualsNumeric(tr$performances[i,"error"], pp[j,"mmce.test.mean"])    
 		checkEqualsNumeric(tr$performances[i,"dispersion"], pp[j,"mmce.test.sd"])    
 	}
-	
+  # test printing
+  to.string(tr2)
+  
 	# check multiple measures
 	ms = c("acc", "mmce", "time.fit") 
 	tr2 = tune("classif.rpart", multiclass.task, cv.instance, par.set=ps1, control=ctrl)
