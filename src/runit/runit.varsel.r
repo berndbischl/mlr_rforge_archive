@@ -7,6 +7,8 @@ test.varsel <- function() {
   checkEquals(length(as.list(vr@path)), 10) 
   checkEquals(nrow(as.data.frame(vr@path)), 10) 
   checkEquals(ncol(as.data.frame(vr@path)), 8) 
+  # test printing
+  to.string(vr)
   
   # check maxit
   ctrl = randomvarsel.control(maxit=4, path=TRUE)
@@ -23,7 +25,8 @@ test.varsel <- function() {
   
   ctrl = sequential.control(method="sffs", alpha=0.01, path=TRUE)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
-  checkTrue(length(as.list(vr@path)) > 1) 
+  # we must at least try to select a 2nd feature
+  checkTrue(length(as.list(vr@path)) >= 1 + 4 + 1 + 3) 
   
   ctrl = sequential.control(method="sfbs", beta=0.01, path=TRUE)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
