@@ -1,3 +1,5 @@
+#todo: getter for predictions?
+
 #' Container for the results of a benchmark experiment.
 #' 
 #' Getter. \cr

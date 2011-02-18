@@ -99,6 +99,7 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
   names(rrs) = task.names
 	names(ors) = task.names
   names(ins) = task.names
+  names(learners) = sapply(learners, function(x) x["id"])
   return(new("bench.result", task.descs=tds, learners=learners, resamplings=resamplings, 
       measures=measures, res.results = rrs, opt.results = ors, input.names=ins
 	))
