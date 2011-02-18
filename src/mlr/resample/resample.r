@@ -41,6 +41,7 @@ setGeneric(
   def = function(learner, task, resampling, measures, models, extract) {
     if (is.character(learner))
       learner = makeLearner(learner)
+    check.arg(task, "LearnTask")
     if (is(resampling, "ResampleDesc")) 
       resampling = makeResampleInstance(resampling, task=task)
     if (missing(measures))

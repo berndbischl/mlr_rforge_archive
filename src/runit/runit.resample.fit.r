@@ -18,7 +18,11 @@ test.resample = function() {
 	checkEquals(rf4@df$response, f2)
 	
 	ct = makeClassifTask(data=iris[,c("Species", "Petal.Width")], target="Species")
-	fit = resample("classif.lda", ct, makeResampleDesc("CV", iters=2))	
+	fit = resample("classif.lda", ct, makeResampleDesc("CV", iters=2))
+  
+  checkException(resample("classif.rpart", NULL, cv.i), silent=TRUE)
+  s = geterrmessage()
+  checkTrue(length(grep("Argument task must be of class LearnTask", s)) >0)
 }
 
 

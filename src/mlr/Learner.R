@@ -106,7 +106,7 @@ setMethod(
 )
 
 
-)
+
 
 #' Get all possible paramter settings for a learner. 
 #' @param learner [\code{\linkS4class{Learner}}]\cr 

@@ -210,7 +210,7 @@ data.frame.row.to.list = function(x, i) {
 check.arg = function(x, cl, len) {
   s = deparse(substitute(x))
   cl2 = class(x)
-  if (cl2 != cl) 
+  if (!is(x, cl)) 
     stop("Argument ", s, " must be of class ", cl, " not: ", cl2, "!")
   len2 = length(x)
   if (!missing(len) && len2 != len)
