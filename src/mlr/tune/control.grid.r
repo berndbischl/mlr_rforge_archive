@@ -13,7 +13,7 @@ setClass(
 #' 
 #' @param path [boolean]\cr
 #'   Should optimization path be saved? Default is TRUE.
-#' @param same.resampling.instance [logical] \cr
+#' @param same.resampling.instance [logical(1)] \cr
 #'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
 #' 		    
 #' @return Control structure for tuning.
