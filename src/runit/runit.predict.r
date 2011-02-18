@@ -15,12 +15,17 @@ test.predict <- function() {
 	checkEquals(cp2@df$response, pred2)
 	checkEquals(cp2b@df$response, pred2)
 	
-	cm3 <- train(wl.lda, multiclass.task, subset=inds)
-	cp3 <- predict(cm3, newdata=data[multiclass.test.inds,])
-	ext3 <- lda(formula, data=data[inds,])
-	pred3 <- predict(ext3,newdata=data[multiclass.test.inds,])$class
+	cm3 = train(wl.lda, multiclass.task, subset=inds)
+	cp3 = predict(cm3, newdata=data[multiclass.test.inds,])
+	ext3 = lda(formula, data=data[inds,])
+	pred3 = predict(ext3,newdata=data[multiclass.test.inds,])$class
+  prob3 = predict(ext3,newdata=data[multiclass.test.inds,])$post
 	checkEquals(cp3@df$response, pred3)
-	
+  checkEquals(prob3, as.matrix(getScore(cp3, colnames(prob3))))
+  checkTrue(is.numeric(getScore(cp3, "setosa")))
+  checkEquals(colnames(getScore(cp3, c("setosa", "versicolor"))), c("setosa", "versicolor"))
+  checkEquals(colnames(getScore(cp3, c("versicolor", "setosa"))), c("versicolor", "setosa"))
+  
 	cp4 <- predict(cm3, task=multiclass.task, subset=multiclass.test.inds)
 	checkEquals(cp4@df$response, pred3)
 	checkEquals(cp4@df$truth, data[multiclass.test.inds, multiclass.target])
