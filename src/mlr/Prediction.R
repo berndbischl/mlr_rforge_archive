@@ -64,7 +64,7 @@ makePrediction = function(task.desc, id, truth, type, y, time) {
 		xs[["dec"]] = y
 	}
 	df = as.data.frame(xs)
-	
+  
   # fix columnnames for prob if strage chars are in factor levels
 	# todo: review this!
   cns = colnames(df)
@@ -81,6 +81,7 @@ makePrediction = function(task.desc, id, truth, type, y, time) {
   if (type != "response") {
     th = rep(1/task.desc["class.nr"], task.desc["class.nr"])
     names(th) = task.desc["class.levels"]
+    print(th)
     p = new("Prediction", task.desc, type, df, th, time)
     return(setThreshold(p, th))
   } else {
@@ -104,27 +105,6 @@ setMethod(
 				return(x@df$id)
 			if (i == "iter")
 				return(x@df$iter)
-			if (i == "prob") {
-				cns = colnames(x@df)
-				cns = cns[grep("^prob", cns)]
-				# prob was not selected as type in predict
-				if (length(cns) == 0)
-					return(NULL)
-				# no class chosen and we are binary: return prob for pos. class
-				if (is.null(class) && x@desc["is.binary"]) {
-					return(x@df[, paste("prob", x@desc["positive"], sep=".")])
-				}
-				if (is.null(class))
-					class = x@desc["class.levels"]
-				cns2 = sapply(strsplit(cns, "prob."), function(z) z[2])
-				jj = which(cns2 %in% class)
-				y = x@df[, cns[jj]]
-				if (is.data.frame(y)) {
-          y = as.matrix(y)
-					colnames(y) = cns2[jj]
-        }
-				return(y)
-			}
 			if (i == "decision") {
 				cns = colnames(x@df)
 				return(x@df[, grep("^decision", cns)])
@@ -161,6 +141,44 @@ setMethod(
 		}
 )
 
+
+
+#' Get probabilities or decision values for some classes.
+#' @param pred [\code{\linkS4class{Prediction}}] 
+#'   Prediction object.
+#' @param class [character] 
+#'   Names of classes. Default is either all classes for multi-class problems or the positive class for binary classification.
+#' @return Data.frame with numerical columns or a numerical vector if length of \code{class} is 1. 
+#'   Order of columns is defined by \code{class}.
+#' @exportMethod getScore
+#' @rdname getScore
+
+setGeneric(name = "getScore", 
+  def = function(pred, class) {
+    check.arg(pred, "Prediction")
+    if (pred@desc["is.classif"])
+      stop("Prediction was not generated from a ClassifTask!")
+    if (missing(class)) {
+      if (red@desc["is.binary"])
+        class = pred@desc["positive"]
+      else
+        class = classLevels(pred@desc)
+    }
+    standardGeneric("getProb")
+})
+
+#' @rdname getScore
+setMethod(f = "getScore", 
+  signature = signature("Prediction", "character"), 
+  def = function(pred, class) {
+    if (!(pred@type %in% c("prob", "decision")))
+      stop("Neither probabilities nor decision values present in Prediction object!")
+    cns = colnames(pred@df)
+    class2 = paste(pred@type, class, sep=".")
+    if (!all(class2 %in% cns))
+      stop("Trying to get scores for nonexistant classes:", paste(class, collapse=","))
+    pred@df[, class2]
+})
 
 #c.Prediction = function(...) {
 #	preds = list(...)

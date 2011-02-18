@@ -27,7 +27,7 @@ test.multinom <- function() {
 	m = train(wl, binaryclass.task)
 	p = predict(m, newdata=binaryclass.df)
 	rr = p@df$response
-	pp = p["prob"]
+	pp = getScore(p)
 	i = as.integer(pp < 0.5) + 1
 	labs = as.factor(binaryclass.task["class.levels"][i]) 
 	checkEquals(rr, labs)	

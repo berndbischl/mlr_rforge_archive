@@ -33,7 +33,7 @@ setMethod(
 			if(x@desc["class.nr"] != 2) {
 				stop("More than 2 classes!")
 			}
-			p = x["prob"] 
+			p = getScore(x) 
 			if(is.null(p)) {
 				stop("No probabilities in prediction object!")
 			}
@@ -51,10 +51,10 @@ setMethod(
     if(x@desc["class.nr"] != 2) {
       stop("More than 2 classes!")
     }
-    if(is.null(x["prob"])) {
+    if(x@type != "prob") {
       stop("No probabilities in prediction object!")
     }
-    prob = x["prob"]
+    prob = getScore(x)
     iter = as.factor(x["iter"])
     prob = split(prob, iter)
     truth = split(x@df$truth, iter)

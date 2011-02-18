@@ -57,7 +57,7 @@ prob.test <- function(t.name, df, target, train.inds, old.probs, parset=list()) 
 		else 
 			old.probs = as.matrix(old.probs)
 		
-		p = cp["prob"]
+		p = getScore(cp)
 		if (is.data.frame(p))
 			p = as.matrix(p)
 		# we change names a bit so dont check them
