@@ -24,7 +24,7 @@ test.tune <- function() {
 		checkEqualsNumeric(tr$performances[i,"dispersion"], pp[j,"mmce.test.sd"])    
 	}
   # test printing
-  to.string(tr2)
+  print(tr2)
   
 	# check multiple measures
 	ms = c("acc", "mmce", "time.fit") 

@@ -8,7 +8,7 @@ test.varsel <- function() {
   checkEquals(nrow(as.data.frame(vr@path)), 10) 
   checkEquals(ncol(as.data.frame(vr@path)), 8) 
   # test printing
-  to.string(vr)
+  print(vr)
   
   # check maxit
   ctrl = randomvarsel.control(maxit=4, path=TRUE)
