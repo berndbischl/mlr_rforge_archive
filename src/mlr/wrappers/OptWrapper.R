@@ -35,6 +35,8 @@ setMethod(
       .Object@control = control
       .Object@log.fun = log.fun
       .Object = callNextMethod(.Object, learner, par.set=makeParameterSet(), par.vals=list())
+      # set predict type of base learner
+      setPredictType(.Object, learner@predict.type)
     }
 )
 

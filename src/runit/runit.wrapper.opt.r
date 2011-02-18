@@ -16,4 +16,11 @@ test.OptWrapper <- function() {
   
   p = predict(m, task=multiclass.task)
   checkTrue(!any(is.na(p@df$response)))
+  
+  # check that predict.type is taken from base learner
+  w = makeLearner("classif.ksvm", predict.type="prob")
+  svm.tuner = makeTuneWrapper(w, resampling=makeResampleDesc("Holdout"), par.set=ps, control=grid.control())
+  checkEquals(svm.tuner@predict.type, "prob")
+  r = resample(svm.tuner, binaryclass.task, makeResampleDesc("Holdout"), measures=auc)
+  checkTrue(!is.na(r$aggr["auc.test.mean"]))
 }
