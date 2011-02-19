@@ -1,15 +1,22 @@
 #' Fuses a base learner with a search strategy to select variables. Creates a learner object, which can be
 #' used like any other learner object, but which internally uses varsel. If the train function is called on it, the search strategy and resampling are invoked
 #' to select an optimal set of variables. Finally, a model is fitted on the complete training data with these variables and returned.    
-#'
+#' See \code{\link{varsel}} for more details.
+#' 
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
 #' @param resampling [\code{\linkS4class{ResampleInstance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
 #'   Resampling strategy to evaluate points in hyperparameter space.
-#' @param control [\code{\linkS4class{varsel.control}}] 
-#'   Control object for search method. Also selects the optimization algorithm for feature selection. 
 #' @param measures [list of \code{\linkS4class{measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
+#' @param control [\code{\linkS4class{varsel.control}}] 
+#'   Control object for search method. Also selects the optimization algorithm for feature selection. 
+#' @param bit.names [character]\cr
+#'   Names of bits encoding the solutions. Also defines the total number of bits in the encoding.
+#'   Per default these are the feature names of the task.    
+#' @param bits.to.features [function]\cr
+#'   Function which transforms an integer-0-1 vector into a character vector of selected features. 
+#'   Per default a value of 1 in the ith bit selects the ith feature to be in the candidate solution.      
 #' @param log.fun [function(learner, task, resampling, measure, par.set, control, opt.path, x, y)]\cr
 #'   Called after every hyperparameter evaluation. Default is to print performance via mlr logger. 
 #' 

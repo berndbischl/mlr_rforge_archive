@@ -3,7 +3,8 @@
 #' used like any other learner object, but which internally uses tune. If the train function is called on it, the search strategy and resampling are invoked
 #' to select an optimal set of hyperparameter values. Finally, a model is fitted on the complete training data with these optimal
 #' hyperparameters and returned.    
-#'
+#' See \code{\link{tune}} for more details.
+#' 
 #' @param learner [\code{\linkS4class{learner}} or string]\cr 
 #'   Learning algorithm.   
 #' @param resampling [\code{\linkS4class{ResampleInstance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
