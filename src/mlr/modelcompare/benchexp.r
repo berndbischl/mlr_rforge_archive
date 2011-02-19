@@ -61,7 +61,7 @@ bench.exp <- function(learners, tasks, resamplings, measures, models=FALSE, same
   if (length(resamplings) != length(tasks))
     stop("Number of resampling strategies and number of tasks differ!")
   if (same.resampling.instance)
-    resamplings = lapply(resamplings, function(x) makeResampleInstance(x, task=task))
+    resamplings = Map(function(x) makeResampleInstance(res, tt), resamplings, tasks)
   
   learner.names = character()
   task.names = sapply(tasks, function(x) x@desc@id)   
