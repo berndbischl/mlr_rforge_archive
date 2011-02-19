@@ -25,7 +25,7 @@
 #' @title Benchmark experiment for multiple learners and tasks.
 
 
-bench.exp <- function(learners, tasks, resampling, measures, models=FALSE)  {
+bench.exp <- function(learners, tasks, resampling, measures, models=FALSE, same.resampling.instance=TRUE)  {
   
   if (!is.list(learners) && length(learners) == 1) {
     learners = list(learners)
