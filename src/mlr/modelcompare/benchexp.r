@@ -57,7 +57,8 @@ bench.exp <- function(learners, tasks, resamplings, measures, models=FALSE, same
   ms.names = sapply(measures, function(m) m@id)
   
   if (is(resamplings, "ResampleInstance") || is(resamplings, "ResampleDesc"))
-    resamplings = list(resamplings)
+    resamplings = replicate(length(tasks), resamplings, simplify = FALSE) 
+  
   if (length(resamplings) != length(tasks))
     stop("Number of resampling strategies and number of tasks differ!")
   if (same.resampling.instance)
