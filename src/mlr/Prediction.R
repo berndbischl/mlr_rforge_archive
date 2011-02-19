@@ -161,7 +161,7 @@ setGeneric(name = "getScore",
       if (pred@desc["is.binary"])
         class = pred@desc["positive"]
       else
-        class = classLevels(pred@desc)
+        class = getClassLevels(pred@desc)
     }
     standardGeneric("getScore")
 })

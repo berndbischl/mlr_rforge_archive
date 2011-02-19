@@ -251,23 +251,23 @@ setMethod(
 #' @param task [\code{\linkS4class{ClassifTask}} | \code{\linkS4class{task.desc}}]\cr 
 #'   Classification task or its description object.   
 #' @return [character]
-#' @rdname classLevels
-#' @exportMethod classLevels
-setGeneric(name = "classLevels", def = function(x) standardGeneric("classLevels"))
-#' @rdname classLevels
+#' @rdname getClassLevels
+#' @exportMethod getClassLevels
+setGeneric(name = "getClassLevels", def = function(x) standardGeneric("getClassLevels"))
+#' @rdname getClassLevels
 setMethod(
-  f = "classLevels",
+  f = "getClassLevels",
   signature = signature(x="ClassifTask"), 
   def = function(x) {
     names(x@desc@class.dist)
   } 
 )
-#' @rdname classLevels
+#' @rdname getClassLevels
 setMethod(
-  f = "classLevels",
+  f = "getClassLevels",
   signature = signature(x="task.desc"), 
   def = function(x) {
-    if (!x@desc["is.classif"])
+    if (!x["is.classif"])
       stop("Description is not for a classification task!")
     names(x@class.dist)
   } 
