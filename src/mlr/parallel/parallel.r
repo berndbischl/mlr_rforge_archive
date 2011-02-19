@@ -5,16 +5,16 @@
 #' Note that when you parallelize a function, e.g. \code{\link{resample}}, this also works when the function is internally called by 
 #' \code{mlr} in a more complex function, e.g. \code{\link{bench.exp}}. 
 #' 
-#' @param mode [string] \cr
+#' @param mode [character(1)] \cr
 #'   Which parallel mode should be used: 
 #'   "local", "multicore", "snowfall", "sfCluster".
 #'   Default is "local" without parallel execution.
-#' @param parallel.type [string] \cr
+#' @param parallel.type [character(1)] \cr
 #'   Currently this is only used for \code{\link[snowfall]{sfInit}} (mode="snowfall"), where it is passed to the "type" argument. 
 #'   Default is "MPI", meaning we use "Rmpi". 
 #' @param cpus [numeric] \cr
 #'   Number of requested cpus. Default is \code{\link[Rmpi]{mpi.universe.size}}() for snowfall/MPI, ignored for for sfCluster and 1 otherwise. 
-#' @param level [string] \cr
+#' @param level [character(1)] \cr
 #'   What is parallelized / what is a job. 
 #' 	 "resample": \code{\link{resample}} is parallelized and a job is train / test.
 #'   "opt": \code{\link{tune}} and \code{\link{varsel}} are parallelized and a job is a resampled evaluation of one hyperparameter setting/feature set.  

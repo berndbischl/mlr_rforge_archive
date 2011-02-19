@@ -148,9 +148,9 @@ setMethod(
 #' 
 #' @param br [\code{\linkS4class{bench.result}}]\cr 
 #'   Result of benchmark experiment.   
-#' @param task [string]\cr 
+#' @param task [character(1)]\cr 
 #'   Id of task used in \code{br}. If there was only one task, this argument can be missing.    
-#' @param learner.id [string]\cr 
+#' @param learner.id [character(1)]\cr 
 #'   Id of tuned learner used in \code{br}. If there was only one learner, this argument can be missing.    
 #'        
 #' @return Data.frame 
@@ -194,9 +194,9 @@ setMethod(
 #' 
 #' @param br [\code{\linkS4class{bench.result}}]\cr 
 #'   Result of benchmark experiment.   
-#' @param task [string]\cr 
+#' @param task [character(1)]\cr 
 #'   Id of task used in \code{br}. If there was only one task, this argument can be missing.    
-#' @param learner.id [string]\cr 
+#' @param learner.id [character(1)]\cr 
 #'   Id of learner with variable selection used in \code{br}. If there was only one learner, this argument can be missing.    
 #'        
 #' @return Data.frame 

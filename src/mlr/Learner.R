@@ -20,7 +20,7 @@ roxygen()
 #' \describe{
 #'  \item{is.classif [boolean]}{Is this learner for classification tasks?}
 #'  \item{is.regr [boolean]}{Is this learner for regression tasks?}
-#'  \item{id [string]}{Id string of learner.}
+#'  \item{id [character(1)]}{Id string of learner.}
 #' 	\item{pack [char]}{Package(s) required for underlying learner.}
 #'  \item{doubles [boolean]}{Can real-valued inputs be processed?}
 #'  \item{factors [boolean]}{Can factor inputs be processed?}

@@ -44,19 +44,19 @@ setMethod(
 
 #' Control structure for basic data preparation.
 #'
-#' @param ints.as [string]\cr
+#' @param ints.as [character(1)]\cr
 #'   Should integer features be converted to either "numeric" or "factor". Default is "numeric".
-#' @param chars.as [string]\cr
+#' @param chars.as [character(1)]\cr
 #'   Conversion of character features. Currently only "factor" is supported.
-#' @param logs.as [string]\cr
+#' @param logs.as [character(1)]\cr
 #'   Should logical features be converted to either "numeric" or "factor". Default is "factor".
-#' @param Dates.as [string]\cr
+#' @param Dates.as [character(1)]\cr
 #'   Conversion of Date features. Currently only "numeric" is supported, which converts to days since \code{Dates.origin}. 
-#' @param Dates.origin [string]\cr
+#' @param Dates.origin [character(1)]\cr
 #'   Reference point for \code{Dates.as}. Default is \code{as.Date("1970-01-01")}.
-#' @param POSIXcts.as [string]\cr
+#' @param POSIXcts.as [character(1)]\cr
 #'   Should POSIXct features be converted to either "seconds", "minutes", "hours", "days". Default is "seconds" since \code{Dates.origin}.
-#' @param POSIXcts.origin [string]\cr
+#' @param POSIXcts.origin [character(1)]\cr
 #'   Reference point for \code{POSIXcts.as}. Default is \code{as.POSIXct("1970-01-01 01:00")}.
 #' @param drop.class.levels [boolean]\cr
 #'   Should empty class levels be dropped? Default is TRUE.

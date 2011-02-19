@@ -2,7 +2,7 @@
 #' 
 #' @param learner [\code{\linkS4class{learner}}]\cr 
 #'        Learner object.   
-#' @param type [string] \cr
+#' @param type [character(1)] \cr
 #'        Classification: "response" | "prob" | "decision", specifying the type to
 #'        predict. Default is "response". "decision" is experimental. Ignored for
 #'        regression.	 

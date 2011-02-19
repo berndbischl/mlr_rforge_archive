@@ -8,11 +8,11 @@
 #' 
 #' How to add further functionality to a learner: Look at subclasses of \code{\linkS4class{BaseWrapper}}.
 #'  
-#' @param class [string] \cr
+#' @param class [character(1)] \cr
 #'        Class of learner to create.
-#' @param id [string]\cr 
+#' @param id [character(1)]\cr 
 #'        Id string for object. Used to select the object from a named list, etc.  
-#' @param predict.type [string] \cr
+#' @param predict.type [character(1)] \cr
 #'        Classification: "response" | "prob" | "decision", specifying the type to
 #'        predict. Default is "response". "decision" is experimental. Ignored for
 #'        regression.	 

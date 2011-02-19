@@ -1,10 +1,10 @@
 #' Construct your own performance measure.
 #' 
-#' @param id [string] \cr
+#' @param id [character(1)] \cr
 #'   Name of measure. 
 #' @param minimize [boolean] \cr
 #'   Should the measure be minimized? Default is TRUE. 
-#' @param req.task.type [string] \cr
+#' @param req.task.type [character(1)] \cr
 #'   Should the measure be minimized? Default is TRUE. Otherwise you are effectively specifying a benefits matrix.
 #' @param req.binary [boolean] \cr
 #'   Is the measure only applicable to binary classification? Only reasonable if \code{req.task.type} is "classif". Default is FALSE. 

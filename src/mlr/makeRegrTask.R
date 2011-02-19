@@ -9,11 +9,11 @@ roxygen()
 #' \code{\link{prepare.control}}, construct the control object yourself and pass it into the \code{control} argument 
 #' of \code{makeRegrTask}.
 #' 
-#' @param id [string]\cr 
+#' @param id [character(1)]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. Default is the name of R variable passed to \code{data}.  
 #' @param data [data.frame] \cr   
 #'   A data frame containing the input and target variables for modeling.
-#' @param target [string] \cr
+#' @param target [character(1)] \cr
 #'   Name of the target variable.
 #' @param exclude [character]
 #'   Names of inputs, which should be discarded, e.g. IDs, etc. Default is zero-length vector. 

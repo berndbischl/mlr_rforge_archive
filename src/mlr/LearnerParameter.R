@@ -8,7 +8,7 @@ roxygen()
 #' \describe{
 #'  \item{has.default [boolean]}{Was a default value provided?}
 #'  \item{default [any]}{Default value. Error if none was provided.}
-#'  \item{when [string]}{Specifies when a cetrain hyperparameter is used. Possible entries are 'train', 'predict' or 'both'.}
+#'  \item{when [character(1)]}{Specifies when a cetrain hyperparameter is used. Possible entries are 'train', 'predict' or 'both'.}
 #'  \item{requires [list]}{Requirements for a parameter to be effective.}
 #' }
 #' @exportClass Parameter

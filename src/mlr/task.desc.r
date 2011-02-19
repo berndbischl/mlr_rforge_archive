@@ -6,10 +6,10 @@ roxygen()
 #' Getter.\cr
 #' 
 #' \describe{
-#'  \item{id [string]}{Id string of task.}
+#'  \item{id [character(1)]}{Id string of task.}
 #'  \item{is.classif [boolean]}{Classification task?}
 #'  \item{is.regr [boolean]}{Regression task?}
-#'  \item{target [string]}{Name of target variable.}
+#'  \item{target [character(1)]}{Name of target variable.}
 #'  \item{formula [formula]}{Formula of form: target~.}
 #'  \item{size [integer]}{Number of cases.}
 #'  \item{dim [integer]}{Number of covariates.}
@@ -23,8 +23,8 @@ roxygen()
 #'  \item{has.weights [boolean]}{Are weights available in task for covariates?}
 #'  \item{has.blocking [boolean]}{Is blocking available in task for observations?}
 #'  \item{costs [matrix]}{Cost matrix, of dimension (0,0) if not available.}
-#'  \item{positive [string]}{Positive class label for binary classification, NA else.}
-#'  \item{negative [string]}{Negative class label for binary classification, NA else.}
+#'  \item{positive [character(1)]}{Positive class label for binary classification, NA else.}
+#'  \item{negative [character(1)]}{Negative class label for binary classification, NA else.}
 #' }
 #' 
 #' @exportClass task.desc

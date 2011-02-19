@@ -4,7 +4,7 @@
 #' 
 #' @param console [boolean] \cr
 #'   Should output be printed to R console?
-#' @param file [string] \cr 
+#' @param file [character(1)] \cr 
 #'   Path to file to redirect output into. 	
 #' @param level [character] \cr 
 #'   Which logging levels should be printed: 'error', 'warn', 'info', 'debug'. Default is 'info'.    	

@@ -10,7 +10,7 @@
 #'   Then you have to set the aggregation function for your preferred performance measure to 
 #'   'b632plus' via \code{\link{setAggr}}.
 #' 
-#' @param method [string] \cr
+#' @param method [character(1)] \cr
 #'   'CV' for cross-validation, 'LOO' for leave-one-out, 'StratCV' for stratified cross-validation, 'RepCV' for repeated cross-validation,\cr
 #'   'BS' for out-of-bag bootstrap, 'Subsample' for subsampling, 'Holdout' for holdout.	
 #' @param iters [integer] \cr

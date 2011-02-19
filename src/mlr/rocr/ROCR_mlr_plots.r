@@ -5,14 +5,14 @@ roxygen()
 #' 
 #' @param x [\code{\linkS4class{bench.result}}] \cr
 #'   Benchmark result. Must contain predictions.
-#' @param task.id [string] \cr
+#' @param task.id [character(1)] \cr
 #'   Id of a task from \code{x}. 
 #' @param learner.ids [character] \cr
 #'   Ids of learners to plot. Default are all learners in \code{x} for selected task. 
-#' @param perf1 [string] \cr
+#' @param perf1 [character(1)] \cr
 #'   First ROC measure for y-axis. Note that this must be a ROCR measure, see \code{\link{ROCR.performance}}. 
 #'   Default is "tpr".
-#' @param perf2 [string] \cr
+#' @param perf2 [character(1)] \cr
 #'   Second ROC measure for x-axis. Note that this must be a ROCR measure, see \code{\link{ROCR.performance}}. 
 #'   Default is "fpr".
 #' @param legend.x [any] \cr 

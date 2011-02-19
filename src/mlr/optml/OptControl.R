@@ -5,7 +5,7 @@
 #' Getter.\cr
 #' 
 #' \describe{
-#'  \item{opt.type [string]}{'tune' or 'varsel'.}
+#'  \item{opt.type [character(1)]}{'tune' or 'varsel'.}
 #' }
 #' 
 #' @exportClass OptControl

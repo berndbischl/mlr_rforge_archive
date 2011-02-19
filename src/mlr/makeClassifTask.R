@@ -10,11 +10,11 @@ roxygen()
 #' of \code{makeClassifTask}.
 #' The target variable is converted to a factor if it is a logical, integer or character vector. 
 #' 
-#' @param id [string]\cr 
+#' @param id [character(1)]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. Default is the name of R variable passed to \code{data}.  
 #' @param data [data.frame] \cr   
 #'   A data frame containing the input and target variables for modeling.
-#' @param target [string] \cr
+#' @param target [character(1)] \cr
 #'   Name of the target variable.
 #' @param exclude [character]
 #'   Names of inputs, which should be discarded, e.g. IDs, etc. Default is zero-length vector. 
@@ -28,7 +28,7 @@ roxygen()
 #'   An optional matrix of misclassification costs to be used in the fitting process. 
 #'   If the used classifier can handle cost matrices it is passed down to its train function, otherwise it is ignored.
 #'   Rows indicate true classes, columns predicted classes.
-#' @param positive [string] \cr   
+#' @param positive [character(1)] \cr   
 #'   Positive class for binary classification. Default is the first factor level of the target attribute. 
 #' 
 #' 

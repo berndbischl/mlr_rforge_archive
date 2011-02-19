@@ -113,7 +113,7 @@ setMethod(
 #'   If not, a single data.frame including the target is returned, otherwise a list 
 #'   with the input data.frame and and an extra vector for the targets.
 #'   Default is FALSE. 
-#' @param class.as [string] \cr
+#' @param class.as [character(1)] \cr
 #'   Should target classes be recoded? Only for binary classification.
 #'   Possible are "factor" (do nothing), "01", and "-1+1". 
 #'   Default is "factor".
