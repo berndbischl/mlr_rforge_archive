@@ -101,6 +101,7 @@ prep.data = function(is.classif, data, target, control) {
 	ints.as = control@ints.as
 	chars.as = control@chars.as
   logs.as = control@logs.as
+  POSIXcts.as = control@POSIXcts.as
   drop.class.levels = control@drop.class.levels
 	impute.inf = control@impute.inf
 	impute.large = control@impute.large
