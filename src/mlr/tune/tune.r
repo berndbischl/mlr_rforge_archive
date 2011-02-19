@@ -45,6 +45,9 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun)
     measures = list(measures)   
   if (length(par.set@pars) == 0)
     stop("No parameters were passed!")
+  x = setdiff(names(par.set@pars), names(getParameterSet(learner)@pars))
+  if (length(x) > 0)
+    stop("Can only tune parameters for which learner parameters exist: ", paste(x, collapse=","))
   if (missing(log.fun))
     log.fun = log.fun.tune
   
