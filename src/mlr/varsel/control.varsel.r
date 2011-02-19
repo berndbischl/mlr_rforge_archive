@@ -4,7 +4,13 @@ roxygen()
 #' Abstract base class for control objects for variable selection. 
 #' Cannot be instantiated.
 #' 
-#' Subclasses: \code{\link{sequential.control}}, \code{\link{randomvarsel.control}}
+#' \describe{
+#'   \item{exhvarsel.control}{Exhaustive search. All feature sets (up to a certain size) are searched.}
+#'   \item{randomvarsel.control}{Random search. Features vectors are randomly drawn.}
+#'   \item{sequential.control}{Deterministic forward or backward search.}
+#' }
+#' 
+#' Subclasses: \code{\link{exhvarsel.control}}, \code{\link{randomvarsel.control}}, \code{\link{sequential.control}} 
 #' 
 #' @exportClass varsel.control
 #' @title Base class for control objects for variable selection.

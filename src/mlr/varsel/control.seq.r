@@ -31,6 +31,21 @@ setMethod(
 
 #' Control structure for sequential variable selection. 
 #' 
+#' sfs:\cr 
+#' Sequential forward search. Starts from the bit vector with all 0s. In each iteration all bit vectors with one
+#' more bit switched on are evaluated and the best one is selected. Stops when no signifanct improvement is made
+#' or too many bits have been selected.\cr     
+#' sbs:\cr 
+#' Sequential backward search. Starts from the bit vector with all 1s. In each iteration all bit vectors with one
+#' less bit switched on are evaluated and the best one is selected. Stops when no signifanct improvement is made
+#' and enough bits have been swichted off.\cr     
+#' sffs:\cr 
+#' Sequential floating forward search. Same as sfs, but after each forward step one removal step is allowed. 
+#' Stops when two subsequent steps failed.\cr   
+#' sfbs:\cr 
+#' Sequential floating forward search. Same as sbs, but after each backward step one forward step is allowed. 
+#' Stops when two subsequent steps failed.\cr   
+#'   
 #' @param path [boolean]\cr
 #'   Should optimization path be saved? Default is TRUE.
 #' @param same.resampling.instance [logical(1)] \cr
@@ -38,8 +53,7 @@ setMethod(
 #' @param max.vars [integer] \cr 
 #'   Maximal number of allowed variables in the final set. Default is max. integer.
 #' @param method [\code{\link{character}}] \cr
-#'   Search method. Currently supported are sequential forward search "sfs", sequential backward search "sbs", 
-#'   sequential floating forward search "sffs", sequential floating backward search "sfbs". Default is "sfs".    
+#'   Search method. 'sfs', 'sbs', 'sffs' or 'sfbs', see details. Default is "sfs".    
 #' @param alpha [numeric] \cr 
 #'   sfs, sffs: In a forward step, minimal improvement of performance measure. Can be negative.        
 #' @param beta [numeric] \cr 
