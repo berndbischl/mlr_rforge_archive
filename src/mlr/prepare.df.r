@@ -84,11 +84,11 @@ prepare.control = function(
   drop.class.levels = TRUE,
   impute.inf = .Machine$double.xmax, impute.large = .Machine$double.xmax, large = Inf) {
   
-  match.arg(ints.as)
-  match.arg(chars.as)
-  match.arg(logs.as)
-  match.arg(Dates.as)
-  match.arg(POSIXcts.as)
+  ints.as = match.arg(ints.as)
+  chars.as = match.arg(chars.as)
+  logs.as = match.arg(logs.as)
+  Dates.as = match.arg(Dates.as)
+  POSIXcts.as = match.arg(POSIXcts.as)
   check.arg(Dates.origin, "Date")
   check.arg(POSIXcts.origin, "POSIXct")
   new("prepare.control", ints.as, chars.as, logs.as, Dates.as, Dates.origin, POSIXcts.as, POSIXcts.origin, 
