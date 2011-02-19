@@ -111,6 +111,16 @@ setMethod(
 		}
 )	
 
+#' @rdname getParameterSet
+setMethod(
+  f = "getParameterSet",
+  signature = signature(learner="BaseWrapper"), 
+  def = function(learner) {
+    c(learner@par.set, getParameterSet(learner@learner))
+  } 
+)
+
+
 #' @rdname setHyperPars 
 setMethod(
 	f = "setHyperPars",
