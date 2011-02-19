@@ -93,6 +93,7 @@ bench.exp <- function(learners, tasks, resamplings, measures, models=FALSE, same
     names(ors[[j]]) = learner.names
   }
   names(tds) = task.names
+  names(learners) = learner.names
   names(resamplings) = task.names
   names(rrs) = task.names
   names(ors) = task.names

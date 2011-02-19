@@ -22,9 +22,6 @@
 #' resampling iterations. You can reduce these lists by using the optional arguments 'task' and 'learner'. 
 #' 
 #' \describe{
-#'   \item{learner.ids [character]}{IDs of learners used in experiment.}
-#'   \item{task.ids [character]}{IDs of tasks used in experiment.}
-#'   \item{measure.ids [character]}{IDs of measures recorded in experiment.}
 #' 	 \item{iters [numeric]}{Named numerical vector which lists the number of iterations for every task. Names are IDs of task.}
 #'   \item{aggrs [see above] }{List of list of aggregated performance vectors for every task/learner. }
 #'   \item{conf.mats [see above] }{List of list of confusion matrices for every task/learner. }
@@ -59,17 +56,6 @@ setMethod(
 		f = "[",
 		signature = signature("bench.result"),
 		def = function(x,i,j,...,drop) {
-
-			if (i == "learner.ids") {
-				return(sapply(x@learners, function(y) y@id))
-			}
-      if (i == "measure.ids") {
-        return(sapply(x@measures, function(y) y@id))
-      }
-      if (i == "task.ids") {
-        return(names(x@task.descs))
-      }
-			
       if (i == "aggrs"){
         return(rec.lapply(x["res.results"], function(y) y$aggr, depth=2))
       }   
@@ -98,8 +84,8 @@ setMethod(
 		signature = signature("bench.result"),
 		def = function(x) {
       s = ""
-      tt = x["task.ids"]
-      ll = x["learner.ids"]
+      tt = names(x@task.descs)
+      ll = names(x@learners)
       k = length(x@res.results[[1]][[1]]$aggr)
       y = ""
       for (a in tt) {
@@ -122,7 +108,7 @@ setMethod(
 setMethod(
   f = "as.array",
   signature = signature("bench.result"),
-  def = function(x, tasks=x["task.ids"], learners=x["learner.ids"], sets=c("test", "train"), measures=x["measure.ids"], drop=FALSE, ...) {
+  def = function(x, tasks=names(x@task.descs), learners=names(x@learners), sets=c("test", "train"), measures=names(x@measures), drop=FALSE, ...) {
     iters = iters(x)
     if (length(unique(iters)) != 1)
       stop("Resamplings in bench.exp have different numbers of iterations, restrict as.array to a single task!")
@@ -161,10 +147,13 @@ setMethod(
 setGeneric(
   name = "tuned.pars",
   def = function(br, task.id, learner.id, as.data.frame) {
-    if (missing(task.id) && length(br["task.ids"])==1)
-      task.id = br["task.ids"]
-    if (missing(learner.id) && length(br["learner.ids"])==1)
-      learner.id = br["learner.ids"]
+    check.arg(br, "bench.result")
+    tns = names(br@task.descs)
+    lns = names(br@learners)
+    if (missing(task.id) && length(tns)==1)
+      task.id = tns
+    if (missing(learner.id) && length(lns)==1)
+      learner.id = lns
     if (missing(as.data.frame))
       as.data.frame=TRUE
     standardGeneric("tuned.pars")
@@ -176,10 +165,12 @@ setMethod(
   f = "tuned.pars",
   signature = signature(br="bench.result", task.id="character", learner.id="character", as.data.frame="logical"),
   def = function(br, task.id, learner.id, as.data.frame) {
-    if (!(task.id %in% br["task.ids"]))
-      stop("Task id ", task.id, " was not used in bench.result, only: ", paste(br["task.ids"], collapse=","))
-    if (!(learner.id %in% br["learner.ids"]))
-      stop("Learner ", learner.id, " was not used in bench.result, only: ", paste(br["learner.ids"], collapse=","))
+    tns = names(br@task.descs)
+    lns = names(br@learners)    
+    if (!(task.id %in% tns))
+      stop("Task id ", task.id, " was not used in bench.result, only: ", paste(tns, collapse=","))
+    if (!(learner.id %in% lns))
+      stop("Learner ", learner.id, " was not used in bench.result, only: ", paste(lns, collapse=","))
     x = br["opt.results"][[task.id]][[learner.id]]
     if (is.null(x) || x[[1]]["opt.type"] != "tune")
       stop("Learner id ", learner.id, " was not tuned in bench.result!")
@@ -207,10 +198,13 @@ setMethod(
 setGeneric(
   name = "sel.vars",
   def = function(br, task.id, learner.id, as.data.frame) {
-    if (missing(task.id) && length(br["task.ids"])==1)
-      task.id = br["task.ids"]
-    if (missing(learner.id) && length(br["learner.ids"])==1)
-      learner.id = br["learner.ids"]
+    check.arg(br, "bench.result")
+    tns = names(br@task.descs)
+    lns = names(br@learners)
+    if (missing(task.id) && length(tns)==1)
+      task.id = tns  
+    if (missing(learner.id) && length(lns)==1)
+      learner.id = lns
     if (missing(as.data.frame))
       as.data.frame=TRUE
     standardGeneric("sel.vars")
@@ -222,10 +216,12 @@ setMethod(
   f = "sel.vars",
   signature = signature(br="bench.result", task.id="character", learner.id="character", as.data.frame="logical"),
   def = function(br, task.id, learner.id, as.data.frame) {
-    if (!(task.id %in% br["task.ids"]))
-      stop("Task id ", task.id, " was not used in bench.result, only: ", paste(br["task.ids"], collapse=","))
-    if (!(learner.id %in% br["learner.ids"]))
-      stop("Learner ", learner.id, " was not used in bench.result, only: ", paste(br["learner.ids"], collapse=","))
+    tns = names(br@task.descs)
+    lns = names(br@learners)
+    if (!(task.id %in% tns))
+      stop("Task id ", task.id, " was not used in bench.result, only: ", paste(tns, collapse=","))
+    if (!(learner.id %in% lns))
+      stop("Learner ", learner.id, " was not used in bench.result, only: ", paste(lns, collapse=","))
     x = br["opt.results"][[task.id]][[learner.id]]
     if (is.null(x) || x[[1]]["opt.type"] != "varsel")
       stop("Learner id ", learner.id, " was not used for varsel in bench.result!")
