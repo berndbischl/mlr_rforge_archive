@@ -10,15 +10,15 @@ test.ResamplePrediction = function() {
 	p3 = resample("classif.lda", multiclass.task, rin3)$pred       
 	
 	inds = Reduce(c, rin1@test.inds)
-	y = targets(multiclass.task)[inds]
+	y = getTargets(multiclass.task)[inds]
 	checkEquals(p1@df$id, inds)
 	checkEquals(p1@df$truth, y)
   inds = Reduce(c, rin2@test.inds)
-  y = targets(multiclass.task)[inds]
+  y = getTargets(multiclass.task)[inds]
 	checkEquals(p2@df$id, inds)
 	checkEquals(p2@df$truth, y)
   inds = Reduce(c, rin3@test.inds)
-  y = targets(multiclass.task)[inds]
+  y = getTargets(multiclass.task)[inds]
 	checkEquals(p3@df$id, inds)
 	checkEquals(p3@df$truth, y)
 }

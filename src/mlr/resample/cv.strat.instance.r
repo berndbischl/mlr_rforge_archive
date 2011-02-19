@@ -17,7 +17,7 @@ setMethod(
       stop("stratcv always needs to be passed the task, otherwise stratification is impossible!")
     if (!task["is.classif"])
       stop("stratcv is currently only supported for classification!")
-    y = targets(task)
+    y = getTargets(task)
     k = desc@iters
     # CV on every class
     class.inds = lapply(task["class.levels"], function(x) which(x==y))

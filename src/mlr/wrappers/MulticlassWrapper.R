@@ -81,7 +81,7 @@ setMethod(
     tn = .task["target"]
     levs = .task["class.levels"]
     d = .task["data"]
-    y = targets(.task)
+    y = getTargets(.task)
         
     if (is.null(pvs$mcw.custom)) { 
       meth = switch(pvs$mcw.method,

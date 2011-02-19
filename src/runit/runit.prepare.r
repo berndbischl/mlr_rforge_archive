@@ -39,8 +39,8 @@ test.prepare <- function(){
     df = multiclass.df[1:60,]
     ct = makeClassifTask(data=df, target=multiclass.target)	
     checkEquals(length(levels(df[,multiclass.target])), 3)
-    checkEquals(length(unique(targets(ct))), 2)
-    checkEquals(length(levels(targets(ct))), 2)
+    checkEquals(length(unique(getTargets(ct))), 2)
+    checkEquals(length(levels(getTargets(ct))), 2)
     
     # check replacement of special chars in colnames
     mydata = multiclass.df

@@ -8,8 +8,8 @@ test.stratcv.instance = function() {
   for (i in 1:folds) {
     i1 = rin["train.inds"][[i]]
     i2 = rin["test.inds"][[i]]
-    checkTrue(all(as.numeric(table(targets(multiclass.task)[i1])) == 45)) 
-    checkTrue(all(as.numeric(table(targets(multiclass.task)[i2])) == 5)) 
+    checkTrue(all(as.numeric(table(getTargets(multiclass.task)[i1])) == 45)) 
+    checkTrue(all(as.numeric(table(getTargets(multiclass.task)[i2])) == 5)) 
     checkEquals(sort(c(unique(i1), i2)), 1:150)
   }
 }

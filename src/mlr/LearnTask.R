@@ -154,9 +154,9 @@ get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
           task["data"][subset,vars,drop=FALSE],
       target = 
         if (ms)
-          rec.y(targets(task))
+          rec.y(getTargets(task))
         else
-          rec.y(targets(task)[subset])
+          rec.y(getTargets(task)[subset])
     )
   } else {
     d = 
@@ -235,12 +235,12 @@ setMethod(
 #' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'   Learning task.   
 #' @return A factor for classification or a numeric for regression.
-#' @rdname targets
-#' @exportMethod targets
-setGeneric(name = "targets", def = function(task) standardGeneric("targets"))
-#' @rdname targets
+#' @rdname getTargets
+#' @exportMethod getTargets
+setGeneric(name = "getTargets", def = function(task) standardGeneric("getTargets"))
+#' @rdname getTargets
 setMethod(
-  f = "targets",
+  f = "getTargets",
   signature = signature(task="LearnTask"), 
   def = function(task) {
     return(task@dataenv$data[, task@desc@target])
