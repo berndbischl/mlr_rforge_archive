@@ -1,10 +1,10 @@
 #' @include LearnTask.R
 #' @include OptWrapper.R
 
-benchmark_par = function(ind, learners, tasks, resampling, measures, conf.mat, models) {
+benchmark_par = function(ind, learners, tasks, resamplings, measures, conf.mat, models) {
 	i = ind[1]
 	j = ind[2]
-  .mlr.benchmark(learners[[i]], tasks[[j]], resampling, measures, conf.mat, models)
+  .mlr.benchmark(learners[[i]], tasks[[j]], resamplings[[j]], measures, conf.mat, models)
 }
 
 

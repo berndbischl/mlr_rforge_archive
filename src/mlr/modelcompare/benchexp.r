@@ -6,7 +6,7 @@
 #'   Defines the learning algorithms which should be compared.
 #' @param tasks [\code{\link{LearnTask}} | list of the previous] \cr
 #'   Defines the tasks.
-#' @param resampling [resampling desc | resampling instance | list of the previous two] \cr
+#' @param resamplings [resampling desc | resampling instance | list of the previous two] \cr
 #'   Defines the resampling strategies for the tasks.
 #' @param measures [see \code{\link{measures}}]
 #'   Performance measures.
@@ -25,7 +25,7 @@
 #' @title Benchmark experiment for multiple learners and tasks.
 
 
-bench.exp <- function(learners, tasks, resampling, measures, models=FALSE, same.resampling.instance=TRUE)  {
+bench.exp <- function(learners, tasks, resamplings, measures, models=FALSE, same.resampling.instance=TRUE)  {
   
   if (!is.list(learners) && length(learners) == 1) {
     learners = list(learners)
@@ -65,12 +65,11 @@ bench.exp <- function(learners, tasks, resampling, measures, models=FALSE, same.
   
   learner.names = character()
   task.names = sapply(tasks, function(x) x@desc@id)   
-  resamplings = list()
   tds = ins = rrs = ors = list()
   
   inds = as.matrix(expand.grid(1:length(learners), 1:length(tasks)))
   inds = lapply(1:nrow(inds), function(i) inds[i,])
-  results = mylapply(inds, benchmark_par, from="bench", learners=learners, tasks=tasks, resampling=resampling,
+  results = mylapply(inds, benchmark_par, from="bench", learners=learners, tasks=tasks, resamplings=resamplings,
     measures=measures, models=models)
   
   counter = 1
