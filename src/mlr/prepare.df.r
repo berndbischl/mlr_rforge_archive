@@ -45,11 +45,11 @@ setMethod(
 #' Control structure for basic data preparation.
 #'
 #' @param ints.as [string]\cr
-#'   Should integer features be converted to either "double" or "factor". Default is "double".
+#'   Should integer features be converted to either "numeric" or "factor". Default is "numeric".
 #' @param chars.as [string]\cr
 #'   Conversion of character features. Currently only "factor" is supported.
 #' @param logs.as [string]\cr
-#'   Should logical features be converted to either "double" or "factor". Default is "factor".
+#'   Should logical features be converted to either "numeric" or "factor". Default is "factor".
 #' @param Dates.as [string]\cr
 #'   Conversion of Date features. Currently only "numeric" is supported, which converts to days since \code{Dates.origin}. 
 #' @param Dates.origin [string]\cr
@@ -74,9 +74,9 @@ setMethod(
 
 
 prepare.control = function(
-  ints.as = c("double", "factor"), 
+  ints.as = c("numeric", "factor"), 
   chars.as = c("factor"), 
-  logs.as = c("factor", "double"), 
+  logs.as = c("factor", "numeric"), 
   Dates.as = c("numeric"),
   Dates.origin = as.Date("1970-01-01"),
   POSIXcts.as = c("seconds", "minutes", "hours", "days"), 
@@ -177,7 +177,7 @@ prep.data = function(is.classif, data, target, control) {
     cn = cns[i]
     v = data[, i]
     if (cn  != target) {
-      if (is.numeric(v)) {
+      if (is.double(v)) {
         # numeric
         # infs 
         j = is.infinite(v)
@@ -188,7 +188,7 @@ prep.data = function(is.classif, data, target, control) {
         }
       } else if (is.integer(v)) {
         # integer
-        if (ints.as == "double") {
+        if (ints.as == "numeric") {
           conv.in = c(conv.in, cn)
           data[,i] = as.numeric(v)
         } else if (ints.as == "factor") {
@@ -203,7 +203,7 @@ prep.data = function(is.classif, data, target, control) {
         } 
       } else if (is.logical(v)) {
         # logical 
-        if (logs.as == "double") {
+        if (logs.as == "numeric") {
           conv.ln = c(conv.ln, cn)
           data[,i] = as.numeric(v)
         } else if (logs.as == "factor") {
@@ -241,11 +241,11 @@ prep.data = function(is.classif, data, target, control) {
   }
   if (.mlr.local$errorhandler.setup$on.convert.var == "warn") {
     if (length(conv.in) > 0)
-      warning("Converting integer variable to double: ", paste(conv.in, collapse=","))
+      warning("Converting integer variable to numeric: ", paste(conv.in, collapse=","))
     if (length(conv.if) > 0)
       warning("Converting integer variable to factor: ", paste(conv.if, collapse=","))
     if (length(conv.ln) > 0)
-      warning("Converting logical variable to double: ", paste(conv.ln, collapse=","))
+      warning("Converting logical variable to numeric: ", paste(conv.ln, collapse=","))
     if (length(conv.lf) > 0)
       warning("Converting logical variable to factor: ", paste(conv.lf, collapse=","))
     if (length(conv.cf) > 0)

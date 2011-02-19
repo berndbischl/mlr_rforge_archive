@@ -40,6 +40,11 @@ test.benchexp <- function() {
     }
   )
 	be = bench.exp(learners, multiclass.task, resampling=outer, measures=list(acc, time.all, foo))
+  # check that same resample instance was used for both learners
+  checkEquals(
+    be@res.results[[1]][[1]]$pred@df$id, 
+    be@res.results[[1]][[2]]$pred@df$id 
+  )  
 	print(be)
   a = as.array(be)
 	checkEquals(dim(a), c(outer@iters, 2, length(learners), 3, 1))	
