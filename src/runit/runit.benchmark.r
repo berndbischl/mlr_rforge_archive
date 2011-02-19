@@ -15,11 +15,10 @@ test.benchmark <- function() {
 		bm = .mlr.benchmark(wl, ct, outer, models=TRUE)
 		checkTrue(is.list(bm$ors))
 		checkEquals(length(bm$ors), 1)
-    checkTrue(is.list(bm$ors[[1]]@opt$x))
-    checkEquals(names(bm$ors[[1]]@opt$x), "minsplit")
-    checkEquals(names(bm$ors[[1]]@opt$perf), c("mmce.test.mean", "mmce.test.sd"))
-		checkTrue(is.list(bm$ors[[1]]@path))
-		checkTrue(length(bm$ors[[1]]@path) == length(ranges$minsplit))
+    checkTrue(is.list(bm$ors[[1]]@x))
+    checkEquals(names(bm$ors[[1]]@x), "minsplit")
+    checkEquals(names(bm$ors[[1]]@y), c("mmce.test.mean", "mmce.test.sd"))
+		checkTrue(length(as.list(bm$ors[[1]]@path)) == length(ps1@pars[["minsplit"]]@constraints$vals))
 		checkTrue(is.list(bm$res.result))
 		checkEquals(length(bm$res.result$models), 1)
 		checkTrue(is(bm$res.result$models[[1]], "WrappedModel"))
@@ -29,8 +28,11 @@ test.benchmark <- function() {
     checkTrue(is.null(bm$res.result$models))
 
     # normal benchmark - 2 par
-		ranges <- list(minsplit=seq(3,10,2), cp=c(0.1, 0.11 , 0.09))
-		wl = makeTuneWrapper("classif.rpart", resampling=inner, control=grid.control(ranges=ranges))
+    ps2 = makeParameterSet(
+      makeDiscreteParameter("minsplit", vals=seq(3,10,2)),
+      makeDiscreteParameter("cp", vals=c(0.1, 0.11 , 0.09))
+    ) 
+		wl = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps2, control=grid.control())
 		cbr = .mlr.benchmark(wl, ct, outer, models=FALSE)
 	}
 }
