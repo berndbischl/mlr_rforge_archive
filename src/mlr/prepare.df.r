@@ -7,6 +7,10 @@ setClass(
 				ints.as = "character",
 				chars.as = "character",
         logs.as = "character",
+        Dates.as = "character",
+        Dates.origin = "Date",
+        POSIXcts.as = "character",
+        POSIXcts.origin = "POSIXct",
         drop.class.levels = "logical",
 				impute.inf = "numeric",
 				impute.large = "numeric",
@@ -19,10 +23,16 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("prepare.control"),
-		def = function(.Object, ints.as, chars.as, logs.as, drop.class.levels, impute.inf, impute.large, large) {
-			.Object@ints.as = ints.as
+		def = function(.Object, ints.as, chars.as, logs.as, Dates.as, Dates.origin, POSIXcts.as, POSIXcts.origin,   
+      drop.class.levels, impute.inf, impute.large, large) {
+			
+      .Object@ints.as = ints.as
 			.Object@chars.as = chars.as
       .Object@logs.as = logs.as
+      .Object@Dates.as = Dates.as
+      .Object@Dates.origin = Dates.origin
+      .Object@POSIXcts.as = POSIXcts.as
+      .Object@POSIXcts.origin = POSIXcts.origin
       .Object@drop.class.levels = drop.class.levels
 			.Object@impute.inf = impute.inf
 			.Object@impute.large = impute.large
@@ -35,11 +45,19 @@ setMethod(
 #' Control structure for basic data preparation.
 #'
 #' @param ints.as [string]\cr
-#'   Should integer input variables be converted to either "double" or "factor". Default is "double".
+#'   Should integer features be converted to either "double" or "factor". Default is "double".
 #' @param chars.as [string]\cr
-#'   Conversion of character input variables. Currently only "factor" is supported.
+#'   Conversion of character features. Currently only "factor" is supported.
 #' @param logs.as [string]\cr
-#'   Should logical input variables be converted to either "double" or "factor". Default is "factor".
+#'   Should logical features be converted to either "double" or "factor". Default is "factor".
+#' @param Dates.as [string]\cr
+#'   Conversion of Date features. Currently only "numeric" is supported, which converts to days since \code{Dates.origin}. 
+#' @param Dates.origin [string]\cr
+#'   Reference point for \code{Dates.as}. Default is \code{as.Date("1970-01-01")}.
+#' @param POSIXcts.as [string]\cr
+#'   Should POSIXct features be converted to either "seconds", "minutes", "hours", "days". Default is "seconds" since \code{Dates.origin}.
+#' @param POSIXcts.origin [string]\cr
+#'   Reference point for \code{POSIXcts.as}. Default is \code{as.POSIXct("1970-01-01 01:00")}.
 #' @param drop.class.levels [boolean]\cr
 #'   Should empty class levels be dropped? Default is TRUE.
 #' @param impute.inf [numeric]\cr
@@ -59,13 +77,22 @@ prepare.control = function(
   ints.as = c("double", "factor"), 
   chars.as = c("factor"), 
   logs.as = c("factor", "double"), 
+  Dates.as = c("numeric"),
+  Dates.origin = as.Date("1970-01-01"),
+  POSIXcts.as = c("seconds", "minutes", "hours", "days"), 
+  POSIXcts.origin = as.POSIXct("1970-01-01 01:00"),
   drop.class.levels = TRUE,
   impute.inf = .Machine$double.xmax, impute.large = .Machine$double.xmax, large = Inf) {
   
   match.arg(ints.as)
   match.arg(chars.as)
   match.arg(logs.as)
-  new("prepare.control", ints.as, chars.as, logs.as, drop.class.levels, impute.inf, impute.large, large)
+  match.arg(Dates.as)
+  match.arg(POSIXcts.as)
+  check.arg(Dates.origin, "Date")
+  check.arg(POSIXcts.origin, "POSIXct")
+  new("prepare.control", ints.as, chars.as, logs.as, Dates.as, Dates.origin, POSIXcts.as, POSIXcts.origin, 
+    drop.class.levels, impute.inf, impute.large, large)
 }
 
 
@@ -145,47 +172,62 @@ prep.data = function(is.classif, data, target, control) {
   
   
 	cns = colnames(data)
-  conv.in = conv.if = conv.ln = conv.lf = conv.cf = conv.inf  = conv.large = character(0) 
-	for (i in 1:ncol(data)) {
-		cn = cns[i]
-		v = data[, i]
-		if (cn  != target) {
-      if (is.integer(v)) {
-        if (ints.as == "double") {
-          conv.in = c(conv.in, cn)
-          data[,i] = as.numeric(v)
-        } else if (ints.as == "factor") {
-          conv.if = c(conv.if, cn)
-          data[,i] = as.factor(v)
-        } else 
-          stop("Integer inputs must be converted!")
-      }
-      if (is.character(v)) {
-        if (chars.as == "factor") {
-          conv.cf = c(conv.cf, cn)
-          data[,i] = as.factor(v)
-        } else 
-          stop("Character inputs must be converted!")
-      }
-      if (is.logical(v)) {
-        if (logs.as == "double") {
-          conv.ln = c(conv.ln, cn)
-          data[,i] = as.numeric(v)
-        } else if (logs.as == "factor") {
-          conv.lf = c(conv.lf, cn)
-          data[,i] = as.factor(v)
-        } else 
-          stop("Logical inputs must be converted!")
-      }
-      # infs
-			if (is.numeric(v)) {
+  conv.in=conv.if=conv.ln=conv.lf=conv.cf=conv.dn=conv.posix=conv.inf=conv.large=character(0) 
+  for (i in 1:ncol(data)) {
+    cn = cns[i]
+    v = data[, i]
+    if (cn  != target) {
+      if (is.numeric(v)) {
+        # numeric
+        # infs 
         j = is.infinite(v)
         if (any(j)) {
           conv.inf = c(conv.inf, cn)
           v[j] = sign(v[j]) * impute.inf  
           data[,i] = v
         }
-			}
+      } else if (is.integer(v)) {
+        # integer
+        if (ints.as == "double") {
+          conv.in = c(conv.in, cn)
+          data[,i] = as.numeric(v)
+        } else if (ints.as == "factor") {
+          conv.if = c(conv.if, cn)
+          data[,i] = as.factor(v)
+        } 
+      } else if (is.character(v)) {
+        # character
+        if (chars.as == "factor") {
+          conv.cf = c(conv.cf, cn)
+          data[,i] = as.factor(v)
+        } 
+      } else if (is.logical(v)) {
+        # logical 
+        if (logs.as == "double") {
+          conv.ln = c(conv.ln, cn)
+          data[,i] = as.numeric(v)
+        } else if (logs.as == "factor") {
+          conv.lf = c(conv.lf, cn)
+          data[,i] = as.factor(v)
+        } 
+      } else if (is(v, "Date")) {
+        # Date
+        if (date.as == "numeric") {
+          conv.dn = c(conv.dn, cn)
+          data[,i] = as.numeric(v) - as.numeric(Dates.origin)
+        } 
+      } else if (is(v, "POSIXct")) {
+        # POSIXct
+        conv.posix = c(conv.posix, cn)
+        data[,i] = (as.numeric(v) - as.numeric(POSIXcts.origin)) / 
+          c(seconds=1, minutes=60, hours=3600, days=3600*24)[POSIXcts.as]
+      } else if (is(v, "factor")) {
+        #factor
+        # do nothing, we are ok
+      } else {
+        stop("Encountered unsupported feature: ", cn, " ", as.character(class(v))[1])        
+      }
+      
       # large
       if (is.numeric(v)) {
         j = !is.na(v) & abs(v) > large 
@@ -196,7 +238,7 @@ prep.data = function(is.classif, data, target, control) {
         }
       }
     }
-	}
+  }
   if (.mlr.local$errorhandler.setup$on.convert.var == "warn") {
     if (length(conv.in) > 0)
       warning("Converting integer variable to double: ", paste(conv.in, collapse=","))
@@ -208,6 +250,10 @@ prep.data = function(is.classif, data, target, control) {
       warning("Converting logical variable to factor: ", paste(conv.lf, collapse=","))
     if (length(conv.cf) > 0)
       warning("Converting char variable to factor: ", paste(conv.cf, collapse=","))
+    if (length(conv.cf) > 0)
+      warning("Converting Date variable to numeric days: ", paste(conv.dn, collapse=","))
+    if (length(conv.cf) > 0)
+      warning("Converting POSIXct to ", POSIXcts.as, ":", paste(conv.posix, collapse=","))
     if (length(conv.inf) > 0)
       warning("Converting inf values to +-", impute.inf, ": ", paste(conv.inf, collapse=","))
     if (length(conv.large) > 0)
