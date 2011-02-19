@@ -101,7 +101,6 @@ prep.data = function(is.classif, data, target, control) {
 	ints.as = control@ints.as
 	chars.as = control@chars.as
   logs.as = control@logs.as
-  POSIXcts.as = control@POSIXcts.as
   drop.class.levels = control@drop.class.levels
 	impute.inf = control@impute.inf
 	impute.large = control@impute.large
@@ -213,15 +212,15 @@ prep.data = function(is.classif, data, target, control) {
         } 
       } else if (is(v, "Date")) {
         # Date
-        if (date.as == "numeric") {
+        if (control@Dates.as == "numeric") {
           conv.dn = c(conv.dn, cn)
-          data[,i] = as.numeric(v) - as.numeric(Dates.origin)
+          data[,i] = as.numeric(v) - as.numeric(control@Dates.origin)
         } 
       } else if (is(v, "POSIXct")) {
         # POSIXct
         conv.posix = c(conv.posix, cn)
-        data[,i] = (as.numeric(v) - as.numeric(POSIXcts.origin)) / 
-          c(seconds=1, minutes=60, hours=3600, days=3600*24)[POSIXcts.as]
+        data[,i] = (as.numeric(v) - as.numeric(control@POSIXcts.origin)) / 
+          c(seconds=1, minutes=60, hours=3600, days=3600*24)[control@POSIXcts.as]
       } else if (is(v, "factor")) {
         #factor
         # do nothing, we are ok
@@ -251,10 +250,10 @@ prep.data = function(is.classif, data, target, control) {
       warning("Converting logical variable to factor: ", paste(conv.lf, collapse=","))
     if (length(conv.cf) > 0)
       warning("Converting char variable to factor: ", paste(conv.cf, collapse=","))
-    if (length(conv.cf) > 0)
+    if (length(conv.dn) > 0)
       warning("Converting Date variable to numeric days: ", paste(conv.dn, collapse=","))
-    if (length(conv.cf) > 0)
-      warning("Converting POSIXct to ", POSIXcts.as, ":", paste(conv.posix, collapse=","))
+    if (length(conv.posix) > 0)
+      warning("Converting POSIXct to ", control@POSIXcts.as, ":", paste(conv.posix, collapse=","))
     if (length(conv.inf) > 0)
       warning("Converting inf values to +-", impute.inf, ": ", paste(conv.inf, collapse=","))
     if (length(conv.large) > 0)
