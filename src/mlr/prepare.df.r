@@ -80,7 +80,7 @@ prepare.control = function(
   Dates.as = c("numeric"),
   Dates.origin = as.Date("1970-01-01"),
   POSIXcts.as = c("seconds", "minutes", "hours", "days"), 
-  POSIXcts.origin = as.POSIXct("1970-01-01 01:00"),
+  POSIXcts.origin = as.POSIXct("1970-01-01 00:00"),
   drop.class.levels = TRUE,
   impute.inf = .Machine$double.xmax, impute.large = .Machine$double.xmax, large = Inf) {
   
@@ -177,7 +177,7 @@ prep.data = function(is.classif, data, target, control) {
     cn = cns[i]
     v = data[, i]
     if (cn  != target) {
-      if (is.double(v)) {
+      if (length(class(v)) == 1 && class(v) == "numeric") {
         # numeric
         # infs 
         j = is.infinite(v)
@@ -258,8 +258,7 @@ prep.data = function(is.classif, data, target, control) {
       warning("Converting inf values to +-", impute.inf, ": ", paste(conv.inf, collapse=","))
     if (length(conv.large) > 0)
       warning("Converting large values to +-", impute.large, ": ", paste(conv.large, collapse=","))
-  }  
-  
+  }   
 	return(data)    
 }
 
