@@ -50,7 +50,7 @@ measures = function() {}
 #general
 #' @export nvars
 #' @rdname measures
-vnvars = makeMeasure(id="nvars", minimize=TRUE,  
+nvars = makeMeasure(id="nvars", minimize=TRUE,  
   fun=function(task, model, pred, extra.pars) {
     length(model["vars"])          
   }
