@@ -123,7 +123,7 @@ makeLogicalParameter = function(id) {
 #'   Name of parameter.
 #' @param vals [named list] \cr
 #'   Possible values.
-#' @return  \code\linkS4class{Parameter}}
+#' @return  \code{\linkS4class{Parameter}}
 #' @export 
 makeDiscreteParameter = function(id, vals) {
   if (is.vector(vals))
