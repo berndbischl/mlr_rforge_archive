@@ -13,7 +13,7 @@
 #'   Learning task.
 #' @param resampling [\code{\linkS4class{ResampleDesc}} or \code{\linkS4class{ResampleInstance}}] \cr
 #'   Resampling strategy. If a description is passed, it is instantiated automatically.
-#' @param measures [\code{\linkS4class{measure}} | list of \code{\linkS4class{measure}}] \cr
+#' @param measures [\code{\linkS4class{Measure}} | list of \code{\linkS4class{Measure}}] \cr
 #'   Performance measures to evaluate. See \code{\link{measures}}.
 #' @param models [logical(1)] \cr 
 #'   Should all fitted models be returned? Default is \code{FALSE}. 

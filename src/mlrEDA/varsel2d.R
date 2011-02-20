@@ -12,7 +12,7 @@
 #'   Resampling strategy to evaluate feature sets. If you pass a description, 
 #'   it is instantiated once at the beginning by default, so all feature sets are evaluated on the same training/test sets.
 #'   If you want to change that behaviour, look at the control object.  
-#' @param measures [list of \code{\linkS4class{measure}}]\cr
+#' @param measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during selection, others are simply evaluated.  
 #' @param control [\code{\link{sequential.control}}]
 #'   Control object for forward search. Its parameter \code{method} must be set to 'sfs'.  

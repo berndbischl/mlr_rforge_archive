@@ -15,7 +15,7 @@ roxygen()
 #' @param mean.costs [single logical] \cr
 #'   Should costs be averaged (TRUE) or summed (FALSE) over all cases in one test set prediction? Default is TRUE.
 #' 
-#' @return \code{\linkS4class{measure}} 
+#' @return \code{\linkS4class{Measure}} 
 #' 
 #' @exportMethod makeCostMeasure
 #' @rdname makeCostMeasure

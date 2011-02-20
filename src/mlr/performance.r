@@ -7,7 +7,7 @@ roxygen()
 #' 
 #' @param pred [\code{\linkS4class{Prediction}}] \cr
 #'   Prediction object to evaluate.
-#' @param measure [\code{\linkS4class{measure}}]
+#' @param measure [\code{\linkS4class{Measure}}]
 #'   Performance measure. 
 #' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'   Learning task, might be requested by performance measure, usually not needed.

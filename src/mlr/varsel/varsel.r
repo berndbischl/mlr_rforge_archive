@@ -18,7 +18,7 @@
 #'   If you want to change that behaviour, look at the control object.  
 #' @param control [see \code{\link{varsel.control}}]
 #'   Control object for search method. Also selects the optimization algorithm for feature selection. 
-#' @param measures [list of \code{\linkS4class{measure}}]\cr
+#' @param measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during selection, others are simply evaluated.  
 #' @param bit.names [character]\cr
 #'   Names of bits encoding the solutions. Also defines the total number of bits in the encoding.

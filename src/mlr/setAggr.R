@@ -3,12 +3,12 @@
 #' Possible are: test.mean, test.sd, test.median, test.min, test.max
 #' They all calculate the respective statistic of the test set performances. 
 #' 
-#' @param measure [\code{\linkS4class{measure}}]\cr 
+#' @param measure [\code{\linkS4class{Measure}}]\cr 
 #'        Performance measure.   
 #' @param aggrs [list of \code{\linkS4class{aggr}}] \cr
 #'        Aggregation functions.
 #'        
-#' @return \code{\linkS4class{measure}} with changed aggregation behaviour.
+#' @return \code{\linkS4class{Measure}} with changed aggregation behaviour.
 #' @exportMethod setAggr
 #' @title Set aggregation functions of measure. 
 #' @rdname setAggr 

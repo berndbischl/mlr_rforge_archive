@@ -4,7 +4,7 @@
 #' 
 #' @param pred [\code{\linkS4class{Prediction}}] \cr
 #'   Prediction object to use for tuning the treshold.
-#' @param measure [\code{\linkS4class{measure}}]\cr
+#' @param measure [\code{\linkS4class{Measure}}]\cr
 #'   Performance measure to optimize. 
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task. Rarely neeeded, only when required for the performance measure. 

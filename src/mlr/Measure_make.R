@@ -13,7 +13,7 @@
 #' @param extra.pars [list] \cr
 #'   List of extra arguments which will always be passed to fun.   	  
 #' 
-#' @return \code{\linkS4class{measure}} 
+#' @return \code{\linkS4class{Measure}} 
 #' 
 #' @exportMethod makeMeasure
 #' @rdname makeMeasure
