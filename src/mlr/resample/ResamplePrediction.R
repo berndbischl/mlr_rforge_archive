@@ -63,19 +63,6 @@ setMethod(
 		}
 )
 
-#' Getter
-#'
-#'
-#' @rdname ResamplePrediction-class
-setMethod(
-		f = "[",
-		signature = signature("ResamplePrediction"),
-		def = function(x,i,j,...,drop) {
-			if (i == "iters")
-				return(x@instance@desc@iters)
-			callNextMethod()
-		}
-)
 
 #' Converts object to a list of a \code{\linkS4class{Prediction}} objects - one for each iteration.
 #' @rdname ResamplePrediction-class
