@@ -73,7 +73,7 @@ setGeneric(
 )
 
 
-#' @export
+#' @rdname makeClassifTask
 setMethod(
   f = "makeClassifTask",
   

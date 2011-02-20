@@ -59,8 +59,7 @@ setGeneric(
   }
 )
 
-
-#' @export
+#' @rdname makeRegrTask
 setMethod(
   f = "makeRegrTask",
   
