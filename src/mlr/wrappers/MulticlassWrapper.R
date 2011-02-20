@@ -35,13 +35,12 @@ setMethod(
 #'
 #' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
-#' @param method [string | function] \cr
+#' @param mcw.method [character(1) | function] \cr
 #'   "onevsone" or "onevsrest". Default is "onevsrest".
-#'   You can also pass a function, with signature \code{function(task)}
+#'   You can also pass a function, with signature \code{function(task)} and which
 #'   returns a ECOC codematrix with entries +1,-1,0. 
-#'   Columns define new binary problems, rows correspond to classes 
-#'   (rows must be named). 0 means class is not included in binary problem.   
-#' 
+#'   Columns define new binary problems, rows correspond to classes (rows must be named). 
+#'   0 means class is not included in binary problem.   
 #' @return \code{\linkS4class{Learner}}.
 #' 
 #' @title Fuse learner with multiclass method.

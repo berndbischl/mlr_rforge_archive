@@ -121,7 +121,8 @@ allowed.rd.files <<- c(
 		"varsel.control-class.Rd",
 		"sequential.control.Rd",
 		"randomvarsel.control.Rd",
-		"varsel.Rd",
+    "exhvarsel.control.Rd",
+    "varsel.Rd",
     "varfilter.Rd",
 		
 		

@@ -9,10 +9,12 @@
 #'   Learning algorithm.   
 #' @param resampling [\code{\linkS4class{ResampleInstance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
 #'   Resampling strategy to evaluate points in hyperparameter space.
-#' @param control [\code{\linkS4class{tune.control}}] \cr
-#'   Control object for search method. Also selects the optimization algorithm for tuning.   
 #' @param measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
+#' @param control [\code{\linkS4class{tune.control}}] \cr
+#'   Control object for search method. Also selects the optimization algorithm for tuning.   
+#' @param par.set [\code{\linkS4class{ParameterSet}}] \cr
+#'   Collection of parameters and their constraints for optimization.   
 #' @param log.fun [function()]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
 #' 
