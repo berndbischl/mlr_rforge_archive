@@ -37,7 +37,7 @@ setGeneric(
   }
 )
 
-
+#' @rdname makeCostMeasure
 setMethod(
   f = "makeCostMeasure",
   signature = signature(id="character", minimize="logical", costs="matrix", task="ClassifTask"),

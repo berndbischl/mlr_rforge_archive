@@ -51,6 +51,7 @@ makeProbthWrapper = function(learner, classes) {
   setPredictType(w, "response")
 }
 
+#' @rdname predictLearner
 setMethod(
   f = "predictLearner",
   signature = signature(
