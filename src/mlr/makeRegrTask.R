@@ -27,7 +27,7 @@ roxygen()
 #' 
 #' @return \code{\linkS4class{LearnTask}}.
 #' 
-#' @export
+#' @exportMethod makeRegrTask
 #' @rdname makeRegrTask
 #' 
 #' @title Construct learning task.
