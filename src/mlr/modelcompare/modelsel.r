@@ -2,7 +2,7 @@
 #' 
 #' The first measure, aggregated by the first aggregation function is optimized.
 #'
-#' @param learners [string | \code{\linkS4class{learner}} | list of the previous two] \cr
+#' @param learners [string | \code{\linkS4class{Learner}} | list of the previous two] \cr
 #'   	Defines the learning algorithms which should be compared.
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   	Learning task.   

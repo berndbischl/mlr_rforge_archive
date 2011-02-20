@@ -3,7 +3,7 @@ roxygen()
 
 #' Mainly for internal use. Predicts new data with WrappedModel. 
 #' You have to implement this method if you want to add another learner to this package. 
-#' @param .learner [\\code{\\linkS4class{learner}}] \cr  
+#' @param .learner [\\code{\\linkS4class{Learner}}] \cr  
 #'        Wrapped learner from this package. 
 #' @param .model [\code{\link{character}}] \cr
 #' 		  Model produced by training. 

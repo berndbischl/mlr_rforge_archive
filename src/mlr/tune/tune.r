@@ -11,7 +11,7 @@ roxygen()
 #' by passing a corresponding control object. For a complete list of implemented algorithms look at the 
 #' subclasses of [\code{\linkS4class{tune.control}}].
 #'
-#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task.   

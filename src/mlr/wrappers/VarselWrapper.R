@@ -3,7 +3,7 @@
 #' to select an optimal set of variables. Finally, a model is fitted on the complete training data with these variables and returned.    
 #' See \code{\link{varsel}} for more details.
 #' 
-#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
 #' @param resampling [\code{\linkS4class{ResampleInstance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
 #'   Resampling strategy to evaluate points in hyperparameter space.
@@ -20,7 +20,7 @@
 #' @param log.fun [function(learner, task, resampling, measure, par.set, control, opt.path, x, y)]\cr
 #'   Called after every hyperparameter evaluation. Default is to print performance via mlr logger. 
 #' 
-#' @return \code{\linkS4class{learner}}.
+#' @return \code{\linkS4class{Learner}}.
 #' @export
 #' @seealso \code{\link{varsel}}, \code{\link{varsel.control}} 
 #' @title Fuse learner with variable selection.

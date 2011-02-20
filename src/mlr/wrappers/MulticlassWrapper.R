@@ -33,7 +33,7 @@ setMethod(
 #' used like any other learner object. This way learners which can only handle binary classification 
 #' will be able to handle multi-class problems too.
 #'
-#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
 #' @param method [string | function] \cr
 #'   "onevsone" or "onevsrest". Default is "onevsrest".
@@ -42,7 +42,7 @@ setMethod(
 #'   Columns define new binary problems, rows correspond to classes 
 #'   (rows must be named). 0 means class is not included in binary problem.   
 #' 
-#' @return \code{\linkS4class{learner}}.
+#' @return \code{\linkS4class{Learner}}.
 #' 
 #' @title Fuse learner with multiclass method.
 #' @export

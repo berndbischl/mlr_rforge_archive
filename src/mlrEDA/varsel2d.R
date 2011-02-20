@@ -4,7 +4,7 @@
 #' Features are selected by sequential forward search. After a pair is selected, either the 
 #' best feature of the pair or both are removed from the task and the forward search is run again.   
 #'
-#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task.   

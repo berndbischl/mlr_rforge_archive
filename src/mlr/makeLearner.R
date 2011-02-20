@@ -1,6 +1,6 @@
 #' Create learner object.
 #' 
-#' How to change object later on: Look at setters of \code{\linkS4class{learner}}.
+#' How to change object later on: Look at setters of \code{\linkS4class{Learner}}.
 #' 
 #' Tresholds for class labels: If you set \code{predict.type} to "prob" or "decision", the label with the maximum value is selected.
 #' You can change labels of a \code{\linkS4class{Prediction}} object later by using the function \code{\link{setThreshold}} or find optimal, 
@@ -20,7 +20,7 @@
 #'        Optional named (hyper)parameters. Alternatively, you can pass via the "par.vals" argument.
 #' @param par.vals [list] \cr
 #'       Optional list of named (hyper)parameters. Alternatively, you can pass via the ... argument.
-#' @return \code{\linkS4class{learner}}.
+#' @return \code{\linkS4class{Learner}}.
 #' 
 #' @export
 #' 

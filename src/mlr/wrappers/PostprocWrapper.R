@@ -24,14 +24,14 @@ setMethod(
 #' Fuses a base learner with a postprocessing method. Creates a learner object, which can be
 #' used like any other learner object, but which internally postprocesses the prediction as requested. 
 #'
-#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
 #' @param fun [function] \cr
 #'        Function to postprocess a \code{\linkS4class{Prediction}} object (first argument). Must be postprocessed and subsequently returned.
 #' @param ... [any] \cr
 #'        Optional parameters to control the postprocessing. Passed to fun.   
 #' 
-#' @return \code{\linkS4class{learner}}.
+#' @return \code{\linkS4class{Learner}}.
 #' 
 #' @title Fuse learner with postprocessing.
 #' @export

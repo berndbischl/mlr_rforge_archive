@@ -5,7 +5,7 @@
 #' hyperparameters and returned.    
 #' See \code{\link{tune}} for more details.
 #' 
-#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'   Learning algorithm.   
 #' @param resampling [\code{\linkS4class{ResampleInstance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
 #'   Resampling strategy to evaluate points in hyperparameter space.
@@ -16,7 +16,7 @@
 #' @param log.fun [function()]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
 #' 
-#' @return \code{\linkS4class{learner}}.
+#' @return \code{\linkS4class{Learner}}.
 #' 
 #' @export
 #'

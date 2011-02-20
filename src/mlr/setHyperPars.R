@@ -1,13 +1,13 @@
 #' Set hyperparameters of learner object. 
 #' 
-#' @param learner [\code{\linkS4class{learner}}]\cr 
+#' @param learner [\code{\linkS4class{Learner}}]\cr 
 #'        Learner object.   
 #' @param ... [any] \cr
 #'        Optional named (hyper)parameters. Alternatively, you can pass via the "par.vals" argument.
 #' @param par.vals [list] \cr
 #'       Optional list of named (hyper)parameters. Alternatively, you can pass via the ... argument.
 #' 		    
-#' @return \code{\linkS4class{learner}} with changed hyperparameters.
+#' @return \code{\linkS4class{Learner}} with changed hyperparameters.
 #' @exportMethod setHyperPars
 #' @title Set hyperparamters of learner object.
 #' @rdname setHyperPars 

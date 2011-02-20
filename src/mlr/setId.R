@@ -1,11 +1,11 @@
 #' Set id of learner object. 
 #' 
-#' @param learner [\code{\linkS4class{learner}}]\cr 
+#' @param learner [\code{\linkS4class{Learner}}]\cr 
 #'        Learner object.   
 #' @param id [character(1)] \cr
 #'       New id.
 #' 		    
-#' @return \code{\linkS4class{learner}} with changed id.
+#' @return \code{\linkS4class{Learner}} with changed id.
 #' @exportMethod setId
 #' @title Set id of learner object.
 #' @rdname setId 

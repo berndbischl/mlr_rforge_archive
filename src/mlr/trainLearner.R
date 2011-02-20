@@ -1,7 +1,7 @@
 #' Mainly for internal use. Trains a wrapped learner on a given training set, 
 #' w.r.t. some hyperparameters, case weights and costs.
 #' You have to implement this method if you want to add another learner to this package. 
-#' @param .learner [\code{\linkS4class{learner}}] \cr  
+#' @param .learner [\code{\linkS4class{Learner}}] \cr  
 #'   Wrapped learner from this package. 
 #' @param .task [\code{\linkS4class{LearnTask}}] \cr
 #'   Task to train learner on.

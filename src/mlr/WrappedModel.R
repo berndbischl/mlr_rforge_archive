@@ -16,7 +16,7 @@ roxygen()
 #' Note that all getters of \code{\linkS4class{task.desc}} can also be used. 
 #' 
 #' \describe{
-#'	\item{learner [{\linkS4class{learner}}]}{Learner that was used to fit the model.}
+#'	\item{learner [{\linkS4class{Learner}}]}{Learner that was used to fit the model.}
 #'	\item{learner model [any]}{Underlying model from used R package.}
 #'	\item{subset [integer]}{Subset used for training.}
 #'	\item{fail [NULL | string]}{Generally NULL but if the training failed, the error message of the underlying train function.}

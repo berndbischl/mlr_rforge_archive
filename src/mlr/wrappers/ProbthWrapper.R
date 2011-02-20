@@ -26,12 +26,12 @@ setMethod(
 #' 
 #' See \code{\link{setThreshold}} for details of thresholding.  
 #'
-#' @param learner [\code{\linkS4class{learner}}]\cr 
+#' @param learner [\code{\linkS4class{Learner}}]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
 #' @param classes [character] \cr
 #'   Classes of future classification task.
 #' 
-#' @return \code{\linkS4class{learner}}.
+#' @return \code{\linkS4class{Learner}}.
 #' 
 #' @title Fuse learner with probability thresholding.
 #' @export

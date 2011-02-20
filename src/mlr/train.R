@@ -4,7 +4,7 @@ roxygen()
 #' Given a \code{\linkS4class{LearnTask}}, creates a model for the learning machine 
 #' which can be used for predictions on new data. 
 #'
-#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'        Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'        Specifies learning task.   

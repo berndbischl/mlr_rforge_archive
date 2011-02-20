@@ -8,7 +8,7 @@
 #' to a single feature, but you are able to change this by using the arguments \code{bit.names} 
 #' and \code{bits.to.features}. Thus allowing you to switch on whole groups of features with a single bit.  
 #' 
-#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task.   

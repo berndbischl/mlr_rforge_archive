@@ -20,7 +20,7 @@ setClass(
 #' 
 #' Look at package FSelector for details on the filter algorithms. 
 #' 
-#' @param learner [\code{\linkS4class{learner}} or string]\cr 
+#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
 #' @param fw.method [character(1)] \cr
 #'   Filter method. Available are:
@@ -28,7 +28,7 @@ setClass(
 #' @param fw.threshold [single double] \cr
 #'   Only features whose importance value exceed this are selected.  
 #' 
-#' @return \code{\linkS4class{learner}}.
+#' @return \code{\linkS4class{Learner}}.
 #' 
 #' @title Fuse learner with filter method.
 #' @export

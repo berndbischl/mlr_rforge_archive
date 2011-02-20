@@ -1,13 +1,13 @@
 #' Set predict type of classification learner object - whether classes, probabilities or decision values should be predicted. 
 #' 
-#' @param learner [\code{\linkS4class{learner}}]\cr 
+#' @param learner [\code{\linkS4class{Learner}}]\cr 
 #'        Learner object.   
 #' @param type [character(1)] \cr
 #'        Classification: "response" | "prob" | "decision", specifying the type to
 #'        predict. Default is "response". "decision" is experimental. Ignored for
 #'        regression.	 
 #' 		    
-#' @return \code{\linkS4class{learner}} with changed Prediction behaviour.
+#' @return \code{\linkS4class{Learner}} with changed Prediction behaviour.
 #' @exportMethod setPredictType
 #' @title Set predict type of learner object.
 #' @rdname set.predict.pars 

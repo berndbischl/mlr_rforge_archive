@@ -7,7 +7,7 @@
 #' For construction of the resampling strategies use the factory methods \code{\link{makeResampleDesc}} and 
 #' \code{\link{makeResampleInstance}}.
 #'
-#' @param learner [\code{\linkS4class{learner}} | \code{\link{character}}]\cr 
+#' @param learner [\code{\linkS4class{Learner}} | \code{\link{character}}]\cr 
 #'   Learning algorithm.   
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task.

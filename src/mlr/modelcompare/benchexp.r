@@ -2,7 +2,7 @@
 #' across one or more tasks w.r.t. a given resampling strategy.
 #' Experiments are paired, meaning always the same training / test sets are used for the different learners.
 #' 
-#' @param learners [string | \code{\linkS4class{learner}} | list of the previous two] \cr
+#' @param learners [string | \code{\linkS4class{Learner}} | list of the previous two] \cr
 #'   Defines the learning algorithms which should be compared.
 #' @param tasks [\code{\link{LearnTask}} | list of the previous] \cr
 #'   Defines the tasks.
