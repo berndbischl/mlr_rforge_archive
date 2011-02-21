@@ -102,10 +102,15 @@ setMethod(
 )
 
 
+
+#' Get lower bounds.
+#' @param x [\code{\linkS4class{Parameter}} | \code{\linkS4class{ParameterSet}}] \cr
+#'   A single parameter or a set of parameters.
+#' @return Numeric vector of lower bounds. If \code{x} is a ParameterSet the vector is named. 
+#' @rdname lower
 #' @exportMethod lower
 setGeneric(name = "lower", def = function(x, ...) standardGeneric("lower"))
-
-#' @export 
+#' @rdname lower
 setMethod(
   f = "lower",
   signature = signature(x="Parameter"), 
@@ -115,22 +120,27 @@ setMethod(
     else 
       x@constraints$lower
 )
-
-#' @export 
+#' @rdname lower
 setMethod(
   f = "lower",
   signature = signature(x="ParameterSet"), 
-  def = function(x, select=c("integer", "numeric")) { 
+  def = function(x, select=c("integer", "numeric", "numericvector", "integervector")) { 
     v = Filter(function(y) y@type %in% select, x@pars)
-    z = sapply(v, function(y) y@constraints$lower)
-    names(z) = sapply(v, function(y) y@id)
+    z = lapply(v, function(y) y@constraints$lower)
+    ns = Reduce(c, Map(function(nn, ll) rep(nn, length(ll)), names(z), z))
+    z = Reduce(c, z)
+    names(z) = ns
     return(z)
   }
 )
 
+#' Get upper bounds.
+#' @param x [\code{\linkS4class{Parameter}} | \code{\linkS4class{ParameterSet}}] \cr
+#'   A single parameter or a set of parameters.
+#' @return Numeric vector of upper bounds. If \code{x} is a ParameterSet the vector is named. 
+#' @rdname upper
 #' @exportMethod upper
 setGeneric(name = "upper", def = function(x, ...) standardGeneric("upper"))
-
 #' @export 
 setMethod(
   f = "upper",
@@ -141,29 +151,38 @@ setMethod(
     else 
       x@constraints$upper
 )
-
 #' @export 
 setMethod(
   f = "upper",
   signature = signature(x="ParameterSet"), 
-  def = function(x, select=c("integer", "numeric")) { 
+  def = function(x, select=c("integer", "numeric", "numericvector", "integervector")) { 
     v = Filter(function(y) y@type %in% select, x@pars)
-    z = sapply(v, function(y) y@constraints$upper)
-    names(z) = sapply(v, function(y) y@id)
+    z = lapply(v, function(y) y@constraints$upper)
+    ns = Reduce(c, Map(function(nn, ll) rep(nn, length(ll)), names(z), z))
+    z = Reduce(c, z)
+    names(z) = ns
     return(z)
   }
 )
 
+#' Get discrete values.
+#' @param x [\code{\linkS4class{Parameter}} | \code{\linkS4class{ParameterSet}}] \cr
+#'   A single discrete parameter or a set of parameters.
+#' @param only.names [logical(1)] \cr
+#'   If \code{TRUE} forces the return only value names as strings, otherwise the real values are returned.
+#'   Default is \code{FALSE}.
+#' @return For a single parameter: Its list of values or a character vector if \code{only.names} is \code{TRUE}.
+#'  For a Parameterset: A named list of lists of values or a list of character vectors (names of values). 
+#' @rdname values
 #' @exportMethod values
 setGeneric(name = "values", def = function(x, ...) standardGeneric("values"))
-
-#' @export 
+#' @rdname values
 setMethod(
   f = "values",
   signature = signature(x="Parameter"), 
   def = function(x, only.names=FALSE) 
-    if(!x@type %in% c("discrete", "logical")) 
-      stop("Only available for numeric or integer parameter!") 
+    if(!x@type %in% c("discrete")) 
+      stop("Only available for discrete parameter!") 
     else { 
       if (only.names)
         names(x@constraints$vals)
@@ -171,12 +190,11 @@ setMethod(
         x@constraints$vals
     }
 )
-
-#' @export 
+#' @rdname values
 setMethod(
   f = "values",
   signature = signature(x="ParameterSet"), 
-  def = function(x, select=c("discrete", "logical"), only.names=FALSE) { 
+  def = function(x, select=c("discrete"), only.names=FALSE) { 
     v = Filter(function(y) y@type %in% select, x@pars)
     if (only.names)
       z = lapply(v, function(y) names(y@constraints$vals))
@@ -188,10 +206,8 @@ setMethod(
 )
 
 
-#' @exportMethod trafoVal
 setGeneric(name = "trafoVal", def = function(par, val) standardGeneric("trafoVal"))
 
-#' @export 
 setMethod(
   f = "trafoVal",
   signature = signature(par="Parameter", val="ANY"), 
@@ -200,7 +216,6 @@ setMethod(
   }
 )
 
-#' @export 
 setMethod(
   f = "trafoVal",
   signature = signature(par="ParameterSet", val="list"), 
@@ -209,7 +224,6 @@ setMethod(
   }
 )
 
-#' @export 
 setMethod(
   f = "valToString",
   signature = signature(par="ParameterSet", val="list"), 
