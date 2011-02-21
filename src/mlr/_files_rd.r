@@ -16,9 +16,11 @@ allowed.rd.files <<- c(
     "makeFunctionParameter.Rd",
     "makeUntypedParameter.Rd",
     "ParameterSet-class.Rd",
-    "makeParmeterSet.Rd",
+    "lower.Rd",
+    "upper.Rd",
+    "values.Rd",
     
-		"task.desc-class.Rd",
+    "task.desc-class.Rd",
     "LearnTask-class.Rd",
     "ClassifTask-class.Rd",
 		"RegrTask-class.Rd",
