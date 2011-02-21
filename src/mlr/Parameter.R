@@ -78,10 +78,8 @@ setMethod(
 )
 
 
-#' @exportMethod values
 setGeneric(name = "valToString", def = function(par, val) standardGeneric("valToString"))
 
-#' @export 
 setMethod(
   f = "valToString",
   signature = signature(par="Parameter", val="ANY"), 

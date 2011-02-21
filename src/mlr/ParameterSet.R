@@ -141,7 +141,7 @@ setMethod(
 #' @rdname upper
 #' @exportMethod upper
 setGeneric(name = "upper", def = function(x, ...) standardGeneric("upper"))
-#' @export 
+#' @rdname upper
 setMethod(
   f = "upper",
   signature = signature(x="Parameter"), 
@@ -151,7 +151,7 @@ setMethod(
     else 
       x@constraints$upper
 )
-#' @export 
+#' @rdname upper
 setMethod(
   f = "upper",
   signature = signature(x="ParameterSet"), 
