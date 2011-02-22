@@ -146,33 +146,6 @@ setEoL = function(op, x, eol) {
   NULL
 } 
 
-#' Get the date of birth or end of life a list parameter settings.
-#'
-#' @param op Optimization path.
-#' @param z List of parameter settings.
-#' @return The date of birth or end of life of \code{z}.
-get.dob = function(op, z) {
-  stopifnot(inherits(op, "OptPath"))
-  if (!is.integer(z)) {
-    z <- param.to.position(op, z)
-    if (is.na(tmp))
-      stop("No element found matching the given parameter settings. Cannot get DoB!")
-  }
-  op@env$dob[z]
-}
-
-#' @rdname get.dob
-get.eol = function(op, z) {
-  stopifnot(inherits(op, "OptPath"))
-  if (!is.integer(z)) {
-    z <- param.to.position(op, z)
-    if (is.na(z))
-      stop("No element found matching the given parameter settings. Cannot get EoL!")
-  }
-  op@env$eol[z]
-}
-
-
 
 #' Subset optimiztion path.
 #'

@@ -9,10 +9,11 @@ proposePoints = function(model, par.set, control) {
     points = des[o[1:control$propose.points],]
     return(lapply(1:nrow(points), function(i) as.list(points[i,])))
   } else if (control$propose.points.method == "EI") {
+    
     # todo: use CL when more than 1 point 
     # todo: handle ints 
     low = lower(par.set)
     upp = upper(par.set)
-    max_EI(model, lower, upper, parinit, control)$par
+    #max_EI(model, lower, upper, parinit, control)$par
   }
 }

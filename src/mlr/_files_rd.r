@@ -68,6 +68,7 @@ allowed.rd.files <<- c(
 		"conf.matrix.Rd",
 		"aggregations.Rd",
     "Measure-class.Rd",
+    "setAggr.Rd",
     "makeMeasure.Rd",
     "makeCostMeasure.Rd",
     "measures.Rd",
