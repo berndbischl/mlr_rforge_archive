@@ -114,7 +114,7 @@ pack.files = c(
     "mlr/wrappers/FilterWrapper.R",
     
 		
-		"mlr/tune/control.tune.r",
+		"mlr/tune/TuneControl.R",
 		"mlr/tune/control.grid.r",
 #		"mlr/tune/control.ps.r",
 		"mlr/tune/control.optim.r",

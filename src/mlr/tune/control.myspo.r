@@ -1,4 +1,4 @@
-#' @include control.tune.r
+#' @include TuneControl.R
 roxygen()
 
 #' @exportClass myspo.control
