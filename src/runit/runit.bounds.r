@@ -5,8 +5,8 @@ test.par.set <- function() {
   
   b1 = makeParameterSet(np1, np2, dp1)
   
-  checkTrue(is.feasible(b1, list(0,0,"a")))
-  checkTrue(!is.feasible(b1, list(2,0,"a")))
+  checkTrue(isFeasible(b1, list(0,0,"a")))
+  checkTrue(!isFeasible(b1, list(2,0,"a")))
 
   checkEquals(lower(b1), c(x1=-1, x2=0))
   checkEquals(upper(b1), c(x1= 1, x2=Inf))

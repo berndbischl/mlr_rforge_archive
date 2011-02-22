@@ -206,23 +206,13 @@ setMethod(
 )
 
 
-setGeneric(name = "trafoVal", def = function(par, val) standardGeneric("trafoVal"))
-
-setMethod(
-  f = "trafoVal",
-  signature = signature(par="Parameter", val="ANY"), 
-  def = function(par, val) {
-    par@trafo(val)
-  }
-)
-
-setMethod(
-  f = "trafoVal",
-  signature = signature(par="ParameterSet", val="list"), 
-  def = function(par, val) {
+trafoVal = function(par, val) {
+  if (is(par, "ParameterSet"))
     Map(trafoVal, par@pars, val)
-  }
-)
+  else
+    par@trafo(val)
+}
+
 
 setMethod(
   f = "valToString",
