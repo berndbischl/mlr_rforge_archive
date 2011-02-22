@@ -6,7 +6,7 @@ roxygen()
 
 setClass(
   "spot.control",
-  contains = c("tune.control")
+  contains = c("TuneControl")
 )
 
 

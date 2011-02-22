@@ -6,7 +6,7 @@ roxygen()
 
 setClass(
 		"grid.control",
-		contains = c("tune.control")
+		contains = c("TuneControl")
 )
 
 #' Control structure for grid search tuning. 

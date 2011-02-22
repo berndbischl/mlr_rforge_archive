@@ -12,11 +12,11 @@ roxygen()
 #' 
 #' Subclasses: \code{\linkS4class{grid.control}}, \code{\linkS4class{optim.control}}, \code{\linkS4class{cmaes.control}}
 #' 
-#' @exportClass tune.control
+#' @exportClass TuneControl
 #' @title Base class for control objects for tuning.
 
 setClass(
-		"tune.control",
+		"TuneControl",
 		contains = c("OptControl"),
 		representation = representation(
 				start = "list"
@@ -27,7 +27,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("tune.control"),
+		signature = signature("TuneControl"),
 		def = function(.Object, path, same.resampling.instance, start, ...) {
       if (missing(path))
         return(make.empty(.Object))
@@ -43,7 +43,7 @@ setMethod(
 #' @rdname to.string
 setMethod(
   f = "to.string",
-  signature = signature("tune.control"),
+  signature = signature("TuneControl"),
   def = function(x) {
     
     return(

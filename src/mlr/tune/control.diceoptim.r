@@ -6,7 +6,7 @@ roxygen()
 
 setClass(
   "diceoptim.control",
-  contains = c("tune.control")
+  contains = c("TuneControl")
 )
 
 

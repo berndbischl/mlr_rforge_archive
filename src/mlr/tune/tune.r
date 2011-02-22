@@ -9,7 +9,7 @@ roxygen()
 #' Allows for different optimization methods, such as grid search, evolutionary strategies 
 #' or sequential parameter optimization. You can select such an algorithm (and its settings)
 #' by passing a corresponding control object. For a complete list of implemented algorithms look at the 
-#' subclasses of [\code{\linkS4class{tune.control}}].
+#' subclasses of [\code{\linkS4class{TuneControl}}].
 #'
 #' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
@@ -21,7 +21,7 @@ roxygen()
 #'   If you want to change that behaviour, look at the control object. 	
 #' @param par.set [\code{\linkS4class{ParameterSet}}] \cr
 #'   Collection of parameters and their constraints for optimization.   
-#' @param control [\code{\linkS4class{tune.control}}] \cr
+#' @param control [\code{\linkS4class{TuneControl}}] \cr
 #'   Control object for search method. Also selects the optimization algorithm for tuning.   
 #' @param measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  

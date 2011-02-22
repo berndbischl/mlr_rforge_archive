@@ -9,7 +9,7 @@
 #' }
 #' 
 #' @exportClass OptControl
-#' @seealso \code{\linkS4class{tune.control}}, \code{\linkS4class{varsel.control}} 
+#' @seealso \code{\linkS4class{TuneControl}}, \code{\linkS4class{varsel.control}} 
 #' @title Base class for control objects for optimization.
 
 setClass(
@@ -45,7 +45,7 @@ setMethod(
 		signature = signature("OptControl"),
 		def = function(x,i,j,...,drop) {
 			if (i == "opt.type"){
-				if (is(x, "tune.control"))
+				if (is(x, "TuneControl"))
 					return("tune")
 				else
 					return("varsel")

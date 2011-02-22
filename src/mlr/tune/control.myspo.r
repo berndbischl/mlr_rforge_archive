@@ -6,7 +6,7 @@ roxygen()
 
 setClass(
   "myspo.control",
-  contains = c("tune.control"),
+  contains = c("TuneControl"),
   representation = representation(
     meta.learner = "Learner",
     constr.learner = "Learner",

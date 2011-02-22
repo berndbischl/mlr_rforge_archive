@@ -38,7 +38,7 @@ resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
 
 # todo: remove?
 eval.rf = function(learner, task, resampling, measures, par.set, bits.to.features, control, val) {
-  if (is(control, "tune.control")) {
+  if (is(control, "TuneControl")) {
     learner = setHyperPars(learner, par.vals=val)
   }
   if (is(control, "varsel.control")) {
