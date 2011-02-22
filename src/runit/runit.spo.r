@@ -89,6 +89,16 @@ test.spo.km <- function() {
   checkTrue(is.integer(df$x2))
   checkTrue(is.list(or$x))
   checkEquals(names(or$x), names(ps@pars))
+
+  
+  ctrl = makeSPOControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
+  or = spo(f, ps, des, learner, ctrl)
+  checkEquals(length(as.list(or$path)), 15)
+  df = as.data.frame(or$path)
+  checkTrue(is.numeric(df$x1))
+  checkTrue(is.integer(df$x2))
+  checkTrue(is.list(or$x))
+  checkEquals(names(or$x), names(ps@pars))
 } 
 
 
