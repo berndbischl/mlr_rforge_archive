@@ -20,7 +20,7 @@ test.repcv.instance = function() {
     checkEquals(sort(unique(bag)), 1:150)
   }
   
-  m = setAggr(mmce, testgroup.mean)
+  m = setAggregation(mmce, testgroup.mean)
   resample("classif.lda", multiclass.task, rin)
 }
 

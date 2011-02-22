@@ -2,13 +2,13 @@
 #' Generates a description object for a resampling strategy.
 #' 
 #' Repeated cross-validation: Use 'RepCV'. Then you have to set the aggregation function for your preferred performance measure to 
-#'   'testgroup.mean' via \code{\link{setAggr}}.
+#'   'testgroup.mean' via \code{\link{setAggregation}}.
 #' B632 bootstrap: Use 'BS' for bootstrap and set predict to 'both'. 
 #'   Then you have to set the aggregation function for your preferred performance measure to 
-#'   'b632' via \code{\link{setAggr}}.
+#'   'b632' via \code{\link{setAggregation}}.
 #' B632+ bootstrap: Use 'BS' for bootstrap and set predict to 'both'. 
 #'   Then you have to set the aggregation function for your preferred performance measure to 
-#'   'b632plus' via \code{\link{setAggr}}.
+#'   'b632plus' via \code{\link{setAggregation}}.
 #' 
 #' @param method [character(1)] \cr
 #'   'CV' for cross-validation, 'LOO' for leave-one-out, 'StratCV' for stratified cross-validation, 'RepCV' for repeated cross-validation,\cr

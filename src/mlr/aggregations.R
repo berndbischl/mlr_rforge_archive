@@ -1,18 +1,3 @@
-#' @include object.r
-roxygen()
-
-
-
-setClass(
-  "aggr",
-  contains = c("object"),
-  representation = representation(
-    id = "character",
-    fun = "function"
-  )
-)
-
-
 #' A aggregation method reduce the performance values of the test (and possibly the training sets) to a single
 #' value. 
 #' 
@@ -41,42 +26,42 @@ aggregations = function() {}
 
 #' @export test.mean
 #' @rdname aggregations
-test.mean = new("aggr",
+test.mean = new("Aggregation",
   id = "test.mean",
   fun = function(perf.test, perf.train, measure, group, pred) mean(perf.test)
 )
 
 #' @export test.sd
 #' @rdname aggregations
-test.sd = new("aggr",
+test.sd = new("Aggregation",
   id = "test.sd",
   fun = function(perf.test, perf.train, measure, group, pred) sd(perf.test)
 )
 
 #' @export test.median
 #' @rdname aggregations
-test.median = new("aggr",
+test.median = new("Aggregation",
   id = "test.median",
   fun = function(perf.test, perf.train, measure, group, pred) median(perf.test)
 )
 
 #' @export test.min
 #' @rdname aggregations
-test.min = new("aggr",
+test.min = new("Aggregation",
   id = "test.min",
   fun = function(perf.test, perf.train, measure, group, pred) min(perf.test)
 )
 
 #' @export test.max
 #' @rdname aggregations
-test.max = new("aggr",
+test.max = new("Aggregation",
   id = "test.max",
   fun = function(perf.test, perf.train, measure, group, pred) max(perf.test)
 )
 
 #' @export test.sum
 #' @rdname aggregations
-test.sum = new("aggr",
+test.sum = new("Aggregation",
   id = "test.sum",
   fun = function(perf.test, perf.train, measure, group, pred) sum(perf.test)
 )
@@ -84,42 +69,42 @@ test.sum = new("aggr",
 
 #' @export train.mean
 #' @rdname aggregations
-train.mean = new("aggr",
+train.mean = new("Aggregation",
   id = "train.mean",
   fun = function(perf.test, perf.train, measure, group, pred) mean(perf.train)
 )
 
 #' @export train.sd
 #' @rdname aggregations
-train.sd = new("aggr",
+train.sd = new("Aggregation",
   id = "train.sd",
   fun = function(perf.test, perf.train, measure, group, pred) sd(perf.train)
 )
 
 #' @export train.median
 #' @rdname aggregations
-train.median = new("aggr",
+train.median = new("Aggregation",
   id = "train.median",
   fun = function(perf.test, perf.train, measure, group, pred) median(perf.train)
 )
 
 #' @export train.min
 #' @rdname aggregations
-train.min = new("aggr",
+train.min = new("Aggregation",
   id = "train.min",
   fun = function(perf.test, perf.train, measure, group, pred) min(perf.train)
 )
 
 #' @export train.max
 #' @rdname aggregations
-train.max = new("aggr",
+train.max = new("Aggregation",
   id = "train.max",
   fun = function(perf.test, perf.train, measure, group, pred) max(perf.train)
 )
 
 #' @export train.sum
 #' @rdname aggregations
-train.sum = new("aggr",
+train.sum = new("Aggregation",
   id = "train.sum",
   fun = function(perf.test, perf.train, measure, group, pred) sum(perf.train)
 )
@@ -129,7 +114,7 @@ train.sum = new("aggr",
 
 #' @export b632
 #' @rdname aggregations
-b632 = new("aggr",
+b632 = new("Aggregation",
   id = "b632",
   fun = function(perf.test, perf.train, measure, group, pred) {
     0.632*perf.test + (1-0.632)*perf.train
@@ -138,7 +123,7 @@ b632 = new("aggr",
 
 #' @export b632plus
 #' @rdname aggregations
-b632plus = new("aggr",
+b632plus = new("Aggregation",
   id = "b632plus",
   fun = function(perf.test, perf.train, measure, group, pred) {
     stop(123)
@@ -170,7 +155,7 @@ b632plus = new("aggr",
 
 #' @export testgroup.mean
 #' @rdname aggregations
-testgroup.mean = new("aggr",
+testgroup.mean = new("Aggregation",
   id = "testgroup.mean",
   fun = function(perf.test, perf.train, measure, group, pred) {
     mean(sapply(split(perf.test, group), mean))  

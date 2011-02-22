@@ -5,26 +5,26 @@
 #' 
 #' @param measure [\code{\linkS4class{Measure}}]\cr 
 #'        Performance measure.   
-#' @param aggrs [list of \code{\linkS4class{aggr}}] \cr
+#' @param aggrs [list of \code{\linkS4class{Aggregation}}] \cr
 #'        Aggregation functions.
 #'        
 #' @return \code{\linkS4class{Measure}} with changed aggregation behaviour.
-#' @exportMethod setAggr
+#' @exportMethod setAggregation
 #' @title Set aggregation functions of measure. 
-#' @rdname setAggr 
+#' @rdname setAggregation 
 
 setGeneric(
-  name = "setAggr",
+  name = "setAggregation",
   def = function(measure, aggrs) {
     if (!is.list(aggrs))
       aggrs = list(aggrs)
-    standardGeneric("setAggr")
+    standardGeneric("setAggregation")
   }
 )
 
-#' @rdname setAggr 
+#' @rdname setAggregation 
 setMethod(
-  f = "setAggr",
+  f = "setAggregation",
   
   signature = signature(
     measure="Measure", 

@@ -132,7 +132,7 @@ test.benchresult = function() {
   # check aggregation
   res = makeResampleDesc("CV", iters=3)
   wl = "classif.lda"
-  m = setAggr(mmce, test.sd)
+  m = setAggregation(mmce, test.sd)
   r = resample(wl, multiclass.task, res, measure=m)
   be = bench.exp(learners=wl, tasks=multiclass.task, resampling=res)
   x = as.array(be, sets="test", drop=TRUE)
