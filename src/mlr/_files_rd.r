@@ -7,6 +7,7 @@ allowed.rd.files <<- c(
 		"to.string.Rd",
 
     "Parameter-class.Rd",
+    "isFeasible.Rd",
     "makeNumericParameter.Rd",
     "makeNumericVectorParameter.Rd",
     "makeIntegerParameter.Rd",

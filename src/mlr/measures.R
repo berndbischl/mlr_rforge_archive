@@ -43,7 +43,7 @@
 #' 		\item{\bold{time.predict}}{\cr Time of predicting test set}
 #' 		\item{\bold{time.both}}{\cr time.fit + train.predict}
 #' }
-#'  
+#' @export 
 #' @title Performance measures.
 measures = function() {}
 

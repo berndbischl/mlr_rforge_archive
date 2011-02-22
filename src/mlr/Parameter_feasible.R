@@ -10,22 +10,22 @@ roxygen()
 #'   Variable description.
 #' @return logical(1) 
 #' 
-#' @rdname is.feasible
-#' @exportMethod is.feasible
+#' @rdname isFeasible
+#' @exportMethod isFeasible
 #' 
 #' @title Check if parameter setting is valid.
 setGeneric(
-  name = "is.feasible",
+  name = "isFeasible",
   def = function(par, x) {
     if (length(x) == 0)
       return(FALSE)
-    standardGeneric("is.feasible")      
+    standardGeneric("isFeasible")      
   }
 )
 
-#' @rdname is.feasible
+#' @rdname isFeasible
 setMethod(
-  f = "is.feasible",
+  f = "isFeasible",
   signature = signature(par="Parameter", x="ANY"),
   def = function(par, x) {
     type = par["type"]

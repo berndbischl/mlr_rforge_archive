@@ -34,48 +34,48 @@ setClass(
 #'    \item{\bold{b632plus}}{\cr Aggregation for B632+ bootstrap.}
 #'    \item{\bold{testgroup.mean}}{\cr Performance values on test sets are grouped according to resampling method. The mean for very group is calculated, then the mean of those means. Mainly used for repeated CV.}
 #' }
-#' 
+#' @export 
 #' @title Aggregation methods.
 aggregations = function() {}
 
 
 #' @export test.mean
-#' @export aggregations
+#' @rdname aggregations
 test.mean = new("aggr",
   id = "test.mean",
   fun = function(perf.test, perf.train, measure, group, pred) mean(perf.test)
 )
 
 #' @export test.sd
-#' @export aggregations
+#' @rdname aggregations
 test.sd = new("aggr",
   id = "test.sd",
   fun = function(perf.test, perf.train, measure, group, pred) sd(perf.test)
 )
 
 #' @export test.median
-#' @export aggregations
+#' @rdname aggregations
 test.median = new("aggr",
   id = "test.median",
   fun = function(perf.test, perf.train, measure, group, pred) median(perf.test)
 )
 
 #' @export test.min
-#' @export aggregations
+#' @rdname aggregations
 test.min = new("aggr",
   id = "test.min",
   fun = function(perf.test, perf.train, measure, group, pred) min(perf.test)
 )
 
 #' @export test.max
-#' @export aggregations
+#' @rdname aggregations
 test.max = new("aggr",
   id = "test.max",
   fun = function(perf.test, perf.train, measure, group, pred) max(perf.test)
 )
 
 #' @export test.sum
-#' @export aggregations
+#' @rdname aggregations
 test.sum = new("aggr",
   id = "test.sum",
   fun = function(perf.test, perf.train, measure, group, pred) sum(perf.test)
@@ -83,42 +83,42 @@ test.sum = new("aggr",
 
 
 #' @export train.mean
-#' @export aggregations
+#' @rdname aggregations
 train.mean = new("aggr",
   id = "train.mean",
   fun = function(perf.test, perf.train, measure, group, pred) mean(perf.train)
 )
 
 #' @export train.sd
-#' @export aggregations
+#' @rdname aggregations
 train.sd = new("aggr",
   id = "train.sd",
   fun = function(perf.test, perf.train, measure, group, pred) sd(perf.train)
 )
 
 #' @export train.median
-#' @export aggregations
+#' @rdname aggregations
 train.median = new("aggr",
   id = "train.median",
   fun = function(perf.test, perf.train, measure, group, pred) median(perf.train)
 )
 
 #' @export train.min
-#' @export aggregations
+#' @rdname aggregations
 train.min = new("aggr",
   id = "train.min",
   fun = function(perf.test, perf.train, measure, group, pred) min(perf.train)
 )
 
 #' @export train.max
-#' @export aggregations
+#' @rdname aggregations
 train.max = new("aggr",
   id = "train.max",
   fun = function(perf.test, perf.train, measure, group, pred) max(perf.train)
 )
 
 #' @export train.sum
-#' @export aggregations
+#' @rdname aggregations
 train.sum = new("aggr",
   id = "train.sum",
   fun = function(perf.test, perf.train, measure, group, pred) sum(perf.train)
@@ -128,7 +128,7 @@ train.sum = new("aggr",
 
 
 #' @export b632
-#' @export aggregations
+#' @rdname aggregations
 b632 = new("aggr",
   id = "b632",
   fun = function(perf.test, perf.train, measure, group, pred) {
@@ -137,7 +137,7 @@ b632 = new("aggr",
 )
 
 #' @export b632plus
-#' @export aggregations
+#' @rdname aggregations
 b632plus = new("aggr",
   id = "b632plus",
   fun = function(perf.test, perf.train, measure, group, pred) {
@@ -169,7 +169,7 @@ b632plus = new("aggr",
 )
 
 #' @export testgroup.mean
-#' @export aggregations
+#' @rdname aggregations
 testgroup.mean = new("aggr",
   id = "testgroup.mean",
   fun = function(perf.test, perf.train, measure, group, pred) {

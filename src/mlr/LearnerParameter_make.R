@@ -129,7 +129,7 @@ learner.parameter.from.parameter <- function(p, default, when, flags, requires) 
     stop("'flags' must be a list.")
   if (!is.expression(requires))
     stop("'requires' must be an R expression.")
-  if (!missing(default) && !is.feasible(p, default))
+  if (!missing(default) && !isFeasible(p, default))
     stop("'default' must be missing or a feasible parameter setting.")  
   check.arg(when, "character", 1)
   
