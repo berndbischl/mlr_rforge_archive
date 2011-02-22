@@ -48,37 +48,15 @@ setMethod(
 )
 
 
-#' Construct a ParameterSet object.
+#' Construct a ParameterSet from a bunch of Parameter objects.
 #' 
-#' @param pars [list of \code{\linkS4class{LearnTask}}] \cr
-#' 			Type of the learning algorithm, either "classif" or "regr" or task to solve
-#' @param doubles [boolean] \cr
-#' 			Supports real-valued inputs? Pass only when x is a string.
-#' @param factors [boolean] \cr
-#' 			Supports factor inputs? Pass only when x is a string.
-#' @param characters [boolean] \cr
-#' 			Supports character inputs? Pass only when x is a string.
-#' @param missings [boolean] \cr
-#' 			Supports missing values? Pass only when x is a string.
-#' @param multiclass [boolean] \cr
-#' 			Supports multiclass problems? Pass only when x is a string.
-#' @param weights [boolean] \cr
-#' 			Supports case weights? Pass only when x is a string.
-#' @param probs [boolean] \cr
-#' 			Can predict probabilities?
-#' @param decision [boolean] \cr
-#' 			Supports decision values?
-#' @param costs [boolean] \cr
-#' 			Supports non-standard misclassification costs?
-#' 
+#' @param ... [Some \code{\linkS4class{Parameter}} objects] \cr
+#' @return [{\linkS4class{ParameterSet}}]
 #' @rdname makeParameterSet
 #' @export 
-#' 
-#' @title Find matching learning algorithms.
-
-
 makeParameterSet = function(...) {
   args = list(...)
+  check.list.type(args, "Parameter")
   new("ParameterSet", pars=args)
 }
 
@@ -93,6 +71,7 @@ setMethod(
 )
 
 
+#' rdname isFeasible
 setMethod(
   f = "isFeasible",
   signature = signature(par="ParameterSet", x="list"),
@@ -214,10 +193,8 @@ trafoVal = function(par, val) {
 }
 
 
-setMethod(
-  f = "valToString",
-  signature = signature(par="ParameterSet", val="list"), 
-  def = function(par, val) {
+valToString = function(par, val) {
+  if (is(par, "ParameterSet")) {
     if (all.els.named(val)) {
       ns = names(val)
       val = Map(valToString, par@pars[ns], val)
@@ -226,8 +203,30 @@ setMethod(
       val = Map(valToString, par@pars, val)
     }
     paste(ns, val, sep="=", collapse=",")
+  } else {
+    type = par["type"]
+    if (type == "numeric")
+      as.character(round(val, 3))  
+    else if (type == "numericvector")
+      paste(as.character(round(val, 3)), collapse=",")  
+    else if (type == "integer" || type == "logical")
+      as.character(val)  
+    else if (type == "discrete" || type == "ordered") {
+      vals = par@constraints$vals
+      if (is.character(val) && length(val) == 1 && val %in% names(vals)) {
+        val
+      } else {
+        i = which(sapply(vals, function(v) almost.equal(val, v)))
+        names(vals)[i]
+      }
+    } else if (type == "function"){
+      "<function>" 
+    } else if (type == "untyped"){
+      class(val)
+    }
   }
-)
+}
+
 
 c.ParameterSet = function(..., recursive=FALSE) {
   pss = list(...)

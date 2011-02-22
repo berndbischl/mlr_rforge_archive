@@ -17,6 +17,7 @@ allowed.rd.files <<- c(
     "makeFunctionParameter.Rd",
     "makeUntypedParameter.Rd",
     "ParameterSet-class.Rd",
+    "makeParameterSet.Rd",
     "lower.Rd",
     "upper.Rd",
     "values.Rd",
@@ -67,7 +68,7 @@ allowed.rd.files <<- c(
     
 		"performance.Rd",
 		"conf.matrix.Rd",
-    "Aggregation.Rd",
+    "Aggregation-class.Rd",
     "aggregations.Rd",
     "Measure-class.Rd",
     "setAggregation.Rd",
@@ -131,10 +132,16 @@ allowed.rd.files <<- c(
     "varsel.Rd",
     "varfilter.Rd",
 		
-		
 		"bench.exp.Rd",
-		"bench.result-class.Rd"
+		"bench.result-class.Rd",
 		
+    "makeDesign.Rd",
+    "OptPath-class.Rd",
+    "addPathElement.Rd",
+    "setEol.Rd",
+    "getBestElement.Rd",
+    "makeSPOControl.Rd",
+    "spo.Rd"
 )		
 
 	

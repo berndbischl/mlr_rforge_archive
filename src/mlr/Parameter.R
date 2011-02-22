@@ -78,35 +78,4 @@ setMethod(
 )
 
 
-setGeneric(name = "valToString", def = function(par, val) standardGeneric("valToString"))
-
-setMethod(
-  f = "valToString",
-  signature = signature(par="Parameter", val="ANY"), 
-  def = function(par, val) {
-    type = par["type"]
-    if (type == "numeric")
-      as.character(round(val, 3))  
-    else if (type == "numericvector")
-      paste(as.character(round(val, 3)), collapse=",")  
-    else if (type == "integer" || type == "logical")
-      as.character(val)  
-    else if (type == "discrete" || type == "ordered") {
-      vals = par@constraints$vals
-      if (is.character(val) && length(val) == 1 && val %in% names(vals)) {
-        val
-      } else {
-        i = which(sapply(vals, function(v) almost.equal(val, v)))
-        names(vals)[i]
-      }
-    } else if (type == "function"){
-      "<function>" 
-    } else if (type == "untyped"){
-      class(val)
-    }
-  }
-)
-
-
-
 
