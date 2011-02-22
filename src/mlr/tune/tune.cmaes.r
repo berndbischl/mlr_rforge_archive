@@ -2,8 +2,8 @@
 tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   require.packs("cmaes", "tune.cmaes")
 
-  if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer")))))
-    stop("CMAES can only be applied to numeric and integer parameters!")
+  if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer", "numericvector", "integervector")))))
+    stop("CMAES can only be applied to numeric, integer, numericvector, int parameters!")
   ns = sapply(par.set@pars, function(x) x@id)
   if (length(control@start) != length(ns))
     stop(" Length of 'start' has to match numer of parameters in 'par.set'!")

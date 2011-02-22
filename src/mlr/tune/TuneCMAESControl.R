@@ -1,12 +1,12 @@
-#' @include control.tune.r
+#' @include TuneControl.R
 roxygen()
 
-#' @exportClass cmaes.control
-#' @rdname cmaes.control 
+#' @exportClass TuneCMAESControl
+#' @rdname TuneCMAESControl 
 
 setClass(
-		"cmaes.control",
-		contains = c("tune.control")
+		"TuneCMAESControl",
+		contains = c("TuneControl")
 )
 
 
@@ -27,7 +27,7 @@ setClass(
 
 
 setGeneric(
-		name = "cmaes.control",
+		name = "makeTuneCMAESControl",
 		def = function(path, same.resampling.instance, start, ...) {
 			if (missing(path))
 				path = TRUE
@@ -35,18 +35,18 @@ setGeneric(
         same.resampling.instance = TRUE
       if (missing(start))
 				stop("You have to provide a start value!")
-			standardGeneric("cmaes.control")
+			standardGeneric("makeTuneCMAESControl")
 		}
 )
 
 
-#' @rdname cmaes.control 
+#' @rdname TuneCMAESControl 
 
 setMethod(
-		f = "cmaes.control",
+		f = "makeTuneCMAESControl",
 		signature = signature(path="logical", same.resampling.instance="logical", start="numeric"),
 		def = function(path, same.resampling.instance, start, ...) {
-			new("cmaes.control", path=path, same.resampling.instance=same.resampling.instance, start=as.list(start), ...)
+			new("TuneCMAESControl", path=path, same.resampling.instance=same.resampling.instance, start=as.list(start), ...)
 		}
 )
 
