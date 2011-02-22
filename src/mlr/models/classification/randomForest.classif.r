@@ -38,6 +38,8 @@ setMethod(
 					makeIntegerLearnerParameter(id="ntree", default=500L, lower=1L),
           makeIntegerLearnerParameter(id="mtry", lower=1L),
 					makeLogicalLearnerParameter(id="replace", default=TRUE),
+          makeNumericVectorLearnerParameter(id="classwt", lower=0),
+          makeNumericVectorLearnerParameter(id="cutoff", lower=0),
           makeIntegerLearnerParameter(id="sampsize", lower=1L),
           makeIntegerLearnerParameter(id="nodesize", default=1L, lower=1L),
           makeIntegerLearnerParameter(id="maxnodes", lower=1L),
