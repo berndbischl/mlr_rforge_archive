@@ -112,6 +112,8 @@ makeIntegerVectorParameter = function(id, dim, lower=-.Machine$integer.max, uppe
 
 
 #' Boolean variable for optimization.
+#' @param id [character(1)]
+#'   Name of parameter.
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
 makeLogicalParameter = function(id) {
@@ -121,7 +123,7 @@ makeLogicalParameter = function(id) {
 #' Discrete variable for optimization.
 #' @param id [character(1)]
 #'   Name of parameter.
-#' @param vals [named list] \cr
+#' @param vals [list | vector] \cr
 #'   Possible values.
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 

@@ -64,9 +64,7 @@ makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.
 #' @param id [character(1)]
 #'   Name of parameter.
 #' @param vals [list | vector] \cr
-#'   Lower bound. Default is \code{-Inf}.
-#' @param upper [numeric(1)] \cr
-#'   Upper bound. Default is \code{Inf}.
+#'   Possible values.
 #' @param default [any]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param when [character(1)]
