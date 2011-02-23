@@ -120,11 +120,13 @@ allowed.rd.files <<- c(
 		"tune.Rd",
 		"tune.threshold.Rd",
 		"TuneControl-class.Rd",
-		"grid.control.Rd",
+    "TuneGridControl-class.Rd",
+    "makeTuneGridControl-class.Rd",
 #		"ps.control.Rd",
 		"optim.control.Rd",
-		"cmaes.control.Rd",
-		
+		"TuneCMAESControl-class.Rd",
+    "makeTuneCMAESControl.Rd",
+    
 		"varsel.control-class.Rd",
 		"sequential.control.Rd",
 		"randomvarsel.control.Rd",

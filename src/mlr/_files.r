@@ -115,15 +115,14 @@ pack.files = c(
     
 		
 		"mlr/tune/TuneControl.R",
-		"mlr/tune/control.grid.r",
+    "mlr/tune/TuneGridControl.R",
 #		"mlr/tune/control.ps.r",
 		"mlr/tune/control.optim.r",
-		"mlr/tune/control.cmaes.r",
     "mlr/tune/control.diceoptim.r",
     "mlr/tune/tune.r",
 		"mlr/tune/tune.threshold.r",
 		"mlr/tune/tune.grid.r",
-		"mlr/tune/tune.cmaes.r",
+		"mlr/tune/TuneCMAESControl.R",
     "mlr/tune/tune.diceoptim.r",
     #		"mlr/tune/pattern.search.r",
 #		"mlr/tune/tune.ps.r",

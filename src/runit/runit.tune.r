@@ -5,7 +5,7 @@ test.tune <- function() {
     makeDiscreteParameter("cp", vals=cp), 
     makeDiscreteParameter("minsplit", vals=minsplit)
   )
-	ctrl = grid.control()
+	ctrl = makeTuneGridControl()
 	folds = 3
 	
 	tr <- tune.rpart(formula=multiclass.formula, data=multiclass.df, cp=cp, minsplit=minsplit,
@@ -113,7 +113,7 @@ test.tune.cmaes = function() {
     makeDiscreteParameter("minsplit", vals=c(1,2))
   )
   
-  ctrl1 = cmaes.control(start=c(0.05, 5L), maxit=5)
+  ctrl1 = makeTuneCMAESControl(start=c(0.05, 5L), maxit=5)
   tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl1)
   
   checkException(tune("classif.rpart", multiclass.task, res, par.set=ps2, control=ctrl1))

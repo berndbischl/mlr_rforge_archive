@@ -25,9 +25,9 @@ setClass(
 #' @param ... Further control parameters passed to the \code{control} argument of \code{\link[cmaes]{cma_es}}.
 #'        
 #' @return Control structure for tuning.
-#' @exportMethod cmaes.control
-#' @rdname cmaes.control 
-#' @title Control for CMA-ES tuning. 
+#' @exportMethod makeTuneSPOControl
+#' @rdname makeTuneSPOControl 
+#' @title Control for SPO tuning. 
 
 
 setGeneric(

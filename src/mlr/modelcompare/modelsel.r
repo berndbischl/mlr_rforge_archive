@@ -23,8 +23,7 @@
 #' @return \code{\linkS4class{opt.result}}.
 #' 
 #' @export
-#'
-#' @seealso \code{\link{grid.control}}, \code{\link{optim.control}}, \code{\link{cmaes.control}}
+
 
 modelsel = function(learners, task, resampling, control, measures, aggr, model=FALSE, path=FALSE) {
   

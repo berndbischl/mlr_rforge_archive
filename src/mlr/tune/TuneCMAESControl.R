@@ -2,7 +2,6 @@
 roxygen()
 
 #' @exportClass TuneCMAESControl
-#' @rdname TuneCMAESControl 
 
 setClass(
 		"TuneCMAESControl",
@@ -21,8 +20,8 @@ setClass(
 #' @param ... Further control parameters passed to the \code{control} argument of \code{\link[cmaes]{cma_es}}.
 #' 		    
 #' @return Control structure for tuning.
-#' @exportMethod cmaes.control
-#' @rdname cmaes.control 
+#' @exportMethod makeTuneCMAESControl
+#' @rdname makeTuneCMAESControl 
 #' @title Control for CMA-ES tuning. 
 
 
