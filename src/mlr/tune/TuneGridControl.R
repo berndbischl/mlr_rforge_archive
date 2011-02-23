@@ -17,27 +17,27 @@ setClass(
 #'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
 #' 		    
 #' @return Control structure for tuning.
-#' @exportMethod TuneGridControl
-#' @rdname TuneGridControl 
+#' @exportMethod makeTuneGridControl
+#' @rdname makeTuneGridControl 
 #' @title Control for grid search tuning. 
 
 
 setGeneric(
-		name = "TuneGridControl",
+		name = "makeTuneGridControl",
 		def = function(path, same.resampling.instance) {
 			if (missing(path))
 				path=TRUE
       if (missing(same.resampling.instance))
         same.resampling.instance = TRUE
-      standardGeneric("TuneGridControl")
+      standardGeneric("makeTuneGridControl")
 		}
 )
 
 
-#' @rdname TuneGridControl 
+#' @rdname makeTuneGridControl 
 
 setMethod(
-		f = "TuneGridControl",
+		f = "makeTuneGridControl",
 		signature = signature(path="logical", same.resampling.instance="logical"),
 		def = function(path, same.resampling.instance) {
 			new("TuneGridControl", path=path, same.resampling.instance=same.resampling.instance, start=list())
