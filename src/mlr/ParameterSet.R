@@ -70,6 +70,17 @@ setMethod(
   }
 )
 
+#todo: with and without repeats for vectors?
+getRepeatedParameterIDs = function(par.set) {
+  ns = lapply(par.set@pars, function(x) 
+      if (x@type %in% c("numericvector", "integervector")) 
+        rep(x@id, length(x@constraints$lower))    
+      else 
+        x@id
+  )
+  Reduce(c, ns)
+}
+
 
 #' @rdname isFeasible
 setMethod(

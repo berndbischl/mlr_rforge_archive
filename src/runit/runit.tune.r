@@ -108,15 +108,22 @@ test.tune.cmaes = function() {
     makeNumericParameter("cp", lower=0.001, upper=1), 
     makeIntegerParameter("minsplit", lower=1, upper=10)
   )
-  ps2 = makeParameterSet(
-    makeNumericParameter("cp", lower=0.001, upper=1), 
-    makeDiscreteParameter("minsplit", vals=c(1,2))
-  )
-  
   ctrl1 = makeTuneCMAESControl(start=c(0.05, 5L), maxit=5)
   tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl1)
   
-  checkException(tune("classif.rpart", multiclass.task, res, par.set=ps2, control=ctrl1))
+  ps2 = makeParameterSet(
+    makeNumericVectorParameter("cutoff", lower=0, upper=1, dim=3), 
+    makeIntegerParameter("ntree", lower=100, upper=500,) 
+  )
+  
+  ctrl2 = makeTuneCMAESControl(start=c(1/3, 1/3, 1/3, 200L), maxit=5)
+  tr2 = tune("classif.randomForest", multiclass.task, res, par.set=ps2, control=ctrl2)
+  
+  ps3 = makeParameterSet(
+    makeNumericParameter("cp", lower=0.001, upper=1), 
+    makeDiscreteParameter("minsplit", vals=c(1,2))
+  )
+  checkException(tune("classif.rpart", multiclass.task, res, par.set=ps3, control=ctrl1))
 } 
 
 

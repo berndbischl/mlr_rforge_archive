@@ -137,7 +137,7 @@ allowed.rd.files <<- c(
 		
 		"bench.exp.Rd",
 		"bench.result-class.Rd",
-    "getTunedParamters.Rd",
+    "‘getTunedParameters.Rd",
     "getSelectedFeatures.Rd",
     "bench.result-class.Rd",
     

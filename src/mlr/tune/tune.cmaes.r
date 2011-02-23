@@ -4,28 +4,29 @@ tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt
 
   if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer", "numericvector", "integervector")))))
     stop("CMAES can only be applied to numeric, integer, numericvector, int parameters!")
-  ns = sapply(par.set@pars, function(x) x@id)
-  if (length(control@start) != length(ns))
-    stop(" Length of 'start' has to match numer of parameters in 'par.set'!")
+  
   low = lower(par.set)
   up = upper(par.set)
+  if (length(control@start) != length(low))
+    stop(" Length of 'start' has to match number of parameters in 'par.set'!")
   
   start = unlist(control@start)
+  print(start)
   g = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path, log.fun)
 
-  g2 = function(p) {
-    p2 = as.list(as.data.frame(p))
-    p2 = lapply(p2, function(x) {x=as.list(x);names(x)=ns;x})
-    es = eval.states(learner, task, resampling, measures, control, p2, "optim")
-    path <<- addPathElements.tune(path=path, ess=es, best=NULL)
-    perf = sapply(es, get.perf)
-    # cma es does not like NAs which might be produced if the learner gets values which result in a degenerated model
-    if (measures[[1]]@minimize)
-      perf[is.na(perf)] = Inf
-    else
-      perf[is.na(perf)] = -Inf
-    return(perf)
-  }
+#  g2 = function(p) {
+#    p2 = as.list(as.data.frame(p))
+#    p2 = lapply(p2, function(x) {x=as.list(x);names(x)=ns;x})
+#    es = eval.states(learner, task, resampling, measures, control, p2, "optim")
+#    path <<- addPathElements.tune(path=path, ess=es, best=NULL)
+#    perf = sapply(es, get.perf)
+#    # cma es does not like NAs which might be produced if the learner gets values which result in a degenerated model
+#    if (measures[[1]]@minimize)
+#      perf[is.na(perf)] = Inf
+#    else
+#      perf[is.na(perf)] = -Inf
+#    return(perf)
+#  }
   
 	args = control@extra.args
 	

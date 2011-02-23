@@ -1,19 +1,23 @@
 make.tune.f = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   function(p) {
-    p2 = as.list(p)
-    names(p2) = sapply(par.set@pars, function(p) p@id)
+    print(p)
+    pars = par.set@pars
+    ids = getRepeatedParameterIDs(par.set)
+    p.split = split(p, ids)
+    p.split = Map(function(par, x) { 
+        if(par@type %in% (par@type %in% c("integer", "integervector")))
+          as.integer(round(x))
+        else
+          x
+      }, 
+      pars, p.split
+    )
     
-    #round integers
-    for (i in 1:length(p2)) {
-      if (par.set@pars[[i]]@type == "integer")
-        p2[[i]] = as.integer(round(p2[[i]]))
-    }
-    
-    p2 = trafoVal(par.set, p2)
+    p.split = trafoVal(par.set, p.split)
     # todo: what about operators that generate the new state? accepted?
-    y = eval.rf(learner, task, resampling, measures, par.set, control, p2) 
-    addPathElement(opt.path, x=p2, y=y)   
-    log.fun(learner, task, resampling, measures, par.set, control, opt.path, p2, y)
+    y = eval.rf(learner, task, resampling, measures, par.set, control, p.split) 
+    addPathElement(opt.path, x=p.split, y=y)   
+    log.fun(learner, task, resampling, measures, par.set, control, opt.path, p.split, y)
     ifelse(measures[[1]]@minimize, 1 , -1) * y[1]
   }  
 }
@@ -22,6 +26,10 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
 
 log.fun.tune = function(learner, task, resampling, measures, par.set, control, opt.path, x, y) {
   logger.info(level="opt", paste(valToString(par.set, x), " : ", formatC(y, digits=3)))
+}
+
+splitVector = function(x, par.set) {
+  
 }
 
 
