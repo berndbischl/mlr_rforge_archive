@@ -34,9 +34,9 @@ setMethod(
     else if (type == "integer")
       is.numeric(x) && length(x) == 1 && (x == as.integer(x)) && x >= lower(par) & x <= upper(par)
     else if (type == "numericvector")
-      is.numeric(x) && length(x) == length(lower(par)) && all(x >= lower(par)) & all(x <= upper(par))
+      is.numeric(x) && (isTRUE(par@constraints$unknown.dim) || length(x) == length(lower(par))) && all(x >= lower(par)) & all(x <= upper(par))
     else if (type == "integervector")
-      is.numeric(x) && length(x) == length(lower(par)) && all(x == as.integer(x)) && all(x >= lower(par)) & all(x <= upper(par))
+      is.numeric(x) && (isTRUE(par@constraints$unknown.dim) || length(x) == length(lower(par))) && all(x == as.integer(x)) && all(x >= lower(par)) & all(x <= upper(par))
     else if (type == "discrete") {
         !is.na(Position(function(v) isTRUE(all.equal(x, v)), par@constraints$vals)) ||
         !is.na(Position(function(v) identical(x, v), names(par@constraints$vals))) 

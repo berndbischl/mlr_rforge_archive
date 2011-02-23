@@ -21,6 +21,8 @@ makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
 #' Numerical vector parameter for a learner.
 #' @param id [character(1)]
 #'   Name of parameter.
+#' @param dim [integer(1)]
+#'   Dimension of vector. Can be \code{NA}, which means dimension in unknown. Default is \code{NA}.
 #' @param lower [numeric(1)] \cr
 #'   Lower bound. Default is \code{-Inf}.
 #' @param upper [numeric(1)] \cr
@@ -31,11 +33,23 @@ makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
-makeNumericVectorLearnerParameter <- function(id, lower=-Inf, upper=Inf,
-  default, when="train",
-  flags=list(), requires=expression()) {
-  p <- makeNumericParameter(id, lower, upper)
-  learner.parameter.from.parameter(p, default, when, flags, requires)
+makeNumericVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf, default, when="train", flags=list(), requires=expression()) {
+  if (length(dim) == 1 && (is.na(dim) || (is.numeric(dim) && as.integer(dim) == dim)))
+    dim = as.integer(dim)
+  check.arg(dim, "integer", 1)
+  dim2 = dim
+  if (is.na(dim)) {
+    check.arg(lower, "numeric", 1)
+    check.arg(upper, "numeric", 1)
+    dim2 = 1
+    unknown.dim = TRUE
+  } else {
+    unknown.dim = FALSE
+  } 
+  p = makeNumericVectorParameter(id, dim=dim2, lower=lower, upper=upper)
+  p = learner.parameter.from.parameter(p, default, when, flags, requires)
+  p@constraints$unknown.dim = unknown.dim
+  return(p)
 }
 
 
@@ -58,6 +72,41 @@ makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.
   p <- makeIntegerParameter(id, lower, upper)
   learner.parameter.from.parameter(p, default, when, flags, requires)
 }
+
+#' Integer vector parameter for a learner.
+#' @param id [character(1)]
+#'   Name of parameter.
+#' @param dim [integer(1)]
+#'   Dimension of vector. Can be \code{NA}, which means dimension in unknown. Default is \code{NA}.
+#' @param lower [integer(1)] \cr
+#'   Lower bound. Default is \code{-.Machine$integer.max}.
+#' @param upper [integer(1)] \cr
+#'   Upper bound. Default is \code{Machine$integer.max}.
+#' @param default [numeric(1)]
+#'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param when [character(1)]
+#'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @return  \code{\linkS4class{Parameter}}
+#' @export 
+makeIntegerVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf, default, when="train", flags=list(), requires=expression()) {
+  if (length(dim) == 1 && (is.na(dim) || (is.numeric(dim) && as.integer(dim) == dim)))
+    dim = as.integer(dim)
+  check.arg(dim, "integer", 1)
+  dim2 = dim
+  if (is.na(dim)) {
+    check.arg(lower, "numeric", 1)
+    check.arg(upper, "numeric", 1)
+    dim2 = 1
+    unknown.dim = TRUE
+  } else {
+    unknown.dim = FALSE
+  } 
+  p = makeIntegerVectorParameter(id, dim=dim2, lower=lower, upper=upper)
+  p = learner.parameter.from.parameter(p, default, when, flags, requires)
+  p@constraints$unknown.dim = unknown.dim
+  return(p)
+}
+
 
 
 #' Numerical parameter for a learner.
