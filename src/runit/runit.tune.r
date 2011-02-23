@@ -83,19 +83,19 @@ test.tune.optim = function() {
   )
   
   # nelder mead with optim
-  ctrl = optim.control(method="Nelder-Mead", start=c(1, 1), maxit=10)
+  ctrl = makeTuneOptimControl(method="Nelder-Mead", start=c(1, 1), maxit=10)
   tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
-  ctrl = optim.control(method="Nelder-Mead", start=c(0.05, 5), maxit=10)
+  ctrl = makeTuneOptimControl(method="Nelder-Mead", start=c(0.05, 5), maxit=10)
   checkException(tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl))
   
-  ctrl = optim.control(method="SANN", start=c(1, 1), maxit=10)
+  ctrl = makeTuneOptimControl(method="SANN", start=c(1, 1), maxit=10)
   tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
-  ctrl = optim.control(method="SANN", start=c(0.05, 5), maxit=10)
+  ctrl = makeTuneOptimControl(method="SANN", start=c(0.05, 5), maxit=10)
   checkException(tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl))
   
-  ctrl = optim.control(method="L-BFGS-B", start=c(1, 1), maxit=10)
+  ctrl = makeTuneOptimControl(method="L-BFGS-B", start=c(1, 1), maxit=10)
   tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
-  ctrl = optim.control(method="L-BFGS-B", start=c(0.05, 5), maxit=10)
+  ctrl = makeTuneOptimControl(method="L-BFGS-B", start=c(0.05, 5), maxit=10)
   tr = tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl)
   
   checkException(tune("classif.rpart", multiclass.task, res, par.set=ps3, control=ctrl))

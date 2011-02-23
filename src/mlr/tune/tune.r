@@ -56,7 +56,7 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun)
       TuneGridControl = tune.grid,
 #			pattern = tune.ps,
       TuneCMAESControl = tune.cmaes,
-			optim.control = tune.optim,
+      TuneOptimControl = tune.optim,
       diceoptim.control = tune.diceoptim,
       stop(paste("Tuning algorithm for", cl, "does not exist!"))
 	)		

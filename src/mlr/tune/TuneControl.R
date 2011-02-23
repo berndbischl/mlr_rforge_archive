@@ -6,11 +6,11 @@ roxygen()
 #' 
 #' \describe{
 #'   \item{TuneGridControl}{Grid search. All kinds of parameter types can be handled, but you have discretize them yourself by always using \code{\link{makeDiscreteParameter}}.}
-#'   \item{optim.control}{\code{\link[stats]{optim}}. Can handle numeric and integer hyperparameters. For integers the internally proposed numeric values are rounded.}
+#'   \item{TuneOptimControl}{\code{\link[stats]{optim}}. Can handle numeric and integer hyperparameters. For integers the internally proposed numeric values are rounded.}
 #'   \item{TuneCMAESControl}{CMA Evolution Strategy. Can handle numeric and integer hyperparameters. For integers the internally proposed numeric values are rounded.}
 #' }
 #' 
-#' Subclasses: \code{\linkS4class{TuneGridControl}}, \code{\linkS4class{optim.control}}, \code{\linkS4class{TuneCMAESControl}}
+#' Subclasses: \code{\linkS4class{TuneGridControl}}, \code{\linkS4class{TuneOptimControl}}, \code{\linkS4class{TuneCMAESControl}}
 #' 
 #' @exportClass TuneControl
 #' @title Base class for control objects for tuning.

@@ -123,8 +123,9 @@ allowed.rd.files <<- c(
     "TuneGridControl-class.Rd",
     "makeTuneGridControl-class.Rd",
 #		"ps.control.Rd",
-		"optim.control.Rd",
-		"TuneCMAESControl-class.Rd",
+    "TuneOptimControl-class.Rd",
+    "makeTuneOptimControl-class.Rd",
+    "TuneCMAESControl-class.Rd",
     "makeTuneCMAESControl.Rd",
     
 		"varsel.control-class.Rd",

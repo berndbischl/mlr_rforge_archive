@@ -117,7 +117,7 @@ pack.files = c(
 		"mlr/tune/TuneControl.R",
     "mlr/tune/TuneGridControl.R",
 #		"mlr/tune/control.ps.r",
-		"mlr/tune/control.optim.r",
+		"mlr/tune/TuneOptimControl.R",
     "mlr/tune/control.diceoptim.r",
     "mlr/tune/tune.r",
 		"mlr/tune/tune.threshold.r",
