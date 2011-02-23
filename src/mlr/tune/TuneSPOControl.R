@@ -1,8 +1,8 @@
 #' @include TuneControl.R
 roxygen()
 
+#' Control structure for SPO tuning. 
 #' @exportClass TuneSPOControl
-#' @rdname TuneSPOControl 
 
 setClass(
   "TuneSPOControl",
@@ -14,7 +14,7 @@ setClass(
 )
 
 
-#' Control structure for SPO tuning. 
+#' Create control structure for SPO tuning. 
 #' 
 #' @param path [boolean]\cr
 #'   Should optimization path be saved? Default is TRUE.

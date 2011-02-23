@@ -71,7 +71,7 @@ setMethod(
 )
 
 
-#' rdname isFeasible
+#' @rdname isFeasible
 setMethod(
   f = "isFeasible",
   signature = signature(par="ParameterSet", x="list"),

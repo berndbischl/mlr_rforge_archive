@@ -140,12 +140,12 @@ setMethod(
 #'   Id of tuned learner used in \code{br}. If there was only one learner, this argument can be missing.    
 #'        
 #' @return Data.frame 
-#' @exportMethod tuned.pars
+#' @exportMethod getTunedParameters
 #' @title Extract tuned parameters from bench.result.
-#' @rdname tuned.pars
+#' @rdname getTunedParameters
 
 setGeneric(
-  name = "tuned.pars",
+  name = "getTunedParameters",
   def = function(br, task.id, learner.id, as.data.frame) {
     check.arg(br, "bench.result")
     tns = names(br@task.descs)
@@ -156,13 +156,13 @@ setGeneric(
       learner.id = lns
     if (missing(as.data.frame))
       as.data.frame=TRUE
-    standardGeneric("tuned.pars")
+    standardGeneric("getTunedParameters")
   }
 )
 
-#' @rdname tuned.pars 
+#' @rdname getTunedParameters 
 setMethod(
-  f = "tuned.pars",
+  f = "getTunedParameters",
   signature = signature(br="bench.result", task.id="character", learner.id="character", as.data.frame="logical"),
   def = function(br, task.id, learner.id, as.data.frame) {
     tns = names(br@task.descs)
@@ -191,12 +191,12 @@ setMethod(
 #'   Id of learner with variable selection used in \code{br}. If there was only one learner, this argument can be missing.    
 #'        
 #' @return Data.frame 
-#' @exportMethod sel.vars
+#' @exportMethod getSelectedFeatures
 #' @title Extract optimized features from bench.result.
-#' @rdname sel.vars
+#' @rdname getSelectedFeatures
 
 setGeneric(
-  name = "sel.vars",
+  name = "getSelectedFeatures",
   def = function(br, task.id, learner.id, as.data.frame) {
     check.arg(br, "bench.result")
     tns = names(br@task.descs)
@@ -207,13 +207,13 @@ setGeneric(
       learner.id = lns
     if (missing(as.data.frame))
       as.data.frame=TRUE
-    standardGeneric("sel.vars")
+    standardGeneric("getSelectedFeatures")
   }
 )
 
-#' @rdname sel.vars 
+#' @rdname getSelectedFeatures 
 setMethod(
-  f = "sel.vars",
+  f = "getSelectedFeatures",
   signature = signature(br="bench.result", task.id="character", learner.id="character", as.data.frame="logical"),
   def = function(br, task.id, learner.id, as.data.frame) {
     tns = names(br@task.descs)

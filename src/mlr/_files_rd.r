@@ -137,7 +137,10 @@ allowed.rd.files <<- c(
 		
 		"bench.exp.Rd",
 		"bench.result-class.Rd",
-		
+    "getTunedParamters.Rd",
+    "getSelectedFeatures.Rd",
+    "bench.result-class.Rd",
+    
     "makeDesign.Rd",
     "OptPath-class.Rd",
     "addPathElement.Rd",

@@ -46,15 +46,6 @@ setClass(
   )
 )
 
-#' @rdname measure-class
-setMethod(
-  f = "[",
-  signature = signature("Measure"),
-  def = function(x,i,j,...,drop) {
-    callNextMethod()
-  }
-)
-
 #' @rdname to.string
 setMethod(
   f = "to.string",

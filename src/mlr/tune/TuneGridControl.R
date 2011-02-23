@@ -1,15 +1,15 @@
 #' @include TuneControl.R
 roxygen()
 
+#' Control structure for grid search tuning.
 #' @exportClass TuneGridControl
-#' @rdname TuneGridControl 
 
 setClass(
 		"TuneGridControl",
 		contains = c("TuneControl")
 )
 
-#' Control structure for grid search tuning. 
+#' Create control structure for grid search tuning. 
 #' 
 #' @param path [boolean]\cr
 #'   Should optimization path be saved? Default is TRUE.

@@ -1,7 +1,6 @@
-#' A aggregation method reduce the performance values of the test (and possibly the training sets) to a single
+#' An aggregation method reduce the performance values of the test (and possibly the training sets) to a single
 #' value. 
 #' 
-#' Classification (only mmce and acc can be used for multiclass problems): 
 #' \itemize{ 
 #'    \item{\bold{test.mean}}{\cr Mean of performance values on test sets.}
 #'    \item{\bold{test.sd}}{\cr Standard deviation of performance values on test sets.}
@@ -19,7 +18,8 @@
 #'    \item{\bold{b632plus}}{\cr Aggregation for B632+ bootstrap.}
 #'    \item{\bold{testgroup.mean}}{\cr Performance values on test sets are grouped according to resampling method. The mean for very group is calculated, then the mean of those means. Mainly used for repeated CV.}
 #' }
-#' @export 
+#' @export
+#' @seealso \code{\linkS4class{Aggregation}}
 #' @title Aggregation methods.
 aggregations = function() {}
 

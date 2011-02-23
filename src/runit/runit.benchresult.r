@@ -40,9 +40,9 @@ test.benchresult = function() {
 	checkTrue(!any(sapply(x2, is.null)))
 	checkTrue(!any(sapply(x3, is.null)))
 	
-  x = tuned.pars(be, learner="classif.ksvm")
+  x = getTunedParameters(be, learner="classif.ksvm")
   checkTrue(all(x$C == 1 | x$C == 2))
-  tp = tuned.pars(be, learner="foo")
+  tp = getTunedParameters(be, learner="foo")
 	checkTrue(all(x$C == 1 | x$C == 2))
 
 	ctrl = sequential.control(method="sbs", beta=100)
@@ -51,11 +51,11 @@ test.benchresult = function() {
 	learners = c("classif.rpart", vs)
 	be = bench.exp(tasks=multiclass.task, learners=learners, resampling=res)
 	x = replicate(3, getFeatureNames(multiclass.task), F)
-	y = sel.vars(be, learner.id="classif.lda", as.data.frame=FALSE)
+	y = getSelectedFeatures(be, learner.id="classif.lda", as.data.frame=FALSE)
 	checkEquals(x, y)  
   x = as.data.frame(matrix(1, 3, 4))
   colnames(x) = getFeatureNames(multiclass.task)
-  y = sel.vars(be, learner.id="classif.lda")
+  y = getSelectedFeatures(be, learner.id="classif.lda")
   checkEquals(x, y)  
   
 	tasks = list(multiclass.task, binaryclass.task)

@@ -1,6 +1,7 @@
 #' @include TuneControl.R
 roxygen()
 
+#' Control structure for CMA-ES tuning. 
 #' @exportClass TuneCMAESControl
 
 setClass(
@@ -9,7 +10,7 @@ setClass(
 )
 
 
-#' Control structure for CMA-ES tuning. 
+#' Create control structure for CMA-ES tuning. 
 #' 
 #' @param path [boolean]\cr
 #'   Should optimization path be saved? Default is TRUE.

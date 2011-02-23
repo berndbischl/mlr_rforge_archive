@@ -1,8 +1,8 @@
 #' @include TuneControl.R
 roxygen()
 
+#' Control structure for tuning with \code{optim}.
 #' @exportClass TuneOptimControl
-#' @rdname TuneOptimControl
 
 setClass(
 		"TuneOptimControl",
@@ -10,7 +10,7 @@ setClass(
 )
 
 
-#' Control structure for tuning with optim (Nelder-Mead, SANN, etc). 
+#' Create control structure for tuning with optim (Nelder-Mead, SANN, etc). 
 #' 
 #' @param path [boolean]\cr
 #'   Should optimization path be saved? Default is TRUE.
