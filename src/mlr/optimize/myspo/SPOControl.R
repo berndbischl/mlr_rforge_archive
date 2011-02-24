@@ -30,8 +30,6 @@ setClass(
 #'   Name of y-column for target values in optimization path. Default is 'y'.   
 #' @param minimize [logical(1)]\cr 
 #'   Should target function be minimized? Default is \code{TRUE}.   
-#' @param y.name [character(1)]\cr 
-#'   Name of y-column for target values in optimization path.   
 #' @param init.design.points [integer(1)]\cr 
 #'   Number of points in inital design. 
 #'   Only used if no design is given in \code{spo} function. Default is 20.   
@@ -48,8 +46,6 @@ setClass(
 #' @param propose.points.method [character(1)]\cr 
 #'   How should points be proposed by using the surrogate model. Possible are: 
 #'   'seq.design': Use a large design of points and evaluate the surrogate model at each. The best \code{propose.points} are selected.    
-#' @param seq.design.points [integer(1)]\cr 
-#'   Number of points in sequential design. Only used if \code{propose.points.method} is 'seq.design.' Default is 10000.   
 #' @param seq.design.points [integer(1)]\cr 
 #'   Number of points in sequential design. Only used if \code{propose.points.method} is 'seq.design.' Default is 10000.   
 #' @param seq.design.fun [function] \cr

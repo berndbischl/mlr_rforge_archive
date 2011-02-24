@@ -10,7 +10,7 @@
 #' 
 #' @return A \code{\linkS4class{ResampleInstance}} object.
 #' @export 
-#' @seealso code{\link{makeResampleDesc}}, \code{\link{resample}} 
+#' @seealso \code{\link{makeResampleDesc}}, \code{\link{resample}} 
 #' @rdname makeResampleInstance
 #' @title Construct resampling instance
 
