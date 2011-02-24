@@ -39,7 +39,7 @@ setMethod(
           makeIntegerLearnerParameter(id="mtry", lower=1L),
 					makeLogicalLearnerParameter(id="replace", default=TRUE),
           makeNumericVectorLearnerParameter(id="classwt", lower=0),
-          makeNumericVectorLearnerParameter(id="cutoff", lower=0),
+          makeNumericVectorLearnerParameter(id="cutoff", lower=0, upper=1),
           makeIntegerLearnerParameter(id="sampsize", lower=1L),
           makeIntegerLearnerParameter(id="nodesize", default=1L, lower=1L),
           makeIntegerLearnerParameter(id="maxnodes", lower=1L),
@@ -64,9 +64,17 @@ setMethod(
 				.task="ClassifTask", .subset="integer" 
 		),
 		
-		def = function(.learner, .task, .subset,  ...) {
-			f = .task["formula"]
-			randomForest(f, data=get.data(.task, .subset), ...)
+		def = function(.learner, .task, .subset, classwt=NULL, cutoff, ...) {
+      f = .task["formula"]
+      levs = getClassLevels(.task)
+      n = length(levs)
+      if (missing(cutoff))
+        cutoff = rep(1/n, n)
+      if (!missing(classwt) && is.numeric(classwt) && length(classwt) == n && is.null(names(classwt))) 
+        names(classwt) = levs
+      if (is.numeric(cutoff) && length(cutoff) == n && is.null(names(cutoff))) 
+        names(cutoff) = levs
+			randomForest(f, data=get.data(.task, .subset), classwt=classwt, cutoff=cutoff, ...)
 		}
 )
 
