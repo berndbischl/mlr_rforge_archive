@@ -12,7 +12,10 @@
 #'   List of further arguments passed to \code{fun}. 
 #' @param trafo [logical(1)] \cr
 #'   Transform all parameters by using theirs respective transformation functions. Default is \code{TRUE}. 
-#' @return The created design as a data.frame. Columns are named by the ids of the parameters. The data type of a column 
+#' @return The created design as a data.frame. Columns are named by the ids of the parameters.
+#'   If the \code{par.set} argument contains a vector parameter, its corresponding columns names  
+#'   in the design are the parameter id concatenated with 1 to dimension of vector.   
+#'   The data type of a column 
 #'   is defined in the following way. Numeric parameters generate numeric columns, integer parameters generate integer columns, 
 #'   logical parameters generate logical columns, discrete parameters generate factor column (factor levels are names of the possible values
 #'   of the discrete parameter).  
@@ -64,6 +67,6 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
       des[,col] = factor(names(v[ceiling(des[,col] * length(v))]), levels=v)
     }
   }
-  colnames(des) = getRepeatedParameterIDs(par.set)
+  colnames(des) = getRepeatedParameterIDs(par.set, with.nr=TRUE)
   return(des)
 }

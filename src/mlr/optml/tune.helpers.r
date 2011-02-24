@@ -4,7 +4,7 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
     if (arg.as.list) {
       p.split = p
     } else {
-      ids = getRepeatedParameterIDs(par.set)
+      ids = getRepeatedParameterIDs(par.set, with.nr=FALSE)
       p.split = split(p, ids)
     }
     p.split = Map(function(par, x) { 

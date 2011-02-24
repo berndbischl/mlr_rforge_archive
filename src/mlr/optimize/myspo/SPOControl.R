@@ -69,6 +69,7 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
   resample.desc = makeResampleDesc("CV", iter=10), resample.at = integer(0), resample.measures=list(mse) 
 ) {
+  require.packs("lhs", "makeSPOControl")
   if (is.numeric(init.design.points) && length(init.design.points) == 1 && as.integer(init.design.points) == init.design.points)
     init.design.points = as.integer(init.design.points)
   if (is.numeric(seq.loops) && length(seq.loops) == 1 && as.integer(seq.loops) == seq.loops)

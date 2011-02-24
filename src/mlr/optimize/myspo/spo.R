@@ -22,20 +22,32 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     stop("No par.set parameter in 'spo' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")
   if (any(is.infinite(c(lower(par.set), upper(par.set)))))
     stop("SPO requires finite box constraints!")
-  opt.path = makeOptPath(y.names=control@y.name, x.names=names(par.set@pars), minimize=control@minimize)
+  rep.pids = getRepeatedParameterIDs(par.set, with.nr=TRUE)
+  opt.path = makeOptPath(y.names=control@y.name, x.names=rep.pids, minimize=control@minimize)
   if (length(opt.path@y.names) > 1)
     stop("'opt.path' should only contain one 'y' column!")
   y.name = opt.path@y.names
   
   if (is.null(des)) {
-    des = makeDesign(control@init.design.points, par.set, control@init.design.fun, control@init.design.args)
-    des$y = sapply(1:nrow(des), function(i) eval.fit.fun(fun, par.set, des, i)$y)
+    des.x = makeDesign(control@init.design.points, par.set, control@init.design.fun, control@init.design.args)
+    xs = lapply(1:nrow(des.x), function(i) designToList(des.x, par.set, i))
+    ys = sapply(xs, fun)
+    des = des.x
+    des[, y.name] = ys
+  } else {
+    if (!(y.name %in% colnames(des)))
+      stop("Design 'des' must contain y column of fitness values: ", y.name)
+    ys = des[, y.name]
+    # remove y 
+    des.x = des[, -which(colnames(des) == y.name)]
+    cns = colnames(des.x)
+    if(!setequal(cns, rep.pids))
+      stop("Column names of design 'des' must match names of parameters in 'par.set'!")
+    # reorder
+    des.x = des.x[, rep.pids]
+    xs = lapply(1:nrow(des.x), function(i) designToList(des.x, par.set, i))
   }
-
-  if (!(y.name %in% colnames(des)))
-    stop("Design 'des' must contain y column of fitness values: ", y.name)
-  for (i in 1:nrow(des))
-    addPathElement(opt.path, x=as.list(des[i,colnames(des)!=y.name]), y=des[i,y.name])
+  lapply(1:nrow(des.x), function(i) addPathElement(opt.path, x=as.list(des.x[i,]), y=ys[i]))
   rt = makeRegrTask(target=y.name, data=des)
   model = train(learner, rt)
   loop = 1
@@ -45,9 +57,10 @@ spo = function(fun, par.set, des=NULL, learner, control) {
       r = resample(learner, rt, control@ResampleDesc, measures=control@resample.measures)
       res.vals[[length(res.vals)+1]] = r$aggr
     }
-    xs = proposePoints(model, par.set, control)
-    zs = lapply(1:nrow(xs), function(i) eval.fit.fun(fun, par.set, xs, i))
-    lapply(zs, function(z) addPathElement(opt.path, x=z$x, y=z$y))
+    prop.des = proposePoints(model, par.set, control)
+    xs = lapply(1:nrow(prop.des), function(i) designToList(prop.des, par.set, i))
+    ys = sapply(xs, fun)
+    lapply(1:nrow(prop.des), function(i) addPathElement(opt.path, x=as.list(prop.des[i,]), y=ys[i]))
     rt = makeRegrTask(target=y.name, data = as.data.frame(opt.path), exclude=c(".dob", ".eol"))
     model = train(learner, rt)
     loop = loop + 1  
@@ -57,8 +70,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
 }
 
 
-
-eval.fit.fun = function(fun, par.set, des, i) {
+designToList = function(des, par.set, i, y.name) {
   des = des[i,]
   pars = par.set@pars
   col = 0
@@ -78,8 +90,9 @@ eval.fit.fun = function(fun, par.set, des, i) {
     else 
       x[[p@id]] = des[,col]
   }
-  list(x=x, y=fun(x))
+  return(x)
 }
+
 
 
 

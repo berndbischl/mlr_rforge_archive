@@ -124,7 +124,7 @@ pack.files = c(
 		"mlr/tune/tune.grid.r",
     "mlr/tune/tune.optim.r",
     "mlr/tune/tune.cmaes.r",
-    "mlr/tune/tune.spo.r",
+    "mlr/tune/tune.spo.R",
 #		"mlr/varsel/varsel.helpers.r",
 		"mlr/varsel/novars.r",
 		"mlr/varsel/control.varsel.r",
