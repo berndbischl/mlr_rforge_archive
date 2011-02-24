@@ -112,11 +112,11 @@ test.tune.cmaes = function() {
   tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl1)
   
   ps2 = makeParameterSet(
-    makeNumericVectorParameter("cutoff", lower=0, upper=1, dim=3), 
-    makeIntegerParameter("ntree", lower=100, upper=500,) 
+    makeNumericVectorParameter("cutoff", lower=0.0001, upper=1, dim=3, trafo=function(x) x / (1.1*sum(x))), 
+    makeIntegerParameter("ntree", lower=100, upper=500) 
   )
   
-  ctrl2 = makeTuneCMAESControl(start=c(1/3, 1/3, 1/3, 200L), maxit=5)
+  ctrl2 = makeTuneCMAESControl(start=c(1/3, 1/3, 1/3, 200L), maxit=5, sigma=2)
   tr2 = tune("classif.randomForest", multiclass.task, res, par.set=ps2, control=ctrl2)
   
   ps3 = makeParameterSet(
