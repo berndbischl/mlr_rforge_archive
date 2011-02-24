@@ -24,15 +24,18 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
   
   lower = lower(par.set)
   upper = upper(par.set)
+  
+  if (any(is.infinite(c(lower, upper))))
+    stop("makeDesign requires finite box constraints!")
+  
   vals = values(par.set)
   pars = par.set@pars
   
   k = sum(sapply(par.set@pars, function(x) 
         if (x@type %in% c("numericvector", "integervector")) length(lower(x)) else 1))
-  des = do.call(fun, c(list(n=n, k=length(pars)), fun.args))
-  
+  des = do.call(fun, c(list(n=n, k=k), fun.args))
   des = as.data.frame(des)
-  
+
   col = 0
   for (i in 1:length(pars)) {
     p = pars[[i]]
@@ -41,6 +44,7 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
       col = (cc + 1) : (cc + length(lower(p)))   
     else 
       col = cc + 1    
+
     if (p@type == "numeric")
       des[,col] = p@trafo((upper(p)-lower(p))*des[,col] + lower(p))
     else if (p@type == "integer")
@@ -48,15 +52,18 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
     else if (p@type == "numericvector") {
       des[,col] = t((upper(p)-lower(p))*t(des[,col]) + lower(p))
       des[,col] = apply(des[,col], 1, p@trafo)
-    } else if (p@type == "integervector")
-      des[,col] = p@trafo(as.integer(floor(upper(p)-lower(p))*des[,col] + lower(p)))
-    else if (p@type == "logical")
+    } else if (p@type == "integervector") {
+      x = floor((upper(p)-lower(p)+1)*as.matrix(des[,col]) + lower(p))
+      mode(x) = "integer"
+      des[,col] = x
+      des[,col] = apply(des[,col], 1, p@trafo)
+    } else if (p@type == "logical")
       des[,col] = ifelse(des[,col] <= 0.5, FALSE, TRUE)
     else if (p@type == "discrete") {
       v = values(p)
       des[,col] = factor(names(v[ceiling(des[,col] * length(v))]), levels=v)
     }
   }
-  colnames(des) = sapply(pars, function(x) x@id)
+  colnames(des) = getRepeatedParameterIDs(par.set)
   return(des)
 }

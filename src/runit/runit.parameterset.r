@@ -16,7 +16,8 @@ test.ParmeterSet <- function() {
     makeNumericParameter("x", lower=1),
     makeIntegerVectorParameter("y", dim=2, lower=3L, upper=9L)
   )
-  checkEquals(getRepeatedParameterIDs(ps2), c("x", "y", "y"))
+  if (!use.package)
+    checkEquals(getRepeatedParameterIDs(ps2), c("x", "y", "y"))
   checkEquals(lower(ps2), c(x=1, y=3L, y=3L))
   checkEquals(upper(ps2), c(x=Inf, y=9L, y=9L))
   checkTrue(is.list(values(ps2)))
