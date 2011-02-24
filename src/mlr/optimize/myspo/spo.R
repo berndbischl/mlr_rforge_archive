@@ -29,9 +29,9 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   
   if (is.null(des)) {
     des = makeDesign(control@init.design.points, par.set, control@init.design.fun, control@init.design.args)
-    des$y = sapply(1:nrow(des), function(i) fun(as.list(des[i,])))
+    des$y = sapply(1:nrow(des), function(i) eval.fit.fun(fun, par.set, des, i)$y)
   }
-  
+
   if (!(y.name %in% colnames(des)))
     stop("Design 'des' must contain y column of fitness values: ", y.name)
   for (i in 1:nrow(des))
@@ -46,8 +46,8 @@ spo = function(fun, par.set, des=NULL, learner, control) {
       res.vals[[length(res.vals)+1]] = r$aggr
     }
     xs = proposePoints(model, par.set, control)
-    y = sapply(xs, fun)
-    Map(function(x, y1) addPathElement(opt.path, x=x, y=y1), xs, y)
+    zs = lapply(1:nrow(xs), function(i) eval.fit.fun(fun, par.set, xs, i))
+    lapply(zs, function(z) addPathElement(opt.path, x=z$x, y=z$y))
     rt = makeRegrTask(target=y.name, data = as.data.frame(opt.path), exclude=c(".dob", ".eol"))
     model = train(learner, rt)
     loop = loop + 1  
@@ -56,6 +56,30 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   list(x=e$x, y=e$y, path=opt.path, model=model)
 }
 
+
+
+eval.fit.fun = function(fun, par.set, des, i) {
+  des = des[i,]
+  pars = par.set@pars
+  col = 0
+  x = list()
+  for (i in 1:length(pars)) {
+    p = pars[[i]]
+    cc = rev(col)[1]
+    if (p@type %in% c("numericvector", "integervector")) 
+      col = (cc + 1) : (cc + length(lower(p)))   
+    else 
+      col = cc + 1    
+    
+    if (p@type == "numericvector") 
+      x[[p@id]] = as.numeric(des[,col])  
+    else if (p@type == "integervector") 
+      x[[p@id]] = as.integer(des[,col])
+    else 
+      x[[p@id]] = des[,col]
+  }
+  list(x=x, y=fun(x))
+}
 
 
 

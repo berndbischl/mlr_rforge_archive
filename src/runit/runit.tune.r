@@ -128,23 +128,24 @@ test.tune.cmaes = function() {
 
 
 
-test.tune.diceoptim = function() {
+test.tune.spo = function() {
   res = makeResampleDesc("CV", iters=2)
   ps1 = makeParameterSet(
     makeNumericParameter("cp", lower=0.001, upper=1), 
     makeIntegerParameter("minsplit", lower=1, upper=10)
   )
   
-  ctrl = diceoptim.control()
-  
+  spo.ctrl = makeSPOControl(init.design.points=3, seq.loops=2)
+  ctrl = makeTuneSPOControl(learner="regr.randomForest", spo.control=spo.ctrl)
   tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl)
+  checkEquals(length(as.list(tr1@path)), 5)
   
   ps2 = makeParameterSet(
-    makeNumericParameter("cp", lower=0.001, upper=1), 
-    makeIntegerParameter("minsplit", lower=1, upper=10)
+    makeIntegerParameter("ntree", lower=100, upper=500),
+    makeNumericVectorParameter("cutoff", dim=3, lower=0.001, upper=1, trafo=function(x) 0.9*x/sum(x)) 
   )
-  checkException(tune("classif.rpart", multiclass.task, cv.instance, par.set=ps2, control=ctrl))
-  
+  tr1 = tune("classif.randomForest", multiclass.task, res, par.set=ps2, control=ctrl)
+  checkEquals(length(as.list(tr1@path)), 5)
 } 
   
 

@@ -8,11 +8,21 @@ setClass(
   "TuneSPOControl",
   contains = c("TuneControl"),
   representation = representation(
+    learner = "Learner",
     spo.control = "SPOControl"
   )
 
 )
-
+#' Constructor.
+setMethod(
+  f = "initialize",
+  signature = signature("TuneSPOControl"),
+  def = function(.Object, path, same.resampling.instance, learner, spo.control) {
+    .Object@learner = learner  
+    .Object@spo.control = spo.control  
+    callNextMethod(.Object, path, same.resampling.instance, start=list())
+  }
+)
 
 #' Create control structure for SPO tuning. 
 #' 
@@ -20,9 +30,10 @@ setClass(
 #'   Should optimization path be saved? Default is TRUE.
 #' @param same.resampling.instance [logical(1)] \cr
 #'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
-#' @param start [numeric] \cr
-#'   Named vector of initial values.
-#' @param ... Further control parameters passed to the \code{control} argument of \code{\link[cmaes]{cma_es}}.
+#' @param learner [\code{\linkS4class{Learner}}] \cr
+#'   Regression learner to model performance landscape.  
+#' @param control [\code{\linkS4class{SPOControl}}] \cr
+#'   Control object for SPO.  
 #'        
 #' @return Control structure for tuning.
 #' @exportMethod makeTuneSPOControl
@@ -32,13 +43,13 @@ setClass(
 
 setGeneric(
   name = "makeTuneSPOControl",
-  def = function(path, same.resampling.instance, start, ...) {
+  def = function(path, same.resampling.instance, learner, spo.control) {
     if (missing(path))
       path = TRUE
     if (missing(same.resampling.instance))
       same.resampling.instance = TRUE
-    if (missing(start))
-      stop("You have to provide a start value!")
+    if (is.character(learner))
+      learner = makeLearner(learner)
     standardGeneric("makeTuneSPOControl")
   }
 )
@@ -48,9 +59,11 @@ setGeneric(
 
 setMethod(
   f = "makeTuneSPOControl",
-  signature = signature(path="logical", same.resampling.instance="logical", start="numeric"),
-  def = function(path, same.resampling.instance, start, ...) {
-    new("TuneSPOControl", path=path, same.resampling.instance=same.resampling.instance, start=as.list(start), ...)
+  signature = signature(path="logical", same.resampling.instance="logical", 
+    learner="Learner", spo.control="SPOControl"),
+  def = function(path, same.resampling.instance, learner, spo.control) {
+    new("TuneSPOControl", path=path, same.resampling.instance=same.resampling.instance,
+      learner=learner, spo.control=spo.control)
   }
 )
 
