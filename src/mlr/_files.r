@@ -98,7 +98,7 @@ pack.files = c(
     "mlr/optimize/OptPath.R",
     "mlr/optimize/makeDesign.R",
     "mlr/optimize/myspo/makeSPOFunction.R",
-    "mlr/optimize/myspo/makeSPOControl.R",
+    "mlr/optimize/myspo/SPOControl.R",
     "mlr/optimize/myspo/proposePoints.R",
     "mlr/optimize/myspo/spo.R",
     
@@ -118,6 +118,7 @@ pack.files = c(
     "mlr/tune/TuneGridControl.R",
     "mlr/tune/TuneOptimControl.R",
     "mlr/tune/TuneCMAESControl.R",
+    "mlr/tune/TuneSPOControl.R",
     "mlr/tune/tune.r",
 		"mlr/tune/tune.threshold.r",
 		"mlr/tune/tune.grid.r",

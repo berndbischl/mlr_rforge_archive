@@ -6,6 +6,9 @@ setClass(
   representation = representation(
     y.name = "character",
     minimize = "logical",
+    init.design.points = "integer", 
+    init.design.fun = "function", 
+    init.design.args = "list",
     seq.loops = "integer", 
     propose.points = "integer",
     propose.points.method = "character",
@@ -29,6 +32,15 @@ setClass(
 #'   Should target function be minimized? Default is \code{TRUE}.   
 #' @param y.name [character(1)]\cr 
 #'   Name of y-column for target values in optimization path.   
+#' @param init.design.points [integer(1)]\cr 
+#'   Number of points in inital design. 
+#'   Only used if no design is given in \code{spo} function. Default is 20.   
+#' @param init.design.fun [function] \cr
+#'   Function from package lhs for the sequentail design. Possible are: maximinLHS, randomLHS, geneticLHS, improvedLHS, , optAugmentLHS, optimumLHS.
+#'   Only used if no design is given in \code{spo} function. Default is 'randomLHS'. 
+#' @param init.design.args [list] \cr
+#'   List of further arguments passed to \code{init.design.fun}.  
+#'   Only used if no design is given in \code{spo} function. Default is empty list.
 #' @param seq.loops [integer(1)]\cr 
 #'   Number of sequential optimization steps. Default is 100.   
 #' @param propose.points [integer(1)]\cr 
@@ -51,11 +63,14 @@ setClass(
 #'   Default is \code{c(1, seq.loops)}.
 #' @return The control object.  
 #' @export 
-makeSPOControl = function(y.name="y", minimize=TRUE, 
+makeSPOControl = function(y.name="y", minimize=TRUE,
+  init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
   seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
   resample.desc = makeResampleDesc("CV", iter=10), resample.at = integer(0), resample.measures=list(mse) 
 ) {
+  if (is.numeric(init.design.points) && length(init.design.points) == 1 && as.integer(init.design.points) == init.design.points)
+    init.design.points = as.integer(init.design.points)
   if (is.numeric(seq.loops) && length(seq.loops) == 1 && as.integer(seq.loops) == seq.loops)
     seq.loops = as.integer(seq.loops)
   if (is.numeric(propose.points) && length(propose.points) == 1 && as.integer(propose.points) == propose.points)
@@ -66,6 +81,9 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   new("SPOControl", 
     y.name = y.name,
     minimize = minimize,
+    init.design.points = init.design.points, 
+    init.design.fun = init.design.fun, 
+    init.design.args = init.design.args,
     seq.loops = seq.loops, 
     propose.points = propose.points,
     propose.points.method = propose.points.method,
