@@ -53,7 +53,7 @@ test.makeDesign = function() {
   des = makeDesign(13, ps4)
   checkEquals(nrow(des), 13)
   checkEquals(ncol(des), 5)
-  checkEquals(colnames(des), c("x", "x", "y", "y", "y"))
+  checkEquals(colnames(des), c("x1", "x2", "y1", "y2", "y3"))
   checkTrue(is.numeric(des[,1]))
   checkTrue(is.numeric(des[,2]))
   checkTrue(is.integer(des[,3]))
@@ -72,7 +72,7 @@ test.makeDesign = function() {
   des = makeDesign(100, ps5)
   checkEquals(nrow(des), 100)
   checkEquals(ncol(des), 5)
-  checkEquals(colnames(des), c("x", "x", "y", "y", "y"))
+  checkEquals(colnames(des), c("x1", "x2", "y1", "y2", "y3"))
   checkTrue(is.numeric(des[,1]))
   checkTrue(is.numeric(des[,2]))
   checkTrue(is.integer(des[,3]))
@@ -83,5 +83,4 @@ test.makeDesign = function() {
   checkTrue(des[,3] >= 30 && des[,3] <= 60)
   checkTrue(des[,4] >= 30 && des[,4] <= 60)
   checkTrue(des[,5] >= 30 && des[,5] <= 60)
-  
 }

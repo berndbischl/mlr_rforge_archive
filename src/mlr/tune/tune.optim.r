@@ -8,7 +8,8 @@ tune.optim = function(learner, task, resampling, measures, par.set, control, opt
   if (length(control@start) != length(low))
     stop(" Length of 'start' has to match number of parameters in 'par.set'!")
   
-	g = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path, log.fun, arg.as.list=FALSE)
+  start = unlist(control@start)
+  g = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path, log.fun, arg.as.list=FALSE)
 		
 	args = control@extra.args
 	method = args$method
