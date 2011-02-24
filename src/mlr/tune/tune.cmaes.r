@@ -6,13 +6,12 @@ tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt
     stop("CMAES can only be applied to numeric, integer, numericvector, int parameters!")
   
   low = lower(par.set)
-  up = upper(par.set)
+  upp = upper(par.set)
   if (length(control@start) != length(low))
     stop(" Length of 'start' has to match number of parameters in 'par.set'!")
   
   start = unlist(control@start)
-  print(start)
-  g = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path, log.fun)
+  g = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path, log.fun, arg.as.list=FALSE)
 
 #  g2 = function(p) {
 #    p2 = as.list(as.data.frame(p))
@@ -34,7 +33,7 @@ tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt
     g=g2
     args$vectorized=TRUE    
   }  
-  or = cma_es(par=start, fn=g, lower=low, upper=up, control=args)
+  or = cma_es(par=start, fn=g, lower=low, upper=upp, control=args)
 	e = getBestElement(opt.path, measureAggrNames(measures[[1]])[1])
 	new("opt.result", learner, control, e$x, e$y, opt.path)
 }
