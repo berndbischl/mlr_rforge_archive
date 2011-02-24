@@ -1,3 +1,25 @@
+#' Control structure for SPO optimization. 
+#' @exportClass SPOControl
+
+setClass(
+  "SPOControl",
+  representation = representation(
+    y.name = "character",
+    minimize = "logical",
+    seq.loops = "integer", 
+    propose.points = "integer",
+    propose.points.method = "character",
+    seq.design.points = "integer", 
+    seq.design.fun = "function", 
+    seq.design.args = "list",
+    resample.desc = "ResampleDesc",
+    resample.at = "integer",
+    resample.measures = "list"
+  )
+)
+
+
+
 #todo: document resampling when sure that ok.
 #' Creates a control object for SPO optimization.
 #'
@@ -34,8 +56,14 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
   resample.desc = makeResampleDesc("CV", iter=10), resample.at = integer(0), resample.measures=list(mse) 
 ) {
+  if (is.numeric(seq.loops) && length(seq.loops) == 1 && as.integer(seq.loops) == seq.loops)
+    seq.loops = as.integer(seq.loops)
+  if (is.numeric(propose.points) && length(propose.points) == 1 && as.integer(propose.points) == propose.points)
+    propose.points = as.integer(propose.points)
+  if (is.numeric(seq.design.points) && length(seq.design.points) == 1 && as.integer(seq.design.points) == seq.design.points)
+    seq.design.points = as.integer(seq.design.points)
   
-  list( 
+  new("SPOControl", 
     y.name = y.name,
     minimize = minimize,
     seq.loops = seq.loops, 

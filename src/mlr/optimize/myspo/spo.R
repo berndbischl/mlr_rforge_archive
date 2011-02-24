@@ -25,11 +25,11 @@
 #' @export 
 
 spo = function(fun, par.set, des, learner, control) {
-  if (control$propose.points.method == "EI" && !is(learner, "regr.km")) 
+  if (control@propose.points.method == "EI" && !is(learner, "regr.km")) 
     stop("Expected improvement can currently only be used with learner 'regr.km'!")        
   if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
     stop("No par.set parameter in 'spo' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")
-  opt.path = makeOptPath(y.names=control$y.name, x.names=names(par.set@pars), minimize=control$minimize)
+  opt.path = makeOptPath(y.names=control@y.name, x.names=names(par.set@pars), minimize=control@minimize)
   if (length(opt.path@y.names) > 1)
     stop("'opt.path' should only contain one 'y' column!")
   y.name = opt.path@y.names
@@ -41,9 +41,9 @@ spo = function(fun, par.set, des, learner, control) {
   model = train(learner, rt)
   loop = 1
   res.vals = list()
-  while(loop <= control$seq.loops) {
-    if (loop %in% control$resample.at) {
-      r = resample(learner, rt, control$ResampleDesc, measures=control$resample.measures)
+  while(loop <= control@seq.loops) {
+    if (loop %in% control@resample.at) {
+      r = resample(learner, rt, control@ResampleDesc, measures=control@resample.measures)
       res.vals[[length(res.vals)+1]] = r$aggr
     }
     xs = proposePoints(model, par.set, control)
