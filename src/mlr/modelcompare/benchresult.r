@@ -109,8 +109,8 @@ setMethod(
   f = "as.array",
   signature = signature("bench.result"),
   def = function(x, tasks=names(x@task.descs), learners=names(x@learners), sets=c("test", "train"), measures=names(x@measures), drop=FALSE, ...) {
-    iters = iters(x)
-    if (length(unique(iters)) != 1)
+    iters = unique(iters(x))
+    if (length(iters) != 1)
       stop("Resamplings in bench.exp have different numbers of iterations, restrict as.array to a single task!")
     dimns = list(1:iters, sets, learners, measures, tasks)
     y = array(NA, dim=sapply(dimns, length), dimnames=dimns)

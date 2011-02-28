@@ -139,6 +139,7 @@ test.tune.spo = function() {
   ctrl = makeTuneSPOControl(learner="regr.randomForest", spo.control=spo.ctrl)
   tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl)
   checkEquals(length(as.list(tr1@path)), 5)
+  checkEquals(dim(as.data.frame(tr1@path)), c(5, 2+2+2))
   
   ps2 = makeParameterSet(
     makeIntegerParameter("ntree", lower=100, upper=500),

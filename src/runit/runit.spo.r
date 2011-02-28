@@ -30,6 +30,22 @@ test.spo.rf <- function() {
   checkTrue(length(grep("Expected improvement can currently", s)) >0 )
   ctrl = makeSPOControl(seq.loops=5, seq.design.points=100)
   
+  # check trafo
+  ps = makeParameterSet(
+    makeNumericParameter("x1", lower=-10, upper=10, trafo=function(x) abs(x)) 
+  )
+  des = makeDesign(10, par.set=ps)
+  checkTrue(all(des$x1 >= 0))
+  des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
+  or = spo(f, ps, des, learner, ctrl)
+  checkEquals(length(as.list(or$path)), 15)
+  df = as.data.frame(or$path)
+  checkTrue(is.numeric(df$x1))
+  checkTrue(is.integer(df$x2))
+  checkTrue(is.list(or$x))
+  checkEquals(names(or$x), names(ps@pars))
+  
+  
   # discrete par
   f = makeSPOFunction(function(x) if(x[3]=="a") sum(x^2) else sum(x^2) + 20) 
   

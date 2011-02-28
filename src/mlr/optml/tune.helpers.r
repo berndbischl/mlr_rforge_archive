@@ -1,4 +1,4 @@
-make.tune.f = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun, arg.as.list=TRUE) {
+make.tune.f = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun, arg.as.list=TRUE, trafo=TRUE) {
   function(p) {
     pars = par.set@pars
     if (arg.as.list) {
@@ -15,7 +15,8 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
       }, 
       pars, p.split
     )
-    p.split = trafoVal(par.set, p.split)
+    if (trafo)
+      p.split = trafoVal(par.set, p.split)
     # todo: what about operators that generate the new state? accepted?
     y = eval.rf(learner, task, resampling, measures, par.set, NULL, control, p.split)
     addPathElement(opt.path, x=p.split, y=y)   
