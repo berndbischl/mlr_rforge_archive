@@ -39,12 +39,12 @@ spo = function(fun, par.set, des=NULL, learner, control) {
       stop("Design 'des' must contain y column of fitness values: ", y.name)
     ys = des[, y.name]
     # remove y 
-    des.x = des[, -which(colnames(des) == y.name)]
+    des.x = des[, -which(colnames(des) == y.name), drop=FALSE]
     cns = colnames(des.x)
     if(!setequal(cns, rep.pids))
       stop("Column names of design 'des' must match names of parameters in 'par.set'!")
     # reorder
-    des.x = des.x[, rep.pids]
+    des.x = des.x[, rep.pids, drop=FALSE]
     xs = lapply(1:nrow(des.x), function(i) designToList(des.x, par.set, i))
   }
   lapply(1:nrow(des.x), function(i) addPathElement(opt.path, x=as.list(des.x[i,]), y=ys[i]))
@@ -71,7 +71,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
 
 
 designToList = function(des, par.set, i, y.name) {
-  des = des[i,]
+  des = des[i,,drop=FALSE]
   pars = par.set@pars
   col = 0
   x = list()
@@ -92,9 +92,4 @@ designToList = function(des, par.set, i, y.name) {
   }
   return(x)
 }
-
-
-
-
-
 
