@@ -1,4 +1,5 @@
 #todo: minimize
+#todo: how to choose best element. with noise? without?
 #'  Optimizes a function with sequential parameter optimization.
 #'
 #' @param fun [function(x, ...)]\cr 
