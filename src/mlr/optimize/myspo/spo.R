@@ -6,7 +6,9 @@
 #' @param par.set [\code{\linkS4class{ParameterSet}}] \cr
 #'   Collection of parameters and their constraints for optimization.   
 #' @param des [data.frame | NULL] \cr
-#'   Initial design. If \code{NULL}, one is constructed from the settings in \code{control}.
+#'   Initial design. If the parameters have correspinding trafo functions, 
+#'   the design has to be transformed before it is passed. 
+#'   If \code{NULL}, one is constructed from the settings in \code{control}.
 #' @param learner [\code{\linkS4class{Learner}}] \cr
 #'   Regression learner to model \code{fun}.  
 #' @param control [\code{\linkS4class{SPOControl}}] \cr
@@ -29,8 +31,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   y.name = opt.path@y.names
   
   if (is.null(des)) {
-    des.x = makeDesign(control@init.design.points, par.set, control@init.design.fun, control@init.design.args, 
-        trafo=FALSE)
+    des.x = makeDesign(control@init.design.points, par.set, control@init.design.fun, control@init.design.args)
     xs = lapply(1:nrow(des.x), function(i) designToList(des.x, par.set, i))
     ys = sapply(xs, fun)
     des = des.x
@@ -48,7 +49,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     des.x = des.x[, rep.pids, drop=FALSE]
     xs = lapply(1:nrow(des.x), function(i) designToList(des.x, par.set, i))
   }
-  lapply(1:nrow(des.x), function(i) addPathElement(opt.path, x=as.list(des.x[i,]), y=ys[i]))
+  Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)
   rt = makeRegrTask(target=y.name, data=des)
   model = train(learner, rt)
   loop = 1
@@ -61,7 +62,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     prop.des = proposePoints(model, par.set, control)
     xs = lapply(1:nrow(prop.des), function(i) designToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
-
+    Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)
     rt = makeRegrTask(target=y.name, data = as.data.frame(opt.path), exclude=c("dob", "eol"))
     model = train(learner, rt)
     loop = loop + 1  
@@ -88,6 +89,8 @@ designToList = function(des, par.set, i, y.name) {
       x[[p@id]] = as.numeric(des[,col])  
     else if (p@type == "integervector") 
       x[[p@id]] = as.integer(des[,col])
+    else if (p@type == "discrete") 
+      x[[p@id]] = as.character(des[,col])
     else 
       x[[p@id]] = des[,col]
   }
@@ -95,10 +98,5 @@ designToList = function(des, par.set, i, y.name) {
 }
 
 evalTargetFun = function(fun, par.set, xs) {
-  sapply(xs, function(x) fun(trafoVal(par.set, x)))  
+  sapply(xs, fun)  
 }
-
-addDesignToPath = function(opt.path, des) {
-  lapply(1:nrow(des), function(i) addPathElement(opt.path, x=as.list(des[i,]), y=ys[i]))
-}
-

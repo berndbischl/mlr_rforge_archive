@@ -41,13 +41,9 @@ test.spo.rf <- function() {
   checkEquals(length(as.list(or$path)), 15)
   df = as.data.frame(or$path)
   checkTrue(is.numeric(df$x1))
-  checkTrue(is.integer(df$x2))
-  checkTrue(is.list(or$x))
-  checkEquals(names(or$x), names(ps@pars))
-  
   
   # discrete par
-  f = makeSPOFunction(function(x) if(x[3]=="a") sum(x^2) else sum(x^2) + 20) 
+  f = function(x) if(x[[3]]=="a") x[[1]]^2+x[[2]]^2 else x[[1]]^2+x[[2]]^2 + 20 
   
   ps = makeParameterSet(
     makeNumericParameter("x1", lower=-2, upper=1), 
