@@ -23,13 +23,14 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   if (any(is.infinite(c(lower(par.set), upper(par.set)))))
     stop("SPO requires finite box constraints!")
   rep.pids = getRepeatedParameterIDs(par.set, with.nr=TRUE)
-  opt.path = makeOptPath(y.names=control@y.name, x.names=rep.pids, minimize=control@minimize)
+  opt.path = makeOptPath(y.names=control@y.name, x.names=names(par.set@pars), minimize=control@minimize)
   if (length(opt.path@y.names) > 1)
     stop("'opt.path' should only contain one 'y' column!")
   y.name = opt.path@y.names
   
   if (is.null(des)) {
-    des.x = makeDesign(control@init.design.points, par.set, control@init.design.fun, control@init.design.args)
+    des.x = makeDesign(control@init.design.points, par.set, control@init.design.fun, control@init.design.args, 
+        trafo=FALSE)
     xs = lapply(1:nrow(des.x), function(i) designToList(des.x, par.set, i))
     ys = sapply(xs, fun)
     des = des.x
@@ -59,9 +60,9 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     }
     prop.des = proposePoints(model, par.set, control)
     xs = lapply(1:nrow(prop.des), function(i) designToList(prop.des, par.set, i))
-    ys = sapply(xs, fun)
-    lapply(1:nrow(prop.des), function(i) addPathElement(opt.path, x=as.list(prop.des[i,]), y=ys[i]))
-    rt = makeRegrTask(target=y.name, data = as.data.frame(opt.path), exclude=c(".dob", ".eol"))
+    ys = evalTargetFun(fun, par.set, xs)
+
+    rt = makeRegrTask(target=y.name, data = as.data.frame(opt.path), exclude=c("dob", "eol"))
     model = train(learner, rt)
     loop = loop + 1  
   }
@@ -91,5 +92,13 @@ designToList = function(des, par.set, i, y.name) {
       x[[p@id]] = des[,col]
   }
   return(x)
+}
+
+evalTargetFun = function(fun, par.set, xs) {
+  sapply(xs, function(x) fun(trafoVal(par.set, x)))  
+}
+
+addDesignToPath = function(opt.path, des) {
+  lapply(1:nrow(des), function(i) addPathElement(opt.path, x=as.list(des[i,]), y=ys[i]))
 }
 

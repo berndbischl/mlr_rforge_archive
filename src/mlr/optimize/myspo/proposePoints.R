@@ -3,7 +3,8 @@
 proposePoints = function(model, par.set, control) {
   lm = model["learner.model"] 
   if (control@propose.points.method == "seq.design") {
-    des = makeDesign(control@seq.design.points, par.set, control@seq.design.fun, control@seq.design.args)
+    des = makeDesign(control@seq.design.points, par.set, control@seq.design.fun, control@seq.design.args, 
+      trafo=FALSE)
     y = predict(model, newdata=des)@df$response
     o = order(y)
     des[o[1:control@propose.points],,drop=FALSE]

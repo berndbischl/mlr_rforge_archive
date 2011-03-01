@@ -118,6 +118,7 @@ test.tune.cmaes = function() {
   
   ctrl2 = makeTuneCMAESControl(start=c(1/3, 1/3, 1/3, 200L), maxit=5, sigma=2)
   tr2 = tune("classif.randomForest", multiclass.task, res, par.set=ps2, control=ctrl2)
+  checkEquals(ncol(as.data.frame(tr2@path)), 4+2+2)
   
   ps3 = makeParameterSet(
     makeNumericParameter("cp", lower=0.001, upper=1), 
