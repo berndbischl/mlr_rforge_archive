@@ -37,4 +37,11 @@ test.opt.path <- function() {
   checkEquals(getBestElement(op, y.name="y2", dob=1), op@env$path[[1]])
   checkEquals(getBestElement(op, y.name="y1", dob=2), op@env$path[[2]])
   checkEquals(getBestElement(op, y.name="y2", dob=2), op@env$path[[2]])
+  
+  op = new("OptPath", x.names=c("x", "y"), y.names="z", minimize=TRUE)
+  addPathElement(op, list(c(1,1), "a"), 1)
+  addPathElement(op, list(c(2,2), "a"), 3)
+  df = as.data.frame(op)
+  checkEquals(dim(df), c(2,3+1+2))
+  checkEquals(colnames(df), c("x1", "x2", "y", "z", "dob", "eol"))
 }  

@@ -26,6 +26,8 @@ setMethod(
       stop("'x.names' and 'y.names' must be unique.")
     if (length(minimize) != length(y.names))
       stop("'y.names' and 'minimize' must be of the same length!")
+    if (any(c("dob", "eol") %in% (union(x.names, y.names))))
+      stop("'dob' and 'eol' are not allowed in 'x.names' or 'y.names'!")
     .Object@x.names = x.names
     .Object@y.names = y.names
     names(minimize) = y.names
@@ -50,10 +52,16 @@ setMethod(
   f = "as.data.frame",
   signature = signature("OptPath"),
   def = function(x, row.names = NULL, optional = FALSE,...) {
-    df <- do.call(rbind, lapply(x@env$path, function(e) as.data.frame(c(as.list(e$x), as.list(e$y)),optional=TRUE)))
-    colnames(df)[(ncol(df)-length(x@y.names)+1):ncol(df)] = x@y.names
-    df[[".dob"]] <- x@env$dob
-    df[[".eol"]] <- x@env$eol
+    df = flattenX(x)
+    ys = as.data.frame(Reduce(rbind, lapply(x@env$path, function(el) el$y)))
+    df = cbind(df, ys)
+    xns = x@x.names
+    el1x = x@env$path[[1]]$x
+    nn = sapply(el1x, length)
+    xns = Reduce(c, Map(function(x, n) if(n==1) x else paste(x, 1:n, sep=""), xns, nn))
+    colnames(df) = c(xns, x@y.names)
+    df[["dob"]] <- x@env$dob
+    df[["eol"]] <- x@env$eol
     df
   }
 )
@@ -193,4 +201,15 @@ getBestElement = function(op, y.name=op@y.names[1], dob=op@env$dob, eol=op@env$e
   }
   return(op@env$path[[i]])
 }
+
+
+flattenX = function(op) {
+  Reduce(rbind, lapply(op@env$path, function(el) {  
+    Reduce(cbind, lapply(el$x, function(a) {
+      as.data.frame(t(a))    
+    }))
+  }))
+}
+
+
 
