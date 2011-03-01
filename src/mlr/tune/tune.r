@@ -70,8 +70,6 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun)
   
   opt.path = makeOptPathFromMeasures(names(par.set@pars), measures)
   or = sel.func(learner, task, resampling, measures, par.set, control, opt.path, log.fun)
-	
-	or@x = trafoVal(par.set, or@x)
 	return(or)			
 }
 
