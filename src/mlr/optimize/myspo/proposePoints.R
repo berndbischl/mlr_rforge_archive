@@ -1,18 +1,30 @@
 # returns list of points
 #todo: minimize
-proposePoints = function(model, par.set, control) {
+#todo: finalize cmaes + vectorized CMAES!!!
+#todo: round ints for cmaes + EI
+# todo: use CL when more than 1 point in EI 
+proposePoints = function(model, par.set, control, opt.path) {
   lm = model["learner.model"] 
+  low = lower(par.set)
+  upp = upper(par.set)
   if (control@propose.points.method == "seq.design") {
     des = makeDesign(control@seq.design.points, par.set, control@seq.design.fun, control@seq.design.args)
     y = predict(model, newdata=des)@df$response
     o = order(y)
     des[o[1:control@propose.points],,drop=FALSE]
+  } else if (control@propose.points.method == "CMAES") {
+    rep.pids = getRepeatedParameterIDs(par.set, with.nr=TRUE)
+    f = function(x) {
+      nd = as.data.frame(t(x))
+      colnames(nd) = rep.pids
+      predict(model, newdata=nd)@df$response
+    }
+    start = unlist(getBestElement(opt.path)$x)
+    des = cma_es(par=start, fn=f, lower=low, upper=upp, control=list(maxit=2))$par
+    des = as.data.frame(t(des))
   } else if (control@propose.points.method == "EI") {
-    
-    # todo: use CL when more than 1 point 
-    # todo: handle ints 
-    low = lower(par.set)
-    upp = upper(par.set)
-    #max_EI(model, lower, upper, parinit, control)$par
+    start = unlist(getBestElement(opt.path)$x)
+    des = max_EI(model@learner.model, low, upp, parinit=start)$par 
+    des = as.data.frame(t(des))
   }
 }

@@ -47,6 +47,7 @@ setClass(
 #' @param propose.points.method [character(1)]\cr 
 #'   How should points be proposed by using the surrogate model. Possible are: 
 #'   'seq.design': Use a large design of points and evaluate the surrogate model at each. The best \code{propose.points} are selected.    
+#'   'CMAES': Use a large design of points and evaluate the surrogate model at each. The best \code{propose.points} are selected.    
 #' @param seq.design.points [integer(1)]\cr 
 #'   Number of points in sequential design. Only used if \code{propose.points.method} is 'seq.design.' Default is 10000.   
 #' @param seq.design.fun [function] \cr
@@ -68,6 +69,7 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   resample.desc = makeResampleDesc("CV", iter=10), resample.at = integer(0), resample.measures=list(mse) 
 ) {
   require.packs("lhs", "makeSPOControl")
+  check.arg(y.name, "character", 1)
   if (is.numeric(init.design.points) && length(init.design.points) == 1 && as.integer(init.design.points) == init.design.points)
     init.design.points = as.integer(init.design.points)
   if (is.numeric(seq.loops) && length(seq.loops) == 1 && as.integer(seq.loops) == seq.loops)

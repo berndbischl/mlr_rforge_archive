@@ -1,5 +1,6 @@
 #todo: minimize
 #todo: how to choose best element. with noise? without?
+#todo: retrain kriging faster
 #'  Optimizes a function with sequential parameter optimization.
 #'
 #' @param fun [function(x, ...)]\cr 
@@ -19,17 +20,21 @@
 
 #todo: check learner is regression
 spo = function(fun, par.set, des=NULL, learner, control) {
-  if (control@propose.points.method == "EI" && !is(learner, "regr.km")) 
-    stop("Expected improvement can currently only be used with learner 'regr.km'!")        
   if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
     stop("No par.set parameter in 'spo' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")
   if (any(is.infinite(c(lower(par.set), upper(par.set)))))
     stop("SPO requires finite box constraints!")
+  if (control@propose.points.method == "CMAES" && control@propose.points != 1)
+    stop("CMAES can only propose 1 point!")        
+  if (control@propose.points.method == "CMAES" &&
+    !all(sapply(par.set@pars, function(p) p@type) %in% c("numeric", "integer", "numericvector", "integervector")))
+    stop("Proposal method CMAES can only be applied to numeric, integer, numericvector, integervector parameters!")
+  if (control@propose.points.method == "EI" && !is(learner, "regr.km")) 
+    stop("Expected improvement can currently only be used with learner 'regr.km'!")        
+  
   rep.pids = getRepeatedParameterIDs(par.set, with.nr=TRUE)
-  opt.path = makeOptPath(y.names=control@y.name, x.names=names(par.set@pars), minimize=control@minimize)
-  if (length(opt.path@y.names) > 1)
-    stop("'opt.path' should only contain one 'y' column!")
-  y.name = opt.path@y.names
+  y.name = control@y.name
+  opt.path = makeOptPath(y.names=y.name, x.names=names(par.set@pars), minimize=control@minimize)
   
   if (is.null(des)) {
     des.x = makeDesign(control@init.design.points, par.set, control@init.design.fun, control@init.design.args)
@@ -63,7 +68,8 @@ spo = function(fun, par.set, des=NULL, learner, control) {
       r = resample(learner, rt, control@ResampleDesc, measures=control@resample.measures)
       res.vals[[length(res.vals)+1]] = r$aggr
     }
-    prop.des = proposePoints(model, par.set, control)
+    prop.des = proposePoints(model, par.set, control, opt.path)
+    print(prop.des)
     xs = lapply(1:nrow(prop.des), function(i) designToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
     Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)

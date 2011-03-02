@@ -71,6 +71,17 @@ test.spo.rf <- function() {
   or = spo(f, ps, des=NULL, learner, ctrl)
   checkEquals(length(as.list(or$path)), 8)
   checkEquals(names(or$x), names(ps@pars))
+  
+  f = function(x) sum(x[[1]]^2) + (2 - x[[2]])^2
+  
+  ps = makeParameterSet(
+    makeNumericVectorParameter("v", lower=-5, upper=5, dim=2), 
+    makeNumericParameter      ("w", lower=-5, upper=5) 
+  )
+  learner = makeLearner("regr.randomForest")
+  ctrl = makeSPOControl(init.design.points=5, seq.loops=10, propose.points.method="CMAES")
+  or = spo(f, ps, des=NULL, learner, ctrl)
+  checkEquals(length(as.list(or$path)), 15)
 } 
 
 test.spo.km <- function() {
