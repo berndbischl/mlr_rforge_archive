@@ -12,6 +12,10 @@ test.stratcv.instance = function() {
     checkTrue(all(as.numeric(table(getTargets(multiclass.task)[i2])) == 5)) 
     checkEquals(sort(c(unique(i1), i2)), 1:150)
   }
+  # check that resampling is really stochastic
+  rin1 = makeResampleInstance(makeResampleDesc("StratCV", iters=3), multiclass.task)
+  rin2 = makeResampleInstance(makeResampleDesc("StratCV", iters=3), multiclass.task)
+  checkTrue(!all(sort(rin1@test.inds[[1]])== sort(rin2@test.inds[[1]])))
 }
 
 

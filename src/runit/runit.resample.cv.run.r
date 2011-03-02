@@ -14,6 +14,10 @@ test.cv.instance = function() {
     checkTrue(max(i2) <= 25)
     checkEquals(sort(c(unique(i1), i2)), 1:25)
   }
+  # check that resampling is really stochastic
+  rin1 = makeResampleInstance(makeResampleDesc("CV", iters=3), size=500)
+  rin2 = makeResampleInstance(makeResampleDesc("CV", iters=3), size=500)
+  checkTrue(!all(sort(rin1@test.inds[[1]])== sort(rin2@test.inds[[1]])))
 }
 
 

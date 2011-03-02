@@ -19,6 +19,10 @@ test.repcv.instance = function() {
     }
     checkEquals(sort(unique(bag)), 1:150)
   }
+  # check that resampling is really stochastic
+  rin1 = makeResampleInstance(makeResampleDesc("RepCV", folds=3, reps=2, iters=6), size=500)
+  rin2 = makeResampleInstance(makeResampleDesc("RepCV", folds=3, reps=2, iters=6), size=500)
+  checkTrue(!all(sort(rin1@test.inds[[1]])== sort(rin2@test.inds[[1]])))
   
   m = setAggregation(mmce, testgroup.mean)
   resample("classif.lda", multiclass.task, rin)
