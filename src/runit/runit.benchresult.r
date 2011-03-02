@@ -40,8 +40,18 @@ test.benchresult = function() {
 	checkTrue(!any(sapply(x2, is.null)))
 	checkTrue(!any(sapply(x3, is.null)))
 	
-  x = getTunedParameters(be, learner="classif.ksvm")
+  x = getTunedParameters(be, learner="classif.ksvm", as.data.frame=TRUE)
+  checkTrue(is.data.frame(x))
+  checkEquals(dim(x), c(outer.len, 1))
+  checkEquals(colnames(x), c("C"))
   checkTrue(all(x$C == 1 | x$C == 2))
+  x = getTunedParameters(be, learner="classif.ksvm", as.data.frame=FALSE)
+  checkTrue(is.list(x))
+  checkEquals(length(x), outer.len)
+  checkTrue(all(sapply(x, is.list)))
+  checkTrue(all(sapply(x, function(y) length(y)==1)))
+  checkTrue(all(sapply(x, function(y) names(y)=="C")))
+  checkTrue(all(sapply(x, function(y) y$C == 1 || y$C == 2)))
   tp = getTunedParameters(be, learner="foo")
 	checkTrue(all(x$C == 1 | x$C == 2))
 
@@ -55,7 +65,7 @@ test.benchresult = function() {
 	checkEquals(x, y)  
   x = as.data.frame(matrix(1, 3, 4))
   colnames(x) = getFeatureNames(multiclass.task)
-  y = getSelectedFeatures(be, learner.id="classif.lda")
+  y = getSelectedFeatures(be, learner.id="classif.lda", as.data.frame=TRUE)
   checkEquals(x, y)  
   
 	tasks = list(multiclass.task, binaryclass.task)
