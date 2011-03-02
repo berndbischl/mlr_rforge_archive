@@ -3,6 +3,7 @@ roxygen()
 
 #' Control structure for grid search tuning.
 #' @exportClass TuneGridControl
+#' @seealso \code{\link{makeTuneGridControl}}
 
 setClass(
 		"TuneGridControl",

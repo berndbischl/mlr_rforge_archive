@@ -3,6 +3,7 @@ roxygen()
 
 #' Control structure for SPO tuning. 
 #' @exportClass TuneSPOControl
+#' @seealso \code{\link{makeTuneSPOControl}}
 
 setClass(
   "TuneSPOControl",

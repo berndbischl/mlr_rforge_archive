@@ -3,6 +3,7 @@ roxygen()
 
 #' Control structure for tuning with \code{optim}.
 #' @exportClass TuneOptimControl
+#' @seealso \code{\link{makeTuneOptimControl}}
 
 setClass(
 		"TuneOptimControl",

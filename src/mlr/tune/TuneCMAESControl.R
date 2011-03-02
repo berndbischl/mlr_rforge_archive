@@ -3,6 +3,7 @@ roxygen()
 
 #' Control structure for CMA-ES tuning. 
 #' @exportClass TuneCMAESControl
+#' @seealso \code{\link{makeTuneCMAESControl}}
 
 setClass(
 		"TuneCMAESControl",

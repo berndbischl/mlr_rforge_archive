@@ -3,7 +3,7 @@
 #' @param on.learner.error [character(1)] \cr
 #' What should happen if an error in an underlying learning algorithm is caught: 'stop', 'warn' or 'quiet'.\cr 
 #' 'stop': R exception is generated.\cr
-#' 'warn': Model \code{\linkS4class{learner.failure}} will be created, which predicts only NAs and a warning will be generated.\cr 
+#' 'warn': A 'failure model' will be created, which predicts only NAs and a warning will be generated.\cr 
 #' 'quiet': Same as 'warn' but withou the warning.\cr
 #' Default is 'warn'. 
 #' @param on.par.without.desc [character(1)] \cr

@@ -121,12 +121,14 @@ allowed.rd.files <<- c(
 		"tune.threshold.Rd",
 		"TuneControl-class.Rd",
     "TuneGridControl-class.Rd",
-    "makeTuneGridControl-class.Rd",
+    "makeTuneGridControl.Rd",
 #		"ps.control.Rd",
     "TuneOptimControl-class.Rd",
-    "makeTuneOptimControl-class.Rd",
+    "makeTuneOptimControl.Rd",
     "TuneCMAESControl-class.Rd",
     "makeTuneCMAESControl.Rd",
+    "TuneSPOControl-class.Rd",
+    "makeTuneSPOControl.Rd",
     
 		"varsel.control-class.Rd",
 		"sequential.control.Rd",
@@ -146,6 +148,7 @@ allowed.rd.files <<- c(
     "addPathElement.Rd",
     "setEol.Rd",
     "getBestElement.Rd",
+    "SPOControl-class.Rd",
     "makeSPOControl.Rd",
     "spo.Rd"
 )		

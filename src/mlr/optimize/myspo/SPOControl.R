@@ -1,6 +1,6 @@
 #' Control structure for SPO optimization. 
 #' @exportClass SPOControl
-
+#' @seealso \code{\link{makeSPOControl}}
 setClass(
   "SPOControl",
   representation = representation(
@@ -15,6 +15,7 @@ setClass(
     seq.design.points = "integer", 
     seq.design.fun = "function", 
     seq.design.args = "list",
+    save.model.at = "integer",
     resample.desc = "ResampleDesc",
     resample.at = "integer",
     resample.measures = "list"
@@ -55,14 +56,15 @@ setClass(
 #'   List of further arguments passed to \code{seq.design.fun}.  
 #'   Only used if \code{propose.points.method} is 'seq.design.' Default is empty list.
 #' @param save.model.at [integer] \cr
-#'   Vector of sequential optimzation iterations when the model should be saved. Iteration 1 is the model fit for the initial design.
-#'   Default is \code{c(1, seq.loops)}.
+#'   Sequential optimzation iterations when the model should be saved. Iteration 0 is the model fit for the initial design.
+#'   Default is \code{seq.loops}.
 #' @return The control object.  
 #' @export 
 makeSPOControl = function(y.name="y", minimize=TRUE,
   init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
   seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
+  save.model.at = seq.loops,
   resample.desc = makeResampleDesc("CV", iter=10), resample.at = integer(0), resample.measures=list(mse) 
 ) {
   require.packs("lhs", "makeSPOControl")
@@ -74,6 +76,8 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
     propose.points = as.integer(propose.points)
   if (is.numeric(seq.design.points) && length(seq.design.points) == 1 && as.integer(seq.design.points) == seq.design.points)
     seq.design.points = as.integer(seq.design.points)
+  if (is.numeric(save.model.at) && as.integer(save.model.at) == save.model.at)
+    save.model.at = as.integer(save.model.at)
   
   new("SPOControl", 
     y.name = y.name,
@@ -87,6 +91,7 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
     seq.design.points = seq.design.points, 
     seq.design.fun = seq.design.fun, 
     seq.design.args = seq.design.args,
+    save.model.at = save.model.at,
     resample.desc = resample.desc,
     resample.at = resample.at,
     resample.measures = resample.measures

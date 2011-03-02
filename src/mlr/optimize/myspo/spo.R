@@ -53,6 +53,9 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)
   rt = makeRegrTask(target=y.name, data=des)
   model = train(learner, rt)
+  models = list()
+  if (0 %in% control@save.model.at)
+    models[[length(models)+1]] = model
   loop = 1
   res.vals = list()
   while(loop <= control@seq.loops) {
@@ -66,10 +69,13 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)
     rt = makeRegrTask(target=y.name, data = as.data.frame(opt.path), exclude=c("dob", "eol"))
     model = train(learner, rt)
+    if (loop %in% control@save.model.at)
+      models[[length(models)+1]] = model
     loop = loop + 1  
   }
   e = getBestElement(opt.path, y.name)
-  list(x=e$x, y=e$y, path=opt.path, model=model)
+  names(models) =  control@save.model.at
+  list(x=e$x, y=e$y, path=opt.path, models=models)
 }
 
 
