@@ -23,7 +23,7 @@ setMethod(
   signature = signature("OptPath"),
   def = function(.Object, x.names, y.names, minimize) {
     if (length(intersect(x.names, y.names)) > 0)
-      stop("'x.names' and 'y.names' must be unique.")
+      stop("'x.names' and 'y.names' must not contain common elements!")
     if (length(minimize) != length(y.names))
       stop("'y.names' and 'minimize' must be of the same length!")
     if (any(c("dob", "eol") %in% (union(x.names, y.names))))

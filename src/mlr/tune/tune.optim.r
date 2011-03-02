@@ -1,7 +1,7 @@
 # todo: add optimize if only 1 par
 tune.optim = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer", "numericvector", "integervector")))))
-    stop("Optim can only be applied to numeric, integer, numericvector, int parameters!")
+    stop("Optim can only be applied to numeric, integer, numericvector, integervector parameters!")
 
   low = lower(par.set)
   upp = upper(par.set)

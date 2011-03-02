@@ -1,9 +1,10 @@
+# set initial varaince to (upper-lower)/2 if both bounds are given
 #todo: fix parallel g2
 tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   require.packs("cmaes", "tune.cmaes")
 
   if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer", "numericvector", "integervector")))))
-    stop("CMAES can only be applied to numeric, integer, numericvector, int parameters!")
+    stop("CMAES can only be applied to numeric, integer, numericvector, integervector parameters!")
   
   low = lower(par.set)
   upp = upper(par.set)
