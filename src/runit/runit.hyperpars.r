@@ -3,7 +3,7 @@ test.hyperpars <- function() {
 	checkEquals(wl1["par.vals"], list(minsplit=10)) 
 	
 	m = train(wl1, task=multiclass.task)
-	checkEquals(m["fail"], NULL) 
+  checkTrue(!is(m, "FailureModel"))
 	checkEquals(m@learner["par.vals"], list(minsplit=10)) 
 	
 	f1 = function(data, targetvar, args) {

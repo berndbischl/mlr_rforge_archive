@@ -13,7 +13,7 @@ simple.test <- function(t.name, df, target, train.inds, old.predicts, parset=lis
   else 
     stop("Should not happen!")
   cm = try(train(wl, task, subset=inds))
-	if(class(cm)[1] == "learner.failure"){
+	if(class(cm)[1] == "FailureModel"){
 		checkTrue(class(old.predicts)=="try-error")
 	}else{
 		cp <- predict(cm, newdata=test)
@@ -47,7 +47,7 @@ prob.test <- function(t.name, df, target, train.inds, old.probs, parset=list()) 
 	wl = do.call("makeLearner", c(t.name, parset, predict.type="prob"))
 	cm <- try(train(wl, ct, subset=inds))
 	
-	if(class(cm@learner.model)[1] == "learner.failure"){
+	if(class(cm@learner.model)[1] == "FailureModel"){
 		checkTrue(class(old.predicts)=="try-error")
 	}else{
 		cp <- predict(cm, newdata=test)

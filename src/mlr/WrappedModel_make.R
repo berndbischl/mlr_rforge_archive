@@ -4,7 +4,7 @@ makeWrappedModel = function(learner, model, task.desc, prep.control, subset, var
     msg = as.character(model)
     if (.mlr.local$errorhandler.setup$on.learner.error == "warn")
       warning("Could not train the learner: ", msg) 
-    m = new("failure.model", learner, msg, task.desc, prep.control, subset, vars, as.numeric(NA))
+    m = new("FailureModel", learner, msg, task.desc, prep.control, subset, vars, as.numeric(NA))
   } else if(is(learner, "OptWrapper")) {
     or = attr(model, "opt.result")
     attr(model, "opt.result") = NULL

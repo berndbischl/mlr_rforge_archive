@@ -9,13 +9,15 @@ test.spo.rf <- function() {
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.randomForest")
-  ctrl = makeSPOControl(seq.loops=5, seq.design.points=100)
+  ctrl = makeSPOControl(seq.loops=5, seq.design.points=100, save.model.at=c(0,5))
   or = spo(f, ps, des, learner, ctrl)
   checkEquals(length(as.list(or$path)), 15)
   checkTrue(is.list(or$x))
   checkEquals(names(or$x), names(ps@pars))
-  checkTrue(is(or$model@learner, "regr.randomForest"))
-  checkEquals(length(or$model@subset), 15)
+  checkTrue(is(or$models[[1]]@learner, "regr.randomForest"))
+  checkEquals(length(or$models[[1]]@subset), 10)
+  checkTrue(is(or$models[[2]]@learner, "regr.randomForest"))
+  checkEquals(length(or$models[[2]]@subset), 15)
   
   # check errors
   des$y = NULL
@@ -90,8 +92,8 @@ test.spo.km <- function() {
   checkTrue(is.numeric(df$x2))
   checkTrue(is.list(or$x))
   checkEquals(names(or$x), names(ps@pars))
-  checkTrue(is(or$model@learner, "regr.km"))
-  checkEquals(length(or$model@subset), 15)
+  checkTrue(is(or$models[[1]]@learner, "regr.km"))
+  checkEquals(length(or$models[[1]]@subset), 15)
   
   ps = makeParameterSet(
     makeNumericParameter("x1", lower=-2, upper=1), 
