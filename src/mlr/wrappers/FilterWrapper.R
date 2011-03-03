@@ -68,7 +68,7 @@ setMethod(
 			  m = trainLearner(.learner@learner, .task, 1:.task["size"], ...)
       } else {
         # !we have already subsetted!
-        m = new("novars", targets=getTargets(.task), desc=.task["desc"])
+        m = new("novars", targets=getTargets(.task), desc=.task@desc)
       }
       # set the vars as attribute, so we can extract it later 
       attr(m, "filter.result") = vars

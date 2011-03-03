@@ -93,7 +93,7 @@ setMethod(
 		def = function(.learner, .model, .newdata, .type, ...) {
       pvs = .model@learner@par.vals
       m = nrow(.newdata)
-      .newdata = .learner@predict(.newdata, .model["desc"]["target"], pvs, .model@control)
+      .newdata = .learner@predict(.newdata, .model@desc["target"], pvs, .model@control)
       if (!is.data.frame( .newdata))
         stop("Preprocessing must result in a data.frame!")
       if (nrow(.newdata) != m)

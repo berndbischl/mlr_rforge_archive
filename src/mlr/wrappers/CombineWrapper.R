@@ -68,8 +68,8 @@ setMethod(
     a = unlist(.learner["par.vals", head=TRUE])
     models = .model["learner.model"]
     k = length(models)
-    p = matrix(0, nrow(.newdata), ncol=.model["desc"]["class.nr"])
-    levs = .model["desc"]["class.levels"]
+    p = matrix(0, nrow(.newdata), ncol=.model@desc["class.nr"])
+    levs = .model@desc["class.levels"]
     colnames(p) = levs
     for (i in 1:k) {
       m = models[[i]]
