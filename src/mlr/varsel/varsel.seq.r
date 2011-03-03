@@ -48,7 +48,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     xs
   }
   
-  dim = task["dim"]
+  dim = length(bit.names)
   compare = compare.diff
   method = control["method"]
   
@@ -80,7 +80,6 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     #cat("forward:", forward, "\n")
     state2 = seq.step(forward, state, gen.new.states, compare)
     #print(s$rp$measures["mean", "mmce"])
-    
     # we could not move to state2 in normal step, stay where we are
     if (!is.null(state2)) {
       state = state2

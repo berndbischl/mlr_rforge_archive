@@ -63,6 +63,6 @@ varsel <- function(learner, task, resampling, control, measures, bit.names, bits
 	if (missing(control)) {
 		stop("You have to pass a control object!")
 	}
-  opt.path = makeOptPathFromMeasures(getFeatureNames(task), measures)
+  opt.path = makeOptPathFromMeasures(bit.names, measures)
   sel.func(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, log.fun)
 }

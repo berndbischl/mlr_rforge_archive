@@ -53,15 +53,28 @@ test.varsel <- function() {
   be = bench.exp(wl, task=multiclass.task, resampling=outer)
   
   # check bits
-  ctrl = sequential.control(method="sfs", alpha=0.3)
-  bn = c("b1", "b2")
+  bns = c("b1", "b2")
   btf = function(b, task) {
     fns = getFeatureNames(task)
     Reduce(c, list(fns[1:2], fns[3:4])[as.logical(b)], init=character(0))
   } 
-  vr = varsel("classif.lda", task=multiclass.task, resampling=inner, 
-    bit.names=bns, bits.to.features=btf, control=ctrl)
-  checkEquals(length(vr@x), 58) 
   
+  ctrl = randomvarsel.control(maxit=3)
+  vr = varsel("classif.lda", task=multiclass.task, resampling=inner, bit.names=bns, bits.to.features=btf, control=ctrl)
+  df = as.data.frame(vr@path) 
+  checkEquals(colnames(df), c("b1", "b2", "mmce.test.mean", "mmce.test.sd", "dob", "eol"))
+  checkEquals(nrow(df), 3)
+  
+  ctrl = exhvarsel.control()
+  vr = varsel("classif.lda", task=multiclass.task, resampling=inner, bit.names=bns, bits.to.features=btf, control=ctrl)
+  df = as.data.frame(vr@path) 
+  checkEquals(colnames(df), c("b1", "b2", "mmce.test.mean", "mmce.test.sd", "dob", "eol"))
+  checkEquals(nrow(df), 4)
+  
+  ctrl = sequential.control(method="sfs", alpha=0)
+  vr = varsel("classif.lda", task=multiclass.task, resampling=inner, bit.names=bns, bits.to.features=btf, control=ctrl)
+  df = as.data.frame(vr@path) 
+  checkEquals(colnames(df), c("b1", "b2", "mmce.test.mean", "mmce.test.sd", "dob", "eol"))
+  checkEquals(nrow(df), 4)
 }
 
