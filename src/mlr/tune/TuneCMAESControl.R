@@ -41,7 +41,7 @@ setGeneric(
 )
 
 
-#' @rdname TuneCMAESControl 
+#' @rdname makeTuneCMAESControl 
 
 setMethod(
 		f = "makeTuneCMAESControl",

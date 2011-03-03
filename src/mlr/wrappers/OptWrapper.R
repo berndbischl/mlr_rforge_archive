@@ -15,6 +15,8 @@ setClass(
 				resampling = "ResampleDesc",
         measures = "list",
         opt.pars = "ParameterSet",
+        bit.names = "character",
+        bits.to.features = "function",
         control = "OptControl",
         log.fun = "function"
     )
@@ -26,11 +28,14 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("OptWrapper"),
-		def = function(.Object, learner, resampling, measures, par.set, control, log.fun) {
+		def = function(.Object, learner, resampling, measures, par.set,  bit.names, bits.to.features, control, log.fun) {
 			if (missing(learner))
 				return(.Object)
 			.Object@resampling = resampling
       .Object@measures = measures
+      .Object@opt.pars = par.set
+      .Object@bit.names = bit.names
+      .Object@bits.to.features = bits.to.features
       .Object@opt.pars = par.set
       .Object@control = control
       .Object@log.fun = log.fun
@@ -75,7 +80,7 @@ setMethod(
         bl = setHyperPars(bl, par.vals=or@x)
         m = train(bl, lt)
       } else if (wl["opt.type"] == "varsel") {
-				or = varsel(bl, lt, wl@resampling, control=ctrl, measures=wl@measures)
+				or = varsel(bl, lt, wl@resampling, measures=wl@measures, wl@bit.names, wl@bits.to.features, control=ctrl)
         lt = subset(lt, vars=or@x)
         m = train(bl, lt)
       }	else 
@@ -88,14 +93,14 @@ setMethod(
 )
 
 
-make.OptWrapper = function(learner, resampling, measures, par.set, control, log.fun) {
+make.OptWrapper = function(learner, resampling, measures, par.set, bit.names, bits.to.features, control, log.fun) {
 	if (is.character(learner))
 		learner = makeLearner(learner)
 	if (missing(measures))
 		measures = default.measures(learner)
   if (is(measures, "Measure"))
     measures = list(measures)   
-	new("OptWrapper", learner, resampling, measures, par.set, control, log.fun)
+	new("OptWrapper", learner, resampling, measures, par.set, bit.names, bits.to.features, control, log.fun)
 }
 
 

@@ -56,7 +56,7 @@ setGeneric(
 )
 
 
-#' @rdname TuneSPOControl 
+#' @rdname makeTuneSPOControl 
 
 setMethod(
   f = "makeTuneSPOControl",

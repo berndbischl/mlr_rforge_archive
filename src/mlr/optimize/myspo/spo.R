@@ -31,6 +31,8 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     stop("Proposal method CMAES can only be applied to numeric, integer, numericvector, integervector parameters!")
   if (control@propose.points.method == "EI" && !is(learner, "regr.km")) 
     stop("Expected improvement can currently only be used with learner 'regr.km'!")        
+  if (control@propose.points.method == "EI")
+    require.packs("DiceOptim", "spo")
   
   rep.pids = getRepeatedParameterIDs(par.set, with.nr=TRUE)
   y.name = control@y.name
@@ -69,7 +71,6 @@ spo = function(fun, par.set, des=NULL, learner, control) {
       res.vals[[length(res.vals)+1]] = r$aggr
     }
     prop.des = proposePoints(model, par.set, control, opt.path)
-    print(prop.des)
     xs = lapply(1:nrow(prop.des), function(i) designToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
     Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)
@@ -100,8 +101,8 @@ designToList = function(des, par.set, i, y.name) {
     
     if (p@type == "numericvector") 
       x[[p@id]] = as.numeric(des[,col])  
-    else if (p@type == "integervector") 
-      x[[p@id]] = as.integer(des[,col])
+    else if (p@type %in% c("integer", "integervector")) 
+      x[[p@id]] = as.integer(round(des[,col]))
     else if (p@type == "discrete") 
       x[[p@id]] = as.character(des[,col])
     else 

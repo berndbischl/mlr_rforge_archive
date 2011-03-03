@@ -9,14 +9,14 @@
 #'   Resampling strategy to evaluate points in hyperparameter space.
 #' @param measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
-#' @param control [\code{\linkS4class{varsel.control}}] 
-#'   Control object for search method. Also selects the optimization algorithm for feature selection. 
 #' @param bit.names [character]\cr
 #'   Names of bits encoding the solutions. Also defines the total number of bits in the encoding.
 #'   Per default these are the feature names of the task.    
-#' @param bits.to.features [function]\cr
+#' @param bits.to.features [function(x, task)]\cr
 #'   Function which transforms an integer-0-1 vector into a character vector of selected features. 
 #'   Per default a value of 1 in the ith bit selects the ith feature to be in the candidate solution.      
+#' @param control [\code{\linkS4class{varsel.control}}] 
+#'   Control object for search method. Also selects the optimization algorithm for feature selection. 
 #' @param log.fun [function(learner, task, resampling, measure, par.set, control, opt.path, x, y)]\cr
 #'   Called after every hyperparameter evaluation. Default is to print performance via mlr logger. 
 #' 
@@ -25,8 +25,8 @@
 #' @seealso \code{\link{varsel}}, \code{\link{varsel.control}} 
 #' @title Fuse learner with variable selection.
 
-makeVarselWrapper = function(learner, resampling, measures, control, log.fun) {
+makeVarselWrapper = function(learner, resampling, measures, bit.names, bits.to.features, control, log.fun) {
   if (missing(log.fun))
     log.fun = log.fun.varsel
-  make.OptWrapper(learner, resampling, measures, makeParameterSet(), control, log.fun)
+  make.OptWrapper(learner, resampling, measures, makeParameterSet(), bit.names, bits.to.features, control, log.fun)
 }

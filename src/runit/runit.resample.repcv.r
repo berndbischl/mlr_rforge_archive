@@ -4,7 +4,7 @@ test.repcv.instance = function() {
   
   iters = rin@desc@iters
   checkEquals(iters, 10*3)
-  reps = rin["desc"]["reps"]
+  reps = rin@desc["reps"]
   checkEquals(reps, 3)
   
   for (j in 1:3) {

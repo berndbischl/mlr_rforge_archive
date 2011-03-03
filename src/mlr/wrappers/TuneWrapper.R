@@ -11,10 +11,10 @@
 #'   Resampling strategy to evaluate points in hyperparameter space.
 #' @param measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
-#' @param control [\code{\linkS4class{TuneControl}}] \cr
-#'   Control object for search method. Also selects the optimization algorithm for tuning.   
 #' @param par.set [\code{\linkS4class{ParameterSet}}] \cr
 #'   Collection of parameters and their constraints for optimization.   
+#' @param control [\code{\linkS4class{TuneControl}}] \cr
+#'   Control object for search method. Also selects the optimization algorithm for tuning.   
 #' @param log.fun [function()]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
 #' 
@@ -29,6 +29,6 @@
 makeTuneWrapper = function(learner, resampling, measures, par.set, control, log.fun) {
   if (missing(log.fun))
     log.fun = log.fun.tune
-	make.OptWrapper(learner, resampling, measures, par.set, control, log.fun)
+	make.OptWrapper(learner, resampling, measures, par.set, character(0), function(){}, control, log.fun)
 }
 

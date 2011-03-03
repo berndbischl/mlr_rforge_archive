@@ -51,5 +51,17 @@ test.varsel <- function() {
   wl = makeVarselWrapper("classif.lda", resampling=inner, control=ctrl)
   outer = makeResampleDesc("CV", iter=2)
   be = bench.exp(wl, task=multiclass.task, resampling=outer)
+  
+  # check bits
+  ctrl = sequential.control(method="sfs", alpha=0.3)
+  bn = c("b1", "b2")
+  btf = function(b, task) {
+    fns = getFeatureNames(task)
+    Reduce(c, list(fns[1:2], fns[3:4])[as.logical(b)], init=character(0))
+  } 
+  vr = varsel("classif.lda", task=multiclass.task, resampling=inner, 
+    bit.names=bns, bits.to.features=btf, control=ctrl)
+  checkEquals(length(vr@x), 58) 
+  
 }
 
