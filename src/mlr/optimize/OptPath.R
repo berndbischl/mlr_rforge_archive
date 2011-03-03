@@ -72,7 +72,7 @@ setMethod(
   f = "as.list",
   signature = signature("OptPath"),
   def = function(x, row.names = NULL, optional = FALSE,...) {
-    l <- x@env$path
+    x@env$path
   }
 )
 

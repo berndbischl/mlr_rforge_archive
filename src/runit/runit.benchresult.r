@@ -140,7 +140,7 @@ test.benchresult = function() {
 	checkEquals(dim(x1), c(binaryclass.task["class.nr"]+1, binaryclass.task["class.nr"]+1))
 	
   # check aggregation
-  res = makeResampleDesc("CV", iters=3)
+  res = makeResampleInstance(makeResampleDesc("CV", iters=3), task=multiclass.task) 
   wl = "classif.lda"
   m = setAggregation(mmce, test.sd)
   r = resample(wl, multiclass.task, res, measure=m)
