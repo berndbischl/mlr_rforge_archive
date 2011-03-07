@@ -63,7 +63,7 @@ setMethod(
     
     .task = subset(.task, .subset)
     tn = .task["target"]
-    levs = .task["class.levels"]
+    levs = .getClassLevels(task)
     d = .task["data"]
     y = getTargets(.task)
         
@@ -158,22 +158,22 @@ multi.to.binary = function(target, codematrix){
 }
 
 cm.onevsrest = function(task) {
-    n = task["class.nr"]
+    n = length(getClassLevels(task))
     cm = matrix(-1, n, n)
     diag(cm) = 1
-    rownames(cm) = task["class.levels"]
+    rownames(cm) = getClassLevels(task)
     return(cm)
 } 
 
 cm.onevsone = function(task) {
-    n = task["class.nr"]
+    n = length(getClassLevels(task))
     cm = matrix(0, n, choose(n, 2))
     combs = combn(n, 2)
     for (i in 1:ncol(combs)) {
         j = combs[,i]
         cm[j, i] = c(1, -1) 
     }
-    rownames(cm) = task["class.levels"]
+    rownames(cm) = getClassLevels(task)
     return(cm)
 } 
 

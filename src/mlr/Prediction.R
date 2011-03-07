@@ -79,8 +79,8 @@ makePrediction = function(task.desc, id, truth, type, y, time) {
   
 	
   if (type != "response") {
-    th = rep(1/task.desc["class.nr"], task.desc["class.nr"])
-    names(th) = task.desc["class.levels"]
+    th = rep(1/length(getClassLevels(task.desc)), length(getClassLevels(task.desc)))
+    names(th) = getClassLevels(task.desc)
     p = new("Prediction", task.desc, type, df, th, time)
     return(setThreshold(p, th))
   } else {
@@ -155,13 +155,13 @@ setMethod(
 setGeneric(name = "getScore", 
   def = function(pred, class) {
     check.arg(pred, "Prediction")
-    if (!pred@desc["is.classif"])
+    if (pred@desc@type != "classif")
       stop("Prediction was not generated from a ClassifTask!")
     if (missing(class)) {
-      if (pred@desc["is.binary"])
+      if (length(getClassLevels(pred)))
         class = pred@desc["positive"]
       else
-        class = getClassLevels(pred@desc)
+        class = getClassLevels(pred)
     }
     standardGeneric("getScore")
 })

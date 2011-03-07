@@ -68,7 +68,7 @@ setMethod(
 		def = function(.learner, .model, .newdata, .type, ...) {
 			
 			x = predict(.model["learner.model"], newdata=.newdata, type="response", ...)
-			levs = .model["class.levels"]		
+			levs = getClassLevels(.model)		
 			if (.type == "prob") {
 				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
 				colnames(y) = levs
@@ -76,7 +76,7 @@ setMethod(
 				y[,2] <- x
 				return(y)
 			} else {
-				levs <- .model["class.levels"]
+				levs <- getClassLevels(.model)
 				p <- as.factor(ifelse(x > 0.5, levs[2], levs[1]))
 				names(p) <- NULL
 				return(p)

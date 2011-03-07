@@ -41,7 +41,7 @@ setMethod(
 			} else {
         if (!is.data.frame(newdata) || nrow(newdata) == 0)
           stop("newdata must be a data.frame with at least one row!")
-				newdata = prep.data(td["is.classif"], newdata, td["target"], model["prep.control"])			
+				newdata = prep.data(td@type == "classif", newdata, td["target"], model["prep.control"])			
 			}
 			type = if (wl@desc@type == "classif") wl["predict.type"] else "response" 
 
@@ -66,7 +66,7 @@ setMethod(
 			logger.debug(level="predict", rownames(newdata))
 			
 			if (wl@desc@type == "classif") {
-				levs = td["class.levels"]
+				levs = getClassLevels(td)
 			}
 			
 			response = NULL

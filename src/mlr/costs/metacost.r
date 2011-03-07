@@ -19,8 +19,8 @@
 #			ct <- make.task(wrapped.learner, data=data, target=target)
 #			
 #			N <- nrow(ct["data"])
-#			lev <- ct["class.levels"]
-#			ngroup <- ct["class.nr"] 
+#			lev <- getClassLevels(ct)
+#			ngroup <- length(getClassLevels(ct)) 
 #			
 #			# maybe allow to draw smaller bs sample with n elements
 #			res.i = make.bs.instance(size=N, iters=m)
@@ -127,10 +127,10 @@
 #			models <- rf@models
 #
 #			used = numeric(N)
-#			dummy = diag(ct["class.nr"])
-#			rownames(dummy) = ct["class.levels"]
-#			colnames(dummy) = ct["class.levels"]
-#			result = matrix(0, N, ct["class.nr"])
+#			dummy = diag(length(getClassLevels(ct)))
+#			rownames(dummy) = getClassLevels(ct)
+#			colnames(dummy) = getClassLevels(ct)
+#			result = matrix(0, N, length(getClassLevels(ct)))
 #			if (wrapped.learner@base.probs) {
 #				type = "prob"
 #			} else {
@@ -153,7 +153,7 @@
 #			}
 #			result = diag(1/used) %*% result
 #			# make probs equal if never predicted
-#			result[used==0, ] = 1/ct["class.nr"]
+#			result[used==0, ] = 1/length(getClassLevels(ct))
 #			cs = result %*% t(costs)
 #			labs = max.col(-cs)
 #			labs = as.factor(colnames(result)[labs])

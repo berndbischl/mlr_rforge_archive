@@ -25,7 +25,7 @@ check.task.learner.classif <- function(lt, learner) {
 	td <- lt@desc
   ld <- learner@desc
   
-	if (td["class.nr"]> 2 && !ld@classes["multiclass"]) {
+	if (length(getClassLevels(td))> 2 && !ld@classes["multiclass"]) {
 		msg <- paste("Data set is a multiclass-problem, but", learner@desc@id, "does not support that!")
 	}
 	return(list(msg=msg))

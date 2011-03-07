@@ -107,7 +107,7 @@ setMethod(
 		signature = signature(x = "LearnTask"),
 		
 		def = function(x, probs=NA, decision=NA, costs=NA) {
-			type = ifelse(x["is.classif"], "classif", "regr")
+			type = ifelse(x@desc@type, "classif", "regr")
 
       doubles = ifelse(x["n.feat"]["double"]>0, TRUE, NA)
       factors = ifelse(x["n.feat"]["fact"]>0, TRUE, NA)
@@ -115,7 +115,7 @@ setMethod(
       weights = ifelse(x["has.weights"], TRUE, NA)
       
       if (type == "classif") {
-        multiclass = ifelse(x["is.binary"], NA, TRUE)
+        multiclass = ifelse(length(getClassLevels(x)) == 2, NA, TRUE)
         costs = ifelse(x["has.costs"], TRUE, costs)
         wls = getLearners(type, doubles, factors, characters, missings, weights, 
             multiclass, probs, decision, costs)

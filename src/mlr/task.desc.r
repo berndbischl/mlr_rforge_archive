@@ -35,7 +35,7 @@ setClass(
 		"task.desc",
 		contains = c("object"),
 		representation = representation(
-				task.class = "character",
+				type = "character",
         id = "character",
         target = "character",
         size = "integer",
@@ -54,8 +54,8 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("task.desc"),
-  def = function(.Object, data, target, task.class, id, has.weights, has.blocking, costs, positive) {
-    .Object@task.class = task.class
+  def = function(.Object, data, target, type, id, has.weights, has.blocking, costs, positive) {
+    .Object@type = type
     .Object@id = id
     i = which(colnames(data) %in% c(target))
     .Object@target = target 
@@ -88,28 +88,18 @@ setMethod(
 		f = "[",
 		signature = signature("task.desc"),
 		def = function(x,i,j,...,drop) {
-      if (i == "is.classif")
-				return(x@task.class == "ClassifTask")
-			if (i == "is.regr")
-				return(x@task.class == "RegrTask")
       if (i == "formula") {
         return(as.formula(paste(x["target"], "~.")))
       }
       if (i == "dim") 
         return(sum(x@n.feat))
-      if (i == "class.levels") 
-        if(x["is.classif"]) return(names(x["class.dist"])) else return(as.character(NA))
-      if (i == "class.nr") 
-        if(x["is.classif"]) return(length(x["class.dist"])) else return(as.integer(NA))
-      if (i == "is.binary") 
-        if(x["is.classif"]) return(x["class.nr"] == 2) else return(as.logical(NA))
       if (i == "negative") 
-        if(x["is.classif"] && x["is.binary"]) 
-          return(setdiff(x["class.levels"], x["positive"])) 
+        if(x@desc@type == "classif" && length(getClassLevels(x)) == 2) 
+          return(setdiff(getClassLevels(x), x["positive"])) 
         else 
           return(as.character(NA))
       if (i == "has.costs") 
-        if(x["is.classif"]) return(all(dim(x@costs)!=0)) else return(as.logical(NA))
+        if(x@desc@type == "classif") return(all(dim(x@costs)!=0)) else return(as.logical(NA))
       
 			callNextMethod()
 		}

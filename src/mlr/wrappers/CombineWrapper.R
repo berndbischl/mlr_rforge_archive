@@ -20,19 +20,6 @@ makeCombineWrapper = function(learners) {
   w
 }
 
-
-setMethod(
-  f = "[",
-  signature = signature("CombineWrapper"),
-  def = function(x,i,j,...,drop) {
-    if (i %in% c("oneclass", "twoclass", "multiclass", "doubles", "factors", "is.classif")) {
-      return(T)
-    }
-    callNextMethod()
-  }
-)
-
-
 #' @rdname trainLearner
 
 setMethod(
@@ -69,7 +56,7 @@ setMethod(
     models = .model["learner.model"]
     k = length(models)
     p = matrix(0, nrow(.newdata), ncol=.model@desc["class.nr"])
-    levs = .model@desc["class.levels"]
+    levs = getClassLevels(.model)
     colnames(p) = levs
     for (i in 1:k) {
       m = models[[i]]

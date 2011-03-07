@@ -54,7 +54,7 @@ setMethod(
 )
 
 default.measures = function(x) {
-  if (x["is.classif"])
+  if (x@desc@type == "classif")
     return(list(mmce))
   else 
     return(list(mse))

@@ -96,7 +96,7 @@ setMethod(
 			p = predict(.model["learner.model"], newdata=.newdata, type=type, ...)
 			if (.type == "prob") {
 				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
-				colnames(y) <- .model["class.levels"]
+				colnames(y) <- getClassLevels(.model)
 				y[,1] <- p
 				y[,2] <- 1-p
 				return(y)

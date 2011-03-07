@@ -84,7 +84,7 @@ setMethod(
 			if (.type == "prob") {
 				p = p[,1]
 				y = matrix(0, ncol=2, nrow=nrow(.newdata))
-				colnames(y) <- .model["class.levels"]
+				colnames(y) <- getClassLevels(.model)
 				y[,1] = p
 				y[,2] = 1-p
 				return(y)

@@ -248,7 +248,7 @@ setMethod(
 )
 
 #' Get class levels of task. 
-#' @param task [\code{\linkS4class{ClassifTask}} | \code{\linkS4class{task.desc}}]\cr 
+#' @param task [\code{\linkS4class{task.desc}} | \code{\linkS4class{ClassifTask}} | \code{\linkS4class{WrappedModel}} ]\cr 
 #'   Classification task or its description object.   
 #' @return [character]
 #' @rdname getClassLevels
@@ -259,6 +259,8 @@ setMethod(
   f = "getClassLevels",
   signature = signature(x="ClassifTask"), 
   def = function(x) {
+    if (x@desc@type != "classif")
+      stop("Description is not for a classification task!")
     names(x@desc@class.dist)
   } 
 )
@@ -267,9 +269,30 @@ setMethod(
   f = "getClassLevels",
   signature = signature(x="task.desc"), 
   def = function(x) {
-    if (!x["is.classif"])
+    if (x@type != "classif")
       stop("Description is not for a classification task!")
     names(x@class.dist)
+  } 
+)
+#' @rdname getClassLevels
+setMethod(
+  f = "getClassLevels",
+  signature = signature(x="WrappedModel"), 
+  def = function(x) {
+    if (x@desc@type != "classif")
+      stop("Description is not for a classification task!")
+    names(x@desc@class.dist)
+  } 
+)
+
+#' @rdname getClassLevels
+setMethod(
+  f = "getClassLevels",
+  signature = signature(x="Prediction"), 
+  def = function(x) {
+    if (x@desc@type != "classif")
+      stop("Description is not for a classification task!")
+    names(x@desc@class.dist)
   } 
 )
 

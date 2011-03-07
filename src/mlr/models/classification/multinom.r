@@ -86,7 +86,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			.type <- ifelse(.type=="response", "class", "probs")
-			levs = .model["class.levels"]
+			levs = getClassLevels(.model)
 			p = predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
 			if (.type == "probs" && length(levs)==2) {
 				p = matrix(c(1-p, p), ncol=2, byrow=FALSE)

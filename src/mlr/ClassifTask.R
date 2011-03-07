@@ -28,14 +28,14 @@ setMethod(
 			
       check.costs(costs, levels(data[, target]))
 
-      td = new("task.desc", data, target, "ClassifTask", id, 
+      td = new("task.desc", data, target, "classif", id, 
         length(weights) > 0, length(blocking) > 0, costs, as.character(NA))      
 
 			# init positive
 			pos = positive 
 			neg = as.character(NA)
-      levs = td["class.levels"]
-			if (td["class.nr"] == 1) {
+      levs = getClassLevels(td)
+			if (length(getClassLevels(td)) == 1) {
 				if (is.na(pos)) {
 					pos = levs[1]
 				} else {
@@ -43,7 +43,7 @@ setMethod(
 						stop(paste("Trying to set a positive class", pos, "which is not a value of the target variable:", paste(levs, collapse=",")))
 				}
 				neg = paste("not_", pos)
-			} else if (td["class.nr"] == 2) {
+			} else if (length(getClassLevels(td)) == 2) {
 				if (is.na(pos)) {
 					pos = levs[1] 					
 				}
@@ -86,7 +86,7 @@ setMethod(
               "Target: ", x["target"], "\n", 
               "Classes: ", x["class.nr"], "\n",
 							di, "\n",
-							ifelse(x["is.binary"], paste("Positive class:", x["positive"], "\n"), ""),
+							ifelse(length(getClassLevels(x)) == 2, paste("Positive class:", x["positive"], "\n"), ""),
               "Has weights: ", x["has.weights"], "\n", 
               "Has blocking: ", x["has.blocking"], "\n",
               "Has costs: ", all(dim(x["costs"])!=0), "\n", 

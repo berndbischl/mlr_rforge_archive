@@ -30,7 +30,7 @@ setMethod(
       length(weights) > 0, length(blocking) > 0, costs, as.character(NA))      
     
     # init positive
-    levs = td["class.levels"]
+    levs = getClassLevels(td)
     
     callNextMethod(.Object, data=data, weights=weights, blocking=blocking, control=control, task.desc=td)
   }

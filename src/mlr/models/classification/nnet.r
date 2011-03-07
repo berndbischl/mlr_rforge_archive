@@ -91,9 +91,9 @@ setMethod(
 			if (.type == "class")
 				return(as.factor(p))
 			else {
-				if (.model["class.nr"] == 2) {
+				if (length(getClassLevels(.model)) == 2) {
           y <- cbind(p, 1-p) 
-					colnames(y) = .model["class.levels"]
+					colnames(y) = getClassLevels(.model)
 					return(y)
 				} else
 					return(p)	
