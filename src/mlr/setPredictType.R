@@ -29,14 +29,14 @@ setMethod(
   ),
   
   def = function(learner, type) {
-    if (!learner["is.classif"]) {
+    if (learner@desc@type != "classif") {
       stop("Trying to predict ", type, ", but only classifiers support that!")
     }
-    if ("prob" == type && !learner["prob"]) {
-      stop("Trying to predict probs, but ", learner@id, " does not support that!")
+    if ("prob" == type && !learner@desc@predict["prob"]) {
+      stop("Trying to predict probs, but ", learner@desc@id, " does not support that!")
     }
-    if ("decision" == type && !learner["decision"]) {
-      stop("Trying to predict decision values, but ", learner@id, " does not support that!")
+    if ("decision" == type && !learner@desc@predict["decision"]) {
+      stop("Trying to predict decision values, but ", learner@desc@id, " does not support that!")
     }
     learner@predict.type = type
     return(learner)

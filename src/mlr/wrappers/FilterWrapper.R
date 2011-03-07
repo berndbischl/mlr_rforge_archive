@@ -8,9 +8,7 @@
 #' @exportClass FilterWrapper
 setClass(
 		"FilterWrapper",
-		contains = c("BaseWrapper"),
-		representation = representation(
-		)
+		contains = c("BaseWrapper")
 )
 
 

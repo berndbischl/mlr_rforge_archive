@@ -43,10 +43,10 @@ setMethod(
           stop("newdata must be a data.frame with at least one row!")
 				newdata = prep.data(td["is.classif"], newdata, td["target"], model["prep.control"])			
 			}
-			type = if (wl["is.classif"]) wl["predict.type"] else "response" 
+			type = if (wl@desc@type == "classif") wl["predict.type"] else "response" 
 
       # load pack. if we saved a model and loaded it later just for prediction this is necessary
-      require.packs(wl["pack"], paste("learner", learner@id))
+      require.packs(wl@pack, paste("learner", learner@desc@id))
 			
 			cns = colnames(newdata)
 			tn = td["target"]
@@ -60,12 +60,12 @@ setMethod(
 				truth = NULL
 			}
 			
-			logger.debug(level="predict", "mlr predict:", wl@id, "with pars:")
+			logger.debug(level="predict", "mlr predict:", wl@desc@id, "with pars:")
 			logger.debug(level="predict", model@learner["par.vals.string"])
 			logger.debug(level="predict", "on", nrow(newdata), "examples:")
 			logger.debug(level="predict", rownames(newdata))
 			
-			if (wl["is.classif"]) {
+			if (wl@desc@type == "classif") {
 				levs = td["class.levels"]
 			}
 			
@@ -86,7 +86,7 @@ setMethod(
         # only pass train hyper pars as basic rlearner in ...
         pars = c(pars, wl["leaf.learner"]["par.predict"])
 
-        if (wl["is.classif"]) {
+        if (wl@desc@type == "classif") {
 					pars$.type = type
 				}
 				
@@ -113,7 +113,7 @@ setMethod(
 						time.predict = as.numeric(NA)
 					}
 				}
-				if (wl["is.classif"]) {
+				if (wl@desc@type == "classif") {
 					if (type == "response") {
 						# the levels of the predicted classes might not be complete....
 						# be sure to add the levels at the end, otherwise data gets changed!!!
@@ -154,7 +154,7 @@ setMethod(
 )
 
 predict_nas = function(learner, model, newdata, type, levs, task.desc) {
-	if (learner["is.classif"]) {
+	if (learner@desc@type == "classif") {
 		p = switch(type, 
 				response = factor(rep(NA, nrow(newdata)), levels=levs),
 				matrix(as.numeric(NA), nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))

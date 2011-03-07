@@ -73,7 +73,7 @@ setMethod(
     colnames(p) = levs
     for (i in 1:k) {
       m = models[[i]]
-      b = a[m@learner@id]
+      b = a[m@learner@desc@id]
       p = p + b * getScore(predict(m, newdata=.newdata,  ...), levs)
     }
     p

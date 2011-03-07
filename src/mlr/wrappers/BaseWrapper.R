@@ -36,7 +36,9 @@ setMethod(
       if (length(ns) > 0)
         stop("Hyperparameter names in wrapper clash with base learner names: ", paste(ns, collapse=","))
 			.Object@learner = learner
-      callNextMethod(.Object, id=learner@id, par.set=par.set, par.vals=par.vals, pack=pack)
+      .Object@pack = c(pack, learner@pack) 
+      .Object@desc =learner@desc 
+      callNextMethod(.Object, id=learner@desc@id, par.set=par.set, par.vals=par.vals, pack=pack)
 		}
 )
 
@@ -57,9 +59,6 @@ setMethod(
 			if(i %in% c("id", "learner", "predict.type", "par.vals.string"))
 				return(callNextMethod())
       
-      if(i == "pack") {
-				return(c(x@learner["pack"], x@pack))
-			}			
       if(i == "par.vals") {
         if (head)
           return(callNextMethod())

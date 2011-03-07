@@ -4,6 +4,8 @@
 roxygen()
 #' @include ParameterSet.R
 roxygen()
+#' @include LearnerDesc.R
+roxygen()
 
 #' Abstract base class for learning algorithms.
 #'  
@@ -53,7 +55,7 @@ setClass(
 		"Learner",
 		contains = c("object"),
 		representation = representation(
-				id = "character",
+				desc = "LearnerDesc",
 				pack = "character",
 				par.set = "ParameterSet",
 				par.vals = "list",
@@ -69,7 +71,8 @@ setMethod(
 		def = function(.Object, id, pack, par.set=makeParameterSet(), par.vals=list()) {			
 			if (missing(id))
 				return(make.empty(.Object))
-			.Object@id = id
+      .Object@desc = new("LearnerDesc")
+      .Object@desc@id = id
 			.Object@pack = pack
 			require.packs(pack, for.string=paste("learner", id))
       if(any(sapply(par.set@pars, function(x) !is(x, "LearnerParameter"))))
@@ -123,6 +126,3 @@ setMethod(
     learner@par.set
   } 
 )
-
-
-

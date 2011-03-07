@@ -24,6 +24,7 @@ pack.files = c(
     "mlr/LearnerParameter.R",
     "mlr/LearnerParameter_make.R",
     "mlr/ParameterSet.R",
+    "mlr/LearnerDesc.R",
     "mlr/Learner.R",
 		"mlr/learnerR.r",
 		"mlr/makeLearner.R",

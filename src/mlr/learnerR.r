@@ -49,13 +49,15 @@ setMethod(
     ns = c("doubles", "factors", "missings", "weights", "oneclass", "twoclass", "multiclass", "decision", "prob", "costs")
     if (!setequal(names(desc), ns))
       stop("Logical description of ", id, " must exactly contain: ", paste(ns, collapse=","))
-    .Object@feat = c(desc["doubles"], desc["factors"])  
-    .Object@weights = as.logical(desc["weights"])  
-    .Object@missings = as.logical(desc["missings"])
-    .Object@classes = c(desc["oneclass"], desc["twoclass"], desc["multiclass"])
-    .Object@predict = c(desc["prob"], desc["decision"])
-    .Object@costs = as.logical(desc["costs"])
-    callNextMethod(.Object, id=id, pack=pack, par.set=par.set, par.vals=par.vals)
+    .Object = callNextMethod(.Object, id=id, pack=pack, par.set=par.set, par.vals=par.vals)
+    .Object@desc@type = "classif"  
+    .Object@desc@feat = c(desc["doubles"], desc["factors"])  
+    .Object@desc@weights = as.logical(desc["weights"])  
+    .Object@desc@missings = as.logical(desc["missings"])
+    .Object@desc@classes = c(desc["oneclass"], desc["twoclass"], desc["multiclass"])
+    .Object@desc@predict = c(desc["prob"], desc["decision"])
+    .Object@desc@costs = as.logical(desc["costs"])
+    return(.Object)
   }
 )
 
@@ -78,10 +80,15 @@ setMethod(
     ns = c("doubles", "factors", "missings", "weights") 
     if (!setequal(names(desc), ns))
     stop("Logical description of ", id, " must exactly contain: ", paste(ns, collapse=","))
-    .Object@feat = c(desc["doubles"], desc["factors"])  
-    .Object@weights = as.logical(desc["weights"])  
-    .Object@missings = as.logical(desc["missings"])
-    callNextMethod(.Object, id=id, pack=pack, par.set=par.set, par.vals=par.vals)
+    .Object = callNextMethod(.Object, id=id, pack=pack, par.set=par.set, par.vals=par.vals)
+    .Object@desc@type = "regr"  
+    .Object@desc@feat = c(desc["doubles"], desc["factors"])  
+    .Object@desc@weights = as.logical(desc["weights"])  
+    .Object@desc@missings = as.logical(desc["missings"])
+    .Object@desc@classes = c(oneclass=FALSE, twoclass=FALSE, multiclass=FALSE)
+    .Object@desc@predict = c(prob=FALSE, decision=FALSE)
+    .Object@desc@costs = FALSE
+    return(.Object)
   }
 )
 
@@ -93,18 +100,6 @@ setMethod(
     f = "[",
     signature = signature("rlearner"),
     def = function(x,i,j,...,drop) {
-      if (i == "is.classif") {
-        return(is(x, "rlearner.classif"))
-      }
-      if (i == "is.regr") {
-        return(is(x, "rlearner.regr"))
-      }
-      if (i == "doubles") {
-        return(as.logical(x@feat["doubles"]))
-      }
-      if (i == "factors") {
-        return(as.logical(x@feat["factors"]))
-      }
       if (i == "leaf.learner") {
         return(x)
       }
@@ -112,50 +107,24 @@ setMethod(
     }
 )
 
-#' Getter.
-#' @rdname rlearner-class
-
-setMethod(
-  f = "[",
-  signature = signature("rlearner.classif"),
-  def = function(x,i,j,...,drop) {
-    if (i == "prob") {
-      return(as.logical(x@predict["prob"]))
-    }
-    if (i == "decision") {
-      return(as.logical(x@predict["decision"]))
-    }
-    if (i == "oneclass") {
-      return(as.logical(x@classes["oneclass"]))
-    }
-    if (i == "twoclass") {
-      return(as.logical(x@classes["twoclass"]))
-    }
-    if (i == "multiclass") {
-      return(as.logical(x@classes["multiclass"]))
-    }
-    callNextMethod()
-  }
-)
-
 
 #' @rdname to.string
 setMethod(f = "to.string",
   signature = signature("rlearner.classif"),
   def = function(x) {
-    pack = paste(x["pack"], collapse=",")
+    pack = paste(x@pack, collapse=",")
     return(paste(
-        "Classification learner id=", x@id, " from package ", pack, "\n",
+        "Classification learner id=", x@desc@id, " from package ", pack, "\n",
         "Class: ", class(x), "\n",
         "Predict-Type: ", x["predict.type"], "\n",
         "Hyperparameters: ", x["par.vals.string"], "\n\n",
-        "Supported features Doubles:", x["doubles"], " Factors:", x["factors"], "\n",
-        "Supports missings: ", x["missings"], "\n", 
-        "Supports weights: ", x["weights"], "\n", 
-        "Supports classes: ", paste(c("one", "two", "multi")[x@classes], collapse=","), "\n",
-        "Supports probabilities: ", x["prob"], "\n", 
-        "Supports decision values: ", x["decision"], "\n", 
-        "Supports costs: ", x["costs"], "\n", 
+        "Supported features Doubles:", x@desc@feat["doubles"], " Factors:", x@desc@feat["factors"], "\n",
+        "Supports missings: ", x@desc@missings, "\n", 
+        "Supports weights: ", x@desc@weights, "\n", 
+        "Supports classes: ", paste(c("one", "two", "multi")[x@desc@classes], collapse=","), "\n",
+        "Supports probabilities: ", x@desc@predict["prob"], "\n", 
+        "Supports decision values: ", x@desc@predict["decision"], "\n", 
+        "Supports costs: ", x@desc@costs, "\n", 
         sep =""					
       ))
 })
@@ -164,14 +133,14 @@ setMethod(f = "to.string",
 setMethod(f = "to.string",
   signature = signature("rlearner.regr"),
   def = function(x) {
-    pack = paste(x["pack"], collapse=",")
+    pack = paste(x@pack, collapse=",")
     return(paste(
-        "Regression learner id=", x@id, " from package ", pack, "\n",
+        "Regression learner id=", x@desc@id, " from package ", pack, "\n",
         "Class: ", class(x), "\n",
         "Hyperparameters: ", x["par.vals.string"], "\n\n",
-        "Supported features Doubles:", x["doubles"], " Factors:", x["factors"], "\n",
-        "Supports missings: ", x["missings"], "\n", 
-        "Supports weights: ", x["weights"], "\n", 
+        "Supported features Doubles:", x@desc@feat["doubles"], " Factors:", x@desc@feat["factors"], "\n",
+        "Supports missings: ", x@desc@missings, "\n", 
+        "Supports weights: ", x@desc@weights, "\n", 
         sep =""					
       ))
   })

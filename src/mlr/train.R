@@ -47,7 +47,7 @@ setMethod(
 		
 		def = function(learner, task, subset) {
       # make sure that pack for learner ist loaded, probably needed when learner is exported        
-      require.packs(learner["pack"], paste("learner", learner@id))
+      require.packs(learner@pack, paste("learner", learner@desc@id))
       
       check.result = if (is(task, "ClassifTask")) check.task.learner.classif(task, learner) else check.task.learner(task, learner)
       
@@ -63,7 +63,7 @@ setMethod(
       # only pass train hyper pars as basic rlearner in ...
       pars = c(pars, wl["leaf.learner"]["par.train"])
       
-      logger.debug(level="train", "mlr train:", wl@id, "with pars:")
+      logger.debug(level="train", "mlr train:", wl@desc@id, "with pars:")
       logger.debug(level="train", wl["par.vals.string"])
       logger.debug(level="train", "on", length(subset), "examples:")
       logger.debug(level="train", subset)

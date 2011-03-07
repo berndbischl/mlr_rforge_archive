@@ -45,21 +45,6 @@ setMethod(
     }
 )
 
-
-#' @rdname OptWrapper-class
-
-setMethod(
-		f = "[",
-		signature = signature("OptWrapper"),
-		def = function(x,i,j,...,drop) {
-			if (i == "opt.type"){
-				return(x@control["opt.type"])
-			}
-			callNextMethod()
-		}
-)
-
-
 #' @rdname trainLearner
 
 setMethod(

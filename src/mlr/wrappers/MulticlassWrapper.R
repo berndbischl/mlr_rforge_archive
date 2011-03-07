@@ -11,24 +11,6 @@ setClass(
         contains = c("BaseWrapper")
 )
 
-#' @rdname MulticlassWrapper-class
-
-setMethod(
-        f = "[",
-        signature = signature("MulticlassWrapper"),
-        def = function(x,i,j,...,drop) {
-            if (i == "multiclass")
-                return(TRUE)
-            if (i == "prob")
-                return(FALSE)
-            if (i == "decision")
-                return(FALSE)
-            if (i == "codematrix")
-                return(x@codematrix)
-            callNextMethod()
-        }
-)
-
 #' Fuses a base learner with a multi-class method. Creates a learner object, which can be
 #' used like any other learner object. This way learners which can only handle binary classification 
 #' will be able to handle multi-class problems too.
@@ -54,6 +36,9 @@ makeMulticlassWrapper = function(learner, mcw.method="onevsrest") {
     makeFunctionLearnerParameter(id="mcw.custom")
   )
   w = new("MulticlassWrapper", learner=learner, par.set=ps)
+  w@desc@classes["multiclass"] = TRUE
+  w@desc@predict["prob"] = FALSE
+  w@desc@predict["decision"] = FALSE
   if (is.function(mcw.method)) {
     if (any(names(formals(mcw.method)) != c("task")))
       stop("Arguments in multiclass codematrix function have to be: task")   

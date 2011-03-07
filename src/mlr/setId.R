@@ -27,7 +27,7 @@ setMethod(
 		),
 		
 		def = function(learner, id) {
-			learner@id = id
+			learner@desc@id = id
 			return(learner)
 		} 
 )

@@ -3,9 +3,9 @@
 
 test.learner <- function() {
 	wl = makeLearner("classif.rpart", minsplit=3)
-	checkEquals(wl["is.classif"], T)
+	checkEquals(wl@desc@type == "classif", T)
 	checkEquals(wl["is.regr"], F)
-	checkEquals(wl@id, "classif.rpart")
+	checkEquals(wl@desc@id, "classif.rpart")
   checkEquals(wl["oneclass"], F)
   checkEquals(wl["twoclass"], T)
   checkEquals(wl["multiclass"], T)
@@ -18,9 +18,9 @@ test.learner <- function() {
 	checkEquals(wl["factors"], T)
 
 	wl = makeLearner("regr.lm")
-	checkEquals(wl["is.classif"], F)
+	checkEquals(wl@desc@type == "classif", F)
 	checkEquals(wl["is.regr"], T)
-	checkEquals(wl@id, "regr.lm")
+	checkEquals(wl@desc@id, "regr.lm")
 	checkEquals(wl["multiclass"], NULL)
 	checkEquals(wl["probs"], NULL)
 	checkEquals(wl["decision"], NULL)
