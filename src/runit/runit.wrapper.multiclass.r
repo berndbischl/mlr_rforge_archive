@@ -12,7 +12,7 @@ test.MulticlassWrapper <- function() {
   cm = function(task) {
     m = matrix(1, 3, 3)
     diag(m) = -1
-    rownames(m) = task["class.levels"]
+    rownames(m) = getClassLevels(task)
     m
   } 
 

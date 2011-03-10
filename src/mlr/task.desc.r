@@ -94,12 +94,12 @@ setMethod(
       if (i == "dim") 
         return(sum(x@n.feat))
       if (i == "negative") 
-        if(x@desc@type == "classif" && length(getClassLevels(x)) == 2) 
+        if(x@type == "classif" && length(getClassLevels(x)) == 2) 
           return(setdiff(getClassLevels(x), x["positive"])) 
         else 
           return(as.character(NA))
       if (i == "has.costs") 
-        if(x@desc@type == "classif") return(all(dim(x@costs)!=0)) else return(as.logical(NA))
+        if(x@type == "classif") return(all(dim(x@costs)!=0)) else return(as.logical(NA))
       
 			callNextMethod()
 		}

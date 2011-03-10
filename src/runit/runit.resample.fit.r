@@ -12,9 +12,9 @@ test.resample = function() {
   rf4 = setThreshold(rf4, 1)
   
 	checkEquals(rf1@df$response, rf2@df$response)
-	f1 = factor(rep(binaryclass.task["positive"], cv.i["size"]), levels=binaryclass.task["class.levels"])
+	f1 = factor(rep(binaryclass.task["positive"], cv.i["size"]), levels=getClassLevels(binaryclass.task))
 	checkEquals(rf3@df$response, f1)
-	f2 = factor(rep(binaryclass.task["negative"], cv.i["size"]), levels=binaryclass.task["class.levels"])
+	f2 = factor(rep(binaryclass.task["negative"], cv.i["size"]), levels=getClassLevels(binaryclass.task))
 	checkEquals(rf4@df$response, f2)
 	
 	ct = makeClassifTask(data=iris[,c("Species", "Petal.Width")], target="Species")

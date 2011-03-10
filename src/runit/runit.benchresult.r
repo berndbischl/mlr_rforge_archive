@@ -131,13 +131,13 @@ test.benchresult = function() {
 	checkEquals(names(x1), c("classif.ksvm"))
 	x1 = x1[[1]]
 	checkTrue(is(x1, "matrix"))
-	checkEquals(dim(x1), c(multiclass.task["class.nr"]+1, multiclass.task["class.nr"]+1))
+	checkEquals(dim(x1), c(multiclass.length(getClassLevels(task))+1, multiclass.length(getClassLevels(task))+1))
 	x1 = x[[2]]
 	checkTrue(is.list(x1))
 	checkEquals(names(x1), c("classif.ksvm"))
 	x1 = x1[[1]]
 	checkTrue(is(x1, "matrix"))
-	checkEquals(dim(x1), c(binaryclass.task["class.nr"]+1, binaryclass.task["class.nr"]+1))
+	checkEquals(dim(x1), c(binaryclass.length(getClassLevels(task))+1, binaryclass.length(getClassLevels(task))+1))
 	
   # check aggregation
   res = makeResampleInstance(makeResampleDesc("CV", iters=3), task=multiclass.task) 

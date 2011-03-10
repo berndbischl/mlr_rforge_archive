@@ -7,7 +7,7 @@ test.mlr.learn.task <- function() {
 	
 	ct = binaryclass.task
 	pn = c(ct["positive"], ct["negative"])
-	checkEquals(sort(ct["class.levels"]), sort(pn))
+	checkEquals(sort(getClassLevels(ct)), sort(pn))
 	
 	# wrong vars
 	x=checkException(

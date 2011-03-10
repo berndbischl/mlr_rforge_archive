@@ -29,12 +29,10 @@ test.task.desc <- function() {
   checkEquals(multiclass.task["n.feat"]["log"], 0, checkNames=FALSE)  
   checkEquals(multiclass.task["n.feat"]["char"], 0, checkNames=FALSE)  
   checkEquals(multiclass.task["has.missing"], F)  
-  checkEquals(multiclass.task["is.classif"], T) 
-  checkEquals(multiclass.task["is.regr"], F)  
-  checkEquals(multiclass.task["class.levels"], c("setosa", "versicolor", "virginica"))  
-  checkEquals(multiclass.task["class.nr"], 3) 
+  checkEquals(multiclass.task@desc@type, "classif") 
+  checkEquals(getClassLevels(multiclass.task), c("setosa", "versicolor", "virginica"))  
+  checkEquals(length(getClassLevels(multiclass.task)), 3) 
   checkEquals(multiclass.task["class.dist"], c(setosa=50, versicolor=50, virginica=50)) 
-  checkEquals(multiclass.task["is.binary"], F)
   
   # check missing values
   df = multiclass.df
@@ -51,12 +49,10 @@ test.task.desc <- function() {
   checkEquals(ct["n.feat"]["log"], 0, checkNames=FALSE)  
   checkEquals(ct["n.feat"]["char"], 0, checkNames=FALSE)  
   checkEquals(ct["has.missing"], F) 
-  checkEquals(ct["is.classif"], T)  
-  checkEquals(ct["is.regr"], F) 
-  checkEquals(ct["class.levels"], c("M", "R"))  
-  checkEquals(ct["class.nr"], 2)  
+  checkEquals(ct@desc@type, "classif")  
+  checkEquals(getClassLevels(ct), c("M", "R"))  
+  checkEquals(length(getClassLevels(ct)), 2)  
   checkEquals(ct["class.dist"], c(M=111, R=97)) 
-  checkEquals(ct["is.binary"], T) 
   
   checkEquals(regr.task["size"], 506) 
   checkEquals(regr.task["dim"], 13) 
@@ -66,11 +62,9 @@ test.task.desc <- function() {
   checkEquals(regr.task["n.feat"]["log"], 0, checkNames=FALSE)  
   checkEquals(regr.task["n.feat"]["char"], 0, checkNames=FALSE)  
   checkEquals(regr.task["has.missing"], F)  
-  checkEquals(regr.task["is.classif"], F) 
-  checkEquals(regr.task["is.regr"], T)  
-  checkTrue(is.na(regr.task["class.levels"])) 
-  checkTrue(is.na(regr.task["class.nr"])) 
+  checkEquals(regr.task@type, "regr")  
+  checkTrue(is.na(getClassLevels(regr.task))) 
+  checkTrue(is.na(regr.length(getClassLevels(task)))) 
   checkTrue(is.na(regr.task["class.dist"])) 
-  checkTrue(is.na(regr.task["is.binary"]))  
   
 }
