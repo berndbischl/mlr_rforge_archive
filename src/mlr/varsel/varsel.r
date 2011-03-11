@@ -44,7 +44,8 @@ varsel <- function(learner, task, resampling, control, measures, bit.names, bits
     measures = default.measures(task)
   if (is(measures, "Measure"))
     measures = list(measures)   
-  if (missing(bit.names))
+  # special case so we can pass something from VarselWrapper
+  if (missing(bit.names) || (is.character(bit.names) && length(bit.names)==0))
     bit.names = getFeatureNames(task)
   if (missing(bits.to.features))
     bits.to.features = function(x, task) binary.to.vars(x, getFeatureNames(task)) 

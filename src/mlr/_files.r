@@ -196,6 +196,7 @@ pack.files = c(
 		"mlr/models/regression/kknn.regr.r",
 		"mlr/models/regression/ksvm.regr.r",
     "mlr/models/regression/krigdice.regr.r",
+    "mlr/models/regression/krigdice.forrester.r",
     "mlr/models/regression/lasso.r",
 		"mlr/models/regression/lm.r",
 		"mlr/models/regression/mars.regr.r",

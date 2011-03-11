@@ -105,12 +105,15 @@ setMethod(
 #' @param learner [\code{\linkS4class{Learner}}]\cr 
 #'   Learner.   
 #' @param for.fun [character(1)]\cr 
-#'   The values corresponding to what aspect of the learner should be returned: 'train', 'predict', or 'both'.    
+#'   The values corresponding to what aspect of the learner should be returned: 'train', 'predict', or 'both'.
+#'   Default is 'both'.    
 #' @return A named list of values.
 #' @rdname getParameterValues
 #' @exportMethod getParameterValues
 setGeneric(name = "getParameterValues", 
-  def = function(learner, for.fun="both") {
+  def = function(learner, for.fun) {
+    if (missing(for.fun))
+      for.fun = "both"      
     check.arg(for.fun, "character", 1, c("train", "predict", "both"))
     standardGeneric("getParameterValues")
   }

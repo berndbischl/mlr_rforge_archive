@@ -24,6 +24,8 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     stop("No par.set parameter in 'spo' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")
   if (any(is.infinite(c(lower(par.set), upper(par.set)))))
     stop("SPO requires finite box constraints!")
+  if (control@propose.points.method == "CMAES") 
+    require.packs("cmaes", "proposePoints")
   if (control@propose.points.method == "CMAES" && control@propose.points != 1)
     stop("CMAES can only propose 1 point!")        
   if (control@propose.points.method == "CMAES" &&

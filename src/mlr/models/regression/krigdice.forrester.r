@@ -11,14 +11,14 @@ roxygen()
 
 
 setClass(
-  "regr.km.noisy", 
+  "regr.kmforrester", 
   contains = c("rlearner.regr")
 )
 
 
 setMethod(
   f = "initialize",
-  signature = signature("regr.km.noisy"),
+  signature = signature("regr.kmforrester"),
   def = function(.Object) {
     
     desc = c(
@@ -37,15 +37,18 @@ setMethod(
 setMethod(
   f = "trainLearner",
   signature = signature(
-    .learner="regr.km.noisy", 
+    .learner="regr.kmforrester", 
     .task="RegrTask", .subset="integer" 
   ),
   
   def = function(.learner, .task, .subset,  ...) {
     d = get.data(.task, .subset, target.extra=TRUE)
-    m = km(design=d$data, response=d$data, nugget.estim=TRUE, ...)
-    m = km(design=d$data, response=d$data, nugget.estim=FALSE, 
-      coef.trend=m@trend.coef, coef.var=m@covariance@sd2, coef.cov=m@covariance@range.val)   
+    d = get.data(.task, .subset, target.extra=TRUE)
+    m = km(design=d$data, response=d$target, nugget.estim=TRUE, ...)
+    p = predict(m, d$data, type="SK")$mean
+    m = km(design=d$data, response=p, nugget.estim=FALSE, 
+       coef.trend=m@trend.coef, coef.var=m@covariance@sd2, coef.cov=m@covariance@range.val)
+    return(m)   
   }
 )
 
@@ -54,7 +57,7 @@ setMethod(
 setMethod(
   f = "predictLearner",
   signature = signature(
-    .learner = "regr.km.noisy", 
+    .learner = "regr.kmforrester", 
     .model = "WrappedModel", 
     .newdata = "data.frame", 
     .type = "missing" 
