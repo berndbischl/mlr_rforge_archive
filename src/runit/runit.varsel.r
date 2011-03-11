@@ -2,7 +2,7 @@ test.varsel <- function() {
   inner = makeResampleDesc("CV", iter=2)
   
   # check all methods
-  ctrl = makemakeVarselControlExhaustive(max.vars=2)
+  ctrl = makeVarselControlExhaustive(max.vars=2)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
   checkEquals(length(as.list(vr@path)), 11) 
   checkEquals(nrow(as.data.frame(vr@path)), 11) 
@@ -65,7 +65,7 @@ test.varsel <- function() {
   checkEquals(colnames(df), c("b1", "b2", "mmce.test.mean", "mmce.test.sd", "dob", "eol"))
   checkEquals(nrow(df), 3)
   
-  ctrl = makemakeVarselControlExhaustive()
+  ctrl = makeVarselControlExhaustive()
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, bit.names=bns, bits.to.features=btf, control=ctrl)
   df = as.data.frame(vr@path) 
   checkEquals(colnames(df), c("b1", "b2", "mmce.test.mean", "mmce.test.sd", "dob", "eol"))
