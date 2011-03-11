@@ -58,7 +58,7 @@ setMethod(
 		def = function(.learner, .task, .subset,  ...) {
       pvs = .learner@par.vals 
       .task = subset(.task, subset=.subset)  
-      tn = .task["target"]
+      tn = .task@desc@target
       vars = varfilter(.task, pvs$fw.method, pvs$fw.threshold)$vars
       if (length(vars) > 0) {
         .task = subset(.task, vars=vars)  

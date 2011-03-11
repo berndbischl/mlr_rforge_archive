@@ -60,16 +60,16 @@ setMethod(
 			ctrl = wl@control
       
       lt = subset(.task, .subset)
-			if (wl["opt.type"] == "tune") {
+			if (is(wl@control, "TuneControl")) {
 				or = tune(bl, lt, wl@resampling, wl@measures, wl@opt.pars, ctrl)
         bl = setHyperPars(bl, par.vals=or@x)
         m = train(bl, lt)
-      } else if (wl["opt.type"] == "varsel") {
+      } else if (is(wl@control, "VarselControl")) {
 				or = varsel(bl, lt, wl@resampling, measures=wl@measures, wl@bit.names, wl@bits.to.features, control=ctrl)
         lt = subset(lt, vars=or@x)
         m = train(bl, lt)
       }	else 
-				stop("Unknown type: ", wl["opt.type"])
+				stop("Should not happen!")
 				
 			# set the opt result as attribute, so we can extract it later 
 			attr(m, "opt.result") = or

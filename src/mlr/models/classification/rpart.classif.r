@@ -68,7 +68,7 @@ setMethod(
       if (.task["has.costs"]) {
         cm = .task["costs"]
         # probably better to reorder the row/cols so they correspond with levels in d$target
-        levs = levels(d[, .task["target"]]) 
+        levs = levels(d[, .task@desc@target]) 
         cm = cm[levs, levs]
         if (.task["has.weights"])
           rpart(f, data=d, weights=.task["weights"][.subset], parms=list(loss=cm), ...)

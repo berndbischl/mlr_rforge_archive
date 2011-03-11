@@ -87,7 +87,7 @@ setMethod(
 				p = treeresponse(m, newdata=.newdata, ...)
 				p = Reduce(rbind, p)
 				rownames(p) = NULL
-				colnames(p) = m@responses@levels[[.model["target"]]]
+				colnames(p) = m@responses@levels[[.model@desc@target]]
 				return(p)
 			} else 
 				predict(.model["learner.model"], newdata=.newdata, ...)

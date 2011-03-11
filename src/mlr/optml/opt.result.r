@@ -47,50 +47,19 @@ setMethod(
 		}
 )
 
-##' @rdname opt.result-class
-setMethod(
-		f = "[",
-		signature = signature("opt.result"),
-		def = function(x,i,j,...,drop) {
-			args = list(...)
-			if (i == "x") {
-				return(x@x)
-			}
-      if (i == "par.string") {
-        if (x["opt.type"] == "tune") {
-          return(valToString(getParameterSet(x@learner), x@x))
-        } else {
-          return(paste(length(x@x), "sel. vars"))
-        }
-      }
-			if (i == "opt.type"){
-				return(x@control["opt.type"])
-			}
-			if (i == "Learner") {
-				if (x["opt.type"] != "tune")
-					return(NULL)
-				wl = setHyperPars(x@learner, x@x)
-				return(wl)
-			}
-			if (i == "path") {
-				ys = x@path
-				if (!is.null(args$as.data.frame) && args$as.data.frame) {
-					ys = path2dataframe(ys)			
-				}
-				return(ys)
-			}
-			callNextMethod(x,i,j,...,drop=drop)
-		}
-)
 
 ##' @rdname to.string
 setMethod(
 		f = "to.string",
 		signature = signature("opt.result"),
 		def = function(x) {
+      s = if (is(x@control, "TuneControl")) 
+        valToString(getParameterSet(x@learner), x@x)
+      else 
+        paste(length(x@x), "sel. vars")
       return(
 					paste(
-							"Opt. pars: ", x["par.string"], "\n",
+							"Opt. pars: ", s, "\n",
 							paste(paste(names(x@y), formatC(x@y, digits=3), sep="="), collapse=" "), 
 							sep=""
 					)

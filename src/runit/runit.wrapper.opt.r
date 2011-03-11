@@ -8,12 +8,9 @@ test.OptWrapper <- function() {
 	
 	m = train(svm.tuner, task=multiclass.task)
 	
-	or = m["opt.result"]
+	or = m@opt.result
 	checkEquals(or@x, list(C=1))
 	
-	checkTrue(!is.null(or["y"]))
-	checkTrue(!is.null(or["path"]))
-  
   p = predict(m, task=multiclass.task)
   checkTrue(!any(is.na(p@df$response)))
   

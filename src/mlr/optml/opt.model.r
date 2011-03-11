@@ -26,14 +26,9 @@ setMethod(
   f = "to.string",
   signature = signature("opt.model"),
   def = function(x) {
-    s = callNextMethod(x)
-    return(
-      paste(
-        s, "\n",
-        "Opt. pars: ", x["opt.result"]["par.string"],
-        sep=""
-      )
-    )
+    s1 = callNextMethod(x)
+    s2 = to.string(x@opt.result)
+    paste(s1, "\nOptimzation result:\n", s2, sep="")
   }
 )
 

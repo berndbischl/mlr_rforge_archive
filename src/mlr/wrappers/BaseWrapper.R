@@ -32,13 +32,16 @@ setMethod(
 		def = function(.Object, learner, pack=character(0), par.set, par.vals=list()) {
 			if (missing(learner))
 				return(make.empty(.Object))
+      if (is(learner, "OptWrapper")) 
+        stop("Cannot wrap an optimization wrapper with something else!")
       ns = intersect(names(par.set@pars), names(learner@par.set@pars))
       if (length(ns) > 0)
         stop("Hyperparameter names in wrapper clash with base learner names: ", paste(ns, collapse=","))
 			.Object@learner = learner
       .Object@pack = c(pack, learner@pack) 
+      .Object = callNextMethod(.Object, id=learner@desc@id, par.set=par.set, par.vals=par.vals, pack=pack)
       .Object@desc =learner@desc 
-      callNextMethod(.Object, id=learner@desc@id, par.set=par.set, par.vals=par.vals, pack=pack)
+      return(.Object)
 		}
 )
 
@@ -51,32 +54,10 @@ setMethod(
 		signature = signature("BaseWrapper"),
 		def = function(x,i,j,...,drop) {
       
-      head = list(...)$head
-      if (is.null(head)) 
-        head = FALSE
-      
       # these belong to BaseWrapper and can be different from basic rlearner 
-			if(i %in% c("id", "learner", "predict.type", "par.vals.string"))
+			if(i %in% c("id", "learner", "predict.type"))
 				return(callNextMethod())
       
-      if(i == "par.vals") {
-        if (head)
-          return(callNextMethod())
-        else
-          return(c(x@learner["par.vals"], callNextMethod()))
-      }
-      if(i == "par.train") {
-        return(c(x@learner["par.train"], callNextMethod()))
-      }
-      if(i == "par.predict") {
-        return(c(x@learner["par.predict"], callNextMethod()))
-      }
-      if(i == "leaf.learner") {
-        y = x@learner 
-        while (is(y, "BaseWrapper")) 
-          y = y@learner
-        return(y)  
-      }
       return(x@learner[i])
 		}
 )
@@ -158,10 +139,11 @@ setMethod(f = "to.string",
     
     return(paste(
         s, "\n",
-        "Hyperparameters: ", x["par.vals.string"], "\n\n",
+        "Hyperparameters: ", getParameterValuesString(x), "\n\n",
         sep = ""         
       ))
   })
+
 
 
 

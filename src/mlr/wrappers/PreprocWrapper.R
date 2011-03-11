@@ -61,10 +61,10 @@ setMethod(
     ),
       
 		def = function(.learner, .task, .subset,  ...) {
-      pvs = .learner["par.vals", head=TRUE]
+      pvs = .learner@par.vals
       
       d = get.data(.task, .subset)
-      tn = .task["target"]
+      tn = .task@desc@target
       p = .learner@train(data=d, targetvar=tn, args=pvs)
       if (!(is.list(p) && length(p)==2 && all(names(p) == c("data", "control")) 
           && is.data.frame(p$data) && is.list(p$control)))
@@ -93,7 +93,7 @@ setMethod(
 		def = function(.learner, .model, .newdata, .type, ...) {
       pvs = .model@learner@par.vals
       m = nrow(.newdata)
-      .newdata = .learner@predict(.newdata, .model@desc["target"], pvs, .model@control)
+      .newdata = .learner@predict(.newdata, .model@desc@target, pvs, .model@control)
       if (!is.data.frame( .newdata))
         stop("Preprocessing must result in a data.frame!")
       if (nrow(.newdata) != m)

@@ -1,10 +1,10 @@
 test.hyperpars <- function() {
 	wl1 = makeLearner("classif.rpart", minsplit=10)
-	checkEquals(wl1["par.vals"], list(minsplit=10)) 
+	checkEquals(getParameterValues(wl1), list(minsplit=10)) 
 	
 	m = train(wl1, task=multiclass.task)
   checkTrue(!is(m, "FailureModel"))
-	checkEquals(m@learner["par.vals"], list(minsplit=10)) 
+	checkEquals(getParameterValues(m@learner), list(minsplit=10)) 
 	
 	f1 = function(data, targetvar, args) {
 		data[,2] = args$x * data[,2]
@@ -20,17 +20,16 @@ test.hyperpars <- function() {
   )
 	wl2 = makePreprocWrapper(wl1, train=f1, predict=f2, par.set=ps, par.vals=list(x=1,y=2))
 	
-	checkTrue(setequal(wl2["par.vals"], list(minsplit=10, x=1, y=2))) 
-	checkTrue(setequal(wl2["par.train"], list(minsplit=10, x=1, y=2))) 
-  checkTrue(setequal(wl2["par.vals", head=T], list(x=1, y=2))) 
+	checkTrue(setequal(getParameterValues(wl2), list(minsplit=10, x=1, y=2))) 
+	checkTrue(setequal(getParameterValues(wl2, "train"), list(minsplit=10, x=1, y=2))) 
+  checkTrue(setequal(wl2@par.vals, list(x=1, y=2))) 
   
 	wl3 = setHyperPars(wl2, minsplit=77, x=88)
-	checkTrue(setequal(wl3["par.vals"], list(minsplit=77, x=88, y=2))) 
-	checkTrue(setequal(wl3["par.train"], list(minsplit=77, x=88, y=2))) 
-	checkTrue(setequal(wl3["par.vals", head=T], list(x=88, y=2))) 
+	checkTrue(setequal(getParameterValues(wl3), list(minsplit=77, x=88, y=2))) 
+	checkTrue(setequal(wl3@par.vals, list(minsplit=77, x=88, y=2))) 
 	
 	m = train(wl2, task=multiclass.task)
-	checkTrue(setequal(m@learner["par.vals"], list(minsplit=10, x=1, y=2))) 
+	checkTrue(setequal(getParameterValues(m@learner), list(minsplit=10, x=1, y=2))) 
   
   # check warnings
   errorhandler.setup(on.par.without.desc="warn")  

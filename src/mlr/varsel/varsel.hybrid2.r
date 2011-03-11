@@ -4,7 +4,7 @@ varsel.hybrid2 = function(learner, task, resampling, measures, control=sequentia
 	path = list()
 	all.vars = task["input.names"]
 	data = na.omit(task["data"])
-	cors.y = abs(cor(data[,all.vars], data[,task["target"]]))[,1]
+	cors.y = abs(cor(data[,all.vars], data[,task@desc@target]))[,1]
 	# NA can occur if var. is constant, set cor to 0 then, var useless
 	cors.y[is.na(cors.y)] = 0
 	m = length(all.vars) 

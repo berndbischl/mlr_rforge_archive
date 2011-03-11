@@ -60,7 +60,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, ...) {
 			m <- .model["learner.model"]
-			.newdata[, .model["target"]] <- 0
+			.newdata[, .model@desc@target] <- 0
 			predict(m, data=.newdata,  ...)[,"mu"]
 		}
 )	

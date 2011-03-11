@@ -77,7 +77,7 @@ setMethod(
 			if (.task["has.costs"]) {
 			  cm = .task["costs"]
         # probably better to reorder the row/cols so they correspond with levels in d$target
-        levs = levels(d[, .task["target"]]) 
+        levs = levels(d[, .task@desc@target]) 
         cm = cm[levs, levs]
 				ada(f, data=d, parms=list(loss=cm), ...)
 			} else

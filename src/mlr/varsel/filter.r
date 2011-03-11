@@ -38,7 +38,7 @@ setMethod(
   
   def = function(task, method, threshold, ...) {
     require.packs("FSelector")
-    tn = task["target"]
+    tn = task@desc@target
     f = task["formula"]
     data = task["data"]
     if (method == "linear.correlation") 

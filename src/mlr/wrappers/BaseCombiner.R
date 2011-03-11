@@ -71,8 +71,6 @@ setMethod(
 #    
 #    return(paste(
 #        s, "\n",
-#        "Hyperparameters: ", x["par.vals.string"], "\n\n",
-#        sep = ""         
 #      ))
 #  })
 

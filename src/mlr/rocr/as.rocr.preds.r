@@ -30,7 +30,7 @@ setMethod(
 		f = "as.ROCR.preds",
 		signature = signature(x="Prediction"), 
 		def = function(x) {
-			if(x@desc["class.nr"] != 2) {
+			if(length(getClassLevels(x)) != 2) {
 				stop("More than 2 classes!")
 			}
 			p = getScore(x) 
@@ -48,7 +48,7 @@ setMethod(
   f = "as.ROCR.preds",
   signature = signature(x="ResamplePrediction"), 
   def = function(x) {
-    if(x@desc["class.nr"] != 2) {
+    if(length(getClassLevels(x)) != 2) {
       stop("More than 2 classes!")
     }
     if(x@type != "prob") {

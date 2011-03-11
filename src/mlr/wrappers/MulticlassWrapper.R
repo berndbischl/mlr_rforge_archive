@@ -59,11 +59,11 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset,  ...) {
-    pvs = .learner["par.vals", head=TRUE]
+    pvs = .learner@par.vals
     
     .task = subset(.task, .subset)
-    tn = .task["target"]
-    levs = .getClassLevels(task)
+    tn = .task@desc@target
+    levs = getClassLevels(.task)
     d = .task["data"]
     y = getTargets(.task)
         

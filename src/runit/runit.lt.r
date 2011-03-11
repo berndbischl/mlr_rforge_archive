@@ -2,7 +2,7 @@ test.mlr.learn.task <- function() {
 	
 	ct1 <- multiclass.task
 	
-	checkEquals(ct1["target"], "Species")
+	checkEquals(ct1@desc@target, "Species")
 	checkEquals(getTargets(ct1), multiclass.df[,multiclass.target])
 	
 	ct = binaryclass.task

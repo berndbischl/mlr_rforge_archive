@@ -60,7 +60,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			p = callNextMethod(.learner, .model, .newdata, .type, ...)
-      p = .learner@fun(pred=p, args=.learner["par.vals", head=TRUE])
+      p = .learner@fun(pred=p, args=.learner@par.vals)
 		}
 )	
 

@@ -9,7 +9,7 @@ varsel.bestcor = function(learner, task, resampling, measures, control=sequentia
 	path = add.path.varsel(path, state, T)		
 	data = na.omit(task["data"])
 	not.used = all.vars
-	cors = abs(cor(data[, all.vars], data[, task["target"]])) 
+	cors = abs(cor(data[, all.vars], data[, task@desc@target])) 
 	o = order(cors, decreasing=TRUE)
 	not.used = not.used[o]
 	#print(cors)

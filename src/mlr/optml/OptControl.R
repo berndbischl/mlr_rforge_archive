@@ -4,10 +4,6 @@
 #' 
 #' Getter.\cr
 #' 
-#' \describe{
-#'  \item{opt.type [character(1)]}{'tune' or 'varsel'.}
-#' }
-#' 
 #' @exportClass OptControl
 #' @seealso \code{\linkS4class{TuneControl}}, \code{\linkS4class{varsel.control}} 
 #' @title Base class for control objects for optimization.
@@ -36,22 +32,4 @@ setMethod(
 			return(.Object)
 		}
 )
-
-
-#' @rdname OptControl-class
-
-setMethod(
-		f = "[",
-		signature = signature("OptControl"),
-		def = function(x,i,j,...,drop) {
-			if (i == "opt.type"){
-				if (is(x, "TuneControl"))
-					return("tune")
-				else
-					return("varsel")
-			}
-			callNextMethod()
-		}
-)
-
 

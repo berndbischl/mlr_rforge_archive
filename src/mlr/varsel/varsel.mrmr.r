@@ -6,7 +6,7 @@ varsel.mrmr = function(learner, task, resampling, measures, control=sequential.c
 	ds.name = paste("foo", round(runif(1,max=100000000)), ".csv", sep="")
 	ds.path = file.path(tempdir(), "foo.csv")
 	df = na.omit(task["data"])
-	df = df[,c(task["target"], task["input.names"])]
+	df = df[,c(task@desc@target, task["input.names"])]
 	write.table(df, file = ds.path, sep = ",", row.names=FALSE)
 	
 	n.feat = control$max.vars

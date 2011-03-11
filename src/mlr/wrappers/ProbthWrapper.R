@@ -6,17 +6,6 @@ setClass(
   contains = c("BaseWrapper")
 )
 
-setMethod(
-  f = "[",
-  signature = signature("ProbthWrapper"),
-  def = function(x,i,j,...,drop) {
-    if (i == "prob")
-      return(FALSE)
-    if (i == "decision")
-      return(FALSE)
-    callNextMethod()
-  }
-)
 
 #' Fuses a classifier with thresholding. Creates a learner object, which can be
 #' used like any other learner object, but which produces discrete class labels 
@@ -48,6 +37,7 @@ makeProbthWrapper = function(learner, classes) {
   ps = do.call(makeParameterSet, 
     lapply(names(a), function(x) makeNumericLearnerParameter(id=x, lower=0, upper=1)))
   w = new("ProbthWrapper", learner=learner, par.set=ps, par.vals=a)
+  w@desc@predict = c(prob=FALSE, decision=FALSE)
   setPredictType(w, "response")
 }
 
@@ -63,7 +53,7 @@ setMethod(
   
   def = function(.learner, .model, .newdata, .type, ...) {
     p = predictLearner(.learner@learner, .model, .newdata, .type="prob")
-    ths = unlist(.learner["par.vals", head=TRUE])
+    ths = unlist(.learner@par.vals)
     # remove "probth"    
     names(ths) = sapply(strsplit(names(ths), "\\."), function(x) x[2])
     setThreshold(p, threshold=ths)

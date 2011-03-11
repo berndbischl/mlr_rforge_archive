@@ -13,23 +13,6 @@ makeCombineWrapperRegrSuperLearner = function(learners) {
     par.set=makeParameterSet(), par.vals=list())
 }
 
-#todo: bad method to set properties!!
-setMethod(
-  f = "[",
-  signature = signature("CombineWrapperRegrSuperLearner"),
-  def = function(x,i,j,...,drop) {
-    if (i == "is.classif")
-      return(FALSE)
-    if (i %in% c("numerics", "factors")) {
-      return(TRUE)
-    }
-    callNextMethod()
-  }
-)
-
-
-
-
 #' @rdname trainLearner
 setMethod(
   f = "trainLearner",
