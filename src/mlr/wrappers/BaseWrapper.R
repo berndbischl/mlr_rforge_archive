@@ -145,5 +145,13 @@ setMethod(f = "to.string",
   })
 
 
+#' @rdname getParameterValues
+setMethod(
+  f = "getParameterValues",
+  signature = signature(learner="BaseWrapper", for.fun="character"), 
+  def = function(learner, for.fun) {
+    c(getParameterValues(learner@learner, for.fun), getParameterValuesTop(learner, for.fun))
+  }
+)
 
 

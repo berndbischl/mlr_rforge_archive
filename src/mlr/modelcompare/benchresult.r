@@ -176,7 +176,7 @@ setMethod(
     if (!(learner.id %in% lns))
       stop("Learner ", learner.id, " was not used in bench.result, only: ", paste(lns, collapse=","))
     x = br["opt.results"][[task.id]][[learner.id]]
-    if (is.null(x) || x[[1]]["opt.type"] != "tune")
+    if (is.null(x) || !is(x[[1]]@control, "TuneControl"))
       stop("Learner id ", learner.id, " was not tuned in bench.result!")
     if (as.data.frame)
       as.data.frame(Reduce(rbind, lapply(x, function(y) as.data.frame(y@x))))
@@ -228,7 +228,7 @@ setMethod(
     if (!(learner.id %in% lns))
       stop("Learner ", learner.id, " was not used in bench.result, only: ", paste(lns, collapse=","))
     x = br["opt.results"][[task.id]][[learner.id]]
-    if (is.null(x) || x[[1]]["opt.type"] != "varsel")
+    if (is.null(x) || !is(x[[1]]@control, "VarselControl"))
       stop("Learner id ", learner.id, " was not used for varsel in bench.result!")
     if (as.data.frame) {
       avs = br["input.names"][[task.id]]

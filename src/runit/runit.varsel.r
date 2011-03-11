@@ -4,8 +4,8 @@ test.varsel <- function() {
   # check all methods
   ctrl = exhvarsel.control(max.vars=2)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
-  checkEquals(length(as.list(vr@path)), 10) 
-  checkEquals(nrow(as.data.frame(vr@path)), 10) 
+  checkEquals(length(as.list(vr@path)), 11) 
+  checkEquals(nrow(as.data.frame(vr@path)), 11) 
   checkEquals(ncol(as.data.frame(vr@path)), 8) 
   # test printing
   print(vr)

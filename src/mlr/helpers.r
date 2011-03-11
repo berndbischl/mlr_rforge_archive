@@ -207,7 +207,7 @@ data.frame.row.to.list = function(x, i) {
   x = lapply(x, function(y) if(is.factor(y)) as.character(y) else y)
 }
 
-check.arg = function(x, cl, len) {
+check.arg = function(x, cl, len, choices) {
   s = deparse(substitute(x))
   cl2 = class(x)
   if (!is(x, cl)) 
@@ -215,6 +215,8 @@ check.arg = function(x, cl, len) {
   len2 = length(x)
   if (!missing(len) && len2 != len)
       stop("Argument ", s, " must be of length ", len, " not: ", len2, "!")
+  if (!missing(choices) && !(x %in% choices))
+    stop("Argument ", s, " must be any of: ", paste(choices, collapse=","), "!")
 }
 
 

@@ -100,22 +100,41 @@ setMethod(
   } 
 )
 
- 
-getParameterValues = function(learner, for.fun="both") {
+
+#' Get current parameter settings for a learner. 
+#' @param learner [\code{\linkS4class{Learner}}]\cr 
+#'   Learner.   
+#' @param for.fun [character(1)]\cr 
+#'   The values corresponding to what aspect of the learner should be returned: 'train', 'predict', or 'both'.    
+#' @return A named list of values.
+#' @rdname getParameterValues
+#' @exportMethod getParameterValues
+setGeneric(name = "getParameterValues", 
+  def = function(learner, for.fun="both") {
+    check.arg(for.fun, "character", 1, c("train", "predict", "both"))
+    standardGeneric("getParameterValues")
+  }
+)  
+#' @rdname getParameterValues
+setMethod(
+  f = "getParameterValues",
+  signature = signature(learner="Learner", for.fun="character"), 
+  def = function(learner, for.fun) {
+    getParameterValuesTop(learner, for.fun)
+  } 
+)
+
+
+getParameterValuesTop = function(learner, for.fun) {
   wh = switch(for.fun, 
-     train=c("train", "both"), 
-     predict=c("predict", "both"),
-     both=c("train", "predict", "both")
+    train=c("train", "both"), 
+    predict=c("predict", "both"),
+    both=c("train", "predict", "both")
   )
   pv = learner@par.vals
   ns = names(Filter(function(y) y@when %in% wh, learner@par.set@pars))
   ns = intersect(ns, names(learner@par.vals))
-  pv = pv[ns]
-  
-  if (is(learner, "BaseWrapper")) 
-    c(getParameterValues(learner@learner, for.fun), pv)
-  else 
-    return(pv)
+  pv[ns]
 }
 
 getParameterValuesString = function(learner) {
@@ -128,3 +147,4 @@ getLeafLearner = function(learner) {
   else 
     return(learner)
 }
+

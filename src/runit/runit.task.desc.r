@@ -62,9 +62,7 @@ test.task.desc <- function() {
   checkEquals(regr.task@desc@n.feat["logicals"], 0, checkNames=FALSE)  
   checkEquals(regr.task@desc@n.feat["characters"], 0, checkNames=FALSE)  
   checkEquals(regr.task["has.missing"], F)  
-  checkEquals(regr.task@type, "regr")  
-  checkTrue(is.na(getClassLevels(regr.task))) 
-  checkTrue(is.na(regr.length(getClassLevels(task)))) 
+  checkEquals(regr.task@desc@type, "regr")  
+  checkException(getClassLevels(regr.task))
   checkTrue(is.na(regr.task["class.dist"])) 
-  
 }

@@ -26,7 +26,7 @@ test.hyperpars <- function() {
   
 	wl3 = setHyperPars(wl2, minsplit=77, x=88)
 	checkTrue(setequal(getParameterValues(wl3), list(minsplit=77, x=88, y=2))) 
-	checkTrue(setequal(wl3@par.vals, list(minsplit=77, x=88, y=2))) 
+	checkTrue(setequal(wl3@par.vals, list(x=88, y=2))) 
 	
 	m = train(wl2, task=multiclass.task)
 	checkTrue(setequal(getParameterValues(m@learner), list(minsplit=10, x=1, y=2))) 
