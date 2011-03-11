@@ -12,7 +12,7 @@ roxygen()
 #' 
 #' Subclasses: \code{\link{VarselControlExhaustive}}, \code{\link{VarselControlRandom}}, \code{\link{VarselControlSequential}} 
 #' 
-#' @exportClass varsel.control
+#' @exportClass VarselControl
 #' @title Base class for control objects for variable selection.
 
 setClass(
