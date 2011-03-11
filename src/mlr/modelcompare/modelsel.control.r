@@ -1,4 +1,4 @@
-#' @include control.opt.r
+#' @include OptControl.R
 roxygen()
 
 #' @exportClass modelsel.control

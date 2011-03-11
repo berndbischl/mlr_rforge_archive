@@ -1,4 +1,4 @@
-#' @include control.varsel.r
+#' @include VarselControl.R
 roxygen()
 
 #' @exportClass VarselControlRandom
