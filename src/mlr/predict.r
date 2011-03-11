@@ -41,7 +41,7 @@ setMethod(
 			} else {
         if (!is.data.frame(newdata) || nrow(newdata) == 0)
           stop("newdata must be a data.frame with at least one row!")
-				newdata = prep.data(td@type == "classif", newdata, td["target"], model["prep.control"])			
+				newdata = prep.data(td@type == "classif", newdata, td@target, model["prep.control"])			
 			}
 			type = if (wl@desc@type == "classif") wl["predict.type"] else "response" 
 
@@ -49,7 +49,7 @@ setMethod(
       require.packs(wl@pack, paste("learner", learner@desc@id))
 			
 			cns = colnames(newdata)
-			tn = td["target"]
+			tn = td@target
 			t.col = which(cns == tn)
 			# get truth and drop target col, if target in newdata
 			if (length(t.col) == 1) {
@@ -61,7 +61,7 @@ setMethod(
 			}
 			
 			logger.debug(level="predict", "mlr predict:", wl@desc@id, "with pars:")
-			logger.debug(level="predict", model@learner["par.vals.string"])
+			logger.debug(level="predict", getParameterValuesString(model@learner))
 			logger.debug(level="predict", "on", nrow(newdata), "examples:")
 			logger.debug(level="predict", rownames(newdata))
 			
@@ -84,7 +84,7 @@ setMethod(
 						.newdata=newdata
 				)
         # only pass train hyper pars as basic rlearner in ...
-        pars = c(pars, wl["leaf.learner"]["par.predict"])
+        pars = c(pars, getParameterValues(getLeafLearner(wl), "predict"))
 
         if (wl@desc@type == "classif") {
 					pars$.type = type

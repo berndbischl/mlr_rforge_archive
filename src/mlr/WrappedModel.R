@@ -71,7 +71,7 @@ setMethod(
 							"Learner model for id=", x@learner@desc@id, " class=", class(x@learner), "\n",  
 							"Trained on obs: ", length(x@subset), "\n",
               "Used features: ", length(x@vars), "\n",
-              "Hyperparameters: ", x@learner["par.vals.string"],
+              "Hyperparameters: ", getParameterValuesString(x@learner),
 							sep=""
 					)
 			)

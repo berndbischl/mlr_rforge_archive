@@ -93,19 +93,6 @@ setMethod(
 )
 
 
-#' Getter.
-#' @rdname rlearner-class
-
-setMethod(
-    f = "[",
-    signature = signature("rlearner"),
-    def = function(x,i,j,...,drop) {
-      if (i == "leaf.learner") {
-        return(x)
-      }
-      callNextMethod()
-    }
-)
 
 
 #' @rdname to.string
@@ -117,7 +104,7 @@ setMethod(f = "to.string",
         "Classification learner id=", x@desc@id, " from package ", pack, "\n",
         "Class: ", class(x), "\n",
         "Predict-Type: ", x["predict.type"], "\n",
-        "Hyperparameters: ", x["par.vals.string"], "\n\n",
+        "Hyperparameters: ", getParameterValuesString(x), "\n\n",
         "Supported features Doubles:", x@desc@feat["numerics"], " Factors:", x@desc@feat["factors"], "\n",
         "Supports missings: ", x@desc@missings, "\n", 
         "Supports weights: ", x@desc@weights, "\n", 
@@ -137,7 +124,7 @@ setMethod(f = "to.string",
     return(paste(
         "Regression learner id=", x@desc@id, " from package ", pack, "\n",
         "Class: ", class(x), "\n",
-        "Hyperparameters: ", x["par.vals.string"], "\n\n",
+        "Hyperparameters: ", getParameterValuesString(x), "\n\n",
         "Supported features Doubles:", x@desc@feat["numerics"], " Factors:", x@desc@feat["factors"], "\n",
         "Supports missings: ", x@desc@missings, "\n", 
         "Supports weights: ", x@desc@weights, "\n", 

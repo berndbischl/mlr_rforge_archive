@@ -68,6 +68,7 @@ setMethod(
 		f = "to.string",
 		signature = signature("ClassifTask"),
 		def = function(x) {
+		  td = x@desc
 			di = paste(capture.output(x["class.dist"]), collapse="\n")
       rwm = sum(apply(x["data"], 1, function(x) any(is.na(x))))
       cwm = sum(apply(x["data"], 2, function(x) any(is.na(x))))
@@ -83,8 +84,8 @@ setMethod(
               ifelse(x["has.missing"], paste("in", rwm, "observations and", cwm, "features\n"), ""), 
               "Infinites: ", x["has.inf"], "\n", 
               ifelse(x["has.inf"], paste("in", rwi, "observations and", cwi, "features\n"), ""),
-              "Target: ", x["target"], "\n", 
-              "Classes: ", x["class.nr"], "\n",
+              "Target: ", td@target, "\n", 
+              "Classes: ", length(getClassLevels(x)), "\n",
 							di, "\n",
 							ifelse(length(getClassLevels(x)) == 2, paste("Positive class:", x["positive"], "\n"), ""),
               "Has weights: ", x["has.weights"], "\n", 

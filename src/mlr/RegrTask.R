@@ -40,7 +40,7 @@ setMethod(
 		f = "to.string",
 		signature = signature("RegrTask"),
 		def = function(x) {
-      
+      td = x@desc
       rwm = sum(apply(x["data"], 1, function(x) any(is.na(x))))
       cwm = sum(apply(x["data"], 2, function(x) any(is.na(x))))
       rwi = sum(apply(x["data"], 1, function(x) any(is.infinite(x))))
@@ -55,7 +55,7 @@ setMethod(
 							ifelse(x["has.missing"], paste("in", rwm, "observations and", cwm, "features\n"), ""), 
               "Infinites: ", x["has.inf"], "\n", 
               ifelse(x["has.inf"], paste("in", rwi, "observations and", cwi, "features\n"), ""), 
-              "Target: ", x["target"], "\n", 
+              "Target: ", td@target, "\n", 
               "Has weights: ", x["has.weights"], "\n", 
               "Has blocking: ", x["has.blocking"], "\n",
               sep=""

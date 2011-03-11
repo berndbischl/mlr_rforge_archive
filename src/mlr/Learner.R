@@ -29,8 +29,6 @@ roxygen()
 #'  \item{missings [boolean]}{Can missing values be processed?}
 #'  \item{weights [boolean]}{Can case weights be used?}
 #' 	\item{par.vals [named list]}{List of set hyperparameters.}
-#'  \item{par.train [named list]}{List of set hyperparameters which are passed to train function.}
-#'  \item{par.predict [named list]}{List of set hyperparameters which are passed to predict function.}
 #' 	\item{par.set [named list]}{Named list of \code{\linkS4class{Parameter}} description objects for all possible hyperparameters.}
 #' }
 #' 
@@ -84,31 +82,6 @@ setMethod(
 )
 
 
-#' Getter.
-#' @rdname Learner-class
-
-setMethod(
-		f = "[",
-		signature = signature("Learner"),
-		def = function(x,i,j,...,drop) {
-      if (i == "par.train")  {
-        ns = names(Filter(function(y) y@when %in% c("train", "both"), x@par.set@pars))
-        ns = intersect(ns, names(x@par.vals))
-        return(x["par.vals"][ns])
-      }     
-      if (i == "par.predict")  {
-        ns = names(Filter(function(y) y@when %in% c("predict", "both"), x@par.set@pars))
-        ns = intersect(ns, names(x@par.vals))
-        return(x["par.vals"][ns])
-      }     
-      if (i == "par.vals.string") {
-        return(valToString(getParameterSet(x), x["par.vals"]))
-      }
-			callNextMethod()
-		}
-)
-
-
 
 
 #' Get all possible paramter settings for a learner. 
@@ -126,3 +99,32 @@ setMethod(
     learner@par.set
   } 
 )
+
+ 
+getParameterValues = function(learner, for.fun="both") {
+  wh = switch(for.fun, 
+     train=c("train", "both"), 
+     predict=c("predict", "both"),
+     both=c("train", "predict", "both")
+  )
+  pv = learner@par.vals
+  ns = names(Filter(function(y) y@when %in% wh, learner@par.set@pars))
+  ns = intersect(ns, names(learner@par.vals))
+  pv = pv[ns]
+  
+  if (is(learner, "BaseWrapper")) 
+    c(getParameterValues(learner@learner, for.fun), pv)
+  else 
+    return(pv)
+}
+
+getParameterValuesString = function(learner) {
+  valToString(getParameterSet(learner), getParameterValues(learner, "both"))
+}
+
+getLeafLearner = function(learner) {
+  if (is(learner, "BaseWrapper"))
+    return(getLeafLearner(learner@learner))
+  else 
+    return(learner)
+}

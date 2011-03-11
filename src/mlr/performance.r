@@ -68,7 +68,7 @@ setMethod(
     rqt = m["req.task.type"]
     if ((td@type == "classif" && identical(rqt, "regr")) || (td@type == "regr" && !("regr" %in% rqt))) 
       stop("Wrong task type ", td@type, " for measure ", m@id, "!")
-    if (m["req.task.type"] == "binary" && length(getClassLevels(x)) > 2)
+    if (m["req.task.type"] == "binary" && length(getClassLevels(td)) > 2)
       stop("Multiclass problems cannot be used for measure ", m@id, "!")
     if (identical(m["req.pred.type"], "prob")) {
       if (!is.null(pred2) && pred2["type"] != "prob")

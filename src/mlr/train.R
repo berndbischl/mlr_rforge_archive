@@ -56,15 +56,15 @@ setMethod(
       }
       
       wl <- learner
-      tn <- task["target"]
+      tn <- task@desc@target
                 
       # make pars list for train call
       pars = list(.learner=wl, .task=task, .subset=subset)
       # only pass train hyper pars as basic rlearner in ...
-      pars = c(pars, wl["leaf.learner"]["par.train"])
+      pars = c(pars, getParameterValues(getLeafLearner(wl), "train"))
       
       logger.debug(level="train", "mlr train:", wl@desc@id, "with pars:")
-      logger.debug(level="train", wl["par.vals.string"])
+      logger.debug(level="train", getParameterValuesString(wl))
       logger.debug(level="train", "on", length(subset), "examples:")
       logger.debug(level="train", subset)
       

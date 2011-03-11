@@ -137,7 +137,7 @@ get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
       y
   }
   
-  tn = task["target"]
+  tn = task@desc@target
   ms = missing(subset) || identical(subset, 1:task["size"])
   mv = missing(vars) || identical(vars, getFeatureNames(task))
   
@@ -207,8 +207,8 @@ change.data = function(task, data) {
   task@dataenv = new.env()
   task@dataenv$data = data
   d = task@desc
-  task@desc = new("task.desc", task["data"], task["target"], class(task), d@id, 
-    task["has.weights"], task["has.blocking"], task["costs"], task["positive"])
+  task@desc = new("task.desc", data, d@target, d@type, d@id, 
+    d@has.weights, d@has.blocking, d@costs, d@positive)
   return(task)
 } 
 
@@ -226,7 +226,7 @@ setMethod(
   f = "getFeatureNames",
   signature = signature(task="LearnTask"), 
   def = function(task) {
-    setdiff(colnames(task@dataenv$data), task["target"])
+    setdiff(colnames(task@dataenv$data), task@desc@target)
   } 
 )
 
