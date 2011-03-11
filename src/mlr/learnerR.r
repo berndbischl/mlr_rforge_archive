@@ -46,12 +46,12 @@ setMethod(
       return(make.empty(.Object))
     if (missing(id))
       id = as.character(class(.Object))
-    ns = c("doubles", "factors", "missings", "weights", "oneclass", "twoclass", "multiclass", "decision", "prob", "costs")
+    ns = c("numerics", "factors", "missings", "weights", "oneclass", "twoclass", "multiclass", "decision", "prob", "costs")
     if (!setequal(names(desc), ns))
       stop("Logical description of ", id, " must exactly contain: ", paste(ns, collapse=","))
     .Object = callNextMethod(.Object, id=id, pack=pack, par.set=par.set, par.vals=par.vals)
     .Object@desc@type = "classif"  
-    .Object@desc@feat = c(desc["doubles"], desc["factors"])  
+    .Object@desc@feat = c(desc["numerics"], desc["factors"])  
     .Object@desc@weights = as.logical(desc["weights"])  
     .Object@desc@missings = as.logical(desc["missings"])
     .Object@desc@classes = c(desc["oneclass"], desc["twoclass"], desc["multiclass"])
@@ -77,12 +77,12 @@ setMethod(
       return(make.empty(.Object))
     if (missing(id))
       id = as.character(class(.Object))
-    ns = c("doubles", "factors", "missings", "weights") 
+    ns = c("numerics", "factors", "missings", "weights") 
     if (!setequal(names(desc), ns))
     stop("Logical description of ", id, " must exactly contain: ", paste(ns, collapse=","))
     .Object = callNextMethod(.Object, id=id, pack=pack, par.set=par.set, par.vals=par.vals)
     .Object@desc@type = "regr"  
-    .Object@desc@feat = c(desc["doubles"], desc["factors"])  
+    .Object@desc@feat = c(desc["numerics"], desc["factors"])  
     .Object@desc@weights = as.logical(desc["weights"])  
     .Object@desc@missings = as.logical(desc["missings"])
     .Object@desc@classes = c(oneclass=FALSE, twoclass=FALSE, multiclass=FALSE)
@@ -118,7 +118,7 @@ setMethod(f = "to.string",
         "Class: ", class(x), "\n",
         "Predict-Type: ", x["predict.type"], "\n",
         "Hyperparameters: ", x["par.vals.string"], "\n\n",
-        "Supported features Doubles:", x@desc@feat["doubles"], " Factors:", x@desc@feat["factors"], "\n",
+        "Supported features Doubles:", x@desc@feat["numerics"], " Factors:", x@desc@feat["factors"], "\n",
         "Supports missings: ", x@desc@missings, "\n", 
         "Supports weights: ", x@desc@weights, "\n", 
         "Supports classes: ", paste(c("one", "two", "multi")[x@desc@classes], collapse=","), "\n",
@@ -138,7 +138,7 @@ setMethod(f = "to.string",
         "Regression learner id=", x@desc@id, " from package ", pack, "\n",
         "Class: ", class(x), "\n",
         "Hyperparameters: ", x["par.vals.string"], "\n\n",
-        "Supported features Doubles:", x@desc@feat["doubles"], " Factors:", x@desc@feat["factors"], "\n",
+        "Supported features Doubles:", x@desc@feat["numerics"], " Factors:", x@desc@feat["factors"], "\n",
         "Supports missings: ", x@desc@missings, "\n", 
         "Supports weights: ", x@desc@weights, "\n", 
         sep =""					

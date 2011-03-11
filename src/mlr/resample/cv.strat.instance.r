@@ -15,7 +15,7 @@ setMethod(
   def = function(.Object, desc, size, task) {
     if (is.null(task))
       stop("stratcv always needs to be passed the task, otherwise stratification is impossible!")
-    if (!task@desc@type != "classif")
+    if (task@desc@type != "classif")
       stop("stratcv is currently only supported for classification!")
     y = getTargets(task)
     k = desc@iters

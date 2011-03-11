@@ -81,7 +81,7 @@ setMethod(
 			
 			
 			f <- function(x) {
-				( is.na(doubles) || doubles == x["doubles"] ) &&
+				( is.na(doubles) || doubles == x["numerics"] ) &&
 						( is.na(factors) || factors == x["factors"] ) &&
 						( is.na(characters) || characters == x["characters"] ) &&
 						( is.na(missings) || missings == x["missings"] ) &&
@@ -109,8 +109,8 @@ setMethod(
 		def = function(x, probs=NA, decision=NA, costs=NA) {
 			type = ifelse(x@desc@type, "classif", "regr")
 
-      doubles = ifelse(x["n.feat"]["double"]>0, TRUE, NA)
-      factors = ifelse(x["n.feat"]["fact"]>0, TRUE, NA)
+      doubles = ifelse(x@desc@n.feat["double"]>0, TRUE, NA)
+      factors = ifelse(x@desc@n.feat["fact"]>0, TRUE, NA)
       missings = ifelse(x["has.missing"], TRUE, NA)
       weights = ifelse(x["has.weights"], TRUE, NA)
       

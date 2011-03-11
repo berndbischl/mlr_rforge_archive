@@ -62,11 +62,11 @@ setMethod(
     .Object@size = nrow(data)
     y = data[, target]
     .Object@n.feat = c(
-      double = sum(sapply(data, is.double)) - is.double(y), 
-      int  = sum(sapply(data, is.integer)) - is.integer(y),
-      fact = sum(sapply(data, is.factor)) - is.factor(y),
-      char = sum(sapply(data, is.character)) - is.character(y),
-      log = sum(sapply(data, is.logical)) - is.logical(y)
+      numerics = sum(sapply(data, is.double)) - is.double(y), 
+      integers  = sum(sapply(data, is.integer)) - is.integer(y),
+      factors = sum(sapply(data, is.factor)) - is.factor(y),
+      characters = sum(sapply(data, is.character)) - is.character(y),
+      logicals = sum(sapply(data, is.logical)) - is.logical(y)
     )
     .Object@has.missing = any(is.na(data))
     .Object@has.inf = any(is.infinite(data))

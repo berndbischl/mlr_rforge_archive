@@ -14,35 +14,35 @@ test.prepare <- function(){
   	
   	pc = prepare.control(ints.as="numeric", chars.as = "factor", logs.as="factor", POSIXcts.as="days")
     ct = makeRegrTask(data=d, target="y", control=pc) 
-    checkEquals(ct["n.feat"], c(3,0,2,0,0), checkNames=FALSE)
+    checkEquals(ct@desc@n.feat, c(3,0,2,0,0), checkNames=FALSE)
     checkTrue(is.numeric(get.data(ct)$d))
     checkTrue(is.numeric(get.data(ct)$e))
     checkEquals(get.data(ct)$d, get.data(ct)$e)
     
     pc = prepare.control(ints.as="factor", chars.as = "factor", logs.as="factor", POSIXcts.as="hours")
     ct = makeRegrTask(data=d, target="y", control=pc) 
-    checkEquals(ct["n.feat"], c(2,0,3,0,0), checkNames=FALSE)
+    checkEquals(ct@desc@n.feat, c(2,0,3,0,0), checkNames=FALSE)
     checkEquals(get.data(ct)$d, get.data(ct)$e / 24)
     
     pc = prepare.control(ints.as="numeric", chars.as = "factor", logs.as="numeric")
     ct = makeRegrTask(data=d, target="y", control=pc) 
-    checkEquals(ct["n.feat"], c(4,0,1,0,0), checkNames=FALSE)
+    checkEquals(ct@desc@n.feat, c(4,0,1,0,0), checkNames=FALSE)
     pc = prepare.control(ints.as="factor", chars.as = "factor", logs.as="numeric")
     ct = makeRegrTask(data=d, target="y", control=pc) 
-    checkEquals(ct["n.feat"], c(3,0,2,0,0), checkNames=FALSE)
+    checkEquals(ct@desc@n.feat, c(3,0,2,0,0), checkNames=FALSE)
     
     pc = prepare.control(ints.as="numeric", chars.as = "factor", logs.as="factor")
     ct = makeClassifTask(data=d, target="b", control=pc) 
-    checkEquals(ct["n.feat"], c(4,0,1,0,0), checkNames=FALSE)
+    checkEquals(ct@desc@n.feat, c(4,0,1,0,0), checkNames=FALSE)
     pc = prepare.control(ints.as="factor", chars.as = "factor", logs.as="factor")
     ct = makeClassifTask(data=d, target="b", control=pc) 
-    checkEquals(ct["n.feat"], c(3,0,2,0,0), checkNames=FALSE)
+    checkEquals(ct@desc@n.feat, c(3,0,2,0,0), checkNames=FALSE)
     pc = prepare.control(ints.as="numeric", chars.as = "factor", logs.as="numeric")
     ct = makeClassifTask(data=d, target="b", control=pc) 
-    checkEquals(ct["n.feat"], c(5,0,0,0,0), checkNames=FALSE)
+    checkEquals(ct@desc@n.feat, c(5,0,0,0,0), checkNames=FALSE)
     pc = prepare.control(ints.as="factor", chars.as = "factor", logs.as="numeric")
     ct = makeClassifTask(data=d, target="b", control=pc) 
-    checkEquals(ct["n.feat"], c(4,0,1,0,0), checkNames=FALSE)
+    checkEquals(ct@desc@n.feat, c(4,0,1,0,0), checkNames=FALSE)
     
   	
   	# check inf accessors

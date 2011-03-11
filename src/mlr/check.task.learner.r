@@ -10,10 +10,10 @@ check.task.learner <- function(lt, learner) {
 	if (td["has.missing"] && !ld@missings) {
 		msg <- paste("Data set has missing values, but", wl@desc@id, "does not support that!")
 	}
-	if (td["n.feat"]["double"] > 0 && !ld@feat["doubles"]) {
+	if (td@n.feat["numerics"] > 0 && !ld@feat["numerics"]) {
 		msg <- paste("Data set has numeric inputs, but", wl@desc@id, "does not support that!")
 	}
-	if (td["n.feat"]["fact"] > 0 && !ld@feat["factors"]) {
+	if (td@n.feat["factors"] > 0 && !ld@feat["factors"]) {
 		msg <- paste("Data set has factor inputs, but", wl@desc@id, "does not support that!")
 	}
 	return(list(msg=msg))

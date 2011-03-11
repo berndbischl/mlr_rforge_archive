@@ -20,7 +20,7 @@ setMethod(
   def = function(x,i,j,...,drop) {
     if (i == "is.classif")
       return(FALSE)
-    if (i %in% c("doubles", "factors")) {
+    if (i %in% c("numerics", "factors")) {
       return(TRUE)
     }
     callNextMethod()

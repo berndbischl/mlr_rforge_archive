@@ -45,7 +45,7 @@ setMethod(
       cwm = sum(apply(x["data"], 2, function(x) any(is.na(x))))
       rwi = sum(apply(x["data"], 1, function(x) any(is.infinite(x))))
       cwi = sum(apply(x["data"], 2, function(x) any(is.infinite(x))))
-      feat = paste(capture.output(x["n.feat"]), collapse="\n")
+      feat = paste(capture.output(x@desc@n.feat), collapse="\n")
       return(
 					paste(
 							"Regression problem ", x@desc@id, "\n",

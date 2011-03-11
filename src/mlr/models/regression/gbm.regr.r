@@ -18,7 +18,7 @@ setMethod(
 			
 			desc = c(
 					missings = TRUE,
-					doubles = TRUE,
+					numerics = TRUE,
 					factors = TRUE,
 					weights = TRUE
 			)

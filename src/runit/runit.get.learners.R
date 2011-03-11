@@ -4,11 +4,11 @@ test.getLearners <- function() {
     
     num1 <- getLearners(type = "classif", doubles = TRUE)
     for(i in seq(length=length(num1))){
-      checkTrue(makeLearner(num1[i])["doubles"])
+      checkTrue(makeLearner(num1[i])@desc@feat["numerics"], checkNames=FALSE)
     }	
     num2 <- getLearners(type = "regr", doubles = TRUE)
     for(i in seq(length=length(num2))){
-      checkTrue(makeLearner(num2[i])["doubles"])
+      checkTrue(makeLearner(num2[i])@desc@feat["numerics"], checkNames=FALSE)
     }
     
     fac1 <- getLearners(type = "classif", factors = TRUE)

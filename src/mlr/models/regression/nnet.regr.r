@@ -23,7 +23,7 @@ setMethod(
       
       desc = c(
           missings = FALSE,
-          doubles = TRUE,
+          numerics = TRUE,
           factors = TRUE,
           weights = TRUE
       )
