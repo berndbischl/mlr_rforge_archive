@@ -29,7 +29,7 @@ test.benchresult = function() {
   y = as.array(be, learner=c("classif.rpart", "classif.ksvm"), sets="test", drop=TRUE)
 	checkEquals(cbind(classif.rpart=x1,classif.ksvm=x2), y)
 	
-	x = be["opt.results"][[1]]
+	x = be@opt.results[[1]]
 	checkTrue(is.list(x) && length(x) == 3)
   x1 = x[["classif.rpart"]]
   x2 = x[["classif.ksvm"]]
@@ -55,7 +55,7 @@ test.benchresult = function() {
   tp = getTunedParameters(be, learner="foo")
 	checkTrue(all(x$C == 1 | x$C == 2))
 
-	ctrl = sequential.control(method="sbs", beta=100)
+	ctrl = makeVarselControlSequential(method="sbs", beta=100)
 	vs = makeVarselWrapper("classif.lda", resampling=inner, control=ctrl)
 	
 	learners = c("classif.rpart", vs)
@@ -74,12 +74,12 @@ test.benchresult = function() {
 	x = as.array(be, learner="classif.rpart", sets="test", drop=TRUE)
 	checkEquals(colnames(x), c("multiclass", "binary"))  
 	checkTrue(all(apply(x, 2, function(y) is.numeric(y) && length(y) == outer.len)))  
-	x = be["opt.results"]
+	x = be@opt.results
 	checkEquals(names(x), c("multiclass", "binary"))  
   checkTrue(all(sapply(x, function(y) is.list(y) && names(y) == c("classif.rpart", "classif.ksvm"))))  
   checkTrue(all(sapply(x, function(y) is.null(y[[1]]) && is.list(y[[2]]) && length(y[[2]]) == outer.len)))
 
-  x = be["opt.results"]
+  x = be@opt.results
 	checkEquals(names(x), c("multiclass", "binary"))  
 	checkTrue(all(sapply(x, function(y) is.list(y) && names(y) == c("classif.rpart", "classif.ksvm"))))
 	checkTrue(is.null(x[[1]][[1]]))  
@@ -131,13 +131,13 @@ test.benchresult = function() {
 	checkEquals(names(x1), c("classif.ksvm"))
 	x1 = x1[[1]]
 	checkTrue(is(x1, "matrix"))
-	checkEquals(dim(x1), c(multiclass.length(getClassLevels(task))+1, multiclass.length(getClassLevels(task))+1))
+	checkEquals(dim(x1), c(length(getClassLevels(multiclass.task))+1, length(getClassLevels(multiclass.task))+1))
 	x1 = x[[2]]
 	checkTrue(is.list(x1))
 	checkEquals(names(x1), c("classif.ksvm"))
 	x1 = x1[[1]]
 	checkTrue(is(x1, "matrix"))
-	checkEquals(dim(x1), c(binaryclass.length(getClassLevels(task))+1, binaryclass.length(getClassLevels(task))+1))
+	checkEquals(dim(x1), c(length(getClassLevels(binaryclass.task))+1, length(getClassLevels(binaryclass.task))+1))
 	
   # check aggregation
   res = makeResampleInstance(makeResampleDesc("CV", iters=3), task=multiclass.task) 

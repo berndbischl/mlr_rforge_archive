@@ -5,18 +5,18 @@ roxygen()
 #' Cannot be instantiated.
 #' 
 #' \describe{
-#'   \item{exhvarsel.control}{Exhaustive search. All feature sets (up to a certain size) are searched.}
-#'   \item{randomvarsel.control}{Random search. Features vectors are randomly drawn.}
-#'   \item{sequential.control}{Deterministic forward or backward search.}
+#'   \item{VarselControlExhaustive}{Exhaustive search. All feature sets (up to a certain size) are searched.}
+#'   \item{VarselControlRandom}{Random search. Features vectors are randomly drawn.}
+#'   \item{VarselControlSequential}{Deterministic forward or backward search.}
 #' }
 #' 
-#' Subclasses: \code{\link{exhvarsel.control}}, \code{\link{randomvarsel.control}}, \code{\link{sequential.control}} 
+#' Subclasses: \code{\link{VarselControlExhaustive}}, \code{\link{VarselControlRandom}}, \code{\link{VarselControlSequential}} 
 #' 
 #' @exportClass varsel.control
 #' @title Base class for control objects for variable selection.
 
 setClass(
-		"varsel.control",
+		"VarselControl",
 		contains = c("OptControl"),
 		representation = representation(
 				compare = "character",
@@ -28,7 +28,7 @@ setClass(
 #' Constructor.
 setMethod(
 		f = "initialize",
-		signature = signature("varsel.control"),
+		signature = signature("VarselControl"),
 		def = function(.Object, path, same.resampling.instance, maxit, max.vars) {
       if (missing(path))
         return(make.empty(.Object))
@@ -43,7 +43,7 @@ setMethod(
 #' @rdname to.string
 setMethod(
   f = "to.string",
-  signature = signature("varsel.control"),
+  signature = signature("VarselControl"),
   def = function(x) {
     return(
       paste(

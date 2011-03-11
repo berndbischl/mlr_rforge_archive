@@ -94,7 +94,7 @@ pack.files = c(
     "mlr/optml/optml.helpers.r",
     "mlr/optml/tune.helpers.r",
     "mlr/optml/varsel.helpers.r",
-    "mlr/optml/opt.model.r",
+    "mlr/optml/OptModel.R",
     
     "mlr/optimize/OptPath.R",
     "mlr/optimize/makeDesign.R",

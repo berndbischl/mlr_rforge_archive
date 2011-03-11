@@ -4,7 +4,7 @@ roxygen()
 roxygen()
 
 setClass(
-  "opt.model",
+  "OptModel",
   contains = c("WrappedModel"),
   representation = representation(
     opt.result = "opt.result"
@@ -13,7 +13,7 @@ setClass(
 
 setMethod(
   f = "initialize",
-  signature = signature("opt.model"),
+  signature = signature("OptModel"),
   def = function(.Object, learner, model, task.desc, prep.control, subset, vars, time, opt.result) {
     .Object@opt.result = opt.result
     callNextMethod(.Object, learner, model, task.desc, prep.control, subset, vars, time)
@@ -24,7 +24,7 @@ setMethod(
 
 setMethod(
   f = "to.string",
-  signature = signature("opt.model"),
+  signature = signature("OptModel"),
   def = function(x) {
     s1 = callNextMethod(x)
     s2 = to.string(x@opt.result)

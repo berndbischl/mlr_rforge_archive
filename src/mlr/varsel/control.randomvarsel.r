@@ -1,12 +1,12 @@
 #' @include control.varsel.r
 roxygen()
 
-#' @exportClass randomvarsel.control
-#' @rdname randomvarsel.control 
+#' @exportClass VarselControlRandom
+#' @rdname VarselControlRandom 
 
 setClass(
-		"randomvarsel.control",
-		contains = c("varsel.control"),
+		"VarselControlRandom",
+		contains = c("VarselControl"),
 		representation = representation(
 				method = "character",
 				prob = "numeric"
@@ -16,7 +16,7 @@ setClass(
 #' Constructor.
 setMethod(
 		f = "initialize",
-		signature = signature("randomvarsel.control"),
+		signature = signature("VarselControlRandom"),
 		def = function(.Object, path, same.resampling.instance, maxit, max.vars, method, prob) {
 			.Object = callNextMethod(.Object, path=path, same.resampling.instance=same.resampling.instance, maxit=maxit, max.vars=max.vars)
 			.Object@method = method 			
@@ -40,13 +40,12 @@ setMethod(
 #'   Parameter for binomial distribution. 		        
 #' 		    
 #' @return Control structure.
-#' @exportMethod randomvarsel.control
-#' @rdname randomvarsel.control 
+#' @exportMethod makeVarselControlRandom
 #' @title Control structure for random variable selection. 
 
 
 setGeneric(
-		name = "randomvarsel.control",
+		name = "makeVarselControlRandom",
 		def = function(path, same.resampling.instance, maxit, method, prob) {
 			if (missing(path))
 				path = TRUE
@@ -60,17 +59,17 @@ setGeneric(
 				method = "binomial"
 			if (missing(prob))
 				prob = 0.5
-			standardGeneric("randomvarsel.control")
+			standardGeneric("makeVarselControlRandom")
 		}
 )
 
-#' @rdname randomvarsel.control 
+#' @rdname makeVarselControlRandom 
 
 setMethod(
-		f = "randomvarsel.control",
+		f = "makeVarselControlRandom",
 		signature = signature(path="logical", same.resampling.instance="logical",	maxit="integer", method="character", prob="numeric"),
 		def = function(path, same.resampling.instance, maxit, method, prob) {
-			new("randomvarsel.control", path=path, same.resampling.instance=same.resampling.instance, maxit=maxit, max.vars=.Machine$integer.max, method=method, prob=prob)
+			new("VarselControlRandom", path=path, same.resampling.instance=same.resampling.instance, maxit=maxit, max.vars=.Machine$integer.max, method=method, prob=prob)
 		}
 )
 

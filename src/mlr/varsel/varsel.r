@@ -2,7 +2,7 @@
 #' Allows for different optimization methods, such as forward search or a genetic algorithm.
 #' You can select such an algorithm (and its settings)
 #' by passing a corresponding control object. For a complete list of implemented algorithms look at the 
-#' subclasses of [\code{\linkS4class{varsel.control}}].
+#' subclasses of [\code{\linkS4class{VarselControl}}].
 #'
 #' All algorithms operate on a 0-1-bit encoding of candidate solutions. Per default a single bit corresponds
 #' to a single feature, but you are able to change this by using the arguments \code{bit.names} 
@@ -16,7 +16,7 @@
 #'   Resampling strategy to evaluate feature sets. If you pass a description, 
 #'   it is instantiated once at the beginning by default, so all feature sets are evaluated on the same training/test sets.
 #'   If you want to change that behaviour, look at the control object.  
-#' @param control [see \code{\link{varsel.control}}]
+#' @param control [see \code{\link{VarselControl}}]
 #'   Control object for search method. Also selects the optimization algorithm for feature selection. 
 #' @param measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during selection, others are simply evaluated.  
@@ -55,9 +55,9 @@ varsel <- function(learner, task, resampling, control, measures, bit.names, bits
 	cl = as.character(class(control))
 	
 	sel.func = switch(cl,
-			sequential.control = varsel.seq,
-			randomvarsel.control = varsel.random,
-      exhvarsel.control = varsel.exhaustive,
+			VarselControlSequential = varsel.seq,
+			VarselControlRandom = varsel.random,
+      VarselControlExhaustive = varsel.exhaustive,
       stop(paste("Feature selection algorithm for", cl, "does not exist!"))
 	)
 

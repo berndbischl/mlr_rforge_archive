@@ -41,7 +41,7 @@ eval.rf = function(learner, task, resampling, measures, par.set, bits.to.feature
   if (is(control, "TuneControl")) {
     learner = setHyperPars(learner, par.vals=val)
   }
-  if (is(control, "varsel.control")) {
+  if (is(control, "VarselControl")) {
     task = subset(task, vars=bits.to.features(val, task))
   }
 	# todo 

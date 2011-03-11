@@ -130,10 +130,13 @@ allowed.rd.files <<- c(
     "TuneSPOControl-class.Rd",
     "makeTuneSPOControl.Rd",
     
-		"varsel.control-class.Rd",
-		"sequential.control.Rd",
-		"randomvarsel.control.Rd",
-    "exhvarsel.control.Rd",
+		"VarselControl-class.Rd",
+		"VarselControlSequential.Rd",
+    "makeVarselControlSequential.Rd",
+    "VarselControlRandom.Rd",
+    "makeVarselControlRandom.Rd",
+    "VarselControlExhaustive.Rd",
+    "makeVarselControlExhaustive.Rd",
     "varsel.Rd",
     "varfilter.Rd",
 		

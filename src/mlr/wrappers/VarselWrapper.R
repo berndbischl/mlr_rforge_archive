@@ -15,14 +15,14 @@
 #' @param bits.to.features [function(x, task)]\cr
 #'   Function which transforms an integer-0-1 vector into a character vector of selected features. 
 #'   Per default a value of 1 in the ith bit selects the ith feature to be in the candidate solution.      
-#' @param control [\code{\linkS4class{varsel.control}}] 
+#' @param control [\code{\linkS4class{VarselControl}}] 
 #'   Control object for search method. Also selects the optimization algorithm for feature selection. 
 #' @param log.fun [function(learner, task, resampling, measure, par.set, control, opt.path, x, y)]\cr
 #'   Called after every hyperparameter evaluation. Default is to print performance via mlr logger. 
 #' 
 #' @return \code{\linkS4class{Learner}}.
 #' @export
-#' @seealso \code{\link{varsel}}, \code{\link{varsel.control}} 
+#' @seealso \code{\link{varsel}}, \code{\link{VarselControl}} 
 #' @title Fuse learner with variable selection.
 
 makeVarselWrapper = function(learner, resampling, measures, bit.names, bits.to.features, control, log.fun) {

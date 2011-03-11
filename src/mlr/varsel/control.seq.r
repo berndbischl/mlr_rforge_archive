@@ -1,12 +1,12 @@
 #' @include control.varsel.r
 roxygen()
 
-#' @exportClass sequential.control
-#' @rdname sequential.control 
+#' @exportClass VarselControlSequential
+#' @rdname VarselControlSequential 
 
 setClass(
-		"sequential.control",
-		contains = c("varsel.control"),
+		"VarselControlSequential",
+		contains = c("VarselControl"),
 		representation = representation(
 				method = "character", 
 				alpha = "numeric", 
@@ -17,7 +17,7 @@ setClass(
 #' Constructor.
 setMethod(
 		f = "initialize",
-		signature = signature("sequential.control"),
+		signature = signature("VarselControlSequential"),
 		def = function(.Object, path, same.resampling.instance, max.vars, method, alpha, beta) {
 			.Object = callNextMethod(.Object, path=path, same.resampling.instance=same.resampling.instance, 
 					maxit=.Machine$integer.max, max.vars=max.vars)
@@ -60,13 +60,13 @@ setMethod(
 #'   sbs, sfbs: In a backward step, minimal improvement of performance measure. Can be negative.        
 #' 		    
 #' @return Control structure.
-#' @exportMethod sequential.control
-#' @rdname sequential.control 
+#' @exportMethod makeVarselControlSequential
+#' @rdname makeVarselControlSequential 
 #' @title Control structure for sequential variable selection. 
 
 
 setGeneric(
-		name = "sequential.control",
+		name = "makeVarselControlSequential",
 		def = function(path, same.resampling.instance, max.vars, method, alpha, beta) {
 			if (missing(path))
 				path = TRUE
@@ -82,18 +82,18 @@ setGeneric(
 				alpha=0.01
 			if (missing(beta))
 				beta=0.01
-			standardGeneric("sequential.control")
+			standardGeneric("makeVarselControlSequential")
 		}
 )
 
 
-#' @rdname sequential.control 
+#' @rdname makeVarselControlSequential 
 
 setMethod(
-		f = "sequential.control",
+		f = "makeVarselControlSequential",
 		signature = signature(path="logical",	same.resampling.instance="logical", max.vars="integer", method="character", alpha="numeric", beta="numeric"),
 		def = function(path, same.resampling.instance, max.vars, method, alpha, beta) {
-			new("sequential.control", path=path, same.resampling.instance=same.resampling.instance, max.vars=max.vars, method=method, alpha=alpha, beta=beta)
+			new("VarselControlSequential", path=path, same.resampling.instance=same.resampling.instance, max.vars=max.vars, method=method, alpha=alpha, beta=beta)
 		}
 )
 

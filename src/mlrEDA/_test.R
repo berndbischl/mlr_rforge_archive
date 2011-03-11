@@ -15,6 +15,6 @@ ct = makeClassifTask(data=dd, target="Species")
 #report(dd, "Species")
 
 res = makeResampleDesc("CV", 2)
-ctrl = sequential.control(method="sfs", alpha=0.01)
+ctrl = makeVarselControlSequential(method="sfs", alpha=0.01)
 vr = varsel2d("classif.rpart", ct, res, control=ctrl, pairs=2)
 

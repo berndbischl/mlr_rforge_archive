@@ -1,18 +1,18 @@
 #' @include control.varsel.r
 roxygen()
 
-#' @exportClass exhvarsel.control
-#' @rdname exhvarsel.control 
+#' @exportClass VarselControlExhaustive
+#' @rdname VarselControlExhaustive 
 
 setClass(
-  "exhvarsel.control",
-  contains = c("varsel.control")
+  "VarselControlExhaustive",
+  contains = c("VarselControl")
 )
 
 #' Constructor.
 setMethod(
     f = "initialize",
-    signature = signature("exhvarsel.control"),
+    signature = signature("VarselControlExhaustive"),
     def = function(.Object, path, same.resampling.instance, max.vars) {
       callNextMethod(.Object, path=path, same.resampling.instance=same.resampling.instance, max.vars=max.vars, maxit=.Machine$integer.max)
     }
@@ -29,13 +29,13 @@ setMethod(
 #'   Maximal number of allowed variables searched sets. Default is max. integer.
 #'        
 #' @return Control structure.
-#' @exportMethod exhvarsel.control
-#' @rdname exhvarsel.control 
+#' @exportMethod makeVarselControlExhaustive
+#' @rdname makeVarselControlExhaustive 
 #' @title Control structure for exhaustive variable selection. 
 
 
 setGeneric(
-  name = "exhvarsel.control",
+  name = "makeVarselControlExhaustive",
   def = function(path, same.resampling.instance, max.vars) {
     if (missing(path))
       path = TRUE
@@ -45,17 +45,17 @@ setGeneric(
       max.vars = .Machine$integer.max
     if (is.numeric(max.vars))
       max.vars = as.integer(max.vars)
-    standardGeneric("exhvarsel.control")
+    standardGeneric("makeVarselControlExhaustive")
   }
 )
 
-#' @rdname exhvarsel.control 
+#' @rdname makeVarselControlExhaustive 
 
 setMethod(
-  f = "exhvarsel.control",
+  f = "makeVarselControlExhaustive",
   signature = signature(path="logical", same.resampling.instance="logical", max.vars="integer"),
   def = function(path, same.resampling.instance, max.vars) {
-    new("exhvarsel.control", path=path, same.resampling.instance=same.resampling.instance, max.vars=max.vars)
+    new("VarselControlExhaustive", path=path, same.resampling.instance=same.resampling.instance, max.vars=max.vars)
   }
 )
 

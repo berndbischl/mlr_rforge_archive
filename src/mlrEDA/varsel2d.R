@@ -14,11 +14,11 @@
 #'   If you want to change that behaviour, look at the control object.  
 #' @param measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during selection, others are simply evaluated.  
-#' @param control [\code{\link{sequential.control}}]
+#' @param control [\code{\link{VarselControlSequential}}]
 #'   Control object for forward search. Its parameter \code{method} must be set to 'sfs'.  
 #' @param pairs [integer(1)]
 #'   Number of feature pairs to select. Default is 2.
-#' @param remove [see \code{\link{sequential.control}}]
+#' @param remove [see \code{\link{VarselControlSequential}}]
 #'   How many features should be removed from the task after a pair is selected? 
 #'   Set to 1 to remove only the best feature or set to 2 to remove both features of the selected pair.
 #'   Default is 1.  
@@ -39,8 +39,8 @@ varsel2d <- function(learner, task, resampling, measures, control, pairs, remove
     measures = mlr:::default.measures(task)
   if (is(measures, "Measure"))
     measures = list(measures)   
-  if (!(is(control, "sequential.control") && control@method == "sfs"))
-    stop("'control' must be sequential.control with method 'sfs'!")
+  if (!(is(control, "VarselControlSequential") && control@method == "sfs"))
+    stop("'control' must be VarselControlSequential with method 'sfs'!")
   # todo: document this! really do this? maybe dont have the user pass the control...!
   control@alpha = -Inf
   control@max.vars = 2L  

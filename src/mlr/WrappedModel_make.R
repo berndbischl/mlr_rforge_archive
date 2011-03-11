@@ -8,7 +8,7 @@ makeWrappedModel = function(learner, model, task.desc, prep.control, subset, var
   } else if(is(learner, "OptWrapper")) {
     or = attr(model, "opt.result")
     attr(model, "opt.result") = NULL
-    m = new("opt.model", learner, model@learner.model, task.desc, prep.control, subset, vars, time, or)  
+    m = new("OptModel", learner, model@learner.model, task.desc, prep.control, subset, vars, time, or)  
   } else if(is(learner, "PreprocWrapper")) {
     ctrl = attr(model, "control")
     attr(model, "control") = NULL

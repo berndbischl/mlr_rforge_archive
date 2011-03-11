@@ -1,5 +1,5 @@
 
-varsel.hybrid2 = function(learner, task, resampling, measures, control=sequential.control()) {
+varsel.hybrid2 = function(learner, task, resampling, measures, control=makeVarselControlSequential()) {
 	
 	path = list()
 	all.vars = task["input.names"]

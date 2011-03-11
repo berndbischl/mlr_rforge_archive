@@ -175,7 +175,7 @@ setMethod(
       stop("Task id ", task.id, " was not used in bench.result, only: ", paste(tns, collapse=","))
     if (!(learner.id %in% lns))
       stop("Learner ", learner.id, " was not used in bench.result, only: ", paste(lns, collapse=","))
-    x = br["opt.results"][[task.id]][[learner.id]]
+    x = br@opt.results[[task.id]][[learner.id]]
     if (is.null(x) || !is(x[[1]]@control, "TuneControl"))
       stop("Learner id ", learner.id, " was not tuned in bench.result!")
     if (as.data.frame)
@@ -227,7 +227,7 @@ setMethod(
       stop("Task id ", task.id, " was not used in bench.result, only: ", paste(tns, collapse=","))
     if (!(learner.id %in% lns))
       stop("Learner ", learner.id, " was not used in bench.result, only: ", paste(lns, collapse=","))
-    x = br["opt.results"][[task.id]][[learner.id]]
+    x = br@opt.results[[task.id]][[learner.id]]
     if (is.null(x) || !is(x[[1]]@control, "VarselControl"))
       stop("Learner id ", learner.id, " was not used for varsel in bench.result!")
     if (as.data.frame) {
