@@ -24,7 +24,7 @@ proposePoints = function(model, par.set, control, opt.path) {
     des = as.data.frame(t(des))
   } else if (control@propose.points.method == "EI") {
     start = unlist(getBestElement(opt.path)$x)
-    des = max_EI(model@learner.model, low, upp, parinit=start)$par
+    capture.output(des <- max_EI(model@learner.model, low, upp, parinit=start)$par)
     as.data.frame(des)
   }
 }

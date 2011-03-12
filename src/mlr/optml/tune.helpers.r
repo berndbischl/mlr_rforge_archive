@@ -28,11 +28,7 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
 # evals a set of var-lists and return the corresponding states
 
 log.fun.tune = function(learner, task, resampling, measures, par.set, control, opt.path, x, y) {
-  logger.info(level="opt", paste(valToString(par.set, x), " : ", formatC(y, digits=3)))
+  logger.info(level="opt", paste(valToString(par.set, x), " : ", 
+      paste(formatC(y, digits=3), collapse=",")))
 }
-
-splitVector = function(x, par.set) {
-  
-}
-
 

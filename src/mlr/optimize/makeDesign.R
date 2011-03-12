@@ -11,7 +11,7 @@
 #' @param fun.args [list] \cr
 #'   List of further arguments passed to \code{fun}. 
 #' @param trafo [logical(1)] \cr
-#'   Transform all parameters by using theirs respective transformation functions. Default is \code{TRUE}. 
+#'   Transform all parameters by using theirs respective transformation functions. Default is \code{FALSE}. 
 #' @return The created design as a data.frame. Columns are named by the ids of the parameters.
 #'   If the \code{par.set} argument contains a vector parameter, its corresponding columns names  
 #'   in the design are the parameter id concatenated with 1 to dimension of vector.   
@@ -22,7 +22,7 @@
 #'   The result will have an \code{logical(1)} attribute 'trafo', 
 #'   which is set to the value of argument \code{trafo}.    
 #' @export 
-makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
+makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE) {
   require.packs("lhs", "makeDesign")
   if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
     stop("No par.set parameter in 'makeDesign' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")        
@@ -70,6 +70,6 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
     }
   }
   colnames(des) = getRepeatedParameterIDs(par.set, with.nr=TRUE)
-  attr(des, "trafo") = trafo  
+  attr(des, "trafo") = trafo
   return(des)
 }
