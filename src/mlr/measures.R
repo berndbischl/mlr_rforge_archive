@@ -154,8 +154,8 @@ acc = makeMeasure(id="acc", minimize=FALSE, req.task.type="classif",
 #' @rdname measures
 ber = makeMeasure(id="ber", minimize=TRUE, req.task.type="classif",  
   fun=function(task, model, pred, extra.pars) {
-    n = length(getClassLevels(pred))
-    mean(getConfMatrix(pred, relative=TRUE)[-n, 1:n])          
+    n = length(getClassLevels(pred)) + 1
+    mean(getConfMatrix(pred, relative=TRUE)[-n, n])          
   }
 )
 
