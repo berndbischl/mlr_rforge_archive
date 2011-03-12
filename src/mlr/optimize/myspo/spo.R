@@ -2,6 +2,7 @@
 #todo: how to choose best element. with noise? without?
 #todo: retrain kriging faster
 #todo: doc return val 
+#todo: handle error in meta learner
 #'  Optimizes a function with sequential parameter optimization.
 #'
 #' @param fun [function(x, ...)]\cr 
