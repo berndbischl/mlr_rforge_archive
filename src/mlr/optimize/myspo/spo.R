@@ -8,8 +8,9 @@
 #' @param par.set [\code{\linkS4class{ParameterSet}}] \cr
 #'   Collection of parameters and their constraints for optimization.   
 #' @param des [data.frame | NULL] \cr
-#'   Initial design. If the parameters have correspinding trafo functions, 
-#'   the design has to be transformed before it is passed. 
+#'   Initial design. Must have been created by \code{\link{makeDesign}}. 
+#'   If the parameters have correspinding trafo functions, 
+#'   the design must not be transformed before it is passed! 
 #'   If \code{NULL}, one is constructed from the settings in \code{control}.
 #' @param learner [\code{\linkS4class{Learner}}] \cr
 #'   Regression learner to model \code{fun}.  
@@ -31,8 +32,9 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   if (control@propose.points.method == "CMAES" &&
     !all(sapply(par.set@pars, function(p) p@type) %in% c("numeric", "integer", "numericvector", "integervector")))
     stop("Proposal method CMAES can only be applied to numeric, integer, numericvector, integervector parameters!")
-  if (control@propose.points.method == "EI" && !is(learner, "regr.km")) 
-    stop("Expected improvement can currently only be used with learner 'regr.km'!")        
+  if (control@propose.points.method == "EI" && 
+    !(class(learner) %in% c("regr.km", "regr.kmforrester"))) 
+    stop("Expected improvement can currently only be used with learner 'regr.km' and 'regr.kmforrester'!")        
   if (control@propose.points.method == "EI")
     require.packs("DiceOptim", "spo")
   
@@ -41,12 +43,15 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   opt.path = makeOptPath(y.names=y.name, x.names=names(par.set@pars), minimize=control@minimize)
   
   if (is.null(des)) {
-    des.x = makeDesign(control@init.design.points, par.set, control@init.design.fun, control@init.design.args)
+    des.x = makeDesign(control@init.design.points, par.set, 
+      control@init.design.fun, control@init.design.args, trafo=FALSE)
     xs = lapply(1:nrow(des.x), function(i) designToList(des.x, par.set, i))
-    ys = sapply(xs, fun)
+    ys = evalTargetFun(fun, par.set, xs)
     des = des.x
     des[, y.name] = ys
   } else {
+    if (attr(des, "trafo"))
+      stop("Design must not be tranformed before call to 'spo'. Set 'trafo' to FALSE in makeDesign.")
     if (!(y.name %in% colnames(des)))
       stop("Design 'des' must contain y column of fitness values: ", y.name)
     ys = des[, y.name]
@@ -114,5 +119,6 @@ designToList = function(des, par.set, i, y.name) {
 }
 
 evalTargetFun = function(fun, par.set, xs) {
+  xs = lapply(xs, trafoVal, par=par.set)
   sapply(xs, fun)  
 }

@@ -18,7 +18,9 @@
 #'   The data type of a column 
 #'   is defined in the following way. Numeric parameters generate numeric columns, integer parameters generate integer columns, 
 #'   logical parameters generate logical columns, discrete parameters generate factor column (factor levels are names of the possible values
-#'   of the discrete parameter).  
+#'   of the discrete parameter).
+#'   The result will have an \code{logical(1)} attribute 'trafo', 
+#'   which is set to the value of argument \code{trafo}.    
 #' @export 
 makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
   require.packs("lhs", "makeDesign")
@@ -68,5 +70,6 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=TRUE) {
     }
   }
   colnames(des) = getRepeatedParameterIDs(par.set, with.nr=TRUE)
+  attr(des, "trafo") = trafo  
   return(des)
 }

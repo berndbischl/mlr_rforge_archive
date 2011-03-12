@@ -150,8 +150,8 @@ test.tune.spo = function() {
     makeIntegerParameter("ntree", lower=100, upper=500),
     makeNumericVectorParameter("cutoff", dim=3, lower=0.001, upper=1, trafo=function(x) 0.9*x/sum(x)) 
   )
-  tr1 = tune("classif.randomForest", multiclass.task, res, par.set=ps2, control=ctrl)
-  checkEquals(length(as.list(tr1@path)), 5)
+  tr2 = tune("classif.randomForest", multiclass.task, res, par.set=ps2, control=ctrl)
+  checkEquals(length(as.list(tr2@path)), 5)
 } 
   
 
