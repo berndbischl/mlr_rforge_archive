@@ -1,6 +1,7 @@
 #todo: minimize
 #todo: how to choose best element. with noise? without?
 #todo: retrain kriging faster
+#todo: doc return val 
 #'  Optimizes a function with sequential parameter optimization.
 #'
 #' @param fun [function(x, ...)]\cr 
@@ -85,11 +86,26 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     model = train(learner, rt)
     if (loop %in% control@save.model.at)
       models[[length(models)+1]] = model
-    loop = loop + 1  
+    loop = loop + 1
   }
-  e = getBestElement(opt.path, y.name)
   names(models) =  control@save.model.at
-  list(x=e$x, y=e$y, path=opt.path, models=models)
+  
+  x = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
+  y.pred = predict(model, newdata=x)@df$response
+  
+  if (control@final.evals > 0) {
+    prop.des = x[rep(1,control@final.evals),]
+    xs = lapply(1:nrow(prop.des), function(i) designToList(prop.des, par.set, i))
+    ys = evalTargetFun(fun, par.set, xs)
+    y.real = mean(ys)
+    x = xs[[1]]
+  } else {
+    # is this really reasonable? maybe tp save time....
+    y.real = as.numeric(NA)
+    x = designToList(x, par.set, 1)
+  }
+  
+  list(x=x, y.pred=y.pred, y.real=y.real, path=opt.path, models=models)
 }
 
 

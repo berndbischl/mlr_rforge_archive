@@ -15,6 +15,8 @@ setClass(
     seq.design.points = "integer", 
     seq.design.fun = "function", 
     seq.design.args = "list",
+    final.point = "character",
+    final.evals = "integer",
     save.model.at = "integer",
     resample.desc = "ResampleDesc",
     resample.at = "integer",
@@ -47,7 +49,8 @@ setClass(
 #' @param propose.points.method [character(1)]\cr 
 #'   How should points be proposed by using the surrogate model. Possible are: 
 #'   'seq.design': Use a large design of points and evaluate the surrogate model at each. The best \code{propose.points} are selected.    
-#'   'CMAES': Use a large design of points and evaluate the surrogate model at each. The best \code{propose.points} are selected.    
+#'   'CMAES': Use CMAES to optimize mean prediction value.    
+#'   'EI': Use expected improvement.    
 #' @param seq.design.points [integer(1)]\cr 
 #'   Number of points in sequential design. Only used if \code{propose.points.method} is 'seq.design.' Default is 10000.   
 #' @param seq.design.fun [function] \cr
@@ -56,6 +59,13 @@ setClass(
 #' @param seq.design.args [list] \cr
 #'   List of further arguments passed to \code{seq.design.fun}.  
 #'   Only used if \code{propose.points.method} is 'seq.design.' Default is empty list.
+#' @param final.point [character(1)]\cr 
+#'   How should the final point be proposed. Possible are: 
+#'   'best.in.path': Return best point ever visited. Can be bad if target function is noisy.    
+#'   'opt.pred': Optimize the mean value of the surrogate model thoroughly.      
+#' @param final.evals [integer(1)]\cr 
+#'   How many target function evals should be done at final point to reduce noise? 
+#'   Default is 20.      
 #' @param save.model.at [integer] \cr
 #'   Sequential optimzation iterations when the model should be saved. Iteration 0 is the model fit for the initial design.
 #'   Default is \code{seq.loops}.
@@ -65,11 +75,15 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
   seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
+  final.point = "best.in.path",
+  final.evals = 20,
   save.model.at = seq.loops,
   resample.desc = makeResampleDesc("CV", iter=10), resample.at = integer(0), resample.measures=list(mse) 
 ) {
   require.packs("lhs", "makeSPOControl")
   check.arg(y.name, "character", 1)
+  check.arg(propose.points.method, "character", 1, c("seq.design", "CMAES", "EI"))
+  
   if (is.numeric(init.design.points) && length(init.design.points) == 1 && as.integer(init.design.points) == init.design.points)
     init.design.points = as.integer(init.design.points)
   if (is.numeric(seq.loops) && length(seq.loops) == 1 && as.integer(seq.loops) == seq.loops)
@@ -78,8 +92,13 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
     propose.points = as.integer(propose.points)
   if (is.numeric(seq.design.points) && length(seq.design.points) == 1 && as.integer(seq.design.points) == seq.design.points)
     seq.design.points = as.integer(seq.design.points)
+  if (is.numeric(final.evals) && as.integer(final.evals) == final.evals)
+    final.evals = as.integer(final.evals)
   if (is.numeric(save.model.at) && as.integer(save.model.at) == save.model.at)
     save.model.at = as.integer(save.model.at)
+
+  check.arg(final.point, "character", 1, c("best.in.path", "opt.pred"))
+  check.arg(final.evals, "integer", 1)
   
   new("SPOControl", 
     y.name = y.name,
@@ -93,6 +112,8 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
     seq.design.points = seq.design.points, 
     seq.design.fun = seq.design.fun, 
     seq.design.args = seq.design.args,
+    final.point = final.point,
+    final.evals = final.evals,
     save.model.at = save.model.at,
     resample.desc = resample.desc,
     resample.at = resample.at,

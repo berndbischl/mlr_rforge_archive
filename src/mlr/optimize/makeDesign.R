@@ -12,6 +12,9 @@
 #'   List of further arguments passed to \code{fun}. 
 #' @param trafo [logical(1)] \cr
 #'   Transform all parameters by using theirs respective transformation functions. Default is \code{FALSE}. 
+#' @param ints.as.num [logical(1)] \cr
+#'   Should parameters of type 'integer', 'integervector' have columns of type 'numeric' in result?
+#'   Default is \code{FALSE}.  
 #' @return The created design as a data.frame. Columns are named by the ids of the parameters.
 #'   If the \code{par.set} argument contains a vector parameter, its corresponding columns names  
 #'   in the design are the parameter id concatenated with 1 to dimension of vector.   
@@ -22,7 +25,7 @@
 #'   The result will have an \code{logical(1)} attribute 'trafo', 
 #'   which is set to the value of argument \code{trafo}.    
 #' @export 
-makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE) {
+makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE, ints.as.num=FALSE) {
   require.packs("lhs", "makeDesign")
   if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
     stop("No par.set parameter in 'makeDesign' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")        
@@ -52,14 +55,16 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE) {
 
     if (p@type == "numeric")
       des[,col] = p@trafo((upper(p)-lower(p))*des[,col] + lower(p))
-    else if (p@type == "integer")
-      des[,col] = p@trafo(as.integer(floor((upper(p)-lower(p)+1)*des[,col] + lower(p))))
-    else if (p@type == "numericvector") {
+    else if (p@type == "integer") {
+      x = p@trafo(as.integer(floor((upper(p)-lower(p)+1)*des[,col] + lower(p))))
+      des[,col] = if (ints.as.num) as.numeric(x) else x  
+    } else if (p@type == "numericvector") {
       des[,col] = t((upper(p)-lower(p))*t(des[,col]) + lower(p))
       des[,col] = apply(des[,col], 1, p@trafo)
     } else if (p@type == "integervector") {
       x = floor((upper(p)-lower(p)+1)*as.matrix(des[,col]) + lower(p))
-      mode(x) = "integer"
+      if (!ints.as.num)
+        mode(x) = "integer"
       des[,col] = x
       des[,col] = apply(des[,col], 1, p@trafo)
     } else if (p@type == "logical")

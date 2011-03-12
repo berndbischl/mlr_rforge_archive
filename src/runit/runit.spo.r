@@ -11,6 +11,7 @@ test.spo.rf <- function() {
   learner = makeLearner("regr.randomForest")
   ctrl = makeSPOControl(seq.loops=5, seq.design.points=100, save.model.at=c(0,5))
   or = spo(f, ps, des, learner, ctrl)
+  checkEquals(or$y.real, f(or$x))
   checkEquals(length(as.list(or$path)), 15)
   checkTrue(is.list(or$x))
   checkEquals(names(or$x), names(ps@pars))

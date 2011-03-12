@@ -101,6 +101,7 @@ pack.files = c(
     "mlr/optimize/myspo/makeSPOFunction.R",
     "mlr/optimize/myspo/SPOControl.R",
     "mlr/optimize/myspo/proposePoints.R",
+    "mlr/optimize/myspo/chooseFinalPoint.R",
     "mlr/optimize/myspo/spo.R",
     
 		"mlr/wrappers/BaseWrapper.R",
