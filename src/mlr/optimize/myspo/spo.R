@@ -94,7 +94,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   y.pred = predict(model, newdata=x)@df$response
   
   if (control@final.evals > 0) {
-    prop.des = x[rep(1,control@final.evals),]
+    prop.des = x[rep(1,control@final.evals),,drop=FALSE]
     xs = lapply(1:nrow(prop.des), function(i) designToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
     y.real = mean(ys)

@@ -7,7 +7,7 @@ chooseFinalPoint = function(fun, par.set, model, opt.path, y.name, control) {
     df = df[, setdiff(colnames(df), c(y.name, "dob", "eol")), drop=FALSE]
     df[which.min(y),,drop=FALSE]
   } else if(control@final.point == "opt.pred") {
-    des = makeDesign(100000, par.set, lhs, ints.as.num=TRUE)
+    des = makeDesign(100000, par.set, randomLHS, ints.as.num=TRUE)
     y = predict(model, newdata=des)@df$response
     des[which.min(y),,drop=FALSE]
   }

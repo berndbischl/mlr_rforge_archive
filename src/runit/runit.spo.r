@@ -67,7 +67,7 @@ test.spo.rf <- function() {
   checkTrue(is.numeric(df$y))
   checkTrue(is.list(or$x))
   checkEquals(names(or$x), names(ps@pars))
-
+  
   ctrl = makeSPOControl(init.design.points=3, seq.loops=5, seq.design.points=100)
   or = spo(f, ps, des=NULL, learner, ctrl)
   checkEquals(length(as.list(or$path)), 8)
@@ -83,7 +83,10 @@ test.spo.rf <- function() {
   ctrl = makeSPOControl(init.design.points=5, seq.loops=10, propose.points.method="CMAES")
   or = spo(f, ps, des=NULL, learner, ctrl)
   checkEquals(length(as.list(or$path)), 15)
-} 
+  ctrl = makeSPOControl(init.design.points=5, seq.loops=10, final.point="opt.pred")
+  or = spo(f, ps, des=NULL, learner, ctrl)
+  checkEquals(length(as.list(or$path)), 15)
+  } 
 
 test.spo.km <- function() {
   f = makeSPOFunction(function(x) sum(x^2))
