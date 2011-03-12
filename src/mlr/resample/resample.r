@@ -1,3 +1,4 @@
+#todo: add strat holdout + subsample
 #' Given a resampling strategy, which defines sets of training and test indices, 
 #' fits the selected learner using the training sets and performs predictions for the training/test sets.
 #' (This depends on what you selected in the resampling strategy, see parameter \code{predict} in \code{\link{makeResampleDesc}}.)
