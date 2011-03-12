@@ -67,7 +67,7 @@ allowed.rd.files <<- c(
     "setThreshold.Rd",
     
 		"performance.Rd",
-		"conf.matrix.Rd",
+		"getConfMatrix.Rd",
     "Aggregation-class.Rd",
     "aggregations.Rd",
     "Measure-class.Rd",

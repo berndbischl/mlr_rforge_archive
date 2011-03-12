@@ -9,6 +9,7 @@
 #' \itemize{ 
 #' 		\item{\bold{mmce}}{\cr Mean misclassification error.}
 #' 		\item{\bold{acc}}{\cr Accuracy.}
+#'    \item{\bold{ber}}{\cr Balanced error rate.}
 #' 		\item{\bold{tp}}{\cr True positives.}
 #' 		\item{\bold{tpr}}{\cr True positive rate, also called hit rate or recall.}
 #' 		\item{\bold{fp}}{\cr False positives, also called false alarms.}
@@ -149,6 +150,14 @@ acc = makeMeasure(id="acc", minimize=FALSE, req.task.type="classif",
   }
 )
 
+#' @export ber
+#' @rdname measures
+ber = makeMeasure(id="ber", minimize=TRUE, req.task.type="classif",  
+  fun=function(task, model, pred, extra.pars) {
+    n = length(getClassLevels(pred))
+    mean(getConfMatrix(pred, relative=TRUE)[-n, 1:n])          
+  }
+)
 
 
 # classif_two

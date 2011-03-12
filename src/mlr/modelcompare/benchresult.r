@@ -66,7 +66,7 @@ setMethod(
         return(rec.lapply(x["res.results"], function(y) y$model, depth=2))
       }
       if (i == "conf.mats"){
-        return(rec.lapply(x["predictions"], function(y) conf.matrix(y), depth=2))
+        return(rec.lapply(x["predictions"], function(y) getConfMatrix(y), depth=2))
       }
 			callNextMethod()
 		}

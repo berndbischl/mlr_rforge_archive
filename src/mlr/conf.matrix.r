@@ -8,25 +8,24 @@
 #' 
 #' @return A confusion matrix.
 #' 
-#' @export
-#' 
+#' @exportMethod getConfMatrix
+#' @rdname getConfMatrix
 #' @seealso \code{\link[klaR]{errormatrix}}
-#' 
 #' @title Confusion matrix.
 
 setGeneric(
-  name = "conf.matrix",
+  name = "getConfMatrix",
   def = function(pred, relative) {
     if (missing(relative))
       relative=FALSE
-    standardGeneric("conf.matrix")
+    standardGeneric("getConfMatrix")
   }
 )
 
 #' @export
-#' @rdname conf.matrix 
+#' @rdname getConfMatrix
 setMethod(
-  f = "conf.matrix",
+  f = "getConfMatrix",
   signature = signature(pred="Prediction", relative="logical"),
   def = function(pred, relative) {
     return(errormatrix(pred@df$truth, pred@df$response, relative=relative))
