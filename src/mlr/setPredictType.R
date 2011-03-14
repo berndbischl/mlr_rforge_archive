@@ -29,7 +29,7 @@ setMethod(
   ),
   
   def = function(learner, type) {
-    if (learner@desc@type != "classif") {
+    if (type != "response" && learner@desc@type != "classif") {
       stop("Trying to predict ", type, ", but only classifiers support that!")
     }
     if ("prob" == type && !learner@desc@predict["prob"]) {
