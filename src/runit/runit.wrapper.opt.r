@@ -3,8 +3,8 @@ test.OptWrapper <- function() {
 	outer = makeResampleDesc("Holdout")
   inner = makeResampleDesc("CV", iters=2)
 	
-	ps = makeParameterSet(makeDiscreteParameter(id="C", vals=c(1,100)))
-	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=makeTuneGridControl())
+	ps1 = makeParameterSet(makeDiscreteParameter(id="C", vals=c(1,100)))
+	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps1, control=makeTuneGridControl())
 	
 	m = train(svm.tuner, task=multiclass.task)
 	
@@ -14,12 +14,12 @@ test.OptWrapper <- function() {
   p = predict(m, task=multiclass.task)
   checkTrue(!any(is.na(p@df$response)))
 
-  ps = makeParameterSet(
+  ps2 = makeParameterSet(
     makeNumericParameter(id="C", trafo=function(x) 2^x),
     makeNumericParameter(id="epsilon", trafo=function(x) 2^x),
     makeNumericParameter(id="sigma", trafo=function(x) 2^x)
   )
-  svm.tuner = makeTuneWrapper("regr.ksvm", resampling=inner, par.set=ps, 
+  svm.tuner = makeTuneWrapper("regr.ksvm", resampling=inner, par.set=ps2, 
     control=makeTuneOptimControl(start=c(0,0,0), maxit=5))
   
   m = train(svm.tuner, task=regr.task)
@@ -30,7 +30,7 @@ test.OptWrapper <- function() {
   
   # check that predict.type is taken from base learner
   w = makeLearner("classif.ksvm", predict.type="prob")
-  svm.tuner = makeTuneWrapper(w, resampling=makeResampleDesc("Holdout"), par.set=ps, control=makeTuneGridControl())
+  svm.tuner = makeTuneWrapper(w, resampling=makeResampleDesc("Holdout"), par.set=ps1, control=makeTuneGridControl())
   checkEquals(svm.tuner@predict.type, "prob")
   r = resample(svm.tuner, binaryclass.task, makeResampleDesc("Holdout"), measures=auc)
   checkTrue(!is.na(r$aggr["auc.test.mean"]))
