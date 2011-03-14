@@ -1,3 +1,4 @@
 allowed.rd.files = c( 		
-  "summarizeData.Rd"
+  "summarizeData.Rd",
+  "summarizeLevels.Rd"
 )    
