@@ -1,8 +1,11 @@
 #' Summarizes factors of a data.frame by tabling them.
 #'
-#' @param data [data.frame]\cr 
+#' @param data [\code{data.frame}]\cr 
 #'   Data to summarize. 
 #'   Characters and logicals will be treated as factors.   
+#' @param which [\code{character}]\cr
+#'   Restrict resut to columns in \code{which}. 
+#'   Default is all factor, character and logical columns of \code{data}.   
 #' @return A named list of tables.
 #' 
 #' @export
