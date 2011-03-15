@@ -8,54 +8,18 @@
 
 \begin{document}
 
-\begin{verbatim}
-setwd("C:/user/meinke/statet/mlr/src/mlrEDA/")
-
-library(cluster)
-library(mlbench)
-
-library(ggplot2)
-require(xtable)
-
-source("plotPCA.R")
-source("plotMDS.R")
-
-data(PimaIndiansDiabetes)
-data <- PimaIndiansDiabetes
-target <- "diabetes"
-\end{verbatim}
-
-
-
-
 <<label=Summary,echo=FALSE,results=tex>>=
-source("summarizeData.R")
-print(xtable(summarizeData(data), caption = "Important descriptive statistics",
-    label = "desk",table.placement = "tbp",caption.placement = "top"))
+print(xtable(summarizeData(.sweave.data), caption = "Summary of features"))
 @
-
 
 \begin{figure}
 \setkeys{Gin}{width=0.75\textwidth}
 \begin{center}
-\caption{MDS_Plot}
+\caption{MDS Plot}
 <<echo=FALSE,fig=TRUE>>=
-print(plotMDS(data,target) + geom_point())
+print(plotMDS(.sweave.data, .sweave.target))
 @
 \end{center}
-\label{MDS}
 \end{figure}
-
-\begin{figure}
-\setkeys{Gin}{width=0.75\textwidth}
-\begin{center}
-\caption{PCA-Scree-Plot}
-<<echo=FALSE,fig=TRUE>>=
-plotPCA(data,target)
-@
-\end{center}
-\label{PCA}
-\end{figure}
-
 
 \end{document}
