@@ -9,35 +9,32 @@
 #'   Date feature in \code{data}.
 #'   Per default is \code{start.date} is missing.    
 #'  
-#' @return [\code{data.frame}] with the columns 'na' (number of missing values),
-#'   'min', 'max', 'span' (days between 'min' and 'max').
+#' @return [\code{data.frame}], where \code{Date} columns 
+#'   have been tranformed to numeric days.
 #' 
 #' @export
 #' @title Summarize factors of a data.frame.
 
 datesToDays = function(data, start.date) {
   n = ncol(data)
-  cns = colnames(data)
   date.names =  names(which(sapply(data, function(x) is(x, "Date"))))
   
   if (missing(start.date)) {
     start.date = na.omit(sapply(data, function(x) 
           if(is(x, "Date")) min(unclass(x), na.rm=TRUE) else NA))
   } else {
-    m = length(start.date)
-    stopifnot(is(start.date, "Date") && (m == 1 || m == length(date.names)))
-    if (m == 1) 
-      start.date = unclass(rep(start.date, length(date.names)))
+    if (is.character(start.date))
+      start.date = as.Date(start.date)
+    if (is(start.date, "Date") && length(start.date) == 1) {
+      start.date = rep(start.date, length(date.names))
+      names(start.date) = date.names
+    }  
+    if (!(is(start.date, "Date") && length(start.date) == length(date.names)))
+      stop("start.date has wrong type or length!")
   }
   
   for (x in date.names) {
-    data[, x] = unclass(x) - start.date[cns[i]]
-    res[i, "disp"] = sd(x) 
-    res[i, "mean"] = mean(x) 
-    res[i, "median"] = median(x) 
-    res[i, "min"] = min(x) 
-    res[i, "max"] = max(x) 
-    res[i, "nlevs"] = as.integer(NA) 
+    data[, x] = unclass(data[, x]) - unclass(start.date[x])
   }
   return(data)
 }

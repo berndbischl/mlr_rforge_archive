@@ -13,34 +13,30 @@
 #' @title Summarize factors of a data.frame.
 
 summarizeDates = function(data, which) {
-  n = ncol(data)
   cns = colnames(data)
   pred = function(x) is(x, "Date")    
   if (missing(which)) 
     which = Filter(function(x) pred(data[,x]), cns)
   else
-  if (!all(which %in% cns)) 
-    stop("Undefined columns selected!")
-  
+    if (!all(which %in% cns)) 
+      stop("Undefined columns selected!")
+  n = length(which)
   res = data.frame(name=character(n), na=integer(n), 
-    min=numeric(n), max=numeric(n), span=numeric(n))
-
-  i = 1
-  for (x in which) {
+    min=numeric(n), max=numeric(n), span=numeric(n), stringsAsFactors=FALSE)
+  class(res$min)  = "Date"
+  class(res$max)  = "Date"
+    
+  for (i in seq_along(which)) {
+    x = which[i]
     if (!pred(data[,x]))
       stop(x, " is not a Date!")
     res[i, "name"] = x
     x = data[,x]
     res[i, "na"] = sum(is.na(x))
     x = na.omit(x)
-    if (is(x, "Date")) {
-      res[i, "min"] = sd(x) 
-      res[i, "max"] = mean(x) 
-      res[i, "span"] = max(x) - min(x) 
-    } else {
-      stop("Unsupported column class: ", class(x))
-    }  
-    i = i + 1
+    res[i, "min"] = min(x) 
+    res[i, "max"] = max(x) 
+    res[i, "span"] = res[i, "max"] - res[i, "min"]
   }
   return(res)
 }
