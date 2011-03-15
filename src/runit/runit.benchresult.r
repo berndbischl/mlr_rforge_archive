@@ -4,7 +4,7 @@ test.benchresult = function() {
 	inner = makeResampleDesc("CV", iter=2)
 
 	ps = makeParameterSet(makeDiscreteParameter("C", vals=1:2))
-	ctrl = makeTuneGridControl()
+	ctrl = makeTuneControlGrid()
 	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=ctrl)
 	
 	wl = makeLearner("classif.ksvm", id="foo")
@@ -99,7 +99,7 @@ test.benchresult = function() {
   checkTrue(is.matrix(x1))  
   
 	ps = makeParameterSet(makeDiscreteParameter("C", vals=1:2), makeDiscreteParameter("sigma", vals=1:2))
-	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=makeTuneGridControl())
+	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=makeTuneControlGrid())
 	learners = c(svm.tuner)
 	be = bench.exp(tasks=tasks, learners=learners, resampling=res)
   

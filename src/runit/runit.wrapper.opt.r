@@ -4,7 +4,7 @@ test.OptWrapper <- function() {
   inner = makeResampleDesc("CV", iters=2)
 	
 	ps1 = makeParameterSet(makeDiscreteParameter(id="C", vals=c(1,100)))
-	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps1, control=makeTuneGridControl())
+	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps1, control=makeTuneControlGrid())
 	
 	m = train(svm.tuner, task=multiclass.task)
 	
@@ -20,7 +20,7 @@ test.OptWrapper <- function() {
     makeNumericParameter(id="sigma", trafo=function(x) 2^x)
   )
   svm.tuner = makeTuneWrapper("regr.ksvm", resampling=inner, par.set=ps2, 
-    control=makeTuneOptimControl(start=c(0,0,0), maxit=5))
+    control=makeTuneControlOptim(start=c(0,0,0), maxit=5))
   
   m = train(svm.tuner, task=regr.task)
   or = m@opt.result
@@ -30,7 +30,7 @@ test.OptWrapper <- function() {
   
   # check that predict.type is taken from base learner
   w = makeLearner("classif.ksvm", predict.type="prob")
-  svm.tuner = makeTuneWrapper(w, resampling=makeResampleDesc("Holdout"), par.set=ps1, control=makeTuneGridControl())
+  svm.tuner = makeTuneWrapper(w, resampling=makeResampleDesc("Holdout"), par.set=ps1, control=makeTuneControlGrid())
   checkEquals(svm.tuner@predict.type, "prob")
   r = resample(svm.tuner, binaryclass.task, makeResampleDesc("Holdout"), measures=auc)
   checkTrue(!is.na(r$aggr["auc.test.mean"]))

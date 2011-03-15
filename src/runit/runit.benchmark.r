@@ -11,7 +11,7 @@ test.benchmark <- function() {
 		ps1 = makeParameterSet(
       makeDiscreteParameter("minsplit", vals=seq(3,10,2))
     ) 
-		wl = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps1, control=makeTuneGridControl())
+		wl = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps1, control=makeTuneControlGrid())
 		bm = .mlr.benchmark(wl, ct, outer, models=TRUE)
 		checkTrue(is.list(bm$ors))
 		checkEquals(length(bm$ors), 1)
@@ -32,7 +32,7 @@ test.benchmark <- function() {
       makeDiscreteParameter("minsplit", vals=seq(3,10,2)),
       makeDiscreteParameter("cp", vals=c(0.1, 0.11 , 0.09))
     ) 
-		wl = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps2, control=makeTuneGridControl())
+		wl = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps2, control=makeTuneControlGrid())
 		cbr = .mlr.benchmark(wl, ct, outer, models=FALSE)
 	}
 }

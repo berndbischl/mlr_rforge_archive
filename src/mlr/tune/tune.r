@@ -54,11 +54,11 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun)
   
   cl = as.character(class(control))
 	sel.func = switch(cl,
-      TuneGridControl = tune.grid,
+      TuneControlGrid = tune.grid,
 #			pattern = tune.ps,
-      TuneCMAESControl = tune.cmaes,
-      TuneOptimControl = tune.optim,
-      TuneSPOControl = tune.spo,
+      TuneControlCMAES = tune.cmaes,
+      TuneControlOptim = tune.optim,
+      TuneControlSPO = tune.spo,
       stop(paste("Tuning algorithm for", cl, "does not exist!"))
 	)		
 	

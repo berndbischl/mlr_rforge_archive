@@ -4,7 +4,7 @@ test.parallel.tune = function() {
   
   res = makeResampleInstance(makeResampleDesc("Subsample", iters=4), task=multiclass.task)
   
-  ctrl = makeTuneGridControl(ranges=list(sigma=c(0.1, 1, 10)))
+  ctrl = makeTuneControlGrid(ranges=list(sigma=c(0.1, 1, 10)))
   
   parallel.setup(mode="local")
   tr1 = tune("classif.ksvm", task=multiclass.task, resampling=res, control=ctrl, path=T)
@@ -24,7 +24,7 @@ test.parallel.tune = function() {
   checkEquals(tr1["path", as.data.frame=T], tr4["path", as.data.frame=T])
   checkEquals(tr1["path", as.data.frame=T], tr5["path", as.data.frame=T])
   
-  ctrl = makeTuneGridControl(ranges=list(sigma=c(0.05, 0.5, 5)), trafo=function(x) x*2)
+  ctrl = makeTuneControlGrid(ranges=list(sigma=c(0.05, 0.5, 5)), trafo=function(x) x*2)
   
   parallel.setup(mode="local")
   tr11 = tune("classif.ksvm", task=multiclass.task, resampling=res, control=ctrl, path=T)

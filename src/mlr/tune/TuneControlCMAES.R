@@ -2,11 +2,11 @@
 roxygen()
 
 #' Control structure for CMA-ES tuning. 
-#' @exportClass TuneCMAESControl
-#' @seealso \code{\link{makeTuneCMAESControl}}
+#' @exportClass TuneControlCMAES
+#' @seealso \code{\link{makeTuneControlCMAES}}
 
 setClass(
-		"TuneCMAESControl",
+		"TuneControlCMAES",
 		contains = c("TuneControl")
 )
 
@@ -22,13 +22,13 @@ setClass(
 #' @param ... Further control parameters passed to the \code{control} argument of \code{\link[cmaes]{cma_es}}.
 #' 		    
 #' @return Control structure for tuning.
-#' @exportMethod makeTuneCMAESControl
-#' @rdname makeTuneCMAESControl 
+#' @exportMethod makeTuneControlCMAES
+#' @rdname makeTuneControlCMAES 
 #' @title Control for CMA-ES tuning. 
 
 
 setGeneric(
-		name = "makeTuneCMAESControl",
+		name = "makeTuneControlCMAES",
 		def = function(path, same.resampling.instance, start, ...) {
 			if (missing(path))
 				path = TRUE
@@ -36,18 +36,18 @@ setGeneric(
         same.resampling.instance = TRUE
       if (missing(start))
 				stop("You have to provide a start value!")
-			standardGeneric("makeTuneCMAESControl")
+			standardGeneric("makeTuneControlCMAES")
 		}
 )
 
 
-#' @rdname makeTuneCMAESControl 
+#' @rdname makeTuneControlCMAES 
 
 setMethod(
-		f = "makeTuneCMAESControl",
+		f = "makeTuneControlCMAES",
 		signature = signature(path="logical", same.resampling.instance="logical", start="numeric"),
 		def = function(path, same.resampling.instance, start, ...) {
-			new("TuneCMAESControl", path=path, same.resampling.instance=same.resampling.instance, start=as.list(start), ...)
+			new("TuneControlCMAES", path=path, same.resampling.instance=same.resampling.instance, start=as.list(start), ...)
 		}
 )
 

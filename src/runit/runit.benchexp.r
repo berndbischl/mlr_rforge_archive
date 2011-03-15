@@ -15,7 +15,7 @@ test.benchexp <- function() {
   ps1 = makeParameterSet(
     makeDiscreteParameter("minsplit", vals=seq(3,10,2))
   )
-	rpart.tuner = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps1, control=makeTuneGridControl())
+	rpart.tuner = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps1, control=makeTuneControlGrid())
 	learners = list("classif.lda", rpart.tuner)
 
 	be = bench.exp("classif.lda", multiclass.task, resampling=outer)

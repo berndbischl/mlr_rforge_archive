@@ -2,11 +2,11 @@
 roxygen()
 
 #' Control structure for tuning with \code{optim}.
-#' @exportClass TuneOptimControl
-#' @seealso \code{\link{makeTuneOptimControl}}
+#' @exportClass TuneControlOptim
+#' @seealso \code{\link{makeTuneControlOptim}}
 
 setClass(
-		"TuneOptimControl",
+		"TuneControlOptim",
 		contains = c("TuneControl")
 )
 
@@ -22,13 +22,13 @@ setClass(
 #' @param ... Further control parameters passed to the \code{control} argument of \code{\link[stats]{optim}}.
 #' 		    
 #' @return Control structure for tuning.
-#' @exportMethod makeTuneOptimControl
-#' @rdname makeTuneOptimControl
+#' @exportMethod makeTuneControlOptim
+#' @rdname makeTuneControlOptim
 #' @title Control for tuning with optim. 
 
 
 setGeneric(
-		name = "makeTuneOptimControl",
+		name = "makeTuneControlOptim",
 		def = function(path, same.resampling.instance, start, ...) {
 			if (missing(path))
 				path = TRUE
@@ -36,18 +36,18 @@ setGeneric(
         same.resampling.instance = TRUE
       if (missing(start))
 				stop("You have to provide a start value!")
-			standardGeneric("makeTuneOptimControl")
+			standardGeneric("makeTuneControlOptim")
 		}
 )
 
 
-#' @rdname makeTuneOptimControl 
+#' @rdname makeTuneControlOptim 
 
 setMethod(
-		f = "makeTuneOptimControl",
+		f = "makeTuneControlOptim",
 		signature = signature(path="logical", same.resampling.instance="logical", start="numeric"),
 		def = function(path, same.resampling.instance, start, ...) {      
-      new("TuneOptimControl", path=path, same.resampling.instance=same.resampling.instance, start=as.list(start), ...)
+      new("TuneControlOptim", path=path, same.resampling.instance=same.resampling.instance, start=as.list(start), ...)
 		}
 )
 

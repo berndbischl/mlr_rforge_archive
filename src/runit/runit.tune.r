@@ -5,7 +5,7 @@ test.tune <- function() {
     makeDiscreteParameter("cp", vals=cp), 
     makeDiscreteParameter("minsplit", vals=minsplit)
   )
-	ctrl = makeTuneGridControl()
+	ctrl = makeTuneControlGrid()
 	folds = 3
 	
 	tr <- tune.rpart(formula=multiclass.formula, data=multiclass.df, cp=cp, minsplit=minsplit,
@@ -83,19 +83,19 @@ test.tune.optim = function() {
   )
   
   # nelder mead with optim
-  ctrl = makeTuneOptimControl(method="Nelder-Mead", start=c(1, 1), maxit=10)
+  ctrl = makeTuneControlOptim(method="Nelder-Mead", start=c(1, 1), maxit=10)
   tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
-  ctrl = makeTuneOptimControl(method="Nelder-Mead", start=c(0.05, 5), maxit=10)
+  ctrl = makeTuneControlOptim(method="Nelder-Mead", start=c(0.05, 5), maxit=10)
   checkException(tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl))
   
-  ctrl = makeTuneOptimControl(method="SANN", start=c(1, 1), maxit=10)
+  ctrl = makeTuneControlOptim(method="SANN", start=c(1, 1), maxit=10)
   tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
-  ctrl = makeTuneOptimControl(method="SANN", start=c(0.05, 5), maxit=10)
+  ctrl = makeTuneControlOptim(method="SANN", start=c(0.05, 5), maxit=10)
   checkException(tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl))
   
-  ctrl = makeTuneOptimControl(method="L-BFGS-B", start=c(1, 1), maxit=10)
+  ctrl = makeTuneControlOptim(method="L-BFGS-B", start=c(1, 1), maxit=10)
   tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
-  ctrl = makeTuneOptimControl(method="L-BFGS-B", start=c(0.05, 5), maxit=10)
+  ctrl = makeTuneControlOptim(method="L-BFGS-B", start=c(0.05, 5), maxit=10)
   tr = tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl)
   
   checkException(tune("classif.rpart", multiclass.task, res, par.set=ps3, control=ctrl))
@@ -108,7 +108,7 @@ test.tune.cmaes = function() {
     makeNumericParameter("cp", lower=0.001, upper=1), 
     makeIntegerParameter("minsplit", lower=1, upper=10)
   )
-  ctrl1 = makeTuneCMAESControl(start=c(0.05, 5L), maxit=5)
+  ctrl1 = makeTuneControlCMAES(start=c(0.05, 5L), maxit=5)
   tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl1)
   
   ps2 = makeParameterSet(
@@ -116,7 +116,7 @@ test.tune.cmaes = function() {
     makeIntegerParameter("ntree", lower=100, upper=500) 
   )
   
-  ctrl2 = makeTuneCMAESControl(start=c(1/3, 1/3, 1/3, 200L), maxit=5, sigma=2)
+  ctrl2 = makeTuneControlCMAES(start=c(1/3, 1/3, 1/3, 200L), maxit=5, sigma=2)
   tr2 = tune("classif.randomForest", multiclass.task, res, par.set=ps2, control=ctrl2)
   checkEquals(ncol(as.data.frame(tr2@path)), 4+2+2)
   checkTrue(is.numeric(tr2@y)) 
@@ -141,7 +141,7 @@ test.tune.spo = function() {
   )
   
   spo.ctrl = makeSPOControl(init.design.points=3, seq.loops=2)
-  ctrl = makeTuneSPOControl(learner="regr.randomForest", spo.control=spo.ctrl)
+  ctrl = makeTuneControlSPO(learner="regr.randomForest", spo.control=spo.ctrl)
   tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl)
   checkEquals(length(as.list(tr1@path)), 25)
   checkEquals(dim(as.data.frame(tr1@path)), c(25, 2+2+2))

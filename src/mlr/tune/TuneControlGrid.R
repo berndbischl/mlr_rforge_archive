@@ -2,11 +2,11 @@
 roxygen()
 
 #' Control structure for grid search tuning.
-#' @exportClass TuneGridControl
-#' @seealso \code{\link{makeTuneGridControl}}
+#' @exportClass TuneControlGrid
+#' @seealso \code{\link{makeTuneControlGrid}}
 
 setClass(
-		"TuneGridControl",
+		"TuneControlGrid",
 		contains = c("TuneControl")
 )
 
@@ -18,29 +18,29 @@ setClass(
 #'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
 #' 		    
 #' @return Control structure for tuning.
-#' @exportMethod makeTuneGridControl
-#' @rdname makeTuneGridControl 
+#' @exportMethod makeTuneControlGrid
+#' @rdname makeTuneControlGrid 
 #' @title Control for grid search tuning. 
 
 
 setGeneric(
-		name = "makeTuneGridControl",
+		name = "makeTuneControlGrid",
 		def = function(path, same.resampling.instance) {
 			if (missing(path))
 				path=TRUE
       if (missing(same.resampling.instance))
         same.resampling.instance = TRUE
-      standardGeneric("makeTuneGridControl")
+      standardGeneric("makeTuneControlGrid")
 		}
 )
 
 
-#' @rdname makeTuneGridControl 
+#' @rdname makeTuneControlGrid 
 
 setMethod(
-		f = "makeTuneGridControl",
+		f = "makeTuneControlGrid",
 		signature = signature(path="logical", same.resampling.instance="logical"),
 		def = function(path, same.resampling.instance) {
-			new("TuneGridControl", path=path, same.resampling.instance=same.resampling.instance, start=list())
+			new("TuneControlGrid", path=path, same.resampling.instance=same.resampling.instance, start=list())
 		}
 )

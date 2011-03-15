@@ -2,11 +2,11 @@
 roxygen()
 
 #' Control structure for SPO tuning. 
-#' @exportClass TuneSPOControl
-#' @seealso \code{\link{makeTuneSPOControl}}
+#' @exportClass TuneControlSPO
+#' @seealso \code{\link{makeTuneControlSPO}}
 
 setClass(
-  "TuneSPOControl",
+  "TuneControlSPO",
   contains = c("TuneControl"),
   representation = representation(
     learner = "Learner",
@@ -17,7 +17,7 @@ setClass(
 #' Constructor.
 setMethod(
   f = "initialize",
-  signature = signature("TuneSPOControl"),
+  signature = signature("TuneControlSPO"),
   def = function(.Object, path, same.resampling.instance, learner, spo.control) {
     .Object@learner = learner  
     .Object@spo.control = spo.control  
@@ -37,13 +37,13 @@ setMethod(
 #'   Control object for SPO.  
 #'        
 #' @return Control structure for tuning.
-#' @exportMethod makeTuneSPOControl
-#' @rdname makeTuneSPOControl 
+#' @exportMethod makeTuneControlSPO
+#' @rdname makeTuneControlSPO 
 #' @title Control for SPO tuning. 
 
 
 setGeneric(
-  name = "makeTuneSPOControl",
+  name = "makeTuneControlSPO",
   def = function(path, same.resampling.instance, learner, spo.control) {
     if (missing(path))
       path = TRUE
@@ -51,19 +51,19 @@ setGeneric(
       same.resampling.instance = TRUE
     if (is.character(learner))
       learner = makeLearner(learner)
-    standardGeneric("makeTuneSPOControl")
+    standardGeneric("makeTuneControlSPO")
   }
 )
 
 
-#' @rdname makeTuneSPOControl 
+#' @rdname makeTuneControlSPO 
 
 setMethod(
-  f = "makeTuneSPOControl",
+  f = "makeTuneControlSPO",
   signature = signature(path="logical", same.resampling.instance="logical", 
     learner="Learner", spo.control="SPOControl"),
   def = function(path, same.resampling.instance, learner, spo.control) {
-    new("TuneSPOControl", path=path, same.resampling.instance=same.resampling.instance,
+    new("TuneControlSPO", path=path, same.resampling.instance=same.resampling.instance,
       learner=learner, spo.control=spo.control)
   }
 )
