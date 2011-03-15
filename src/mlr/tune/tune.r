@@ -1,4 +1,5 @@
 #todo: check whether optimization can be paralleized if req. by user
+#todo: make s4
 
 #' @include LearnTask.R
 roxygen()

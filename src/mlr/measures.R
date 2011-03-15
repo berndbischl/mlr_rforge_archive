@@ -40,9 +40,9 @@
 #' 
 #' General:
 #' \itemize{ 
-#' 		\item{\bold{time.fit}}{\cr Time of fitting the model}
-#' 		\item{\bold{time.predict}}{\cr Time of predicting test set}
-#' 		\item{\bold{time.both}}{\cr time.fit + train.predict}
+#' 		\item{\bold{timetrain}}{\cr Time of fitting the model}
+#' 		\item{\bold{timepredict}}{\cr Time of predicting test set}
+#' 		\item{\bold{timeboth}}{\cr timetrain + trainpredict}
 #' }
 #' @export 
 #' @title Performance measures.
@@ -57,25 +57,25 @@ nvars = makeMeasure(id="nvars", minimize=TRUE,
   }
 )
 
-#' @export time.fit
+#' @export timetrain
 #' @rdname measures
-time.fit = makeMeasure(id="time.train", minimize=TRUE, 
+timetrain = makeMeasure(id="timetrain", minimize=TRUE, 
   fun=function(task, model, pred, extra.pars) {
     model["time"]
   }
 )
 
-#' @export time.predict
+#' @export timepredict
 #' @rdname measures
-time.predict = makeMeasure(id="time.predict", minimize=TRUE, 
+timepredict = makeMeasure(id="timepredict", minimize=TRUE, 
   fun=function(task, model, pred, extra.pars) {
     pred["time"]
   }  
 )
 
-#' @export time.all
+#' @export timeboth
 #' @rdname measures
-time.all = makeMeasure(id="time.all", minimize=TRUE, 
+timeboth = makeMeasure(id="timeboth", minimize=TRUE, 
   fun=function(task, model, pred, extra.pars) {
     model["time"] + pred["time"]           
   }  

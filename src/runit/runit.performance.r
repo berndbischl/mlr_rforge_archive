@@ -1,10 +1,10 @@
 test.performance <- function() {
 	
 	res = makeResampleDesc("Holdout")
-	rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=list(acc, time.all))
+	rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=list(acc, timeboth))
   
 	res = makeResampleDesc("BS", iters=3)
-	rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=list(acc, time.all))
+	rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=list(acc, timeboth))
   m = setAggregation(acc, test.median)
   rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=m)
   

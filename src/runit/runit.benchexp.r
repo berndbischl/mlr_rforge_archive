@@ -39,7 +39,7 @@ test.benchexp <- function() {
       1
     }
   )
-	be = bench.exp(learners, multiclass.task, resampling=outer, measures=list(acc, time.all, foo))
+	be = bench.exp(learners, multiclass.task, resampling=outer, measures=list(acc, timeboth, foo))
   # check that same resample instance was used for both learners
   checkEquals(
     be@res.results[[1]][[1]]$pred@df$id, 
