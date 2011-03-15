@@ -1,4 +1,5 @@
 pack.files = c(
+  "mlrEDA/aaa.R",
   "mlrEDA/summarizeData.R",
   "mlrEDA/summarizeLevels.R",
   "mlrEDA/summarizeDates.R",
