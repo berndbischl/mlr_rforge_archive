@@ -1,16 +1,16 @@
 #' Summarizes a data.frame, somewhat differently than the normal summary function of R.
 #'
-#' @param data [data.frame]\cr 
+#' @param data [\code{data.frame}]\cr 
 #'   Data to summarize. Columns can be of type numeric, integer, logical, factor, character or Date. 
 #'   Characters and logicals will be treated as factors.   
-#' @param start.date [named \code{Date} or character vector | single \code{Date} or \code{character}]\cr 
+#' @param start.date [named \code{Date} or \code{character} vector | single \code{Date} or \code{character}]\cr 
 #'   Dates are converted to days passed since a start date to compute mean values, etc. 
 #'   If this argument is missing, the start date is the minimal date of the feature. 
 #'   Either pass a single Date (which will be
 #'   replicated for all Date features) or a named vector of dates, which contains an element for every
 #'   Date feature in \code{data}. If this argument is a character it will be converted to \code{Date}.
 #'   Per default \code{start.date} is missing.    
-#' @return A data.frame with the columns: 'name', 'type', 'na', 'disp', 'mean', 'min', 'max', 'nlevs'.
+#' @return A \code{data.frame} with the columns: 'name', 'type', 'na', 'disp', 'mean', 'min', 'max', 'nlevs'.
 #'   'disp' is a measure of dispersion, for numerics and integers \code{\link{sd}} is used, for 
 #'   categorical columns the unstandardized index of qualitative variation M1 is computed. 
 #'   'min' and 'max' for factors are the sizes of the smallest / largest category.
