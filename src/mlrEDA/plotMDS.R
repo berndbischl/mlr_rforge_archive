@@ -13,6 +13,7 @@
 #' @title Variable selection.
 
 plotMDS = function(data, target, exclude=character(0), metric) {
+	## not sure if realy needed:
 	require(cluster)
 	require(ggplot2)
   j = which(colnames(data) == target)
