@@ -13,6 +13,8 @@
 #' @title Variable selection.
 
 plotMDS = function(data, target, exclude=character(0), metric) {
+	require(cluster)
+	require(ggplot2)
   j = which(colnames(data) == target)
   if (missing(metric))
     d = daisy(data[, -j])
