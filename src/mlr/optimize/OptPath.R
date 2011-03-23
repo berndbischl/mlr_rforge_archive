@@ -26,11 +26,15 @@ setMethod(
       stop("'x.names' and 'y.names' must not contain common elements!")
     if (length(minimize) != length(y.names))
       stop("'y.names' and 'minimize' must be of the same length!")
+    if (is.character(names(minimize)) && !setequal(names(minimize), y.names))
+      stop("Given names for 'minimize' must be the same as 'y.names'!")
+    if (is.null(names(minimize)))
+      names(minimize) = y.names
+    
     if (any(c("dob", "eol") %in% (union(x.names, y.names))))
       stop("'dob' and 'eol' are not allowed in 'x.names' or 'y.names'!")
     .Object@x.names = x.names
     .Object@y.names = y.names
-    names(minimize) = y.names
     .Object@minimize = minimize
     .Object@env = new.env()
     .Object@env$path = list()
@@ -40,7 +44,18 @@ setMethod(
   }
 )
 
-#' @export 
+
+#' Create optimitazion path. 
+#' @param x.names [\code{character}]\cr 
+#'   Names of dimensions in input space.  
+#' @param y.names [\code{character}]\cr 
+#'   Names of evaluation metrics.  
+#' @param minimize [named \code{logical}]\cr 
+#'   Should metrics be minimized or maximized?
+#'   Must be the same length as \code{y.names}.
+#'   If names are given, the must be equal to \code{y.names}, otherwise
+#'   the same order as in \code{y.names} is assumed.   
+#' @return [\code{\linkS4class{OptPath}}].
 makeOptPath = function(x.names, y.names, minimize) {
   new("OptPath", x.names, y.names, minimize)
 }
@@ -143,7 +158,6 @@ param.to.position <- function(op, x, cand) {
 #'   List of parameter settings for a point in input space.   
 #' @param eol [integer(1)] \cr 
 #'   End of life of point. 
-#' @export 
 #' @return NULL, this function is called for its side effect, namely
 #'   modifing the optimization path.
 setEoL = function(op, x, eol) {

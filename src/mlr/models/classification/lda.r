@@ -70,7 +70,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			p <- predict(.model["learner.model"], newdata=.newdata, ...)
+			p <- predict(.model@learner.model, newdata=.newdata, ...)
 			if(.type=="response")
 				return(p$class)
 			else

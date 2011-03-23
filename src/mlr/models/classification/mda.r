@@ -82,7 +82,7 @@ setMethod(
   
   def = function(.learner, .model, .newdata, .type, ...) {
     .type <- ifelse(.type=="response", "class", "posterior")
-    predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
+    predict(.model@learner.model, newdata=.newdata, type=.type, ...)
   }
 )	
 

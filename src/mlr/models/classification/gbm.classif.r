@@ -81,7 +81,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			m = .model["learner.model"]
+			m = .model@learner.model
 			p = predict(m, newdata=.newdata, type="response", n.trees=length(m$trees), single.tree=FALSE, ...)
 			levs = c(.model["negative"], .model["positive"])
 			if (.type == "prob") {

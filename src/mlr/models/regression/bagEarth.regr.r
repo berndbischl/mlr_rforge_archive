@@ -52,7 +52,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			predict.bagEarth(.model["learner.model"], newdata=.newdata)
+			predict.bagEarth(.model@learner.model, newdata=.newdata)
 		}
 )
 

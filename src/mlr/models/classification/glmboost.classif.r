@@ -80,7 +80,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			type = ifelse(.type=="response", "class", "response")
-			p = predict(.model["learner.model"], newdata=.newdata, type=type, ...)
+			p = predict(.model@learner.model, newdata=.newdata, type=type, ...)
 			if (.type == "prob") {
 				p = p[,1]
 				y = matrix(0, ncol=2, nrow=nrow(.newdata))

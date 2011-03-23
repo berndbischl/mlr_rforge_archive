@@ -74,7 +74,7 @@ setMethod(
 			time.predict = as.numeric(NA)
 			
 			# was there an error in building the model? --> return NAs
-			if(is(model["learner.model"], "FailureModel")) {
+			if(is(model@learner.model, "FailureModel")) {
 				p = predict_nas(wl, model, newdata, type, levs, td)
 				time.predict = as.numeric(NA)
 			} else {
@@ -95,8 +95,8 @@ setMethod(
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
 				# todo: capture outout, see learner sda
-				if(is(model["learner.model"], "novars")) {
-					p = predict_novars(model["learner.model"], newdata, type)
+				if(is(model@learner.model, "novars")) {
+					p = predict_novars(model@learner.model, newdata, type)
 					time.predict = 0
 				} else {
 					if (.mlr.local$errorhandler.setup$on.learner.error == "stop")

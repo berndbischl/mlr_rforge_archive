@@ -63,7 +63,7 @@ setMethod(
   ),
   
   def = function(.learner, .model, .newdata, ...) {
-    m = .model["learner.model"]
+    m = .model@learner.model
     pars = list(train=m$train$data, test=.newdata, y=m$train$target)  
     pars = c(pars, m$parset, list(...))
     do.call(FNN::knn.reg, pars)$pred

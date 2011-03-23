@@ -110,7 +110,7 @@ setMethod(
   ),
   
   def = function(.learner, .model, .newdata, .type, ...) {
-    models = .model["learner.model"]
+    models = .model@learner.model
     cm = models[[length(models)]]
     k = length(models)-1
     p = matrix(0, nrow(.newdata), ncol=k)

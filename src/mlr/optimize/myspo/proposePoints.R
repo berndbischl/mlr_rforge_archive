@@ -4,7 +4,7 @@
 #todo: round ints for cmaes + EI
 # todo: use CL when more than 1 point in EI 
 proposePoints = function(model, par.set, control, opt.path) {
-  lm = model["learner.model"] 
+  lm = model@learner.model 
   low = lower(par.set)
   upp = upper(par.set)
   if (control@propose.points.method == "seq.design") {

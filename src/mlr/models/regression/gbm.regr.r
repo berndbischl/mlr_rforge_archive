@@ -67,7 +67,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			m <- .model["learner.model"]
+			m <- .model@learner.model
 			predict(m, newdata=.newdata, n.trees=length(m$trees), ...)
 		}
 )	

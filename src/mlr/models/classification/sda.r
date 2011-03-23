@@ -69,7 +69,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			p = predict(.model["learner.model"], as.matrix(.newdata))
+			p = predict(.model@learner.model, as.matrix(.newdata))
 			if(.type == "response")
 				return(p$class)
 			else

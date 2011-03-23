@@ -52,7 +52,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			predict(.model["learner.model"], newdata=.newdata, ...)
+			predict(.model@learner.model, newdata=.newdata, ...)
 		}
 )	
 

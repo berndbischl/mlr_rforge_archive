@@ -56,7 +56,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, ...) {
-			m <- .model["learner.model"]
+			m <- .model@learner.model
 			f = m$td["formula"]
 			# this is stupid but kknn forces it....
 			.newdata[, m$td@target] <- 0

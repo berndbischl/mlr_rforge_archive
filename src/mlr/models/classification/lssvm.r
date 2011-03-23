@@ -102,7 +102,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			.type <- switch(.type, decision="decision", "response")
-			predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
+			predict(.model@learner.model, newdata=.newdata, type=.type, ...)
 		}
 )	
 

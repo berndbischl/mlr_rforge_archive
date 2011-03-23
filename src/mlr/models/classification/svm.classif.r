@@ -79,9 +79,9 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			if(.type=="response") {
-				p = predict(.model["learner.model"], newdata=.newdata, ...)
+				p = predict(.model@learner.model, newdata=.newdata, ...)
 			} else {
-				p = predict(.model["learner.model"], newdata=.newdata, probability=TRUE, ...)
+				p = predict(.model@learner.model, newdata=.newdata, probability=TRUE, ...)
 				p = attr(p, "probabilities")
 			}
 			return(p)

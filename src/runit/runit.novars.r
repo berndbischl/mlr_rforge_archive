@@ -2,7 +2,7 @@ test.novars <- function() {
   ct = subset(multiclass.task, vars=c())
 	wl = makeLearner("classif.lda", predict.type="prob")
 	m = train(wl, ct)
-  checkTrue(is(m["learner.model"], "novars"))	
+  checkTrue(is(m@learner.model, "novars"))	
   checkTrue(is(m@learner, "classif.lda"))	
 	checkEquals(m@learner["predict.type"], "prob")	
 	p = predict(m, newdata=multiclass.df)

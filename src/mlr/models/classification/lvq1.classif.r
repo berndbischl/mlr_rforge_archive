@@ -74,7 +74,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
-			lvqtest(.model["learner.model"], test=.newdata, ...)
+			lvqtest(.model@learner.model, test=.newdata, ...)
 		}
 )	
 

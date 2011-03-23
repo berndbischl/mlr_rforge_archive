@@ -26,7 +26,7 @@ setMethod(
   ),
   
   def = function(.learner, .model, .newdata, .type, ...) {
-    models = .model["learner.model"]
+    models = .model@learner.model
     p = sapply(models, function(m) predict(m, newdata=.newdata,  ...)@df$response)
     p = rowMeans(p)
   }

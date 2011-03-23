@@ -22,7 +22,7 @@ test.benchmark <- function() {
 		checkTrue(is.list(bm$res.result))
 		checkEquals(length(bm$res.result$models), 1)
 		checkTrue(is(bm$res.result$models[[1]], "WrappedModel"))
-		checkTrue(is(bm$res.result$models[[1]]["learner.model"], "rpart"))
+		checkTrue(is(bm$res.result$models[[1]]@learner.model, "rpart"))
     
     bm = .mlr.benchmark(wl, ct, outer, models=FALSE)
     checkTrue(is.null(bm$res.result$models))

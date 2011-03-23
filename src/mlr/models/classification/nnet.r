@@ -87,7 +87,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			.type = switch(.type, response="class", prob="raw")
-			p = predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
+			p = predict(.model@learner.model, newdata=.newdata, type=.type, ...)
 			if (.type == "class")
 				return(as.factor(p))
 			else {

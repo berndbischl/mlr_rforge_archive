@@ -72,7 +72,7 @@ setMethod(
   def = function(.learner, .model, .newdata, ...) {
     # shogun wants features in as column vectors
     .newdata = t(as.matrix(.newdata))
-    m = .model["learner.model"]
+    m = .model@learner.model
     sg('set_features', 'TRAIN', m$traindat)
     sg('set_labels', 'TRAIN', m$y)
     sg('set_features', 'TEST', .newdata)

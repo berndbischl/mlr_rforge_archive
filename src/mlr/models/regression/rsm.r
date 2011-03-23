@@ -69,7 +69,7 @@ setMethod(
   ),
   
   def = function(.learner, .model, .newdata, ...) {
-    as.numeric(predict(.model["learner.model"], newdata=.newdata, ...))
+    as.numeric(predict(.model@learner.model, newdata=.newdata, ...))
   }
 )	
 

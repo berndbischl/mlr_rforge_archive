@@ -67,7 +67,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			
-			x = predict(.model["learner.model"], newdata=.newdata, type="response", ...)
+			x = predict(.model@learner.model, newdata=.newdata, type="response", ...)
 			levs = getClassLevels(.model)		
 			if (.type == "prob") {
 				y <- matrix(0, ncol=2, nrow=nrow(.newdata))

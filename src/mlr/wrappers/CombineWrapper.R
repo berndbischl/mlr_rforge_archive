@@ -53,7 +53,7 @@ setMethod(
   
   def = function(.learner, .model, .newdata, .type, ...) {
     a = unlist(.learner@par.vals)
-    models = .model["learner.model"]
+    models = .model@learner.model
     k = length(models)
     p = matrix(0, nrow(.newdata), ncol=length(getClassLevels(.model)))
     levs = getClassLevels(.model)

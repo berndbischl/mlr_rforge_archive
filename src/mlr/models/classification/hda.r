@@ -66,7 +66,7 @@
 #		#todo wie neue daten vorhersagen?
 #		def = function(.learner, .model, .newdata, .type, ...) {
 #			.type = ifelse(.type=="response", "class", "raw")
-#			m = .model["learner.model"]
+#			m = .model@learner.model
 #			predict(m$naivebayes, m$hda.scores, newdata=.newdata, type=.type, ...)
 #		}
 #)	

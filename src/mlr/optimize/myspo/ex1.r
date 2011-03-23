@@ -17,7 +17,7 @@ set.seed(1)
 x = seq(-30,30, 0.1)
 y1 = sapply(x, f1)
 y2 = sapply(x, f2)
-p = predict(z$m["learner.model"], newdata=matrix(x, ncol=1), type="UK")
+p = predict(z$m@learner.model, newdata=matrix(x, ncol=1), type="UK")
 g = data.frame(x=x, y1=y1, y2=y2)
 
 plot(g$x, g$y1, type="l")

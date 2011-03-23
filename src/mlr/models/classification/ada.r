@@ -98,7 +98,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			.type <- ifelse(.type=="response", "vector", "prob")
-			p = predict(.model["learner.model"], newdata=.newdata, type=.type, ...)
+			p = predict(.model@learner.model, newdata=.newdata, type=.type, ...)
 			if (.type == "prob")
 				colnames(p) = getClassLevels(.model) 
 			return(p)

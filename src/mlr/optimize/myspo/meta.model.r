@@ -20,7 +20,7 @@ pred.meta.model = function(meta.model, des) {
 } 
 
 sigma.meta.model = function(meta.model, des) {
-  m = meta.model["learner.model"]
+  m = meta.model@learner.model
   p = predict(m, newdata=des, predict.all=TRUE)
   pmean = p$aggregate
   pind = p$individual

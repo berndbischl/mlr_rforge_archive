@@ -83,14 +83,14 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, .type, ...) {
 			if (.type == "prob") {
-				m = .model["learner.model"]
+				m = .model@learner.model
 				p = treeresponse(m, newdata=.newdata, ...)
 				p = Reduce(rbind, p)
 				rownames(p) = NULL
 				colnames(p) = m@responses@levels[[.model@desc@target]]
 				return(p)
 			} else 
-				predict(.model["learner.model"], newdata=.newdata, ...)
+				predict(.model@learner.model, newdata=.newdata, ...)
 			
 		}
 )
