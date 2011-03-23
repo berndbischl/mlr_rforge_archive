@@ -44,6 +44,7 @@
 #'      Note that kernel parameters have to be passed directly and not by using the kpar list in ksvm.}  
 #' 		\item{\bold{regr.lasso}}{\cr Lasso regression from penalized package: \code{\link[penalized]{penalized}}}
 #' 		\item{\bold{regr.lm}}{\cr Simple linear regression from stats package: \code{\link[stats]{lm}}}
+#'    \item{\bold{regr.logicreg}}{\cr Logic regression from LogicReg package: \code{\link[LogicReg]{logreg}}}
 #'    \item{\bold{regr.nnet}}{\cr Neural Network from nnet package: \code{\link[nnet]{nnet}}}
 #' 		\item{\bold{regr.randomForest}}{\cr Random Forest from randomForest package: \code{\link[randomForest]{randomForest}}}
 #' 		\item{\bold{regr.ridge}}{\cr Ridge regression from penalized package: \code{\link[penalized]{penalized}}}

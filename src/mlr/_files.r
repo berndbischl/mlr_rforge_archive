@@ -200,7 +200,8 @@ pack.files = c(
     "mlr/models/regression/krigdice.forrester.r",
     "mlr/models/regression/lasso.r",
 		"mlr/models/regression/lm.r",
-		"mlr/models/regression/mars.regr.r",
+    "mlr/models/regression/logicreg.regr.r",
+    "mlr/models/regression/mars.regr.r",
     "mlr/models/regression/nnet.regr.r",
     "mlr/models/regression/pcr.r",
 		"mlr/models/regression/randomForest.regr.r",
@@ -226,14 +227,12 @@ load.all.libs <- function() {
 	library(ada)
 	library(mboost)
 	library(mda)
-	library(gbm)
 	library(penalized)
 	library(mlbench)
 	library(reshape)
 	library(klaR)
 	library(snowfall)
 	library(nnet)
-	library(RWeka)
 	library(party)
 	library(earth)
 	library(cmaes)

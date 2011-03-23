@@ -13,7 +13,7 @@ writeDesc <- function(desc.path, rev.nr) {
     "License: GPL (>= 2)\n",
     "LazyLoad: yes\n",
     "Depends: R (>= 2.8.0), methods, reshape, abind, boot, klaR, e1071, digest\n",
-    "Suggests: MASS, snowfall, multicore, Rmpi, mlbench, cmaes, FSelector, kernlab, rpart, randomForest, adabag, kknn, ada, adabag, party, mboost, mda, gbm, nnet, penalized, RWeka, grplasso, earth, sda, DiceKriging, DiceOptim, pls, foreign, gplots, rsm, penalizedSVM\n",
+    "Suggests: MASS, snowfall, multicore, Rmpi, mlbench, cmaes, FSelector, kernlab, rpart, randomForest, adabag, kknn, ada, adabag, party, mboost, mda, gbm, nnet, penalized, RWeka, grplasso, earth, sda, DiceKriging, DiceOptim, pls, foreign, gplots, rsm, penalizedSVM, LogicReg\n",
     sep=""
   )
   sink(NULL)
