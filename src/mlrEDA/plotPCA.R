@@ -12,14 +12,13 @@
 #' @seealso \code{\link{makeVarselWrapper}} 
 #' @title Variable selection.
 
-plotPCA = function(data, target, exclude=character(0), scale=TRUE) {
-  j = which(colnames(data) %in% c(target, exclude))
-  i = sapply(data, function(x) !is.numeric(x))
-  k = union(i,j)
-  if (ncol(data) - length(k) < 3)
-    stop("There should be at least 3 numeric columns for PCA!") 
-  data = data[, -union(i,j)]
-  pr = prcomp(data, scale = TRUE)
-  screeplot(pr, type="lines", main="PCA Screeplot")
+plotPCA = function(data, target, exclude=character(0), scale=TRUE, ...) {
+  x = generatePCAResult(data, target, exclude, scale)
+  plot(x, ...)
+}
+
+
+plot.PCAResult = function(x, ...) {
+  screeplot(x, type="lines", ...)
 }
 

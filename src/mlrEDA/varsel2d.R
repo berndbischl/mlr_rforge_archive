@@ -30,50 +30,13 @@
 #' @seealso \code{\link{makeVarselWrapper}} 
 #' @title Variable selection.
 
-varsel2d <- function(learner, task, resampling, measures, control, pairs, remove) {
-  if (is.character(learner))
-    learner <- makeLearner(learner)
-  if (is(resampling, "ResampleDesc") && control@same.resampling.instance)
-    resampling = makeResampleInstance(resampling, task=task)
-  if (missing(measures))
-    measures = mlr:::default.measures(task)
-  if (is(measures, "Measure"))
-    measures = list(measures)   
-  if (!(is(control, "VarselControlSequential") && control@method == "sfs"))
-    stop("'control' must be VarselControlSequential with method 'sfs'!")
-  # todo: document this! really do this? maybe dont have the user pass the control...!
-  control@alpha = -Inf
-  control@max.vars = 2L  
-  if (missing(pairs))
-    pairs = 4L
-  if (missing(remove))
-    remove = 1L
-  if (!(remove == 1 || remove == 2))
-    stop("'remove' must be 1 or 2!")
-  
-  ors = list()
-  errs = matrix(TRUE, nrow=task["size"], pairs)
-  mode(errs) = "logical"
-  
-  for (i in 1:pairs) {
-    bit.names = mlr:::getFeatureNames(task)
-    if (length(bit.names) < 2)
-      stop("Not enough features left to find another pair!")
-    bits.to.features = function(x, task) binary.to.vars(x, bit.names)
-    opt.path = makeOptPathFromMeasures(bit.names, measures)
-    ors[[i]] = varsel(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path)
-    task2d = subset(task, vars=ors[[i]]@x)
-    r = resample(learner, task2d, resampling)
-    e = r$pred@df$truth != r$pred@df$response
-    errs[,i] = e[order(r$pred["id"])]
-    vars = setdiff(bit.names, ors[[i]]@x[1:remove])
-    task = subset(task, vars=vars)
-  } 
-  return(list(ors=ors, errs=errs))
+plotVarsel2d = function(learner, task, resampling, measures, control, pairs, remove) {
+  x = generateVarsel2Result(learner, task, resampling, measures, control, pairs, remove)
+  plot(x)
 }
 
 # todo: for regression cut thru y: high, medium, low
-plot.varsel2d = function(task, ors, trafo.x=identity, trafo.y=identity) {
+plot.Varsel2dResult = function(task, ors, trafo.x=identity, trafo.y=identity) {
   df = data.frame()
   for (i in 1:length(ors)) {
     or = ors[[i]]
@@ -85,8 +48,6 @@ plot.varsel2d = function(task, ors, trafo.x=identity, trafo.y=identity) {
     v2 = trafo.x(v2)
     df = rbind(df, data.frame(plot=i, v1=v1, v2=v2, y=y, errs=errs[,i]))
   }
-  
-  plot2d()
   
   
   df$plot = as.factor(df$plot)

@@ -9,22 +9,13 @@
 #'   the number of factor levels.
 #' 
 #' @export
-#' @seealso \code{\link{makeVarselWrapper}} 
-#' @title Variable selection.
-
+#' @title Multi-dimensional scaling.
 plotMDS = function(data, target, exclude=character(0), metric) {
-	## not sure if realy needed:
-	require(cluster)
-	require(ggplot2)
-  j = which(colnames(data) == target)
-  if (missing(metric))
-    d = daisy(data[, -j])
-  else
-    d = daisy(data[, -j], metric=metric)
-  s = as.data.frame(cmdscale(d))
-  colnames(s) = c("mds.x1", "mds.x2")
-  s[, target] = data[, target]
-  ggplot(s, aes_string(x="mds.x1", y="mds.x2", colour=target)) + geom_point()
-  
+  x = generateMDSResult(data, target, exclude, metric)
+  plot(x)
+}
+
+plot.MDSResult = function(x) {
+  ggplot(x, aes_string(x="mds.x1", y="mds.x2", colour=colnames(x)[3])) + geom_point()
 }
 
