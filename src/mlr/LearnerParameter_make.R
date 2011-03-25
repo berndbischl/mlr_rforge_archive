@@ -179,10 +179,10 @@ learner.parameter.from.parameter <- function(p, default, when, flags, requires) 
   if (!is.expression(requires))
     stop("'requires' must be an R expression.")
   if (!missing(default) && !isFeasible(p, default))
-    stop("'default' must be missing or a feasible parameter setting.")  
+    stop(p@id, " : 'default' must be missing or a feasible parameter setting.")  
   check.arg(when, "character", 1)
   
-  pp <- new("LearnerParameter",
+  new("LearnerParameter",
             id=p@id, type=p@type, constraints=p@constraints,
             has.default=!missing(default),
             default=if (missing(default)) NULL else default,
