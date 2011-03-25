@@ -98,12 +98,62 @@ allowed.rd.files <<- c(
 		"as.ROCR.preds.Rd",
     "iters.Rd",
     
+#		"set.train.par.Rd",
+#		"set.predict.par.Rd",
+#
+
 		"BaseWrapper-class.Rd",
+		"OptWrapper-class.Rd",
+    "makeTuneWrapper.Rd",
+    "makeVarselWrapper.Rd",
+    #		"PreprocWrapper-class.Rd",
 		"makePreprocWrapper.Rd",
 		"makeMulticlassWrapper.Rd",
     "MulticlassWrapper-class.Rd",
     "makeProbthWrapper.Rd",
-    "ProbthWrapper-class.Rd"
+    "ProbthWrapper-class.Rd",
+    "makeFilterWrapper.Rd",
+		"FilterWrapper-class.Rd",
+		
+		"OptControl-class.Rd",
+		"opt.result-class.Rd",
+		
+		"tune.Rd",
+		"tune.threshold.Rd",
+		"TuneControl-class.Rd",
+    "TuneControlGrid-class.Rd",
+    "makeTuneControlGrid.Rd",
+#		"ps.control.Rd",
+    "TuneControlOptim-class.Rd",
+    "makeTuneControlOptim.Rd",
+    "TuneControlCMAES-class.Rd",
+    "makeTuneControlCMAES.Rd",
+    "TuneControlSPO-class.Rd",
+    "makeTuneControlSPO.Rd",
+    
+		"VarselControl-class.Rd",
+		"VarselControlSequential.Rd",
+    "makeVarselControlSequential.Rd",
+    "VarselControlRandom.Rd",
+    "makeVarselControlRandom.Rd",
+    "VarselControlExhaustive.Rd",
+    "makeVarselControlExhaustive.Rd",
+    "varsel.Rd",
+    "varfilter.Rd",
+		
+		"bench.exp.Rd",
+		"bench.result-class.Rd",
+    "getTunedParameters.Rd",
+    "getSelectedFeatures.Rd",
+    "bench.result-class.Rd",
+    
+    "makeDesign.Rd",
+    "OptPath-class.Rd",
+    "addPathElement.Rd",
+    "getBestElement.Rd",
+    "SPOControl-class.Rd",
+    "makeSPOControl.Rd",
+    "spo.Rd"
 )		
 
 	

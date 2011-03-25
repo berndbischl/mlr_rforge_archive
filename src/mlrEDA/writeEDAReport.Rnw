@@ -8,18 +8,20 @@
 
 \begin{document}
 
-<<label=Summary,echo=FALSE,results=tex>>=
-print(xtable(summarizeData(.sweave.data), caption = "Summary of features"))
-@
+<%=
+  print(xtable(summarizeData(.sweave.data), caption = "Summary of features"))
+%>  
 
-\begin{figure}
-\setkeys{Gin}{width=0.75\textwidth}
-\begin{center}
-\caption{MDS Plot}
-<<echo=FALSE,fig=TRUE>>=
-print(plotMDS(.sweave.data, .sweave.target))
-@
-\end{center}
+
+<%
+  pdf(file="rep_mds.pdf")
+  print(plotMDS(.sweave.data, .sweave.target))
+  dev.off()
+%>
+
+\begin{figure}\centering
+\includegraphics{"rep_mds.pdf"}
+\caption(Multi-dimensional scaling.)
 \end{figure}
 
 \end{document}
