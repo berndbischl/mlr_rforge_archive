@@ -1,84 +1,32 @@
-#' Summarizes a data.frame, somewhat differently than the normal summary function of R.
-#'
-#' @param data [\code{data.frame}]\cr 
-#'   Data to summarize. Columns can be of type numeric, integer, logical, factor, character or Date. 
-#'   Characters and logicals will be treated as factors.   
-#' @param start.date [named \code{Date} or \code{character} vector | single \code{Date} or \code{character}]\cr 
-#'   Dates are converted to days passed since a start date to compute mean values, etc. 
-#'   If this argument is missing, the start date is the minimal date of the feature. 
-#'   Either pass a single Date (which will be
-#'   replicated for all Date features) or a named vector of dates, which contains an element for every
-#'   Date feature in \code{data}. If this argument is a character it will be converted to \code{Date}.
-#'   Per default \code{start.date} is missing.    
-#' @return A \code{data.frame} with the columns: 'name', 'type', 'na', 'disp', 'mean', 'min', 'max', 'nlevs'.
-#'   'disp' is a measure of dispersion, for numerics and integers \code{\link{sd}} is used, for 
-#'   categorical columns the unstandardized index of qualitative variation M1 is computed. 
-#'   'min' and 'max' for factors are the sizes of the smallest / largest category.
-#'   'nlevs' is the number of factor levels.
-#' 
-#' @export
-#' @title Summarize a data.frame.
-
-summarizeData = function(data, start.date) {
-  iqv = function(x) {
-    #todo: remove empty levels
-    k = length(levels)
-    1 - sum(prop.table(table(x))^2)
-  }
-  n = ncol(data)
-  cns = colnames(data)
-  res = data.frame(name=character(n), type=character(n), na=integer(n), 
-    disp=numeric(n), mean=numeric(n), median=numeric(n), 
-    min=numeric(n), max=numeric(n), nlevs=integer(n), stringsAsFactors=FALSE)
-  date.names =  names(which(sapply(data, function(x) is(x, "Date"))))
+summarizeData = function(data, target ) { 
+  matrix1 =data.frame(matrix(0,ncol=22,nrow=1))
+  colnames(matrix1) =c("ds", "n.obs", "n.classes", "n.minclass", "n.maxclass", "q.maxminclass", 
+    "n.inputs", "n.nums","q.nums","n.ints","q.ints","n.fac","q.fac", "n.char","q.char", 
+    "n.narows","maxnarow","q.maxnarow","n.nacols","maxnacol","q.maxnacol", "n.nas")
+  NAs = sum(is.na(data))
+  rows.with.missings = sum(apply(data, 1, function(x) any(is.na(x))))
+  cols.with.missings = sum(apply(data, 2, function(x) any(is.na(x))))
+  numerics = sum(sapply(data, is.numeric))
+  integers = sum(sapply(data, is.integer))
+  factors = sum(sapply(data, is.factor))
+  characters = sum(sapply(data, is.character))
+  class =length(unique(as.numeric(data[,target])))
+  min.class = min(table(data[,target]))
+  max.class = max(table(data[,target]))
+  maxmin.class = max.class/min.class
+  obs = length(data[,target])
+  input = length(data)
+  numinput = numerics/input
+  intinput = integers/input
+  facinput = factors/input
+  charinput = characters/input
+  maxnarow = max(apply(data, 1, function(x) sum(is.na(x))))
+  q.maxnarow = maxnarow/(ncol(data)-1)
+  maxnacol = max(apply(data, 2, function(x) sum(is.na(x))))
+  q.maxnacol = maxnacol/nrow(data)
   
-  if (missing(start.date)) {
-    start.date = na.omit(sapply(data, function(x) 
-          if(is(x, "Date")) min(unclass(x), na.rm=TRUE) else NA))
-  } else {
-    if (is.character(start.date))
-      start.date = as.Date(start.date)
-    if (length(start.date) == 1) {
-      start.date = rep(start.date, length(date.names))
-      names(start.date) = date.names
-    }
-    if (!all(names(start.date) %in% cns))
-      stop("start.date has wrong names!")
-  }
-  
-  for (i in 1:n) {
-    x = data[,i]
-    res[i, "na"] = sum(is.na(x))
-    x = na.omit(x)
-    res[i, "name"] = cns[i]
-    res[i, "type"] = class(x)[1]
-    if (is.numeric(x) | is.integer(x)) {
-      res[i, "disp"] = sd(x) 
-      res[i, "mean"] = mean(x) 
-      res[i, "median"] = median(x) 
-      res[i, "min"] = min(x) 
-      res[i, "max"] = max(x) 
-      res[i, "nlevs"] = as.integer(NA) 
-    }else if (is(x, "Date")) {
-      x = unclass(x) - unclass(start.date[cns[i]])
-      res[i, "disp"] = sd(x) 
-      res[i, "mean"] = mean(x) 
-      res[i, "median"] = median(x) 
-      res[i, "min"] = min(x) 
-      res[i, "max"] = max(x) 
-      res[i, "nlevs"] = as.integer(NA) 
-    } else if (is.factor(x) | is.logical(x) | is.character(x)) {
-      x = as.factor(x)
-      tab = table(x)
-      res[i, "disp"] = iqv(x)
-      res[i, "mean"] = NA 
-      res[i, "median"] = NA 
-      res[i, "min"] = min(tab) 
-      res[i, "max"] = max(tab) 
-      res[i, "nlevs"] = length(levels(x))  
-    } else {
-      stop("Unsupported column class: ", class(x))
-    }
-  }
-  return(res)
+  matrix1[1,2:ncol(matrix1)] =c(obs,class,min.class,max.class,maxmin.class,input,numerics,numinput,
+    integers,intinput,factors,facinput,characters,charinput,
+    rows.with.missings,maxnarow,q.maxnarow,cols.with.missings,maxnacol,q.maxnacol,NAs)
+  return(matrix1)
 }

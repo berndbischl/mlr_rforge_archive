@@ -1,0 +1,42 @@
+<html>
+
+<body>
+<h3>Summary of features</h3>
+<%
+  print(xtable(summarizeData(data)), type="html")
+%>  
+
+<%
+  png(file="rep_mds.png")
+  print(plotMDS(data, target))
+  dev.off()
+%>
+<h3>Multi-Dimensional scaling</h3>
+<img src="rep_mds.png">
+
+<%
+  png(file="rep_pca.png")
+  plotPCA(data, target)
+  dev.off()
+%>
+<h3>PCA scree plot</h3>
+<img src="rep_pca.png">
+
+
+
+<%#
+  cns = colnames(data)
+  for (i in 1:ncol(data)) {
+    plotFeatureDistrib(cns[i], data[,i], data, target)
+  }
+  png(file="rep_pca.png")
+  plotPCA(data, target)
+  dev.off()
+%>
+
+
+
+</body>
+</html>
+
+
