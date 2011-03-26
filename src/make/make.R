@@ -143,5 +143,10 @@ source("src/make/rev.nr.r")
 source("src/make/remove.r")
 source(sprintf("src/make/desc_%s.R", pack))
 
+if (!exists("build")) build <- TRUE
+if (!exists("check")) check <- TRUE
+if (!exists("binary")) binary <- FALSE
+if (!exists("install")) install <- FALSE
+
 make(pack, build=build, check=check, binary=binary, install=install)
 
