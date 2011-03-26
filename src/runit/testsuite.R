@@ -1,5 +1,5 @@
 
-source("src/mlr/helpers.r")
+source("src/_helpers/helpers.r")
 source("src/runit/mlr/helpers.r")
 source("src/runit/mlr/make.runit.tests.r")
 
@@ -15,14 +15,20 @@ if (use.package) {
   ts.dirs = c("src/runit", "src/runit/parallel")  
   ts.file.regexp = "^runit.*"
 } else {
-  if (file.exists("src/testsuite.config.r")) {
-    source("src/testsuite.config.r")    
+  ts.dirs = "src/runit"
+  if (file.exists("src/runit/testsuite_config.R")) {
+    source("src/runit/testsuite_config.R")    
   } else {
-    ts.dirs = "src/runit"
     ts.file.regexp = "^runit.*"
   }
   source("src/mlr/_files.r")
-  load.all.libs()
+  library(abind)
+  library(RUnit)
+  library(MASS)
+  library(e1071)
+  library(boot)
+  library(mlbench)
+  library(reshape)
   for (f in pack.files) {
     source(file.path("src", f))
   }
@@ -70,8 +76,8 @@ regr.task <- makeRegrTask("regrtask", data=BostonHousing, target="medv")
 debug.seed <<- .mlr.local$debug.seed
 
 testsuite.mlr <- defineTestSuite("mlr",
-    dirs = ts.dirs,  
-    testFileRegexp = ts.file.regexp
+    dirs = file.path("src", "runit", runit.pack),  
+    testFileRegexp = runit.regexp
 )
 
 testResult <- runTestSuite(testsuite.mlr)

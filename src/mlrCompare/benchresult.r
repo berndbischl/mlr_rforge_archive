@@ -239,3 +239,8 @@ setMethod(
 )
 
 
+#' @rdname iters
+#' @return [integer(number of tasks)] Iterations per task.
+setMethod(f = "iters", signature = signature("bench.result"), def = function(x) sapply(x@resamplings, function(y) y@desc@iters))
+
+

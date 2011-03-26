@@ -74,7 +74,6 @@ allowed.rd.files <<- c(
     "Measure-class.Rd",
     "setAggregation.Rd",
     "makeMeasure.Rd",
-    "makeCostMeasure.Rd",
     "measures.Rd",
 		"losses.Rd",
 		

@@ -28,7 +28,4 @@ setMethod(f = "iters", signature = signature("ResampleDesc"), def = function(x) 
 #' @return [integer(1)]
 setMethod(f = "iters", signature = signature("ResampleInstance"), def = function(x) x@desc@iters)
 
-#' @rdname iters
-#' @return [integer(number of tasks)] Iterations per task.
-setMethod(f = "iters", signature = signature("bench.result"), def = function(x) sapply(x@resamplings, function(y) y@desc@iters))
 

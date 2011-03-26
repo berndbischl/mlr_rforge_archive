@@ -1,9 +1,9 @@
 pack.files = c(
-		"mlr/log/log.r",
+    "_helpers/helpers.r",
+    "mlr/log/log.r",
 		"mlr/errorhandler.r",
 ##		"mlr/packagedesc.r",
 		"mlr/aaa.r",
-		"mlr/helpers.r",
     "mlr/empty.r",
 #		"mlr/to.string.r",
 		"mlr/object.r",
@@ -15,7 +15,6 @@ pack.files = c(
 		"mlr/RegrTask.R",
 		"mlr/makeClassifTask.R",
     "mlr/makeRegrTask.R",
-    "mlr/check.costs.r",
     
 		"mlr/Parameter.R",
     "mlr/Parameter_make.R",
@@ -51,7 +50,6 @@ pack.files = c(
     "mlr/aggregations.R",
     "mlr/Measure.R",
     "mlr/Measure_make.R",
-    "mlr/Measure_make_cost.R",
     "mlr/measures.R",
 		"mlr/setAggregation.R",
     "mlr/performance.r",
@@ -89,35 +87,12 @@ pack.files = c(
     "mlr/rocr/ROCR_performance_plots.R",
     "mlr/rocr/ROCR_mlr_plots.r",
 
-    "mlr/optml/OptControl.R",
-    "mlr/optml/opt.result.r",
-    "mlr/optml/optml.helpers.r",
-    "mlr/optml/tune.helpers.r",
-    "mlr/optml/varsel.helpers.r",
-    "mlr/optml/OptModel.R",
-    
-    "mlr/optimize/OptPath.R",
-    "mlr/optimize/makeDesign.R",
-    "mlr/optimize/myspo/makeSPOFunction.R",
-    "mlr/optimize/myspo/SPOControl.R",
-    "mlr/optimize/myspo/proposePoints.R",
-    "mlr/optimize/myspo/chooseFinalPoint.R",
-    "mlr/optimize/myspo/spo.R",
-    
 		"mlr/wrappers/BaseWrapper.R",
-    "mlr/wrappers/OptWrapper.R",
     "mlr/wrappers/PreprocWrapper.R",
 		"mlr/wrappers/MulticlassWrapper.R",
     "mlr/wrappers/ProbthWrapper.R",
     
-		
-#		"mlr/varsel/varsel.helpers.r",
-		"mlr/varsel/novars.r",
-    
-		
-		"mlr/modelcompare/benchmark.r",
-		"mlr/modelcompare/benchexp.r",
-		"mlr/modelcompare/benchresult.r",
+		"mlr/novars.r",
 		
 		"mlr/parallel/export.r",
 		"mlr/parallel/eval.r",
@@ -182,31 +157,3 @@ pack.files = c(
     "mlr/models/regression/rsm.r",
     "mlr/models/regression/rvm.regr.r"
 )
-
-
-load.all.libs <- function() {
-	library(abind)
-	library(RUnit)
-	library(MASS)
-	library(rpart)
-	library(e1071)
-	library(boot)
-	library(roxygen)
-	library(kernlab)
-	library(adabag)
-	library(kknn)
-	library(randomForest)
-	library(ada)
-	library(mboost)
-	library(mda)
-	library(penalized)
-	library(mlbench)
-	library(reshape)
-	library(klaR)
-	library(snowfall)
-	library(nnet)
-	library(party)
-	library(earth)
-	library(cmaes)
-}
-
