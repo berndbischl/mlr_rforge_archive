@@ -2,12 +2,10 @@
 roxygen()
 #' @include ResampleInstance.R
 roxygen()
-#' @include benchresult.r
-roxygen()
 
 
 #' Get number of iterations in resampling.
-#' @param x [\code{\linkS4class{ResampleDesc}} | \code{\linkS4class{ResampleInstance}} | \code{\linkS4class{bench.result}}] 
+#' @param x [\code{\linkS4class{ResampleDesc}} | \code{\linkS4class{ResampleInstance}}] 
 #'   Object to retrieve iterations from.
 #' @return Number of iterations. 
 #' @exportMethod iters
