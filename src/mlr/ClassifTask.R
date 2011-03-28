@@ -88,7 +88,6 @@ setMethod(
 							ifelse(length(getClassLevels(x)) == 2, paste("Positive class:", x["positive"], "\n"), ""),
               "Has weights: ", x["has.weights"], "\n", 
               "Has blocking: ", x["has.blocking"], "\n",
-              "Has costs: ", all(dim(x["costs"])!=0), "\n", 
               sep=""
 					)
 			)

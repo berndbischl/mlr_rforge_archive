@@ -22,7 +22,6 @@ roxygen()
 #'  \item{is.binary [boolean]}{Binary classification? NA if not classification.}
 #'  \item{has.weights [boolean]}{Are weights available in task for covariates?}
 #'  \item{has.blocking [boolean]}{Is blocking available in task for observations?}
-#'  \item{costs [matrix]}{Cost matrix, of dimension (0,0) if not available.}
 #'  \item{positive [character(1)]}{Positive class label for binary classification, NA else.}
 #'  \item{negative [character(1)]}{Negative class label for binary classification, NA else.}
 #' }
@@ -45,7 +44,6 @@ setClass(
         has.inf = "logical",
         has.weights = "logical",
         has.blocking = "logical",
-        costs = "matrix",
         positive = "character" 
 		)
 )
@@ -54,7 +52,7 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("task.desc"),
-  def = function(.Object, data, target, type, id, has.weights, has.blocking, costs, positive) {
+  def = function(.Object, data, target, type, id, has.weights, has.blocking, positive) {
     .Object@type = type
     .Object@id = id
     i = which(colnames(data) %in% c(target))
@@ -77,7 +75,6 @@ setMethod(
     
     .Object@has.weights = has.weights
     .Object@has.blocking = has.blocking
-    .Object@costs = costs
     .Object@positive = positive
     return(.Object)
   }
@@ -98,8 +95,6 @@ setMethod(
           return(setdiff(getClassLevels(x), x["positive"])) 
         else 
           return(as.character(NA))
-      if (i == "has.costs") 
-        if(x@type == "classif") return(all(dim(x@costs)!=0)) else return(as.logical(NA))
       
 			callNextMethod()
 		}

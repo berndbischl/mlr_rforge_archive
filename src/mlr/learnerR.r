@@ -31,8 +31,7 @@ setClass("rlearner.classif",
   contains = c("rlearner"),
   representation = representation(
     classes="logical",
-    predict="logical",
-    costs="logical"
+    predict="logical"
   )  
 )
 

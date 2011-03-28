@@ -56,9 +56,6 @@ setGeneric(
       blocking = factor(c())
     else 
       check.arg(blocking, "factor", nrow(data))
-    if (missing(costs)) 
-      costs = matrix(0,0,0)
-    check.arg(costs, "matrix")
     if (missing(positive))
       positive = as.character(NA)
     check.arg(positive, "character", 1)
@@ -81,11 +78,10 @@ setMethod(
     weights="numeric", 
     blocking="factor",
     control="prepare.control",
-    costs="matrix",
     positive="character"
   ),
   
-  def = function(id, data, target, exclude, weights, blocking, control, costs, positive) {
+  def = function(id, data, target, exclude, weights, blocking, control, positive) {
     
     checkWeightsAndBlocking(data, target, weights, blocking)    
     checkColumnNames(data, target, exclude)
@@ -95,7 +91,7 @@ setMethod(
     
     data = prep.data(TRUE, data, target, control)      
     
-    new("ClassifTask", id=id, target=target, data=data, weights=weights, blocking=blocking, control=control, costs=costs, positive=positive)
+    new("ClassifTask", id=id, target=target, data=data, weights=weights, blocking=blocking, control=control, positive=positive)
   }
 )
 

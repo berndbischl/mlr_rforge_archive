@@ -164,7 +164,7 @@ prep.data = function(is.classif, data, target, control) {
           warning("Converting target col. to numeric.")
         data[, target] = as.numeric(targets)
       } else {
-        stop("Unsuitable target col. for classification data!")       
+        stop("Unsuitable target col. for regression data!")       
       }
     } 
     targets = data[, target]

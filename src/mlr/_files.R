@@ -131,7 +131,6 @@ pack.files = c(
   "mlr/models/classification/rpart.classif.r",
   "mlr/models/classification/sda.r",
   "mlr/models/classification/svm.classif.r",
-  ##    "mlr/models/classification/metacost.r"
   
   ##########
   
