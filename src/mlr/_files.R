@@ -85,7 +85,6 @@ pack.files = c(
   "mlr/rocr/ROCR_performance_measures.R",
   "mlr/rocr/ROCR_performance.R",
   "mlr/rocr/ROCR_performance_plots.R",
-  "mlr/rocr/ROCR_mlr_plots.r",
   
   "mlr/wrappers/BaseWrapper.R",
   "mlr/wrappers/PreprocWrapper.R",

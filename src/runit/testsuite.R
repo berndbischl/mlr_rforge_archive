@@ -1,7 +1,7 @@
 
 source("src/_helpers/helpers.r")
-source("src/runit/mlr/helpers.r")
-source("src/runit/mlr/make.runit.tests.r")
+source("src/runit/helpers.R")
+source("src/runit/makeRUnitTests.R")
 
 if(!exists("use.package")) {
   use.package = !interactive()
@@ -10,29 +10,23 @@ if(!exists("use.package")) {
 if (use.package) {
   message("Using installed copy of mlr for tests!")
   require("mlr")
-  require("mlbench")
-  require("RUnit")
-  ts.dirs = c("src/runit", "src/runit/parallel")  
-  ts.file.regexp = "^runit.*"
 } else {
-  ts.dirs = "src/runit"
-  if (file.exists("src/runit/testsuite_config.R")) {
+  if (file.exists("src/runit/testsuite_config.R")) 
     source("src/runit/testsuite_config.R")    
-  } else {
-    ts.file.regexp = "^runit.*"
-  }
-  source("src/mlr/_files.r")
+  source("src/mlr/_files.R")
   library(abind)
-  library(RUnit)
   library(MASS)
   library(e1071)
   library(boot)
-  library(mlbench)
   library(reshape)
   for (f in pack.files) {
     source(file.path("src", f))
   }
 } 
+require("RUnit")
+require("mlbench")
+if(!exists(runit.regexp))
+  runit.regexp = "^runit.*"
 
 
 parallel.setup(mode="local")
@@ -75,7 +69,7 @@ regr.task <- makeRegrTask("regrtask", data=BostonHousing, target="medv")
 .mlr.local$debug.seed <- 12345
 debug.seed <<- .mlr.local$debug.seed
 
-testsuite.mlr <- defineTestSuite("mlr",
+testsuite.mlr <- defineTestSuite(runit.pack,
     dirs = file.path("src", "runit", runit.pack),  
     testFileRegexp = runit.regexp
 )
