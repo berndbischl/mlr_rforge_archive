@@ -22,14 +22,12 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("ClassifTask"),
-		def = function(.Object, id, target, data, weights, blocking, control=control, costs, positive) {
+		def = function(.Object, id, target, data, weights, blocking, control=control, positive) {
 			if (missing(data))
 				return(make.empty(.Object))
 			
-      check.costs(costs, levels(data[, target]))
-
       td = new("task.desc", data, target, "classif", id, 
-        length(weights) > 0, length(blocking) > 0, costs, as.character(NA))      
+        length(weights) > 0, length(blocking) > 0, as.character(NA))      
 
 			# init positive
 			pos = positive 

@@ -24,10 +24,6 @@ roxygen()
 #'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.
 #' @param control [\code{\linkS4class{prepare.control}}] \cr  
 #'   Optional control object used for preparing the data.frame. For defaults look at \code{\link{prepare.control}}.
-#' @param costs [matrix] \cr  
-#'   An optional matrix of misclassification costs to be used in the fitting process. 
-#'   If the used classifier can handle cost matrices it is passed down to its train function, otherwise it is ignored.
-#'   Rows indicate true classes, columns predicted classes.
 #' @param positive [character(1)] \cr   
 #'   Positive class for binary classification. Default is the first factor level of the target attribute. 
 #' 
@@ -41,7 +37,7 @@ roxygen()
 
 setGeneric(
   name = "makeClassifTask",
-  def = function(id, data, target, exclude, weights, blocking, control, costs, positive) {
+  def = function(id, data, target, exclude, weights, blocking, control, positive) {
     if(missing(id)) {
       id = deparse(substitute(data))
       if (!is.character(id) || length(id) != 1)

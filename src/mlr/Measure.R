@@ -23,7 +23,7 @@ roxygen()
 #' }
 #' 
 #' @exportClass Measure
-#' @seealso \code{\link{measures}}, \code{\link{makeMeasure}}, \code{\link{makeCostMeasure}}
+#' @seealso \code{\link{measures}}, \code{\link{makeMeasure}}
 #' @title Class for performance measures.
 
 

@@ -208,7 +208,7 @@ change.data = function(task, data) {
   task@dataenv$data = data
   d = task@desc
   task@desc = new("task.desc", data, d@target, d@type, d@id, 
-    d@has.weights, d@has.blocking, d@costs, d@positive)
+    d@has.weights, d@has.blocking, d@positive)
   return(task)
 } 
 
