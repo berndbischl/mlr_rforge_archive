@@ -65,16 +65,16 @@ setMethod(
 		def = function(.learner, .task, .subset,  ...) {
       f = .task["formula"]
       d = get.data(.task, .subset)
-      if (.task["has.costs"]) {
-        cm = .task["costs"]
-        # probably better to reorder the row/cols so they correspond with levels in d$target
-        levs = levels(d[, .task@desc@target]) 
-        cm = cm[levs, levs]
-        if (.task["has.weights"])
-          rpart(f, data=d, weights=.task["weights"][.subset], parms=list(loss=cm), ...)
-        else 
-          rpart(f, data=d, parms=list(loss=cm), ...)
-      } else
+#      if (.task["has.costs"]) {
+#        cm = .task["costs"]
+#        # probably better to reorder the row/cols so they correspond with levels in d$target
+#        levs = levels(d[, .task@desc@target]) 
+#        cm = cm[levs, levs]
+#        if (.task["has.weights"])
+#          rpart(f, data=d, weights=.task["weights"][.subset], parms=list(loss=cm), ...)
+#        else 
+#          rpart(f, data=d, parms=list(loss=cm), ...)
+#      } else
       if (.task["has.weights"])
         rpart(f, data=d, weights=.task["weights"][.subset], ...)
       else 
