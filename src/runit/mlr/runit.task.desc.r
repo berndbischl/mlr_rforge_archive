@@ -1,23 +1,17 @@
 
 test.task.desc <- function() {
-	costs = matrix(1:4, 2, 2)
-	rownames(costs) = colnames(costs) = c("M", "R") 
-	ct = makeClassifTask(target="Class", binaryclass.df, id="mytask", costs=costs, 
-			positive="M", exclude="V1")
+	ct = makeClassifTask(target="Class", binaryclass.df, id="mytask", positive="M", exclude="V1")
 	checkEquals(ct@desc@id, "mytask")	
-	checkEquals(ct["costs"], costs)	
 	checkEquals(ct["positive"], "M")	
 	checkEquals(ct["negative"], "R")
 
 	ct = makeClassifTask(target="Species", multiclass.df, id="mytask2")
 	checkEquals(ct@desc@id, "mytask2")	
-	checkEquals(dim(ct["costs"]), c(0,0))	
 	checkTrue(is.na(ct["positive"]))
 	checkTrue(is.na(ct["negative"]))
 	
 	rt = makeRegrTask(target="medv", regr.df, id="mytask3") 
 	checkEquals(rt@desc@id, "mytask3")	
-	checkEquals(dim(rt["costs"]), c(0,0))	
 	checkTrue(is.na(rt["positive"]))
 	checkTrue(is.na(rt["negative"]))
   
