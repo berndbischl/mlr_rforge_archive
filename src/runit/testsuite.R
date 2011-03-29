@@ -25,7 +25,7 @@ if (use.package) {
 } 
 require("RUnit")
 require("mlbench")
-if(!exists(runit.regexp))
+if(!exists("runit.regexp"))
   runit.regexp = "^runit.*"
 
 
@@ -69,11 +69,11 @@ regr.task <- makeRegrTask("regrtask", data=BostonHousing, target="medv")
 .mlr.local$debug.seed <- 12345
 debug.seed <<- .mlr.local$debug.seed
 
-testsuite.mlr <- defineTestSuite(runit.pack,
-    dirs = file.path("src", "runit", runit.pack),  
+testsuite = defineTestSuite(pack,
+    dirs = file.path("src", "runit", pack),  
     testFileRegexp = runit.regexp
 )
 
-testResult <- runTestSuite(testsuite.mlr)
+testResult <- runTestSuite(testsuite)
 
 printTextProtocol(testResult)
