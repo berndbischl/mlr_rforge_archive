@@ -3,7 +3,7 @@
 #' @param data [data.frame]\cr 
 #'   Data to summarize. Only \code{Date} columns will be considered.
 #' @param which [\code{data.frame}]\cr
-#'   Restrict resut to columns in \code{which}. 
+#'   Restrict result to columns in \code{which}. 
 #'   Default is all Date columns of \code{data}.   
 #'  
 #' @return [\code{data.frame}] with the columns 'na' (number of missing values),

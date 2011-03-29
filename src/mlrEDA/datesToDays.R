@@ -1,3 +1,15 @@
+#' @param POSIXcts.as [character(1)]\cr
+#'   Should POSIXct features be converted to either "seconds", "minutes", "hours", "days". Default is "seconds" since \code{Dates.origin}.
+#' @param POSIXcts.origin [character(1)]\cr
+#'   Reference point for \code{POSIXcts.as}. Default is \code{as.POSIXct("1970-01-01 01:00")}.
+} else if (is(v, "POSIXct")) {
+  # POSIXct
+  conv.posix = c(conv.posix, cn)
+  data[,i] = (as.numeric(v) - as.numeric(control@POSIXcts.origin)) / 
+    c(seconds=1, minutes=60, hours=3600, days=3600*24)[control@POSIXcts.as]
+  
+
+
 #' Converts Dates in a data.frame to day since start date(s).
 #'
 #' @param data [data.frame]\cr 
