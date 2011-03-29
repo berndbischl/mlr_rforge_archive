@@ -44,7 +44,7 @@ setMethod(
         makeNumericLearnerParameter(id="gamma", lower=0, requires=expression(kernel!="linear")),
         makeNumericLearnerParameter(id="tolerance", default=0.001, lower=0),
         makeLogicalLearnerParameter(id="shrinking", default=TRUE),
-        makeNumericLearnerParameter(id="cachesize", default=40L, flags=list(optimize=FALSE))
+        makeNumericLearnerParameter(id="cachesize", default=40L)
       )
       
 			callNextMethod(.Object, pack="e1071", desc=desc, par.set=par.set)

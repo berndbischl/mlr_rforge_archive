@@ -43,10 +43,10 @@ setMethod(
           makeIntegerLearnerParameter(id="sampsize", lower=1L),
           makeIntegerLearnerParameter(id="nodesize", default=1L, lower=1L),
           makeIntegerLearnerParameter(id="maxnodes", lower=1L),
-          makeLogicalLearnerParameter(id="importance", default=FALSE, flags=list(optimize=FALSE)),
-          makeLogicalLearnerParameter(id="localImp", default=FALSE, flags=list(optimize=FALSE)),
-          makeLogicalLearnerParameter(id="norm.votes", default=TRUE, flags=list(optimize=FALSE)),
-          makeLogicalLearnerParameter(id="keep.inbag", default=FALSE, flags=list(optimize=FALSE))
+          makeLogicalLearnerParameter(id="importance", default=FALSE),
+          makeLogicalLearnerParameter(id="localImp", default=FALSE),
+          makeLogicalLearnerParameter(id="norm.votes", default=TRUE),
+          makeLogicalLearnerParameter(id="keep.inbag", default=FALSE)
 			)
 
       callNextMethod(.Object, pack="randomForest", desc=desc, par.set=par.set)

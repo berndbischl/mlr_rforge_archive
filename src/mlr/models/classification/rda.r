@@ -49,7 +49,7 @@ setMethod(
           makeLogicalLearnerParameter(id="trafo", default=TRUE),
           makeLogicalLearnerParameter(id="SimAnn", default=FALSE),
           # change default, so error is only estimated at request of user
-          makeLogicalLearnerParameter(id="estimate.error", default=FALSE, flags=list(optimize=FALSE, pass.default=TRUE))
+          makeLogicalLearnerParameter(id="estimate.error", default=FALSE, pass.default=TRUE)
 			)
 			
 			callNextMethod(.Object, pack="klaR", desc=desc, par.set=par.set)

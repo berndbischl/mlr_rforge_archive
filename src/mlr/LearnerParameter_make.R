@@ -7,15 +7,19 @@
 #'   Upper bound. Default is \code{Inf}.
 #' @param default [numeric(1)]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param pass.default [logical(1)]
+#'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
 #' @param when [character(1)]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @param requires [\code{expression}]
+#'   R expression over the other parameters to define requirements which make this parameter effective. 
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
 makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
-                                      default, when="train",
-                                      flags=list(), requires=expression()) {
+                                      default, pass.default=FALSE, when="train",
+                                      requires=expression()) {
   p <- makeNumericParameter(id, lower, upper)
-  learner.parameter.from.parameter(p, default, when, flags, requires)
+  learner.parameter.from.parameter(p, default, when, requires)
 }
 
 #' Numerical vector parameter for a learner.
@@ -29,11 +33,15 @@ makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
 #'   Upper bound. Default is \code{Inf}.
 #' @param default [numeric(1)]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param pass.default [logical(1)]
+#'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
 #' @param when [character(1)]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @param requires [\code{expression}]
+#'   R expression over the other parameters to define requirements which make this parameter effective. 
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
-makeNumericVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf, default, when="train", flags=list(), requires=expression()) {
+makeNumericVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf, default, pass.default=FALSE, when="train", requires=expression()) {
   if (length(dim) == 1 && (is.na(dim) || (is.numeric(dim) && as.integer(dim) == dim)))
     dim = as.integer(dim)
   check.arg(dim, "integer", 1)
@@ -47,7 +55,7 @@ makeNumericVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf,
     unknown.dim = FALSE
   } 
   p = makeNumericVectorParameter(id, dim=dim2, lower=lower, upper=upper)
-  p = learner.parameter.from.parameter(p, default, when, flags, requires)
+  p = learner.parameter.from.parameter(p, default, when, requires)
   p@constraints$unknown.dim = unknown.dim
   return(p)
 }
@@ -62,15 +70,19 @@ makeNumericVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf,
 #'   Upper bound. Default is \code{.Machine$integer.max}.
 #' @param default [integer(1)]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param pass.default [logical(1)]
+#'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
 #' @param when [character(1)]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @param requires [\code{expression}]
+#'   R expression over the other parameters to define requirements which make this parameter effective. 
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
 makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.Machine$integer.max,
-                                      default, when="train",
-                                      flags=list(), requires=expression()) {
+                                      default, pass.default=FALSE, when="train",
+                                      requires=expression()) {
   p <- makeIntegerParameter(id, lower, upper)
-  learner.parameter.from.parameter(p, default, when, flags, requires)
+  learner.parameter.from.parameter(p, default, when, requires)
 }
 
 #' Integer vector parameter for a learner.
@@ -84,11 +96,15 @@ makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.
 #'   Upper bound. Default is \code{Machine$integer.max}.
 #' @param default [numeric(1)]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param pass.default [logical(1)]
+#'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
 #' @param when [character(1)]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @param requires [\code{expression}]
+#'   R expression over the other parameters to define requirements which make this parameter effective. 
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
-makeIntegerVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf, default, when="train", flags=list(), requires=expression()) {
+makeIntegerVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf, default, pass.default=FALSE, when="train", requires=expression()) {
   if (length(dim) == 1 && (is.na(dim) || (is.numeric(dim) && as.integer(dim) == dim)))
     dim = as.integer(dim)
   check.arg(dim, "integer", 1)
@@ -102,7 +118,7 @@ makeIntegerVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf,
     unknown.dim = FALSE
   } 
   p = makeIntegerVectorParameter(id, dim=dim2, lower=lower, upper=upper)
-  p = learner.parameter.from.parameter(p, default, when, flags, requires)
+  p = learner.parameter.from.parameter(p, default, when, requires)
   p@constraints$unknown.dim = unknown.dim
   return(p)
 }
@@ -116,15 +132,19 @@ makeIntegerVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf,
 #'   Possible values.
 #' @param default [any]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param pass.default [logical(1)]
+#'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
 #' @param when [character(1)]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @param requires [\code{expression}]
+#'   R expression over the other parameters to define requirements which make this parameter effective. 
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
 makeDiscreteLearnerParameter <- function(id, vals,
-                                      default, when="train",
-                                      flags=list(), requires=expression()) {
+                                      default, pass.default=FALSE, when="train",
+                                      requires=expression()) {
   p <- makeDiscreteParameter(id, vals)
-  learner.parameter.from.parameter(p, default, when, flags, requires)
+  learner.parameter.from.parameter(p, default, when, requires)
 }
 
 #' Logical parameter for a learner.
@@ -132,15 +152,19 @@ makeDiscreteLearnerParameter <- function(id, vals,
 #'   Name of parameter.
 #' @param default [logical(1)]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param pass.default [logical(1)]
+#'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
 #' @param when [character(1)]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @param requires [\code{expression}]
+#'   R expression over the other parameters to define requirements which make this parameter effective. 
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
 makeLogicalLearnerParameter <- function(id,
-                                      default, when="train",
-                                      flags=list(), requires=expression()) {
+                                      default, pass.default=FALSE, when="train",
+                                      requires=expression()) {
   p <- makeLogicalParameter(id)
-  learner.parameter.from.parameter(p, default, when, flags, requires)
+  learner.parameter.from.parameter(p, default, when, requires)
 }
 
 
@@ -149,13 +173,17 @@ makeLogicalLearnerParameter <- function(id,
 #'   Name of parameter.
 #' @param default [any]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param pass.default [logical(1)]
+#'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
 #' @param when [character(1)]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @param requires [\code{expression}]
+#'   R expression over the other parameters to define requirements which make this parameter effective. 
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
-makeUntypedLearnerParameter <- function(id, default, when="train", flags=list(), requires=expression()) {
+makeUntypedLearnerParameter <- function(id, default, pass.default=FALSE, when="train", requires=expression()) {
   p <- makeUntypedParameter(id)
-  learner.parameter.from.parameter(p, default, when, flags, requires)
+  learner.parameter.from.parameter(p, default, when, requires)
 }
 
 
@@ -164,18 +192,20 @@ makeUntypedLearnerParameter <- function(id, default, when="train", flags=list(),
 #'   Name of parameter.
 #' @param default [any]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
+#' @param pass.default [logical(1)]
+#'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
 #' @param when [character(1)]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
+#' @param requires [\code{expression}]
+#'   R expression over the other parameters to define requirements which make this parameter effective. 
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
-makeFunctionLearnerParameter <- function(id, default, when="train", flags=list(), requires=expression()) {
+makeFunctionLearnerParameter <- function(id, default, pass.default=FALSE, when="train", requires=expression()) {
   p <- makeFunctionParameter(id)
-  learner.parameter.from.parameter(p, default, when, flags, requires)
+  learner.parameter.from.parameter(p, default, when, requires)
 }
 
-learner.parameter.from.parameter <- function(p, default, when, flags, requires) {
-  if (!is.list(flags))
-    stop("'flags' must be a list.")
+learner.parameter.from.parameter <- function(p, default, when, requires) {
   if (!is.expression(requires))
     stop("'requires' must be an R expression.")
   if (!missing(default) && !isFeasible(p, default))
@@ -186,5 +216,5 @@ learner.parameter.from.parameter <- function(p, default, when, flags, requires) 
             id=p@id, type=p@type, constraints=p@constraints,
             has.default=!missing(default),
             default=if (missing(default)) NULL else default,
-            when=when, flags=flags, requires=requires)
+            when=when, requires=requires)
 }

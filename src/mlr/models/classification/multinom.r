@@ -39,14 +39,14 @@ setMethod(
 			
       
       par.set = makeParameterSet(
-        makeLogicalLearnerParameter(id="Hess", default=FALSE, flags=list(optimize=FALSE)),
+        makeLogicalLearnerParameter(id="Hess", default=FALSE),
         makeDiscreteLearnerParameter(id="summ", default=0L, vals=0:3),
         makeLogicalLearnerParameter(id="censored", default=FALSE),
         makeLogicalLearnerParameter(id="model", default=FALSE),
         makeIntegerLearnerParameter(id="maxit", default=100L, lower=1L),
         makeNumericLearnerParameter(id="rang", default=0.7),
         makeNumericLearnerParameter(id="decay", default=0),
-        makeLogicalLearnerParameter(id="trace", default=TRUE, flags=list(optimize=FALSE)),
+        makeLogicalLearnerParameter(id="trace", default=TRUE),
         makeNumericLearnerParameter(id="abstoll", default=1.0e-4),
         makeNumericLearnerParameter(id="reltoll", default=1.0e-8)
       )

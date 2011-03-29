@@ -18,9 +18,9 @@ setClass(
   contains = c("Parameter"),
   representation = representation(
     has.default = "logical",
+    pass.default = "default",
     default = "ANY",
     when = "character",
-    flags = "list",
     requires = "expression"	
   )	
 )
@@ -29,28 +29,14 @@ setClass(
 #' Constructor.
 setMethod(f = "initialize",
   signature = signature("LearnerParameter"),
-  def = function(.Object, id, type, constraints, has.default, default, when, flags, requires) {
+  def = function(.Object, id, type, constraints, has.default, default, pass.default, when, requires) {
     if (missing(has.default))
       return(make.empty(.Object))
     .Object@has.default = has.default
     .Object@default = default
+    .Object@pass.default = pass.default
     .Object@when = when
-    .Object@flags = flags
     .Object@requires = requires
     callNextMethod(.Object, id, type, constraints)
 })
 
-
-
-#' @rdname LearnerParameter-class
-setMethod(
-  f = "[",
-  signature = signature("LearnerParameter"),
-  def = function(x,i,j,...,drop) {
-    if (i == "pass.default") {
-      passd = x@flags$pass.default
-      return(!is.null(passd) && passd)
-    }
-    callNextMethod()
-  }
-)

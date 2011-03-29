@@ -24,7 +24,7 @@ setMethod(
     )
     
     par.set = makeParameterSet(      
-      makeDiscreteLearnerParameter(id="modelfun", default="FO", vals=c("FO", "TWI", "SO"), flags=list(pass.default=TRUE))
+      makeDiscreteLearnerParameter(id="modelfun", default="FO", vals=c("FO", "TWI", "SO"), pass.default=TRUE)
     )
     
     callNextMethod(.Object, pack="rsm", desc=desc, par.set=par.set)

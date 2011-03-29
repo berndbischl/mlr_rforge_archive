@@ -47,6 +47,7 @@ allowed.rd.files <<- c(
   "makeDiscreteLearnerParameter.Rd",
   "makeLogicalLearnerParameter.Rd",
   "makeFunctionLearnerParameter.Rd",
+  "makeUntypedLearnerParameter.Rd",
   "Learner-class.Rd",
   "rlearner-class.Rd",
   "rlearner.classif-class.Rd",

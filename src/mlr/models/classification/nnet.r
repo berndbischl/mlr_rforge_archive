@@ -35,7 +35,7 @@ setMethod(
 			)
 
 			par.set = makeParameterSet(
-        makeIntegerLearnerParameter(id="size", default=3L, lower=0L, flags=list(pass.default=TRUE)),
+        makeIntegerLearnerParameter(id="size", default=3L, lower=0L, pass.default=TRUE),
         makeIntegerLearnerParameter(id="maxit", default=100L, lower=1L),
         # nnet seems to set these manually and hard for classification.....
 #        makeLogicalLearnerParameter(id="linout", default=FALSE, requires=expression(entropy==FALSE && softmax==FALSE && censored==FALSE)),
@@ -45,8 +45,8 @@ setMethod(
         makeLogicalLearnerParameter(id="skip", default=FALSE),
         makeNumericLearnerParameter(id="rang", default=0.7),
         makeNumericLearnerParameter(id="decay", default=0),
-        makeLogicalLearnerParameter(id="Hess", default=FALSE, flags=list(optimize=FALSE)),
-        makeLogicalLearnerParameter(id="trace", default=TRUE, flags=list(optimize=FALSE)),
+        makeLogicalLearnerParameter(id="Hess", default=FALSE),
+        makeLogicalLearnerParameter(id="trace", default=TRUE),
         makeIntegerLearnerParameter(id="MaxNWts", default=1000L),
         makeNumericLearnerParameter(id="abstoll", default=1.0e-4),
         makeNumericLearnerParameter(id="reltoll", default=1.0e-8)
