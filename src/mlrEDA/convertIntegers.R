@@ -1,7 +1,7 @@
 #' Converts integers in a data.frame.
 #'
-#' @param data [data.frame]\cr 
-#'   Data to convert. Only \code{integer} columns will be changed.
+#' @param data [\code{data.frame}]\cr 
+#'   Data to convert. 
 #' @param which [\code{data.frame}]\cr
 #'   Restrict result to columns in \code{which}. 
 #'   Default is all integer columns of \code{data}.   
