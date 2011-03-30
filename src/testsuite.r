@@ -7,8 +7,9 @@ if(!exists("use.package")) {
 }
 
 if (use.package) {
-  message("Using installed copy of mlr for tests!")
-  require("mlr")
+  message("Using installed copy of package for tests!")
+  require(pack)
+  stop(23)
   require("mlbench")
   require("RUnit")
   ts.dirs = c("src/runit")  

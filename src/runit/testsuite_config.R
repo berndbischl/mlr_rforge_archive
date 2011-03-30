@@ -1,1 +1,1 @@
-runit.regexp ="runit.learner."
+runit.regexp = "conv"

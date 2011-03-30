@@ -1,16 +1,6 @@
-#' @param POSIXcts.as [character(1)]\cr
-#'   Should POSIXct features be converted to either "seconds", "minutes", "hours", "days". Default is "seconds" since \code{Dates.origin}.
-#' @param POSIXcts.origin [character(1)]\cr
-#'   Reference point for \code{POSIXcts.as}. Default is \code{as.POSIXct("1970-01-01 01:00")}.
-} else if (is(v, "POSIXct")) {
-  # POSIXct
-  conv.posix = c(conv.posix, cn)
-  data[,i] = (as.numeric(v) - as.numeric(control@POSIXcts.origin)) / 
-    c(seconds=1, minutes=60, hours=3600, days=3600*24)[control@POSIXcts.as]
-  
-
-
-#' Converts Dates in a data.frame to day since start date(s).
+#' Converts Dates in a data.frame.
+#' Each date is transformed to: numeric days since a start date, the month (factor) 
+#' and the weekday (factor).
 #'
 #' @param data [data.frame]\cr 
 #'   Data to convert. Only \code{Date} columns will be changed.
@@ -21,13 +11,12 @@
 #'   Date feature in \code{data}.
 #'   Per default is \code{start.date} is missing.    
 #'  
-#' @return [\code{data.frame}], where \code{Date} columns 
-#'   have been tranformed to numeric days.
+#' @return [\code{data.frame}]
 #' 
 #' @export
-#' @title Summarize factors of a data.frame.
+#' @title Converts Dates in a data.frame.
 
-datesToDays = function(data, start.date) {
+convertDates = function(data, days=TRUE, weekdays=TRUE, months=TRUE, start.date) {
   n = ncol(data)
   date.names =  names(which(sapply(data, function(x) is(x, "Date"))))
   
@@ -35,18 +24,28 @@ datesToDays = function(data, start.date) {
     start.date = na.omit(sapply(data, function(x) 
           if(is(x, "Date")) min(unclass(x), na.rm=TRUE) else NA))
   } else {
-    if (is.character(start.date))
+    ns = names(start.date)
+    if (is.character(start.date)) {
       start.date = as.Date(start.date)
+      names(start.date) = ns
+    }  
     if (is(start.date, "Date") && length(start.date) == 1) {
-      start.date = rep(start.date, length(date.names))
+      start.date2 = rep(start.date, length(date.names))
       names(start.date) = date.names
     }  
     if (!(is(start.date, "Date") && length(start.date) == length(date.names)))
       stop("start.date has wrong type or length!")
+    if (!setequal(names(start.date), date.names))    
+      stop("start.date has wrong names!")
   }
-  
   for (x in date.names) {
-    data[, x] = unclass(data[, x]) - unclass(start.date[x])
+    if (days)
+      data[, paste(x, "days", sep="_")] = unclass(data[, x]) - unclass(start.date[x])
+    if (weekdays)
+      data[, paste(x, "weekdays", sep="_")] = factor(weekdays(data[, x]))
+    if (months)
+      data[, paste(x, "months", sep="_")] = factor(months(data[, x]))
+    data[, x] = NULL
   }
   return(data)
 }

@@ -8,12 +8,10 @@ if(!exists("use.package")) {
 }
 
 if (use.package) {
-  message("Using installed copy of mlr for tests!")
-  require("mlr")
+  message("Using installed copy of package for tests!")
+  require(pack, character.only = TRUE)
 } else {
-  if (file.exists("src/runit/testsuite_config.R")) 
-    source("src/runit/testsuite_config.R")    
-  source("src/mlr/_files.R")
+  source(file.path("src", pack, "_files.R"))
   library(abind)
   library(MASS)
   library(e1071)
@@ -25,8 +23,8 @@ if (use.package) {
 } 
 require("RUnit")
 require("mlbench")
-if(!exists("runit.regexp"))
-  runit.regexp = "^runit.*"
+if(!exists("runit.regexp") || runit.regexp == "")
+  runit.regexp = "^.*"
 
 
 parallel.setup(mode="local")
