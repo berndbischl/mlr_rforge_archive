@@ -9,7 +9,7 @@ pack.files = c(
   "mlrEDA/summarizeColumms.R",
   "mlrEDA/convertColumnNames.R",
   "mlrEDA/convertDates.R",
-  "mlrEDA/convertIntegers.R",
+  "mlrEDA/convertColumns.R",
   "mlrEDA/generateMDSResult.R",
   "mlrEDA/generatePCAResult.R",
   "mlrEDA/generateVarsel2dREsult.R",

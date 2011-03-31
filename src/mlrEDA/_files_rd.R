@@ -3,5 +3,6 @@ allowed.rd.files = c(
   "summarizeLevels.Rd",
   "summarizeDates.Rd",
   "convertDates.Rd",
-  "convertColumnNames.Rd"
+  "convertColumnNames.Rd",
+  "convertColumns.Rd"
 )    
