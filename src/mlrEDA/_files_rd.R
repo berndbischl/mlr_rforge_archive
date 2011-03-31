@@ -10,7 +10,8 @@ allowed.rd.files = c(
   "mergeFactorLevelsBySize.Rd",
   "plotFeatDistr.Rd",
   "plotPCA.Rd",
-  "plotMDS.Rd"
+  "plotMDS.Rd",
+  "writeEDAReport.Rd"
 )    
 
 

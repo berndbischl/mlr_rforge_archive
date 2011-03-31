@@ -19,5 +19,6 @@ pack.files = c(
   "mlrEDA/plotPCA.R",
   "mlrEDA/plotMDS.R",
   "mlrEDA/plot2d.R",
-  "mlrEDA/varsel2d.R"
+  "mlrEDA/varsel2d.R",
+  "mlrEDA/writeEDAReport.R"
 )

@@ -1,22 +1,32 @@
+#' Write a HTML report which explores a given data set.
+#'
+#' @param out.dir [\code{character(1)}]\cr 
+#'   Directory where files are written to. 
+#' @param data [\code{data.frame}]\cr 
+#'   Data. 
+#' @param target [\code{character(1)}]\cr 
+#'   Target column. 
+#' @param name [\code{character(1)}]\cr 
+#'   Name of dataset. Used as prefix for generated files 
+#'   Default is name of R variable passed to \code{data}. 
+#' @return None.
+#' @export
+#' @title Write EDA HTML report.
 
-report = function(outdir, data, target, exclude=character(0), control) {
-#  assign(".sweave.data", data, envir=.GlobalEnv)
-#  assign(".sweave.target", target, envir=.GlobalEnv)
-#  assign(".sweave.exclude", exclude, envir=.GlobalEnv)
-#  assign(".sweave.control", control, envir=.GlobalEnv)
-#  Sweave("d:/sync/projekte/mlr/src/mlrEDA/writeEDAReport.Rnw")
-#  rm(".sweave.data", envir=.GlobalEnv)
-#  rm(".sweave.target", envir=.GlobalEnv)
-#  rm(".sweave.exclude", envir=.GlobalEnv)
-#  rm(".sweave.control", envir=.GlobalEnv)
+writeEDAReport = function(out.dir, data, target, name) {
+  if (missing(name))
+    name = deparse(substitute(data))
   dir = getwd()
-  setwd(outdir)
+  setwd(out.dir)
   e = new.env()
+  e$name = name
   e$data = data
   e$target = target
-  brew("d:/sync/projekte/mlr/src/mlrEDA/writeEDAReport_html.brew", out="c:/brew/bla.html", envir=e) 
+  fn.out = file.path(out.dir, paste(name, "html", sep="."))
+  fn.in = system.file("writeEDAReport_html.brew", package="mlrEDA")
+  print(fn.in)
+  brew(fn.in, out=fn.out, envir=e) 
   setwd(dir)
 }
 
-
-report("c:/brew", Glass, "Type")
+report("c:/brew", iris, "Species")
