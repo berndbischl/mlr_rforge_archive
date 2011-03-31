@@ -1,32 +1,85 @@
-summarizeData = function(data, target ) { 
-  matrix1 =data.frame(matrix(0,ncol=22,nrow=1))
-  colnames(matrix1) =c("ds", "n.obs", "n.classes", "n.minclass", "n.maxclass", "q.maxminclass", 
-    "n.inputs", "n.nums","q.nums","n.ints","q.ints","n.fac","q.fac", "n.char","q.char", 
-    "n.narows","maxnarow","q.maxnarow","n.nacols","maxnacol","q.maxnacol", "n.nas")
+#' Get general characteristics of data.frame. 
+#' 
+#' @param data [\code{data.frame}]\cr 
+#'   Data to summarize. 
+#' @param target [\code{character(1)}]\cr 
+#'   Target column. 
+#' @param large [\code{numeric(1)}]\cr 
+#'   What is a large (absolute) value for a numeric column? 
+#' @param feat.perc [\code{logical(1)}]\cr 
+#'   Portion of features in percent? Default is \code{FALSE}. 
+#' @param na.perc [\code{logical(1)}]\cr 
+#'   Portion of NAs in percent? Default is \code{FALSE}. 
+#' @param class.perc [\code{logical(1)}]\cr 
+#'   Portion of classes in percent? Default is \code{FALSE}. 
+#' @param large.perc [\code{logical(1)}]\cr 
+#'   Portion of large values in percent? Default is \code{FALSE}. 
+#' @return [named \code{numeric}], containing characteristics.
+
+summarizeData = function(data, target, large=1e10,
+  feat.perc=FALSE, na.perc=FALSE, class.perc=FALSE, large.perc=FALSE) {
+  
+  check.arg(target, "character", 1)
+  check.arg(large, "numeric", 1)
+  check.arg(feat.perc, "logical", 1)
+  check.arg(na.perc, "logical", 1)
+  check.arg(class.perc, "logical", 1)
+  check.arg(large.perc, "logical", 1)
+  
+  x = numeric(0)
+  
   NAs = sum(is.na(data))
   rows.with.missings = sum(apply(data, 1, function(x) any(is.na(x))))
   cols.with.missings = sum(apply(data, 2, function(x) any(is.na(x))))
-  numerics = sum(sapply(data, is.numeric))
-  integers = sum(sapply(data, is.integer))
-  factors = sum(sapply(data, is.factor))
-  characters = sum(sapply(data, is.character))
-  class =length(unique(as.numeric(data[,target])))
-  min.class = min(table(data[,target]))
-  max.class = max(table(data[,target]))
-  maxmin.class = max.class/min.class
-  obs = length(data[,target])
-  input = length(data)
-  numinput = numerics/input
-  intinput = integers/input
-  facinput = factors/input
-  charinput = characters/input
-  maxnarow = max(apply(data, 1, function(x) sum(is.na(x))))
-  q.maxnarow = maxnarow/(ncol(data)-1)
-  maxnacol = max(apply(data, 2, function(x) sum(is.na(x))))
-  q.maxnacol = maxnacol/nrow(data)
+  tt = data[, target]
+
+  x["obs"] = nrow(data)
+  x["dim"] = ncol(data)-1
   
-  matrix1[1,2:ncol(matrix1)] =c(obs,class,min.class,max.class,maxmin.class,input,numerics,numinput,
-    integers,intinput,factors,facinput,characters,charinput,
-    rows.with.missings,maxnarow,q.maxnarow,cols.with.missings,maxnacol,q.maxnacol,NAs)
-  return(matrix1)
+  x["num"] = sum(sapply(data, is.numeric)) - is.numeric(tt)
+  x["int"] = sum(sapply(data, is.integer))- is.integer(tt)
+  x["fact"] = sum(sapply(data, is.factor)) - is.factor(tt)
+  x["char"] = sum(sapply(data, is.character)) - is.character(tt)
+  x["log"] = sum(sapply(data, is.logical)) - is.logical(tt)
+  x["Date"] = sum(sapply(data, function(x) is(x, "Date")))
+  if (feat.perc) {
+    x["num"] = x["num"] / x["dim"]  
+    x["int"] = x["int"] / x["dim"]  
+    x["fact"] = x["fact"] / x["dim"]  
+    x["char"] = x["char"] / x["dim"]  
+    x["log"] = x["log"] / x["dim"]  
+    x["Date"] = x["Date"] / x["dim"]  
+  }
+  
+  x["na.row.max"] = max(apply(data, 1, function(x) sum(is.na(x))))
+  x["na.col.max"] = max(apply(data, 2, function(x) sum(is.na(x))))
+  if (na.perc) {
+    x["na.row.max"] = x["na.row.max"] / x["dim"]  
+    x["na.col.max"] = x["na.col.max"] / x["obs"]  
+  }  
+
+  x["large.row.max"] = max(apply(data, 1, function(x) 
+    if(is.numeric(x)) sum(abs(x) >= large) else 0))
+  x["large.col.max"] = max(apply(data, 2, function(x)
+    if(is.numeric(x)) sum(abs(x) >= large) else 0))
+  if (large.perc) {
+    x["large.row.max"] = x["large"] / x["dim"]  
+    x["large.col.max"] = x["large.col.max"] / x["obs"]  
+  }  
+  
+  if (is.factor(tt) || is.character(tt)) {
+    tab = table(tt)
+    tab2 = prop.table(tab)
+    x["classes"] = sum(tab)
+    if (class.perc) {
+      x["class.max"] = min(tab2)
+      x["class.min"] = max(tab2)
+    } else {
+      x["class.max"] = min(tab)
+      x["class.min"] = max(tab)
+    }
+    x["class.quot"] = x["class.max"] / x["class.min"]
+  }
+  
+  return(x)
 }
