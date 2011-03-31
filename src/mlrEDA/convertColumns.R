@@ -25,16 +25,16 @@ convertColumns = function(data, integers.as=as.numeric, characters.as=as.factor,
   
   cols.ints =  which(sapply(data, function(x) is(x, "integer")))
   cols.char = which(sapply(data, function(x) is(x, "character")))
-  cols.log = which(sapply(data, function(x) is(x, "logical")))
+  cols.logs = which(sapply(data, function(x) is(x, "logical")))
   
-  for (x in cols.int) {
+  for (x in cols.ints) {
     data[, x] = integers.as(data[,x])
   }
   
   for (x in cols.char) {
 	  data[, x] = characters.as(data[,x])
   }
-  for (x in cols.log) {
+  for (x in cols.logs) {
 	  data[, x] = logicals.as(data[,x])
   }
   

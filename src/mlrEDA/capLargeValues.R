@@ -27,7 +27,7 @@ capLargeValues = function(data, cols, threshold=Inf, impute=threshold) {
   
   for (x in cols) {
     if (any(abs(data[, x]) >= threshold)) {
-      data[, i] = pmin(pmax(data[, x], -threshold), threshold)
+      data[, x] = pmin(pmax(data[, x], -threshold), threshold)
     }
   }
   return(data)
