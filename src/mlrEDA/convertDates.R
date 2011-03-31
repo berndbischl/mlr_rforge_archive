@@ -30,7 +30,7 @@ convertDates = function(data, days=TRUE, weekdays=TRUE, months=TRUE, start.date)
       names(start.date) = ns
     }  
     if (is(start.date, "Date") && length(start.date) == 1) {
-      start.date2 = rep(start.date, length(date.names))
+      start.date = rep(start.date, length(date.names))
       names(start.date) = date.names
     }  
     if (!(is(start.date, "Date") && length(start.date) == length(date.names)))

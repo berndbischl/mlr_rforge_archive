@@ -30,22 +30,27 @@ summarizeColumns = function(data, start.date) {
   res = data.frame(name=character(n), type=character(n), na=integer(n), 
     disp=numeric(n), mean=numeric(n), median=numeric(n), 
     min=numeric(n), max=numeric(n), nlevs=integer(n), stringsAsFactors=FALSE)
-  date.names =  names(which(sapply(data, function(x) is(x, "Date"))))
-  
+  date.names = names(which(sapply(data, function(x) is(x, "Date"))))
+
   if (missing(start.date)) {
     start.date = na.omit(sapply(data, function(x) 
           if(is(x, "Date")) min(unclass(x), na.rm=TRUE) else NA))
   } else {
-    if (is.character(start.date))
+    ns = names(start.date)
+    if (is.character(start.date)) {
       start.date = as.Date(start.date)
-    if (length(start.date) == 1) {
+      names(start.date) = ns
+    }  
+    if (is(start.date, "Date") && length(start.date) == 1) {
       start.date = rep(start.date, length(date.names))
       names(start.date) = date.names
-    }
-    if (!all(names(start.date) %in% cns))
+    }  
+    if (!(is(start.date, "Date") && length(start.date) == length(date.names)))
+      stop("start.date has wrong type or length!")
+    if (!setequal(names(start.date), date.names))    
       stop("start.date has wrong names!")
   }
-  
+
   for (i in 1:n) {
     x = data[,i]
     res[i, "na"] = sum(is.na(x))
