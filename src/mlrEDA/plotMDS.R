@@ -1,8 +1,10 @@
 #' Plots the data by multi-dimensional scaling.
 #'
-#' @param data [data.frame]\cr 
+#' @param data [\code{data.frame}]\cr 
 #'   Data to summarize. Columns can be of type numeric, integer, logical, factor or character. 
 #'   Characters and logicals will be treated as factors.   
+#' @param target [\code{character(1)}]\cr 
+#'   Target column. 
 #' @return A data.frame with the columns: 'name', 'type', 'disp', 'mean', 'min', 'max', 'nlevs'.
 #'   'disp' is a measure of dispersion, for numerics and integers \code{\link{sd}} is used, for 
 #'   categorical columns the unstandardized index of qualitative variation M1 is computed. 'nlevs' is 
@@ -16,6 +18,8 @@ plotMDS = function(data, target, exclude=character(0), metric) {
 }
 
 plot.MDSResult = function(x) {
-  ggplot(x, aes_string(x="mds.x1", y="mds.x2", colour=colnames(x)[3])) + geom_point()
+  ggplot(x, aes_string(x="mds.x1", y="mds.x2", colour=colnames(x)[3])) +
+    #geom_point() 
+    geom_jitter(position=position_jitter(width=0.001, height=0.001))
 }
 

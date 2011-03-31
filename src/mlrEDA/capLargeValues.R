@@ -1,7 +1,7 @@
 #' Convert large/infinite numeric values in a data.frame.
 #' Only numeric columns are affected.
 #' 
-#' @param data [data.frame]\cr 
+#' @param data [\code{data.frame}]\cr 
 #'   Data to convert. 
 #' @param cols [\code{character} | \code{integer}] 
 #'   Which columns to convert. Default is all numeric columns

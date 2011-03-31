@@ -2,7 +2,7 @@
 #' Each date is transformed to: numeric days since a start date, the month (factor) 
 #' and the weekday (factor).
 #'
-#' @param data [data.frame]\cr 
+#' @param data [\code{data.frame}]\cr 
 #'   Data to convert. Only \code{Date} columns will be changed.
 #' @param start.date [named vector of \code{Date} | single \code{Date}]\cr 
 #'   Dates are converted to days passed since a start date. If this argument is missing,

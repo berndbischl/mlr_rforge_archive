@@ -1,7 +1,7 @@
 #' Characterizes only variables of a data set with missing values. So, missing values are painted 
 #' black, while other observations keep white.
 #'
-#' @param data [data.frame]\cr 
+#' @param data [\code{data.frame}]\cr 
 #'   Data to summarize. Columns can be of type numeric, integer, logical, factor or character. 
 #'   Characters and logicals will be treated as factors.   
 #' @return Names of the variables with their frequency of missing values and an additional plot 

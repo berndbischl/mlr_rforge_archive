@@ -1,7 +1,7 @@
 
 #' Creates a data.frame of new features
 #'
-#' @param data [data.frame]\cr 
+#' @param data [\code{data.frame}]\cr 
 #'   Data to summarize. Columns can be of type numeric, integer, logical, factor or character. 
 #'   Characters and logicals will be treated as factors.   
 #' @param vars [\code{character}]\cr 

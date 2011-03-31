@@ -2,4 +2,10 @@
 - univariate measures for feature influence on target
 - Olaf:PCP der (numerischen) Feature pro Klasse (siehe varsel Plot).
 
+was machen wir bei zu vielen features?
+- kaputte sachen: feature mit ausreißer, skewed distr., distr. mit "extra buckel", distr mit wneig varianz
+- ausreißerbeob. durch nächste nachbarn / distanzen
+- besonders prädiktive feature (varseld reciht?)
+
+
 

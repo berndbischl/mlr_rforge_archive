@@ -1,6 +1,6 @@
 #' Summarizes dates of a data.frame by showing minimum and maximum dates and their span.
 #'
-#' @param data [data.frame]\cr 
+#' @param data [\code{data.frame}]\cr 
 #'   Data to summarize. Only \code{Date} columns will be considered.
 #' @param which [\code{data.frame}]\cr
 #'   Restrict result to columns in \code{which}. 
