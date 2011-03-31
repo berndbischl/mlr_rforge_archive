@@ -6,9 +6,10 @@
 #'   Target column. 
 #' @param col [\code{character(1)} | \code{integer(1)}]\cr 
 #'   Selected feature from \code{data}. 
-#' 
 #' @return A ggplot2 object. Print it to plot it.
-#' 
+#' @export
+#' @title Plots univariate distribution of a feature.
+
 
 plotFeatDistr = function(data, target, col) {
   if (is.numeric(col))
