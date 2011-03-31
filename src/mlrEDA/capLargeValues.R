@@ -3,7 +3,7 @@
 #' 
 #' @param data [data.frame]\cr 
 #'   Data to convert. 
-#' @param which2 [\code{character} | \code{integer}] 
+#' @param cols [\code{character} | \code{integer}] 
 #'   Which columns to convert. Default is all numeric columns
 #' @param threshold [\code{numeric(1)}]\cr
 #'   Threshold for capping. Every entry whose absolute value is equal or larger is converted.
@@ -17,18 +17,17 @@
 #' @export
 #' @title Convert large/infinite numeric values in a data.frame.
 
-capLargeValues = function(data, which2, threshold=Inf, impute=threshold) {
+capLargeValues = function(data, cols, threshold=Inf, impute=threshold) {
   
-  if (missing(which2)) which2 =  which(sapply(data, function(x) is.numeric(x)))
+  if (missing(cols)) 
+    cols =  which(sapply(data, function(x) is.numeric(x)))
 
   check.arg(threshold, "numeric", 1)
   check.arg(impute, "numeric", 1)
   
- 
-  
-  for (x in which2) {
+  for (x in cols) {
     if (any(abs(data[, x]) >= threshold)) {
-      data[, i] = pmin(pmax(fs[[i]], -threshold), threshold)
+      data[, i] = pmin(pmax(data[, x], -threshold), threshold)
     }
   }
   return(data)
