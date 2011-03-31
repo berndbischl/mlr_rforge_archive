@@ -42,9 +42,9 @@ convertDates = function(data, days=TRUE, weekdays=TRUE, months=TRUE, start.date)
     if (days)
       data[, paste(x, "days", sep="_")] = unclass(data[, x]) - unclass(start.date[x])
     if (weekdays)
-      data[, paste(x, "weekdays", sep="_")] = factor(weekdays(data[, x]))
+      data[, paste(x, "weekdays", sep="_")] = factor(weekdays(data[, x], abbreviate=TRUE))
     if (months)
-      data[, paste(x, "months", sep="_")] = factor(months(data[, x]))
+      data[, paste(x, "months", sep="_")] = factor(months(data[, x], abbreviate=TRUE))
     data[, x] = NULL
   }
   return(data)
