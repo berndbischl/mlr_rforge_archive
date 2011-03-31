@@ -15,7 +15,11 @@
 #' @export
 #' @title Summarize factors of a data.frame.
 
-convertColumns = function(data, which, as) {
+# ints: numeric/factor
+# chars: factor, keine option erstmal
+# logical: factor/NUMERIC
+
+convertColumns = function(data, ints.as, chars.as) {
   n = ncol(data)
   cols =  names(which(sapply(data, function(x) is(x, "integer"))))
   
