@@ -14,8 +14,8 @@
 plotFeatDistr = function(data, target, col) {
   if (is.numeric(col))
     col = colnames(data)[col]
-  check.arg(data, "data.frame")
-  check.arg(target, "character", 1)
+  mlr:::check.arg(data, "data.frame")
+  mlr:::check.arg(target, "character", 1)
   
   x = data[, col]
   if (is.numeric(x) | is.integer(x)) {

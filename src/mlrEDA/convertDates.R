@@ -4,6 +4,12 @@
 #'
 #' @param data [\code{data.frame}]\cr 
 #'   Data to convert. Only \code{Date} columns will be changed.
+#' @param days [\code{logical(1)}]\cr 
+#'   Should days since \code{start.date} be created? Default is \code{TRUE}.
+#' @param weekdays [\code{logical(1)}]\cr 
+#'   Should weekdays as factors be created? Default is \code{TRUE}.
+#' @param months [\code{logical(1)}]\cr 
+#'   Should months as factors be created? Default is \code{TRUE}.
 #' @param start.date [named vector of \code{Date} | single \code{Date}]\cr 
 #'   Dates are converted to days passed since a start date. If this argument is missing,
 #'   the start date is the mininal date of the feature. Either pass a single Date (which will be
@@ -17,6 +23,11 @@
 #' @title Converts Dates in a data.frame.
 
 convertDates = function(data, days=TRUE, weekdays=TRUE, months=TRUE, start.date) {
+  mlr:::check.arg(data, "data.frame")
+  mlr:::check.arg(days, "logical", 1)
+  mlr:::check.arg(weekdays, "logical", 1)
+  mlr:::check.arg(months, "logical", 1)
+  
   n = ncol(data)
   date.names =  names(which(sapply(data, function(x) is(x, "Date"))))
   

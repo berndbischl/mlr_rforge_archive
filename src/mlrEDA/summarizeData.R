@@ -19,12 +19,12 @@
 summarizeData = function(data, target, large=1e10,
   feat.perc=FALSE, na.perc=FALSE, class.perc=FALSE, large.perc=FALSE) {
   
-  check.arg(target, "character", 1)
-  check.arg(large, "numeric", 1)
-  check.arg(feat.perc, "logical", 1)
-  check.arg(na.perc, "logical", 1)
-  check.arg(class.perc, "logical", 1)
-  check.arg(large.perc, "logical", 1)
+  mlr:::check.arg(target, "character", 1)
+  mlr:::check.arg(large, "numeric", 1)
+  mlr:::check.arg(feat.perc, "logical", 1)
+  mlr:::check.arg(na.perc, "logical", 1)
+  mlr:::check.arg(class.perc, "logical", 1)
+  mlr:::check.arg(large.perc, "logical", 1)
   
   x = numeric(0)
   

@@ -22,8 +22,8 @@ capLargeValues = function(data, cols, threshold=Inf, impute=threshold) {
   if (missing(cols)) 
     cols =  which(sapply(data, function(x) is.numeric(x)))
 
-  check.arg(threshold, "numeric", 1)
-  check.arg(impute, "numeric", 1)
+  mlr:::check.arg(threshold, "numeric", 1)
+  mlr:::check.arg(impute, "numeric", 1)
   
   for (x in cols) {
     if (any(abs(data[, x]) >= threshold)) {

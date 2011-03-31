@@ -1,10 +1,17 @@
 #' Plots the data by multi-dimensional scaling.
+#' To calculate distances - also for features of mixed type - the \code{\link[cluster]{daisy}} function
+#' is used, note argument \code{metric}.
 #'
 #' @param data [\code{data.frame}]\cr 
 #'   Data to summarize. Columns can be of type numeric, integer, logical, factor or character. 
 #'   Characters and logicals will be treated as factors.   
 #' @param target [\code{character(1)}]\cr 
 #'   Target column. 
+#' @param exclude [\code{character}]
+#'   Names of inputs, which should be excluded. Default is none.
+#' @param metric [\code{character(1)}]
+#'   See \code{\link[cluster]{daisy}}
+#'   Default is euclidian distance for only numeric features and gower for mixed types.
 #' @return A data.frame with the columns: 'name', 'type', 'disp', 'mean', 'min', 'max', 'nlevs'.
 #'   'disp' is a measure of dispersion, for numerics and integers \code{\link{sd}} is used, for 
 #'   categorical columns the unstandardized index of qualitative variation M1 is computed. 'nlevs' is 
