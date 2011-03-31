@@ -9,6 +9,8 @@
 #' @param scale [\code{logical(1)}]  
 #'  Whether the variables should be scaled to have unit variance before the analysis takes place.
 #'  The default is \code{TRUE} 
+#' @param ...   
+#'  Further arguments passed to \code{\link[stats]{screeplot}}. 
 #' @return A data.frame with the columns: 'name', 'type', 'disp', 'mean', 'min', 'max', 'nlevs'.
 #'   'disp' is a measure of dispersion, for numerics and integers \code{\link{sd}} is used, for 
 #'   categorical columns the unstandardized index of qualitative variation M1 is computed. 'nlevs' is 

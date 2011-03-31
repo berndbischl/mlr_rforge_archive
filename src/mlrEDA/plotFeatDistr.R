@@ -8,6 +8,7 @@
 #'   Selected feature from \code{data}. 
 #' @return A ggplot2 object. Print it to plot it.
 #' @export
+#' @importFrom ggplot2 density 
 #' @title Plots univariate distribution of a feature.
 
 

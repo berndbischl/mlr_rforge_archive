@@ -1,6 +1,6 @@
 pack.files = c(
   "mlrEDA/aaa.R",
-  "mlrEDA/bench.R",
+#  "mlrEDA/bench.R",
   "mlrEDA/capLargeValues.R",
   "mlrEDA/summarizeData.R",
   "mlrEDA/summarizeColumns.R",
@@ -11,7 +11,7 @@ pack.files = c(
   "mlrEDA/convertColumns.R",
   "mlrEDA/convertDates.R",
   "mlrEDA/mergeFactorLevelsBySize.R",
-  "mlrEDA/makeMonomials.R",
+#  "mlrEDA/makeMonomials.R",
   "mlrEDA/generateMDSResult.R",
   "mlrEDA/generatePCAResult.R",
   "mlrEDA/generateVarsel2dResult.R",
