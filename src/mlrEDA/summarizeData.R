@@ -51,19 +51,19 @@ summarizeData = function(data, target, large=1e10,
     x["Date"] = x["Date"] / x["dim"]  
   }
   
-  x["na.row.max"] = max(apply(data, 1, function(x) sum(is.na(x))))
-  x["na.col.max"] = max(apply(data, 2, function(x) sum(is.na(x))))
+  x["na.row.max"] = max(Reduce(function(a,b) is.na(a) + is.na(b), data, init=0))
+  x["na.col.max"] = max(sapply(data, function(y) sum(is.na(y))))
   if (na.perc) {
     x["na.row.max"] = x["na.row.max"] / x["dim"]  
     x["na.col.max"] = x["na.col.max"] / x["obs"]  
   }  
-
-  x["large.row.max"] = max(apply(data, 1, function(x) 
-    if(is.numeric(x)) sum(abs(x) >= large) else 0))
-  x["large.col.max"] = max(apply(data, 2, function(x)
-    if(is.numeric(x)) sum(abs(x) >= large) else 0))
+  
+  g = function(y) if (is.numeric(y)) as.integer(y >= large) else 0 
+  x["large.row.max"] = max(Reduce(function(a,b) a + g(b), data, init=0))
+  x["large.col.max"] = max(sapply(data, function(y)
+    if(is.numeric(y)) sum(abs(y) >= large) else 0))
   if (large.perc) {
-    x["large.row.max"] = x["large"] / x["dim"]  
+    x["large.row.max"] = x["large.row.max"] / x["dim"]  
     x["large.col.max"] = x["large.col.max"] / x["obs"]  
   }  
   
