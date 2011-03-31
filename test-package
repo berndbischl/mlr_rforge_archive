@@ -3,7 +3,7 @@
 ## Force 'C' locale for package build to avoid R encoding 'bugs'.
 export LC_ALL=C
 pack=$1
-
+regexp=$2
 
 echo "================================================================================"
 echo " BUILD"
@@ -18,8 +18,4 @@ R CMD INSTALL pkg/$pack
 echo "================================================================================"
 echo " EXTERNAL TEST"
 echo "--------------------------------------------------------------------------------"
-Rscript -e "use.package=TRUE; pack<-'$pack'; source('src/runit/testsuite.R')"
-##echo "================================================================================"
-##echo " INTERNAL TEST"
-##echo "--------------------------------------------------------------------------------"
-##Rscript -e "use.package=FALSE; pack<-'$pack'; source('src/runit/testsuite.R')"
+Rscript -e "use.package=TRUE; pack<-'$pack'; runit.regexp='$regexp'; source('src/runit/testsuite.R')"
