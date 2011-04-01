@@ -1,6 +1,15 @@
 #' @include ClassifTask.R
 roxygen()
 
+
+# empty class levels
+# feature types
+# column names
+# missings
+# infs
+# check task learner raus?
+
+
 check.task <- function(lt, learner) {
 	wl <- learner
 	ld <- wl@desc

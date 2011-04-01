@@ -4,8 +4,6 @@ roxygen()
 roxygen()
 #' @include Learner.R
 roxygen()
-#' @include prepare.df.r
-roxygen()
 
 
 #' Result from \code{\link{train}}. It internally stores the underlying fitted model,
@@ -20,7 +18,6 @@ roxygen()
 #'	\item{learner model [any]}{Underlying model from used R package.}
 #'	\item{subset [integer]}{Subset used for training.}
 #'	\item{fail [NULL | string]}{Generally NULL but if the training failed, the error message of the underlying train function.}
-#'	\item{prepare.control [\code{\linkS4class{prepare.control}}]}{Control object used for preparing the training data.frame.}
 #' }
 #' 
 #' @title Induced model of learner.
@@ -31,7 +28,6 @@ setClass(
 		representation = representation(
 				learner = "Learner",
 				learner.model = "ANY",
-        prep.control = "prepare.control",					
         desc = "task.desc",
 				subset = "integer",
 				vars = "character",
@@ -44,13 +40,12 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("WrappedModel"),
-  def = function(.Object, learner, model, task.desc, prep.control, subset, vars, time) {
+  def = function(.Object, learner, model, task.desc, subset, vars, time) {
     if (missing(learner))
       return(make.empty(.Object))
     .Object@learner = learner
     .Object@learner.model = model
     .Object@desc = task.desc
-    .Object@prep.control = prep.control
     .Object@subset = subset
     .Object@vars = vars
     .Object@time = time

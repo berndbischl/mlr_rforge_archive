@@ -23,10 +23,13 @@ writeEDAReport = function(out.dir, data, target, name) {
   e$data = data
   e$target = target
   fn.out = file.path(out.dir, paste(name, "html", sep="."))
-  fn.in = system.file("writeEDAReport_html.brew", package="mlrEDA")
+  fn.in = "d:/sync/projekte/mlr/src/mlrEDA/writeEDAReport_html.brew"
+  #fn.in = system.file("writeEDAReport_html.brew", package="mlrEDA")
   print(fn.in)
   brew(fn.in, out=fn.out, envir=e) 
   setwd(dir)
 }
-
-report("c:/brew", iris, "Species")
+data = Glass
+target = "Type"
+name = "Glass"
+writeEDAReport("c:/brew", data, target, name)

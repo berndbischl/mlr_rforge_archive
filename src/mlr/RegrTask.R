@@ -21,7 +21,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("RegrTask"),
-		def = function(.Object, id, data, weights, blocking, target, control) {
+		def = function(.Object, id, data, weights, blocking, target) {
 				
 			if (missing(data))
         return(make.empty(.Object))
@@ -29,7 +29,7 @@ setMethod(
       td = new("task.desc", data, target, "regr", id, 
         length(weights) > 0, length(blocking) > 0, as.character(NA))      
       
-			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, control=control, task.desc=td)
+			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, task.desc=td)
 		}
 )
 

@@ -2,8 +2,6 @@
 roxygen()
 #' @include task.desc.r
 roxygen()
-#' @include prepare.df.r
-roxygen()
 
 #' A machine learning task. 
 #' It encapsulates the data and specifies - through its subclasses - the type of the task (either classification or regression), 
@@ -17,7 +15,6 @@ roxygen()
 #'  \item{targets [character]}{Target column of data.}
 #'  \item{weights [numeric]}{Case weights are returned. NULL if no weights were set.}
 #'  \item{blocking [factor]}{Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration. NULL if no blocking was set.}
-#'	\item{prepare.control [\code{\linkS4class{prepare.control}}]}{Control object used for preparing the data.frame.}
 #' }
 #' 
 #' Subclasses: \code{\linkS4class{ClassifTask}}, \code{\linkS4class{RegrTask}}
@@ -34,7 +31,6 @@ setClass(
 				dataenv = "environment",
 				weights = "numeric",
 				blocking = "factor",
-        control = "prepare.control",
 				desc = "task.desc"
 		)
 )
@@ -47,7 +43,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("LearnTask"),
-		def = function(.Object, data, weights, blocking, control, task.desc) {
+		def = function(.Object, data, weights, blocking, task.desc) {
 			
 			# constructor is called in setClass of inheriting classes 
 			# wtf chambers, wtf!
@@ -58,7 +54,6 @@ setMethod(
       .Object@dataenv$data = data
       .Object@weights = weights
       .Object@blocking = blocking
-      .Object@control = control
 			.Object@desc = task.desc
 			
 			return(.Object)

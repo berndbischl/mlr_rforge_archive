@@ -90,6 +90,6 @@ setMethod(
         time.train = as.numeric(st[3])
       }
       
-      makeWrappedModel(wl, learner.model, task@desc, task@control, subset, vars, time.train)
+      makeWrappedModel(wl, learner.model, task@desc, subset, vars, time.train)
 		}
 )

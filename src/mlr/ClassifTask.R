@@ -22,7 +22,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("ClassifTask"),
-		def = function(.Object, id, target, data, weights, blocking, control=control, positive) {
+		def = function(.Object, id, target, data, weights, blocking, positive) {
 			if (missing(data))
 				return(make.empty(.Object))
 			
@@ -56,7 +56,7 @@ setMethod(
 			}			
 			td@positive = pos
       
-			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, control=control, task.desc=td)
+			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, task.desc=td)
 		}
 )
 

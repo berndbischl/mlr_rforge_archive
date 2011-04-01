@@ -1,12 +1,9 @@
 #' @include ClassifTask.R
 roxygen()
-#' @include prepare.df.r
-roxygen()
 
 #' Defines a classification task for a given data set. 
 #' It might perform some data conversions in the data.frame, like converting integer input features to doubles, 
 #' but will generally warn about this. If you want to change default preprocessing behaviour, look at
-#' \code{\link{prepare.control}}, construct the control object yourself and pass it into the \code{control} argument 
 #' of \code{makeClassifTask}.
 #' The target variable is converted to a factor if it is a logical, integer or character vector. 
 #' 
@@ -22,8 +19,6 @@ roxygen()
 #'   An optional vector of case weights to be used in the fitting process (if the learner cannot handle weights, they are ignored). Default is not to use weights.
 #' @param blocking [factor] \cr   
 #'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.
-#' @param control [\code{\linkS4class{prepare.control}}] \cr  
-#'   Optional control object used for preparing the data.frame. For defaults look at \code{\link{prepare.control}}.
 #' @param positive [character(1)] \cr   
 #'   Positive class for binary classification. Default is the first factor level of the target attribute. 
 #' 
@@ -37,7 +32,7 @@ roxygen()
 
 setGeneric(
   name = "makeClassifTask",
-  def = function(id, data, target, exclude, weights, blocking, control, positive) {
+  def = function(id, data, target, exclude, weights, blocking, positive) {
     if(missing(id)) {
       id = deparse(substitute(data))
       if (!is.character(id) || length(id) != 1)
@@ -59,8 +54,6 @@ setGeneric(
     if (missing(positive))
       positive = as.character(NA)
     check.arg(positive, "character", 1)
-    if (missing(control))
-      control = prepare.control()
     standardGeneric("makeClassifTask")
   }
 )
@@ -77,21 +70,18 @@ setMethod(
     exclude="character", 
     weights="numeric", 
     blocking="factor",
-    control="prepare.control",
     positive="character"
   ),
   
-  def = function(id, data, target, exclude, weights, blocking, control, positive) {
+  def = function(id, data, target, exclude, weights, blocking, positive) {
     
     checkWeightsAndBlocking(data, target, weights, blocking)    
     checkColumnNames(data, target, exclude)
     if (length(exclude) > 0)
       data = data[, setdiff(colnames(data), exclude)]
-    checkData(data, target, exclude)    
+    #checkData(data, target, exclude)    
     
-    data = prep.data(TRUE, data, target, control)      
-    
-    new("ClassifTask", id=id, target=target, data=data, weights=weights, blocking=blocking, control=control, positive=positive)
+    new("ClassifTask", id=id, target=target, data=data, weights=weights, blocking=blocking, positive=positive)
   }
 )
 

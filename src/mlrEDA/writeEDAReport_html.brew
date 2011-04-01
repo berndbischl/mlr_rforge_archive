@@ -37,7 +37,8 @@
 <h3>Multi-Dimensional scaling</h3>
 <%
   png(file=sprintf("%s_mds.png", name))
-  print(plotMDS(data, target))
+  p = plotMDS(data, target)
+  print(p)
   dev.off()
 %>
 <img src="<%=name%>_mds.png">
@@ -45,7 +46,7 @@
 
 <h3>PCA scree plot</h3>
 <%
-  png(file=sprintf("%s_pcs.png", name))
+  png(file=sprintf("%s_pca.png", name))
   plotPCA(data, target)
   dev.off()
 %>

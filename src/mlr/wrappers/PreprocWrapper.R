@@ -113,9 +113,9 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("preproc.model"),
-  def = function(.Object, learner, model, task.desc, prep.control, subset, vars, time, control) {
+  def = function(.Object, learner, model, task.desc, subset, vars, time, control) {
     .Object@control = control
-    callNextMethod(.Object, learner, model, task.desc, prep.control, subset, vars, time)
+    callNextMethod(.Object, learner, model, task.desc, subset, vars, time)
   }
 )
 

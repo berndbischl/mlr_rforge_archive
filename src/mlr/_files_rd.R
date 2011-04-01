@@ -26,7 +26,6 @@ allowed.rd.files <<- c(
   "LearnTask-class.Rd",
   "ClassifTask-class.Rd",
   "RegrTask-class.Rd",
-  "prepare.control.Rd",
   "makeClassifTask.Rd",
   "makeRegrTask.Rd",
   "subset.Rd",

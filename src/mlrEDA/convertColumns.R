@@ -1,3 +1,21 @@
+#' Control structure for basic data preparation.
+#'
+#' @param ints.as [character(1)]\cr
+#'   Should integer features be converted to either "numeric" or "factor". Default is "numeric".
+#' @param chars.as [character(1)]\cr
+#'   Conversion of character features. Currently only "factor" is supported.
+#' @param logs.as [character(1)]\cr
+#'   Should logical features be converted to either "numeric" or "factor". Default is "factor".
+#' @param drop.class.levels [boolean]\cr
+#'   Should empty class levels be dropped? Default is TRUE.
+#' @return Control structure for data preparation.
+#' @export
+#' @usage prepare.control(ints.as, chars.as, logs.as, drop.class.levels = TRUE) 
+#' @rdname prepare.control
+#' @title Control for basic basic data preparation.
+
+
+
 #' Standard conversion for columns of a data.frame.
 #'
 #' @param data [\code{data.frame}]\cr 
@@ -17,7 +35,7 @@
 #' @title Standard conversion for columns of a data.frame.
 
 
-convertColumns = function(data, integers.as=as.numeric, characters.as=as.factor, logicals.as=as.factor) {
+convertColumns = function(data, target, type, integers.as=as.numeric, characters.as=as.factor, logicals.as=as.factor) {
  
   mlr:::check.arg(integers.as, "function")  
   mlr:::check.arg(characters.as, "function")  
