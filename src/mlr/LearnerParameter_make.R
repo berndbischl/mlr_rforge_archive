@@ -19,7 +19,7 @@ makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
                                       default, pass.default=FALSE, when="train",
                                       requires=expression()) {
   p <- makeNumericParameter(id, lower, upper)
-  learner.parameter.from.parameter(p, default, when, requires)
+  learner.parameter.from.parameter(p, default, pass.default, when, requires)
 }
 
 #' Numerical vector parameter for a learner.
@@ -55,7 +55,7 @@ makeNumericVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf,
     unknown.dim = FALSE
   } 
   p = makeNumericVectorParameter(id, dim=dim2, lower=lower, upper=upper)
-  p = learner.parameter.from.parameter(p, default, when, requires)
+  p = learner.parameter.from.parameter(p, default, pass.default, when, requires)
   p@constraints$unknown.dim = unknown.dim
   return(p)
 }
@@ -82,7 +82,7 @@ makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.
                                       default, pass.default=FALSE, when="train",
                                       requires=expression()) {
   p <- makeIntegerParameter(id, lower, upper)
-  learner.parameter.from.parameter(p, default, when, requires)
+  learner.parameter.from.parameter(p, default, pass.default, when, requires)
 }
 
 #' Integer vector parameter for a learner.
@@ -118,7 +118,7 @@ makeIntegerVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf,
     unknown.dim = FALSE
   } 
   p = makeIntegerVectorParameter(id, dim=dim2, lower=lower, upper=upper)
-  p = learner.parameter.from.parameter(p, default, when, requires)
+  p = learner.parameter.from.parameter(p, default, pass.default, when, requires)
   p@constraints$unknown.dim = unknown.dim
   return(p)
 }
@@ -144,7 +144,7 @@ makeDiscreteLearnerParameter <- function(id, vals,
                                       default, pass.default=FALSE, when="train",
                                       requires=expression()) {
   p <- makeDiscreteParameter(id, vals)
-  learner.parameter.from.parameter(p, default, when, requires)
+  learner.parameter.from.parameter(p, default, pass.default, when, requires)
 }
 
 #' Logical parameter for a learner.
@@ -164,7 +164,7 @@ makeLogicalLearnerParameter <- function(id,
                                       default, pass.default=FALSE, when="train",
                                       requires=expression()) {
   p <- makeLogicalParameter(id)
-  learner.parameter.from.parameter(p, default, when, requires)
+  learner.parameter.from.parameter(p, default, pass.default, when, requires)
 }
 
 
@@ -183,7 +183,7 @@ makeLogicalLearnerParameter <- function(id,
 #' @export 
 makeUntypedLearnerParameter <- function(id, default, pass.default=FALSE, when="train", requires=expression()) {
   p <- makeUntypedParameter(id)
-  learner.parameter.from.parameter(p, default, when, requires)
+  learner.parameter.from.parameter(p, default, pass.default, when, requires)
 }
 
 
@@ -202,10 +202,10 @@ makeUntypedLearnerParameter <- function(id, default, pass.default=FALSE, when="t
 #' @export 
 makeFunctionLearnerParameter <- function(id, default, pass.default=FALSE, when="train", requires=expression()) {
   p <- makeFunctionParameter(id)
-  learner.parameter.from.parameter(p, default, when, requires)
+  learner.parameter.from.parameter(p, default, pass.default, when, requires)
 }
 
-learner.parameter.from.parameter <- function(p, default, when, requires) {
+learner.parameter.from.parameter <- function(p, default, pass.default, when, requires) {
   if (!is.expression(requires))
     stop("'requires' must be an R expression.")
   if (!missing(default) && !isFeasible(p, default))
@@ -216,5 +216,6 @@ learner.parameter.from.parameter <- function(p, default, when, requires) {
             id=p@id, type=p@type, constraints=p@constraints,
             has.default=!missing(default),
             default=if (missing(default)) NULL else default,
+            pass.default = pass.default,
             when=when, requires=requires)
 }

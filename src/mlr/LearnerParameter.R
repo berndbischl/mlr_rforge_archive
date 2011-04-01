@@ -18,7 +18,7 @@ setClass(
   contains = c("Parameter"),
   representation = representation(
     has.default = "logical",
-    pass.default = "default",
+    pass.default = "logical",
     default = "ANY",
     when = "character",
     requires = "expression"	
