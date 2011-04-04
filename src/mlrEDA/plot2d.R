@@ -1,3 +1,27 @@
+# TODO: Function description. Description of params x1,x2, trafo, errs, size
+#' 
+#' 
+#' @param data [\code{data.frame}]\cr 
+#'   Data. 
+#' @param  x1
+#' @param  x2
+#' @param target [\code{character(1)}]\cr 
+#'   Target column.
+#' @param trafo.x [\code{function}]\cr
+#'    Transformation function for x1. Default is identity.
+#' @param trafo.y
+#'    Transformation function for x2. Default is identity.
+#' @param text [\code{character(1)}]\cr
+#'   Label for the plot. Default is NULL.    
+#' @param errs
+#'   Default is NULL  
+#' @param size [\code{numeric(1)}]\cr 
+#'   Default is 2.
+#' @return A ggplot2 object. Print it to plot it.
+#' 
+#' @export 
+
+
 plot2d = function(data, x1, x2, target, trafo.x=identity, trafo.y=identity, text=NULL, errs=NULL, size=2) {
   v1 = data[,x1]
   v2 = data[,x2]

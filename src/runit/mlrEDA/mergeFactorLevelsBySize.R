@@ -6,7 +6,7 @@ testMergeFactorLevelsBySize = function() {
   checkEquals(levels(g1), c("a", "b", "c"))
   g1 = mergeFactorLevelsBySize(f1, min.perc=0.04)
   checkEquals(levels(g1), c("a", "b", "c"))
-  g1 = mergeFactorLevelsBySize(f1, min.perc=6)
+  g1 = mergeFactorLevelsBySize(f1, min.perc=0.06)
   checkEquals(levels(g1), c("a", "merged"))
   checkEquals(sum(g1 == "merged"), 15)
   
