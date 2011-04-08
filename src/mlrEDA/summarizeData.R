@@ -15,6 +15,7 @@
 #' @param large.perc [\code{logical(1)}]\cr 
 #'   Portion of large values in percent? Default is \code{FALSE}. 
 #' @return [named \code{numeric}], containing characteristics.
+#' @export
 
 summarizeData = function(data, target, large=1e10,
   feat.perc=FALSE, na.perc=FALSE, class.perc=FALSE, large.perc=FALSE) {

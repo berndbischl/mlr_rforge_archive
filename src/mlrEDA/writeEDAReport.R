@@ -29,7 +29,7 @@ writeEDAReport = function(out.dir, data, target, name) {
   brew(fn.in, out=fn.out, envir=e) 
   setwd(dir)
 }
-data = Glass
-target = "Type"
-name = "Glass"
-writeEDAReport("c:/brew", data, target, name)
+#data = Glass
+#target = "Type"
+#name = "Glass"
+#writeEDAReport("c:/brew", data, target, name)
