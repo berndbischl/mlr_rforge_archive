@@ -1,4 +1,4 @@
-#' @include opt.result.r
+#' @include OptResult.R
 roxygen()
 
 setClass(
