@@ -1,11 +1,6 @@
 #todo: check whether optimization can be paralleized if req. by user
 #todo: make s4
 
-#' @include LearnTask.R
-roxygen()
-
-
-
 #' Optimizes the hyperparameters of a learner for a classification or regression problem.
 #' Allows for different optimization methods, such as grid search, evolutionary strategies 
 #' or sequential parameter optimization. You can select such an algorithm (and its settings)
