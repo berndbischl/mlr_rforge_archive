@@ -1,3 +1,4 @@
+#' @include aaa.R
 
 #' Abstract base class for control objects for optimization. 
 #' Cannot be instatiated. 
