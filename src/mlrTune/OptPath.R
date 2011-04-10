@@ -90,14 +90,9 @@ setMethod(
   }
 )
 
-setMethod(
-  f = "to.string",
-  signature = signature("OptPath"),
-  def = function(x) {
-    return(paste("Opt. path of length: ", length(as.list(x))))
-  }
-)
-setMethod(f = "print", signature = signature("OptPath"), def = function(x, ...) cat(to.string(x), "\n"))
+setMethod(f = "show", signature = signature("OptPath"), def = function(x, ...) {
+  paste("Opt. path of length: ", length(as.list(x)))
+})
 
 
 #' Add a new element to the optimiztion path.

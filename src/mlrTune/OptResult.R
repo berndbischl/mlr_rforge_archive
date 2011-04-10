@@ -44,22 +44,17 @@ setMethod(
 		}
 )
 
-setMethod(
-		f = "to.string",
-		signature = signature("OptResult"),
-		def = function(x) {
-      s = if (is(x@control, "TuneControl")) 
+setMethod(f = "show", signature = signature("OptResult"), def = function(x, ...) {
+    s = if (is(x@control, "TuneControl")) 
         valToString(getParameterSet(x@learner), x@x)
       else 
         paste(length(x@x), "sel. vars")
-      return(
-					paste(
-							"Opt. pars: ", s, "\n",
-							paste(paste(names(x@y), formatC(x@y, digits=3), sep="="), collapse=" "), 
-							sep=""
-					)
-			)
-		}
-)
-setMethod(f = "print", signature = signature("OptResult"), def = function(x, ...) cat(to.string(x), "\n"))
+    return(
+      paste(
+        "Opt. pars: ", s, "\n",
+        paste(paste(names(x@y), formatC(x@y, digits=3), sep="="), collapse=" "), 
+        sep=""
+      )
+    )
+})
 
