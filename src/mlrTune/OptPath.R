@@ -90,8 +90,8 @@ setMethod(
   }
 )
 
-setMethod(f = "show", signature = signature("OptPath"), def = function(x, ...) {
-  paste("Opt. path of length: ", length(as.list(x)))
+setMethod(f = "show", signature = signature("OptPath"), def = function(object) {
+  paste("Opt. path of length: ", length(as.list(object)))
 })
 
 
