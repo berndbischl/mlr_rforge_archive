@@ -5,7 +5,7 @@ setClass(
   "OptModel",
   contains = c("WrappedModel"),
   representation = representation(
-    opt.result = "opt.result"
+    opt.result = "OptResult"
   )
 )
 

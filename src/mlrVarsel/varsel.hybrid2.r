@@ -60,7 +60,7 @@ varsel.hybrid2 = function(learner, task, resampling, measures, control=makeVarse
 			}
 		}
 	} # end big loop	
-	new("opt.result", control=control, opt=make.path.el(state), path=path) 
+	new("OptResult", control=control, opt=make.path.el(state), path=path) 
 }	
 
 

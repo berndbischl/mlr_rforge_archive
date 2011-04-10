@@ -28,5 +28,5 @@ tune.optim = function(learner, task, resampling, measures, par.set, control, opt
   }
   
   e = getBestElement(opt.path, measureAggrNames(measures[[1]])[1])
-  new("opt.result", learner, control, e$x, e$y, opt.path)
+  new("OptResult", learner, control, e$x, e$y, opt.path)
 }

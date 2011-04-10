@@ -8,5 +8,5 @@ tune.spo = function(learner, task, resampling, measures, par.set, control, opt.p
   df = as.data.frame(opt.path)
   inds = (nrow(df)-control@spo.control@final.evals+1):nrow(df)
   y = colMeans(df[inds, opt.path@y.names])
-  new("opt.result", learner, control, or$x, y, opt.path)
+  new("OptResult", learner, control, or$x, y, opt.path)
 }

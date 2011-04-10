@@ -109,7 +109,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
   if (all(opt.path@env$eol[opt.path@env$dob == last] == last))
     last = last-1
   e = getBestElement(opt.path, measureAggrNames(measures[[1]])[1], dob=last)
-  new("opt.result", learner, control, bits.to.features(e$x, task), e$y, opt.path)
+  new("OptResult", learner, control, bits.to.features(e$x, task), e$y, opt.path)
 }
 
 

@@ -6,8 +6,8 @@ makeWrappedModel = function(learner, model, task.desc, subset, vars, time) {
       warning("Could not train the learner: ", msg) 
     m = new("FailureModel", learner, msg, task.desc, subset, vars, as.numeric(NA))
   } else if(is(learner, "OptWrapper")) {
-    or = attr(model, "opt.result")
-    attr(model, "opt.result") = NULL
+    or = attr(model, "OptResult")
+    attr(model, "OptResult") = NULL
     m = new("OptModel", learner, model@learner.model, task.desc, subset, vars, time, or)  
   } else if(is(learner, "PreprocWrapper")) {
     ctrl = attr(model, "control")

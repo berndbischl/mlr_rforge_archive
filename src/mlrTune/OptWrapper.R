@@ -64,7 +64,7 @@ setMethod(
 				stop("Should not happen!")
 				
 			# set the opt result as attribute, so we can extract it later 
-			attr(m, "opt.result") = or
+			attr(m, "OptResult") = or
 			return(m)
 		}
 )

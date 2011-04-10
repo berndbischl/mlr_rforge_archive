@@ -17,8 +17,7 @@ roxygen()
 #' @title Optimization result.
 #' @seealso \code{\link{tune}}, \code{\link{varsel}} 
 setClass(
-		"opt.result",
-		contains = c("object"),
+		"OptResult",
 		representation = representation(
 				learner = "Learner",
 				control = "OptControl",
@@ -31,7 +30,7 @@ setClass(
 ##' Constructor.
 setMethod(
 		f = "initialize",
-		signature = signature("opt.result"),
+		signature = signature("OptResult"),
 		def = function(.Object, learner, control, x, y, path) {
 			if (missing(control))
 				return(.Object)
@@ -45,11 +44,9 @@ setMethod(
 		}
 )
 
-
-##' @rdname to.string
 setMethod(
 		f = "to.string",
-		signature = signature("opt.result"),
+		signature = signature("OptResult"),
 		def = function(x) {
       s = if (is(x@control, "TuneControl")) 
         valToString(getParameterSet(x@learner), x@x)
@@ -64,3 +61,5 @@ setMethod(
 			)
 		}
 )
+setMethod(f = "print", signature = signature("OptResult"), def = function(x, ...) cat(to.string(x), "\n"))
+

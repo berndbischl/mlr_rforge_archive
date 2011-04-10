@@ -37,5 +37,5 @@ tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt
   }  
   or = cma_es(par=start, fn=g, lower=low, upper=upp, control=args)
 	e = getBestElement(opt.path, measureAggrNames(measures[[1]])[1])
-	new("opt.result", learner, control, e$x, e$y, opt.path)
+	new("OptResult", learner, control, e$x, e$y, opt.path)
 }

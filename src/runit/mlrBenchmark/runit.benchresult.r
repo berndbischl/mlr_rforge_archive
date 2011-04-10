@@ -84,12 +84,12 @@ test.benchresult = function() {
 	checkTrue(all(sapply(x, function(y) is.list(y) && names(y) == c("classif.rpart", "classif.ksvm"))))
 	checkTrue(is.null(x[[1]][[1]]))  
 	checkTrue(is.null(x[[2]][[1]]))  
-	checkTrue(is(x[[1]][[2]][[1]], "opt.result"))  
-  checkTrue(is(x[[1]][[2]][[2]], "opt.result"))  
-  checkTrue(is(x[[1]][[2]][[3]], "opt.result"))  
-  checkTrue(is(x[[2]][[2]][[1]], "opt.result"))  
-  checkTrue(is(x[[2]][[2]][[2]], "opt.result"))  
-  checkTrue(is(x[[2]][[2]][[3]], "opt.result"))  
+	checkTrue(is(x[[1]][[2]][[1]], "OptResult"))  
+  checkTrue(is(x[[1]][[2]][[2]], "OptResult"))  
+  checkTrue(is(x[[1]][[2]][[3]], "OptResult"))  
+  checkTrue(is(x[[2]][[2]][[1]], "OptResult"))  
+  checkTrue(is(x[[2]][[2]][[2]], "OptResult"))  
+  checkTrue(is(x[[2]][[2]][[3]], "OptResult"))  
   
   x = be["conf.mats"]
   checkTrue(is.list(x) && length(x) == 2 && is.list(x[[1]]) && length(x[[1]]) == 2)  

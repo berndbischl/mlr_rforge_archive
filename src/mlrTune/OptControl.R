@@ -10,7 +10,6 @@
 
 setClass(
 		"OptControl",
-		contains = c("object"),
 		representation = representation(
 				path = "logical",
         same.resampling.instance = "logical",        

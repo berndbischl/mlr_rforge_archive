@@ -36,7 +36,7 @@ varsel.bestcor = function(learner, task, resampling, measures, control=makeVarse
 		if (!found)
 			break
 	}
-	new("opt.result", control=control, opt=make.path.el(state), path=path)
+	new("OptResult", control=control, opt=make.path.el(state), path=path)
 }
 
 

@@ -107,7 +107,7 @@ varsel.hybrid = function(learner, task, resampling, measures, control=makeVarsel
 			op = setdiff(names(failed), op)
 		}
 	} # end big loop	
-	new("opt.result", control=control, opt=make.path.el(state), path=path) 
+	new("OptResult", control=control, opt=make.path.el(state), path=path) 
 }	
 	
 	

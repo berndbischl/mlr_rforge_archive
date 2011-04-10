@@ -8,7 +8,6 @@
 #' @title Optimazation path
 setClass(
   "OptPath",
-  contains = c("object"),
   representation = representation(
     x.names = "character",
     y.names = "character",
@@ -91,7 +90,6 @@ setMethod(
   }
 )
 
-##' @rdname to.string
 setMethod(
   f = "to.string",
   signature = signature("OptPath"),
@@ -99,6 +97,8 @@ setMethod(
     return(paste("Opt. path of length: ", length(as.list(x))))
   }
 )
+setMethod(f = "print", signature = signature("OptPath"), def = function(x, ...) cat(to.string(x), "\n"))
+
 
 #' Add a new element to the optimiztion path.
 #' 
