@@ -1,4 +1,6 @@
 pack.files = c(
+    "aaa.R",
+  
     "mlrTune/OptControl.R",
     "mlrTune/OptResult.R",
     "mlrTune/optml.helpers.r",
