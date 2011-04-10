@@ -18,17 +18,12 @@ setMethod(
   }
 )
 
-#' @rdname to.string
 
-setMethod(
-  f = "to.string",
-  signature = signature("OptModel"),
-  def = function(x) {
-    s1 = callNextMethod(x)
-    s2 = to.string(x@opt.result)
-    paste(s1, "\nOptimzation result:\n", s2, sep="")
-  }
-)
+setMethod(f = "show",  signature = signature("OptModel"), def = function(object) {
+  callNextMethod(object)
+  cat("\nOptimzation result:\n")
+  show(object@opt.result)
+})
 
 
 

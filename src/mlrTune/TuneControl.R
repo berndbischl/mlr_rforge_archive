@@ -38,22 +38,3 @@ setMethod(
 			return(.Object)
 		}
 )
-
-
-#' @rdname to.string
-setMethod(
-  f = "to.string",
-  signature = signature("TuneControl"),
-  def = function(x) {
-    
-    return(
-      paste(
-        "Control object for tuning of class: ", class(x), "\n",
-        "Save path: ", x@path, "\n",
-        "Same resampling instance: ", x@same.resampling.instance, "\n",
-        sep=""
-      )
-    )
-  }
-)
-
