@@ -1,5 +1,5 @@
 pack.files = c(
-    "aaa.R",
+    "mlrTune/aaa.R",
   
     "mlrTune/OptControl.R",
     "mlrTune/OptResult.R",
