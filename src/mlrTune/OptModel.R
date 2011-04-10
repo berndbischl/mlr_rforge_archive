@@ -1,5 +1,3 @@
-#' @include WrappedModel.R
-roxygen()
 #' @include opt.result.r
 roxygen()
 

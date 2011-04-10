@@ -1,11 +1,3 @@
-#' @include BaseWrapper.R
-roxygen()
-#' @include ResampleDesc.R
-roxygen()
-#' @include OptControl.R
-roxygen()
-
-
 #' Abstract base class to wrap an optimization algorithm around a learner.
 
 setClass(

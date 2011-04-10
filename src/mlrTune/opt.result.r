@@ -1,5 +1,3 @@
-#' @include Learner.R
-roxygen()
 #' @include OptPath.R
 roxygen()
 #' @include OptControl.R
