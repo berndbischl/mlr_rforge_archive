@@ -244,16 +244,6 @@ checkColumnNames = function(data, target, exclude) {
   
 }
 
-checkData = function(data, target, exclude) {
-  if (any(is.na(data[, target]))) {
-    stop("Target values contain missings!")
-  }
-  if (any(is.infinite(data[, target]))) {
-    stop("Target values contain infinite values!")
-  }
-}
-
-
 checkWeightsAndBlocking = function(data, target, weights, blocking) {
   if(length(weights) > 0 && length(weights) != nrow(data))
     stop("Weights have to be of the same length as number of rows in data! Or pass none at all.")
