@@ -1,6 +1,6 @@
 allowed.rd.files <<- c( 		
 		"OptControl-class.Rd",
-		"opt.result-class.Rd",
+		"OptResult-class.Rd",
 		
 		"tune.Rd",
 		"tune.threshold.Rd",
