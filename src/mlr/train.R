@@ -49,11 +49,7 @@ setMethod(
       # make sure that pack for learner ist loaded, probably needed when learner is exported        
       require.packs(learner@pack, paste("learner", learner@desc@id))
       
-      check.result = if (is(task, "ClassifTask")) check.task.learner.classif(task, learner) else check.task.learner(task, learner)
-      
-      if (check.result$msg != "") {
-        stop(check.result$msg)
-      }
+      checkTaskLearner(task, learner)
       
       wl <- learner
       tn <- task@desc@target

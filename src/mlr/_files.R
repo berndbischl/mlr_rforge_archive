@@ -8,6 +8,7 @@ pack.files = c(
 #   "mlr/to.string.r",
   "mlr/object.r",
   
+  "mlr/checkData.R",
   "mlr/task.desc.r",
   "mlr/LearnTask.R",
   "mlr/ClassifTask.R",
@@ -38,7 +39,7 @@ pack.files = c(
   
   "mlr/trainLearner.R",
   "mlr/train.R",
-  "mlr/check.task.learner.r",
+  "mlr/checkTaskLearner.R",
   
   "mlr/predictLearner.R",
   "mlr/Prediction.R",

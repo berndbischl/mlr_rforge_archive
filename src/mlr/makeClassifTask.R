@@ -21,7 +21,8 @@ roxygen()
 #'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.
 #' @param positive [character(1)] \cr   
 #'   Positive class for binary classification. Default is the first factor level of the target attribute. 
-#' 
+#' @param check.data [\code{logical(1)}]
+#'   Should sanity of data be checked initially at task creation? You should have good reasons to turn this off...
 #' 
 #' @return \code{\linkS4class{LearnTask}}.
 #' 
@@ -32,7 +33,7 @@ roxygen()
 
 setGeneric(
   name = "makeClassifTask",
-  def = function(id, data, target, exclude, weights, blocking, positive) {
+  def = function(id, data, target, exclude, weights, blocking, positive, check.data) {
     if(missing(id)) {
       id = deparse(substitute(data))
       if (!is.character(id) || length(id) != 1)
@@ -54,6 +55,9 @@ setGeneric(
     if (missing(positive))
       positive = as.character(NA)
     check.arg(positive, "character", 1)
+    if (missing(check.data))
+      check.data = TRUE
+    check.arg(check.data, "logical", 1)
     standardGeneric("makeClassifTask")
   }
 )
@@ -73,13 +77,14 @@ setMethod(
     positive="character"
   ),
   
-  def = function(id, data, target, exclude, weights, blocking, positive) {
+  def = function(id, data, target, exclude, weights, blocking, positive, check.data) {
     
     checkWeightsAndBlocking(data, target, weights, blocking)    
     checkColumnNames(data, target, exclude)
     if (length(exclude) > 0)
       data = data[, setdiff(colnames(data), exclude)]
-    #checkData(data, target, exclude)    
+    if (check.data)
+      checkData(data, target)    
     
     new("ClassifTask", id=id, target=target, data=data, weights=weights, blocking=blocking, positive=positive)
   }

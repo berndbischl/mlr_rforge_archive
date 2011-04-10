@@ -16,7 +16,8 @@ roxygen()
 #'   An optional vector of case weights to be used in the fitting process (if the learner cannot handle weights, they are ignored). Default is not to use weights.
 #' @param blocking [factor] \cr   
 #'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.
-#' 
+#' @param check.data [\code{logical(1)}]
+#'   Should sanity of data be checked initially at task creation? You should have good reasons to turn this off...
 #' 
 #' @return \code{\linkS4class{LearnTask}}.
 #' 
@@ -27,7 +28,7 @@ roxygen()
 
 setGeneric(
   name = "makeRegrTask",
-  def = function(id, data, target, exclude, weights, blocking) {
+  def = function(id, data, target, exclude, weights, blocking, check.data) {
     if(missing(id)) {
       id = deparse(substitute(data))
       if (!is.character(id) || length(id) != 1)
@@ -46,6 +47,9 @@ setGeneric(
       blocking = factor(c())
     else 
       check.arg(blocking, "factor", nrow(data))
+    if (missing(check.data))
+      check.data = TRUE
+    check.arg(check.data, "logical", 1)
     standardGeneric("makeRegrTask")
   }
 )
@@ -63,12 +67,13 @@ setMethod(
     blocking="factor"
   ),
   
-  def = function(id, data, target, exclude, weights, blocking) {
+  def = function(id, data, target, exclude, weights, blocking, check.data) {
     checkWeightsAndBlocking(data, target, weights, blocking)    
     checkColumnNames(data, target, exclude)
     if (length(exclude) > 0)
       data = data[, setdiff(colnames(data), exclude)]
-    checkData(data, target, exclude)    
+    if (check.data)
+      checkData(data, target)    
     
     new("RegrTask", id=id, target=target, data=data, weights=weights, blocking=blocking)
   }
