@@ -183,15 +183,6 @@ setMethod(
   }
 )
 
-
-trafoVal = function(par, val) {
-  if (is(par, "ParameterSet"))
-    Map(trafoVal, par@pars, val)
-  else
-    par@trafo(val)
-}
-
-
 valToString = function(par, val) {
   if (is(par, "ParameterSet")) {
     if (all.els.named(val)) {
