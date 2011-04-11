@@ -23,15 +23,15 @@ test.opt.path <- function() {
   checkEquals(nrow(x), 2)
   checkEquals(ncol(x), 6)
   
-  op2 = subset(op, dob=1)
-  checkEquals(length(op@env$path), 2)
-  checkEquals(length(op2@env$path), 1)
-  checkEquals(op2@env$path[[1]], op@env$path[[1]])
+#  op2 = subset(op, dob=1)
+#  checkEquals(length(op@env$path), 2)
+#  checkEquals(length(op2@env$path), 1)
+#  checkEquals(op2@env$path[[1]], op@env$path[[1]])
 
-  op2 = subset(op, dob=2)
-  checkEquals(length(op@env$path), 2)
-  checkEquals(length(op2@env$path), 1)
-  checkEquals(op2@env$path[[1]], op@env$path[[2]])
+#  op2 = subset(op, dob=2)
+#  checkEquals(length(op@env$path), 2)
+#  checkEquals(length(op2@env$path), 1)
+#  checkEquals(op2@env$path[[1]], op@env$path[[2]])
   
   checkEquals(getBestElement(op, y.name="y1", dob=1:2), op@env$path[[1]])
   checkEquals(getBestElement(op, y.name="y2", dob=1:2), op@env$path[[1]])
