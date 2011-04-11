@@ -75,7 +75,7 @@ make.OptWrapper = function(learner, resampling, measures, par.set, bit.names, bi
 	if (is.character(learner))
 		learner = makeLearner(learner)
 	if (missing(measures))
-		measures = default.measures(learner)
+		measures = mlr:::default.measures(learner)
   if (is(measures, "Measure"))
     measures = list(measures)   
 	new("OptWrapper", learner, resampling, measures, par.set, bit.names, bits.to.features, control, log.fun)

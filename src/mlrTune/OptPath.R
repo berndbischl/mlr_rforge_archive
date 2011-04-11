@@ -91,7 +91,7 @@ setMethod(
 )
 
 setMethod(f = "show", signature = signature("OptPath"), def = function(object) {
-  paste("Opt. path of length: ", length(as.list(object)))
+  cat("Opt. path of length: ", length(as.list(object)), "\n")
 })
 
 
