@@ -62,23 +62,19 @@ makeOptPath = function(x.names, y.names, minimize) {
 #' Convert to data.frame
 #' @rdname OptPath-class 
 #' @export
-setMethod(
-  f = "as.data.frame",
-  signature = signature("OptPath"),
-  def = function(x, row.names = NULL, optional = FALSE,...) {
-    df = flattenX(x)
-    ys = as.data.frame(Reduce(rbind, lapply(x@env$path, function(el) el$y)))
-    df = cbind(df, ys)
-    xns = x@x.names
-    el1x = x@env$path[[1]]$x
-    nn = sapply(el1x, length)
-    xns = Reduce(c, Map(function(x, n) if(n==1) x else paste(x, 1:n, sep=""), xns, nn))
-    colnames(df) = c(xns, x@y.names)
-    df[["dob"]] <- x@env$dob
-    df[["eol"]] <- x@env$eol
-    df
-  }
-)
+as.data.frame.OptPath = function(x) {
+  df = flattenX(x)
+  ys = as.data.frame(Reduce(rbind, lapply(x@env$path, function(el) el$y)))
+  df = cbind(df, ys)
+  xns = x@x.names
+  el1x = x@env$path[[1]]$x
+  nn = sapply(el1x, length)
+  xns = Reduce(c, Map(function(x, n) if(n==1) x else paste(x, 1:n, sep=""), xns, nn))
+  colnames(df) = c(xns, x@y.names)
+  df[["dob"]] <- x@env$dob
+  df[["eol"]] <- x@env$eol
+  df
+}
 
 #' Convert an optimization path to a list.
 #' @rdname OptPath-class
@@ -90,6 +86,7 @@ setMethod(
   }
 )
 
+#' @export
 setMethod(f = "show", signature = signature("OptPath"), def = function(object) {
   cat("Opt. path of length: ", length(as.list(object)), "\n")
 })
@@ -164,7 +161,7 @@ setEoL = function(op, x, eol) {
 } 
 
 
-#' Subset optimiztion path.
+#' Restrict optimiztion path.
 #'
 #' @param op [\code{\linkS4class{OptPath}}]\cr
 #'   Optimization path.
@@ -173,17 +170,12 @@ setEoL = function(op, x, eol) {
 #' @param eol [integer]
 #'   Possible end of life for subset. Defaults to all. 
 #' @return Subsetted \code{\linkS4class{OptPath}}. 
-#' @export
-setMethod(
-  f = "subset",
-  signature = signature(x="OptPath"),
-  def = function(x, dob=x@env$dob, eol=x@env$eol) {
-    p = x@env$path[x@env$dob %in% dob & x@env$eol %in% eol]
-    op = new("OptPath", x@x.names, x@y.names, x@minimize)
-    op@env$path = p
-    return(op)
-  }
-)
+restrict = function(x, dob=x@env$dob, eol=x@env$eol) {
+  p = x@env$path[x@env$dob %in% dob & x@env$eol %in% eol]
+  op = new("OptPath", x@x.names, x@y.names, x@minimize)
+  op@env$path = p
+  return(op)
+}
 
 #' Get best element from optimiztion path.
 #'
@@ -198,7 +190,7 @@ setMethod(
 #' @return List with elements 'x' [list] and 'y' [named numeric]. 
 #' @export
 getBestElement = function(op, y.name=op@y.names[1], dob=op@env$dob, eol=op@env$eol) {
-  op = subset(op, dob, eol)
+  op = restrict(op, dob, eol)
   y = sapply(op@env$path, function(e) e$y[y.name])
   if (op@minimize[y.name])
     i = which.min(y)

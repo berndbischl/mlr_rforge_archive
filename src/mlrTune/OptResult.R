@@ -38,7 +38,7 @@ setMethod(
       .Object@control = control 			
 			.Object@x = x
       .Object@y = y
-      if (control["path"])
+      if (control@path)
 				.Object@path = path 			
 			return(.Object)
 		}
