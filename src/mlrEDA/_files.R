@@ -1,6 +1,7 @@
 pack.files = c(
+  "_helpers/helpers.R",
   "mlrEDA/aaa.R",
-#  "mlrEDA/bench.R",
+  #  "mlrEDA/bench.R",
   "mlrEDA/capLargeValues.R",
   "mlrEDA/summarizeData.R",
   "mlrEDA/summarizeColumns.R",

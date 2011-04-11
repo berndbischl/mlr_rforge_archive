@@ -1,5 +1,5 @@
 pack.files = c(
-  "_helpers/helpers.r",
+  "_helpers/helpers.R",
   "mlr/log/log.r",
   "mlr/errorhandler.r",
   ##    "mlr/packagedesc.r",
