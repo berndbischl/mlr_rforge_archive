@@ -19,7 +19,7 @@ roxygen()
 #'	\item{subset [integer]}{Subset used for training.}
 #'	\item{fail [NULL | string]}{Generally NULL but if the training failed, the error message of the underlying train function.}
 #' }
-#' 
+#' @exportClass WrappedModel
 #' @title Induced model of learner.
  
 setClass(
