@@ -95,7 +95,6 @@ pack.files = c(
   
   "mlr/parallel/export.r",
   "mlr/parallel/eval.r",
-  "mlr/parallel/mylapply.r",
   "mlr/parallel/parallel.r",
   
   #################    
