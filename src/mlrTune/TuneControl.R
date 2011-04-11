@@ -30,7 +30,7 @@ setMethod(
 		signature = signature("TuneControl"),
 		def = function(.Object, path, same.resampling.instance, start, ...) {
       if (missing(path))
-        return(make.empty(.Object))
+        return(mlr:::make.empty(.Object))
       if (!is.null(names(start)))
         stop("'start' has to be a unamed list, but in the correct order!")        
 			.Object@start = start 			

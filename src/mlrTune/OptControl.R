@@ -26,7 +26,7 @@ setMethod(
 		signature = signature("OptControl"),
 		def = function(.Object, path, same.resampling.instance, ...) {
       if (missing(path))
-        return(make.empty(.Object))
+        return(mlr:::make.empty(.Object))
 			.Object@path = path
       .Object@same.resampling.instance = same.resampling.instance
 			.Object@extra.args = list(...)

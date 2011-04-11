@@ -13,7 +13,7 @@ roxygen()
 #' @slot y Performance values for optimal 'x'.
 #' @slot path Optimization path which lead to 'x'.
 #' 
-#' @exportClass opt.result
+#' @exportClass OptResult
 #' @title Optimization result.
 #' @seealso \code{\link{tune}}, \code{\link{varsel}} 
 setClass(

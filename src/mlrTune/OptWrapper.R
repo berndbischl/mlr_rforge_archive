@@ -1,4 +1,5 @@
 #' Abstract base class to wrap an optimization algorithm around a learner.
+#' @importClassesFrom mlr BaseWrapper Learner object
 
 setClass(
 		"OptWrapper",

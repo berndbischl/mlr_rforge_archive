@@ -1,6 +1,7 @@
 #' @include OptResult.R
 roxygen()
 
+#' @importClassesFrom mlr WrappedModel
 setClass(
   "OptModel",
   contains = c("WrappedModel"),
