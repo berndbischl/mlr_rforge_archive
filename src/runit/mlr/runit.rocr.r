@@ -3,5 +3,5 @@ test.rocr = function() {
   m = train(w, binaryclass.task)
   p = predict(m, binaryclass.task)
   p= as.ROCR.pred(p)
-  ROCR.plot(p)
+  #ROCR.plot(p)
 }
