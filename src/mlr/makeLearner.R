@@ -3,11 +3,8 @@
 #' How to change object later on: Look at setters of \code{\linkS4class{Learner}}.
 #' 
 #' Tresholds for class labels: If you set \code{predict.type} to "prob" or "decision", the label with the maximum value is selected.
-#' You can change labels of a \code{\linkS4class{Prediction}} object later by using the function \code{\link{setThreshold}} or find optimal, 
-#' non-default thresholds by using \code{\link{makeProbthWrapper}} and tuning it.
+#' You can change labels of a \code{\linkS4class{Prediction}} object later by using the function \code{\link{setThreshold}}.
 #' 
-#' How to add further functionality to a learner: Look at subclasses of \code{\linkS4class{BaseWrapper}}.
-#'  
 #' @param class [character(1)] \cr
 #'        Class of learner to create.
 #' @param id [character(1)]\cr 

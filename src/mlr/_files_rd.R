@@ -97,11 +97,6 @@ allowed.rd.files <<- c(
   "as.ROCR.preds.Rd",
   "iters.Rd",
   
-  "BaseWrapper-class.Rd",
-  "makePreprocWrapper.Rd",
-  "makeMulticlassWrapper.Rd",
-  "MulticlassWrapper-class.Rd",
-  "makeProbthWrapper.Rd",
-  "ProbthWrapper-class.Rd"
+  "BaseWrapper-class.Rd"
 )   
 
