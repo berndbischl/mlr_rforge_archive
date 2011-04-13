@@ -57,7 +57,7 @@ ROCR.plot.task = function(x, task.id, learner.ids=names(x@learners),
     id = learner.ids[i]
     p = preds[[id]]
     if(!any(is.na(p@df$response))) {
-      p = as.ROCR.preds(p)
+      p = as.ROCR.prediction(p)
       perf = ROCR.performance(p, perf1, perf2)
       add = (i != 1)
         plot(perf, add=add, col=col[i], ...)
