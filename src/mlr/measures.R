@@ -170,7 +170,7 @@ auc = makeMeasure(id="auc", minimize=FALSE, req.task.type="binary" ,req.pred.typ
     if (any(is.na(pred@df$response)) || length(unique(pred@df$truth)) == 1)
       return(as.numeric(NA))
     
-    rpreds = as.ROCR.preds(pred)
+    rpreds = as.ROCR.prediction(pred)
     ROCR.performance(rpreds, "auc")@y.values[[1]]
   }  
 )

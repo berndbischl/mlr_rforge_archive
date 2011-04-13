@@ -9,25 +9,25 @@ roxygen()
 #' @param x [\code{\linkS4class{Prediction}}] \cr
 #'		Prediction object. 			
 #' 
-#' @exportMethod as.ROCR.preds 
-#' @rdname as.ROCR.preds 
+#' @exportMethod as.ROCR.prediction 
+#' @rdname as.ROCR.prediction 
 #' @title Convert to ROCR format.
 
 
 setGeneric(
-		name = "as.ROCR.preds",
+		name = "as.ROCR.prediction",
 		def = function(x) {
 #			if(!require(ROCR)) {
 #				stop(paste("Package ROCR is missing!"))
 #			}
-			standardGeneric("as.ROCR.preds")
+			standardGeneric("as.ROCR.prediction")
 		}
 )
 
 #' @export
-#' @rdname as.ROCR.preds 
+#' @rdname as.ROCR.prediction 
 setMethod(
-		f = "as.ROCR.preds",
+		f = "as.ROCR.prediction",
 		signature = signature(x="Prediction"), 
 		def = function(x) {
 			if(length(getClassLevels(x)) != 2) {
@@ -43,9 +43,9 @@ setMethod(
 
 
 #' @export
-#' @rdname as.ROCR.preds 
+#' @rdname as.ROCR.prediction 
 setMethod(
-  f = "as.ROCR.preds",
+  f = "as.ROCR.prediction",
   signature = signature(x="ResamplePrediction"), 
   def = function(x) {
     if(length(getClassLevels(x)) != 2) {

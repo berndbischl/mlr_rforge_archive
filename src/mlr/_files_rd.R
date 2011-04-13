@@ -77,6 +77,7 @@ allowed.rd.files <<- c(
   "measures.Rd",
   "losses.Rd",
   
+  "as.ROCR.prediction.Rd",
   "ROCR_performance.Rd",
   "ROCR_performance-class.Rd",
   "ROCR_prediction.Rd",
@@ -94,7 +95,6 @@ allowed.rd.files <<- c(
   "resample.done.Rd",
   "resample.Rd",
   "ResamplePrediction-class.Rd",
-  "as.ROCR.preds.Rd",
   "iters.Rd",
   
   "BaseWrapper-class.Rd"
