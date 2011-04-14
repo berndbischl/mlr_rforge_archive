@@ -42,10 +42,10 @@ setMethod(
         if (!is.data.frame(newdata) || nrow(newdata) == 0)
           stop("newdata must be a data.frame with at least one row!")
 			}
-			type = if (wl@desc@type == "classif") wl["predict.type"] else "response" 
+			type = if (wl@properties[["type"]] == "classif") wl["predict.type"] else "response" 
 
       # load pack. if we saved a model and loaded it later just for prediction this is necessary
-      require.packs(wl@pack, paste("learner", learner@desc@id))
+      require.packs(wl@pack, paste("learner", learner@id))
 			
 			cns = colnames(newdata)
 			tn = td@target
@@ -59,12 +59,12 @@ setMethod(
 				truth = NULL
 			}
 			
-			logger.debug(level="predict", "mlr predict:", wl@desc@id, "with pars:")
+			logger.debug(level="predict", "mlr predict:", wl@id, "with pars:")
 			logger.debug(level="predict", getParameterValuesString(model@learner))
 			logger.debug(level="predict", "on", nrow(newdata), "examples:")
 			logger.debug(level="predict", rownames(newdata))
 			
-			if (wl@desc@type == "classif") {
+			if (wl@properties[["type"]] == "classif") {
 				levs = getClassLevels(td)
 			}
 			
@@ -85,7 +85,7 @@ setMethod(
         # only pass train hyper pars as basic rlearner in ...
         pars = c(pars, getParameterValues(getLeafLearner(wl), "predict"))
 
-        if (wl@desc@type == "classif") {
+        if (wl@properties[["type"]] == "classif") {
 					pars$.type = type
 				}
 				
@@ -112,7 +112,7 @@ setMethod(
 						time.predict = as.numeric(NA)
 					}
 				}
-				if (wl@desc@type == "classif") {
+				if (wl@properties[["type"]] == "classif") {
 					if (type == "response") {
 						# the levels of the predicted classes might not be complete....
 						# be sure to add the levels at the end, otherwise data gets changed!!!
@@ -153,7 +153,7 @@ setMethod(
 )
 
 predict_nas = function(learner, model, newdata, type, levs, task.desc) {
-	if (learner@desc@type == "classif") {
+	if (learner@properties[["type"]] == "classif") {
 		p = switch(type, 
 				response = factor(rep(NA, nrow(newdata)), levels=levs),
 				matrix(as.numeric(NA), nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))

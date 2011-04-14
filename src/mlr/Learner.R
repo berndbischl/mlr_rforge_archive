@@ -4,8 +4,6 @@
 roxygen()
 #' @include ParameterSet.R
 roxygen()
-#' @include LearnerDesc.R
-roxygen()
 
 #' Abstract base class for learning algorithms.
 #'  
@@ -50,8 +48,9 @@ setClass(
 		"Learner",
 		contains = c("object"),
 		representation = representation(
-				desc = "LearnerDesc",
-				pack = "character",
+        id = "character",
+        pack = "character",
+        properties = "list",
 				par.set = "ParameterSet",
 				par.vals = "list",
         predict.type = "character"
@@ -63,15 +62,31 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("Learner"),
-		def = function(.Object, id, pack, par.set=makeParameterSet(), par.vals=list()) {			
-			if (missing(id))
+		def = function(.Object, pack, par.set=makeParameterSet(), par.vals=list()) {			
+			if (missing(pack))
 				return(make.empty(.Object))
-      .Object@desc = new("LearnerDesc")
-      .Object@desc@id = id
+      cc = as.character(class(.Object))[1]
+      if (is(.Object, "rlearner.classif"))
+        .Object@properties["type"] = "classif"
+      else if(is(.Object, "rlearner.regr"))
+        .Object@properties["type"] = "regr"
+      else 
+        stop("Unnown derived class class learner: ", cc)
+      .Object@id = cc 
+      .Object@properties["numerics"] = FALSE
+      .Object@properties["factors"] = FALSE
+      .Object@properties[["weights"]] = FALSE  
+      .Object@properties[["missings"]] = FALSE
+      .Object@properties[["oneclass"]] = FALSE
+      .Object@properties[["twoclass"]] = FALSE
+      .Object@properties[["multiclass"]] = FALSE
+      .Object@properties[["prob"]] = FALSE
+      .Object@properties[["decision"]] = FALSE
+      .Object@properties[["costs"]] = FALSE
 			.Object@pack = pack
 			require.packs(pack, for.string=paste("learner", id))
       if(any(sapply(par.set@pars, function(x) !is(x, "LearnerParameter"))))
-        stop("All par.set parameters in learner of class ", class(.Object), " must be of class 'LearnerParameter'!")        
+        stop("All par.set parameters in learner of class ", class(.Object), " must be of class 'LearnerParameter'!")
 			.Object@par.set = par.set
       .Object@predict.type = "response"
       setHyperPars(.Object, par.vals=par.vals)
