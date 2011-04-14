@@ -20,7 +20,7 @@ benchmark_par = function(ind, learners, tasks, resamplings, measures, conf.mat, 
 		learner = makeLearner(learner)
 	}
 	
-	logger.info(paste("bench.exp: task=", task@desc@id, " learner=", learner@desc@id))
+	logger.info(paste("bench.exp: task=", task@desc@id, " learner=", learner@id))
 	
 	if (missing(measures))
 		measures = default.measures(task)
