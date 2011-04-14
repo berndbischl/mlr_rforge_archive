@@ -36,7 +36,7 @@ setMethod(f = "to.string",
   def = function(x) {
     pack = paste(x@pack, collapse=",")
     return(paste(
-        "Classification learner id=", getProperty(x, "id"), " from package ", pack, "\n",
+        "Classification learner id=", x@id, " from package ", pack, "\n",
         "Class: ", class(x), "\n",
         "Predict-Type: ", x["predict.type"], "\n",
         "Hyperparameters: ", getParameterValuesString(x), "\n\n",
@@ -60,7 +60,7 @@ setMethod(f = "to.string",
   def = function(x) {
     pack = paste(x@pack, collapse=",")
     return(paste(
-        "Regression learner id=", getProperty(x, "id"), " from package ", pack, "\n",
+        "Regression learner id=", x@id, " from package ", pack, "\n",
         "Class: ", class(x), "\n",
         "Hyperparameters: ", getParameterValuesString(x), "\n\n",
         "Supported features Doubles:", getProperty(x, "numerics"), " Factors:", getProperty(x, "factors"), "\n",

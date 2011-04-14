@@ -72,9 +72,6 @@ setMethod(
 			
 			td = x@desc
       
-      if (i == "data"){
-        return(x@dataenv$data)
-      }
       if (i == "weights") {
 				if (!td["has.weights"])
 					return(NULL)
@@ -140,13 +137,13 @@ get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
     list(
       data = 
         if (ms && mv) 
-          {d=task["data"];d[,tn]=NULL;d} 
+          {d=task@dataenv$data;d[,tn]=NULL;d} 
         else if (ms)
-          task["data"][,vars,drop=FALSE]
+          task@dataenv$data[,vars,drop=FALSE]
         else if (mv)
-          {d=task["data"][subset,,drop=FALSE];d[,tn]=NULL;d} 
+          {d=task@dataenv$data[subset,,drop=FALSE];d[,tn]=NULL;d} 
         else
-          task["data"][subset,vars,drop=FALSE],
+          task@dataenv$data[subset,vars,drop=FALSE],
       target = 
         if (ms)
           rec.y(getTargets(task))
@@ -156,13 +153,13 @@ get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
   } else {
     d = 
       if (ms && mv) 
-        task["data"] 
+        task@dataenv$data 
       else if (ms)
-        task["data"][,c(vars, tn),drop=FALSE]
+        task@dataenv$data[,c(vars, tn),drop=FALSE]
       else if (mv)
-        task["data"][subset,,drop=FALSE]
+        task@dataenv$data[subset,,drop=FALSE]
       else
-        task["data"][subset,vars,drop=FALSE]
+        task@dataenv$data[subset,vars,drop=FALSE]
     if (class.as != "factor")
       d[,tn] = rec.y(d[, tn])
     return(d)

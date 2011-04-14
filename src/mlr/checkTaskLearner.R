@@ -1,10 +1,10 @@
 #' @include ClassifTask.R
 roxygen()
 
-checkTaskLearner <- function(lt, learner) {
-	data <- lt["data"]
-	msg <- ""
-	td <- lt@desc
+checkTaskLearner = function(lt, learner) {
+	data = get.data(lt)
+	msg = ""
+	td = lt@desc
 	
 	if (td["has.missing"] && learner@properties[["missings"]]) {
 		stop("Data set has missing values, but ", learner@id, " does not support that!")

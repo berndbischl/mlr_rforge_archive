@@ -67,7 +67,7 @@ setMethod(
       vars = getFeatureNames(task)
       # no vars? then use no vars model
       if (length(vars) == 0) {
-        learner.model = new("novars", targets=task["data"][subset, tn], desc=task@desc)
+        learner.model = new("novars", targets=task@dataenv$data[subset, tn], desc=task@desc)
         time.train = 0
       } else {
         # set the seed

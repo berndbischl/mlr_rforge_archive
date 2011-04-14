@@ -37,7 +37,7 @@ setMethod(
 			if (missing(newdata)) {
 				if (missing(subset))
 					subset = 1:task["size"]
-				newdata = task["data"][subset,,drop=FALSE]
+				newdata = get.data(task, subset=subset)
 			} else {
         if (!is.data.frame(newdata) || nrow(newdata) == 0)
           stop("newdata must be a data.frame with at least one row!")

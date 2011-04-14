@@ -41,10 +41,11 @@ setMethod(
 		signature = signature("RegrTask"),
 		def = function(x) {
       td = x@desc
-      rwm = sum(apply(x["data"], 1, function(x) any(is.na(x))))
-      cwm = sum(apply(x["data"], 2, function(x) any(is.na(x))))
-      rwi = sum(apply(x["data"], 1, function(x) any(is.infinite(x))))
-      cwi = sum(apply(x["data"], 2, function(x) any(is.infinite(x))))
+      data = get.data(x)
+      rwm = sum(apply(data, 1, function(x) any(is.na(x))))
+      cwm = sum(apply(data, 2, function(x) any(is.na(x))))
+      rwi = sum(apply(data, 1, function(x) any(is.infinite(x))))
+      cwi = sum(apply(data, 2, function(x) any(is.infinite(x))))
       feat = paste(capture.output(x@desc@n.feat), collapse="\n")
       return(
 					paste(
