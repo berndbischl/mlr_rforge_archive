@@ -36,6 +36,7 @@ setGeneric(
 )
 
 
+#' @rdname makeMeasure
 setMethod(
   f = "makeMeasure",
   signature = signature(id="character", minimize="logical", req.task.type="character", req.binary="logical", 

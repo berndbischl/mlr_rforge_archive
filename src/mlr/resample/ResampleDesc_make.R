@@ -24,7 +24,8 @@
 #'			folds [integer(1)]: Folds in the repeated CV for 'RepCV'. Here 'iters' = 'folds' x 'reps'. Default is 5. 
 #' 
 #' @return \code{\linkS4class{ResampleDesc}}.
-#' @export 
+#' @exportMethod makeResampleDesc
+#' @rdname makeResampleDesc
 #' @title Construct resampling description.
 
 

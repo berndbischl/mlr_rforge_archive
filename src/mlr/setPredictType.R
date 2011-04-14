@@ -9,8 +9,8 @@
 #' 		    
 #' @return \code{\linkS4class{Learner}} with changed Prediction behaviour.
 #' @exportMethod setPredictType
+#' @rdname setPredictType 
 #' @title Set predict type of learner object.
-#' @rdname set.predict.pars 
 
 setGeneric(
   name = "setPredictType",
