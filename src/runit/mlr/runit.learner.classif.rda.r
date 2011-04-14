@@ -1,8 +1,6 @@
-
-
-
 test.rda <- function() {
-
+  require("klaR")
+  
 	set.seed(debug.seed)
 	m <- rda(formula=multiclass.formula, data=multiclass.train)
 	p <- predict(m, newdata=multiclass.test)$class

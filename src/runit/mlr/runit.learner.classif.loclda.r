@@ -2,7 +2,7 @@
 
 
 test.loclda <- function() {
-	
+	require("klaR")
 	m <- loclda(formula=multiclass.formula, data=multiclass.train)
 	p <- predict(m, newdata=multiclass.test)
 	
