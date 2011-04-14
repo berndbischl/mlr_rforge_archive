@@ -72,11 +72,6 @@ setMethod(
 			
 			td = x@desc
       
-      if (i == "weights") {
-				if (!td["has.weights"])
-					return(NULL)
-				return(x@weights)
-			}
 			if (i == "blocking") {
 				if (!td["has.blocking"])
 					return(NULL)

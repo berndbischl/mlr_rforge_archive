@@ -74,7 +74,7 @@ setMethod(
 			f = .task["formula"]
       args = c(list(f, data=get.data(.task, .subset), control=xs$control, tree_control=ys$control), ys$args)
 			if (.task["has.weights"])
-        args$weights = .task["weights"][.subset] 
+        args$weights = .task@weights[.subset] 
 			do.call(blackboost, args)
 		}
 )

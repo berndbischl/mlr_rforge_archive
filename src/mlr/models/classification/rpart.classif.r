@@ -69,12 +69,12 @@ setMethod(
 #        levs = levels(d[, .task@desc@target]) 
 #        cm = cm[levs, levs]
 #        if (.task["has.weights"])
-#          rpart(f, data=d, weights=.task["weights"][.subset], parms=list(loss=cm), ...)
+#          rpart(f, data=d, weights=.task@weights[.subset], parms=list(loss=cm), ...)
 #        else 
 #          rpart(f, data=d, parms=list(loss=cm), ...)
 #      } else
       if (.task["has.weights"])
-        rpart(f, data=d, weights=.task["weights"][.subset], ...)
+        rpart(f, data=d, weights=.task@weights[.subset], ...)
       else 
         rpart(f, data=d, ...)
     }

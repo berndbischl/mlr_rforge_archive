@@ -61,7 +61,7 @@ setMethod(
 		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
       if (.task["has.weights"])
-        multinom(f, data=get.data(.task, .subset), weights=.task["weights"][.subset], ...)
+        multinom(f, data=get.data(.task, .subset), weights=.task@weights[.subset], ...)
       else  
         multinom(f, data=get.data(.task, .subset), ...)			
 		}

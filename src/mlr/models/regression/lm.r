@@ -39,7 +39,7 @@ setMethod(
       d = get.data(.task, .subset)
       if (.task["has.weights"]) {
         # strange bug in lm concerning weights
-        do.call(lm, list(f, data=d, weights=.task["weights"][.subset]))
+        do.call(lm, list(f, data=d, weights=.task@weights[.subset]))
       }else  
         lm(f, data=d, ...)
     }
