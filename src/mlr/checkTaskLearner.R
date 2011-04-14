@@ -5,8 +5,12 @@ checkTaskLearner = function(lt, learner) {
 	data = get.data(lt)
 	msg = ""
 	td = lt@desc
-	
-	if (td["has.missing"] && learner@properties[["missings"]]) {
+  if (is(lt, "ClassifTask") && learner@properties[["type"]] != "classif") {
+    stop("Task is classification, but ", learner@id, " is for: ", learner@properties[["type"]])
+  } else if (is(lt, "RegrTask") && learner@properties[["type"]] != "regr") {
+    stop("Task is regression, but ", learner@id, " is for: ", learner@properties[["type"]])
+  }
+  if (td["has.missing"] && !learner@properties[["missings"]]) {
 		stop("Data set has missing values, but ", learner@id, " does not support that!")
 	}
 	if (td@n.feat["numerics"] > 0 && !learner@properties[["numerics"]]) {

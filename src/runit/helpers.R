@@ -66,3 +66,12 @@ checkWarning = function(e, w, msg="") {
   }
 }
 
+
+# we check that an error was generating when evaluation e,
+# which contains string w
+checkError = function(e, w, msg="") {
+  checkException(e, silent=TRUE)
+  s = geterrmessage()
+  checkTrue(length(grep(w, s)) >0 )
+}
+
