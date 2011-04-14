@@ -84,7 +84,7 @@ setMethod(
 			if (.type == "prob") {
 				m = .model@learner.model
 				p = treeresponse(m, newdata=.newdata, ...)
-				p = Reduce(rbind, p)
+				p = do.call(rbind, p)
 				rownames(p) = NULL
 				colnames(p) = m@responses@levels[[.model@desc@target]]
 				return(p)
