@@ -21,19 +21,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.J48"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE
-			)
       par.set = makeParameterSet(
         makeLogicalLearnerParameter(id="U"),
         makeLogicalLearnerParameter(id="O"),
@@ -47,8 +34,18 @@ setMethod(
         makeLogicalLearnerParameter(id="A"),
         makeLogicalLearnerParameter(id="J")
       )      
-			callNextMethod(.Object, pack="RWeka", desc=desc, par.set=par.set)
-		}
+		
+      .Object = callNextMethod(.Object, pack="RWeka", par.set=par.set)
+      
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE
+      )
+    }
 )
 
 #' @rdname trainLearner

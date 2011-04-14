@@ -22,20 +22,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.lssvm"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = FALSE,
-					decision = TRUE,
-					weights = FALSE,	
-					costs = FALSE 
-			)
-
       # to do: stringdot pars and check order, scale and offset limits
       par.set = makeParameterSet(
         makeLogicalLearnerParameter(id="scaled", default=TRUE),
@@ -55,8 +41,17 @@ setMethod(
           requires=expression(kernel == "besseldot")),
         makeNumericLearnerParameter(id="tol", default=0.0001, lower=0)
       )
-			callNextMethod(.Object, pack="kernlab", desc=desc, par.set=par.set)
-		}
+
+      .Object = callNextMethod(.Object, pack="kernlab", par.set=par.set)
+    
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        decision = TRUE
+      )
+    }
 )
 
 

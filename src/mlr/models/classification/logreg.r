@@ -20,22 +20,16 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.logreg"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = FALSE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = TRUE,
-					costs = FALSE
-			)
-			
-			callNextMethod(.Object, pack="stats", desc=desc)
-		}
+			.Object = callNextMethod(.Object, pack="stats")
+
+      setProperties(.Object, 
+        twoclass = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE,
+        weights = TRUE
+      )
+    }
 )
 
 #' @rdname trainLearner

@@ -12,14 +12,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.blackboost"),
-		def = function(.Object) {
-			
-			desc = c(
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					weights = TRUE
-			)
+		def = function(.Object) {			
       par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="family", default="Gaussian", vals=list(Gaussian=Gaussian(), Huber=Huber(), Laplace=Laplace())),
         makeIntegerLearnerParameter(id="mstop", default=100L, lower=1L),
@@ -36,7 +29,15 @@ setMethod(
         makeLogicalLearnerParameter(id="savesplitstats", default=TRUE),
         makeIntegerLearnerParameter(id="maxdepth", default=0L, lower=0L)
       )
-			callNextMethod(.Object, pack=c("mboost", "party"), desc=desc, par.set=par.set)
+			
+      .Object = callNextMethod(.Object, pack=c("mboost", "party"), par.set=par.set)
+      
+      setProperties(.Object,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = TRUE,
+        weights = TRUE
+      )
 		}
 )
 

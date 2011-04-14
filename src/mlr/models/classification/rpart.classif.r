@@ -23,19 +23,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.rpart"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = TRUE,
-					costs = TRUE
-			)
 			par.set = makeParameterSet(
           makeIntegerLearnerParameter(id="minsplit", default=20L, lower=1L),
           makeIntegerLearnerParameter(id="minbucket", lower=1L),
@@ -48,7 +35,18 @@ setMethod(
           makeIntegerLearnerParameter(id="maxdepth", default=30L, lower=1L, upper=30L)
 			)
 			
-			callNextMethod(.Object, pack="rpart", desc=desc, par.set=par.set)
+			.Object = callNextMethod(.Object, pack="rpart", par.set=par.set)
+      
+      .Object = setProperties(.Object,
+        twoclass = TRUE,
+        multiclass = TRUE,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE,
+        weights = TRUE,
+        costs = TRUE
+      )
 		}
 )
 

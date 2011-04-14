@@ -21,26 +21,20 @@ setMethod(
   signature = signature("classif.fnn"),
   def = function(.Object) {
     
-    desc = c(
-      oneclass = FALSE,
-      twoclass = TRUE,
-      multiclass = TRUE,
-      missings = FALSE,
-      numerics = TRUE,
-      factors = FALSE,
-      prob = FALSE,
-      decision = FALSE,
-      weights = FALSE,
-      costs = FALSE
-    )
-    
     # l is for reject option. cannot be done with mlr atm
     par.set = makeParameterSet(
       makeIntegerLearnerParameter(id="k", default=1L, lower=1L),
       makeLogicalLearnerParameter(id="use.all", default=TRUE, requires=expression(algorithm == "VR")),
       makeDiscreteLearnerParameter(id="algorithm", default="cover_tree", vals=list("cover_tree", "kd_tree", "VR"))
     )
-    callNextMethod(.Object, pack="FNN", desc=desc, par.set=par.set)
+  
+    .Object = callNextMethod(.Object, pack="FNN", par.set=par.set)
+
+    setProperties(.Object, 
+      twoclass = TRUE,
+      multiclass = TRUE,
+      numerics = TRUE
+    )
   }
 )
 

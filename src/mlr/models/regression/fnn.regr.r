@@ -18,21 +18,21 @@ setMethod(
   f = "initialize",
   signature = signature("regr.fnn"),
   def = function(.Object) {
-    
-    desc = c(
-      missings = FALSE,
-      numerics = TRUE,
-      factors = FALSE,
-      weights = FALSE
-    )
-    
     # l is for reject option. cannot be done with mlr atm
     par.set = makeParameterSet(
       makeIntegerLearnerParameter(id="k", default=1L, lower=1L),
       makeLogicalLearnerParameter(id="use.all", default=TRUE, requires=expression(algorithm == "VR")),
       makeDiscreteLearnerParameter(id="algorithm", default="cover_tree", vals=list("cover_tree", "kd_tree", "VR"))
     )
-    callNextMethod(.Object, pack="FNN", desc=desc, par.set=par.set)
+    
+    .Object = callNextMethod(.Object, pack="FNN", par.set=par.set)
+
+    setProperties(.Object,
+      missings = FALSE,
+      numerics = TRUE,
+      factors = FALSE,
+      weights = FALSE
+    )
   }
 )
 

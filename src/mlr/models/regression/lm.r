@@ -14,16 +14,15 @@ setMethod(
 		f = "initialize",
 		signature = signature("regr.lm"),
 		def = function(.Object) {
-			
-			desc = c(
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					weights = TRUE
-			)
-			
-			callNextMethod(.Object, pack="stats", desc=desc)
-		}
+			.Object = callNextMethod(.Object, pack="stats")
+      
+      setProperties(.Object,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = TRUE,
+        weights = TRUE
+      )
+    }
 )
 
 #' @rdname trainLearner

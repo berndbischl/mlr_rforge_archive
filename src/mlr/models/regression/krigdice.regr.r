@@ -20,19 +20,18 @@ setMethod(
     f = "initialize",
     signature = signature("regr.km"),
     def = function(.Object) {
-      
-      desc = c(
-          missings = FALSE,
-          numerics = TRUE,
-          factors = FALSE,
-          weights = FALSE
-      )
-       
       par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="covtype", default="matern5_2", 
           vals=list("gauss", "matern5_2", "matern3_2", "exp", "powexp")) 
       )
-      callNextMethod(.Object, pack="DiceKriging", desc=desc, par.set=par.set)
+      .Object = callNextMethod(.Object, pack="DiceKriging", par.set=par.set)
+      
+      setProperties(.Object,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = FALSE,
+        weights = FALSE
+      )
     }
 )
 

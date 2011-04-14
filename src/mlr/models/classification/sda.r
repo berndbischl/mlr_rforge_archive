@@ -19,26 +19,18 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.sda"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = FALSE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,			
-					costs = FALSE
-			)
-			
       par.set = list (
         makeLogicalLearnerParameter(id="diagonal", default=FALSE)
       )
       
+			.Object = callNextMethod(.Object, pack="sda", par.set=par.set)
       
-			callNextMethod(.Object, pack="sda", desc=desc, par.set=par.set)
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        numerics = TRUE,
+        prob = TRUE
+      )
 		}
 )
 

@@ -20,21 +20,20 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.lvq1"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = FALSE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE
-			)
-			
-			callNextMethod(.Object, pack="class", desc=desc)
+			.Object = callNextMethod(.Object, pack="class")
+
+      setProperties(.Object, 
+        oneclass = FALSE,
+        twoclass = TRUE,
+        multiclass = TRUE,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = FALSE,
+        decision = FALSE,
+        weights = FALSE,
+        costs = FALSE
+      )
 		}
 )
 

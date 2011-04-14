@@ -22,22 +22,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.multinom"),
 		def = function(.Object) {
-			
-			#checked:
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = TRUE,
-					costs = FALSE
-			)
-			
-      
       par.set = makeParameterSet(
         makeLogicalLearnerParameter(id="Hess", default=FALSE),
         makeDiscreteLearnerParameter(id="summ", default=0L, vals=0:3),
@@ -51,8 +35,18 @@ setMethod(
         makeNumericLearnerParameter(id="reltoll", default=1.0e-8)
       )
       
-			callNextMethod(.Object, pack="nnet", desc=desc, par.set=par.set)
-		}
+      .Object = callNextMethod(.Object, pack="nnet", par.set=par.set)
+      
+      #checked:
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE,
+        weights = TRUE
+      )
+    }
 )
 
 #' @rdname trainLearner

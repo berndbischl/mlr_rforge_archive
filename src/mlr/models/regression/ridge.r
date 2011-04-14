@@ -14,17 +14,18 @@ setMethod(
 		f = "initialize",
 		signature = signature("regr.ridge"),
 		def = function(.Object) {
-
-			desc = c(
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					weights = FALSE
-			)
       par.set = makeParameterSet(
         makeNumericLearnerParameter(id="lambda2", default=0, lower=0)
       )
-			callNextMethod(.Object, pack="penalized", desc=desc, par.set=par.set)
+
+      .Object = callNextMethod(.Object, pack="penalized", par.set=par.set)
+      
+      setProperties(.Object,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        weights = FALSE
+      )
 		}
 )
 

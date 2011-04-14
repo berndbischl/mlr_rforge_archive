@@ -19,19 +19,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.rda"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,			
-					costs = FALSE
-			)
 			par.set = makeParameterSet(
 					makeNumericLearnerParameter(id="lambda", lower=0, upper=1),
 					makeNumericLearnerParameter(id="gamma", lower=0, upper=1),
@@ -52,8 +39,16 @@ setMethod(
           makeLogicalLearnerParameter(id="estimate.error", default=FALSE, pass.default=TRUE)
 			)
 			
-			callNextMethod(.Object, pack="klaR", desc=desc, par.set=par.set)
-		}
+			.Object = callNextMethod(.Object, pack="klaR", par.set=par.set)
+    
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE
+      )
+    }
 )
 
 #' @rdname trainLearner

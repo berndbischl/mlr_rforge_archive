@@ -19,19 +19,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.kknn"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE
-			)
 			#todo: find out what ykernel and contrasts really do 
 			par.set = makeParameterSet(
         makeIntegerLearnerParameter(id="k", default=7L, lower=1L),
@@ -39,8 +26,22 @@ setMethod(
 				makeDiscreteLearnerParameter(id="kernel", default="triangular", 
 						vals=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian"))
 			)
-			callNextMethod(.Object, pack="kknn", desc=desc, par.set=par.set)
-		}
+			
+      .Object = callNextMethod(.Object, pack="kknn", par.set=par.set)
+    
+      setProperties(.Object, 
+        oneclass = FALSE,
+        twoclass = TRUE,
+        multiclass = TRUE,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE,
+        decision = FALSE,
+        weights = FALSE,
+        costs = FALSE
+      )
+    }
 )
 
 #' @rdname trainLearner

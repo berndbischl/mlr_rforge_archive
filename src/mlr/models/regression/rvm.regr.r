@@ -21,13 +21,6 @@ setMethod(
     signature = signature("regr.rvm"),
     def = function(.Object) {
       
-      desc = c(
-          missings = FALSE,
-          numerics = TRUE,
-          factors = TRUE,
-          weights = FALSE  
-      )
-      
       # to do: stringdot pars and check order, scale and offset limits
       par.set = makeParameterSet(
           makeDiscreteLearnerParameter(id="kernel", default="rbfdot", 
@@ -51,7 +44,14 @@ setMethod(
       		makeNumericLearnerParameter(id="minmaxdiff", default=0.001, lower=0)
       )
       
-      callNextMethod(.Object, pack="kernlab", desc=desc)
+      .Object = callNextMethod(.Object, pack="kernlab")
+      
+      setProperties(.Object,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = TRUE,
+        weights = FALSE  
+      )
     }
 )
 

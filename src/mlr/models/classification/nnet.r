@@ -20,20 +20,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.nnet"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = TRUE,
-					costs = FALSE
-			)
-
 			par.set = makeParameterSet(
         makeIntegerLearnerParameter(id="size", default=3L, lower=0L, pass.default=TRUE),
         makeIntegerLearnerParameter(id="maxit", default=100L, lower=1L),
@@ -52,8 +38,17 @@ setMethod(
         makeNumericLearnerParameter(id="reltoll", default=1.0e-8)
       )
       			
-			callNextMethod(.Object, pack="nnet", desc=desc, par.set=par.set)
-		}
+			.Object = callNextMethod(.Object, pack="nnet", par.set=par.set)
+    
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE,
+        weights = TRUE
+      )
+    }
 )
 
 #' @rdname trainLearner

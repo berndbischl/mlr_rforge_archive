@@ -20,23 +20,19 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.OneR"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE
-			)
       par.set = makeParameterSet(
         makeIntegerLearnerParameter(id="B", default=6L, lower=1L)
       )
-			callNextMethod(.Object, pack="RWeka", desc=desc, par.set=par.set)
+			.Object = callNextMethod(.Object, pack="RWeka", par.set=par.set)
+      
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE
+      )
 		}
 )
 

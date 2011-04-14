@@ -21,7 +21,7 @@ setMethod(
 		def = function(.Object) {
 			
 			
-			desc = c(
+			setProperties(.Object, 
 					oneclass = FALSE,
 					twoclass = TRUE,
 					multiclass = FALSE,
@@ -34,7 +34,7 @@ setMethod(
 					costs = FALSE
 			)			
 			
-			callNextMethod(.Object, pack="locClass", props=desc)
+			.Object = callNextMethod(.Object, pack="locClass", props=desc)
 		}
 )
 

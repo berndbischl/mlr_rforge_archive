@@ -13,15 +13,14 @@ setMethod(
   f = "initialize",
   signature = signature("regr.sg.libsvr"),
   def = function(.Object) {
+    .Object = callNextMethod(.Object, pack="sg")
     
-    desc = c(
+    setProperties(.Object,
       missings = FALSE,
       numerics = TRUE,
       factors = FALSE,
       weights = FALSE
     )
-    
-    callNextMethod(.Object, pack="sg", desc=desc)
   }
 )
 

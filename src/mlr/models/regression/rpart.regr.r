@@ -12,14 +12,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.rpart"),
-		def = function(.Object) {
-			
-			desc = c(
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					weights = TRUE
-			)
+		def = function(.Object) {			
       par.set = makeParameterSet(
         makeIntegerLearnerParameter(id="minsplit", default=20L, lower=1L),
         makeIntegerLearnerParameter(id="minbucket", lower=1L),
@@ -32,7 +25,14 @@ setMethod(
         makeIntegerLearnerParameter(id="maxdepth", default=30L, lower=1L, upper=30L)
       )
       
-			callNextMethod(.Object, pack="rpart",	desc=desc, par.set=par.set)
+			.Object = callNextMethod(.Object, pack="rpart",	desc=desc, par.set=par.set)
+      
+      setProperties(.Object,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        weights = TRUE
+      )
 		}
 )
 

@@ -15,19 +15,18 @@ setMethod(
   f = "initialize",
   signature = signature("regr.rsm"),
   def = function(.Object) {
+    par.set = makeParameterSet(      
+      makeDiscreteLearnerParameter(id="modelfun", default="FO", vals=c("FO", "TWI", "SO"), pass.default=TRUE)
+    )
     
-    desc = c(
+    .Object = callNextMethod(.Object, pack="rsm", par.set=par.set)
+  
+    setProperties(.Object,
       missings = FALSE,
       numerics = TRUE,
       factors = FALSE,
       weights = FALSE
     )
-    
-    par.set = makeParameterSet(      
-      makeDiscreteLearnerParameter(id="modelfun", default="FO", vals=c("FO", "TWI", "SO"), pass.default=TRUE)
-    )
-    
-    callNextMethod(.Object, pack="rsm", desc=desc, par.set=par.set)
   }
 )
 

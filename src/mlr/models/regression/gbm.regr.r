@@ -15,14 +15,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("regr.gbm"),
 		def = function(.Object) {
-			
-			desc = c(
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					weights = TRUE
-			)
-			
       par.set = makeParameterSet(      
           makeDiscreteLearnerParameter(id="distribution", default="gaussian", vals=c("gaussian", "laplace")),
           makeIntegerLearnerParameter(id="n.trees", default=100L, lower=1L),
@@ -33,7 +25,14 @@ setMethod(
           makeNumericLearnerParameter(id="train.fraction", default=1, lower=0, upper=1)
       )
       
-			callNextMethod(.Object, pack="gbm", desc=desc, par.set=par.set, par.vals=list(distribution = "gaussian"))
+			.Object = callNextMethod(.Object, pack="gbm", par.set=par.set, par.vals=list(distribution = "gaussian"))
+      
+      setProperties(.Object,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        weights = TRUE
+      )
 		}
 )
 

@@ -20,20 +20,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.randomForest"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE
-			)
-			
 			par.set = makeParameterSet(
 					makeIntegerLearnerParameter(id="ntree", default=500L, lower=1L),
           makeIntegerLearnerParameter(id="mtry", lower=1L),
@@ -49,8 +35,16 @@ setMethod(
           makeLogicalLearnerParameter(id="keep.inbag", default=FALSE)
 			)
 
-      callNextMethod(.Object, pack="randomForest", desc=desc, par.set=par.set)
-		}
+      .Object = callNextMethod(.Object, pack="randomForest", par.set=par.set)
+    
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE
+      )
+    }
 )
 
 #todo: randomforest crashes, when 1 feature is in data and has 0 variance, this 

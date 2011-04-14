@@ -19,26 +19,20 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.grplasso"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = FALSE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = FALSE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = TRUE,
-					costs = FALSE
-			)
-
       par.set = makeParameterSet(
         makeNumericLearnerParameter(id="lambda", default=1, lower=0),
         makeUntypedLearnerParameter(id="index")
       )
       
-      callNextMethod(.Object, pack="grplasso", desc=desc, par.set=par.set, par.vals=list(lambda = 1))
+      .Object = callNextMethod(.Object, pack="grplasso", par.set=par.set, par.vals=list(lambda = 1))
+      
+      .Object = setProperties(.Object, 
+        twoclass = TRUE,
+        numerics = TRUE,
+        prob = TRUE,
+        weights = TRUE
+      )
+      
 		}
 )
 

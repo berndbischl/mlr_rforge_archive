@@ -14,14 +14,14 @@ setMethod(
 		signature = signature("regr.icr"),
 		def = function(.Object) {
 			
-			desc = c(
+			setProperties(.Object,
 					missings = FALSE,
 					numerics = TRUE,
 					factors = TRUE,
 					weights = FALSE
 			)
 			
-			callNextMethod(.Object, pack="caret", desc=desc)
+			.Object = callNextMethod(.Object, pack="caret")
 		}
 )
 

@@ -20,20 +20,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.svm"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE 
-			)
-			
       par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="type", default="C-classification", vals=c("C-classification", "nu-classification")),
         makeNumericLearnerParameter(id="cost",  default=1, lower=0, requires=expression(type=="C-classification")),
@@ -47,7 +33,16 @@ setMethod(
         makeNumericLearnerParameter(id="cachesize", default=40L)
       )
       
-			callNextMethod(.Object, pack="e1071", desc=desc, par.set=par.set)
+      .Object = callNextMethod(.Object, pack="e1071", par.set=par.set)
+      
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE
+      )
+      
 		}
 )
 

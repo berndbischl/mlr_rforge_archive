@@ -21,20 +21,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.gbm"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = FALSE,
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = TRUE,
-					costs = FALSE
-			)			
-      
       par.set = makeParameterSet(      
           makeDiscreteLearnerParameter(id="distribution", default="bernoulli", vals=c("bernoulli", "adaboost")),
           makeIntegerLearnerParameter(id="n.trees", default=100L, lower=1L),
@@ -44,9 +30,19 @@ setMethod(
           makeNumericLearnerParameter(id="bag.fraction", default=0.5, lower=0, upper=1),
           makeNumericLearnerParameter(id="train.fraction", default=1, lower=0, upper=1)
       )
-      callNextMethod(.Object, pack="gbm", desc=desc,	
+      
+      .Object = callNextMethod(.Object, pack="gbm",	
           par.set=par.set, par.vals=list(distribution = "bernoulli"))
-		}
+      
+      setProperties(.Object, 
+          twoclass = TRUE,
+          missings = TRUE,
+          numerics = TRUE,
+          factors = TRUE,
+          prob = TRUE,
+          weights = TRUE
+        )     
+      }
 )
 
 

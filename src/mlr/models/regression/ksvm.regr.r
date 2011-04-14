@@ -16,12 +16,6 @@ setMethod(
 		signature = signature("regr.ksvm"),
 		def = function(.Object) {
 			
-			desc = c(
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					weights = FALSE
-			)
       par.set = makeParameterSet(
         makeLogicalLearnerParameter(id="scaled", default=TRUE),
         makeDiscreteLearnerParameter(id="type", default="eps-svr", vals=c("eps-svr", "nu-svr", "eps-bsvr")),
@@ -46,7 +40,14 @@ setMethod(
         makeLogicalLearnerParameter(id="shrinking", default=TRUE)
       )
       
-			callNextMethod(.Object, pack="kernlab", desc=desc, par.set=par.set)
+			.Object = callNextMethod(.Object, pack="kernlab", par.set=par.set)
+      
+      setProperties(.Object,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = TRUE,
+        weights = FALSE
+      )
 		}
 )
 

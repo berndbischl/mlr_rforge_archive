@@ -19,7 +19,7 @@
 #		signature = signature("classif.hda"),
 #		def = function(.Object) {
 #			
-#			desc = c(
+#			setProperties(.Object, 
 #					oneclass = FALSE,
 #					twoclass = TRUE,
 #					multiclass = TRUE,
@@ -33,7 +33,7 @@
 #					costs = FALSE
 #			)
 #			
-#			callNextMethod(.Object, pack="hda", desc=desc)
+#			.Object = callNextMethod(.Object, pack="hda")
 #		}
 #)
 #

@@ -19,21 +19,20 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.loclda"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE
-			)
-			
-			callNextMethod(.Object, pack="klaR", desc=desc)
+			.Object = callNextMethod(.Object, pack="klaR")
+      
+      setProperties(.Object, 
+        oneclass = FALSE,
+        twoclass = TRUE,
+        multiclass = TRUE,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE,
+        decision = FALSE,
+        weights = FALSE,
+        costs = FALSE
+      )
 		}
 )
 

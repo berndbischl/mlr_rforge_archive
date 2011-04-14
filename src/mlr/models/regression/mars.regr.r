@@ -14,14 +14,14 @@ setMethod(
 		signature = signature("regr.mars"),
 		def = function(.Object) {
 			
-			desc = c(
+			setProperties(.Object,
 					missings = FALSE,
 					numerics = TRUE,
 					factors = FALSE,
 					weights = FALSE
 			)
 			
-			callNextMethod(.Object, pack="mda", desc=desc)
+			.Object = callNextMethod(.Object, pack="mda")
 		}
 )
 

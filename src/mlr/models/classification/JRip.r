@@ -20,20 +20,6 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.JRip"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE
-			)
-      
       par.set = makeParameterSet(
         makeIntegerLearnerParameter(id="F", default=3L, lower=2L),
         makeNumericLearnerParameter(id="N", default=2, lower=0),
@@ -41,7 +27,21 @@ setMethod(
         makeLogicalLearnerParameter(id="E", default=FALSE),
         makeLogicalLearnerParameter(id="P", default=FALSE)
       )      
-			callNextMethod(.Object, pack="RWeka", desc=desc, par.set=par.set)
+
+      .Object = callNextMethod(.Object, pack="RWeka", par.set=par.set)
+      
+      setProperties(.Object, 
+        oneclass = FALSE,
+        twoclass = TRUE,
+        multiclass = TRUE,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE,
+        decision = FALSE,
+        weights = FALSE,
+        costs = FALSE
+      )
 		}
 )
 

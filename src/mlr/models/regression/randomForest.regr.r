@@ -13,15 +13,14 @@ setMethod(
 		f = "initialize",
 		signature = signature("regr.randomForest"),
 		def = function(.Object) {
-			
-			desc = c(
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					weights = FALSE
-			)
-			
-			callNextMethod(.Object, pack="randomForest", desc=desc)
+			.Object = callNextMethod(.Object, pack="randomForest")
+
+      setProperties(.Object,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = TRUE,
+        weights = FALSE
+      )
 		}
 )
 

@@ -22,18 +22,6 @@ setMethod(
 		signature = signature("classif.ctree"),
 		def = function(.Object) {
 			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = TRUE,
-					costs = FALSE
-			)
       par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="teststat", default="quad", vals=c("quad", "max")),
         makeDiscreteLearnerParameter(id="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
@@ -47,8 +35,19 @@ setMethod(
         makeLogicalLearnerParameter(id="savesplitstats", default=TRUE),
         makeIntegerLearnerParameter(id="maxdepth", default=0L, lower=0L)
       )
-      callNextMethod(.Object, pack="party", desc=desc, par.set=par.set)
-		}
+      
+      .Object = callNextMethod(.Object, pack="party", par.set=par.set)
+    
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE,
+        weights = TRUE
+      )
+    }
 )
 
 #' @rdname trainLearner

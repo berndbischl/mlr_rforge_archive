@@ -23,28 +23,30 @@ setMethod(
 		signature = signature("classif.glmboost"),
 		def = function(.Object) {
 			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = FALSE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = TRUE,
-					costs = FALSE
-			)
 			# cannot pass the function Binomial without lopading the package in the super constructor...
-			x = callNextMethod(.Object, pack="mboost", desc=desc)
-			par.set = makeParameterSet(
+			.Object = callNextMethod(.Object, pack="mboost")
+      
+      .Object = setProperties(.Object, 
+        oneclass = FALSE,
+        twoclass = TRUE,
+        multiclass = FALSE,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE,
+        decision = FALSE,
+        weights = TRUE,
+        costs = FALSE
+      )
+      
+      par.set = makeParameterSet(
 					makeDiscreteLearnerParameter(id="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
           makeIntegerLearnerParameter(id="mstop", default=100L, lower=1L),
 					makeNumericLearnerParameter(id="nu", default=0.1, lower=0, upper=1),				
 					makeLogicalLearnerParameter(id="center", default=FALSE)
 			)
-			x@par.set = par.set
-			setHyperPars(x, family="Binomial")
+			.Object@par.set = par.set
+			setHyperPars(.Object, family="Binomial")
 		}
 )
 

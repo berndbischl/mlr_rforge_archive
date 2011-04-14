@@ -19,27 +19,19 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.lda"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE
-			)
-			
 			par.set = makeParameterSet(
 					makeDiscreteLearnerParameter(id="method", default="moment", vals=c("moment", "mle", "mve", "t")),
 					makeNumericLearnerParameter(id="nu", lower=2, requires=expression(method=="t")),
           makeNumericLearnerParameter(id="tol", default=1.0e-4, lower=0)
       )
-			
-			callNextMethod(.Object, pack="MASS", desc=desc, par.set=par.set)
+			.Object = .Object = callNextMethod(.Object, pack="MASS", par.set=par.set)
+      setProperties(.Object, 
+        twoclass=TRUE, 
+        multiclass = TRUE, 
+        numerics = TRUE, 
+        factors = TRUE, 
+        prob = TRUE
+      )
 		}
 )
 

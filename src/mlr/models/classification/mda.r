@@ -20,21 +20,15 @@ setMethod(
   f = "initialize",
   signature = signature("classif.mda"),
   def = function(.Object) {
+    .Object = callNextMethod(.Object, pack="mda")
     
-    desc = c(
-      oneclass = FALSE,
+    .Object = setProperties(.Object, 
       twoclass = TRUE,
       multiclass = TRUE,
-      missings = FALSE,
       numerics = TRUE,
       factors = TRUE,
-      decision = FALSE,
-      prob = TRUE,
-      weights = FALSE,
-      costs = FALSE
+      prob = TRUE
     )
- 
-    x = callNextMethod(.Object, pack="mda", desc=desc)
     
     par.set = makeParameterSet(
       makeUntypedLearnerParameter(id="subclasses", default=2L),
@@ -47,9 +41,8 @@ setMethod(
       makeLogicalLearnerParameter(id="keep.fitted", default=FALSE, pass.default=TRUE),
       makeIntegerLearnerParameter(id="tries", default=5L, lower=1L)
     )
-
-    x@par.set = par.set
-    return(x)
+    .Object@par.set = par.set
+    return(.Object)
   }
 )
 

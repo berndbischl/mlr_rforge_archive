@@ -20,15 +20,14 @@ setMethod(
   f = "initialize",
   signature = signature("regr.kmforrester"),
   def = function(.Object) {
-    
-    desc = c(
+    .Object = callNextMethod(.Object, pack="DiceKriging")
+
+    setProperties(.Object,
       missings = FALSE,
       numerics = TRUE,
       factors = FALSE,
       weights = FALSE
     )
-    
-    callNextMethod(.Object, pack="DiceKriging", desc=desc)
   }
 )
 

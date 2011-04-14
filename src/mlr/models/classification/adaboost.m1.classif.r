@@ -20,18 +20,6 @@ setMethod(
 		signature = signature("classif.adaboost.M1"),
 		def = function(.Object) {
 			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = FALSE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE
-			)
       
       par.set = makeParameterSet(
         makeLogicalLearnerParameter(id="boos", default=TRUE),
@@ -41,8 +29,17 @@ setMethod(
         makeNumericLearnerParameter(id="cp", default=0.01, lower=0),
         makeIntegerLearnerParameter(id="maxdepth", lower=1L, upper=30L)
       )
-			callNextMethod(.Object, pack="adabag", desc=desc, par.set=par.set)
-		}
+		
+      .Object = callNextMethod(.Object, pack="adabag", par.set=par.set)
+      
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE
+      )
+    }
 )
 
 #' @rdname trainLearner

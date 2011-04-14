@@ -20,28 +20,22 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.naiveBayes"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = TRUE,
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE
-			)
-			
       par.set = makeParameterSet(
         makeNumericLearnerParameter(id="laplace", default=0, lower=0)
         #makeNumericLearnerParameter(id="threshold", default=0.001, lower=0)
       )
       
-      
-			callNextMethod(.Object, pack="e1071", desc=desc, par.set=par.set)
-		}
+			.Object = callNextMethod(.Object, pack="e1071", par.set=par.set)
+
+      setProperties(.Object, 
+        twoclass = TRUE,
+        multiclass = TRUE,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE
+      )
+    }
 )
 
 #' @rdname trainLearner

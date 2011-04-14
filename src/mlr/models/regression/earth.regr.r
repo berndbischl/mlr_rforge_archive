@@ -13,19 +13,20 @@ setMethod(
 		f = "initialize",
 		signature = signature("regr.earth"),
 		def = function(.Object) {
-			
-			desc = c(
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					weights = FALSE
-			)
       par.set = makeParameterSet(
         makeNumericLearnerParameter(id="degree", default=1, lower=1),
         makeNumericLearnerParameter(id="penalty")
       )
-			callNextMethod(.Object, pack="earth", desc=desc, par.set=par.set)
-		}
+			
+      .Object = callNextMethod(.Object, pack="earth", par.set=par.set)
+    
+      setProperties(.Object,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = TRUE,
+        weights = FALSE
+      )
+    }
 )
 
 #' @rdname trainLearner

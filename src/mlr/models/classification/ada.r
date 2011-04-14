@@ -23,20 +23,7 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.ada"),
 		def = function(.Object) {
-			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = FALSE,
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = TRUE,
-					costs = TRUE
-			)
-			
+						
       par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="type", default="discrete", vals=c("discrete", "real", "gentle")),
         makeIntegerLearnerParameter(id="iter", default=50L, lower=1L),
@@ -57,7 +44,17 @@ setMethod(
         makeIntegerLearnerParameter(id="maxdepth", default=30L, lower=1L, upper=30L)
       )
       
-			callNextMethod(.Object, pack="ada", desc=desc, par.set=par.set)
+			.Object = callNextMethod(.Object, pack="ada", par.set=par.set)
+      
+      setProperties(.Object, 
+        twoclass = TRUE,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE,
+        weights = TRUE,
+        costs = TRUE
+      )
 		}
 )
 

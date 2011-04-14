@@ -20,19 +20,6 @@ setMethod(
   f = "initialize",
   signature = signature("classif.pamr"),
   def = function(.Object) {
-    
-    desc = c(
-      oneclass = FALSE,
-      twoclass = TRUE,
-      multiclass = TRUE,
-      missings = FALSE,
-      numerics = TRUE,
-      factors = FALSE,
-      prob = TRUE,
-      decision = FALSE,
-      weights = FALSE,
-      costs = FALSE
-    )
     par.set = makeParameterSet(
       makeNumericVectorLearnerParameter(id="threshold"),
       makeIntegerLearnerParameter(id="n.threshold", lower=1L, default=30L),
@@ -47,7 +34,14 @@ setMethod(
       makeNumericVectorLearnerParameter(id="threshold", when="predict")
     )
     
-    callNextMethod(.Object, pack="pamr", desc=desc, par.set=par.set)
+    .Object = callNextMethod(.Object, pack="pamr", par.set=par.set)
+    
+    setProperties(.Object, 
+      twoclass = TRUE,
+      multiclass = TRUE,
+      numerics = TRUE,
+      prob = TRUE
+    )
   }
 )
 

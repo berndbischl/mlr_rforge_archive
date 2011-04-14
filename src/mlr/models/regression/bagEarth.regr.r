@@ -12,16 +12,15 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("regr.bagEarth"),
-		def = function(.Object) {
-			
-			desc = c(
-					missings = FALSE,
-					numerics = TRUE,
-					factors = TRUE,
-					weights = FALSE
-			)
-			
-			callNextMethod(.Object, pack="caret", desc=desc)
+		def = function(.Object) {						
+			.Object = callNextMethod(.Object, pack="caret")
+      
+      setProperties(.Object,
+        missings = FALSE,
+        numerics = TRUE,
+        factors = TRUE,
+        weights = FALSE
+      )
 		}
 )
 

@@ -21,7 +21,7 @@ setMethod(
     signature = signature("regr.nnet"),
     def = function(.Object) {
       
-      desc = c(
+      setProperties(.Object,
           missings = FALSE,
           numerics = TRUE,
           factors = TRUE,
@@ -33,7 +33,7 @@ setMethod(
         makeIntegerLearnerParameter(id="maxit", default=100L, lower=1L)
       )
       
-      callNextMethod(.Object, pack="nnet", desc=desc, par.set=par.set)
+      .Object = callNextMethod(.Object, pack="nnet", par.set=par.set)
     }
 )
 

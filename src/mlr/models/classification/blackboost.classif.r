@@ -24,20 +24,18 @@ setMethod(
 		signature = signature("classif.blackboost"),
 		def = function(.Object) {
 			
-			desc = c(
-					oneclass = FALSE,
-					twoclass = TRUE,
-					multiclass = FALSE,
-					missings = TRUE,
-					numerics = TRUE,
-					factors = TRUE,
-					prob = TRUE,
-					decision = FALSE,
-					weights = TRUE,
-					costs = FALSE
-			)
 			
-			x = callNextMethod(.Object, pack=c("mboost", "party"), desc=desc)
+			.Object = callNextMethod(.Object, pack=c("mboost", "party"))
+      
+      .Object = setProperties(.Object, 
+        twoclass = TRUE,
+        missings = TRUE,
+        numerics = TRUE,
+        factors = TRUE,
+        prob = TRUE,
+        weights = TRUE
+      )
+      
 			par.set = makeParameterSet(
 					makeDiscreteLearnerParameter(id="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
           makeIntegerLearnerParameter(id="mstop", default=100L, lower=1L),
@@ -54,9 +52,10 @@ setMethod(
 					makeLogicalLearnerParameter(id="savesplitstats", default=TRUE),
           makeIntegerLearnerParameter(id="maxdepth", default=0L, lower=0L)
 			)
+     
 			# we have to load the package first for Binomial()
-			x@par.set = par.set
-			setHyperPars(x, family="Binomial")
+      .Object@par.set = par.set
+			setHyperPars(.Object, family="Binomial")
 		}
 )
 
