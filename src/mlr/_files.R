@@ -86,7 +86,7 @@ pack.files = c(
   "mlr/rocr/ROCR_performance.R",
   "mlr/rocr/ROCR_performance_plots.R",
   
-  "mlr/wrappers/BaseWrapper.R",
+  "mlr/BaseWrapper.R",
   
   "mlr/novars.r",
   
