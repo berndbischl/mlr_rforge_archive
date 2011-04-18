@@ -234,7 +234,7 @@ checkColumnNames = function(data, target, exclude) {
   if(any(x))
     stop("Duplicated column names in data.frame are not allowed: ", paste(cns[x], collapse=","))
   if (!(target %in% cns)) {
-    stop(paste("Column names of data.frame don't contain target var: ", target))
+    stop(paste("Column names of data.frame don't contain target var:", target))
   }
   
   if (!all(exclude %in% cns))
