@@ -81,6 +81,10 @@ setMethod(
     
     checkWeightsAndBlocking(data, target, weights, blocking)    
     checkColumnNames(data, target, exclude)
+    if (!is.factor(data[, target])) {
+      warning("Converting target to factor.")
+      data[, target] = as.factor(data[, target])
+    }
     if (length(exclude) > 0)
       data = data[, setdiff(colnames(data), exclude)]
     if (check.data)

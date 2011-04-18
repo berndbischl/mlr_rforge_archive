@@ -4,6 +4,7 @@
 #' Checks the following things for a data.frame
 #' - error-proof column names
 #' - No missing values in target
+#' - accept integer, numeric and factor columns
 #' - No empty factor levels
 #' - No infinite values
 #' - No NANs

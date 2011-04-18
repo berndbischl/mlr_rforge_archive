@@ -70,6 +70,10 @@ setMethod(
   def = function(id, data, target, exclude, weights, blocking, check.data) {
     checkWeightsAndBlocking(data, target, weights, blocking)    
     checkColumnNames(data, target, exclude)
+    if (!is.double(data[, target])) {
+      warning("Converting target to numeric.")
+      data[, target] = as.numeric(data[, target])
+    }
     if (length(exclude) > 0)
       data = data[, setdiff(colnames(data), exclude)]
     if (check.data)
