@@ -11,7 +11,7 @@ roxygen()
 #' information about second-level optimization like tuned hyperparameters or selected variables. 
 #' 
 #' Getter.\cr
-#' Note that all getters of \code{\linkS4class{task.desc}} can also be used. 
+#' Note that all getters of \code{\linkS4class{TaskDesc}} can also be used. 
 #' 
 #' \describe{
 #'	\item{learner [{\linkS4class{Learner}}]}{Learner that was used to fit the model.}

@@ -15,7 +15,7 @@ roxygen()
 #' @slot has.blocking Is blocking available in task for observations?
 #' @slot positive Positive class label for binary classification, NA else. 
 #'
-#' @exportClass task.desc
+#' @exportClass TaskDesc
 #' @seealso \code{\linkS4class{LearnTask}}
 #' @title Description object for task. 
 

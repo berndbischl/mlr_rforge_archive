@@ -232,7 +232,7 @@ setMethod(
 )
 
 #' Get class levels of task. 
-#' @param task [\code{\linkS4class{task.desc}} | \code{\linkS4class{ClassifTask}} | \code{\linkS4class{WrappedModel}} ]\cr 
+#' @param task [\code{\linkS4class{TaskDesc}} | \code{\linkS4class{ClassifTask}} | \code{\linkS4class{WrappedModel}} ]\cr 
 #'   Classification task or its description object.   
 #' @return [character]
 #' @rdname getClassLevels
