@@ -13,7 +13,7 @@
 #'
 #' @seealso See \code{\link{getHyperPars}} for a function to retrieve
 #'   the currently set hyper parameters. To get a list of all (hyper)parameters of
-#'   a learner, see the \code{par.set} slot of the \code{\linkS4class{learner}}
+#'   a learner, see the \code{par.set} slot of the \code{\linkS4class{Learner}}
 #'   object.
 #'
 #' @return \code{\linkS4class{Learner}} with changed hyperparameters.

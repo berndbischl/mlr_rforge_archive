@@ -68,29 +68,3 @@ setMethod(
     return(.Object)
   }
 )
-
-#' @rdname task.desc-class
-setMethod(
-		f = "[",
-		signature = signature("TaskDesc"),
-		def = function(x,i,j,...,drop) {
-      if (i == "formula") {
-        return(as.formula(paste(x@target, "~.")))
-      }
-      if (i == "dim") 
-        return(sum(x@n.feat))
-      if (i == "negative") 
-        if(x@type == "classif" && length(getClassLevels(x)) == 2) 
-          return(setdiff(getClassLevels(x), x["positive"])) 
-        else 
-          return(as.character(NA))
-      
-			callNextMethod()
-		}
-)
-
-
-
-
-
-
