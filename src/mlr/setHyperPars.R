@@ -1,17 +1,36 @@
-#' Set hyperparameters of learner object. 
+#' Set the hyperparameters of learner objects.
 #' 
-#' @param learner [\code{\linkS4class{Learner}}]\cr 
-#'        Learner object.   
+#' @param learner [\code{\linkS4class{Learner}}] \cr
+#'        Learner object.
 #' @param ... [any] \cr
-#'        Optional named (hyper)parameters. Alternatively, you can pass via the "par.vals" argument.
-#' @param par.vals [list] \cr
-#'       Optional list of named (hyper)parameters. Alternatively, you can pass via the ... argument.
-#' 		    
+#'        Optional named (hyper)parameters. Alternatively these can be given
+#'        using the \code{par.vals} argument.
+#' @param par.vals [\code{list}] \cr
+#'        Optional list of named (hyper)parameters. The arguments in
+#'        \code{...} take precedence over values in this list. We strongly
+#'        encourage you to use one or the other to pass (hyper)parameters
+#'        to the learner but not both.
+#'
+#' @seealso See \code{\link{getHyperPars}} for a function to retrieve
+#'   the currently set hyper parameters. To get a list of all (hyper)parameters of
+#'   a learner, see the \code{par.set} slot of the \code{\linkS4class{learner}}
+#'   object.
+#'
 #' @return \code{\linkS4class{Learner}} with changed hyperparameters.
+#'
+#' @example
+#' 
+#' if (require(kernlab)) {
+#'   cl1 <- makeLearner("classif.ksvm", sigma=1)
+#'   cl2 <- setHyperPars(cl1, sigma=10, par.vals=list(C=2))
+#'   print(cl1)
+#'   ## Note the now set and altered hyperparameters:
+#'   print(cl2)
+#' }
+#'
 #' @exportMethod setHyperPars
 #' @title Set hyperparamters of learner object.
 #' @rdname setHyperPars 
-
 setGeneric(
     name = "setHyperPars",
     def = function(learner, ..., par.vals) {
