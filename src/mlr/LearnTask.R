@@ -283,7 +283,7 @@ setMethod(
 
 #' Get formula of a task. This is simply \code{target ~ .}. 
 #' Note that the environment that always gets attached to a formula is deleted. 
-#' @param task [\code{\linkS4class{LearnTask}} | \code{\linkS4class{TaskDesc}}}]\cr 
+#' @param task [\code{\linkS4class{LearnTask}} | \code{\linkS4class{TaskDesc}}]\cr 
 #'   Task or its description object.   
 #' @return [\code{formula}]
 #' @rdname getFormula
