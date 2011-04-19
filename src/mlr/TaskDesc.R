@@ -66,11 +66,9 @@ setMethod(
     
     .Object@has.weights = has.weights
     .Object@has.blocking = has.blocking
-    .Object@positive = positive
-    if(type == "classif" && length(.Object@class.dist) == 2) 
-      .Object@negative = setdiff(names(.Object@class.dist), .Object@positive) 
-    else 
-      .Object@negative = as.character(NA)
+    # is set later in makeClassifTask
+    .Object@positive = as.character(NA)
+    .Object@negative = as.character(NA)
     return(.Object)
   }
 )

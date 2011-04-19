@@ -55,6 +55,7 @@ setMethod(
 					stop("Cannot set a positive class for a multiclass problem!")
 			}			
 			td@positive = pos
+      td@negative = neg
       
 			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, task.desc=td)
 		}
