@@ -47,15 +47,15 @@ setMethod(
 
 #' Set property of learner object.  
 #' 
-#' @param learner [\code{\linkS4class{Learner}}]\cr 
-#'   Learner object.   
+#' @param learner [\code{\linkS4class{Learner}}] \cr
+#'   Learner object.
 #' @param prop [\code{character(1)}] \cr
 #'   Name of property.
 #'        
 #' @return \code{\linkS4class{Learner}}.
 #' @exportMethod setProperty
 #' @title Set property of learner object.  
-#' @seealso \code{\link{getProperty}},  \code{\link{setProperties}} 
+#' @seealso \code{\link{getProperty}},  \code{\link{setProperties}}
 #' @rdname setProperty 
 
 setGeneric(
@@ -90,7 +90,7 @@ setMethod(
 #' @exportMethod setProperties
 #' @title Set properties of learner object.  
 #' @seealso \code{\link{getProperty}}, \code{\link{setProperty}} 
-#' @rdname setProperty 
+#' @rdname setProperties
 
 setGeneric(
   name = "setProperties",
@@ -99,7 +99,7 @@ setGeneric(
   }
 )
 
-#' @rdname setProperty 
+#' @rdname setProperties
 setMethod(
   f = "setProperties", signature = signature(learner="Learner"),
   def = function(learner, ...) {
