@@ -37,7 +37,7 @@ setMethod(
   f = "getProperty", signature = signature(learner="Learner", prop="character"),
   def = function(learner, prop) {
     if (!prop %in% 
-      c("numerics", "factors", "missings", "weights", "oneclass", "twoclass", 
+      c("type", "numerics", "factors", "missings", "weights", "oneclass", "twoclass", 
         "multiclass", "decision", "prob", "costs"))
       stop("Requested unknown property ", prop, " for learner ", learner@id, "!")      
     learner@properties[[prop]]
@@ -70,7 +70,7 @@ setMethod(
   f = "setProperty", signature = signature(learner="Learner", prop="character"),
   def = function(learner, prop, val) {
     if (!prop %in% 
-      c("numerics", "factors", "missings", "weights", "oneclass", "twoclass", 
+      c("type", "numerics", "factors", "missings", "weights", "oneclass", "twoclass", 
         "multiclass", "decision", "prob", "costs"))
       stop("Tried to set unknown property ", prop, " for learner ", learner@id, "!")      
     learner@properties[[prop]] = val
