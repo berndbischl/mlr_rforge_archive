@@ -3,24 +3,24 @@ roxygen()
 
 #' A measure object encapsulates a function to evaluate the performance of a prediction.
 #' Information about already implemented measures can be obtained here: \code{\link{measures}}.
-#' User-defined measures can be created with \code{\link{makeMeasure}}. Also look at the extension point in the web tutorial.
+#' User-defined measures can be created with \code{\link{makeMeasure}}.
 #' 
-#' A learner is trained on a a training set d1, results in a model m, predicts a test set d2, resulting in the final prediction.
-#' In order to   
+#' A learner is trained on a a training set d1, results in a model m, predicts another set d2 (which may be a different one
+#' or the training set), resulting in the prediction. The performance measure can now be defined using all of the information of
+#' the original task, the fitted model and the prediction.   
 #' 
-#' Getter.\cr
-#' 
-#' \describe{
-#' 	\item{id [\code{character(1)}]}{Name of the measure.}
-#' 	\item{minimize [boolean]}{Should the performance measure be minimized?}
-#'  \item{req.pred [boolean]}{Does the calculation require the prediction of the test set?).}
-#'  \item{req.task [boolean]}{Does the calculation require the task? Usually the case when you want to look a feature values in order to calculate the performance.).}
-#' 	\item{req.task.type [character]}{For which tasks can the measure be used?}
-#' 	\item{req.binary [boolean]}{Can the measure only be used for binary classification?}
-#' 	\item{req.pred.type [character]}{For which prediction can the measure be used, e.g. only for probabilities?}
-#' 	\item{fun [function]}{Calculation function.}
-#'  \item{pars [list]}{Extra parameters for calculation.}
-#' }
+#' @slot id Name of the measure.
+#' @slot minimize Should the performance measure be minimized?
+#' @slot classif Is the measure applicable for classification?   
+#' @slot regr Is the measure applicable for regression?   
+#' @slot only.binary Can the measure only be used for binary classification?
+#' @slot req.pred Does the calculation require a prediction object?
+#' @slot req.task Does the calculation require the task? 
+#' @slot req.model Does the calculation require the model?
+#' @slot allowed.pred.types Which prediction types are allowed for this measure? Subset of \dQuote{response},\dQuote{prob} and \dQuote{decision}.   
+#' @slot fun Calculation function.
+#' @slot extra.args Extra parameters for calculation.
+#' @slot aggr Associated aggregation function.
 #' 
 #' @exportClass Measure
 #' @seealso \code{\link{measures}}, \code{\link{makeMeasure}}
@@ -34,14 +34,15 @@ setClass(
   representation = representation(
     id = "character",
     fun = "function",
-    extra.pars = "list",
+    extra.args = "list",
     minimize = "logical",
-    req.task.type = "character",
-    req.binary = "logical",
-    req.pred.type = "character",
+    regr = "logical",
+    classif = "logical",
+    only.binary = "logical",
     req.pred = "logical",
     req.model = "logical",
     req.task = "logical",
+    allowed.pred.types = "character",
     aggr = "list"
   )
 )

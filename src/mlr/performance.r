@@ -41,7 +41,7 @@ setMethod(
   signature = signature(pred="Prediction", measure="Measure", task="LearnTask", model="WrappedModel"),
   def = function(pred, measure, task, model) {
     m = measure
-    if (m["req.pred"]) {
+    if (m@req.pred) {
       if (is.empty(pred))
         stop("You need to pass pred for measure ", m@id)
       pred2 = pred
@@ -49,7 +49,7 @@ setMethod(
     } else {
       pred2 = NULL          
     }
-    if (m["req.model"]) {
+    if (m@req.model) {
       if (is.empty(model))
         stop("You need to pass model for measure ", m@id)
       model2 = model  
@@ -57,7 +57,7 @@ setMethod(
     } else {
       model2 = NULL
     }
-    if (m["req.task"]) {
+    if (m@req.task) {
       if (is.empty(task))
         stop("You need to pass task for measure ", m@id)
       task2 = task 
@@ -65,15 +65,12 @@ setMethod(
     } else {
       task2 = NULL
     }
-    rqt = m["req.task.type"]
-    if ((td@type == "classif" && identical(rqt, "regr")) || (td@type == "regr" && !("regr" %in% rqt))) 
+    if ((td@type == "classif" && !m@classif) || (td@type == "regr" && !m@regr)) 
       stop("Wrong task type ", td@type, " for measure ", m@id, "!")
-    if (m["req.task.type"] == "binary" && length(getClassLevels(td)) > 2)
+    if (m@only.binary && length(getClassLevels(td)) > 2)
       stop("Multiclass problems cannot be used for measure ", m@id, "!")
-    if (identical(m["req.pred.type"], "prob")) {
-      if (!is.null(pred2) && pred2["type"] != "prob")
-        stop("Probabilities in prediction objects are required by measure ", m@id, "!")
-    }
+    if (!is.null(pred2) && !(pred2@type %in% m@allowed.pred.types))
+      stop("Measure ", m@id, " is only allowed for predictions of type: ", paste(m@allowed.pred.types, collapse=","))
     measure@fun(task2, model2, pred2, m@extra.pars)
   }
 )
