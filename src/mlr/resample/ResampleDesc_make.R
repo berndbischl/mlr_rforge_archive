@@ -52,6 +52,8 @@ setMethod(
   def = function(method, iters, predict, ...) {
     if (!(length(predict) ==1 && predict %in% c("train", "test", "both")))
       stop("Argument predict can only be: 'train', 'test', 'both'!")
+    if(!(length(method)==1 && method %in% c('CV', 'LOO', 'StratCV', 'RepCV', 'BS', 'Subsample', 'Holdout')))
+      stop("Argument method can only be: 'CV', 'LOO', 'StratCV', 'RepCV', 'BS', 'Subsample', 'Holdout' !")
     cc = paste(method, "Desc", sep="")
     d = new(cc, iters=iters, ...)
     d@predict = predict
