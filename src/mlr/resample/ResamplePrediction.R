@@ -5,6 +5,16 @@ roxygen()
 #' @include ResampleInstance.R
 roxygen()
 
+#' Contains predictions from resampling, returned (among other stuff) by function \code{\link{resample}}.
+#' Can basically be used as its super class.
+#' The main differences are:
+#' (a) The internal data.frame (slot \code{df}) contains an additional column \code{id}, specifying the iteration
+#' of the resampling strategy. (b) The object can be converted into a list of  \code{\linkS4class{Prediction}} objects by using \code{as.list} on it,
+#' one object for each resampling iteration.
+#' @slot instance Resampling instance that was used to generate the prediction. 
+#' @exportClass ResamplePrediction
+#' @title Prediction from resampling.
+#' @seealso \code{\link{resample}}, \code{\link{predict}} 
 
 setClass(
 		"ResamplePrediction",
