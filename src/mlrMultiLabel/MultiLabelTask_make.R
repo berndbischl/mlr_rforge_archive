@@ -9,11 +9,11 @@ roxygen()
 #' A factor, logical or character vector produces a classification task (and the vector is converted to a factor), 
 #' doubles produce regression tasks. Integer target variables have to be changed manually. 
 #' 
-#' @param id [character(1)]\cr 
+#' @param id [\code{character(1)}]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. Default is the name of the passed R variable.  
 #' @param data [data.frame] \cr   
 #'   A data frame containing the input and target variables for modeling.
-#' @param target [character(1)] \cr
+#' @param target [\code{character(1)}] \cr
 #'   Name of the target variable.
 #' @param exclude [character]
 #'   Names of inputs, which should be discarded, e.g. IDs, etc. Default is zero-length vector. 

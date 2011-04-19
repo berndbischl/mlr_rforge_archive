@@ -17,7 +17,7 @@ roxygen()
 #' \describe{
 #'  \item{is.classif [boolean]}{Is this learner for classification tasks?}
 #'  \item{is.regr [boolean]}{Is this learner for regression tasks?}
-#'  \item{id [character(1)]}{Id string of learner.}
+#'  \item{id [\code{character(1)}]}{Id string of learner.}
 #' 	\item{pack [char]}{Package(s) required for underlying learner.}
 #'  \item{doubles [boolean]}{Can real-valued inputs be processed?}
 #'  \item{factors [boolean]}{Can factor inputs be processed?}
@@ -116,7 +116,7 @@ setMethod(
 #' Get current parameter settings for a learner. 
 #' @param learner [\code{\linkS4class{Learner}}]\cr 
 #'   Learner.   
-#' @param for.fun [character(1)]\cr 
+#' @param for.fun [\code{character(1)}]\cr 
 #'   The values corresponding to what aspect of the learner should be returned: 'train', 'predict', or 'both'.
 #'   Default is 'both'.    
 #' @return A named list of values.

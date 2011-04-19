@@ -2,7 +2,7 @@
 #todo: ordered
 
 #' Numerical variable for optimization.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param lower [numeric(1)] \cr
 #'   Lower bound. Default is \code{-Inf}.
@@ -26,7 +26,7 @@ makeNumericParameter = function(id, lower=-Inf, upper=Inf, trafo=identity) {
 } 
 
 #' Numeric vector variable for optimization.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param dim [integer(1)] \cr
 #'   Length of vector.
@@ -56,7 +56,7 @@ makeNumericVectorParameter = function(id, dim, lower=-Inf, upper=Inf, trafo=iden
 } 
 
 #' Integer variable for optimization.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param lower [numeric(1)] \cr
 #'   Lower bound. Default is \code{-Inf}.
@@ -80,7 +80,7 @@ makeIntegerParameter = function(id, lower=-.Machine$integer.max, upper=.Machine$
 } 
 
 #' Numeric vector variable for optimization.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param dim [integer(1)] \cr
 #'   Length of vector.
@@ -112,7 +112,7 @@ makeIntegerVectorParameter = function(id, dim, lower=-.Machine$integer.max, uppe
 
 
 #' Boolean variable for optimization.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
@@ -121,7 +121,7 @@ makeLogicalParameter = function(id) {
 } 
 
 #' Discrete variable for optimization.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param vals [list | vector] \cr
 #'   Possible values.
@@ -157,7 +157,7 @@ makeDiscreteParameter = function(id, vals) {
 
 
 #' Function variable for optimization.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @return \code{\linkS4class{Parameter}}
 #' @export 
@@ -167,7 +167,7 @@ makeFunctionParameter = function(id) {
 
 
 #' Untyped variable for optimization.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @return \code{\linkS4class{Parameter}}
 #' @export 

@@ -3,7 +3,7 @@ roxygen()
 
 #' Creates a measure for non-standard misclassification costs.
 #' 
-#' @param id [character(1)] \cr
+#' @param id [\code{character(1)}] \cr
 #'   Name of measure. Default is "costs".
 #' @param minimize [boolean] \cr
 #'   Should the measure be minimized? Default is TRUE. Otherwise you are effectively specifying a benefits matrix.

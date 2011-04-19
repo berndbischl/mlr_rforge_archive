@@ -20,7 +20,7 @@ setClass(
 #' 
 #' @param learner [\code{\linkS4class{Learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
-#' @param fw.method [character(1)] \cr
+#' @param fw.method [\code{character(1)}] \cr
 #'   Filter method. Available are:
 #'   linear.correlation, rank.correlation, information.gain, gain.ratio, symmetrical.uncertainty, chi.squared, random.forest.importance, relief, oneR
 #' @param fw.threshold [single double] \cr

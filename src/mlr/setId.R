@@ -2,7 +2,7 @@
 #' 
 #' @param learner [\code{\linkS4class{Learner}}]\cr 
 #'        Learner object.   
-#' @param id [character(1)] \cr
+#' @param id [\code{character(1)}] \cr
 #'       New id.
 #' 		    
 #' @return \code{\linkS4class{Learner}} with changed id.

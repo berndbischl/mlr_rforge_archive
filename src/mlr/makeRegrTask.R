@@ -4,11 +4,11 @@ roxygen()
 #' Defines a regression task for a given data set. 
 #' It might perform some data conversions in the data.frame, like converting integer
 #' 
-#' @param id [character(1)]\cr 
+#' @param id [\code{character(1)}]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. Default is the name of R variable passed to \code{data}.  
 #' @param data [data.frame] \cr   
 #'   A data frame containing the input and target variables for modeling.
-#' @param target [character(1)] \cr
+#' @param target [\code{character(1)}] \cr
 #'   Name of the target variable.
 #' @param exclude [character]
 #'   Names of inputs, which should be discarded, e.g. IDs, etc. Default is zero-length vector. 

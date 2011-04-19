@@ -1,5 +1,5 @@
 #' Numerical parameter for a learner.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param lower [numeric(1)] \cr
 #'   Lower bound. Default is \code{-Inf}.
@@ -9,7 +9,7 @@
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param pass.default [logical(1)]
 #'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
-#' @param when [character(1)]
+#' @param when [\code{character(1)}]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
 #' @param requires [\code{expression}]
 #'   R expression over the other parameters to define requirements which make this parameter effective. 
@@ -23,7 +23,7 @@ makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
 }
 
 #' Numerical vector parameter for a learner.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param dim [integer(1)]
 #'   Dimension of vector. Can be \code{NA}, which means dimension in unknown. Default is \code{NA}.
@@ -35,7 +35,7 @@ makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param pass.default [logical(1)]
 #'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
-#' @param when [character(1)]
+#' @param when [\code{character(1)}]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
 #' @param requires [\code{expression}]
 #'   R expression over the other parameters to define requirements which make this parameter effective. 
@@ -62,7 +62,7 @@ makeNumericVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf,
 
 
 #' Integer parameter for a learner.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param lower [numeric(1)] \cr
 #'   Lower bound. Default is \code{-.Machine$integer.max}.
@@ -72,7 +72,7 @@ makeNumericVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf,
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param pass.default [logical(1)]
 #'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
-#' @param when [character(1)]
+#' @param when [\code{character(1)}]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
 #' @param requires [\code{expression}]
 #'   R expression over the other parameters to define requirements which make this parameter effective. 
@@ -86,7 +86,7 @@ makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.
 }
 
 #' Integer vector parameter for a learner.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param dim [integer(1)]
 #'   Dimension of vector. Can be \code{NA}, which means dimension in unknown. Default is \code{NA}.
@@ -98,7 +98,7 @@ makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param pass.default [logical(1)]
 #'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
-#' @param when [character(1)]
+#' @param when [\code{character(1)}]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
 #' @param requires [\code{expression}]
 #'   R expression over the other parameters to define requirements which make this parameter effective. 
@@ -126,7 +126,7 @@ makeIntegerVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf,
 
 
 #' Numerical parameter for a learner.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param vals [list | vector] \cr
 #'   Possible values.
@@ -134,7 +134,7 @@ makeIntegerVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf,
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param pass.default [logical(1)]
 #'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
-#' @param when [character(1)]
+#' @param when [\code{character(1)}]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
 #' @param requires [\code{expression}]
 #'   R expression over the other parameters to define requirements which make this parameter effective. 
@@ -148,13 +148,13 @@ makeDiscreteLearnerParameter <- function(id, vals,
 }
 
 #' Logical parameter for a learner.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param default [logical(1)]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param pass.default [logical(1)]
 #'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
-#' @param when [character(1)]
+#' @param when [\code{character(1)}]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
 #' @param requires [\code{expression}]
 #'   R expression over the other parameters to define requirements which make this parameter effective. 
@@ -169,13 +169,13 @@ makeLogicalLearnerParameter <- function(id,
 
 
 #' Untyped parameter for a learner.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param default [any]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param pass.default [logical(1)]
 #'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
-#' @param when [character(1)]
+#' @param when [\code{character(1)}]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
 #' @param requires [\code{expression}]
 #'   R expression over the other parameters to define requirements which make this parameter effective. 
@@ -188,13 +188,13 @@ makeUntypedLearnerParameter <- function(id, default, pass.default=FALSE, when="t
 
 
 #' Function parameter for a learner.
-#' @param id [character(1)]
+#' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param default [any]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param pass.default [logical(1)]
 #'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
-#' @param when [character(1)]
+#' @param when [\code{character(1)}]
 #'   When is the parameter used in the corresponding learner, either 'train', 'predict' or 'both'. Default is 'train'.
 #' @param requires [\code{expression}]
 #'   R expression over the other parameters to define requirements which make this parameter effective. 

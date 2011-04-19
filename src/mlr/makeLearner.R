@@ -5,11 +5,11 @@
 #' Tresholds for class labels: If you set \code{predict.type} to "prob" or "decision", the label with the maximum value is selected.
 #' You can change labels of a \code{\linkS4class{Prediction}} object later by using the function \code{\link{setThreshold}}.
 #' 
-#' @param class [character(1)] \cr
+#' @param class [\code{character(1)}] \cr
 #'        Class of learner to create.
-#' @param id [character(1)]\cr 
+#' @param id [\code{character(1)}]\cr 
 #'        Id string for object. Used to select the object from a named list, etc.  
-#' @param predict.type [character(1)] \cr
+#' @param predict.type [\code{character(1)}] \cr
 #'        Classification: "response" | "prob" | "decision", specifying the type to
 #'        predict. Default is "response". "decision" is experimental. Ignored for
 #'        regression.	 

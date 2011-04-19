@@ -1,24 +1,24 @@
 #' Sets up the error handling system of mlr.  
 #' 
-#' @param on.learner.error [character(1)] \cr
+#' @param on.learner.error [\code{character(1)}] \cr
 #' What should happen if an error in an underlying learning algorithm is caught: 'stop', 'warn' or 'quiet'.\cr 
 #' 'stop': R exception is generated.\cr
 #' 'warn': A 'failure model' will be created, which predicts only NAs and a warning will be generated.\cr 
 #' 'quiet': Same as 'warn' but withou the warning.\cr
 #' Default is 'warn'. 
-#' @param on.par.without.desc [character(1)] \cr
+#' @param on.par.without.desc [\code{character(1)}] \cr
 #' What should happen if a parameter of a learner is set to a value, but no parameter description object exists, indicating a possibly wrong name: 'stop', 'warn' or quiet.\cr
 #' 'stop': R exception is generated.\cr
 #' 'warn': Warning, but parameter is still passed along to learner.\cr 
 #' 'quiet': Same as 'warn' but without the warning.\cr
 #' Default is 'warn'. 
-#' @param on.convert.var [character(1)] \cr
+#' @param on.convert.var [\code{character(1)}] \cr
 #'   What should happen if an a variable is converted during the creation of a \code{\linkS4class{LearnTask}}: 'warn' or 'quiet'.\cr 
 #'   Currently, integers are converted to doubles, characters to factors and for classification, target levels without corresponding observation are dropped.\cr 
 #'   'warn': Warning on conversion.\cr
 #'   'quiet': Conversion done quietly.\cr
 #'   Default is 'warn'.
-#' @param on.convert.varname [character(1)] \cr
+#' @param on.convert.varname [\code{character(1)}] \cr
 #'   What should happen if an a variable is renamed during the creation of a \code{\linkS4class{LearnTask}}: 'stop', 'warn' or 'quiet'.\cr 
 #'   The following special characters are converted to their UTF8 integer codes, because they might create problems
 #'   later on in a learner if they occur in a feature name: [ ] ( ) { } , + - * / =  ~  

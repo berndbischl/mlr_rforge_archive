@@ -7,11 +7,11 @@ roxygen()
 #' of \code{makeClassifTask}.
 #' The target variable is converted to a factor if it is a logical, integer or character vector. 
 #' 
-#' @param id [character(1)]\cr 
+#' @param id [\code{character(1)}]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. Default is the name of R variable passed to \code{data}.  
 #' @param data [data.frame] \cr   
 #'   A data frame containing the input and target variables for modeling.
-#' @param target [character(1)] \cr
+#' @param target [\code{character(1)}] \cr
 #'   Name of the target variable.
 #' @param exclude [character]
 #'   Names of inputs, which should be discarded, e.g. IDs, etc. Default is zero-length vector. 
@@ -19,7 +19,7 @@ roxygen()
 #'   An optional vector of case weights to be used in the fitting process (if the learner cannot handle weights, they are ignored). Default is not to use weights.
 #' @param blocking [factor] \cr   
 #'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.
-#' @param positive [character(1)] \cr   
+#' @param positive [\code{character(1)}] \cr   
 #'   Positive class for binary classification. Default is the first factor level of the target attribute. 
 #' @param check.data [\code{logical(1)}]
 #'   Should sanity of data be checked initially at task creation? You should have good reasons to turn this off...

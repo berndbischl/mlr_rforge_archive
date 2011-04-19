@@ -134,9 +134,9 @@ setMethod(
 #' 
 #' @param br [\code{\linkS4class{bench.result}}]\cr 
 #'   Result of benchmark experiment.   
-#' @param task.id [character(1)]\cr 
+#' @param task.id [\code{character(1)}]\cr 
 #'   Id of task used in \code{br}. If there was only one task, this argument can be missing.    
-#' @param learner.id [character(1)]\cr 
+#' @param learner.id [\code{character(1)}]\cr 
 #'   Id of tuned learner used in \code{br}. If there was only one learner, this argument can be missing.    
 #' @param as.data.frame [logical(1)]\cr 
 #'   Should the result be returned as a data.frame or a list of lists? Default is \code{TRUE}.    
@@ -189,9 +189,9 @@ setMethod(
 #' 
 #' @param br [\code{\linkS4class{bench.result}}]\cr 
 #'   Result of benchmark experiment.   
-#' @param task.id [character(1)]\cr 
+#' @param task.id [\code{character(1)}]\cr 
 #'   Id of task used in \code{br}. If there was only one task, this argument can be missing.    
-#' @param learner.id [character(1)]\cr 
+#' @param learner.id [\code{character(1)}]\cr 
 #'   Id of learner with variable selection used in \code{br}. If there was only one learner, this argument can be missing.    
 #' @return For data.frame: Integer columns correspond to feature/bit names, rows to resampling iterations, 
 #'   every row contains the best bits found in this resampling iteration. For list: A list of character vectors, the outer list has as many

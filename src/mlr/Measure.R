@@ -11,7 +11,7 @@ roxygen()
 #' Getter.\cr
 #' 
 #' \describe{
-#' 	\item{id [character(1)]}{Name of the measure.}
+#' 	\item{id [\code{character(1)}]}{Name of the measure.}
 #' 	\item{minimize [boolean]}{Should the performance measure be minimized?}
 #'  \item{req.pred [boolean]}{Does the calculation require the prediction of the test set?).}
 #'  \item{req.task [boolean]}{Does the calculation require the task? Usually the case when you want to look a feature values in order to calculate the performance.).}

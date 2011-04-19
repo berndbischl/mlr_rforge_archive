@@ -4,7 +4,7 @@
 #' 
 #' @param x [\code{\linkS4class{LearnTask}}]\cr 
 #'   Task to filter features from.   
-#' @param method [character(1)] \cr
+#' @param method [\code{character(1)}] \cr
 #'   Filter method. Available are:
 #'   linear.correlation, rank.correlation, information.gain, gain.ratio, symmetrical.uncertainty, chi.squared, random.forest.importance, relief, oneR
 #' @param threshold [single double] \cr

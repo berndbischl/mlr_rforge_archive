@@ -4,7 +4,7 @@
 #' Getter.\cr
 #' 
 #' \describe{
-#'  \item{type [character(1)]}{Type set in predict function: "response", "prob", or "decision".}
+#'  \item{type [\code{character(1)}]}{Type set in predict function: "response", "prob", or "decision".}
 #'  \item{id [numeric]}{Vector of index numbers of predicted cases from the task.}
 #'  \item{response [numeric | factor]}{Predicted response values.}
 #'  \item{truth [numeric | factor]}{True target values.}

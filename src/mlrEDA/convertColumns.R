@@ -1,10 +1,10 @@
 #' Control structure for basic data preparation.
 #'
-#' @param ints.as [character(1)]\cr
+#' @param ints.as [\code{character(1)}]\cr
 #'   Should integer features be converted to either "numeric" or "factor". Default is "numeric".
-#' @param chars.as [character(1)]\cr
+#' @param chars.as [\code{character(1)}]\cr
 #'   Conversion of character features. Currently only "factor" is supported.
-#' @param logs.as [character(1)]\cr
+#' @param logs.as [\code{character(1)}]\cr
 #'   Should logical features be converted to either "numeric" or "factor". Default is "factor".
 #' @param drop.class.levels [boolean]\cr
 #'   Should empty class levels be dropped? Default is TRUE.

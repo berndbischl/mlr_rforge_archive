@@ -181,7 +181,7 @@ restrict = function(x, dob=x@env$dob, eol=x@env$eol) {
 #'
 #' @param op [\code{\linkS4class{OptPath}}]\cr
 #'   Optimization path.
-#' @param y.name [character(1)] 
+#' @param y.name [\code{character(1)}] 
 #'   Name of target value to decide which element is best.  
 #' @param dob [integer]
 #'   Possible dates of birth to select best element from. Defaults to all. 

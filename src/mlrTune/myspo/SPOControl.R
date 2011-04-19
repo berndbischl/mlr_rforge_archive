@@ -29,7 +29,7 @@ setClass(
 #todo: document resampling when sure that ok.
 #' Creates a control object for SPO optimization.
 #'
-#' @param y.name [character(1)]\cr 
+#' @param y.name [\code{character(1)}]\cr 
 #'   Name of y-column for target values in optimization path. Default is 'y'.   
 #' @param minimize [logical(1)]\cr 
 #'   Should target function be minimized? Default is \code{TRUE}.   
@@ -46,7 +46,7 @@ setClass(
 #'   Number of sequential optimization steps. Default is 100.   
 #' @param propose.points [integer(1)]\cr 
 #'   Number of proposed points after optimizing the surrogate model with \code{propose.points.methods}.   
-#' @param propose.points.method [character(1)]\cr 
+#' @param propose.points.method [\code{character(1)}]\cr 
 #'   How should points be proposed by using the surrogate model. Possible are: 
 #'   'seq.design': Use a large design of points and evaluate the surrogate model at each. The best \code{propose.points} are selected.    
 #'   'CMAES': Use CMAES to optimize mean prediction value.    
@@ -59,7 +59,7 @@ setClass(
 #' @param seq.design.args [list] \cr
 #'   List of further arguments passed to \code{seq.design.fun}.  
 #'   Only used if \code{propose.points.method} is 'seq.design.' Default is empty list.
-#' @param final.point [character(1)]\cr 
+#' @param final.point [\code{character(1)}]\cr 
 #'   How should the final point be proposed. Possible are: 
 #'   'best.in.path': Return best point ever visited. Can be bad if target function is noisy.    
 #'   'opt.pred': Optimize the mean value of the surrogate model thoroughly.      
