@@ -22,7 +22,8 @@ setMethod(
     def = function(.Object) {
       par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="covtype", default="matern5_2", 
-          vals=list("gauss", "matern5_2", "matern3_2", "exp", "powexp")) 
+          vals=list("gauss", "matern5_2", "matern3_2", "exp", "powexp")), 
+        makeLogicalLearnerParameter(id="nugget.estim", default=FALSE) 
       )
       .Object = callNextMethod(.Object, pack="DiceKriging", par.set=par.set)
       
