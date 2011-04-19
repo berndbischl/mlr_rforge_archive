@@ -29,7 +29,7 @@ allowed.rd.files <<- c(
   "makeClassifTask.Rd",
   "makeRegrTask.Rd",
   "subset.Rd",
-  "get.data.Rd",
+  "getData.Rd",
   "getTargets.Rd",
   "getFeatureNames.Rd",
   "getClassLevels.Rd",

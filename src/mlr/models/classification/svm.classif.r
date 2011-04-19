@@ -57,7 +57,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			svm(f, data=get.data(.task, .subset), probability=.learner["predict.type"] == "prob", ...)
+			svm(f, data=getData(.task, .subset), probability=.learner["predict.type"] == "prob", ...)
 		}
 )
 

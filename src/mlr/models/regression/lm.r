@@ -36,7 +36,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset, ...) {
 			f = .task["formula"]
-      d = get.data(.task, .subset)
+      d = getData(.task, .subset)
       if (.task["has.weights"]) {
         # strange bug in lm concerning weights
         do.call(lm, list(f, data=d, weights=.task@weights[.subset]))

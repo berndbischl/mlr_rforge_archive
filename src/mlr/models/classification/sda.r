@@ -44,7 +44,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {
-			d = get.data(.task, .subset, target.extra=TRUE)
+			d = getData(.task, .subset, target.extra=TRUE)
 			sda(Xtrain = as.matrix(d$data), L = d$target, ...)
 		}
 )

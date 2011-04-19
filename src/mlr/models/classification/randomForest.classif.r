@@ -68,7 +68,7 @@ setMethod(
         names(classwt) = levs
       if (is.numeric(cutoff) && length(cutoff) == n && is.null(names(cutoff))) 
         names(cutoff) = levs
-			randomForest(f, data=get.data(.task, .subset), classwt=classwt, cutoff=cutoff, ...)
+			randomForest(f, data=getData(.task, .subset), classwt=classwt, cutoff=cutoff, ...)
 		}
 )
 

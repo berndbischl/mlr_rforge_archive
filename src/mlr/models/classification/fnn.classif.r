@@ -48,7 +48,7 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset,  ...) {
-    d = get.data(.task, .subset, target.extra=TRUE)
+    d = getData(.task, .subset, target.extra=TRUE)
     list(train=d, parset=list(...))
   }
 )

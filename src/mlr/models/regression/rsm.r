@@ -50,7 +50,7 @@ setMethod(
       stop("Unknown modelfun: ", mf)
     )
     f = as.formula(paste(.task@desc@target, "~", mf))
-    myargs = list(f, get.data(.task, .subset))
+    myargs = list(f, getData(.task, .subset))
     # strange behaviour in rsm forces us to use do.call...
     do.call(rsm, myargs)
   }

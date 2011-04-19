@@ -58,7 +58,7 @@ setMethod(
 		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
 			ctrl = Weka_control(..., S=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
-			JRip(f, data=get.data(.task, .subset), control=ctrl)
+			JRip(f, data=getData(.task, .subset), control=ctrl)
 		}
 )
 

@@ -70,7 +70,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-      d = data=get.data(.task, .subset)
+      d = data=getData(.task, .subset)
 #			if (.task["has.costs"]) {
 #			  cm = .task["costs"]
 #        # probably better to reorder the row/cols so they correspond with levels in d$target

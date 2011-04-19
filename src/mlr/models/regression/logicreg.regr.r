@@ -54,7 +54,7 @@ setMethod(
   
   def = function(.learner, .task, .subset, ntrees, nleaves, penalty, seed, select, ...) {
     xs = args.to.control(logreg.tree.control, c("treesize", "opers", "minmass"), list(...))
-    d = get.data(.task, .subset, target.extra=TRUE)
+    d = getData(.task, .subset, target.extra=TRUE)
     logreg(bin=d$data, resp=d$target, type=2, tree.control=xs$control, 
       select=select, ntrees=ntrees, nleaves=nleaves, penalty=penalty, seed=seed)
   }

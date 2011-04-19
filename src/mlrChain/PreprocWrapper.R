@@ -63,7 +63,7 @@ setMethod(
 		def = function(.learner, .task, .subset,  ...) {
       pvs = .learner@par.vals
       
-      d = get.data(.task, .subset)
+      d = getData(.task, .subset)
       tn = .task@desc@target
       p = .learner@train(data=d, targetvar=tn, args=pvs)
       if (!(is.list(p) && length(p)==2 && all(names(p) == c("data", "control")) 
@@ -71,7 +71,7 @@ setMethod(
         stop("Preprocessing train must result in list wil elements data[data.frame] and control[list]!")
       if (nrow(p$data) != length(.subset))
         stop("Preprocessing train may not change number of cases!")
-      .task = change.data(.task, p$data)
+      .task = changeData(.task, p$data)
       # we have already subsetted!
 			m = trainLearner(.learner@learner, .task, 1:.task["size"], ...)
       attr(m, "control") = p$control

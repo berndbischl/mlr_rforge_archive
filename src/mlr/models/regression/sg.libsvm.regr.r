@@ -41,7 +41,7 @@ setMethod(
   
   def = function(.learner, .task, .subset, ...) {
     size_cache = 100
-    d = get.data(.task, .subset, target.extra=TRUE, class.as="-1+1")
+    d = getData(.task, .subset, target.extra=TRUE, class.as="-1+1")
     # shogun wants features in as column vectors
     train = t(d(as.matrix(d$data)))
     pars = list(...)

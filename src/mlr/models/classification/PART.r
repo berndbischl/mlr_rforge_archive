@@ -57,7 +57,7 @@ setMethod(
 		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
 			ctrl = Weka_control(..., Q=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
-			PART(f, data=get.data(.task, .subset), control=ctrl)
+			PART(f, data=getData(.task, .subset), control=ctrl)
 		}
 )
 

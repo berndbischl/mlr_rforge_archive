@@ -106,10 +106,10 @@ setMethod(
 #' @return Either a data.frame or a list with data.frame \code{data} and vector \code{target}.
 #'
 #' @export
-#' @rdname get.data
+#' @rdname getData
 #' @title Extract data in task. 
 # todo: test
-get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
+getData = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
   
   # maybe recode y
   rec.y = function(y) {
@@ -170,14 +170,14 @@ get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
 #'
 #' @export
 #' @rdname subset
-#' @seealso \code{\link{get.data}} 
+#' @seealso \code{\link{getData}} 
 #' @title Subset data in task.
 
 setMethod(
   f = "subset",
   signature = signature(x="LearnTask"),
   def = function(x, subset, vars) {
-    x = change.data(x, get.data(x, subset, vars))
+    x = changeData(x, getData(x, subset, vars))
     if (!missing(subset)) {
       x@blocking = x@blocking[subset]
       x@weights = x@weights[subset]
@@ -187,7 +187,7 @@ setMethod(
 )
 
 # we create a new env, so the reference is not changed
-change.data = function(task, data) {
+changeData = function(task, data) {
   task@dataenv = new.env()
   task@dataenv$data = data
   d = task@desc

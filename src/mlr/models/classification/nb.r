@@ -49,7 +49,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			naiveBayes(f, data=get.data(.task, .subset), ...)
+			naiveBayes(f, data=getData(.task, .subset), ...)
 		}
 )
 

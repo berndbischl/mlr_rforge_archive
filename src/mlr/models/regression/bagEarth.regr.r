@@ -35,7 +35,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			bagEarth(f, data=get.data(.task, .subset), ...)
+			bagEarth(f, data=getData(.task, .subset), ...)
 		}
 )
 

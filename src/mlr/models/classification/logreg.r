@@ -44,7 +44,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			glm(f, data=get.data(.task, .subset), model=FALSE, family="binomial", ...)
+			glm(f, data=getData(.task, .subset), model=FALSE, family="binomial", ...)
 		}
 )
 

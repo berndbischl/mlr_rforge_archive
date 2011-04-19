@@ -65,7 +65,7 @@ setMethod(
 					"nresample", "maxsurrogate", "mtry", "savesplitstats", "maxdepth")
 			xs = args.to.control(ctree_control, ns, list(...))
 			f = .task["formula"]
-			args = c(list(f, data=get.data(.task, .subset), control=xs$control), xs$args)
+			args = c(list(f, data=getData(.task, .subset), control=xs$control), xs$args)
 			do.call(ctree, args)
 		}
 )

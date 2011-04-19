@@ -47,7 +47,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			f = .task["formula"]
-			loclda(f, data=get.data(.task, .subset), ...)
+			loclda(f, data=getData(.task, .subset), ...)
 		}
 )
 

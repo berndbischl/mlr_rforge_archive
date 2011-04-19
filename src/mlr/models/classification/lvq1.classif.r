@@ -47,7 +47,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {
-      d = get.data(.task, .subset, target.extra=TRUE)
+      d = getData(.task, .subset, target.extra=TRUE)
 			cdbk.args = insert(list(), list(...), c("size", "k", "prior"))
 			cdbk.args$x = d$data
 			cdbk.args$cl = d$target 

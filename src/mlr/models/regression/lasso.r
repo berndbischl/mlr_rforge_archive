@@ -39,7 +39,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset, ...) {
 			f = .task["formula"]
-			penalized(f, data=get.data(.task, .subset), ...)
+			penalized(f, data=getData(.task, .subset), ...)
 		}
 )
 

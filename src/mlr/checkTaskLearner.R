@@ -2,7 +2,7 @@
 roxygen()
 
 checkTaskLearner = function(lt, learner) {
-	data = get.data(lt)
+	data = getData(lt)
 	msg = ""
 	td = lt@desc
   if (is(lt, "ClassifTask") && learner@properties[["type"]] != "classif") {

@@ -89,7 +89,7 @@ setMethod(
     for (i in 1:k) {
       data2 = d[x$row.inds[[i]], ]
       data2[, tn] = x$targets[[i]] 
-      ct = change.data(.task, data2)
+      ct = changeData(.task, data2)
       models[[i]] = train(.learner@learner, ct)
     }
     # store cm as last el.

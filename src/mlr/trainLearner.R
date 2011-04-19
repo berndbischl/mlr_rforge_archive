@@ -13,7 +13,7 @@
 #' @return Model of the underlying learner.
 #' 
 #' @exportMethod trainLearner
-#' @seealso \code{\link{get.data}}
+#' @seealso \code{\link{getData}}
 #' @rdname trainLearner
 #' @title Internal training method for learner. 
 

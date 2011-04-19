@@ -57,7 +57,7 @@ setMethod(
   
   def = function(.learner, .task, .subset,  ...) {
     f = .task["formula"]
-    data = get.data(.task, .subset, target.extra=TRUE)
+    data = getData(.task, .subset, target.extra=TRUE)
     names(data)[1] = "x"  
     names(data)[2] = "y"
     data$x = t(data$x)
