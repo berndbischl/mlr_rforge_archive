@@ -9,7 +9,7 @@ pack.files = c(
   "mlr/object.r",
   
   "mlr/checkData.R",
-  "mlr/task.desc.r",
+  "mlr/TaskDesc.R",
   "mlr/LearnTask.R",
   "mlr/ClassifTask.R",
   "mlr/RegrTask.R",
