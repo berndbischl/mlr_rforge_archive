@@ -4,9 +4,9 @@
 #' Numerical variable for optimization.
 #' @param id [\code{character(1)}]
 #'   Name of parameter.
-#' @param lower [numeric(1)] \cr
+#' @param lower [\code{numeric(1)}] \cr
 #'   Lower bound. Default is \code{-Inf}.
-#' @param upper [numeric(1)] \cr
+#' @param upper [\code{numeric(1)}] \cr
 #'   Upper bound. Default is \code{Inf}.
 #' @param trafo [function(x)] \cr
 #'   Function to transform parameter. Is applied to the parameter before it is passed to its corresponding fitness function. Default is \code{\link{identity}}.   
@@ -58,9 +58,9 @@ makeNumericVectorParameter = function(id, dim, lower=-Inf, upper=Inf, trafo=iden
 #' Integer variable for optimization.
 #' @param id [\code{character(1)}]
 #'   Name of parameter.
-#' @param lower [numeric(1)] \cr
+#' @param lower [\code{numeric(1)}] \cr
 #'   Lower bound. Default is \code{-Inf}.
-#' @param upper [numeric(1)] \cr
+#' @param upper [\code{numeric(1)}] \cr
 #'   Upper bound. Default is \code{Inf}.
 #' @param trafo [function(x)] \cr
 #'   Function to transform parameter. Is applied to the parameter before it is passed to its corresponding fitness function. Default is \code{\link{identity}}.   

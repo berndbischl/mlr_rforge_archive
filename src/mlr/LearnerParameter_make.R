@@ -1,11 +1,11 @@
 #' Numerical parameter for a learner.
 #' @param id [\code{character(1)}]
 #'   Name of parameter.
-#' @param lower [numeric(1)] \cr
+#' @param lower [\code{numeric(1)}] \cr
 #'   Lower bound. Default is \code{-Inf}.
-#' @param upper [numeric(1)] \cr
+#' @param upper [\code{numeric(1)}] \cr
 #'   Upper bound. Default is \code{Inf}.
-#' @param default [numeric(1)]
+#' @param default [\code{numeric(1)}]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param pass.default [logical(1)]
 #'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
@@ -27,11 +27,11 @@ makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
 #'   Name of parameter.
 #' @param dim [integer(1)]
 #'   Dimension of vector. Can be \code{NA}, which means dimension in unknown. Default is \code{NA}.
-#' @param lower [numeric(1)] \cr
+#' @param lower [\code{numeric(1)}] \cr
 #'   Lower bound. Default is \code{-Inf}.
-#' @param upper [numeric(1)] \cr
+#' @param upper [\code{numeric(1)}] \cr
 #'   Upper bound. Default is \code{Inf}.
-#' @param default [numeric(1)]
+#' @param default [\code{numeric(1)}]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param pass.default [logical(1)]
 #'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
@@ -64,9 +64,9 @@ makeNumericVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf,
 #' Integer parameter for a learner.
 #' @param id [\code{character(1)}]
 #'   Name of parameter.
-#' @param lower [numeric(1)] \cr
+#' @param lower [\code{numeric(1)}] \cr
 #'   Lower bound. Default is \code{-.Machine$integer.max}.
-#' @param upper [numeric(1)] \cr
+#' @param upper [\code{numeric(1)}] \cr
 #'   Upper bound. Default is \code{.Machine$integer.max}.
 #' @param default [integer(1)]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
@@ -94,7 +94,7 @@ makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.
 #'   Lower bound. Default is \code{-.Machine$integer.max}.
 #' @param upper [integer(1)] \cr
 #'   Upper bound. Default is \code{Machine$integer.max}.
-#' @param default [numeric(1)]
+#' @param default [\code{numeric(1)}]
 #'   Default value used in learner. If this argument is missing, it means no default value is available.
 #' @param pass.default [logical(1)]
 #'   Should the default value be always passed to the learner? Default is \code{FALSE}. 
