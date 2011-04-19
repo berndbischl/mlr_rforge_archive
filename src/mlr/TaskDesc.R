@@ -14,6 +14,7 @@ roxygen()
 #' @slot has.weights Are weights available in task for covariates?
 #' @slot has.blocking Is blocking available in task for observations?
 #' @slot positive Positive class label for binary classification, NA else. 
+#' @slot negative Negative class label for binary classification, NA else. 
 #'
 #' @exportClass TaskDesc
 #' @seealso \code{\linkS4class{LearnTask}}
@@ -33,8 +34,9 @@ setClass(
         has.inf = "logical",
         has.weights = "logical",
         has.blocking = "logical",
-        positive = "character" 
-		)
+        positive = "character", 
+        negative = "character" 
+    )
 )
 
 #' Constructor.
@@ -65,6 +67,10 @@ setMethod(
     .Object@has.weights = has.weights
     .Object@has.blocking = has.blocking
     .Object@positive = positive
+    if(type == "classif" && length(getClassLevels(x)) == 2) 
+      .Object@negative = setdiff(names(.Object@class.dist), .Object@positive) 
+    else 
+      .Object@negative = as.character(NA)
     return(.Object)
   }
 )
