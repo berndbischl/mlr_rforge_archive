@@ -35,7 +35,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {
-			f = .task["formula"]
+			f = getFormula(.task)
 			pcr(f, data=getData(.task, .subset), ...)
 		}
 )

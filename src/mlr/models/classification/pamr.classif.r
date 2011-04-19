@@ -56,7 +56,7 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset,  ...) {
-    f = .task["formula"]
+    f = getFormula(.task)
     data = getData(.task, .subset, target.extra=TRUE)
     names(data)[1] = "x"  
     names(data)[2] = "y"

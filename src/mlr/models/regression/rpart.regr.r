@@ -46,7 +46,7 @@ setMethod(
 		),
 		
     def = function(.learner, .task, .subset,  ...) {
-      f = .task["formula"]
+      f = getFormula(.task)
       if (.task["has.weights"])
         rpart(f, data=getData(.task, .subset), weights=.task@weights[.subset], ...)
       else  

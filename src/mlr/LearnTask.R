@@ -281,4 +281,29 @@ setMethod(
 )
 
 
-
+#' Get formula of a task. This is simply \code{target ~ .}. 
+#' Note that the environment that always gets attached to a formula is deleted. 
+#' @param task [\code{\linkS4class{LearnTask}} | \code{\linkS4class{TaskDesc}}}]\cr 
+#'   Task or its description object.   
+#' @return [\code{formula}]
+#' @rdname getFormula
+#' @exportMethod getFormula
+setGeneric(name = "getFormula", def = function(x) standardGeneric("getFormula"))
+#' @rdname getFormula
+setMethod(
+  f = "getClassLevels",
+  signature = signature(x="LearnTask"), 
+  def = function(x) {
+    getFormula(x@desc) 
+  } 
+)
+#' @rdname getFormula
+setMethod(
+  f = "getFormula",
+  signature = signature(x="TaskDesc"), 
+  def = function(x) {
+    f = paste(x@target, "~.")
+    attr(f, ".Environment") = NULL
+    return(f)
+  } 
+)

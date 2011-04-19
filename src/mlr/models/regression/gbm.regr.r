@@ -46,7 +46,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {
-			f = .task["formula"]
+			f = getFormula(.task)
       if (.task["has.weights"])
         gbm(f, data=getData(.task, .subset), keep.data=FALSE, weights=.task@weights[.subset], ...)
       else  

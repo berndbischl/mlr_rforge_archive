@@ -52,7 +52,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {
-			f = .task["formula"]
+			f = getFormula(.task)
 			adaboost.M1(f, data=getData(.task, .subset), ...)
 		}
 )

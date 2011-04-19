@@ -47,7 +47,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {
-			f = .task["formula"]
+			f = getFormula(.task)
 			ctrl = Weka_control(...)
 			OneR(f, data=getData(.task, .subset), control=ctrl)
 		}

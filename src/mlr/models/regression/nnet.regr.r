@@ -47,7 +47,7 @@ setMethod(
     ),
     
     def = function(.learner, .task, .subset,  ...) {
-      f = .task["formula"]
+      f = getFormula(.task)
       if (.task["has.weights"])
         nnet(f, data=getData(.task, .subset), linout=T, weights=.task@weights[.subset], ...)
       else  

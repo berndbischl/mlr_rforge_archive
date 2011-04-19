@@ -48,7 +48,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {
-			f = .task["formula"]
+			f = getFormula(.task)
 			llr(f, data=getData(.task, .subset), ...)
 		}
 )

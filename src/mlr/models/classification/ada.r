@@ -69,7 +69,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {
-			f = .task["formula"]
+			f = getFormula(.task)
       d = data=getData(.task, .subset)
 #			if (.task["has.costs"]) {
 #			  cm = .task["costs"]

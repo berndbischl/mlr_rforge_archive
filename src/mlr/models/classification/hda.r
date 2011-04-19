@@ -47,7 +47,7 @@
 #		),
 #		
 #		def = function(.learner, .task, .subset,  ...) {
-#			f = .task["formula"]
+#			f = getFormula(.task)
 #			hda(f, data=getData(.task, .subset), crule=TRUE, ...)
 #		}
 #)
