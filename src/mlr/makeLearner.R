@@ -44,8 +44,6 @@ makeLearner = function(class, id, predict.type="response", ..., par.vals=list())
   wl = new(class)
   if (!is(wl, "rlearner"))
     stop("Learner must be a basic rlearner!")
-  if (getProperty(wl, "type") == "regr" && !missing(predict.type))
-    stop("'predict.type' given but has no meaning for regression learners!")    
   if (!missing(id))
     wl@id = id
   pds = wl@par.set@pars
