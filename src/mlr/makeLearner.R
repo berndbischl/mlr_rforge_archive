@@ -1,36 +1,55 @@
 #' Create learner object.
 #' 
-#' How to change object later on: Look at setters of \code{\linkS4class{Learner}}.
+#' To change an object later on look at the setters of the
+#' \code{\linkS4class{Learner}} class.
 #' 
-#' Tresholds for class labels: If you set \code{predict.type} to "prob" or "decision", the label with the maximum value is selected.
-#' You can change labels of a \code{\linkS4class{Prediction}} object later by using the function \code{\link{setThreshold}}.
+#' For a classification type learner the \code{predict.type} can be set
+#' to \dQuote{prob} or \dQuote{decision} to select the label with the maximum
+#' value. The threshold used to assign the label can later be changed using the
+#' \code{\link{setThreshold}} function.
 #' 
 #' @param class [\code{character(1)}] \cr
-#'        Class of learner to create.
-#' @param id [\code{character(1)}]\cr 
-#'        Id string for object. Used to select the object from a named list, etc.  
+#'        Class of learner to create. By convention, all classification learners
+#'        start with \dQuote{classif.} and all regression learners with
+#'        \dQuote{regr.}. A list of all learners is available on the
+#'        \code{\link{learners}} help page.
+#' @param id [\code{character(1)}] \cr 
+#'        Id string for object. Used to select the object from a named list, etc.
 #' @param predict.type [\code{character(1)}] \cr
-#'        Classification: "response" | "prob" | "decision", specifying the type to
-#'        predict. Default is "response". "decision" is experimental. Ignored for
-#'        regression.	 
+#'        Classification: \dQuote{response}, \dQuote{prob} or \dQuote{decision},
+#'        specifying the type of prediction returned. The default is 
+#'        \dQuote{response}. \dQuote{decision} is experimental.
+#'        For regression, this argument is ignored and should not be set.
 #' @param ... [any] \cr
-#'        Optional named (hyper)parameters. Alternatively, you can pass via the "par.vals" argument.
-#' @param par.vals [list] \cr
-#'       Optional list of named (hyper)parameters. Alternatively, you can pass via the ... argument.
+#'        Optional named (hyper)parameters. Alternatively these can be given
+#'        using the \code{par.vals} argument.
+#' @param par.vals [\code{list}] \cr
+#'        Optional list of named (hyper)parameters. The arguments in
+#'        \code{...} take precedence over values in this list. We strongly
+#'        encourage you to use one or the other to pass (hyper)parameters
+#'        to the learner but not both.
+#'
 #' @return \code{\linkS4class{Learner}}.
-#' 
+#'
+#' @example
+#'
+#' ct <- makeLearner("classif.logreg")
+#' rt <- makeLearner("regr.lm")
+#'
 #' @export
-#' 
+#'
 makeLearner = function(class, id, predict.type="response", ..., par.vals=list()) {
-	if (class == "")
-		stop("Cannot create learner from empty string!")	
-	wl = new(class)
-  if(!is(wl, "rlearner"))
+  if (class == "")
+    stop("Cannot create learner from empty string!")	
+  wl = new(class)
+  if (!is(wl, "rlearner"))
     stop("Learner must be a basic rlearner!")
-	if (!missing(id))
-		wl@id = id
+  if (getProperty(wl, "type") == "regr" && !missing(predict.type))
+    stop("'predict.type' given but has no meaning for regression learners!")    
+  if (!missing(id))
+    wl@id = id
   pds = wl@par.set@pars
-  # pass defaults
+  ## pass defaults
   pv = list()
   for (j in seq(length=length(pds))) {
     pd = pds[[j]]
@@ -40,8 +59,8 @@ makeLearner = function(class, id, predict.type="response", ..., par.vals=list())
     }
   }
   pv = insert(pv, par.vals)
-	wl = setHyperPars(wl, ..., par.vals=pv)
+  wl = setHyperPars(wl, ..., par.vals=pv)
   if (predict.type != "response")
     wl = setPredictType(wl, predict.type)
-	return(wl)
+  return(wl)
 }
