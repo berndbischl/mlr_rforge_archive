@@ -302,7 +302,7 @@ setMethod(
   f = "getFormula",
   signature = signature(x="TaskDesc"), 
   def = function(x) {
-    f = paste(x@target, "~.")
+    f = as.formula(paste(x@target, "~."))
     attr(f, ".Environment") = NULL
     return(f)
   } 
