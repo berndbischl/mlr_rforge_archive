@@ -105,8 +105,9 @@ Learner object. There are two options how to specify the parameters. You can eit
 list of hyperparameters via the par.vals argument or alternatively pass them via the ... argument of
 <a href="rdocs/makeLearner.html">makeLearner</a>.
 The parameters will generally be named the same way as in the underlying R method, if not, 
-differences are documented in the corresponding R help page. WO?
-???If hyperparameters are passed via special control structures to the underlying method, mlr usually allows to pass them directly.
+differences are documented in the corresponding R help page. Parameters of all built-in learners are documented
+in the <a href="rdocs/learners.html">learners</a> help page.
+If hyperparameters are passed via special control structures to the underlying method, mlr usually allows to pass them directly.
 </P>
 
 <h3>Classification Example</h3>
@@ -193,10 +194,10 @@ More information about setting hyperparameters ... tuning, eigene Seite???
 Classification methods can predict class labels and probabilities if the algorithm supports it.
 decision
 You can select a predict type by using the predict.type parameter of makeLearner.
-Default is "response", i.e. predicting class labels. Alternatively choose "prob" id additionally
-probabilities should be predicted... 
+The default is "response", i.e. predicting class labels. Alternatively choose "prob" if
+probabilities should be predicted in addition to the class labels.
 "decision" is experimental. 
-Specification of the prediction type is only meaningful for classification and is simply ignored 
+Specification of the prediction type is only meaningful for classification and will raise an error 
 if specified for a regression method.
 </P>
 <h3>Example</h3>
