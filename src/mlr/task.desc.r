@@ -20,7 +20,7 @@ roxygen()
 #' @title Description object for task. 
 
 setClass(
-		"task.desc",
+		"TaskDesc",
 		contains = c("object"),
 		representation = representation(
 				type = "character",
@@ -40,7 +40,7 @@ setClass(
 #' Constructor.
 setMethod(
   f = "initialize",
-  signature = signature("task.desc"),
+  signature = signature("TaskDesc"),
   def = function(.Object, data, target, type, id, has.weights, has.blocking, positive) {
     .Object@type = type
     .Object@id = id
@@ -72,7 +72,7 @@ setMethod(
 #' @rdname task.desc-class
 setMethod(
 		f = "[",
-		signature = signature("task.desc"),
+		signature = signature("TaskDesc"),
 		def = function(x,i,j,...,drop) {
       if (i == "formula") {
         return(as.formula(paste(x@target, "~.")))

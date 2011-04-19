@@ -27,7 +27,7 @@ setClass(
 				dataenv = "environment",
 				weights = "numeric",
 				blocking = "factor",
-				desc = "task.desc"
+				desc = "TaskDesc"
 		)
 )
 
@@ -191,7 +191,7 @@ changeData = function(task, data) {
   task@dataenv = new.env()
   task@dataenv$data = data
   d = task@desc
-  task@desc = new("task.desc", data, d@target, d@type, d@id, 
+  task@desc = new("TaskDesc", data, d@target, d@type, d@id, 
     d@has.weights, d@has.blocking, d@positive)
   return(task)
 } 
@@ -251,7 +251,7 @@ setMethod(
 #' @rdname getClassLevels
 setMethod(
   f = "getClassLevels",
-  signature = signature(x="task.desc"), 
+  signature = signature(x="TaskDesc"), 
   def = function(x) {
     if (x@type != "classif")
       stop("Description is not for a classification task!")

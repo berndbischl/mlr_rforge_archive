@@ -28,7 +28,7 @@ setClass(
 		representation = representation(
 				learner = "Learner",
 				learner.model = "ANY",
-        desc = "task.desc",
+        desc = "TaskDesc",
 				subset = "integer",
 				vars = "character",
 				time = "numeric"

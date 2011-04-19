@@ -26,7 +26,7 @@ setMethod(
 			if (missing(data))
         return(make.empty(.Object))
       
-      td = new("task.desc", data, target, "regr", id, 
+      td = new("TaskDesc", data, target, "regr", id, 
         length(weights) > 0, length(blocking) > 0, as.character(NA))      
       
 			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, task.desc=td)

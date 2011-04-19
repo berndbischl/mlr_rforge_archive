@@ -2,7 +2,7 @@ setClass(
 		"novars",
 		contains = c("object"),
 		representation = representation(
-				desc = "task.desc",
+				desc = "TaskDesc",
 				targets = "vector"
 		)
 )

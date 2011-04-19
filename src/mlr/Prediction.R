@@ -28,7 +28,7 @@ setClass(
 				type = "character",
 				df = "data.frame",
 				threshold = "numeric",
-				desc = "task.desc",
+				desc = "TaskDesc",
 				time = "numeric"
 		)
 )

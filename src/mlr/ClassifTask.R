@@ -26,7 +26,7 @@ setMethod(
 			if (missing(data))
 				return(make.empty(.Object))
 			
-      td = new("task.desc", data, target, "classif", id, 
+      td = new("TaskDesc", data, target, "classif", id, 
         length(weights) > 0, length(blocking) > 0, as.character(NA))      
 
 			# init positive
