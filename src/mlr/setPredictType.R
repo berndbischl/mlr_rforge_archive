@@ -11,7 +11,7 @@
 #' 		    
 #' @return \code{\linkS4class{Learner}} with changed Prediction behaviour.
 #'
-#' @seealso \cdoe{\link{setThreshold}} to alter the threshold used for prediction.
+#' @seealso \code{\link{setThreshold}} to alter the threshold used for prediction.
 #'
 #' @example
 #' cl <- makeLearner("classif.logreg")
