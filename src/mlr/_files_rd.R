@@ -22,7 +22,7 @@ allowed.rd.files <<- c(
   "upper.Rd",
   "values.Rd",
   
-  "task.desc-class.Rd",
+  "TaskDesc-class.Rd",
   "LearnTask-class.Rd",
   "ClassifTask-class.Rd",
   "RegrTask-class.Rd",
@@ -56,7 +56,7 @@ allowed.rd.files <<- c(
   "setProperty.Rd",
   "setProperties.Rd",
   "getParameterSet.Rd",
-  "getParameterValues.Rd",
+  "getHyperPars.Rd",
   "setHyperPars.Rd",
   "setId.Rd",
   "setPredictType.Rd",

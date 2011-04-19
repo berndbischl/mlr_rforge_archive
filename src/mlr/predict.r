@@ -60,7 +60,7 @@ setMethod(
 			}
 			
 			logger.debug(level="predict", "mlr predict:", wl@id, "with pars:")
-			logger.debug(level="predict", getParameterValuesString(model@learner))
+			logger.debug(level="predict", getHyperParsString(model@learner))
 			logger.debug(level="predict", "on", nrow(newdata), "examples:")
 			logger.debug(level="predict", rownames(newdata))
 			
@@ -83,7 +83,7 @@ setMethod(
 						.newdata=newdata
 				)
         # only pass train hyper pars as basic rlearner in ...
-        pars = c(pars, getParameterValues(getLeafLearner(wl), "predict"))
+        pars = c(pars, getHyperPars(getLeafLearner(wl), "predict"))
 
         if (wl@properties[["type"]] == "classif") {
 					pars$.type = type

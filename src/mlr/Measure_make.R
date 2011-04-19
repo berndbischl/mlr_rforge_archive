@@ -29,7 +29,7 @@
 #' @title Construct your own performance measure.
 #' @examples
 #'   f <- function(task, model, pred, extra.pars) sum((pred@@df$response - pred@@df$truth)^2) 
-#'   makeMeasure(id="my.sse", minimize=TRUE, regr=TRUE, allowed.pred.types=c"response", fun=f)
+#'   makeMeasure(id="my.sse", minimize=TRUE, regr=TRUE, allowed.pred.types="response", fun=f)
 
 setGeneric(
   name = "makeMeasure",

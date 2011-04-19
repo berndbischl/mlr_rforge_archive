@@ -66,7 +66,7 @@ setMethod(
 							"Learner model for id=", x@learner@id, " class=", class(x@learner), "\n",  
 							"Trained on obs: ", length(x@subset), "\n",
               "Used features: ", length(x@vars), "\n",
-              "Hyperparameters: ", getParameterValuesString(x@learner),
+              "Hyperparameters: ", getHyperParsString(x@learner),
 							sep=""
 					)
 			)

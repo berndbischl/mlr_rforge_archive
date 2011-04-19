@@ -139,18 +139,18 @@ setMethod(f = "to.string",
     
     return(paste(
         s, "\n",
-        "Hyperparameters: ", getParameterValuesString(x), "\n\n",
+        "Hyperparameters: ", getHyperParsString(x), "\n\n",
         sep = ""         
       ))
   })
 
 
-#' @rdname getParameterValues
+#' @rdname getHyperPars
 setMethod(
-  f = "getParameterValues",
+  f = "getHyperPars",
   signature = signature(learner="BaseWrapper", for.fun="character"), 
   def = function(learner, for.fun) {
-    c(getParameterValues(learner@learner, for.fun), getParameterValuesTop(learner, for.fun))
+    c(getHyperPars(learner@learner, for.fun), getHyperParsTop(learner, for.fun))
   }
 )
 

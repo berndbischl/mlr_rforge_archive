@@ -120,27 +120,27 @@ setMethod(
 #'   The values corresponding to what aspect of the learner should be returned: 'train', 'predict', or 'both'.
 #'   Default is 'both'.    
 #' @return A named list of values.
-#' @rdname getParameterValues
-#' @exportMethod getParameterValues
-setGeneric(name = "getParameterValues", 
+#' @rdname getHyperPars
+#' @exportMethod getHyperPars
+setGeneric(name = "getHyperPars", 
   def = function(learner, for.fun) {
     if (missing(for.fun))
       for.fun = "both"      
     check.arg(for.fun, "character", 1, c("train", "predict", "both"))
-    standardGeneric("getParameterValues")
+    standardGeneric("getHyperPars")
   }
 )  
-#' @rdname getParameterValues
+#' @rdname getHyperPars
 setMethod(
-  f = "getParameterValues",
+  f = "getHyperPars",
   signature = signature(learner="Learner", for.fun="character"), 
   def = function(learner, for.fun) {
-    getParameterValuesTop(learner, for.fun)
+    getHyperParsTop(learner, for.fun)
   } 
 )
 
 
-getParameterValuesTop = function(learner, for.fun) {
+getHyperParsTop = function(learner, for.fun) {
   wh = switch(for.fun, 
     train=c("train", "both"), 
     predict=c("predict", "both"),
@@ -152,8 +152,8 @@ getParameterValuesTop = function(learner, for.fun) {
   pv[ns]
 }
 
-getParameterValuesString = function(learner) {
-  valToString(getParameterSet(learner), getParameterValues(learner, "both"))
+getHyperParsString = function(learner) {
+  valToString(getParameterSet(learner), getHyperPars(learner, "both"))
 }
 
 getLeafLearner = function(learner) {

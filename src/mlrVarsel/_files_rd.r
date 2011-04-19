@@ -52,7 +52,7 @@ allowed.rd.files <<- c(
 		"rlearner.regr-class.Rd",
 		"makeLearner.Rd",
     "getParameterSet.Rd",
-    "getParameterValues.Rd",
+    "getHyperPars.Rd",
     "setHyperPars.Rd",
 		"setId.Rd",
     "setPredictType.Rd",

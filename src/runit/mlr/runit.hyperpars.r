@@ -1,10 +1,10 @@
 test.hyperpars <- function() {
 	wl1 = makeLearner("classif.rpart", minsplit=10)
-	checkEquals(getParameterValues(wl1), list(minsplit=10)) 
+	checkEquals(getHyperPars(wl1), list(minsplit=10)) 
 	
 	m = train(wl1, task=multiclass.task)
   checkTrue(!is(m, "FailureModel"))
-	checkEquals(getParameterValues(m@learner), list(minsplit=10)) 
+	checkEquals(getHyperPars(m@learner), list(minsplit=10)) 
 	
   # check warnings
   errorhandler.setup(on.par.without.desc="warn")  

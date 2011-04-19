@@ -57,10 +57,10 @@ setMethod(
       # make pars list for train call
       pars = list(.learner=wl, .task=task, .subset=subset)
       # only pass train hyper pars as basic rlearner in ...
-      pars = c(pars, getParameterValues(getLeafLearner(wl), "train"))
+      pars = c(pars, getHyperPars(getLeafLearner(wl), "train"))
       
       logger.debug(level="train", "mlr train:", wl@id, "with pars:")
-      logger.debug(level="train", getParameterValuesString(wl))
+      logger.debug(level="train", getHyperParsString(wl))
       logger.debug(level="train", "on", length(subset), "examples:")
       logger.debug(level="train", subset)
       
