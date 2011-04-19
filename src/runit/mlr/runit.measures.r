@@ -2,7 +2,7 @@ test.measures <- function() {
 	
 	ct = binaryclass.task
   
-  mymeasure = makeMeasure(id="foo", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.type=c("response", "prob", "decision"),
+  mymeasure = makeMeasure(id="foo", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob", "decision"),
     fun=function(task, model, pred, extra.pars) {
       tt = pred
       1
