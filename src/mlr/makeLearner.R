@@ -33,8 +33,8 @@
 #'
 #' @example
 #'
-#' ct <- makeLearner("classif.logreg")
-#' rt <- makeLearner("regr.lm")
+#' cl <- makeLearner("classif.logreg")
+#' rl <- makeLearner("regr.lm")
 #'
 #' @export
 #'
