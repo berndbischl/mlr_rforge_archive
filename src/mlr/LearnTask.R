@@ -11,7 +11,7 @@ roxygen()
 #' Note that all getters of \code{\linkS4class{task.desc}} can also be used, as they internally encapsulate some information of the task. 
 #' 
 #' \describe{
-#' 	\item{data [data.frame]}{Encapsulated data.}
+#' 	\item{data [\code{data.frame}]}{Encapsulated data.}
 #'  \item{targets [character]}{Target column of data.}
 #'  \item{weights [numeric]}{Case weights are returned. NULL if no weights were set.}
 #'  \item{blocking [factor]}{Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration. NULL if no blocking was set.}

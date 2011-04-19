@@ -24,8 +24,8 @@
 #'   Default is to extract nothing. 
 #' 
 #' @return List of \cr
-#'   measures.test [data.frame] Rows correspond to test sets in resampling iterations, columns to performance measures.\cr
-#'   measures.train [data.frame] Rows correspond to training sets in resampling iterations, columns to performance measures.\cr
+#'   measures.test [\code{data.frame}] Rows correspond to test sets in resampling iterations, columns to performance measures.\cr
+#'   measures.train [\code{data.frame}] Rows correspond to training sets in resampling iterations, columns to performance measures.\cr
 #'   aggr [named numeric] Vector of aggregated performance values. Names are coded like this <measure>.<aggregation>.\cr
 #'   pred [\code{\linkS4class{ResamplePrediction}}] Container for all predictions during resampling.\cr
 #'   models [list of \code{\linkS4class{WrappedModel}}] List of fitted models or \code{NULL}.\cr

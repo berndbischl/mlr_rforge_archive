@@ -9,7 +9,7 @@ roxygen()
 #' 
 #' @param id [\code{character(1)}]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. Default is the name of R variable passed to \code{data}.  
-#' @param data [data.frame] \cr   
+#' @param data [\code{data.frame}] \cr   
 #'   A data frame containing the input and target variables for modeling.
 #' @param target [\code{character(1)}] \cr
 #'   Name of the target variable.
