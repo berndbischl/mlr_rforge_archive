@@ -42,9 +42,9 @@ test.predict <- function() {
   cp5d = setThreshold(cp5b, 1)
 	cp5e = predict(cm5, task=binaryclass.task, subset=1)
 	checkEquals(cp5a@df$response, cp5b@df$response)
-	f1 = factor(rep(binaryclass.task["positive"], length(binaryclass.test.inds)), levels=getClassLevels(binaryclass.task))
+	f1 = factor(rep(binaryclass.task@desc@positive, length(binaryclass.test.inds)), levels=getClassLevels(binaryclass.task))
 	checkEquals(cp5c@df$response, f1)
-	f2 = factor(rep(binaryclass.task["negative"], length(binaryclass.test.inds)), levels=getClassLevels(binaryclass.task))
+	f2 = factor(rep(binaryclass.task@desc@negative, length(binaryclass.test.inds)), levels=getClassLevels(binaryclass.task))
 	checkEquals(cp5d@df$response, f2)
 	checkTrue(setequal(levels(cp5e@df$response), c("M", "R")))
 		

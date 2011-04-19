@@ -6,7 +6,7 @@ test.mlr.learn.task <- function() {
 	checkEquals(getTargets(ct1), multiclass.df[,multiclass.target])
 	
 	ct = binaryclass.task
-	pn = c(ct["positive"], ct["negative"])
+	pn = c(ct@desc@positive, ct@desc@negative)
 	checkEquals(sort(getClassLevels(ct)), sort(pn))
 	
 	# wrong vars

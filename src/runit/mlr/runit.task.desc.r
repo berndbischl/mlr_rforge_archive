@@ -2,18 +2,18 @@
 test.task.desc <- function() {
 	ct = makeClassifTask(target="Class", binaryclass.df, id="mytask", positive="M", exclude="V1")
 	checkEquals(ct@desc@id, "mytask")	
-	checkEquals(ct["positive"], "M")	
-	checkEquals(ct["negative"], "R")
+	checkEquals(ct@desc@positive, "M")	
+	checkEquals(ct@desc@negative, "R")
 
 	ct = makeClassifTask(target="Species", multiclass.df, id="mytask2")
 	checkEquals(ct@desc@id, "mytask2")	
-	checkTrue(is.na(ct["positive"]))
-	checkTrue(is.na(ct["negative"]))
+	checkTrue(is.na(ct@desc@positive))
+	checkTrue(is.na(ct@desc@negative))
 	
 	rt = makeRegrTask(target="medv", regr.df, id="mytask3") 
 	checkEquals(rt@desc@id, "mytask3")	
-	checkTrue(is.na(rt["positive"]))
-	checkTrue(is.na(rt["negative"]))
+	checkTrue(is.na(rt@desc@positive))
+	checkTrue(is.na(rt@desc@negative))
   
   checkEquals(multiclass.task["size"], 150) 
   checkEquals(multiclass.task["dim"], 4)  

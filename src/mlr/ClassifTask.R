@@ -86,7 +86,7 @@ setMethod(
               "Target: ", td@target, "\n", 
               "Classes: ", length(getClassLevels(x)), "\n",
 							di, "\n",
-							ifelse(length(getClassLevels(x)) == 2, paste("Positive class:", x["positive"], "\n"), ""),
+							ifelse(length(getClassLevels(x)) == 2, paste("Positive class:", td@positive, "\n"), ""),
               "Has weights: ", x["has.weights"], "\n", 
               "Has blocking: ", x["has.blocking"], "\n",
               sep=""

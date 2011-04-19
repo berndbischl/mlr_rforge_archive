@@ -114,9 +114,9 @@ getData = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
   # maybe recode y
   rec.y = function(y) {
     if (class.as=="01")
-      as.numeric(y == task["positive"])
+      as.numeric(y == task@desc@positive)
     else if (class.as=="-1+1")
-      2*as.numeric(y == task["positive"])-1
+      2*as.numeric(y == task@desc@positive)-1
     else
       y
   }

@@ -37,7 +37,7 @@ setMethod(
 			if(is.null(p)) {
 				stop("No probabilities in prediction object!")
 			}
-			ROCR.prediction(p, x@df$truth, label.ordering=c(x@desc["negative"], x@desc["positive"]))
+			ROCR.prediction(p, x@df$truth, label.ordering=c(x@desc@negative, x@desc@positive))
 		}
 )
 
@@ -58,7 +58,7 @@ setMethod(
     iter = as.factor(x["iter"])
     prob = split(prob, iter)
     truth = split(x@df$truth, iter)
-    ROCR.prediction(prob, truth, label.ordering=c(x@desc["negative"], x@desc["positive"]))
+    ROCR.prediction(prob, truth, label.ordering=c(x@desc@negative, x@desc@positive))
   }
 )
 

@@ -180,7 +180,7 @@ auc = makeMeasure(id="auc", minimize=FALSE, classif=TRUE, only.binary=TRUE, allo
 #' @rdname measures
 tp = makeMeasure(id="tp", minimize=FALSE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"),
   fun=function(task, model, pred, extra.pars) {
-    sum(pred@df$truth == pred@df$response & pred@df$response == pred@desc["positive"])  
+    sum(pred@df$truth == pred@df$response & pred@df$response == pred@desc@positive)  
   }
 )
 
@@ -188,7 +188,7 @@ tp = makeMeasure(id="tp", minimize=FALSE, classif=TRUE, only.binary=TRUE, allowe
 #' @rdname measures
 tn = makeMeasure(id="tn", minimize=FALSE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"),  
   fun=function(task, model, pred, extra.pars) {
-    sum(pred@df$truth == pred@df$response & pred@df$response == pred@desc["negative"])  
+    sum(pred@df$truth == pred@df$response & pred@df$response == pred@desc@negative)  
   }
 )
 
@@ -196,7 +196,7 @@ tn = makeMeasure(id="tn", minimize=FALSE, classif=TRUE, only.binary=TRUE, allowe
 #' @rdname measures
 fp = makeMeasure(id="fp", minimize=TRUE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"), 
   fun=function(task, model, pred, extra.pars) {
-    sum(pred@df$truth != pred@df$response & pred@df$response == pred@desc["positive"])  
+    sum(pred@df$truth != pred@df$response & pred@df$response == pred@desc@positive)  
   }
 )
 
@@ -204,7 +204,7 @@ fp = makeMeasure(id="fp", minimize=TRUE, classif=TRUE, only.binary=TRUE, allowed
 #' @rdname measures
 fn = makeMeasure(id="fn", minimize=TRUE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"), 
   fun=function(task, model, pred, extra.pars) {
-    sum(pred@df$truth != pred@df$response & pred@df$response == pred@desc["negative"])  
+    sum(pred@df$truth != pred@df$response & pred@df$response == pred@desc@negative)  
   }
 )
 
@@ -214,7 +214,7 @@ fn = makeMeasure(id="fn", minimize=TRUE, classif=TRUE, only.binary=TRUE, allowed
 tpr = makeMeasure(id="tpr", minimize=FALSE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"),  
   fun=function(task, model, pred, extra.pars) {
     tp@fun(pred=pred) / 
-      sum(pred@df$truth == pred@desc["positive"])    
+      sum(pred@df$truth == pred@desc@positive)    
   }
 )
 
@@ -223,7 +223,7 @@ tpr = makeMeasure(id="tpr", minimize=FALSE, classif=TRUE, only.binary=TRUE, allo
 tnr = makeMeasure(id="tnr", minimize=FALSE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"), 
   fun=function(task, model, pred, extra.pars) {
     tn@fun(pred=pred) / 
-      sum(pred@df$truth == pred@desc["negative"])  
+      sum(pred@df$truth == pred@desc@negative)  
   }
 )
 
@@ -232,7 +232,7 @@ tnr = makeMeasure(id="tnr", minimize=FALSE, classif=TRUE, only.binary=TRUE, allo
 fpr = makeMeasure(id="fpr", minimize=TRUE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"),
   fun=function(task, model, pred, extra.pars) {
     fp@fun(pred=pred) / 
-      sum(pred@df$truth == pred@desc["negative"])  
+      sum(pred@df$truth == pred@desc@negative)  
   }
 )
 
@@ -241,7 +241,7 @@ fpr = makeMeasure(id="fpr", minimize=TRUE, classif=TRUE, only.binary=TRUE, allow
 fnr = makeMeasure(id="fnr", minimize=TRUE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"),  
   fun=function(task, model, pred, extra.pars) {
     fn@fun(pred=pred) / 
-      sum(pred@df$truth == pred@desc["positive"])  
+      sum(pred@df$truth == pred@desc@positive)  
   }
 )
 
@@ -250,7 +250,7 @@ fnr = makeMeasure(id="fnr", minimize=TRUE, classif=TRUE, only.binary=TRUE, allow
 ppv = makeMeasure(id="ppv", minimize=FALSE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"),
   fun=function(task, model, pred, extra.pars) {
     tp@fun(pred=pred) / 
-      sum(pred@df$response == pred@desc["positive"])  
+      sum(pred@df$response == pred@desc@positive)  
   }
 )
 
@@ -259,7 +259,7 @@ ppv = makeMeasure(id="ppv", minimize=FALSE, classif=TRUE, only.binary=TRUE, allo
 npv = makeMeasure(id="npv", minimize=FALSE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"),
   fun=function(task, model, pred, extra.pars) {
     tn@fun(pred=pred) / 
-      sum(pred@df$response == pred@desc["negative"])  
+      sum(pred@df$response == pred@desc@negative)  
   }
 )
 
@@ -268,7 +268,7 @@ npv = makeMeasure(id="npv", minimize=FALSE, classif=TRUE, only.binary=TRUE, allo
 fdr = makeMeasure(id="fdr", minimize=TRUE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"), 
   fun=function(task, model, pred, extra.pars) {
     fp@fun(pred=pred) / 
-      sum(pred@df$response == pred@desc["positive"])  
+      sum(pred@df$response == pred@desc@positive)  
   }
 )
 
@@ -289,7 +289,7 @@ mcc = makeMeasure(id="mcc", minimize=FALSE, classif=TRUE, only.binary=TRUE, allo
 f1 = makeMeasure(id="f1", minimize=FALSE, classif=TRUE, only.binary=TRUE, allowed.pred.types=c("response", "prob", "decision"),
   fun=function(task, model, pred, extra.pars) {
     2*tp@fun(pred=pred) / 
-    (sum(pred@df$truth == pred@desc["positive"]) + sum(pred@df$response == pred@desc["positive"])) 
+    (sum(pred@df$truth == pred@desc@positive) + sum(pred@df$response == pred@desc@positive)) 
   }
 )
 

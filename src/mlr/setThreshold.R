@@ -42,7 +42,7 @@ setMethod(
     levs = getClassLevels(td)
     if (length(levs) == 2 && is.numeric(threshold) && length(threshold) == 1) {
       threshold = c(threshold, 1-threshold)
-      names(threshold) = c(td["positive"], td["negative"])
+      names(threshold) = c(td@positive, td@negative)
     }
     p = getScore(pred, class=levs)
     # resort so we have same order in threshold and p

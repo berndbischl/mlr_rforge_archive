@@ -159,7 +159,7 @@ setGeneric(name = "getScore",
       stop("Prediction was not generated from a ClassifTask!")
     if (missing(class)) {
       if (length(getClassLevels(pred)) == 2)
-        class = pred@desc["positive"]
+        class = pred@desc@positive
       else
         class = getClassLevels(pred)
     }
