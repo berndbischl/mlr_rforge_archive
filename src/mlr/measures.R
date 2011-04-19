@@ -52,7 +52,7 @@ measures = function() {}
 #general
 #' @export nvars
 #' @rdname measures
-nvars = makeMeasure(id="nvars", minimize=TRUE, allowed.pred.types=c("response", "prob", "decision"),  
+nvars = makeMeasure(id="nvars", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob", "decision"),  
   fun=function(task, model, pred, extra.pars) {
     length(model["vars"])          
   }
@@ -60,7 +60,7 @@ nvars = makeMeasure(id="nvars", minimize=TRUE, allowed.pred.types=c("response", 
 
 #' @export timetrain
 #' @rdname measures
-timetrain = makeMeasure(id="timetrain", minimize=TRUE, allowed.pred.types=c("response", "prob", "decision"), 
+timetrain = makeMeasure(id="timetrain", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob", "decision"), 
   fun=function(task, model, pred, extra.pars) {
     model["time"]
   }
@@ -68,7 +68,7 @@ timetrain = makeMeasure(id="timetrain", minimize=TRUE, allowed.pred.types=c("res
 
 #' @export timepredict
 #' @rdname measures
-timepredict = makeMeasure(id="timepredict", minimize=TRUE, allowed.pred.types=c("response", "prob", "decision"), 
+timepredict = makeMeasure(id="timepredict", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob", "decision"), 
   fun=function(task, model, pred, extra.pars) {
     pred["time"]
   }  
