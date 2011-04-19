@@ -3,29 +3,18 @@ roxygen()
 
 #' Description object for task, encapsulates basic statistics without having to store the complete data set.
 #' 
-#' Getter.\cr
-#' 
-#' \describe{
-#'  \item{id [\code{character(1)}]}{Id string of task.}
-#'  \item{is.classif [boolean]}{Classification task?}
-#'  \item{is.regr [boolean]}{Regression task?}
-#'  \item{target [\code{character(1)}]}{Name of target variable.}
-#'  \item{formula [formula]}{Formula of form: target~.}
-#'  \item{size [integer]}{Number of cases.}
-#'  \item{dim [integer]}{Number of covariates.}
-#'  \item{n.feat [integer]}{Number of covariates, named vector with entries: 'double', 'fact', 'int', 'char', 'log'.}
-#'  \item{has.missing [boolean]}{Are missing values present?}
-#'  \item{has.inf [boolean]}{Are infinite numerical values present?}
-#'  \item{class.levels [character]}{Class labels. NA if not classification.}
-#'  \item{class.nr [integer]}{Number of classes. NA if not classification.}
-#'  \item{class.dist [integer]}{Class distribution. Named vector. NA if not classification.}
-#'  \item{is.binary [boolean]}{Binary classification? NA if not classification.}
-#'  \item{has.weights [boolean]}{Are weights available in task for covariates?}
-#'  \item{has.blocking [boolean]}{Is blocking available in task for observations?}
-#'  \item{positive [\code{character(1)}]}{Positive class label for binary classification, NA else.}
-#'  \item{negative [\code{character(1)}]}{Negative class label for binary classification, NA else.}
-#' }
-#' 
+#' @slot type Type of task, either \dQuote{classif} for classification or \dQuote{regr} for regression.
+#' @slot id Id string of task.
+#' @slot target Name of target variable.
+#' @slot size Number of cases.
+#' @slot n.feat Number of covariates, named vector with entries: \dQuote{numerics}, \dQuote{integers}, \dQuote{factors}, \dQuote{characters}, \dQuote{logicals}.
+#' @slot class.dist Class distribution. Named vector. NA if not classification.
+#' @slot has.missing Are missing values present?
+#' @slot has.inf Are infinite numerical values present?
+#' @slot has.weights Are weights available in task for covariates?
+#' @slot has.blocking Is blocking available in task for observations?
+#' @slot positive Positive class label for binary classification, NA else. 
+#'
 #' @exportClass task.desc
 #' @seealso \code{\linkS4class{LearnTask}}
 #' @title Description object for task. 

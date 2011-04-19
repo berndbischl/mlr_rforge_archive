@@ -1,10 +1,7 @@
 #' @include ClassifTask.R
 roxygen()
 
-#' Defines a classification task for a given data set. 
-#' It might perform some data conversions in the data.frame, like converting integer input features to doubles, 
-#' but will generally warn about this. If you want to change default preprocessing behaviour, look at
-#' of \code{makeClassifTask}.
+#' Defines a classification task for a given data set.
 #' The target variable is converted to a factor if it is a logical, integer or character vector. 
 #' 
 #' @param id [\code{character(1)}]\cr 
@@ -18,7 +15,8 @@ roxygen()
 #' @param weights [numeric] \cr   
 #'   An optional vector of case weights to be used in the fitting process (if the learner cannot handle weights, they are ignored). Default is not to use weights.
 #' @param blocking [factor] \cr   
-#'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.
+#'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". 
+#'   Specifically, they are either put all in the training or the test set during a resampling iteration.
 #' @param positive [\code{character(1)}] \cr   
 #'   Positive class for binary classification. Default is the first factor level of the target attribute. 
 #' @param check.data [\code{logical(1)}]

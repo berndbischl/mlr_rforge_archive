@@ -2,7 +2,7 @@
 roxygen()
 
 #' Defines a regression task for a given data set. 
-#' It might perform some data conversions in the data.frame, like converting integer
+#' The target variable is converted to a numeric.
 #' 
 #' @param id [\code{character(1)}]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. Default is the name of R variable passed to \code{data}.  
@@ -15,7 +15,8 @@ roxygen()
 #' @param weights [numeric] \cr   
 #'   An optional vector of case weights to be used in the fitting process (if the learner cannot handle weights, they are ignored). Default is not to use weights.
 #' @param blocking [factor] \cr   
-#'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration.
+#'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". 
+#'   Specifically, they are either put all in the training or the test set during a resampling iteration.
 #' @param check.data [\code{logical(1)}]
 #'   Should sanity of data be checked initially at task creation? You should have good reasons to turn this off...
 #' 

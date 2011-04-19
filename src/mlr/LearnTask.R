@@ -7,16 +7,12 @@ roxygen()
 #' It encapsulates the data and specifies - through its subclasses - the type of the task (either classification or regression), 
 #' the target variable and other details of the problem. 
 #'  
-#' Getter.\cr
-#' Note that all getters of \code{\linkS4class{task.desc}} can also be used, as they internally encapsulate some information of the task. 
-#' 
-#' \describe{
-#' 	\item{data [\code{data.frame}]}{Encapsulated data.}
-#'  \item{targets [character]}{Target column of data.}
-#'  \item{weights [numeric]}{Case weights are returned. NULL if no weights were set.}
-#'  \item{blocking [factor]}{Observations with the same blocking level "belong together". Specifically, they are either put all in the training or the test set during a resampling iteration. NULL if no blocking was set.}
-#' }
-#' 
+#' @slot dataenv Environment where data for the task are stored. Use \code{\link{getData}} in order to assess the data.
+#' @slot weights Case weights. \code{numeric(0)} if no weights were set.
+#' @slot blocking Observations with the same blocking level "belong together". Specifically, they are either put all in the training 
+#'   or the test set during a resampling iteration. \code{factor(0)} if no blocking was set.
+#' @slot desc An object of class \code{\linkS4class{TaskDesc}} which encapsulates the main information about the task.
+#'
 #' Subclasses: \code{\linkS4class{ClassifTask}}, \code{\linkS4class{RegrTask}}
 #' 
 #' @exportClass LearnTask
@@ -102,14 +98,15 @@ setMethod(
 #'   Default is FALSE. 
 #' @param class.as [\code{character(1)}] \cr
 #'   Should target classes be recoded? Only for binary classification.
-#'   Possible are "factor" (do nothing), "01", and "-1+1". 
-#'   Default is "factor".
+#'   Possible are \dQuote{factor} (do nothing), \dQuote{01}, and \dQuote{-1+1}. 
+#'   In the two latter cases the target vector, which is usually a factor, is converted into a numeric vector. 
+#'   The positive class is coded as +1 and the negative class either as 0 or -1. 
+#'   Default is \dQuote{factor}.
 #'    
 #' @return Either a data.frame or a list with data.frame \code{data} and vector \code{target}.
 #'
 #' @export
 #' @rdname get.data
-#' @seealso \code{\link{get.data}} 
 #' @title Extract data in task. 
 # todo: test
 get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
@@ -168,7 +165,7 @@ get.data = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
 #' @param subset [integer] \cr 
 #'   Selected cases. Default is all cases. 
 #' @param vars [character] \cr 
-#'   Selected inputs. Note that target feature is always included! Default is all vars. 
+#'   Selected inputs. Note that target feature is always included! Default is all input variables. 
 #' @return \code{\linkS4class{LearnTask}} with changed data.
 #'
 #' @export
