@@ -291,7 +291,7 @@ setMethod(
 setGeneric(name = "getFormula", def = function(x) standardGeneric("getFormula"))
 #' @rdname getFormula
 setMethod(
-  f = "getClassLevels",
+  f = "getFormula",
   signature = signature(x="LearnTask"), 
   def = function(x) {
     getFormula(x@desc) 
