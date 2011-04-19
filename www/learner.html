@@ -1,149 +1,162 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
-	<title>Integrated learners</title>
-	<link rel="stylesheet" type="text/css" href="formats.css">
-	<style type="text/css">
-	</style>
+  <title>Integrated learners</title>
+  <link rel="stylesheet" type="text/css" href="formats.css">
+  <style type="text/css">
+  </style>
 </head>
 
 <body>
-
-<h1>Integrated learners</h1>
-
-<p>These classes provide a unified interface to all classification/regression methods in R. 
-Some are already integrated, others are not, but the package is specifically designed to make extensions simple. 
-If one of your favorite methods is missing, either send me an email or see the part of the tutorial on how to 
-extend the package yourself.</p>
-
-<P>To see which learners are already implemented, type <a href="rdocs/learners.html">?learners</a> 
-in your R console.</P>
+  
+  <h1>Integrated learners</h1>
+  
+  <p>These classes provide a unified interface to all
+    classification/regression methods in R.  Some are already integrated,
+    others are not, but the package is specifically designed to make
+    extensions simple.  If one of your favorite methods is missing, either
+    send me an email or see the part of the tutorial on how to extend the
+    package yourself.</p>
+  
+  <p>To see which learners are already implemented,
+    type <a href="rdocs/learners.html">?learners</a> in your R
+    console.</p>
 
 <!--<p><img src="pics/learner.png" width="55%"  border="1" alt=""></p>-->
 
-<P>You have two options to access the learning algorithms in mlr. 
-Either by passing the name as a string to the appropriate method or by constructing the <a href="rdocs/Learner-class.html">Learner</a> object 
-explicitly by means of the <a href="rdocs/makeLearner.html">makeLearner</a> factory method:</p>
+  <p>You have two options to access the learning algorithms in mlr.
+    Either by passing the name as a string to the appropriate method or by
+    constructing the <a href="rdocs/Learner-class.html">Learner</a> object
+    explicitly by means of
+    the <a href="rdocs/makeLearner.html">makeLearner</a> factory
+    method:</p>
+  
+  <h3>Classification Example</h3>
+  <p> Let's take a look at the iris example to show the two different
+  possibilities: </p>
+  <pre>
+    <com># classification task: </com>
+    ct <- makeClassifTask(data = iris, target = "Species")
+          
+    <com># first possibility: </com>
+    <com>#   passing the name as a character string to the appropriate method: </com>
+    wm <- train("classif.lda", ct)
+                
+    <com># second possibility: </com>
+    <com>#   constructing the Learner object explicitly and passing it to the appropriate method:</com>
+    wl <- makeLearner("classif.rpart")
+    wm <- train(wl, ct)
 
-<h3>Classification Example</h3>
-<p> Let's take a look at the iris example to show the two different possibilities: </p>
-<pre>
-	<com># classification task: </com>
-	ct <- makeClassifTask(data = iris, target = "Species")
+    <com>#   let's see what wl is: </com>
+    wl
+    <res>  
+    Classification learner id=classif.rpart from package rpart
+    Class: classif.rpart
+    Predict-Type: response
+    Hyperparameters: 
 
-	<com># first possibility: </com>
-	<com>#   passing the name as a character string to the appropriate method: </com>
-	wm <- train("classif.lda", ct)
+    Supported features Doubles:TRUE Factors:TRUE
+    Supports missings: TRUE
+    Supports weights: TRUE
+    Supports classes: two,multi
+    Supports probabilities: TRUE
+    Supports decision values: FALSE
+    Supports costs: TRUE
+    </res>
+  </pre>
 
-	<com># second possibility: </com>
-	<com>#   constructing the Learner object explicitly and passing it to the appropriate method:</com>
-	wl <- makeLearner("classif.rpart")
-	wm <- train(wl, ct)
+  <h3>Regression Example</h3>
+  <pre>
+    <com># regression task: </com>
+    library("mlbench")
+    data(BostonHousing)
+    rt <- makeRegrTask(data = BostonHousing, target = "medv")
 
-	<com>#   let's see what wl is: </com>
-	wl
-	<res>  
-	Classification learner id=classif.rpart from package rpart
-	Class: classif.rpart
-	Predict-Type: response
-	Hyperparameters: 
+    <com># first possibility: </com>
+    <com>#   passing the name as a character string to the appropriate method:</com>
+    wm <- train("regr.lm", rt)
 
-	Supported features Doubles:TRUE Factors:TRUE
-	Supports missings: TRUE
-	Supports weights: TRUE
-	Supports classes: two,multi
-	Supports probabilities: TRUE
-	Supports decision values: FALSE
-	Supports costs: TRUE
-	</res>
-</pre>
+    <com># second possibility: </com>
+    <com>#   constructing the Learner object explicitly and passing it to the appropriate method:</com>
+    wl <- makeLearner("regr.rpart")
+    wm <- train(wl, rt)
 
-<h3>Regression Example</h3>
-<pre>
-	<com># regression task: </com>
-	library(mlbench); data(BostonHousing)
-	rt <- makeRegrTask(data = BostonHousing, target = "medv")
+    <com>#   let's see how wl looks like in case of regression: </com>
+    wl
+    <res>  
+    Regression learner id=regr.rpart from package rpart
+    Class: regr.rpart
+    Hyperparameters: 
 
-	<com># first possibility: </com>
-	<com>#   passing the name as a character string to the appropriate method:</com>
-	wm <- train("regr.lm", rt)
+    Supported features Doubles:TRUE Factors:TRUE
+    Supports missings: TRUE
+    Supports weights: TRUE	
+    </res>
+  </pre>
 
-	<com># second possibility: </com>
-	<com>#   constructing the Learner object explicitly and passing it to the appropriate method:</com>
-	wl <- makeLearner("regr.rpart")
-	wm <- train(wl, rt)
+  <p> As you can see above, the Learner object includes a lot of
+    information about the properties of the learning algorithm.  This
+    helps you to decide whether a selected algorithm is appropriate
+    for your data or not (this will be checked internally as well).
+  </p> 
 
-	<com>#   let's see how wl looks like in case of regression: </com>
-	wl
-	<res>  
-	Regression learner id=regr.rpart from package rpart
-	Class: regr.rpart
-	Hyperparameters: 
+  <p>Every method in mlr, which has a learning algorithm as an
+    argument, will allow both variants.  The latter one allows more
+    flexibility when you want to change default parameters or add
+    something more complex on top of the learning algorithm
+    (e.g. see <a href="tuning.html">Tuning</a>).  MEHR ZU WRAPPER
+    SCHREIBEN</p>
 
-	Supported features Doubles:TRUE Factors:TRUE
-	Supports missings: TRUE
-	Supports weights: TRUE	
-	</res>
-</pre>
+  <h2>Changing the Default Parameters of a Learning Algorithm</h2>
 
-<P> As you can see above, the Learner object includes a lot of information about the properties of 
-the learning algorithm. 
-This helps you to decide whether a selected algorithm is appropriate for your data or not 
-(this will be checked internally as well).
-</P> 
+  <p>In order to change the default (hyper)parameters of a learning
+    algorithm you have to generate a Learner object. There are two
+    options how to specify the parameters. You can either pass a named
+    list of hyperparameters via the par.vals argument or alternatively
+    pass them via the <code>...</code> argument of
+    <a href="rdocs/makeLearner.html">makeLearner</a>. The parameters
+    will generally be named the same way as in the underlying R
+    method, if not, differences are documented in the corresponding R
+    help page. Parameters of all built-in learners are documented in
+    the <a href="rdocs/learners.html">learners</a> help page.  If
+    hyperparameters are passed via special control structures to the
+    underlying method, mlr usually allows to pass them directly.
+  </p>
+  
+  <h3>Classification Example</h3>
+  <p>Let's have another look at the iris example:</p>
+  <pre>
+    <com># classification task: </com>
+    ct <- makeClassifTask(data = iris, target = "Species")
 
-<P>Every method in mlr, which has a learning algorithm as an argument, will allow both variants. 
-The latter one allows more flexibility when you want to change default parameters or add something more 
-complex on top of the learning algorithm (e.g. see <a href="tuning.html">Tuning</a>).
-MEHR ZU WRAPPER SCHREIBEN</P>
+    <com># first possibility: </com>
+    <com>#   pass list of hyperparameters via the par.vals argument - same for regression</com>
+    wl <- makeLearner("classif.rpart", par.vals = list(minsplit = 7, cp = 0.03))
 
-<h2>Changing the Default Parameters of a Learning Algorithm</h2>
+    <com># second possibility: </com>
+    <com>#   pass hyperparameters via the ... argument - same for regression</com>
+    wl <- makeLearner("classif.rpart", minsplit = 7, cp = 0.03)
+    wl
+    <res>
+    Classification learner id=classif.rpart from package rpart
+    Class: classif.rpart
+    Predict-Type: response
+    Hyperparameters: minsplit=7,cp=0.03
 
-<P>
-In order to change the default (hyper)parameters of a learning algorithm you have to generate a 
-Learner object. There are two options how to specify the parameters. You can either pass a named 
-list of hyperparameters via the par.vals argument or alternatively pass them via the ... argument of
-<a href="rdocs/makeLearner.html">makeLearner</a>.
-The parameters will generally be named the same way as in the underlying R method, if not, 
-differences are documented in the corresponding R help page. Parameters of all built-in learners are documented
-in the <a href="rdocs/learners.html">learners</a> help page.
-If hyperparameters are passed via special control structures to the underlying method, mlr usually allows to pass them directly.
-</P>
-
-<h3>Classification Example</h3>
-<p> Let's have another look at the iris example: </p>
-<pre>
-	<com># classification task: </com>
-	ct <- makeClassifTask(data = iris, target = "Species")
-
-	<com># first possibility: </com>
-	<com>#   pass list of hyperparameters via the par.vals argument - same for regression</com>
-	wl <- makeLearner("classif.rpart", par.vals = list(minsplit = 7, cp = 0.03))
-	
-	<com># second possibility: </com>
-	<com>#   pass hyperparameters via the ... argument - same for regression</com>
-	wl <- makeLearner("classif.rpart", minsplit = 7, cp = 0.03)
-	wl
-	<res>
-	Classification learner id=classif.rpart from package rpart
-	Class: classif.rpart
-	Predict-Type: response
-	Hyperparameters: minsplit=7,cp=0.03
-
-	Supported features Doubles:TRUE Factors:TRUE
-	Supports missings: TRUE
-	Supports weights: TRUE
-	Supports classes: two,multi
-	Supports probabilities: TRUE
-	Supports decision values: FALSE
-	Supports costs: TRUE
-	</res>
-</pre>	
-<P>
-If you want to change the hyperparameters of an already existing Learner object use the 
-<a href="rdocs/setHyperPars.html">setHyperPars</a> method.
-</P>
-<pre>
+    Supported features Doubles:TRUE Factors:TRUE
+    Supports missings: TRUE
+    Supports weights: TRUE
+    Supports classes: two,multi
+    Supports probabilities: TRUE
+    Supports decision values: FALSE
+    Supports costs: TRUE
+    </res>
+  </pre>	
+  <p>If you want to change the hyperparameters of an already existing
+  Learner object use
+  the <a href="rdocs/setHyperPars.html">setHyperPars</a> method.
+  </p>
+  <pre>
 	<com># first possibility: via the par.vals argument - same for regression:</com>
 	setHyperPars(wl, par.vals = list(minsplit = 10, cp = 0.01))
 		
@@ -164,17 +177,18 @@ If you want to change the hyperparameters of an already existing Learner object 
 	Supports decision values: FALSE
 	Supports costs: TRUE
 	</res>
-</pre>
-<p>
-For information on the hyperparameters of a learning method take a look at the corresponding R help 
-pages. A survey of all existing hyperparameters of a learning algorithm, their type (numeric, 
-integer, ?) and possibly constraints ... can be obtained from the Learner object directly via the
-par.set slot.
-</p>
-<p>
-More information about setting hyperparameters ... tuning, eigene Seite???
-</p>
-<pre>
+  </pre>
+  <p>For information on the hyperparameters of a learning method take
+    a look at the corresponding R help pages. A survey of all existing
+    hyperparameters of a learning algorithm, their type (numeric,
+    integer, ?) and possibly constraints ... can be obtained from the
+    Learner object directly via the par.set slot.
+  </p>
+  <p>
+    More information about setting hyperparameters ... tuning, eigene
+    Seite???
+  </p>
+  <pre>
 	<com># possible hyperparameters of rpart:</com>
 	wl@par.set
 	<res>
@@ -187,22 +201,21 @@ More information about setting hyperparameters ... tuning, eigene Seite???
 	Discrete parameter 'surrogatestyle'. Values: 0,1
 	Integer parameter 'maxdepth'. Constraints: 1 to 30. Custom trafo: FALSE 
 	</res>
-</pre>
+  </pre>
 
-<h2>Changing the Prediction Type for Classification</h2>
-<P>
-Classification methods can predict class labels and probabilities if the algorithm supports it.
-decision
-You can select a predict type by using the predict.type parameter of makeLearner.
-The default is "response", i.e. predicting class labels. Alternatively choose "prob" if
-probabilities should be predicted in addition to the class labels.
-"decision" is experimental. 
-Specification of the prediction type is only meaningful for classification and will raise an error 
-if specified for a regression method.
-</P>
-<h3>Example</h3>
-<p> Let's take another look at the iris example: </p>
-<pre>
+  <h2>Changing the Prediction Type for Classification</h2>
+  <p>Classification methods can predict class labels and probabilities
+    if the algorithm supports it.  decision You can select a predict
+    type by using the predict.type parameter of makeLearner.  The
+    default is "response", i.e. predicting class labels. Alternatively
+    choose "prob" if probabilities should be predicted in addition to
+    the class labels.  "decision" is experimental.  Specification of
+    the prediction type is only meaningful for classification and will
+    raise an error if specified for a regression method.
+  </p>
+  <h3>Example</h3>
+  <p>Let's take another look at the iris example:</p>
+  <pre>
 	<com># classification task: </com>
 	ct <- makeClassifTask(data = iris, target = "Species")
 
@@ -223,10 +236,10 @@ if specified for a regression method.
 	Supports decision values: FALSE
 	Supports costs: TRUE
 	</res>
-</pre>
-<p>You can change the predict type of an already existing Learner object via 
-<a href="rdocs/setPredictType.html">setPredictType</a>.</p>
-<pre>
+  </pre>
+  <p>You can change the predict type of an already existing Learner object via 
+    <a href="rdocs/setPredictType.html">setPredictType</a>.</p>
+  <pre>
 	<com># change predict type of an already existing Learner object:</com>
 	setPredictType(wl, type = "response")
 	<res>
@@ -243,6 +256,6 @@ if specified for a regression method.
 	Supports decision values: FALSE
 	Supports costs: TRUE
 	</res>
-</pre>
+  </pre>
 </body>
 </html>
