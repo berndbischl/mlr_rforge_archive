@@ -17,16 +17,13 @@ this will be taken care of by the underlying R methods that this package integra
 Rather more important is that training and all subsequent operations can be performed by using a unified 
 interface.</P>
 
-<P>This is in this case achieved by calling the method <a href="rdocs/train.html">"train"</a> on the classification task. 
-The most important parameters are the indices of the subset which are used for training and a 
-list of named elements which specify the hyperparameters of the learner. 
-The parameters will generally be named the same way as in the underlying R method, if not, 
-differences are documented in the corresponding R help page. If hyperparameters are passed via special
-control structures to the underlying method, mlr usually allows to pass them directly.</P>
+<P>This is in this case achieved by calling the method <a href="rdocs/train.html">train</a> on 
+the classification task. Optionally, the indices of the subset which are used for training can be 
+passed via the subset argument. 
 
-<P>The return value is always an object of class <a href="rdocs/wrapped.model-class.html">"wrapped.model"</a> which wraps the concrete model of the 
-used R classification or regression method. It can subsequently be used to perform <a href="predict.html">prediction</a> for new 
-observations.</P>
+<P>The return value is always an object of class <a href="rdocs/WrappedModel-class.html">WrappedModel</a> 
+which wraps the concrete model of the used R classification or regression method. It can 
+subsequently be used to perform a <a href="predict.html">prediction</a> for new observations.</P>
 
 <p><img src="pics/basic processing.png" width="60%"  border="1" alt=""></p>
 
@@ -36,39 +33,41 @@ observations.</P>
 <p> Let's have a look at the iris data set: </p>
 
 <pre>
-	<com># Classification task: </com>
-	ct <- make.task(data = iris, target = "Species")
+	<com># classification task: </com>
+	ct <- makeClassifTask(data = iris, target = "Species")
 	
-	<com># Let's train some Decision Trees:</com>
+	<com># let's train some Decision Trees:</com>
 	<com>#   on whole data set</com>
-	m1 <- train("classif.rpart", ct)
+	wm1 <- train("classif.rpart", ct)
  
 	<com>#   on a subset (every second observation)</com>
-	m2 <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2))
+	wm2 <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2))
 
 	<com>#   with hyperparameters</com>
-	m3 <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2), 
-			par.val = list(minsplit = 7, cp = 0.03)) 
+	wl3 <- makeLearner("classif.rpart", minsplit = 7, cp = 0.03)
+	wm3 <- train(wl3, ct, subset = seq(from = 1, to = 150, by = 2))
 	
-	<com># You can print some basic information of the model to the console</com>
-	m3
+	<com># you can print some basic information of the model to the console</com>
+	wm3
 	<res>
-	Learner model for classif.rpart
+	Learner model for id=classif.rpart class=classif.rpart
 	Trained on obs: 75
-	Hyperparameters: minsplit=7 cp=0.03
+	Used features: 4
+	Hyperparameters: minsplit=7,cp=0.03
 	</res>
 	
-	<com># Some accessor</com>
-	m3["hyper.pars"]
+	<com># used hyperparameters and subset</com>
+	wl3@par.vals
+	wm3@learner@par.vals
 	<res>
 	$minsplit
 	[1] 7
-	
+
 	$cp
 	[1] 0.03
 	</res>			
 	
-	m3["subset"]
+	wm3@subset
 	<res>	
 	 [1]   1   3   5   7   9  11  13  15  17  19  21  23  25  27  29  31  33  35  37
 	[20]  39  41  43  45  47  49  51  53  55  57  59  61  63  65  67  69  71  73  75
@@ -77,7 +76,7 @@ observations.</P>
 	</res>
 
 	<com># access the wrapped rpart model - in most cases you won't need to...</com>
-	m3["learner.model"]
+	wm3@learner.model
 	<res>
 	n= 75 
 
@@ -99,47 +98,31 @@ observations.</P>
 <p> As regression example we use the BostonHousing data set: </p>
 
 <pre>
-	<com># Regression task: </com>
+	<com># regression task: </com>
 	library(mlbench); data(BostonHousing)
-	rt <- make.task(data = BostonHousing, target = "medv")
+	rt <- makeRegrTask(data = BostonHousing, target = "medv")
 	
-	<com># Let's train some Gradient Boosting Machines:</com>
+	<com># let's train some Gradient Boosting Machines:</com>
 	<com>#   on whole data set</com>
-	m1 <- train("regr.gbm", rt) 
+	wm1 <- train("regr.gbm", rt) 
 	
 	<com>#   on a subset (every second observation)</com>
-	m2 <- train("regr.gbm", rt, subset = seq(1, 506, 2))
+	wm2 <- train("regr.gbm", rt, subset = seq(1, 506, 2))
 	
 	<com>#   with a set of hyperparameters</com>
-	m3 <- train("regr.gbm", rt, subset = seq(1, 506, 2), 
-	   par.val = list(n.trees = 500, distribution = "laplace", interaction.depth = 3)) 
+	wl3 <- makeLearner("regr.gbm", n.trees = 500, distribution = "laplace", interaction.depth = 3)
+	wm3 <- train(wl3, rt, subset = seq(1, 506, 2))	
 	
-	
-	<com># You can print some basic information of the model to the console </com>
-	m3
+	<com># you can print some basic information of the model to the console </com>
+	wm3
 	<res>
-	Learner model for regr.gbm
+	Learner model for id=regr.gbm class=regr.gbm
 	Trained on obs: 253
-	Hyperparameters: distribution=laplace n.trees=500 interaction.depth=3
+	Used features: 13
+	Hyperparameters: distribution=laplace,n.trees=500,interaction.depth=3 
 	</res>
 	
 	<com># rest is analogous to example above</com>
 </pre>
-
-<p> As you can read in section <a href="learner.html">Wrapped learners</a> there is another possibility to 
-access the learning algorithm:
-We again consider the regression example: </p>
-
-<pre>
-	<com># Regression task: </com>
-	library(mlbench); data(BostonHousing)
-	rt <- make.task(data = BostonHousing, target = "medv")
-	
-	<com># Construct the learner and immediatly set hyperparameters</com>
-	wl <- make.learner("regr.gbm", n.trees = 500, distribution = "laplace", interaction.depth = 3)
-	m <- train(wl, task=rt)
-</pre>
-  
-
 </body>
 </html>

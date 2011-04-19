@@ -33,24 +33,23 @@ See also <a target="_top" href="http://rss.acs.unt.edu/Rdoc/library/dprep/html/s
 
 <pre>
 	<com># Classification task</com>
-	ct <- make.task(data = iris, target = "Species")
+	ct <- makeClassifTask(data = iris, target = "Species")
 	
 	<com># Resample instance for Cross-validation</com>
-	rin <- make.res.instance("cv", ct, iters = 10)
+	rin <- makeResampleDesc("cv", iters = 10)
+	rin <- make.res.desc(rin, task = ct)
 		
 	<com># Sequential forward search</com>
 	<com># "alpha" is the minimal improvement of performance measure</com>
 	varsel(learner = "classif.lda", task = ct, resampling = rin, 
 		control = sequential.control(method = "sfs", alpha = 0.01))
 	<res>
-	Optimization result: 
-	[1] "Petal.Width"
-	 mean.mmce    sd.mmce 
-	0.04000000 0.04661373 	
+	Opt. pars: 2 sel. vars
+	mmce.test.mean=0.0333 mmce.test.sd=0.0471	
 	</res>	
 </pre>
 
-For more details see also <a href="rdocs/sequential.control.html"> sequential.control</a>
+<p>For more details see also <a href="rdocs/sequential.control.html"> sequential.control</a></p>
 
 
 <p><u>Sequential Backward Search (sbs)</u></p>
@@ -60,32 +59,26 @@ For more details see also <a href="rdocs/sequential.control.html"> sequential.co
 
 <pre>
 	<com># Classification task</com>
-	ct <- make.task(data = iris, target = "Species")
+	ct <- makeClassifTask(data = iris, target = "Species")
 	
 	<com># Resample instance for Cross-validation</com>
-	rin <- make.res.instance("cv", ct, iters = 10)
+	rin <- makeResampleDesc("cv", iters = 10)
+	rin <- make.res.desc(rin, task = ct)
 		
 	<com># Sequential backward search</com>
 	varsel(learner = "classif.lda", task = ct, resampling = rin,  
 		control = sequential.control(method = "sbs", beta = 0.01))
  	<res>
- 	Optimization result: 
-	[1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
- 	mean.mmce    sd.mmce 
-	0.02000000 0.03220306 
- 	</res>	
+	Opt. pars: 4 sel. vars
+	mmce.test.mean=0.02 mmce.test.sd=0.045
+	</res>	
  	
  	<com># Access more information</com>
  	varsel(learner = "classif.lda", task = ct, resampling = rin,  
  			control = sequential.control(method = "sbs", beta = 0.01),
- 			measures = c("mmce", "time"), aggr = c("max"))
+ 			measures = list(mmce, time), aggr = c("max"))???
 	<res>
-	Optimization result: 
-	[1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
-	  max.mmce   max.time 
-	0.06666667 0.04000000 
 	</res>
-
 </pre>
 
 
@@ -102,15 +95,19 @@ the number of variables until no more improvement is reached. </p>
 
 <pre>
 	<com># Classification task</com>
-	ct <- make.task(data = iris, target = "Species")
+	ct <- makeClassifTask(data = iris, target = "Species")
 	
 	<com># Resample instance for Cross-validation</com>
-	rin <- make.res.instance("cv", ct, iters = 10)
+	rin <- makeResampleDesc("cv", iters = 10)
+	rin <- make.res.desc(rin, task = ct)
 		
 	<com># Sequential floating forward search</com>
 	varsel(learner = "classif.lda", task = ct, resampling = rin,  
 		control = sequential.control(method = "sffs", alpha = 0.01, beta = 0.01))
-	<b><font color="red">---does not work----</font></b>
+	<res>
+	Opt. pars: 1 sel. vars
+	mmce.test.mean=0.04 mmce.test.sd=0.0466 
+	</res>
 </pre>
 
 
@@ -124,20 +121,19 @@ variable set.</p>
 
 <pre>
 	<com># Classification task</com>
-	ct <- make.task(data = iris, target = "Species")
+	ct <- makeClassifTask(data = iris, target = "Species")
 	
 	<com># Resample instance for Cross-validation</com>
-	rin <- make.res.instance("cv", ct, iters = 10)
+	rin <- makeResampleDesc("cv", iters = 10)
+	rin <- make.res.desc(rin, task = ct)
 		
 	<com># Sequential backward search</com>
 	<com># Belonging to sfs and sbs "alpha" and "beta" are the minimal improvement of performance measure</com>
 	varsel(learner = "classif.lda", task = ct, resampling = rin,  
 		control = sequential.control(method = "sfbs", alpha = 0.01, beta = 0.01))
  	<res>
-	Optimization result: 
-	[1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
-	 mean.mmce    sd.mmce 
-	0.02000000 0.03220306 
+ 	Opt. pars: 4 sel. vars
+	mmce.test.mean=0.02 mmce.test.sd=0.045
  	</res>	
 </pre>
 
@@ -150,24 +146,20 @@ The best of the k subsets is selected.</p>
 
 <pre>
 	<com># Classification task</com>
-	ct <- make.task(data = iris, target = "Species")
+	ct <- makeClassifTask(data = iris, target = "Species")
 	
 	<com># Resample instance for Cross-validation</com>
-	rin <- make.res.instance("cv", ct, iters = 10)
+	rin <- makeResampleDesc("cv", iters = 10)
+	rin <- make.res.desc(rin, task = ct)
 		
 	<com># Sequential backward search</com>
 	<com># "maxit" is the number of iterations, i.e. randomly generated variable sets</com>
 	varsel(learner = "classif.lda", task = ct, resampling = rin,  
 		control = randomvarsel.control(maxit = 50))
  	<res>
-	Optimization result: 
-	[1] "Sepal.Width"  "Petal.Length" "Petal.Width" 
-	 mean.mmce    sd.mmce 
-	0.01333333 0.02810913 
+	Opt. pars: 4 sel. vars
+	mmce.test.mean=0.02 mmce.test.sd=0.045
  	</res>	
 </pre>
-
-
-
 </body>
 </html>

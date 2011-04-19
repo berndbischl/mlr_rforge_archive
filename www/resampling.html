@@ -38,10 +38,10 @@ given percentage (maybe 2/3 training, 1/3 test set). If there is just one iterat
 called <term>holdout</term> or <term>test sample estimation</term>.</p>
 <pre>
 	<com># split is the training set percentage</com>
-	rin <- make.res.desc("subsample", iters = 10, split = 2/3)
+	rin <- makeResampleDesc("subsample", iters = 10, split = 2/3)
 
 	<com># holdout</com>
-	rin <- make.res.desc("subsample", iters = 1, split = 2/3)
+	rin <- makeResampleDesc("subsample", iters = 1, split = 2/3)
 </pre>
 
 
@@ -50,14 +50,14 @@ called <term>holdout</term> or <term>test sample estimation</term>.</p>
 <p>The data set is partitioned in k subparts of (nearly) equal size. In the i.th step of the k iterations, 
 the i.th subpart is used as a test set, while the remaining parts form the training set.</p>
 <pre>
-	rin <- make.res.desc("cv", iters = 10)
+	rin <- makeResampleDesc("cv", iters = 10)
 </pre>
 
 <P><u>Bootstrapping</u></P>
 <p>B new data sets D<sub>1</sub>,..,D<sub>B</sub> are drawn from D with replacement, each of the same size as D. 
 In the i.th iteration D<sub>i</sub> forms the training set, while the remaining elements not occuring in the training set form the test set.</p>
 <pre>
-	rin <- make.res.desc("bs", iters = 10)
+	rin <- makeResampleDesc("bs", iters = 10)
 </pre>
 
 <p><img src="pics/resampling.[desc, instance].png" width="40%"  border="1" alt=""></p>
@@ -67,7 +67,7 @@ In the i.th iteration D<sub>i</sub> forms the training set, while the remaining 
 
 <h2>Further details</h2>
 <p>
-For every resampling strategy there is a description class inheriting from <a href="rdocs/resample.desc-class.html">resample.desc</a> (which completely 
+For every resampling strategy there is a description class inheriting from <a href="rdocs/ResampleDesc-class.html">ResampleDesc</a> (which completely 
 characterizes the necessary parameters) and a class inheriting from <a href="rdocs/resample.instance-class.html">resample.instance</a>. This latter class 
 takes the description object and takes care of the random drawing of indices. While this seems overly 
 complicated, it is necessary as sometimes one only wants to describe the drawing process, while in other 
@@ -129,49 +129,33 @@ getter operator:
 <P>
 Please refer to the help pages of the specific classes for a complete list of getters.
 <P>
-If you want to validate your classification method, using a certain resampling strategy, simply call <a href="rdocs/resample.fit.html">resample.fit</a>. <br>
+If you want to validate your classification method, using a certain resampling strategy, simply call <a href="rdocs/resample.html">resample</a>. <br>
 For the example code, we use the standard iris data set and compare with cross-validation a 
 Decision Tree and the Linear Discriminant Analysis:
 <pre>
 	<com># Classification task</com>
-	ct <- make.task(data = iris, target = "Species")
+	ct <- makeClassifTask(data = iris, target = "Species")
 
 	<com># Resample instance for Cross-validation</com>
-	rin <- make.res.instance("cv", ct, iters = 3)
+	rin <- makeResampleDesc("cv", iters = 3)
+	rin <- make.res.instance(rin, task = ct)
 
 	<com># Merge learner, i.e. Decision Tree, classification task ct and resample instance rin</com>
-	f1 <- resample.fit("classif.rpart", ct, rin)
+	f1 <- resample("classif.rpart", ct, rin)
 	<com># Let's set a couple of hyperparameters for rpart</com>
-	f1 <- resample.fit("classif.rpart", ct, rin, par.val = list(minsplit = 10, cp = 0.03))	
-	<com># Second resample.fit for LDA as learner </com>
-	f2 <- resample.fit("classif.lda", ct, rin)	
+	wl <- makeLearner("classif.rpart", minsplit = 10, cp = 0.03)
+	f1 <- resample(wl, ct, rin, list(mmce, acc))	
+	<com># Second resample for LDA as learner </com>
+	f2 <- resample("classif.lda", ct, rin, list(mmce, acc))	
 
 	<com># Let's see how well both classifiers did w.r.t mean misclassification error and accuracy</com>
-	performance(f1, measures = list("mmce", "acc"))
+	f1
 	<res>
-	$measures
-	  mmce  acc
-	1 0.04 0.96
-	2 0.06 0.94
-	3 0.10 0.90
-	
-	$aggr
-	           mmce        acc
-	mean 0.06666667 0.93333333
-	sd   0.03055050 0.03055050
+
 	</res>
-	performance(f2, measures = list("mmce", "acc"))
+	f2	
 	<res>
-	$measures
-	  mmce  acc
-	1 0.04 0.96
-	2 0.00 1.00
-	3 0.02 0.98
-	
-	$aggr
-	     mmce  acc
-	mean 0.02 0.98
-	sd   0.02 0.02
+
 	</res>
 </pre>
 

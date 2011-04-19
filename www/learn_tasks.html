@@ -15,11 +15,13 @@
 regarding the purpose of the task. This will be at least the target variable, but might also be information about 
 excluded (ID) variables, misclassification costs or case weights.</p>
 
-<p>Currently two subclasses of a <a href="rdocs/learn.task-class.html">learn.task</a> exist, classif.task for classification problems and regr.task for 
-regression.
-Both are created by using the <a href="rdocs/make.task.html">make.task</a> factory method, and the type of the task is decided automatically by 
-looking at the target variable.
-If this is encoded as an integer, you have to change it either to a factor/character for classification or a numerical for regression.</p>
+<p>Currently two subclasses of a <a href="rdocs/LearnTask-class.html">LearnTask</a> exist, <a href="rdocs/ClassifTask-class.html">ClassifTask</a> 
+for classification problems and <a href="rdocs/RegrTask-class.html">RegrTask</a> for regression.
+A classification task is created by using the <a href="rdocs/makeClassifTask.html">makeClassifTask</a> factory method.
+The target variable is converted to a factor if it is a logical, integer or character vector.
+Accordingly use <a href="rdocs/makeRegrTask.html">makeRegrTask</a> for defining a regression task.
+
+</p>
 
 <p><img src="pics/learn_task.png" width="25%"  border="1" alt=""></p>
 
@@ -32,10 +34,10 @@ If this is encoded as an integer, you have to change it either to a factor/chara
 
 <pre>
 	library(mlbench); data(BreastCancer)
-	ct <- make.task(data = BreastCancer, target = "Class", excluded = "Id")
+	ct <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id")
 </pre>
 
-<p> The now defined task also gives you some convenience methods to access properties of the data set:</p>
+<p> The now defined classification task also gives you some convenience methods to access properties of the data set:</p>
 
 <pre>
 	<com># before we start, let's examine ct</com>
@@ -43,44 +45,52 @@ If this is encoded as an integer, you have to change it either to a factor/chara
 	ct
 	<res>
 	Classification problem BreastCancer
-	Features Nums:0 Ints:0 Factors:9 Chars:0
+	Features:
+	double    int   fact   char    log 
+	     0      0      9      0      0 
 	Observations: 699
 	Missings: TRUE
 	in 16 observations and 1 features
-	Classes:2
-	   benign malignant 
-	      458       241 
+	Infinites: FALSE
+	Target: Class
+	Classes: 2
+   	benign malignant 
+   	   458       241 
 	Positive class: benign 
+	Has weights: FALSE
+	Has blocking: FALSE
+	Has costs: FALSE	
 	</res>	
 	
 	<com># as this is a binary problem, we see that a positive class is selected by default</com>
 	<com># this will generally be the first class in the factor levels of the target</com>
 	<com># you probably want to select this manually for your applications</com>
-	ct <- make.task(data = BreastCancer, target = "Class", excluded = "Id", positive="benign")
+	ct <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id", positive = "benign")
 	
 	<com># access more information </com>
-	<com># get target name and the names of the input variables - same for regression</com>
-	ct["target.name"]
-	ct["input.names"]
+	<com># get the name of the target variable by accessing the corresponding slot of ct - same for regression</com>
+	ct@desc@target
+	
+	<com># get the names of the input variables - same for regression</com>
+	getFeatureNames(ct)
 
-	<com># get target values for all / some observations  - same for regression </com>
-	ct["targets"]
-	ct["targets", row=1:5]
+	<com># get target values for all observations  - same for regression </com>
+	targets(ct)
 
-	<com># get all possible classes</com>		 
-	ct["class.levels"]
+	<com># get the class labels</com>		 
+	classLevels(ct)
 </pre>
 
 
 <p> Look at the documentation of the relevant class, if you are interested in what kind of "getter"-functions 
-are available, e.g. for the <a href="rdocs/learn.task-class.html">task</a>.
+are available, e.g. for the <a href="rdocs/LearnTask-class.html">task</a>.
 
 <p> We can include further information like costs or weights optionally:
 
 <pre>
-	<com> # non-default costs for wrong predictions: </com>
+	<com># non-default costs for wrong predictions:</com>
 	costs <- matrix (c(0, 1, 2, 0), 2, 2)
-	colnames(costs) <- rownames(costs) <- ct["class.levels"]
+	colnames(costs) <- rownames(costs) <- classLevels(ct)
 	costs
 	<res>
 	          benign malignant
@@ -88,10 +98,10 @@ are available, e.g. for the <a href="rdocs/learn.task-class.html">task</a>.
 	malignant      1         0
 	</res>
 
-	ct <- make.task(data = BreastCancer , target = "Class", excluded="Id", costs = costs)
+	ct <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id", costs = costs)
 	
-	<com> # (nonsensical) weights for the observations </com>
-	ct <- make.task(data = BreastCancer, target = "Class", excluded="Id", weights = 1:699)
+	<com># (nonsensical) observation weights</com>
+	ct <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id", weights = 1:699)
 </pre>
 
 
@@ -101,24 +111,32 @@ Before that, let's look at a regression experiment:</p>
 
 
 <h3>Regression example</h3>
-
-
 <pre>
-	<com># We will generally take the BostonHousing data set as regression example</com>
+	<com># we will generally take the BostonHousing data set as regression example</com>
 	library(mlbench); data(BostonHousing)
-
-	rt <- make.task(data = BostonHousing, target = "medv")
-
+	rt <- makeRegrTask(data = BostonHousing, target = "medv")
+	rt
 	<res>
 	Regression problem BostonHousing
-	Features Nums:12 Ints:0 Factors:1 Chars:0
+	Features:
+	double    int   fact   char    log 
+	    12      0      1      0      0 
 	Observations: 506
 	Missings: FALSE
+	Infinites: FALSE
+	Target: medv
+	Has weights: FALSE
+	Has blocking: FALSE
 	</res>	
 	
 	<com># rest works analogous to classification task</com>
+	<com># access more information </com>
+	<com># get target name and the names of the input variables</com>
+	rt@desc@target
+	getFeatureNames(rt)
+
+	<com># get target values for all observations</com>
+	targets(rt)
 </pre>
-
-
 </body>
 </html>

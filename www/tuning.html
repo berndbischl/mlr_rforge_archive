@@ -14,7 +14,7 @@
 <P>Many classification algorithms feature a set of hyperparameters that either need 
 to be selected by the user or through resampling, e.g. cross-validation. Setting them 
 by hand was already covered in the section about <a href="train.html">Training </a> and <a href="resampling.html">Resampling </a> - simply use the 
-"par.val" argument in the <a href="rdocs/train.html">"train"</a> or <a href="rdocs/resample.fit.html">"resample.fit"</a> methods</P>
+"par.val" argument in the <a href="rdocs/train.html">"train"</a> or <a href="rdocs/resample.html">"resample"</a> methods</P>
 
 <P>Assuming, you have understood how <a href="resampling.html">resampling</a> works,  
 it is quite simple to implement a grid search, which is one of the standard - albeit slow - ways 
@@ -30,26 +30,19 @@ to choose an appropriate set of parameters from a given range of values.</P>
 
 <pre>
 	<com># Classification task</com>
-	ct <- make.task(data = iris, target = "Species")
+	ct <- makeClassifTask(data = iris, target = "Species")
 
 	<com># Range of the values</com>
-	r <- list(C = 2^(-1:1), sigma = 2^(-1:1))
+	pars <- makeParameterSet(makeDiscreteParameter("C", 2^(-1:1)), makeDiscreteParameter("sigma", 2^(-1:1)))
 
 	<com># Evaluation with 3-fold cross-validation</com>
-	res <- make.res.desc("cv", iters = 3)
+	res <- makeResampleDesc("cv", iters = 3)
 
 	<com># Tune SVM</com>
-	tune("classif.ksvm", ct, res, grid.control(ranges = r))
+	tune("classif.ksvm", task = ct, resampling = res, par.set = pars, control = grid.control())
 	<res>
-	Optimization result: 
-	$C
-	[1] 1
-	
-	$sigma
-	[1] 0.5
-	
-	 mean.mmce    sd.mmce 
-	0.04666667 0.04163332 
+	Opt. pars: C=0.5,sigma=0.5
+	mmce.test.mean=0.0467 mmce.test.sd=0.0306	
 	</res>
 </pre>
 
@@ -112,23 +105,19 @@ Let's tune SVMs with polynomial and gaussian kernels on iris</P>
 <pre>
 	<com># Regression task</com>
 	library(mlbench); data(BostonHousing)
-	rt <- make.task(data = BostonHousing, target = "medv")
+	rt <- makeRegrTask(data = BostonHousing, target = "medv")
 
 	<com># Range of the value k </com>
-	range <- list(k = 1:7)
+	pars <- makeParameterSet(makeDiscreteParameter("k", 1:7))
 
 	<com># Evaluate with 5-fold cross-validation</com>
-	res <- make.res.desc("cv", iters = 5)
+	res <- makeResampleDesc("cv", iters = 5)
 	
 	<com># Tune k-nearest-neighbor-regression with mean squared error as default measure</com>
-	tune("regr.kknn", rt, res, control = grid.control(ranges = range), measure = "mse")
+	tune("regr.kknn", task = rt, resampling = res, par.set = pars, control = grid.control(), measures = mse)
 	<res>
-	Optimization result: 
-	$k
-	[1] 4
-	
-	 mean.mse    sd.mse 
-	15.927590  6.166622 
+	Opt. pars: k=4
+	mse.test.mean=16.2 mse.test.sd=4.59 	
 	</res>
 </pre>
 
