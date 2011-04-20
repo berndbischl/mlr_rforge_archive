@@ -57,8 +57,8 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, ...) {
 			m <- .model@learner.model
-			f = m$td["formula"]
-			# this is stupid but kknn forces it....
+      f = getFormula(.model@desc)
+      # this is stupid but kknn forces it....
 			.newdata[, m$td@target] <- 0
 			pars <- list(formula=f, train=m$data, test=.newdata)  
 			pars <- c(pars, m$parset, list(...))
