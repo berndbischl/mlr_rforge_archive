@@ -90,11 +90,11 @@ setMethod(
 #' @param subset [integer] \cr 
 #'   Selected cases. Default is all cases. 
 #' @param vars [character] \cr 
-#'   Selected inputs. 
+#'   Selected inputs.  Default is all input variables.
 #' @param target.extra [boolean] \cr 
 #'   Should target vector be returned separately? 
 #'   If not, a single data.frame including the target is returned, otherwise a list 
-#'   with the input data.frame and and an extra vector for the targets.
+#'   with the input data.frame and an extra vector for the targets.
 #'   Default is FALSE. 
 #' @param class.as [\code{character(1)}] \cr
 #'   Should target classes be recoded? Only for binary classification.
@@ -108,8 +108,8 @@ setMethod(
 #' @export
 #' @rdname getData
 #' @title Extract data in task. 
-# todo: test
 getData = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
+  check.arg(class.as, "character", 1, c("factor", "01", "-1+1"))
   
   # maybe recode y
   rec.y = function(y) {

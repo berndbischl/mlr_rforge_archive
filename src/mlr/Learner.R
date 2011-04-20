@@ -1,5 +1,3 @@
-# todo desc needs to be here. plus we need a constructor
-
 #' @include object.r
 roxygen()
 #' @include ParameterSet.R
