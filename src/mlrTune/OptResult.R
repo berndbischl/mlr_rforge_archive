@@ -46,15 +46,10 @@ setMethod(
 
 setMethod(f = "show", signature = signature("OptResult"), def = function(object) {
     s = if (is(object@control, "TuneControl")) 
-        valToString(getParameterSet(object@learner), object@x)
+        mlr:::valToString(getParameterSet(object@learner), object@x)
       else 
         paste(length(object@x), "sel. vars")
-    return(
-      paste(
-        "Opt. pars: ", s, "\n",
-        paste(paste(names(object@y), formatC(object@y, digits=3), sep="="), collapse=" "), 
-        sep=""
-      )
-    )
+    cat("Opt. pars: ", s, "\n",
+        paste(paste(names(object@y), formatC(object@y, digits=3), sep="="), collapse=" "),
+        "\n")
 })
-
