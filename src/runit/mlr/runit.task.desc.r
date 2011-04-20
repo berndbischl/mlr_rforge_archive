@@ -16,7 +16,7 @@ test.task.desc <- function() {
 	checkTrue(is.na(rt@desc@negative))
   
   checkEquals(multiclass.task["size"], 150) 
-  checkEquals(multiclass.task["dim"], 4)  
+  checkEquals(sum(multiclass.task@desc@n.feat), 4)  
   checkEquals(multiclass.task@desc@n.feat["numerics"], 4, checkNames=FALSE)  
   checkEquals(multiclass.task@desc@n.feat["integers"], 0, checkNames=FALSE)  
   checkEquals(multiclass.task@desc@n.feat["factors"], 0, checkNames=FALSE)  
@@ -36,7 +36,7 @@ test.task.desc <- function() {
   
   ct = makeClassifTask(target=binaryclass.target, data=binaryclass.df, exclude="V1")
   checkEquals(ct["size"], 208)  
-  checkEquals(ct["dim"], 59)  
+  checkEquals(sum(ct@desc@n.feat), 59)  
   checkEquals(ct@desc@n.feat["numerics"], 59, checkNames=FALSE)  
   checkEquals(ct@desc@n.feat["integers"], 0, checkNames=FALSE)  
   checkEquals(ct@desc@n.feat["factors"], 0, checkNames=FALSE)  
@@ -49,7 +49,7 @@ test.task.desc <- function() {
   checkEquals(ct["class.dist"], c(M=111, R=97)) 
   
   checkEquals(regr.task["size"], 506) 
-  checkEquals(regr.task["dim"], 13) 
+  checkEquals(sum(regr.task@desc@n.feat), 13) 
   checkEquals(regr.task@desc@n.feat["numerics"], 12, checkNames=FALSE)  
   checkEquals(regr.task@desc@n.feat["integers"], 0, checkNames=FALSE)  
   checkEquals(regr.task@desc@n.feat["factors"], 1, checkNames=FALSE)  

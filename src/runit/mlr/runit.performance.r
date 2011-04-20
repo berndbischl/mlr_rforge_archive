@@ -12,7 +12,7 @@ test.performance <- function() {
 	res = makeResampleDesc("CV", iters=3)
 	r = resample("classif.rpart", task=binaryclass.task, resampling=res)
 	
-	mymeasure = makeMeasure(id="mym", minimize=TRUE,  
+	mymeasure = makeMeasure(id="mym", minimize=TRUE, classif=TRUE, allowed.pred.types=c("response"),
     fun=function(task, model, pred, extra.pars) {
 		# normal test error
 		e1 = mean(pred@df$truth != pred@df$response)
