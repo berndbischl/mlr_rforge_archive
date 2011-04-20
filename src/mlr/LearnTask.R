@@ -87,7 +87,7 @@ setMethod(
 #' 
 #' @param task [\code{\linkS4class{LearnTask}}]\cr 
 #'   Learning task.   
-#' @param subset [integer] \cr 
+#' @param subset [\code{integer}] \cr 
 #'   Selected cases. Default is all cases. 
 #' @param vars [character] \cr 
 #'   Selected inputs.  Default is all input variables.
@@ -162,7 +162,7 @@ getData = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
 #' 
 #' @param x [\code{\linkS4class{LearnTask}}]\cr 
 #'   Learning task.   
-#' @param subset [integer] \cr 
+#' @param subset [\code{integer}] \cr 
 #'   Selected cases. Default is all cases. 
 #' @param vars [character] \cr 
 #'   Selected inputs. Note that target feature is always included! Default is all input variables. 

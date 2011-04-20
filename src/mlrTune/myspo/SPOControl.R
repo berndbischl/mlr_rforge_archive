@@ -66,7 +66,7 @@ setClass(
 #' @param final.evals [integer(1)]\cr 
 #'   How many target function evals should be done at final point to reduce noise? 
 #'   Default is 20.      
-#' @param save.model.at [integer] \cr
+#' @param save.model.at [\code{integer}] \cr
 #'   Sequential optimzation iterations when the model should be saved. Iteration 0 is the model fit for the initial design.
 #'   Default is \code{seq.loops}.
 #' @return The control object.  

@@ -8,7 +8,7 @@
 #'   Performance measure to optimize. 
 #' @param task [\code{\linkS4class{LearnTask}}] \cr
 #'   Learning task. Rarely neeeded, only when required for the performance measure. 
-#' @param thresholds [integer] \cr
+#' @param thresholds [\code{integer}] \cr
 #'   Number of thresholds to try in tuning.  	
 #' 
 #' @return A list with with the following components: "th" is the optimal threshold, pred a prediction object based on "th", 

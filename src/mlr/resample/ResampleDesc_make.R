@@ -13,7 +13,7 @@
 #' @param method [\code{character(1)}] \cr
 #'   'CV' for cross-validation, 'LOO' for leave-one-out, 'StratCV' for stratified cross-validation, 'RepCV' for repeated cross-validation,\cr
 #'   'BS' for out-of-bag bootstrap, 'Subsample' for subsampling, 'Holdout' for holdout.	
-#' @param iters [integer] \cr
+#' @param iters [\code{integer}] \cr
 #'   Number of resampling iterations. Ignored for 'Holdout'. Default is 10.	 			
 #' @param predict [character] \cr
 #'   What to predict during resampling: 'train', 'test' or 'both' sets. Default is 'test'.

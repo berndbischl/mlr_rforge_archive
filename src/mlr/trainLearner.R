@@ -5,7 +5,7 @@
 #'   Wrapped learner from this package. 
 #' @param .task [\code{\linkS4class{LearnTask}}] \cr
 #'   Task to train learner on.
-#' @param .subset [integer] \cr
+#' @param .subset [\code{integer}] \cr
 #'   Subset of cases, index task with this.
 #' @param ... [any] \cr
 #' 		  Additional parameters, which need to be passed to the underlying train function.

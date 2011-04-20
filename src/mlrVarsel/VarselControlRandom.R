@@ -32,7 +32,7 @@ setMethod(
 #'   Should optimization path be saved? Default is TRUE.
 #' @param same.resampling.instance [logical(1)] \cr
 #'   Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
-#' @param maxit [integer] \cr 
+#' @param maxit [\code{integer}] \cr 
 #'   Maximal number of variable sets to evaluate. Default is 100.
 #' @param method [numeric] \cr 
 #'   Currently only "binomial" is implemented. Samples variables from a binomial distribution. 		        

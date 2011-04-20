@@ -2,7 +2,7 @@
 ##' 
 ##' @param par [\code{\linkS4class{Parameter}}] \cr
 ##'   Parameter description.
-##' @param n [integer] \cr
+##' @param n [\code{integer}] \cr
 ##'   Values to sample.  
 ##' 
 ##' @rdname randomVal

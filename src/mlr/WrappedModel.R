@@ -16,7 +16,7 @@ roxygen()
 #' \describe{
 #'	\item{learner [{\linkS4class{Learner}}]}{Learner that was used to fit the model.}
 #'	\item{learner model [any]}{Underlying model from used R package.}
-#'	\item{subset [integer]}{Subset used for training.}
+#'	\item{subset [\code{integer}]}{Subset used for training.}
 #'	\item{fail [NULL | string]}{Generally NULL but if the training failed, the error message of the underlying train function.}
 #' }
 #' @exportClass WrappedModel

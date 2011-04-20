@@ -165,9 +165,9 @@ setEoL = function(op, x, eol) {
 #'
 #' @param op [\code{\linkS4class{OptPath}}]\cr
 #'   Optimization path.
-#' @param dob [integer]
+#' @param dob [\code{integer}]
 #'   Possible dates of birth for subset. Defaults to all. 
-#' @param eol [integer]
+#' @param eol [\code{integer}]
 #'   Possible end of life for subset. Defaults to all. 
 #' @return Subsetted \code{\linkS4class{OptPath}}. 
 restrict = function(x, dob=x@env$dob, eol=x@env$eol) {
@@ -183,9 +183,9 @@ restrict = function(x, dob=x@env$dob, eol=x@env$eol) {
 #'   Optimization path.
 #' @param y.name [\code{character(1)}] 
 #'   Name of target value to decide which element is best.  
-#' @param dob [integer]
+#' @param dob [\code{integer}]
 #'   Possible dates of birth to select best element from. Defaults to all. 
-#' @param eol [integer]
+#' @param eol [\code{integer}]
 #'   Possible end of life to select best element from. Defaults to all. 
 #' @return List with elements 'x' [list] and 'y' [named numeric]. 
 #' @export

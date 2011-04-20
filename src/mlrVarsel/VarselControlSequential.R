@@ -50,7 +50,7 @@ setMethod(
 #'   Should optimization path be saved? Default is TRUE.
 #' @param same.resampling.instance [logical(1)] \cr
 #'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
-#' @param max.vars [integer] \cr 
+#' @param max.vars [\code{integer}] \cr 
 #'   Maximal number of allowed variables in the final set. Default is max. integer.
 #' @param method [\code{\link{character}}] \cr
 #'   Search method. 'sfs', 'sbs', 'sffs' or 'sfbs', see details. Default is "sfs".    
