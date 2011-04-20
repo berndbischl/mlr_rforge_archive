@@ -5,7 +5,7 @@ roxygen()
 #' 
 #' @param id [\code{character(1)}] \cr
 #'   Name of measure. Default is "costs".
-#' @param minimize [boolean] \cr
+#' @param minimize [\code{logical(1)}] \cr
 #'   Should the measure be minimized? Default is TRUE. Otherwise you are effectively specifying a benefits matrix.
 #' @param costs [Numerical matrix] \cr
 #'   Matrix of misclassification costs. Rows and columns have to be named with class labels, order does not matter. 

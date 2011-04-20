@@ -91,7 +91,7 @@ setMethod(
 #'   Selected cases. Default is all cases. 
 #' @param vars [character] \cr 
 #'   Selected inputs.  Default is all input variables.
-#' @param target.extra [boolean] \cr 
+#' @param target.extra [\code{logical(1)}] \cr 
 #'   Should target vector be returned separately? 
 #'   If not, a single data.frame including the target is returned, otherwise a list 
 #'   with the input data.frame and an extra vector for the targets.

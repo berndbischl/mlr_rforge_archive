@@ -9,23 +9,23 @@ roxygen()
 #' 
 #' @param x [string | \code{\linkS4class{LearnTask}}] \cr
 #' 			Type of the learning algorithm, either "classif" or "regr" or task to solve
-#' @param doubles [boolean] \cr
+#' @param doubles [\code{logical(1)}] \cr
 #' 			Supports real-valued inputs? Pass only when x is a string.
-#' @param factors [boolean] \cr
+#' @param factors [\code{logical(1)}] \cr
 #' 			Supports factor inputs? Pass only when x is a string.
-#' @param characters [boolean] \cr
+#' @param characters [\code{logical(1)}] \cr
 #' 			Supports character inputs? Pass only when x is a string.
-#' @param missings [boolean] \cr
+#' @param missings [\code{logical(1)}] \cr
 #' 			Supports missing values? Pass only when x is a string.
-#' @param multiclass [boolean] \cr
+#' @param multiclass [\code{logical(1)}] \cr
 #' 			Supports multiclass problems? Pass only when x is a string.
-#' @param weights [boolean] \cr
+#' @param weights [\code{logical(1)}] \cr
 #' 			Supports case weights? Pass only when x is a string.
-#' @param probs [boolean] \cr
+#' @param probs [\code{logical(1)}] \cr
 #' 			Can predict probabilities?
-#' @param decision [boolean] \cr
+#' @param decision [\code{logical(1)}] \cr
 #' 			Supports decision values?
-#' @param costs [boolean] \cr
+#' @param costs [\code{logical(1)}] \cr
 #' 			Supports non-standard misclassification costs?
 #' 
 #' @rdname getLearners

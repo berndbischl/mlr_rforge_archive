@@ -13,7 +13,7 @@ setClass(
 #' 
 #' @param minimize [logical] \cr 
 #'       Minimize performance measure? Default is TRUE. 
-#' @param path [boolean]\cr
+#' @param path [\code{logical(1)}]\cr
 #'        Should optimization path be saved?
 #' 		    
 #' @return Control structure for tuning.

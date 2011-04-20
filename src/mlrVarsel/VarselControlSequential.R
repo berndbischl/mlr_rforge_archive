@@ -46,7 +46,7 @@ setMethod(
 #' Sequential floating forward search. Same as sbs, but after each backward step one forward step is allowed. 
 #' Stops when two subsequent steps failed.\cr   
 #'   
-#' @param path [boolean]\cr
+#' @param path [\code{logical(1)}]\cr
 #'   Should optimization path be saved? Default is TRUE.
 #' @param same.resampling.instance [logical(1)] \cr
 #'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.

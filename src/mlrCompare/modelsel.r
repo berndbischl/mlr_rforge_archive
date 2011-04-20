@@ -15,9 +15,9 @@
 #'		Performance measures. 
 #' @param aggr [see \code{\link{aggregations}}]\cr
 #'		Aggregation functions. 
-#' @param model [boolean]\cr
+#' @param model [\code{logical(1)}]\cr
 #'		Should a final model be fitted on the complete data with the best found learner? Default is FALSE.
-#' @param path [boolean]\cr
+#' @param path [\code{logical(1)}]\cr
 #'		Should optimization path be saved? Default is FALSE.
 #' 
 #' @return \code{\linkS4class{opt.result}}.

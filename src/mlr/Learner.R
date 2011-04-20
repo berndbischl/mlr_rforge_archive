@@ -13,14 +13,14 @@ roxygen()
 #' Getter.\cr
 #' 
 #' \describe{
-#'  \item{is.classif [boolean]}{Is this learner for classification tasks?}
-#'  \item{is.regr [boolean]}{Is this learner for regression tasks?}
+#'  \item{is.classif [\code{logical(1)}]}{Is this learner for classification tasks?}
+#'  \item{is.regr [\code{logical(1)}]}{Is this learner for regression tasks?}
 #'  \item{id [\code{character(1)}]}{Id string of learner.}
 #' 	\item{pack [char]}{Package(s) required for underlying learner.}
-#'  \item{doubles [boolean]}{Can real-valued inputs be processed?}
-#'  \item{factors [boolean]}{Can factor inputs be processed?}
-#'  \item{missings [boolean]}{Can missing values be processed?}
-#'  \item{weights [boolean]}{Can case weights be used?}
+#'  \item{doubles [\code{logical(1)}]}{Can real-valued inputs be processed?}
+#'  \item{factors [\code{logical(1)}]}{Can factor inputs be processed?}
+#'  \item{missings [\code{logical(1)}]}{Can missing values be processed?}
+#'  \item{weights [\code{logical(1)}]}{Can case weights be used?}
 #' 	\item{par.vals [named list]}{List of set hyperparameters.}
 #' 	\item{par.set [named list]}{Named list of \code{\linkS4class{Parameter}} description objects for all possible hyperparameters.}
 #' }
@@ -28,12 +28,12 @@ roxygen()
 #' Further getters for classifiers.\cr
 #' 
 #' \describe{
-#'  \item{oneclass [boolean]}{Can oneclass problems be handled?}
-#'  \item{twoclass [boolean]}{Can twoclass problems be handled?}
-#'  \item{multiclass [boolean]}{Can multiclass problems be handled?}
-#'  \item{costs [boolean]}{Can misclassification costs be directly used during training?}
-#'  \item{prob [boolean]}{Can probabilities be predicted?}
-#'  \item{decision [boolean]}{Can probabilities be predicted?}
+#'  \item{oneclass [\code{logical(1)}]}{Can oneclass problems be handled?}
+#'  \item{twoclass [\code{logical(1)}]}{Can twoclass problems be handled?}
+#'  \item{multiclass [\code{logical(1)}]}{Can multiclass problems be handled?}
+#'  \item{costs [\code{logical(1)}]}{Can misclassification costs be directly used during training?}
+#'  \item{prob [\code{logical(1)}]}{Can probabilities be predicted?}
+#'  \item{decision [\code{logical(1)}]}{Can probabilities be predicted?}
 #'  \item{predict.type [character]}{What should be predicted: 'response', 'prob' or 'decision'.}
 #' }
 #' 

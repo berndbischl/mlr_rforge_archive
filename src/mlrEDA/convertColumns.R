@@ -6,7 +6,7 @@
 #'   Conversion of character features. Currently only "factor" is supported.
 #' @param logs.as [\code{character(1)}]\cr
 #'   Should logical features be converted to either "numeric" or "factor". Default is "factor".
-#' @param drop.class.levels [boolean]\cr
+#' @param drop.class.levels [\code{logical(1)}]\cr
 #'   Should empty class levels be dropped? Default is TRUE.
 #' @return Control structure for data preparation.
 #' @export

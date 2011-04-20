@@ -6,7 +6,7 @@ roxygen()
 #' Getter.\cr
 #' 
 #' \describe{
-#'  \item{has.default [boolean]}{Was a default value provided?}
+#'  \item{has.default [\code{logical(1)}]}{Was a default value provided?}
 #'  \item{default [any]}{Default value. Error if none was provided.}
 #'  \item{when [\code{character(1)}]}{Specifies when a cetrain hyperparameter is used. Possible entries are 'train', 'predict' or 'both'.}
 #'  \item{requires [list]}{Requirements for a parameter to be effective.}

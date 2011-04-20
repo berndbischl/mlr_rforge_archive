@@ -2,7 +2,7 @@
 
 #' Sets up the logging system of mlr. 
 #' 
-#' @param console [boolean] \cr
+#' @param console [\code{logical(1)}] \cr
 #'   Should output be printed to R console?
 #' @param file [\code{character(1)}] \cr 
 #'   Path to file to redirect output into. 	
