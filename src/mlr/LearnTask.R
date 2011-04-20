@@ -7,7 +7,7 @@ roxygen()
 #' It encapsulates the data and specifies - through its subclasses - the type of the task (either classification or regression), 
 #' the target variable and other details of the problem. 
 #'  
-#' @slot dataenv Environment where data for the task are stored. Use \code{\link{getData}} in order to assess the data.
+#' @slot dataenv Environment where data for the task are stored. Use \code{\link{getData}} in order to access the data.
 #' @slot weights Case weights. \code{numeric(0)} if no weights were set.
 #' @slot blocking Observations with the same blocking level "belong together". Specifically, they are either put all in the training 
 #'   or the test set during a resampling iteration. \code{factor(0)} if no blocking was set.
