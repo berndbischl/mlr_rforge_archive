@@ -76,7 +76,7 @@ timepredict = makeMeasure(id="timepredict", minimize=TRUE, classif=TRUE, regr=TR
 
 #' @export timeboth
 #' @rdname measures
-timeboth = makeMeasure(id="timeboth", minimize=TRUE, allowed.pred.types=c("response", "prob", "decision"),
+timeboth = makeMeasure(id="timeboth", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob", "decision"),
   fun=function(task, model, pred, extra.pars) {
     model["time"] + pred["time"]           
   }  
