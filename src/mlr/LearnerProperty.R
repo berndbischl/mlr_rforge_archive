@@ -1,6 +1,4 @@
-#' Get property of learner object.
-#' 
-#' Currently available are:
+#' Get property of learner object. Currently available are:
 #' \describe{
 #'  \item{type [\code{character(1)}]}{Can be \dQuote{classif} or \dQuote{regr}.}
 #'  \item{numerics [\code{logical(1)}]}{Can numeric features be handled?}
