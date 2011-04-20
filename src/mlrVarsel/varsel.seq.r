@@ -68,7 +68,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     stop(paste("Unknown method:", method))
   ) 
   
-  y = eval.rf(learner, task, resampling, measures, NULL, bits.to.features, control, x)
+  y = mlr:::eval.rf(learner, task, resampling, measures, NULL, bits.to.features, control, x)
   state = list(x=x, y=y)
   path = addPathElement(opt.path, x=x, y=y, dob=1, eol=2)   
   
