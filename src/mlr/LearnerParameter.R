@@ -2,17 +2,16 @@
 roxygen()
 
 #' Description class for a hyperparameter.
-#'  
-#' Getter.\cr
 #' 
-#' \describe{
-#'  \item{has.default [\code{logical(1)}]}{Was a default value provided?}
-#'  \item{default [any]}{Default value. Error if none was provided.}
-#'  \item{when [\code{character(1)}]}{Specifies when a cetrain hyperparameter is used. Possible entries are 'train', 'predict' or 'both'.}
-#'  \item{requires [list]}{Requirements for a parameter to be effective.}
-#' }
-#' @exportClass Parameter
+#' @slot has.default Was a default value provided?
+#' @slot pass.default Should the default value be always passed down to the underlying function? 
+#' @slot default Default value for this parameter. 
+#' @slot when Specifies when parameter is used. Possible entries are \dQuote{train}, \dQuote{predict} or \dQuote{both}.
+#' @slot requires R expression over the other parameters to define requirements which make this parameter effective.
+#' 
+#' @exportClass LearnerParameter
 #' @title Description class for a hyperparameter. 
+
 setClass(
   "LearnerParameter",
   contains = c("Parameter"),
