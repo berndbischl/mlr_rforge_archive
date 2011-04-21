@@ -86,6 +86,11 @@ make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binar
     message("Copying ROCR documentation into base package ...")
     man.rocr.dir = file.path(src.dir, "mlr", "rocr", "man")
     file.copy(from=file.path(man.rocr.dir, list.files(man.rocr.dir)), to=man.build.dir)
+    # copy ROCR example data, so examples run
+    data.dir = file.path(build.dir, "data")
+    dir.create(data.dir)
+    file.copy(from=file.path(man.rocr.dir, "ROCR.simple.rda"), to=data.dir)
+    file.copy(from=file.path(man.rocr.dir, "ROCR.xval.rda"), to=data.dir)
   }
 		
 	if (only.allowed.rds) {

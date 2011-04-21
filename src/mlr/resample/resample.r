@@ -75,18 +75,19 @@ setMethod(
         rin=rin, measures=measures, model=models, extract=extract)
     } else {
       rs  = list()
-      # sequential resampling cannot be (easily) parallized!
-      i = 1
-      while (!resample.done(rin)) {
-        train.i = rin["train.inds"][[i]]
-        test.i = rin["test.inds"][[i]]
-        m = train(learner, task, subset=train.i)
-        p = predict(m, task=task, subset=test.i)
-        ex = extract(m)
-        rs[[i]] = list(pred=p, extract=ex)
-        rin = resample.update(rin, task, m, p)
-        i = i + 1
-      }				
+      stop("Sequential resampling not implemented yet!")
+#      # sequential resampling cannot be (easily) parallized!
+#      i = 1
+#      while (!resample.done(rin)) {
+#        train.i = rin["train.inds"][[i]]
+#        test.i = rin["test.inds"][[i]]
+#        m = train(learner, task, subset=train.i)
+#        p = predict(m, task=task, subset=test.i)
+#        ex = extract(m)
+#        rs[[i]] = list(pred=p, extract=ex)
+#        rin = resample.update(rin, task, m, p)
+#        i = i + 1
+#      }				
     }
     ms.test = lapply(rs, function(x) x$measures.test)
     ms.test = as.data.frame(matrix(Reduce(rbind, ms.test), nrow=iters))
