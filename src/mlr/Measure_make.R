@@ -68,9 +68,21 @@ setMethod(
 )
 
 default.measures = function(x) {
-  if (x@desc@type == "classif")
-    return(list(mmce))
-  else 
-    return(list(mse))
+  if (is(x, "LearnTask")) {
+    if (x@desc@type == "classif")
+      return(list(mmce))
+    else if (x@desc@type == "regr")
+      return(list(mse))
+    else
+      stop("Should not happen!")
+  }
+  if (is(x, "Learner")) {
+    if (getProperty(x, "type") == "classif")
+      return(list(mmce))
+    else if (getProperty(x, "type") == "regr")
+      return(list(mse))
+    else
+      stop("Should not happen!")
+  }
 }
 
