@@ -82,7 +82,7 @@ setMethod(
 #' 
 #' @param learner [\code{\linkS4class{Learner}}]\cr 
 #'   Learner object.   
-#' @param ...  \cr
+#' @param ... [any] \cr
 #'   Names and values as named arguments
 #'        
 #' @return \code{\linkS4class{Learner}}.

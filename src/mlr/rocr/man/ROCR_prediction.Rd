@@ -66,7 +66,6 @@ ROCR.prediction(predictions, labels, label.ordering = NULL)
 
 \examples{
 # create a simple prediction object
-library(ROCR)
 data(ROCR.simple)
 pred <- ROCR.prediction(ROCR.simple$predictions,ROCR.simple$labels)
 }

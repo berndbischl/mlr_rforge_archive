@@ -109,7 +109,6 @@
 
 \examples{
 # plotting a ROC curve:
-library(ROCR)
 data(ROCR.simple)
 pred <- ROCR.prediction( ROCR.simple$predictions, ROCR.simple$labels )
 perf <- ROCR.performance( pred, "tpr", "fpr" )

@@ -194,7 +194,6 @@ ROCR.performance(prediction.obj, measure, x.measure="cutoff", \dots)
 
 \examples{
 ## computing a simple ROC curve (x-axis: fpr, y-axis: tpr)
-library(ROCR)
 data(ROCR.simple)
 pred <- ROCR.prediction( ROCR.simple$predictions, ROCR.simple$labels)
 perf <- ROCR.performance(pred,"tpr","fpr")
