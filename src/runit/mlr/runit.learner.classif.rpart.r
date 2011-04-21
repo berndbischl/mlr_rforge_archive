@@ -1,5 +1,5 @@
 
-test.rpart <- function() {
+test.rpart.classif <- function() {
   library(rpart)
   parset.list <- list(
     list(),
