@@ -58,7 +58,7 @@ pack.files = c(
   "mlr/resample/ResampleDesc_make.R",
   "mlr/resample/ResampleInstance.R",
   "mlr/resample/ResampleInstance_make.R",
-  "mlr/resample/get.train.test.r",
+#  "mlr/resample/get.train.test.r",
   "mlr/resample/CVDesc.R",
   "mlr/resample/LOODesc.R",
   "mlr/resample/StratCVDesc.R",
