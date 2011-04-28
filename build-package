@@ -3,7 +3,6 @@
 ## Force 'C' locale for package build to avoid R encoding 'bugs'.
 export LC_ALL=C
 
-
 build="FALSE"
 check="FALSE"
 binary="FALSE"
@@ -36,9 +35,33 @@ while getopts "bczi" optname
 
 shift $(($OPTIND - 1))
 pack=$1
-  
-rargs="pack<-'$pack'; build<-$build; check<-$check; binary<-$binary; install<-$install; source('src/make/make.R')"
-echo $rargs
-Rscript -e "$rargs"
 
+if [[ $pack == "" ]] ; then
+    cat <<EOF
+Usage: build-package [-bczi] <package>
 
+Options:
+ -b : Build package
+ -c : Run R CMD check on package
+ -z : Build a binary version of package
+ -i : Install package
+EOF
+    exit -1
+else
+    
+    rargs="pack<-'$pack'
+build<-$build
+check<-$check
+binary<-$binary
+install<-$install
+source('src/make/make.R')"
+
+Rscript - <<EOF
+pack <- "$pack"
+build <- $build
+check <- $check
+binary <- $binary
+install <- $install
+source("src/make/make.R")
+EOF
+fi
