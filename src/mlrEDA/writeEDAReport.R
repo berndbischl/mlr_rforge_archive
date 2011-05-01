@@ -9,11 +9,16 @@
 #' @param name [\code{character(1)}]\cr 
 #'   Name of dataset. Used as prefix for generated files 
 #'   Default is name of R variable passed to \code{data}. 
+#' @param brew.template [\code{character(1)} | NULL]\cr 
+#'   File path to brew template to generate the report from.
+#'   Default is NULL, which means the template from the package is used 
+#'  (which is what you want).
 #' @return None.
 #' @export
 #' @title Write EDA HTML report.
 
-writeEDAReport = function(out.dir, data, target, name) {
+writeEDAReport = function(out.dir, data, target, name, brew.template=NULL) {
+  require.packs("brew", "writeEDAReport")
   if (missing(name))
     name = deparse(substitute(data))
   dir = getwd()
@@ -23,13 +28,10 @@ writeEDAReport = function(out.dir, data, target, name) {
   e$data = data
   e$target = target
   fn.out = file.path(out.dir, paste(name, "html", sep="."))
-  fn.in = "d:/sync/projekte/mlr/src/mlrEDA/writeEDAReport_html.brew"
-  #fn.in = system.file("writeEDAReport_html.brew", package="mlrEDA")
-  print(fn.in)
-  brew(fn.in, out=fn.out, envir=e) 
+  if (is.null(brew.template) || brew.template == "")
+    brew.template = system.file("writeEDAReport_html.brew", package="mlrEDA")
+  message("Using brew template: ", brew.template)
+  message("Writing output to: ", out.dir)
+  brew(brew.template, out=fn.out, envir=e) 
   setwd(dir)
 }
-#data = Glass
-#target = "Type"
-#name = "Glass"
-#writeEDAReport("c:/brew", data, target, name)
