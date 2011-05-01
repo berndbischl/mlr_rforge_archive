@@ -39,6 +39,7 @@ make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binar
   man.build.dir  <<- file.path(build.dir, "man") 
   man.rox.dir  <<- file.path(rox.dir, "man") 
   data.build.dir  <<- file.path(build.dir, "data") 
+  inst.build.dir  <<- file.path(build.dir, "inst") 
   ##html.dir <- file.path(project.dir, "html") 
   
   message("Building package to '", pkg.dir, "' ...")
@@ -87,10 +88,14 @@ make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binar
     man.rocr.dir = file.path(src.dir, "mlr", "rocr", "man")
     file.copy(from=file.path(man.rocr.dir, list.files(man.rocr.dir)), to=man.build.dir)
     ## copy ROCR example data, so examples run
-    data.dir = file.path(build.dir, "data")
-    dir.create(data.dir)
-    file.copy(from=file.path(man.rocr.dir, "ROCR.simple.rda"), to=data.dir)
-    file.copy(from=file.path(man.rocr.dir, "ROCR.xval.rda"), to=data.dir)
+    dir.create(data.build.dir)
+    file.copy(from=file.path(man.rocr.dir, "ROCR.simple.rda"), to=data.build.dir)
+    file.copy(from=file.path(man.rocr.dir, "ROCR.xval.rda"), to=data.build.dir)
+  }
+  if (pack.name == "mlrEDA")  {
+    message("Copying brew template into base package ...")
+    dir.create(inst.build.dir)
+    file.copy(from=file.path(src.dir, "writeEDAReport_html.brew", to=inst.build.dir))
   }
   
   if (only.allowed.rds) {
