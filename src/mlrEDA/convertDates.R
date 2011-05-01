@@ -23,10 +23,10 @@
 #' @title Converts Dates in a data.frame.
 
 convertDates = function(data, days=TRUE, weekdays=TRUE, months=TRUE, start.date) {
-  mlr:::check.arg(data, "data.frame")
-  mlr:::check.arg(days, "logical", 1)
-  mlr:::check.arg(weekdays, "logical", 1)
-  mlr:::check.arg(months, "logical", 1)
+  check.arg(data, "data.frame")
+  check.arg(days, "logical", 1)
+  check.arg(weekdays, "logical", 1)
+  check.arg(months, "logical", 1)
   
   n = ncol(data)
   date.names =  names(which(sapply(data, function(x) is(x, "Date"))))

@@ -37,9 +37,9 @@
 
 convertColumns = function(data, target, type, integers.as=as.numeric, characters.as=as.factor, logicals.as=as.factor) {
  
-  mlr:::check.arg(integers.as, "function")  
-  mlr:::check.arg(characters.as, "function")  
-  mlr:::check.arg(logicals.as, "function")
+  check.arg(integers.as, "function")  
+  check.arg(characters.as, "function")  
+  check.arg(logicals.as, "function")
   
   cols.ints =  which(sapply(data, function(x) is(x, "integer")))
   cols.char = which(sapply(data, function(x) is(x, "character")))
