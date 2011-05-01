@@ -94,8 +94,9 @@ make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binar
   }
   if (pack.name == "mlrEDA")  {
     message("Copying brew template into base package ...")
-    dir.create(inst.build.dir)
-    file.copy(from=file.path(src.dir, "writeEDAReport_html.brew", to=inst.build.dir))
+    if(!file.exists(inst.build.dir))
+      dir.create(inst.build.dir)
+    file.copy(from=file.path(src.dir, "mlrEDA", "writeEDAReport_html.brew"), to=inst.build.dir)
   }
   
   if (only.allowed.rds) {
