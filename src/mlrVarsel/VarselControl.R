@@ -1,4 +1,4 @@
-#' @include OptControl.R
+#' @importClassesFrom mlrTune OptControl
 roxygen()
 
 #' Abstract base class for control objects for variable selection. 
@@ -31,7 +31,7 @@ setMethod(
 		signature = signature("VarselControl"),
 		def = function(.Object, path, same.resampling.instance, maxit, max.vars) {
       if (missing(path))
-        return(make.empty(.Object))
+        return(mlr:::make.empty(.Object))
 			.Object@compare = "diff" 			
 			.Object@max.vars = as.integer(max.vars) 			
 			.Object@maxit = as.integer(maxit) 		
@@ -40,23 +40,16 @@ setMethod(
 		}
 )
 
-#' @rdname to.string
-setMethod(
-  f = "to.string",
-  signature = signature("VarselControl"),
-  def = function(x) {
-    return(
-      paste(
-        "Control object for varsel of class: ", class(x), "\n",
-        "Save path: ", x@path, "\n",
-        "Same resampling instance: ", x@same.resampling.instance, "\n",
-        "Max. vars: ", x@max.vars, "\n",
-        "Max. iter: ", x@maxit,  
-        sep=""
-      )
-    )
-  }
-)
+setMethod(f = "show",  signature = signature("VarselControl"), def = function(object) {
+  cat(
+    "Control object for varsel of class: ", class(x), "\n",
+    "Save path: ", x@path, "\n",
+    "Same resampling instance: ", x@same.resampling.instance, "\n",
+    "Max. vars: ", x@max.vars, "\n",
+    "Max. iter: ", x@maxit,  
+    sep=""
+  )
+})
 
 
 

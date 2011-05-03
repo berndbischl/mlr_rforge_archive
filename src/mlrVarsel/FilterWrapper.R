@@ -1,3 +1,6 @@
+#' @include aaa.R
+#' @importClassesFrom mlr BaseWrapper Learner object
+roxygen()
 
 #' Wrapper class for learners to filter variables. Experimental. Can currently 
 #' only filter to manually selected variables. 
