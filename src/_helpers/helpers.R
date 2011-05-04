@@ -316,3 +316,32 @@ mylapply <- function(xs, f, from, ...) {
 }
 
 
+eval.states = function(learner, task, resampling, measures, par.set, bits.to.features, control, opt.path, pars, eol=NA, dob=NA) {
+  y = mylapply(xs=pars, from="opt", f=mlr:::eval.rf, learner=learner, task=task, resampling=resampling, 
+    measures=measures, par.set=par.set, bits.to.features=bits.to.features, control=control)
+  n = length(pars)
+  if (length(dob) == 1)
+    dob = rep(dob, n)
+  if (length(eol) == 1)
+    eol = rep(eol, n)
+  for (i in 1:n) 
+    addPathElement(opt.path, x=pars[[i]], y=y[[i]], dob=dob[i], eol=eol[i])
+  return(y)
+}
+
+# compare 2 states.  
+# TRUE : state2 is significantly better than state1  
+# compare = function(state1, state2, control, measures, threshold) 
+
+
+# use the difference in performance   
+compare.diff = function(state1, state2, control, measure, threshold) {
+  ifelse(measure@minimize, 1, -1) * (state1$y[1] - state2$y[1]) > threshold
+}
+
+makeOptPathFromMeasures = function(x.names, measures) {
+  minimize = Reduce(c, lapply(measures, function(m) rep(m@minimize, length(m@aggr))))
+  makeOptPath(x.names, measuresAggrNames(measures), minimize)
+}
+
+
