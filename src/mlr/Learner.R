@@ -68,8 +68,6 @@ setMethod(
         .Object@properties["type"] = "classif"
       else if(is(.Object, "rlearner.regr"))
         .Object@properties["type"] = "regr"
-      else 
-        stop("Unnown derived class class learner: ", cc)
       .Object@id = cc 
       .Object@properties["numerics"] = FALSE
       .Object@properties["factors"] = FALSE
