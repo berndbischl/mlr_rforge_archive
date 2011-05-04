@@ -21,7 +21,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("OptWrapper"),
-		def = function(.Object, learner, resampling, measures, par.set,  bit.names, bits.to.features, control, log.fun) {
+		def = function(.Object, learner, resampling, measures, par.set, bit.names, bits.to.features, control, log.fun) {
 			if (missing(learner))
 				return(.Object)
 			.Object@resampling = resampling
@@ -69,16 +69,3 @@ setMethod(
 			return(m)
 		}
 )
-
-
-makeOptWrapper = function(learner, resampling, measures, par.set, bit.names, bits.to.features, control, log.fun) {
-	if (is.character(learner))
-		learner = makeLearner(learner)
-	if (missing(measures))
-		measures = mlr:::default.measures(learner)
-  if (is(measures, "Measure"))
-    measures = list(measures)   
-	new("OptWrapper", learner, resampling, measures, par.set, bit.names, bits.to.features, control, log.fun)
-}
-
-

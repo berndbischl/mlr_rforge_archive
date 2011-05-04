@@ -26,11 +26,17 @@
 #' @title Fuse learner with variable selection.
 
 makeVarselWrapper = function(learner, resampling, measures, bit.names, bits.to.features, control, log.fun) {
-  if (missing(log.fun))
-    log.fun = log.fun.varsel
+  if (is.character(learner))
+    learner = makeLearner(learner)
+  if (missing(measures))
+    measures = mlr:::default.measures(learner)
+  if (is(measures, "Measure"))
+    measures = list(measures)   
   if (missing(bit.names))
     bit.names = character(0)
   if (missing(bits.to.features))
     bits.to.features = function(x, task) binary.to.vars(x, getFeatureNames(task)) 
-  makeOptWrapper(learner, resampling, measures, makeParameterSet(), bit.names, bits.to.features, control, log.fun)
+  if (missing(log.fun))
+    log.fun = log.fun.varsel
+  new("OptWrapper", learner, resampling, measures, makeParameterSet(), bit.names, bits.to.features, control, log.fun)
 }

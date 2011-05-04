@@ -27,8 +27,14 @@
 #' @title Fuse learner with tuning.
 
 makeTuneWrapper = function(learner, resampling, measures, par.set, control, log.fun) {
+  if (is.character(learner))
+    learner = makeLearner(learner)
+  if (missing(measures))
+    measures = mlr:::default.measures(learner)
+  if (is(measures, "Measure"))
+    measures = list(measures)   
   if (missing(log.fun))
     log.fun = log.fun.tune
-	makeOptWrapper(learner, resampling, measures, par.set, character(0), function(){}, control, log.fun)
+	new("OptWrapper", learner, resampling, measures, par.set, character(0), function(){}, control, log.fun)
 }
 
