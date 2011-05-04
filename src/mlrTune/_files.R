@@ -6,7 +6,6 @@ pack.files = c(
     
     "mlrTune/OptControl.R",
     "mlrTune/OptResult.R",
-    "mlrTune/optml.helpers.r",
     "mlrTune/OptModel.R",
     
     "mlrTune/OptPath.R",
