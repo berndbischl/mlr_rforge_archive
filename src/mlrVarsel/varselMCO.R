@@ -33,7 +33,7 @@
 #' @seealso \code{\link{makeVarselWrapper}} 
 #' @title Variable selection.
 
-varselMCO = function(learner, task, resampling, measures, control) {
+varselMCO = function(learner, task, resampling, measures, bit.names, bits.to.features, control) {
   if (is.character(learner))
     learner <- makeLearner(learner)
   if (is(resampling, "ResampleDesc") && control@same.resampling.instance)
@@ -42,36 +42,32 @@ varselMCO = function(learner, task, resampling, measures, control) {
     stop("Please pass ate least 2 measures for MCO!")
   sapply(measures, function(m) if (length(m["aggr"]) != 1) 
     stop("Please set only one aggr. function for: ", m["id"]))
+  if (missing(bit.names))
+    bit.names = getFeatureNames(task)
   if (missing(bits.to.features))
     bits.to.features = function(x, task) binary.to.vars(x, getFeatureNames(task)) 
-  if (missing(log.fun))
-    log.fun = log.fun.varsel
   
-  n = length(measures)
+  n = length(bit.names)
+  m = length(measures)
+  # td: scale all measures to 0,1 and always use ref(1,...,1)  
+  # td: put this in varselMOCControl
+  cc=list(
+    maxeval=control$maxeval,
+    ref=c(1, 1, 1),
+    logger=varsel_logger(message),               
+    mu=control$mu,
+    crossover=ubx_operator(0.25),
+    mutate=ubm_operator(0.05)
+  )
+  
   f = function(x) {
     if (any(is.na(x)))
       return(rep(NA, n+1))    
-    y = lookup_cache(x)
-    if (!is.null(y))
-      return(y)
-    else {  
-      vars = bitstring_to_features(x)
-      y = mlr:::eval.rf(learner, task, resampling, measures, control, par=vars)
-      y = c(y, sum(x)/90)
-      add_cache(x, y)
-      return(y)
-    }
+    mlr:::eval.rf(learner, task, resampling, measures, NULL, bits.to.features, control, x)
   }
   
-  or = sms_ga(f, 90, control=list(
-      maxeval=control$maxeval,
-      ref=c(1, 1, 1),
-      logger=varsel_logger(message),               
-      mu=control$mu,
-      crossover=ubx_operator(0.25),
-      mutate=ubm_operator(0.05))
-  )
-  rownames(or$value) = rownames(or$Y) = c(sapply(measures, function(m) m["id"]), "bits")
+  or = sms_ga(f, n, ctrl)
+  rownames(or$value) = rownames(or$Y) = c(sapply(measures, function(m) m@id), "bits")
   p = or$par
   return(or)
 }
