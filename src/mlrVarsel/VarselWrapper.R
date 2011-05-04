@@ -32,5 +32,5 @@ makeVarselWrapper = function(learner, resampling, measures, bit.names, bits.to.f
     bit.names = character(0)
   if (missing(bits.to.features))
     bits.to.features = function(x, task) binary.to.vars(x, getFeatureNames(task)) 
-  make.OptWrapper(learner, resampling, measures, makeParameterSet(), bit.names, bits.to.features, control, log.fun)
+  makeOptWrapper(learner, resampling, measures, makeParameterSet(), bit.names, bits.to.features, control, log.fun)
 }

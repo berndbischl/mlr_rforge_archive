@@ -29,6 +29,6 @@
 makeTuneWrapper = function(learner, resampling, measures, par.set, control, log.fun) {
   if (missing(log.fun))
     log.fun = log.fun.tune
-	make.OptWrapper(learner, resampling, measures, par.set, character(0), function(){}, control, log.fun)
+	makeOptWrapper(learner, resampling, measures, par.set, character(0), function(){}, control, log.fun)
 }
 

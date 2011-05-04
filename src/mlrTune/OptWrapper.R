@@ -71,7 +71,7 @@ setMethod(
 )
 
 
-make.OptWrapper = function(learner, resampling, measures, par.set, bit.names, bits.to.features, control, log.fun) {
+makeOptWrapper = function(learner, resampling, measures, par.set, bit.names, bits.to.features, control, log.fun) {
 	if (is.character(learner))
 		learner = makeLearner(learner)
 	if (missing(measures))
