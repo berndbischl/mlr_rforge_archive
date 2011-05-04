@@ -46,7 +46,10 @@ Rnw2rst: $(RSTFILES)
 	@echo "Building '$@' from '$<' ..."
 	@Rscript --vanilla -e "library(\"ascii\"); ReST(\"$<\", output=\"$@\")" > /dev/null 2> $(<:.Rnw=.log)
 
-_static/rdocs/mlr:
+_static/rdocs:
+        mkdir $@
+
+_static/rdocs/mlr: _static/rdocs/
 	mkdir $@
 
 _static/rdocs/mlr/%.html: ../pkg/mlr/man/%.Rd _static/rdocs/mlr
