@@ -1,0 +1,150 @@
+Predicting Outcomes for New Data
+================================
+
+This section is pretty straightforward and - as you might have guessed
+- deals with predicting target values for new observations. It is
+implemented the same way as most of the other predict methods in R,
+but predictions are encapsulated in a special object. Read the
+documentation of the Prediction_ class to see all available
+accessors.
+
+
+Classification example
+----------------------
+
+In case of a classification task the result of predict_ depends on 
+the predict type which was set when generating the Learner (
+<a href="learner.html">Integrated Learners</a>). Per default class labels are predicted. 
+although the advantage is not obvious for this, this will come in handy later...
+
+We start again by loading **mlr** and creating a classification task for the Iris dataset.
+
+<<>>=
+library("mlr")
+
+## classification task with iris data set 
+ct <- makeClassifTask(data = iris, target = "Species")
+@ 
+
+Next, we select two subsets of the data. One to train the classifier
+and the second one as a test set which we want to
+
+<<>>=
+train.set <- seq(from = 1, to = nrow(iris), by = 2)
+test.set <- seq(from = 2, to = nrow(iris), by = 2)
+@ 
+
+Now we can train a decision tree using only the subset the
+observations specified by `train.set`:
+
+<<>>=
+wm <- train("classif.rpart", ct, subset = train.set)
+@ 
+
+Finally, to predict the outcome on new values, we use the predict_ method:
+
+<<>>=
+p <- predict(wm, newdata = iris[train.set,])
+head(p@df)
+@ 
+
+Alternativly we can also predict directly from a task:
+
+<<>>=
+p <- predict(wm, task = ct, subset = test.set)
+head(p@df)
+@ 
+
+The row names of the prediction data.frame tells us for which element
+of the original data set the prediction is:
+
+<<>>=
+rownames(p@df)
+@ 
+
+We can also predict probabilities instead of a class label:
+
+<<>>=
+wl <- makeLearner("classif.rpart", predict.type = "prob")
+wm <- train(wl, ct)
+p <- predict(wm, newdata = iris[test.set,])
+head(p@df)
+@ 
+
+As you can see, in addition to the predicted probabilities, a response
+is produced by choosing the class with the maximum probability and
+breaking ties at random.
+
+Binary Classification
+.....................
+
+For binary classification threshold.
+makeClassifTask positive class
+
+To illustrate binary classification we use the Sonar dataset from the
+mlbench_ library.
+
+<<>>=
+library(mlbench)
+data(Sonar)
+@ 
+
+Again we create a classification task and a learner which predicts
+probabilities, train the learner and then predict the class labels on
+the data used to train the learner:
+
+<<>>=
+ct <- makeClassifTask(data = Sonar, target = "Class", positive="M")
+wl <- makeLearner("classif.rpart", predict.type = "prob")
+wm <- train(wl, task = ct)
+p <- predict(wm, task = ct)
+head(p@df)
+@ 
+
+In a binary classification setting, we can adjust the threshold used
+to map probabilities to class labels using setThreshold_. Here we set
+the threshold for the *positive* class to 0.8:
+
+<<>>=
+pt <- setThreshold(p, 0.8)
+head(pt@df)
+@ 
+
+Regression example
+------------------
+
+We again use the BostonHousing data set and learn a Gradient Boosting
+Machine. We use every second observation for training/test. <br> The
+proceeding is analog to above.
+
+<<>>=
+library(mlbench)
+data(BostonHousing)
+
+rt <- makeRegrTask(data = BostonHousing, target = "medv")
+
+train.set <- seq(from = 1, to = nrow(BostonHousing), by = 2)
+test.set <- seq(from = 2, to = nrow(BostonHousing), by = 2)
+
+wl <- makeLearner("regr.gbm", n.trees = 100)
+wm <- train(wl, rt, subset = train.set) 
+
+p <- predict(wm, newdata = BostonHousing[test.set,])
+@ 
+
+We access the prediction result just like in the classification case:
+
+<<>>=
+head(p@df)
+@
+
+To calculate the mean squared error, we might do:
+
+<<>>=
+squared_error <- (p@df$truth - p@df$response)^2
+mean(squared_error)
+@ 
+.. _Prediction: /_static/mlr/Prediction-class.html
+.. _predict: /_static/mlr/predict.html
+.. _setThreshold: /_static/mlr/setThreshold.html
+.. _mlbench: http://cran.r-project.org/web/packages/mlbench/index.html

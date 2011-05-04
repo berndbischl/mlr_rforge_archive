@@ -1,0 +1,261 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Evaluateing Learner Performance &mdash; mlr - Machine Learning in R</title>
+    <link rel="stylesheet" href="../_static/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="mlr - Machine Learning in R" href="../index.html" />
+    <link rel="up" title="Tutorial" href="index.html" />
+    <link rel="next" title="Tuning hyperparamaters" href="tune.html" />
+    <link rel="prev" title="Resampling Learners" href="resample.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+        <p class="logo"><a href="../index.html">
+            <img class="logo" src="../_static/mlr_logo-120x64.png" alt="mlr logo"/>
+        </a></p>
+        <h1><a href="../index.html">mlr - Machine Learning in R</a></h1>
+        <div class="rel">
+          <a href="resample.html" title="Resampling Learners"
+             accesskey="P">previous</a> |
+          <a href="tune.html" title="Tuning hyperparamaters"
+             accesskey="N">next</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="evaluateing-learner-performance">
+<h1>Evaluateing Learner Performance<a class="headerlink" href="#evaluateing-learner-performance" title="Permalink to this headline">¶</a></h1>
+<p>The quality of predictions in mlr can be assessed w.r.t some
+performance measure or - more seldom - w.r.t. some loss function,
+which makes individual losses for all observations accessible.</p>
+<p>Typical performance measures are mean misclassification error (MMCE),
+accuracy or the ones based on ROC analysis for classification and mean
+of squared errors (MSE) or absolute errors for regression. Those
+measures aggregate the individual losses of predicted and true values
+to one number.  It is also possible to access the time to train model,
+the time to compute the prediction and their sum as performance
+measures.</p>
+<p>In contrast to that, loss functions do not merge information, but
+compute transformations for every loss, i.e.  the difference between
+the prediction and its corresponding true label/value.  Possible loss
+functions are the squared difference, the absolute one (for
+regression) or the zero-one loss (for classification).</p>
+<p>To see which performance measures and losses are implemented, have a
+look at <a class="reference external" href="/_static/rdoc/mlr/measures.html">measures</a> or <a class="reference external" href="/_static/rdoc/mlr/losses.html">losses</a>.</p>
+<div class="section" id="classification-example">
+<h2>Classification example<a class="headerlink" href="#classification-example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> ct <span class="o">&lt;-</span> makeClassifTask<span class="p">(</span>data <span class="o">=</span> iris<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Species&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> wm <span class="o">&lt;-</span> train<span class="p">(</span><span class="s">&quot;classif.lda&quot;</span><span class="p">,</span> task <span class="o">=</span> ct<span class="p">,</span> subset <span class="o">=</span> seq<span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">150</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+<span class="o">&gt;</span> p <span class="o">&lt;-</span> predict<span class="p">(</span>wm<span class="p">,</span> task <span class="o">=</span> ct<span class="p">,</span> subset <span class="o">=</span> seq<span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">150</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Compare predicted and true label with performance measure mean misclassification error (MMCE)</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> performance<span class="p">(</span>p<span class="p">,</span> measure <span class="o">=</span> mmce<span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.04</span>
+</pre></div>
+</div>
+<p>Let&#8217;s have a look at some more performance measures:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> measure_names <span class="o">&lt;-</span> c<span class="p">(</span><span class="s">&quot;mmce&quot;</span><span class="p">,</span> <span class="s">&quot;acc&quot;</span><span class="p">,</span> <span class="s">&quot;timetrain&quot;</span><span class="p">,</span> <span class="s">&quot;timepredict&quot;</span><span class="p">,</span>
+<span class="o">+</span>     <span class="s">&quot;timeboth&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> measures <span class="o">&lt;-</span> Map<span class="p">(</span><span class="kr">function</span><span class="p">(</span>name<span class="p">)</span> get<span class="p">(</span>name<span class="p">,</span> envir <span class="o">=</span> getNamespace<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">)),</span>
+<span class="o">+</span>     measure_names<span class="p">)</span>
+<span class="o">&gt;</span> perf <span class="o">&lt;-</span> Map<span class="p">(</span><span class="kr">function</span><span class="p">(</span>measure<span class="p">)</span> performance<span class="p">(</span>p<span class="p">,</span> measure<span class="p">,</span> model <span class="o">=</span> wm<span class="p">),</span>
+<span class="o">+</span>     measures<span class="p">)</span>
+<span class="o">&gt;</span> perf
+<span class="p">$</span>mmce
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.04</span>
+
+<span class="p">$</span>acc
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.96</span>
+
+<span class="p">$</span>timetrain
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.015</span>
+
+<span class="p">$</span>timepredict
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.006</span>
+
+<span class="p">$</span>timeboth
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.021</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="regression-example">
+<h2>Regression example<a class="headerlink" href="#regression-example" title="Permalink to this headline">¶</a></h2>
+<p>Very analogous to above example</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span>mlbench<span class="p">)</span>
+<span class="o">&gt;</span> data<span class="p">(</span>BostonHousing<span class="p">)</span>
+<span class="o">&gt;</span> rt <span class="o">&lt;-</span> makeRegrTask<span class="p">(</span>data <span class="o">=</span> BostonHousing<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;medv&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> train.set <span class="o">&lt;-</span> seq<span class="p">(</span>from <span class="o">=</span> <span class="m">1</span><span class="p">,</span> to <span class="o">=</span> nrow<span class="p">(</span>BostonHousing<span class="p">),</span> by <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+<span class="o">&gt;</span> test.set <span class="o">&lt;-</span> seq<span class="p">(</span>from <span class="o">=</span> <span class="m">2</span><span class="p">,</span> to <span class="o">=</span> nrow<span class="p">(</span>BostonHousing<span class="p">),</span> by <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+<span class="o">&gt;</span> wl <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;regr.gbm&quot;</span><span class="p">,</span> n.trees <span class="o">=</span> <span class="m">1000</span><span class="p">)</span>
+Loaded gbm <span class="m">1.6</span><span class="o">-</span><span class="m">3.1</span>
+<span class="o">&gt;</span> wm <span class="o">&lt;-</span> train<span class="p">(</span><span class="s">&quot;regr.gbm&quot;</span><span class="p">,</span> rt<span class="p">,</span> subset <span class="o">=</span> train.set<span class="p">)</span>
+<span class="o">&gt;</span> p <span class="o">&lt;-</span> predict<span class="p">(</span>wm<span class="p">,</span> newdata <span class="o">=</span> BostonHousing<span class="p">[</span>test.set<span class="p">,</span> <span class="p">])</span>
+<span class="o">&gt;</span> performance<span class="p">(</span>p<span class="p">,</span> measure <span class="o">=</span> mse<span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">76.44757</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="evaluation-of-predictions-after-resampling">
+<h2>Evaluation of Predictions after Resampling<a class="headerlink" href="#evaluation-of-predictions-after-resampling" title="Permalink to this headline">¶</a></h2>
+<p>When you use some resampling strategy (for details see
+<a class="reference internal" href="resample.html"><em>Resampling Learners</em></a> ), <strong>mlr</strong> offers the following
+possibilities to evaluate your predictions: Every single resampling
+iteration is handled as described in the explanation above, i.e. you
+train a model on a training part of the data set, predict on test set
+and compare predicted and true label w.r.t. some performance
+measure. This is proceeded for every iteration so that you have
+e.g. ten performance values in the case of 10-fold cross-validation.
+The question arises, how to aggregate those values. You can specify
+that explicitly, the default is the mean.  Let&#8217;s have a look at an
+example</p>
+<div class="section" id="id1">
+<h3>Classification example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Again, we create a classification task for the Iris data set and use
+10-fold cross-validation to evaluate the learner:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> ct <span class="o">&lt;-</span> makeClassifTask<span class="p">(</span>data <span class="o">=</span> iris<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Species&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> res <span class="o">&lt;-</span> makeResampleDesc<span class="p">(</span><span class="s">&quot;CV&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">10</span><span class="p">)</span>
+<span class="o">&gt;</span> res <span class="o">&lt;-</span> makeResampleInstance<span class="p">(</span>res<span class="p">,</span> ct<span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we fit a decision tree for each fold and measure both the mean misclassification error (<cite>mmce</cite>) and the accuracy (<cite>acc</cite>):</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> p <span class="o">&lt;-</span> resample<span class="p">(</span><span class="s">&quot;classif.rpart&quot;</span><span class="p">,</span> task <span class="o">=</span> ct<span class="p">,</span> resampling <span class="o">=</span> res<span class="p">,</span> measures <span class="o">=</span> list<span class="p">(</span>mmce<span class="p">,</span>
+<span class="o">+</span>     acc<span class="p">))</span>
+</pre></div>
+</div>
+<p>If we want to see the individual values for each fold on the test set, we can access the <cite>measures.test</cite> element of the result list:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> p<span class="p">$</span>measures.test
+   iter       mmce       acc
+<span class="m">1</span>     <span class="m">1</span> <span class="m">0.06666667</span> <span class="m">0.9333333</span>
+<span class="m">2</span>     <span class="m">2</span> <span class="m">0.00000000</span> <span class="m">1.0000000</span>
+<span class="m">3</span>     <span class="m">3</span> <span class="m">0.00000000</span> <span class="m">1.0000000</span>
+<span class="m">4</span>     <span class="m">4</span> <span class="m">0.06666667</span> <span class="m">0.9333333</span>
+<span class="m">5</span>     <span class="m">5</span> <span class="m">0.13333333</span> <span class="m">0.8666667</span>
+<span class="m">6</span>     <span class="m">6</span> <span class="m">0.06666667</span> <span class="m">0.9333333</span>
+<span class="m">7</span>     <span class="m">7</span> <span class="m">0.06666667</span> <span class="m">0.9333333</span>
+<span class="m">8</span>     <span class="m">8</span> <span class="m">0.06666667</span> <span class="m">0.9333333</span>
+<span class="m">9</span>     <span class="m">9</span> <span class="m">0.06666667</span> <span class="m">0.9333333</span>
+<span class="m">10</span>   <span class="m">10</span> <span class="m">0.00000000</span> <span class="m">1.0000000</span>
+</pre></div>
+</div>
+<p>To aggregated performance values are stored in the <cite>aggr</cite> list element:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> p<span class="p">$</span>aggr
+mmce.test.mean   mmce.test.sd  acc.test.mean    acc.test.sd
+    <span class="m">0.05333333</span>     <span class="m">0.04216370</span>     <span class="m">0.94666667</span>     <span class="m">0.04216370</span>
+</pre></div>
+</div>
+<p>As you can see above, in every fold of the 3-fold cross-validation you
+get one mean misclassification error (0.06, 0.08, 0.10) and after all
+three runs you aggregate them by mean to one value (0.08).  Having a
+look at the single losses is of course possible as well.???</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+<h3>Table Of Contents</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="train.html">Training a learner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="predict.html">Predicting Outcomes for New Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resample.html">Resampling Learners</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Evaluateing Learner Performance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classification-example">Classification example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#regression-example">Regression example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evaluation-of-predictions-after-resampling">Evaluation of Predictions after Resampling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Classification example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tune.html">Tuning hyperparamaters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="learner.html">Integrated learners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variable_selection.html">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_experiments.html">Benchmark Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_analysis.html">Benchmark Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roc_analysis.html">ROC Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concept/index.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">How-Tos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrated_learners.html">Integrated Learners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../literature.html">Relevant Literature</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="resample.html" title="Resampling Learners"
+             >previous</a> |
+          <a href="tune.html" title="Tuning hyperparamaters"
+             >next</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2010-2011, Bernd Bischl et.al..
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

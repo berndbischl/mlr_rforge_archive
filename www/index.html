@@ -1,0 +1,198 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Machine Learning in R (mlr) &mdash; mlr - Machine Learning in R</title>
+    <link rel="stylesheet" href="_static/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="mlr - Machine Learning in R" href="#" />
+    <link rel="next" title="Tutorial" href="tutorial/index.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+        <p class="logo"><a href="#">
+            <img class="logo" src="_static/mlr_logo-120x64.png" alt="mlr logo"/>
+        </a></p>
+        <h1><a href="#">mlr - Machine Learning in R</a></h1>
+        <div class="rel">
+          <a href="tutorial/index.html" title="Tutorial"
+             accesskey="N">next</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="machine-learning-in-r-mlr">
+<h1>Machine Learning in R (mlr)<a class="headerlink" href="#machine-learning-in-r-mlr" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Both the package <strong>mlr</strong> as well as its documentation are Very much
+work in progress. Please check back often for updates until we release
+a version to CRAN. We plan to do this real soon now.</p>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="motivation">
+<h1>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h1>
+<p>There is no standardized interface for all the classification and
+regression techniques available for R. Therefore, for any non-trivial
+machine learning experiments, you need to write lengthy, tedious and
+error-prone wrappers to call the different algorithms and unify their
+respective output. Additionally you need to implement infrastructure
+to cope with pre- and post-processing of the results, parallelizing
+your experiment. This often forces useRs to make crummy trade-offs in
+their experiments due to time constraints. <strong>mlr</strong> provides this
+infrastrukture so that you can focus on your experiments!</p>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Clear S4 interface to R classification methods</li>
+<li>Easy extension mechanism through S4 inheritance</li>
+<li>Abstract description of learners and data by properties</li>
+<li>Description of data generating process</li>
+<li>Many convenience methods and generic building blocks for your
+machine learning experiments</li>
+<li>Resampling like bootstrapping, cross-validation and subsampling</li>
+<li>Easy hyperparameter tuning using different optimization strategies</li>
+<li>Variable selection</li>
+<li>Benchmark experiments with two levels of resampling</li>
+<li>Interface to benchmark package for exploration and inference</li>
+<li>Easy extension mechanism through S4 inheritance for new methods</li>
+<li>Parallelization built in</li>
+<li>Growing collection of <a class="reference internal" href="tutorial/index.html"><em>tutorials</em></a> and examples</li>
+<li>Unit-tested using <a class="reference external" href="https://sourceforge.net/projects/runit/">RUnit</a></li>
+</ul>
+</div>
+<div class="section" id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Meta-optimization of hyperparamters and features by sequential methods</li>
+<li>Different approaches for model selection, maybe also Races</li>
+<li>Clustering</li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Currently the package is available from <a class="reference external" href="http://r-forge.r-project.org/projects/mlr/">R-Forge</a>. You can install the
+current developer snapshot from within R by running:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> install.packages<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">,</span> repos <span class="o">=</span> <span class="s">&quot;http://R-Forge.R-project.org&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="project-link-list">
+<h2>Project Link-List<a class="headerlink" href="#project-link-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="tutorial/index.html"><em>Tutorial</em></a></li>
+<li>List of the <a class="reference internal" href="integrated_learners.html"><em>Integrated Learners</em></a></li>
+<li>List of <a class="reference internal" href="howto/index.html"><em>How-Tos</em></a></li>
+<li>List of <a class="reference internal" href="concept/index.html"><em>Concepts</em></a></li>
+<li><a class="reference external" href="http://r-forge.r-project.org/projects/mlr/">R-Forge</a> project page</li>
+<li><a class="reference external" href="https://r-forge.r-project.org/tracker/?atid=2012&amp;group_id=494&amp;func=browse">Bugtracker</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar"><h3>Quick start</h3>
+<p>Current version: <b>1.0.0</b></p>
+
+<p>Install <b>mlr</b> from within R by running</p>
+
+<div class="highlight-r">
+  <div class="highlight">
+  <pre><span class="o">&gt;</span> install.packages<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">)</span>
+</pre>
+  </div> 
+</div> 
+
+<p>The latest development version is always available
+on <a href="http://r-forge.r-project.org/mlr/">R-Forge</a>
+</p>
+<p>&nbsp;</p>
+
+<!-- <h3>Questions?</h3> -->
+<!-- <p>Join the <a href="http://groups.google.com/group/sphinx-dev">Google group</a>:</p> -->
+<!-- <form action="http://groups.google.com/group/sphinx-dev/boxsubscribe" -->
+<!--       style="padding-left: 1em"> -->
+<!--   <input type="text" name="email" value="your@email"/> -->
+<!--   <input type="submit" name="sub" value="Subscribe" /> -->
+<!-- </form> -->
+<!-- <p>&nbsp;</p> -->
+
+<h3>Found a bug?</h3>
+<p>
+  Please open an issue for the bug in the
+  <a href="https://r-forge.r-project.org/tracker/?func=browse&group_id=494&atid=2012">bug
+  tracker</a> (registration required).
+</p>
+<p>&nbsp;</p>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="tutorial/index.html" title="Tutorial"
+             >next</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2010-2011, Bernd Bischl et.al..
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

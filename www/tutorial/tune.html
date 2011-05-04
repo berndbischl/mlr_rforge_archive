@@ -1,0 +1,227 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tuning hyperparamaters &mdash; mlr - Machine Learning in R</title>
+    <link rel="stylesheet" href="../_static/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="mlr - Machine Learning in R" href="../index.html" />
+    <link rel="up" title="Tutorial" href="index.html" />
+    <link rel="next" title="Integrated learners" href="learner.html" />
+    <link rel="prev" title="Evaluateing Learner Performance" href="performance.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+        <p class="logo"><a href="../index.html">
+            <img class="logo" src="../_static/mlr_logo-120x64.png" alt="mlr logo"/>
+        </a></p>
+        <h1><a href="../index.html">mlr - Machine Learning in R</a></h1>
+        <div class="rel">
+          <a href="performance.html" title="Evaluateing Learner Performance"
+             accesskey="P">previous</a> |
+          <a href="learner.html" title="Integrated learners"
+             accesskey="N">next</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tuning-hyperparamaters">
+<h1>Tuning hyperparamaters<a class="headerlink" href="#tuning-hyperparamaters" title="Permalink to this headline">¶</a></h1>
+<p>Many classification algorithms feature a set of hyperparameters that
+either need to be selected by the user or through resampling,
+e.g. cross-validation. Setting them by hand was already covered in the
+section about <a class="reference external" href=":doc:`tutorial/train`">training</a> and <a class="reference external" href=":doc:`tutorial/resample`">resampling</a> &#8211; simply use the
+<tt class="docutils literal"><span class="pre">par.val</span></tt> argument in the <a class="reference external" href="_static/rdocs/mlr/train.html">train</a> or <a class="reference external" href="_static/rdocs/mlr/resample.html">resample</a> methods.</p>
+<p>Assuming, you have understood how <a class="reference external" href=":doc:`tutorial/resample`">resampling</a> works, works, it is
+quite simple to implement a grid search, which is one of the standard
+&#8211; albeit slow &#8211; ways to choose an appropriate set of parameters from a
+given range of values.</p>
+<blockquote>
+<div><img alt="Variable selection as a tuning." class="align-middle" src="../_images/tune-varsel_processing4.png" style="width: 50em;" /></div></blockquote>
+<div class="section" id="classification-example">
+<h2>Classification example<a class="headerlink" href="#classification-example" title="Permalink to this headline">¶</a></h2>
+<p>We again use the <tt class="docutils literal"><span class="pre">iris</span></tt> data set included in R, but now we want to
+tune a SVM with a polynomial kernel.</p>
+<p>We start by loading the <strong>mlr</strong> package and creating a classification
+task, just like in the tutorial on <a class="reference external" href=":doc:`tutorial/train`">training</a>:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlrTune&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> ct <span class="o">&lt;-</span> makeClassifTask<span class="p">(</span>data <span class="o">=</span> iris<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Species&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next we need to create a <a class="reference external" href="_static/rdocs/mlrTune/ParameterSet-class.html">ParameterSet</a> object which describes the
+parameter space we wish to search in. Since we will use a grid search
+strategy, we a discrete parameter for the <cite>C`and `sigma</cite> parameter of
+the SVM to the parameter set.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> pars <span class="o">&lt;-</span> makeParameterSet<span class="p">(</span>makeDiscreteParameter<span class="p">(</span><span class="s">&quot;C&quot;</span><span class="p">,</span> <span class="m">2</span><span class="o">^</span><span class="p">(</span><span class="m">-1</span>:<span class="m">1</span><span class="p">)),</span>
+<span class="o">+</span>     makeDiscreteParameter<span class="p">(</span><span class="s">&quot;sigma&quot;</span><span class="p">,</span> <span class="m">2</span><span class="o">^</span><span class="p">(</span><span class="m">-1</span>:<span class="m">1</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>We will use cross-validation to assess the quality of a parameter
+combination. For this we need to create a resampling description just
+like in the <a class="reference external" href=":doc:`tutorial/resample`">resampling</a> part of the tutorial:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> res <span class="o">&lt;-</span> makeResampleDesc<span class="p">(</span><span class="s">&quot;CV&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Before we can actually tune our classifier, we need an instance of a
+<a class="reference external" href="_static/rdocs/mlrTune/TuneControl-class.html">TuneControl</a> object. These describe the optimization strategy
+used. Here we use a grid search:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> gridControl <span class="o">&lt;-</span> makeTuneControlGrid<span class="p">()</span>
+</pre></div>
+</div>
+<p>Finally, by combining all the previous pieces we can tune the SVM
+using our <a class="reference external" href="_static/rdocs/mlrTune/TuneControl-class.html">TuneControl</a> instance using the resampling strategy
+described by the <tt class="docutils literal"><span class="pre">res</span></tt> variable.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> tune<span class="p">(</span><span class="s">&quot;classif.ksvm&quot;</span><span class="p">,</span> task <span class="o">=</span> ct<span class="p">,</span> resampling <span class="o">=</span> res<span class="p">,</span> par.set <span class="o">=</span> pars<span class="p">,</span>
+<span class="o">+</span>     control <span class="o">=</span> gridControl<span class="p">)</span>
+Opt. pars:  C<span class="o">=</span><span class="m">0.5</span><span class="p">,</span>sigma<span class="o">=</span><span class="m">0.5</span>
+ mmce.test.mean<span class="o">=</span><span class="m">0.04</span> mmce.test.sd<span class="o">=</span><span class="m">0.0693</span>
+</pre></div>
+</div>
+<p>Let&#8217;s take another closer look example above. The parameter grid has
+to be a named list, where every entry has to be named according to the
+corresponding parameter of the underlying R function (in this case
+&#8220;ksvm&#8221; from the kernlab package, see its respective help page).  Its
+value is a vector of feasible values for this hyperparameter. The
+complete grid is just the cross-product of all feasible values.</p>
+<p>(Please note that with ksvm we encounter a somewhat special case, as
+the parameters should be passed through the &#8220;kernel&#8221; and &#8220;kpar&#8221;
+structures.  To make this simpler, t.svm allows direct passing. Again,
+see documentation.)</p>
+<p>Tune now simply performs the cross-validation for every element of the
+cross-product and selects the one with the best mean performance
+measure.</p>
+<p>SVMs exhibit another special case with regard to tuning, as one
+generally does not want to optimize over a complete cross-product,
+when using different kernels with different kernel parameters. mlr
+therefore allows &#8220;ranges&#8221; to be a list of ranges: &lt;br&gt; Let&#8217;s tune SVMs
+with polynomial and gaussian kernels on iris</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> ct <span class="o">&lt;-</span> make.task<span class="p">(</span>data <span class="o">=</span> iris<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Species&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> r1 <span class="o">&lt;-</span> list<span class="p">(</span>C <span class="o">=</span> c<span class="p">(</span><span class="m">0.5</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span> kernel <span class="o">=</span> <span class="s">&quot;polydot&quot;</span><span class="p">,</span> degree <span class="o">=</span> <span class="m">1</span>:<span class="m">3</span><span class="p">)</span>
+<span class="o">&gt;</span> r2 <span class="o">&lt;-</span> list<span class="p">(</span>C <span class="o">=</span> c<span class="p">(</span><span class="m">0.5</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span> kernel <span class="o">=</span> <span class="s">&quot;rbfdot&quot;</span><span class="p">,</span> sigma <span class="o">=</span> c<span class="p">(</span><span class="m">0.1</span><span class="p">,</span>
+<span class="o">+</span>     <span class="m">0.2</span><span class="p">,</span> <span class="m">0.3</span><span class="p">))</span>
+<span class="o">&gt;</span> res <span class="o">&lt;-</span> make.res.desc<span class="p">(</span><span class="s">&quot;cv&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+<span class="o">&gt;</span> r <span class="o">&lt;-</span> list<span class="p">(</span>r1<span class="p">,</span> r2<span class="p">)</span>
+<span class="o">&gt;</span> gridControl <span class="o">&lt;-</span> makeTuneControlGrid<span class="p">(</span>ranges <span class="o">=</span> r<span class="p">)</span>
+<span class="o">&gt;</span> tune<span class="p">(</span><span class="s">&quot;classif.ksvm&quot;</span><span class="p">,</span> ct<span class="p">,</span> res<span class="p">,</span> control <span class="o">=</span> gridControl<span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="regression-example">
+<h3>Regression example<a class="headerlink" href="#regression-example" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s tune <cite>k</cite> of a <cite>k</cite>-nearest-neighbor-regression model (implemented
+in package <tt class="docutils literal"><span class="pre">kknn</span></tt>) on the <tt class="docutils literal"><span class="pre">BostonHousing</span></tt> data set.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlbench&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> data<span class="p">(</span>BostonHousing<span class="p">)</span>
+<span class="o">&gt;</span> rt <span class="o">&lt;-</span> makeRegrTask<span class="p">(</span>data <span class="o">=</span> BostonHousing<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;medv&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> pars <span class="o">&lt;-</span> makeParameterSet<span class="p">(</span>makeDiscreteParameter<span class="p">(</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="m">1</span>:<span class="m">7</span><span class="p">))</span>
+<span class="o">&gt;</span> res <span class="o">&lt;-</span> makeResampleDesc<span class="p">(</span><span class="s">&quot;cv&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+<span class="o">&gt;</span> gridControl <span class="o">&lt;-</span> makeTuneControlGrid<span class="p">()</span>
+<span class="o">&gt;</span> tune<span class="p">(</span><span class="s">&quot;regr.kknn&quot;</span><span class="p">,</span> task <span class="o">=</span> rt<span class="p">,</span> resampling <span class="o">=</span> res<span class="p">,</span> par.set <span class="o">=</span> pars<span class="p">,</span>
+<span class="o">+</span>     control <span class="o">=</span> gridControl<span class="p">,</span> measures <span class="o">=</span> mse<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+<h3>Table Of Contents</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="train.html">Training a learner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="predict.html">Predicting Outcomes for New Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resample.html">Resampling Learners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html">Evaluateing Learner Performance</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Tuning hyperparamaters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classification-example">Classification example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#regression-example">Regression example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="learner.html">Integrated learners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variable_selection.html">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_experiments.html">Benchmark Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_analysis.html">Benchmark Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roc_analysis.html">ROC Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concept/index.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">How-Tos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrated_learners.html">Integrated Learners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../literature.html">Relevant Literature</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="performance.html" title="Evaluateing Learner Performance"
+             >previous</a> |
+          <a href="learner.html" title="Integrated learners"
+             >next</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2010-2011, Bernd Bischl et.al..
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

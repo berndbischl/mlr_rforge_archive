@@ -1,0 +1,74 @@
+Integrated learners
+===================
+
+Introduction
+------------
+
+These classes provide a unified interface to all
+classification/regression methods in R. Some are already integrated,
+others are not, but the package is specifically designed to make
+extensions simple. If one of your favorite methods is missing, either
+send the **mlr** maintainers an email or see the part of the tutorial
+on how to extend the package yourself.
+  
+To see which learners are already implemented, type
+learners_ in your R console.
+
+You have two options to access the learning algorithms in **mlr**.  Either
+by passing the name as a string to the appropriate method or by
+constructing the Learner_ object explicitly by means of the
+makeLearner_ factory method:
+  
+Classificarion Example
+......................
+
+Let's take a look at the iris example to show the two different
+possibilities. We start by loading the **mlr** package:
+
+<<>>=
+library("mlr")
+@ 
+
+Next, we create a classification task. A classification task describes
+our classification problem. Apart from the madatory `data` and
+`target` argument, the makeClassifTask_ help page list several other
+arguments that can be passed to describe further details of the
+classification problem.
+
+<<>>=
+ct <- makeClassifTask(data=iris, target="Species")
+@ 
+
+We can inspect the classification task at any time to get a
+description of it by printing it in the R console:
+
+<<>>=
+ct
+@ 
+
+Given a classification task we can now train a learner. There are two
+ways to do this. The first way directly passes the name of the
+classifier as a string to the `train` method
+
+<<>>=
+wm <- train("classif.lda", ct)
+@ 
+
+Alternativly we can create a `Learner` object and then pass this into
+the `train` method
+
+<<>>=
+wl <- makeLearner("classif.rpart")
+wm <- train(wl, ct)
+@                 
+
+Now lets see what information is contained in `wm`
+
+<<>>=
+wm
+@ 
+
+.. _Learner: _static/rdocs/mlr/Learner-class.html
+.. _learners: _static/rdocs/mlr/learners.html
+.. _makeClassifTask: _static/rdocs/mlr/makeClassifTask.html
+.. _makeLearner: _static/rdocs/mlr/makeLearner.html

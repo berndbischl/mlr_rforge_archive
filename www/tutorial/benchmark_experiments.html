@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Benchmark Experiments &mdash; mlr - Machine Learning in R</title>
+    <link rel="stylesheet" href="../_static/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="mlr - Machine Learning in R" href="../index.html" />
+    <link rel="up" title="Tutorial" href="index.html" />
+    <link rel="next" title="Benchmark Analysis" href="benchmark_analysis.html" />
+    <link rel="prev" title="Variable Selection" href="variable_selection.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+        <p class="logo"><a href="../index.html">
+            <img class="logo" src="../_static/mlr_logo-120x64.png" alt="mlr logo"/>
+        </a></p>
+        <h1><a href="../index.html">mlr - Machine Learning in R</a></h1>
+        <div class="rel">
+          <a href="variable_selection.html" title="Variable Selection"
+             accesskey="P">previous</a> |
+          <a href="benchmark_analysis.html" title="Benchmark Analysis"
+             accesskey="N">next</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="benchmark-experiments">
+<h1>Benchmark Experiments<a class="headerlink" href="#benchmark-experiments" title="Permalink to this headline">¶</a></h1>
+<p>In order to get an unbiased estimate of the performance on new data,
+it is generally not enough to simply use repeated cross-validations
+for a given set of hyperparameters and methods (see <a class="reference internal" href="tune.html"><em>tuning</em></a>), as this might produce an overly optimistic result.</p>
+<p>A better (although more time-consuming) approach is nesting two
+resampling methods.  To make the explanation easier, let&#8217;s take
+cross-validations, in this case also called &#8220;double cross-validation&#8221;.
+In the so called &#8220;outer&#8221; cross-validation the data is split repeatedly
+into a (larger) training set and a (smaller) test set in the usual
+way. Now, in every outer iteration the learner is tuned on the
+training set by performing an &#8220;inner&#8221; cross-validation. The best found
+hyperparameters are selected, with these the learner is fitted to the
+complete &#8220;outer&#8221; training set and the resulting model is used to
+access the (outer) test set.  This results in much more reliable
+estimates of true performance distribution of the learner for unseen
+data.  These can now be used to estimate locations (e.g. of the mean
+or median performance value) and to compare learning methods in a fair
+way.</p>
+<p>In the following we will see four examples to show different benchmark settings:</p>
+<p># One data set  +       two classification algorithms&lt;/li&gt;
+# One data set  +       one classification algorithm    +       tuning
+# Three data sets       +       three classification algorithms +       tuning
+# One data set  +       two classification algorithms   +       variable selection</p>
+<p>In general, benchmark experiments are constructed as the following graphic shows:</p>
+<blockquote>
+<div><img alt="Benchmark processing pipeline" class="align-middle" src="../_images/benchmark_processing4.png" style="width: 40em;" /></div></blockquote>
+<div class="section" id="example-1-one-task-two-learners-no-tuning">
+<h2>Example 1: One task, two learners, no tuning<a class="headerlink" href="#example-1-one-task-two-learners-no-tuning" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> ct <span class="o">&lt;-</span> make.task<span class="p">(</span>data <span class="o">=</span> iris<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Species&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> learners <span class="o">&lt;-</span> c<span class="p">(</span><span class="s">&quot;classif.lda&quot;</span><span class="p">,</span> <span class="s">&quot;classif.qda&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> res <span class="o">&lt;-</span> make.res.desc<span class="p">(</span><span class="s">&quot;cv&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+<span class="o">&gt;</span> result <span class="o">&lt;-</span> bench.exp<span class="p">(</span>learners<span class="p">,</span> ct<span class="p">,</span> res<span class="p">)</span>
+</pre></div>
+</div>
+<p>The above code should be mainly self-explanatory. In the result every
+column corresponds to one learner.  The entries show the mean test
+error and its standard deviation for the final fitted model.&lt;/P&gt;</p>
+<p>But the Benchmark result contains much more information, which you can
+access if you want to see details.  Let&#8217;s have a look to the benchmark
+result from the example above:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> result<span class="p">[</span><span class="s">&quot;perf&quot;</span><span class="p">]</span>
+<span class="o">&gt;</span> result<span class="p">[</span><span class="s">&quot;conf.mats&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-2-one-task-one-learner-tuning">
+<h2>Example 2: One task, one learner, tuning<a class="headerlink" href="#example-2-one-task-one-learner-tuning" title="Permalink to this headline">¶</a></h2>
+<p>Now we have a learner with hyperparameters and we want to find out,
+which are the best ones. In that case we have two resampling levels.</p>
+<p>We show an example with outer bootstrap and inner cross-validation,
+our learner will be k-nearest-neighbor.
+.. code-block:: r</p>
+<blockquote>
+<div>&gt; ct &lt;- make.task(data = iris, target = &#8220;Species&#8221;)
+&gt; r &lt;- list(k = 1:5)
+&gt; inner.res &lt;- make.res.desc(&#8220;cv&#8221;, iters = 3)
+&gt; knn.tuner &lt;- make.tune.wrapper(&#8220;classif.kknn&#8221;, resampling = inner.res,
++     control = grid.control(ranges = r))
+&gt; res &lt;- make.res.desc(&#8220;bs&#8221;, iters = 5)
+&gt; result &lt;- bench.exp(knn.tuner, ct, res, measure = &#8220;acc&#8221;)
+&gt; result[&#8220;perf&#8221;]
+&gt; result[&#8220;tuned.par&#8221;]
+&gt; result[&#8220;conf.mats&#8221;]</div></blockquote>
+<p>Of course everything works the same way if we exchange the resampling
+strategy either in the outer or inner run.  They can be freely
+mixed.</p>
+</div>
+<div class="section" id="example-3-three-tasks-three-learners-tuning">
+<h2>Example 3: Three tasks, three learners, tuning<a class="headerlink" href="#example-3-three-tasks-three-learners-tuning" title="Permalink to this headline">¶</a></h2>
+<p>Extensive example which shows a benchmark experiment with three data
+sets, three learner and tuning.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;dprep&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlbench&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> data<span class="p">(</span>BreastCancer<span class="p">)</span>
+<span class="o">&gt;</span> data<span class="p">(</span>Vehicle<span class="p">)</span>
+<span class="o">&gt;</span> ct1 <span class="o">&lt;-</span> make.task<span class="p">(</span><span class="s">&quot;Iris&quot;</span><span class="p">,</span> data <span class="o">=</span> iris<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Species&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> ct2 <span class="o">&lt;-</span> make.task<span class="p">(</span><span class="s">&quot;Vehicle&quot;</span><span class="p">,</span> data <span class="o">=</span> Vehicle<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Class&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> ct3 <span class="o">&lt;-</span> make.task<span class="p">(</span><span class="s">&quot;BreastCancer&quot;</span><span class="p">,</span> data <span class="o">=</span> na.omit<span class="p">(</span>BreastCancer<span class="p">),</span>
+<span class="o">+</span>     target <span class="o">=</span> <span class="s">&quot;Class&quot;</span><span class="p">,</span> excluded <span class="o">=</span> <span class="s">&quot;Id&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> tasks <span class="o">=</span> list<span class="p">(</span>ct1<span class="p">,</span> ct2<span class="p">,</span> ct3<span class="p">)</span>
+<span class="o">&gt;</span> r <span class="o">&lt;-</span> list<span class="p">(</span>C <span class="o">=</span> <span class="m">2</span><span class="o">^</span>seq<span class="p">(</span><span class="m">-1</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> sigma <span class="o">=</span> <span class="m">2</span><span class="o">^</span>seq<span class="p">(</span><span class="m">-1</span><span class="p">,</span> <span class="m">1</span><span class="p">))</span>
+<span class="o">&gt;</span> inner.res <span class="o">&lt;-</span> make.res.desc<span class="p">(</span><span class="s">&quot;cv&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+<span class="o">&gt;</span> svm.tuner <span class="o">&lt;-</span> make.tune.wrapper<span class="p">(</span><span class="s">&quot;classif.ksvm&quot;</span><span class="p">,</span> method <span class="o">=</span> <span class="s">&quot;grid&quot;</span><span class="p">,</span>
+<span class="o">+</span>     resampling <span class="o">=</span> inner.res<span class="p">,</span> control <span class="o">=</span> grid.control<span class="p">(</span>ranges <span class="o">=</span> r<span class="p">))</span>
+<span class="o">&gt;</span> learners <span class="o">&lt;-</span> c<span class="p">(</span><span class="s">&quot;classif.lda&quot;</span><span class="p">,</span> <span class="s">&quot;classif.rpart&quot;</span><span class="p">,</span> svm.tuner<span class="p">)</span>
+<span class="o">&gt;</span> res <span class="o">&lt;-</span> make.res.desc<span class="p">(</span><span class="s">&quot;cv&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+<span class="o">&gt;</span> result <span class="o">&lt;-</span> bench.exp<span class="p">(</span>learners<span class="p">,</span> tasks<span class="p">,</span> res<span class="p">)</span>
+<span class="o">&gt;</span> result<span class="p">[</span><span class="s">&quot;perf&quot;</span><span class="p">,</span> task <span class="o">=</span> <span class="s">&quot;Iris&quot;</span><span class="p">]</span>
+<span class="o">&gt;</span> result<span class="p">[</span><span class="s">&quot;perf&quot;</span><span class="p">,</span> learner <span class="o">=</span> <span class="s">&quot;classif.lda&quot;</span><span class="p">]</span>
+<span class="o">&gt;</span> result<span class="p">[</span><span class="s">&quot;tuned.par&quot;</span><span class="p">,</span> learner <span class="o">=</span> <span class="s">&quot;classif.ksvm&quot;</span><span class="p">]</span>
+<span class="o">&gt;</span> result<span class="p">[</span><span class="s">&quot;conf.mats&quot;</span><span class="p">,</span> learner <span class="o">=</span> <span class="s">&quot;classif.rpart&quot;</span><span class="p">,</span> task <span class="o">=</span> <span class="s">&quot;BreastCancer&quot;</span><span class="p">]</span>
+<span class="o">&gt;</span> result<span class="p">[</span><span class="s">&quot;opt.perf&quot;</span><span class="p">,</span> learner <span class="o">=</span> <span class="s">&quot;classif.ksvm&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-4-one-task-two-learners-variable-selection">
+<h2>Example 4: One task, two learners, variable selection<a class="headerlink" href="#example-4-one-task-two-learners-variable-selection" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s see how we can do <a class="reference internal" href="variable_selection.html"><em>variable selection</em></a> in
+an benchmark experiment:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> ct <span class="o">&lt;-</span> make.task<span class="p">(</span><span class="s">&quot;iris&quot;</span><span class="p">,</span> data <span class="o">=</span> iris<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Species&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> ctrl <span class="o">&lt;-</span> seq.control<span class="p">(</span>beta <span class="o">=</span> <span class="m">100</span><span class="p">,</span> method <span class="o">=</span> <span class="s">&quot;sfs&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> inner <span class="o">&lt;-</span> make.res.desc<span class="p">(</span><span class="s">&quot;cv&quot;</span><span class="p">,</span> iter <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+<span class="o">&gt;</span> vs <span class="o">&lt;-</span> make.varsel.wrapper<span class="p">(</span><span class="s">&quot;classif.lda&quot;</span><span class="p">,</span> resampling <span class="o">=</span> inner<span class="p">,</span>
+<span class="o">+</span>     control <span class="o">=</span> ctrl<span class="p">)</span>
+<span class="o">&gt;</span> learners <span class="o">&lt;-</span> c<span class="p">(</span><span class="s">&quot;classif.rpart&quot;</span><span class="p">,</span> vs<span class="p">)</span>
+<span class="o">&gt;</span> res <span class="o">&lt;-</span> make.res.desc<span class="p">(</span><span class="s">&quot;subsample&quot;</span><span class="p">,</span> iter <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+<span class="o">&gt;</span> be <span class="o">&lt;-</span> bench.exp<span class="p">(</span>tasks <span class="o">=</span> ct<span class="p">,</span> learners <span class="o">=</span> learners<span class="p">,</span> resampling <span class="o">=</span> res<span class="p">)</span>
+<span class="o">&gt;</span> be<span class="p">[</span><span class="s">&quot;sel.var&quot;</span><span class="p">,</span> learner <span class="o">=</span> <span class="s">&quot;classif.lda&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+<h3>Table Of Contents</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="train.html">Training a learner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="predict.html">Predicting Outcomes for New Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resample.html">Resampling Learners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html">Evaluateing Learner Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tune.html">Tuning hyperparamaters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="learner.html">Integrated learners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variable_selection.html">Variable Selection</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Benchmark Experiments</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-1-one-task-two-learners-no-tuning">Example 1: One task, two learners, no tuning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-2-one-task-one-learner-tuning">Example 2: One task, one learner, tuning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-3-three-tasks-three-learners-tuning">Example 3: Three tasks, three learners, tuning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-4-one-task-two-learners-variable-selection">Example 4: One task, two learners, variable selection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_analysis.html">Benchmark Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roc_analysis.html">ROC Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concept/index.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">How-Tos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrated_learners.html">Integrated Learners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../literature.html">Relevant Literature</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="variable_selection.html" title="Variable Selection"
+             >previous</a> |
+          <a href="benchmark_analysis.html" title="Benchmark Analysis"
+             >next</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2010-2011, Bernd Bischl et.al..
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

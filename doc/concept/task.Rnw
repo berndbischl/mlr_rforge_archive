@@ -1,0 +1,148 @@
+Tasks
+=====
+
+Learning tasks are the basic element of the package to encapsulate the
+data set and all relevant information regarding the purpose of the
+task. This will be at least the target variable, but might also be
+information about excluded (ID) variables or case weights.
+
+Currently two subclasses of a LearnTask_ exist, ClassifTask_ for
+classification problems and RegrTask_ for regression.  A
+classification task is created by using the makeClassifTask_ factory
+method. The target variable is converted to a factor if it is a
+logical, integer or character vector. Accordingly use makeRegrTask_
+for defining a regression task. The target variable is converted to a
+numeric.
+
+              |learn_task|
+
+Classification example
+----------------------
+
+In the following example we define a classification task for the data
+set BreastCancer (from the package mlbench) and exclude the ID
+variable from all further model fitting and evaluation.
+
+<<>>=
+library("mlr")
+library("mlbench")
+data(BreastCancer)
+
+ct <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id")
+@ 
+
+Now let us examine the created task:
+
+<<>>=
+ct
+@ 
+
+he now defined task contains basic information about the data,
+e.g. the types of features, the number of observations and the number
+of missing values, as well as the classification problem, e.g. the
+name of the target variable and the number of observations per class.
+
+As this is a binary problem, we see that a positive class is selected
+by default. This will generally be the first class in the factor
+levels of the target. You probably want to select this manually for
+your applications.
+
+<<>>=
+ct <- makeClassifTask(data = BreastCancer, target = "Class", 
+                      exclude = "Id", positive = "malignant")
+@ 
+
+There are some convenience methods to access properties of the data
+set and the classification problem. Look at the documentation of the
+LearnTask_ class <a and its subclasses ClassifTask_ and RegrTask_, if
+you are interested in what kind of those "getter"-functions are
+available. Here are some examples:
+
+<<>>=
+## Get the names of the input variables - same for regression.
+getFeatureNames(ct)
+
+## Get values of the target variable for all observations - same for regression.
+head(getTargets(ct))
+
+## Get the class labels.		 
+getClassLevels(ct)	
+@ 
+
+All information can be obtained from the slots of the LearnTask_
+object directly.
+
+The main part of the information is stored in the slot called desc,
+which stands for description. `ct@desc` is an object of class TaskDesc_.
+
+<<>>=
+ct@desc
+str(ct@desc)
+
+ct@desc@type
+ct@desc@size
+@ 
+
+Optionally we can include further information like observation weights
+or a blocking factor into the task.  Via the blocking argument you can
+specify if some observations "belong together".  Specifically, they
+are either put all in the training or the test set during a resampling
+iteration. The blocking argument is a factor of the same length as
+the number of observations in the data set where observations with the
+same factor level belong to the same block.
+
+Include observation weights in order to upweight class "malignant"
+with factor 3:
+
+<<>>=
+w <- c(1,3)[BreastCancer$Class]
+ct <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id", 
+                      positive = "malignant", weights = w)
+head(ct@weights)
+@ 
+
+Now lets include a (nonsensical) blocking structure:
+
+<<>>=
+blocking <- factor(rep(1:3, nrow(BreastCancer)/3))
+ct <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id", 
+                      blocking = blocking)
+head(ct@blocking)
+table(ct@blocking)
+@ 
+
+From this classification task we can now train various models, which
+will be covered in the section <a href="train.html">Training </a>.
+Before that, let's look at a regression experiment.
+
+Regression example
+------------------
+
+<<>>=
+## We will generally take the BostonHousing data set as regression example.
+library(mlbench); data(BostonHousing)
+rt <- makeRegrTask(data = BostonHousing, target = "medv")
+rt
+	
+## The rest works analogous to the classification task.
+## Access more information: 
+
+## Get the names of the input variables.
+getFeatureNames(rt)
+
+## Get target values for all observations.
+head(getTargets(rt))
+
+## Inspect <a href="rdocs/TaskDesc.html">TaskDesc</a>.
+rt@desc@target
+@ 
+
+.. _LearnTask: /_static/rdocs/mlr/LearnTask-class.html
+.. _TaskDesc: /_static/rdocs/mlr/TaskDesc-class.html
+.. _ClassifTask: /_static/rdocs/mlr/ClassifTask-class.html
+.. _RegrTask: /_static/rdocs/mlr/RegrTask-class.html
+.. _makeClassifTask: /_static/rdocs/mlr/makeClassifTask.html
+.. _makeRegrTask: /_static/rdocs/mlr/makeRegrTask.html
+.. |learn_task| image:: /_images/learn_task.png
+     :align: middle
+     :width: 40em

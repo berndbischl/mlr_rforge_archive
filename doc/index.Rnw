@@ -1,0 +1,83 @@
+Machine Learning in R (mlr)
+===========================
+
+.. warning::
+
+  Both the package **mlr** as well as its documentation are Very much
+  work in progress. Please check back often for updates until we release
+  a version to CRAN. We plan to do this real soon now.
+
+.. toctree::
+   :hidden:
+   
+   tutorial/index
+   concept/index
+   howto/index
+   integrated_learners
+   faq
+   glossary
+   changes
+   literature
+
+Motivation
+==========
+
+There is no standardized interface for all the classification and
+regression techniques available for R. Therefore, for any non-trivial
+machine learning experiments, you need to write lengthy, tedious and
+error-prone wrappers to call the different algorithms and unify their
+respective output. Additionally you need to implement infrastructure
+to cope with pre- and post-processing of the results, parallelizing
+your experiment. This often forces useRs to make crummy trade-offs in
+their experiments due to time constraints. **mlr** provides this
+infrastrukture so that you can focus on your experiments!
+
+Features
+""""""""
+
+* Clear S4 interface to R classification methods
+* Easy extension mechanism through S4 inheritance
+* Abstract description of learners and data by properties 
+* Description of data generating process 
+* Many convenience methods and generic building blocks for your
+  machine learning experiments
+* Resampling like bootstrapping, cross-validation and subsampling 
+* Easy hyperparameter tuning using different optimization strategies
+* Variable selection 
+* Benchmark experiments with two levels of resampling 
+* Interface to benchmark package for exploration and inference
+* Easy extension mechanism through S4 inheritance for new methods
+* Parallelization built in
+* Growing collection of :doc:`tutorials <tutorial/index>` and examples
+* Unit-tested using RUnit_
+
+Outlook
+"""""""
+
+* Meta-optimization of hyperparamters and features by sequential methods
+* Different approaches for model selection, maybe also Races
+* Clustering 
+
+Installation
+""""""""""""
+
+Currently the package is available from R-Forge_. You can install the
+current developer snapshot from within R by running:
+
+<<eval=FALSE>>=
+install.packages("mlr",repos="http://R-Forge.R-project.org")
+@ 
+
+Project Link-List
+"""""""""""""""""
+
+* :doc:`tutorial/index`
+* List of the :doc:`integrated_learners`
+* List of :doc:`howto/index`
+* List of :doc:`concept/index`
+* R-Forge_ project page
+* Bugtracker_
+
+.. _Bugtracker: https://r-forge.r-project.org/tracker/?atid=2012&group_id=494&func=browse
+.. _RUnit: https://sourceforge.net/projects/runit/
+.. _R-Forge: http://r-forge.r-project.org/projects/mlr/

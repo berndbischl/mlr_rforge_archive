@@ -1,0 +1,43 @@
+Tutorial
+========
+
+.. toctree::
+   :maxdepth: 1
+   
+   train
+   predict
+   resample
+   performance
+   tune
+   learner
+   variable_selection
+   benchmark_experiments
+   benchmark_analysis
+   roc_analysis
+   
+This web page will provide you with an in-depth introduction on how to
+use the **mlr** package for machine learning experiments and
+optimization in R.
+
+Our focus is on your comprehension of the basic functions and
+applications.
+
+For detailed technical information and manual pages please refer to
+the packages `manual pages`_ 
+
+The approach is step by step and orients itself on the proceeding of a
+basic data set analysis: 
+
+* What is your data and the aim of your analysis?  
+* How do you select learning algorithms and set them up? 
+* What about hyperparameters?  
+* How to predict new data?  
+* How to evaluate my model and its predictions?
+
+We present various simple examples from classification and regression
+during this tutorial to illustrate the main features of the
+package.
+
+Enjoy reading!
+
+.. _manual pages: /_static/rdocs/mlr/00Index.html

@@ -1,0 +1,134 @@
+Evaluateing Learner Performance
+===============================
+
+The quality of predictions in mlr can be assessed w.r.t some
+performance measure or - more seldom - w.r.t. some loss function,
+which makes individual losses for all observations accessible.
+
+Typical performance measures are mean misclassification error (MMCE),
+accuracy or the ones based on ROC analysis for classification and mean
+of squared errors (MSE) or absolute errors for regression. Those
+measures aggregate the individual losses of predicted and true values
+to one number.  It is also possible to access the time to train model,
+the time to compute the prediction and their sum as performance
+measures.
+
+In contrast to that, loss functions do not merge information, but
+compute transformations for every loss, i.e.  the difference between
+the prediction and its corresponding true label/value.  Possible loss
+functions are the squared difference, the absolute one (for
+regression) or the zero-one loss (for classification).
+
+To see which performance measures and losses are implemented, have a
+look at measures_ or losses_.
+
+Classification example
+----------------------
+
+<<>>=
+library("mlr")
+
+ct <- makeClassifTask(data = iris, target = "Species")
+wm <- train("classif.lda", task = ct, subset = seq(1,150,2))
+p <- predict(wm, task = ct, subset = seq(2,150,2))
+@ 
+
+Compare predicted and true label with performance measure mean misclassification error (MMCE) 
+
+<<>>=
+performance(p, measure = mmce)
+@ 
+	
+Let's have a look at some more performance measures:
+
+<<>>=
+measure_names <- c("mmce", "acc", "timetrain", "timepredict", "timeboth")
+
+## FIXME: This should be easier. makeMeasure should probably deal with this so 
+## that it is consitent with makeLearner et.al.
+measures <- Map(function(name) get(name, envir=getNamespace("mlr")), 
+                measure_names)
+
+perf <- Map(function(measure) performance(p, measure, model=wm), measures)
+perf
+@
+
+Regression example
+------------------
+
+Very analogous to above example
+
+<<>>=
+library(mlbench)
+data(BostonHousing)
+
+rt <- makeRegrTask(data = BostonHousing, target = "medv")
+
+## Training and test set indices 
+train.set <- seq(from = 1, to = nrow(BostonHousing), by = 2)
+test.set <- seq(from = 2, to = nrow(BostonHousing), by = 2)
+
+## Gradient Boosting Machine on training set 
+wl <- makeLearner("regr.gbm", n.trees = 1000)
+wm <- train("regr.gbm", rt, subset = train.set) 
+
+## Prediction on test set data 
+p <- predict(wm, newdata = BostonHousing[test.set,])
+
+## Compare predicted and true label with measure MSE 
+performance(p, measure = mse)
+@    
+
+Evaluation of Predictions after Resampling
+------------------------------------------
+
+When you use some resampling strategy (for details see
+:doc:`/tutorial/resample` ), **mlr** offers the following
+possibilities to evaluate your predictions: Every single resampling
+iteration is handled as described in the explanation above, i.e. you
+train a model on a training part of the data set, predict on test set
+and compare predicted and true label w.r.t. some performance
+measure. This is proceeded for every iteration so that you have
+e.g. ten performance values in the case of 10-fold cross-validation.
+The question arises, how to aggregate those values. You can specify
+that explicitly, the default is the mean.  Let's have a look at an
+example 
+
+Classification example
+......................
+
+Again, we create a classification task for the Iris data set and use
+10-fold cross-validation to evaluate the learner:
+
+<<>>=
+ct <- makeClassifTask(data = iris, target = "Species")
+res <- makeResampleDesc("CV", iters = 10)
+res <- makeResampleInstance(res, ct)
+@ 
+
+Now we fit a decision tree for each fold and measure both the mean misclassification error (`mmce`) and the accuracy (`acc`):
+
+<<>>=
+p <- resample("classif.rpart", task = ct, resampling = res, measures = list(mmce, acc))
+@
+
+If we want to see the individual values for each fold on the test set, we can access the `measures.test` element of the result list:
+
+<<>>=
+p$measures.test
+@ 
+
+To aggregated performance values are stored in the `aggr` list element:
+
+<<>>=
+p$aggr
+@ 
+
+As you can see above, in every fold of the 3-fold cross-validation you
+get one mean misclassification error (0.06, 0.08, 0.10) and after all
+three runs you aggregate them by mean to one value (0.08).  Having a
+look at the single losses is of course possible as well.???
+
+
+.. _measures: /_static/rdoc/mlr/measures.html
+.. _losses: /_static/rdoc/mlr/losses.html
