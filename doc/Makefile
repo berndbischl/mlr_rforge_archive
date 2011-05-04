@@ -47,7 +47,7 @@ Rnw2rst: $(RSTFILES)
 	@Rscript --vanilla -e "library(\"ascii\"); ReST(\"$<\", output=\"$@\")" > /dev/null 2> $(<:.Rnw=.log)
 
 _static/rdocs:
-        mkdir $@
+	mkdir $@
 
 _static/rdocs/mlr: _static/rdocs/
 	mkdir $@
