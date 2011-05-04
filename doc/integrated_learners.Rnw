@@ -2,8 +2,9 @@ Integrated Learners
 ===================
 
 <<echo=FALSE,results=hide>>=
-## FUCK gbm and its startup banner!
+## Stupid startup banners! GAH!
 library("gbm")
+library("grplasso")
 
 printf <- function(format, ...) cat(sprintf(format, ...), "\n")
 
@@ -12,13 +13,14 @@ show_learners <- function(learners) {
   
   for (learner in learners) {
     l <- makeLearner(learner)
-    package_link <- if (l@pack != "stats") {
+    package_link <- if (all(l@pack != "stats")) {
       sprintf("`%s <http://cran.r-project.org/web/packages/%s/index.html>`_",
               l@pack,l@pack)
     } else {
       l@pack
     }
-    
+    package_link <- paste(package_link, collapse=", ")
+
     description <- as.data.frame(c(name=learner, 
                                    package=package_link, 
                                    l@properties))
