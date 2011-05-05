@@ -2,7 +2,8 @@ pack.files = c(
     "_helpers/helpers.R",
     "_helpers/logger.R",
     "mlrVarsel/aaa.R",
-		
+    "mlrVarsel/varsel_helpers.R",
+    
     "mlrVarsel/Filter.R",
     "mlrVarsel/FilterWrapper.R",
 

@@ -1,3 +1,8 @@
+#todo: maxit is cirrently used fdor maxevals, bad name as "iter" is different concept as "eval",
+# also maybe we want to construct the ga control object directly and simply reuse is?
+# 2) sparse format for or$value?=
+# 3) get dob and eol from olaf resul. how?
+
 #' Optimizes the variables for a classification or regression problem by doing multi-criteria optimization.
 #' Currently the SMS-EMOA is used to maximize the hypervolume (S-metric) with binary operators on 
 #' the bit string representation.
@@ -35,7 +40,7 @@
 
 varselMCO = function(learner, task, resampling, measures, bit.names, bits.to.features, control) {
   if (is.character(learner))
-    learner <- makeLearner(learner)
+    learner = makeLearner(learner)
   if (is(resampling, "ResampleDesc") && control@same.resampling.instance)
     resampling = makeResampleInstance(resampling, task=task)
   if (length(measures) < 2)
@@ -49,26 +54,30 @@ varselMCO = function(learner, task, resampling, measures, bit.names, bits.to.fea
   
   n = length(bit.names)
   m = length(measures)
+  print(c(n, m))
   # td: scale all measures to 0,1 and always use ref(1,...,1)  
   # td: put this in varselMOCControl
-  cc=list(
-    maxeval=control$maxeval,
-    ref=c(1, 1, 1),
-    logger=varsel_logger(message),               
-    mu=control$mu,
-    crossover=ubx_operator(0.25),
-    mutate=ubm_operator(0.05)
-  )
+  
+  ga.control = list(mu=control@mu, maxeval=control@maxit, 
+    crossover=ubx_operator(control@cross.prob), mutate=ubm_operator(control@mut.prob))
   
   f = function(x) {
     if (any(is.na(x)))
-      return(rep(NA, n+1))    
-    mlr:::eval.rf(learner, task, resampling, measures, NULL, bits.to.features, control, x)
+      return(rep(NA, m))
+    y = mlr:::eval.rf(learner, task, resampling, measures, NULL, bits.to.features, control, x)
+    return(y)
   }
   
-  or = sms_ga(f, n, ctrl)
-  rownames(or$value) = rownames(or$Y) = c(sapply(measures, function(m) m@id), "bits")
-  p = or$par
-  return(or)
+  or = smsVarselGA(f, n, control=ga.control)
+  oo <<- or
+  opt.path = mlrTune:::makeOptPathFromMeasures(bit.names, measures)
+  x = as.list(as.data.frame(or$X))
+  y = as.list(as.data.frame(or$Y))
+  pp = Map(function(a,b) list(x=a, y=b), x,y)
+  print(str(pp))
+  opt.path@env$path = pp 
+  opt.path@env$dob = rep(NA, control@maxit) 
+  opt.path@env$eol = rep(NA, control@maxit) 
+  return(opt.path)
 }
 
