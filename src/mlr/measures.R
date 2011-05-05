@@ -50,11 +50,12 @@
 measures = function() {}
 
 #general
+#todo: in percent is better 
 #' @export nvars
 #' @rdname measures
 nvars = makeMeasure(id="nvars", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob", "decision"),  
   fun=function(task, model, pred, extra.pars) {
-    length(model["vars"])          
+    length(model@vars)          
   }
 )
 
@@ -62,7 +63,7 @@ nvars = makeMeasure(id="nvars", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.
 #' @rdname measures
 timetrain = makeMeasure(id="timetrain", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob", "decision"), 
   fun=function(task, model, pred, extra.pars) {
-    model["time"]
+    model@time
   }
 )
 
@@ -70,7 +71,7 @@ timetrain = makeMeasure(id="timetrain", minimize=TRUE, classif=TRUE, regr=TRUE, 
 #' @rdname measures
 timepredict = makeMeasure(id="timepredict", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob", "decision"), 
   fun=function(task, model, pred, extra.pars) {
-    pred["time"]
+    pred@time
   }  
 )
 
@@ -78,7 +79,7 @@ timepredict = makeMeasure(id="timepredict", minimize=TRUE, classif=TRUE, regr=TR
 #' @rdname measures
 timeboth = makeMeasure(id="timeboth", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob", "decision"),
   fun=function(task, model, pred, extra.pars) {
-    model["time"] + pred["time"]           
+    model@time + pred@time           
   }  
 )
 

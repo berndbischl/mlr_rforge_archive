@@ -72,34 +72,3 @@ setMethod(
 			)
 		}
 )
-
-
-#' Getter.
-#' @rdname WrappedModel-class
-
-setMethod(
-		f = "[",
-		signature = signature("WrappedModel"),
-		def = function(x,i,j,...,drop) {
-			args = list(...)
-			
-			y = x@desc[i]
-			if (!is.null(y))
-				return(y)
-
-			callNextMethod()
-		}
-)
-
-
-
-
-
-
-
-
-
-
-
-
-
