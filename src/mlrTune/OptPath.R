@@ -78,6 +78,7 @@ as.data.frame.OptPath = function(x) {
 
 #' Convert an optimization path to a list.
 #' @rdname OptPath-class
+#' @export
 setMethod(
   f = "as.list",
   signature = signature("OptPath"),
