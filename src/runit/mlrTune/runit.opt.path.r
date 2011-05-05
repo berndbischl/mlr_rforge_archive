@@ -23,6 +23,8 @@ test.opt.path <- function() {
   checkEquals(nrow(x), 2)
   checkEquals(ncol(x), 6)
   
+  print(op)
+  
 #  op2 = subset(op, dob=1)
 #  checkEquals(length(op@env$path), 2)
 #  checkEquals(length(op2@env$path), 1)
