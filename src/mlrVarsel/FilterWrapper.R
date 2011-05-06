@@ -66,7 +66,7 @@ setMethod(
       if (length(vars) > 0) {
         .task = subset(.task, vars=vars)  
         # !we have already subsetted!
-			  m = trainLearner(.learner@learner, .task, 1:.task["size"], ...)
+			  m = trainLearner(.learner@learner, .task, 1:.task@desc@size, ...)
       } else {
         # !we have already subsetted!
         m = new("novars", targets=getTargets(.task), desc=.task@desc)

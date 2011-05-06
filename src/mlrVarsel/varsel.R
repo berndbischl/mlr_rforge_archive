@@ -41,7 +41,7 @@ varsel <- function(learner, task, resampling, control, measures, bit.names, bits
   if (is(resampling, "ResampleDesc") && control@same.resampling.instance)
     resampling = makeResampleInstance(resampling, task=task)
   if (missing(measures))
-    measures = default.measures(task)
+    measures = mlr:::default.measures(task)
   if (is(measures, "Measure"))
     measures = list(measures)   
   # special case so we can pass something from VarselWrapper

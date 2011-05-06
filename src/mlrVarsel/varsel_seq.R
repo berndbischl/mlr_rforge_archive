@@ -4,7 +4,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
   
   seq.step = function(forward, state, gen.new.states, compare) {
     # we have too many vars already and cannot move forward
-    if (forward && control["max.vars"] <= sum(state$x))
+    if (forward && control@max.vars <= sum(state$x))
       return(NULL)
     xs = gen.new.states(state$x)
     if (length(xs) == 0)
@@ -15,11 +15,11 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     
     best = getBestElement(opt.path, dob=dob)
     # best element lives one iteration longer
-    thresh = ifelse(forward, control["alpha"], control["beta"]) 
+    thresh = ifelse(forward, control@alpha, control@beta) 
     better = compare(state, best, control, measures[[1]], thresh) 
     # if backward step and we have too many vars we do always go to the next best state with one less var.
-    if ((forward && better) || (!forward && (better || sum(state$x) > control["max.vars"]))) {
-      setEoL(opt.path, best$x, dob+1)
+    if ((forward && better) || (!forward && (better || sum(state$x) > control@max.vars))) {
+      mlrTune:::setEoL(opt.path, best$x, dob+1)
       return(best)
     } else {
       return(NULL)
@@ -50,7 +50,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
   
   dim = length(bit.names)
   compare = compare.diff
-  method = control["method"]
+  method = control@method
   
   x = switch(method,
     sfs = rep(0, dim),

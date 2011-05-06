@@ -1,7 +1,7 @@
 varsel.exhaustive = function(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, log.fun) {
   p = length(bit.names)
   states = list(rep(0, p))
-  for (i in 1:min(control["max.vars"], p)) {
+  for (i in 1:min(control@max.vars, p)) {
     x = combn(1:p, i)
     s = lapply(1:ncol(x), function(j) { 
         b = rep(0, p)
