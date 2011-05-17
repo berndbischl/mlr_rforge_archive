@@ -139,7 +139,7 @@ make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binar
   }
   
   if (install) {
-    fs = sort(list.files(pkg.dir, pattern=paste(pack.name, "*tar.gz", sep=".")))
+    fs = sort(list.files(pkg.dir, pattern=paste(pack.name, "_.*tar.gz", sep="")))
     f = fs[length(fs)]
     f = file.path(pkg.dir, f)
     run_command("R CMD INSTALL %s", f, msg="Installing package")
