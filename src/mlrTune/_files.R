@@ -9,6 +9,7 @@ pack.files = c(
     "mlrTune/OptModel.R",
     
     "mlrTune/OptPath.R",
+    "mlrTune/OptPathDF.R",
     "mlrTune/makeDesign.R",
     "mlrTune/myspo/makeSPOFunction.R",
     "mlrTune/myspo/SPOControl.R",

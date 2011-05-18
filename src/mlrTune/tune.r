@@ -64,7 +64,7 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun)
   if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
     stop("No par.set parameter in 'tune' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")        
   
-  opt.path = makeOptPathFromMeasures(names(par.set@pars), measures)
+  opt.path = makeOptPathDFFromMeasures(names(par.set@pars), measures)
   or = sel.func(learner, task, resampling, measures, par.set, control, opt.path, log.fun)
 	return(or)			
 }

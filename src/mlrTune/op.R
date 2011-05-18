@@ -47,7 +47,7 @@ setMethod(
 #' 
 #' @param op [\code{\linkS4class{OptPath}}] \cr 
 #'   Optimization path.  
-#' @param x [list]\cr 
+#' @param x [\code{list}]\cr 
 #'   List of parameter settings for a point in input space. Must be in same order as \code{x.names}.  
 #' @param y [numeric] \cr 
 #'   Vector of fitness values.  Must be in same order as \code{y.names}.
@@ -81,38 +81,18 @@ setGeneric(
   }
 )
 
-
-#' Convert a parameter list to its position in the optimiztion path.
-#'
-#' @param op Optimization path.
-#' @param x List of parameter settings.
-#' @param cand Expression limiting the path elements searched.
-#' @return Index of \code{x} in optimization path or if \code{x} is
-#'  not present \code{NA}.
-setGeneric(
-  name = "paramToPosition",
-  def = function(op, x) {
-    standardGeneric("getLength")
-  }
-)
-
-
-
 #' Set the end of life of a parameter vector.
 #'
 #' @param op [\code{\linkS4class{OptPath}}] \cr 
 #'   Optimization path.  
-#' @param x [list]\cr 
-#'   List of parameter settings for a point in input space.   
+#' @param x [\code{integer(1)}]\cr 
+#'   Index of element in path.  
 #' @param eol [integer(1)] \cr 
 #'   End of life of point. 
 #' @return NULL, this function is called for its side effect, namely
 #'   modifing the optimization path.
-setEoL = function(op, x, eol) {
-  x = paramToPosition(op, x)
-  if (is.na(x))
-    stop("No element found matching the given parameter settings. Cannot set EoL!")
-  op@env$eol[x] = as.integer(eol)
+setEoL = function(op, index, eol) {
+  op@env$eol[index] = as.integer(eol)
   NULL
 } 
 

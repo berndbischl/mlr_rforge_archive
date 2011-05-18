@@ -1,4 +1,3 @@
-
 #' Optimazation path. Optimizers log their evaluated points
 #' iteratively into this object.
 #' 
@@ -21,6 +20,8 @@ setMethod(
   f = "initialize",
   signature = signature("OptPath"),
   def = function(.Object, x.names, y.names, minimize) {
+    if (missing(x.names))
+      return(mlr:::make.empty(.Object))
     if (length(intersect(x.names, y.names)) > 0)
       stop("'x.names' and 'y.names' must not contain common elements!")
     if (length(minimize) != length(y.names))
@@ -36,68 +37,17 @@ setMethod(
     .Object@y.names = y.names
     .Object@minimize = minimize
     .Object@env = new.env()
-    .Object@env$path = list()
-    .Object@env$dob  = integer()
-    .Object@env$eol  = integer()
     return(.Object)
   }
 )
 
-
-#' Create optimitazion path. 
-#' @param x.names [\code{character}]\cr 
-#'   Names of dimensions in input space.  
-#' @param y.names [\code{character}]\cr 
-#'   Names of evaluation metrics.  
-#' @param minimize [named \code{logical}]\cr 
-#'   Should metrics be minimized or maximized?
-#'   Must be the same length as \code{y.names}.
-#'   If names are given, the must be equal to \code{y.names}, otherwise
-#'   the same order as in \code{y.names} is assumed.   
-#' @return [\code{\linkS4class{OptPath}}].
-makeOptPath = function(x.names, y.names, minimize) {
-  new("OptPath", x.names, y.names, minimize)
-}
-
-#' Convert to data.frame
-#' @rdname OptPath-class 
-#' @export
-as.data.frame.OptPath = function(x) {
-  df = flattenX(x)
-  ys = as.data.frame(Reduce(rbind, lapply(x@env$path, function(el) el$y)))
-  df = cbind(df, ys)
-  xns = x@x.names
-  el1x = x@env$path[[1]]$x
-  nn = sapply(el1x, length)
-  xns = Reduce(c, Map(function(x, n) if(n==1) x else paste(x, 1:n, sep=""), xns, nn))
-  colnames(df) = c(xns, x@y.names)
-  df[["dob"]] <- x@env$dob
-  df[["eol"]] <- x@env$eol
-  df
-}
-
-#' Convert an optimization path to a list.
-#' @rdname OptPath-class
-#' @export
-setMethod(
-  f = "as.list",
-  signature = signature("OptPath"),
-  def = function(x, row.names = NULL, optional = FALSE,...) {
-    x@env$path
-  }
-)
-
-#' @export
-setMethod(f = "show", signature = signature("OptPath"), def = function(object) {
-  cat("Opt. path of length: ", length(as.list(object)), "\n")
-})
 
 
 #' Add a new element to the optimiztion path.
 #' 
 #' @param op [\code{\linkS4class{OptPath}}] \cr 
 #'   Optimization path.  
-#' @param x [list]\cr 
+#' @param x [\code{list}]\cr 
 #'   List of parameter settings for a point in input space. Must be in same order as \code{x.names}.  
 #' @param y [numeric] \cr 
 #'   Vector of fitness values.  Must be in same order as \code{y.names}.
@@ -108,110 +58,132 @@ setMethod(f = "show", signature = signature("OptPath"), def = function(object) {
 #' @return NULL. This function is called for its side effects, namely
 #'   adding \code{x} to the optimization path.
 #' @export 
-addPathElement = function(op, x, y, dob, eol=NA) {
-  stopifnot(inherits(op, "OptPath"),          
-            is.na(eol) || eol >= dob)
-  if (missing(dob))        
-    dob=length(op@env$path)+1
-  names(x) = op@x.names
-  names(y) = op@y.names
-  op@env$path = append(op@env$path, list(list(x=x, y=y)))
-  op@env$dob = append(op@env$dob, dob)
-  op@env$eol = append(op@env$eol, eol)
-  NULL
-}
 
-#' Convert a parameter list to its position in the optimiztion path.
-#'
-#' @param op Optimization path.
-#' @param x List of parameter settings.
-#' @param cand Expression limiting the path elements searched.
-#' @return Index of \code{x} in optimization path or if \code{x} is
-#'  not present \code{NA}.
-param.to.position <- function(op, x, cand) {
-  if (!missing(cand)) {
-    r <- eval(eval(substitute(substitute(cand, op@env))), parent.frame())
-    idx <- which(r)
-    # we do not check names / attribs
-    tmp <- Position(function(zz) all.equal(x, zz, check.attributes=FALSE), op@env$path[idx])
-    if (!is.na(tmp))
-      idx[tmp]
-    else
-      tmp
-  } else {
-    Position(function(e) isTRUE(all.equal(x, e$x, check.attributes=FALSE)), op@env$path)
+setGeneric(
+  name = "addPathElement",
+  def = function(op, x, y, dob, eol) {
+    if (missing(dob))        
+      dob = getLength(op)+1L
+    if (missing(eol))        
+      eol = as.integer(NA)
+    mlr:::check.arg(dob, "integer", 1)
+    mlr:::check.arg(eol, "integer", 1)
+    stopifnot(is.na(eol) || eol >= dob)
+    standardGeneric("addPathElement")
   }
-}
+)
+
+
+setGeneric(
+  name = "getLength",
+  def = function(op) {
+    standardGeneric("getLength")
+  }
+)
 
 #' Set the end of life of a parameter vector.
 #'
 #' @param op [\code{\linkS4class{OptPath}}] \cr 
 #'   Optimization path.  
-#' @param x [list]\cr 
-#'   List of parameter settings for a point in input space.   
+#' @param x [\code{integer(1)}]\cr 
+#'   Index of element in path.  
 #' @param eol [integer(1)] \cr 
 #'   End of life of point. 
 #' @return NULL, this function is called for its side effect, namely
 #'   modifing the optimization path.
-setEoL = function(op, x, eol) {
-  x = param.to.position(op, x)
-  if (is.na(x))
-    stop("No element found matching the given parameter settings. Cannot set EoL!")
-  op@env$eol[x] = as.integer(eol)
+setEoL = function(op, index, eol) {
+  op@env$eol[index] = as.integer(eol)
   NULL
 } 
 
 
-#' Restrict optimiztion path.
-#'
-#' @param op [\code{\linkS4class{OptPath}}]\cr
-#'   Optimization path.
-#' @param dob [\code{integer}]
-#'   Possible dates of birth for subset. Defaults to all. 
-#' @param eol [\code{integer}]
-#'   Possible end of life for subset. Defaults to all. 
-#' @return Subsetted \code{\linkS4class{OptPath}}. 
-restrict = function(x, dob=x@env$dob, eol=x@env$eol) {
-  p = x@env$path[x@env$dob %in% dob & x@env$eol %in% eol]
-  op = new("OptPath", x@x.names, x@y.names, x@minimize)
-  op@env$path = p
-  return(op)
-}
 
-#' Get best element from optimiztion path.
+#' @export
+setMethod(f = "show", signature = signature("OptPath"), def = function(object) {
+    cat("Opt. path of length: ", getLength(object), "\n")
+})
+
+
+getYVector = function(op, y.name) {
+  if (is(op, "OptPathDF"))
+    return(op@env$path[, y.name])
+  #y = sapply(op@env$path, function(e) e$y[y.name])
+}  
+
+#' Get index of best element from optimiztion path.
 #'
 #' @param op [\code{\linkS4class{OptPath}}]\cr
 #'   Optimization path.
 #' @param y.name [\code{character(1)}] 
-#'   Name of target value to decide which element is best.  
-#' @param dob [\code{integer}]
+#'   Name of target value to decide which element is best.
+#'   Default is \code{y.names[1]}.  
+#' @param dob [\code{integer}]\cr
 #'   Possible dates of birth to select best element from. Defaults to all. 
-#' @param eol [\code{integer}]
+#' @param eol [\code{integer}]\cr
 #'   Possible end of life to select best element from. Defaults to all. 
+#' @param ties [\code{character(1)}]\cr
+#'   How should ties be broken when more than one optimal element is found?
+#'   \dQuote{all}: return all indices, \dQuote{first} return first optimal element in path,
+#'   \dQuote{last} return last optimal element in path, \dQuote{random} return random optimal element in path.
+#'   Default is \dQuote{all}.
+#' @return [\code{integer}]
+#'   Index or indices into path. See \code{ties}.
+#' @export
+getBestIndex = function(op, y.name=op@y.names[1], dob=op@env$dob, eol=op@env$eol, ties="all") {
+  mlr:::check.arg(ties, "character", 1, c("all", "first", "last", "random"))
+  life.inds = which(op@env$dob %in% dob & op@env$eol %in% eol)
+  if (length(life.inds) == 0)
+    stop("No element found which matches dob and eol restrictions!")
+  y = getYVector(op, y.name)[life.inds]
+  if (all(is.na(y))) {
+    best.inds = life.inds  
+  } else { 
+    if (op@minimize[y.name])
+      best.inds = which(min(y, na.rm=TRUE) == y)
+    else 
+      best.inds = which(max(y, na.rm=TRUE) == y)
+    best.inds = life.inds[best.inds]
+  }
+  if (length(best.inds) > 1) {
+    if (ties == "all")
+      return(best.inds)
+    else if (ties == "first")
+      return(best.inds[1])
+    else if (ties == "last")
+      return(best.inds[length(best.inds)])
+    else if (ties == "random")
+      return(best.inds[sample(length(best.inds), 1)])
+  } else {
+    return(best.inds)
+  }  
+}
+
+#' Get element from optimiztion path.
+#'
+#' @param op [\code{\linkS4class{OptPath}}]\cr
+#'   Optimization path.
+#' @param index [\code{integer(1)}] 
+#'   Index of element.  
 #' @return List with elements 'x' [list] and 'y' [named numeric]. 
 #' @export
-getBestElement = function(op, y.name=op@y.names[1], dob=op@env$dob, eol=op@env$eol) {
-  op = restrict(op, dob, eol)
-  y = sapply(op@env$path, function(e) e$y[y.name])
-  if (op@minimize[y.name])
-    i = which.min(y)
-  else 
-    i = which.max(y)
-  if (all(is.na(y))) {
-    warning("All elements had NA fitness, selecting 1 randomly!")
-    i = sample(1:length(y), 1)
+
+setGeneric(
+  name = "getPathElement",
+  def = function(op, index) {
+    if (is.numeric(index) && length(index) == 1 && index == as.integer(index))
+      index = as.integer(index)
+    mlr:::check.arg(index, "integer", 1)
+    n = getLength(op)
+    if (!(index >= 1 && index <= n))
+      stop("Index must be between 1 and ", n, "!")
+    standardGeneric("getPathElement")
   }
-  return(op@env$path[[i]])
-}
+)
 
 
-flattenX = function(op) {
-  Reduce(rbind, lapply(op@env$path, function(el) {  
-    Reduce(cbind, lapply(el$x, function(a) {
-      as.data.frame(t(a))    
-    }))
-  }))
-}
+
+
+
 
 
 
