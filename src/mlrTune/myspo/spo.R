@@ -42,7 +42,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   
   rep.pids = getRepeatedParameterIDs(par.set, with.nr=TRUE)
   y.name = control@y.name
-  opt.path = makeOptPath(y.names=y.name, x.names=names(par.set@pars), minimize=control@minimize)
+  opt.path = new("OptPathDF", y.names=y.name, x.names=names(par.set@pars), minimize=control@minimize)
   
   if (is.null(des)) {
     des.x = makeDesign(control@init.design.points, par.set, 

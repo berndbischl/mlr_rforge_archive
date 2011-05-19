@@ -1,5 +1,3 @@
-source("D:\\sync\\projekte\\mlr\\src\\mlrTune\\op.R")
-
 #' @exportClass OptPath
 #' @title Optimazation path
 setClass(
@@ -53,7 +51,7 @@ setMethod(
 #' @export
 as.data.frame.OptPathDF = function(x) {
   df = x@env$path
-  df = cbind(df, dob=op@env$dob, eol=op@env$eol)
+  df = cbind(df, dob=x@env$dob, eol=x@env$eol)
   df
 }
 

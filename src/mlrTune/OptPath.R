@@ -57,7 +57,7 @@ setMethod(
 #'   End of life of point. Defaults to unknown (NA). 
 #' @return NULL. This function is called for its side effects, namely
 #'   adding \code{x} to the optimization path.
-#' @export 
+#' @exportMethod addPathElement 
 
 setGeneric(
   name = "addPathElement",
@@ -73,7 +73,7 @@ setGeneric(
   }
 )
 
-
+#' @exportMethod getLength
 setGeneric(
   name = "getLength",
   def = function(op) {
@@ -165,8 +165,7 @@ getBestIndex = function(op, y.name=op@y.names[1], dob=op@env$dob, eol=op@env$eol
 #' @param index [\code{integer(1)}] 
 #'   Index of element.  
 #' @return List with elements 'x' [list] and 'y' [named numeric]. 
-#' @export
-
+#' @exportMethod getPathElement
 setGeneric(
   name = "getPathElement",
   def = function(op, index) {
