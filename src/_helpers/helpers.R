@@ -317,7 +317,7 @@ mylapply <- function(xs, f, from, ...) {
 
 
 eval.states = function(learner, task, resampling, measures, par.set, bits.to.features, control, opt.path, pars, 
-  eol=as.integer(NA), dob=as.sinteger(NA)) {
+  eol=as.integer(NA), dob=as.integer(NA)) {
   
   y = mylapply(xs=pars, from="opt", f=mlr:::eval.rf, learner=learner, task=task, resampling=resampling, 
     measures=measures, par.set=par.set, bits.to.features=bits.to.features, control=control)
