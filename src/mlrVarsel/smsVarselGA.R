@@ -6,6 +6,21 @@
 ##
 library("emoa")
 
+
+
+complex_crossover <- function(x) {
+  n <- nrow(x)
+  p <- sample(1:n, 1)
+  which <- 1:p
+  tmp <- x[which, 1]
+  x[which, 1] <- x[which, 2]
+  x[which, 2] <- tmp
+  x  
+}
+
+
+
+
 ##' Single point binary crossover
 ##'
 ##' @param x Two column matrix. Each column is one individual.
@@ -70,8 +85,8 @@ ubm_operator <- function(p) {
 ##' @author Olaf Mersmann \email{olafm@@statistik.tu-dortmund.de}
 smsVarselGA <- function(f, nvars, ...,
   control=list(mu=100L,
-    crossover=bx_operator(0.75),
-    mutate=ubm_operator(0.05)
+    crossover=complex_x_operator(0.75),
+    mutate=complex_m_operator(0.05)
   )) {
   ## Extract control parameters:
   default <- formals(sys.function())$control
@@ -82,10 +97,10 @@ smsVarselGA <- function(f, nvars, ...,
   control$mutate <- eval(emoa:::coalesce(control[["mutate"]], default$mutate))
   
   ## Tracking variables:
-  X <- matrix(0L, nrow=control$n, ncol=control$maxeval)
-  Y <- matrix(0, nrow=control$d, ncol=control$maxeval)
-  dob <- rep(-1L, control$maxeval)
-  eol <- rep(-1L, control$maxeval)
+#  X <- matrix(0L, nrow=control$n, ncol=control$maxeval)
+#  Y <- matrix(0, nrow=control$d, ncol=control$maxeval)
+#  dob <- rep(-1L, control$maxeval)
+#  eol <- rep(-1L, control$maxeval)
   
   ## Random inital population:
   X[, 1:control$mu] <- replicate(control$mu, sample(0:1, nvars, replace=TRUE))
@@ -130,10 +145,6 @@ smsVarselGA <- function(f, nvars, ...,
     logger$step()
   }
   logger$stop()
-  
-  res <- structure(list(X=X, Y=Y,
-      dob=dob,
-      eol=eol,
-      par=X[,active], value=Y[,active]),
-    class="emoa_result")
+
+  return(opt.path)
 }

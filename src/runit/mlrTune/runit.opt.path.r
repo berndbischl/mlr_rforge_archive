@@ -4,7 +4,7 @@ test.opt.path <- function() {
   addPathElement(op, list(x1=2, x2="a"), c(y1=3, y2=2))
   checkEquals(op@env$dob, 1:2)
   if (!use.package) {
-    setEoL(op, list(x1=2, x2="a"), 8)
+    setEoL(op, 2, 8)
     checkEquals(op@env$eol[2], 8)
   }
 
@@ -37,7 +37,7 @@ test.opt.path <- function() {
   checkEquals(gbe(op, y.name="y1", dob=2), getPathElement(op, 2))
   checkEquals(gbe(op, y.name="y2", dob=2), getPathElement(op, 2))
   
-  op = new("OptPathDF", x.names=c("x", "y"), y.names="z", minimize=TRUE)
+  op = new("OptPathDF", x.names=c("x1", "x2", "y"), y.names="z", minimize=TRUE)
   addPathElement(op, list(c(1,1), "a"), 1)
   addPathElement(op, list(c(2,2), "a"), 3)
   df = as.data.frame(op)
