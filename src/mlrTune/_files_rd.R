@@ -17,7 +17,8 @@ allowed.rd.files <<- c(
     "makeDesign.Rd",
     "OptPath-class.Rd",
     "addPathElement.Rd",
-    "getBestElement.Rd",
+    "getPathElement.Rd",
+    "getBestIndex.Rd",
     "SPOControl-class.Rd",
     "makeSPOControl.Rd",
     "spo.Rd"
