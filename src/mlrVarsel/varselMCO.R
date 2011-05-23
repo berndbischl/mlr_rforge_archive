@@ -39,6 +39,26 @@
 #' @title Variable selection.
 
 varselMCO = function(learner, task, resampling, measures, bit.names, bits.to.features, control) {
+  
+  crossover = function(x, y) {
+    return(x)
+    #n <- nrow(x)
+    #p <- sample(1:n, 1)
+    #which <- 1:p
+    #tmp <- x[which, 1]
+    #x[which, 1] <- x[which, 2]
+    #x[which, 2] <- tmp
+    #x  
+  }
+  
+  mutate <- function(x) {
+    return(x)
+    #n <- length(x)
+    #which <- sample(c(TRUE, FALSE), n, replace=TRUE, prob=c(p, 1-p))
+    #x[which] <- !x[which]
+    #x
+  }  
+  
   if (is.character(learner))
     learner = makeLearner(learner)
   if (is(resampling, "ResampleDesc") && control@same.resampling.instance)
@@ -54,30 +74,41 @@ varselMCO = function(learner, task, resampling, measures, bit.names, bits.to.fea
   
   n = length(bit.names)
   m = length(measures)
+  
   print(c(n, m))
   # td: scale all measures to 0,1 and always use ref(1,...,1)  
   # td: put this in varselMOCControl
   
-  ga.control = list(mu=control@mu, maxeval=control@maxit, 
-    crossover=ubx_operator(control@cross.prob), mutate=ubm_operator(control@mut.prob))
-  
-  f = function(x) {
-    if (any(is.na(x)))
-      return(rep(NA, m))
-    y = mlr:::eval.rf(learner, task, resampling, measures, NULL, bits.to.features, control, x)
-    return(y)
-  }
-  
-  or = smsVarselGA(f, n, control=ga.control)
-  oo <<- or
+  #or = smsVarselGA(f, n, control=ga.control)
   opt.path = makeOptPathDFFromMeasures(bit.names, measures)
-  x = as.list(as.data.frame(or$X))
-  y = as.list(as.data.frame(or$Y))
-  pp = Map(function(a,b) list(x=a, y=b), x,y)
-  print(str(pp))
-  opt.path@env$path = pp 
-  opt.path@env$dob = rep(NA, control@maxit) 
-  opt.path@env$eol = rep(NA, control@maxit) 
+
+  mu = control@mu
+  prob = 0.5
+  states = lapply(1:mu, function(i) rbinom(length(bit.names), 1, prob))
+  eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, states)
+  active = 1:mu    ## Indices of individuals that are in the current pop.
+  
+  # check that ebuff evals are possible if lambda > 1
+  while(getLength(opt.path) < control@maxit) {
+    ## Variation:
+    parents = sample(active, 2)
+    print(parents)
+    lapply()
+    children = crossover(X[, parents])[,sample(c(1, 2), 1)]
+    children = lapply(chlidren, mutate)
+        
+    eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, states, dob=???)
+    
+    active = c(active, neval)
+    Y = t(as.matrix(as.data.frame(opt.path)[, opt.path@y.names]))
+    ## Selection:
+    i = nds_hv_selection(Y[, active])
+    
+    ## Remove the i-th active individual:
+    opt.path@eol[active[i]] = neval  
+    setEol(opt.path, , neval)
+    active = active[-i]
+  }
   return(opt.path)
 }
 

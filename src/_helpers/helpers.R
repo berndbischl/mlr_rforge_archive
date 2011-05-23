@@ -327,7 +327,7 @@ eval.states = function(learner, task, resampling, measures, par.set, bits.to.fea
   if (length(eol) == 1)
     eol = rep(eol, n)
   for (i in 1:n) 
-    addPathElement(opt.path, x=pars[[i]], y=y[[i]], dob=dob[i], eol=eol[i])
+    addPathElement(opt.path, x=as.list(pars[[i]]), y=y[[i]], dob=dob[i], eol=eol[i])
   return(y)
 }
 

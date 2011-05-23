@@ -8,17 +8,6 @@ library("emoa")
 
 
 
-complex_crossover <- function(x) {
-  n <- nrow(x)
-  p <- sample(1:n, 1)
-  which <- 1:p
-  tmp <- x[which, 1]
-  x[which, 1] <- x[which, 2]
-  x[which, 2] <- tmp
-  x  
-}
-
-
 
 
 ##' Single point binary crossover
@@ -62,14 +51,6 @@ ubx_operator <- function(p) {
 ##'
 ##' @return A function implementing binary mutation.
 ##' @export
-ubm_operator <- function(p) {
-  mutate <- function(x) {
-    n <- length(x)
-    which <- sample(c(TRUE, FALSE), n, replace=TRUE, prob=c(p, 1-p))
-    x[which] <- !x[which]
-    x
-  }  
-}
 
 ##' S-Metric selection genetic algorithm.
 ##'
@@ -83,7 +64,7 @@ ubm_operator <- function(p) {
 ##' @return An \code{emoa_result} object.
 ##' @export
 ##' @author Olaf Mersmann \email{olafm@@statistik.tu-dortmund.de}
-smsVarselGA <- function(f, nvars, ...,
+smsVarselGA <- function(learner, task, resampling,  nvars, ...,
   control=list(mu=100L,
     crossover=complex_x_operator(0.75),
     mutate=complex_m_operator(0.05)
@@ -96,16 +77,16 @@ smsVarselGA <- function(f, nvars, ...,
   control$crossover <- eval(emoa:::coalesce(control[["crossover"]], default$crossover))
   control$mutate <- eval(emoa:::coalesce(control[["mutate"]], default$mutate))
   
-  ## Tracking variables:
-#  X <- matrix(0L, nrow=control$n, ncol=control$maxeval)
-#  Y <- matrix(0, nrow=control$d, ncol=control$maxeval)
-#  dob <- rep(-1L, control$maxeval)
-#  eol <- rep(-1L, control$maxeval)
+  #dob <- rep(-1L, control$maxeval)
+  #eol <- rep(-1L, control$maxeval)
   
   ## Random inital population:
-  X[, 1:control$mu] <- replicate(control$mu, sample(0:1, nvars, replace=TRUE))
-  Y[, 1:control$mu] <- sapply(1:control$mu, function(i) f(X[,i]))
-  control$ref <- apply(Y[, 1:control$mu], 1, max)
+  #X[, 1:control$mu] <- replicate(control$mu, sample(0:1, nvars, replace=TRUE))
+  #Y[, 1:control$mu] <- sapply(1:control$mu, function(i) f(X[,i]))
+  #control$ref <- apply(Y[, 1:control$mu], 1, max)
+  
+  
+  
   
   neval <- control$mu       ## Count the number of function evaluations
   active <- 1:control$mu    ## Indices of individuals that are in the current pop.

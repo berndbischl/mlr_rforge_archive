@@ -44,8 +44,10 @@ m1@aggr = list(test.mean)
 #)
 #m2@aggr = list(test.mean)
 
+m3 = nvars
+m3@aggr = list(test.mean)
 
-ctrl = makeVarselControlMCO(maxit=100, mu=5L, mut.prob=0.25, cross.prob=0.25, ref.point=c(1,1))
+ctrl = makeVarselControlMCO(maxit=100L, mu=5L, mut.prob=0.25, cross.prob=0.25, ref.point=c(1,1))
 print(ctrl)
 vr = varselMCO(w, task, res, measures=list(m1, m3), control=ctrl)
 
