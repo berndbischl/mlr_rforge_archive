@@ -4,22 +4,23 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
   
   seq.step = function(forward, state, gen.new.states, compare) {
     # we have too many vars already and cannot move forward
-    if (forward && control@max.vars <= sum(state$x))
+    if (forward && control@max.vars <= sum(unlist(state$x)))
       return(NULL)
     xs = gen.new.states(state$x)
     if (length(xs) == 0)
       return(NULL)
-    dob = max(opt.path@env$dob) + 1
+    dob = max(opt.path@env$dob) + 1L
     # die at once
     eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, xs, dob=dob, eol=dob)
     
-    best = getBestElement(opt.path, dob=dob)
+    best.i = getBestIndex(opt.path, dob=dob, ties="random")
+    best = getPathElement(opt.path, best.i)
     # best element lives one iteration longer
     thresh = ifelse(forward, control@alpha, control@beta) 
     better = compare(state, best, control, measures[[1]], thresh) 
     # if backward step and we have too many vars we do always go to the next best state with one less var.
-    if ((forward && better) || (!forward && (better || sum(state$x) > control@max.vars))) {
-      mlrTune:::setEoL(opt.path, best$x, dob+1)
+    if ((forward && better) || (!forward && (better || sum(unlist(state$x)) > control@max.vars))) {
+      mlrTune:::setEoL(opt.path, best.i, dob+1)
       return(best)
     } else {
       return(NULL)
@@ -70,7 +71,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
   
   y = mlr:::eval.rf(learner, task, resampling, measures, NULL, bits.to.features, control, x)
   state = list(x=x, y=y)
-  path = addPathElement(opt.path, x=x, y=y, dob=1, eol=2)   
+  path = addPathElement(opt.path, x=as.list(x), y=y, dob=1L, eol=2L)   
   
   forward = (method %in% c("sfs", "sffs"))
   fail = 0

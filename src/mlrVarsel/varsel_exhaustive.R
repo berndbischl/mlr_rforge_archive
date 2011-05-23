@@ -11,11 +11,7 @@ varsel.exhaustive = function(learner, task, resampling, measures, bit.names, bit
     states = c(states, s)
   }
   eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, states)
-  i = getBestIndex(opt.path, measureAggrNames(measures[[1]])[1], ties="first")
+  i = getBestIndex(opt.path, measureAggrNames(measures[[1]])[1], ties="random")
   e = getPathElement(opt.path, i)
-  
-  e = getBestElement(opt.path, measureAggrNames(measures[[1]])[1])
-  e = getBestElement(opt.path)
-  
   new("OptResult", learner, control, bits.to.features(e$x, task), e$y, opt.path)
 } 

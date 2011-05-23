@@ -70,7 +70,7 @@ varselMCO = function(learner, task, resampling, measures, bit.names, bits.to.fea
   
   or = smsVarselGA(f, n, control=ga.control)
   oo <<- or
-  opt.path = mlrTune:::makeOptPathFromMeasures(bit.names, measures)
+  opt.path = makeOptPathDFFromMeasures(bit.names, measures)
   x = as.list(as.data.frame(or$X))
   y = as.list(as.data.frame(or$Y))
   pp = Map(function(a,b) list(x=a, y=b), x,y)
