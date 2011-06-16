@@ -41,22 +41,12 @@
 varselMCO = function(learner, task, resampling, measures, bit.names, bits.to.features, control) {
   
   crossover = function(x, y) {
-    return(x)
-    #n <- nrow(x)
-    #p <- sample(1:n, 1)
-    #which <- 1:p
-    #tmp <- x[which, 1]
-    #x[which, 1] <- x[which, 2]
-    #x[which, 2] <- tmp
-    #x  
+    mapply(function(a,b) sample(c(a,b), 1), x, y)
   }
   
   mutate <- function(x) {
-    return(x)
-    #n <- length(x)
-    #which <- sample(c(TRUE, FALSE), n, replace=TRUE, prob=c(p, 1-p))
-    #x[which] <- !x[which]
-    #x
+    mut = sample(0:1, n, replace=TRUE, prob=c(prob.mut, 1-prob.mut))
+    x + mut %% 2    
   }  
   
   if (is.character(learner))
@@ -83,30 +73,37 @@ varselMCO = function(learner, task, resampling, measures, bit.names, bits.to.fea
   opt.path = makeOptPathDFFromMeasures(bit.names, measures)
 
   mu = control@mu
-  prob = 0.5
-  states = lapply(1:mu, function(i) rbinom(length(bit.names), 1, prob))
-  eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, states)
+  gen = 0L
+  print(mu)
+  prob.init = 0.5
+  prob.mut = 0.5
+  states = lapply(1:mu, function(i) rbinom(length(bit.names), 1, prob.init))
+  eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, states, dob=gen)
   active = 1:mu    ## Indices of individuals that are in the current pop.
   
   # check that ebuff evals are possible if lambda > 1
+  
   while(getLength(opt.path) < control@maxit) {
+    gen = gen + 1L
     ## Variation:
     parents = sample(active, 2)
-    print(parents)
-    lapply()
-    children = crossover(X[, parents])[,sample(c(1, 2), 1)]
-    children = lapply(chlidren, mutate)
-        
-    eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, states, dob=???)
+    p1 = unlist(getPathElement(opt.path, parents[1])$x)
+    p2 = unlist(getPathElement(opt.path, parents[2])$x)
+    child = crossover(p1, p2)
+    child = mutate(child)
+    states = list(child)
+    eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, states, dob=gen)
     
-    active = c(active, neval)
-    Y = t(as.matrix(as.data.frame(opt.path)[, opt.path@y.names]))
+    active = c(active, getLength(opt.path))
+    print(active)
+    Y = as.data.frame(opt.path)[, opt.path@y.names]
+    Y = t(as.matrix(Y[active,]))
     ## Selection:
-    i = nds_hv_selection(Y[, active])
+    i = nds_hv_selection(Y)
+    print(i)
     
     ## Remove the i-th active individual:
-    opt.path@eol[active[i]] = neval  
-    setEol(opt.path, , neval)
+    opt.path@env$eol[active[i]] = gen  
     active = active[-i]
   }
   return(opt.path)
