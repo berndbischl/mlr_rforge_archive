@@ -1,26 +1,25 @@
-makeWrappedModel = function(learner, model, task.desc, subset, vars, time) {
-  # if error happened we use a failure model
-  if(is(model, "try-error")) {
-    msg = as.character(model)
-    if (.mlr.local$errorhandler.setup$on.learner.error == "warn")
-      warning("Could not train the learner: ", msg) 
-    m = new("FailureModel", learner, msg, task.desc, subset, vars, as.numeric(NA))
-    # todo: do this in a better, generic way
-#  } else if(is(learner, "OptWrapper")) {
-#    or = attr(model, "opt.result")
-#    attr(model, "opt.result") = NULL
-#    m = new("OptModel", learner, model@learner.model, task.desc, subset, vars, time, or)  
-#  } else if(is(learner, "PreprocWrapper")) {
-#    ctrl = attr(model, "control")
-#    attr(model, "control") = NULL
-#    m = new("preproc.model", learner, model, task.desc, subset, vars, time, ctrl)  
-#  } else if(is(learner, "FilterWrapper")) {
-#    vars = attr(model, "filter.result")
-#    attr(model, "filter.result") = NULL
-#    m = new("WrappedModel", learner, model, task.desc, subset, vars, time)  
-  } else {
-    # create normal model
-    m = new("WrappedModel", learner, model, task.desc, subset, vars, time)    
+setGeneric(
+  name = "makeWrappedModel",
+  def = function(learner, model, task.desc, subset, vars, time) {
+    standardGeneric("makeWrappedModel")
   }
-  return(m)
-}
+)
+
+setMethod(
+  f = "makeWrappedModel",
+  signature = signature(learner="Learner"),
+  
+  def = function(learner, model, task.desc, subset, vars, time) {
+    if(is(model, "try-error")) {
+      msg = as.character(model)
+      if (.mlr.local$errorhandler.setup$on.learner.error == "warn")
+        warning("Could not train the learner: ", msg) 
+      new("FailureModel", learner, msg, task.desc, subset, vars, as.numeric(NA))
+    } else {
+      # create normal model
+      new("WrappedModel", learner, model, task.desc, subset, vars, time)    
+    }
+  }
+)
+
+

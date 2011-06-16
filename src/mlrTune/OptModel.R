@@ -27,4 +27,18 @@ setMethod(f = "show",  signature = signature("OptModel"), def = function(object)
 })
 
 
+setMethod(
+  f = "makeWrappedModel",
+  signature = signature(learner="OptWrapper"),
+  
+  def = function(learner, model, task.desc, subset, vars, time) {
+    or = attr(model, "opt.result")
+    attr(model, "opt.result") = NULL
+    new("OptModel", learner, model@learner.model, task.desc, subset, vars, time, or)  
+  }
+)
+
+
+
+
 
