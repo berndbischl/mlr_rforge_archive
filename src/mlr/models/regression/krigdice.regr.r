@@ -23,8 +23,16 @@ setMethod(
       par.set = makeParameterSet(
         makeDiscreteLearnerParameter(id="covtype", default="matern5_2", 
           vals=list("gauss", "matern5_2", "matern3_2", "exp", "powexp")), 
-        makeLogicalLearnerParameter(id="nugget.estim", default=FALSE) 
+        makeNumericLearnerParameter(id="nugget"), 
+        makeLogicalLearnerParameter(id="nugget.estim", default=FALSE), 
+        makeNumericVectorLearnerParameter(id="noise.var"), 
+        makeDiscreteLearnerParameter(id="optim.method", default="BFGS", 
+          vals=list("BFGS", "gen")), 
+        makeNumericVectorLearnerParameter(id="lower"), 
+        makeNumericVectorLearnerParameter(id="upper"), 
+        makeUntypedLearnerParameter(id="control")
       )
+      
       .Object = callNextMethod(.Object, pack="DiceKriging", par.set=par.set)
       
       setProperties(.Object,
