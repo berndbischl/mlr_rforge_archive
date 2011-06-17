@@ -15,7 +15,10 @@ for (f in pack.files) {
 }
 source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\smsVarselGA.R")
 source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\VarselControlMCO.R")
+source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\LearnerBag.R")
 source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\varselMCO.R")
+source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\makeVarCostMeasure.R")
+source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\plotEAF.R")
 
 require("mlbench")
 
@@ -27,27 +30,47 @@ data(Sonar, BreastCancer)
 
 
 task = makeClassifTask(target="Class", data=Sonar)
-w = makeLearner("classif.rpart")
+learners = list(
+ # makeLearner("classif.rpart"),
+ # makeLearner("classif.lda"),
+ # makeLearner("classif.naiveBayes")
+ makeLearner("classif.ksvm")
+)
+
 res = makeResampleDesc("Holdout")
 
 m1 = mmce
 m1@aggr = list(test.mean)
 
-#m2 = makeMeasure(id="varcosts", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types="response",
-#  fun=function(task, model, pred, extra.pars) {
-#    10
-#    #v = model@vars 
-#    #feature_cost(v, dim) / feature_cost(ct["input.names"], dim)
-#  }
-#)
-#m2@aggr = list(test.mean)
+m2 = makeVarCostMeasure(fun=function(v) {
+    length(v)
+  }
+)
+m2@aggr = list(test.mean)
 
 m3 = nvars
 m3@aggr = list(test.mean)
 
-ctrl = makeVarselControlMCO(maxit=50L, mu=5L, mut.prob=0.25, cross.prob=0.25, ref.point=c(1,1))
-print(ctrl)
-vr = varselMCO(w, task, res, measures=list(m1, m3), control=ctrl)
+ps1 = makeParameterSet(
+  makeNumericParameter("sigma", lower=1, upper=5),
+  makeNumericParameter("C", lower=7, upper=9)
+)
 
+
+pss = list(
+  classif.ksvm = ps1
+)
+
+ctrl = makeVarselControlMCO(maxit=10L, mu=2L, prob.init=0.5, 
+  prob.mut.learner=0.01, prob.mut.bit=0.05, prob.cx=0.5, mut.hp.eta=10, mut.hp.prob=0.2)
+print(ctrl)
+mmv = c(mmce.test.mean=1, varcosts.test.mean=m2@extra.args[[1]](getFeatureNames(task)))
+ops = varselMCO(learners, task, res, measures=list(m1, m2), control=ctrl, measure.max.vals=mmv, multi.starts=5, par.sets=pss)
+#dd = as.data.frame(ops[[1]])
+#print(dd$mmce.test.mean)
+#plot(dd$mmce.test.mean, dd$varcosts.test.mean)
+ops = lapply(ops, as.data.frame)
+pareto_plot(ops, y.names, y.names[1], y.names[2], shape="learner", alpha="dob", color="is_run_dominated") + geom_jitter()
+#plotEAF(ops, c("mmce.test.mean", "varcosts.test.mean"))
 
 #m = train(w, subset(task, vars=getFeatureNames(task)[1:2]))
