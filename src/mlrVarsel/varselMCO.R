@@ -1,7 +1,6 @@
 #todo: maxit is cirrently used fdor maxevals, bad name as "iter" is different concept as "eval",
 # also maybe we want to construct the ga control object directly and simply reuse is?
 # 2) sparse format for or$value?=
-# 3) get dob and eol from olaf resul. how?
 
 #' Optimizes the variables for a classification or regression problem by doing multi-criteria optimization.
 #' Currently the SMS-EMOA is used to maximize the hypervolume (S-metric) with binary operators on 
@@ -73,72 +72,6 @@ initPopulation = function(learner.ns, par.sets, bits, control) {
   return(pop)
 }
 
-crossover.hps = function(x, y, par.sets, control) {
-  ps = par.sets[[x$learner]]
-  low = as.numeric(lower(ps))
-  upp = as.numeric(upper(ps))
-  ns = names(x$hyper.pars)
-  n = length(x$hyper.pars)
-  hps = numeric(n)
-  for (i in seq_len(n)) {
-    sbx = sbx_operator(control@mut.hp.eta, control@mut.hp.prob, lower=low[ns[i]], upper=upp[ns[i]])
-    hps[i] = sample(sbx(matrix(c(x$hyper.pars[i], y$hyper.pars[i]), 1, 2)), 1)
-  }
-  names(hps) = ns
-  return(hps)
-}  
-  
-
-crossover = function(x, y, par.sets, control) {
-  #todo: add case for integer and test!
-  z = list()
-  z$learner = sample(c(x$learner, y$learner), 1)
-  if (z$learner == x$learner && z$learner != y$learner)
-    z$hyper.pars = x$hyper.pars
-  else if (z$learner != x$learner && z$learner == y$learner)
-    z$hyper.pars = y$hyper.pars
-  else {
-    z$hyper.pars = crossover.hps(x, y, par.sets, control)
-  }
-  p = c(control@prob.cx, 1-control@prob.cx)
-  z$bits = mapply(function(a,b) sample(c(a,b), 1, prob=p), x$bits, y$bits)
-  return(z)
-}
-
-mutate = function(x, learner.ns, par.sets, control) {
-  # if we have more than 1 learner change it stochastically
-  if (length(learner.ns) > 1 && runif(1) < control@prob.mut.learner) {
-    x$learner = sample(setdiff(learner.ns, x$learner), 1)
-    # learner changed, sample new params
-    x$hyper.pars = sampleHyperPars(par.sets[[x$learner]])
-  } else { 
-    # learner not changed, mutate params
-    x$hyper.pars = mutate.hp(x, par.sets, control)
-  }
-  # flips feature bits
-  p = c(1-control@prob.mut.bit, control@prob.mut.bit)
-  mut = sample(0:1, length(x$bits), replace=TRUE, p)
-  x$bits = (x$bits + mut) %% 2
-  return(x)
-}  
-
-mutate.hp = function(x, par.sets, control) {
-  ps = par.sets[[x$learner]]
-  low = as.numeric(lower(ps))
-  upp = as.numeric(upper(ps))
-  hps = x$hyper.pars
-  if (is.integer(hps))
-    mode(hps) = "numeric"
-  ns = names(hps)
-  for (i in seq_along(hps)) {
-    n = ns[i]
-    pm = pm_operator(control@mut.hp.eta, control@mut.hp.prob, lower=low[n], upper=upp[n])
-    x$hyper.pars[i] = pm(hps[i])
-    if (ps@pars[[n]]@type == "integer")
-      x$hyper.pars[i] = as.integer(x$hyper.pars[i])
-  }
-  return(x$hyper.pars)
-}
 
 varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.features, control, measure.max.vals=NULL, par.sets, learner.ns) {
   n = length(bit.names)
@@ -204,11 +137,17 @@ my.eval.states = function(bag, task, resampling, measures, par.set, bits.to.feat
   eol=as.integer(NA), dob=as.integer(NA), hps.ns) {
   
   fun = function(bag, task, resampling, measures, par.set, bits.to.features, control, val) {
+    # trafo hyper pars, integer conversion is done before
+    hps = trafoVal(par.set, as.list(val$hyper.pars))
+    # select learner and set hyper pars
     bag = setHyperPars(bag, sel.learner=val$learner)
+    bag@learners[[val$learner]] = setHyperPars(bag@learners[[val$learner]], hps)
+    # select features 
     task = subset(task, vars=bits.to.features(val$bits, task))
     r = resample(bag, task, resampling, measures=measures)
     return(r$aggr)
   }
+  
   
   y = mylapply(xs=pars, from="opt", f=fun, bag=bag, task=task, resampling=resampling, 
     measures=measures, par.set=par.set, bits.to.features=bits.to.features, control=control)
@@ -228,19 +167,4 @@ my.eval.states = function(bag, task, resampling, measures, par.set, bits.to.feat
   return(y)
 }
 
-
-sampleHyperPars = function(par.set) {
-  n = length(par.set@pars)
-  z = numeric(n)
-  for (i in seq_len(n)) {
-    pd = par.set@pars[[i]]
-    x = runif(1, pd@constraints$lower, pd@constraints$upper)
-    if (pd@type == "integer")
-      x = as.integer(round(x))
-    # todo: should we really do the trafo here? check mlrTune!
-    z[i] = pd@trafo(x)
-  }
-  names(z) = names(par.set@pars)
-  return(z)
-}
 
