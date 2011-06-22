@@ -53,6 +53,7 @@ setGeneric(
       same.resampling.instance = TRUE
     if (missing(ref.point))
       ref.point = as.numeric(NA)
+    check.arg(mu, "integer", 1L, lower=1L)
     check.arg(prob.init, "numeric", 1, lower=0, upper=1)
     check.arg(prob.mut.learner, "numeric", 1, lower=0, upper=1)
     check.arg(prob.mut.bit, "numeric", 1, lower=0, upper=1)

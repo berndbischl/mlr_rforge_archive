@@ -37,6 +37,7 @@
 #' @title Variable selection.
 
 varselMCO = function(learners, task, resampling, measures, bit.names, bits.to.features, control, measure.max.vals=NULL, multi.starts=1, par.sets) {
+  require.packs("emoa", "varselMCO")
   bag = makeLearnerBag(learners)
   if (is(resampling, "ResampleDesc") && control@same.resampling.instance)
   if (length(measures) < 2)
@@ -52,7 +53,6 @@ varselMCO = function(learners, task, resampling, measures, bit.names, bits.to.fe
   learner.ns = names(bag@learners)
   if (!setequal(names(par.sets), learner.ns)) 
     stop("Learner ids and names of parameter sets must coincide!")
-  stop(123)
   ops = replicate(multi.starts,  simplify=FALSE, varselMCO2(bag, task, resampling, measures, 
       bit.names, bits.to.features, control, measure.max.vals, par.sets, learner.ns))
 }
@@ -138,9 +138,7 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
 my.eval.states = function(bag, task, resampling, measures, par.sets, bits.to.features, control, opt.path, pars, 
   eol=as.integer(NA), dob=as.integer(NA), hps.ns) {
   fun = function(bag, task, resampling, measures, par.set, bits.to.features, control, val) {
-    print(val)
     hps = mlrTune:::trafoVal(par.sets[[val$learner]], as.list(val$hyper.pars))
-    print(hps)
     # trafo hyper pars, integer conversion is done before
     bag@learners[[val$learner]] = setHyperPars(bag@learners[[val$learner]], par.vals=hps)
     # select learner and set hyper pars

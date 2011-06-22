@@ -45,12 +45,10 @@ mutate.hp = function(x, par.sets, control) {
   hps = x$hyper.pars
   if (is.integer(hps))
     mode(hps) = "numeric"
-  ns = names(hps)
   for (i in seq_along(hps)) {
-    n = ns[i]
-    pm = pm_operator(control@mut.hp.eta, control@mut.hp.prob, lower=low[n], upper=upp[n])
+    pm = pm_operator(control@mut.hp.eta, control@mut.hp.prob, lower=low[i], upper=upp[i])
     x$hyper.pars[i] = pm(hps[i])
-    if (ps@pars[[n]]@type == "integer")
+    if (ps@pars[[i]]@type == "integer")
       x$hyper.pars[i] = as.integer(round(x$hyper.pars[i]))
   }
   return(x$hyper.pars)
@@ -70,6 +68,8 @@ crossover = function(x, y, par.sets, control) {
   else {
     z$hyper.pars = crossover.hps(x, y, par.sets, control)
   }
+  if (any(is.na(z$hyper.pars)))
+    stop(123)
   p = c(control@prob.cx, 1-control@prob.cx)
   z$bits = mapply(function(a,b) sample(c(a,b), 1, prob=p), x$bits, y$bits)
   return(z)

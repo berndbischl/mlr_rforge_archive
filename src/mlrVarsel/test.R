@@ -69,17 +69,15 @@ pss = list(
   classif.ksvm = ps.ksvm,
   classif.kknn = ps.kknn
 )
-ctrl = makeVarselControlMCO(maxit=4L, mu=2, prob.init=0.5, 
+ctrl = makeVarselControlMCO(maxit=200L, mu=50L, prob.init=0.5, 
   prob.mut.learner=0.01, prob.mut.bit=0.05, prob.cx=0.5, mut.hp.eta=10, mut.hp.prob=0.2)
 print(ctrl)
 mmv = c(mmce=1, varcosts=m2@extra.args[[1]](getFeatureNames(task)))
+set.seed(1)
 ops = varselMCO(learners, task, res, measures=list(m1, m2), control=ctrl, measure.max.vals=mmv, multi.starts=5, par.sets=pss)
-#dd = as.data.frame(ops[[1]])
-#print(dd$mmce.test.mean)
-#plot(dd$mmce.test.mean, dd$varcosts.test.mean)
 dfs = lapply(ops, as.data.frame)
 df = do.call(rbind, dfs)
-y.names = c("mmce.test.mean", "varcosts.test.mean")
+y.names = c("mmce", "varcosts")
 print(pareto_plot(dfs, y.names, y.names[1], y.names[2], shape="learner", alpha="dob", color="is_run_dominated") + geom_jitter())
 #plotEAF(ops, c("mmce.test.mean", "varcosts.test.mean"))
 
