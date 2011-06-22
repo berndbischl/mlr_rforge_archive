@@ -13,9 +13,9 @@ library(mlrTune)
 for (f in pack.files) {
   source(file.path("src", f))
 }
-source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\smsVarselGA.R")
 source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\VarselControlMCO.R")
 source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\LearnerBag.R")
+source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\varselMCO_operators.R")
 source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\varselMCO.R")
 source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\makeVarCostMeasure.R")
 source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\plotEAF.R")
@@ -69,10 +69,10 @@ pss = list(
   classif.ksvm = ps.ksvm,
   classif.kknn = ps.kknn
 )
-ctrl = makeVarselControlMCO(maxit=500L, mu=50L, prob.init=0.5, 
+ctrl = makeVarselControlMCO(maxit=4L, mu=2, prob.init=0.5, 
   prob.mut.learner=0.01, prob.mut.bit=0.05, prob.cx=0.5, mut.hp.eta=10, mut.hp.prob=0.2)
 print(ctrl)
-mmv = c(mmce.test.mean=1, varcosts.test.mean=m2@extra.args[[1]](getFeatureNames(task)))
+mmv = c(mmce=1, varcosts=m2@extra.args[[1]](getFeatureNames(task)))
 ops = varselMCO(learners, task, res, measures=list(m1, m2), control=ctrl, measure.max.vals=mmv, multi.starts=5, par.sets=pss)
 #dd = as.data.frame(ops[[1]])
 #print(dd$mmce.test.mean)

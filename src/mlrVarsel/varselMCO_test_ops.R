@@ -107,4 +107,5 @@ print(crossover(x1, x3, pss, ctrl))
 print(crossover(x3, x4, pss, ctrl))
 print(crossover(x4, x5, pss, ctrl))
 
+print(crossover(x5, x5, pss, ctrl))
 

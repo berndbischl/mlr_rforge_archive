@@ -1,6 +1,5 @@
 #todo: maxit is cirrently used fdor maxevals, bad name as "iter" is different concept as "eval",
-# also maybe we want to construct the ga control object directly and simply reuse is?
-# 2) sparse format for or$value?=
+# 2) sparse format for opt.path
 
 #' Optimizes the variables for a classification or regression problem by doing multi-criteria optimization.
 #' Currently the SMS-EMOA is used to maximize the hypervolume (S-metric) with binary operators on 
@@ -40,7 +39,6 @@
 varselMCO = function(learners, task, resampling, measures, bit.names, bits.to.features, control, measure.max.vals=NULL, multi.starts=1, par.sets) {
   bag = makeLearnerBag(learners)
   if (is(resampling, "ResampleDesc") && control@same.resampling.instance)
-    resampling = makeResampleInstance(resampling, task=task)
   if (length(measures) < 2)
     stop("Please pass ate least 2 measures for MCO!")
   sapply(measures, function(m) if (length(m@aggr) != 1) 
@@ -49,11 +47,12 @@ varselMCO = function(learners, task, resampling, measures, bit.names, bits.to.fe
     bit.names = getFeatureNames(task)
   if (missing(bits.to.features))
     bits.to.features = function(x, task) binary.to.vars(x, getFeatureNames(task)) 
+  if (!is.null(measure.max.vals) && !setequal(names(measure.max.vals), sapply(measures, function(x) x@id)))
+    stop("Measure ids and names of 'measure.max.vals' sets must coincide!")
   learner.ns = names(bag@learners)
-  if (!setequal(names(par.sets), learner.ns)) {
+  if (!setequal(names(par.sets), learner.ns)) 
     stop("Learner ids and names of parameter sets must coincide!")
-  }
-  
+  stop(123)
   ops = replicate(multi.starts,  simplify=FALSE, varselMCO2(bag, task, resampling, measures, 
       bit.names, bits.to.features, control, measure.max.vals, par.sets, learner.ns))
 }
@@ -77,12 +76,16 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
   n = length(bit.names)
   m = length(measures)
   
-  print(c(n, m))
-  # td: scale all measures to 0,1 and always use ref(1,...,1)  
-  # td: put this in varselMOCControl
-  #todo: check that "learner" and hyper.pars is not in bit.names
-  #todo: check that learners have not same hyper par names, what then?
   hps.ns = as.character(do.call(c, lapply(par.sets, function(ps) names(ps@pars))))
+  if ("learner" %in% bit.names) 
+    stop("'learner' can currently not be a bit/feature name!")
+  if ("learner" %in% hps.ns) 
+    stop("'learner' can currently not be a hyperparameter name in your ROI!")
+  if (length(intersect(hps.ns, bit.names)) > 0) 
+    stop("Hyperparameter names and bit/feature names overlap. Currently that is not supported!")
+  if (unique(hps.ns) != hps.ns)
+    stop("Hyperparameter names of learners overlap. Currently that is not supported!")
+  
   opt.path = makeOptPathDFFromMeasures(c("learner", hps.ns, bit.names), measures)
   
   mu = control@mu
@@ -94,7 +97,7 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
   mut.hp.prob = control@mut.hp.prob
   prob.cx = control@prob.cx
   pop = initPopulation(learner.ns, par.sets, n, control)
-  my.eval.states(bag, task, resampling, measures, NULL, bits.to.features, control, opt.path, pop, dob=gen, hps.ns=hps.ns)
+  my.eval.states(bag, task, resampling, measures, par.sets, bits.to.features, control, opt.path, pop, dob=gen, hps.ns=hps.ns)
   # Indices of individuals that are in the current pop.
   active = 1:mu    
   while(getLength(opt.path) < control@maxit) {
@@ -114,12 +117,11 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
     child = crossover(p1, p2, par.sets, control)
     child = mutate(child, learner.ns, par.sets, control)
     states = list(child)
-    my.eval.states(bag, task, resampling, measures, NULL, bits.to.features, control, opt.path, states, dob=gen, hps.ns=hps.ns)
+    my.eval.states(bag, task, resampling, measures, par.sets, bits.to.features, control, opt.path, states, dob=gen, hps.ns=hps.ns)
     
     active = c(active, getLength(opt.path))
     Y = as.data.frame(opt.path)[, opt.path@y.names]
     Y = t(as.matrix(Y[active,]))
-    # todo check if names are correct
     if (!is.null(measure.max.vals))
       Y[names(measure.max.vals),] = Y[names(measure.max.vals),] / measure.max.vals 
     ## Selection:
@@ -133,15 +135,16 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
 }
 
 #todo maybe add this to mlr?
-my.eval.states = function(bag, task, resampling, measures, par.set, bits.to.features, control, opt.path, pars, 
+my.eval.states = function(bag, task, resampling, measures, par.sets, bits.to.features, control, opt.path, pars, 
   eol=as.integer(NA), dob=as.integer(NA), hps.ns) {
-  
   fun = function(bag, task, resampling, measures, par.set, bits.to.features, control, val) {
+    print(val)
+    hps = mlrTune:::trafoVal(par.sets[[val$learner]], as.list(val$hyper.pars))
+    print(hps)
     # trafo hyper pars, integer conversion is done before
-    hps = trafoVal(par.set, as.list(val$hyper.pars))
+    bag@learners[[val$learner]] = setHyperPars(bag@learners[[val$learner]], par.vals=hps)
     # select learner and set hyper pars
     bag = setHyperPars(bag, sel.learner=val$learner)
-    bag@learners[[val$learner]] = setHyperPars(bag@learners[[val$learner]], hps)
     # select features 
     task = subset(task, vars=bits.to.features(val$bits, task))
     r = resample(bag, task, resampling, measures=measures)

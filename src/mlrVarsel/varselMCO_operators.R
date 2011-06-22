@@ -86,7 +86,7 @@ crossover.hps = function(x, y, par.sets, control) {
   hps = numeric(n)
   for (i in seq_len(n)) {
     sbx = sbx_operator(control@mut.hp.eta, control@mut.hp.prob, lower=low[i], upper=upp[i])
-    hps[i] = sample(sbx(matrix(c(x$hyper.pars[i], y$hyper.pars[i]), 1, 2)), 1)
+    hps[i] = sample(sbx(matrix(as.numeric(c(x$hyper.pars[i], y$hyper.pars[i])), 1, 2)), 1)
   }
   names(hps) = ns
   return(hps)
