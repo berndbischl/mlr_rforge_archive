@@ -207,7 +207,7 @@ data.frame.row.to.list = function(x, i) {
   x = lapply(x, function(y) if(is.factor(y)) as.character(y) else y)
 }
 
-check.arg = function(x, cl, len, choices, lower=-Inf, upper=Inf) {
+check.arg = function(x, cl, len, choices, lower=NA, upper=NA) {
   s = deparse(substitute(x))
   cl2 = class(x)
   if (!is(x, cl)) 
@@ -219,8 +219,10 @@ check.arg = function(x, cl, len, choices, lower=-Inf, upper=Inf) {
     stop("Argument ", s, " must be any of: ", paste(choices, collapse=","), "!")
   if (!missing(choices) && !(x %in% choices))
     stop("Argument ", s, " must be any of: ", paste(choices, collapse=","), "!")
-  if (is.numeric(x) && (x < lower || x > upper))
-    stop("Argument ", s, " must be between ", lower, " and ", upper, "!")
+  if (is.numeric(x) && !is.na(lower) && (is.na(x) || x < lower))
+    stop("Argument ", s, " must be greater than or equal ", lower, "!")
+  if (is.numeric(x) && !is.na(upper) && (is.na(x) || x > upper))
+    stop("Argument ", s, " must be less than or equal ", upper, "!")
 }
 
 
@@ -346,8 +348,13 @@ compare.diff = function(state1, state2, control, measure, threshold) {
 }
 
 makeOptPathDFFromMeasures = function(x.names, measures) {
+  ns = sapply(measures, function(x) x@id)
+  if (unique(ns) != ns)
+    stop("Cannot create OptPath, measures do not have unique ids!")
+  if (length(intersect(ns, x.names)))
+    stop("Cannot create OptPath, measures ids and dimension names of input space overlap!")
   minimize = Reduce(c, lapply(measures, function(m) rep(m@minimize, length(m@aggr))))
-  new("OptPathDF", x.names, measuresAggrNames(measures), minimize)
+  new("OptPathDF", x.names, ns, minimize)
 }
 
 

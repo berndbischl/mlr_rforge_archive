@@ -1,3 +1,4 @@
+#' @exportMethod makeWrappedModel
 setGeneric(
   name = "makeWrappedModel",
   def = function(learner, model, task.desc, subset, vars, time) {
