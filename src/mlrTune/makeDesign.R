@@ -52,21 +52,21 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE, i
       col = (cc + 1) : (cc + length(lower(p)))   
     else 
       col = cc + 1    
-
+    trafo.fun = if (trafo) p@trafo else identity
     if (p@type == "numeric")
-      des[,col] = p@trafo((upper(p)-lower(p))*des[,col] + lower(p))
+      des[,col] = trafo.fun((upper(p)-lower(p))*des[,col] + lower(p))
     else if (p@type == "integer") {
-      x = p@trafo(as.integer(floor((upper(p)-lower(p)+1)*des[,col] + lower(p))))
+      x = trafo.fun(as.integer(floor((upper(p)-lower(p)+1)*des[,col] + lower(p))))
       des[,col] = if (ints.as.num) as.numeric(x) else x  
     } else if (p@type == "numericvector") {
       des[,col] = t((upper(p)-lower(p))*t(des[,col]) + lower(p))
-      des[,col] = apply(des[,col], 1, p@trafo)
+      des[,col] = apply(des[,col], 1, trafo.fun)
     } else if (p@type == "integervector") {
       x = floor((upper(p)-lower(p)+1)*as.matrix(des[,col]) + lower(p))
       if (!ints.as.num)
         mode(x) = "integer"
       des[,col] = x
-      des[,col] = apply(des[,col], 1, p@trafo)
+      des[,col] = apply(des[,col], 1, trafo.fun)
     } else if (p@type == "logical")
       des[,col] = ifelse(des[,col] <= 0.5, FALSE, TRUE)
     else if (p@type == "discrete") {
