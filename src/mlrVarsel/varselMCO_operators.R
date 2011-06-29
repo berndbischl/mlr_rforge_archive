@@ -1,17 +1,20 @@
 #' Initialize a new set of hyper params for a learner
 #' Draw uniformly from region "lower to upper"
-sampleHyperPars = function(par.set) {
-  n = length(par.set@pars)
-  z = numeric(n)
-  for (i in seq_len(n)) {
-    pd = par.set@pars[[i]]
-    x = runif(1, pd@constraints$lower, pd@constraints$upper)
-    if (pd@type == "integer")
-      x = as.integer(round(x))
-    z[i] = x
-  }
-  names(z) = names(par.set@pars)
-  return(z)
+getNearestHyperPars = function(x, par.sets, bit.names, opt.path) {
+  ps = par.sets[[x$learner]]
+  if (length(ps@pars) == 0)
+    return(numeric(0))
+  df = as.data.frame(opt.path)
+  df = subset(df, learner == x$learner)
+  if (!any(is.na(df$eol)))
+    df = subset(df, dob != eol)
+  else
+    df = subset(df, is.na(eol))
+  dist = apply(df[, bit.names, drop=FALSE], 1, function(y) sum((y - x$bits)^2))
+  print(dist)
+  i = which.min(dist)
+  print(df[i,])
+  df[i, names(ps@pars)] 
 }
 
 

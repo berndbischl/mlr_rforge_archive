@@ -57,16 +57,29 @@ varselMCO = function(learners, task, resampling, measures, bit.names, bits.to.fe
       bit.names, bits.to.features, control, measure.max.vals, par.sets, learner.ns))
 }
 
+initHyperParsPopulations = function(learner.ns, par.sets, bits, control) {
+  pops = list()
+  for (x in learner.ns) {
+    ps = par.sets[[x]]
+    n = length(ps@pars)
+    if (n > 0) {
+      des = makeDesign(n*5, ps, trafo=FALSE)
+      attr(des, "trafo") = NULL
+      pops[[length(pops)+1]] = lapply(1:nrow(des), function(i) list(learner=x, 
+            bits=rbinom(bits, 1, control@prob.init), hyper.pars=as.list(des[i,,drop=FALSE])))
+    }
+  }
+  return(pops)
+}
 
-initPopulation = function(learner.ns, par.sets, bits, control) {
+initPopulation = function(learner.ns, par.sets, bit.names, opt.path, control) {
   pop = list()
   for (i in 1:control@mu) {
     learner = sample(learner.ns, 1)
-    pop[[i]] = list (
-      learner = learner,
-      hyper.pars = sampleHyperPars(par.sets[[learner]]),
-      bits = rbinom(bits, 1, control@prob.init)
-    )
+    x = list(learner = learner, bits = rbinom(length(bit.names), 1, control@prob.init))
+    print(x)
+    x$hyper.pars = getNearestHyperPars(x, par.sets, bit.names, opt.path)
+    pop[[i]] = x
   }
   return(pop)
 }
@@ -88,18 +101,27 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
   
   opt.path = makeOptPathDFFromMeasures(c("learner", hps.ns, bit.names), measures)
   
-  mu = control@mu
   gen = 0L
-  prob.init = control@prob.init
-  prob.mut.learner = control@prob.mut.learner
-  prob.mut.bit = control@prob.mut.bit
-  mut.hp.eta = control@mut.hp.eta
-  mut.hp.prob = control@mut.hp.prob
-  prob.cx = control@prob.cx
-  pop = initPopulation(learner.ns, par.sets, n, control)
+
+  pops = initHyperParsPopulations(learner.ns, par.sets, n, control)
+  lapply(pops, function(pop) 
+      my.eval.states(bag, task, resampling, measures, par.sets, bits.to.features, control, opt.path, pop, dob=-1L, eol=0L, hps.ns=hps.ns))
+  df = as.data.frame(opt.path)
+  for (x in learner.ns) {
+    i1 = which(df$learner == x)
+    if (length(i1) > 0) {
+      i2 = is_dominated(t(as.matrix(df[i1, opt.path@y.names])))
+      opt.path@env$eol[i1[i2]] = -1L
+    }
+  }
+  oo <<- opt.path
+  
+  pop = initPopulation(learner.ns, par.sets, bit.names, opt.path, control)
+  print(pop)
   my.eval.states(bag, task, resampling, measures, par.sets, bits.to.features, control, opt.path, pop, dob=gen, hps.ns=hps.ns)
+
   # Indices of individuals that are in the current pop.
-  active = 1:mu    
+  active = (length(opt.path)-control@mu+1):length(opt.path)    
   while(getLength(opt.path) < control@maxit) {
     gen = gen + 1L
     ## Variation:
