@@ -13,6 +13,18 @@ setMethod(
 		f = "initialize",
 		signature = signature("regr.randomForest"),
 		def = function(.Object) {
+      par.set = makeParameterSet(
+        makeIntegerLearnerParameter(id="ntree", default=500L, lower=1L),
+        makeIntegerLearnerParameter(id="mtry", lower=1L),
+        makeLogicalLearnerParameter(id="replace", default=TRUE),
+        makeIntegerLearnerParameter(id="sampsize", lower=1L),
+        makeIntegerLearnerParameter(id="nodesize", default=1L, lower=1L),
+        makeIntegerLearnerParameter(id="maxnodes", lower=1L),
+        makeLogicalLearnerParameter(id="importance", default=FALSE),
+        makeLogicalLearnerParameter(id="localImp", default=FALSE),
+        makeLogicalLearnerParameter(id="keep.inbag", default=FALSE)
+      )
+      
 			.Object = callNextMethod(.Object, pack="randomForest")
 
       setProperties(.Object,
