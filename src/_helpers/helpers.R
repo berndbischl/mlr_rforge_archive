@@ -349,7 +349,7 @@ compare.diff = function(state1, state2, control, measure, threshold) {
 
 makeOptPathDFFromMeasures = function(x.names, measures) {
   ns = sapply(measures, function(x) x@id)
-  if (unique(ns) != ns)
+  if (any(duplicated(ns)))
     stop("Cannot create OptPath, measures do not have unique ids!")
   if (length(intersect(ns, x.names)))
     stop("Cannot create OptPath, measures ids and dimension names of input space overlap!")
