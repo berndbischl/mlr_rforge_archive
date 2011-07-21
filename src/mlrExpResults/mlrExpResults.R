@@ -33,6 +33,11 @@ submitJob = function(ds, learner, split, split.name, measure) {
 doNextExps = function(n) {
   count = 1L
   for (ds in dss.classif) {
+    e = getDataset(ds, attach=FALSE)
+    if (length(e$task@desc@class.dist) > 2)
+      measures = measures.multi
+    else
+      measures = c(measures.multi, measures.binary)
     for (learner in learners.classif) {
       for (i in 1:length(rin.splits)) {
         split = rin.splits[i]
