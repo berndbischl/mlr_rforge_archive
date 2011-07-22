@@ -12,7 +12,7 @@ writeDesc <- function(desc.path, rev.nr) {
     "Description: no\n",
     "License: GPL (>= 2)\n",
     "LazyLoad: yes\n",
-    "Depends: R (>= 2.12.0), mlr, cluster, ggplot2, gridExtra, xtable\n",
+    "Depends: R (>= 2.11.0), mlr, cluster, ggplot2, gridExtra, xtable\n",
     sep=""
   )
   sink(NULL)
