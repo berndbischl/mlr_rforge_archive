@@ -36,7 +36,7 @@ tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt
     args$vectorized=TRUE    
   }  
   or = cma_es(par=start, fn=g, lower=low, upper=upp, control=args)
-  i = getBestIndex(opt.path, measureAggrNames(measures[[1]])[1], ties="random")
+  i = getBestIndex(opt.path, measures[[1]]@id, ties="random")
 	e = getPathElement(opt.path, i)
 	new("OptResult", learner, control, e$x, e$y, opt.path)
 }

@@ -69,6 +69,7 @@ setMethod(
     
     rin = resampling
     iters = rin@desc@iters
+    mids = sapply(measures, function(m) m@id)
     
     if (is(rin, "ResampleInstance.nonseq")) {
       rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
@@ -97,7 +98,7 @@ setMethod(
     
     ms.train = lapply(rs, function(x) x$measures.train)
     ms.train = as.data.frame(matrix(Reduce(rbind, ms.train), nrow=iters))
-    colnames(ms.train) = sapply(measures, function(pm) pm@id)
+    colnames(ms.train) = mids
     rownames(ms.train) = NULL
     ms.train = cbind(iter=1:iters, ms.train)
     
@@ -105,16 +106,9 @@ setMethod(
     preds.train = lapply(rs, function(x) x$pred.train)
     pred = new("ResamplePrediction", instance=rin, preds.test=preds.test, preds.train=preds.train)
     
-    aggr = c()
-    for (i in 1:length(measures)) {
-      m = measures[[i]]
-      mid = m@id
-      p1 = ms.test[, mid]
-      p2 = ms.train[, mid]
-      a = sapply(m@aggr, function(a) a@fun(p1, p2, m, rin["group"], pred))
-      names(a) = paste(mid, sapply(m@aggr, function(a) a@id), sep=".")
-      aggr = c(aggr, a)
-    }
+    aggr = sapply(mids, function(m)  m@aggr@fun(ms.test[, mid], ms.train[, mid], 
+          measures[[mid]], rin["group"], pred))
+    names(aggr) = mids
     
     list(
       measures.train = ms.train,

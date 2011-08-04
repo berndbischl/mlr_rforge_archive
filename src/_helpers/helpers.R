@@ -225,15 +225,6 @@ check.arg = function(x, cl, len, choices, lower=NA, upper=NA) {
     stop("Argument ", s, " must be less than or equal ", upper, "!")
 }
 
-
-measureAggrNames = function(measure) {
-  paste(measure@id, sapply(measure@aggr, function(a) a@id), sep=".")
-}
-
-measuresAggrNames = function(measures) {
-  Reduce(c, lapply(measures, measureAggrNames))
-}
-
 checkColumnNames = function(data, target, exclude) {
   cns = colnames(data)
   x = duplicated(cns)
@@ -353,7 +344,7 @@ makeOptPathDFFromMeasures = function(x.names, measures) {
     stop("Cannot create OptPath, measures do not have unique ids!")
   if (length(intersect(ns, x.names)))
     stop("Cannot create OptPath, measures ids and dimension names of input space overlap!")
-  minimize = Reduce(c, lapply(measures, function(m) rep(m@minimize, length(m@aggr))))
+  minimize = sapply(measures, function(m) m@minimize)
   new("OptPathDF", x.names, ns, minimize)
 }
 

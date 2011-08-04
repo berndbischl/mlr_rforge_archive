@@ -43,7 +43,7 @@ setClass(
     req.model = "logical",
     req.task = "logical",
     allowed.pred.types = "character",
-    aggr = "list"
+    aggr = "Aggregation"
   )
 )
 
@@ -56,7 +56,7 @@ setMethod(
       paste(
         "Performance measure: ", x@id, "\n",
         "Minimize: ", x@minimize, "\n",
-        "Aggregated by: ", paste(sapply(x["aggr"], function(a) a@id), collapse=","),
+        "Aggregated by: ", x@aggr@id,
         sep=""
       )
     )
