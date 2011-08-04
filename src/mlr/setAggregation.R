@@ -16,8 +16,6 @@
 setGeneric(
   name = "setAggregation",
   def = function(measure, aggr) {
-    if (!is.list(aggr))
-      aggr = list(aggr)
     standardGeneric("setAggregation")
   }
 )
@@ -28,7 +26,7 @@ setMethod(
   
   signature = signature(
     measure="Measure", 
-    aggr="list" 
+    aggr="Aggregation" 
   ),
   
   def = function(measure, aggr) {
