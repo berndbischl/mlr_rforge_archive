@@ -50,8 +50,8 @@ pack.files = c(
   "mlr/aggregations.R",
   "mlr/Measure.R",
   "mlr/Measure_make.R",
-  "mlr/measures.R",
   "mlr/setAggregation.R",
+  "mlr/measures.R",
   "mlr/performance.r",
   
   "mlr/resample/ResampleDesc.R",
