@@ -60,10 +60,10 @@ setMethod(
     v = codetools:::findGlobals(fun1, merge=FALSE)$variables
     if (only.binary && !classif)
       stop("only.binary can only be set to TRUE, if 'classif' is set to TRUE!")
-    new("Measure", id=id, fun=fun, extra.args=extra.args, minimize=minimize, classif=classif, regr=regr, only.binary=only.binary,
-      allowed.pred.types=allowed.pred.types, req.pred="pred" %in% v, req.model="model" %in% v, req.task="task" %in% v,
-      aggr = test.mean
+    m = new("Measure", id=id, fun=fun, extra.args=extra.args, minimize=minimize, classif=classif, regr=regr, only.binary=only.binary,
+      allowed.pred.types=allowed.pred.types, req.pred="pred" %in% v, req.model="model" %in% v, req.task="task" %in% v
     )
+    setAggregation(m, test.mean)
   }
 )
 
