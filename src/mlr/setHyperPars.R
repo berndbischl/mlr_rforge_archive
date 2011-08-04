@@ -67,6 +67,7 @@ setMethod(
             stop(msg)
           if (.mlr.local$errorhandler.setup$on.par.without.desc == "warn")
             warning(msg)
+          learner@par.set@pars[[n]] = makeUntypedLearnerParameter(id=n)
           learner@par.vals[[n]] = p
         } else {
           isf = isFeasible(pd, p)
