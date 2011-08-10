@@ -12,7 +12,7 @@ w3 = makeLearner("regr.earth")
 learners = list(w1, w2, w3)
 res.st = makeResampleDesc("CV", iters=10)
 w.super = makeLearner("regr.lm")
-w.st = makeStackingLearner(id="bla", learners, makeLearner("regr.lm"), w.super)
+w.st = makeStackingLearner(id="bla", learners, w.super, res.st)
 
 #m1 = train(w1, mytask)
 #p1 = predict(m1, mytask)
