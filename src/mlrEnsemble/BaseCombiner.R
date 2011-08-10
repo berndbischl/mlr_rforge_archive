@@ -33,11 +33,11 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("BaseCombiner"),
-  def = function(.Object, learners, id, pack=character(0), par.set, par.vals=list()) {
+  def = function(.Object, learners, pack=character(0), par.set, par.vals=list()) {
     if (missing(learners))
-      return(make.empty(.Object))
+      return(mlr:::make.empty(.Object))
     .Object@learners = learners
-    callNextMethod(.Object, id=id, pack=pack, par.set=par.set, par.vals=par.vals)
+    callNextMethod(.Object, pack=pack, par.set=par.set, par.vals=par.vals)
   }
 )
 
