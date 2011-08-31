@@ -348,4 +348,8 @@ makeOptPathDFFromMeasures = function(x.names, measures) {
   new("OptPathDF", x.names, ns, minimize)
 }
 
+measureAggrName = function(measure) {
+  paste(measure@id, measure@aggr@id, sep=".")
+}
+
 
