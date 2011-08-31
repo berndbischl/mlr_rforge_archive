@@ -107,7 +107,7 @@ setMethod(
     pred = new("ResamplePrediction", instance=rin, preds.test=preds.test, preds.train=preds.train)
     
     aggr = sapply(measures, function(m)  m@aggr@fun(ms.test[, m@id], ms.train[, m@id], m, rin@group, pred))
-    names(aggr) = mids
+    names(aggr) = sapply(measures, measureAggrName)
     
     list(
       measures.train = ms.train,
