@@ -39,9 +39,13 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {
-			f = getFormula(.task)
-			earth(f, data=getData(.task, .subset), ...)
-		}
+      #x = getData(.task, .subset, target.extra=TRUE)
+			#earth(x$data, x$target, ...)
+      f = getFormula(.task)
+      args = list(f, data=getData(.task, .subset))
+      args = c(args, list(...))
+      do.call("earth", args)
+    }
 )
 
 #' @rdname predictLearner
