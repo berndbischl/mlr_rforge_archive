@@ -1,3 +1,6 @@
+#' @include setAggregation.R
+roxygen()
+
 #' A performance measure is evaluated after a single train/predict step and returns a single number to assess the quality
 #' of the prediction (or maybe only the model, think AIC).
 #' The measure itself knows whether it wants to be minimized or maximized and for what tasks it is applicable.

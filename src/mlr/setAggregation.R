@@ -31,8 +31,6 @@ setMethod(
   
   def = function(measure, aggr) {
     measure@aggr = aggr
-    mid = strsplit(measure@id, "\\.")[[1]][1]
-    measure@id = paste(mid, aggr@id, sep=".")
     return(measure)
   } 
 )
