@@ -318,7 +318,7 @@ eval.rf = function(learner, task, resampling, measures, par.set, bits.to.feature
     learner = setHyperPars(learner, par.vals=val)
   }
   if (is(control, "VarselControl")) {
-    task = subset(task, vars=bits.to.features(val, task))
+    task = subsetData(task, vars=bits.to.features(val, task))
   }
 	# todo 
 #	if (control["tune.threshold"]) 

@@ -60,11 +60,11 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
       pvs = .learner@par.vals 
-      .task = subset(.task, subset=.subset)  
+      .task = subsetData(.task, subset=.subset)  
       tn = .task@desc@target
       vars = varfilter(.task, pvs$fw.method, pvs$fw.threshold)$vars
       if (length(vars) > 0) {
-        .task = subset(.task, vars=vars)  
+        .task = subsetData(.task, vars=vars)  
         # !we have already subsetted!
 			  m = trainLearner(.learner@learner, .task, 1:.task@desc@size, ...)
       } else {

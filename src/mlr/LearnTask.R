@@ -158,6 +158,7 @@ getData = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
   }
 }
 
+
 #' Subset data in task. 
 #' 
 #' @param x [\code{\linkS4class{LearnTask}}]\cr 
@@ -167,22 +168,30 @@ getData = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
 #' @param vars [character] \cr 
 #'   Selected inputs. Note that target feature is always included! Default is all input variables. 
 #' @return \code{\linkS4class{LearnTask}} with changed data.
-#'
-#' @export
-#' @rdname subset
+#' @exportMethod subsetData
+#' @rdname subsetData
 #' @seealso \code{\link{getData}} 
 #' @title Subset data in task.
 
+setGeneric(
+  name = "subsetData",
+  def = function(task, subset, vars) {
+    if (is.numeric(subset))
+      subset = as.integer(subset)
+    standardGeneric("subsetData")
+  }
+)
+
 setMethod(
-  f = "subset",
-  signature = signature(x="LearnTask"),
-  def = function(x, subset, vars) {
-    x = changeData(x, getData(x, subset, vars))
+  f = "subsetData",
+  signature = signature(task="LearnTask", subset="integer", vars="character"),
+  def = function(task, subset, vars) {
+    task = changeData(task, getData(task, subset, vars))
     if (!missing(subset)) {
-      x@blocking = x@blocking[subset]
-      x@weights = x@weights[subset]
+      task@blocking = task@blocking[subset]
+      task@weights = task@weights[subset]
     }  
-    return(x)
+    return(task)
   }
 )
 

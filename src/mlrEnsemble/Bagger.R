@@ -38,7 +38,7 @@ setMethod(
   ),
   
   def = function(.learner, .task, .subset,  ...) {
-    .task = subset(.task, subset=.subset)
+    .task = subsetData(.task, subset=.subset)
     # for now simply partition into 10 parts
     # we neeed a res. class for "Partitioning" and we can use "Subsampling" 
     # check in constructor that nothing else is allowed

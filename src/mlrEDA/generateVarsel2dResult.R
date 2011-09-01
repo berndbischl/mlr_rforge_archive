@@ -30,12 +30,12 @@ generateVarsel2dResult <- function(learner, task, resampling, measures, control,
     bits.to.features = function(x, task) binary.to.vars(x, bit.names)
     opt.path = makeOptPathFromMeasures(bit.names, measures)
     ors[[i]] = varsel(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path)
-    task2d = subset(task, vars=ors[[i]]@x)
+    task2d = subsetData(task, vars=ors[[i]]@x)
     r = resample(learner, task2d, resampling)
     e = r$pred@df$truth != r$pred@df$response
     errs[,i] = e[order(r$pred["id"])]
     vars = setdiff(bit.names, ors[[i]]@x[1:remove])
-    task = subset(task, vars=vars)
+    task = subsetData(task, vars=vars)
   } 
   return(list(ors=ors, errs=errs))
 }

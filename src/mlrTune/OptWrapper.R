@@ -52,14 +52,14 @@ setMethod(
 			bl = wl@learner
 			ctrl = wl@control
       # todo: strange error if we remove :::? maybe rename subset...
-      lt = mlr:::subset(.task, .subset)
+      lt = subsetData(.task, .subset)
 			if (is(wl@control, "TuneControl")) {
 				or = tune(bl, lt, wl@resampling, wl@measures, wl@opt.pars, ctrl)
         bl = setHyperPars(bl, par.vals=or@x)
         m = train(bl, lt)
       } else if (is(wl@control, "VarselControl")) {
 				or = varsel(bl, lt, wl@resampling, measures=wl@measures, wl@bit.names, wl@bits.to.features, control=ctrl)
-        lt = subset(lt, vars=or@x)
+        lt = subsetData(lt, vars=or@x)
         m = train(bl, lt)
       }	else 
 				stop("Should not happen!")

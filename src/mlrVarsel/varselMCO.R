@@ -145,7 +145,7 @@ my.eval.states = function(bag, task, resampling, measures, par.sets, bits.to.fea
     # select learner and set hyper pars
     bag = setHyperPars(bag, sel.learner=val$learner)
     # select features 
-    task = subset(task, vars=bits.to.features(val$bits, task))
+    task = subsetData(task, vars=bits.to.features(val$bits, task))
     r = resample(bag, task, resampling, measures=measures)
     return(r$aggr)
   }

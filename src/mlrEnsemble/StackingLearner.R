@@ -93,7 +93,7 @@ setMethod(
     ids = sapply(learners, function(x) x@id)
     if (tn %in% ids) 
       stop("Learner id is equal to target name of task!")
-    .task = subset(.task, subset=.subset)  
+    .task = subsetData(.task, subset=.subset)  
     rin = makeResampleInstance(.learner@resampling, .task)
     inds = do.call(c, rin@test.inds) 
     resps = lapply(learners, function(w) resample(w, .task, rin)$pred@df$response)
