@@ -312,6 +312,27 @@ mylapply <- function(xs, f, from, ...) {
   return(y)
 }
 
+# todo: remove?
+eval.rf = function(learner, task, resampling, measures, par.set, bits.to.features, control, val) {
+  if (is(control, "TuneControl")) {
+    learner = setHyperPars(learner, par.vals=val)
+  }
+  if (is(control, "VarselControl")) {
+    task = subset(task, vars=bits.to.features(val, task))
+  }
+	# todo 
+#	if (control["tune.threshold"]) 
+#		type = "prob"
+	r = resample(learner, task, resampling, measures=measures)
+  return(r$aggr)
+  
+#	th = as.numeric(NA)
+#	if (control["tune.threshold"]) { 
+#		thr = tune.threshold(rf, measures, task, minimize=control@minimize, thresholds=control["thresholds"])
+#		rf = thr$pred
+#		th = thr$th
+#	}
+}
 
 eval.states = function(learner, task, resampling, measures, par.set, bits.to.features, control, opt.path, pars, 
   eol=as.integer(NA), dob=as.integer(NA)) {
