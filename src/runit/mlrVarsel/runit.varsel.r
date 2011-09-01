@@ -6,7 +6,7 @@ test.varsel <- function() {
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
   checkEquals(getLength(vr@path), 11) 
   checkEquals(nrow(as.data.frame(vr@path)), 11) 
-  checkEquals(ncol(as.data.frame(vr@path)), 8) 
+  checkEquals(ncol(as.data.frame(vr@path)), 7) 
   # test printing
   print(vr)
   
@@ -48,10 +48,6 @@ test.varsel <- function() {
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
   checkEquals(vr@x, character(0)) 
   
-  wl = makeVarselWrapper("classif.lda", resampling=inner, control=ctrl)
-  outer = makeResampleDesc("CV", iter=2)
-  r = resample(wl, task=multiclass.task, resampling=outer)
-  
   # check bits
   bns = c("b1", "b2")
   btf = function(b, task) {
@@ -62,19 +58,19 @@ test.varsel <- function() {
   ctrl = makeVarselControlRandom(maxit=3)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, bit.names=bns, bits.to.features=btf, control=ctrl)
   df = as.data.frame(vr@path) 
-  checkEquals(colnames(df), c("b1", "b2", "mmce.test.mean", "mmce.test.sd", "dob", "eol"))
+  checkEquals(colnames(df), c("b1", "b2", "mmce.test.mean", "dob", "eol"))
   checkEquals(nrow(df), 3)
   
   ctrl = makeVarselControlExhaustive()
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, bit.names=bns, bits.to.features=btf, control=ctrl)
   df = as.data.frame(vr@path) 
-  checkEquals(colnames(df), c("b1", "b2", "mmce.test.mean", "mmce.test.sd", "dob", "eol"))
+  checkEquals(colnames(df), c("b1", "b2", "mmce.test.mean", "dob", "eol"))
   checkEquals(nrow(df), 4)
   
   ctrl = makeVarselControlSequential(method="sfs", alpha=0)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, bit.names=bns, bits.to.features=btf, control=ctrl)
   df = as.data.frame(vr@path) 
-  checkEquals(colnames(df), c("b1", "b2", "mmce.test.mean", "mmce.test.sd", "dob", "eol"))
+  checkEquals(colnames(df), c("b1", "b2", "mmce.test.mean", "dob", "eol"))
   checkEquals(nrow(df), 4)
 }
 

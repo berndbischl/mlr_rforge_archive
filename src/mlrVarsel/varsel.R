@@ -64,6 +64,9 @@ varsel <- function(learner, task, resampling, control, measures, bit.names, bits
 	if (missing(control)) {
 		stop("You have to pass a control object!")
 	}
-  opt.path = makeOptPathDFFromMeasures(bit.names, measures)
+  par.set = lapply(bit.names, function(bn) makeIntegerParameter(bn))
+  par.set = do.call(makeParameterSet, par.set)
+  
+  opt.path = makeOptPathDFFromMeasures(par.set, measures)
   sel.func(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, log.fun)
 }

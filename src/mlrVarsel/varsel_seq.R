@@ -109,7 +109,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
   j = which(opt.path@env$dob == last)
   if (all(opt.path@env$eol[opt.path@env$dob == last] == last))
     last = last-1
-  i = getBestIndex(opt.path, measures[[1]]@id, dob=last, ties="first")
+  i = getBestIndex(opt.path, measureAggrName(measures[[1]]), dob=last, ties="first")
   e = getPathElement(opt.path, i)
   new("OptResult", learner, control, bits.to.features(e$x, task), e$y, opt.path)
 }
