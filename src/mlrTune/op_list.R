@@ -44,13 +44,13 @@ setMethod(
 setMethod(
   f = "addPathElement",
   
-  signature = signature(op="OptPathList", x="any", y="any", dob="integer", eol="integer"), 
+  signature = signature(op="OptPathList", x="any", x.trafo="any", y="any", dob="integer", eol="integer"), 
   
-  def = function(id, x, y, dob, eol) {
+  def = function(id, x, x.trafo, y, dob, eol) {
     dob=length(op@env$path)+1
-    names(x) = op@x.names
+    names(x.trafo) = op@x.names
     names(y) = op@y.names
-    op@env$path = append(op@env$path, list(list(x=x, y=y)))
+    op@env$path = append(op@env$path, list(list(x=x.trafo, y=y)))
     op@env$dob = append(op@env$dob, dob)
     op@env$eol = append(op@env$eol, eol)
   }

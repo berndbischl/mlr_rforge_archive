@@ -10,9 +10,7 @@ tune.diceoptim = function(learner, task, resampling, measures, par.set, control,
     stop("DiceOptim requires finite box constraints!")
   
   args = control@extra.args
-  print(args)
   des = makeDesign(args$init.des.points, par.set)
-  print(str(des))
   ns = colnames(des)
 
   f = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path) 
@@ -25,7 +23,7 @@ tune.diceoptim = function(learner, task, resampling, measures, par.set, control,
   j = which.min(or$value)
   
   par = as.list(or$par[j,])
-  i = getBestIndex(opt.path, measures[[1]]@id, ties="random")
+  i = getBestIndex(opt.path, measureAggrName(measures[[1]]), ties="random")
   e = getPathElement(opt.path, i)
   
   new("OptResult", learner, control, e$x, e$y, opt.path)

@@ -9,9 +9,9 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("OptPathDF"),
-  def = function(.Object, x.names, y.names, minimize) {
-    .Object = callNextMethod(.Object, x.names, y.names, minimize)
-    ns = c(x.names, y.names)
+  def = function(.Object, par.set, y.names, minimize) {
+    .Object = callNextMethod(.Object, par.set, y.names, minimize)
+    ns = c(.Object@x.names, y.names)
     df = as.data.frame(matrix(0, nrow=0, ncol=length(ns)))
     colnames(df) = ns 
     .Object@env$path = df 
@@ -23,9 +23,9 @@ setMethod(
 #' @rdname addPathElement
 setMethod(
   f = "addPathElement",
-  signature = signature(op="OptPathDF", x="list", y="numeric", dob="integer", eol="integer"), 
-  def = function(op, x, y, dob, eol) {
-    el = do.call(cbind, lapply(x, function(z) as.data.frame(t(z), stringsAsFactors=FALSE)))
+  signature = signature(op="OptPathDF", x="list", x.trafo="list", y="numeric", dob="integer", eol="integer"), 
+  def = function(op, x, x.trafo, y, dob, eol) {
+    el = do.call(cbind, lapply(x.trafo, function(z) as.data.frame(t(z), stringsAsFactors=FALSE)))
     el = cbind(el, as.data.frame(as.list(y), stringsAsFactors=FALSE))
     colnames(el) = c(op@x.names, op@y.names)
     op@env$path = rbind(op@env$path, el)
@@ -57,7 +57,6 @@ as.data.frame.OptPathDF = function(x) {
 }
 
 
-
 #' @rdname getLength
 setMethod(
   f = "getPathElement",
@@ -65,7 +64,7 @@ setMethod(
   def = function(op, index) {
     e = op@env
     path = e$path
-    x = as.list(path[index, op@x.names, drop=FALSE])
+    x = dataFrameRowToList(path, op@par.set, index)
     y = unlist(path[index, op@y.names, drop=FALSE])
     list(x=x, y=y, dob=e$dob[index], eol=e$eol[index])
   }

@@ -37,13 +37,16 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
       pars, p.split
     )
     if (trafo)
-      p.split = trafoVal(par.set, p.split)
+      p.split2 = trafoVal(par.set, p.split)
+    else
+      p.split2 = p.split
     # todo: what about operators that generate the new state? accepted?
     
-    learner = setHyperPars(learner, par.vals=p.split)
+    learner = setHyperPars(learner, par.vals=p.split2)
     y = resample(learner, task, resampling, measures=measures)$aggr
-    addPathElement(opt.path, x=p.split, y=y)   
-    log.fun(learner, task, resampling, measures, par.set, control, opt.path, p.split, y)
+    addPathElement(opt.path, x=p.split, x.trafo=p.split2, y=y)   
+    
+    log.fun(learner, task, resampling, measures, par.set, control, opt.path, p.split2, y)
     ifelse(measures[[1]]@minimize, 1 , -1) * y[1]
   }  
 }

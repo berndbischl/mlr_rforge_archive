@@ -24,7 +24,7 @@ test.OptWrapper <- function() {
   
   m = train(svm.tuner, task=regr.task)
   or = m@opt.result
-  checkEquals(length(as.list(or@path)), 5+1)
+  checkEquals(getLength(or@path), 5+1)
   checkTrue(!any(is.na(as.data.frame(or@path)$mse.test.mean)))
   
   

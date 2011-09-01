@@ -13,8 +13,9 @@ test.tune <- function() {
 			tunecontrol = tune.control(sampling = "cross", cross = folds))  
 	
 	cv.instance <- e1071.cv.to.mlr.cv(tr)
-	
-	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, par.set=ps1, control=ctrl)
+	m1 = setAggregation(mmce, test.mean)
+  m2 = setAggregation(mmce, test.sd)
+	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, par.set=ps1, control=ctrl, measures=list(m1, m2))
   pp = as.data.frame(tr2@path)  
 	# todo test scale with tune.e1071 and scaled grid!	
 	for(i in 1:nrow(tr$performances)) {
@@ -31,14 +32,7 @@ test.tune <- function() {
 	ms = c("acc", "mmce", "timefit") 
 	tr2 = tune("classif.rpart", multiclass.task, cv.instance, par.set=ps1, control=ctrl)
   
-	# tune wrapper
-	res = makeResampleDesc("CV", iters=2)
-  ps2 = makeParameterSet(
-    makeDiscreteParameter("minsplit", vals=seq(3,10,2))
-  )  
-	wl = makeTuneWrapper("classif.rpart", resampling=res, par.set=ps2, control=ctrl)
-	m = train(wl,  multiclass.task)
-	# todo check opt. parameter is same as with tune
+	# todo check opt. parameter is same with tune and tune.wrapper
 	
 #	#tune chain
 #	wl = makeLearner("classif.rpart", minsplit=10, cp=0.01, predict.type="prob")
@@ -119,9 +113,9 @@ test.tune.cmaes = function() {
   
   ctrl2 = makeTuneControlCMAES(start=c(1/3, 1/3, 1/3, 200L), maxit=5, sigma=2)
   tr2 = tune("classif.randomForest", multiclass.task, res, par.set=ps2, control=ctrl2)
-  checkEquals(ncol(as.data.frame(tr2@path)), 4+2+2)
+  checkEquals(ncol(as.data.frame(tr2@path)), 4+1+2)
   checkTrue(is.numeric(tr2@y)) 
-  checkEquals(length(tr2@y), 2) 
+  checkEquals(length(tr2@y), 1) 
   checkTrue(is.list(tr2@x)) 
   checkEquals(length(tr2@x), 2) 
   

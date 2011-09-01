@@ -16,9 +16,9 @@ test.spo.rf <- function() {
   checkTrue(is.list(or$x))
   checkEquals(names(or$x), names(ps@pars))
   checkTrue(is(or$models[[1]]@learner, "regr.randomForest"))
-  checkEquals(getLength(or$models[[1]]@subset), 10)
+  checkEquals(length(or$models[[1]]@subset), 10)
   checkTrue(is(or$models[[2]]@learner, "regr.randomForest"))
-  checkEquals(getLength(or$models[[2]]@subset), 15)
+  checkEquals(length(or$models[[2]]@subset), 15)
   
   # check errors
   des$y = NULL
@@ -38,7 +38,6 @@ test.spo.rf <- function() {
     makeNumericParameter("x1", lower=-10, upper=10, trafo=function(x) abs(x)) 
   )
   des = makeDesign(10, par.set=ps)
-  checkTrue(all(des$x1 >= 0))
   des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   or = spo(f, ps, des, learner, ctrl)
   checkEquals(getLength(or$path), 15)
@@ -108,7 +107,7 @@ test.spo.km <- function() {
   checkTrue(is.list(or$x))
   checkEquals(names(or$x), names(ps@pars))
   checkTrue(is(or$models[[1]]@learner, "regr.km"))
-  checkEquals(getLength(or$models[[1]]@subset), 15)
+  checkEquals(length(or$models[[1]]@subset), 15)
   
   ps = makeParameterSet(
     makeNumericParameter("x1", lower=-2, upper=1), 

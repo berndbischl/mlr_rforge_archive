@@ -338,18 +338,50 @@ compare.diff = function(state1, state2, control, measure, threshold) {
   ifelse(measure@minimize, 1, -1) * (state1$y[1] - state2$y[1]) > threshold
 }
 
-makeOptPathDFFromMeasures = function(x.names, measures) {
-  ns = sapply(measures, function(x) x@id)
+makeOptPathDFFromMeasures = function(par.set, measures) {
+  ns = sapply(measures, measureAggrName)
   if (any(duplicated(ns)))
     stop("Cannot create OptPath, measures do not have unique ids!")
-  if (length(intersect(ns, x.names)))
+  if (length(intersect(ns, names(par.set@pars))) > 0 ||
+      length(intersect(ns, getRepeatedParameterIDs(par.set, TRUE))) > 0)
     stop("Cannot create OptPath, measures ids and dimension names of input space overlap!")
   minimize = sapply(measures, function(m) m@minimize)
-  new("OptPathDF", x.names, ns, minimize)
+  new("OptPathDF", par.set, ns, minimize)
 }
 
 measureAggrName = function(measure) {
   paste(measure@id, measure@aggr@id, sep=".")
 }
+
+
+dataFrameRowToList = function(df, par.set, i) {
+  df = df[i,,drop=FALSE]
+  pars = par.set@pars
+  col = 0
+  x = list()
+  for (i in 1:length(pars)) {
+    p = pars[[i]]
+    cc = rev(col)[1]
+    if (p@type %in% c("numericvector", "integervector")) 
+      col = (cc + 1) : (cc + length(lower(p)))   
+    else 
+      col = cc + 1    
+    
+    if (p@type == "numericvector") 
+      x[[p@id]] = as.numeric(df[,col])  
+    else if (p@type %in% c("integer", "integervector")) 
+      x[[p@id]] = as.integer(round(df[,col]))
+    else if (p@type == "discrete") {
+      if(p@constraints$vals.class == "list")
+        x[[p@id]] = p@constraints$vals[[df[,col]]]
+      else
+        x[[p@id]] = df[,col]
+    } else 
+      x[[p@id]] = df[,col]
+  }
+  return(x)
+}
+
+
 
 

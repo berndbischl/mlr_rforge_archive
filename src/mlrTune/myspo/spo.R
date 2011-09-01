@@ -42,12 +42,12 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   
   rep.pids = getRepeatedParameterIDs(par.set, with.nr=TRUE)
   y.name = control@y.name
-  opt.path = new("OptPathDF", y.names=y.name, x.names=names(par.set@pars), minimize=control@minimize)
+  opt.path = new("OptPathDF", par.set=par.set, y.names=y.name, minimize=control@minimize)
   
   if (is.null(des)) {
     des.x = makeDesign(control@init.design.points, par.set, 
       control@init.design.fun, control@init.design.args, trafo=FALSE)
-    xs = lapply(1:nrow(des.x), function(i) designToList(des.x, par.set, i))
+    xs = lapply(1:nrow(des.x), function(i) dataFrameRowToList(des.x, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
     des = des.x
     des[, y.name] = ys
@@ -64,7 +64,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
       stop("Column names of design 'des' must match names of parameters in 'par.set'!")
     # reorder
     des.x = des.x[, rep.pids, drop=FALSE]
-    xs = lapply(1:nrow(des.x), function(i) designToList(des.x, par.set, i))
+    xs = lapply(1:nrow(des.x), function(i) dataFrameRowToList(des.x, par.set, i))
   }
   Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)
   rt = makeSpoTask(des, y.name)
@@ -80,7 +80,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
       res.vals[[length(res.vals)+1]] = r$aggr
     }
     prop.des = proposePoints(model, par.set, control, opt.path)
-    xs = lapply(1:nrow(prop.des), function(i) designToList(prop.des, par.set, i))
+    xs = lapply(1:nrow(prop.des), function(i) dataFrameRowToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
     Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)
     rt = makeSpoTask(as.data.frame(opt.path), y.name, exclude=c("dob", "eol"))
@@ -96,7 +96,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   
   if (control@final.evals > 0) {
     prop.des = x[rep(1,control@final.evals),,drop=FALSE]
-    xs = lapply(1:nrow(prop.des), function(i) designToList(prop.des, par.set, i))
+    xs = lapply(1:nrow(prop.des), function(i) dataFrameRowToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
     y.real = mean(ys)
     x = xs[[1]]
@@ -109,31 +109,6 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   list(x=x, y.pred=y.pred, y.real=y.real, path=opt.path, models=models)
 }
 
-
-designToList = function(des, par.set, i, y.name) {
-  des = des[i,,drop=FALSE]
-  pars = par.set@pars
-  col = 0
-  x = list()
-  for (i in 1:length(pars)) {
-    p = pars[[i]]
-    cc = rev(col)[1]
-    if (p@type %in% c("numericvector", "integervector")) 
-      col = (cc + 1) : (cc + length(lower(p)))   
-    else 
-      col = cc + 1    
-    
-    if (p@type == "numericvector") 
-      x[[p@id]] = as.numeric(des[,col])  
-    else if (p@type %in% c("integer", "integervector")) 
-      x[[p@id]] = as.integer(round(des[,col]))
-    else if (p@type == "discrete") 
-      x[[p@id]] = as.character(des[,col])
-    else 
-      x[[p@id]] = des[,col]
-  }
-  return(x)
-}
 
 evalTargetFun = function(fun, par.set, xs) {
   xs = lapply(xs, trafoVal, par=par.set)

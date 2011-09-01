@@ -69,7 +69,7 @@ test.makeDesign = function() {
     makeNumericVectorParameter("x", dim=2, lower=-2, upper=1, trafo =  function(x) 2^x), 
     makeIntegerVectorParameter("y", dim=3, lower=10L, upper=20L, trafo=function(x) 3L*x) 
   )
-  des = makeDesign(100, ps5)
+  des = makeDesign(100, ps5, trafo=TRUE)
   checkEquals(nrow(des), 100)
   checkEquals(ncol(des), 5)
   checkEquals(colnames(des), c("x1", "x2", "y1", "y2", "y3"))

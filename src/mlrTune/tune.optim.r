@@ -26,8 +26,7 @@ tune.optim = function(learner, task, resampling, measures, par.set, control, opt
       stop("Box constraints can only be used for 'L-BFGS-B' in 'optim'!")  
     or = optim(par=start, f=g, method=method, control=args)
   }
-
-  i = getBestIndex(opt.path, measureAggrNames(measures[[1]])[1], ties="random")
+  i = getBestIndex(opt.path, measureAggrName(measures[[1]]), ties="random")
   e = getPathElement(opt.path, i)
   new("OptResult", learner, control, e$x, e$y, opt.path)
 }

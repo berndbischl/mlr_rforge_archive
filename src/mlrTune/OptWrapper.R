@@ -63,9 +63,8 @@ setMethod(
         m = train(bl, lt)
       }	else 
 				stop("Should not happen!")
-				
 			# set the opt result as attribute, so we can extract it later 
-			attr(m, "OptResult") = or
+			attr(m, "opt.result") = or
 			return(m)
 		}
 )

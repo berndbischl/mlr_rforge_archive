@@ -8,6 +8,7 @@
 setClass(
   "OptPath",
   representation = representation(
+    par.set = "ParameterSet",
     x.names = "character",
     y.names = "character",
     minimize = "logical",
@@ -19,9 +20,10 @@ setClass(
 setMethod(
   f = "initialize",
   signature = signature("OptPath"),
-  def = function(.Object, x.names, y.names, minimize) {
-    if (missing(x.names))
+  def = function(.Object, par.set, y.names, minimize) {
+    if (missing(par.set))
       return(mlr:::make.empty(.Object))
+    x.names = getRepeatedParameterIDs(par.set, with.nr=TRUE)
     if (length(intersect(x.names, y.names)) > 0)
       stop("'x.names' and 'y.names' must not contain common elements!")
     if (length(minimize) != length(y.names))
@@ -33,6 +35,7 @@ setMethod(
     
     if (any(c("dob", "eol") %in% (union(x.names, y.names))))
       stop("'dob' and 'eol' are not allowed in 'x.names' or 'y.names'!")
+    .Object@par.set = par.set
     .Object@x.names = x.names
     .Object@y.names = y.names
     .Object@minimize = minimize
@@ -49,6 +52,9 @@ setMethod(
 #'   Optimization path.  
 #' @param x [\code{list}]\cr 
 #'   List of parameter settings for a point in input space. Must be in same order as \code{x.names}.  
+#' @param x.trafo [\code{list}]\cr 
+#'   If parameters were transformed, the transformed values. Same structure as \code{x}.
+#'   If missing, no transformation was done, and it is set to \code{x}.   
 #' @param y [numeric] \cr 
 #'   Vector of fitness values.  Must be in same order as \code{y.names}.
 #' @param dob [integer(1)] \cr 
@@ -61,7 +67,9 @@ setMethod(
 
 setGeneric(
   name = "addPathElement",
-  def = function(op, x, y, dob, eol) {
+  def = function(op, x, x.trafo, y, dob, eol) {
+    if (missing(x.trafo))        
+      x.trafo = x
     if (missing(dob))        
       dob = getLength(op)+1L
     if (missing(eol))        
@@ -69,6 +77,8 @@ setGeneric(
     mlr:::check.arg(dob, "integer", 1)
     mlr:::check.arg(eol, "integer", 1)
     stopifnot(is.na(eol) || eol >= dob)
+    if(!isFeasible(op@par.set, x))
+      stop("Trying to add infeasible x values to opt path!")
     standardGeneric("addPathElement")
   }
 )
