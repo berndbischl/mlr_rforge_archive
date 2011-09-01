@@ -316,7 +316,7 @@ mylapply <- function(xs, f, from, ...) {
 eval.states = function(learner, task, resampling, measures, par.set, bits.to.features, control, opt.path, pars, 
   eol=as.integer(NA), dob=as.integer(NA)) {
   
-  y = mylapply(xs=pars, from="opt", f=mlr:::eval.rf, learner=learner, task=task, resampling=resampling, 
+  y = mylapply(xs=pars, from="opt", f=eval.rf, learner=learner, task=task, resampling=resampling, 
     measures=measures, par.set=par.set, bits.to.features=bits.to.features, control=control)
   n = length(pars)
   if (length(dob) == 1)
@@ -383,5 +383,18 @@ dataFrameRowToList = function(df, par.set, i) {
 }
 
 
+getRepeatedParameterIDs = function(par.set, with.nr) {
+  ns = lapply(par.set@pars, function(x) 
+      if (x@type %in% c("numericvector", "integervector")) {
+        m = length(x@constraints$lower)
+        if (m > 1 && with.nr)
+          paste(rep(x@id, m), 1:m, sep="")
+        else
+          rep(x@id, m)
+      } else 
+        x@id
+  )
+  Reduce(c, ns)
+}
 
 
