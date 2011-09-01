@@ -95,3 +95,19 @@ crossover.hps = function(x, y, par.sets, control) {
   return(hps)
 }  
 
+sampleHyperPars = function(par.set) {
+  n = length(par.set@pars)
+  z = numeric(n)
+  for (i in seq_len(n)) {
+    pd = par.set@pars[[i]]
+    x = runif(1, pd@constraints$lower, pd@constraints$upper)
+    if (pd@type == "integer")
+      x = as.integer(round(x))
+    # todo: should we really do the trafo here? check mlrTune!
+    z[i] = pd@trafo(x)
+  }
+  names(z) = names(par.set@pars)
+  return(z)
+}
+
+

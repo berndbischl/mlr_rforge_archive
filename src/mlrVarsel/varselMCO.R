@@ -83,7 +83,7 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
     stop("'learner' can currently not be a hyperparameter name in your ROI!")
   if (length(intersect(hps.ns, bit.names)) > 0) 
     stop("Hyperparameter names and bit/feature names overlap. Currently that is not supported!")
-  if (unique(hps.ns) != hps.ns)
+  if (any(duplicated(hps.ns)))
     stop("Hyperparameter names of learners overlap. Currently that is not supported!")
   
   opt.path = makeOptPathDFFromMeasures(c("learner", hps.ns, bit.names), measures)
@@ -111,8 +111,10 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
     p2 = list()
     p1$learner = p1a$learner    
     p2$learner = p2a$learner
-    p1$hyper.pars = unlist(p1a[names(par.sets[[p1$learner]]@pars)])  
-    p2$hyper.pars = unlist(p2a[names(par.sets[[p2$learner]]@pars)])  
+    p1$hyper.pars = p1a[names(par.sets[[p1$learner]]@pars)]
+    p2$hyper.pars = p2a[names(par.sets[[p2$learner]]@pars)]
+    mode(p1$hyper.pars) = "numeric"
+    mode(p2$hyper.pars) = "numeric"
     p1$bits = unlist(p1a[bit.names])
     p2$bits = unlist(p2a[bit.names])
     child = crossover(p1, p2, par.sets, control)
@@ -139,7 +141,7 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
 my.eval.states = function(bag, task, resampling, measures, par.sets, bits.to.features, control, opt.path, pars, 
   eol=as.integer(NA), dob=as.integer(NA), hps.ns) {
   fun = function(bag, task, resampling, measures, par.set, bits.to.features, control, val) {
-    hps = mlrTune:::trafoVal(par.sets[[val$learner]], as.list(val$hyper.pars))
+    hps = trafoVal(par.sets[[val$learner]], as.list(val$hyper.pars))
     # trafo hyper pars, integer conversion is done before
     bag@learners[[val$learner]] = setHyperPars(bag@learners[[val$learner]], par.vals=hps)
     # select learner and set hyper pars

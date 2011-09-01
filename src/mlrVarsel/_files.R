@@ -11,12 +11,15 @@ pack.files = c(
     "mlrVarsel/VarselControlRandom.R",
     "mlrVarsel/VarselControlExhaustive.R",
     "mlrVarsel/VarselControlSequential.R",
-		
+    "mlrVarsel/VarselControlMCO.R",
+    
     "mlrVarsel/varsel.R",
     "mlrVarsel/VarselWrapper.R",
     "mlrVarsel/varsel_random.R",
     "mlrVarsel/varsel_exhaustive.R",
-		"mlrVarsel/varsel_seq.R"
+		"mlrVarsel/varsel_seq.R",
+    "mlrVarsel/varselMCO_operators.R",
+    "mlrVarsel/varselMCO.R"
 )
 
 
