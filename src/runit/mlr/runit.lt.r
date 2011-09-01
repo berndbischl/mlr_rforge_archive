@@ -10,7 +10,7 @@ test.mlr.learn.task <- function() {
 	checkEquals(sort(getClassLevels(ct)), sort(pn))
 	
 	# wrong vars
-	checkError(subset(multiclass.task, vars=c("Sepal.Length", "x", "y")), "undefined columns")
+	checkError(subsetData(multiclass.task, vars=c("Sepal.Length", "x", "y")), "undefined columns")
 	
 	# check missing accessors
 	df = multiclass.df

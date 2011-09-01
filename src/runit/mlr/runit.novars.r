@@ -1,5 +1,5 @@
 test.novars <- function() {
-  ct = subset(multiclass.task, vars=c())
+  ct = subsetData(multiclass.task, vars=character(0))
 	wl = makeLearner("classif.lda", predict.type="prob")
 	m = train(wl, ct)
   checkTrue(is(m@learner.model, "novars"))	
@@ -11,7 +11,7 @@ test.novars <- function() {
 	rf = resample(wl, ct, res)
 	checkTrue(setequal(colnames(as.data.frame(p)), c("prob.setosa", "prob.virginica", "prob.versicolor", "truth", "response")))	
 	
-	rt = subset(regr.task, vars=c())
+	rt = subsetData(regr.task, vars=character(0))
   m = train("regr.lm", rt)
 	p = predict(m, newdata=regr.df)
 	checkTrue(all(p@df$response == mean(p@df$response))) 

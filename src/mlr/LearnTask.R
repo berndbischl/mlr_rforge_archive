@@ -176,6 +176,10 @@ getData = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
 setGeneric(
   name = "subsetData",
   def = function(task, subset, vars) {
+    if (missing(subset))
+      subset = 1:task@desc@size
+    if (missing(vars))
+      vars = getFeatureNames(task)
     if (is.numeric(subset))
       subset = as.integer(subset)
     standardGeneric("subsetData")
