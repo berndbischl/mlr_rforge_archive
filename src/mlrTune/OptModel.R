@@ -1,5 +1,7 @@
 #' @include OptResult.R
 roxygen()
+#' @include OptWrapper.R
+roxygen()
 
 #' @importClassesFrom mlr WrappedModel
 setClass(
@@ -27,6 +29,7 @@ setMethod(f = "show",  signature = signature("OptModel"), def = function(object)
 })
 
 
+#' @importMethodsFrom mlr makeWrappedModel
 setMethod(
   f = "makeWrappedModel",
   signature = signature(learner="OptWrapper"),

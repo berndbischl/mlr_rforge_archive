@@ -51,8 +51,8 @@ setMethod(
 			wl = .learner
 			bl = wl@learner
 			ctrl = wl@control
-      
-      lt = subset(.task, .subset)
+      # todo: strange error if we remove :::? maybe rename subset...
+      lt = mlr:::subset(.task, .subset)
 			if (is(wl@control, "TuneControl")) {
 				or = tune(bl, lt, wl@resampling, wl@measures, wl@opt.pars, ctrl)
         bl = setHyperPars(bl, par.vals=or@x)
