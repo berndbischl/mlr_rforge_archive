@@ -124,10 +124,14 @@ makeLogicalParameter = function(id) {
 #' @param id [\code{character(1)}]
 #'   Name of parameter.
 #' @param vals [list | vector] \cr
-#'   Possible values.
+#'   Possible values. You are allowed to pass a list of complex R values, w
+#'   which are used as discrete choices during optimization. If you do that,
+#'   make sure that the elements are uniquely named, so that the names can be used
+#'   as internal represenatation for the choice.    
 #' @return  \code{\linkS4class{Parameter}}
 #' @export 
 makeDiscreteParameter = function(id, vals) {
+  vals.class = class(vals)
   if (is.vector(vals))
     vals = as.list(vals)
   check.arg(vals, "list")
@@ -151,7 +155,7 @@ makeDiscreteParameter = function(id, vals) {
   }
   if(any(duplicated(names(vals))))
     stop("Not all names for par. ", id,  " are unique!")
-  constraints = list(vals=vals)
+  constraints = list(vals=vals, vals.class=vals.class)
   new("Parameter", id, "discrete", constraints)
 } 
 
