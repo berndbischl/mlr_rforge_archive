@@ -5,7 +5,6 @@ pack.files = c(
     "mlrVarsel/varsel_helpers.R",
 		
     "mlrVarsel/varfilter.R",
-    "mlrVarsel/FilterWrapper.R",
 
     "mlrVarsel/VarselControl.R",
     "mlrVarsel/VarselControlRandom.R",
@@ -14,7 +13,6 @@ pack.files = c(
     "mlrVarsel/VarselControlMCO.R",
     
     "mlrVarsel/varsel.R",
-    "mlrVarsel/VarselWrapper.R",
     "mlrVarsel/varsel_random.R",
     "mlrVarsel/varsel_exhaustive.R",
 		"mlrVarsel/varsel_seq.R",

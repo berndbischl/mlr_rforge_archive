@@ -26,7 +26,6 @@
 #' 
 #' @return \code{\linkS4class{opt.result}}.
 #' @export
-#' @seealso \code{\link{makeTuneWrapper}} 
 #' @title Hyperparameter tuning.
 
 

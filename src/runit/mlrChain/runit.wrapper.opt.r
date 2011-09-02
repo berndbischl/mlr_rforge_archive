@@ -1,5 +1,6 @@
 test.OptWrapper <- function() {
-	
+  # todo check opt. parameter is same with tune and tune.wrapper
+  
 	outer = makeResampleDesc("Holdout")
   inner = makeResampleDesc("CV", iters=2)
 	

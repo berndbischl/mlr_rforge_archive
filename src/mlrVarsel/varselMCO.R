@@ -33,7 +33,6 @@
 #' @return \code{\linkS4class{opt.result}}.
 #' 
 #' @export
-#' @seealso \code{\link{makeVarselWrapper}} 
 #' @title Variable selection.
 
 varselMCO = function(learners, task, resampling, measures, bit.names, bits.to.features, control, measure.max.vals=NULL, multi.starts=1, par.sets) {

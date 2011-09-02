@@ -32,32 +32,6 @@ test.tune <- function() {
 	ms = c("acc", "mmce", "timefit") 
 	tr2 = tune("classif.rpart", multiclass.task, cv.instance, par.set=ps1, control=ctrl)
   
-	# todo check opt. parameter is same with tune and tune.wrapper
-	
-#	#tune chain
-#	wl = makeLearner("classif.rpart", minsplit=10, cp=0.01, predict.type="prob")
-#	
-#  f1 = function(data, targetvar, args) {
-#    set.seed(1)
-#    v = sample(setdiff(colnames(data), targetvar), args$n)
-#    list(data=data[, c(v, targetvar), drop=FALSE], control=list(vars=v))
-#  }
-#  f2 = function(data, targetvar, args, control) {
-#    data[, control$vars, drop=FALSE]
-#	}
-#  ps3 = makeParameterSet(
-#    makeIntegerLearnerParameter("n", lower=1, upper=60)
-#  ) 
-#	wl = makePreprocWrapper(wl, train=f1, predict=f2, par.set=ps3, par.vals=list(n=3))
-#  
-#  ps4 = makeParameterSet(
-#    makeDiscreteParameter("minsplit", vals=c(3L,30L)),
-#    makeDiscreteParameter("n", vals=c(1L,60L))
-#  ) 
-#	tr = tune(wl, binaryclass.task, res, par.set=ps4, control=ctrl)
-#  checkTrue(!any(is.na(tr["y"])))
-#  checkEquals(tr@x$n, 60)
-  
   checkException(tune("classif.rpart", multiclass.task, cv.instance, par.set=makeParameterSet(), control=ctrl))
 }
 

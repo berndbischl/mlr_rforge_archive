@@ -32,7 +32,6 @@
 #' @return \code{\linkS4class{opt.result}}.
 #' 
 #' @export
-#' @seealso \code{\link{makeVarselWrapper}} 
 #' @title Variable selection.
 
 varsel <- function(learner, task, resampling, control, measures, bit.names, bits.to.features, log.fun) {
@@ -44,8 +43,7 @@ varsel <- function(learner, task, resampling, control, measures, bit.names, bits
     measures = mlr:::default.measures(task)
   if (is(measures, "Measure"))
     measures = list(measures)   
-  # special case so we can pass something from VarselWrapper
-  if (missing(bit.names) || (is.character(bit.names) && length(bit.names)==0))
+  if (missing(bit.names))
     bit.names = getFeatureNames(task)
   if (missing(bits.to.features))
     bits.to.features = function(x, task) binary.to.vars(x, getFeatureNames(task)) 
