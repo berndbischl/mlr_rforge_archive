@@ -7,6 +7,11 @@ if(!exists("use.package")) {
   use.package = !interactive()
 }
 
+if (pack == "mlrTune")
+  require("mlr")
+if (pack == "mlrVarsel")
+  require("mlrTune")
+
 if (use.package) {
   message("Using installed copy of package for tests!")
   require(pack, character.only = TRUE)
