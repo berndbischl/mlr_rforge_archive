@@ -200,13 +200,6 @@ par.valnames.to.vals = function(names, par.set) {
   Map(function(par, n) par@constraints$vals[[n]], par.set@pars, names)
 }
 
-# converts a row of a data.frame to a list
-# - factors are converted to chars
-data.frame.row.to.list = function(x, i) {
-  x = as.list(x[i,])
-  x = lapply(x, function(y) if(is.factor(y)) as.character(y) else y)
-}
-
 check.arg = function(x, cl, len, choices, lower=NA, upper=NA) {
   s = deparse(substitute(x))
   cl2 = class(x)
@@ -396,8 +389,11 @@ dataFrameRowToList = function(df, par.set, i) {
       if(p@constraints$vals.class == "list")
         x[[p@id]] = p@constraints$vals[[df[,col]]]
       else
-        x[[p@id]] = df[,col]
-    } else 
+        if (is.factor(df[, col]))
+          x[[p@id]] = as.character(df[,col])
+        else
+          x[[p@id]] = df[,col]
+      } else 
       x[[p@id]] = df[,col]
   }
   return(x)

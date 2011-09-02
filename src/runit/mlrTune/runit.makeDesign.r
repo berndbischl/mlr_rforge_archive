@@ -43,8 +43,8 @@ test.makeDesign = function() {
   checkTrue(des[,1] >= -2 && des[,1] <= 1)
   checkTrue(is.integer(des[,2]))
   checkTrue(des[,2] >= 10 && des[,2] <= 20)
-  checkTrue(is.factor(des[,3]))
-  checkEquals(levels(des[,3]), names(ps3@pars[[3]]@constraints$vals))
+  checkTrue(is.character(des[,3]))
+  checkTrue(all(des[,3] %in% names(ps3@pars[[3]]@constraints$vals)))
   
   ps4 = makeParameterSet(
     makeNumericVectorParameter("x", dim=2, lower=-2, upper=1), 

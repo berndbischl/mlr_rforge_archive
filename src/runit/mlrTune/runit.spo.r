@@ -62,7 +62,7 @@ test.spo.rf <- function() {
   df = as.data.frame(or$path)
   checkTrue(is.numeric(df$x1))
   checkTrue(is.integer(df$x2))
-  checkTrue(is.factor(df$x3))
+  checkTrue(is.character(df$x3))
   checkTrue(is.numeric(df$y))
   checkTrue(is.list(or$x))
   checkEquals(names(or$x), names(ps@pars))
@@ -85,7 +85,7 @@ test.spo.rf <- function() {
   ctrl = makeSPOControl(init.design.points=5, seq.loops=10, final.point="opt.pred")
   or = spo(f, ps, des=NULL, learner, ctrl)
   checkEquals(getLength(or$path), 15)
-  } 
+} 
 
 test.spo.km <- function() {
   f = makeSPOFunction(function(x) sum(x^2))

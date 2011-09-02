@@ -45,4 +45,24 @@ test.opt.path <- function() {
   checkEquals(colnames(df), c("x1", "x2", "y", "z", "dob", "eol"))
   e = getPathElement(op, 1)
   checkEquals(e$x, list(x=c(1,1), y=7L))
-}  
+}
+
+testOptPathDiscretePars = function() {
+  ps1 = makeParameterSet(
+    makeDiscreteParameter("x1", vals=c("a", "b")),
+    makeDiscreteParameter("x2", vals=1:2),
+    makeDiscreteParameter("x3", vals=c(1.2, 5)),
+    makeDiscreteParameter("x4", vals=list(foo=identity, bar=list()))
+  )
+  op = new("OptPathDF", par.set=ps1, y.names="y", minimize=TRUE)
+  addPathElement(op, x=list(x1="a", x2=2L, x3=5, x4="foo"), y=0)
+  d = as.data.frame(op)
+  checkTrue(nrow(d) == 1 && ncol(d) == 4+1+2)
+  checkTrue(is.character(d$x1))
+  checkTrue(is.integer(d$x2))
+  checkTrue(is.numeric(d$x3))
+  checkTrue(is.character(d$x4))
+  checkTrue(d[1,1] == "a" && d[1,2] == 2L && d[1,3] == 5 && d[1,4] == "foo")
+}
+  
+

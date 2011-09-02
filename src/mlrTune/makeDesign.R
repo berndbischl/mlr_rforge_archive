@@ -20,8 +20,7 @@
 #'   in the design are the parameter id concatenated with 1 to dimension of vector.   
 #'   The data type of a column 
 #'   is defined in the following way. Numeric parameters generate numeric columns, integer parameters generate integer columns, 
-#'   logical parameters generate logical columns, discrete parameters generate factor column (factor levels are names of the possible values
-#'   of the discrete parameter).
+#'   logical parameters generate logical columns, discrete parameters character columns.
 #'   The result will have an \code{logical(1)} attribute 'trafo', 
 #'   which is set to the value of argument \code{trafo}.    
 #' @export 
@@ -71,7 +70,7 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE, i
       des[,col] = ifelse(des[,col] <= 0.5, FALSE, TRUE)
     else if (p@type == "discrete") {
       v = values(p)
-      des[,col] = factor(names(v[ceiling(des[,col] * length(v))]), levels=v)
+      des[,col] = as.character(factor(names(v[ceiling(des[,col] * length(v))]), levels=v))
     }
   }
   colnames(des) = getRepeatedParameterIDs(par.set, with.nr=TRUE)
