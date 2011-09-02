@@ -1,3 +1,5 @@
+#' @include aaa.R
+roxygen()
 #' @importClassesFrom mlrTune OptControl
 roxygen()
 
