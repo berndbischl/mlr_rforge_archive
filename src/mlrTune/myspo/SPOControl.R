@@ -61,8 +61,10 @@ setClass(
 #'   Only used if \code{propose.points.method} is 'seq.design.' Default is empty list.
 #' @param final.point [\code{character(1)}]\cr 
 #'   How should the final point be proposed. Possible are: 
-#'   'best.in.path': Return best point ever visited. Can be bad if target function is noisy.    
-#'   'opt.pred': Optimize the mean value of the surrogate model thoroughly.      
+#'   'last.proposed': Return the last point proposed by the model.    
+#'   'best.true.y': Return best point ever visited according to true value of target function. Can be bad if target function is noisy.    
+#'   'best.predicted': Use the final model to predict all points ever visited and use the best one. This might average-out noisy function values.
+#'   Default is: 'last.proposed'.     
 #' @param final.evals [integer(1)]\cr 
 #'   How many target function evals should be done at final point to reduce noise? 
 #'   Default is 20.      
@@ -75,7 +77,7 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
   seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
-  final.point = "best.in.path",
+  final.point = "last.proposed",
   final.evals = 20,
   save.model.at = seq.loops,
   resample.desc = makeResampleDesc("CV", iter=10), resample.at = integer(0), resample.measures=list(mse) 
@@ -97,7 +99,7 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   if (is.numeric(save.model.at) && as.integer(save.model.at) == save.model.at)
     save.model.at = as.integer(save.model.at)
 
-  check.arg(final.point, "character", 1, c("best.in.path", "opt.pred"))
+  check.arg(final.point, "character", 1, c("last.proposed", "best.true.y", "best.predicted"))
   check.arg(final.evals, "integer", 1)
   
   new("SPOControl", 

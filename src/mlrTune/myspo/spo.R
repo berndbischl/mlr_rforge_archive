@@ -1,7 +1,6 @@
 #todo: minimize
 #todo: how to choose best element. with noise? without?
 #todo: retrain kriging faster
-#todo: doc return val 
 #todo: handle error in meta learner
 #'  Optimizes a function with sequential parameter optimization.
 #'
@@ -11,7 +10,7 @@
 #'   Collection of parameters and their constraints for optimization.   
 #' @param des [data.frame | NULL] \cr
 #'   Initial design. Must have been created by \code{\link{makeDesign}}. 
-#'   If the parameters have correspinding trafo functions, 
+#'   If the parameters have corresponding trafo functions, 
 #'   the design must not be transformed before it is passed! 
 #'   If \code{NULL}, one is constructed from the settings in \code{control}.
 #' @param learner [\code{\linkS4class{Learner}}] \cr
@@ -19,6 +18,14 @@
 #' @param control [\code{\linkS4class{SPOControl}}] \cr
 #'   Control object for SPO.  
 #' @return The control object.  
+#' @return A list with the following entries:
+#' \describe{
+#'   \item{x [named list]}{List of proposed optimal parameters.}
+#'   \item{y.true [numeric]}{Value of fitness function at \code{x}, either form evals during optimization or from requested final evaluations, if they were gretater than 0.}
+#'   \item{y.pred [numeric]}{Predicted fitness at \code{x} with final model.}
+#'   \item{path [\code{\linkS4class{OptPath}}]}{Optimization path.}
+#'   \item{models [List of \code{\linkS4class{WrappedModel}}]}{List of saved regression models.}
+#' }
 #' @export 
 
 #todo: check learner is regression
@@ -91,22 +98,22 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   }
   names(models) =  control@save.model.at
   
-  x = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
-  y.pred = predict(model, newdata=x)@df$response
+  des = getData(rt, target.extra=TRUE)$data
+  final.index = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
+  y.pred = predict(model, newdata=des[final.index,,drop=FALSE])@df$response
   
   if (control@final.evals > 0) {
-    prop.des = x[rep(1,control@final.evals),,drop=FALSE]
+    prop.des = des[rep(final.index, control@final.evals),,drop=FALSE]
     xs = lapply(1:nrow(prop.des), function(i) dataFrameRowToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
-    y.real = mean(ys)
+    y.true = mean(ys)
     x = xs[[1]]
   } else {
-    # is this really reasonable? maybe tp save time....
-    y.real = as.numeric(NA)
-    x = designToList(x, par.set, 1)
+    y.true = getPathElement(opt.path, final.index)$y
+    x = dataFrameRowToList(des, par.set, final.index)
   }
   
-  list(x=x, y.pred=y.pred, y.real=y.real, path=opt.path, models=models)
+  list(x=x, y.true=y.true, y.pred=y.pred, path=opt.path, models=models)
 }
 
 
