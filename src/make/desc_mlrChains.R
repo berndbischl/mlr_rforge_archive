@@ -1,7 +1,7 @@
 writeDesc <- function(desc.path, rev.nr) {
   sink(file=desc.path)
   cat(
-    "Package: mlrBenchmark\n",
+    "Package: mlrChains\n",
     "Type: Package\n",
     "Title: mlr: Chains of machine learning modeling steps.\n",
     paste("Version: 0.1.", rev.nr, "\n", sep=""),
