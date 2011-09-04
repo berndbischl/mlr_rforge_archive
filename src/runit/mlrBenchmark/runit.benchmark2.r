@@ -1,4 +1,4 @@
-test.benchmark <- function() {
+test.benchmark2 <- function() {
 	if (!use.package) {
 		ct = makeClassifTask("iris", data=iris, target="Species")
 		outer = makeResampleDesc("Holdout") 
