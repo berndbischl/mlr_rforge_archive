@@ -4,6 +4,6 @@ test.rocr = function() {
     makeLearner("classif.rpart", predict.type="prob")
   )    
   
-  be = bench.exp(learners, binaryclass.task, resampling=makeResampleDesc("Holdout"))
+  be = benchmark(learners, binaryclass.task, resampling=makeResampleDesc("Holdout"))
   ROCR.plot.task(be)
 }

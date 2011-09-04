@@ -51,7 +51,7 @@ benchmark <- function(learners, tasks, resamplings, measures, models=FALSE, same
     stop("Tasks need unique ids!")
   
   if (missing(measures))
-    measures = default.measures(tasks[[1]])
+    measures = mlr:::default.measures(tasks[[1]])
   if (is(measures, "Measure"))
     measures = list(measures)
   ms.names = sapply(measures, function(m) m@id)

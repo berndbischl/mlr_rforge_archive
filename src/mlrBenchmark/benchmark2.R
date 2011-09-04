@@ -1,6 +1,3 @@
-#' @include LearnTask.R
-#' @include OptWrapper.R
-
 benchmark_par = function(ind, learners, tasks, resamplings, measures, conf.mat, models) {
 	i = ind[1]
 	j = ind[2]
@@ -20,10 +17,10 @@ benchmark_par = function(ind, learners, tasks, resamplings, measures, conf.mat, 
 		learner = makeLearner(learner)
 	}
 	
-	logger.info(paste("bench.exp: task=", task@desc@id, " learner=", learner@id))
+	mlr:::logger.info(paste("bench.exp: task=", task@desc@id, " learner=", learner@id))
 	
 	if (missing(measures))
-		measures = default.measures(task)
+		measures = mlr:::default.measures(task)
   if (is(measures, "Measure"))
     measures = list(measures)   
 	

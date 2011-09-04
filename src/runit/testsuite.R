@@ -11,7 +11,12 @@ if (pack == "mlrTune")
   require("mlr")
 if (pack == "mlrVarsel")
   require("mlrTune")
+if (pack == "mlrBenchmark") {
+  require("mlrTune")
+  require("mlrVarsel")
+}
 
+  
 if (use.package) {
   message("Using installed copy of package for tests!")
   require(pack, character.only = TRUE)

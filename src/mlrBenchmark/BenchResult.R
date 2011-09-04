@@ -38,7 +38,6 @@
 
 setClass(
 		"BenchResult",
-		contains = c("object"),
 		representation = representation(
 				task.descs = "list",
         learners = "list",
@@ -50,31 +49,6 @@ setClass(
 		)
 )
 
-
-#' @rdname to.string
-
-setMethod(
-		f = "to.string",
-		signature = signature("BenchResult"),
-		def = function(x) {
-      s = ""
-      tt = names(x@task.descs)
-      ll = names(x@learners)
-      k = length(x@res.results[[1]][[1]]$aggr)
-      y = ""
-      for (a in tt) {
-        w = matrix(NA, nrow=length(ll), ncol=k)
-        for (j in 1:length(ll)) {
-          w[j, ] = x@res.results[[a]][[j]]$aggr
-        }
-        rownames(w) = ll
-        colnames(w) = names(x@res.results[[a]][[1]]$aggr)
-        w = paste(capture.output(w), collapse="\n")
-        y = paste(y, "\n\n", a, "\n", w, sep="")
-      }
-      y
-		}
-)
 
 #'  Convert to array of performance values.
 #' @rdname BenchResult-class 
@@ -212,9 +186,22 @@ setMethod(
   } 
 )
 
-
-#' @rdname iters
-#' @return [integer(number of tasks)] Iterations per task.
-setMethod(f = "iters", signature = signature("BenchResult"), def = function(x) sapply(x@resamplings, function(y) y@desc@iters))
-
+setMethod(f = "show", signature = signature("BenchResult"), def = function(object) {
+  s = ""
+  tt = names(x@task.descs)
+  ll = names(x@learners)
+  k = length(x@res.results[[1]][[1]]$aggr)
+  y = ""
+  for (a in tt) {
+    w = matrix(NA, nrow=length(ll), ncol=k)
+    for (j in 1:length(ll)) {
+      w[j, ] = x@res.results[[a]][[j]]$aggr
+    }
+    rownames(w) = ll
+    colnames(w) = names(x@res.results[[a]][[1]]$aggr)
+    w = paste(capture.output(w), collapse="\n")
+    y = paste(y, "\n\n", a, "\n", w, sep="")
+  }
+  cat(y)
+})
 

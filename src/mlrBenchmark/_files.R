@@ -1,5 +1,5 @@
 pack.files = c(
-  "mlr/BenchResult.R",
-  "mlr/benchmark2.R",
-  "mlr/benchmark.R",
+  "mlrBenchmark/BenchResult.R",
+  "mlrBenchmark/benchmark2.R",
+  "mlrBenchmark/benchmark.R"
 )
