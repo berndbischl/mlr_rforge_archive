@@ -1,6 +1,3 @@
-#' @include BaseWrapper.R
-
-
 setClass(
   "ProbthWrapper",
   contains = c("BaseWrapper")

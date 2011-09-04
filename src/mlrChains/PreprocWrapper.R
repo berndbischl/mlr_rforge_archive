@@ -1,5 +1,3 @@
-#' @include BaseWrapper.R
-
 setClass(
 		"PreprocWrapper",
 		contains = c("BaseWrapper"),

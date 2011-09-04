@@ -1,9 +1,4 @@
-#' @include OptResult.R
-roxygen()
-#' @include OptWrapper.R
-roxygen()
-
-#' @importClassesFrom mlr WrappedModel
+#' @importMethodsFrom mlr makeWrappedModel
 setClass(
   "OptModel",
   contains = c("WrappedModel"),

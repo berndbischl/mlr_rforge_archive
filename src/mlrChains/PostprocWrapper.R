@@ -1,5 +1,3 @@
-#' @include BaseWrapper.R
-
 setClass(
 		"PostprocWrapper",
 		contains = c("BaseWrapper"),

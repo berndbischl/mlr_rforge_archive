@@ -1,4 +1,5 @@
 pack.files = c(
+  "mlrChains/aaa.R",
 #  "mlrChains/MulticlassWrapper.R",
   "mlrChains/OptModel.R",
   "mlrChains/OptWrapper.R",

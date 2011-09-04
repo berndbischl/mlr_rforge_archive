@@ -1,7 +1,3 @@
-#' @include aaa.R
-#' @importClassesFrom mlr BaseWrapper Learner object
-roxygen()
-
 #' Wrapper class for learners to filter variables. Experimental. Can currently 
 #' only filter to manually selected variables. 
 #' 
@@ -89,7 +85,7 @@ setMethod(
   ),
   
   def = function(.learner, .model, .newdata, .type, ...) {
-    .newdata = .newdata[, .model["vars"], drop=FALSE]  
+    .newdata = .newdata[, .model@vars, drop=FALSE]  
     predictLearner(.learner@learner, .model, .newdata, .type, ...)
   }
 ) 

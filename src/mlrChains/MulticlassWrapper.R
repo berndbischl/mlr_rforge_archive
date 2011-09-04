@@ -1,7 +1,3 @@
-#' @include BaseWrapper.R
-roxygen()
-
-
 #' Wrapper class for learners to handle multi-class problems. 
 #' 
 #' @exportClass MulticlassWrapper
