@@ -186,6 +186,7 @@ setGeneric(
   }
 )
 
+#' @rdname subsetData
 setMethod(
   f = "subsetData",
   signature = signature(task="LearnTask", subset="integer", vars="character"),

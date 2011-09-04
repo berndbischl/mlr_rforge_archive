@@ -15,7 +15,7 @@ roxygen()
 #' 
 #' @exportClass OptResult
 #' @title Optimization result.
-#' @seealso \code{\link{tune}}, \code{\link{varsel}} 
+#' @seealso \code{\link{tune}}, \code{\link[mlrVarsel]{varsel}} 
 setClass(
 		"OptResult",
 		representation = representation(

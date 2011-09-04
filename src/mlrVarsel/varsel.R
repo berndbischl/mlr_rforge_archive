@@ -29,7 +29,7 @@
 #' @param log.fun [function(learner, task, resampling, measure, par.set, control, opt.path, x, y)]\cr
 #'   Called after every hyperparameter evaluation. Default is to print performance via mlr logger. 
 #' 
-#' @return \code{\linkS4class{opt.result}}.
+#' @return \code{\linkS4class[mlrTune]{OptResult}}.
 #' 
 #' @export
 #' @title Variable selection.

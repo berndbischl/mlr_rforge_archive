@@ -24,9 +24,6 @@ setClass(
   )
 )
 
-
-
-#todo: document resampling when sure that ok.
 #' Creates a control object for SPO optimization.
 #'
 #' @param y.name [\code{character(1)}]\cr 
@@ -71,6 +68,17 @@ setClass(
 #' @param save.model.at [\code{integer}] \cr
 #'   Sequential optimzation iterations when the model should be saved. Iteration 0 is the model fit for the initial design.
 #'   Default is \code{seq.loops}.
+#' @param resample.at [\code{integer}] \cr
+#'   At which iterations should the model be resampled and assessed?
+#'   Default is none.
+#' @param resample.desc [\code{\linkS4Class{ResampleDesc}}] \cr
+#'   How should be model be resampled? 
+#'   Default is 10-fold CV.
+#' @param resample.measures [list of \code{\linkS4class{Measure}}]\cr
+#'   Performance measures to assess model with during resampling. 
+#'   Default is mse.   
+#' @param c [\code{\linkS4Class{ResampleDesc}}] \cr
+#'   How should be model be resampled (if at all?)
 #' @return The control object.  
 #' @export 
 makeSPOControl = function(y.name="y", minimize=TRUE,
@@ -80,7 +88,7 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   final.point = "last.proposed",
   final.evals = 20,
   save.model.at = seq.loops,
-  resample.desc = makeResampleDesc("CV", iter=10), resample.at = integer(0), resample.measures=list(mse) 
+  resample.at = integer(0), resample.desc = makeResampleDesc("CV", iter=10), resample.measures=list(mse) 
 ) {
   require.packs("lhs", "makeSPOControl")
   check.arg(y.name, "character", 1)

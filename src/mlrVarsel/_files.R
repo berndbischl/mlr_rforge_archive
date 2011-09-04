@@ -16,8 +16,8 @@ pack.files = c(
     "mlrVarsel/varsel_random.R",
     "mlrVarsel/varsel_exhaustive.R",
 		"mlrVarsel/varsel_seq.R",
-    "mlrVarsel/varselMCO_operators.R",
-    "mlrVarsel/varselMCO.R"
+#    "mlrVarsel/varselMCO_operators.R",
+#    "mlrVarsel/varselMCO.R"
 )
 
 

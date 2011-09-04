@@ -18,7 +18,7 @@
 #'   What is parallelized / what is a job. 
 #' 	 "resample": \code{\link{resample}} is parallelized and a job is train / test.
 #'   "opt": \code{\link[mlrTune]{tune}} and \code{\link[mlrVarsel]{varsel}} are parallelized and a job is a resampled evaluation of one hyperparameter setting/feature set.  
-#'   "bench": \code{\link{bench.exp}} is parallelized and a job is completely evaluating one learner on one data set.
+#'   "bench": \link[mlrBenchmark]{benchmark}} is parallelized and a job is completely evaluating one learner on one data set.
 #' @param ... [any] \cr
 #'        Optional parameters, only passed to \code{\link[snowfall]{sfInit}} currently. 
 #' 

@@ -17,7 +17,6 @@
 #'   Regression learner to model \code{fun}.  
 #' @param control [\code{\linkS4class{SPOControl}}] \cr
 #'   Control object for SPO.  
-#' @return The control object.  
 #' @return A list with the following entries:
 #' \describe{
 #'   \item{x [named list]}{List of proposed optimal parameters.}

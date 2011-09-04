@@ -1,3 +1,4 @@
+#' Only for internal use.
 #' @exportMethod makeWrappedModel
 setGeneric(
   name = "makeWrappedModel",
@@ -6,6 +7,7 @@ setGeneric(
   }
 )
 
+#' @rdname makeWrappedModel
 setMethod(
   f = "makeWrappedModel",
   signature = signature(learner="Learner"),

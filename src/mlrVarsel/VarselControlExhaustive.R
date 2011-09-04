@@ -2,7 +2,7 @@
 roxygen()
 
 #' @exportClass VarselControlExhaustive
-#' @rdname VarselControlExhaustive 
+#' @rdname VarselControl 
 
 setClass(
   "VarselControlExhaustive",

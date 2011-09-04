@@ -2,7 +2,7 @@
 roxygen()
 
 #' @exportClass VarselControlRandom
-#' @rdname VarselControlRandom 
+#' @rdname VarselControl 
 
 setClass(
 		"VarselControlRandom",
@@ -27,6 +27,9 @@ setMethod(
 
 
 #' Control structure for random variable selection. 
+#'
+#' Currently 0/1 values are sampled from a binomial distribution to decide whether a variable
+#' is included in the model.   
 #' 
 #' @param path [\code{logical(1)}]\cr
 #'   Should optimization path be saved? Default is TRUE.

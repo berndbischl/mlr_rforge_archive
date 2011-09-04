@@ -3,7 +3,7 @@ allowed.rd.files <<- c(
 		"OptResult-class.Rd",
 		
 		"tune.Rd",
-		"tune.threshold.Rd",
+#		"tune.threshold.Rd",
 		"TuneControl-class.Rd",
     "TuneControlGrid-class.Rd",
     "makeTuneControlGrid.Rd",
@@ -21,6 +21,7 @@ allowed.rd.files <<- c(
     "getBestIndex.Rd",
     "SPOControl-class.Rd",
     "makeSPOControl.Rd",
+    "makeSPOFunction.Rd",
     "spo.Rd"
 )		
 

@@ -2,7 +2,7 @@
 roxygen()
 
 #' @exportClass VarselControlSequential
-#' @rdname VarselControlSequential 
+#' @rdname VarselControl 
 
 setClass(
 		"VarselControlSequential",

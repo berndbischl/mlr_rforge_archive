@@ -28,7 +28,7 @@ allowed.rd.files <<- c(
   "RegrTask-class.Rd",
   "makeClassifTask.Rd",
   "makeRegrTask.Rd",
-  "subset.Rd",
+  "subsetData.Rd",
   "getFormula.Rd",
   "getData.Rd",
   "getTargets.Rd",
@@ -66,6 +66,7 @@ allowed.rd.files <<- c(
   
   "train.Rd",
   "WrappedModel-class.Rd",
+  "makeWrappedModel.Rd",
   "predict.Rd",
   "Prediction-class.Rd",
   "getScore.Rd",
