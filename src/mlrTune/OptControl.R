@@ -7,7 +7,7 @@ roxygen()
 #' Getter.\cr
 #' 
 #' @exportClass OptControl
-#' @seealso \code{\linkS4class{TuneControl}}, \code{\linkS4class[mlrVarsel]{VarselControl}} 
+#' @seealso \code{\linkS4class{TuneControl}}, \code{\link[mlrVarsel:VarselControl]{VarselControl}} 
 #' @title Base class for control objects for optimization.
 
 setClass(

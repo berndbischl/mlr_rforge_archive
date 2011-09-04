@@ -22,7 +22,7 @@ pack.files = c(
     "mlrTune/TuneControlCMAES.R",
     "mlrTune/TuneControlSPO.R",
     "mlrTune/tune.r",
-		"mlrTune/tune.threshold.r",
+#		"mlrTune/tune.threshold.r",
 		"mlrTune/tune.grid.r",
     "mlrTune/tune.optim.r",
     "mlrTune/tune.cmaes.r",

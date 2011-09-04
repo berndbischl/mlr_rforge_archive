@@ -71,14 +71,12 @@ setClass(
 #' @param resample.at [\code{integer}] \cr
 #'   At which iterations should the model be resampled and assessed?
 #'   Default is none.
-#' @param resample.desc [\code{\linkS4Class{ResampleDesc}}] \cr
+#' @param resample.desc [\code{\linkS4class{ResampleDesc}}] \cr
 #'   How should be model be resampled? 
 #'   Default is 10-fold CV.
 #' @param resample.measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to assess model with during resampling. 
 #'   Default is mse.   
-#' @param c [\code{\linkS4Class{ResampleDesc}}] \cr
-#'   How should be model be resampled (if at all?)
 #' @return The control object.  
 #' @export 
 makeSPOControl = function(y.name="y", minimize=TRUE,

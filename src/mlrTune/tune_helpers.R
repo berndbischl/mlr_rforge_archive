@@ -1,3 +1,19 @@
+eval.states = function(learner, task, resampling, measures, par.set, bits.to.features, control, opt.path, pars, 
+  eol=as.integer(NA), dob=as.integer(NA)) {
+  
+  y = mylapply(xs=pars, from="opt", f=eval.rf, learner=learner, task=task, resampling=resampling, 
+    measures=measures, par.set=par.set, bits.to.features=bits.to.features, control=control)
+  n = length(pars)
+  if (length(dob) == 1)
+    dob = rep(dob, n)
+  if (length(eol) == 1)
+    eol = rep(eol, n)
+  for (i in 1:n) 
+    addPathElement(opt.path, x=as.list(pars[[i]]), y=y[[i]], dob=dob[i], eol=eol[i])
+  return(y)
+}
+
+
 trafoVal = function(par, val) {
   if (is(par, "ParameterSet"))
     Map(trafoVal, par@pars, val)

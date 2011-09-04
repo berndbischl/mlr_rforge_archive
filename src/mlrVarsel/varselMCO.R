@@ -99,7 +99,7 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
   my.eval.states(bag, task, resampling, measures, par.sets, bits.to.features, control, opt.path, pop, dob=gen, hps.ns=hps.ns)
   # Indices of individuals that are in the current pop.
   active = 1:mu    
-  while(getLength(opt.path) < control@maxit) {
+  while(length(opt.path) < control@maxit) {
     print(gen)
     gen = gen + 1L
     ## Variation:
@@ -121,7 +121,7 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
     states = list(child)
     my.eval.states(bag, task, resampling, measures, par.sets, bits.to.features, control, opt.path, states, dob=gen, hps.ns=hps.ns)
     
-    active = c(active, getLength(opt.path))
+    active = c(active, length(opt.path))
     Y = as.data.frame(opt.path)[, opt.path@y.names]
     Y = t(as.matrix(Y[active,]))
     if (!is.null(measure.max.vals))

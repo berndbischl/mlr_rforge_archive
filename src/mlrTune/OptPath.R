@@ -46,7 +46,8 @@ setMethod(
 
 
 
-#' Add a new element to the optimiztion path.
+#' Add a new element to an optimiztion path.
+#' Mainly for internal use.
 #' 
 #' @param op [\code{\linkS4class{OptPath}}] \cr 
 #'   Optimization path.  
@@ -64,14 +65,16 @@ setMethod(
 #' @return NULL. This function is called for its side effects, namely
 #'   adding \code{x} to the optimization path.
 #' @exportMethod addPathElement 
-
+#' @rdname addPathElement
+#' @title Add a new element to an optimiztion path.
+ 
 setGeneric(
   name = "addPathElement",
   def = function(op, x, x.trafo, y, dob, eol) {
     if (missing(x.trafo))        
       x.trafo = x
     if (missing(dob))        
-      dob = getLength(op)+1L
+      dob = length(op)+1L
     if (missing(eol))        
       eol = as.integer(NA)
     mlr:::check.arg(dob, "integer", 1)
@@ -80,14 +83,6 @@ setGeneric(
     if(!isFeasible(op@par.set, x))
       stop("Trying to add infeasible x values to opt path!")
     standardGeneric("addPathElement")
-  }
-)
-
-#' @exportMethod getLength
-setGeneric(
-  name = "getLength",
-  def = function(op) {
-    standardGeneric("getLength")
   }
 )
 
@@ -110,7 +105,7 @@ setEoL = function(op, index, eol) {
 
 #' @export
 setMethod(f = "show", signature = signature("OptPath"), def = function(object) {
-    cat("Opt. path of length: ", getLength(object), "\n")
+    cat("Opt. path of length: ", length(object), "\n")
 })
 
 
@@ -182,7 +177,7 @@ setGeneric(
     if (is.numeric(index) && length(index) == 1 && index == as.integer(index))
       index = as.integer(index)
     mlr:::check.arg(index, "integer", 1)
-    n = getLength(op)
+    n = length(op)
     if (!(index >= 1 && index <= n))
       stop("Index must be between 1 and ", n, "!")
     standardGeneric("getPathElement")

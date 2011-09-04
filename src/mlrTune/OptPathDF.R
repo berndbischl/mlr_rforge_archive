@@ -36,9 +36,9 @@ setMethod(
   }
 )
 
-#' @rdname getLength
+#' @rdname ength
 setMethod(
-  f = "getLength",
+  f = "length",
   signature = signature(op="OptPathDF"), 
   def = function(op) {
     nrow(op@env$path)
@@ -48,7 +48,6 @@ setMethod(
 
 
 #' Convert to data.frame
-#' @rdname OptPath-class 
 #' @export
 as.data.frame.OptPathDF = function(x) {
   df = x@env$path
@@ -57,7 +56,7 @@ as.data.frame.OptPathDF = function(x) {
 }
 
 
-#' @rdname getLength
+#' @rdname getPathElement
 setMethod(
   f = "getPathElement",
   signature = signature(op="OptPathDF", index="integer"), 

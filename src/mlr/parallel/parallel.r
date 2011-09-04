@@ -3,7 +3,7 @@
 #' Defines the technical mode and level of parallelization when executing code.
 #'
 #' Note that when you parallelize a function, e.g. \code{\link{resample}}, this also works when the function is internally called by 
-#' \code{mlr} in a more complex function, e.g. \code{\link{bench.exp}}. 
+#' \code{mlr} in a more complex function, e.g. \code{\link[mlrBenchmark]{benchmark}}. 
 #' 
 #' @param mode [\code{character(1)}] \cr
 #'   Which parallel mode should be used: 
@@ -18,9 +18,9 @@
 #'   What is parallelized / what is a job. 
 #' 	 "resample": \code{\link{resample}} is parallelized and a job is train / test.
 #'   "opt": \code{\link[mlrTune]{tune}} and \code{\link[mlrVarsel]{varsel}} are parallelized and a job is a resampled evaluation of one hyperparameter setting/feature set.  
-#'   "bench": \link[mlrBenchmark]{benchmark}} is parallelized and a job is completely evaluating one learner on one data set.
+#'   "bench": \code{\link[mlrBenchmark]{benchmark}} is parallelized and a job is completely evaluating one learner on one data set.
 #' @param ... [any] \cr
-#'        Optional parameters, only passed to \code{\link[snowfall]{sfInit}} currently. 
+#'    Optional parameters, only passed to \code{\link[snowfall]{sfInit}} currently. 
 #' 
 #' @export 
 #' @title Parallelization setup. 

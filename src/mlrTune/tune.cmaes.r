@@ -31,10 +31,10 @@ tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt
   
 	args = control@extra.args
 	
-  if (.mlr.local$parallel.setup$mode != "local" && .mlr.local$parallel.setup$level == "tune") {
-    g=g2
-    args$vectorized=TRUE    
-  }  
+#  if (.mlr.local$parallel.setup$mode != "local" && .mlr.local$parallel.setup$level == "tune") {
+#    g=g2
+#    args$vectorized=TRUE    
+#  }  
   or = cma_es(par=start, fn=g, lower=low, upper=upp, control=args)
   i = getBestIndex(opt.path, measureAggrName(measures[[1]]), ties="random")
   e = getPathElement(opt.path, i)
