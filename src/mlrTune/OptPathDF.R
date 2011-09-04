@@ -39,9 +39,9 @@ setMethod(
 #' @rdname ength
 setMethod(
   f = "length",
-  signature = signature(op="OptPathDF"), 
-  def = function(op) {
-    nrow(op@env$path)
+  signature = signature(x="OptPathDF"), 
+  def = function(x) {
+    nrow(x@env$path)
   }
 )
 

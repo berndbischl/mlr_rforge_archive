@@ -1,9 +1,9 @@
 #' @include VarselControl.R
 roxygen()
 
-#' @exportClass VarselControlExhaustive
-#' @rdname VarselControl 
 
+#' Control structure for exhaustive variable selection. 
+#' @exportClass VarselControlExhaustive
 setClass(
   "VarselControlExhaustive",
   contains = c("VarselControl")

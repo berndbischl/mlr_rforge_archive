@@ -1,9 +1,8 @@
 #' @include VarselControl.R
 roxygen()
 
+#' Control structure for sequential variable selection. 
 #' @exportClass VarselControlSequential
-#' @rdname VarselControl 
-
 setClass(
 		"VarselControlSequential",
 		contains = c("VarselControl"),

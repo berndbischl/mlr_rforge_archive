@@ -1,9 +1,8 @@
 #' @include VarselControl.R
 roxygen()
 
+#' Control structure for random variable selection. 
 #' @exportClass VarselControlRandom
-#' @rdname VarselControl 
-
 setClass(
 		"VarselControlRandom",
 		contains = c("VarselControl"),
