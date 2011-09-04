@@ -11,7 +11,7 @@ test.spo.rf <- function() {
   learner = makeLearner("regr.randomForest")
   ctrl = makeSPOControl(seq.loops=5, seq.design.points=100, save.model.at=c(0,5))
   or = spo(f, ps, des, learner, ctrl)
-  checkEquals(or$y.real, f(or$x))
+  checkEquals(or$y.true, f(or$x))
   checkEquals(getLength(or$path), 15)
   checkTrue(is.list(or$x))
   checkEquals(names(or$x), names(ps@pars))
@@ -82,7 +82,7 @@ test.spo.rf <- function() {
   ctrl = makeSPOControl(init.design.points=5, seq.loops=10, propose.points.method="CMAES")
   or = spo(f, ps, des=NULL, learner, ctrl)
   checkEquals(getLength(or$path), 15)
-  ctrl = makeSPOControl(init.design.points=5, seq.loops=10, final.point="opt.pred")
+  ctrl = makeSPOControl(init.design.points=5, seq.loops=10, final.point="best.predicted")
   or = spo(f, ps, des=NULL, learner, ctrl)
   checkEquals(getLength(or$path), 15)
 } 
