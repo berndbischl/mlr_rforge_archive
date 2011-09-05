@@ -1,4 +1,4 @@
-test.makeDesign = function() {
+testMakeDesign = function() {
   ps1 = makeParameterSet(
     makeNumericParameter("x1", lower=-2, upper=1) 
   )
@@ -36,7 +36,7 @@ test.makeDesign = function() {
     makeIntegerParameter("x2", lower=10, upper=20), 
     makeDiscreteParameter("x3", vals=c("a", "b", "c")) 
   )
-  des = makeDesign(13, ps3)
+  des = makeDesign(13, ps3, discrete.as.factors=FALSE)
   checkEquals(nrow(des), 13)
   checkEquals(ncol(des), 3)
   checkTrue(is.numeric(des[,1]))
@@ -44,6 +44,15 @@ test.makeDesign = function() {
   checkTrue(is.integer(des[,2]))
   checkTrue(des[,2] >= 10 && des[,2] <= 20)
   checkTrue(is.character(des[,3]))
+  checkTrue(all(des[,3] %in% names(ps3@pars[[3]]@constraints$vals)))
+  des = makeDesign(13, ps3, discrete.as.factors=TRUE)
+  checkEquals(nrow(des), 13)
+  checkEquals(ncol(des), 3)
+  checkTrue(is.numeric(des[,1]))
+  checkTrue(des[,1] >= -2 && des[,1] <= 1)
+  checkTrue(is.integer(des[,2]))
+  checkTrue(des[,2] >= 10 && des[,2] <= 20)
+  checkTrue(is.factor(des[,3]))
   checkTrue(all(des[,3] %in% names(ps3@pars[[3]]@constraints$vals)))
   
   ps4 = makeParameterSet(

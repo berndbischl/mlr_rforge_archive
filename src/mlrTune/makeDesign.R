@@ -15,16 +15,23 @@
 #' @param ints.as.num [logical(1)] \cr
 #'   Should parameters of type 'integer', 'integervector' have columns of type 'numeric' in result?
 #'   Default is \code{FALSE}.  
+#' @param ints.as.num [logical(1)] \cr
+#'   Should parameters of type 'integer', 'integervector' have columns of type 'numeric' in result?
+#'   Default is \code{FALSE}.  
+#' @param discrete.as.factors [logical(1)] \cr
+#'   Should parameters of type 'discrete' columns of type 'factor' in result?
+#'   Otherwise character columns are generated.
+#'   Default is \code{TRUE}.  
 #' @return The created design as a data.frame. Columns are named by the ids of the parameters.
 #'   If the \code{par.set} argument contains a vector parameter, its corresponding columns names  
 #'   in the design are the parameter id concatenated with 1 to dimension of vector.   
 #'   The data type of a column 
 #'   is defined in the following way. Numeric parameters generate numeric columns, integer parameters generate integer columns, 
-#'   logical parameters generate logical columns, discrete parameters character columns.
+#'   logical parameters generate logical columns, discrete parameters as character or factor columns.
 #'   The result will have an \code{logical(1)} attribute 'trafo', 
 #'   which is set to the value of argument \code{trafo}.    
 #' @export 
-makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE, ints.as.num=FALSE) {
+makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE, ints.as.num=FALSE, discrete.as.factors=TRUE) {
   require.packs("lhs", "makeDesign")
   if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
     stop("No par.set parameter in 'makeDesign' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")        
@@ -70,7 +77,11 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE, i
       des[,col] = ifelse(des[,col] <= 0.5, FALSE, TRUE)
     else if (p@type == "discrete") {
       v = values(p)
-      des[,col] = as.character(factor(names(v[ceiling(des[,col] * length(v))]), levels=v))
+      x = factor(names(v[ceiling(des[,col] * length(v))]), levels=v)
+      if (discrete.as.factors)
+        des[,col] = x
+      else
+        as.character(x)
     }
   }
   colnames(des) = getRepeatedParameterIDs(par.set, with.nr=TRUE)
