@@ -3,7 +3,7 @@
 remove.patterns <<- c(
 		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,.*Constructor.\\}",
 		"\\\\alias\\{\\[\\}",
-    "\\\\section{Methods}{\\\\describe{}}",
+    "\\\\section\\{Methods\\}\\{\\\\describe\\{\\}\\}",
     
 #		"\\\\alias\\{initialize\\}",
 #		"\\\\alias\\{as.character\\}",
