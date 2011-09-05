@@ -81,7 +81,7 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE, i
       if (discrete.as.factors)
         des[,col] = x
       else
-        as.character(x)
+        des[,col] = as.character(x)
     }
   }
   colnames(des) = getRepeatedParameterIDs(par.set, with.nr=TRUE)
