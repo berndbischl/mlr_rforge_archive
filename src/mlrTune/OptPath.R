@@ -1,10 +1,15 @@
 #' Optimazation path. Optimizers log their evaluated points
 #' iteratively into this object.
 #' 
-#' Can be converted to a list or data.frame.
+#' A optimization path has a number of path elements, where each element consists of: the value of the
+#' decision variables at this point, the values of the performance measures at this point, the date-of-bith (dob)
+#' of this point and the end-of-life (eol) of this point.    
+#' 
+#' It can be converted to a data.frame with \code{as.data.frame} for simple access and the number of 
+#' containined points can be queried with \code{length}.   
 #' 
 #' @exportClass OptPath
-#' @title Optimazation path
+#' @title Optimization path
 setClass(
   "OptPath",
   representation = representation(
@@ -103,7 +108,7 @@ setEoL = function(op, index, eol) {
 
 
 
-#' @export
+#' @rdname undocumented
 setMethod(f = "show", signature = signature("OptPath"), def = function(object) {
     cat("Opt. path of length: ", length(object), "\n")
 })

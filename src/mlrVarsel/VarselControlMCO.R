@@ -78,6 +78,7 @@ setMethod(
 )
 
 
+#' @rdname undocumented
 setMethod(f = "show",  signature = signature("VarselControlMCO"), def = function(object) {
     cat(
       "Control object for varselMCO\n",

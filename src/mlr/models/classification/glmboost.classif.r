@@ -60,7 +60,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {
-			xs = args.to.control(boost_control, c("mstop", "nu", "risk"), list(...))
+			xs = learnerArgsToControl(boost_control, c("mstop", "nu", "risk"), list(...))
 			f = getFormula(.task)
 			args = c(list(f, data=getData(.task, .subset), control=xs$control), xs$args)
       if (.task["has.weights"])

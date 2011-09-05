@@ -49,7 +49,8 @@ setMethod(
 
 #' Convert to data.frame
 #' @export
-as.data.frame.OptPathDF = function(x) {
+#' @rdname undocumented
+as.data.frame.OptPathDF = function(x, row.names = NULL, optional = FALSE, ...) {
   df = x@env$path
   df = cbind(df, dob=x@env$dob, eol=x@env$eol)
   df

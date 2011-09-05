@@ -61,7 +61,7 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset, ...){
-			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda"), list(...))
+			xs = learnerArgsToControl(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda"), list(...))
 			f = getFormula(.task)
 			# difference in missing(kpar) and kpar=list()!
 			if (length(xs$control) > 0)

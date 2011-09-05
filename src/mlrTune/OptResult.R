@@ -44,6 +44,7 @@ setMethod(
 		}
 )
 
+#' @rdname undocumented
 setMethod(f = "show", signature = signature("OptResult"), def = function(object) {
     s = if (is(object@control, "TuneControl")) 
         mlr:::valToString(getParameterSet(object@learner), object@x)

@@ -75,7 +75,7 @@ setMethod(
 #				args$kernel = do.call(args$kernel, kpar)	
 #			} 
 			
-			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
+			xs = learnerArgsToControl(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
 			f = getFormula(.task)
       pm = .learner["predict.type"] == "prob"
 			if (length(xs$control) > 0)

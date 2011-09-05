@@ -37,7 +37,7 @@ allowed.rd.files <<- c(
   
   "trainLearner.Rd",
   "predictLearner.Rd",
-  "args.to.control.Rd",
+  "learnerArgsToControl.Rd",
   
   "LearnerParameter-class.Rd",
   "makeNumericLearnerParameter.Rd",

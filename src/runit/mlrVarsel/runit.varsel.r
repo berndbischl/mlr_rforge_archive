@@ -4,7 +4,7 @@ test.varsel <- function() {
   # check all methods
   ctrl = makeVarselControlExhaustive(max.vars=2)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
-  checkEquals(getLength(vr@path), 11) 
+  checkEquals(length(vr@path), 11) 
   checkEquals(nrow(as.data.frame(vr@path)), 11) 
   checkEquals(ncol(as.data.frame(vr@path)), 7) 
   # test printing
@@ -13,24 +13,24 @@ test.varsel <- function() {
   # check maxit
   ctrl = makeVarselControlRandom(maxit=4, path=TRUE)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
-  checkEquals(getLength(vr@path), 4) 
+  checkEquals(length(vr@path), 4) 
   
   ctrl = makeVarselControlSequential(method="sfs", alpha=0.01, path=TRUE)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
-  checkTrue(getLength(vr@path) > 1) 
+  checkTrue(length(vr@path) > 1) 
   
   ctrl = makeVarselControlSequential(method="sbs", beta=0.01, path=TRUE)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
-  checkTrue(getLength(vr@path) > 1) 
+  checkTrue(length(vr@path) > 1) 
   
   ctrl = makeVarselControlSequential(method="sffs", alpha=0.01, path=TRUE)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
   # we must at least try to select a 2nd feature
-  checkTrue(getLength(vr@path) >= 1 + 4 + 1 + 3) 
+  checkTrue(length(vr@path) >= 1 + 4 + 1 + 3) 
   
   ctrl = makeVarselControlSequential(method="sfbs", beta=0.01, path=TRUE)
   vr = varsel("classif.lda", task=multiclass.task, resampling=inner, control=ctrl)
-  checkTrue(getLength(vr@path) > 1) 
+  checkTrue(length(vr@path) > 1) 
   
   
   

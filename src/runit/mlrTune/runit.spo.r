@@ -12,7 +12,7 @@ test.spo.rf <- function() {
   ctrl = makeSPOControl(seq.loops=5, seq.design.points=100, save.model.at=c(0,5))
   or = spo(f, ps, des, learner, ctrl)
   checkEquals(or$y.true, f(or$x))
-  checkEquals(getLength(or$path), 15)
+  checkEquals(length(or$path), 15)
   checkTrue(is.list(or$x))
   checkEquals(names(or$x), names(ps@pars))
   checkTrue(is(or$models[[1]]@learner, "regr.randomForest"))
@@ -40,7 +40,7 @@ test.spo.rf <- function() {
   des = makeDesign(10, par.set=ps)
   des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   or = spo(f, ps, des, learner, ctrl)
-  checkEquals(getLength(or$path), 15)
+  checkEquals(length(or$path), 15)
   df = as.data.frame(or$path)
   checkTrue(is.numeric(df$x1))
   
@@ -58,7 +58,7 @@ test.spo.rf <- function() {
   learner = makeLearner("regr.randomForest")
   ctrl = makeSPOControl(seq.loops=5, seq.design.points=100)
   or = spo(f, ps, des, learner, ctrl)
-  checkEquals(getLength(or$path), 15)
+  checkEquals(length(or$path), 15)
   df = as.data.frame(or$path)
   checkTrue(is.numeric(df$x1))
   checkTrue(is.integer(df$x2))
@@ -69,7 +69,7 @@ test.spo.rf <- function() {
   
   ctrl = makeSPOControl(init.design.points=3, seq.loops=5, seq.design.points=100)
   or = spo(f, ps, des=NULL, learner, ctrl)
-  checkEquals(getLength(or$path), 8)
+  checkEquals(length(or$path), 8)
   checkEquals(names(or$x), names(ps@pars))
   
   f = function(x) sum(x[[1]]^2) + (2 - x[[2]])^2
@@ -81,10 +81,10 @@ test.spo.rf <- function() {
   learner = makeLearner("regr.randomForest")
   ctrl = makeSPOControl(init.design.points=5, seq.loops=10, propose.points.method="CMAES")
   or = spo(f, ps, des=NULL, learner, ctrl)
-  checkEquals(getLength(or$path), 15)
+  checkEquals(length(or$path), 15)
   ctrl = makeSPOControl(init.design.points=5, seq.loops=10, final.point="best.predicted")
   or = spo(f, ps, des=NULL, learner, ctrl)
-  checkEquals(getLength(or$path), 15)
+  checkEquals(length(or$path), 15)
 } 
 
 test.spo.km <- function() {
@@ -100,7 +100,7 @@ test.spo.km <- function() {
   learner = makeLearner("regr.km")
   ctrl = makeSPOControl(seq.loops=5, seq.design.points=100)
   or = spo(f, ps, des, learner, ctrl)
-  checkEquals(getLength(or$path), 15)
+  checkEquals(length(or$path), 15)
   df = as.data.frame(or$path)
   checkTrue(is.numeric(df$x1))
   checkTrue(is.numeric(df$x2))
@@ -116,7 +116,7 @@ test.spo.km <- function() {
   des = makeDesign(10, par.set=ps)
   des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   or = spo(f, ps, des, learner, ctrl)
-  checkEquals(getLength(or$path), 15)
+  checkEquals(length(or$path), 15)
   df = as.data.frame(or$path)
   checkTrue(is.numeric(df$x1))
   checkTrue(is.integer(df$x2))
@@ -126,7 +126,7 @@ test.spo.km <- function() {
   
   ctrl = makeSPOControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
   or = spo(f, ps, des, learner, ctrl)
-  checkEquals(getLength(or$path), 15)
+  checkEquals(length(or$path), 15)
   df = as.data.frame(or$path)
   checkTrue(is.numeric(df$x1))
   checkTrue(is.integer(df$x2))

@@ -69,8 +69,8 @@ setMethod(
 		),
 		
 		def = function(.learner, .task, .subset,  ...) {		
-			xs = args.to.control(boost_control, c("mstop", "nu", "risk"), list(...))
-			ys = args.to.control(ctree_control, c("teststat", "testtype", "mincriterion", "maxdepth"), xs$args)
+			xs = learnerArgsToControl(boost_control, c("mstop", "nu", "risk"), list(...))
+			ys = learnerArgsToControl(ctree_control, c("teststat", "testtype", "mincriterion", "maxdepth"), xs$args)
 			f = getFormula(.task)
       args = c(list(f, data=getData(.task, .subset), control=xs$control, tree_control=ys$control), ys$args)
 			if (.task["has.weights"])

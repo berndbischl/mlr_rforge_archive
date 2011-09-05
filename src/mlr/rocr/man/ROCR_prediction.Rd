@@ -64,10 +64,4 @@ ROCR.prediction(predictions, labels, label.ordering = NULL)
 \seealso{\code{\link{ROCR.prediction-class}}, \code{\link{ROCR.performance}},
   \code{\link{ROCR.performance-class}}, \code{\link{ROCR.plot.performance}} } 
 
-\examples{
-# create a simple prediction object
-data(ROCR.simple)
-pred <- ROCR.prediction(ROCR.simple$predictions,ROCR.simple$labels)
-}
-
 \keyword{classif}

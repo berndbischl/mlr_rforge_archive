@@ -192,20 +192,4 @@ ROCR.performance(prediction.obj, measure, x.measure="cutoff", \dots)
 \seealso{\code{\link{ROCR.prediction}}, \code{\link{ROCR.prediction-class}},
   \code{\link{ROCR.performance-class}}, \code{\link{ROCR.plot.performance}} } 
 
-\examples{
-## computing a simple ROC curve (x-axis: fpr, y-axis: tpr)
-data(ROCR.simple)
-pred <- ROCR.prediction( ROCR.simple$predictions, ROCR.simple$labels)
-perf <- ROCR.performance(pred,"tpr","fpr")
-plot(perf)
-
-## precision/recall curve (x-axis: recall, y-axis: precision)
-perf1 <- ROCR.performance(pred, "prec", "rec")
-plot(perf1)
-
-## sensitivity/specificity curve (x-axis: specificity,
-## y-axis: sensitivity)
-perf1 <- ROCR.performance(pred, "sens", "spec")
-plot(perf1)
-}
 \keyword{classif}

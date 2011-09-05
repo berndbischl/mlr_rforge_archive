@@ -15,14 +15,5 @@
   element list in which each element is a vector of true class
   labels corresponding to the predictions.}
 
-\examples{
-# plot ROC curves for several cross-validation runs (dotted
-# in grey), overlaid by the vertical average curve and boxplots
-# showing the vertical spread around the average.
-data(ROCR.xval)
-pred <- ROCR.prediction(ROCR.xval$predictions, ROCR.xval$labels)
-perf <- ROCR.performance(pred,"tpr","fpr")
-plot(perf,col="grey82",lty=3)
-plot(perf,lwd=3,avg="vertical",spread.estimate="boxplot",add=TRUE)
-}
+
 \keyword{datasets}

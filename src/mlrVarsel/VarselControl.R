@@ -42,6 +42,8 @@ setMethod(
 		}
 )
 
+
+#' @rdname undocumented
 setMethod(f = "show",  signature = signature("VarselControl"), def = function(object) {
   cat(
     "Control object for varsel of class: ", class(x), "\n",

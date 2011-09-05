@@ -73,7 +73,7 @@ setMethod(
 #				args$kernel = do.call(args$kernel, kpar)	
 #			} 
 			
-			xs = args.to.control(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
+			xs = learnerArgsToControl(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
 			f = getFormula(.task)
 			if (length(xs$control) > 0)
 				args = c(list(f, data=getData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args)

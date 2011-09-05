@@ -4,10 +4,10 @@ allowed.rd.files <<- c(
   "varsel.Rd",
   
   "VarselControl-class.Rd",
-  "VarselControlSequential.Rd",
+  "VarselControlRandom-class.Rd",
+  "VarselControlSequential-class.Rd",
+  "VarselControlExhaustive-class.Rd",
   "makeVarselControlSequential.Rd",
-  "VarselControlRandom.Rd",
   "makeVarselControlRandom.Rd",
-  "VarselControlExhaustive.Rd",
   "makeVarselControlExhaustive.Rd"
 )

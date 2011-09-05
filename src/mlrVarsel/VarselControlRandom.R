@@ -43,6 +43,7 @@ setMethod(
 #' 		    
 #' @return Control structure.
 #' @exportMethod makeVarselControlRandom
+#' @rdname makeVarselControlRandom 
 #' @title Control structure for random variable selection. 
 
 
