@@ -15,12 +15,4 @@
   second element, \code{ROCR.simple$labels}, is a vector of
   corresponding class labels.}
 
-\examples{
-# plot a ROC curve for a single prediction run
-# and color the curve according to cutoff.
-data(ROCR.simple)
-pred <- ROCR.prediction(ROCR.simple$predictions, ROCR.simple$labels)
-perf <- ROCR.performance(pred,"tpr","fpr")
-plot(perf,colorize=TRUE)
-}
 \keyword{datasets}

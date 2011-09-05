@@ -11,7 +11,7 @@ roxygen <- function() NULL
 
 .onLoad <- function(libname, pkgname) {
 	errorhandler.setup()
-	logger.setup(level="info")
+  setupLogger(level="info")
 	parallel.setup(mode="local")
 	packageStartupMessage("Loading package mlr. Version: ", packageDescription("mlr", fields="Version"))
 }

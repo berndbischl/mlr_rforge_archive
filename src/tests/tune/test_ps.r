@@ -4,7 +4,7 @@ load.all.sources("src")
 parallel.setup()
 
 #library(mlr)
-logger.setup(level="warn")
+setupLogger(level="warn")
 
 
 # Four datasets are tested: Iris, BreastCancer, Glass, Liver

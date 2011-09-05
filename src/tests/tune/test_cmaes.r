@@ -1,7 +1,7 @@
 source("src/files.r")
 load.all.libs()
 load.all.sources("src")
-logger.setup(level="error")
+setupLogger(level="error")
 parallel.setup()
 
 

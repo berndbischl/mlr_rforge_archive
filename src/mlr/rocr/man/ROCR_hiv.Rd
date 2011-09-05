@@ -22,20 +22,4 @@
   of localized rules by maximizing the area under the ROC curve".  1st
   International Workshop on ROC Analysis in AI, 89-96, 2004.}
 
-\examples{
-data(ROCR.hiv)
-attach(ROCR.hiv)
-pred.svm <- ROCR.prediction(hiv.svm$predictions, hiv.svm$labels)
-perf.svm <- ROCR.performance(pred.svm, 'tpr', 'fpr')
-pred.nn <- ROCR.prediction(hiv.nn$predictions, hiv.svm$labels)
-perf.nn <- ROCR.performance(pred.nn, 'tpr', 'fpr')
-plot(perf.svm, lty=3, col="red",main="SVMs and NNs for prediction of
-HIV-1 coreceptor usage")
-plot(perf.nn, lty=3, col="blue",add=TRUE)
-plot(perf.svm, avg="vertical", lwd=3, col="red",
-     spread.estimate="stderror",plotCI.lwd=2,add=TRUE)
-plot(perf.nn, avg="vertical", lwd=3, col="blue",
-spread.estimate="stderror",plotCI.lwd=2,add=TRUE)
-legend(0.6,0.6,c('SVM','NN'),col=c('red','blue'),lwd=3)
-}
 \keyword{datasets}

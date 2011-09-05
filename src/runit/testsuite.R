@@ -38,7 +38,7 @@ if(!exists("runit.regexp") || runit.regexp == "")
 
 
 parallel.setup(mode="local")
-logger.setup(level="error")
+setupLogger(level="error")
 errorhandler.setup()
 
 data(Sonar, BreastCancer)

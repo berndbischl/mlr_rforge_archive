@@ -1,5 +1,6 @@
 allowed.rd.files <<- c( 		
-		"OptControl-class.Rd",
+    "undocumented.Rd",
+    "OptControl-class.Rd",
 		"OptResult-class.Rd",
 		
 		"tune.Rd",

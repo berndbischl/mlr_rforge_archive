@@ -3,7 +3,7 @@
 test.parallel.warn = function() {
   res = makeResampleDesc("CV", iters=2)
   level = .mlr.local$logger.setup$global.level
-  logger.setup(level="warn")
+  setupLogger(level="warn")
   opwd = .mlr.local$errorhandler.setup$on.par.without.desc
   
   #todo: for some reasons i get strange erorrs here 
@@ -34,7 +34,7 @@ test.parallel.warn = function() {
      F
   )
   
-  logger.setup(level=level)
+  setupLogger(level=level)
   errorhandler.setup(on.par.without.desc=opwd)
   parallel.setup(mode="local")
 }

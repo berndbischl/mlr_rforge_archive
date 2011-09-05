@@ -23,7 +23,7 @@ source("D:\\sync\\projekte\\mlr\\src\\mlrVarsel\\plotEAF.R")
 require("mlbench")
 
 parallel.setup(mode="local")
-logger.setup(level="error")
+setupLogger(level="error")
 errorhandler.setup()
 
 data(Sonar, BreastCancer)

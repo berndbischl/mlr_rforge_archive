@@ -1,5 +1,8 @@
 #' Only for internal use.
+#' 
 #' @exportMethod makeWrappedModel
+#' @rdname makeWrappedModel
+#' @title Only for internal use.
 setGeneric(
   name = "makeWrappedModel",
   def = function(learner, model, task.desc, subset, vars, time) {

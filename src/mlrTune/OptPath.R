@@ -175,6 +175,7 @@ getBestIndex = function(op, y.name=op@y.names[1], dob=op@env$dob, eol=op@env$eol
 #' @param index [\code{integer(1)}] 
 #'   Index of element.  
 #' @return List with elements 'x' [list] and 'y' [named numeric]. 
+#' @rdname getPathElement
 #' @exportMethod getPathElement
 setGeneric(
   name = "getPathElement",

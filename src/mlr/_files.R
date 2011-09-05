@@ -2,6 +2,7 @@ pack.files = c(
   "_helpers/helpers.R",
   "_helpers/logger.R",
   "mlr/errorhandler.r",
+  "mlr/setupLogger.R",
   ##    "mlr/packagedesc.r",
   "mlr/aaa.r",
   "mlr/empty.r",
