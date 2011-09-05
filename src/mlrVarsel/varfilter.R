@@ -39,8 +39,8 @@ setMethod(
   def = function(task, method, threshold, ...) {
     require.packs("FSelector")
     tn = task@desc@target
-    f = task["formula"]
-    data = task["data"]
+    f = getFormula(task)
+    data = getData(task)
     if (method == "linear.correlation") 
       x = linear.correlation(f, data)
     else if (method == "rank.correlation") 
