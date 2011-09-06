@@ -1,5 +1,5 @@
 allowed.rd.files <<- c( 		
-    "undocumented.Rd",
+#    "undocumented.Rd",
     "OptControl-class.Rd",
 		"OptResult-class.Rd",
 		

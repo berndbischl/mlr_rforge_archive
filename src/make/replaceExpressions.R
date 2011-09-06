@@ -1,10 +1,10 @@
 
 
-remove.patterns <<- c(
-		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,.*Constructor.\\}",
-		"\\\\alias\\{\\[\\}",
-    "\\\\section\\{Methods\\}\\{\\\\describe\\{\\}\\}",
-    
+replace.exps <<- list(
+		c("\\\\item\\{\\\\code\\{\\\\link\\[=initialize,.*Constructor.\\}", ""),
+		c("\\\\alias\\{\\[\\}", ""),
+    c("\\\\section\\{Methods\\}\\{\\\\describe\\{\\}\\}", ""),
+    c("\\\\code\\{\\\\link\\{ANY\\}\\}", "\\\\code\\{ANY\\}", "")
 #		"\\\\alias\\{initialize\\}",
 #		"\\\\alias\\{as.character\\}",
 #		"\\\\alias\\{show\\}",
@@ -45,8 +45,8 @@ remove.patterns <<- c(
 #		"\\\\item\\{\\\\code\\{\\\\link\\[=initialize,gbm.regr-method.*Constructor.\\}",
 #		
 #		"\\\\item\\{\\\\code\\{\\\\link\\[=to.string,.*\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=show,.*Shows the object by calling as.character.\\}",
-		"\\\\item\\{\\\\code\\{\\\\link\\[=print,.*Prints the object by calling as.character.\\}"
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=show,.*Shows the object by calling as.character.\\}",
+#		"\\\\item\\{\\\\code\\{\\\\link\\[=print,.*Prints the object by calling as.character.\\}"
 
 #initialize,adaboost-method"                                                                                       
 #[15] "       missing link(s):  initialize,blackboost.regr-method"                                                                                
@@ -62,15 +62,13 @@ remove.patterns <<- c(
 #[31] "       missing link(s):  initialize,randomForest.classif-method"                                                                           
 )
 
-remove.exp <-function(file) {
+replaceExpressions <-function(file) {
 	x <- paste(readLines(file), collapse="###")
-	for (pattern in remove.patterns) {
-		x <- sub(pattern, "" ,x)
+	for (e in replace.exps) {
+		x <- sub(e[1], e[2], x)
 	}
 	x <- strsplit(x, "###")[[1]]
 	writeLines(x, file)
-	#writeLines(x, "c:/test.txt")
 }
 
-#remove.exp("d:/sync/projekte/mlr/pkg/mlr/man/lda-class.Rd")
 

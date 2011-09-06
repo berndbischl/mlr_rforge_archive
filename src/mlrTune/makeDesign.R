@@ -15,11 +15,8 @@
 #' @param ints.as.num [logical(1)] \cr
 #'   Should parameters of type 'integer', 'integervector' have columns of type 'numeric' in result?
 #'   Default is \code{FALSE}.  
-#' @param ints.as.num [logical(1)] \cr
-#'   Should parameters of type 'integer', 'integervector' have columns of type 'numeric' in result?
-#'   Default is \code{FALSE}.  
 #' @param discrete.as.factors [logical(1)] \cr
-#'   Should parameters of type 'discrete' columns of type 'factor' in result?
+#'   Should parameters of type 'discrete' have columns of type 'factor' in result?
 #'   Otherwise character columns are generated.
 #'   Default is \code{TRUE}.  
 #' @return The created design as a data.frame. Columns are named by the ids of the parameters.

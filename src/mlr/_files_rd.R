@@ -89,8 +89,8 @@ allowed.rd.files <<- c(
   "ROCR_prediction-class.Rd",
   "ROCR_plot-methods.Rd",
   "ROCR.plot.task.Rd",
-  "ROCR_simple.Rd",
-  "ROCR_xval.Rd",
+#  "ROCR_simple.Rd",
+#  "ROCR_xval.Rd",
   
   "makeResampleInstance.Rd",
   "makeResampleDesc.Rd",

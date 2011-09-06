@@ -36,20 +36,16 @@ setMethod(
   }
 )
 
-#' @rdname ength
-setMethod(
-  f = "length",
-  signature = signature(x="OptPathDF"), 
-  def = function(x) {
-    nrow(x@env$path)
-  }
-)
+
+#' Get length of optimization path.
+#' @export 
+length.OptPathDF = function(x) {
+  nrow(x@env$path)
+}
 
 
-
-#' Convert to data.frame
+#' Convert optimization path tp data.frame. 
 #' @export
-#' @rdname undocumented
 as.data.frame.OptPathDF = function(x, row.names = NULL, optional = FALSE, ...) {
   df = x@env$path
   df = cbind(df, dob=x@env$dob, eol=x@env$eol)
