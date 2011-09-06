@@ -106,7 +106,7 @@ make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binar
         if(!(f %in% allowed.rd.files)) {
           file.remove(file.path(man.build.dir, f))
         } else {
-          remove.exp(file.path(man.build.dir, f))
+          replaceExpressions(file.path(man.build.dir, f))
         }
       }
     }
@@ -151,7 +151,7 @@ make <- function(pack.name, only.allowed.rds=TRUE, build=TRUE, check=TRUE, binar
 source(file.path("src", pack, "_files.R"))
 source(file.path("src", pack, "_files_rd.R"))
 source("src/make/rev.nr.r")
-source("src/make/remove.r")
+source("src/make/replaceExpressions.R")
 source(sprintf("src/make/desc_%s.R", pack))
 
 if (!exists("build")) build <- TRUE
