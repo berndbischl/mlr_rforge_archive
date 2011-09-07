@@ -43,7 +43,7 @@ Rnw2rst: $(RSTFILES)
 
 %.rst: %.Rnw
 	@echo "Building '$@' from '$<' ..."
-	@Rscript --vanilla -e "library(\"ascii\"); ReST(\"$<\", output=\"$@\")" > /dev/null 2> $(<:.Rnw=.log)
+	@Rscript --vanilla -e "library(\"ascii\"); Sweave(\"$<\", output=\"$@\", driver=RweaveReST)" > /dev/null 2> $(<:.Rnw=.log)
 
 _static/rdocs:
 	mkdir $@
