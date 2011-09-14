@@ -16,11 +16,11 @@ Tutorial
    roc_analysis
    
 This web page will provide you with an in-depth introduction on how to
-use the **mlr** package for machine learning experiments and
+use the **mlr** framwork for machine learning experiments and
 optimization in R.
 
 Our focus is on your comprehension of the basic functions and
-applications.
+applications, for specific details please look at documentation of the R package.
 
 For detailed technical information and manual pages please refer to
 the packages `manual pages`_ 

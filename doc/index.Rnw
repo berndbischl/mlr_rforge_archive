@@ -19,44 +19,63 @@ Machine Learning in R (mlr)
    changes
    literature
 
-Motivation
-==========
+Introduction
+============
 
-There is no standardized interface for all the classification and
-regression techniques available for R. Therefore, for any non-trivial
-machine learning experiments, you need to write lengthy, tedious and
-error-prone wrappers to call the different algorithms and unify their
-respective output. Additionally you need to implement infrastructure
-to cope with pre- and post-processing of the results, parallelizing
-your experiment. This often forces useRs to make crummy trade-offs in
-their experiments due to time constraints. **mlr** provides this
-infrastrukture so that you can focus on your experiments!
+R does not define a a standardized interface for all its machine learning
+algorithms. Therefore, for any non-trivial experiments, 
+you need to write lengthy, tedious and error-prone wrappers to call the different 
+algorithms and unify their respective output. Additionally you need to implement infrastructure
+to resample your models, optimize hyperparameters, select features,
+cope with pre- and post-processing of data and compare models in a statistical meaninful way.
+As these becomes computionally expensive, you might want to parallelize your experiments
+as well. This often forces useRs to make crummy trade-offs in their experiments due to 
+time constraints or lacking expert programming skills.
+**mlr** provides this infrastructure so that you can focus on your experiments!
+The framerwork currently focusses focusses on supervised methods like classification 
+and regression and their corresponding evaluation and optimization, but furher extensions are
+planned. It is written in a way that you can extend it yourself or deviate from the implemented
+convenience methods and construct your own complex experiments or algorithms.
 
 Features
 """"""""
 
-* Clear S4 interface to R classification methods
+* Clear S4 interface to R classification and regression methods
 * Easy extension mechanism through S4 inheritance
-* Abstract description of learners and data by properties 
-* Description of data generating process 
+* Abstract description of learners and tasks by properties 
+* Parameter system for learners to encode data types and constraints.
 * Many convenience methods and generic building blocks for your
   machine learning experiments
 * Resampling like bootstrapping, cross-validation and subsampling 
 * Easy hyperparameter tuning using different optimization strategies
-* Variable selection 
+* Variable selection with filters and wrappers
 * Benchmark experiments with two levels of resampling 
 * Interface to benchmark package for exploration and inference
-* Easy extension mechanism through S4 inheritance for new methods
-* Parallelization built in
-* Growing collection of :doc:`tutorials <tutorial/index>` and examples
+* Parallelization is built-in
+* Extension points to integrate your own stuff
 * Unit-tested using RUnit_
 
-Outlook
-"""""""
+As the framework has become rather extensive, it is currently divided into the following R packages:
 
-* Meta-optimization of hyperparamters and features by sequential methods
-* Different approaches for model selection, maybe also Races
-* Clustering 
+* **mlr**: The basic package. Fitting, predicting, evaluating, resampling.
+* **mlrTune**: Tune hyper-parameters of a learner with different optimization algorithms. 
+  Multi-criteria optimization is possible, too. Also contains a model-based sequential 
+  parameter optimization method, which can be used for general purpose optimization of 
+  expensive black-box functions.
+* **mlrVarsel**: Feature selection with filters and wrappers. 
+  Multi-criteria optimization is possible, too.
+* **mlrChains**: Combine different processing steps to a complex data mining chain. 
+  Enables nested resampling of optimized models.
+* **mlrBenchmark**: Compare learning systems with extensive benchmark experiments. 
+  Enables nested resampling of optimized models.
+
+Get in touch
+""""""""""""
+
+If you are interested in the package, have a question regarding the usage or a feature request,
+or maybe want to help improving **mlr**, please send a mail to the list at
+mlr-general@lists.r-forge.r-project.org or to the maintainer Bernd Bischl 
+at bischl@statistik.uni-dortmund.de.
 
 Installation
 """"""""""""
@@ -74,7 +93,6 @@ Project Link-List
 * :doc:`tutorial/index`
 * List of the :doc:`integrated_learners`
 * List of :doc:`howto/index`
-* List of :doc:`concept/index`
 * R-Forge_ project page
 * Bugtracker_
 
