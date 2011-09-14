@@ -9,7 +9,7 @@ all subsequent operations can be performed by using a unified
 interface.
 
 This is in this case achieved by calling the function train_, passing
-it a learner_ and a machine learning task. The classification or
+it a learner and a LearnTask_. The classification or
 regression method is specified by its name as a string or by a
 Learner_ object. While the former is maybe more covenient, the latter
 allows for more flexibility, for example it permits setting the
@@ -17,44 +17,47 @@ hyperparameters of the learner before training. Optionally, only a
 subset of the data, specified by an index set, is used to train the
 learner. This set is passed using the ``subset`` argument of train_.
 
-The return value is always an object of class Model_ which wraps the
+The return value is always an object of class WrappedModel_ which wraps the
 concrete model of the used R classification or regression method. It
 can subsequently be used to perform a prediction_ for new
 observations.
 
-                            |basic_processing|
 
 Classification example
 ----------------------
 
 Let's have a look at the iris data set. 
 
+First, create the classification task. 
 <<>>=
 library("mlr")
-## Create the classification task. 
 ct <- makeClassifTask(data = iris, target = "Species")
+@
 
-## Let's train some Decision Trees.
-## On the whole data set.
+Let's train some decision trees.
+<<>>=
 m <- train("classif.rpart", ct)
+@
 
-##  On a subset (every second observation).
+You can print some basic information of the model to the console.
+<<>>=
+m
+@
+
+Now a subset of the data (every second observation) is used for training.
+<<>>=
 m <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2))
+m
+@
 
-## In order to use non-default values of hyperparameters a Learner 
-## object has to be created before training.
+In order to use non-default values of hyperparameters a Learner_ object has to be created before training.
+<<>>=
 l <- makeLearner("classif.rpart", minsplit = 7, cp = 0.03)
 m <- train(l, ct, subset = seq(from = 1, to = 150, by = 2))
-	
-## You can print some basic information of the model to the console.
 m
-
-## Used hyperparameters and subset of the data.
-l@par.vals
-m@learner@par.vals
-m@subset
-
-# Access the wrapped rpart model - in most cases you won't need to...
+@
+	
+Access the wrapped rpart model - in most cases you won't need to...
 m@learner.model
 @ 
 
@@ -63,36 +66,35 @@ Regression example
 
 As regression example we use the BostonHousing data set.
 
+Create the regression task. 
 <<>>=
-## Create the regression task. 
 library("mlbench")
 data(BostonHousing)
 
 rt <- makeRegrTask(data = BostonHousing, target = "medv")
-	
-## Let's train some Gradient Boosting Machine.
-##   On the whole data set.
+@
+
+Let's train some Gradient Boosting Machine, first on the whole data set.
+<<>>=
 m <- train("regr.gbm", rt) 
+m
+@
 
-##   On a subset (every second observation).
+Then on a subset (every second observation).
+<<>>=
 m <- train("regr.gbm", rt, subset = seq(1, 506, 2))
+m
+@
 
-##   In order to use non-default values of hyperparameters a Learner object has to be created before training.
+Analogous to the classification case a Learner object has to be created before training in order to use non-default values of hyperparameters.
+<<>>=
 l <- makeLearner("regr.gbm", n.trees = 500, distribution = "laplace", interaction.depth = 3)
 m <- train(l, rt, subset = seq(1, 506, 2))	
-
-## You can print some basic information of the model to the console. 
 m
-@ 
+@
 
 .. _train: _static/rdocs/mlr/train.html
-.. _prediction: _static/rdocs/mlr/train.html
-.. _learner: _static/rdocs/mlr/Learner-class.html
+.. _prediction: _static/rdocs/mlr/predict.html
 .. _Learner: _static/rdocs/mlr/Learner-class.html
-.. _Model: _static/rdocs/mlr/Model-class.html
-
-.. |basic_processing| image:: /_images/train-basic_processing.png
-          :align: middle
-          :width: 700px
-          :alt: Flow chart of the mlr processing pipeline
-
+.. _WrappedModel: _static/rdocs/mlr/WrappedModel-class.html
+.. _LearnTask: _static/rdocs/mlr/LearnTask-class.html
