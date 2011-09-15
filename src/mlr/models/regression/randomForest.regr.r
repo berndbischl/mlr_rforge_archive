@@ -25,7 +25,7 @@ setMethod(
         makeLogicalLearnerParameter(id="keep.inbag", default=FALSE)
       )
       
-			.Object = callNextMethod(.Object, pack="randomForest")
+			.Object = callNextMethod(.Object, pack="randomForest", par.set=par.set)
 
       setProperties(.Object,
         missings = FALSE,
