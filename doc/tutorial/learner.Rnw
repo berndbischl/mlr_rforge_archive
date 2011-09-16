@@ -1,8 +1,5 @@
-Integrated learners
-===================
-
-Introduction
-------------
+Learners
+========
 
 These classes provide a unified interface to all
 classification/regression methods in R. Some are already integrated,
@@ -11,64 +8,92 @@ extensions simple. If one of your favorite methods is missing, either
 send the **mlr** maintainers an email or see the part of the tutorial
 on how to extend the package yourself.
   
-To see which learners are already implemented, type
-learners_ in your R console.
+To see which learners are already implemented, have a look at the
+learners_ documentation page or go to IntegratedLearners_.
 
-You have two options to access the learning algorithms in **mlr**.  Either
-by passing the name as a string to the appropriate method or by
-constructing the Learner_ object explicitly by means of the
-makeLearner_ factory method:
-  
-Classificarion Example
-......................
+Generally, you have two options to access the learning algorithms in **mlr**. 
+Either by passing the name as a string to the appropriate method, e.g. train_, 
+or by constructing a Learner_ object explicitly by means of the
+makeLearner_ factory method. 
 
-Let's take a look at the iris example to show the two different
-possibilities. We start by loading the **mlr** package:
+Why construct a Learner_ object? 
+
+* You have to create a Learner_ object if you want to pass hyperparameter values other than the default values.
+* You can set an id which is quite useful if you conduct larger experiments and need to access results of a certain learning method.
+* For classification tasks you have to create a Learner_ object if you want to control the type of prediction_ which is returned. Per default you get the class labels when making a prediction_. In order to get e.g. posterior probabilities you have to specifiy this when creating the learner.
+
+The makeLearner_ factory method takes the names of the learning method as 
+its first argument. The naming conventions are ``classif.<R_method_name>`` for 
+classification methods and ``regr.<R_method_name>`` for regression methods.
+The names of all learning methods are listed on the learners_ documentation page 
+and under IntegratedLearners_.
+
+
+Classification example
+----------------------
 
 <<>>=
 library("mlr")
-@ 
-
-Next, we create a classification task. A classification task describes
-our classification problem. Apart from the madatory `data` and
-`target` argument, the makeClassifTask_ help page list several other
-arguments that can be passed to describe further details of the
-classification problem.
-
-<<>>=
-ct <- makeClassifTask(data=iris, target="Species")
-@ 
-
-We can inspect the classification task at any time to get a
-description of it by printing it in the R console:
-
-<<>>=
-ct
-@ 
-
-Given a classification task we can now train a learner. There are two
-ways to do this. The first way directly passes the name of the
-classifier as a string to the `train` method
-
-<<>>=
-wm <- train("classif.lda", ct)
-@ 
-
-Alternativly we can create a `Learner` object and then pass this into
-the `train` method
-
-<<>>=
-wl <- makeLearner("classif.rpart")
-wm <- train(wl, ct)
+lrn <- makeLearner(class = "classif.rpart")
+lrn
 @                 
 
-Now lets see what information is contained in `wm`
+The generated learner is an object of class Learner_. It contains basic 
+information about the learning method like the chosen hyperparameter values 
+(if specified) and the type of prediction_ that will be made by this learner.
+Moreover, it provides information about the types of classification problems 
+and properties of the data the learning method can deal with, for example if 
+only two- or multi-class problems are supported and if it can cope with case 
+weights or missing values.
+
+The tables in IntegratedLearners_ provide a survey about these properties for
+all integrated learning methods.
+
+Now let's create a Learner_ and additionally specify hyperparameter values and 
+an id.
 
 <<>>=
-wm
-@ 
+lrn <- makeLearner(class = "classif.rpart", minsplit = 7, cp = 0.03, id = "myrpart")
+lrn
+@
 
-.. _Learner: _static/rdocs/mlr/Learner-class.html
-.. _learners: _static/rdocs/mlr/learners.html
-.. _makeClassifTask: _static/rdocs/mlr/makeClassifTask.html
-.. _makeLearner: _static/rdocs/mlr/makeLearner.html
+This is how to get posterior probabilities when making a prediction_.
+
+<<>>=
+lrn <- makeLearner(class = "classif.rpart", predict.type = "prob")
+lrn
+@
+
+In case of Support Vector Machines it is also possible to access the class
+membership scores.
+
+<<>>=
+lrn <- makeLearner(class = "classif.svm", predict.type = "scores")
+lrn
+@
+
+
+Regression example
+------------------
+
+Create an rpart Learner_ for regression. 
+
+<<>>=
+lrn <- makeLearner(class = "regr.rpart")
+lrn
+@                 
+
+Finally, let's create a Gradient Boosting Machine Learner_ and pass hyperparameters
+and an id.
+
+<<>>=
+lrn <- makeLearner("regr.gbm", n.trees = 500, distribution = "laplace", interaction.depth = 3, id = "mygbm")
+lrn
+@
+
+.. _Learner: ../_static/rdocs/mlr/Learner-class.html
+.. _learners: ../_static/rdocs/mlr/learners.html
+.. _makeLearner: ../_static/rdocs/mlr/makeLearner.html
+.. _IntegratedLearners: ../integrated_learners.html
+.. _prediction: ../_static/rdocs/mlr/predict.html
+.. _train: ../_static/rdocs/mlr/train.html

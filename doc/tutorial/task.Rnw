@@ -1,5 +1,5 @@
-Tasks
-=====
+Learning Tasks
+==============
 
 Learning tasks are the basic element of the package to encapsulate the
 data set and all relevant information regarding the purpose of the
@@ -26,13 +26,13 @@ library("mlr")
 library("mlbench")
 data(BreastCancer)
 
-ct <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id")
+task <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id")
 @ 
 
 Now let us examine the created task:
 
 <<>>=
-ct
+task
 @ 
 
 The now defined task contains basic information about the data,
@@ -46,9 +46,12 @@ levels of the target. You probably want to select this manually for
 your applications.
 
 <<>>=
-ct <- makeClassifTask(data = BreastCancer, target = "Class", 
+task <- makeClassifTask(data = BreastCancer, target = "Class", 
                       exclude = "Id", positive = "malignant")
 @ 
+
+The makeClassifTask_ help page list several other arguments that can be 
+passed to describe further details of the classification problem.
 
 There are some convenience methods to access properties of the data
 set and the classification problem. Look at the documentation of the
@@ -56,33 +59,33 @@ LearnTask_ class and its subclasses ClassifTask_ and RegrTask_, if
 you are interested in what kind of those "getter"-functions are
 available. Here are some examples:
 
-Get the names of the input variables - same for regression.
+Get the names of the input variables.
 
 <<>>=
-getFeatureNames(ct)
+getFeatureNames(task)
 @
 
-Get values of the target variable for all observations - same for regression.
+Get values of the target variable for all observations.
 
 <<>>=
-head(getTargets(ct))
+head(getTargets(task))
 @
 
 Get the class labels.
 
 <<>>=
-getClassLevels(ct)	
+getClassLevels(task)	
 @ 
 
 All information can be obtained from the slots of the LearnTask_
 object directly.
 
 The main part of the information is stored in the slot called desc,
-which stands for description. `ct@desc` is an object of class TaskDesc_.
+which stands for description. (``task@desc`` is an object of class TaskDesc_.)
 
 <<>>=
-ct@desc
-str(ct@desc)
+task@desc
+str(task@desc)
 @ 
 
 Optionally we can include further information like observation weights
@@ -98,19 +101,19 @@ with factor 3:
 
 <<>>=
 w <- c(1,3)[BreastCancer$Class]
-ct <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id", 
+task <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id", 
                       positive = "malignant", weights = w)
-head(ct@weights)
+head(task@weights)
 @ 
 
 Now let's include a (nonsensical) blocking structure:
 
 <<>>=
 blocking <- factor(rep(1:3, nrow(BreastCancer)/3))
-ct <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id", 
+task <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id", 
                       blocking = blocking)
-head(ct@blocking)
-table(ct@blocking)
+head(task@blocking)
+table(task@blocking)
 @ 
 
 From this classification task we can now train various models, which
@@ -123,29 +126,32 @@ Regression example
 We will generally take the BostonHousing data set as regression example.
 
 <<>>=
-library(mlbench); data(BostonHousing)
-rt <- makeRegrTask(data = BostonHousing, target = "medv")
-rt
+library("mlr")
+library("mlbench")
+data(BostonHousing)
+task <- makeRegrTask(data = BostonHousing, target = "medv")
+task
 @
 
-The rest works analogous to the classification task.
+The rest works analogous to the classification example.
 
 <<>>=
-getFeatureNames(rt)
+getFeatureNames(task)
 
-head(getTargets(rt))
+head(getTargets(task))
 @
 
 Inspect TaskDesc_.
 
 <<>>=
-rt@desc@target
+task@desc
+str(task@desc)
 @ 
 
-.. _LearnTask: /_static/rdocs/mlr/LearnTask-class.html
-.. _TaskDesc: /_static/rdocs/mlr/TaskDesc-class.html
-.. _ClassifTask: /_static/rdocs/mlr/ClassifTask-class.html
-.. _RegrTask: /_static/rdocs/mlr/RegrTask-class.html
-.. _makeClassifTask: /_static/rdocs/mlr/makeClassifTask.html
-.. _makeRegrTask: /_static/rdocs/mlr/makeRegrTask.html
-.. _Training: /tutorial/train.html
+.. _LearnTask: ../_static/rdocs/mlr/LearnTask-class.html
+.. _TaskDesc: ../_static/rdocs/mlr/TaskDesc-class.html
+.. _ClassifTask: ../_static/rdocs/mlr/ClassifTask-class.html
+.. _RegrTask: ../_static/rdocs/mlr/RegrTask-class.html
+.. _makeClassifTask: ../_static/rdocs/mlr/makeClassifTask.html
+.. _makeRegrTask: ../_static/rdocs/mlr/makeRegrTask.html
+.. _Training: train.html

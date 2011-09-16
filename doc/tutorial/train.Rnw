@@ -1,4 +1,4 @@
-Training a learner
+Training a Learner
 ==================
 
 "Training" a learner just means fitting a model to a given data set.
@@ -32,44 +32,47 @@ First, create the classification task.
 
 <<>>=
 library("mlr")
-ct <- makeClassifTask(data = iris, target = "Species")
+task <- makeClassifTask(data = iris, target = "Species")
 @
 
-Let's train some decision trees.
+Let's train a decision tree. We directly pass the name of the classifier as a
+string.
 
 <<>>=
-m <- train("classif.rpart", ct)
+mod <- train("classif.rpart", task)
 @
 
 You can print some basic information of the model to the console.
 
 <<>>=
-m
+mod
+@
+
+Alternativly we can create a Learner_ object and then pass this into the train_ 
+method. In order to use non-default hyperparameter values this is mandatory.
+
+<<>>=
+lrn <- makeLearner("classif.rpart", minsplit = 7, cp = 0.03)
+mod <- train(lrn, task)
+mod
 @
 
 Now a subset of the data (every second observation) is used for training.
 
 <<>>=
-m <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2))
-m
-@
-
-In order to use non-default values of hyperparameters a Learner_ object has to be created before training.
-
-<<>>=
-l <- makeLearner("classif.rpart", minsplit = 7, cp = 0.03)
-m <- train(l, ct, subset = seq(from = 1, to = 150, by = 2))
-m
+mod <- train(lrn, task, subset = seq(from = 1, to = 150, by = 2))
+mod
 @
 	
 Access the wrapped rpart model - in most cases you won't need to...
 
 <<>>=
-m@learner.model
+mod@learner.model
 @ 
 
+
 Regression example
-..................
+------------------
 
 As regression example we use the BostonHousing data set.
 
@@ -79,33 +82,33 @@ Create the regression task.
 library("mlbench")
 data(BostonHousing)
 
-rt <- makeRegrTask(data = BostonHousing, target = "medv")
+task <- makeRegrTask(data = BostonHousing, target = "medv")
 @
 
 Let's train some Gradient Boosting Machine, first on the whole data set.
 
 <<>>=
-m <- train("regr.gbm", rt) 
-m
+mod <- train("regr.gbm", task) 
+mod
 @
 
 Then on a subset (every second observation).
 
 <<>>=
-m <- train("regr.gbm", rt, subset = seq(1, 506, 2))
-m
+mod <- train("regr.gbm", task, subset = seq(1, 506, 2))
+mod
 @
 
-Analogous to the classification case a Learner object has to be created before training in order to use non-default values of hyperparameters.
+Analogous to the classification case a Learner_ object has to be created before training in order to use non-default values of hyperparameters.
 
 <<>>=
-l <- makeLearner("regr.gbm", n.trees = 500, distribution = "laplace", interaction.depth = 3)
-m <- train(l, rt, subset = seq(1, 506, 2))	
-m
+lrn <- makeLearner("regr.gbm", n.trees = 500, distribution = "laplace", interaction.depth = 3)
+mod <- train(lrn, task, subset = seq(1, 506, 2))	
+mod
 @
 
-.. _train: _static/rdocs/mlr/train.html
-.. _prediction: _static/rdocs/mlr/predict.html
-.. _Learner: _static/rdocs/mlr/Learner-class.html
-.. _WrappedModel: _static/rdocs/mlr/WrappedModel-class.html
-.. _LearnTask: _static/rdocs/mlr/LearnTask-class.html
+.. _train: ../_static/rdocs/mlr/train.html
+.. _prediction: ../_static/rdocs/mlr/predict.html
+.. _Learner: ../_static/rdocs/mlr/Learner-class.html
+.. _WrappedModel: ../_static/rdocs/mlr/WrappedModel-class.html
+.. _LearnTask: ../_static/rdocs/mlr/LearnTask-class.html
