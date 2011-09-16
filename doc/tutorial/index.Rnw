@@ -4,6 +4,7 @@ Tutorial
 .. toctree::
    :maxdepth: 1
    
+   task
    train
    predict
    resample
