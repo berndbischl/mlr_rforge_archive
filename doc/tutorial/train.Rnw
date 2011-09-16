@@ -28,29 +28,34 @@ Classification example
 
 Let's have a look at the iris data set. 
 
-First, create the classification task. 
+First, create the classification task.
+
 <<>>=
 library("mlr")
 ct <- makeClassifTask(data = iris, target = "Species")
 @
 
 Let's train some decision trees.
+
 <<>>=
 m <- train("classif.rpart", ct)
 @
 
 You can print some basic information of the model to the console.
+
 <<>>=
 m
 @
 
 Now a subset of the data (every second observation) is used for training.
+
 <<>>=
 m <- train("classif.rpart", ct, subset = seq(from = 1, to = 150, by = 2))
 m
 @
 
 In order to use non-default values of hyperparameters a Learner_ object has to be created before training.
+
 <<>>=
 l <- makeLearner("classif.rpart", minsplit = 7, cp = 0.03)
 m <- train(l, ct, subset = seq(from = 1, to = 150, by = 2))
@@ -58,6 +63,8 @@ m
 @
 	
 Access the wrapped rpart model - in most cases you won't need to...
+
+<<>>=
 m@learner.model
 @ 
 
@@ -67,6 +74,7 @@ Regression example
 As regression example we use the BostonHousing data set.
 
 Create the regression task. 
+
 <<>>=
 library("mlbench")
 data(BostonHousing)
@@ -75,18 +83,21 @@ rt <- makeRegrTask(data = BostonHousing, target = "medv")
 @
 
 Let's train some Gradient Boosting Machine, first on the whole data set.
+
 <<>>=
 m <- train("regr.gbm", rt) 
 m
 @
 
 Then on a subset (every second observation).
+
 <<>>=
 m <- train("regr.gbm", rt, subset = seq(1, 506, 2))
 m
 @
 
 Analogous to the classification case a Learner object has to be created before training in order to use non-default values of hyperparameters.
+
 <<>>=
 l <- makeLearner("regr.gbm", n.trees = 500, distribution = "laplace", interaction.depth = 3)
 m <- train(l, rt, subset = seq(1, 506, 2))	
