@@ -23,6 +23,7 @@ allowed.rd.files <<- c(
     "SPOControl-class.Rd",
     "makeSPOControl.Rd",
     "makeSPOFunction.Rd",
+    "makeSPOParameterSet.Rd",
     "spo.Rd"
 )		
 

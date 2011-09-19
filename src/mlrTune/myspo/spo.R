@@ -72,7 +72,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     xs = lapply(1:nrow(des.x), function(i) dataFrameRowToList(des.x, par.set, i))
   }
   Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)
-  rt = makeSpoTask(des, y.name)
+  rt = makeSpoTask(des, y.name, control=control)
   model = train(learner, rt)
   models = list()
   if (0 %in% control@save.model.at)
@@ -88,7 +88,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     xs = lapply(1:nrow(prop.des), function(i) dataFrameRowToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
     Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)
-    rt = makeSpoTask(as.data.frame(opt.path), y.name, exclude=c("dob", "eol"))
+    rt = makeSpoTask(as.data.frame(opt.path), y.name, exclude=c("dob", "eol"), control=control)
     model = train(learner, rt)
     if (loop %in% control@save.model.at)
       models[[length(models)+1]] = model
@@ -119,10 +119,10 @@ evalTargetFun = function(fun, par.set, xs) {
   sapply(xs, fun)  
 }
 
-makeSpoTask = function(des, y.name, exclude=character(0)) {
+makeSpoTask = function(des, y.name, exclude=character(0), control) {
   if (any(sapply(des, is.integer)))
     des = as.data.frame(lapply(des, function(x) if(is.integer(x)) as.numeric(x) else x))
-  if (ctrl$rank.trafo)
+  if (control@rank.trafo)
     des[,y.name] = rank(des[,y.name])
   makeRegrTask(target=y.name, data=des, exclude=exclude)
 }

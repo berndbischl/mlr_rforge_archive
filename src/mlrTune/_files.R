@@ -11,6 +11,7 @@ pack.files = c(
     "mlrTune/OptPathDF.R",
     "mlrTune/makeDesign.R",
     "mlrTune/myspo/makeSPOFunction.R",
+    "mlrTune/myspo/makeSPOParameterSet.R",
     "mlrTune/myspo/SPOControl.R",
     "mlrTune/myspo/proposePoints.R",
     "mlrTune/myspo/chooseFinalPoint.R",
