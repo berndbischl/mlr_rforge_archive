@@ -7,5 +7,5 @@ tune.spo = function(learner, task, resampling, measures, par.set, control, opt.p
   f = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path, log.fun, 
     arg.as.list=TRUE, trafo=FALSE)
   or = spo(f, par.set, des=NULL, control@learner, spo.control)
-  new("OptResult", learner, control, or$x, or$y.true, opt.path)
+  new("OptResult", learner, control, or$x, or$y, opt.path)
 }

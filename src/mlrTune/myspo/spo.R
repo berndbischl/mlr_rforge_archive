@@ -20,8 +20,7 @@
 #' @return A list with the following entries:
 #' \describe{
 #'   \item{x [named list]}{List of proposed optimal parameters.}
-#'   \item{y.true [numeric]}{Value of fitness function at \code{x}, either form evals during optimization or from requested final evaluations, if they were gretater than 0.}
-#'   \item{y.pred [numeric]}{Predicted fitness at \code{x} with final model.}
+#'   \item{y [numeric]}{Value of fitness function at \code{x}, either form evals during optimization or from requested final evaluations, if they were gretater than 0.}
 #'   \item{path [\code{\linkS4class{OptPath}}]}{Optimization path.}
 #'   \item{models [List of \code{\linkS4class{WrappedModel}}]}{List of saved regression models.}
 #' }
@@ -99,20 +98,19 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   
   des = getData(rt, target.extra=TRUE)$data
   final.index = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
-  y.pred = predict(model, newdata=des[final.index,,drop=FALSE])@df$response
   
   if (control@final.evals > 0) {
     prop.des = des[rep(final.index, control@final.evals),,drop=FALSE]
     xs = lapply(1:nrow(prop.des), function(i) dataFrameRowToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
-    y.true = mean(ys)
+    y = mean(ys)
     x = xs[[1]]
   } else {
-    y.true = getPathElement(opt.path, final.index)$y
+    y = getPathElement(opt.path, final.index)$y
     x = dataFrameRowToList(des, par.set, final.index)
   }
   
-  list(x=x, y.true=y.true, y.pred=y.pred, path=opt.path, models=models)
+  list(x=x, y=y, path=opt.path, models=models)
 }
 
 
@@ -124,5 +122,7 @@ evalTargetFun = function(fun, par.set, xs) {
 makeSpoTask = function(des, y.name, exclude=character(0)) {
   if (any(sapply(des, is.integer)))
     des = as.data.frame(lapply(des, function(x) if(is.integer(x)) as.numeric(x) else x))
+  if (ctrl$rank.trafo)
+    des[,y.name] = rank(des[,y.name])
   makeRegrTask(target=y.name, data=des, exclude=exclude)
 }
