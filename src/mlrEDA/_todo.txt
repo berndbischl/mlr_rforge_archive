@@ -9,5 +9,5 @@ was machen wir bei zu vielen features?
 - ausreiﬂerbeob. durch n‰chste nachbarn / distanzen
 - besonders pr‰diktive feature (varseld reciht?)
 
-
+- do a case study for "unsupervised EDA". good might be feature generation for test instances: tsp, ela, whatever
 
