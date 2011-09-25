@@ -2,6 +2,8 @@
 #todo: how to choose best element. with noise? without?
 #todo: retrain kriging faster
 #todo: handle error in meta learner
+#todo: i think resample at and save.model at count differently
+
 #'  Optimizes a function with sequential parameter optimization.
 #'
 #' @param fun [function(x, ...)]\cr 
@@ -81,7 +83,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   res.vals = list()
   while(loop <= control@seq.loops) {
     if (loop %in% control@resample.at) {
-      r = resample(learner, rt, control@ResampleDesc, measures=control@resample.measures)
+      r = resample(learner, rt, control@resample.desc, measures=control@resample.measures)
       res.vals[[length(res.vals)+1]] = r$aggr
     }
     prop.des = proposePoints(model, par.set, control, opt.path)
@@ -95,6 +97,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     loop = loop + 1
   }
   names(models) =  control@save.model.at
+  names(res.vals) =  control@resample.at
   
   des = getData(rt, target.extra=TRUE)$data
   final.index = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
@@ -110,7 +113,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     x = dataFrameRowToList(des, par.set, final.index)
   }
   
-  list(x=x, y=y, path=opt.path, models=models)
+  list(x=x, y=y, path=opt.path, resample=res.vals, models=models)
 }
 
 

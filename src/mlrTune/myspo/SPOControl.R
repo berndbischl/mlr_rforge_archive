@@ -107,11 +107,17 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   check.arg(rank.trafo, "logical", 1)
   if (is.numeric(final.evals) && as.integer(final.evals) == final.evals)
     final.evals = as.integer(final.evals)
-  if (is.numeric(save.model.at) && as.integer(save.model.at) == save.model.at)
+  if (length(save.model.at) == 0 || 
+    (is.numeric(save.model.at) && as.integer(save.model.at) == save.model.at))
     save.model.at = as.integer(save.model.at)
-
+  check.arg(save.model.at, "integer")
   check.arg(final.point, "character", 1, c("last.proposed", "best.true.y", "best.predicted"))
   check.arg(final.evals, "integer", 1)
+  if (length(resample.at) == 0 || 
+    (is.numeric(resample.at) && as.integer(resample.at) == resample.at))
+    resample.at = as.integer(resample.at)
+  check.arg(resample.at, "integer")
+  check.arg(resample.desc, "ResampleDesc")
   
   new("SPOControl", 
     y.name = y.name,

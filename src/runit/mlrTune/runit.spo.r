@@ -142,4 +142,16 @@ test.spo.km <- function() {
   checkEquals(names(or$x), names(ps@pars))
 } 
 
+testResample = function() {
+  f = makeSPOFunction(function(x) sum(x^2))
+  ps = makeSPOParameterSet("x", lower=c(0,0), upper=c(1,1)) 
+  learner = makeLearner("regr.randomForest")
+  ctrl = makeSPOControl(seq.loops=5, seq.design.points=10, resample.at=c(1,3))
+  or = spo(f, ps, des=NULL, learner, ctrl)
+  x = or$resample
+  checkTrue(is.list(x) && length(x) == 2)
+  checkTrue(is.numeric(x[[1]]) && is.numeric(x[[2]]))
+  checkEquals(names(x), c("1", "3"))
+}
+
 
