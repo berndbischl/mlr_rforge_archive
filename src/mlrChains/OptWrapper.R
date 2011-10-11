@@ -57,7 +57,10 @@ setMethod(
         bl = setHyperPars(bl, par.vals=or@x)
         m = train(bl, lt)
       } else if (is(wl@control, "VarselControl")) {
-				or = varsel(bl, lt, wl@resampling, measures=wl@measures, wl@bit.names, wl@bits.to.features, control=ctrl)
+        if (length(wl@bit.names) == 0)
+          or = varsel(bl, lt, wl@resampling, measures=wl@measures, control=ctrl)
+        else  
+          or = varsel(bl, lt, wl@resampling, measures=wl@measures, wl@bit.names, wl@bits.to.features, control=ctrl)
         lt = subsetData(lt, vars=or@x)
         m = train(bl, lt)
       }	else 

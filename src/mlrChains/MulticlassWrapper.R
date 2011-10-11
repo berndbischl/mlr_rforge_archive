@@ -32,9 +32,9 @@ makeMulticlassWrapper = function(learner, mcw.method="onevsrest") {
     makeFunctionLearnerParameter(id="mcw.custom")
   )
   w = new("MulticlassWrapper", learner=learner, par.set=ps)
-  w@desc@classes["multiclass"] = TRUE
-  w@desc@predict["prob"] = FALSE
-  w@desc@predict["decision"] = FALSE
+  w@properties["multiclass"] = TRUE
+  w@properties["prob"] = FALSE
+  w@properties["decision"] = FALSE
   if (is.function(mcw.method)) {
     if (any(names(formals(mcw.method)) != c("task")))
       stop("Arguments in multiclass codematrix function have to be: task")   
@@ -60,7 +60,7 @@ setMethod(
     .task = subsetData(.task, .subset)
     tn = .task@desc@target
     levs = getClassLevels(.task)
-    d = .task["data"]
+    d = getData(.task)
     y = getTargets(.task)
         
     if (is.null(pvs$mcw.custom)) { 
@@ -85,7 +85,7 @@ setMethod(
     for (i in 1:k) {
       data2 = d[x$row.inds[[i]], ]
       data2[, tn] = x$targets[[i]] 
-      ct = changeData(.task, data2)
+      ct = mlr:::changeData(.task, data2)
       models[[i]] = train(.learner@learner, ct)
     }
     # store cm as last el.

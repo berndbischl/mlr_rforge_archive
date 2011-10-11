@@ -69,7 +69,7 @@ setMethod(
         stop("Preprocessing train must result in list wil elements data[data.frame] and control[list]!")
       if (nrow(p$data) != length(.subset))
         stop("Preprocessing train may not change number of cases!")
-      .task = changeData(.task, p$data)
+      .task = mlr:::changeData(.task, p$data)
       # we have already subsetted!
 			m = trainLearner(.learner@learner, .task, 1:.task["size"], ...)
       attr(m, "control") = p$control

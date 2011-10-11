@@ -34,7 +34,8 @@ makeProbthWrapper = function(learner, classes) {
   ps = do.call(makeParameterSet, 
     lapply(names(a), function(x) makeNumericLearnerParameter(id=x, lower=0, upper=1)))
   w = new("ProbthWrapper", learner=learner, par.set=ps, par.vals=a)
-  w@desc@predict = c(prob=FALSE, decision=FALSE)
+  w@properties["prob"] = FALSE
+  w@properties["decision"] = FALSE
   setPredictType(w, "response")
 }
 

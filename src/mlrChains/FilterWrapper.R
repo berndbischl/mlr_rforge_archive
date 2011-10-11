@@ -90,3 +90,18 @@ setMethod(
   }
 ) 
 
+
+
+setMethod(
+  f = "makeWrappedModel",
+  signature = signature(learner="FilterWrapper"),
+  
+  def = function(learner, model, task.desc, subset, vars, time) {
+    vars = attr(model, "filter.result")
+    attr(model, "filter.result") = NULL
+    new("WrappedModel", learner, model, task.desc, subset, vars, time)  
+  }
+)
+
+
+

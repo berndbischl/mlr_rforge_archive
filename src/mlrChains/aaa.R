@@ -1,4 +1,5 @@
 #' @importClassesFrom mlr BaseWrapper WrappedModel
+#' @importMethodsFrom mlr makeWrappedModel
 roxygen <- function() NULL
 
 #' @importFrom utils packageDescription

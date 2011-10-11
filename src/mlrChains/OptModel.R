@@ -24,7 +24,6 @@ setMethod(f = "show",  signature = signature("OptModel"), def = function(object)
 })
 
 
-#' @importMethodsFrom mlr makeWrappedModel
 setMethod(
   f = "makeWrappedModel",
   signature = signature(learner="OptWrapper"),

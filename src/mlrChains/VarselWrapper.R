@@ -37,6 +37,6 @@ makeVarselWrapper = function(learner, resampling, measures, bit.names, bits.to.f
   if (missing(bits.to.features))
     bits.to.features = function(x, task) binary.to.vars(x, getFeatureNames(task)) 
   if (missing(log.fun))
-    log.fun = log.fun.varsel
+    log.fun = mlrVarsel:::log.fun.varsel
   new("OptWrapper", learner, resampling, measures, makeParameterSet(), bit.names, bits.to.features, control, log.fun)
 }
