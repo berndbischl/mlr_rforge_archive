@@ -17,6 +17,7 @@ pack.files = c(
     "mlrTune/myspo/chooseFinalPoint.R",
     "mlrTune/myspo/spo.R",
     
+		"mlrTune/checkTunerParset.R",
 		"mlrTune/TuneControl.R",
     "mlrTune/TuneControlGrid.R",
     "mlrTune/TuneControlOptim.R",

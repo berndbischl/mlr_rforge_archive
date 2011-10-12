@@ -2,15 +2,10 @@
 #todo: fix parallel g2
 tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   require.packs("cmaes", "tune.cmaes")
-
-  if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer", "numericvector", "integervector")))))
-    stop("CMAES can only be applied to numeric, integer, numericvector, integervector parameters!")
   
   low = lower(par.set)
   upp = upper(par.set)
-  if (length(control@start) != length(low))
-    stop(" Length of 'start' has to match number of parameters in 'par.set'!")
-  
+
   start = unlist(control@start)
   g = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path, log.fun, 
     arg.as.list=FALSE, trafo=TRUE)
