@@ -277,9 +277,9 @@ setMethod(
   f = "getClassLevels",
   signature = signature(x="WrappedModel"), 
   def = function(x) {
-    if (x@desc@type != "classif")
+    if (x@task.desc@type != "classif")
       stop("Description is not for a classification task!")
-    names(x@desc@class.dist)
+    names(x@task.desc@class.dist)
   } 
 )
 

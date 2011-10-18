@@ -28,7 +28,7 @@ setClass(
 		representation = representation(
 				learner = "Learner",
 				learner.model = "ANY",
-        desc = "TaskDesc",
+        task.desc = "TaskDesc",
 				subset = "integer",
 				vars = "character",
 				time = "numeric"
@@ -45,7 +45,7 @@ setMethod(
       return(make.empty(.Object))
     .Object@learner = learner
     .Object@learner.model = model
-    .Object@desc = task.desc
+    .Object@task.desc = task.desc
     .Object@subset = subset
     .Object@vars = vars
     .Object@time = time

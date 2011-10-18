@@ -22,7 +22,7 @@ tune.threshold = function(pred, measure, task, model, thresholds=100) {
   td = pred@desc
 	if (missing(measure))
 		measure = mlr:::default.measures(td)[[1]]
-  probs = getScore(pred)
+  probs = getProb(pred)
   
   if (is.null(probs))
     stop("No probs in prediction! Maybe you forgot type='prob'?")

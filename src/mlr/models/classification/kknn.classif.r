@@ -68,7 +68,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, ...) {
 			m = .model@learner.model
-			f = getFormula(.model@desc)
+			f = getFormula(.model@task.desc)
 			# this is stupid but kknn forces it....
 			.newdata[, m$td@target] <- 0
 			pars <- list(formula=f, train=m$data, test=.newdata)  

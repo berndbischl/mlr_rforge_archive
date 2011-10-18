@@ -44,7 +44,7 @@ setMethod(
       threshold = c(threshold, 1-threshold)
       names(threshold) = c(td@positive, td@negative)
     }
-    p = getScore(pred, class=levs)
+    p = getProb(pred, class=levs)
     # resort so we have same order in threshold and p
     threshold = threshold[levs] 
     resp = sapply(1:nrow(p), function(i) vote.max.val(p[i,]/threshold, levs))

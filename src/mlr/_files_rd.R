@@ -69,7 +69,7 @@ allowed.rd.files <<- c(
   "makeWrappedModel.Rd",
   "predict.Rd",
   "Prediction-class.Rd",
-  "getScore.Rd",
+  "getProb.Rd",
   "setThreshold.Rd",
   
   "performance.Rd",

@@ -138,10 +138,10 @@ setMethod(
 #'   Names of classes. Default is either all classes for multi-class problems or the positive class for binary classification.
 #' @return Data.frame with numerical columns or a numerical vector if length of \code{class} is 1. 
 #'   Order of columns is defined by \code{class}.
-#' @exportMethod getScore
-#' @rdname getScore
+#' @exportMethod getProb
+#' @rdname getProb
 
-setGeneric(name = "getScore", 
+setGeneric(name = "getProb", 
   def = function(pred, class) {
     check.arg(pred, "Prediction")
     if (pred@desc@type != "classif")
@@ -152,11 +152,11 @@ setGeneric(name = "getScore",
       else
         class = getClassLevels(pred)
     }
-    standardGeneric("getScore")
+    standardGeneric("getProb")
 })
 
-#' @rdname getScore
-setMethod(f = "getScore", 
+#' @rdname getProb
+setMethod(f = "getProb", 
   signature = signature("Prediction", "character"), 
   def = function(pred, class) {
     if (pred@predict.type != "prob")

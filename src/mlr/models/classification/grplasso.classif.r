@@ -70,7 +70,7 @@ setMethod(
 			x = as.matrix(.newdata)
 			x = cbind(1, x)
 			p = as.numeric(predict(.model@learner.model, newdata=x, type="response", ...))
-			levs = c(.model@desc@negative, .model@desc@positive) 		
+			levs = c(.model@task.desc@negative, .model@task.desc@positive) 		
 			if (.learner@predict.type == "prob") {
 				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
 				colnames(y) = levs

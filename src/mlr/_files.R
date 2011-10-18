@@ -90,8 +90,6 @@ pack.files = c(
   
   "mlr/BaseWrapper.R",
   
-  "mlr/novars.r",
-  
   "mlr/parallel/export.r",
   "mlr/parallel/eval.r",
   "mlr/parallel/parallel.r",

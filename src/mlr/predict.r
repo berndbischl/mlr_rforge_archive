@@ -31,7 +31,7 @@ setMethod(
 
 			model = object
 			wl = model@learner
-			td = model@desc
+			td = model@task.desc
 			
 			if (missing(newdata)) {
 				if (missing(subset))
@@ -81,20 +81,20 @@ setMethod(
 				)
         # only pass train hyper pars as basic rlearner in ...
         pars = c(pars, getHyperPars(getLeafLearner(wl), "predict"))
-				
 				if(!is.null(.mlr.local$debug.seed)) {
 					set.seed(.mlr.local$debug.seed)
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
 				# todo: capture outout, see learner sda
 				if(is(model@learner.model, "novars")) {
-					p = predict_novars(model, newdata)
+          p = predict_novars(model, newdata)
 					time.predict = 0
 				} else {
 					if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
 						st = system.time(p <- do.call(predictLearner, pars), gcFirst=FALSE)
 					else
 						st = system.time(p <- try(do.call(predictLearner, pars), silent=TRUE), gcFirst=FALSE)
+          kk <<- p
 					time.predict = as.numeric(st[3])
 					# was there an error during prediction?
 					if(is(p, "try-error")) {
@@ -105,6 +105,7 @@ setMethod(
 						time.predict = as.numeric(NA)
 					}
 				}
+        xx <<- p
 				if (wl@properties[["type"]] == "classif") {
 					if (wl@predict.type == "response") {
 						# the levels of the predicted classes might not be complete....
@@ -143,7 +144,7 @@ setMethod(
 
 predict_nas = function(model, newdata) {
 	if (model@learner@properties[["type"]] == "classif") {
-    levs = getClassLevels(model@desc)  
+    levs = getClassLevels(model@task.desc)  
 		p = switch(model@learner@predict.type, 
 				response = factor(rep(NA, nrow(newdata)), levels=levs),
 				matrix(as.numeric(NA), nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))

@@ -53,7 +53,7 @@ setMethod(
       if (is.empty(model))
         stop("You need to pass model for measure ", m@id)
       model2 = model  
-      td = model@desc
+      td = model@task.desc
     } else {
       model2 = NULL
     }

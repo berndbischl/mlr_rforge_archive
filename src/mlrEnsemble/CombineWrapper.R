@@ -61,7 +61,7 @@ setMethod(
     for (i in 1:k) {
       m = models[[i]]
       b = a[m@learner@id]
-      p = p + b * getScore(predict(m, newdata=.newdata,  ...), levs)
+      p = p + b * getProb(predict(m, newdata=.newdata,  ...), levs)
     }
     p
   }

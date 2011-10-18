@@ -21,10 +21,10 @@ test.predict <- function() {
 	pred3 = predict(ext3,newdata=data[multiclass.test.inds,])$class
   prob3 = predict(ext3,newdata=data[multiclass.test.inds,])$post
 	checkEquals(cp3@df$response, pred3)
-  checkEquals(prob3, as.matrix(getScore(cp3, colnames(prob3))))
-  checkTrue(is.numeric(getScore(cp3, "setosa")))
-  checkEquals(colnames(getScore(cp3, c("setosa", "versicolor"))), c("setosa", "versicolor"))
-  checkEquals(colnames(getScore(cp3, c("versicolor", "setosa"))), c("versicolor", "setosa"))
+  checkEquals(prob3, as.matrix(getProb(cp3, colnames(prob3))))
+  checkTrue(is.numeric(getProb(cp3, "setosa")))
+  checkEquals(colnames(getProb(cp3, c("setosa", "versicolor"))), c("setosa", "versicolor"))
+  checkEquals(colnames(getProb(cp3, c("versicolor", "setosa"))), c("versicolor", "setosa"))
   
 	cp4 <- predict(cm3, task=multiclass.task, subset=multiclass.test.inds)
 	checkEquals(cp4@df$response, pred3)
