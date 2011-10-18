@@ -32,7 +32,7 @@ setMethod(
 		def = function(.Object, instance, preds.test, preds.train) {
 			p1 = preds.test[[1]]
 			.Object@instance = instance
-			type = p1["type"]
+			predict.type = p1@predict.type
       df = data.frame()
       for (i in 1:instance@desc@iters) {
         df = rbind(df, cbind(preds.test[[i]]@df, iter=i, set="test"))
@@ -44,7 +44,7 @@ setMethod(
 
       tp = sapply(preds.test, function(x) x["time"])
 
-			.Object@type = type			
+			.Object@predict.type = predict.type			
 			.Object@df = df			
 			.Object@threshold = threshold			
 			.Object@desc = p1@desc	
@@ -91,10 +91,10 @@ setMethod(
       for(i in 1:x@instance@desc@iters) {
         if (has.test)
           test[[i]] = new("Prediction", task.desc=x@desc, 
-            type=x@type, df=subset(dfs[[i]], subset=(set=="test")), threshold=x@threshold, x@time)						
+            predict.type=x@predict.type, df=subset(dfs[[i]], subset=(set=="test")), threshold=x@threshold, x@time)						
         if (has.train)
           train[[i]] = new("Prediction", task.desc=x@desc, 
-            type=x@type, df=subset(dfs[[i]], subset=(set=="train")), threshold=x@threshold, x@time)						
+            predict.type=x@predict.type, df=subset(dfs[[i]], subset=(set=="train")), threshold=x@threshold, x@time)						
       }
       list(
         test = if (has.test) test else NULL,
@@ -110,6 +110,6 @@ setAs("ResamplePrediction", "Prediction",
 			df = from@df
 			df$iter = NULL
 			new("Prediction", task.desc=from@desc,  
-					type=from@type, df=df, threshold=from@threshold, sum(from@time.fit), sum(from@time))						
+					predict.type=from@predict.type, df=df, threshold=from@threshold, sum(from@time.fit), sum(from@time))						
 		}
 )

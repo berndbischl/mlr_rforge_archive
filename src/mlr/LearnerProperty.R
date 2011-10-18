@@ -9,8 +9,6 @@
 #'  \item{twoclass [\code{logical(1)}]}{Can two-class problems be handled?}
 #'  \item{multiclass [\code{logical(1)}]}{Can multi-class problems be handled?}
 #'  \item{prob [\code{logical(1)}]}{Can probabilities be predicted?}
-#'  \item{decsion [\code{logical(1)}]}{Can decision values be predicted?}
-#'  \item{costs [\code{logical(1)}]}{Can misclassification costs be handled?}
 #' }
 #' 
 #' @param learner [\code{\linkS4class{Learner}}]\cr 
@@ -37,7 +35,7 @@ setMethod(
   def = function(learner, prop) {
     if (!prop %in% 
       c("type", "numerics", "factors", "missings", "weights", "oneclass", "twoclass", 
-        "multiclass", "decision", "prob", "costs"))
+        "multiclass", "prob"))
       stop("Requested unknown property ", prop, " for learner ", learner@id, "!")      
     learner@properties[[prop]]
   } 
@@ -70,7 +68,7 @@ setMethod(
   def = function(learner, prop, val) {
     if (!prop %in% 
       c("type", "numerics", "factors", "missings", "weights", "oneclass", "twoclass", 
-        "multiclass", "decision", "prob", "costs"))
+        "multiclass", "prob"))
       stop("Tried to set unknown property ", prop, " for learner ", learner@id, "!")      
     learner@properties[[prop]] = val
     return(learner)

@@ -55,23 +55,5 @@ test.getLearners <- function() {
     for(i in seq(length=length(probs2))){
       checkTrue(makeLearner(probs2[i])["probs"])
     }
-    
-    decis1 <- getLearners(type = "classif", decision = TRUE)
-    for(i in seq(length=length(decis1))){
-      checkTrue(makeLearner(decis1[i])["decision"])
-    }	
-    decis2 <- getLearners(type = "regr", decision = TRUE)
-    for(i in seq(length=length(decis2))){
-      checkTrue(makeLearner(decis2[i])["decision"])
-    }
-    
-#	costs1 <- getLearners(type = "classif", costs = TRUE)
-#	for(i in seq(length=length(costs1))){
-#		checkTrue(makeLearner(costs1[i])["costs"])
-#	}	
-#	costs2 <- getLearners(type = "regr", costs = TRUE)
-#	for(i in seq(length=length(costs2))){
-#		checkTrue(makeLearner(costs2[i])["costs"])
-#	}
   }
 }

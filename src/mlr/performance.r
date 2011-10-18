@@ -69,7 +69,7 @@ setMethod(
       stop("Wrong task type ", td@type, " for measure ", m@id, "!")
     if (m@only.binary && length(getClassLevels(td)) > 2)
       stop("Multiclass problems cannot be used for measure ", m@id, "!")
-    if (!is.null(pred2) && !(pred2@type %in% m@allowed.pred.types))
+    if (!is.null(pred2) && !(pred2@predict.type %in% m@allowed.pred.types))
       stop("Measure ", m@id, " is only allowed for predictions of type: ", paste(m@allowed.pred.types, collapse=","))
     measure@fun(task2, model2, pred2, m@extra.args)
   }

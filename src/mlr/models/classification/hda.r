@@ -28,9 +28,7 @@
 #					factors = FALSE,
 #					characters = FALSE,
 #					prob = TRUE,
-#					decision = FALSE,
-#					weights = FALSE,
-#					costs = FALSE
+#					weights = FALSE
 #			)
 #			
 #			.Object = callNextMethod(.Object, pack="hda")
@@ -59,12 +57,11 @@
 #		signature = signature(
 #				.learner = "classif.hda", 
 #				.model = "WrappedModel", 
-#				.newdata = "data.frame", 
-#				.type = "character" 
+#				.newdata = "data.frame" 
 #		),
 #		
 #		#todo wie neue daten vorhersagen?
-#		def = function(.learner, .model, .newdata, .type, ...) {
+#		def = function(.learner, .model, .newdata, ...) {
 #			.type = ifelse(.type=="response", "class", "raw")
 #			m = .model@learner.model
 #			predict(m$naivebayes, m$hda.scores, newdata=.newdata, type=.type, ...)

@@ -17,7 +17,7 @@ roxygen()
 #' @slot req.pred Does the calculation require a prediction object?
 #' @slot req.task Does the calculation require the task? 
 #' @slot req.model Does the calculation require the model?
-#' @slot allowed.pred.types Which prediction types are allowed for this measure? Subset of \dQuote{response},\dQuote{prob} and \dQuote{decision}.   
+#' @slot allowed.pred.types Which prediction types are allowed for this measure? Subset of \dQuote{response},\dQuote{prob}.   
 #' @slot fun Calculation function.
 #' @slot extra.args Extra parameters for calculation.
 #' @slot aggr Associated aggregation function.

@@ -11,7 +11,6 @@ roxygen()
 
 
 # todo: parms has to be in hyperparamter list
-# todo: transform arbitrary cost matrices to 0 digaonal, also do this for other classifiers and have option to not take cost matrix form task
 
 setClass(
 		"classif.rpart", 
@@ -44,8 +43,7 @@ setMethod(
         numerics = TRUE,
         factors = TRUE,
         prob = TRUE,
-        weights = TRUE,
-        costs = TRUE
+        weights = TRUE
       )
 		}
 )
@@ -63,16 +61,6 @@ setMethod(
 		def = function(.learner, .task, .subset,  ...) {
       f = getFormula(.task)
       d = getData(.task, .subset)
-#      if (.task["has.costs"]) {
-#        cm = .task["costs"]
-#        # probably better to reorder the row/cols so they correspond with levels in d$target
-#        levs = levels(d[, .task@desc@target]) 
-#        cm = cm[levs, levs]
-#        if (.task["has.weights"])
-#          rpart(f, data=d, weights=.task@weights[.subset], parms=list(loss=cm), ...)
-#        else 
-#          rpart(f, data=d, parms=list(loss=cm), ...)
-#      } else
       if (.task["has.weights"])
         rpart(f, data=d, weights=.task@weights[.subset], ...)
       else 
@@ -87,13 +75,12 @@ setMethod(
 		signature = signature(
 				.learner = "classif.rpart", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			.type = switch(.type, prob="prob", "class")
-			predict(.model@learner.model, newdata=.newdata, type=.type, ...)
+		def = function(.learner, .model, .newdata, ...) {
+			type = switch(.learner@predict.type, prob="prob", "class")
+			predict(.model@learner.model, newdata=.newdata, type=type, ...)
 		}
 )	
 

@@ -61,7 +61,6 @@ setMethod(
     names(data)[1] = "x"  
     names(data)[2] = "y"
     data$x = t(data$x)
-    xx <<- x
     pamr.train(data, ...)
   }
 )
@@ -73,13 +72,12 @@ setMethod(
   signature = signature(
     .learner = "classif.pamr", 
     .model = "WrappedModel", 
-    .newdata = "data.frame", 
-    .type = "character" 
+    .newdata = "data.frame" 
   ),
   
-  def = function(.learner, .model, .newdata, .type, ...) {
-    .type = switch(.type, prob="posterior", "class")
-    pamr.predict(.model@learner.model, newx=t(.newdata), type=.type, threshold=1, ...)
+  def = function(.learner, .model, .newdata, ...) {
+    type = switch(.learner@predict.type, prob="posterior", "class")
+    pamr.predict(.model@learner.model, newx=t(.newdata), type=type, threshold=1, ...)
   }
 ) 
 

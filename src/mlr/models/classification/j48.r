@@ -72,13 +72,12 @@ setMethod(
 		signature = signature(
 				.learner = "classif.J48", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			.type = switch(.type, prob="prob", "class")
-			predict(.model@learner.model, newdata=.newdata, type=.type, ...)
+		def = function(.learner, .model, .newdata, ...) {
+			type = switch(.learner@predict.type, prob="prob", "class")
+			predict(.model@learner.model, newdata=.newdata, type=type, ...)
 		}
 )	
 

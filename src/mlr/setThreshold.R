@@ -1,7 +1,7 @@
 #' Set threshold of rediction object (if prediction was for classification). 
 #' Creates corresponding discrete class response for the newly set threshold. 
-#' For binary classification: The positive class is predicted if the probability or decision value exceeds the threshold. 
-#' For multiclass: Probabilities/decision values are divided by corresponding thresholds and the class with maximum resulting value is selected.
+#' For binary classification: The positive class is predicted if the probability value exceeds the threshold. 
+#' For multiclass: Probabilities are divided by corresponding thresholds and the class with maximum resulting value is selected.
 #' The result of both are equivalent if in the multi-threshold case the labels are greater than 0 and sum to 1.  
 #' 
 #' @param pred [\code{\linkS4class{Prediction}} | double matrix] \cr
@@ -37,7 +37,7 @@ setMethod(
     td = pred@desc
     if (td@type != "classif")
       stop("Threshold can only be set for classification predictions!")
-    if (pred["type"] != "prob")
+    if (pred@predict.type != "prob")
       stop("Threshold can currently only be set for type 'prob'!")
     levs = getClassLevels(td)
     if (length(levs) == 2 && is.numeric(threshold) && length(threshold) == 1) {

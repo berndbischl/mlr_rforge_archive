@@ -48,8 +48,6 @@ setMethod(f = "to.string",
           [c(getProperty(x, "oneclass"), getProperty(x, "twoclass"), getProperty(x, "multiclass"))],  
           collapse=","), "\n",
         "Supports probabilities: ", getProperty(x, "prob"), "\n", 
-        "Supports decision values: ", getProperty(x, "decision"), "\n", 
-        "Supports costs: ", getProperty(x, "costs"), "\n", 
         sep =""					
       ))
 })

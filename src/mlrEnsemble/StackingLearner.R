@@ -72,8 +72,6 @@ setMethod(
     w@properties[["twoclass"]] = FALSE
     w@properties[["multiclass"]] = FALSE
     w@properties[["prob"]] = FALSE
-    w@properties[["decision"]] = FALSE
-    w@properties[["costs"]] = FALSE
     w@id = id
     return(w)
   }

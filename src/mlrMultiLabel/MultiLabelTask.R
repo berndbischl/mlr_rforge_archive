@@ -27,7 +27,7 @@ setMethod(
       return(make.empty(.Object))
     
     td = new("TaskDesc", data, target, "ClassifTask", id, 
-      length(weights) > 0, length(blocking) > 0, costs, as.character(NA))      
+      length(weights) > 0, length(blocking) > 0, as.character(NA))      
     
     # init positive
     levs = getClassLevels(td)

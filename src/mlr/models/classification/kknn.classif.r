@@ -37,9 +37,7 @@ setMethod(
         numerics = TRUE,
         factors = TRUE,
         prob = TRUE,
-        decision = FALSE,
-        weights = FALSE,
-        costs = FALSE
+        weights = FALSE
       )
     }
 )
@@ -65,11 +63,10 @@ setMethod(
 		signature = signature(
 				.learner = "classif.kknn", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, ...) {
 			m = .model@learner.model
 			f = getFormula(.model@desc)
 			# this is stupid but kknn forces it....
@@ -77,7 +74,7 @@ setMethod(
 			pars <- list(formula=f, train=m$data, test=.newdata)  
 			pars <- c(pars, m$parset, list(...))
 			m <- do.call(kknn, pars)
-			if (.type=="response")
+			if (.learner@predict.type == "response")
 				return(m$fitted.values)
 			else 
 				return(m$prob)

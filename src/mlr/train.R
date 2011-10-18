@@ -82,6 +82,10 @@ setMethod(
               else
                 learner.model <- try(do.call(trainLearner, pars), silent=TRUE)
             }), gcFirst = FALSE)
+        # was there an error during training? maybe warn then
+        if(is(learner.model, "try-error") && .mlr.local$errorhandler.setup$on.learner.error == "warn") {
+          warning("Could not train the learner: ", as.character(learner.model))
+        }
         logger.debug(level="train", or)
         time.train = as.numeric(st[3])
       }

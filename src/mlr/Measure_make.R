@@ -14,7 +14,7 @@
 #'   Default is \code{FALSE}. 
 #' @param allowed.pred.types [\code{character}]
 #'   Which prediction types are allowed for this measure? 
-#'   Subset of \dQuote{response},\dQuote{prob} and \dQuote{decision}.
+#'   Subset of \dQuote{response},\dQuote{prob}.
 #'   Default is \code{character(0)}.   
 #' @param fun [\code{function(task, model, pred, extra.args)}] \cr
 #'   Calculates performance value. 

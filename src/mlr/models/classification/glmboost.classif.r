@@ -1,5 +1,3 @@
-# todo: we could pass costs with extra loss function?
-
 #' @include learnerR.r
 roxygen()
 #' @include WrappedModel.R
@@ -34,9 +32,7 @@ setMethod(
         numerics = TRUE,
         factors = TRUE,
         prob = TRUE,
-        decision = FALSE,
-        weights = TRUE,
-        costs = FALSE
+        weights = TRUE
       )
       
       par.set = makeParameterSet(
@@ -76,14 +72,13 @@ setMethod(
 		signature = signature(
 				.learner = "classif.glmboost", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			type = ifelse(.type=="response", "class", "response")
+		def = function(.learner, .model, .newdata, ...) {
+			type = ifelse(.learner@predict.type == "response", "class", "response")
 			p = predict(.model@learner.model, newdata=.newdata, type=type, ...)
-			if (.type == "prob") {
+			if (.learner@predict.type  == "prob") {
 				p = p[,1]
 				y = matrix(0, ncol=2, nrow=nrow(.newdata))
 				colnames(y) <- getClassLevels(.model)

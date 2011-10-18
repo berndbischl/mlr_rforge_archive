@@ -87,6 +87,9 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
   }
 }
 
+# wipe global envir on slave
+# log to individual file
+
 .mlr.set.local.on.slave = function(mlrloc) {
   ls = mlrloc$logger.setup
   #logger.setup(console=ls$console, file=ls$file, level=ls$global.level, sublevel=ls$sublevel)  

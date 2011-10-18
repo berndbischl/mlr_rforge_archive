@@ -52,8 +52,7 @@ setMethod(
         numerics = TRUE,
         factors = TRUE,
         prob = TRUE,
-        weights = TRUE,
-        costs = TRUE
+        weights = TRUE
       )
 		}
 )
@@ -71,14 +70,7 @@ setMethod(
 		def = function(.learner, .task, .subset,  ...) {
 			f = getFormula(.task)
       d = data=getData(.task, .subset)
-#			if (.task["has.costs"]) {
-#			  cm = .task["costs"]
-#        # probably better to reorder the row/cols so they correspond with levels in d$target
-#        levs = levels(d[, .task@desc@target]) 
-#        cm = cm[levs, levs]
-#				ada(f, data=d, parms=list(loss=cm), ...)
-#			} else
-				ada(f, data=d, ...)
+  		ada(f, data=d, ...)
 		}
 )
 
@@ -89,14 +81,13 @@ setMethod(
 		signature = signature(
 				.learner = "classif.ada", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="response", "vector", "prob")
-			p = predict(.model@learner.model, newdata=.newdata, type=.type, ...)
-			if (.type == "prob")
+		def = function(.learner, .model, .newdata, ...) {
+			type = ifelse(.learner@predict.type=="response", "vector", "prob")
+			p = predict(.model@learner.model, newdata=.newdata, type=type, ...)
+			if (type == "prob")
 				colnames(p) = getClassLevels(.model) 
 			return(p)
 		}

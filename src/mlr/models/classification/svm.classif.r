@@ -57,7 +57,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			f = getFormula(.task)
-			svm(f, data=getData(.task, .subset), probability=.learner["predict.type"] == "prob", ...)
+			svm(f, data=getData(.task, .subset), probability=.learner@predict.type == "prob", ...)
 		}
 )
 
@@ -68,12 +68,11 @@ setMethod(
 		signature = signature(
 				.learner = "classif.svm", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			if(.type=="response") {
+		def = function(.learner, .model, .newdata, ...) {
+			if(.learner@predict.type == "response") {
 				p = predict(.model@learner.model, newdata=.newdata, ...)
 			} else {
 				p = predict(.model@learner.model, newdata=.newdata, probability=TRUE, ...)

@@ -9,10 +9,8 @@ test.learner <- function() {
   checkEquals(getProperty(wl, "twoclass"), T, checkNames=FALSE)
   checkEquals(getProperty(wl, "multiclass"), T, checkNames=FALSE)
 	checkEquals(getProperty(wl, "prob"), T, checkNames=FALSE)
-	checkEquals(getProperty(wl, "decision"), F, checkNames=FALSE)
 	checkEquals(getProperty(wl, "missings"), T)
 	checkEquals(getProperty(wl, "weights"), T)
-	checkEquals(getProperty(wl, "costs"), T)
 	checkEquals(getProperty(wl, "numerics"), T, checkNames=FALSE)
 	checkEquals(getProperty(wl, "factors"), T, checkNames=FALSE)
 
@@ -24,7 +22,6 @@ test.learner <- function() {
   checkEquals(getProperty(wl, "multiclass"), F, checkNames=FALSE)
   checkEquals(getProperty(wl, "missings"), F)
   checkEquals(getProperty(wl, "weights"), T)
-  checkEquals(getProperty(wl, "costs"), F)
   checkEquals(getProperty(wl, "numerics"), T, checkNames=FALSE)
   checkEquals(getProperty(wl, "factors"), T, checkNames=FALSE)
 	

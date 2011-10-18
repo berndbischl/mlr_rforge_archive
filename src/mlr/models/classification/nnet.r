@@ -76,14 +76,13 @@ setMethod(
 		signature = signature(
 				.learner = "classif.nnet", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			.type = switch(.type, response="class", prob="raw")
-			p = predict(.model@learner.model, newdata=.newdata, type=.type, ...)
-			if (.type == "class")
+		def = function(.learner, .model, .newdata, ...) {
+			type = switch(.learner@predict.type, response="class", prob="raw")
+			p = predict(.model@learner.model, newdata=.newdata, type=type, ...)
+			if (type == "class")
 				return(as.factor(p))
 			else {
 				if (length(getClassLevels(.model)) == 2) {

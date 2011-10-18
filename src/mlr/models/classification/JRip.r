@@ -38,9 +38,7 @@ setMethod(
       numerics = TRUE,
       factors = TRUE,
       prob = TRUE,
-      decision = FALSE,
-      weights = FALSE,
-      costs = FALSE
+      weights = FALSE
     )
   }
 )
@@ -69,12 +67,11 @@ setMethod(
   signature = signature(
     .learner = "classif.JRip", 
     .model = "WrappedModel", 
-    .newdata = "data.frame", 
-    .type = "character" 
+    .newdata = "data.frame" 
   ),
   
-  def = function(.learner, .model, .newdata, .type, ...) {
-    .type = switch(.type, prob="prob", "class")
-    predict(.model@learner.model, newdata=.newdata, type=.type, ...)
+  def = function(.learner, .model, .newdata, ...) {
+    type = switch(.learner@predict.type, prob="prob", "class")
+    predict(.model@learner.model, newdata=.newdata, type=type, ...)
   }
 )

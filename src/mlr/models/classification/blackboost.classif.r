@@ -1,4 +1,3 @@
-# todo: we could pass costs with extra loss function?
 # todo: for ctree_control we should load party as well. pack / packs in learner?
 
 #' @include learnerR.r
@@ -86,18 +85,17 @@ setMethod(
 		signature = signature(
 				.learner = "classif.blackboost", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			type = ifelse(.type=="response", "class", "response")
+		def = function(.learner, .model, .newdata, ...) {
+			type = ifelse(.learner@predict.type == "response", "class", "response")
 			p = predict(.model@learner.model, newdata=.newdata, type=type, ...)
-			if (.type == "prob") {
-				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
-				colnames(y) <- getClassLevels(.model)
-				y[,1] <- p
-				y[,2] <- 1-p
+			if (.learner@predict.type == "prob") {
+				y = matrix(0, ncol=2, nrow=nrow(.newdata))
+				colnames(y) = getClassLevels(.model)
+				y[,1] = p
+				y[,2] = 1-p
 				return(y)
 			} else {
 				return(p)

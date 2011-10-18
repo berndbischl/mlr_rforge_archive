@@ -72,15 +72,14 @@ setMethod(
 		signature = signature(
 				.learner = "classif.gbm", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, ...) {
 			m = .model@learner.model
 			p = predict(m, newdata=.newdata, type="response", n.trees=length(m$trees), single.tree=FALSE, ...)
 			levs = c(.model@desc@negative, .model@desc@positive)
-			if (.type == "prob") {
+			if (.learner@predict.type == "prob") {
 				y = matrix(0, ncol=2, nrow=nrow(.newdata))
 				colnames(y) = levs
 				y[,1] = 1-p

@@ -1,13 +1,13 @@
-#' Set the type of prediction the classification learner object returns.
+#' Set the type of prediction the learner should return.
 #'
-#' Possible prediction types are classes, class probabilities or decision values.
+#' Possible prediction types are labels / numeric response or class probabilities.
 #' 
 #' @param learner [\code{\linkS4class{Learner}}]\cr 
 #'        Learner object.   
-#' @param type [\code{character(1)}] \cr
-#'        Classification: \dQuote{response}, \dQuote{prob} or \dQuote{decision},
+#' @param predict.type [\code{character(1)}] \cr
+#'        Classification: \dQuote{response} or \dQuote{prob},
 #'        specifying the type to predict. Default is \dQuote{response}.
-#'        \dQuote{decision} is experimental. Ignored for regression.
+#'        Ignored for regression.
 #' 		    
 #' @return \code{\linkS4class{Learner}} with changed Prediction behaviour.
 #'
@@ -22,7 +22,7 @@
 #' @title Set predict type of learner object.
 setGeneric(
   name = "setPredictType",
-  def = function(learner, type) {
+  def = function(learner, predict.type) {
     standardGeneric("setPredictType")
   }
 )
@@ -32,22 +32,18 @@ setMethod(
   f = "setPredictType",
   
   signature = signature(
-    learner="Learner", 
-    type="character" 
+    learner = "Learner", 
+    predict.type = "character" 
   ),
   
-  def = function(learner, type) {
-    if (type != "response" && learner@properties[["type"]] != "classif") {
-      stop("Trying to predict ", type, ", but only classifiers support that!")
+  def = function(learner, predict.type) {
+    if (predict.type != "response" && learner@properties[["type"]] != "classif") {
+      stop("Trying to predict ", predict.type, ", but only classifiers support that!")
     }
-    if ("prob" == type && !learner@properties[["prob"]]) {
+    if ("prob" == predict.type && !learner@properties[["prob"]]) {
       stop("Trying to predict probs, but ", learner@id, " does not support that!")
     }
-    if ("decision" == type && !learner@properties[["decision"]]) {
-      stop("Trying to predict decision values, but ", learner@id,
-           " does not support that!")
-    }
-    learner@predict.type = type
+    learner@predict.type = predict.type
     return(learner)
   }
 )

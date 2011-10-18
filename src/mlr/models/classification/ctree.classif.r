@@ -76,12 +76,11 @@ setMethod(
 		signature = signature(
 				.learner = "classif.ctree", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			if (.type == "prob") {
+		def = function(.learner, .model, .newdata, ...) {
+			if (.learner@predict.type == "prob") {
 				m = .model@learner.model
 				p = treeresponse(m, newdata=.newdata, ...)
 				p = do.call(rbind, p)

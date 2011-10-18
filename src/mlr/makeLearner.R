@@ -3,9 +3,9 @@
 #' To change an object later on look at the setters of the
 #' \code{\linkS4class{Learner}} class.
 #' 
-#' For a classification type learner the \code{predict.type} can be set
-#' to \dQuote{prob} or \dQuote{decision} to select the label with the maximum
-#' value. The threshold used to assign the label can later be changed using the
+#' For a classification learner the \code{predict.type} can be set
+#' to \dQuote{prob} to predict probabilities and the maximum
+#' value selects the label. The threshold used to assign the label can later be changed using the
 #' \code{\link{setThreshold}} function.
 #' 
 #' @param class [\code{character(1)}] \cr
@@ -16,9 +16,9 @@
 #' @param id [\code{character(1)}] \cr 
 #'        Id string for object. Used to select the object from a named list, etc.
 #' @param predict.type [\code{character(1)}] \cr
-#'        Classification: \dQuote{response}, \dQuote{prob} or \dQuote{decision},
+#'        Classification: \dQuote{response} or \dQuote{prob},
 #'        specifying the type of prediction returned. The default is 
-#'        \dQuote{response}. \dQuote{decision} is experimental.
+#'        \dQuote{response}.
 #'        For regression, this argument is ignored and should not be set.
 #' @param ... [any] \cr
 #'        Optional named (hyper)parameters. Alternatively these can be given

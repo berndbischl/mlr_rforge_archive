@@ -86,12 +86,11 @@ setMethod(
     signature = signature(
         .learner = "regr.rvm", 
         .model = "WrappedModel", 
-        .newdata = "data.frame", 
-        .type = "missing" 
+        .newdata = "data.frame" 
     ),
     
-    def = function(.learner, .model, .newdata, .type, ...) {
-      predict(.model@learner.model, newdata=.newdata, type=.type, ...)
+    def = function(.learner, .model, .newdata, ...) {
+      predict(.model@learner.model, newdata=.newdata, ...)
     }
 ) 
 

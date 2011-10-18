@@ -1,6 +1,9 @@
 library(mlr)
 library(mlrData)
 
+#todo: stratified subsampling
+#todo: phd: test spo againts grid against neldermead against untuned for svm tuning 
+
 rin.type = "Subsample"
 rin.iters = 5
 rin.path = "resampling"
@@ -42,10 +45,3 @@ measures.binary = list(auc, f1, gmean)
 names(measures.binary) = sapply(measures.binary, function(x) x@id)
 measures.regr = list(rmse, mae)
 names(measures.regr) = sapply(measures.regr, function(x) x@id)
-
-makeFileName = function(path, prefix, ds, learner, split, measure, suffix) {
-  fn = sprintf("%s_%s_%s_%s_%s.%s", prefix, ds, learner@id, split, measure@id, suffix)            
-  file.path(path, fn) 
-}
-
-

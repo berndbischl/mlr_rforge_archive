@@ -56,13 +56,12 @@ setMethod(
 		signature = signature(
 				.learner = "classif.sda", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, ...) {
 			p = predict(.model@learner.model, as.matrix(.newdata))
-			if(.type == "response")
+			if(.learner@predict.type == "response")
 				return(p$class)
 			else
 				return(p$posterior)

@@ -30,9 +30,7 @@ setMethod(
         numerics = TRUE,
         factors = TRUE,
         prob = FALSE,
-        decision = FALSE,
-        weights = FALSE,
-        costs = FALSE
+        weights = FALSE
       )
 		}
 )
@@ -68,11 +66,10 @@ setMethod(
 		signature = signature(
 				.learner = "classif.lvq1", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, ...) {
 			lvqtest(.model@learner.model, test=.newdata, ...)
 		}
 )	

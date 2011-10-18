@@ -48,8 +48,7 @@ setMethod(
         twoclass = TRUE,
         multiclass = TRUE,
         numerics = TRUE,
-        factors = TRUE,
-        decision = TRUE
+        factors = TRUE
       )
     }
 )
@@ -91,13 +90,12 @@ setMethod(
 		signature = signature(
 				.learner = "classif.lssvm", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			.type <- switch(.type, decision="decision", "response")
-			predict(.model@learner.model, newdata=.newdata, type=.type, ...)
+		def = function(.learner, .model, .newdata, ...) {
+			type = switch(.learner@predict.type, "response")
+			predict(.model@learner.model, newdata=.newdata, type=type, ...)
 		}
 )	
 

@@ -1,4 +1,4 @@
-#' Optimizes the threshold of prediction based on probabilities or decision values.
+#' Optimizes the threshold of prediction based on probabilities.
 #' Currently only implemented for probabilities and binary classification. 
 #' 
 #' 

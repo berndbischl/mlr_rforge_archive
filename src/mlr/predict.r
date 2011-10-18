@@ -1,8 +1,8 @@
 #' include WrappedModel.R
 roxygen()
 
-#' Predict the target variable of new data using a fitted model. If the type is set to "prob" or "decision"
-#' probabilities or decision values will be stored in the resulting object. The resulting class labels are 
+#' Predict the target variable of new data using a fitted model. If the type is set to "prob"
+#' probabilities will be stored in the resulting object. The resulting class labels are 
 #' the classes with the maximum values. 
 #' 
 #' @param object [\code{\linkS4class{WrappedModel}}] \cr 
@@ -22,7 +22,6 @@ roxygen()
 #' @title Predict new data.
 
 
-#todo decision
 setMethod(
 		f = "predict",
 		signature = signature(object="WrappedModel"),
@@ -42,7 +41,6 @@ setMethod(
         if (!is.data.frame(newdata) || nrow(newdata) == 0)
           stop("newdata must be a data.frame with at least one row!")
 			}
-			type = if (wl@properties[["type"]] == "classif") wl["predict.type"] else "response" 
 
       # load pack. if we saved a model and loaded it later just for prediction this is necessary
       require.packs(wl@pack, paste("learner", learner@id))
@@ -58,7 +56,6 @@ setMethod(
 			} else {
 				truth = NULL
 			}
-			
 			logger.debug(level="predict", "mlr predict:", wl@id, "with pars:")
 			logger.debug(level="predict", getHyperParsString(model@learner))
 			logger.debug(level="predict", "on", nrow(newdata), "examples:")
@@ -69,25 +66,21 @@ setMethod(
 			}
 			
 			response = NULL
-			prob = decision = NULL
+			prob = NULL
 			time.predict = as.numeric(NA)
 			
 			# was there an error in building the model? --> return NAs
 			if(is(model@learner.model, "FailureModel")) {
-				p = predict_nas(wl, model, newdata, type, levs, td)
+				p = predict_nas(model, newdata)
 				time.predict = as.numeric(NA)
 			} else {
 				pars <- list(
 						.learner = wl,
 						.model = model, 
-						.newdata=newdata
+						.newdata = newdata
 				)
         # only pass train hyper pars as basic rlearner in ...
         pars = c(pars, getHyperPars(getLeafLearner(wl), "predict"))
-
-        if (wl@properties[["type"]] == "classif") {
-					pars$.type = type
-				}
 				
 				if(!is.null(.mlr.local$debug.seed)) {
 					set.seed(.mlr.local$debug.seed)
@@ -95,7 +88,7 @@ setMethod(
 				}
 				# todo: capture outout, see learner sda
 				if(is(model@learner.model, "novars")) {
-					p = predict_novars(model@learner.model, newdata, type)
+					p = predict_novars(model, newdata)
 					time.predict = 0
 				} else {
 					if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
@@ -108,12 +101,12 @@ setMethod(
 						msg = as.character(p)
 						if (.mlr.local$errorhandler.setup$on.learner.error == "warn")
 							warning("Could not predict the learner: ", msg)
-						p = predict_nas(wl, model, newdata, type, levs, td)
+						p = predict_nas(model, newdata)
 						time.predict = as.numeric(NA)
 					}
 				}
 				if (wl@properties[["type"]] == "classif") {
-					if (type == "response") {
+					if (wl@predict.type == "response") {
 						# the levels of the predicted classes might not be complete....
 						# be sure to add the levels at the end, otherwise data gets changed!!!
 						if (!is.factor(p))
@@ -122,7 +115,7 @@ setMethod(
 						if (length(levs2) != length(levs) || any(levs != levs2))
 							p = factor(p, levels=levs)
 						
-					} else if (type == "prob") {
+					} else if (wl@predict.type == "prob") {
 						if (!is.matrix(p))
 							stop("predictLearner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
 						cns = colnames(p)
@@ -130,11 +123,7 @@ setMethod(
 							stop("predictLearner for ", class(wl), " has returned not the class levels as column names, but no column names at all!")
 						if (!setequal(cns, levs))
 							stop("predictLearner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
-					} else if (type == "decision") {
-						if (!is.matrix(p))
-							stop("predictLearner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
 					} else {
-						stop(paste("Unknown type", type, "in predict!"))
 					}	
 				} else if (is(model, "WrappedModel.Regr")) {
 					if (class(p) != "numeric")
@@ -148,13 +137,14 @@ setMethod(
 			else
 				ids = subset
 			makePrediction(task.desc=td, id=ids, truth=truth, 
-					type=type, y=p, time=time.predict)
+					predict.type=wl@predict.type, y=p, time=time.predict)
 		}
 )
 
-predict_nas = function(learner, model, newdata, type, levs, task.desc) {
-	if (learner@properties[["type"]] == "classif") {
-		p = switch(type, 
+predict_nas = function(model, newdata) {
+	if (model@learner@properties[["type"]] == "classif") {
+    levs = getClassLevels(model@desc)  
+		p = switch(model@learner@predict.type, 
 				response = factor(rep(NA, nrow(newdata)), levels=levs),
 				matrix(as.numeric(NA), nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))
 		)
@@ -163,5 +153,31 @@ predict_nas = function(learner, model, newdata, type, levs, task.desc) {
 	}
 	return(p)
 }
+
+setClass(
+  "novars",
+  contains = c("object"),
+  representation = representation(
+    desc = "TaskDesc",
+    targets = "vector"
+  )
+)
+
+predict_novars = function(model, newdata) {
+  y = model@learner.model@targets
+  # for regression return constant mean
+  if (model@learner@properties[["type"]] == "regr")
+    return(rep(mean(y), nrow(newdata)))
+  tab = prop.table(table(y))
+  probs = as.numeric(tab) 
+  if(model@learner@predict.type == "response")
+    return(sample(as.factor(names(tab)), nrow(newdata), prob=probs, replace=TRUE))  
+  else {
+    probs = t(replicate(nrow(newdata), probs))
+    colnames(probs) = names(tab)
+    return(probs)
+  }
+}
+
 
 

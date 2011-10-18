@@ -49,7 +49,7 @@ setMethod(
     .type = "character" 
   ),
   
-  def = function(.learner, .model, .newdata, .type, ...) {
+  def = function(.learner, .model, .newdata, ...) {
     if (.type == "response") 
       .type = "lp"
     predict(.model@learner.model, newdata=.newdata, type=.type)

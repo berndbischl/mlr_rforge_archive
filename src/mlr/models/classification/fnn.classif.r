@@ -60,11 +60,10 @@ setMethod(
   signature = signature(
     .learner = "classif.fnn", 
     .model = "WrappedModel", 
-    .newdata = "data.frame", 
-    .type = "character" 
+    .newdata = "data.frame" 
   ),
   
-  def = function(.learner, .model, .newdata, .type, ...) {
+  def = function(.learner, .model, .newdata, ...) {
     m = .model@learner.model
     pars = list(train=m$train$data, test=.newdata, cl=m$train$target)  
     pars = c(pars, m$parset, list(...))

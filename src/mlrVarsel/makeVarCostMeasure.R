@@ -15,7 +15,7 @@ setMethod(
   signature = signature(id="character", fun="function"),
   def = function(id="costs", fun) {
     makeMeasure(id="varcosts", minimize=TRUE, classif=TRUE, regr=TRUE, 
-      allowed.pred.types=c("response", "prob", "decision"), extra.args=list(fun),  
+      allowed.pred.types=c("response", "prob"), extra.args=list(fun),  
       fun=function(task, model, pred, extra.pars) {
         fun = extra.pars[[1]]
         v = model@vars 

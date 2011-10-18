@@ -36,8 +36,6 @@
 #      fun(pred@df$truth, pred@df$response)
 #    else if (type == "prob")
 #      fun(pred@df$truth, pred["prob"])
-#    else if (type == "decision")
-#      fun(pred@df$truth, pred["decision"])
 #    else
 #      stop("Wrong type!")
 #  }

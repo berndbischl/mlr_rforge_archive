@@ -46,11 +46,10 @@ setMethod(
 		signature = signature(
 				.learner = "regr.bagEarth", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "missing" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, ...) {
 			predict.bagEarth(.model@learner.model, newdata=.newdata)
 		}
 )

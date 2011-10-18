@@ -2,7 +2,7 @@
 roxygen()
 
 #' Returns the names of learning algorithms which have specific characteristics, e.g.
-#' whether it supports missing values, misclassification costs, case weights,...
+#' whether it supports missing values, case weights,...
 #' or which are are able to solve a given \code{\linkS4class{LearnTask}}. 
 #' 
 #' The default of all boolean parameters is NA, meaning: property is not required, don't care.
@@ -23,10 +23,6 @@ roxygen()
 #' 			Supports case weights? Pass only when x is a string.
 #' @param probs [\code{logical(1)}] \cr
 #' 			Can predict probabilities?
-#' @param decision [\code{logical(1)}] \cr
-#' 			Supports decision values?
-#' @param costs [\code{logical(1)}] \cr
-#' 			Supports non-standard misclassification costs?
 #' 
 #' @rdname getLearners
 #' @export 
@@ -58,9 +54,7 @@ setMethod(
 				missings = NA,
 				weights = NA,
         multiclass = NA,
-        probs = NA,
-				decision = NA,
-				costs = NA){
+        probs = NA){
       type = x
 			mlr.classes <- getClasses(where = getNamespace("mlr"))
 			if(is.na(type)) 
@@ -87,9 +81,7 @@ setMethod(
 						( is.na(missings) || missings == x["missings"] ) &&
 						( is.na(multiclass) || multiclass == x["multiclass"] ) &&
 						( is.na(weights) || weights == x["weights"]  ) &&
-						( is.na(probs) || probs == x["prob"] ) &&
-						( is.na(decision) || decision == x["decision"]  ) &&
-						( is.na(costs) || costs == x["costs"]  )
+						( is.na(probs) || probs == x["prob"] )
 			}
 			
 			ls <- Filter(f, ls)
@@ -106,7 +98,7 @@ setMethod(
 		
 		signature = signature(x = "LearnTask"),
 		
-		def = function(x, probs=NA, decision=NA, costs=NA) {
+		def = function(x, probs=NA) {
 			type = ifelse(x@desc@type, "classif", "regr")
 
       doubles = ifelse(x@desc@n.feat["double"]>0, TRUE, NA)
@@ -116,9 +108,8 @@ setMethod(
       
       if (type == "classif") {
         multiclass = ifelse(length(getClassLevels(x)) == 2, NA, TRUE)
-        costs = ifelse(x["has.costs"], TRUE, costs)
         wls = getLearners(type, doubles, factors, characters, missings, weights, 
-            multiclass, probs, decision, costs)
+            multiclass, probs)
       } else {
         wls = getLearners(type, doubles, factors, characters, missings, weights) 
       }	 

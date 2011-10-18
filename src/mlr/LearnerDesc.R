@@ -9,10 +9,8 @@
 ##'   Has 3 named elements 'oneclass', 'twoclass' and 'multiclass'.
 ##'   For regression this is \code{c(oneclass=FALSE, twoclass=FALSE, multiclass=FALSE)}.  
 ##' @slot predict Which types of predictions (other than 'response') can be made? 
-##'   Has 2 named elements 'prob' and 'decision'.  
-##'   For regression this is \code{c(prob=FALSE, twoclass=FALSE, decision=FALSE)}.  
-##' @slot costs Length 1. Can misclassification costs be handled? 
-##'   For regression this is \code{FALSE}. 
+##'   Has 2 named elements 'prob'  
+##'   For regression this is \code{c(prob=FALSE, twoclass=FALSE)}.  
 ##' 
 ##' @exportClass LearnerDesc
 ##' @seealso \code{\linkS4class{Learner}}
@@ -27,8 +25,7 @@
 #    weights = "logical",
 #    missings = "logical",
 #    classes = "logical",
-#    predict = "logical",
-#    costs = "logical" 
+#    predict = "logical"
 #  )
 #)
 #

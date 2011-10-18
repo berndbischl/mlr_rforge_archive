@@ -60,13 +60,12 @@ setMethod(
 		signature = signature(
 				.learner = "classif.lpsvm", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="response", "response", "probabilities")
-			predict(.model@learner.model, newdata=.newdata, type=.type, ...)
+		def = function(.learner, .model, .newdata, ...) {
+			type = ifelse(.learner@predict.type == "response", "response", "probabilities")
+			predict(.model@learner.model, newdata=.newdata, type=type, ...)
 		}
 )	
 

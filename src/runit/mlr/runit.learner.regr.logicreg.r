@@ -22,7 +22,6 @@ test.logicreg.regr = function() {
     pars = c(pars, parset)
     set.seed(debug.seed)
     m = do.call(logreg, pars)
-    m <<- m
     set.seed(debug.seed)
     p = predict(m, newbin=mydata[61:100, 1:5])
     old.predicts.list[[i]] = p

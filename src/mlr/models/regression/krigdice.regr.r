@@ -66,11 +66,10 @@ setMethod(
     signature = signature(
         .learner = "regr.km", 
         .model = "WrappedModel", 
-        .newdata = "data.frame", 
-        .type = "missing" 
+        .newdata = "data.frame" 
     ),
     
-    def = function(.learner, .model, .newdata, .type, ...) {
+    def = function(.learner, .model, .newdata, ...) {
       p = predict(.model@learner.model, newdata=.newdata, type="SK", se.compute=FALSE, ...)
       return(p$mean) 
     }

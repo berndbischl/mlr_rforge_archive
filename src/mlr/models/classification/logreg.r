@@ -55,15 +55,14 @@ setMethod(
 		signature = signature(
 				.learner = "classif.logreg", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
+		def = function(.learner, .model, .newdata, ...) {
 			
 			x = predict(.model@learner.model, newdata=.newdata, type="response", ...)
 			levs = getClassLevels(.model)		
-			if (.type == "prob") {
+			if (.learner@predict.type == "prob") {
 				y <- matrix(0, ncol=2, nrow=nrow(.newdata))
 				colnames(y) = levs
 				y[,1] <- 1-x

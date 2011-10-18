@@ -29,9 +29,7 @@ setMethod(
 					numerics = TRUE,
 					factors = TRUE,
 					prob = TRUE,
-					decision = FALSE,
-					weights = FALSE,
-					costs = FALSE
+					weights = FALSE
 			)			
 			
 			.Object = callNextMethod(.Object, pack="locClass", props=desc)
@@ -61,13 +59,12 @@ setMethod(
 		signature = signature(
 				.learner = "classif.llr", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			p <- predict(.model@learner.model, newdata=.newdata, ...)
-			if(.type=="response")
+		def = function(.learner, .model, .newdata, ...) {
+			p = predict(.model@learner.model, newdata=.newdata, ...)
+			if(.learner@predict.type == "response")
 				return(p$class)
 			else
 				return(p$posterior)

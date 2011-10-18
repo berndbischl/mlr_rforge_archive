@@ -65,7 +65,7 @@ setMethod(
     .type = "missing" 
   ),
   
-  def = function(.learner, .model, .newdata, .type, ...) {
+  def = function(.learner, .model, .newdata, ...) {
     m <- .model@learner.model
     predict(m, newdata=.newdata, n.trees=length(m$trees), ...)
   }

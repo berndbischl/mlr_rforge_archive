@@ -7,7 +7,7 @@ roxygen()
 #'  
 #' How to change object later on: Look at setters.
 #' 
-#' Tresholds for class labels: If you set \code{predict.type} to "prob" or "decision", the label with the maximum value is selected.
+#' Tresholds for class labels: If you set \code{predict.type} to "prob", the label with the maximum value is selected.
 #' You can change labels of a \code{\linkS4class{Prediction}} object later by using the function \code{\link{setThreshold}}.
 #' 
 #' Getter.\cr
@@ -31,10 +31,8 @@ roxygen()
 #'  \item{oneclass [\code{logical(1)}]}{Can oneclass problems be handled?}
 #'  \item{twoclass [\code{logical(1)}]}{Can twoclass problems be handled?}
 #'  \item{multiclass [\code{logical(1)}]}{Can multiclass problems be handled?}
-#'  \item{costs [\code{logical(1)}]}{Can misclassification costs be directly used during training?}
 #'  \item{prob [\code{logical(1)}]}{Can probabilities be predicted?}
-#'  \item{decision [\code{logical(1)}]}{Can probabilities be predicted?}
-#'  \item{predict.type [character]}{What should be predicted: 'response', 'prob' or 'decision'.}
+#'  \item{predict.type [character]}{What should be predicted: \dQuote{response} or \dQuote{prob}}
 #' }
 #' 
 #' Setters: \code{\link{setId}}, \code{\link{setHyperPars}}, \code{\link{setPredictType}}  
@@ -77,8 +75,6 @@ setMethod(
       .Object@properties[["twoclass"]] = FALSE
       .Object@properties[["multiclass"]] = FALSE
       .Object@properties[["prob"]] = FALSE
-      .Object@properties[["decision"]] = FALSE
-      .Object@properties[["costs"]] = FALSE
 			.Object@pack = pack
 			require.packs(pack, for.string=paste("learner", .Object@id))
       if(any(sapply(par.set@pars, function(x) !is(x, "LearnerParameter"))))

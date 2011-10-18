@@ -67,11 +67,10 @@ setMethod(
     exclude="character", 
     weights="numeric", 
     blocking="factor",
-    costs="matrix",
     positive="character"
   ),
   
-  def = function(id, data, target, exclude, weights, blocking, costs, positive) {
+  def = function(id, data, target, exclude, weights, blocking, positive) {
     
     if(length(weights) > 0 && length(weights) != nrow(data))
       stop("Weights have to be of the same length as number of rows in data! Or pass none at all.")

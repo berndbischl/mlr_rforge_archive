@@ -4,12 +4,11 @@
 #' Getter.\cr
 #' 
 #' \describe{
-#'  \item{type [\code{character(1)}]}{Type set in predict function: "response", "prob", or "decision".}
+#'  \item{predict.type [\code{character(1)}]}{Type set in predict function: "response" or "prob".}
 #'  \item{id [numeric]}{Vector of index numbers of predicted cases from the task.}
 #'  \item{response [numeric | factor]}{Predicted response values.}
 #'  \item{truth [numeric | factor]}{True target values.}
 #'  \item{prob [numeric | matrix] Optional parameters: class}{Predicted probabilities. For binary class: Only the probabilities for the positive class are returned.}
-#'  \item{decision [matrix]}{Predicted decision values.}
 #'  \item{threshold [numeric]}{Threshold set in predict function.}
 #' }
 #' 
@@ -25,7 +24,7 @@ setClass(
 		"Prediction",
 		contains = c("object"),
 		representation = representation(
-				type = "character",
+				predict.type = "character",
 				df = "data.frame",
 				threshold = "numeric",
 				desc = "TaskDesc",
@@ -38,10 +37,10 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("Prediction"),
-		def = function(.Object, task.desc, type, df, threshold, time) {
+		def = function(.Object, task.desc, predict.type, df, threshold, time) {
 			if (missing(df))
 				return(make.empty(.Object))
-			.Object@type = type			
+			.Object@predict.type = predict.type			
 			.Object@df = df			
 			.Object@threshold = threshold			
 			.Object@desc = task.desc	
@@ -51,18 +50,16 @@ setMethod(
 )
 
 
-makePrediction = function(task.desc, id, truth, type, y, time) {
+makePrediction = function(task.desc, id, truth, predict.type, y, time) {
 	xs = list()
 	# if null no col in df present
 	xs[["id"]] = id
 	xs[["truth"]] = truth
-  if (type == "response") {
+  if (predict.type == "response") {
     xs[["response"]] = y
-  } else if (type == "prob"){
+  } else if (predict.type == "prob"){
 		xs[["prob"]] = y
-	} else if (type == "decision"){
-		xs[["dec"]] = y
-	}
+  }
 	df = as.data.frame(xs)
   
   # fix columnnames for prob if strage chars are in factor levels
@@ -73,18 +70,14 @@ makePrediction = function(task.desc, id, truth, type, y, time) {
 		colnames(df)[i] = paste("prob.", colnames(xs[["prob"]]), sep="")
 
   cns = colnames(df)
-  i = grep("dec.", cns)
-  if (length(i) > 0)
-    colnames(df)[i] = paste("dec.", colnames(xs[["dec"]]), sep="")
-  
 	
-  if (type != "response") {
+  if (predict.type == "prob") {
     th = rep(1/length(getClassLevels(task.desc)), length(getClassLevels(task.desc)))
     names(th) = getClassLevels(task.desc)
-    p = new("Prediction", task.desc, type, df, th, time)
+    p = new("Prediction", task.desc, predict.type, df, th, time)
     return(setThreshold(p, th))
   } else {
-    return(new("Prediction", task.desc, type, df, as.numeric(NA), time))
+    return(new("Prediction", task.desc, predict.type, df, as.numeric(NA), time))
   }  
 }
 
@@ -104,10 +97,6 @@ setMethod(
 				return(x@df$id)
 			if (i == "iter")
 				return(x@df$iter)
-			if (i == "decision") {
-				cns = colnames(x@df)
-				return(x@df[, grep("^decision", cns)])
-			}
 			callNextMethod()
 		}
 )
@@ -142,7 +131,7 @@ setMethod(
 
 
 
-#' Get probabilities or decision values for some classes.
+#' Get probabilities for some classes.
 #' @param pred [\code{\linkS4class{Prediction}}] 
 #'   Prediction object.
 #' @param class [character] 
@@ -170,10 +159,10 @@ setGeneric(name = "getScore",
 setMethod(f = "getScore", 
   signature = signature("Prediction", "character"), 
   def = function(pred, class) {
-    if (!(pred@type %in% c("prob", "decision")))
-      stop("Neither probabilities nor decision values present in Prediction object!")
+    if (pred@predict.type != "prob")
+      stop("Probabilities not present in Prediction object!")
     cns = colnames(pred@df)
-    class2 = paste(pred@type, class, sep=".")
+    class2 = paste(pred@predict.type, class, sep=".")
     if (!all(class2 %in% cns))
       stop("Trying to get scores for nonexistant classes:", paste(class, collapse=","))
     y = pred@df[, class2]
@@ -189,6 +178,5 @@ setMethod(f = "getScore",
 #	target = Reduce(c, lapply(preds, function(x) x@target))
 #	weights = Reduce(c, lapply(preds, function(x) x@weights))
 #	prob = Reduce(rbind, lapply(preds, function(x) x@prob))
-#	decision = Reduce(rbind, lapply(preds, function(x) x@decision))
-#	return(new("Prediction", task.desc=preds[[1]]@desc, id=id, response=response, target=target, weights=weights, prob=prob, decision=decision));
+#	return(new("Prediction", task.desc=preds[[1]]@desc, id=id, response=response, target=target, weights=weights, prob=prob));
 #}

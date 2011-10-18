@@ -58,8 +58,7 @@ setMethod(
   signature = signature(
     .learner = "regr.fnn", 
     .model = "WrappedModel", 
-    .newdata = "data.frame",
-    .type="missing" 
+    .newdata = "data.frame"
   ),
   
   def = function(.learner, .model, .newdata, ...) {

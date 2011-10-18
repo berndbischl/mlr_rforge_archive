@@ -34,7 +34,6 @@ makeMulticlassWrapper = function(learner, mcw.method="onevsrest") {
   w = new("MulticlassWrapper", learner=learner, par.set=ps)
   w@properties["multiclass"] = TRUE
   w@properties["prob"] = FALSE
-  w@properties["decision"] = FALSE
   if (is.function(mcw.method)) {
     if (any(names(formals(mcw.method)) != c("task")))
       stop("Arguments in multiclass codematrix function have to be: task")   

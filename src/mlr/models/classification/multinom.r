@@ -74,15 +74,14 @@ setMethod(
 		signature = signature(
 				.learner = "classif.multinom", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			.type <- ifelse(.type=="response", "class", "probs")
+		def = function(.learner, .model, .newdata, ...) {
+			type = ifelse(.learner@predict.type=="response", "class", "probs")
 			levs = getClassLevels(.model)
-			p = predict(.model@learner.model, newdata=.newdata, type=.type, ...)
-			if (.type == "probs" && length(levs)==2) {
+			p = predict(.model@learner.model, newdata=.newdata, type=type, ...)
+			if (type == "probs" && length(levs)==2) {
 				p = matrix(c(1-p, p), ncol=2, byrow=FALSE)
 				colnames(p) = levs
 			} 

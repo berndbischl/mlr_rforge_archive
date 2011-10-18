@@ -55,8 +55,7 @@ setMethod(
 		signature = signature(
 				.learner = "regr.ridge", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "missing" 
+				.newdata = "data.frame" 
 		),
 		
 		def = function(.learner, .model, .newdata, ...) {

@@ -77,7 +77,7 @@ setMethod(
 			
 			xs = learnerArgsToControl(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
 			f = getFormula(.task)
-      pm = .learner["predict.type"] == "prob"
+      pm = .learner@predict.type == "prob"
 			if (length(xs$control) > 0)
 				args = c(list(f, data=getData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args, prob.model=pm)
 			else
@@ -94,13 +94,12 @@ setMethod(
 		signature = signature(
 				.learner = "classif.ksvm", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "character" 
+				.newdata = "data.frame" 
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			.type <- switch(.type, prob="probabilities", decision="decision", "response")
-			predict(.model@learner.model, newdata=.newdata, type=.type, ...)
+		def = function(.learner, .model, .newdata, ...) {
+			type = switch(.learner@predict.type, prob="probabilities", "response")
+			predict(.model@learner.model, newdata=.newdata, type=type, ...)
 		}
 )	
 
