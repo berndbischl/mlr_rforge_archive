@@ -1,3 +1,6 @@
+#' @include aaa.r
+roxygen()
+
 #' A aggregation method reduces the performance values of the test (and possibly the training sets) to a single
 #' value. To see all possible, implemented aggregations look at \code{\link{aggregations}}.  
 #' 
