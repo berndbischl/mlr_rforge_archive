@@ -79,7 +79,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, ...) {
 			type = ifelse(.learner@predict.type=="response", "class", "probs")
-			levs = getClassLevels(.model)
+			levs = .model@task.desc@class.levels
 			p = predict(.model@learner.model, newdata=.newdata, type=type, ...)
 			if (type == "probs" && length(levs)==2) {
 				p = matrix(c(1-p, p), ncol=2, byrow=FALSE)

@@ -87,7 +87,19 @@ setMethod(
       data = data[, setdiff(colnames(data), exclude)]
     if (check.data)
       checkData(data, target)    
-    
+
+    levs = levels(as.factor(data[, target]))
+    m = length(levs)
+    if (is.na(positive)) {
+      if (m <= 2)
+        positive = levs[1]
+    } else {
+      if (m > 2)
+        stop("Cannot set a positive class for a multiclass problem!")
+      if (!(positive %in% levs))
+        stop(paste("Trying to set a positive class", positive, "which is not a value of the target variable:", paste(levs, collapse=",")))
+    } 
+      
     new("ClassifTask", id=id, target=target, data=data, weights=weights, blocking=blocking, positive=positive)
   }
 )

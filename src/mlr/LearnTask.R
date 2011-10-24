@@ -245,56 +245,6 @@ setMethod(
   } 
 )
 
-#' Get class levels of task. 
-#' @param task [\code{\linkS4class{TaskDesc}} | \code{\linkS4class{ClassifTask}} | \code{\linkS4class{WrappedModel}} ]\cr 
-#'   Classification task or its description object.   
-#' @return [character]
-#' @rdname getClassLevels
-#' @exportMethod getClassLevels
-setGeneric(name = "getClassLevels", def = function(x) standardGeneric("getClassLevels"))
-#' @rdname getClassLevels
-setMethod(
-  f = "getClassLevels",
-  signature = signature(x="ClassifTask"), 
-  def = function(x) {
-    if (x@desc@type != "classif")
-      stop("Description is not for a classification task!")
-    names(x@desc@class.dist)
-  } 
-)
-#' @rdname getClassLevels
-setMethod(
-  f = "getClassLevels",
-  signature = signature(x="TaskDesc"), 
-  def = function(x) {
-    if (x@type != "classif")
-      stop("Description is not for a classification task!")
-    names(x@class.dist)
-  } 
-)
-#' @rdname getClassLevels
-setMethod(
-  f = "getClassLevels",
-  signature = signature(x="WrappedModel"), 
-  def = function(x) {
-    if (x@task.desc@type != "classif")
-      stop("Description is not for a classification task!")
-    names(x@task.desc@class.dist)
-  } 
-)
-
-#' @rdname getClassLevels
-setMethod(
-  f = "getClassLevels",
-  signature = signature(x="Prediction"), 
-  def = function(x) {
-    if (x@desc@type != "classif")
-      stop("Description is not for a classification task!")
-    names(x@desc@class.dist)
-  } 
-)
-
-
 #' Get formula of a task. This is simply \code{target ~ .}. 
 #' Note that the environment that always gets attached to a formula is deleted. 
 #' @param task [\code{\linkS4class{LearnTask}} | \code{\linkS4class{TaskDesc}}]\cr 

@@ -81,7 +81,7 @@ setMethod(
 			if (.learner@predict.type  == "prob") {
 				p = p[,1]
 				y = matrix(0, ncol=2, nrow=nrow(.newdata))
-				colnames(y) <- getClassLevels(.model)
+				colnames(y) <- .model@task.desc@class.levels
 				y[,1] = p
 				y[,2] = 1-p
 				return(y)

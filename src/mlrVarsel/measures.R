@@ -43,7 +43,7 @@ setMethod(
   f = "makeVarCostMeasure",
   signature = signature(id="character", costs="numeric", task="ClassifTask"),
   def = function(id="costs", minimize=TRUE, costs, task, cost.aggr) {
-    check.costs(costs, getClassLevels(task)) 
+    check.costs(costs, task@desc@class.levels) 
     makeMeasure(id="costs", minimize=TRUE, classif=TRUE, regr=TRUE, extra.pars=list(costs, cost.aggr), 
       fun=function(task, model, pred, extra.pars) {
         costs = extra.pars[[1]]

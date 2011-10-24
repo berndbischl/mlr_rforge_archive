@@ -47,7 +47,7 @@ setMethod(
 			.Object@predict.type = predict.type			
 			.Object@df = df			
 			.Object@threshold = threshold			
-			.Object@desc = p1@desc	
+			.Object@task.desc = p1@task.desc	
 			.Object@time = tp
 			return(.Object)
 		}
@@ -90,10 +90,10 @@ setMethod(
       has.test = "test" %in% levels(df$set)
       for(i in 1:x@instance@desc@iters) {
         if (has.test)
-          test[[i]] = new("Prediction", task.desc=x@desc, 
+          test[[i]] = new("Prediction", task.desc=x@task.desc, 
             predict.type=x@predict.type, df=subset(dfs[[i]], subset=(set=="test")), threshold=x@threshold, x@time)						
         if (has.train)
-          train[[i]] = new("Prediction", task.desc=x@desc, 
+          train[[i]] = new("Prediction", task.desc=x@task.desc, 
             predict.type=x@predict.type, df=subset(dfs[[i]], subset=(set=="train")), threshold=x@threshold, x@time)						
       }
       list(
@@ -109,7 +109,7 @@ setAs("ResamplePrediction", "Prediction",
 		function(from, to) {
 			df = from@df
 			df$iter = NULL
-			new("Prediction", task.desc=from@desc,  
+			new("Prediction", task.desc=from@task.desc,  
 					predict.type=from@predict.type, df=df, threshold=from@threshold, sum(from@time.fit), sum(from@time))						
 		}
 )

@@ -88,7 +88,7 @@ setMethod(
 			type = ifelse(.learner@predict.type=="response", "vector", "prob")
 			p = predict(.model@learner.model, newdata=.newdata, type=type, ...)
 			if (type == "prob")
-				colnames(p) = getClassLevels(.model) 
+				colnames(p) = .model@task.desc@class.levels 
 			return(p)
 		}
 )	

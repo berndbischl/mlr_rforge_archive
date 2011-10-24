@@ -45,7 +45,7 @@ setMethod(
       if (is.empty(pred))
         stop("You need to pass pred for measure ", m@id)
       pred2 = pred
-      td = pred@desc
+      td = pred@task.desc
     } else {
       pred2 = NULL          
     }
@@ -67,7 +67,7 @@ setMethod(
     }
     if ((td@type == "classif" && !m@classif) || (td@type == "regr" && !m@regr)) 
       stop("Wrong task type ", td@type, " for measure ", m@id, "!")
-    if (m@only.binary && length(getClassLevels(td)) > 2)
+    if (m@only.binary && length(td@class.levels) > 2)
       stop("Multiclass problems cannot be used for measure ", m@id, "!")
     if (!is.null(pred2) && !(pred2@predict.type %in% m@allowed.pred.types))
       stop("Measure ", m@id, " is only allowed for predictions of type: ", paste(m@allowed.pred.types, collapse=","))

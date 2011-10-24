@@ -76,7 +76,7 @@ setMethod(
 		
 		def = function(.learner, .model, .newdata, ...) {
 			# stupid adaboost
-			.newdata[, .model@task.desc@target] <- factor(rep(1, nrow(.newdata)), levels=getClassLevels(.model))
+			.newdata[, .model@task.desc@target] <- factor(rep(1, nrow(.newdata)), levels=.model@task.desc@class.levels)
 			p = predict(.model@learner.model, newdata=.newdata, ...)
 			return(as.factor(p$class))
 		}

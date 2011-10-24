@@ -85,9 +85,9 @@ setMethod(
 			if (type == "class")
 				return(as.factor(p))
 			else {
-				if (length(getClassLevels(.model)) == 2) {
+				if (length(.model@task.desc@class.levels) == 2) {
           y <- cbind(p, 1-p) 
-					colnames(y) = getClassLevels(.model)
+					colnames(y) = .model@task.desc@class.levels
 					return(y)
 				} else
 					return(p)	

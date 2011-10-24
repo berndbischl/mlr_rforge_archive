@@ -62,7 +62,7 @@ setMethod(
 			logger.debug(level="predict", rownames(newdata))
 			
 			if (wl@properties[["type"]] == "classif") {
-				levs = getClassLevels(td)
+				levs = td@class.levels
 			}
 			
 			response = NULL
@@ -94,7 +94,6 @@ setMethod(
 						st = system.time(p <- do.call(predictLearner, pars), gcFirst=FALSE)
 					else
 						st = system.time(p <- try(do.call(predictLearner, pars), silent=TRUE), gcFirst=FALSE)
-          kk <<- p
 					time.predict = as.numeric(st[3])
 					# was there an error during prediction?
 					if(is(p, "try-error")) {
@@ -105,7 +104,6 @@ setMethod(
 						time.predict = as.numeric(NA)
 					}
 				}
-        xx <<- p
 				if (wl@properties[["type"]] == "classif") {
 					if (wl@predict.type == "response") {
 						# the levels of the predicted classes might not be complete....
@@ -144,7 +142,7 @@ setMethod(
 
 predict_nas = function(model, newdata) {
 	if (model@learner@properties[["type"]] == "classif") {
-    levs = getClassLevels(model@task.desc)  
+    levs = model@task.desc@class.levels  
 		p = switch(model@learner@predict.type, 
 				response = factor(rep(NA, nrow(newdata)), levels=levs),
 				matrix(as.numeric(NA), nrow=nrow(newdata), ncol=length(levs), dimnames=list(NULL, levs))

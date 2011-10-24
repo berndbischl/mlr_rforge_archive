@@ -55,8 +55,8 @@ setMethod(
     a = unlist(.learner@par.vals)
     models = .model@learner.model
     k = length(models)
-    p = matrix(0, nrow(.newdata), ncol=length(getClassLevels(.model)))
-    levs = getClassLevels(.model)
+    p = matrix(0, nrow(.newdata), ncol=length(.model@task.desc@class.levels))
+    levs = .model@task.desc@class.levels
     colnames(p) = levs
     for (i in 1:k) {
       m = models[[i]]

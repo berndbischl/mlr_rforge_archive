@@ -107,7 +107,7 @@ setMethod(
       weights = ifelse(x["has.weights"], TRUE, NA)
       
       if (type == "classif") {
-        multiclass = ifelse(length(getClassLevels(x)) == 2, NA, TRUE)
+        multiclass = ifelse(length(x@desc@class.levels) == 2, NA, TRUE)
         wls = getLearners(type, doubles, factors, characters, missings, weights, 
             multiclass, probs)
       } else {

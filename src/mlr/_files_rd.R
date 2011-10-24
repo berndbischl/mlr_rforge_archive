@@ -33,7 +33,6 @@ allowed.rd.files <<- c(
   "getData.Rd",
   "getTargets.Rd",
   "getFeatureNames.Rd",
-  "getClassLevels.Rd",
   
   "trainLearner.Rd",
   "predictLearner.Rd",

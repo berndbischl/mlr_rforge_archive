@@ -8,7 +8,7 @@ roxygen()
 #' @slot target Name of target variable.
 #' @slot size Number of cases.
 #' @slot n.feat Number of covariates, named vector with entries: \dQuote{numerics}, \dQuote{integers}, \dQuote{factors}, \dQuote{characters}, \dQuote{logicals}.
-#' @slot class.dist Class distribution. Named vector. NA if not classification.
+#' @slot class.levels All possible classes. Character vector. NA if not classification.
 #' @slot has.missing Are missing values present?
 #' @slot has.inf Are infinite numerical values present?
 #' @slot has.weights Are weights available in task for covariates?
@@ -29,7 +29,7 @@ setClass(
         target = "character",
         size = "integer",
         n.feat = "integer",
-        class.dist = "integer",
+        class.levels = "character",
         has.missing = "logical",
         has.inf = "logical",
         has.weights = "logical",
@@ -59,16 +59,24 @@ setMethod(
     )
     .Object@has.missing = any(is.na(data))
     .Object@has.inf = any(is.infinite(data))
-    if(is.factor(y))
-      .Object@class.dist = {tab=table(y);cl=as.integer(tab); names(cl)=names(tab);cl}
+    if(type == "classif")
+      .Object@class.levels = levels(y)
     else
-      .Object@class.dist = as.integer(NA)
-    
+      .Object@class.levels = as.character(NA)
     .Object@has.weights = has.weights
     .Object@has.blocking = has.blocking
-    # is set later in makeClassifTask
-    .Object@positive = as.character(NA)
-    .Object@negative = as.character(NA)
+    if (type == "classif") {
+      .Object@positive = positive
+      if (length(.Object@class.levels) == 1)
+        .Object@negative = paste("not_", positive)
+      else if(length(.Object@class.levels) == 2)
+        .Object@negative = setdiff(.Object@class.levels, positive)
+      else
+        .Object@negative = as.character(NA)
+    } else { 
+      .Object@positive = as.character(NA)
+      .Object@negative = as.character(NA)
+    }
     return(.Object)
   }
 )

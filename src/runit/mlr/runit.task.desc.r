@@ -24,9 +24,7 @@ test.task.desc <- function() {
   checkEquals(multiclass.task@desc@n.feat["characters"], 0, checkNames=FALSE)  
   checkEquals(multiclass.task["has.missing"], F)  
   checkEquals(multiclass.task@desc@type, "classif") 
-  checkEquals(getClassLevels(multiclass.task), c("setosa", "versicolor", "virginica"))  
-  checkEquals(length(getClassLevels(multiclass.task)), 3) 
-  checkEquals(multiclass.task["class.dist"], c(setosa=50, versicolor=50, virginica=50)) 
+  checkEquals(multiclass.task@desc@class.levels, c("setosa", "versicolor", "virginica"))  
   
   # check missing values
   df = multiclass.df
@@ -44,9 +42,7 @@ test.task.desc <- function() {
   checkEquals(ct@desc@n.feat["characters"], 0, checkNames=FALSE)  
   checkEquals(ct@desc@has.missing, F) 
   checkEquals(ct@desc@type, "classif")  
-  checkEquals(getClassLevels(ct), c("M", "R"))  
-  checkEquals(length(getClassLevels(ct)), 2)  
-  checkEquals(ct["class.dist"], c(M=111, R=97)) 
+  checkEquals(ct@desc@class.levels, c("M", "R"))  
   
   checkEquals(regr.task["size"], 506) 
   checkEquals(sum(regr.task@desc@n.feat), 13) 
@@ -57,6 +53,5 @@ test.task.desc <- function() {
   checkEquals(regr.task@desc@n.feat["characters"], 0, checkNames=FALSE)  
   checkEquals(regr.task["has.missing"], F)  
   checkEquals(regr.task@desc@type, "regr")  
-  checkException(getClassLevels(regr.task))
-  checkTrue(is.na(regr.task["class.dist"])) 
+  checkTrue(is.na(regr.task@desc@class.levels)) 
 }

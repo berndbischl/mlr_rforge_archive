@@ -7,8 +7,11 @@ test.mlr.learn.task <- function() {
 	
 	ct = binaryclass.task
 	pn = c(ct@desc@positive, ct@desc@negative)
-	checkEquals(sort(getClassLevels(ct)), sort(pn))
+	checkEquals(sort(ct@desc@class.levels), sort(pn))
 	
+  ct2 = subsetData(ct, subset=1:150)
+  checkEquals(ct@desc@positive, ct2@desc@positive)
+  
 	# wrong vars
 	checkException(subsetData(multiclass.task, vars=c("Sepal.Length", "x", "y")))
 	

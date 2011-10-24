@@ -29,6 +29,6 @@ test.multinom <- function() {
 	rr = p@df$response
 	pp = getProb(p)
 	i = as.integer(pp < 0.5) + 1
-	labs = as.factor(getClassLevels(binaryclass.task)[i]) 
+	labs = as.factor(binaryclass.task@desc@class.levels[i]) 
 	checkEquals(rr, labs)	
 }

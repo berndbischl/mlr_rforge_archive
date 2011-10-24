@@ -93,7 +93,7 @@ setMethod(
 			p = predict(.model@learner.model, newdata=.newdata, type=type, ...)
 			if (.learner@predict.type == "prob") {
 				y = matrix(0, ncol=2, nrow=nrow(.newdata))
-				colnames(y) = getClassLevels(.model)
+				colnames(y) = .model@task.desc@class.levels
 				y[,1] = p
 				y[,2] = 1-p
 				return(y)

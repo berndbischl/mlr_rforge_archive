@@ -60,7 +60,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset, classwt=NULL, cutoff, ...) {
       f = getFormula(.task)
-      levs = getClassLevels(.task)
+      levs = .task@desc@class.levels
       n = length(levs)
       if (missing(cutoff))
         cutoff = rep(1/n, n)

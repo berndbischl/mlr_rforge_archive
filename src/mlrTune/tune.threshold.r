@@ -19,7 +19,7 @@
 #' @title Tune prediction threshold.
 
 tune.threshold = function(pred, measure, task, model, thresholds=100) {
-  td = pred@desc
+  td = pred@task.desc
 	if (missing(measure))
 		measure = mlr:::default.measures(td)[[1]]
   probs = getProb(pred)

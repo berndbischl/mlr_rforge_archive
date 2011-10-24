@@ -27,36 +27,8 @@ setMethod(
 				return(make.empty(.Object))
 			
       td = new("TaskDesc", data, target, "classif", id, 
-        length(weights) > 0, length(blocking) > 0, as.character(NA))      
+        length(weights) > 0, length(blocking) > 0, positive)      
 
-			# init positive
-			pos = positive 
-			neg = as.character(NA)
-      levs = getClassLevels(td)
-			if (length(getClassLevels(td)) == 1) {
-				if (is.na(pos)) {
-					pos = levs[1]
-				} else {
-					if (!(pos %in% levs))
-						stop(paste("Trying to set a positive class", pos, "which is not a value of the target variable:", paste(levs, collapse=",")))
-				}
-				neg = paste("not_", pos)
-			} else if (length(getClassLevels(td)) == 2) {
-				if (is.na(pos)) {
-					pos = levs[1] 					
-				}
-				else {
-					if (!(pos %in% levs))
-						stop(paste("Trying to set a positive class", pos, "which is not a value of the target variable:", paste(levs, collapse=",")))
-				}
-				neg = setdiff(levs, pos)
-			} else {
-				if (!is.na(pos))
-					stop("Cannot set a positive class for a multiclass problem!")
-			}			
-			td@positive = pos
-      td@negative = neg
-      
 			callNextMethod(.Object, data=data, weights=weights, blocking=blocking, task.desc=td)
 		}
 )
@@ -68,28 +40,24 @@ setMethod(
 		signature = signature("ClassifTask"),
 		def = function(x) {
 		  td = x@desc
-			di = paste(capture.output(x["class.dist"]), collapse="\n")
+      di = table(getTargets(x)) 
+			di = paste(capture.output(di)[-1], collapse="\n")
+      m = length(di)
       data = getData(x)
-      rwm = sum(apply(data, 1, function(x) any(is.na(x))))
-      cwm = sum(apply(data, 2, function(x) any(is.na(x))))
-      rwi = sum(apply(data, 1, function(x) any(is.infinite(x))))
-      cwi = sum(apply(data, 2, function(x) any(is.infinite(x))))
-      feat = paste(capture.output(x@desc@n.feat), collapse="\n")
+      feat = paste(capture.output(td@n.feat), collapse="\n")
 			return(
 					paste(
-							"Classification problem ", x@desc@id, "\n",
+							"Classification problem ", td@id, "\n",
 							"Features:\n", feat, "\n", 
-              "Observations: ", x["size"] , "\n",
-              "Missings: ", x["has.missing"], "\n", 
-              ifelse(x["has.missing"], paste("in", rwm, "observations and", cwm, "features\n"), ""), 
-              "Infinites: ", x["has.inf"], "\n", 
-              ifelse(x["has.inf"], paste("in", rwi, "observations and", cwi, "features\n"), ""),
+              "Observations: ", td@size , "\n",
+              "Missings: ", td@has.missing, "\n", 
+              "Infinites: ", td@has.inf, "\n", 
               "Target: ", td@target, "\n", 
-              "Classes: ", length(getClassLevels(x)), "\n",
+              "Classes: ", m, "\n",
 							di, "\n",
-							ifelse(length(getClassLevels(x)) == 2, paste("Positive class:", td@positive, "\n"), ""),
-              "Has weights: ", x["has.weights"], "\n", 
-              "Has blocking: ", x["has.blocking"], "\n",
+							ifelse(m == 2, paste("Positive class:", td@positive, "\n"), ""),
+              "Has weights: ", td@has.weights, "\n", 
+              "Has blocking: ", td@has.blocking, "\n",
               sep=""
 					)
 			)

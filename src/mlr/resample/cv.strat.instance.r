@@ -20,7 +20,7 @@ setMethod(
     y = getTargets(task)
     k = desc@iters
     # CV on every class
-    class.inds = lapply(getClassLevels(task), function(x) which(x==y))
+    class.inds = lapply(task@desc@class.levels, function(x) which(x==y))
     test.inds = lapply(class.inds, function(x) suppressWarnings(split(sample(x), 1:k)))
     # combine them all, so we have the test.inds
     test.inds = Reduce(function(i1, i2) Map(c, i1, i2), test.inds)

@@ -27,7 +27,7 @@ setClass(
 				predict.type = "character",
 				df = "data.frame",
 				threshold = "numeric",
-				desc = "TaskDesc",
+				task.desc = "TaskDesc",
 				time = "numeric"
 		)
 )
@@ -43,7 +43,7 @@ setMethod(
 			.Object@predict.type = predict.type			
 			.Object@df = df			
 			.Object@threshold = threshold			
-			.Object@desc = task.desc	
+			.Object@task.desc = task.desc	
 			.Object@time = time			
 			return(.Object)
 		}
@@ -72,34 +72,14 @@ makePrediction = function(task.desc, id, truth, predict.type, y, time) {
   cns = colnames(df)
 	
   if (predict.type == "prob") {
-    th = rep(1/length(getClassLevels(task.desc)), length(getClassLevels(task.desc)))
-    names(th) = getClassLevels(task.desc)
+    th = rep(1/length(task.desc@class.levels), length(task.desc@class.levels))
+    names(th) = task.desc@class.levels
     p = new("Prediction", task.desc, predict.type, df, th, time)
     return(setThreshold(p, th))
   } else {
     return(new("Prediction", task.desc, predict.type, df, as.numeric(NA), time))
   }  
 }
-
-
-#' Getter.
-#' @rdname Prediction-class
-
-
-setMethod(
-		f = "[",
-		signature = signature("Prediction"),
-		def = function(x,i,j,...,drop) {
-			args = list(...)
-			class = args$class
-			
-			if (i == "id")
-				return(x@df$id)
-			if (i == "iter")
-				return(x@df$iter)
-			callNextMethod()
-		}
-)
 
 #'  Convert to data.frame
 #' @rdname Prediction-class 
@@ -144,13 +124,13 @@ setMethod(
 setGeneric(name = "getProb", 
   def = function(pred, class) {
     check.arg(pred, "Prediction")
-    if (pred@desc@type != "classif")
+    if (pred@task.desc@type != "classif")
       stop("Prediction was not generated from a ClassifTask!")
     if (missing(class)) {
-      if (length(getClassLevels(pred)) == 2)
-        class = pred@desc@positive
+      if (length(pred@task.desc@class.levels) == 2)
+        class = pred@task.desc@positive
       else
-        class = getClassLevels(pred)
+        class = pred@task.desc@class.levels
     }
     standardGeneric("getProb")
 })

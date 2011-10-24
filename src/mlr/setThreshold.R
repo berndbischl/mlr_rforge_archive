@@ -33,12 +33,12 @@ setMethod(
   ),
   
   def = function(pred, threshold) {
-    td = pred@desc
+    td = pred@task.desc
     if (td@type != "classif")
       stop("Threshold can only be set for classification predictions!")
     if (pred@predict.type != "prob")
       stop("Threshold can only be set for predict.type 'prob'!")
-    levs = getClassLevels(td)
+    levs = td@class.levels
     if (length(levs) == 2 && is.numeric(threshold) && length(threshold) == 1) {
       threshold = c(threshold, 1-threshold)
       names(threshold) = c(td@positive, td@negative)
@@ -48,8 +48,7 @@ setMethod(
     p = getProb(pred, class=levs)
     # resort so we have same order in threshold and p
     threshold = threshold[levs] 
-    resp = factor(max.col(t(t(p) / threshold)), labels=levs)
-    pred@df$response = resp
+    pred@df$response = factor(max.col(t(t(p) / threshold)), levels=seq_along(levs), labels=levs)
     pred@threshold = threshold
     return(pred)
   } 

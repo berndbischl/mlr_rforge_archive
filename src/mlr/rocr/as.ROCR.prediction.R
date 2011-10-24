@@ -30,14 +30,14 @@ setMethod(
 		f = "as.ROCR.prediction",
 		signature = signature(x="Prediction"), 
 		def = function(x) {
-			if(length(getClassLevels(x)) != 2) {
+			if(length(x@task.desc@class.levels) != 2) {
 				stop("More than 2 classes!")
 			}
 			p = getProb(x) 
 			if(is.null(p)) {
 				stop("No probabilities in prediction object!")
 			}
-			ROCR.prediction(p, x@df$truth, label.ordering=c(x@desc@negative, x@desc@positive))
+			ROCR.prediction(p, x@df$truth, label.ordering=c(x@task.desc@negative, x@task.desc@positive))
 		}
 )
 
@@ -48,7 +48,7 @@ setMethod(
   f = "as.ROCR.prediction",
   signature = signature(x="ResamplePrediction"), 
   def = function(x) {
-    if(length(getClassLevels(x)) != 2) {
+    if(length(x@task.desc@class.levels) != 2) {
       stop("More than 2 classes!")
     }
     if(x@type != "prob") {
@@ -58,7 +58,7 @@ setMethod(
     iter = as.factor(x["iter"])
     prob = split(prob, iter)
     truth = split(x@df$truth, iter)
-    ROCR.prediction(prob, truth, label.ordering=c(x@desc@negative, x@desc@positive))
+    ROCR.prediction(prob, truth, label.ordering=c(x@task.desc@negative, x@task.desc@positive))
   }
 )
 

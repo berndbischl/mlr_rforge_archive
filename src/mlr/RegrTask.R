@@ -42,23 +42,17 @@ setMethod(
 		def = function(x) {
       td = x@desc
       data = getData(x)
-      rwm = sum(apply(data, 1, function(x) any(is.na(x))))
-      cwm = sum(apply(data, 2, function(x) any(is.na(x))))
-      rwi = sum(apply(data, 1, function(x) any(is.infinite(x))))
-      cwi = sum(apply(data, 2, function(x) any(is.infinite(x))))
       feat = paste(capture.output(x@desc@n.feat), collapse="\n")
       return(
 					paste(
-							"Regression problem ", x@desc@id, "\n",
+							"Regression problem ", td@id, "\n",
               "Features:\n", feat, "\n", 
-              "Observations: ", x["size"] , "\n",
-							"Missings: ", x["has.missing"], "\n", 
-							ifelse(x["has.missing"], paste("in", rwm, "observations and", cwm, "features\n"), ""), 
-              "Infinites: ", x["has.inf"], "\n", 
-              ifelse(x["has.inf"], paste("in", rwi, "observations and", cwi, "features\n"), ""), 
+              "Observations: ", td@size , "\n",
+							"Missings: ", td@has.missing, "\n", 
+              "Infinites: ", td@has.inf, "\n", 
               "Target: ", td@target, "\n", 
-              "Has weights: ", x["has.weights"], "\n", 
-              "Has blocking: ", x["has.blocking"], "\n",
+              "Has weights: ", td@has.weights, "\n", 
+              "Has blocking: ", td@has.blocking, "\n",
               sep=""
 					)
 			)
