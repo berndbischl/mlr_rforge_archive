@@ -22,20 +22,21 @@ generateVarsel2dResult <- function(learner, task, resampling, measures, control,
   ors = list()
   errs = matrix(TRUE, nrow=task["size"], pairs)
   mode(errs) = "logical"
-  
+  features = getFeatureNames(task)
   for (i in 1:pairs) {
-    bit.names = mlr:::getFeatureNames(task)
-    if (length(bit.names) < 2)
+    if (length(features) < 2)
       stop("Not enough features left to find another pair!")
-    bits.to.features = function(x, task) binary.to.vars(x, bit.names)
-    opt.path = makeOptPathFromMeasures(bit.names, measures)
-    ors[[i]] = varsel(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path)
+    ors[[i]] = varsel(learner, task, resampling, control, measures)
     task2d = subsetData(task, vars=ors[[i]]@x)
     r = resample(learner, task2d, resampling)
     e = r$pred@df$truth != r$pred@df$response
     errs[,i] = e[order(r$pred["id"])]
-    vars = setdiff(bit.names, ors[[i]]@x[1:remove])
-    task = subsetData(task, vars=vars)
+    # get first selected feature
+    pp = as.data.frame(ors[[i]]@path)
+    pp = subset(pp, eol!=dob, select=features)
+    best = colnames(pp)[pp[2,] == 1]
+    features = setdiff(features, best)
+    task = subsetData(task, vars=features)
   } 
   return(list(ors=ors, errs=errs))
 }

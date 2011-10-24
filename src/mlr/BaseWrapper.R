@@ -82,12 +82,11 @@ setMethod(
 		signature = signature(
 				.learner = "BaseWrapper", 
 				.model = "WrappedModel", 
-				.newdata = "data.frame", 
-				.type = "ANY" 
+				.newdata = "data.frame"
 		),
 		
-		def = function(.learner, .model, .newdata, .type, ...) {
-			predictLearner(.learner@learner, .model, .newdata, .type, ...)
+		def = function(.learner, .model, .newdata, ...) {
+			predictLearner(.learner@learner, .model, .newdata, ...)
 		}
 )	
 

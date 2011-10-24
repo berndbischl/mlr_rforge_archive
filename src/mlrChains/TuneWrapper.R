@@ -35,6 +35,7 @@ makeTuneWrapper = function(learner, resampling, measures, par.set, control, log.
     measures = list(measures)   
   if (missing(log.fun))
     log.fun = mlrTune:::log.fun.tune
+  mlrTune:::checkTunerParset(par.set, control) 
 	new("OptWrapper", learner, resampling, measures, par.set, character(0), function(){}, control, log.fun)
 }
 

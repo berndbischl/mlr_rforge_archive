@@ -100,11 +100,10 @@ setMethod(
   signature = signature(
     .learner = "MulticlassWrapper", 
     .model = "WrappedModel", 
-    .newdata = "data.frame", 
-    .type = "character" 
+    .newdata = "data.frame"
   ),
   
-  def = function(.learner, .model, .newdata, .type, ...) {
+  def = function(.learner, .model, .newdata, ...) {
     models = .model@learner.model
     cm = models[[length(models)]]
     k = length(models)-1

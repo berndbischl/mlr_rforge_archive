@@ -4,7 +4,7 @@ setClass(
 		"OptWrapper",
 		contains = c("BaseWrapper"),
 		representation = representation(
-				resampling = "ResampleDesc",
+				resampling = "ANY",
         measures = "list",
         opt.pars = "ParameterSet",
         bit.names = "character",
@@ -47,22 +47,23 @@ setMethod(
     ),
       
 		def = function(.learner, .task, .subset,  ...) {
-			wl = .learner
-			bl = wl@learner
-			ctrl = wl@control
       # todo: strange error if we remove :::? maybe rename subset...
-      lt = subsetData(.task, .subset)
-			if (is(wl@control, "TuneControl")) {
-				or = tune(bl, lt, wl@resampling, wl@measures, wl@opt.pars, ctrl)
-        bl = setHyperPars(bl, par.vals=or@x)
-        m = train(bl, lt)
-      } else if (is(wl@control, "VarselControl")) {
-        if (length(wl@bit.names) == 0)
-          or = varsel(bl, lt, wl@resampling, measures=wl@measures, control=ctrl)
+      task = subsetData(.task, .subset)
+			if (is(.learner@control, "TuneControl")) {
+				or = tune(.learner@learner, task, .learner@resampling, .learner@measures, 
+          .learner@opt.pars, .learner@control)
+        # set optimal hyper pars in base learner
+        .learner@learner = setHyperPars(.learner@learner, par.vals=or@x)
+        m = train(.learner@learner, task)
+      } else if (is(.learner@control, "VarselControl")) {
+        if (length(.learner@bit.names) == 0)
+          or = varsel(.learner@learner, task, .learner@resampling, .learner@control,
+           measures)
         else  
-          or = varsel(bl, lt, wl@resampling, measures=wl@measures, wl@bit.names, wl@bits.to.features, control=ctrl)
-        lt = subsetData(lt, vars=or@x)
-        m = train(bl, lt)
+          or = varsel(.learner@learner, task, .learner@resampling, .learner@control,
+            .learner@measures, .learner@bit.names, .learner@bits.to.features)
+        task = subsetData(task, vars=or@x)
+        m = train(.learner@learner, task)
       }	else 
 				stop("Should not happen!")
 			# set the opt result as attribute, so we can extract it later 

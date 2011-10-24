@@ -29,13 +29,13 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
       p.split = p
     } else {
       ids = getRepeatedParameterIDs(par.set, with.nr=FALSE)
-      p.split = split(p, ids)
+      p.split = split(p, factor(ids, levels=ids))
     }
     p.split = Map(function(par, x) { 
-      if (par@type %in% c("integer", "integervector"))
-        as.integer(round(x))
-      else
-        x
+        if (par@type %in% c("integer", "integervector"))
+          as.integer(round(x))
+        else
+          x
       }, 
       pars, p.split
     )

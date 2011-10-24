@@ -31,7 +31,7 @@ setMethod(
   def = function(learner, model, task.desc, subset, vars, time) {
     or = attr(model, "opt.result")
     attr(model, "opt.result") = NULL
-    new("OptModel", learner, model@learner.model, task.desc, subset, vars, time, or)  
+    new("OptModel", model@learner, model@learner.model, task.desc, subset, vars, time, or)  
   }
 )
 

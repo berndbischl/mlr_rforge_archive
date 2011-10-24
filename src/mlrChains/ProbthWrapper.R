@@ -25,7 +25,7 @@ setClass(
 makeProbthWrapper = function(learner, classes) {
   if (is.character(learner))
     learner = makeLearner(learner)
-  if (wl@properties[["type"]] != "classif")
+  if (learner@properties[["type"]] != "classif")
     stop("Only classifiers can be used as base learners!")
   if (learner["predict.type"] != "prob")
     stop("The predict.type of the base learner must be 'prob'!")
@@ -44,12 +44,11 @@ setMethod(
   signature = signature(
     .learner = "ProbthWrapper", 
     .model = "WrappedModel", 
-    .newdata = "data.frame", 
-    .type = "character" 
+    .newdata = "data.frame"
   ),
   
-  def = function(.learner, .model, .newdata, .type, ...) {
-    p = predictLearner(.learner@learner, .model, .newdata, .type="prob")
+  def = function(.learner, .model, .newdata, ...) {
+    p = predictLearner(.learner@learner, .model, .newdata)
     ths = unlist(.learner@par.vals)
     # remove "probth"    
     names(ths) = sapply(strsplit(names(ths), "\\."), function(x) x[2])
