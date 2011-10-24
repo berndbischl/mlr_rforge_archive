@@ -16,8 +16,8 @@ setMethod(
   def = function(id="costs", fun) {
     makeMeasure(id="varcosts", minimize=TRUE, classif=TRUE, regr=TRUE, 
       allowed.pred.types=c("response", "prob"), extra.args=list(fun),  
-      fun=function(task, model, pred, extra.pars) {
-        fun = extra.pars[[1]]
+      fun=function(task, model, pred, extra.args) {
+        fun = extra.args[[1]]
         v = model@vars 
         fun(v)
       }

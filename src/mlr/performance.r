@@ -41,6 +41,7 @@ setMethod(
   signature = signature(pred="Prediction", measure="Measure", task="LearnTask", model="WrappedModel"),
   def = function(pred, measure, task, model) {
     m = measure
+    td = NULL
     if (m@req.pred) {
       if (is.empty(pred))
         stop("You need to pass pred for measure ", m@id)
@@ -65,12 +66,15 @@ setMethod(
     } else {
       task2 = NULL
     }
-    if ((td@type == "classif" && !m@classif) || (td@type == "regr" && !m@regr)) 
-      stop("Wrong task type ", td@type, " for measure ", m@id, "!")
-    if (m@only.binary && length(td@class.levels) > 2)
-      stop("Multiclass problems cannot be used for measure ", m@id, "!")
-    if (!is.null(pred2) && !(pred2@predict.type %in% m@allowed.pred.types))
-      stop("Measure ", m@id, " is only allowed for predictions of type: ", paste(m@allowed.pred.types, collapse=","))
+    # null only happens in custom resampled measure when we do no individual measurements
+    if (!is.null(td)) {
+      if ((td@type == "classif" && !m@classif) || (td@type == "regr" && !m@regr)) 
+        stop("Wrong task type ", td@type, " for measure ", m@id, "!")
+      if (m@only.binary && length(td@class.levels) > 2)
+        stop("Multiclass problems cannot be used for measure ", m@id, "!")
+      if (!is.null(pred2) && !(pred2@predict.type %in% m@allowed.pred.types))
+        stop("Measure ", m@id, " is only allowed for predictions of type: ", paste(m@allowed.pred.types, collapse=","))
+    }
     measure@fun(task2, model2, pred2, m@extra.args)
   }
 )

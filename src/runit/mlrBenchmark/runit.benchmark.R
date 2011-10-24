@@ -34,7 +34,7 @@ test.benchmark <- function() {
 	be = benchmark(rpart.tuner,  multiclass.task, resampling=outer)
 	print(be)
   foo = makeMeasure(id="foo", minimize=TRUE,  
-    fun=function(task, model, pred, extra.pars) {
+    fun=function(task, model, pred, extra.args) {
       tt = pred
       1
     }

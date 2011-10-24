@@ -54,6 +54,7 @@ pack.files = c(
   "mlr/Measure_make.R",
   "mlr/setAggregation.R",
   "mlr/measures.R",
+  "mlr/Measure_custom_resampled.R",
   "mlr/performance.r",
   
   "mlr/resample/ResampleDesc.R",

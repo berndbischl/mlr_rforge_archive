@@ -3,7 +3,7 @@ test.measures <- function() {
 	ct = binaryclass.task
   
   mymeasure = makeMeasure(id="foo", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob"),
-    fun=function(task, model, pred, extra.pars) {
+    fun=function(task, model, pred, extra.args) {
       tt = pred
       1
     }

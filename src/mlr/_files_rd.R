@@ -79,7 +79,7 @@ allowed.rd.files <<- c(
   "setAggregation.Rd",
   "makeMeasure.Rd",
   "measures.Rd",
-  "losses.Rd",
+  "makeCustomResampledMeasure.Rd",
   
   "as.ROCR.prediction.Rd",
   "ROCR_performance.Rd",

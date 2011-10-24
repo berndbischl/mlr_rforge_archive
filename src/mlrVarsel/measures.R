@@ -44,11 +44,11 @@ setMethod(
   signature = signature(id="character", costs="numeric", task="ClassifTask"),
   def = function(id="costs", minimize=TRUE, costs, task, cost.aggr) {
     check.costs(costs, task@desc@class.levels) 
-    makeMeasure(id="costs", minimize=TRUE, classif=TRUE, regr=TRUE, extra.pars=list(costs, cost.aggr), 
-      fun=function(task, model, pred, extra.pars) {
-        costs = extra.pars[[1]]
-        cost.aggr = extra.pars[[2]]
-        mean.costs = extra.pars[[2]]
+    makeMeasure(id="costs", minimize=TRUE, classif=TRUE, regr=TRUE, extra.args=list(costs, cost.aggr), 
+      fun=function(task, model, pred, extra.args) {
+        costs = extra.args[[1]]
+        cost.aggr = extra.args[[2]]
+        mean.costs = extra.args[[2]]
         cost.aggr(model@vars * costs)
       }
     )
