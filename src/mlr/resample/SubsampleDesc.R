@@ -3,7 +3,7 @@ roxygen()
 
 
 setClass("SubsampleDesc", 
-		contains = c("ResampleDesc.nonseq"),
+		contains = c("ResampleDesc"),
 		representation = representation(split = "numeric")
 )               
 

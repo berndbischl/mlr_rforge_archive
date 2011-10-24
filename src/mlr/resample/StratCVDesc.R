@@ -3,7 +3,7 @@ roxygen()
 
 
 setClass("StratCVDesc", 
-  contains = c("ResampleDesc.nonseq")
+  contains = c("ResampleDesc")
 )                                                     
 
 

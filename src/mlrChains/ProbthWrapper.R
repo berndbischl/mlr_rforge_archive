@@ -27,7 +27,7 @@ makeProbthWrapper = function(learner, classes) {
     learner = makeLearner(learner)
   if (learner@properties[["type"]] != "classif")
     stop("Only classifiers can be used as base learners!")
-  if (learner["predict.type"] != "prob")
+  if (learner@predict.type != "prob")
     stop("The predict.type of the base learner must be 'prob'!")
   a = as.list(rep(0.5, length(classes)))
   names(a) = paste("probth", classes, sep=".")

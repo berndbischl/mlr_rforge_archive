@@ -28,7 +28,7 @@ setMethod(
   f = "isFeasible",
   signature = signature(par="Parameter", x="ANY"),
   def = function(par, x) {
-    type = par["type"]
+    type = par@type
     if (type == "numeric")
       is.numeric(x) && length(x) == 1 && x >= lower(par) & x <= upper(par)
     else if (type == "integer")

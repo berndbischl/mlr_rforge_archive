@@ -24,7 +24,6 @@ roxygen()
 # todo validation for size
 setClass(
 		"ResampleInstance",   
-		contains = c("object"), 
 		# we always have to store training inds because the order might matter
 		representation = representation(
 				desc = "ResampleDesc", 
@@ -67,46 +66,9 @@ setMethod(
 		}
 )
 
-#' @rdname ResampleInstance-class
 
-setMethod(
-		f = "[",
-		signature = signature("ResampleInstance"),
-		def = function(x,i,j,...,drop) {
-      if (i == "iters")
-        return(length(x@train.inds))
-      callNextMethod(x,i,j,...,drop) 
-		}
-)
-
-
-
-#' @rdname to.string
-
-setMethod(
-		f = "to.string",
-		signature = signature("ResampleInstance"),
-		def = function(x) {
-      d = paste(capture.output(x@desc), collapse="\n")
-			return(
-					paste(
-							"Resample instance on ", x["size"], " cases for:\n", d,
-							sep=""
-					)
-			)
-		}
-)
-
-
-setClass(
-		"ResampleInstance.seq", 
-		contains = c("ResampleInstance")
-)
-
-
-setClass(
-		"ResampleInstance.nonseq", 
-		contains = c("ResampleInstance")
-)
-
+setMethod("show", "ResampleInstance", function(object) {
+  cat("Resample instance on ", object@size, " cases for:\n")
+  print(object@desc) 
+})
 

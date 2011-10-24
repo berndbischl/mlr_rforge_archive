@@ -26,7 +26,7 @@ setGeneric(
 			if (is.character(learner))
 				learner <- makeLearner(learner)
 			if (missing(subset))
-				subset <- 1:task["size"]
+				subset <- 1:task@desc@size
       if (is.numeric(subset))
         subset = as.integer(subset)
 			standardGeneric("train")

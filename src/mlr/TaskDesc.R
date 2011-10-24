@@ -22,7 +22,6 @@ roxygen()
 
 setClass(
 		"TaskDesc",
-		contains = c("object"),
 		representation = representation(
 				type = "character",
         id = "character",

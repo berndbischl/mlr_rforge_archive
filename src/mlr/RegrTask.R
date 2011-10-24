@@ -34,29 +34,22 @@ setMethod(
 )
 
 
-#' @rdname to.string
 
-setMethod(
-		f = "to.string",
-		signature = signature("RegrTask"),
-		def = function(x) {
-      td = x@desc
-      data = getData(x)
-      feat = paste(capture.output(x@desc@n.feat), collapse="\n")
-      return(
-					paste(
-							"Regression problem ", td@id, "\n",
-              "Features:\n", feat, "\n", 
-              "Observations: ", td@size , "\n",
-							"Missings: ", td@has.missing, "\n", 
-              "Infinites: ", td@has.inf, "\n", 
-              "Target: ", td@target, "\n", 
-              "Has weights: ", td@has.weights, "\n", 
-              "Has blocking: ", td@has.blocking, "\n",
-              sep=""
-					)
-			)
-		}
-)
+setMethod("show", "WrappedModel", function(object) {
+  td = object@desc
+  data = getData(object)
+  feat = paste(capture.output(object@desc@n.feat), collapse="\n")
+  cat(
+    "Regression problem ", td@id, "\n",
+    "Features:\n", feat, "\n", 
+    "Observations: ", td@size , "\n",
+    "Missings: ", td@has.missing, "\n", 
+    "Infinites: ", td@has.inf, "\n", 
+    "Target: ", td@target, "\n", 
+    "Has weights: ", td@has.weights, "\n", 
+    "Has blocking: ", td@has.blocking, "\n",
+    sep=""
+  )
+})
 
 

@@ -37,7 +37,7 @@ test.lasso <- function() {
   p = as.data.frame(r$pred)
 #	print(rf@preds[[1]])
 	for (i in 1:folds) {
-    test.i = res["test.inds"][[i]]
+    test.i = res@test.inds[[i]]
     rf.p = subset(p, subset=(iter==i), select="response", drop=TRUE)    
 		checkEquals(rf.p, cvl.res$predictions[test.i])		
 	}

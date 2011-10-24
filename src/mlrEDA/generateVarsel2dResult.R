@@ -20,7 +20,7 @@ generateVarsel2dResult <- function(learner, task, resampling, measures, control,
     stop("'remove' must be 1 or 2!")
   
   ors = list()
-  errs = matrix(TRUE, nrow=task["size"], pairs)
+  errs = matrix(TRUE, nrow=task@desc@size, pairs)
   mode(errs) = "logical"
   features = getFeatureNames(task)
   for (i in 1:pairs) {

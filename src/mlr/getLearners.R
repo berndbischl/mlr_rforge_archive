@@ -103,8 +103,8 @@ setMethod(
 
       doubles = ifelse(x@desc@n.feat["double"]>0, TRUE, NA)
       factors = ifelse(x@desc@n.feat["fact"]>0, TRUE, NA)
-      missings = ifelse(x["has.missing"], TRUE, NA)
-      weights = ifelse(x["has.weights"], TRUE, NA)
+      missings = ifelse(x@desc@has.missing, TRUE, NA)
+      weights = ifelse(x@has.weights, TRUE, NA)
       
       if (type == "classif") {
         multiclass = ifelse(length(x@desc@class.levels) == 2, NA, TRUE)

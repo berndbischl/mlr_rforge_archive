@@ -3,7 +3,7 @@ roxygen()
 
 
 setClass("RepCVDesc", 
-  contains = c("ResampleDesc.nonseq"),
+  contains = c("ResampleDesc"),
   representation = representation(
     reps = "integer"
   )
@@ -26,19 +26,7 @@ setMethod(
 		}
 )
 
-#' @rdname to.string
-
-setMethod(
-  f = "to.string",
-  signature = signature("RepCVDesc"),
-  def = function(x) {
-    return(
-      paste(
-        x@id,  " with ", x@iters, " iterations: ", x@iters/x["reps"] ," folds and ", x["reps"] ," reps.\n",
-        sep=""
-      )
-    )
-  }
-)
-
+setMethod("show", "RepCVDesc", function(object) {
+  cat(object@id,  " with ", object@iters, " iterations: ", object@iters/object@reps ," folds and ", object@reps ," reps.\n")
+})
 

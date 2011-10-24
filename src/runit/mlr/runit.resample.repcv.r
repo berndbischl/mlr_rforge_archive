@@ -4,15 +4,15 @@ test.repcv.instance = function() {
   
   iters = rin@desc@iters
   checkEquals(iters, 10*3)
-  reps = rin@desc["reps"]
+  reps = rin@desc@reps
   checkEquals(reps, 3)
   
   for (j in 1:3) {
     bag =c()
     for (i in 1:10) {
       k = as.integer((j-1)*10L + i)
-      i1 = rin["train.inds"][[i]]
-      i2 = rin["test.inds"][[i]]
+      i1 = rin@train.inds[[i]]
+      i2 = rin@test.inds[[i]]
       checkEquals(length(unique(i1)), 135) 
       checkEquals(length(unique(i2)), 15) 
       bag = c(bag, i2)

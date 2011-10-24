@@ -22,7 +22,6 @@ roxygen()
 
 setClass(
 		"LearnTask",
-		contains = c("object"),
 		representation = representation(
 				dataenv = "environment",
 				weights = "numeric",
@@ -53,31 +52,6 @@ setMethod(
 			.Object@desc = task.desc
 			
 			return(.Object)
-		}
-)
-
-#' @rdname LearnTask-class
-
-setMethod(
-		f = "[",
-		signature = signature("LearnTask"),
-		def = function(x,i,j,...,drop) {
-			check.getter(x,i,j,...,drop)
-			args = list(...)
-			argnames = names(args)
-			
-			td = x@desc
-      
-			if (i == "blocking") {
-				if (!td["has.blocking"])
-					return(NULL)
-				return(x@blocking)
-			}
-			y = td[i]
-			if (!is.null(y))
-				return(y)
-			
-			callNextMethod()
 		}
 )
 
@@ -122,7 +96,7 @@ getData = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
   }
   
   tn = task@desc@target
-  ms = missing(subset) || identical(subset, 1:task["size"])
+  ms = missing(subset) || identical(subset, 1:task@desc@size)
   mv = missing(vars) || identical(vars, getFeatureNames(task))
   
   if (target.extra) {
@@ -193,8 +167,10 @@ setMethod(
   def = function(task, subset, vars) {
     task = changeData(task, getData(task, subset, vars))
     if (!missing(subset)) {
-      task@blocking = task@blocking[subset]
-      task@weights = task@weights[subset]
+      if (task@desc@has.blocking)
+        task@blocking = task@blocking[subset]
+      if (task@desc@has.weights)
+        task@weights = task@weights[subset]
     }  
     return(task)
   }

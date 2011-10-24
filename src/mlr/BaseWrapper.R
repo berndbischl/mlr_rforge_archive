@@ -46,23 +46,6 @@ setMethod(
 )
 
 
-
-#' @rdname BaseWrapper-class
-
-setMethod(
-		f = "[",
-		signature = signature("BaseWrapper"),
-		def = function(x,i,j,...,drop) {
-      
-      # these belong to BaseWrapper and can be different from basic rlearner 
-			if(i %in% c("id", "learner", "predict.type"))
-				return(callNextMethod())
-      
-      return(x@learner[i])
-		}
-)
-
-
 #' @rdname trainLearner
 setMethod(
   f = "trainLearner",
@@ -124,24 +107,21 @@ setMethod(
 )
 
 
-#' @rdname to.string
-setMethod(f = "to.string",
-  signature = signature("BaseWrapper"),
-  def = function(x) {
-    s = ""
-    y = x 
-    while (is(y, "BaseWrapper")) {
-      s = paste(s, class(y), "->", sep="")
-      y = y@learner
-    }
-    s = paste(s, class(y))
-    
-    return(paste(
-        s, "\n",
-        "Hyperparameters: ", getHyperParsString(x), "\n\n",
-        sep = ""         
-      ))
-  })
+setMethod("show", "WrappedModel", function(object) {
+  s = ""
+  y = object 
+  while (is(y, "BaseWrapper")) {
+    s = paste(s, class(y), "->", sep="")
+    y = y@learner
+  }
+  s = paste(s, class(y))
+  
+  cat(
+    s, "\n",
+    "Hyperparameters: ", getHyperParsString(object), "\n\n",
+    sep = ""         
+  )
+})
 
 
 #' @rdname getHyperPars

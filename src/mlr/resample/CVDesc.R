@@ -3,7 +3,7 @@ roxygen()
 
 
 setClass("CVDesc", 
-		contains = c("ResampleDesc.nonseq")
+		contains = c("ResampleDesc")
 )                                                     
 
 

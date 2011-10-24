@@ -30,7 +30,6 @@ roxygen()
 
 setClass(
   "Measure",
-  contains = c("object"),
   representation = representation(
     id = "character",
     fun = "function",
@@ -47,20 +46,14 @@ setClass(
   )
 )
 
-#' @rdname to.string
-setMethod(
-  f = "to.string",
-  signature = signature("Measure"),
-  def = function(x) {
-    return(
-      paste(
-        "Performance measure: ", x@id, "\n",
-        "Minimize: ", x@minimize, "\n",
-        "Aggregated by: ", x@aggr@id,
-        sep=""
-      )
-    )
-  }
-)
+
+setMethod("show", "Measure", function(object) {
+  cat(
+    "Performance measure: ", object@id, "\n",
+    "Minimize: ", object@minimize, "\n",
+    "Aggregated by: ", object@aggr@id,
+    sep=""
+  )
+})
 
 

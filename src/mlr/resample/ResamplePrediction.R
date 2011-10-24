@@ -40,9 +40,9 @@ setMethod(
           df = rbind(df, cbind(preds.train[[i]]@df, iter=i, set="train"))                 
       }
       
-      threshold = p1["threshold"]
+      threshold = p1@threshold
 
-      tp = sapply(preds.test, function(x) x["time"])
+      tp = sapply(preds.test, function(x) x@time)
 
 			.Object@predict.type = predict.type			
 			.Object@df = df			
@@ -54,24 +54,10 @@ setMethod(
 )
 
 
-
-
-#' @rdname to.string
-
-setMethod(
-		f = "to.string",
-		signature = signature("ResamplePrediction"),
-		def = function(x) {
-			return(
-					paste(
-							"Resampled Prediction for: ", to.string(x@instance@desc),
-							#"Learner models were ", ifelse(length(x@models)==0,"not", ""), " saved\n\n",
-							#paste(capture.output(str(x@preds)), collapse="\n"), 
-							"\n", sep=""
-					)
-			)
-		}
-)
+setMethod("show", "ResamplePrediction", function(object) {
+  cat("Resampled Prediction for:\n")
+  print(object@instance@desc)
+})
 
 
 #' Converts object to a list of a \code{\linkS4class{Prediction}} objects - one for each iteration.
@@ -100,16 +86,5 @@ setMethod(
         test = if (has.test) test else NULL,
         train = if (has.train) train else NULL
       )
-		}
-)
-
-#tests!
-
-setAs("ResamplePrediction", "Prediction", 
-		function(from, to) {
-			df = from@df
-			df$iter = NULL
-			new("Prediction", task.desc=from@task.desc,  
-					predict.type=from@predict.type, df=df, threshold=from@threshold, sum(from@time.fit), sum(from@time))						
 		}
 )

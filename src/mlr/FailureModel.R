@@ -7,15 +7,7 @@ setClass(
 )
 
 
-#' @rdname to.string
-
-setMethod(
-  f = "to.string",
-  signature = signature("FailureModel"),
-  def = function(x) {
-    s = callNextMethod(x)
-    return(paste(s, "\nTraining failed: ", x@learner.model, sep=""))
-  }
-)
-
-
+setMethod("show", "FailureModel", function(object) {
+  s = callNextMethod(object)
+  cat(s, "\nTraining failed: ", object@learner.model, "\n", sep="")
+})

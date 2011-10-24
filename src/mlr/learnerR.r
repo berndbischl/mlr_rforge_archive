@@ -30,43 +30,37 @@ setClass("rlearner.classif", contains = c("rlearner"))
 setClass("rlearner.regr", contains = c("rlearner"))
 
 
-#' @rdname to.string
-setMethod(f = "to.string",
-  signature = signature("rlearner.classif"),
-  def = function(x) {
-    pack = paste(x@pack, collapse=",")
-    return(paste(
-        "Classification learner id='", x@id, "' from package ", pack, "\n",
-        "Class: ", class(x), "\n",
-        "Predict-Type: ", x["predict.type"], "\n",
-        "Hyperparameters: ", getHyperParsString(x), "\n\n",
-        "Supported features Doubles:", getProperty(x, "numerics"), " Factors:", getProperty(x, "factors"), "\n",
-        "Supports missings: ", getProperty(x, "missings"), "\n", 
-        "Supports weights: ",getProperty(x, "weights"), "\n", 
-        "Supports classes: ", 
-          paste(c("one", "two", "multi")
-          [c(getProperty(x, "oneclass"), getProperty(x, "twoclass"), getProperty(x, "multiclass"))],  
-          collapse=","), "\n",
-        "Supports probabilities: ", getProperty(x, "prob"), "\n", 
-        sep =""					
-      ))
+setMethod("show", "rlearner.classif", function(object) {
+  pack = paste(object@pack, collapse=",")
+  cat(
+    "Classification learner id='", object@id, "' from package ", pack, "\n",
+    "Class: ", class(object), "\n",
+    "Predict-Type: ", object@predict.type, "\n",
+    "Hyperparameters: ", getHyperParsString(object), "\n\n",
+    "Supported features Doubles:", getProperty(object, "numerics"), " Factors:", getProperty(object, "factors"), "\n",
+    "Supports missings: ", getProperty(object, "missings"), "\n", 
+    "Supports weights: ",getProperty(object, "weights"), "\n", 
+    "Supports classes: ", 
+    paste(c("one", "two", "multi")
+        [c(getProperty(object, "oneclass"), getProperty(object, "twoclass"), getProperty(object, "multiclass"))],  
+      collapse=","), "\n",
+    "Supports probabilities: ", getProperty(object, "prob"), "\n", 
+    sep =""					
+  )
 })
 
-#' @rdname to.string
-setMethod(f = "to.string",
-  signature = signature("rlearner.regr"),
-  def = function(x) {
-    pack = paste(x@pack, collapse=",")
-    return(paste(
-        "Regression learner id='", x@id, "' from package ", pack, "\n",
-        "Class: ", class(x), "\n",
-        "Hyperparameters: ", getHyperParsString(x), "\n\n",
-        "Supported features Doubles:", getProperty(x, "numerics"), " Factors:", getProperty(x, "factors"), "\n",
-        "Supports missings: ", getProperty(x, "missings"), "\n", 
-        "Supports weights: ", getProperty(x, "weights"), "\n", 
-        sep =""					
-      ))
-  })
-
+setMethod("show", "rlearner.regr", function(object) {
+  pack = paste(object@pack, collapse=",")
+  cat(
+    "Regression learner id='", object@id, "' from package ", pack, "\n",
+    "Class: ", class(object), "\n",
+    "Predict-Type: ", object@predict.type, "\n",
+    "Hyperparameters: ", getHyperParsString(object), "\n\n",
+    "Supported features Doubles:", getProperty(object, "numerics"), " Factors:", getProperty(object, "factors"), "\n",
+    "Supports missings: ", getProperty(object, "missings"), "\n", 
+    "Supports weights: ", getProperty(object, "weights"), "\n", 
+    sep =""
+  )
+})
 
 

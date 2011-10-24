@@ -28,20 +28,18 @@ setMethod(
 		def = function(object, task, newdata, subset) {
 			if (!missing(task) && !missing(newdata)) 
 				stop("Pass either a task object or a newdata data.frame to predict, but not both!")
-
 			model = object
 			wl = model@learner
 			td = model@task.desc
 			
 			if (missing(newdata)) {
 				if (missing(subset))
-					subset = 1:task["size"]
+					subset = 1:task@desc@size
 				newdata = getData(task, subset=subset)
 			} else {
         if (!is.data.frame(newdata) || nrow(newdata) == 0)
           stop("newdata must be a data.frame with at least one row!")
 			}
-
       # load pack. if we saved a model and loaded it later just for prediction this is necessary
       require.packs(wl@pack, paste("learner", learner@id))
 			
@@ -60,7 +58,7 @@ setMethod(
 			logger.debug(level="predict", getHyperParsString(model@learner))
 			logger.debug(level="predict", "on", nrow(newdata), "examples:")
 			logger.debug(level="predict", rownames(newdata))
-			
+      
 			if (wl@properties[["type"]] == "classif") {
 				levs = td@class.levels
 			}
@@ -155,7 +153,6 @@ predict_nas = function(model, newdata) {
 
 setClass(
   "novars",
-  contains = c("object"),
   representation = representation(
     desc = "TaskDesc",
     targets = "vector"

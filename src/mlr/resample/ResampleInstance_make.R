@@ -42,14 +42,14 @@ setMethod(
 		f = "makeResampleInstance",
 		signature = c(desc="ResampleDesc", task="LearnTask", size="missing"),
 		def = function(desc, task, size) {
-			make.res.i(desc@instance.class, desc=desc, task=task, blocking=task["blocking"])
+			make.res.i(desc@instance.class, desc=desc, task=task, blocking=task@blocking)
 		}
 )
 
 
 make.res.i = function(i.class, desc, task=NULL, size=as.integer(NA), blocking=factor(c())) {
   if (!is.null(task)) {
-    size = task["size"]
+    size = task@desc@size
   }
 	if (length(blocking) > 1) {
     if (is(desc, "StratCVDesc"))

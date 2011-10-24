@@ -34,34 +34,27 @@ setMethod(
 )
 
 
-#' @rdname to.string
-setMethod(
-		f = "to.string",
-		signature = signature("ClassifTask"),
-		def = function(x) {
-		  td = x@desc
-      di = table(getTargets(x)) 
-			di = paste(capture.output(di)[-1], collapse="\n")
-      m = length(di)
-      data = getData(x)
-      feat = paste(capture.output(td@n.feat), collapse="\n")
-			return(
-					paste(
-							"Classification problem ", td@id, "\n",
-							"Features:\n", feat, "\n", 
-              "Observations: ", td@size , "\n",
-              "Missings: ", td@has.missing, "\n", 
-              "Infinites: ", td@has.inf, "\n", 
-              "Target: ", td@target, "\n", 
-              "Classes: ", m, "\n",
-							di, "\n",
-							ifelse(m == 2, paste("Positive class:", td@positive, "\n"), ""),
-              "Has weights: ", td@has.weights, "\n", 
-              "Has blocking: ", td@has.blocking, "\n",
-              sep=""
-					)
-			)
-		}
-)
+setMethod("show", "ClassifTask", function(object) {
+  td = object@desc
+  di = table(getTargets(object)) 
+  di = paste(capture.output(di)[-1], collapse="\n")
+  m = length(td@class.levels)
+  data = getData(object)
+  feat = paste(capture.output(td@n.feat), collapse="\n")
+  cat(
+    "Classification problem ", td@id, "\n",
+    "Features:\n", feat, "\n", 
+    "Observations: ", td@size , "\n",
+    "Missings: ", td@has.missing, "\n", 
+    "Infinites: ", td@has.inf, "\n", 
+    "Target: ", td@target, "\n", 
+    "Classes: ", m, "\n",
+    di, "\n",
+    ifelse(m == 2, paste("Positive class:", td@positive, "\n"), ""),
+    "Has weights: ", td@has.weights, "\n", 
+    "Has blocking: ", td@has.blocking, "\n",
+    sep = ""
+  )
+})
 
 

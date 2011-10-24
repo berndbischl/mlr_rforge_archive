@@ -2,7 +2,7 @@
 roxygen()
 
 setClass("LOODesc", 
-  contains = c("ResampleDesc.nonseq")
+  contains = c("ResampleDesc")
 )                                                     
 
 setMethod(

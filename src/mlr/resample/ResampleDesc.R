@@ -17,7 +17,6 @@ roxygen()
 
 setClass(
 		"ResampleDesc", 
-		contains = c("object"),
 		representation = representation(
 				instance.class = "character", 
 				id = "character", 
@@ -44,33 +43,12 @@ setMethod(
 )
 
 
-#' @rdname to.string
-
-setMethod(
-		f = "to.string",
-		signature = signature("ResampleDesc"),
-		def = function(x) {
-			return(
-					paste(
-							x@id, " with ", x@iters, " iterations.\n",	
-              "Predict: ", x["predict"], 
-              sep=""
-          )
-			)
-		}
-)
-
-
-setClass(
-		"ResampleDesc.seq", 
-		contains = c("ResampleDesc")
-)
-
-
-setClass(
-		"ResampleDesc.nonseq", 
-		contains = c("ResampleDesc")
-)
-
+setMethod("show", "ResampleDesc", function(object) {
+  cat(
+    object@id,  " with ", object@iters, " iterations.\n",
+    "Predict: ", object@predict, "\n",
+    sep = ""
+  )  
+})
 
 

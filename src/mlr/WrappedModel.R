@@ -24,7 +24,6 @@ roxygen()
  
 setClass(
 		"WrappedModel",
-		contains = c("object"),
 		representation = representation(
 				learner = "Learner",
 				learner.model = "ANY",
@@ -54,21 +53,12 @@ setMethod(
 )
 
 
-
-#' @rdname to.string
-
-setMethod(
-		f = "to.string",
-		signature = signature("WrappedModel"),
-		def = function(x) {
-			return(
-					paste(
-							"Learner model for id=", x@learner@id, " class=", class(x@learner), "\n",  
-							"Trained on obs: ", length(x@subset), "\n",
-              "Used features: ", length(x@vars), "\n",
-              "Hyperparameters: ", getHyperParsString(x@learner),
-							sep=""
-					)
-			)
-		}
-)
+setMethod("show", "WrappedModel", function(object) {
+  cat(
+    "Learner model for id=", object@learner@id, " class=", class(object@learner), "\n",  
+    "Trained on obs: ", length(object@subset), "\n",
+    "Used features: ", length(object@vars), "\n",
+    "Hyperparameters: ", getHyperParsString(object@learner),
+    sep=""
+  )
+})

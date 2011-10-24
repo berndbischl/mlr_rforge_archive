@@ -6,7 +6,7 @@ roxygen()
 
 setClass(
 		"bs.instance", 
-		contains = c("ResampleInstance.nonseq"))                                                     
+		contains = c("ResampleInstance"))                                                     
 
 
 setMethod(

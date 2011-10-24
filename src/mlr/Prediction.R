@@ -22,7 +22,6 @@
 
 setClass(
 		"Prediction",
-		contains = c("object"),
 		representation = representation(
 				predict.type = "character",
 				df = "data.frame",
@@ -93,23 +92,13 @@ setMethod(
 )
 
 
-#' @rdname to.string
-
-setMethod(
-		f = "to.string",
-		signature = signature("Prediction"),
-		def = function(x) {
-			return(
-					paste(
-							"Prediction\n",
-							paste(capture.output(str(as.data.frame(x))), collapse="\n"), 
-							"\n", sep=""
-					)
-			)
-		}
-)
-
-
+setMethod("show", "Prediction", function(object) {
+  cat(
+    "Prediction\n",
+    paste(capture.output(str(as.data.frame(object))), collapse="\n"), 
+    "\n", sep=""
+  )
+})
 
 #' Get probabilities for some classes.
 #' @param pred [\code{\linkS4class{Prediction}}] 

@@ -7,8 +7,8 @@ test.subsample.instance = function() {
 	
 	
 	for (i in 1:iters) {
-    i1 = rin["train.inds"][[i]]
-    i2 = rin["test.inds"][[i]]
+    i1 = rin@train.inds[[i]]
+    i2 = rin@test.inds[[i]]
     checkEquals(length(i1), 5)
 		checkEquals(length(i2), 15)
 		checkTrue(min(i1) >= 1)

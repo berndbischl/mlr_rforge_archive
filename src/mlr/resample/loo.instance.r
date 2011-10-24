@@ -4,7 +4,7 @@ roxygen()
 
 setClass(
   "loo.instance", 
-  contains = c("ResampleInstance.nonseq")
+  contains = c("ResampleInstance")
 )                                                     
 
 setMethod(

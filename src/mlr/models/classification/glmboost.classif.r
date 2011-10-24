@@ -59,7 +59,7 @@ setMethod(
 			xs = learnerArgsToControl(boost_control, c("mstop", "nu", "risk"), list(...))
 			f = getFormula(.task)
 			args = c(list(f, data=getData(.task, .subset), control=xs$control), xs$args)
-      if (.task["has.weights"])
+      if (.task@desc@has.weights)
         args$weights = .task@weights[.subset] 
 			do.call(glmboost, args)
 		}

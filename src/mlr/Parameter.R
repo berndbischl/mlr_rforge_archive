@@ -18,7 +18,6 @@ roxygen()
 #' @title Description class for an optimization parameter.
 
 setClass("Parameter",
-  contains = c("object"),
   representation = representation(
     id = "character",
     type = "character",
@@ -41,41 +40,36 @@ setMethod(f = "initialize",
 
 
 
-#' @rdname to.string
-setMethod(
-  f = "to.string",
-  signature = signature("Parameter"),
-  def = function(x) {
-    type = x["type"]
-    ut = !identical(x@trafo, identity)
-    if (type == "numeric")
-      paste("Numeric parameter '", x@id, "'. Constraints: ", x@constraints$lower, " to ", x@constraints$upper, 
-        ". Custom trafo: ", ut, sep="")  
-    else if (type == "integer")
-      paste("Integer parameter '", x@id, "'. Constraints: ", x@constraints$lower, " to ", x@constraints$upper, 
-        ". Custom trafo: ", ut, sep="")  
-    else if (type == "numericvector")
-      paste("Numeric vector parameter '", x@id, "'. Constraints: ", 
-        paste(x@constraints$lower, collapse=","), " to ", paste(x@constraints$upper, collapse=","), 
-        ". Custom trafo: ", ut, sep="")  
-    else if (type == "integervector")
-      paste("Numeric vector parameter '", x@id, "'. Constraints: ", 
-        paste(x@constraints$lower, collapse=","), " to ", paste(x@constraints$upper, collapse=","), 
-        ". Custom trafo: ", ut, sep="")  
-    else if (type == "discrete") {
-      paste("Discrete parameter '", x@id, "'. Values: ", paste(names(x@constraints$vals), collapse=","), sep="") 
-    } else if (type == "logical") {
-      paste("Logical parameter '", x@id, "'.", sep="") 
-    } else if (type == "ordered") {
-      paste("Ordered parameter '", x@id, "'.", sep="") 
-    } else if (type == "function"){
-      paste("Function parameter '", x@id, "'.", sep="") 
-    } else if (type == "untyped"){
-      paste("Untyped parameter '", x@id, "'.", sep="") 
-    } else 
-      stop("Unknown type!")
-  }
-)
+setMethod("show", "Parameter", function(object) {
+  type = object@type
+  ut = !identical(object@trafo, identity)
+  if (type == "numeric")
+    cat("Numeric parameter '", object@id, "'. Constraints: ", object@constraints$lower, " to ", object@constraints$upper, 
+      ". Custom trafo: ", ut)  
+  else if (type == "integer")
+    cat("Integer parameter '", object@id, "'. Constraints: ", object@constraints$lower, " to ", object@constraints$upper, 
+      ". Custom trafo: ", ut)  
+  else if (type == "numericvector")
+    cat("Numeric vector parameter '", object@id, "'. Constraints: ", 
+      cat(object@constraints$lower, collapse=","), " to ", cat(object@constraints$upper, collapse=","), 
+      ". Custom trafo: ", ut)  
+  else if (type == "integervector")
+    cat("Numeric vector parameter '", object@id, "'. Constraints: ", 
+      cat(object@constraints$lower, collapse=","), " to ", cat(object@constraints$upper, collapse=","), 
+      ". Custom trafo: ", ut)  
+  else if (type == "discrete") {
+    cat("Discrete parameter '", object@id, "'. Values: ", cat(names(object@constraints$vals), collapse=",")) 
+  } else if (type == "logical") {
+    cat("Logical parameter '", object@id, "'.") 
+  } else if (type == "ordered") {
+    cat("Ordered parameter '", object@id, "'.") 
+  } else if (type == "function"){
+    cat("Function parameter '", object@id, "'.") 
+  } else if (type == "untyped"){
+    cat("Untyped parameter '", object@id, "'.") 
+  } else 
+    stop("Unknown type!")
+})
 
 
 

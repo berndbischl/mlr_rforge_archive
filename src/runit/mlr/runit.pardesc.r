@@ -1,7 +1,7 @@
 ## Test typed parameters
 test.numeric_parameters <- function() {
   np <- makeNumericParameter(id="x", lower=-1L, upper=1)
-  checkEquals("numeric", np["type"])
+  checkEquals("numeric", np@type)
   checkEquals(-1, lower(np))
   checkEquals(1, upper(np))
   checkTrue(!is.integer(lower(np))) ## Force type conversion!
@@ -37,7 +37,7 @@ test.numeric_parameters <- function() {
 
 test.numericvector_parameters <- function() {
   np = makeNumericVectorParameter(id="x", lower=-1L, upper=1, dim=2)
-  checkEquals("numericvector", np["type"])
+  checkEquals("numericvector", np@type)
   checkEquals(c(-1,-1), lower(np))
   checkEquals(c(1,1), upper(np))
   checkTrue(!is.integer(lower(np))) ## Force type conversion!
@@ -75,7 +75,7 @@ test.discrete_parameters <- function() {
   f <- function(x) 2 * x
   dp <- makeDiscreteParameter(id="x",
                            vals=list(a="char", b=2L, c=2.2, d=f, "e"))
-  checkEquals("discrete", dp["type"])
+  checkEquals("discrete", dp@type)
   checkTrue(isFeasible(dp, "char"))
   checkTrue(isFeasible(dp, 2L))
   checkTrue(isFeasible(dp, 2.2))
@@ -97,7 +97,7 @@ test.discrete_parameters <- function() {
 
 test.integer_parameters <- function() {
   ip <- makeIntegerParameter(id="x", lower=-1L, upper=1)
-  checkEquals("integer", ip["type"])
+  checkEquals("integer", ip@type)
   checkEquals(-1L, lower(ip))
   checkEquals(1L, upper(ip))
   checkTrue(is.integer(lower(ip))) 
@@ -134,7 +134,7 @@ test.integer_parameters <- function() {
 
 test.logical_parameters <- function() {
   bp <- makeLogicalParameter(id="x")
-  checkEquals("logical", bp["type"])
+  checkEquals("logical", bp@type)
   checkTrue(isFeasible(bp, TRUE))
   checkTrue(isFeasible(bp, FALSE))
 
@@ -146,7 +146,7 @@ test.logical_parameters <- function() {
 
 test.function_parameters <- function() {
   fp = makeFunctionParameter(id="x")
-  checkEquals("function", fp["type"])
+  checkEquals("function", fp@type)
   checkTrue(isFeasible(fp, identity))
   
   checkTrue(!isFeasible(fp, "bam"))

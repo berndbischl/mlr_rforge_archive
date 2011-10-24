@@ -10,7 +10,6 @@ roxygen()
 
 setClass(
   "ParameterSet",
-  contains = c("object"),
   representation = representation(
     pars = "list"
   )
@@ -61,14 +60,11 @@ makeParameterSet = function(...) {
 }
 
 
-#' @rdname to.string
-setMethod(
-  f = "to.string",
-  signature = signature("ParameterSet"),
-  def = function(x) {
-    paste(sapply(x@pars, to.string), collapse="\n")
-  }
-)
+
+setMethod("show", "ParameterSet", function(object) {
+  sapply(object@pars, print)
+})
+  
 
 #' @rdname isFeasible
 setMethod(
@@ -194,7 +190,7 @@ valToString = function(par, val) {
     }
     paste(ns, val, sep="=", collapse=",")
   } else {
-    type = par["type"]
+    type = par@type
     if (type == "numeric")
       as.character(round(val, 3))  
     else if (type == "numericvector")

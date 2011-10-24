@@ -10,7 +10,7 @@ checkTaskLearner = function(lt, learner) {
   } else if (is(lt, "RegrTask") && learner@properties[["type"]] != "regr") {
     stop("Task is regression, but ", learner@id, " is for: ", learner@properties[["type"]])
   }
-  if (td["has.missing"] && !learner@properties[["missings"]]) {
+  if (td@has.missing && !learner@properties[["missings"]]) {
 		stop("Data set has missing values, but ", learner@id, " does not support that!")
 	}
 	if (td@n.feat["numerics"] > 0 && !learner@properties[["numerics"]]) {

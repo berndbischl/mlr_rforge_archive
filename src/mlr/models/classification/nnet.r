@@ -62,7 +62,7 @@ setMethod(
 		
 		def = function(.learner, .task, .subset,  ...) {
 			f = getFormula(.task)
-      if (.task["has.weights"])
+      if (.task@desc@has.weights)
         nnet(f, data=getData(.task, .subset), weights=.task@weights[.subset], ...)
       else  
         nnet(f, data=getData(.task, .subset), ...)			

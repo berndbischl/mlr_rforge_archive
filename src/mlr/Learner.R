@@ -42,7 +42,6 @@ roxygen()
 
 setClass(
 		"Learner",
-		contains = c("object"),
 		representation = representation(
         id = "character",
         pack = "character",

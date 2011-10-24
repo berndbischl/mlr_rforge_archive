@@ -71,7 +71,7 @@ setMethod(
         stop("Preprocessing train may not change number of cases!")
       .task = mlr:::changeData(.task, p$data)
       # we have already subsetted!
-			m = trainLearner(.learner@learner, .task, 1:.task["size"], ...)
+			m = trainLearner(.learner@learner, .task, 1:.task@desc@size, ...)
       attr(m, "control") = p$control
       return(m)
 		}

@@ -62,8 +62,8 @@ setMethod(
   f = "resample",
   signature = signature(learner="Learner", task="LearnTask", resampling="ResampleInstance", measures="list", models="logical", extract="function"),
   def = function(learner, task, resampling, measures, models, extract) {
-    n = task["size"]
-    r = resampling["size"]
+    n = task@desc@size
+    r = resampling@size
     if (n != r)
       stop(paste("Size of data set:", n, "and resampling instance:", r, "differ!"))
     
@@ -71,25 +71,8 @@ setMethod(
     iters = rin@desc@iters
     mids = sapply(measures, function(m) m@id)
     
-    if (is(rin, "ResampleInstance.nonseq")) {
-      rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
-        rin=rin, measures=measures, model=models, extract=extract)
-    } else {
-      rs  = list()
-      stop("Sequential resampling not implemented yet!")
-#      # sequential resampling cannot be (easily) parallized!
-#      i = 1
-#      while (!resample.done(rin)) {
-#        train.i = rin["train.inds"][[i]]
-#        test.i = rin["test.inds"][[i]]
-#        m = train(learner, task, subset=train.i)
-#        p = predict(m, task=task, subset=test.i)
-#        ex = extract(m)
-#        rs[[i]] = list(pred=p, extract=ex)
-#        rin = resample.update(rin, task, m, p)
-#        i = i + 1
-#      }				
-    }
+    rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
+      rin=rin, measures=measures, model=models, extract=extract)
     ms.test = lapply(rs, function(x) x$measures.test)
     ms.test = as.data.frame(matrix(Reduce(rbind, ms.test), nrow=iters))
     colnames(ms.test) = sapply(measures, function(pm) pm@id)

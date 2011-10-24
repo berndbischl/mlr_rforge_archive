@@ -2,7 +2,7 @@
 roxygen()
 
 setClass("BSDesc", 
-		contains = c("ResampleDesc.nonseq")
+		contains = c("ResampleDesc")
 )                                                     
 
 

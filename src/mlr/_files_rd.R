@@ -3,8 +3,6 @@ allowed.rd.files <<- c(
   "setupLogger.Rd",
   "errorhandler.setup.Rd",
   "parallel.setup.Rd",
-  "object-class.Rd",
-  "to.string.Rd",
   
   "Parameter-class.Rd",
   "isFeasible.Rd",

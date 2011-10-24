@@ -6,8 +6,6 @@ pack.files = c(
   ##    "mlr/packagedesc.r",
   "mlr/aaa.r",
   "mlr/empty.r",
-#   "mlr/to.string.r",
-  "mlr/object.r",
   
   "mlr/checkData.R",
   "mlr/TaskDesc.R",

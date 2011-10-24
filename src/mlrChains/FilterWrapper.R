@@ -41,7 +41,7 @@ makeFilterWrapper = function(learner, fw.method="information.gain", fw.threshold
   )
 	w = new("FilterWrapper", learner=learner, pack="FSelector", par.set=ps, 
     par.vals=list(fw.method=fw.method, fw.threshold=fw.threshold))
-  setPredictType(w, learner["predict.type"])
+  setPredictType(w, learner@predict.type)
 }
 
 

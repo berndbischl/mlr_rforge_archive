@@ -20,5 +20,5 @@ test.mlr.learn.task <- function() {
 	df[1,1:3] = NA
 	df[2,1:3] = NA
 	ct = makeClassifTask(data=df, target=multiclass.target)	
-	checkTrue(ct["has.missing"])
+	checkTrue(ct@desc@has.missing)
 }
