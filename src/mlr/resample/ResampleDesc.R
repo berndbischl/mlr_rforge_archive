@@ -1,6 +1,3 @@
-#' @include object.r
-roxygen()
-
 # todo: remove iters from some desc. we also can use length of train.inds in instance
 #' Base class for description of resampling algorithms.
 #' A description of a resampling algorithm contains all necessary information to 

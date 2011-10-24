@@ -1,6 +1,3 @@
-#' @include object.r
-roxygen()
-
 #' A measure object encapsulates a function to evaluate the performance of a prediction.
 #' Information about already implemented measures can be obtained here: \code{\link{measures}}.
 #' User-defined measures can be created with \code{\link{makeMeasure}}.
