@@ -119,7 +119,7 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   check.arg(resample.at, "integer")
   check.arg(resample.desc, "ResampleDesc")
   
-  if (is.numeric(resample.at) && as.integer(resample.at) == resample.at)
+  if (is.numeric(resample.at) && (length(resample.at) == 0 || as.integer(resample.at) == resample.at))
     resample.at = as.integer(resample.at)
   check.arg(resample.at, "integer")
   check.arg(resample.desc, "ResampleDesc")
