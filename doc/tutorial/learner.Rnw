@@ -19,8 +19,8 @@ makeLearner_ factory method.
 Why construct a Learner_ object? 
 
 * You have to create a Learner_ object if you want to pass hyperparameter values other than the default values.
-* You can set an id which is quite useful if you conduct larger experiments and need to access results of a certain learning method.
-* For classification tasks you have to create a Learner_ object if you want to control the type of prediction_ which is returned. Per default you get the class labels when making a prediction_. In order to get e.g. posterior probabilities you have to specifiy this when creating the learner.
+* You have the opportunity to set an id which is quite useful if you conduct larger experiments and need to access results of a certain learning method.
+* For classification tasks you have to create a Learner_ object if you want to control the type of prediction_ which is returned. Per default you get the class labels when making a prediction_. In order to get posterior probabilities you have to specifiy this when creating the learner.
 
 The makeLearner_ factory method takes the names of the learning method as 
 its first argument. The naming conventions are ``classif.<R_method_name>`` for 
@@ -61,14 +61,6 @@ This is how to get posterior probabilities when making a prediction_.
 
 <<>>=
 lrn <- makeLearner(class = "classif.rpart", predict.type = "prob")
-lrn
-@
-
-In case of Support Vector Machines it is also possible to access the class
-membership scores.
-
-<<>>=
-lrn <- makeLearner(class = "classif.svm", predict.type = "scores")
 lrn
 @
 

@@ -8,8 +8,8 @@ Tutorial
    learner
    train
    predict
-   resample
    performance
+   resample
    tune
    variable_selection
    benchmark_experiments

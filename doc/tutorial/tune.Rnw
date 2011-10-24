@@ -1,24 +1,22 @@
-Tuning hyperparamaters
+Tuning Hyperparameters
 ======================
 
 Many classification algorithms feature a set of hyperparameters that
 either need to be selected by the user or through resampling,
 e.g. cross-validation. Setting them by hand was already covered in the
 section about training_ and resampling_ -- simply use the
-``par.val`` argument in the train_ or resample_ methods.
+``par.val`` argument in the makeLearner_ method.
 
-Assuming, you have understood how resampling_ works, works, it is
+Assuming, you have understood how resampling_ works, it is
 quite simple to implement a grid search, which is one of the standard
 -- albeit slow -- ways to choose an appropriate set of parameters from a
 given range of values.
 
-                       |tune-varsel_processing|
-
 
 Classification example
-""""""""""""""""""""""
+----------------------
 
-We again use the ``iris`` data set included in R, but now we want to
+We again use the iris data set included in R, but now we want to
 tune a SVM with a polynomial kernel.
 
 We start by loading the **mlr** package and creating a classification
@@ -26,16 +24,16 @@ task, just like in the tutorial on training_:
 
 <<>>=
 library("mlrTune")
-ct <- makeClassifTask(data=iris, target="Species")
+task <- makeClassifTask(data=iris, target="Species")
 @ 
 
 Next we need to create a ParameterSet_ object which describes the
 parameter space we wish to search in. Since we will use a grid search
-strategy, we a discrete parameter for the `C`and `sigma` parameter of
+strategy, we add a discrete parameter for the ``C`` and ``sigma`` parameter of
 the SVM to the parameter set.
 
 <<>>=
-pars <- makeParameterSet(makeDiscreteParameter("C", 2^(-1:1)),
+ps <- makeParameterSet(makeDiscreteParameter("C", 2^(-1:1)),
                          makeDiscreteParameter("sigma", 2^(-1:1)))
 @ 
 
@@ -44,7 +42,7 @@ combination. For this we need to create a resampling description just
 like in the resampling_ part of the tutorial:
 
 <<>>=
-res <- makeResampleDesc("CV", iters=3)
+rdesc <- makeResampleDesc("CV", iters=3)
 @ 
 
 Before we can actually tune our classifier, we need an instance of a
@@ -52,15 +50,15 @@ TuneControl_ object. These describe the optimization strategy
 used. Here we use a grid search:
 
 <<>>=
-gridControl <- makeTuneControlGrid()
+ctrl <- makeTuneControlGrid()
 @ 
 
 Finally, by combining all the previous pieces we can tune the SVM
 using our TuneControl_ instance using the resampling strategy
-described by the ``res`` variable.
+described by the ``rdesc`` variable.
 
 <<>>=
-tune("classif.ksvm", task=ct, resampling=res, par.set=pars, control=gridControl)
+tune("classif.ksvm", task=task, resampling=rdesc, par.set=ps, control=ctrl)
 @ 
 
 Let's take another closer look example above. The parameter grid has
@@ -79,32 +77,6 @@ Tune now simply performs the cross-validation for every element of the
 cross-product and selects the one with the best mean performance
 measure.
 
-SVMs exhibit another special case with regard to tuning, as one
-generally does not want to optimize over a complete cross-product,
-when using different kernels with different kernel parameters. mlr
-therefore allows "ranges" to be a list of ranges: <br> Let's tune SVMs
-with polynomial and gaussian kernels on iris
-
-<<eval=FALSE>>=
-## Classification task<
-ct <- make.task(data=iris, target="Species")
-
-## Different kernels with different kernel parameters
-r1 <- list(C=c(0.5, 1, 2), kernel="polydot", degree=1:3)
-r2 <- list(C=c(0.5, 1, 2), kernel="rbfdot", sigma=c(0.1, 0.2, 0.3))
-
-## Evaluation with 5-fold cross-validation
-res <- make.res.desc("cv", iters=5)
-
-## Combine grids
-r <- list(r1, r2)
-
-## Create a grid tuner:
-gridControl <- makeTuneControlGrid(ranges=r)
-
-## Tune SVMs
-tune("classif.ksvm", ct, res, control=gridControl)
-@ 
 
 Regression example
 ------------------
@@ -116,25 +88,26 @@ in package ``kknn``) on the ``BostonHousing`` data set.
 library("mlbench")
 data(BostonHousing)
 
-rt <- makeRegrTask(data = BostonHousing, target = "medv")
+task <- makeRegrTask(data = BostonHousing, target = "medv")
 
 ## Range of the value k
-pars <- makeParameterSet(makeDiscreteParameter("k", 1:7))
+ps <- makeParameterSet(makeDiscreteParameter("k", 1:7))
 
 ## Evaluate with 5-fold cross-validation
-res <- makeResampleDesc("cv", iters = 5)
+rdesc <- makeResampleDesc("cv", iters = 5)
 
 ## Create a grid tuner:
-gridControl <- makeTuneControlGrid()
+ctrl <- makeTuneControlGrid()
 
 ## Tune k-nearest-neighbor-regression with mean squared error as default measure
-tune("regr.kknn", task=rt, resampling=res, par.set=pars, control=gridControl, measures=mse)
+tune("regr.kknn", task=task, resampling=rdesc, par.set=ps, control=ctrl, measures=mse)
 @ 
 
-.. _train: _static/rdocs/mlr/train.html
-.. _resample: _static/rdocs/mlr/resample.html
-.. _ParameterSet: _static/rdocs/mlrTune/ParameterSet-class.html
-.. _TuneControl: _static/rdocs/mlrTune/TuneControl-class.html
+.. _makeLearner: ../_static/rdocs/mlr/makeLearner.html
+.. _train: ../_static/rdocs/mlr/train.html
+.. _resample: ../_static/rdocs/mlr/resample.html
+.. _ParameterSet: ../_static/rdocs/mlrTune/ParameterSet-class.html
+.. _TuneControl: ../_static/rdocs/mlrTune/TuneControl-class.html
 
 .. _training: :doc:`tutorial/train`
 .. _resampling: :doc:`tutorial/resample`

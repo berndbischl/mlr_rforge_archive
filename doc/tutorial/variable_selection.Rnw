@@ -24,27 +24,24 @@ each step the variable that gives the highest correct classification
 rate together with the variables already included is added to the set.
 The "best subset" of variables is constructed based on the frequency
 with which each variable is selected in the number of repetitions
-given.  See also <a target="_top"
-href="http://rss.acs.unt.edu/Rdoc/library/dprep/html/sfs.html">sfs</a></term>.</p>
+given.
 
-<<eval=FALSE>>=
-library("mlr")
+<<>>=
+library("mlrVarsel")
 
 ## Classification task
-ct <- makeClassifTask(data = iris, target = "Species")
+task <- makeClassifTask(data = iris, target = "Species")
 
 ## Resample instance for Cross-validation
-rin <- makeResampleDesc("cv", iters = 10)
-rin <- make.res.desc(rin, task = ct)
+rdesc <- makeResampleDesc("CV", iters = 10)
 
 ## Sequential forward search
 ## "alpha" is the minimal improvement of performance measure
-varsel(learner = "classif.lda", task = ct, resampling = rin, 
-       control = sequential.control(method = "sfs", alpha = 0.01))
+varsel(learner = "classif.lda", task = task, resampling = rdesc, 
+       control = makeVarselControlSequential(method = "sfs", alpha = 0.01))
 @ 
 
-For more details see also <a
-ref="rdocs/sequential.control.html">sequential.control</a>
+For more details see also makeVarselControlSequential_.
 
 
 Sequential Backward Search (sbs)
@@ -53,22 +50,21 @@ Sequential Backward Search (sbs)
 The sequential backward search (sbs) works analogously to sfs, but
 starts with the full variable set.
 
-<<eval=FALSE>>=
+<<>>=
 ## Classification task
-ct <- makeClassifTask(data = iris, target = "Species")
+task <- makeClassifTask(data = iris, target = "Species")
 
 ## Resample instance for Cross-validation
-rin <- makeResampleDesc("cv", iters = 10)
-rin <- make.res.desc(rin, task = ct)
+rdesc <- makeResampleDesc("CV", iters = 10)
 
 ## Sequential backward search
-varsel(learner = "classif.lda", task = ct, resampling = rin,  
-       control = sequential.control(method = "sbs", beta = 0.01))
+varsel(learner = "classif.lda", task = task, resampling = rdesc,  
+       control = makeVarselControlSequential(method = "sbs", beta = 0.01))
  	
 ## Access more information
-varsel(learner = "classif.lda", task = ct, resampling = rin,  
-       control = sequential.control(method = "sbs", beta = 0.01),
-       measures = list(mmce, time), aggr = c("max"))
+#varsel(learner = "classif.lda", task = task, resampling = rdesc,  
+#       control = makeVarselControlSequential(method = "sbs", beta = 0.01),
+#       measures = list(mmce, time))#, aggr = c("max"))
 @
 
 Sequential Floating Forward Search (sffs)
@@ -76,26 +72,25 @@ Sequential Floating Forward Search (sffs)
 
 In the case of sequential floating forward search (sffs), the
 algorithm starts with an empty variable set and in each step the best
-variable (w.r.t. some <a href="rdocs/measures.html"> measure</a>) is
+variable (w.r.t. some measure_) is
 included in the current variable set (= one step of the sequential
 forward search (sfs)). The algorithm also verifies the possibility of
 improvement of the measure-criterion if some variable is excluded. In
 this case, the worst variable is eliminated from the set (= one step
 of sequential backward search (sbs)).  Therefore, the sequential
 floating forward search proceeds dynamically increasing and decreasing
-the number of variables until no more improvement is reached. </p>
+the number of variables until no more improvement is reached.
 
-<<eval=FALSE>>=
+<<>>=
 ## Classification task
-ct <- makeClassifTask(data = iris, target = "Species")
+task <- makeClassifTask(data = iris, target = "Species")
 	
 ## Resample instance for Cross-validation
-rin <- makeResampleDesc("cv", iters = 10)
-rin <- make.res.desc(rin, task = ct)
+rdesc <- makeResampleDesc("CV", iters = 10)
 
 ## Sequential floating forward search
-varsel(learner = "classif.lda", task = ct, resampling = rin,  
-       control = sequential.control(method = "sffs", alpha = 0.01, beta = 0.01))
+varsel(learner = "classif.lda", task = task, resampling = rdesc,  
+       control = makeVarselControlSequential(method = "sffs", alpha = 0.01, beta = 0.01))
 @
 
 Sequential Floating Backward Search (sfbs)
@@ -104,41 +99,44 @@ Sequential Floating Backward Search (sfbs)
 The sequential floating backward search (sfbs) works analogously to
 sffs, but starts with the full variable set.
 
-<<eval=FALSE>>=
+<<>>=
 ## Classification task
-ct <- makeClassifTask(data = iris, target = "Species")
+task <- makeClassifTask(data = iris, target = "Species")
 
 ## Resample instance for Cross-validation
-rin <- makeResampleDesc("cv", iters = 10)
-rin <- make.res.desc(rin, task = ct)
+rdesc <- makeResampleDesc("CV", iters = 10)
 
 ## Sequential backward search
 ## Belonging to sfs and sbs "alpha" and "beta" are the minimal improvement of performance measure
-varsel(learner = "classif.lda", task = ct, resampling = rin,  
-       control = sequential.control(method = "sfbs", alpha = 0.01, beta = 0.01))
+varsel(learner = "classif.lda", task = task, resampling = rdesc,  
+       control = makeVarselControlSequential(method = "sfbs", alpha = 0.01, beta = 0.01))
 @ 
 
 Monte-Carlo Search
 ..................
 
-In k-iterations variable subsets are generated randomly, i.e. every
+In k iterations variable subsets are generated randomly, i.e. every
 variable is chosen with probability 0.5. The best of the k subsets is
 selected.
 
-<<eval=FALSE>>=
+<<>>=
 ## Classification task
-ct <- makeClassifTask(data = iris, target = "Species")
+task <- makeClassifTask(data = iris, target = "Species")
 
 ## Resample instance for Cross-validation
-rin <- makeResampleDesc("cv", iters = 10)
-rin <- make.res.desc(rin, task = ct)
+rdesc <- makeResampleDesc("CV", iters = 10)
 		
 ## Sequential backward search
 ## "maxit" is the number of iterations, i.e. randomly generated variable sets
-varsel(learner = "classif.lda", task = ct, resampling = rin,  
-       control = randomvarsel.control(maxit = 50))
+varsel(learner = "classif.lda", task = task, resampling = rdesc,  
+       control = makeVarselControlRandom(maxit = 50))
 @
 
+See also makeVarselControlRandom_.
+
+.. _measure: ../_static/rdocs/mlr/measures.html
+.. _makeVarselControlRandom: ../_static/rdocs/mlr/makeVarselControlRandom.html
+.. _makeVarselControlSequential: ../_static/rdocs/mlr/makeVarselControlSequential.html
 .. |variabel_selection_schemes| image:: /_images/variabel_selection_scheme.png
      :align: middle
      :width: 40em

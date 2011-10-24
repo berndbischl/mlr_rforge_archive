@@ -7,6 +7,7 @@ load libraries on the first code chunk on a page.
 task: classification and regression task
 lrn: learner
 ps: parameter set
+ctrl: control object for tuning or variable selection
 mod: model
 pred: prediction
 rdesc: resampe description

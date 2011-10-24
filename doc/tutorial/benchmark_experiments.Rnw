@@ -24,14 +24,11 @@ way.
 
 In the following we will see four examples to show different benchmark settings:
 
-# One data set	+	two classification algorithms</li>
-# One data set	+	one classification algorithm	+	tuning
-# Three data sets	+	three classification algorithms	+	tuning
-# One data set	+	two classification algorithms	+	variable selection
+* One data set	+	two classification algorithms
+* One data set	+	one classification algorithm	+	tuning
+* Three data sets	+	three classification algorithms	+	tuning
+* One data set	+	two classification algorithms	+	variable selection
 
-In general, benchmark experiments are constructed as the following graphic shows: 
-
-                  |benchmark_processing|
 
 Example 1: One task, two learners, no tuning
 ----------------------------------------------
@@ -40,32 +37,32 @@ Example 1: One task, two learners, no tuning
 library("mlr")
 
 ## Classification task with iris data set 
-ct <- make.task(data = iris, target = "Species")
+task <- makeClassifTask(data = iris, target = "Species")
 
 ## Two learners to be compared 
 learners <- c("classif.lda", "classif.qda")
 
 ## Define cross-validation indices 
-res <- make.res.desc("cv", iters = 5)
+rdesc <- makeResampleDescription("CV", iters = 5)
 
-result <- bench.exp(learners, ct, res)
+res <- bench.exp(learners, task, rdesc)
 @ 
 
 The above code should be mainly self-explanatory. In the result every
 column corresponds to one learner.  The entries show the mean test
-error and its standard deviation for the final fitted model.</P>
+error and its standard deviation for the final fitted model.
 
 But the Benchmark result contains much more information, which you can
-access if you want to see details.  Let's have a look to the benchmark
+access if you want to see details. Let's have a look to the benchmark
 result from the example above:
 
 <<eval=FALSE>>=
 ## Access further information 
 ## The single performances of the cross-validation runs 
-result["perf"]
+res["perf"]
 
 ## Confusion matrices - one for each learner
-result["conf.mats"]
+res["conf.mats"]
 @ 
 	
 Example 2: One task, one learner, tuning
@@ -76,36 +73,38 @@ which are the best ones. In that case we have two resampling levels.
 
 We show an example with outer bootstrap and inner cross-validation,
 our learner will be k-nearest-neighbor.
+
 <<eval=FALSE>>=
 ## Classification task with iris data set 
-ct <- make.task(data = iris, target = "Species")
+task <- makeClassifTask(data = iris, target = "Species")
 
 ## Range of hyperparameter k  
-r <- list(k = 1:5)
+ps <- makeParameterSet(makeDiscreteParameter("k", 1:5))
+ctrl <- makeTuneControlGrid(ranges = ps)
 
 ## Define "inner" cross-validation indices
-inner.res <- make.res.desc("cv", iters = 3)   
+inner.rdesc <- makeResampleDesc("CV", iters = 3)   
 
 ## Tune k-nearest-neighbor
-knn.tuner <- make.tune.wrapper("classif.kknn",
-                               resampling = inner.res, 
-                               control = grid.control(ranges = r))
+lrn <- makeTuneWrapper("classif.kknn",
+                               resampling = inner.rdesc, 
+                               control = ctrl)
 
 ## Define "outer" bootstrap indices 
-res <- make.res.desc("bs", iters = 5)
+rdesc <- makeResampleDesc("BS", iters = 5)
 
 ## Merge it to a benchmark experiment 
 ## Choose accuracy instead of default measure mean misclassification error
-result <- bench.exp(knn.tuner, ct, res, measure = "acc")
+res <- bench.exp(lrn, task, rdesc, measure = acc)
 	
 ## Which performances did we get in the single runs? 
-result["perf"]
+res["perf"]
 
 ## Which parameter belong to the performances? 
-result["tuned.par"]
+res["tuned.par"]
 
 ## What does the confusion matrix look like? 
-result["conf.mats"]
+res["conf.mats"]
 @ 
 
 Of course everything works the same way if we exchange the resampling
@@ -116,7 +115,7 @@ Example 3: Three tasks, three learners, tuning
 ----------------------------------------------
 
 Extensive example which shows a benchmark experiment with three data
-sets, three learner and tuning.
+sets, three learners and tuning.
 
 <<eval=FALSE>>=
 library("dprep")
@@ -125,78 +124,79 @@ data(BreastCancer)
 data(Vehicle)
 
 ## Classification task with three data sets 
-ct1 <- make.task("Iris", data = iris, target = "Species")
-ct2 <- make.task("Vehicle", data = Vehicle, target = "Class")
-ct3 <- make.task("BreastCancer", data = na.omit(BreastCancer), target = "Class", excluded = "Id")
+task1 <- makeClassifTask("Iris", data = iris, target = "Species")
+task2 <- makeClassifTask("Vehicle", data = Vehicle, target = "Class")
+task3 <- makeClassifTask("BreastCancer", data = na.omit(BreastCancer), target = "Class", excluded = "Id")
 	
 ## Merge to one task
-tasks = list(ct1 , ct2 , ct3)
+tasks = list(task1 , task2 , task3)
 	
 ## Very small grid for SVM hyperparameters  
-r <- list(C = 2^seq(-1,1), sigma = 2^seq(-1,1))
+ps <- makeParameterSet(makeDiscreteParameter("C", 2^seq(-1,1)), makeDiscreteParameter("sigma", 2^seq(-1,1)))
+ctrl <- makeTuneControlGrid(ranges = ps)
 
 ## Define "inner" cross-validation indices
-inner.res <- make.res.desc("cv", iters = 3)   
+inner.rdesc <- makeResampleDesc("CV", iters = 3)   
 
 ## Tune a SVM
-svm.tuner <- make.tune.wrapper("classif.ksvm", method = "grid", resampling = inner.res, 
-                               control = grid.control(ranges = r))
+lrn <- makeTuneWrapper("classif.ksvm", method = "grid", resampling = inner.rdesc, 
+                               control = ctrl)
 
 ## Three learners to be compared 
-learners <- c("classif.lda", "classif.rpart", svm.tuner)
+learners <- c("classif.lda", "classif.rpart", lrn)
 
 ## Define "outer" cross-validation indices 
-res <- make.res.desc("cv", iters = 5)
+rdesc <- makeResampleDesc("CV", iters = 5)
 
 ## Merge it to a benchmark experiment 
-result <- bench.exp(learners, tasks, res)
+res <- bench.exp(learners, tasks, rdesc)
 	
 ## Only for one task
-result["perf", task = "Iris"]
+res["perf", task = "Iris"]
 
 ## Only for one learner
-result["perf", learner = "classif.lda"]
+res["perf", learner = "classif.lda"]
 		
 ## Tuned parameter for SVM
-result["tuned.par", learner = "classif.ksvm"]
+res["tuned.par", learner = "classif.ksvm"]
 
 ## Confusion matrix for one learner and one task
-result["conf.mats", learner = "classif.rpart", task = "BreastCancer"]
+res["conf.mats", learner = "classif.rpart", task = "BreastCancer"]
 	
 ## Optimal performance of the inner (!) resampling, i.e. here 3-fold cross-validation
-result["opt.perf", learner = "classif.ksvm"]
+res["opt.perf", learner = "classif.ksvm"]
 @
 
 Example 4: One task, two learners, variable selection
 -----------------------------------------------------
 
 Let's see how we can do :doc:`variable selection </tutorial/variable_selection>` in
-an benchmark experiment:
+a benchmark experiment:
 
 <<eval=FALSE>>=
 ## Classification task with iris data set 
-ct <- make.task("iris", data=iris, target = "Species")  
+task <- makeClassifTask("iris", data=iris, target = "Species")  
 	
 ## Control object for variable selection
-ctrl <- seq.control(beta = 100, method="sfs")
+ctrl <- makeVarselControlSequential(beta = 100, method="sfs")
 
 ## Inner resampling
-inner <- make.res.desc("cv", iter=2)
+inner.rdesc <- makeResampleDesc("CV", iter=2)
 
 ## Variable selection with Sequential Forward Search
-vs <- make.varsel.wrapper("classif.lda", resampling = inner, control = ctrl)
+lrn <- makeVarselWrapper("classif.lda", resampling = inner.rdesc, control = ctrl)
 
 ## Let's compare two learners
-learners <- c("classif.rpart", vs)
+learners <- c("classif.rpart", lrn)
 
 ## Define outer resampling 
-res <- make.res.desc("subsample", iter = 3)
+rdesc <- makeResampleDesc("subsample", iter = 3)
 
 ## Merge to a benchmark experiment
-be <- bench.exp(tasks = ct, learners = learners, resampling = res)
+res <- bench.exp(tasks = task, learners = learners, resampling = rdesc)
 	
 ## Which variables have been selected (in the outer resampling steps)?
-be["sel.var", learner="classif.lda"]
+res["sel.var", learner="classif.lda"]
 @
 
 .. |benchmark_processing| image:: /_images/benchmark_processing.png
