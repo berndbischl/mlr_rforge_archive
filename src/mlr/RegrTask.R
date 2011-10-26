@@ -35,7 +35,7 @@ setMethod(
 
 
 
-setMethod("show", "WrappedModel", function(object) {
+setMethod("show", "RegrTask", function(object) {
   td = object@desc
   data = getData(object)
   feat = paste(capture.output(object@desc@n.feat), collapse="\n")

@@ -56,7 +56,7 @@ setMethod("show", "WrappedModel", function(object) {
     "Learner model for id=", object@learner@id, " class=", class(object@learner), "\n",  
     "Trained on obs: ", length(object@subset), "\n",
     "Used features: ", length(object@vars), "\n",
-    "Hyperparameters: ", getHyperParsString(object@learner),
+    "Hyperparameters: ", getHyperParsString(object@learner), "\n",
     sep=""
   )
 })

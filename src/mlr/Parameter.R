@@ -42,28 +42,28 @@ setMethod("show", "Parameter", function(object) {
   ut = !identical(object@trafo, identity)
   if (type == "numeric")
     cat("Numeric parameter '", object@id, "'. Constraints: ", object@constraints$lower, " to ", object@constraints$upper, 
-      ". Custom trafo: ", ut)  
+      ". Custom trafo: ", ut, "\n", sep="")  
   else if (type == "integer")
     cat("Integer parameter '", object@id, "'. Constraints: ", object@constraints$lower, " to ", object@constraints$upper, 
-      ". Custom trafo: ", ut)  
+      ". Custom trafo: ", ut, "\n", sep="")  
   else if (type == "numericvector")
     cat("Numeric vector parameter '", object@id, "'. Constraints: ", 
-      cat(object@constraints$lower, collapse=","), " to ", cat(object@constraints$upper, collapse=","), 
-      ". Custom trafo: ", ut)  
+      paste(object@constraints$lower, collapse=","), " to ", paste(object@constraints$upper, collapse=","), 
+      ". Custom trafo: ", ut, "\n", sep="")  
   else if (type == "integervector")
     cat("Numeric vector parameter '", object@id, "'. Constraints: ", 
-      cat(object@constraints$lower, collapse=","), " to ", cat(object@constraints$upper, collapse=","), 
-      ". Custom trafo: ", ut)  
+      paste(object@constraints$lower, collapse=","), " to ", paste(object@constraints$upper, collapse=","), 
+      ". Custom trafo: ", ut, "\n", sep="")  
   else if (type == "discrete") {
-    cat("Discrete parameter '", object@id, "'. Values: ", cat(names(object@constraints$vals), collapse=",")) 
+    cat("Discrete parameter '", object@id, "'. Values: ", paste(names(object@constraints$vals), collapse=","), "\n", sep="") 
   } else if (type == "logical") {
-    cat("Logical parameter '", object@id, "'.") 
+    cat("Logical parameter '", object@id, "'.\n", sep="") 
   } else if (type == "ordered") {
-    cat("Ordered parameter '", object@id, "'.") 
+    cat("Ordered parameter '", object@id, "'.\n", sep="") 
   } else if (type == "function"){
-    cat("Function parameter '", object@id, "'.") 
+    cat("Function parameter '", object@id, "'.\n", sep="") 
   } else if (type == "untyped"){
-    cat("Untyped parameter '", object@id, "'.") 
+    cat("Untyped parameter '", object@id, "'.\n", sep="") 
   } else 
     stop("Unknown type!")
 })

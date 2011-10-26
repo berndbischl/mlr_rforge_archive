@@ -56,9 +56,9 @@ setMethod(
         .learner@learner = setHyperPars(.learner@learner, par.vals=or@x)
         m = train(.learner@learner, task)
       } else if (is(.learner@control, "VarselControl")) {
-        if (length(.learner@bit.names) == 0)
+        if (length(.learner@bit.names) == 0) 
           or = varsel(.learner@learner, task, .learner@resampling, .learner@control,
-           measures)
+           .learner@measures)
         else  
           or = varsel(.learner@learner, task, .learner@resampling, .learner@control,
             .learner@measures, .learner@bit.names, .learner@bits.to.features)

@@ -107,7 +107,7 @@ setMethod(
 )
 
 
-setMethod("show", "WrappedModel", function(object) {
+setMethod("show", "BaseWrapper", function(object) {
   s = ""
   y = object 
   while (is(y, "BaseWrapper")) {

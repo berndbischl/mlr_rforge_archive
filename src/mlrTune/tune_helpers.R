@@ -29,7 +29,8 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
       p.split = p
     } else {
       ids = getRepeatedParameterIDs(par.set, with.nr=FALSE)
-      p.split = split(p, factor(ids, levels=ids))
+      # factor usually does sort(unique(...)) for levels which changes order! 
+      p.split = split(p, factor(ids, levels=unique(ids)))
     }
     p.split = Map(function(par, x) { 
         if (par@type %in% c("integer", "integervector"))
@@ -44,7 +45,6 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
     else
       p.split2 = p.split
     # todo: what about operators that generate the new state? accepted?
-    
     learner = setHyperPars(learner, par.vals=p.split2)
     y = resample(learner, task, resampling, measures=measures)$aggr
     addPathElement(opt.path, x=p.split, x.trafo=p.split2, y=y)   
