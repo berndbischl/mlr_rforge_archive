@@ -1,9 +1,11 @@
-resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
-	train.i = rin@train.inds[[i]]
+resample.fit.iter <- function(learner, task, rin, i, measures, model, extract, show.info) {
+  if (show.info)
+    logger.info(sprintf("[Resample] %s iter: %i", rin@desc@id, i))
+  train.i = rin@train.inds[[i]]
   test.i = rin@test.inds[[i]]
-	
-	m = train(learner, task, subset=train.i)
-	p = predict(m, task=task, subset=test.i)
+  
+  m = train(learner, task, subset=train.i)
+  p = predict(m, task=task, subset=test.i)
   
   # does a measure require to calculate pred.train?
   ptrain = any(sapply(measures, function(m) m@req.pred))
@@ -25,7 +27,7 @@ resample.fit.iter <- function(learner, task, rin, i, measures, model, extract) {
     ms.test = sapply(measures, function(pm) performance(task=task, model=m, pred=pred.test, measure=pm))    
   }
   
-	ex = extract(m)
+  ex = extract(m)
   list(
     measures.test = ms.test,
     measures.train = ms.train,
