@@ -88,10 +88,15 @@ setMethod(
           p = predict_novars(model, newdata)
 					time.predict = 0
 				} else {
-					if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
-						st = system.time(p <- do.call(predictLearner, pars), gcFirst=FALSE)
-					else
-						st = system.time(p <- try(do.call(predictLearner, pars), silent=TRUE), gcFirst=FALSE)
+          if (.mlr.local$logger.setup$show.learner.output)
+            fun1 = identity
+          else
+            fun1 = capture.output
+          if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
+            fun2 = identity
+          else
+            fun2 = function(x) try(x, silent=TRUE)
+          st = system.time(or <- fun1(p <- fun2(do.call(predictLearner, pars))), gcFirst = FALSE)
 					time.predict = as.numeric(st[3])
 					# was there an error during prediction?
 					if(is(p, "try-error")) {

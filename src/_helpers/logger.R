@@ -23,8 +23,8 @@ logger.print.stuff <- function(prefix, ...) {
 	#}
 }
 
-logger.print <- function(level, sublevel=NA, ...) {
-	prefix = paste("[", level, ifelse(is.na(sublevel), "", paste(":", sublevel, sep="")), "]", sep="")
+logger.print <- function(level, ...) {
+	prefix = paste("[", level, "]", sep="")
 	level <- switch(level,
 			error = 4,
 			info = 2,
@@ -39,7 +39,7 @@ logger.print <- function(level, sublevel=NA, ...) {
 			info = 2,
 			debug = 1)
 	
-	if (level >= global.level && ( is.na(sublevel) || is.na(logger.setup$sublevel) || sublevel %in% logger.setup$sublevel)) {
+	if (level >= global.level) {
 		if (!is.na(logger.setup$file)) { 
 			sink(file=logger.setup$file, append=TRUE)
 			logger.print.stuff(prefix, ...)  
@@ -55,11 +55,11 @@ logger.print <- function(level, sublevel=NA, ...) {
 #}
 
 logger.info <- function(..., level=NA) {
-	logger.print(level="info", sublevel=level, ...)
+	logger.print(level="info", ...)
 }
 
 logger.debug <- function(..., level=NA) {
-	logger.print(level="debug", sublevel=level, ...)
+	logger.print(level="debug", ...)
 }
 
 

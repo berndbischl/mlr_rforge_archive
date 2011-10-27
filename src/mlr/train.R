@@ -75,13 +75,15 @@ setMethod(
           set.seed(.mlr.local$debug.seed)
           warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
         }
-        
-        st = system.time(or <- capture.output({
-              if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
-                learner.model <- do.call(trainLearner, pars)
-              else
-                learner.model <- try(do.call(trainLearner, pars), silent=TRUE)
-            }), gcFirst = FALSE)
+        if (.mlr.local$logger.setup$show.learner.output)
+          fun1 = identity
+        else
+          fun1 = capture.output
+        if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
+          fun2 = identity
+        else
+          fun2 = function(x) try(x, silent=TRUE)
+        st = system.time(or <- fun1(learner.model <- fun2(do.call(trainLearner, pars))), gcFirst = FALSE)
         # was there an error during training? maybe warn then
         if(is(learner.model, "try-error") && .mlr.local$errorhandler.setup$on.learner.error == "warn") {
           warning("Could not train the learner: ", as.character(learner.model))

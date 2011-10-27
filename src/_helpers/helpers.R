@@ -258,7 +258,7 @@ mylapply <- function(xs, f, from, ...) {
     }
   }
   
-  if (.mlr.local$logger.setup$global.level == "debug" && .mlr.local$logger.setup$sublevel == "parallel") {
+  if (.mlr.local$logger.setup$global.level == "debug") {
     sizes = sapply(y, object.size)
     logger.debug(level="parallel", "mylapply returned sizes:", range(sizes))
   }

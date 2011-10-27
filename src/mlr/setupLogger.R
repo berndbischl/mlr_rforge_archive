@@ -1,37 +1,27 @@
 # todo: can we log where the current log was generated, like in which method (automatically)?
 
-#' Sets up the logging system of mlr. 
+#' Sets up the logging system of mlr, which control which output is shown where.
 #' 
-#' @param console [\code{logical(1)}] \cr
-#'   Should output be printed to R console?
-#' @param file [\code{character(1)}] \cr 
-#'   Path to file to redirect output into.  
-#' @param level [character] \cr 
-#'   Which logging levels should be printed: 'error', 'warn', 'info', 'debug'. Default is 'info'.     
-#' @param sublevel [character] \cr 
-#'   Which logging sublevels should be printed. Default is NA which means all logging of the selected main level is printed.
-#'   Currently for 'debug' are available: 'train', 'predict' and 'parallel'.      
-#'   Currently for 'info' are available: 'tune'.      
+#' @param level [\code{character(1)}] \cr 
+#'   Which logging levels should be printed: \dQuote{error}, \dQuote{warn}, \dQuote{info}, \dQuote{debug}. 
+#'   Default is \dQuote{info}.    
+#' @param show.learner.output [\code{logical(1)}] \cr 
+#'   Should the output of the learning algorithm during training and prediction be shown or captured and
+#'   suppressed?
+#'   Default is \code{TRUE}.      
 #' @return NULL.
 #' @export
 #' @title Logger setup.
 
-setupLogger <- function(console=TRUE, file=NA, level, sublevel=NA) {
+setupLogger = function(level, show.learner.output=TRUE) {
   if (level=="error") {
     options(warn=-1)
   } else {
     options(warn=1)
   }
-  
-  logger.setup <- list()
-  logger.setup$console <- console
-  logger.setup$file <- file
-  logger.setup$global.level <- level
-  logger.setup$sublevel <- sublevel
-  
-  .mlr.local$logger.setup <- logger.setup
-  
-  if (!(is.na(file))) 
-    unlink(file)
+  logger.setup = list()
+  logger.setup$global.level = level
+  logger.setup$show.learner.output = show.learner.output
+  .mlr.local$logger.setup = logger.setup
   return(NULL)
 }
