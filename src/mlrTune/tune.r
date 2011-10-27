@@ -38,33 +38,26 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun)
 		measures = mlr:::default.measures(task)
   if (is(measures, "Measure"))
     measures = list(measures)   
-  if (length(par.set@pars) == 0)
-    stop("No parameters were passed!")
-  x = setdiff(names(par.set@pars), names(getParameterSet(learner)@pars))
-  if (length(x) > 0)
-    stop("Can only tune parameters for which learner parameters exist: ", paste(x, collapse=","))
   if (missing(log.fun))
     log.fun = log.fun.tune
-  
-  cl = as.character(class(control))
+	if (missing(control)) {
+		stop("You have to pass a control object!")
+	}
+  checkTunerParset(learner, par.set, control)  
+  cl = as.character(class(control))[1]
 	sel.func = switch(cl,
       TuneControlGrid = tune.grid,
 #			pattern = tune.ps,
       TuneControlCMAES = tune.cmaes,
       TuneControlOptim = tune.optim,
-      TuneControlSPO = tune.spo,
-      stop(paste("Tuning algorithm for", cl, "does not exist!"))
+      TuneControlSPO = tune.spo
 	)		
-	
-	if (missing(control)) {
-		stop("You have to pass a control object!")
-	}
-	
-  if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
-    stop("No par.set parameter in 'tune' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")        
-  checkTunerParset(par.set, control)  
   opt.path = makeOptPathDFFromMeasures(par.set, measures)
+  logger.info("[Tune] Started tuning learner", learner@id, "for parameter set:")
+  sapply(capture.output(print(par.set)), logger.info)
+  logger.info("with control class:",  cl)
   or = sel.func(learner, task, resampling, measures, par.set, control, opt.path, log.fun)
+  logger.info("[Tune] Result:", mlr:::valToString(par.set, or@x), ":", perfsToString(or@y))
 	return(or)			
 }
 

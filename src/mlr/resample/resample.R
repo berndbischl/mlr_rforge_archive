@@ -16,12 +16,16 @@
 #' @param measures [\code{\linkS4class{Measure}} | list of \code{\linkS4class{Measure}}] \cr
 #'   Performance measures to evaluate. See \code{\link{measures}}.
 #' @param models [logical(1)] \cr 
-#'   Should all fitted models be returned? Default is \code{FALSE}. 
+#'   Should all fitted models be returned? 
+#'   Default is \code{FALSE}. 
 #' @param extract [function(model)] \cr 
 #'   Function used to extract information from a fitted model during resampling. 
 #'   Is applied to every \code{\linkS4class{WrappedModel}} resulting from calls to \code{\link{train}} during resampling.
 #'   Default is to extract nothing. 
-#' 
+#' @param show.info [logical(1)] \cr 
+#'   Should a few informative lines about the current resampling iteration and the result be 
+#'   logged to the R console? 
+#'   Default is \code{TRUE}. 
 #' @return List of \cr
 #'   measures.test [\code{data.frame}] Rows correspond to test sets in resampling iterations, columns to performance measures.\cr
 #'   measures.train [\code{data.frame}] Rows correspond to training sets in resampling iterations, columns to performance measures.\cr
@@ -38,7 +42,7 @@
 
 setGeneric(
   name = "resample",
-  def = function(learner, task, resampling, measures, models, extract) {
+  def = function(learner, task, resampling, measures, models, extract, show.info) {
     if (is.character(learner))
       learner = makeLearner(learner)
     check.arg(task, "LearnTask")
@@ -52,6 +56,8 @@ setGeneric(
       models = FALSE
     if (missing(extract))
       extract = function(m){}
+    if (missing(show.info))
+      show.info = TRUE
     standardGeneric("resample")
   }
 )
@@ -60,8 +66,8 @@ setGeneric(
 #' @rdname resample 
 setMethod(
   f = "resample",
-  signature = signature(learner="Learner", task="LearnTask", resampling="ResampleInstance", measures="list", models="logical", extract="function"),
-  def = function(learner, task, resampling, measures, models, extract) {
+  signature = signature(learner="Learner", task="LearnTask", resampling="ResampleInstance", measures="list", models="logical", extract="function", show.info="logical"),
+  def = function(learner, task, resampling, measures, models, extract, show.info) {
     n = task@desc@size
     r = resampling@size
     if (n != r)
@@ -72,7 +78,7 @@ setMethod(
     mids = sapply(measures, function(m) m@id)
     
     rs = mylapply(1:iters, resample.fit.iter, from="resample", learner=learner, task=task, 
-      rin=rin, measures=measures, model=models, extract=extract)
+      rin=rin, measures=measures, model=models, extract=extract, show.info=show.info)
     ms.test = lapply(rs, function(x) x$measures.test)
     ms.test = as.data.frame(matrix(Reduce(rbind, ms.test), nrow=iters))
     colnames(ms.test) = sapply(measures, function(pm) pm@id)
@@ -91,7 +97,9 @@ setMethod(
     
     aggr = sapply(measures, function(m)  m@aggr@fun(task, ms.test[, m@id], ms.train[, m@id], m, rin@group, pred))
     names(aggr) = sapply(measures, measureAggrName)
-    
+    if (show.info) {
+      logger.info("[Resample] Result:", perfsToString(aggr))  
+    }
     list(
       measures.train = ms.train,
       measures.test = ms.test,

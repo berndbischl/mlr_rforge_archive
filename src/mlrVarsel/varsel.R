@@ -49,21 +49,20 @@ varsel <- function(learner, task, resampling, control, measures, bit.names, bits
     bits.to.features = function(x, task) binary.to.vars(x, getFeatureNames(task)) 
   if (missing(log.fun))
     log.fun = log.fun.varsel
+  if (missing(control)) {
+    stop("You have to pass a control object!")
+  }
   
-	cl = as.character(class(control))
-	
-	sel.func = switch(cl,
-			VarselControlSequential = varsel.seq,
-			VarselControlRandom = varsel.random,
-      VarselControlExhaustive = varsel.exhaustive,
-      stop(paste("Feature selection algorithm for", cl, "does not exist!"))
-	)
-
-	if (missing(control)) {
-		stop("You have to pass a control object!")
-	}
   par.set = lapply(bit.names, function(bn) makeIntegerParameter(bn))
   par.set = do.call(makeParameterSet, par.set)
+  checkVarselParset(learner, par.set, bit.names, control)
+  
+  cl = as.character(class(control))[1]
+  sel.func = switch(cl,
+    VarselControlSequential = varsel.seq,
+    VarselControlRandom = varsel.random,
+    VarselControlExhaustive = varsel.exhaustive
+  )
   
   opt.path = makeOptPathDFFromMeasures(par.set, measures)
   sel.func(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, log.fun)

@@ -1,5 +1,3 @@
-# todo: can we log where the current log was generated, like in which method (automatically)?
-
 #' Sets up the logging system of mlr, which control which output is shown where.
 #' 
 #' @param level [\code{character(1)}] \cr 
@@ -13,7 +11,7 @@
 #' @export
 #' @title Logger setup.
 
-setupLogger = function(level, show.learner.output=TRUE) {
+setupLogger = function(level="info", show.learner.output=TRUE) {
   if (level=="error") {
     options(warn=-1)
   } else {

@@ -46,7 +46,7 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
       p.split2 = p.split
     # todo: what about operators that generate the new state? accepted?
     learner = setHyperPars(learner, par.vals=p.split2)
-    y = resample(learner, task, resampling, measures=measures)$aggr
+    y = resample(learner, task, resampling, measures=measures, show.info=FALSE)$aggr
     addPathElement(opt.path, x=p.split, x.trafo=p.split2, y=y)   
     
     log.fun(learner, task, resampling, measures, par.set, control, opt.path, p.split2, y)
@@ -57,7 +57,7 @@ make.tune.f = function(learner, task, resampling, measures, par.set, control, op
 # evals a set of var-lists and return the corresponding states
 
 log.fun.tune = function(learner, task, resampling, measures, par.set, control, opt.path, x, y) {
-  mlr:::logger.info(level="opt", paste(mlr:::valToString(par.set, x), " : ", 
-      paste(formatC(y, digits=3), collapse=",")))
+  par.str = mlr:::valToString(par.set, x)
+  logger.info(sprintf("[Tune] %i: %s : %s", length(opt.path), par.str, perfsToString(y)))
 }
 

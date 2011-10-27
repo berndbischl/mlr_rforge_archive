@@ -86,7 +86,7 @@ setGeneric(
     mlr:::check.arg(eol, "integer", 1)
     stopifnot(is.na(eol) || eol >= dob)
     if(!isFeasible(op@par.set, x))
-      stop("Trying to add infeasible x values to opt path!")
+      stop("Trying to add infeasible x values to opt path: ", mlr:::valToString(op@par.set, x))
     standardGeneric("addPathElement")
   }
 )

@@ -11,6 +11,10 @@ if (pack == "mlrTune")
   require("mlr")
 if (pack == "mlrVarsel")
   require("mlrTune")
+if (pack == "mlrChains") {
+  require("mlrTune")
+  require("mlrVarsel")
+}
 if (pack == "mlrBenchmark") {
   require("mlrTune")
   require("mlrVarsel")
@@ -38,7 +42,8 @@ if(!exists("runit.regexp") || runit.regexp == "")
 
 
 parallel.setup(mode="local")
-setupLogger(level="error")
+setupLogger(level="error", show.learner.output=FALSE)
+#errorhandler.setup(on.learner.error="stop")
 errorhandler.setup()
 
 data(Sonar, BreastCancer)
@@ -78,8 +83,8 @@ regr.task <- makeRegrTask("regrtask", data=BostonHousing, target="medv")
 debug.seed <<- .mlr.local$debug.seed
 
 testsuite = defineTestSuite(pack,
-    dirs = file.path("src", "runit", pack),  
-    testFileRegexp = runit.regexp
+  dirs = file.path("src", "runit", pack),  
+  testFileRegexp = runit.regexp
 )
 
 testResult <- runTestSuite(testsuite)
