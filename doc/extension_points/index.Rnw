@@ -1,0 +1,8 @@
+How-Tos
+========
+
+.. toctree::
+   :maxdepth: 1
+   
+   create_learner
+   create_measure
