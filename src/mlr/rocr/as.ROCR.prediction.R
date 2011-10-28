@@ -51,11 +51,11 @@ setMethod(
     if(length(x@task.desc@class.levels) != 2) {
       stop("More than 2 classes!")
     }
-    if(x@type != "prob") {
+    if(x@predict.type != "prob") {
       stop("No probabilities in prediction object!")
     }
     prob = getProb(x)
-    iter = as.factor(x["iter"])
+    iter = x@df$iter
     prob = split(prob, iter)
     truth = split(x@df$truth, iter)
     ROCR.prediction(prob, truth, label.ordering=c(x@task.desc@negative, x@task.desc@positive))
