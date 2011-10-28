@@ -4,8 +4,8 @@ Benchmark Experiments
 
 In order to get an unbiased estimate of the performance on new data,
 it is generally not enough to simply use repeated cross-validations
-for a given set of hyperparameters and methods (see :doc:`tuning
-</tutorial/tune>`), as this might produce an overly optimistic result.
+for a given set of hyperparameters and methods (see Section :doc:`tune`), 
+as this might produce an overly optimistic result.
 
 A better (although more time-consuming) approach is nesting two
 resampling methods.  To make the explanation easier, let's take

@@ -44,7 +44,7 @@ As already mentioned, we can train a learner simply by
 calling the function train_, passing it a learner and a LearnTask_. 
 In the examples above the classification or regression method was specified 
 by its name as a string. Alternatively, we can pass a Learner_ object. 
-While the former is maybe more covenient, the latter
+While the former is maybe more convenient, the latter
 allows for more flexibility, for example it permits setting the
 hyperparameters of the learner before training. 
 

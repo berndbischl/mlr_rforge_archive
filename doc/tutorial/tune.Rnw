@@ -13,6 +13,9 @@ quite simple to implement a grid search, which is one of the standard
 given range of values.
 
 
+Section :doc:`nested_resampling`
+
+
 Classification example
 ----------------------
 
@@ -28,9 +31,11 @@ task <- makeClassifTask(data=iris, target="Species")
 @ 
 
 Next we need to create a ParameterSet_ object which describes the
-parameter space we wish to search in. Since we will use a grid search
-strategy, we add a discrete parameter for the ``C`` and ``sigma`` parameter of
-the SVM to the parameter set.
+parameter space we wish to search in. This is done via the function
+makeParameterSet_.
+Since we will use a grid search strategy, we add a discrete parameter for the 
+``C`` and ``sigma`` parameter of the SVM to the parameter set.
+More details concerning parameter sets are explained in Section :doc:`params`.
 
 <<>>=
 ps <- makeParameterSet(makeDiscreteParameter("C", 2^(-1:1)),
@@ -103,6 +108,9 @@ ctrl <- makeTuneControlGrid()
 tune("regr.kknn", task=task, resampling=rdesc, par.set=ps, control=ctrl, measures=mse)
 @ 
 
+
+
+.. _makeParameterSet: ../_static/rdocs/mlr/makeParameterSet.html
 .. _makeLearner: ../_static/rdocs/mlr/makeLearner.html
 .. _train: ../_static/rdocs/mlr/train.html
 .. _resample: ../_static/rdocs/mlr/resample.html

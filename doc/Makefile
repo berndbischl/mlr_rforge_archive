@@ -3,8 +3,7 @@ WWWDIR        := ../www
 
 RNWFILES  = $(wildcard *.Rnw)
 RNWFILES += $(wildcard tutorial/*.Rnw)
-RNWFILES += $(wildcard howto/*.Rnw)
-RNWFILES += $(wildcard concept/*.Rnw)
+RNWFILES += $(wildcard extension_points/*.Rnw)
 RSTFILES  = $(RNWFILES:.Rnw=.rst)
 
 MLRRDFILES = $(wildcard ../pkg/mlr/man/*.Rd)

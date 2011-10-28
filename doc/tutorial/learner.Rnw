@@ -21,6 +21,7 @@ Why construct a Learner_ object?
 * You have to create a Learner_ object if you want to pass hyperparameter values other than the default values.
 * You have the opportunity to set an id which is quite useful if you conduct larger experiments and need to access results of a certain learning method.
 * For classification tasks you have to create a Learner_ object if you want to control the type of prediction_ which is returned. Per default you get the class labels when making a prediction_. In order to get posterior probabilities you have to specifiy this when creating the learner.
+* In order to use a nested resampling strategy where in the inner loop tuning or variable selection is done you need to construct Learner_ objects, too. Details are explained in Section :doc:`nested_resampling`. 
 
 The makeLearner_ factory method takes the names of the learning method as 
 its first argument. The naming conventions are ``classif.<R_method_name>`` for 

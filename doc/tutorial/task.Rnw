@@ -106,12 +106,6 @@ Get values of the target variable for all observations.
 head(getTargets(task))
 @
 
-Get the class labels.
-
-<<>>=
-getClassLevels(task)	
-@ 
-
 All information can be obtained from the slots of the LearnTask_
 object directly.
 

@@ -3,7 +3,7 @@ Machine Learning in R (mlr)
 
 .. warning::
 
-  Both the package **mlr** as well as its documentation are Very much
+  Both the package **mlr** as well as its documentation are very much
   work in progress. Please check back often for updates until we release
   a version to CRAN. We plan to do this real soon now.
 
@@ -11,9 +11,8 @@ Machine Learning in R (mlr)
    :hidden:
    
    tutorial/index
-   concept/index
-   howto/index
    integrated_learners
+   extension_points/index
    faq
    glossary
    changes
@@ -27,13 +26,13 @@ algorithms. Therefore, for any non-trivial experiments,
 you need to write lengthy, tedious and error-prone wrappers to call the different 
 algorithms and unify their respective output. Additionally you need to implement infrastructure
 to resample your models, optimize hyperparameters, select features,
-cope with pre- and post-processing of data and compare models in a statistical meaninful way.
-As these becomes computionally expensive, you might want to parallelize your experiments
+cope with pre- and post-processing of data and compare models in a statistically meaningful way.
+As this becomes computationally expensive, you might want to parallelize your experiments
 as well. This often forces useRs to make crummy trade-offs in their experiments due to 
 time constraints or lacking expert programming skills.
 **mlr** provides this infrastructure so that you can focus on your experiments!
-The framerwork currently focusses focusses on supervised methods like classification 
-and regression and their corresponding evaluation and optimization, but furher extensions are
+The framework currently focusses on supervised methods like classification 
+and regression and their corresponding evaluation and optimization, but further extensions are
 planned. It is written in a way that you can extend it yourself or deviate from the implemented
 convenience methods and construct your own complex experiments or algorithms.
 
@@ -43,7 +42,7 @@ Features
 * Clear S4 interface to R classification and regression methods
 * Easy extension mechanism through S4 inheritance
 * Abstract description of learners and tasks by properties 
-* Parameter system for learners to encode data types and constraints.
+* Parameter system for learners to encode data types and constraints
 * Many convenience methods and generic building blocks for your
   machine learning experiments
 * Resampling like bootstrapping, cross-validation and subsampling 
@@ -59,7 +58,7 @@ As the framework has become rather extensive, it is currently divided into the f
 
 * **mlr**: The basic package. Fitting, predicting, evaluating, resampling.
 * **mlrTune**: Tune hyper-parameters of a learner with different optimization algorithms. 
-  Multi-criteria optimization is possible, too. Also contains a model-based sequential 
+  Multi-criteria optimization is possible, too. The package also contains a model-based sequential 
   parameter optimization method, which can be used for general purpose optimization of 
   expensive black-box functions.
 * **mlrVarsel**: Feature selection with filters and wrappers. 
@@ -90,9 +89,10 @@ install.packages("mlr",repos="http://R-Forge.R-project.org")
 Project Link-List
 """""""""""""""""
 
+* :doc:`tutorial/start`
 * :doc:`tutorial/index`
 * List of the :doc:`integrated_learners`
-* List of :doc:`howto/index`
+* List of :doc:`extension_points/index`
 * R-Forge_ project page
 * Bugtracker_
 

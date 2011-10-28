@@ -47,7 +47,7 @@ Further information
 
 There are several possibilities how to pass the observations for which 
 predictions are required.
-The first possibility, via the newdata-argument, was already shown in the 
+The first possibility, via the ``newdata``-argument, was already shown in the 
 examples above.
 If the data for which predictions are required are already contained in 
 the LearnTask_, it is also possible to pass the task and optionally specify 
@@ -92,7 +92,7 @@ A data frame that contains the true and predicted class labels can be accessed v
 head(as.data.frame(pred))
 @ 
 
-Alternativly we can also predict directly from a task:
+Alternatively we can also predict directly from a task:
 
 <<>>=
 pred <- predict(mod, task = task, subset = test.set)
@@ -130,7 +130,7 @@ Binary classification
 .....................
 
 In case of binary classification two things are noteworthy. As you might recall 
-we can specifiy a positive class when generating the task. Moreover, we can set the
+we can specify a positive class when generating the task. Moreover, we can set the
 threshold value that is used to assign class labels based on the predicted 
 posteriors.
 

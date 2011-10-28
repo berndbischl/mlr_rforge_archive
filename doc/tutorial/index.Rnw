@@ -4,25 +4,28 @@ Tutorial
 .. toctree::
    :maxdepth: 1
    
+   start
    task
    learner
    train
    predict
    performance
    resample
+   params
    tune
    variable_selection
+   nested_resampling
    benchmark_experiments
    benchmark_analysis
    roc_analysis
    
 This web page will provide you with an in-depth introduction on how to
-use the **mlr** framwork for machine learning experiments and
+use the **mlr** framework for machine learning experiments and
 optimization in R.
 
 Our focus is on your comprehension of the basic functions and
 applications. For detailed technical information and manual pages please refer to
-the packages `manual pages`_. They are regularly updated an reflect the documentation
+the package's `manual pages`_. They are regularly updated and reflect the documentation
 of the current packages on CRAN.
 
 The approach is step by step and orients itself on the proceeding of a basic data set analysis: 

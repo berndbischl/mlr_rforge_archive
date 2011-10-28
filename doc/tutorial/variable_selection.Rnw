@@ -11,6 +11,9 @@ approaches exist to figure out which are the relevant variables:
             |variabel_selection_schemes|
 
 
+Section :doc:`nested_resampling`
+
+
 Included strategies
 -------------------
 

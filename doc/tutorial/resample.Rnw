@@ -40,8 +40,7 @@ r
 In this example the peformance measure is mmce (mean misclassification error), 
 the default for classification. See the documentation for measures_ for a 
 complete list of performance measure available in **mlr**. More explanations 
-concerning the evaluation of learning methods is given in Section Evaluating 
-Learner Performance_.
+concerning the evaluation of learning methods is given in Section :doc:`performance`.
 
 
 Regression example
@@ -287,7 +286,6 @@ Regression example
 .. _LearnTask: ../_static/rdocs/mlr/LearnTask-class.html
 .. _Learner: ../_static/mlr/Learner-class.html
 .. _measures: ../_static/mlr/measures.html
-.. _Performance performance.html
 .. _ResampleDesc: ../_static/rdocs/mlr/ResampleDesc-class.html
 .. _ResampleInstance: ../_static/rdocs/mlr/ResampleInstance-class.html
 .. _makeResampleDesc: ../_static/rdocs/mlr/makeResampleDesc.html
