@@ -73,7 +73,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     des.x = des.x[, rep.pids, drop=FALSE]
     xs = lapply(1:nrow(des.x), function(i) dataFrameRowToList(des.x, par.set, i))
   }
-  Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)
+  Map(function(x,y) addOptPathEl(opt.path, x=x, y=y), xs, ys)
   rt = makeSpoTask(des, y.name, control=control)
   model = train(learner, rt)
   models = list()
@@ -89,7 +89,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     prop.des = proposePoints(model, par.set, control, opt.path)
     xs = lapply(1:nrow(prop.des), function(i) dataFrameRowToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
-    Map(function(x,y) addPathElement(opt.path, x=x, y=y), xs, ys)
+    Map(function(x,y) addOptPathEl(opt.path, x=x, y=y), xs, ys)
     rt = makeSpoTask(as.data.frame(opt.path), y.name, exclude=c("dob", "eol"), control=control)
     model = train(learner, rt)
     if (loop %in% control@save.model.at)
@@ -109,7 +109,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     y = mean(ys)
     x = xs[[1]]
   } else {
-    y = getPathElement(opt.path, final.index)$y
+    y = getOptPathEl(opt.path, final.index)$y
     x = dataFrameRowToList(des, par.set, final.index)
   }
   

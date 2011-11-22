@@ -20,13 +20,13 @@ proposePoints = function(model, par.set, control, opt.path) {
       colnames(nd) = rep.pids
       predict(model, newdata=nd)@df$response
     }
-    i = getBestIndex(opt.path, ties="random")
-    start = unlist(getPathElement(opt.path, i)$x)
+    i = getOptPathBestIndex(opt.path, ties="random")
+    start = unlist(getOptPathEl(opt.path, i)$x)
     des = cma_es(par=start, fn=f, lower=low, upper=upp, control=list(maxit=2))$par
     des = as.data.frame(t(des))
   } else if (control@propose.points.method == "EI") {
-    i = getBestIndex(opt.path, ties="random")
-    start = unlist(getPathElement(opt.path, i)$x)
+    i = getOptPathBestIndex(opt.path, ties="random")
+    start = unlist(getOptPathEl(opt.path, i)$x)
     capture.output(des <- max_EI(model@learner.model, low, upp, parinit=start)$par)
     as.data.frame(des)
   }

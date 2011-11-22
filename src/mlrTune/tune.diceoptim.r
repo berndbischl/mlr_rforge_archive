@@ -23,8 +23,8 @@ tune.diceoptim = function(learner, task, resampling, measures, par.set, control,
   j = which.min(or$value)
   
   par = as.list(or$par[j,])
-  i = getBestIndex(opt.path, measureAggrName(measures[[1]]), ties="random")
-  e = getPathElement(opt.path, i)
+  i = getOptPathBestIndex(opt.path, measureAggrName(measures[[1]]), ties="random")
+  e = getOptPathEl(opt.path, i)
   
   new("OptResult", learner, control, e$x, e$y, opt.path)
 }

@@ -104,8 +104,8 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
     gen = gen + 1L
     ## Variation:
     parents = sample(active, 2)
-    p1a = getPathElement(opt.path, parents[1])$x
-    p2a = getPathElement(opt.path, parents[2])$x
+    p1a = getOptPathEl(opt.path, parents[1])$x
+    p2a = getOptPathEl(opt.path, parents[2])$x
     p1 = list()
     p2 = list()
     p1$learner = p1a$learner    
@@ -165,7 +165,7 @@ my.eval.states = function(bag, task, resampling, measures, par.sets, bits.to.fea
     x = pars[[i]]
     hps[names(x$hyper.pars)] = x$hyper.pars
     x = c(x$learner, as.list(hps), as.list(x$bits))
-    addPathElement(opt.path, x=x, y=y[[i]], dob=dob[i], eol=eol[i])
+    addOptPathEl(opt.path, x=x, y=y[[i]], dob=dob[i], eol=eol[i])
   }
   return(y)
 }

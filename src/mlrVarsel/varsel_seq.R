@@ -13,8 +13,8 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     # die at once
     mlrTune:::eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, xs, dob=dob, eol=dob)
     
-    best.i = getBestIndex(opt.path, dob=dob, ties="random")
-    best = getPathElement(opt.path, best.i)
+    best.i = getOptPathBestIndex(opt.path, dob=dob, ties="random")
+    best = getOptPathEl(opt.path, best.i)
     # best element lives one iteration longer
     thresh = ifelse(forward, control@alpha, control@beta) 
     better = compare(state, best, control, measures[[1]], thresh) 
@@ -71,7 +71,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
   
   y = mlr:::eval.rf(learner, task, resampling, measures, NULL, bits.to.features, control, x)
   state = list(x=x, y=y)
-  path = addPathElement(opt.path, x=as.list(x), y=y, dob=1L, eol=2L)   
+  path = addOptPathEl(opt.path, x=as.list(x), y=y, dob=1L, eol=2L)   
   
   forward = (method %in% c("sfs", "sffs"))
   fail = 0
@@ -109,8 +109,8 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
   j = which(opt.path@env$dob == last)
   if (all(opt.path@env$eol[opt.path@env$dob == last] == last))
     last = last-1
-  i = getBestIndex(opt.path, measureAggrName(measures[[1]]), dob=last, ties="first")
-  e = getPathElement(opt.path, i)
+  i = getOptPathBestIndex(opt.path, measureAggrName(measures[[1]]), dob=last, ties="first")
+  e = getOptPathEl(opt.path, i)
   new("OptResult", learner, control, bits.to.features(e$x, task), e$y, opt.path)
 }
 
