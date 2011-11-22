@@ -47,7 +47,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   if (control@propose.points.method == "EI")
     requirePackages("DiceOptim", "spo")
   
-  rep.pids = getRepeatedParameterIDs(par.set, with.nr=TRUE)
+  rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
   y.name = control@y.name
   opt.path = new("OptPathDF", par.set=par.set, y.names=y.name, minimize=control@minimize)
   

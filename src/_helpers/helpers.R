@@ -27,59 +27,6 @@ rec.lapply = function(xs, fun, depth=Inf) {
   lapply(xs, function(x) rec.lapply(x, fun, depth-1))
 }
 
-
-# inserts elements from x2 into x1, overwriting elements of equal names
-# if el.names contains names which are nor present in x2, they are disregarded
-insert = function(xs1, xs2, el.names) {
-  if (missing(el.names)) {
-    xs1[names(xs2)] <- xs2
-  } else {
-    el.names = intersect(el.names, names(xs2))
-    xs1[el.names] <- xs2[el.names]
-  }
-  return(xs1)
-}
-
-# inserts elements from x2 into x1, only if names in x2 are already present in x1 
-insert.matching = function(xs1, xs2) {
-  ns = intersect(names(xs1), names(xs2))
-  xs1[ns] = xs2[ns]
-  return(xs1)
-}
-
-
-
-
-check.list.type = function(xs, type, name=deparse(substitute(xs))) {
-  ## FIXME: Better use inherits like this?
-  ##   sapply(xs, function(x) inherits(x, type))
-  
-  fs = lapply(type, function(tt) switch(tt,
-        character=is.character,                          
-        numeric=is.numeric,
-        logical=is.logical,
-        integer=is.integer,
-        list=is.list,
-        data.frame=is.data.frame,
-        function(x) is(x, tt)
-      ))
-  types = paste(type, collapse=", ")  
-  all(sapply(seq_along(xs), function(i) {
-        x = xs[[i]]
-        ys = sapply(fs, function(f) f(x))
-        if(!any(ys))
-          stop("List ", name, " has element of wrong type ", class(x), " at position ", i, ". Should be: ", types)
-        any(ys)
-      }))
-}
-
-
-##' Returns TRUE if all entries in the name attribute of \code{xs} valid names.
-all.els.named = function(xs) {
-  ns = names(xs)
-  (length(xs) == 0) || (!is.null(ns) && !any(is.na(ns)) && !any(ns == ""))
-}
-
 vote.majority = function(x) {
   tt = table(x)
   y = seq_along(tt)[tt == max(tt)]
@@ -130,23 +77,6 @@ path2dataframe = function(path) {
   }
   return(df)
 }
-
-check.getter.args = function(x, arg.names, j, ...) {
-  args = list(...)
-  ns = names(args)
-  for (i in seq_along(args)) {
-    n = ns[i]
-    a = args[[i]]
-    # condition because of spurious extra arg (NULL) bug in "["
-    if ( !(is.null(a) && (is.null(n) || length(a) == 0)) ) {
-      if (is.null(n) || length(a) == 0)
-        stop("Using unnamed extra arg ", a, " in getter of ", class(x), "!")
-      if (!(n %in% arg.names))
-        stop("Using unallowed extra arg ", paste(n, a, sep="="), " in getter of ", class(x), "!")
-    }
-  }
-}
-
 
 ##' Check if \code{e1} and \code{e2} are equal ignoring such fine
 ##' points as \code{1 != 1L}.
@@ -284,7 +214,7 @@ makeOptPathDFFromMeasures = function(par.set, measures) {
   if (any(duplicated(ns)))
     stop("Cannot create OptPath, measures do not have unique ids!")
   if (length(intersect(ns, names(par.set@pars))) > 0 ||
-    length(intersect(ns, getRepeatedParameterIDs(par.set, TRUE))) > 0)
+    length(intersect(ns, getParamIds(par.set, repeated=TRUE, with.nr=TRUE))) > 0)
     stop("Cannot create OptPath, measures ids and dimension names of input space overlap!")
   minimize = sapply(measures, function(m) m@minimize)
   new("OptPathDF", par.set, ns, minimize)
@@ -324,21 +254,6 @@ dataFrameRowToList = function(df, par.set, i) {
       x[[p@id]] = df[,col]
   }
   return(x)
-}
-
-
-getRepeatedParameterIDs = function(par.set, with.nr) {
-  ns = lapply(par.set@pars, function(x) 
-      if (x@type %in% c("numericvector", "integervector")) {
-        m = length(x@constraints$lower)
-        if (m > 1 && with.nr)
-          paste(rep(x@id, m), 1:m, sep="")
-        else
-          rep(x@id, m)
-      } else 
-        x@id
-  )
-  Reduce(c, ns)
 }
 
 perfsToString = function(y) {

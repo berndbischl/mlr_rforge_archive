@@ -52,7 +52,7 @@ setMethod(
   
   def =  function(id, base.learners, super.learner, resampling) {
     #todo: check that base.learners and super.learner types match
-    mlr:::check.list.type(base.learners, "Learner")
+    checkListElementClass(base.learners, "Learner")
     types = unique(sapply(base.learners, function(x) x@properties$type))
     if (length(types) != 1)
       stop("Base learners must all have the same type ('classif' or 'regr')!")

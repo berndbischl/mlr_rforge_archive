@@ -14,7 +14,7 @@ proposePoints = function(model, par.set, control, opt.path) {
     o = order(y)
     des[o[1:control@propose.points],,drop=FALSE]
   } else if (control@propose.points.method == "CMAES") {
-    rep.pids = getRepeatedParameterIDs(par.set, with.nr=TRUE)
+    rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
     f = function(x) {
       nd = as.data.frame(t(x))
       colnames(nd) = rep.pids

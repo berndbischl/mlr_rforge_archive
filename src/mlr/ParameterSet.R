@@ -55,7 +55,7 @@ setMethod(
 #' @export 
 makeParameterSet = function(...) {
   args = list(...)
-  check.list.type(args, "Parameter")
+  checkListElementClass(args, "Parameter")
   new("ParameterSet", pars=args)
 }
 
@@ -181,7 +181,7 @@ setMethod(
 
 valToString = function(par, val) {
   if (is(par, "ParameterSet")) {
-    if (all.els.named(val)) {
+    if (isProperlyNamed(val)) {
       ns = names(val)
       val = Map(valToString, par@pars[ns], val)
     } else {  

@@ -81,7 +81,7 @@ makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE, i
         des[,col] = as.character(x)
     }
   }
-  colnames(des) = getRepeatedParameterIDs(par.set, with.nr=TRUE)
+  colnames(des) = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
   attr(des, "trafo") = trafo
   return(des)
 }

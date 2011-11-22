@@ -1,6 +1,8 @@
 pack.files = c(
   "_helpers/helpers.R",
   "_helpers/logger.R",
+  "_helpers/evalOptimizationState.R",
+  "_helpers/mylapply.R",
   "mlr/errorhandler.r",
   "mlr/setupLogger.R",
   ##    "mlr/packagedesc.r",

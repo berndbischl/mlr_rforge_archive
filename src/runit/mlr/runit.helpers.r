@@ -2,25 +2,25 @@ test.helpers = function() {
 	if (!use.package) {
 		xs = list("a", "b")
 	
-		checkTrue(check.list.type(xs, "character"))
-		checkException(check.list.type(xs, "integer"))
-		checkTrue(check.list.type(xs, c("character", "numeric")))
+		checkTrue(checkListElementClass(xs, "character"))
+		checkException(checkListElementClass(xs, "integer"))
+		checkTrue(checkListElementClass(xs, c("character", "numeric")))
 		
 		xs = list("a", "b", 1, 2)
-		checkTrue(check.list.type(xs, c("character", "numeric")))
-		checkException(check.list.type(xs, c("Learner", "logical")))
+		checkTrue(checkListElementClass(xs, c("character", "numeric")))
+		checkException(checkListElementClass(xs, c("Learner", "logical")))
 		
 		xs = list(makeLearner("classif.rpart"))
-		checkTrue(check.list.type(xs, c("rlearner")))
+		checkTrue(checkListElementClass(xs, c("rlearner")))
 		
-		checkTrue(all.els.named(list()))
-		checkTrue(all.els.named(list(x=1)))
-		checkTrue(all.els.named(list(x=1, y=2)))
-		checkTrue(!all.els.named(list(1,2)))
+		checkTrue(isProperlyNamed(list()))
+		checkTrue(isProperlyNamed(list(x=1)))
+		checkTrue(isProperlyNamed(list(x=1, y=2)))
+		checkTrue(!isProperlyNamed(list(1,2)))
 		xs = list(1,2)
 		names(xs)[1] = "a"
-		checkTrue(!all.els.named(xs))
+		checkTrue(!isProperlyNamed(xs))
 		names(xs)[2] = "b"
-		checkTrue(all.els.named(xs))
+		checkTrue(isProperlyNamed(xs))
 	}
 }

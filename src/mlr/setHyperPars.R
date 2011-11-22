@@ -37,7 +37,7 @@ setGeneric(
       x = list(...)      
       if (missing(par.vals))
         par.vals = list()
-      if(!all.els.named(x))
+      if(!isProperlyNamed(x))
         stop("All parameter settings have to be named arguments!")
       par.vals = insert(par.vals, x)
       standardGeneric("setHyperPars")

@@ -115,7 +115,7 @@ setGeneric(name = "getHyperPars",
   def = function(learner, for.fun) {
     if (missing(for.fun))
       for.fun = "both"      
-    checkArg(for.fun, "character", 1, c("train", "predict", "both"))
+    checkArg(for.fun, choices=c("train", "predict", "both"))
     standardGeneric("getHyperPars")
   }
 )  

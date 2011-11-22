@@ -150,7 +150,7 @@ makeDiscreteParameter = function(id, vals) {
         names(vals)[i] = as.character(v)
     }
   }  
-  if(!all.els.named(vals)) {
+  if(!isProperlyNamed(vals)) {
     stop("Not all values for par. ", id,  " were named and names could not be guessed!")
   }
   if(any(duplicated(names(vals))))
