@@ -44,11 +44,11 @@ makeNumericLearnerParameter <- function(id, lower=-Inf, upper=Inf,
 makeNumericVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf, default, pass.default=FALSE, when="train", requires=expression()) {
   if (length(dim) == 1 && (is.na(dim) || (is.numeric(dim) && as.integer(dim) == dim)))
     dim = as.integer(dim)
-  check.arg(dim, "integer", 1)
+  checkArg(dim, "integer", 1)
   dim2 = dim
   if (is.na(dim)) {
-    check.arg(lower, "numeric", 1)
-    check.arg(upper, "numeric", 1)
+    checkArg(lower, "numeric", 1)
+    checkArg(upper, "numeric", 1)
     dim2 = 1
     unknown.dim = TRUE
   } else {
@@ -107,11 +107,11 @@ makeIntegerLearnerParameter <- function(id, lower=-.Machine$integer.max, upper=.
 makeIntegerVectorLearnerParameter <- function(id, dim=NA, lower=-Inf, upper=Inf, default, pass.default=FALSE, when="train", requires=expression()) {
   if (length(dim) == 1 && (is.na(dim) || (is.numeric(dim) && as.integer(dim) == dim)))
     dim = as.integer(dim)
-  check.arg(dim, "integer", 1)
+  checkArg(dim, "integer", 1)
   dim2 = dim
   if (is.na(dim)) {
-    check.arg(lower, "numeric", 1)
-    check.arg(upper, "numeric", 1)
+    checkArg(lower, "numeric", 1)
+    checkArg(upper, "numeric", 1)
     dim2 = 1
     unknown.dim = TRUE
   } else {
@@ -210,7 +210,7 @@ learner.parameter.from.parameter <- function(p, default, pass.default, when, req
     stop("'requires' must be an R expression.")
   if (!missing(default) && !isFeasible(p, default))
     stop(p@id, " : 'default' must be missing or a feasible parameter setting.")  
-  check.arg(when, "character", 1)
+  checkArg(when, "character", 1)
   
   new("LearnerParameter",
             id=p@id, type=p@type, constraints=p@constraints,

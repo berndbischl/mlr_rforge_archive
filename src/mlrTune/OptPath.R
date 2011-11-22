@@ -82,8 +82,8 @@ setGeneric(
       dob = length(op)+1L
     if (missing(eol))        
       eol = as.integer(NA)
-    mlr:::check.arg(dob, "integer", 1)
-    mlr:::check.arg(eol, "integer", 1)
+    mlr:::checkArg(dob, "integer", 1)
+    mlr:::checkArg(eol, "integer", 1)
     stopifnot(is.na(eol) || eol >= dob)
     if(!isFeasible(op@par.set, x))
       stop("Trying to add infeasible x values to opt path: ", mlr:::valToString(op@par.set, x))
@@ -140,7 +140,7 @@ getYVector = function(op, y.name) {
 #'   Index or indices into path. See \code{ties}.
 #' @export
 getBestIndex = function(op, y.name=op@y.names[1], dob=op@env$dob, eol=op@env$eol, ties="all") {
-  mlr:::check.arg(ties, "character", 1, c("all", "first", "last", "random"))
+  mlr:::checkArg(ties, "character", 1, c("all", "first", "last", "random"))
   life.inds = which(op@env$dob %in% dob & op@env$eol %in% eol)
   if (length(life.inds) == 0)
     stop("No element found which matches dob and eol restrictions!")
@@ -182,7 +182,7 @@ setGeneric(
   def = function(op, index) {
     if (is.numeric(index) && length(index) == 1 && index == as.integer(index))
       index = as.integer(index)
-    mlr:::check.arg(index, "integer", 1)
+    mlr:::checkArg(index, "integer", 1)
     n = length(op)
     if (!(index >= 1 && index <= n))
       stop("Index must be between 1 and ", n, "!")

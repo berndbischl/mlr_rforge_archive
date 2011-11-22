@@ -47,7 +47,7 @@ setMethod(
   
   def = function(learner, task, subset) {
     # make sure that pack for learner ist loaded, probably needed when learner is exported        
-    require.packs(learner@pack, paste("learner", learner@id))
+    requirePackages(learner@pack, paste("learner", learner@id))
     
     checkTaskLearner(task, learner)
     

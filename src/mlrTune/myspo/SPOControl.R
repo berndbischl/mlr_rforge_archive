@@ -92,9 +92,9 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   save.model.at = seq.loops,
   resample.at = integer(0), resample.desc = makeResampleDesc("CV", iter=10), resample.measures=list(mse) 
 ) {
-  require.packs("lhs", "makeSPOControl")
-  check.arg(y.name, "character", 1)
-  check.arg(propose.points.method, "character", 1, c("seq.design", "CMAES", "EI"))
+  requirePackages("lhs", "makeSPOControl")
+  checkArg(y.name, "character", 1)
+  checkArg(propose.points.method, "character", 1, c("seq.design", "CMAES", "EI"))
   
   if (is.numeric(init.design.points) && length(init.design.points) == 1 && as.integer(init.design.points) == init.design.points)
     init.design.points = as.integer(init.design.points)
@@ -104,25 +104,25 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
     propose.points = as.integer(propose.points)
   if (is.numeric(seq.design.points) && length(seq.design.points) == 1 && as.integer(seq.design.points) == seq.design.points)
     seq.design.points = as.integer(seq.design.points)
-  check.arg(rank.trafo, "logical", 1)
+  checkArg(rank.trafo, "logical", 1)
   if (is.numeric(final.evals) && as.integer(final.evals) == final.evals)
     final.evals = as.integer(final.evals)
   if (length(save.model.at) == 0 || 
     (is.numeric(save.model.at) && as.integer(save.model.at) == save.model.at))
     save.model.at = as.integer(save.model.at)
-  check.arg(save.model.at, "integer")
-  check.arg(final.point, "character", 1, c("last.proposed", "best.true.y", "best.predicted"))
-  check.arg(final.evals, "integer", 1)
+  checkArg(save.model.at, "integer")
+  checkArg(final.point, "character", 1, c("last.proposed", "best.true.y", "best.predicted"))
+  checkArg(final.evals, "integer", 1)
   if (length(resample.at) == 0 || 
     (is.numeric(resample.at) && as.integer(resample.at) == resample.at))
     resample.at = as.integer(resample.at)
-  check.arg(resample.at, "integer")
-  check.arg(resample.desc, "ResampleDesc")
+  checkArg(resample.at, "integer")
+  checkArg(resample.desc, "ResampleDesc")
   
   if (is.numeric(resample.at) && (length(resample.at) == 0 || as.integer(resample.at) == resample.at))
     resample.at = as.integer(resample.at)
-  check.arg(resample.at, "integer")
-  check.arg(resample.desc, "ResampleDesc")
+  checkArg(resample.at, "integer")
+  checkArg(resample.desc, "ResampleDesc")
   
   new("SPOControl", 
     y.name = y.name,

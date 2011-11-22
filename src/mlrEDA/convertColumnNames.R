@@ -20,7 +20,7 @@ convertColumnNames = function(data) {
 #    #! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` { | } ~
 #    replace = c("\\[", "]", "\\(", ")", "\\{", "}", ",", "\\+", "-", "\\*", "/", "=", "\\$", "~")
 #  } else {
-#    check.arg(replace, "character")
+#    checkArg(replace, "character")
 #    if(!all(sapply(names(replace), function(x) nchar(x) == 1)))
 #      stop("All names of 'replace' have to be single characters!")
 #  }

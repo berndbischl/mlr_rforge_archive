@@ -73,7 +73,7 @@ setMethod(
       .Object@properties[["multiclass"]] = FALSE
       .Object@properties[["prob"]] = FALSE
 			.Object@pack = pack
-			require.packs(pack, for.string=paste("learner", .Object@id))
+			requirePackages(pack, paste("learner", .Object@id))
       if(any(sapply(par.set@pars, function(x) !is(x, "LearnerParameter"))))
         stop("All par.set parameters in learner of class ", class(.Object), " must be of class 'LearnerParameter'!")
 			.Object@par.set = par.set
@@ -115,7 +115,7 @@ setGeneric(name = "getHyperPars",
   def = function(learner, for.fun) {
     if (missing(for.fun))
       for.fun = "both"      
-    check.arg(for.fun, "character", 1, c("train", "predict", "both"))
+    checkArg(for.fun, "character", 1, c("train", "predict", "both"))
     standardGeneric("getHyperPars")
   }
 )  

@@ -41,7 +41,7 @@ setMethod(
           stop("newdata must be a data.frame with at least one row!")
 			}
       # load pack. if we saved a model and loaded it later just for prediction this is necessary
-      require.packs(wl@pack, paste("learner", learner@id))
+      requirePackages(wl@pack, paste("learner", learner@id))
 			
 			cns = colnames(newdata)
 			tn = td@target

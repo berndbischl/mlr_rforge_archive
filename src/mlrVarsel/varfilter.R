@@ -37,7 +37,7 @@ setMethod(
   signature = signature(task="LearnTask", method="character", threshold="numeric"),
   
   def = function(task, method, threshold, ...) {
-    require.packs("FSelector")
+    requirePackages("FSelector")
     tn = task@desc@target
     f = getFormula(task)
     data = getData(task)

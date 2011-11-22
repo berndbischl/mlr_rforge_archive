@@ -147,21 +147,6 @@ check.getter.args = function(x, arg.names, j, ...) {
   }
 }
 
-require.packs = function(packs, for.string) {
-  # this should be a bit faster...
-  packs.ok = sapply(packs, function(x) paste("package", x, sep = ":") %in% search())
-  packs = packs[!packs.ok]
-  packs.ok = sapply(packs, function(x) require(x, character.only = TRUE))
-  if (length(packs.ok) == 0)
-    packs.ok = TRUE
-  if(!all(packs.ok)) {
-    ps = paste(packs[!packs.ok], collapse=" ")
-    stop(paste("For", for.string, "please install the following packages:", ps))
-    ## DOIT: Possibly add option to run install.packages() if interactive() is TRUE?
-    ##  Check adverse effects regarding parallelization.
-  }
-  return(packs.ok)
-}
 
 ##' Check if \code{e1} and \code{e2} are equal ignoring such fine
 ##' points as \code{1 != 1L}.
@@ -172,24 +157,6 @@ almost.equal <- function(e1, e2) {
 
 par.valnames.to.vals = function(names, par.set) {
   Map(function(par, n) par@constraints$vals[[n]], par.set@pars, names)
-}
-
-check.arg = function(x, cl, len, choices, lower=NA, upper=NA) {
-  s = deparse(substitute(x))
-  cl2 = class(x)
-  if (!is(x, cl)) 
-    stop("Argument ", s, " must be of class ", cl, " not: ", cl2, "!")
-  len2 = length(x)
-  if (!missing(len) && len2 != len)
-    stop("Argument ", s, " must be of length ", len, " not: ", len2, "!")
-  if (!missing(choices) && !(x %in% choices))
-    stop("Argument ", s, " must be any of: ", paste(choices, collapse=","), "!")
-  if (!missing(choices) && !(x %in% choices))
-    stop("Argument ", s, " must be any of: ", paste(choices, collapse=","), "!")
-  if (is.numeric(x) && !is.na(lower) && (is.na(x) || x < lower))
-    stop("Argument ", s, " must be greater than or equal ", lower, "!")
-  if (is.numeric(x) && !is.na(upper) && (is.na(x) || x > upper))
-    stop("Argument ", s, " must be less than or equal ", upper, "!")
 }
 
 checkColumnNames = function(data, target, exclude) {

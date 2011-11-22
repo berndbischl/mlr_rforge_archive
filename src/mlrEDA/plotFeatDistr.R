@@ -14,8 +14,8 @@
 plotFeatDistr = function(data, target, col) {
   if (is.numeric(col))
     col = colnames(data)[col]
-  check.arg(data, "data.frame")
-  check.arg(target, "character", 1)
+  checkArg(data, "data.frame")
+  checkArg(target, "character", 1)
   
   x = data[, col]
   if (is.numeric(x) | is.integer(x)) {

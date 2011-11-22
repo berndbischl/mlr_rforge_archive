@@ -18,7 +18,7 @@
 #' @title Write EDA HTML report.
 
 writeEDAReport = function(out.dir, data, target, name, brew.template=NULL) {
-  require.packs("brew", "writeEDAReport")
+  requirePackages("brew", "writeEDAReport")
   if (missing(name))
     name = deparse(substitute(data))
   dir = getwd()

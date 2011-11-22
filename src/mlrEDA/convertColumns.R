@@ -37,9 +37,9 @@
 
 convertColumns = function(data, target, type, integers.as=as.numeric, characters.as=as.factor, logicals.as=as.factor) {
  
-  check.arg(integers.as, "function")  
-  check.arg(characters.as, "function")  
-  check.arg(logicals.as, "function")
+  checkArg(integers.as, "function")  
+  checkArg(characters.as, "function")  
+  checkArg(logicals.as, "function")
   
   cols.ints =  which(sapply(data, function(x) is(x, "integer")))
   cols.char = which(sapply(data, function(x) is(x, "character")))

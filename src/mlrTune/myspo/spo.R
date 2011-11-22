@@ -35,7 +35,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   if (any(is.infinite(c(lower(par.set), upper(par.set)))))
     stop("SPO requires finite box constraints!")
   if (control@propose.points.method == "CMAES") 
-    require.packs("cmaes", "proposePoints")
+    requirePackages("cmaes", "proposePoints")
   if (control@propose.points.method == "CMAES" && control@propose.points != 1)
     stop("CMAES can only propose 1 point!")        
   if (control@propose.points.method == "CMAES" &&
@@ -45,7 +45,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     !(class(learner) %in% c("regr.km", "regr.kmforrester"))) 
     stop("Expected improvement can currently only be used with learner 'regr.km' and 'regr.kmforrester'!")        
   if (control@propose.points.method == "EI")
-    require.packs("DiceOptim", "spo")
+    requirePackages("DiceOptim", "spo")
   
   rep.pids = getRepeatedParameterIDs(par.set, with.nr=TRUE)
   y.name = control@y.name

@@ -29,7 +29,7 @@
 #'   which is set to the value of argument \code{trafo}.    
 #' @export 
 makeDesign = function(n, par.set, fun=randomLHS, fun.args=list(), trafo=FALSE, ints.as.num=FALSE, discrete.as.factors=TRUE) {
-  require.packs("lhs", "makeDesign")
+  requirePackages("lhs", "makeDesign")
   if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
     stop("No par.set parameter in 'makeDesign' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")        
   

@@ -112,7 +112,7 @@ setMethod("show", "Prediction", function(object) {
 
 setGeneric(name = "getProb", 
   def = function(pred, class) {
-    check.arg(pred, "Prediction")
+    checkArg(pred, "Prediction")
     if (pred@task.desc@type != "classif")
       stop("Prediction was not generated from a ClassifTask!")
     if (missing(class)) {

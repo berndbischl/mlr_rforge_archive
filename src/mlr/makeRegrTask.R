@@ -42,15 +42,15 @@ setGeneric(
     } else {
       if (is.integer(weights))
         weights = as.numeric(weights)
-      check.arg(weights, "numeric", nrow(data))
+      checkArg(weights, "numeric", nrow(data))
     }
     if (missing(blocking))
       blocking = factor(c())
     else 
-      check.arg(blocking, "factor", nrow(data))
+      checkArg(blocking, "factor", nrow(data))
     if (missing(check.data))
       check.data = TRUE
-    check.arg(check.data, "logical", 1)
+    checkArg(check.data, "logical", 1)
     standardGeneric("makeRegrTask")
   }
 )

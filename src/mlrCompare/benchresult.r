@@ -151,7 +151,7 @@ setMethod(
 setGeneric(
   name = "getTunedParameters",
   def = function(br, task.id, learner.id, as.data.frame) {
-    check.arg(br, "bench.result")
+    checkArg(br, "bench.result")
     tns = names(br@task.descs)
     lns = names(br@learners)
     if (missing(task.id) && length(tns)==1)
@@ -203,7 +203,7 @@ setMethod(
 setGeneric(
   name = "getSelectedFeatures",
   def = function(br, task.id, learner.id, as.data.frame) {
-    check.arg(br, "bench.result")
+    checkArg(br, "bench.result")
     tns = names(br@task.descs)
     lns = names(br@learners)
     if (missing(task.id) && length(tns)==1)

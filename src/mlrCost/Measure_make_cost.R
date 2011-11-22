@@ -32,7 +32,7 @@ setGeneric(
       minimize = TRUE
     if (missing(mean.costs))
       mean.costs = TRUE
-    check.arg(mean.costs, "logical", 1)
+    checkArg(mean.costs, "logical", 1)
     standardGeneric("makeCostMeasure")
   }
 )

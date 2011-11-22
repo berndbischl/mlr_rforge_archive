@@ -36,7 +36,7 @@
 #' @title Variable selection.
 
 varselMCO = function(learners, task, resampling, measures, bit.names, bits.to.features, control, measure.max.vals=NULL, multi.starts=1, par.sets) {
-  require.packs("emoa", "varselMCO")
+  requirePackages("emoa", "varselMCO")
   bag = makeLearnerBag(learners)
   if (is(resampling, "ResampleDesc") && control@same.resampling.instance)
     if (length(measures) < 2)

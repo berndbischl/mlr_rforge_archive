@@ -45,12 +45,12 @@ setGeneric(
     } else {
       if (is.integer(weights))
         weights = as.numeric(weights)
-      check.arg(weights, "numeric", nrow(data))
+      checkArg(weights, "numeric", nrow(data))
     }
     if (missing(blocking))
       blocking = factor(c())
     else 
-      check.arg(blocking, "factor", nrow(data))
+      checkArg(blocking, "factor", nrow(data))
     standardGeneric("make.task")
   }
 )

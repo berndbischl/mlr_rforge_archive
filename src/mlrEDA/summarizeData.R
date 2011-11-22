@@ -20,12 +20,12 @@
 summarizeData = function(data, target, large=1e10,
   feat.perc=FALSE, na.perc=FALSE, class.perc=FALSE, large.perc=FALSE) {
   
-  check.arg(target, "character", 1)
-  check.arg(large, "numeric", 1)
-  check.arg(feat.perc, "logical", 1)
-  check.arg(na.perc, "logical", 1)
-  check.arg(class.perc, "logical", 1)
-  check.arg(large.perc, "logical", 1)
+  checkArg(target, "character", 1)
+  checkArg(large, "numeric", 1)
+  checkArg(feat.perc, "logical", 1)
+  checkArg(na.perc, "logical", 1)
+  checkArg(class.perc, "logical", 1)
+  checkArg(large.perc, "logical", 1)
   
   x = numeric(0)
   

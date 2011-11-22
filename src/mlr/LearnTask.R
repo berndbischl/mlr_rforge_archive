@@ -81,7 +81,7 @@ setMethod(
 #' @rdname getData
 #' @title Extract data in task. 
 getData = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
-  check.arg(class.as, "character", 1, c("factor", "01", "-1+1"))
+  checkArg(class.as, "character", 1, c("factor", "01", "-1+1"))
   
   # maybe recode y
   rec.y = function(y) {
