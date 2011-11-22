@@ -13,7 +13,7 @@ tune.diceoptim = function(learner, task, resampling, measures, par.set, control,
   des = makeDesign(args$init.des.points, par.set)
   ns = colnames(des)
 
-  f = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path) 
+  f = makeTunerTargetFun(learner, task, resampling, measures, par.set, control, opt.path) 
   
   y = apply(des, 1, f) 
   

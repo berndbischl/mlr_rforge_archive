@@ -4,7 +4,7 @@ tune.optim = function(learner, task, resampling, measures, par.set, control, opt
   upp = upper(par.set)
   
   start = unlist(control@start)
-  g = make.tune.f(learner, task, resampling, measures, par.set, control, opt.path, log.fun, 
+  g = makeTunerTargetFun(learner, task, resampling, measures, par.set, control, opt.path, log.fun, 
     arg.as.list=FALSE, trafo=TRUE)
 		
 	args = control@extra.args

@@ -1,8 +1,11 @@
 pack.files = c(
     "_helpers/helpers.R",
     "_helpers/logger.R",
+    "_helpers/mylapply.R",
+    "_helpers/evalOptimizationState.R",
     "mlrTune/aaa.R",
     "mlrTune/tune_helpers.R",
+    "mlrTune/makeTunerTargetFun.R",
     
     "mlrTune/OptControl.R",
     "mlrTune/OptResult.R",
