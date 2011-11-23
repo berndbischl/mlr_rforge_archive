@@ -54,7 +54,7 @@ setMethod(
      
 			# we have to load the package first for Binomial()
       .Object@par.set = par.set
-			setHyperPars(.Object, family="Binomial")
+			setHyperPars(.Object, family=Binomial())
 		}
 )
 

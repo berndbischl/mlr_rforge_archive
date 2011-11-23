@@ -42,7 +42,7 @@ setMethod(
 					makeLogicalLearnerParam(id="center", default=FALSE)
 			)
 			.Object@par.set = par.set
-			setHyperPars(.Object, family="Binomial")
+			setHyperPars(.Object, family=Binomial())
 		}
 )
 
