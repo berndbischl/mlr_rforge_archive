@@ -47,7 +47,7 @@ setMethod(
 #' @rdname undocumented
 setMethod(f = "show", signature = signature("OptResult"), def = function(object) {
     s = if (is(object@control, "TuneControl")) 
-        mlr:::valToString(getParamSet(object@learner), object@x)
+        paramValueToString(getParamSet(object@learner), object@x)
       else 
         paste(length(object@x), "sel. vars")
     cat("Opt. pars: ", s, "\n",

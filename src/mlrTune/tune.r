@@ -57,7 +57,7 @@ tune <- function(learner, task, resampling, measures, par.set, control, log.fun)
   sapply(capture.output(print(par.set)), logger.info)
   logger.info("with control class:",  cl)
   or = sel.func(learner, task, resampling, measures, par.set, control, opt.path, log.fun)
-  logger.info("[Tune] Result:", mlr:::valToString(par.set, or@x), ":", perfsToString(or@y))
+  logger.info("[Tune] Result:", paramValueToString(par.set, or@x), ":", perfsToString(or@y))
 	return(or)			
 }
 

@@ -26,7 +26,7 @@ setMethod(
       makeIntegerLearnerParam(id="nleaves", lower=1L), 
       makeNumericLearnerParam(id="penalty", lower=0),
       makeIntegerLearnerParam(id="seed"),
-      makeDiscreteLearnerParam(id="select", default=1L, values=c(1,6), pass.default=TRUE),
+      makeDiscreteLearnerParam(id="select", default=1L, values=c(1L,6L), pass.default=TRUE),
       makeIntegerLearnerParam(id="treesize", default=8L, lower=1), 
       makeDiscreteLearnerParam(id="opers", default=1L, values=1:3), 
       makeIntegerLearnerParam(id="minmass", default=0L, lower=0L) 
