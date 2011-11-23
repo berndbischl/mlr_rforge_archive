@@ -16,7 +16,7 @@ setMethod(
   signature = signature("regr.rsm"),
   def = function(.Object) {
     par.set = makeParamSet(      
-      makeDiscreteLearnerParam(id="modelfun", default="FO", vals=c("FO", "TWI", "SO"), pass.default=TRUE)
+      makeDiscreteLearnerParam(id="modelfun", default="FO", values=c("FO", "TWI", "SO"), pass.default=TRUE)
     )
     
     .Object = callNextMethod(.Object, pack="rsm", par.set=par.set)

@@ -1,7 +1,7 @@
 tune.diceoptim = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   requirePackages(c("DiceOptim", "lhs"), "tune.diceoptim")
   
-  if (any(sapply(par.set@pars, function(x) !(x@type %in% c("numeric", "integer")))))
+  if (any(sapply(par.set$pars, function(x) !(x@type %in% c("numeric", "integer")))))
     stop("DiceOptim can only be applied to numeric and integer parameters!")
   
   low = lower(par.set)

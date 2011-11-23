@@ -26,7 +26,7 @@ setMethod(
       makeLogicalLearnerParam(id="scale.sd", default=TRUE),
       makeNumericVectorLearnerParam(id="threshold.scale", lower=0),
       makeNumericVectorLearnerParam(id="se.scale", default=5L, lower=0),
-      makeDiscreteLearnerParam(id="offset.percent", vals=0:2),
+      makeDiscreteLearnerParam(id="offset.percent", values=0:2),
       makeUntypedLearnerParam(id="hetero", default=NULL),
       makeNumericVectorLearnerParam(id="prior", lower=0, upper=1),
       makeLogicalLearnerParam(id="remove.zeros", default=TRUE),

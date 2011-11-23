@@ -25,7 +25,7 @@ ctrl = makeSPOControl(
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list()
 )
 
-opt.path = makeOptPath(names(ps@pars), "y", minimize=TRUE)
+opt.path = makeOptPath(names(ps$pars), "y", minimize=TRUE)
 #w = makeLearner("regr.rsm", modelfun="SO")
 w = makeLearner("regr.randomForest")
 r = spo(fun, ps, des, w, ctrl, opt.path)

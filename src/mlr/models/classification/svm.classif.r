@@ -21,10 +21,10 @@ setMethod(
 		signature = signature("classif.svm"),
 		def = function(.Object) {
       par.set = makeParamSet(
-        makeDiscreteLearnerParam(id="type", default="C-classification", vals=c("C-classification", "nu-classification")),
+        makeDiscreteLearnerParam(id="type", default="C-classification", values=c("C-classification", "nu-classification")),
         makeNumericLearnerParam(id="cost",  default=1, lower=0, requires=expression(type=="C-classification")),
         makeNumericLearnerParam(id="nu", default=0.5, requires=expression(type=="nu-classification")),
-        makeDiscreteLearnerParam(id="kernel", default="radial", vals=c("linear", "polynomial", "radial", "sigmoid")),
+        makeDiscreteLearnerParam(id="kernel", default="radial", values=c("linear", "polynomial", "radial", "sigmoid")),
         makeIntegerLearnerParam(id="degree", default=3L, lower=1L, requires=expression(kernel=="polynomial")),
         makeNumericLearnerParam(id="coef0", default=0, requires=expression(kernel=="polynomial" || kernel=="sigmoid")),
         makeNumericLearnerParam(id="gamma", lower=0, requires=expression(kernel!="linear")),

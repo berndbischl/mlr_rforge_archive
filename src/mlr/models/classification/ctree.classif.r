@@ -23,8 +23,8 @@ setMethod(
 		def = function(.Object) {
 			
       par.set = makeParamSet(
-        makeDiscreteLearnerParam(id="teststat", default="quad", vals=c("quad", "max")),
-        makeDiscreteLearnerParam(id="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
+        makeDiscreteLearnerParam(id="teststat", default="quad", values=c("quad", "max")),
+        makeDiscreteLearnerParam(id="testtype", default="Bonferroni", values=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
         makeNumericLearnerParam(id="mincriterion", default=0.95, lower=0, upper=1),
         makeIntegerLearnerParam(id="minsplit", default=20L, lower=1L),
         makeIntegerLearnerParam(id="minbucket", default=7L, lower=1L),

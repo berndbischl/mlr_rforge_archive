@@ -55,7 +55,7 @@ setMethod(
     
     def = function(learner, ..., par.vals) {
       ns = names(par.vals)
-      pars = learner@par.set@pars
+      pars = learner@par.set$pars
       for (i in seq(length=length(par.vals))) {
         n = ns[i]
         p = par.vals[[i]]
@@ -67,7 +67,7 @@ setMethod(
             stop(msg)
           if (.mlr.local$errorhandler.setup$on.par.without.desc == "warn")
             warning(msg)
-          learner@par.set@pars[[n]] = makeUntypedLearnerParam(id=n)
+          learner@par.set$pars[[n]] = makeUntypedLearnerParam(id=n)
           learner@par.vals[[n]] = p
         } else {
           isf = isFeasible(pd, p)
@@ -75,8 +75,8 @@ setMethod(
             stop("'", n, "' must be a feasible parameter setting.")
           # if valname of discrete par was used, transform it to real value
           if ((pd@type == "discrete" || pd@type == "ordered") 
-            && is.character(p) && length(p) == 1 && p %in% names(pd@constraints$vals))
-            p = pd@constraints$vals[[p]]
+            && is.character(p) && length(p) == 1 && p %in% names(pd$values))
+            p = pd$values[[p]]
           learner@par.vals[[n]] = p
         }
       }

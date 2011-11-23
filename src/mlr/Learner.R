@@ -71,7 +71,7 @@ setMethod(
       .Object@properties[["prob"]] = FALSE
 			.Object@pack = pack
 			requirePackages(pack, paste("learner", .Object@id))
-      if(any(sapply(par.set@pars, function(x) !is(x, "LearnerParam"))))
+      if(any(sapply(par.set$pars, function(x) !is(x, "LearnerParam"))))
         stop("All par.set parameters in learner of class ", class(.Object), " must be of class 'LearnerParam'!")
 			.Object@par.set = par.set
       .Object@predict.type = "response"
@@ -133,7 +133,7 @@ getHyperParsTop = function(learner, for.fun) {
     both=c("train", "predict", "both")
   )
   pv = learner@par.vals
-  ns = names(Filter(function(y) y@when %in% wh, learner@par.set@pars))
+  ns = names(Filter(function(y) y@when %in% wh, learner@par.set$pars))
   ns = intersect(ns, names(learner@par.vals))
   pv[ns]
 }

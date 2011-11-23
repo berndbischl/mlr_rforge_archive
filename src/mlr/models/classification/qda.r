@@ -21,7 +21,7 @@ setMethod(
 		signature = signature("classif.qda"),
 		def = function(.Object) {
       par.set = makeParamSet(
-        makeDiscreteLearnerParam(id="method", default="moment", vals=c("moment", "mle", "mve", "t")),
+        makeDiscreteLearnerParam(id="method", default="moment", values=c("moment", "mle", "mve", "t")),
         makeNumericLearnerParam(id="nu", default=5 , lower=2, requires=expression(method == "t"))
       )
       

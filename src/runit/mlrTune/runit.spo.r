@@ -15,7 +15,7 @@ test.spo.rf <- function() {
   checkEquals(or$y, f(or$x))
   checkEquals(length(or$path), 15)
   checkTrue(is.list(or$x))
-  checkEquals(names(or$x), names(ps@pars))
+  checkEquals(names(or$x), names(ps$pars))
   checkTrue(is(or$models[[1]]@learner, "regr.randomForest"))
   checkEquals(length(or$models[[1]]@subset), 10)
   checkTrue(is(or$models[[2]]@learner, "regr.randomForest"))
@@ -52,7 +52,7 @@ test.spo.rf <- function() {
   ps = makeParamSet(
     makeNumericParam("x1", lower=-2, upper=1), 
     makeIntegerParam("x2", lower=-1, upper=2), 
-    makeDiscreteParam("x3", vals=c("a", "b")) 
+    makeDiscreteParam("x3", values=c("a", "b")) 
   )
   des = makeDesign(10, par.set=ps)
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
@@ -68,13 +68,13 @@ test.spo.rf <- function() {
   checkTrue(is.character(df$x3))
   checkTrue(is.numeric(df$y))
   checkTrue(is.list(or$x))
-  checkEquals(names(or$x), names(ps@pars))
+  checkEquals(names(or$x), names(ps$pars))
   
   ctrl = makeSPOControl(init.design.points=3, seq.loops=5, seq.design.points=100)
   or = spo(f, ps, des=NULL, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(length(or$path), 8)
-  checkEquals(names(or$x), names(ps@pars))
+  checkEquals(names(or$x), names(ps$pars))
   
   f = function(x) sum(x[[1]]^2) + (2 - x[[2]])^2
   
@@ -111,7 +111,7 @@ test.spo.km <- function() {
   checkTrue(is.numeric(df$x1))
   checkTrue(is.numeric(df$x2))
   checkTrue(is.list(or$x))
-  checkEquals(names(or$x), names(ps@pars))
+  checkEquals(names(or$x), names(ps$pars))
   checkTrue(is(or$models[[1]]@learner, "regr.km"))
   checkEquals(length(or$models[[1]]@subset), 15)
   
@@ -128,7 +128,7 @@ test.spo.km <- function() {
   checkTrue(is.numeric(df$x1))
   checkTrue(is.integer(df$x2))
   checkTrue(is.list(or$x))
-  checkEquals(names(or$x), names(ps@pars))
+  checkEquals(names(or$x), names(ps$pars))
 
   
   ctrl = makeSPOControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
@@ -139,7 +139,7 @@ test.spo.km <- function() {
   checkTrue(is.numeric(df$x1))
   checkTrue(is.integer(df$x2))
   checkTrue(is.list(or$x))
-  checkEquals(names(or$x), names(ps@pars))
+  checkEquals(names(or$x), names(ps$pars))
 } 
 
 testResample = function() {

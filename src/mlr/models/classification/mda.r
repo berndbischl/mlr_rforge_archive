@@ -35,7 +35,7 @@ setMethod(
       makeIntegerLearnerParam(id="iter", default=5L, lower=1L),
       makeIntegerLearnerParam(id="dimension", lower=1L),
       makeDiscreteLearnerParam(id="method", default="polyreg", 
-        vals=list(polyreg=polyreg, mars=mars, bruto=bruto, gen.ridge=gen.ridge)),
+        values=list(polyreg=polyreg, mars=mars, bruto=bruto, gen.ridge=gen.ridge)),
       makeLogicalLearnerParam(id="trace", default=FALSE),
       # change default and pass it to reduce mem
       makeLogicalLearnerParam(id="keep.fitted", default=FALSE, pass.default=TRUE),

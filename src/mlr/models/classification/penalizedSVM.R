@@ -21,7 +21,7 @@ setMethod(
 		signature = signature("classif.lpsvm"),
 		def = function(.Object) {
       par.set = makeParamSet(
-        makeDiscreteLearnerParam(id="fs.method", default="scad", vals=c("scad","1norm", "DrHSVM", "scad+L2")),
+        makeDiscreteLearnerParam(id="fs.method", default="scad", values=c("scad","1norm", "DrHSVM", "scad+L2")),
         makeNumericLearnerParam(id="maxevals", default=500L),
         makeLogicalLearnerParam(id="calc.class.weights", default=FALSE),
         makeNumericLearnerParam(id="lambda1", lower=0),

@@ -2,7 +2,7 @@
 #' Draw uniformly from region "lower to upper"
 getNearestHyperPars = function(x, par.sets, bit.names, opt.path) {
   ps = par.sets[[x$learner]]
-  if (length(ps@pars) == 0)
+  if (length(ps$pars) == 0)
     return(numeric(0))
   df = as.data.frame(opt.path)
   df = subset(df, learner == x$learner)
@@ -14,7 +14,7 @@ getNearestHyperPars = function(x, par.sets, bit.names, opt.path) {
   print(dist)
   i = which.min(dist)
   print(df[i,])
-  df[i, names(ps@pars)] 
+  df[i, names(ps$pars)] 
 }
 
 
@@ -51,7 +51,7 @@ mutate.hp = function(x, par.sets, control) {
   for (i in seq_along(hps)) {
     pm = pm_operator(control@mut.hp.eta, control@mut.hp.prob, lower=low[i], upper=upp[i])
     x$hyper.pars[i] = pm(hps[i])
-    if (ps@pars[[i]]@type == "integer")
+    if (ps$pars[[i]]@type == "integer")
       x$hyper.pars[i] = as.integer(round(x$hyper.pars[i]))
   }
   return(x$hyper.pars)
@@ -96,17 +96,17 @@ crossover.hps = function(x, y, par.sets, control) {
 }  
 
 sampleHyperPars = function(par.set) {
-  n = length(par.set@pars)
+  n = length(par.set$pars)
   z = numeric(n)
   for (i in seq_len(n)) {
-    pd = par.set@pars[[i]]
-    x = runif(1, pd@constraints$lower, pd@constraints$upper)
+    pd = par.set$pars[[i]]
+    x = runif(1, pd$lower, pd$upper)
     if (pd@type == "integer")
       x = as.integer(round(x))
     # todo: should we really do the trafo here? check mlrTune!
     z[i] = pd@trafo(x)
   }
-  names(z) = names(par.set@pars)
+  names(z) = names(par.set$pars)
   return(z)
 }
 

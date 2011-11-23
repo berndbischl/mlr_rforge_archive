@@ -25,7 +25,7 @@ setMethod(
 		def = function(.Object) {
 						
       par.set = makeParamSet(
-        makeDiscreteLearnerParam(id="type", default="discrete", vals=c("discrete", "real", "gentle")),
+        makeDiscreteLearnerParam(id="type", default="discrete", values=c("discrete", "real", "gentle")),
         makeIntegerLearnerParam(id="iter", default=50L, lower=1L),
         makeNumericLearnerParam(id="nu", default=0.1, lower=0),
         makeNumericLearnerParam(id="bag.frac", default=0.5, lower=0, upper=1),
@@ -38,8 +38,8 @@ setMethod(
         makeNumericLearnerParam(id="cp", default=0.01, lower=0, upper=1),
         makeIntegerLearnerParam(id="maxcompete", default=4L, lower=0L),
         makeIntegerLearnerParam(id="maxsurrogate", default=5L, lower=0L),
-        makeDiscreteLearnerParam(id="usesurrogate", default=2L, vals=0:2),
-        makeDiscreteLearnerParam(id="surrogatestyle", default=0L, vals=0:1),
+        makeDiscreteLearnerParam(id="usesurrogate", default=2L, values=0:2),
+        makeDiscreteLearnerParam(id="surrogatestyle", default=0L, values=0:1),
         # we use 30 as upper limit, see docs of rpart.control
         makeIntegerLearnerParam(id="maxdepth", default=30L, lower=1L, upper=30L)
       )

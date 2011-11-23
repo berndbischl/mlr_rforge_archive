@@ -9,7 +9,7 @@ test.benchmark2 <- function() {
 	
 		# normal benchmark - tune wrapper with one par
 		ps1 = makeParamSet(
-      makeDiscreteParam("minsplit", vals=seq(3,10,2))
+      makeDiscreteParam("minsplit", values=seq(3,10,2))
     ) 
 		wl = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps1, control=makeTuneControlGrid())
 		bm = .mlr.benchmark(wl, ct, outer, models=TRUE)
@@ -18,7 +18,7 @@ test.benchmark2 <- function() {
     checkTrue(is.list(bm$ors[[1]]@x))
     checkEquals(names(bm$ors[[1]]@x), "minsplit")
     checkEquals(names(bm$ors[[1]]@y), c("mmce.test.mean", "mmce.test.sd"))
-		checkTrue(length(as.list(bm$ors[[1]]@path)) == length(ps1@pars[["minsplit"]]@constraints$vals))
+		checkTrue(length(as.list(bm$ors[[1]]@path)) == length(ps1$pars[["minsplit"]]$values))
 		checkTrue(is.list(bm$res.result))
 		checkEquals(length(bm$res.result$models), 1)
 		checkTrue(is(bm$res.result$models[[1]], "WrappedModel"))
@@ -29,8 +29,8 @@ test.benchmark2 <- function() {
 
     # normal benchmark - 2 par
     ps2 = makeParamSet(
-      makeDiscreteParam("minsplit", vals=seq(3,10,2)),
-      makeDiscreteParam("cp", vals=c(0.1, 0.11 , 0.09))
+      makeDiscreteParam("minsplit", values=seq(3,10,2)),
+      makeDiscreteParam("cp", values=c(0.1, 0.11 , 0.09))
     ) 
 		wl = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps2, control=makeTuneControlGrid())
 		cbr = .mlr.benchmark(wl, ct, outer, models=FALSE)

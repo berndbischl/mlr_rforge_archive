@@ -3,8 +3,8 @@ test.tune <- function() {
   cp = c(0.05, 0.9)
   minsplit = 1:3 
   ps1 = makeParamSet(
-    makeDiscreteParam("cp", vals=cp), 
-    makeDiscreteParam("minsplit", vals=minsplit)
+    makeDiscreteParam("cp", values=cp), 
+    makeDiscreteParam("minsplit", values=minsplit)
   )
 	ctrl = makeTuneControlGrid()
 	folds = 3
@@ -48,7 +48,7 @@ test.tune.optim = function() {
   )
   ps3 = makeParamSet(
     makeNumericParam("cp", lower=0.001, upper=1), 
-    makeDiscreteParam("minsplit", vals=c(1,2))
+    makeDiscreteParam("minsplit", values=c(1,2))
   )
   
   # nelder mead with optim
@@ -95,7 +95,7 @@ test.tune.cmaes = function() {
   
   ps3 = makeParamSet(
     makeNumericParam("cp", lower=0.001, upper=1), 
-    makeDiscreteParam("minsplit", vals=c(1,2))
+    makeDiscreteParam("minsplit", values=c(1,2))
   )
   checkException(tune("classif.rpart", multiclass.task, res, par.set=ps3, control=ctrl1))
 } 

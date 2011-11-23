@@ -24,7 +24,7 @@ setMethod(
 		def = function(.Object) {
       par.set = makeParamSet(
         makeLogicalLearnerParam(id="Hess", default=FALSE),
-        makeDiscreteLearnerParam(id="summ", default=0L, vals=0:3),
+        makeDiscreteLearnerParam(id="summ", default=0L, values=0:3),
         makeLogicalLearnerParam(id="censored", default=FALSE),
         makeLogicalLearnerParam(id="model", default=FALSE),
         makeIntegerLearnerParam(id="maxit", default=100L, lower=1L),

@@ -22,12 +22,12 @@ setMethod(
     def = function(.Object) {
       par.set = makeParamSet(
         makeDiscreteLearnerParam(id="covtype", default="matern5_2", 
-          vals=list("gauss", "matern5_2", "matern3_2", "exp", "powexp")), 
+          values=list("gauss", "matern5_2", "matern3_2", "exp", "powexp")), 
         makeNumericLearnerParam(id="nugget"), 
         makeLogicalLearnerParam(id="nugget.estim", default=FALSE), 
         makeNumericVectorLearnerParam(id="noise.var"), 
         makeDiscreteLearnerParam(id="optim.method", default="BFGS", 
-          vals=list("BFGS", "gen")), 
+          values=list("BFGS", "gen")), 
         makeNumericVectorLearnerParam(id="lower"), 
         makeNumericVectorLearnerParam(id="upper"), 
         makeUntypedLearnerParam(id="control")

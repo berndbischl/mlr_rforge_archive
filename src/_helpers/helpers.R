@@ -1,32 +1,3 @@
-c.factor = function(..., recursive=FALSE) {
-  args <- list(...)
-  for (i in seq_along(args))
-    if (!is.factor(args[[i]]))
-      args[[i]] = as.factor(args[[i]])
-  ## The first must be factor otherwise we wouldn't be inside
-  ## c.factor, its checked anyway in the line above.
-  newlevels = sort(unique(unlist(lapply(args, levels))))
-  ans = unlist(lapply(args, function(x) {
-        m = match(levels(x), newlevels)
-        m[as.integer(x)]
-      }))
-  levels(ans) = newlevels
-  class(ans) = "factor"
-  return(ans)
-}
-
-
-## do lapply recursively on deep lists
-## FIXME: Use rapply instead? Possibly not useful because rapply does
-##   not limit descend depth. Investigate if rec.lapply becomes a
-##   bottleneck.
-rec.lapply = function(xs, fun, depth=Inf) {
-  if (!is.list(xs) || is.data.frame(xs) || depth==0) {
-    return(fun(xs))
-  }
-  lapply(xs, function(x) rec.lapply(x, fun, depth-1))
-}
-
 vote.majority = function(x) {
   tt = table(x)
   y = seq_along(tt)[tt == max(tt)]
@@ -44,49 +15,8 @@ vote.max.val = function(x, names=names(x)) {
 }
 
 
-# returns first non null el. 
-coalesce = function (...) {
-  l <- list(...)
-  isnull <- sapply(l, is.null)
-  l[[which.min(isnull)]]
-}
-
-## FIXME: 20100925 - Not used and possibly nonsense...
-## list2dataframe = function(xs, rownames=NULL) {
-##  ys = as.data.frame(do.call(rbind, xs))
-##  rownames(ys) = rownames
-##  return(ys)
-## }
-
-path2dataframe = function(path) {
-  p = path[[1]]
-  cns = c(names(p$par), names(p$perf), "evals", "event", "accept")
-  df = matrix(0, length(path), length(cns))
-  colnames(df) = cns
-  n = length(p$par)
-  m = length(p$perf)
-  k = ncol(df)
-  df = as.data.frame(df)
-  df$event = as.character(df$event)
-  for (i in 1:length(path)) {
-    p = path[[i]]
-    df[i, 1:n] = unlist(p$par)  
-    df[i, (n+1):(k-2)] = c(unlist(p$perf), p$evals)  
-    df[i, k-1] = p$event  
-    df[i, k] = p$accept  
-  }
-  return(df)
-}
-
-##' Check if \code{e1} and \code{e2} are equal ignoring such fine
-##' points as \code{1 != 1L}.
-almost.equal <- function(e1, e2) {
-  isTRUE(all.equal(e1, e2))
-}
-
-
 par.valnames.to.vals = function(names, par.set) {
-  Map(function(par, n) par@constraints$vals[[n]], par.set@pars, names)
+  Map(function(par, n) par$values[[n]], par.set$pars, names)
 }
 
 checkColumnNames = function(data, target, exclude) {
@@ -213,7 +143,7 @@ makeOptPathDFFromMeasures = function(par.set, measures) {
   ns = sapply(measures, measureAggrName)
   if (any(duplicated(ns)))
     stop("Cannot create OptPath, measures do not have unique ids!")
-  if (length(intersect(ns, names(par.set@pars))) > 0 ||
+  if (length(intersect(ns, names(par.set$pars))) > 0 ||
     length(intersect(ns, getParamIds(par.set, repeated=TRUE, with.nr=TRUE))) > 0)
     stop("Cannot create OptPath, measures ids and dimension names of input space overlap!")
   minimize = sapply(measures, function(m) m@minimize)
@@ -224,37 +154,6 @@ measureAggrName = function(measure) {
   paste(measure@id, measure@aggr@id, sep=".")
 }
 
-
-dataFrameRowToList = function(df, par.set, i) {
-  df = df[i,,drop=FALSE]
-  pars = par.set@pars
-  col = 0
-  x = list()
-  for (i in 1:length(pars)) {
-    p = pars[[i]]
-    cc = rev(col)[1]
-    if (p@type %in% c("numericvector", "integervector")) 
-      col = (cc + 1) : (cc + length(lower(p)))   
-    else 
-      col = cc + 1    
-    
-    if (p@type == "numericvector") 
-      x[[p@id]] = as.numeric(df[,col])  
-    else if (p@type %in% c("integer", "integervector")) 
-      x[[p@id]] = as.integer(round(df[,col]))
-    else if (p@type == "discrete") {
-      if(p@constraints$vals.class == "list")
-        x[[p@id]] = p@constraints$vals[[df[,col]]]
-      else
-      if (is.factor(df[, col]))
-        x[[p@id]] = as.character(df[,col])
-      else
-        x[[p@id]] = df[,col]
-    } else 
-      x[[p@id]] = df[,col]
-  }
-  return(x)
-}
 
 perfsToString = function(y) {
   paste(paste(names(y), "=", formatC(y, digits=3), sep=""), collapse=",")

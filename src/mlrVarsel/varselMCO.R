@@ -75,7 +75,7 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
   n = length(bit.names)
   m = length(measures)
   
-  hps.ns = as.character(do.call(c, lapply(par.sets, function(ps) names(ps@pars))))
+  hps.ns = as.character(do.call(c, lapply(par.sets, function(ps) names(ps$pars))))
   if ("learner" %in% bit.names) 
     stop("'learner' can currently not be a bit/feature name!")
   if ("learner" %in% hps.ns) 
@@ -110,8 +110,8 @@ varselMCO2 = function(bag, task, resampling, measures, bit.names, bits.to.featur
     p2 = list()
     p1$learner = p1a$learner    
     p2$learner = p2a$learner
-    p1$hyper.pars = p1a[names(par.sets[[p1$learner]]@pars)]
-    p2$hyper.pars = p2a[names(par.sets[[p2$learner]]@pars)]
+    p1$hyper.pars = p1a[names(par.sets[[p1$learner]]$pars)]
+    p2$hyper.pars = p2a[names(par.sets[[p2$learner]]$pars)]
     mode(p1$hyper.pars) = "numeric"
     mode(p2$hyper.pars) = "numeric"
     p1$bits = unlist(p1a[bit.names])

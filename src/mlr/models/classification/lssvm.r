@@ -26,7 +26,7 @@ setMethod(
       par.set = makeParamSet(
         makeLogicalLearnerParam(id="scaled", default=TRUE),
         makeDiscreteLearnerParam(id="kernel", default="rbfdot", 
-          vals=c("vanilladot", "polydot", "rbfdot", "tanhdot", "laplacedot", "besseldot", "anovadot", "splinedot", "stringdot")),
+          values=c("vanilladot", "polydot", "rbfdot", "tanhdot", "laplacedot", "besseldot", "anovadot", "splinedot", "stringdot")),
         makeNumericLearnerParam(id="tau", lower=0, default=0.01),
         makeLogicalLearnerParam(id="reduced", default=TRUE),
         makeNumericLearnerParam(id="sigma",

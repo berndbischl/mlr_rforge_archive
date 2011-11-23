@@ -22,7 +22,7 @@ setMethod(
 		signature = signature("classif.gbm"),
 		def = function(.Object) {
       par.set = makeParamSet(      
-          makeDiscreteLearnerParam(id="distribution", default="bernoulli", vals=c("bernoulli", "adaboost")),
+          makeDiscreteLearnerParam(id="distribution", default="bernoulli", values=c("bernoulli", "adaboost")),
           makeIntegerLearnerParam(id="n.trees", default=100L, lower=1L),
           makeIntegerLearnerParam(id="interaction.depth", default=1L, lower=1L),
           makeIntegerLearnerParam(id="n.minobsinnode", default=10L, lower=1L),

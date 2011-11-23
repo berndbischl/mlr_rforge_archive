@@ -3,7 +3,7 @@ test.benchresult = function() {
 	outer.len = 3
 	inner = makeResampleDesc("CV", iter=2)
 
-	ps = makeParamSet(makeDiscreteParam("C", vals=1:2))
+	ps = makeParamSet(makeDiscreteParam("C", values=1:2))
 	ctrl = makeTuneControlGrid()
 	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=ctrl)
 	
@@ -98,7 +98,7 @@ test.benchresult = function() {
   x1 = x[[multiclass.task@desc@id]][["classif.rpart"]]
   checkTrue(is.matrix(x1))  
   
-	ps = makeParamSet(makeDiscreteParam("C", vals=1:2), makeDiscreteParam("sigma", vals=1:2))
+	ps = makeParamSet(makeDiscreteParam("C", values=1:2), makeDiscreteParam("sigma", values=1:2))
 	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=makeTuneControlGrid())
 	learners = c(svm.tuner)
 	be = bench.exp(tasks=tasks, learners=learners, resampling=res)

@@ -34,7 +34,7 @@ setMethod(
 				return(make.empty(.Object))
       if (is(learner, "OptWrapper")) 
         stop("Cannot wrap an optimization wrapper with something else!")
-      ns = intersect(names(par.set@pars), names(learner@par.set@pars))
+      ns = intersect(names(par.set$pars), names(learner@par.set$pars))
       if (length(ns) > 0)
         stop("Hyperparameter names in wrapper clash with base learner names: ", paste(ns, collapse=","))
 			.Object@learner = learner
@@ -94,7 +94,7 @@ setMethod(
 	
 	def = function(learner, ..., par.vals=list()) {
 		ns = names(par.vals)
-		pds.n = names(learner@par.set@pars)
+		pds.n = names(learner@par.set$pars)
 		for (i in seq(length=length(par.vals))) {
 			if (ns[i] %in% pds.n) {
 				learner = callNextMethod(learner, par.vals=par.vals[i])
