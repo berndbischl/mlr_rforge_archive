@@ -28,6 +28,7 @@ allowed.rd.files <<- c(
   "getProperty.Rd",
   "setProperty.Rd",
   "setProperties.Rd",
+  "getParamSet",
   "getHyperPars.Rd",
   "setHyperPars.Rd",
   "setId.Rd",

@@ -8,7 +8,7 @@ proposePoints = function(model, par.set, control, opt.path) {
   low = lower(par.set)
   upp = upper(par.set)
   if (control@propose.points.method == "seq.design") {
-    des = makeDesign(control@seq.design.points, par.set, 
+    des = generateDesign(control@seq.design.points, par.set, 
       control@seq.design.fun, control@seq.design.args, ints.as.num=TRUE)
     y = predict(model, newdata=des)@df$response
     o = order(y)

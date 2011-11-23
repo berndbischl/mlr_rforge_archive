@@ -11,7 +11,7 @@
 #' @param par.set [\code{\link[ParamHelpers]{ParamSet}}] \cr
 #'   Collection of parameters and their constraints for optimization.   
 #' @param des [data.frame | NULL] \cr
-#'   Initial design. Must have been created by \code{\link{makeDesign}}. 
+#'   Initial design. Must have been created by \code{\link[ParamHelpers]{generateDesign}}. 
 #'   If the parameters have corresponding trafo functions, 
 #'   the design must not be transformed before it is passed! 
 #'   If \code{NULL}, one is constructed from the settings in \code{control}.
@@ -39,7 +39,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   if (control@propose.points.method == "CMAES" && control@propose.points != 1)
     stop("CMAES can only propose 1 point!")        
   if (control@propose.points.method == "CMAES" &&
-    !all(sapply(par.set$pars, function(p) p@type) %in% c("numeric", "integer", "numericvector", "integervector")))
+    !all(sapply(par.set$pars, function(p) p$type) %in% c("numeric", "integer", "numericvector", "integervector")))
     stop("Proposal method CMAES can only be applied to numeric, integer, numericvector, integervector parameters!")
   if (control@propose.points.method == "EI" && 
     !(class(learner) %in% c("regr.km", "regr.kmforrester"))) 
@@ -52,7 +52,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   opt.path = new("OptPathDF", par.set=par.set, y.names=y.name, minimize=control@minimize)
   
   if (is.null(des)) {
-    des.x = makeDesign(control@init.design.points, par.set, 
+    des.x = generateDesign(control@init.design.points, par.set, 
       control@init.design.fun, control@init.design.args, trafo=FALSE)
     xs = lapply(1:nrow(des.x), function(i) dataFrameRowToList(des.x, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
@@ -60,7 +60,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     des[, y.name] = ys
   } else {
     if (attr(des, "trafo"))
-      stop("Design must not be tranformed before call to 'spo'. Set 'trafo' to FALSE in makeDesign.")
+      stop("Design must not be tranformed before call to 'spo'. Set 'trafo' to FALSE in generateDesign.")
     if (!(y.name %in% colnames(des)))
       stop("Design 'des' must contain y column of fitness values: ", y.name)
     ys = des[, y.name]

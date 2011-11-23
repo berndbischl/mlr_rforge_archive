@@ -6,7 +6,7 @@ setClass(
 		representation = representation(
 				resampling = "ANY",
         measures = "list",
-        opt.pars = "ParamSet",
+        opt.pars = "list",
         bit.names = "character",
         bits.to.features = "function",
         control = "OptControl",

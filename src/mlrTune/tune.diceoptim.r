@@ -10,7 +10,7 @@ tune.diceoptim = function(learner, task, resampling, measures, par.set, control,
     stop("DiceOptim requires finite box constraints!")
   
   args = control@extra.args
-  des = makeDesign(args$init.des.points, par.set)
+  des = generateDesign(args$init.des.points, par.set)
   ns = colnames(des)
 
   f = makeTunerTargetFun(learner, task, resampling, measures, par.set, control, opt.path) 

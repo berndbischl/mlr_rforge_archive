@@ -5,7 +5,7 @@ test.spo.rf <- function() {
     makeNumericParam("x1", lower=-2, upper=1), 
     makeNumericParam("x2", lower=-1, upper=2) 
   )
-  des = makeDesign(10, par.set=ps)
+  des = generateDesign(10, par.set=ps)
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.randomForest")
@@ -38,7 +38,7 @@ test.spo.rf <- function() {
   ps = makeParamSet(
     makeNumericParam("x1", lower=-10, upper=10, trafo=function(x) abs(x)) 
   )
-  des = makeDesign(10, par.set=ps)
+  des = generateDesign(10, par.set=ps)
   des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   or = spo(f, ps, des, learner, ctrl)
   checkTrue(!is.na(or$y))
@@ -54,7 +54,7 @@ test.spo.rf <- function() {
     makeIntegerParam("x2", lower=-1, upper=2), 
     makeDiscreteParam("x3", values=c("a", "b")) 
   )
-  des = makeDesign(10, par.set=ps)
+  des = generateDesign(10, par.set=ps)
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.randomForest")
@@ -99,7 +99,7 @@ test.spo.km <- function() {
     makeNumericParam("x1", lower=-2, upper=1), 
     makeNumericParam("x2", lower=-1, upper=2) 
   )
-  des = makeDesign(10, par.set=ps)
+  des = generateDesign(10, par.set=ps)
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.km", nugget.estim=TRUE)
@@ -119,7 +119,7 @@ test.spo.km <- function() {
     makeNumericParam("x1", lower=-2, upper=1), 
     makeIntegerParam("x2", lower=-1, upper=2) 
   )
-  des = makeDesign(10, par.set=ps)
+  des = generateDesign(10, par.set=ps)
   des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   or = spo(f, ps, des, learner, ctrl)
   checkTrue(!is.na(or$y))

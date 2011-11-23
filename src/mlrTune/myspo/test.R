@@ -1,5 +1,5 @@
 library(mlr)
-source("src\\base\\optimize\\makeDesign.R")
+source("src\\base\\optimize\\generateDesign.R")
 source("src\\base\\optimize\\myspo\\control.myspo.opt.r")
 source("src\\base\\optimize\\myspo\\proposePoints.R")
 source("src\\base\\optimize\\myspo\\spo.helpers.r")
@@ -16,7 +16,7 @@ ps = makeParamSet(
 )
 
 set.seed(1)
-des = makeDesign(30, ps, randomLHS, list())
+des = generateDesign(30, ps, randomLHS, list())
 des$y = sapply(1:nrow(des), function(i) fun(as.list(des[i,])))
 
 ctrl = makeSPOControl(

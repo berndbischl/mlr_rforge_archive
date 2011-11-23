@@ -94,7 +94,7 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
 ) {
   requirePackages("lhs", "makeSPOControl")
   checkArg(y.name, "character", 1)
-  checkArg(propose.points.method, "character", 1, c("seq.design", "CMAES", "EI"))
+  checkArg(propose.points.method, choices=c("seq.design", "CMAES", "EI"))
   
   if (is.numeric(init.design.points) && length(init.design.points) == 1 && as.integer(init.design.points) == init.design.points)
     init.design.points = as.integer(init.design.points)

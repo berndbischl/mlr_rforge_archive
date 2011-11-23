@@ -11,13 +11,13 @@
 #'  \item{is.classif [\code{logical(1)}]}{Is this learner for classification tasks?}
 #'  \item{is.regr [\code{logical(1)}]}{Is this learner for regression tasks?}
 #'  \item{id [\code{character(1)}]}{Id string of learner.}
-#' 	\item{pack [char]}{Package(s) required for underlying learner.}
+#'  \item{pack [char]}{Package(s) required for underlying learner.}
 #'  \item{doubles [\code{logical(1)}]}{Can real-valued inputs be processed?}
 #'  \item{factors [\code{logical(1)}]}{Can factor inputs be processed?}
 #'  \item{missings [\code{logical(1)}]}{Can missing values be processed?}
 #'  \item{weights [\code{logical(1)}]}{Can case weights be used?}
-#' 	\item{par.vals [named list]}{List of set hyperparameters.}
-#' 	\item{par.set [named list]}{Named list of \code{\link[ParamHelpers]{LearnerParam}} description objects for all possible hyperparameters.}
+#'  \item{par.vals [named list]}{List of set hyperparameters.}
+#'  \item{par.set [named list]}{Named list of \code{\link[ParamHelpers]{LearnerParam}} description objects for all possible hyperparameters.}
 #' }
 #' 
 #' Further getters for classifiers.\cr
@@ -36,47 +36,48 @@
 #' @title Base class for inducers. 
 
 setClass(
-		"Learner",
-		representation = representation(
-        id = "character",
-        pack = "character",
-        properties = "list",
-				par.set = "ParamSet",
-				par.vals = "list",
-        predict.type = "character"
-		)		
+  "Learner",
+  representation = representation(
+    id = "character",
+    pack = "character",
+    properties = "list",
+    par.set = "list",
+    par.vals = "list",
+    predict.type = "character"
+  )   
 )
 
 
 #' Constructor.
 setMethod(
-		f = "initialize",
-		signature = signature("Learner"),
-		def = function(.Object, pack, par.set=makeParamSet(), par.vals=list()) {			
-			if (missing(pack))
-				return(make.empty(.Object))
-      cc = as.character(class(.Object))[1]
-      if (is(.Object, "rlearner.classif"))
-        .Object@properties["type"] = "classif"
-      else if(is(.Object, "rlearner.regr"))
-        .Object@properties["type"] = "regr"
-      .Object@id = cc 
-      .Object@properties["numerics"] = FALSE
-      .Object@properties["factors"] = FALSE
-      .Object@properties[["weights"]] = FALSE  
-      .Object@properties[["missings"]] = FALSE
-      .Object@properties[["oneclass"]] = FALSE
-      .Object@properties[["twoclass"]] = FALSE
-      .Object@properties[["multiclass"]] = FALSE
-      .Object@properties[["prob"]] = FALSE
-			.Object@pack = pack
-			requirePackages(pack, paste("learner", .Object@id))
-      if(any(sapply(par.set$pars, function(x) !is(x, "LearnerParam"))))
-        stop("All par.set parameters in learner of class ", class(.Object), " must be of class 'LearnerParam'!")
-			.Object@par.set = par.set
-      .Object@predict.type = "response"
-      setHyperPars(.Object, par.vals=par.vals)
-		}
+  f = "initialize",
+  signature = signature("Learner"),
+  def = function(.Object, pack, par.set=makeParamSet(), par.vals=list()) {      
+    if (missing(pack))
+      return(make.empty(.Object))
+    checkArg(par.set, "ParamSet")  
+    cc = as.character(class(.Object))[1]
+    if (is(.Object, "rlearner.classif"))
+      .Object@properties["type"] = "classif"
+    else if(is(.Object, "rlearner.regr"))
+      .Object@properties["type"] = "regr"
+    .Object@id = cc 
+    .Object@properties["numerics"] = FALSE
+    .Object@properties["factors"] = FALSE
+    .Object@properties[["weights"]] = FALSE  
+    .Object@properties[["missings"]] = FALSE
+    .Object@properties[["oneclass"]] = FALSE
+    .Object@properties[["twoclass"]] = FALSE
+    .Object@properties[["multiclass"]] = FALSE
+    .Object@properties[["prob"]] = FALSE
+    .Object@pack = pack
+    requirePackages(pack, paste("learner", .Object@id))
+    if(any(sapply(par.set$pars, function(x) !is(x, "LearnerParam"))))
+      stop("All par.set parameters in learner of class ", class(.Object), " must be of class 'LearnerParam'!")
+    .Object@par.set = par.set
+    .Object@predict.type = "response"
+    setHyperPars(.Object, par.vals=par.vals)
+  }
 )
 
 
