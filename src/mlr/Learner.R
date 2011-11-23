@@ -139,7 +139,12 @@ getHyperParsTop = function(learner, for.fun) {
 }
 
 getHyperParsString = function(learner) {
-  paramValueToString(getParamSet(learner), getHyperPars(learner, "both"))
+  hps = getHyperPars(learner, "both")
+  ns = names(hps)
+  # only use pars ones where we have hyper par values for
+  pars = getParamSet(learner)$pars[ns]
+  s = Map(paramValueToString, pars, hps)
+  paste(ns, s, sep = "=", collapse = ",")
 }
 
 getLeafLearner = function(learner) {
