@@ -133,7 +133,7 @@ getHyperParsTop = function(learner, for.fun) {
     both=c("train", "predict", "both")
   )
   pv = learner@par.vals
-  ns = names(Filter(function(y) y@when %in% wh, learner@par.set$pars))
+  ns = names(Filter(function(y) y$when %in% wh, learner@par.set$pars))
   ns = intersect(ns, names(learner@par.vals))
   pv[ns]
 }
