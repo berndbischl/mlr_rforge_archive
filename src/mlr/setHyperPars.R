@@ -74,7 +74,7 @@ setMethod(
           if (length(isf) != 1 || !isf)
             stop("'", n, "' must be a feasible parameter setting.")
           # if valname of discrete par was used, transform it to real value
-          if ((pd@type == "discrete" || pd@type == "ordered") 
+          if ((pd$type == "discrete" || pd$type == "ordered") 
             && is.character(p) && length(p) == 1 && p %in% names(pd$values))
             p = pd$values[[p]]
           learner@par.vals[[n]] = p

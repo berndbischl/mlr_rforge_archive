@@ -51,9 +51,9 @@ makeLearner = function(class, id, predict.type="response", ..., par.vals=list())
   pv = list()
   for (j in seq(length=length(pds))) {
     pd = pds[[j]]
-    if (pd@pass.default) {
-      pv[[length(pv)+1]] = pd@default
-      names(pv)[length(pv)] = pd@id
+    if (pd$pass.default) {
+      pv[[length(pv)+1]] = pd$default
+      names(pv)[length(pv)] = pd$id
     }
   }
   pv = insert(pv, par.vals)

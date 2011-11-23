@@ -101,10 +101,10 @@ sampleHyperPars = function(par.set) {
   for (i in seq_len(n)) {
     pd = par.set$pars[[i]]
     x = runif(1, pd$lower, pd$upper)
-    if (pd@type == "integer")
+    if (pd$type == "integer")
       x = as.integer(round(x))
     # todo: should we really do the trafo here? check mlrTune!
-    z[i] = pd@trafo(x)
+    z[i] = pd$trafo(x)
   }
   names(z) = names(par.set$pars)
   return(z)
