@@ -15,7 +15,7 @@ setMethod(
     if (missing(learner))
       return(make.empty(.Object))
     #.Object@resampling = resampling
-    .Object = callNextMethod(.Object, learner, par.set=makeParameterSet(), par.vals=list())
+    .Object = callNextMethod(.Object, learner, par.set=makeParamSet(), par.vals=list())
     # set predict type of base learner
     setPredictType(.Object, learner@predict.type)
   }

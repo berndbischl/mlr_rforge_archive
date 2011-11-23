@@ -21,14 +21,14 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.gbm"),
 		def = function(.Object) {
-      par.set = makeParameterSet(      
-          makeDiscreteLearnerParameter(id="distribution", default="bernoulli", vals=c("bernoulli", "adaboost")),
-          makeIntegerLearnerParameter(id="n.trees", default=100L, lower=1L),
-          makeIntegerLearnerParameter(id="interaction.depth", default=1L, lower=1L),
-          makeIntegerLearnerParameter(id="n.minobsinnode", default=10L, lower=1L),
-          makeNumericLearnerParameter(id="shrinkage", default=0.001, lower=0),
-          makeNumericLearnerParameter(id="bag.fraction", default=0.5, lower=0, upper=1),
-          makeNumericLearnerParameter(id="train.fraction", default=1, lower=0, upper=1)
+      par.set = makeParamSet(      
+          makeDiscreteLearnerParam(id="distribution", default="bernoulli", vals=c("bernoulli", "adaboost")),
+          makeIntegerLearnerParam(id="n.trees", default=100L, lower=1L),
+          makeIntegerLearnerParam(id="interaction.depth", default=1L, lower=1L),
+          makeIntegerLearnerParam(id="n.minobsinnode", default=10L, lower=1L),
+          makeNumericLearnerParam(id="shrinkage", default=0.001, lower=0),
+          makeNumericLearnerParam(id="bag.fraction", default=0.5, lower=0, upper=1),
+          makeNumericLearnerParam(id="train.fraction", default=1, lower=0, upper=1)
       )
       
       .Object = callNextMethod(.Object, pack="gbm",	

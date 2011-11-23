@@ -10,7 +10,7 @@ setClass(
 #' @export 
 makeCombineWrapperRegrAvg = function(learners) {
   new("CombineWrapperRegrAvg", learners=learners, id="CombineWrapperRegrAvg", 
-    par.set=makeParameterSet(), par.vals=list())
+    par.set=makeParamSet(), par.vals=list())
 }
 
 

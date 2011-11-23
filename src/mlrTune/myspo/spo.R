@@ -8,7 +8,7 @@
 #'
 #' @param fun [function(x, ...)]\cr 
 #'   Fitness function to minimize. The first argument has to be a list of values. The function has to return a single numerical value.
-#' @param par.set [\code{\linkS4class{ParameterSet}}] \cr
+#' @param par.set [\code{\link[ParamHelpers]{ParamSet}}] \cr
 #'   Collection of parameters and their constraints for optimization.   
 #' @param des [data.frame | NULL] \cr
 #'   Initial design. Must have been created by \code{\link{makeDesign}}. 
@@ -30,8 +30,8 @@
 
 #todo: check learner is regression
 spo = function(fun, par.set, des=NULL, learner, control) {
-  if(any(sapply(par.set@pars, function(x) is(x, "LearnerParameter"))))
-    stop("No par.set parameter in 'spo' can be of class 'LearnerParameter'! Use basic parameters instead to describe you region of interest!")
+  if(any(sapply(par.set@pars, function(x) is(x, "LearnerParam"))))
+    stop("No par.set parameter in 'spo' can be of class 'LearnerParam'! Use basic parameters instead to describe you region of interest!")
   if (any(is.infinite(c(lower(par.set), upper(par.set)))))
     stop("SPO requires finite box constraints!")
   if (control@propose.points.method == "CMAES") 

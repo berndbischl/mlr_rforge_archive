@@ -19,24 +19,24 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.rda"),
 		def = function(.Object) {
-			par.set = makeParameterSet(
-					makeNumericLearnerParameter(id="lambda", lower=0, upper=1),
-					makeNumericLearnerParameter(id="gamma", lower=0, upper=1),
-					makeLogicalLearnerParameter(id="crossval", default=TRUE),
-          makeIntegerLearnerParameter(id="fold", default=10L, lower=1L),
-					makeNumericLearnerParameter(id="train.fraction", default=0.5, lower=0, upper=1),
-					makeDiscreteLearnerParameter(id="schedule", default=1L, vals=1:2, requires=expression(simAnn==FALSE)),
-					makeNumericLearnerParameter(id="T.start", default=0.1, lower=0, requires=expression(simAnn==TRUE)),
-					makeNumericLearnerParameter(id="halflife", default=0.1, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
-					makeNumericLearnerParameter(id="zero.temp", default=0.01, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
-					makeNumericLearnerParameter(id="alpha", default=2, lower=1, requires=expression(simAnn==TRUE || schedule==2)),
-          makeIntegerLearnerParameter(id="K", default=100L, lower=1L, requires=expression(simAnn==TRUE || schedule==2)),
-					makeDiscreteLearnerParameter(id="kernel", default="triangular", 
+			par.set = makeParamSet(
+					makeNumericLearnerParam(id="lambda", lower=0, upper=1),
+					makeNumericLearnerParam(id="gamma", lower=0, upper=1),
+					makeLogicalLearnerParam(id="crossval", default=TRUE),
+          makeIntegerLearnerParam(id="fold", default=10L, lower=1L),
+					makeNumericLearnerParam(id="train.fraction", default=0.5, lower=0, upper=1),
+					makeDiscreteLearnerParam(id="schedule", default=1L, vals=1:2, requires=expression(simAnn==FALSE)),
+					makeNumericLearnerParam(id="T.start", default=0.1, lower=0, requires=expression(simAnn==TRUE)),
+					makeNumericLearnerParam(id="halflife", default=0.1, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
+					makeNumericLearnerParam(id="zero.temp", default=0.01, lower=0, requires=expression(simAnn==TRUE || schedule==1)),
+					makeNumericLearnerParam(id="alpha", default=2, lower=1, requires=expression(simAnn==TRUE || schedule==2)),
+          makeIntegerLearnerParam(id="K", default=100L, lower=1L, requires=expression(simAnn==TRUE || schedule==2)),
+					makeDiscreteLearnerParam(id="kernel", default="triangular", 
 							vals=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian")),
-          makeLogicalLearnerParameter(id="trafo", default=TRUE),
-          makeLogicalLearnerParameter(id="SimAnn", default=FALSE),
+          makeLogicalLearnerParam(id="trafo", default=TRUE),
+          makeLogicalLearnerParam(id="SimAnn", default=FALSE),
           # change default, so error is only estimated at request of user
-          makeLogicalLearnerParameter(id="estimate.error", default=FALSE, pass.default=TRUE)
+          makeLogicalLearnerParam(id="estimate.error", default=FALSE, pass.default=TRUE)
 			)
 			
 			.Object = callNextMethod(.Object, pack="klaR", par.set=par.set)

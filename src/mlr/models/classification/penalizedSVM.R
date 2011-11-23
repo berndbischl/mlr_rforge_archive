@@ -20,12 +20,12 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.lpsvm"),
 		def = function(.Object) {
-      par.set = makeParameterSet(
-        makeDiscreteLearnerParameter(id="fs.method", default="scad", vals=c("scad","1norm", "DrHSVM", "scad+L2")),
-        makeNumericLearnerParameter(id="maxevals", default=500L),
-        makeLogicalLearnerParameter(id="calc.class.weights", default=FALSE),
-        makeNumericLearnerParameter(id="lambda1", lower=0),
-        makeNumericLearnerParameter(id="lambda2", lower=0)
+      par.set = makeParamSet(
+        makeDiscreteLearnerParam(id="fs.method", default="scad", vals=c("scad","1norm", "DrHSVM", "scad+L2")),
+        makeNumericLearnerParam(id="maxevals", default=500L),
+        makeLogicalLearnerParam(id="calc.class.weights", default=FALSE),
+        makeNumericLearnerParam(id="lambda1", lower=0),
+        makeNumericLearnerParam(id="lambda2", lower=0)
       )
       
 			.Object = callNextMethod(.Object, pack="penalizedSVM", par.set=par.set)

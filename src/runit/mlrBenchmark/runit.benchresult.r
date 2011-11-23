@@ -3,7 +3,7 @@ test.benchresult = function() {
 	outer.len = 3
 	inner = makeResampleDesc("CV", iter=2)
 
-	ps = makeParameterSet(makeDiscreteParameter("C", vals=1:2))
+	ps = makeParamSet(makeDiscreteParam("C", vals=1:2))
 	ctrl = makeTuneControlGrid()
 	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=ctrl)
 	
@@ -40,19 +40,19 @@ test.benchresult = function() {
 	checkTrue(!any(sapply(x2, is.null)))
 	checkTrue(!any(sapply(x3, is.null)))
 	
-  x = getTunedParameters(be, learner="classif.ksvm", as.data.frame=TRUE)
+  x = getTunedParams(be, learner="classif.ksvm", as.data.frame=TRUE)
   checkTrue(is.data.frame(x))
   checkEquals(dim(x), c(outer.len, 1))
   checkEquals(colnames(x), c("C"))
   checkTrue(all(x$C == 1 | x$C == 2))
-  x = getTunedParameters(be, learner="classif.ksvm", as.data.frame=FALSE)
+  x = getTunedParams(be, learner="classif.ksvm", as.data.frame=FALSE)
   checkTrue(is.list(x))
   checkEquals(length(x), outer.len)
   checkTrue(all(sapply(x, is.list)))
   checkTrue(all(sapply(x, function(y) length(y)==1)))
   checkTrue(all(sapply(x, function(y) names(y)=="C")))
   checkTrue(all(sapply(x, function(y) y$C == 1 || y$C == 2)))
-  tp = getTunedParameters(be, learner="foo")
+  tp = getTunedParams(be, learner="foo")
 	checkTrue(all(x$C == 1 | x$C == 2))
 
 	ctrl = makeVarselControlSequential(method="sbs", beta=100)
@@ -98,7 +98,7 @@ test.benchresult = function() {
   x1 = x[[multiclass.task@desc@id]][["classif.rpart"]]
   checkTrue(is.matrix(x1))  
   
-	ps = makeParameterSet(makeDiscreteParameter("C", vals=1:2), makeDiscreteParameter("sigma", vals=1:2))
+	ps = makeParamSet(makeDiscreteParam("C", vals=1:2), makeDiscreteParam("sigma", vals=1:2))
 	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps, control=makeTuneControlGrid())
 	learners = c(svm.tuner)
 	be = bench.exp(tasks=tasks, learners=learners, resampling=res)

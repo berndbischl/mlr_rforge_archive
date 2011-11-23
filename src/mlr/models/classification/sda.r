@@ -20,7 +20,7 @@ setMethod(
 		signature = signature("classif.sda"),
 		def = function(.Object) {
       par.set = list (
-        makeLogicalLearnerParameter(id="diagonal", default=FALSE)
+        makeLogicalLearnerParam(id="diagonal", default=FALSE)
       )
       
 			.Object = callNextMethod(.Object, pack="sda", par.set=par.set)

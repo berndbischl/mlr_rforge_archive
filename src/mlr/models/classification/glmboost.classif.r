@@ -35,11 +35,11 @@ setMethod(
         weights = TRUE
       )
       
-      par.set = makeParameterSet(
-					makeDiscreteLearnerParameter(id="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
-          makeIntegerLearnerParameter(id="mstop", default=100L, lower=1L),
-					makeNumericLearnerParameter(id="nu", default=0.1, lower=0, upper=1),				
-					makeLogicalLearnerParameter(id="center", default=FALSE)
+      par.set = makeParamSet(
+					makeDiscreteLearnerParam(id="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
+          makeIntegerLearnerParam(id="mstop", default=100L, lower=1L),
+					makeNumericLearnerParam(id="nu", default=0.1, lower=0, upper=1),				
+					makeLogicalLearnerParam(id="center", default=FALSE)
 			)
 			.Object@par.set = par.set
 			setHyperPars(.Object, family="Binomial")

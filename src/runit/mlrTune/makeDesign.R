@@ -1,6 +1,6 @@
 testMakeDesign = function() {
-  ps1 = makeParameterSet(
-    makeNumericParameter("x1", lower=-2, upper=1) 
+  ps1 = makeParamSet(
+    makeNumericParam("x1", lower=-2, upper=1) 
   )
   des = makeDesign(13, ps1, randomLHS)
   checkEquals(nrow(des), 13)
@@ -12,9 +12,9 @@ testMakeDesign = function() {
   checkEquals(ncol(des), 1)
   checkTrue(des[,1] >= -2 && des[,1] <= 1)
   
-  ps2 = makeParameterSet(
-    makeNumericParameter("x1", lower=-2, upper=1), 
-    makeIntegerParameter("x2", lower=10, upper=20) 
+  ps2 = makeParamSet(
+    makeNumericParam("x1", lower=-2, upper=1), 
+    makeIntegerParam("x2", lower=10, upper=20) 
   )
   des = makeDesign(13, ps2, randomLHS)
   checkEquals(nrow(des), 13)
@@ -31,10 +31,10 @@ testMakeDesign = function() {
   checkTrue(is.integer(des[,2]))
   checkTrue(des[,2] >= 10 && des[,2] <= 20)
 
-  ps3 = makeParameterSet(
-    makeNumericParameter("x1", lower=-2, upper=1), 
-    makeIntegerParameter("x2", lower=10, upper=20), 
-    makeDiscreteParameter("x3", vals=c("a", "b", "c")) 
+  ps3 = makeParamSet(
+    makeNumericParam("x1", lower=-2, upper=1), 
+    makeIntegerParam("x2", lower=10, upper=20), 
+    makeDiscreteParam("x3", vals=c("a", "b", "c")) 
   )
   des = makeDesign(13, ps3, discrete.as.factors=FALSE)
   checkEquals(nrow(des), 13)
@@ -55,9 +55,9 @@ testMakeDesign = function() {
   checkTrue(is.factor(des[,3]))
   checkTrue(all(des[,3] %in% names(ps3@pars[[3]]@constraints$vals)))
   
-  ps4 = makeParameterSet(
-    makeNumericVectorParameter("x", dim=2, lower=-2, upper=1), 
-    makeIntegerVectorParameter("y", dim=3, lower=10L, upper=20L) 
+  ps4 = makeParamSet(
+    makeNumericVectorParam("x", dim=2, lower=-2, upper=1), 
+    makeIntegerVectorParam("y", dim=3, lower=10L, upper=20L) 
   )
   des = makeDesign(13, ps4)
   checkEquals(nrow(des), 13)
@@ -74,9 +74,9 @@ testMakeDesign = function() {
   checkTrue(des[,4] >= 10 && des[,4] <= 20)
   checkTrue(des[,5] >= 10 && des[,5] <= 20)
 
-  ps5 = makeParameterSet(
-    makeNumericVectorParameter("x", dim=2, lower=-2, upper=1, trafo =  function(x) 2^x), 
-    makeIntegerVectorParameter("y", dim=3, lower=10L, upper=20L, trafo=function(x) 3L*x) 
+  ps5 = makeParamSet(
+    makeNumericVectorParam("x", dim=2, lower=-2, upper=1, trafo =  function(x) 2^x), 
+    makeIntegerVectorParam("y", dim=3, lower=10L, upper=20L, trafo=function(x) 3L*x) 
   )
   des = makeDesign(100, ps5, trafo=TRUE)
   checkEquals(nrow(des), 100)

@@ -30,16 +30,16 @@ setMethod(
       prob = TRUE
     )
     
-    par.set = makeParameterSet(
-      makeUntypedLearnerParameter(id="subclasses", default=2L),
-      makeIntegerLearnerParameter(id="iter", default=5L, lower=1L),
-      makeIntegerLearnerParameter(id="dimension", lower=1L),
-      makeDiscreteLearnerParameter(id="method", default="polyreg", 
+    par.set = makeParamSet(
+      makeUntypedLearnerParam(id="subclasses", default=2L),
+      makeIntegerLearnerParam(id="iter", default=5L, lower=1L),
+      makeIntegerLearnerParam(id="dimension", lower=1L),
+      makeDiscreteLearnerParam(id="method", default="polyreg", 
         vals=list(polyreg=polyreg, mars=mars, bruto=bruto, gen.ridge=gen.ridge)),
-      makeLogicalLearnerParameter(id="trace", default=FALSE),
+      makeLogicalLearnerParam(id="trace", default=FALSE),
       # change default and pass it to reduce mem
-      makeLogicalLearnerParameter(id="keep.fitted", default=FALSE, pass.default=TRUE),
-      makeIntegerLearnerParameter(id="tries", default=5L, lower=1L)
+      makeLogicalLearnerParam(id="keep.fitted", default=FALSE, pass.default=TRUE),
+      makeIntegerLearnerParam(id="tries", default=5L, lower=1L)
     )
     .Object@par.set = par.set
     return(.Object)

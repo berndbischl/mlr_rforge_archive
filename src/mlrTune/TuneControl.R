@@ -5,7 +5,7 @@ roxygen()
 #' Cannot be instantiated. 
 #' 
 #' \describe{
-#'   \item{TuneControlGrid}{Grid search. All kinds of parameter types can be handled, but you have discretize them yourself by always using \code{\link{makeDiscreteParameter}}.}
+#'   \item{TuneControlGrid}{Grid search. All kinds of parameter types can be handled, but you have discretize them yourself by always using \code{\link[ParamHelpers]{makeDiscreteParam}}.}
 #'   \item{TuneControlOptim}{\code{\link[stats]{optim}}. Can handle numeric and integer hyperparameters. For integers the internally proposed numeric values are rounded.}
 #'   \item{TuneControlCMAES}{CMA Evolution Strategy. Can handle numeric and integer hyperparameters. For integers the internally proposed numeric values are rounded.}
 #' }

@@ -21,18 +21,18 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.J48"),
 		def = function(.Object) {
-      par.set = makeParameterSet(
-        makeLogicalLearnerParameter(id="U"),
-        makeLogicalLearnerParameter(id="O"),
-        makeNumericLearnerParameter(id="C", default=0.25, lower=0),
-        makeIntegerLearnerParameter(id="M", default=2L, lower=1L),
-        makeLogicalLearnerParameter(id="R"),
-        makeIntegerLearnerParameter(id="N", default=3L, lower=2L),
-        makeLogicalLearnerParameter(id="B"),
-        makeLogicalLearnerParameter(id="S"),
-        makeLogicalLearnerParameter(id="L"),
-        makeLogicalLearnerParameter(id="A"),
-        makeLogicalLearnerParameter(id="J")
+      par.set = makeParamSet(
+        makeLogicalLearnerParam(id="U"),
+        makeLogicalLearnerParam(id="O"),
+        makeNumericLearnerParam(id="C", default=0.25, lower=0),
+        makeIntegerLearnerParam(id="M", default=2L, lower=1L),
+        makeLogicalLearnerParam(id="R"),
+        makeIntegerLearnerParam(id="N", default=3L, lower=2L),
+        makeLogicalLearnerParam(id="B"),
+        makeLogicalLearnerParam(id="S"),
+        makeLogicalLearnerParam(id="L"),
+        makeLogicalLearnerParam(id="A"),
+        makeLogicalLearnerParam(id="J")
       )      
 		
       .Object = callNextMethod(.Object, pack="RWeka", par.set=par.set)

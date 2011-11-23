@@ -14,8 +14,8 @@ setMethod(
 		f = "initialize",
 		signature = signature("regr.ridge"),
 		def = function(.Object) {
-      par.set = makeParameterSet(
-        makeNumericLearnerParameter(id="lambda2", default=0, lower=0)
+      par.set = makeParamSet(
+        makeNumericLearnerParam(id="lambda2", default=0, lower=0)
       )
 
       .Object = callNextMethod(.Object, pack="penalized", par.set=par.set)

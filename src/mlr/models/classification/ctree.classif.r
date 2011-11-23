@@ -22,18 +22,18 @@ setMethod(
 		signature = signature("classif.ctree"),
 		def = function(.Object) {
 			
-      par.set = makeParameterSet(
-        makeDiscreteLearnerParameter(id="teststat", default="quad", vals=c("quad", "max")),
-        makeDiscreteLearnerParameter(id="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
-        makeNumericLearnerParameter(id="mincriterion", default=0.95, lower=0, upper=1),
-        makeIntegerLearnerParameter(id="minsplit", default=20L, lower=1L),
-        makeIntegerLearnerParameter(id="minbucket", default=7L, lower=1L),
-        makeLogicalLearnerParameter(id="stump", default=FALSE),
-        makeIntegerLearnerParameter(id="nresample", default=9999L, lower=1L, requires=expression(testtype=="MonteCarlo")),
-        makeIntegerLearnerParameter(id="maxsurrogate", default=0L, lower=0L),
-        makeIntegerLearnerParameter(id="mtry", default=0L, lower=0L),
-        makeLogicalLearnerParameter(id="savesplitstats", default=TRUE),
-        makeIntegerLearnerParameter(id="maxdepth", default=0L, lower=0L)
+      par.set = makeParamSet(
+        makeDiscreteLearnerParam(id="teststat", default="quad", vals=c("quad", "max")),
+        makeDiscreteLearnerParam(id="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
+        makeNumericLearnerParam(id="mincriterion", default=0.95, lower=0, upper=1),
+        makeIntegerLearnerParam(id="minsplit", default=20L, lower=1L),
+        makeIntegerLearnerParam(id="minbucket", default=7L, lower=1L),
+        makeLogicalLearnerParam(id="stump", default=FALSE),
+        makeIntegerLearnerParam(id="nresample", default=9999L, lower=1L, requires=expression(testtype=="MonteCarlo")),
+        makeIntegerLearnerParam(id="maxsurrogate", default=0L, lower=0L),
+        makeIntegerLearnerParam(id="mtry", default=0L, lower=0L),
+        makeLogicalLearnerParam(id="savesplitstats", default=TRUE),
+        makeIntegerLearnerParam(id="maxdepth", default=0L, lower=0L)
       )
       
       .Object = callNextMethod(.Object, pack="party", par.set=par.set)

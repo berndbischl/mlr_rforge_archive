@@ -22,17 +22,17 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.multinom"),
 		def = function(.Object) {
-      par.set = makeParameterSet(
-        makeLogicalLearnerParameter(id="Hess", default=FALSE),
-        makeDiscreteLearnerParameter(id="summ", default=0L, vals=0:3),
-        makeLogicalLearnerParameter(id="censored", default=FALSE),
-        makeLogicalLearnerParameter(id="model", default=FALSE),
-        makeIntegerLearnerParameter(id="maxit", default=100L, lower=1L),
-        makeNumericLearnerParameter(id="rang", default=0.7),
-        makeNumericLearnerParameter(id="decay", default=0),
-        makeLogicalLearnerParameter(id="trace", default=TRUE),
-        makeNumericLearnerParameter(id="abstoll", default=1.0e-4),
-        makeNumericLearnerParameter(id="reltoll", default=1.0e-8)
+      par.set = makeParamSet(
+        makeLogicalLearnerParam(id="Hess", default=FALSE),
+        makeDiscreteLearnerParam(id="summ", default=0L, vals=0:3),
+        makeLogicalLearnerParam(id="censored", default=FALSE),
+        makeLogicalLearnerParam(id="model", default=FALSE),
+        makeIntegerLearnerParam(id="maxit", default=100L, lower=1L),
+        makeNumericLearnerParam(id="rang", default=0.7),
+        makeNumericLearnerParam(id="decay", default=0),
+        makeLogicalLearnerParam(id="trace", default=TRUE),
+        makeNumericLearnerParam(id="abstoll", default=1.0e-4),
+        makeNumericLearnerParam(id="reltoll", default=1.0e-8)
       )
       
       .Object = callNextMethod(.Object, pack="nnet", par.set=par.set)

@@ -21,15 +21,15 @@ setMethod(
   f = "initialize",
   signature = signature("regr.logicreg"),
   def = function(.Object) {
-    par.set = makeParameterSet(
-      makeIntegerLearnerParameter(id="ntrees", lower=1L, upper=5L), 
-      makeIntegerLearnerParameter(id="nleaves", lower=1L), 
-      makeNumericLearnerParameter(id="penalty", lower=0),
-      makeIntegerLearnerParameter(id="seed"),
-      makeDiscreteLearnerParameter(id="select", default=1L, vals=c(1,6), pass.default=TRUE),
-      makeIntegerLearnerParameter(id="treesize", default=8L, lower=1), 
-      makeDiscreteLearnerParameter(id="opers", default=1L, vals=1:3), 
-      makeIntegerLearnerParameter(id="minmass", default=0L, lower=0L) 
+    par.set = makeParamSet(
+      makeIntegerLearnerParam(id="ntrees", lower=1L, upper=5L), 
+      makeIntegerLearnerParam(id="nleaves", lower=1L), 
+      makeNumericLearnerParam(id="penalty", lower=0),
+      makeIntegerLearnerParam(id="seed"),
+      makeDiscreteLearnerParam(id="select", default=1L, vals=c(1,6), pass.default=TRUE),
+      makeIntegerLearnerParam(id="treesize", default=8L, lower=1), 
+      makeDiscreteLearnerParam(id="opers", default=1L, vals=1:3), 
+      makeIntegerLearnerParam(id="minmass", default=0L, lower=0L) 
     )
     
     .Object = callNextMethod(.Object, pack="LogicReg", par.set=par.set)

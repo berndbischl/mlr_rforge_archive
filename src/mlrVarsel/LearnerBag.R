@@ -20,8 +20,8 @@ makeLearnerBag = function(learners) {
   names(learners) = ns
   w = new("LearnerBag")
   w@learners = learners
-  w@par.set = makeParameterSet(
-    makeDiscreteLearnerParameter(id="sel.learner", vals=ns, default=ns[1])
+  w@par.set = makeParamSet(
+    makeDiscreteLearnerParam(id="sel.learner", vals=ns, default=ns[1])
   )
   w@par.vals = list(sel.learner=ns[1])
   w@properties["type"] = "classif"  

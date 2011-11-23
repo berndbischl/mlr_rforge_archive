@@ -73,12 +73,12 @@ setMethod(
 		}
 )	
 
-#' @rdname getParameterSet
+#' @rdname getParamSet
 setMethod(
-  f = "getParameterSet",
+  f = "getParamSet",
   signature = signature(learner="BaseWrapper"), 
   def = function(learner) {
-    c(learner@par.set, getParameterSet(learner@learner))
+    c(learner@par.set, getParamSet(learner@learner))
   } 
 )
 

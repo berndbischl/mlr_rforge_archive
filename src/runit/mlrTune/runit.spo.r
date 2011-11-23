@@ -1,9 +1,9 @@
 test.spo.rf <- function() {
   f = makeSPOFunction(function(x) sum(x^2))
   
-  ps = makeParameterSet(
-    makeNumericParameter("x1", lower=-2, upper=1), 
-    makeNumericParameter("x2", lower=-1, upper=2) 
+  ps = makeParamSet(
+    makeNumericParam("x1", lower=-2, upper=1), 
+    makeNumericParam("x2", lower=-1, upper=2) 
   )
   des = makeDesign(10, par.set=ps)
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
@@ -35,8 +35,8 @@ test.spo.rf <- function() {
   ctrl = makeSPOControl(seq.loops=5, seq.design.points=100)
   
   # check trafo
-  ps = makeParameterSet(
-    makeNumericParameter("x1", lower=-10, upper=10, trafo=function(x) abs(x)) 
+  ps = makeParamSet(
+    makeNumericParam("x1", lower=-10, upper=10, trafo=function(x) abs(x)) 
   )
   des = makeDesign(10, par.set=ps)
   des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
@@ -49,10 +49,10 @@ test.spo.rf <- function() {
   # discrete par
   f = function(x) if(x[[3]]=="a") x[[1]]^2+x[[2]]^2 else x[[1]]^2+x[[2]]^2 + 20 
   
-  ps = makeParameterSet(
-    makeNumericParameter("x1", lower=-2, upper=1), 
-    makeIntegerParameter("x2", lower=-1, upper=2), 
-    makeDiscreteParameter("x3", vals=c("a", "b")) 
+  ps = makeParamSet(
+    makeNumericParam("x1", lower=-2, upper=1), 
+    makeIntegerParam("x2", lower=-1, upper=2), 
+    makeDiscreteParam("x3", vals=c("a", "b")) 
   )
   des = makeDesign(10, par.set=ps)
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
@@ -78,9 +78,9 @@ test.spo.rf <- function() {
   
   f = function(x) sum(x[[1]]^2) + (2 - x[[2]])^2
   
-  ps = makeParameterSet(
-    makeNumericVectorParameter("v", lower=-5, upper=5, dim=2), 
-    makeNumericParameter      ("w", lower=-5, upper=5) 
+  ps = makeParamSet(
+    makeNumericVectorParam("v", lower=-5, upper=5, dim=2), 
+    makeNumericParam("w", lower=-5, upper=5) 
   )
   learner = makeLearner("regr.randomForest")
   ctrl = makeSPOControl(init.design.points=5, seq.loops=10, propose.points.method="CMAES")
@@ -95,9 +95,9 @@ test.spo.rf <- function() {
 test.spo.km <- function() {
   f = makeSPOFunction(function(x) sum(x^2))
   
-  ps = makeParameterSet(
-    makeNumericParameter("x1", lower=-2, upper=1), 
-    makeNumericParameter("x2", lower=-1, upper=2) 
+  ps = makeParamSet(
+    makeNumericParam("x1", lower=-2, upper=1), 
+    makeNumericParam("x2", lower=-1, upper=2) 
   )
   des = makeDesign(10, par.set=ps)
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
@@ -115,9 +115,9 @@ test.spo.km <- function() {
   checkTrue(is(or$models[[1]]@learner, "regr.km"))
   checkEquals(length(or$models[[1]]@subset), 15)
   
-  ps = makeParameterSet(
-    makeNumericParameter("x1", lower=-2, upper=1), 
-    makeIntegerParameter("x2", lower=-1, upper=2) 
+  ps = makeParamSet(
+    makeNumericParam("x1", lower=-2, upper=1), 
+    makeIntegerParam("x2", lower=-1, upper=2) 
   )
   des = makeDesign(10, par.set=ps)
   des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
@@ -144,7 +144,7 @@ test.spo.km <- function() {
 
 testResample = function() {
   f = makeSPOFunction(function(x) sum(x^2))
-  ps = makeSPOParameterSet("x", lower=c(0,0), upper=c(1,1)) 
+  ps = makeSPOParamSet("x", lower=c(0,0), upper=c(1,1)) 
   learner = makeLearner("regr.randomForest")
   ctrl = makeSPOControl(seq.loops=5, seq.design.points=10, resample.at=c(1,3))
   or = spo(f, ps, des=NULL, learner, ctrl)

@@ -53,8 +53,8 @@ varsel <- function(learner, task, resampling, control, measures, bit.names, bits
     stop("You have to pass a control object!")
   }
   
-  par.set = lapply(bit.names, function(bn) makeIntegerParameter(bn))
-  par.set = do.call(makeParameterSet, par.set)
+  par.set = lapply(bit.names, function(bn) makeIntegerParam(bn))
+  par.set = do.call(makeParamSet, par.set)
   checkVarselParset(learner, par.set, bit.names, control)
   
   cl = as.character(class(control))[1]

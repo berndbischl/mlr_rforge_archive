@@ -22,16 +22,16 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.rpart"),
 		def = function(.Object) {
-			par.set = makeParameterSet(
-          makeIntegerLearnerParameter(id="minsplit", default=20L, lower=1L),
-          makeIntegerLearnerParameter(id="minbucket", lower=1L),
-					makeNumericLearnerParameter(id="cp", default=0.01, lower=0, upper=1),
-          makeIntegerLearnerParameter(id="maxcompete", default=4L, lower=0L),
-          makeIntegerLearnerParameter(id="maxsurrogate", default=5L, lower=0L),
-					makeDiscreteLearnerParameter(id="usesurrogate", default=2L, vals=0:2),
-					makeDiscreteLearnerParameter(id="surrogatestyle", default=0L, vals=0:1),
+			par.set = makeParamSet(
+          makeIntegerLearnerParam(id="minsplit", default=20L, lower=1L),
+          makeIntegerLearnerParam(id="minbucket", lower=1L),
+					makeNumericLearnerParam(id="cp", default=0.01, lower=0, upper=1),
+          makeIntegerLearnerParam(id="maxcompete", default=4L, lower=0L),
+          makeIntegerLearnerParam(id="maxsurrogate", default=5L, lower=0L),
+					makeDiscreteLearnerParam(id="usesurrogate", default=2L, vals=0:2),
+					makeDiscreteLearnerParam(id="surrogatestyle", default=0L, vals=0:1),
           # we use 30 as upper limit, see docs of rpart.control
-          makeIntegerLearnerParameter(id="maxdepth", default=30L, lower=1L, upper=30L)
+          makeIntegerLearnerParam(id="maxdepth", default=30L, lower=1L, upper=30L)
 			)
 			
 			.Object = callNextMethod(.Object, pack="rpart", par.set=par.set)

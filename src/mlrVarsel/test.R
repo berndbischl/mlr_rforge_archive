@@ -52,20 +52,20 @@ m2@aggr = list(test.mean)
 m3 = nvars
 m3@aggr = list(test.mean)
 
-ps.ksvm = makeParameterSet(
-  makeNumericParameter("sigma", lower=-10, upper=10, trafo=function(x) 2^x),
-  makeNumericParameter("C", lower=-10, upper=10, trafo=function(x) 2^x)
+ps.ksvm = makeParamSet(
+  makeNumericParam("sigma", lower=-10, upper=10, trafo=function(x) 2^x),
+  makeNumericParam("C", lower=-10, upper=10, trafo=function(x) 2^x)
 )
 
-ps.kknn = makeParameterSet(
-  makeIntegerParameter("k", lower=1L, upper=10L)
+ps.kknn = makeParamSet(
+  makeIntegerParam("k", lower=1L, upper=10L)
 )
 
 
 pss = list(
-  classif.lda = makeParameterSet(),
-  classif.naiveBayes = makeParameterSet(),
-  classif.rpart = makeParameterSet(),
+  classif.lda = makeParamSet(),
+  classif.naiveBayes = makeParamSet(),
+  classif.rpart = makeParamSet(),
   classif.ksvm = ps.ksvm,
   classif.kknn = ps.kknn
 )

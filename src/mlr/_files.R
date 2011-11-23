@@ -17,13 +17,6 @@ pack.files = c(
   "mlr/makeClassifTask.R",
   "mlr/makeRegrTask.R",
   
-  "mlr/Parameter.R",
-  "mlr/Parameter_make.R",
-  "mlr/Parameter_feasible.R",
-#    "mlr/Parameter_randomVal.R",
-  "mlr/LearnerParameter.R",
-  "mlr/LearnerParameter_make.R",
-  "mlr/ParameterSet.R",
   "mlr/learnerArgsToControl.R",
   "mlr/Learner.R",
   "mlr/learnerR.r",

@@ -25,7 +25,7 @@ setMethod(
   def = function(.Object, base.learners, super.learner, resampling) {
     .Object@super.learner = super.learner
     .Object@resampling = resampling
-    callNextMethod(.Object, learners=base.learners, par.set=makeParameterSet())
+    callNextMethod(.Object, learners=base.learners, par.set=makeParamSet())
   }
 )
 

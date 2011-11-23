@@ -1,7 +1,7 @@
 test.opt.path <- function() {
-  ps1 = makeParameterSet(
-    makeNumericParameter("x"),
-    makeDiscreteParameter("y", vals=c("a", "b"))
+  ps1 = makeParamSet(
+    makeNumericParam("x"),
+    makeDiscreteParam("y", vals=c("a", "b"))
   )
   op = new("OptPathDF", par.set=ps1, y.names=c("z1", "z2"), minimize=c(TRUE, FALSE))
   addOptPathEl(op, x=list(x=1, y="a"), y=c(z1=1, z2=4))
@@ -33,9 +33,9 @@ test.opt.path <- function() {
   checkEquals(gbe(op, y.name="z1", dob=2), getOptPathEl(op, 2))
   checkEquals(gbe(op, y.name="z2", dob=2), getOptPathEl(op, 2))
     
-  ps2 = makeParameterSet(
-    makeNumericVectorParameter("x", dim=2),
-    makeIntegerParameter("y")
+  ps2 = makeParamSet(
+    makeNumericVectorParam("x", dim=2),
+    makeIntegerParam("y")
   )
   op = new("OptPathDF", par.set=ps2, y.names="z", minimize=TRUE)
   addOptPathEl(op, x=list(c(1,1), 7L), y=1)
@@ -48,11 +48,11 @@ test.opt.path <- function() {
 }
 
 testOptPathDiscretePars = function() {
-  ps1 = makeParameterSet(
-    makeDiscreteParameter("x1", vals=c("a", "b")),
-    makeDiscreteParameter("x2", vals=1:2),
-    makeDiscreteParameter("x3", vals=c(1.2, 5)),
-    makeDiscreteParameter("x4", vals=list(foo=identity, bar=list()))
+  ps1 = makeParamSet(
+    makeDiscreteParam("x1", vals=c("a", "b")),
+    makeDiscreteParam("x2", vals=1:2),
+    makeDiscreteParam("x3", vals=c(1.2, 5)),
+    makeDiscreteParam("x4", vals=list(foo=identity, bar=list()))
   )
   op = new("OptPathDF", par.set=ps1, y.names="y", minimize=TRUE)
   addOptPathEl(op, x=list(x1="a", x2=2L, x3=5, x4="foo"), y=0)

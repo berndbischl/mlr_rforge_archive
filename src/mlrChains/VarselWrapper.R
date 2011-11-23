@@ -39,5 +39,5 @@ makeVarselWrapper = function(learner, resampling, measures, bit.names, bits.to.f
   if (missing(log.fun))
     log.fun = mlrVarsel:::log.fun.varsel
   mlrVarsel:::checkVarselParset(learner, par.set, bit.names, control) 
-  new("OptWrapper", learner, resampling, measures, makeParameterSet(), bit.names, bits.to.features, control, log.fun)
+  new("OptWrapper", learner, resampling, measures, makeParamSet(), bit.names, bits.to.features, control, log.fun)
 }

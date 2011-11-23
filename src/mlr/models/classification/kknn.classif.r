@@ -20,10 +20,10 @@ setMethod(
 		signature = signature("classif.kknn"),
 		def = function(.Object) {
 			#todo: find out what ykernel and contrasts really do 
-			par.set = makeParameterSet(
-        makeIntegerLearnerParameter(id="k", default=7L, lower=1L),
-				makeNumericLearnerParameter(id="distance", default=2, lower=0),
-				makeDiscreteLearnerParameter(id="kernel", default="triangular", 
+			par.set = makeParamSet(
+        makeIntegerLearnerParam(id="k", default=7L, lower=1L),
+				makeNumericLearnerParam(id="distance", default=2, lower=0),
+				makeDiscreteLearnerParam(id="kernel", default="triangular", 
 						vals=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian"))
 			)
 			

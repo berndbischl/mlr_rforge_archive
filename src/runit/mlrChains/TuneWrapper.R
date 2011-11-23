@@ -4,7 +4,7 @@ test.OptWrapper <- function() {
 	outer = makeResampleDesc("Holdout")
   inner = makeResampleDesc("CV", iters=2)
 	
-	ps1 = makeParameterSet(makeDiscreteParameter(id="C", vals=c(1,100)))
+	ps1 = makeParamSet(makeDiscreteParam(id="C", vals=c(1,100)))
 	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps1, control=makeTuneControlGrid())
 	
 	m = train(svm.tuner, task=multiclass.task)
@@ -15,10 +15,10 @@ test.OptWrapper <- function() {
   p = predict(m, task=multiclass.task)
   checkTrue(!any(is.na(p@df$response)))
 
-  ps2 = makeParameterSet(
-    makeNumericParameter(id="C", trafo=function(x) 2^x),
-    makeNumericParameter(id="epsilon", trafo=function(x) 2^x),
-    makeNumericParameter(id="sigma", trafo=function(x) 2^x)
+  ps2 = makeParamSet(
+    makeNumericParam(id="C", trafo=function(x) 2^x),
+    makeNumericParam(id="epsilon", trafo=function(x) 2^x),
+    makeNumericParam(id="sigma", trafo=function(x) 2^x)
   )
   svm.tuner = makeTuneWrapper("regr.ksvm", resampling=inner, par.set=ps2, 
     control=makeTuneControlOptim(start=c(0,0,0), maxit=5))

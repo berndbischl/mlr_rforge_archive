@@ -20,9 +20,9 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.naiveBayes"),
 		def = function(.Object) {
-      par.set = makeParameterSet(
-        makeNumericLearnerParameter(id="laplace", default=0, lower=0)
-        #makeNumericLearnerParameter(id="threshold", default=0.001, lower=0)
+      par.set = makeParamSet(
+        makeNumericLearnerParam(id="laplace", default=0, lower=0)
+        #makeNumericLearnerParam(id="threshold", default=0.001, lower=0)
       )
       
 			.Object = callNextMethod(.Object, pack="e1071", par.set=par.set)

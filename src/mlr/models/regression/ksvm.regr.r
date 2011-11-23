@@ -16,28 +16,28 @@ setMethod(
 		signature = signature("regr.ksvm"),
 		def = function(.Object) {
 			
-      par.set = makeParameterSet(
-        makeLogicalLearnerParameter(id="scaled", default=TRUE),
-        makeDiscreteLearnerParameter(id="type", default="eps-svr", vals=c("eps-svr", "nu-svr", "eps-bsvr")),
-        makeDiscreteLearnerParameter(id="kernel", default="rbfdot", 
+      par.set = makeParamSet(
+        makeLogicalLearnerParam(id="scaled", default=TRUE),
+        makeDiscreteLearnerParam(id="type", default="eps-svr", vals=c("eps-svr", "nu-svr", "eps-bsvr")),
+        makeDiscreteLearnerParam(id="kernel", default="rbfdot", 
           vals=c("vanilladot", "polydot", "rbfdot", "tanhdot", "laplacedot", "besseldot", "anovadot", "splinedot", "stringdot")),
-        makeNumericLearnerParameter(id="C",
+        makeNumericLearnerParam(id="C",
           lower=0, default=1, requires=expression(type %in% c("eps-svr", "eps-bsvr"))),
-        makeNumericLearnerParameter(id="nu",
+        makeNumericLearnerParam(id="nu",
           lower=0, default=0.2, requires=expression(type == "nu-svr")),
-        makeNumericLearnerParameter(id="epsilon", lower=0, default=0.1),
-        makeNumericLearnerParameter(id="sigma",
+        makeNumericLearnerParam(id="epsilon", lower=0, default=0.1),
+        makeNumericLearnerParam(id="sigma",
           lower=0, requires=expression(kernel %in% c("rbfdot", "anovadot", "besseldot", "laplacedot"))),
-        makeIntegerLearnerParameter(id="degree", default=3L, lower=1L, 
+        makeIntegerLearnerParam(id="degree", default=3L, lower=1L, 
           requires=expression(kernel %in% c("polydot", "anovadot", "besseldot"))),
-        makeNumericLearnerParameter(id="scale", default=1, lower=0, 
+        makeNumericLearnerParam(id="scale", default=1, lower=0, 
           requires=expression(kernel %in% c("polydot", "tanhdot"))),
-        makeNumericLearnerParameter(id="offset", default=1, 
+        makeNumericLearnerParam(id="offset", default=1, 
           requires=expression(kernel %in% c("polydot", "tanhdot"))),
-        makeIntegerLearnerParameter(id="order", default=1L, 
+        makeIntegerLearnerParam(id="order", default=1L, 
           requires=expression(kernel == "besseldot")),
-        makeNumericLearnerParameter(id="tol", default=0.001, lower=0),
-        makeLogicalLearnerParameter(id="shrinking", default=TRUE)
+        makeNumericLearnerParam(id="tol", default=0.001, lower=0),
+        makeLogicalLearnerParam(id="shrinking", default=TRUE)
       )
       
 			.Object = callNextMethod(.Object, pack="kernlab", par.set=par.set)

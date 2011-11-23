@@ -13,9 +13,9 @@ setMethod(
 		f = "initialize",
 		signature = signature("regr.earth"),
 		def = function(.Object) {
-      par.set = makeParameterSet(
-        makeNumericLearnerParameter(id="degree", default=1, lower=1),
-        makeNumericLearnerParameter(id="penalty")
+      par.set = makeParamSet(
+        makeNumericLearnerParam(id="degree", default=1, lower=1),
+        makeNumericLearnerParam(id="penalty")
       )
 			
       .Object = callNextMethod(.Object, pack="earth", par.set=par.set)

@@ -11,7 +11,7 @@
 #'   Resampling strategy to evaluate points in hyperparameter space.
 #' @param measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
-#' @param par.set [\code{\linkS4class{ParameterSet}}] \cr
+#' @param par.set [\code{\link[ParamHelpers]{ParamSet}}] \cr
 #'   Collection of parameters and their constraints for optimization.   
 #' @param control [\code{\linkS4class{TuneControl}}] \cr
 #'   Control object for search method. Also selects the optimization algorithm for tuning.   

@@ -1,5 +1,5 @@
 trafoVal = function(par, val) {
-  if (is(par, "ParameterSet"))
+  if (is(par, "ParamSet"))
     Map(trafoVal, par@pars, val)
   else
     par@trafo(val)

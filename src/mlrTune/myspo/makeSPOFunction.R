@@ -5,7 +5,7 @@
 #'   Fitness function.
 #' @return Function which accepts decision values as a list.
 #' @export 
-#' @seealso \code{\link{makeSPOParameterSet}} 
+#' @seealso \code{\link{makeSPOParamSet}} 
 #' @title Create fitness function for SPO.
 makeSPOFunction = function(fun) {
   force(fun)

@@ -31,8 +31,8 @@ makeProbthWrapper = function(learner, classes) {
     stop("The predict.type of the base learner must be 'prob'!")
   a = as.list(rep(0.5, length(classes)))
   names(a) = paste("probth", classes, sep=".")
-  ps = do.call(makeParameterSet, 
-    lapply(names(a), function(x) makeNumericLearnerParameter(id=x, lower=0, upper=1)))
+  ps = do.call(makeParamSet, 
+    lapply(names(a), function(x) makeNumericLearnerParam(id=x, lower=0, upper=1)))
   w = new("ProbthWrapper", learner=learner, par.set=ps, par.vals=a)
   w@properties["prob"] = FALSE
   setPredictType(w, "response")

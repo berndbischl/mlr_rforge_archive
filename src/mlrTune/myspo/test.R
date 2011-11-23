@@ -10,9 +10,9 @@ fun = function(x) {
   sum(unlist(x)^2)
 }
 
-ps = makeParameterSet(
-  makeNumericParameter("x1", lower=-10, upper=10),
-  makeNumericParameter("x2", lower=-10, upper=10)
+ps = makeParamSet(
+  makeNumericParam("x1", lower=-10, upper=10),
+  makeNumericParam("x2", lower=-10, upper=10)
 )
 
 set.seed(1)

@@ -20,8 +20,8 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.OneR"),
 		def = function(.Object) {
-      par.set = makeParameterSet(
-        makeIntegerLearnerParameter(id="B", default=6L, lower=1L)
+      par.set = makeParamSet(
+        makeIntegerLearnerParam(id="B", default=6L, lower=1L)
       )
 			.Object = callNextMethod(.Object, pack="RWeka", par.set=par.set)
       

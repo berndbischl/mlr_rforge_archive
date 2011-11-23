@@ -1,4 +1,4 @@
-#' Construct a ParameterSet for a numeric vector from lower / upper bounds.
+#' Construct a parameter set for a numeric vector from lower / upper bounds.
 #' Convenience function for \code{\link{spo}}.
 #' 
 #' @param id [\code{character(1)}]
@@ -7,11 +7,11 @@
 #'   Lower bounds. Default is \code{-Inf}.
 #' @param upper [\code{numeric(1)}] \cr
 #'   Upper bounds. Default is \code{Inf}.
-#' @return [{\linkS4class{ParameterSet}}]
+#' @return [{\link[ParamHelpers]{ParamSet}}]
 #' @export 
 #' @seealso \code{\link{makeSPOFunction}}
 #' @title Create parameter set for SPO.
-makeSPOParameterSet = function(id, lower=-Inf, upper=Inf) {
+makeSPOParamSet = function(id, lower=-Inf, upper=Inf) {
   if (length(lower) == 1)
     lower = rep(lower, length(upper))
   if (length(upper) == 1)
@@ -19,8 +19,8 @@ makeSPOParameterSet = function(id, lower=-Inf, upper=Inf) {
   if (length(lower) != length(upper))
     stop("Lower and upper bounds must have same length!")
   ps = Map(function(i,l,u) 
-    makeNumericParameter(paste(id, i, sep=""), lower=l, upper=u), 
+    makeNumericParam(paste(id, i, sep=""), lower=l, upper=u), 
     1:length(lower), lower, upper
   )
-  do.call(makeParameterSet, ps)
+  do.call(makeParamSet, ps)
 }

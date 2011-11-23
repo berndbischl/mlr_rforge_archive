@@ -36,11 +36,11 @@ setMethod(
 #' @title Fuse learner with preprocessing.
 #' @export
 
-makePreprocWrapper = function(learner, train, predict, par.set=makeParameterSet(), par.vals=list()) {
+makePreprocWrapper = function(learner, train, predict, par.set=makeParamSet(), par.vals=list()) {
 	if (is.character(learner))
 		learner = makeLearner(learner)
   if (missing(par.set))
-    par.set=makeParameterSet()
+    par.set=makeParamSet()
   if (any(names(formals(train)) != c("data", "targetvar", "args")))
 		stop("Arguments in preproc train function have to be: data, targetvar, args")		
   if (any(names(formals(predict)) != c("data", "targetvar", "args", "control")))

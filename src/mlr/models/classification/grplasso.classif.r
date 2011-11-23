@@ -19,9 +19,9 @@ setMethod(
 		f = "initialize",
 		signature = signature("classif.grplasso"),
 		def = function(.Object) {
-      par.set = makeParameterSet(
-        makeNumericLearnerParameter(id="lambda", default=1, lower=0),
-        makeUntypedLearnerParameter(id="index")
+      par.set = makeParamSet(
+        makeNumericLearnerParam(id="lambda", default=1, lower=0),
+        makeUntypedLearnerParam(id="index")
       )
       
       .Object = callNextMethod(.Object, pack="grplasso", par.set=par.set, par.vals=list(lambda = 1))

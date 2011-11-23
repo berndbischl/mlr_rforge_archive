@@ -20,9 +20,9 @@ setMethod(
     f = "initialize",
     signature = signature("regr.nnet"),
     def = function(.Object) {
-      par.set = makeParameterSet(
-        makeIntegerLearnerParameter(id="size", default=3L, lower=0, pass.default=TRUE),
-        makeIntegerLearnerParameter(id="maxit", default=100L, lower=1L)
+      par.set = makeParamSet(
+        makeIntegerLearnerParam(id="size", default=3L, lower=0, pass.default=TRUE),
+        makeIntegerLearnerParam(id="maxit", default=100L, lower=1L)
       )
       
       .Object = callNextMethod(.Object, pack="nnet", par.set=par.set)

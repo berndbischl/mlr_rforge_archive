@@ -14,8 +14,8 @@ setMethod(
 		f = "initialize",
 		signature = signature("regr.lasso"),
 		def = function(.Object) {
-      par.set = makeParameterSet(
-        makeNumericLearnerParameter(id="lambda1", default=0, lower=0)
+      par.set = makeParamSet(
+        makeNumericLearnerParam(id="lambda1", default=0, lower=0)
       )
       .Object = callNextMethod(.Object, pack="penalized", par.set=par.set)
     

@@ -8,8 +8,8 @@ test.benchmark2 <- function() {
 		cbr <- .mlr.benchmark("classif.rpart", task=ct, resampling=outer, models=TRUE)
 	
 		# normal benchmark - tune wrapper with one par
-		ps1 = makeParameterSet(
-      makeDiscreteParameter("minsplit", vals=seq(3,10,2))
+		ps1 = makeParamSet(
+      makeDiscreteParam("minsplit", vals=seq(3,10,2))
     ) 
 		wl = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps1, control=makeTuneControlGrid())
 		bm = .mlr.benchmark(wl, ct, outer, models=TRUE)
@@ -28,9 +28,9 @@ test.benchmark2 <- function() {
     checkTrue(is.null(bm$res.result$models))
 
     # normal benchmark - 2 par
-    ps2 = makeParameterSet(
-      makeDiscreteParameter("minsplit", vals=seq(3,10,2)),
-      makeDiscreteParameter("cp", vals=c(0.1, 0.11 , 0.09))
+    ps2 = makeParamSet(
+      makeDiscreteParam("minsplit", vals=seq(3,10,2)),
+      makeDiscreteParam("cp", vals=c(0.1, 0.11 , 0.09))
     ) 
 		wl = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps2, control=makeTuneControlGrid())
 		cbr = .mlr.benchmark(wl, ct, outer, models=FALSE)

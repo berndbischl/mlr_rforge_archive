@@ -6,7 +6,7 @@ setClass(
 		representation = representation(
 				resampling = "ANY",
         measures = "list",
-        opt.pars = "ParameterSet",
+        opt.pars = "ParamSet",
         bit.names = "character",
         bits.to.features = "function",
         control = "OptControl",
@@ -31,7 +31,7 @@ setMethod(
       .Object@opt.pars = par.set
       .Object@control = control
       .Object@log.fun = log.fun
-      .Object = callNextMethod(.Object, learner, par.set=makeParameterSet(), par.vals=list())
+      .Object = callNextMethod(.Object, learner, par.set=makeParamSet(), par.vals=list())
       # set predict type of base learner
       setPredictType(.Object, learner@predict.type)
     }

@@ -144,12 +144,12 @@ setMethod(
 #' @return For data.frame: Columns correspond to parameter ids, rows to resampling iterations, 
 #'   every row contains the best settings found in this resampling iteration. For list: A list of list, the outer list has as many
 #'   elements as resampling iterations. The ith elemnt of this list are the best found parameter settings found in iteration i as a list.   
-#' @exportMethod getTunedParameters
+#' @exportMethod getTunedParams
 #' @title Extract tuned parameters from bench.result.
-#' @rdname getTunedParameters
+#' @rdname getTunedParams
 
 setGeneric(
-  name = "getTunedParameters",
+  name = "getTunedParams",
   def = function(br, task.id, learner.id, as.data.frame) {
     checkArg(br, "bench.result")
     tns = names(br@task.descs)
@@ -160,13 +160,13 @@ setGeneric(
       learner.id = lns
     if (missing(as.data.frame))
       as.data.frame=TRUE
-    standardGeneric("getTunedParameters")
+    standardGeneric("getTunedParams")
   }
 )
 
-#' @rdname getTunedParameters 
+#' @rdname getTunedParams 
 setMethod(
-  f = "getTunedParameters",
+  f = "getTunedParams",
   signature = signature(br="bench.result", task.id="character", learner.id="character", as.data.frame="logical"),
   def = function(br, task.id, learner.id, as.data.frame) {
     tns = names(br@task.descs)

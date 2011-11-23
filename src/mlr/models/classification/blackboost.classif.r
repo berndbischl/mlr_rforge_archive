@@ -35,21 +35,21 @@ setMethod(
         weights = TRUE
       )
       
-			par.set = makeParameterSet(
-					makeDiscreteLearnerParameter(id="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
-          makeIntegerLearnerParameter(id="mstop", default=100L, lower=1L),
-					makeNumericLearnerParameter(id="nu", default=0.1, lower=0, upper=1),
-					makeDiscreteLearnerParameter(id="teststat", default="quad", vals=c("quad", "max")),
-					makeDiscreteLearnerParameter(id="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
-					makeNumericLearnerParameter(id="mincriterion", default=0.95, lower=0, upper=1),
-          makeIntegerLearnerParameter(id="minsplit", default=20L, lower=1L),
-          makeIntegerLearnerParameter(id="minbucket", default=7L, lower=1L),
-					makeLogicalLearnerParameter(id="stump", default=FALSE),
-          makeIntegerLearnerParameter(id="nresample", default=9999L, lower=1L, requires=expression(testtype=="MonteCarlo")),
-          makeIntegerLearnerParameter(id="maxsurrogate", default=0L, lower=0L),
-          makeIntegerLearnerParameter(id="mtry", default=0L, lower=0L),
-					makeLogicalLearnerParameter(id="savesplitstats", default=TRUE),
-          makeIntegerLearnerParameter(id="maxdepth", default=0L, lower=0L)
+			par.set = makeParamSet(
+					makeDiscreteLearnerParam(id="family", default="Binomial", vals=list(AdaExp=AdaExp(), Binomial=Binomial())),
+          makeIntegerLearnerParam(id="mstop", default=100L, lower=1L),
+					makeNumericLearnerParam(id="nu", default=0.1, lower=0, upper=1),
+					makeDiscreteLearnerParam(id="teststat", default="quad", vals=c("quad", "max")),
+					makeDiscreteLearnerParam(id="testtype", default="Bonferroni", vals=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
+					makeNumericLearnerParam(id="mincriterion", default=0.95, lower=0, upper=1),
+          makeIntegerLearnerParam(id="minsplit", default=20L, lower=1L),
+          makeIntegerLearnerParam(id="minbucket", default=7L, lower=1L),
+					makeLogicalLearnerParam(id="stump", default=FALSE),
+          makeIntegerLearnerParam(id="nresample", default=9999L, lower=1L, requires=expression(testtype=="MonteCarlo")),
+          makeIntegerLearnerParam(id="maxsurrogate", default=0L, lower=0L),
+          makeIntegerLearnerParam(id="mtry", default=0L, lower=0L),
+					makeLogicalLearnerParam(id="savesplitstats", default=TRUE),
+          makeIntegerLearnerParam(id="maxdepth", default=0L, lower=0L)
 			)
      
 			# we have to load the package first for Binomial()

@@ -20,17 +20,17 @@ setMethod(
     f = "initialize",
     signature = signature("regr.km"),
     def = function(.Object) {
-      par.set = makeParameterSet(
-        makeDiscreteLearnerParameter(id="covtype", default="matern5_2", 
+      par.set = makeParamSet(
+        makeDiscreteLearnerParam(id="covtype", default="matern5_2", 
           vals=list("gauss", "matern5_2", "matern3_2", "exp", "powexp")), 
-        makeNumericLearnerParameter(id="nugget"), 
-        makeLogicalLearnerParameter(id="nugget.estim", default=FALSE), 
-        makeNumericVectorLearnerParameter(id="noise.var"), 
-        makeDiscreteLearnerParameter(id="optim.method", default="BFGS", 
+        makeNumericLearnerParam(id="nugget"), 
+        makeLogicalLearnerParam(id="nugget.estim", default=FALSE), 
+        makeNumericVectorLearnerParam(id="noise.var"), 
+        makeDiscreteLearnerParam(id="optim.method", default="BFGS", 
           vals=list("BFGS", "gen")), 
-        makeNumericVectorLearnerParameter(id="lower"), 
-        makeNumericVectorLearnerParameter(id="upper"), 
-        makeUntypedLearnerParameter(id="control")
+        makeNumericVectorLearnerParam(id="lower"), 
+        makeNumericVectorLearnerParam(id="upper"), 
+        makeUntypedLearnerParam(id="control")
       )
       
       .Object = callNextMethod(.Object, pack="DiceKriging", par.set=par.set)

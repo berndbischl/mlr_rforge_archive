@@ -22,26 +22,26 @@ setMethod(
     def = function(.Object) {
       
       # to do: stringdot pars and check order, scale and offset limits
-      par.set = makeParameterSet(
-          makeDiscreteLearnerParameter(id="kernel", default="rbfdot", 
+      par.set = makeParamSet(
+          makeDiscreteLearnerParam(id="kernel", default="rbfdot", 
               vals=c("vanilladot", "polydot", "rbfdot", "tanhdot", "laplacedot", "besseldot", "anovadot", "splinedot", "stringdot")),
-          makeNumericLearnerParameter(id="tau", lower=0, default=0.01),
-          makeNumericLearnerParameter(id="sigma",
+          makeNumericLearnerParam(id="tau", lower=0, default=0.01),
+          makeNumericLearnerParam(id="sigma",
               lower=0, requires=expression(kernel %in% c("rbfdot", "anovadot", "besseldot", "laplacedot"))),
-          makeIntegerLearnerParameter(id="degree", default=3L, lower=1L, 
+          makeIntegerLearnerParam(id="degree", default=3L, lower=1L, 
               requires=expression(kernel %in% c("polydot", "anovadot", "besseldot"))),
-          makeNumericLearnerParameter(id="scale", default=1, lower=0, 
+          makeNumericLearnerParam(id="scale", default=1, lower=0, 
               requires=expression(kernel %in% c("polydot", "tanhdot"))),
-          makeNumericLearnerParameter(id="offset", default=1, 
+          makeNumericLearnerParam(id="offset", default=1, 
               requires=expression(kernel %in% c("polydot", "tanhdot"))),
-          makeNumericLearnerParameter(id="order", default=1L, 
+          makeNumericLearnerParam(id="order", default=1L, 
               requires=expression(kernel == "besseldot")),
-          makeNumericLearnerParameter(id="alpha", default=5L, lower=0L),
-          makeNumericLearnerParameter(id="var", default=0.1, lower=0),
-          makeLogicalLearnerParameter(id="var.fix", default=FALSE),
-          makeNumericLearnerParameter(id="iterations", default=100L, lower=0L),
-          makeNumericLearnerParameter(id="tol", default=.Machine$double.eps, lower=0),
-      		makeNumericLearnerParameter(id="minmaxdiff", default=0.001, lower=0)
+          makeNumericLearnerParam(id="alpha", default=5L, lower=0L),
+          makeNumericLearnerParam(id="var", default=0.1, lower=0),
+          makeLogicalLearnerParam(id="var.fix", default=FALSE),
+          makeNumericLearnerParam(id="iterations", default=100L, lower=0L),
+          makeNumericLearnerParam(id="tol", default=.Machine$double.eps, lower=0),
+      		makeNumericLearnerParam(id="minmaxdiff", default=0.001, lower=0)
       )
       
       .Object = callNextMethod(.Object, pack="kernlab")

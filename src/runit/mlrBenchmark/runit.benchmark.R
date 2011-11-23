@@ -12,8 +12,8 @@ test.benchmark <- function() {
 	s = geterrmessage()
 	checkTrue(length(grep("No tasks were", s)) >0 )
 	
-  ps1 = makeParameterSet(
-    makeDiscreteParameter("minsplit", vals=seq(3,10,2))
+  ps1 = makeParamSet(
+    makeDiscreteParam("minsplit", vals=seq(3,10,2))
   )
 	rpart.tuner = makeTuneWrapper("classif.rpart", resampling=inner, par.set=ps1, control=makeTuneControlGrid())
 	learners = list("classif.lda", rpart.tuner)

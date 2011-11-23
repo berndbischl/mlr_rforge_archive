@@ -15,7 +15,7 @@
 #'   Resampling strategy to evaluate points in hyperparameter space. If you pass a description, 
 #'   it is instantiated once at the beginning by default, so all points are evaluated on the same training/test sets.
 #'   If you want to change that behaviour, look at the control object. 	
-#' @param par.set [\code{\linkS4class{ParameterSet}}] \cr
+#' @param par.set [\code{\link[ParamHelpers]{ParamSet}}] \cr
 #'   Collection of parameters and their constraints for optimization.   
 #' @param control [\code{\linkS4class{TuneControl}}] \cr
 #'   Control object for search method. Also selects the optimization algorithm for tuning.   

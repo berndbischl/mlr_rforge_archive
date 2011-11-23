@@ -7,9 +7,9 @@ testPreprocStep = function() {
     data[,2] = args$x * data[,2]
     return(data)
   }  
-  ps = makeParameterSet(
-    makeNumericLearnerParameter(id="x"),
-    makeNumericLearnerParameter(id="y")
+  ps = makeParamSet(
+    makeNumericLearnerParam(id="x"),
+    makeNumericLearnerParam(id="y")
   )
   w1 = makeLearner("classif.rpart", minsplit=10)
   w2 = makePreprocWrapper(w1, train=f1, predict=f2, par.set=ps, par.vals=list(x=1,y=2))

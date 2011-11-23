@@ -1,6 +1,3 @@
-#' @include ParameterSet.R
-roxygen()
-
 #' Abstract base class for learning algorithms.
 #'  
 #' How to change object later on: Look at setters.
@@ -20,7 +17,7 @@ roxygen()
 #'  \item{missings [\code{logical(1)}]}{Can missing values be processed?}
 #'  \item{weights [\code{logical(1)}]}{Can case weights be used?}
 #' 	\item{par.vals [named list]}{List of set hyperparameters.}
-#' 	\item{par.set [named list]}{Named list of \code{\linkS4class{Parameter}} description objects for all possible hyperparameters.}
+#' 	\item{par.set [named list]}{Named list of \code{\link[ParamHelpers]{LearnerParam}} description objects for all possible hyperparameters.}
 #' }
 #' 
 #' Further getters for classifiers.\cr
@@ -44,7 +41,7 @@ setClass(
         id = "character",
         pack = "character",
         properties = "list",
-				par.set = "ParameterSet",
+				par.set = "ParamSet",
 				par.vals = "list",
         predict.type = "character"
 		)		
@@ -55,7 +52,7 @@ setClass(
 setMethod(
 		f = "initialize",
 		signature = signature("Learner"),
-		def = function(.Object, pack, par.set=makeParameterSet(), par.vals=list()) {			
+		def = function(.Object, pack, par.set=makeParamSet(), par.vals=list()) {			
 			if (missing(pack))
 				return(make.empty(.Object))
       cc = as.character(class(.Object))[1]
@@ -74,8 +71,8 @@ setMethod(
       .Object@properties[["prob"]] = FALSE
 			.Object@pack = pack
 			requirePackages(pack, paste("learner", .Object@id))
-      if(any(sapply(par.set@pars, function(x) !is(x, "LearnerParameter"))))
-        stop("All par.set parameters in learner of class ", class(.Object), " must be of class 'LearnerParameter'!")
+      if(any(sapply(par.set@pars, function(x) !is(x, "LearnerParam"))))
+        stop("All par.set parameters in learner of class ", class(.Object), " must be of class 'LearnerParam'!")
 			.Object@par.set = par.set
       .Object@predict.type = "response"
       setHyperPars(.Object, par.vals=par.vals)
@@ -88,13 +85,13 @@ setMethod(
 #' Get all possible paramter settings for a learner. 
 #' @param learner [\code{\linkS4class{Learner}}]\cr 
 #'   Learner.   
-#' @return [\code{\linkS4class{ParameterSet}}]
-#' @rdname getParameterSet
-#' @exportMethod getParameterSet
-setGeneric(name = "getParameterSet", def = function(learner) standardGeneric("getParameterSet"))
-#' @rdname getParameterSet
+#' @return [\code{\link[ParamHelpers]{ParamSet}}]
+#' @rdname getParamSet
+#' @exportMethod getParamSet
+setGeneric(name = "getParamSet", def = function(learner) standardGeneric("getParamSet"))
+#' @rdname getParamSet
 setMethod(
-  f = "getParameterSet",
+  f = "getParamSet",
   signature = signature(learner="Learner"), 
   def = function(learner) {
     learner@par.set
@@ -142,7 +139,7 @@ getHyperParsTop = function(learner, for.fun) {
 }
 
 getHyperParsString = function(learner) {
-  valToString(getParameterSet(learner), getHyperPars(learner, "both"))
+  valToString(getParamSet(learner), getHyperPars(learner, "both"))
 }
 
 getLeafLearner = function(learner) {

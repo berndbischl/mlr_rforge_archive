@@ -1,7 +1,7 @@
 checkTunerParset = function(learner, par.set, control) {
   if (length(par.set@pars) == 0)
     stop("No parameters were passed!")
-  x = setdiff(names(par.set@pars), names(getParameterSet(learner)@pars))
+  x = setdiff(names(par.set@pars), names(getParamSet(learner)@pars))
   if (length(x) > 0)
     stop("Can only tune parameters for which learner parameters exist: ", paste(x, collapse=","))
 
