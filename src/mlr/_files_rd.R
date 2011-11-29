@@ -1,8 +1,8 @@
 allowed.rd.files <<- c(     
   "undocumented.Rd",
   "setupLogger.Rd",
-  "errorhandler.setup.Rd",
-  "parallel.setup.Rd",
+  "setupErrorHandler.Rd",
+  "setupParallel.Rd",
   
   "TaskDesc-class.Rd",
   "LearnTask-class.Rd",
@@ -28,7 +28,7 @@ allowed.rd.files <<- c(
   "getProperty.Rd",
   "setProperty.Rd",
   "setProperties.Rd",
-  "getParamSet",
+  "getParamSet.Rd",
   "getHyperPars.Rd",
   "setHyperPars.Rd",
   "setId.Rd",

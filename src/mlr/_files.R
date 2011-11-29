@@ -3,10 +3,11 @@ pack.files = c(
   "_helpers/logger.R",
   "_helpers/evalOptimizationState.R",
   "_helpers/mylapply.R",
-  "mlr/errorhandler.r",
+  "mlr/setupErrorHandler.R",
   "mlr/setupLogger.R",
+  "mlr/setupParallel.R",
   ##    "mlr/packagedesc.r",
-  "mlr/aaa.r",
+  "mlr/zzz.R",
   "mlr/empty.r",
   
   "mlr/checkData.R",
@@ -86,7 +87,6 @@ pack.files = c(
   
   "mlr/parallel/export.r",
   "mlr/parallel/eval.r",
-  "mlr/parallel/parallel.r",
   
   #################    
   
