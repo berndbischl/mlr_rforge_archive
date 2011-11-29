@@ -8,8 +8,8 @@ test.blackboost.regr <- function() {
 	)
 	
 	parset.list2 = list(
-			list(family="Gaussian", maxdepth=2),
-			list(family="Gaussian", maxdepth=4, nu=0.03)
+			list(family=Gaussian(), maxdepth=2),
+			list(family=Gaussian(), maxdepth=4, nu=0.03)
 	)
 	
 	old.predicts.list = list()

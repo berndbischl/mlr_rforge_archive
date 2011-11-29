@@ -20,6 +20,6 @@ setupLogger = function(level="info", show.learner.output=TRUE) {
   logger.setup = list()
   logger.setup$global.level = level
   logger.setup$show.learner.output = show.learner.output
-  .mlr.local$logger.setup = logger.setup
+  .mlr.local$logger.setup <<- logger.setup
   return(NULL)
 }

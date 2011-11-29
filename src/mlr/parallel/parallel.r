@@ -56,11 +56,11 @@ parallel.setup <- function(mode="local", parallel.type, cpus, level="resample", 
 		cpus = ifelse(mode=="snowfall" && parallel.type=="MPI", mpi.universe.size(), 1)
 	}
 		
-	p <- list()
+	p = list()
 	p$mode = mode
 	p$level = level
 	p$cpus = cpus
-	.mlr.local$parallel.setup <- p
+	.mlr.local$parallel.setup <<- p
 	# todo: maybe keep the export hashes when just changing the level of parallization? 
 	# delete export hash when we (re)start the cluster	
 	rm(list=ls(envir=.mlr.export), envir=.mlr.export)
