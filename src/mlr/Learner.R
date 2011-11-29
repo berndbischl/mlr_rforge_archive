@@ -41,7 +41,7 @@ setClass(
     id = "character",
     pack = "character",
     properties = "list",
-    par.set = "ParamSet",
+    par.set = "ANY",
     par.vals = "list",
     predict.type = "character"
   )   
