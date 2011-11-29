@@ -9,11 +9,11 @@
 #'   \dQuote{local}, \dQuote{multicore}, \dQuote{snowfall}.
 #'   Default is \dQuote{local} without parallel execution.
 #' @param cpus [\code{integer(1)}]\cr
-#'   Number of requested cpus. Default is \code{\link[Rmpi]{mpi.universe.size}}() for snowfall/MPI and 1 otherwise. 
+#'   Number of requested cpus. Default is \code{\link[Rmpi]{mpi.universe.size}} for snowfall/MPI and 1 otherwise. 
 #' @param level [\code{character(1)}]\cr
-#'   What is parallelized / what is a job. 
-#' 	 \dQuote{resample}: \code{\link{resample}} is parallelized and a job is train / test.
-#'   \dQuote{opt}: \code{\link[mlrTune]{tune}} and \code{\link[mlrVarsel]{varsel}} are parallelized and a job is a resampled evaluation of one hyperparameter setting/feature set.  
+#'   What is parallelized / what is a job:\cr
+#' 	 \dQuote{resample}: \code{\link{resample}} is parallelized and a job is train / test.\cr
+#'   \dQuote{opt}: \code{\link[mlrTune]{tune}} and \code{\link[mlrVarsel]{varsel}} are parallelized and a job is a resampled evaluation of one hyperparameter setting/feature set.\cr  
 #'   \dQuote{bench}: \code{\link[mlrBenchmark]{benchmark}} is parallelized and a job is completely evaluating one learner on one data set.
 #' @param ... [any]\cr
 #'    Optional parameters, only passed to \code{\link[snowfall]{sfInit}} currently. 

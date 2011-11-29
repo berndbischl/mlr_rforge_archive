@@ -2,7 +2,7 @@
 #' 
 #' @title Logger setup.
 #' @param level [\code{character(1)}] \cr 
-#'   Which logging levels should be printed: \dQuote{error}, \dQuote{warn}, \dQuote{info}, \dQuote{debug}. 
+#'   Which logging levels should be printed: \dQuote{error}, \dQuote{warn}, \dQuote{info}, \dQuote{debug}.
 #'   Default is \dQuote{info}.    
 #' @param show.learner.output [\code{logical(1)}] \cr 
 #'   Should the output of the learning algorithm during training and prediction be shown or captured and
