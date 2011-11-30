@@ -23,7 +23,7 @@ checkTunerParset = function(learner, par.set, control) {
   } else if (is(control, "TuneControlCMAES")) {
     checkParsOk("CMAES", c("numeric", "integer", "numericvector", "integervector"))
     checkStart()
-  } else if (is(control, "TuneControlSPO")) {
+  } else if (is(control, "TuneControlMbo")) {
   } else {
     stop("Tuning algorithm for ", class(control)[1], " does not exist!")
   }
