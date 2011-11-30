@@ -1,5 +1,3 @@
-#' @include OptPath.R
-roxygen()
 #' @include OptControl.R
 roxygen()
 
@@ -23,7 +21,7 @@ setClass(
 				control = "OptControl",
 				x = "ANY",
         y = "numeric",
-				path = "list"
+				path = "ANY"
 		)
 )
 
@@ -46,11 +44,11 @@ setMethod(
 
 #' @rdname undocumented
 setMethod(f = "show", signature = signature("OptResult"), def = function(object) {
-    s = if (is(object@control, "TuneControl")) 
-        paramValueToString(getParamSet(object@learner), object@x)
-      else 
-        paste(length(object@x), "sel. vars")
-    cat("Opt. pars: ", s, "\n",
-        paste(paste(names(object@y), formatC(object@y, digits=3), sep="="), collapse=" "),
-        "\n")
+  s = if (is(object@control, "TuneControl")) 
+    paramValueToString(object@path$par.set, object@x)
+  else 
+    paste(length(object@x), "sel. vars")
+  cat("Opt. pars:", s, "\n",
+    paste(paste(names(object@y), formatC(object@y, digits=3), sep="="), collapse=" "),
+    "\n")
 })

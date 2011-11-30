@@ -1,5 +1,5 @@
 # todo: test tuning of chain, maybe in mlrChains
-test.tune <- function() {
+test.tune = function() {
   cp = c(0.05, 0.9)
   minsplit = 1:3 
   ps1 = makeParamSet(
@@ -9,19 +9,19 @@ test.tune <- function() {
 	ctrl = makeTuneControlGrid()
 	folds = 3
 	
-	tr <- tune.rpart(formula=multiclass.formula, data=multiclass.df, cp=cp, minsplit=minsplit,
+	tr = tune.rpart(formula=multiclass.formula, data=multiclass.df, cp=cp, minsplit=minsplit,
 			tunecontrol = tune.control(sampling = "cross", cross = folds))  
 	
-	cv.instance <- e1071.cv.to.mlr.cv(tr)
+	cv.instance = e1071.cv.to.mlr.cv(tr)
 	m1 = setAggregation(mmce, test.mean)
   m2 = setAggregation(mmce, test.sd)
-	tr2 <- tune("classif.rpart", multiclass.task, cv.instance, par.set=ps1, control=ctrl, measures=list(m1, m2))
+	tr2 = tune("classif.rpart", multiclass.task, cv.instance, par.set=ps1, control=ctrl, measures=list(m1, m2))
   pp = as.data.frame(tr2@path)  
 	# todo test scale with tune.e1071 and scaled grid!	
 	for(i in 1:nrow(tr$performances)) {
-		cp <- tr$performances[i,"cp"]
-		ms <- tr$performances[i,"minsplit"]
-		j <- which(pp$cp == cp & pp$minsplit == ms )
+		cp = tr$performances[i,"cp"]
+		ms = tr$performances[i,"minsplit"]
+		j = which(pp$cp == cp & pp$minsplit == ms )
 		checkEqualsNumeric(tr$performances[i,"error"], pp[j,"mmce.test.mean"])    
 		checkEqualsNumeric(tr$performances[i,"dispersion"], pp[j,"mmce.test.sd"])    
 	}
@@ -52,17 +52,17 @@ test.tune.optim = function() {
   )
   
   # nelder mead with optim
-  ctrl = makeTuneControlOptim(method="Nelder-Mead", start=c(1, 1), maxit=10)
+  ctrl = makeTuneControlOptim(method="Nelder-Mead", start=c(0, 0), maxit=10)
   tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
   ctrl = makeTuneControlOptim(method="Nelder-Mead", start=c(0.05, 5), maxit=10)
   checkException(tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl))
   
-  ctrl = makeTuneControlOptim(method="SANN", start=c(1, 1), maxit=10)
+  ctrl = makeTuneControlOptim(method="SANN", start=c(0, 0), maxit=10)
   tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
   ctrl = makeTuneControlOptim(method="SANN", start=c(0.05, 5), maxit=10)
   checkException(tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl))
   
-  ctrl = makeTuneControlOptim(method="L-BFGS-B", start=c(1, 1), maxit=10)
+  ctrl = makeTuneControlOptim(method="L-BFGS-B", start=c(0, 0), maxit=10)
   tr = tune("classif.ksvm", binaryclass.task, res, par.set=ps1, control=ctrl)
   ctrl = makeTuneControlOptim(method="L-BFGS-B", start=c(0.05, 5), maxit=10)
   tr = tune("classif.rpart", binaryclass.task, res, par.set=ps2, control=ctrl)
@@ -81,7 +81,7 @@ test.tune.cmaes = function() {
   tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl1)
   
   ps2 = makeParamSet(
-    makeNumericVectorParam("cutoff", lower=0.0001, upper=1, dim=3, trafo=function(x) x / (1.1*sum(x))), 
+    makeNumericVectorParam("cutoff", lower=0.0001, upper=1, length=3, trafo=function(x) x / (1.1*sum(x))), 
     makeIntegerParam("ntree", lower=100, upper=500) 
   )
   
@@ -112,15 +112,15 @@ test.tune.spo = function() {
   spo.ctrl = makeSPOControl(init.design.points=3, seq.loops=2)
   ctrl = makeTuneControlSPO(learner="regr.randomForest", spo.control=spo.ctrl)
   tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl)
-  checkEquals(length(tr1@path), 5)
+  checkEquals(getOptPathLength(tr1@path), 5)
   checkEquals(dim(as.data.frame(tr1@path)), c(5, 2+1+2))
   
   ps2 = makeParamSet(
     makeIntegerParam("ntree", lower=100, upper=500),
-    makeNumericVectorParam("cutoff", dim=3, lower=0.001, upper=1, trafo=function(x) 0.9*x/sum(x)) 
+    makeNumericVectorParam("cutoff", length=3, lower=0.001, upper=1, trafo=function(x) 0.9*x/sum(x)) 
   )
   tr2 = tune("classif.randomForest", multiclass.task, res, par.set=ps2, control=ctrl)
-  checkEquals(length(tr2@path), 5)
+  checkEquals(getOptPathLength(tr2@path), 5)
 } 
   
 

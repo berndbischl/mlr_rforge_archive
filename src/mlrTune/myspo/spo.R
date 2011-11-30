@@ -3,36 +3,35 @@
 #todo: retrain kriging faster
 #todo: handle error in meta learner
 #todo: i think resample at and save.model at count differently
+#todo: remove ParamHelpers::::
 
 #'  Optimizes a function with sequential parameter optimization.
 #'
 #' @param fun [function(x, ...)]\cr 
 #'   Fitness function to minimize. The first argument has to be a list of values. The function has to return a single numerical value.
-#' @param par.set [\code{\link[ParamHelpers]{ParamSet}}] \cr
+#' @param par.set [\code{\link[ParamHelpers]{ParamSet}}]\cr
 #'   Collection of parameters and their constraints for optimization.   
-#' @param des [data.frame | NULL] \cr
+#' @param des [data.frame | NULL]\cr
 #'   Initial design. Must have been created by \code{\link[ParamHelpers]{generateDesign}}. 
 #'   If the parameters have corresponding trafo functions, 
 #'   the design must not be transformed before it is passed! 
 #'   If \code{NULL}, one is constructed from the settings in \code{control}.
-#' @param learner [\code{\linkS4class{Learner}}] \cr
+#' @param learner [\code{\linkS4class{Learner}}]\cr
 #'   Regression learner to model \code{fun}.  
-#' @param control [\code{\linkS4class{SPOControl}}] \cr
+#' @param control [\code{\linkS4class{SPOControl}}]\cr
 #'   Control object for SPO.  
-#' @return A list with the following entries:
-#' \describe{
+#' @return [\code{list}]:
 #'   \item{x [named list]}{List of proposed optimal parameters.}
 #'   \item{y [numeric]}{Value of fitness function at \code{x}, either form evals during optimization or from requested final evaluations, if they were gretater than 0.}
-#'   \item{path [\code{\linkS4class{OptPath}}]}{Optimization path.}
+#'   \item{path [\code{\link[ParamHelpers]{OptPath}}]}{Optimization path.}
 #'   \item{models [List of \code{\linkS4class{WrappedModel}}]}{List of saved regression models.}
-#' }
 #' @export 
 
 #todo: check learner is regression
 spo = function(fun, par.set, des=NULL, learner, control) {
   if(any(sapply(par.set$pars, function(x) is(x, "LearnerParam"))))
     stop("No par.set parameter in 'spo' can be of class 'LearnerParam'! Use basic parameters instead to describe you region of interest!")
-  if (any(is.infinite(c(lower(par.set), upper(par.set)))))
+  if (any(is.infinite(c(getLower(par.set), getUpper(par.set)))))
     stop("SPO requires finite box constraints!")
   if (control@propose.points.method == "CMAES") 
     requirePackages("cmaes", "proposePoints")
@@ -49,12 +48,12 @@ spo = function(fun, par.set, des=NULL, learner, control) {
   
   rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
   y.name = control@y.name
-  opt.path = new("OptPathDF", par.set=par.set, y.names=y.name, minimize=control@minimize)
+  opt.path = makeOptPathDF(par.set, y.name, control@minimize)
   
   if (is.null(des)) {
     des.x = generateDesign(control@init.design.points, par.set, 
       control@init.design.fun, control@init.design.args, trafo=FALSE)
-    xs = lapply(1:nrow(des.x), function(i) dataFrameRowToList(des.x, par.set, i))
+    xs = lapply(1:nrow(des.x), function(i) ParamHelpers:::dfRowToList(des.x, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
     des = des.x
     des[, y.name] = ys
@@ -71,7 +70,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
       stop("Column names of design 'des' must match names of parameters in 'par.set'!")
     # reorder
     des.x = des.x[, rep.pids, drop=FALSE]
-    xs = lapply(1:nrow(des.x), function(i) dataFrameRowToList(des.x, par.set, i))
+    xs = lapply(1:nrow(des.x), function(i) ParamHelpers:::dfRowToList(des.x, par.set, i))
   }
   Map(function(x,y) addOptPathEl(opt.path, x=x, y=y), xs, ys)
   rt = makeSpoTask(des, y.name, control=control)
@@ -87,7 +86,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
       res.vals[[length(res.vals)+1]] = r$aggr
     }
     prop.des = proposePoints(model, par.set, control, opt.path)
-    xs = lapply(1:nrow(prop.des), function(i) dataFrameRowToList(prop.des, par.set, i))
+    xs = lapply(1:nrow(prop.des), function(i) ParamHelpers:::dfRowToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
     Map(function(x,y) addOptPathEl(opt.path, x=x, y=y), xs, ys)
     rt = makeSpoTask(as.data.frame(opt.path), y.name, exclude=c("dob", "eol"), control=control)
@@ -96,21 +95,21 @@ spo = function(fun, par.set, des=NULL, learner, control) {
       models[[length(models)+1]] = model
     loop = loop + 1
   }
-  names(models) =  control@save.model.at
-  names(res.vals) =  control@resample.at
+  names(models) = control@save.model.at
+  names(res.vals) = control@resample.at
   
   des = getData(rt, target.extra=TRUE)$data
   final.index = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
   
   if (control@final.evals > 0) {
     prop.des = des[rep(final.index, control@final.evals),,drop=FALSE]
-    xs = lapply(1:nrow(prop.des), function(i) dataFrameRowToList(prop.des, par.set, i))
+    xs = lapply(1:nrow(prop.des), function(i) ParamHelpers:::dfRowToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
     y = mean(ys)
     x = xs[[1]]
   } else {
     y = getOptPathEl(opt.path, final.index)$y
-    x = dataFrameRowToList(des, par.set, final.index)
+    x = ParamHelpers:::dfRowToList(des, par.set, final.index)
   }
   
   list(x=x, y=y, path=opt.path, resample=res.vals, models=models)
@@ -118,7 +117,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
 
 
 evalTargetFun = function(fun, par.set, xs) {
-  xs = lapply(xs, trafoVal, par=par.set)
+  xs = lapply(xs, trafoValue, par=par.set)
   sapply(xs, fun)  
 }
 

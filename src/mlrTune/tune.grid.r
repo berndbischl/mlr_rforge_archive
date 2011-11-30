@@ -1,9 +1,12 @@
 tune.grid <- function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   # drop names from par.set
-  vals = values(par.set, only.names=TRUE) 
-  grid = expand.grid(vals, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
-  vals = lapply(seq(length=nrow(grid)), function(i) as.list(grid[i,,drop=FALSE]))
-  vals = lapply(vals, function(val) par.valnames.to.vals(val, par.set))
+  vals = getValues(par.set) 
+  inds = lapply(vals, seq_along)
+  grid = expand.grid(inds)
+  vals = lapply(seq_len(nrow(grid)), function(i) {
+    val.inds = as.numeric(grid[i,])
+    Map(function(v, j) v[[j]], vals, val.inds)
+  })  
   evalOptimizationStates(learner, task, resampling, measures, par.set, NULL, control, opt.path, log.fun, vals, dobs=1L, eols=1L)
 
   i = getOptPathBestIndex(opt.path, measureAggrName(measures[[1]]), ties="random")

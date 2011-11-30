@@ -5,8 +5,8 @@
 # todo: use CL when more than 1 point in EI 
 proposePoints = function(model, par.set, control, opt.path) {
   lm = model@learner.model 
-  low = lower(par.set)
-  upp = upper(par.set)
+  low = getLower(par.set)
+  upp = getUpper(par.set)
   if (control@propose.points.method == "seq.design") {
     des = generateDesign(control@seq.design.points, par.set, 
       control@seq.design.fun, control@seq.design.args, ints.as.num=TRUE)

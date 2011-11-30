@@ -111,7 +111,7 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
     (is.numeric(save.model.at) && as.integer(save.model.at) == save.model.at))
     save.model.at = as.integer(save.model.at)
   checkArg(save.model.at, "integer")
-  checkArg(final.point, "character", 1, c("last.proposed", "best.true.y", "best.predicted"))
+  checkArg(final.point, choices=c("last.proposed", "best.true.y", "best.predicted"))
   checkArg(final.evals, "integer", 1)
   if (length(resample.at) == 0 || 
     (is.numeric(resample.at) && as.integer(resample.at) == resample.at))

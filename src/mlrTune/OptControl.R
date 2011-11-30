@@ -2,7 +2,7 @@
 roxygen()
 
 #' Abstract base class for control objects for optimization. 
-#' Cannot be instatiated. 
+#' Cannot be instantiated. 
 #' 
 #' Getter.\cr
 #' 

@@ -3,8 +3,8 @@
 tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   requirePackages("cmaes", "tune.cmaes")
   
-  low = lower(par.set)
-  upp = upper(par.set)
+  low = getLower(par.set)
+  upp = getUpper(par.set)
 
   start = unlist(control@start)
   g = makeTunerTargetFun(learner, task, resampling, measures, par.set, control, opt.path, log.fun, 
