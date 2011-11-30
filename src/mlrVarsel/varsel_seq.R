@@ -11,7 +11,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
       return(NULL)
     dob = max(opt.path@env$dob) + 1L
     # die at once
-    mlrTune:::eval.states(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, xs, dob=dob, eol=dob)
+    evalOptimizationStates(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, log.fun, states, dob, dob)
     
     best.i = getOptPathBestIndex(opt.path, dob=dob, ties="random")
     best = getOptPathEl(opt.path, best.i)
