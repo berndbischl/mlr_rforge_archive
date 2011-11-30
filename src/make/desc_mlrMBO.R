@@ -1,7 +1,7 @@
 writeDesc <- function(desc.path, rev.nr) {
   sink(file=desc.path)
   cat(
-    "Package: mlrTune\n",
+    "Package: mlrMBO\n",
     "Type: Package\n",
     "Title: mlr: Modelbased Optimization.\n",
     paste("Version: 0.1.", rev.nr, "\n", sep=""),
@@ -11,8 +11,8 @@ writeDesc <- function(desc.path, rev.nr) {
     "Description: no\n",
     "License: GPL (>= 2)\n",
     "LazyLoad: yes\n",
-    "Depends: R (>= 2.11.0), methods, ParamHelpers\n",
-    "Suggests: lhs\n",
+    "Depends: R (>= 2.11.0), methods, mlr\n",
+    "Suggests: lhs, DiceOptim, cmaes\n",
     sep=""
   )
   sink(NULL)

@@ -1,5 +1,5 @@
-test.spo.rf <- function() {
-  f = makeSPOFunction(function(x) sum(x^2))
+test.mbo.rf <- function() {
+  f = makeMboFunction(function(x) sum(x^2))
   
   ps = makeParamSet(
     makeNumericParam("x1", lower=-2, upper=1), 
@@ -9,8 +9,8 @@ test.spo.rf <- function() {
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.randomForest")
-  ctrl = makeSPOControl(seq.loops=5, seq.design.points=100, save.model.at=c(0,5))
-  or = spo(f, ps, des, learner, ctrl)
+  ctrl = makeMboControl(seq.loops=5, seq.design.points=100, save.model.at=c(0,5))
+  or = mbo(f, ps, des, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(or$y, f(or$x))
   checkEquals(getOptPathLength(or$path), 15)
@@ -23,16 +23,16 @@ test.spo.rf <- function() {
   
   # check errors
   des$y = NULL
-  checkException(spo(f, ps, des, learner, ctrl), silent=TRUE)
+  checkException(mbo(f, ps, des, learner, ctrl), silent=TRUE)
   s = geterrmessage()
   checkTrue(length(grep("must contain y column", s)) >0 )
   des$y = y
   
-  ctrl = makeSPOControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
-  checkException(spo(f, ps, des, learner, ctrl), silent=TRUE)
+  ctrl = makeMboControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
+  checkException(mbo(f, ps, des, learner, ctrl), silent=TRUE)
   s = geterrmessage()
   checkTrue(length(grep("Expected improvement can currently", s)) >0 )
-  ctrl = makeSPOControl(seq.loops=5, seq.design.points=100)
+  ctrl = makeMboControl(seq.loops=5, seq.design.points=100)
   
   # check trafo
   ps = makeParamSet(
@@ -40,7 +40,7 @@ test.spo.rf <- function() {
   )
   des = generateDesign(10, par.set=ps)
   des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
-  or = spo(f, ps, des, learner, ctrl)
+  or = mbo(f, ps, des, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(getOptPathLength(or$path), 15)
   df = as.data.frame(or$path)
@@ -58,8 +58,8 @@ test.spo.rf <- function() {
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.randomForest")
-  ctrl = makeSPOControl(seq.loops=5, seq.design.points=100)
-  or = spo(f, ps, des, learner, ctrl)
+  ctrl = makeMboControl(seq.loops=5, seq.design.points=100)
+  or = mbo(f, ps, des, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(getOptPathLength(or$path), 15)
   df = as.data.frame(or$path)
@@ -84,16 +84,16 @@ test.spo.rf <- function() {
   )
   learner = makeLearner("regr.randomForest")
   ctrl = makeMboControl(init.design.points=5, seq.loops=10, propose.points.method="CMAES")
-  or = spo(f, ps, des=NULL, learner, ctrl)
+  or = mbo(f, ps, des=NULL, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(getOptPathLength(or$path), 15)
   ctrl = makeMboControl(init.design.points=5, seq.loops=10, final.point="best.predicted")
-  or = spo(f, ps, des=NULL, learner, ctrl)
+  or = mbo(f, ps, des=NULL, learner, ctrl)
   checkEquals(getOptPathLength(or$path), 15)
 } 
 
-test.spo.km <- function() {
-  f = makeSPOFunction(function(x) sum(x^2))
+test.mbo.km <- function() {
+  f = makeMboFunction(function(x) sum(x^2))
   
   ps = makeParamSet(
     makeNumericParam("x1", lower=-2, upper=1), 
@@ -104,7 +104,7 @@ test.spo.km <- function() {
   des$y = y
   learner = makeLearner("regr.km", nugget.estim=TRUE)
   ctrl = makeMboControl(seq.loops=5, seq.design.points=100)
-  or = spo(f, ps, des, learner, ctrl)
+  or = mbo(f, ps, des, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(getOptPathLength(or$path), 15)
   df = as.data.frame(or$path)
@@ -121,7 +121,7 @@ test.spo.km <- function() {
   )
   des = generateDesign(10, par.set=ps)
   des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
-  or = spo(f, ps, des, learner, ctrl)
+  or = mbo(f, ps, des, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(getOptPathLength(or$path), 15)
   df = as.data.frame(or$path)
@@ -132,7 +132,7 @@ test.spo.km <- function() {
 
   
   ctrl = makeMboControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
-  or = spo(f, ps, des, learner, ctrl)
+  or = mbo(f, ps, des, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(getOptPathLength(or$path), 15)
   df = as.data.frame(or$path)

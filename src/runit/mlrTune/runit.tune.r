@@ -102,15 +102,15 @@ test.tune.cmaes = function() {
 
 
 
-test.tune.spo = function() {
+test.tune.mbo = function() {
   res = makeResampleDesc("CV", iters=2)
   ps1 = makeParamSet(
     makeNumericParam("cp", lower=0.001, upper=1), 
     makeIntegerParam("minsplit", lower=1, upper=10)
   )
   
-  spo.ctrl = makeSPOControl(init.design.points=3, seq.loops=2)
-  ctrl = makeTuneControlSPO(learner="regr.randomForest", spo.control=spo.ctrl)
+  mbo.ctrl = makeMboControl(init.design.points=3, seq.loops=2)
+  ctrl = makeTuneControlMbo(learner="regr.randomForest", spo.control=spo.ctrl)
   tr1 = tune("classif.rpart", multiclass.task, res, par.set=ps1, control=ctrl)
   checkEquals(getOptPathLength(tr1@path), 5)
   checkEquals(dim(as.data.frame(tr1@path)), c(5, 2+1+2))

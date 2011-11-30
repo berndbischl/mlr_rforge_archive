@@ -28,7 +28,7 @@
 #' @export 
 
 #todo: check learner is regression
-mboo = function(fun, par.set, des=NULL, learner, control) {
+mbo = function(fun, par.set, des=NULL, learner, control) {
   if(any(sapply(par.set$pars, function(x) is(x, "LearnerParam"))))
     stop("No par.set parameter in 'mbo' can be of class 'LearnerParam'! Use basic parameters instead to describe you region of interest!")
   if (any(is.infinite(c(getLower(par.set), getUpper(par.set)))))

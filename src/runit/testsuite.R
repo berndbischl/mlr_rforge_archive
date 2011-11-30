@@ -21,6 +21,9 @@ if (pack == "mlrBenchmark") {
   require("mlrTune")
   require("mlrVarsel")
 }
+if (pack == "mlrMBO") {
+  require("mlr")
+}
 
 
   
