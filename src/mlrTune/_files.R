@@ -10,13 +10,6 @@ pack.files = c(
   "mlrTune/OptControl.R",
   "mlrTune/OptResult.R",
   
-  "mlrTune/myspo/makeSPOFunction.R",
-  "mlrTune/myspo/makeSPOParamSet.R",
-  "mlrTune/myspo/SPOControl.R",
-  "mlrTune/myspo/proposePoints.R",
-  "mlrTune/myspo/chooseFinalPoint.R",
-  "mlrTune/myspo/spo.R",
-  
   "mlrTune/checkTunerParset.R",
   "mlrTune/TuneControl.R",
   "mlrTune/TuneControlGrid.R",
@@ -28,6 +21,6 @@ pack.files = c(
   "mlrTune/tune.grid.r",
   "mlrTune/tune.optim.r",
   "mlrTune/tune.cmaes.r",
-  "mlrTune/tune.spo.R"
+  "mlrTune/tune.mbo.R"
 )
 

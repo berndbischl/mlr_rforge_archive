@@ -50,7 +50,7 @@ tune = function(learner, task, resampling, measures, par.set, control, log.fun) 
 #			pattern = tune.ps,
       TuneControlCMAES = tune.cmaes,
       TuneControlOptim = tune.optim,
-      TuneControlSPO = tune.spo
+      TuneControlMbo = tune.mbo
 	)		
   opt.path = makeOptPathDFFromMeasures(par.set, measures)
   logger.info("[Tune] Started tuning learner", learner@id, "for parameter set:")

@@ -11,12 +11,6 @@ allowed.rd.files <<- c(
   "makeTuneControlOptim.Rd",
   "TuneControlCMAES-class.Rd",
   "makeTuneControlCMAES.Rd",
-  "TuneControlSPO-class.Rd",
-  "makeTuneControlSPO.Rd",
-  
-  "SPOControl-class.Rd",
-  "makeSPOControl.Rd",
-  "makeSPOFunction.Rd",
-  "makeSPOParamSet.Rd",
-  "spo.Rd"
+  "TuneControlMbo-class.Rd",
+  "makeTuneControlMbo.Rd"
 )   

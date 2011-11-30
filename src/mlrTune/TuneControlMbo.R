@@ -1,31 +1,31 @@
 #' @include TuneControl.R
 roxygen()
 
-#' Control structure for SPO tuning. 
-#' @exportClass TuneControlSPO
-#' @seealso \code{\link{makeTuneControlSPO}}
+#' Control structure for mbo tuning. 
+#' @exportClass TuneControlMbo
+#' @seealso \code{\link{makeTuneControlMbo}}
 
 setClass(
-  "TuneControlSPO",
+  "TuneControlMbo",
   contains = c("TuneControl"),
   representation = representation(
     learner = "Learner",
-    spo.control = "SPOControl"
+    mbo.control = "MboControl"
   )
 
 )
 #' Constructor.
 setMethod(
   f = "initialize",
-  signature = signature("TuneControlSPO"),
-  def = function(.Object, path, same.resampling.instance, learner, spo.control) {
+  signature = signature("TuneControlMbo"),
+  def = function(.Object, path, same.resampling.instance, learner, mbo.control) {
     .Object@learner = learner  
-    .Object@spo.control = spo.control  
+    .Object@mbo.control = mbo.control  
     callNextMethod(.Object, path, same.resampling.instance, start=list())
   }
 )
 
-#' Create control structure for SPO tuning. 
+#' Create control structure for Mbo tuning. 
 #' 
 #' @param path [\code{logical(1)}]\cr
 #'   Should optimization path be saved? Default is TRUE.
@@ -33,38 +33,38 @@ setMethod(
 #'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
 #' @param learner [\code{\linkS4class{Learner}}] \cr
 #'   Regression learner to model performance landscape.  
-#' @param control [\code{\linkS4class{SPOControl}}] \cr
-#'   Control object for SPO.  
+#' @param control [\code{\linkS4class{MboControl}}] \cr
+#'   Control object for Mbo.  
 #'        
 #' @return Control structure for tuning.
-#' @exportMethod makeTuneControlSPO
-#' @rdname makeTuneControlSPO 
-#' @title Control for SPO tuning. 
+#' @exportMethod makeTuneControlMbo
+#' @rdname makeTuneControlMbo 
+#' @title Control for Mbo tuning. 
 
 
 setGeneric(
-  name = "makeTuneControlSPO",
-  def = function(path, same.resampling.instance, learner, spo.control) {
+  name = "makeTuneControlMbo",
+  def = function(path, same.resampling.instance, learner, mbo.control) {
     if (missing(path))
       path = TRUE
     if (missing(same.resampling.instance))
       same.resampling.instance = TRUE
     if (is.character(learner))
       learner = makeLearner(learner)
-    standardGeneric("makeTuneControlSPO")
+    standardGeneric("makeTuneControlMbo")
   }
 )
 
 
-#' @rdname makeTuneControlSPO 
+#' @rdname makeTuneControlMbo 
 
 setMethod(
-  f = "makeTuneControlSPO",
+  f = "makeTuneControlMbo",
   signature = signature(path="logical", same.resampling.instance="logical", 
-    learner="Learner", spo.control="SPOControl"),
-  def = function(path, same.resampling.instance, learner, spo.control) {
-    new("TuneControlSPO", path=path, same.resampling.instance=same.resampling.instance,
-      learner=learner, spo.control=spo.control)
+    learner="Learner", mbo.control="MboControl"),
+  def = function(path, same.resampling.instance, learner, mbo.control) {
+    new("TuneControlMbo", path=path, same.resampling.instance=same.resampling.instance,
+      learner=learner, mbo.control=mbo.control)
   }
 )
 
