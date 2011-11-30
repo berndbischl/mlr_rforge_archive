@@ -18,8 +18,8 @@
 #'   If \code{NULL}, one is constructed from the settings in \code{control}.
 #' @param learner [\code{\linkS4class{Learner}}]\cr
 #'   Regression learner to model \code{fun}.  
-#' @param control [\code{\linkS4class{SPOControl}}]\cr
-#'   Control object for SPO.  
+#' @param control [\code{\linkS4class{MboControl}}]\cr
+#'   Control object for mbo.  
 #' @return [\code{list}]:
 #'   \item{x [named list]}{List of proposed optimal parameters.}
 #'   \item{y [numeric]}{Value of fitness function at \code{x}, either form evals during optimization or from requested final evaluations, if they were gretater than 0.}
@@ -28,11 +28,11 @@
 #' @export 
 
 #todo: check learner is regression
-spo = function(fun, par.set, des=NULL, learner, control) {
+mboo = function(fun, par.set, des=NULL, learner, control) {
   if(any(sapply(par.set$pars, function(x) is(x, "LearnerParam"))))
-    stop("No par.set parameter in 'spo' can be of class 'LearnerParam'! Use basic parameters instead to describe you region of interest!")
+    stop("No par.set parameter in 'mbo' can be of class 'LearnerParam'! Use basic parameters instead to describe you region of interest!")
   if (any(is.infinite(c(getLower(par.set), getUpper(par.set)))))
-    stop("SPO requires finite box constraints!")
+    stop("mbo requires finite box constraints!")
   if (control@propose.points.method == "CMAES") 
     requirePackages("cmaes", "proposePoints")
   if (control@propose.points.method == "CMAES" && control@propose.points != 1)
@@ -44,7 +44,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     !(class(learner) %in% c("regr.km", "regr.kmforrester"))) 
     stop("Expected improvement can currently only be used with learner 'regr.km' and 'regr.kmforrester'!")        
   if (control@propose.points.method == "EI")
-    requirePackages("DiceOptim", "spo")
+    requirePackages("DiceOptim")
   
   rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
   y.name = control@y.name
@@ -59,7 +59,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     des[, y.name] = ys
   } else {
     if (attr(des, "trafo"))
-      stop("Design must not be tranformed before call to 'spo'. Set 'trafo' to FALSE in generateDesign.")
+      stop("Design must not be tranformed before call to 'mbo'. Set 'trafo' to FALSE in generateDesign.")
     if (!(y.name %in% colnames(des)))
       stop("Design 'des' must contain y column of fitness values: ", y.name)
     ys = des[, y.name]
@@ -73,7 +73,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     xs = lapply(1:nrow(des.x), function(i) ParamHelpers:::dfRowToList(des.x, par.set, i))
   }
   Map(function(x,y) addOptPathEl(opt.path, x=x, y=y), xs, ys)
-  rt = makeSpoTask(des, y.name, control=control)
+  rt = makeMboTask(des, y.name, control=control)
   model = train(learner, rt)
   models = list()
   if (0 %in% control@save.model.at)
@@ -89,7 +89,7 @@ spo = function(fun, par.set, des=NULL, learner, control) {
     xs = lapply(1:nrow(prop.des), function(i) ParamHelpers:::dfRowToList(prop.des, par.set, i))
     ys = evalTargetFun(fun, par.set, xs)
     Map(function(x,y) addOptPathEl(opt.path, x=x, y=y), xs, ys)
-    rt = makeSpoTask(as.data.frame(opt.path), y.name, exclude=c("dob", "eol"), control=control)
+    rt = makeMboTask(as.data.frame(opt.path), y.name, exclude=c("dob", "eol"), control=control)
     model = train(learner, rt)
     if (loop %in% control@save.model.at)
       models[[length(models)+1]] = model
@@ -121,7 +121,7 @@ evalTargetFun = function(fun, par.set, xs) {
   sapply(xs, fun)  
 }
 
-makeSpoTask = function(des, y.name, exclude=character(0), control) {
+makeMboTask = function(des, y.name, exclude=character(0), control) {
   if (any(sapply(des, is.integer)))
     des = as.data.frame(lapply(des, function(x) if(is.integer(x)) as.numeric(x) else x))
   if (control@rank.trafo)

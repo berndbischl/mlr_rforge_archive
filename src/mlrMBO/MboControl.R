@@ -1,8 +1,8 @@
-#' Control structure for SPO optimization. 
-#' @exportClass SPOControl
-#' @seealso \code{\link{makeSPOControl}}
+#' Control structure for mbo optimization. 
+#' @exportClass MboControl
+#' @seealso \code{\link{makeMboControl}}
 setClass(
-  "SPOControl",
+  "MboControl",
   representation = representation(
     y.name = "character",
     minimize = "logical",
@@ -25,7 +25,7 @@ setClass(
   )
 )
 
-#' Creates a control object for SPO optimization.
+#' Creates a control object for mbo optimization.
 #'
 #' @param y.name [\code{character(1)}]\cr 
 #'   Name of y-column for target values in optimization path. Default is 'y'.   
@@ -33,13 +33,13 @@ setClass(
 #'   Should target function be minimized? Default is \code{TRUE}.   
 #' @param init.design.points [integer(1)]\cr 
 #'   Number of points in inital design. 
-#'   Only used if no design is given in \code{spo} function. Default is 20.   
+#'   Only used if no design is given in \code{mbo} function. Default is 20.   
 #' @param init.design.fun [function] \cr
 #'   Function from package lhs for the sequentail design. Possible are: maximinLHS, randomLHS, geneticLHS, improvedLHS, , optAugmentLHS, optimumLHS.
-#'   Only used if no design is given in \code{spo} function. Default is 'randomLHS'. 
+#'   Only used if no design is given in \code{mbo} function. Default is 'randomLHS'. 
 #' @param init.design.args [list] \cr
 #'   List of further arguments passed to \code{init.design.fun}.  
-#'   Only used if no design is given in \code{spo} function. Default is empty list.
+#'   Only used if no design is given in \code{mbo} function. Default is empty list.
 #' @param seq.loops [integer(1)]\cr 
 #'   Number of sequential optimization steps. Default is 100.   
 #' @param propose.points [integer(1)]\cr 
@@ -83,7 +83,7 @@ setClass(
 #'   Default is mse.   
 #' @return The control object.  
 #' @export 
-makeSPOControl = function(y.name="y", minimize=TRUE,
+makeMboControl = function(y.name="y", minimize=TRUE,
   init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
   seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
@@ -92,7 +92,7 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   save.model.at = seq.loops,
   resample.at = integer(0), resample.desc = makeResampleDesc("CV", iter=10), resample.measures=list(mse) 
 ) {
-  requirePackages("lhs", "makeSPOControl")
+  requirePackages("lhs", "makeMboControl")
   checkArg(y.name, "character", 1)
   checkArg(propose.points.method, choices=c("seq.design", "CMAES", "EI"))
   
@@ -124,7 +124,7 @@ makeSPOControl = function(y.name="y", minimize=TRUE,
   checkArg(resample.at, "integer")
   checkArg(resample.desc, "ResampleDesc")
   
-  new("SPOControl", 
+  new("MboControl", 
     y.name = y.name,
     minimize = minimize,
     init.design.points = init.design.points, 

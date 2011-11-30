@@ -1,5 +1,5 @@
 #' Construct a parameter set for a numeric vector from lower / upper bounds.
-#' Convenience function for \code{\link{spo}}.
+#' Convenience function for \code{\link{mbo}}.
 #' 
 #' @param id [\code{character(1)}]
 #'   Name of parameter.
@@ -9,9 +9,9 @@
 #'   Upper bounds. Default is \code{Inf}.
 #' @return [{\link[ParamHelpers]{ParamSet}}]
 #' @export 
-#' @seealso \code{\link{makeSPOFunction}}
-#' @title Create parameter set for SPO.
-makeSPOParamSet = function(id, lower=-Inf, upper=Inf) {
+#' @seealso \code{\link{makeMboFunction}}
+#' @title Create parameter set for mbo.
+makeMboParamSet = function(id, lower=-Inf, upper=Inf) {
   if (length(lower) == 1)
     lower = rep(lower, length(upper))
   if (length(upper) == 1)
