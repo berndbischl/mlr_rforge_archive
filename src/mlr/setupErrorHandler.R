@@ -21,7 +21,7 @@ setupErrorHandler = function(on.learner.error="warn", on.par.without.desc="stop"
   checkArg(on.learner.error, choices=c("quiet", "warn", "stop"))
   checkArg(on.par.without.desc, choices= c("quiet", "warn", "stop"))
     
-	.mlr.local$errorhandler.setup = list(
+	.mlr.conf$errorhandler.setup = list(
     on.par.without.desc = on.par.without.desc,
     on.learner.error = on.learner.error
   )  

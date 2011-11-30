@@ -37,7 +37,7 @@ setupParallel = function(mode="local", cpus, level="resample", ...) {
   checkArg(level, choices=c("resample", "opt", "bench"))
 		
 	
-  .mlr.local$parallel.setup = list(
+  .mlr.conf$parallel.setup = list(
     mode = mode,
     level = level,
     cpus = cpus
@@ -54,11 +54,11 @@ setupParallel = function(mode="local", cpus, level="resample", ...) {
 		# todo check version on nodes!
 		x = sfClusterEval(require(mlr))
 		if (!all(unlist(x))) {
-			.mlr.local$parallel.setup$mode = "local"
+			.mlr.conf$parallel.setup$mode = "local"
 			stop("Could not load mlr on every node!")
 		}
     # init slave with errorhandler, logger and set parallel=local
-    sfClusterCall(function(x) mlr:::.mlr.set.local.on.slave(x), .mlr.local)
+    sfClusterCall(function(x) mlr:::.mlr.set.local.on.slave(x), .mlr.conf)
 		# init random 
 		sfClusterSetupRNG()
   }

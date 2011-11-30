@@ -1,9 +1,9 @@
-.mlr.local <- new.env()
+.mlr.conf <- new.env()
 .mlr.export <- new.env()
 
 roxygen <- function() NULL
 
-#' @export .mlr.local
+#' @export .mlr.conf
 
 .onAttach <- function(libname, pkgname) {
 	setupErrorHandler()

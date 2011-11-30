@@ -32,7 +32,7 @@ logger.print <- function(level, ...) {
   
   #cat("level: ", level, "\n")
   #cat("global.level: ", logger.setup$global.level, "\n")
-  logger.setup <- .mlr.local$logger.setup
+  logger.setup <- .mlr.conf$logger.setup
   global.level <- switch(logger.setup$global.level,
     error = 4,
     warn = 3,

@@ -2,9 +2,9 @@
 
 test.parallel.warn = function() {
   res = makeResampleDesc("CV", iters=2)
-  level = .mlr.local$logger.setup$global.level
+  level = .mlr.conf$logger.setup$global.level
   setupLogger(level="warn")
-  opwd = .mlr.local$errorhandler.setup$on.par.without.desc
+  opwd = .mlr.conf$errorhandler.setup$on.par.without.desc
   
   #todo: for some reasons i get strange erorrs here 
 #  parallel.setup(mode="multicore", level="resample", cpus=2)

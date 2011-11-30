@@ -79,8 +79,8 @@ setMethod(
 				)
         # only pass train hyper pars as basic rlearner in ...
         pars = c(pars, getHyperPars(getLeafLearner(wl), "predict"))
-				if(!is.null(.mlr.local$debug.seed)) {
-					set.seed(.mlr.local$debug.seed)
+				if(!is.null(.mlr.conf$debug.seed)) {
+					set.seed(.mlr.conf$debug.seed)
 					warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
 				}
 				# todo: capture outout, see learner sda
@@ -88,11 +88,11 @@ setMethod(
           p = predict_novars(model, newdata)
 					time.predict = 0
 				} else {
-          if (.mlr.local$logger.setup$show.learner.output)
+          if (.mlr.conf$logger.setup$show.learner.output)
             fun1 = identity
           else
             fun1 = capture.output
-          if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
+          if (.mlr.conf$errorhandler.setup$on.learner.error == "stop")
             fun2 = identity
           else
             fun2 = function(x) try(x, silent=TRUE)
@@ -101,7 +101,7 @@ setMethod(
 					# was there an error during prediction?
 					if(is(p, "try-error")) {
 						msg = as.character(p)
-						if (.mlr.local$errorhandler.setup$on.learner.error == "warn")
+						if (.mlr.conf$errorhandler.setup$on.learner.error == "warn")
 							warning("Could not predict the learner: ", msg)
 						p = predict_nas(model, newdata)
 						time.predict = as.numeric(NA)

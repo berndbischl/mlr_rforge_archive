@@ -79,8 +79,8 @@ regr.train <- regr.df[regr.train.inds, ]
 regr.test  <- regr.df[regr.test.inds, ]
 regr.task <- makeRegrTask("regrtask", data=BostonHousing, target="medv")  
 
-.mlr.local$debug.seed <- 12345
-debug.seed <<- .mlr.local$debug.seed
+.mlr.conf$debug.seed <- 12345
+debug.seed <<- .mlr.conf$debug.seed
 
 testsuite = defineTestSuite(pack,
   dirs = file.path("src", "runit", pack),  

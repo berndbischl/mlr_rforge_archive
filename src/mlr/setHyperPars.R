@@ -63,9 +63,9 @@ setMethod(
         if (is.null(pd)) {
           # no description: stop warn or quiet
           msg = paste(class(learner), ": Setting par ", n, " without description!", sep="")
-          if (.mlr.local$errorhandler.setup$on.par.without.desc == "stop")
+          if (.mlr.conf$errorhandler.setup$on.par.without.desc == "stop")
             stop(msg)
-          if (.mlr.local$errorhandler.setup$on.par.without.desc == "warn")
+          if (.mlr.conf$errorhandler.setup$on.par.without.desc == "warn")
             warning(msg)
           learner@par.set$pars[[n]] = makeUntypedLearnerParam(id=n)
           learner@par.vals[[n]] = p

@@ -71,22 +71,22 @@ setMethod(
       time.train = 0
     } else {
       # set the seed
-      if(!is.null(.mlr.local$debug.seed)) {
-        set.seed(.mlr.local$debug.seed)
+      if(!is.null(.mlr.conf$debug.seed)) {
+        set.seed(.mlr.conf$debug.seed)
         warning("DEBUG SEED USED! REALLY SURE YOU WANT THIS?")
       }
       # for optwrappers we want to see the tuning / varsel logging
-      if (.mlr.local$logger.setup$show.learner.output || is(learner, "OptWrapper"))
+      if (.mlr.conf$logger.setup$show.learner.output || is(learner, "OptWrapper"))
         fun1 = identity
       else
         fun1 = capture.output
-      if (.mlr.local$errorhandler.setup$on.learner.error == "stop")
+      if (.mlr.conf$errorhandler.setup$on.learner.error == "stop")
         fun2 = identity
       else
         fun2 = function(x) try(x, silent=TRUE)
       st = system.time(or <- fun1(learner.model <- fun2(do.call(trainLearner, pars))), gcFirst = FALSE)
       # was there an error during training? maybe warn then
-      if(is(learner.model, "try-error") && .mlr.local$errorhandler.setup$on.learner.error == "warn") {
+      if(is(learner.model, "try-error") && .mlr.conf$errorhandler.setup$on.learner.error == "warn") {
         warning("Could not train the learner: ", as.character(learner.model))
       }
       logger.debug(level="train", or)

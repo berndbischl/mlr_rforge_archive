@@ -20,7 +20,7 @@ setupLogger = function(level="info", show.learner.output=TRUE) {
   } else {
     options(warn=1)
   }
-  .mlr.local$logger.setup = list(
+  .mlr.conf$logger.setup = list(
     global.level = level,
     show.learner.output = show.learner.output
   )

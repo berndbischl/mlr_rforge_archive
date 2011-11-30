@@ -26,7 +26,7 @@ tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt
   
 	args = control@extra.args
 	
-#  if (.mlr.local$parallel.setup$mode != "local" && .mlr.local$parallel.setup$level == "tune") {
+#  if (.mlr.conf$parallel.setup$mode != "local" && .mlr.conf$parallel.setup$level == "tune") {
 #    g=g2
 #    args$vectorized=TRUE    
 #  }  

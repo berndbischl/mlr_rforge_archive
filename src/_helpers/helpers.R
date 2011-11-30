@@ -64,7 +64,7 @@ warn.wrapper = function(x, myfun, arg.names) {
 
 
 mylapply <- function(xs, f, from, ...) {
-  ps = .mlr.local$parallel.setup
+  ps = .mlr.conf$parallel.setup
   if (ps$mode == "local" || ps$level != from) {
     y = lapply(xs, f, ...)
   } else {
@@ -79,13 +79,13 @@ mylapply <- function(xs, f, from, ...) {
       y = sfClusterApplyLB(x=xs, fun=warn.wrapper, myfun=f, arg.names=ns)   
     } else if (ps$mode == "multicore") {
       # todo check warnings
-      y = mclapply(xs, function(x, ...) {.mlr.set.local.on.slave(.mlr.local);f(x, ...)}, ..., mc.cores=ps$cpus)
+      y = mclapply(xs, function(x, ...) {.mlr.set.local.on.slave(.mlr.conf);f(x, ...)}, ..., mc.cores=ps$cpus)
     } else {
       stop("Unknown parallel model: ", ps$mode)
     }
   }
   
-  if (.mlr.local$logger.setup$global.level == "debug") {
+  if (.mlr.conf$logger.setup$global.level == "debug") {
     sizes = sapply(y, object.size)
     logger.debug(level="parallel", "mylapply returned sizes:", range(sizes))
   }
