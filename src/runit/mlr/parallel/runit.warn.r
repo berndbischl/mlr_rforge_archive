@@ -13,14 +13,14 @@ test.parallel.warn = function() {
 #      "Setting par foo without"  
 #  )
   
-  errorhandler.setup(on.par.without.desc="warn")
+  setupErrorHandler(on.par.without.desc="warn")
   parallel.setup(mode="snowfall", level="resample", cpus=2)
   checkWarning(
       resample("classif.ksvm", binaryclass.task, res, par.vals=list(foo=1)),
       "Setting par foo without"  
   )
   
-  errorhandler.setup(on.par.without.desc="quiet")
+  setupErrorHandler(on.par.without.desc="quiet")
   
 #  parallel.setup(mode="multicore", level="resample", cpus=2)
 #  checkWarning(
@@ -35,7 +35,7 @@ test.parallel.warn = function() {
   )
   
   setupLogger(level=level)
-  errorhandler.setup(on.par.without.desc=opwd)
+  setupErrorHandler(on.par.without.desc=opwd)
   parallel.setup(mode="local")
 }
 

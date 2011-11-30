@@ -47,7 +47,7 @@ if(!exists("runit.regexp") || runit.regexp == "")
 
 setupParallel(mode="local")
 setupLogger(level="error", show.learner.output=FALSE)
-#errorhandler.setup(on.learner.error="stop")
+#setupErrorHandler(on.learner.error="stop")
 setupErrorHandler()
 
 data(Sonar, BreastCancer)

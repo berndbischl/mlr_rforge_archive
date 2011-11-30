@@ -24,7 +24,7 @@ require("mlbench")
 
 parallel.setup(mode="local")
 setupLogger(level="error")
-errorhandler.setup()
+setupErrorHandler()
 
 data(Sonar, BreastCancer)
 

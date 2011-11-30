@@ -7,11 +7,11 @@ test.hyperpars <- function() {
 	checkEquals(getHyperPars(m@learner), list(minsplit=10)) 
 	
   # check warnings
-  errorhandler.setup(on.par.without.desc="warn")  
+  setupErrorHandler(on.par.without.desc="warn")  
   checkWarning(makeLearner("classif.rpart", foo=1), "Setting par foo without")  
-  errorhandler.setup(on.par.without.desc="quiet")
+  setupErrorHandler(on.par.without.desc="quiet")
   checkWarning(makeLearner("classif.rpart", foo=1), FALSE)  
-  errorhandler.setup()
+  setupErrorHandler()
   
 }
 
