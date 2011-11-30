@@ -1,12 +1,14 @@
-
+roxygen = function() NULL
 source("src/_helpers/helpers.R")
 source("src/runit/helpers.R")
 source("src/runit/makeRUnitTests.R")
+
 
 if(!exists("use.package")) {
   use.package = !interactive()
 }
 
+require("ParamHelpers")
 if (pack == "mlrTune")
   require("mlr")
 if (pack == "mlrVarsel")
@@ -19,6 +21,7 @@ if (pack == "mlrBenchmark") {
   require("mlrTune")
   require("mlrVarsel")
 }
+
 
   
 if (use.package) {
@@ -34,6 +37,7 @@ if (use.package) {
   for (f in pack.files) {
     source(file.path("src", f))
   }
+  
 } 
 require("RUnit")
 require("mlbench")
@@ -41,10 +45,10 @@ if(!exists("runit.regexp") || runit.regexp == "")
   runit.regexp = "^.*"
 
 
-parallel.setup(mode="local")
+setupParallel(mode="local")
 setupLogger(level="error", show.learner.output=FALSE)
 #errorhandler.setup(on.learner.error="stop")
-errorhandler.setup()
+setupErrorHandler()
 
 data(Sonar, BreastCancer)
 
@@ -79,8 +83,13 @@ regr.train <- regr.df[regr.train.inds, ]
 regr.test  <- regr.df[regr.test.inds, ]
 regr.task <- makeRegrTask("regrtask", data=BostonHousing, target="medv")  
 
-.mlr.conf$debug.seed <- 12345
-debug.seed <<- .mlr.conf$debug.seed
+if (use.package || pack != "mlr") {
+  conf = getNamespace("mlr")$.mlr.conf
+} else {
+  conf = .mlr.conf
+}
+conf$debug.seed = 12345
+debug.seed = conf$debug.seed 
 
 testsuite = defineTestSuite(pack,
   dirs = file.path("src", "runit", pack),  

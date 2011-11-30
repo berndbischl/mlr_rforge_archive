@@ -63,72 +63,6 @@ warn.wrapper = function(x, myfun, arg.names) {
 }
 
 
-mylapply <- function(xs, f, from, ...) {
-  ps = .mlr.conf$parallel.setup
-  if (ps$mode == "local" || ps$level != from) {
-    y = lapply(xs, f, ...)
-  } else {
-    args = list(...)
-    ns = names(args)
-    
-    for (i in seq(length(ns))) {
-      export(ns[i], args[[i]])
-    }
-    
-    if (ps$mode %in% c("sfCluster", "snowfall")){
-      y = sfClusterApplyLB(x=xs, fun=warn.wrapper, myfun=f, arg.names=ns)   
-    } else if (ps$mode == "multicore") {
-      # todo check warnings
-      y = mclapply(xs, function(x, ...) {.mlr.set.local.on.slave(.mlr.conf);f(x, ...)}, ..., mc.cores=ps$cpus)
-    } else {
-      stop("Unknown parallel model: ", ps$mode)
-    }
-  }
-  
-  if (.mlr.conf$logger.setup$global.level == "debug") {
-    sizes = sapply(y, object.size)
-    logger.debug(level="parallel", "mylapply returned sizes:", range(sizes))
-  }
-  
-  if (length(y) > 0) {
-    for (i in 1:length(y)) {
-      x = y[[i]]
-      if (is(x, "try-error")) {
-        stop(paste("On slave:", x))
-      }
-      ws = attr(x, ".mlr.slave.warnings")
-      if (!is.null(ws)) {
-        warning(paste("On slave:", ws))
-        attr(y[[i]], ".mlr.slave.warnings") = NULL
-      }
-    }
-  }
-  return(y)
-}
-
-# todo: remove?
-eval.rf = function(learner, task, resampling, measures, par.set, bits.to.features, control, val) {
-  if (is(control, "TuneControl")) {
-    learner = setHyperPars(learner, par.vals=val)
-  }
-  if (is(control, "VarselControl")) {
-    task = subsetData(task, vars=bits.to.features(val, task))
-  }
-  # todo 
-# if (control["tune.threshold"]) 
-#   type = "prob"
-  r = resample(learner, task, resampling, measures=measures)
-  return(r$aggr)
-  
-# th = as.numeric(NA)
-# if (control["tune.threshold"]) { 
-#   thr = tune.threshold(rf, measures, task, minimize=control@minimize, thresholds=control["thresholds"])
-#   rf = thr$pred
-#   th = thr$th
-# }
-}
-
-
 # compare 2 states.  
 # TRUE : state2 is significantly better than state1  
 # compare = function(state1, state2, control, measures, threshold) 
@@ -147,7 +81,7 @@ makeOptPathDFFromMeasures = function(par.set, measures) {
     length(intersect(ns, getParamIds(par.set, repeated=TRUE, with.nr=TRUE))) > 0)
     stop("Cannot create OptPath, measures ids and dimension names of input space overlap!")
   minimize = sapply(measures, function(m) m@minimize)
-  new("OptPathDF", par.set, ns, minimize)
+  makeOptPathDF(par.set, ns, minimize)
 }
 
 measureAggrName = function(measure) {
