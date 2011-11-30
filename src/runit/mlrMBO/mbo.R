@@ -70,8 +70,8 @@ test.spo.rf <- function() {
   checkTrue(is.list(or$x))
   checkEquals(names(or$x), names(ps$pars))
   
-  ctrl = makeSPOControl(init.design.points=3, seq.loops=5, seq.design.points=100)
-  or = spo(f, ps, des=NULL, learner, ctrl)
+  ctrl = makeMboControl(init.design.points=3, seq.loops=5, seq.design.points=100)
+  or = mbo(f, ps, des=NULL, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(getOptPathLength(or$path), 8)
   checkEquals(names(or$x), names(ps$pars))
@@ -83,11 +83,11 @@ test.spo.rf <- function() {
     makeNumericParam("w", lower=-5, upper=5) 
   )
   learner = makeLearner("regr.randomForest")
-  ctrl = makeSPOControl(init.design.points=5, seq.loops=10, propose.points.method="CMAES")
+  ctrl = makeMboControl(init.design.points=5, seq.loops=10, propose.points.method="CMAES")
   or = spo(f, ps, des=NULL, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(getOptPathLength(or$path), 15)
-  ctrl = makeSPOControl(init.design.points=5, seq.loops=10, final.point="best.predicted")
+  ctrl = makeMboControl(init.design.points=5, seq.loops=10, final.point="best.predicted")
   or = spo(f, ps, des=NULL, learner, ctrl)
   checkEquals(getOptPathLength(or$path), 15)
 } 
@@ -103,7 +103,7 @@ test.spo.km <- function() {
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.km", nugget.estim=TRUE)
-  ctrl = makeSPOControl(seq.loops=5, seq.design.points=100)
+  ctrl = makeMboControl(seq.loops=5, seq.design.points=100)
   or = spo(f, ps, des, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(getOptPathLength(or$path), 15)
@@ -131,7 +131,7 @@ test.spo.km <- function() {
   checkEquals(names(or$x), names(ps$pars))
 
   
-  ctrl = makeSPOControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
+  ctrl = makeMboControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
   or = spo(f, ps, des, learner, ctrl)
   checkTrue(!is.na(or$y))
   checkEquals(getOptPathLength(or$path), 15)
@@ -143,11 +143,11 @@ test.spo.km <- function() {
 } 
 
 testResample = function() {
-  f = makeSPOFunction(function(x) sum(x^2))
-  ps = makeSPOParamSet("x", lower=c(0,0), upper=c(1,1)) 
+  f = makeMboFunction(function(x) sum(x^2))
+  ps = makeMboParamSet("x", lower=c(0,0), upper=c(1,1)) 
   learner = makeLearner("regr.randomForest")
-  ctrl = makeSPOControl(seq.loops=5, seq.design.points=10, resample.at=c(1,3))
-  or = spo(f, ps, des=NULL, learner, ctrl)
+  ctrl = makeMboControl(seq.loops=5, seq.design.points=10, resample.at=c(1,3))
+  or = mbo(f, ps, des=NULL, learner, ctrl)
   x = or$resample
   checkTrue(is.list(x) && length(x) == 2)
   checkTrue(is.numeric(x[[1]]) && is.numeric(x[[2]]))
