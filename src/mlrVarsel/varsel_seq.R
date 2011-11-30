@@ -9,9 +9,9 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     xs = gen.new.states(state$x)
     if (length(xs) == 0)
       return(NULL)
-    dob = max(opt.path@env$dob) + 1L
+    dob = max(opt.path$env$dob) + 1L
     # die at once
-    evalOptimizationStates(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, log.fun, states, dob, dob)
+    evalOptimizationStates(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, log.fun, xs, dob, dob)
     
     best.i = getOptPathBestIndex(opt.path, dob=dob, ties="random")
     best = getOptPathEl(opt.path, best.i)
@@ -20,7 +20,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     better = compare(state, best, control, measures[[1]], thresh) 
     # if backward step and we have too many vars we do always go to the next best state with one less var.
     if ((forward && better) || (!forward && (better || sum(unlist(state$x)) > control@max.vars))) {
-      mlrTune:::setEoL(opt.path, best.i, dob+1)
+      setOptPathElEOL(opt.path, best.i, dob+1)
       return(best)
     } else {
       return(NULL)
@@ -69,7 +69,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     stop(paste("Unknown method:", method))
   ) 
   
-  y = mlr:::eval.rf(learner, task, resampling, measures, NULL, bits.to.features, control, x)
+  y = evalOptimizationState(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, log.fun, x)
   state = list(x=x, y=y)
   path = addOptPathEl(opt.path, x=as.list(x), y=y, dob=1L, eol=2L)   
   
@@ -105,9 +105,9 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     }
   }
   # if last generation contains no better element, go to second to last
-  last = max(opt.path@env$dob) 
-  j = which(opt.path@env$dob == last)
-  if (all(opt.path@env$eol[opt.path@env$dob == last] == last))
+  last = max(opt.path$env$dob) 
+  j = which(opt.path$env$dob == last)
+  if (all(opt.path$env$eol[opt.path$env$dob == last] == last))
     last = last-1
   i = getOptPathBestIndex(opt.path, measureAggrName(measures[[1]]), dob=last, ties="first")
   e = getOptPathEl(opt.path, i)

@@ -10,7 +10,7 @@ varsel.exhaustive = function(learner, task, resampling, measures, bit.names, bit
     })
     states = c(states, s)
   }
-  evalOptimizationStates(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, log.fun, states, 1L, NA)
+  evalOptimizationStates(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, log.fun, states, 1L, as.integer(NA))
   i = getOptPathBestIndex(opt.path, measureAggrName(measures[[1]]), ties="random")
   e = getOptPathEl(opt.path, i)
   new("OptResult", learner, control, bits.to.features(e$x, task), e$y, opt.path)
