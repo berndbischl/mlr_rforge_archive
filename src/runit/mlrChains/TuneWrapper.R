@@ -4,7 +4,7 @@ test.OptWrapper <- function() {
 	outer = makeResampleDesc("Holdout")
   inner = makeResampleDesc("CV", iters=2)
 	
-	ps1 = makeParamSet(makeDiscreteParam(id="C", vals=c(1,100)))
+	ps1 = makeParamSet(makeDiscreteParam(id="C", values=c(1,100)))
 	svm.tuner = makeTuneWrapper("classif.ksvm", resampling=inner, par.set=ps1, control=makeTuneControlGrid())
 	
 	m = train(svm.tuner, task=multiclass.task)
@@ -25,7 +25,7 @@ test.OptWrapper <- function() {
   
   m = train(svm.tuner, task=regr.task)
   or = m@opt.result
-  checkEquals(length(or@path), 5+1)
+  checkEquals(getOptPathLength(or@path), 5+1)
   checkTrue(!any(is.na(as.data.frame(or@path)$mse.test.mean)))
   
   

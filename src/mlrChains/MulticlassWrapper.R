@@ -28,7 +28,7 @@ makeMulticlassWrapper = function(learner, mcw.method="onevsrest") {
   if (is.character(learner))
     learner = makeLearner(learner)
   ps = makeParamSet(
-    makeDiscreteLearnerParam(id="mcw.method", vals=c("onevsone", "onevsrest"), default="onevsrest"),
+    makeDiscreteLearnerParam(id="mcw.method", values=c("onevsone", "onevsrest"), default="onevsrest"),
     makeFunctionLearnerParam(id="mcw.custom")
   )
   w = new("MulticlassWrapper", learner=learner, par.set=ps)
