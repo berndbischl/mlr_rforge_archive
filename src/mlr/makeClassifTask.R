@@ -1,9 +1,7 @@
-#' @include ClassifTask.R
-roxygen()
-
 #' Defines a classification task for a given data set.
 #' The target variable is converted to a factor if it is a logical, integer or character vector. 
 #' 
+#' @title Construct classification task.
 #' @param id [\code{character(1)}]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. Default is the name of R variable passed to \code{data}.  
 #' @param data [\code{data.frame}] \cr   
@@ -21,88 +19,53 @@ roxygen()
 #'   Positive class for binary classification. Default is the first factor level of the target attribute. 
 #' @param check.data [\code{logical(1)}]
 #'   Should sanity of data be checked initially at task creation? You should have good reasons to turn this off...
-#' 
+#'   Default is \code{TRUE}
 #' @return \code{\linkS4class{LearnTask}}.
-#' 
-#' @exportMethod makeClassifTask
-#' @rdname makeClassifTask
-#' 
-#' @title Construct learning task.
-
-setGeneric(
-  name = "makeClassifTask",
-  def = function(id, data, target, exclude, weights, blocking, positive, check.data) {
-    if(missing(id)) {
-      id = deparse(substitute(data))
-      if (!is.character(id) || length(id) != 1)
-        stop("Cannot infer id for task automatically. Please set it manually!")
-    }
-    if (missing(exclude))
-      exclude = character(0)
-    if (missing(weights)) {
-      weights = numeric(0)
-    } else {
-      if (is.integer(weights))
-        weights = as.numeric(weights)
-      checkArg(weights, "numeric", nrow(data))
-    }
-    if (missing(blocking))
-      blocking = factor(c())
-    else 
-      checkArg(blocking, "factor", nrow(data))
-    if (missing(positive))
-      positive = as.character(NA)
-    checkArg(positive, "character", 1)
-    if (missing(check.data))
-      check.data = TRUE
-    checkArg(check.data, "logical", 1)
-    standardGeneric("makeClassifTask")
-  }
-)
-
-
-#' @rdname makeClassifTask
-setMethod(
-  f = "makeClassifTask",
+#' @export
+makeClassifTask = function(id, data, target, exclude=character(0), weights=numeric(0), 
+  blocking=factor(c()), positive=as.character(NA), check.data=TRUE) {
   
-  signature = signature(
-    id="character", 
-    data="data.frame", 
-    target="character", 
-    exclude="character", 
-    weights="numeric", 
-    blocking="factor",
-    positive="character"
-  ),
-  
-  def = function(id, data, target, exclude, weights, blocking, positive, check.data) {
-    
-    checkWeightsAndBlocking(data, target, weights, blocking)    
-    checkColumnNames(data, target, exclude)
-    if (!is.factor(data[, target])) {
-      warning("Converting target to factor.")
-      data[, target] = as.factor(data[, target])
-    }
-    if (length(exclude) > 0)
-      data = data[, setdiff(colnames(data), exclude)]
-    if (check.data)
-      checkData(data, target)    
-
-    levs = levels(as.factor(data[, target]))
-    m = length(levs)
-    if (is.na(positive)) {
-      if (m <= 2)
-        positive = levs[1]
-    } else {
-      if (m > 2)
-        stop("Cannot set a positive class for a multiclass problem!")
-      if (!(positive %in% levs))
-        stop(paste("Trying to set a positive class", positive, "which is not a value of the target variable:", paste(levs, collapse=",")))
-    } 
-      
-    new("ClassifTask", id=id, target=target, data=data, weights=weights, blocking=blocking, positive=positive)
+  if(missing(id)) {
+    id = deparse(substitute(data))
+    if (!is.character(id) || length(id) != 1)
+      stop("Cannot infer id for task automatically. Please set it manually!")
   }
-)
+
+  checkArg(id, "character", len=1, na.ok=FALSE)
+  checkArg(data, "data.frame")
+  checkArg(target, "character", len=1, na.ok=FALSE)
+  checkArg(exclude, "character", na.ok=FALSE)
+  checkArg(weights, "numeric", len=nrow(data), na.ok=FALSE)
+  checkArg(blocking, "factor", len=nrow(data), na.ok=FALSE)
+  checkArg(positive, "character", len=1, na.ok=FALSE)
+  checkArg(check.data, "logical", len=1, na.ok=FALSE)
+  
+  checkWeightsAndBlocking(data, target, weights, blocking)    
+  checkColumnNames(data, target, exclude)
+  if (!is.factor(data[, target])) {
+    warning("Converting target to factor.")
+    data[, target] = as.factor(data[, target])
+  }
+  if (length(exclude) > 0)
+    data = data[, setdiff(colnames(data), exclude)]
+  if (check.data)
+    checkData(data, target)    
+  
+  levs = levels(as.factor(data[, target]))
+  m = length(levs)
+  if (is.na(positive)) {
+    if (m <= 2)
+      positive = levs[1]
+  } else {
+    if (m > 2)
+      stop("Cannot set a positive class for a multiclass problem!")
+    if (!(positive %in% levs))
+      stop(paste("Trying to set a positive class", positive, "which is not a value of the target variable:", paste(levs, collapse=",")))
+  } 
+  
+  new("ClassifTask", id=id, target=target, data=data, weights=weights, blocking=blocking, positive=positive)
+}
+
 
 
 

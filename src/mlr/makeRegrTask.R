@@ -1,9 +1,7 @@
-#' @include RegrTask.R
-roxygen()
-
 #' Defines a regression task for a given data set. 
 #' The target variable is converted to a numeric.
 #' 
+#' @title Construct regression task.
 #' @param id [\code{character(1)}]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. Default is the name of R variable passed to \code{data}.  
 #' @param data [\code{data.frame}] \cr   
@@ -19,70 +17,39 @@ roxygen()
 #'   Specifically, they are either put all in the training or the test set during a resampling iteration.
 #' @param check.data [\code{logical(1)}]
 #'   Should sanity of data be checked initially at task creation? You should have good reasons to turn this off...
-#' 
 #' @return \code{\linkS4class{LearnTask}}.
-#' 
-#' @exportMethod makeRegrTask
-#' @rdname makeRegrTask
-#' 
-#' @title Construct learning task.
-
-setGeneric(
-  name = "makeRegrTask",
-  def = function(id, data, target, exclude, weights, blocking, check.data) {
-    if(missing(id)) {
-      id = deparse(substitute(data))
-      if (!is.character(id) || length(id) != 1)
-        stop("Cannot infer id for task automatically. Please set it manually!")
-    }
-    if (missing(exclude))
-      exclude = character(0)
-    if (missing(weights)) {
-      weights = numeric(0)
-    } else {
-      if (is.integer(weights))
-        weights = as.numeric(weights)
-      checkArg(weights, "numeric", nrow(data))
-    }
-    if (missing(blocking))
-      blocking = factor(c())
-    else 
-      checkArg(blocking, "factor", nrow(data))
-    if (missing(check.data))
-      check.data = TRUE
-    checkArg(check.data, "logical", 1)
-    standardGeneric("makeRegrTask")
-  }
-)
-
-#' @rdname makeRegrTask
-setMethod(
-  f = "makeRegrTask",
+#' @export
+makeRegrTask = function(id, data, target, exclude=character(0), weights=numeric(0), 
+  blocking=factor(c()), check.data=TRUE) {
   
-  signature = signature(
-    id="character", 
-    data="data.frame", 
-    target="character", 
-    exclude="character", 
-    weights="numeric", 
-    blocking="factor"
-  ),
-  
-  def = function(id, data, target, exclude, weights, blocking, check.data) {
-    checkWeightsAndBlocking(data, target, weights, blocking)    
-    checkColumnNames(data, target, exclude)
-    if (!is.double(data[, target])) {
-      warning("Converting target to numeric.")
-      data[, target] = as.numeric(data[, target])
-    }
-    if (length(exclude) > 0)
-      data = data[, setdiff(colnames(data), exclude)]
-    if (check.data)
-      checkData(data, target)    
-    
-    new("RegrTask", id=id, target=target, data=data, weights=weights, blocking=blocking)
+  if(missing(id)) {
+    id = deparse(substitute(data))
+    if (!is.character(id) || length(id) != 1)
+      stop("Cannot infer id for task automatically. Please set it manually!")
   }
-)
+  
+  checkArg(id, "character", len=1, na.ok=FALSE)
+  checkArg(data, "data.frame")
+  checkArg(target, "character", len=1, na.ok=FALSE)
+  checkArg(exclude, "character", na.ok=FALSE)
+  checkArg(weights, "numeric", len=nrow(data), na.ok=FALSE)
+  checkArg(blocking, "factor", len=nrow(data), na.ok=FALSE)
+  checkArg(check.data, "logical", len=1, na.ok=FALSE)
+  
+  
+  checkWeightsAndBlocking(data, target, weights, blocking)    
+  checkColumnNames(data, target, exclude)
+  if (!is.double(data[, target])) {
+    warning("Converting target to numeric.")
+    data[, target] = as.numeric(data[, target])
+  }
+  if (length(exclude) > 0)
+    data = data[, setdiff(colnames(data), exclude)]
+  if (check.data)
+    checkData(data, target)    
+  
+  new("RegrTask", id=id, target=target, data=data, weights=weights, blocking=blocking)
+}
 
 
 
