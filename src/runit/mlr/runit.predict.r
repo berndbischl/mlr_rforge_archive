@@ -6,7 +6,7 @@ test.predict <- function() {
 	
 	wl.lda = makeLearner("classif.lda", predict.type="prob")
   
-	cm2 <- train("classif.lda", multiclass.task, subset=inds)
+	cm2 <- train(makeLearner("classif.lda"), multiclass.task, subset=inds)
 	cp2 <- predict(cm2, newdata=data[inds,])
 	cp2b <- predict(cm2, newdata=data[inds,-5])
 	ext2 <- lda(formula, data=data[inds,])
@@ -60,7 +60,7 @@ test.predict <- function() {
 	df = na.omit(BreastCancer[,-1]) 
 	ct = makeClassifTask(data=df, target="Class")
 	res = makeResampleDesc("CV", iters=10)
-	p = resample("classif.randomForest", ct, res)
+	p = resample(makeLearner("classif.randomForest"), ct, res)
 	checkTrue(all(is.na(p$measures.test$mmce)))
 	
 	#todo dec values!!!

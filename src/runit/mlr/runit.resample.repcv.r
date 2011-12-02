@@ -25,6 +25,6 @@ test.repcv.instance = function() {
   checkTrue(!all(sort(rin1@test.inds[[1]])== sort(rin2@test.inds[[1]])))
   
   m = setAggregation(mmce, testgroup.mean)
-  resample("classif.lda", multiclass.task, rin)
+  resample(makeLearner("classif.lda"), multiclass.task, rin)
 }
 

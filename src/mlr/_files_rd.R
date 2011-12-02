@@ -53,6 +53,7 @@ allowed.rd.files <<- c(
   "makeMeasure.Rd",
   "measures.Rd",
   "makeCustomResampledMeasure.Rd",
+  "makeCostMeasure.Rd",
   
   "as.ROCR.prediction.Rd",
   "ROCR_performance.Rd",

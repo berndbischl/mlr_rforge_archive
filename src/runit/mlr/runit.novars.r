@@ -15,6 +15,6 @@ test.novars <- function() {
   m = train("regr.lm", rt)
 	p = predict(m, newdata=regr.df)
 	checkTrue(all(p@df$response == mean(p@df$response))) 
-  rf = resample("regr.lm", rt, res)$pred
+  rf = resample(makeLearner("regr.lm"), rt, res)$pred
 	checkEquals(length(unique(rf@df$response)), 2) 
 }

@@ -5,7 +5,7 @@ roxygen()
 #' of the prediction (or maybe only the model, think AIC).
 #' The measure itself knows whether it wants to be minimized or maximized and for what tasks it is applicable.
 #' See below for a list of already implemented measures. 
-#' If you want a measure for a misclassification cost matrix, look at \code{\link[mlrCost]{makeCostMeasure}}.
+#' If you want a measure for a misclassification cost matrix, look at \code{\link{makeCostMeasure}}.
 #' If you want to implement your own measure, look at \code{\link{makeMeasure}}. 
 #' 
 #' \cr

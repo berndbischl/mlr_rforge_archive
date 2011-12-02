@@ -46,6 +46,7 @@ pack.files = c(
   "mlr/aggregations.R",
   "mlr/Measure.R",
   "mlr/Measure_make.R",
+  "mlr/Measure_make_cost.R",
   "mlr/setAggregation.R",
   "mlr/measures.R",
   "mlr/Measure_custom_resampled.R",

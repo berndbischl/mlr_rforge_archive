@@ -16,7 +16,7 @@ test.blocking = function() {
 	}
 	# test blocking in resample
 	res = makeResampleDesc("CV", iters=3)
-	p = resample("classif.lda", ct, res)$pred
+	p = resample(makeLearner("classif.lda"), ct, res)$pred
 	for (j in 1:res@iters) {
 		test.j = p@df[p@df$iter == j, "id"]
 		tab = table(b[test.j])

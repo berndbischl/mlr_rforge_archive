@@ -20,9 +20,10 @@ test.lda <- function() {
 	mc2 = transform(multiclass.df, bam=1)
 	ct = makeClassifTask(data=mc2, target=multiclass.target)
 	res = makeResampleDesc("CV", iters=2)
-	rf = resample("classif.lda", ct, resampling=res)
-	wl = makeLearner("classif.lda", predict.type="prob")
-	rf = resample(wl, ct, resampling=res)
+	lrn = makeLearner("classif.lda")
+	rf = resample(lrn, ct, resampling=res)
+	lrn = makeLearner("classif.lda", predict.type="prob")
+	rf = resample(lrn, ct, resampling=res)
 	# todo check na
 	
 }

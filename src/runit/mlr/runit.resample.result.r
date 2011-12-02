@@ -5,9 +5,10 @@ test.ResamplePrediction = function() {
   rin2 = makeResampleInstance(makeResampleDesc("CV", iters=7), task=multiclass.task)  
   rin3 = makeResampleInstance(makeResampleDesc("Subsample", iters=2), task=multiclass.task)  
   
-	p1 = resample("classif.lda", multiclass.task, rin1)$pred       
-	p2 = resample("classif.lda", multiclass.task, rin2)$pred       
-	p3 = resample("classif.lda", multiclass.task, rin3)$pred       
+  lrn = makeLearner("classif.lda")
+	p1 = resample(lrn, multiclass.task, rin1)$pred       
+	p2 = resample(lrn, multiclass.task, rin2)$pred       
+	p3 = resample(lrn, multiclass.task, rin3)$pred       
 	
 	inds = Reduce(c, rin1@test.inds)
 	y = getTargets(multiclass.task)[inds]

@@ -1,7 +1,7 @@
 test.b632 <- function() {
   res = makeResampleDesc("BS", iters=2)
   m = setAggregation(mmce, b632)
-  r = resample("classif.rpart", task=binaryclass.task, resampling=res)
+  r = resample(makeLearner("classif.rpart"), task=binaryclass.task, resampling=res)
   m1 = r$measures.train
   m2 = r$measures.test
   p = as.data.frame(r$pred)

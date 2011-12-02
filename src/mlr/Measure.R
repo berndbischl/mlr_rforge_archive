@@ -45,12 +45,9 @@ setClass(
 
 
 setMethod("show", "Measure", function(object) {
-  cat(
-    "Performance measure: ", object@id, "\n",
-    "Minimize: ", object@minimize, "\n",
-    "Aggregated by: ", object@aggr@id,
-    sep=""
-  )
+  catf("Performance measure: %s", object@id)
+  catf("Minimize: %s", object@minimize)
+  catf("Aggregated by: %s", object@aggr@id)
 })
 
 

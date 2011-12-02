@@ -1,24 +1,21 @@
-
-
-test.multinom <- function() {
+test.multinom = function() {
   library(nnet)
 	set.seed(debug.seed)
 	capture.output(
-			m <- multinom(formula = multiclass.formula, data = multiclass.train)
+    m <- multinom(formula = multiclass.formula, data = multiclass.train)
 	)
 			
 	set.seed(debug.seed)
-	p <- predict(m, newdata=multiclass.test)
+	p = predict(m, newdata=multiclass.test)
 	
 	simple.test("classif.multinom", multiclass.df, multiclass.target, multiclass.train.inds, p)
 	
 	set.seed(debug.seed)
-	p <- predict(m, newdata=multiclass.test, type="probs")
+	p = predict(m, newdata=multiclass.test, type="probs")
 	prob.test  ("classif.multinom", multiclass.df, multiclass.target, multiclass.train.inds, p)
-
 	
-	tt <- "multinom"
-	tp <- function(model, newdata) predict(model, newdata)
+	tt = "multinom"
+	tp = function(model, newdata) predict(model, newdata)
 	
 	cv.test("classif.multinom", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp )
 	

@@ -1,16 +1,17 @@
 test.performance <- function() {
 	
 	res = makeResampleDesc("Holdout")
-	rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=list(acc, timeboth))
+  lrn = makeLearner("classif.rpart")
+	rf = resample(lrn, task=binaryclass.task, resampling=res, measures=list(acc, timeboth))
   
 	res = makeResampleDesc("BS", iters=3)
-	rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=list(acc, timeboth))
+	rf = resample(lrn, task=binaryclass.task, resampling=res, measures=list(acc, timeboth))
   m = setAggregation(acc, test.median)
-  rf = resample("classif.rpart", task=binaryclass.task, resampling=res, measures=m)
+  rf = resample(lrn, task=binaryclass.task, resampling=res, measures=m)
   
 	# custom measure
 	res = makeResampleDesc("CV", iters=3)
-	r = resample("classif.rpart", task=binaryclass.task, resampling=res)
+	r = resample(lrn, task=binaryclass.task, resampling=res)
 	
 	mymeasure = makeMeasure(id="mym", minimize=TRUE, classif=TRUE, allowed.pred.types=c("response"),
     fun=function(task, model, pred, extra.args) {
@@ -32,6 +33,6 @@ test.performance <- function() {
     mean(pred@df$truth != pred@df$response)
   })
   rdesc = makeResampleDesc("Holdout")
-  r = resample("classif.rpart", binaryclass.task, rdesc, measures=list(mmce, mymeasure))
+  r = resample(lrn, binaryclass.task, rdesc, measures=list(mmce, mymeasure))
   checkEquals(as.numeric(r$aggr["mmce.test.mean"]), as.numeric(r$aggr["custom.mym"]))
 }	

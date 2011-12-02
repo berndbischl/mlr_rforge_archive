@@ -14,13 +14,9 @@
 #'   How to aggregate costs over all cases in one test set prediction? 
 #'   Default is \code{\link{mean}}.
 #' @return [\code{\linkS4class{Measure}}]. 
-#' 
-#' @exportMethod makeCostMeasure
-#' @rdname makeCostMeasure
+#' @export
 #' @seealso \code{\link{measures}}, \code{\link{makeMeasure}}
-
 makeCostMeasure = function(id="costs", minimize=TRUE, costs, task, aggregate=mean) {
-  
   checkArg(id, "character", len=1, na.ok=FALSE)
   checkArg(minimize, "logical", len=1, na.ok=FALSE)
   checkArg(costs, "matrix")
@@ -28,7 +24,7 @@ makeCostMeasure = function(id="costs", minimize=TRUE, costs, task, aggregate=mea
   checkArg(aggregate, "function")
   
   #check costs
-  levs = getClassLevels(task)
+  levs = task@desc@class.levels
   if (!all(dim(costs) == 0)) {
     if (any(dim(costs) != length(levs)))
       stop("Dimensions of costs have to be the same as number of class levels!")
@@ -38,10 +34,11 @@ makeCostMeasure = function(id="costs", minimize=TRUE, costs, task, aggregate=mea
       stop("Row and column names of cost matrix have to equal class levels!")
   }     
   
-  makeMeasure(id="costs", minimize=minimize, extra.pars=list(costs, aggregate), 
-    fun=function(task, model, pred, extra.pars) {
-      costs = extra.pars[[1]]
-      mean.costs = extra.pars[[2]]
+  makeMeasure(id="costs", minimize=minimize, extra.args=list(costs, aggregate), 
+    classif=TRUE, regr=FALSE, allowed.pred.types=c("response", "prob"), only.binary=FALSE,
+    fun=function(task, model, pred, extra.args) {
+      costs = extra.args[[1]]
+      mean.costs = extra.args[[2]]
       # cannot index with NA
       r = pred@df$response    
       if (any(is.na(r)))
