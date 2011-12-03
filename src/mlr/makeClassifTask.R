@@ -9,7 +9,7 @@
 #'   A data frame containing the input and target variables for modeling.
 #' @param target [\code{character(1)}]\cr
 #'   Name of the target variable.
-#' @param exclude [\code{character}]
+#' @param exclude [\code{character}]\cr
 #'   Names of inputs, which should be discarded, e.g. IDs, etc. 
 #'   Default is none. 
 #' @param weights [\code{numeric}]\cr   
@@ -22,9 +22,9 @@
 #' @param positive [\code{character(1)}]\cr   
 #'   Positive class for binary classification. 
 #'   Default is the first factor level of the target attribute. 
-#' @param check.data [\code{logical(1)}]
+#' @param check.data [\code{logical(1)}]\cr
 #'   Should sanity of data be checked initially at task creation? 
-#    You should have good reasons to turn this off.
+#'   You should have good reasons to turn this off.
 #'   Default is \code{TRUE}
 #' @return \code{\linkS4class{LearnTask}}.
 #' @export

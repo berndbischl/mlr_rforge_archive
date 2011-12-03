@@ -1,9 +1,9 @@
 #' A measure object encapsulates a function to evaluate the performance of a prediction.
 #' Information about already implemented measures can be obtained here: \code{\link{measures}}.
-#' User-defined measures can be created with \code{\link{makeMeasure}}.
+#' User-defined measures can be created with \code{\link{makeMeasure}} and \code{\link{makeCustomResampledMeasure}}.
 #' 
-#' A learner is trained on a a training set d1, results in a model m, predicts another set d2 (which may be a different one
-#' or the training set), resulting in the prediction. The performance measure can now be defined using all of the information of
+#' A learner is trained on a training set d1, results in a model m, predicts another set d2 (which may be a different one
+#' or the training set), resulting in the prediction. The performance measure is now calculated and can use all of the information of
 #' the original task, the fitted model and the prediction.   
 #' 
 #' @slot id Name of the measure.
