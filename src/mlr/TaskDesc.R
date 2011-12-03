@@ -53,8 +53,8 @@ setMethod(
       characters = sum(sapply(data, is.character)) - is.character(y),
       logicals = sum(sapply(data, is.logical)) - is.logical(y)
     )
-    .Object@has.missing = any(is.na(data))
-    .Object@has.inf = any(is.infinite(data))
+    .Object@has.missing = any(sapply(data, function(x) any(is.na(x))))
+    .Object@has.inf = any(sapply(data, function(x) any(is.infinite(x))))
     if(type == "classif")
       .Object@class.levels = levels(y)
     else
