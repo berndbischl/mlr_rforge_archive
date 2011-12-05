@@ -11,13 +11,16 @@
 #' @return \code{\linkS4class{Learner}} with changed Prediction behaviour.
 #' @seealso \code{\link{setThreshold}} to alter the threshold used for prediction.
 #' @example
-#' cl <- makeLearner("classif.logreg")
-#' cl <- setPredictType(cl, "response")
+#'   cl <- makeLearner("classif.logreg")
+#'   cl <- setPredictType(cl, "response")
 #' @export
 setPredictType = function(learner, predict.type) {
   checkArg(learner, "Learner")
-  ch = if(learner@properties[["classif"]]) c("response", "prob") else c("response", "se")
-  checkArg(predict.type, choices=ch)
+  checkArg(predict.type, choices= c("response", "prob", "se"))
+  if (predict.type == "prob" && !learner@properties[["prob"]])
+    stop("Trying to predict probs, but ", learner@id, " does not support that!")
+  if (predict.type == "se" && !learner@properties[["se"]])
+    stop("Trying to predict se, but ", learner@id, " does not support that!")
   learner@predict.type = predict.type
   return(learner)
 }

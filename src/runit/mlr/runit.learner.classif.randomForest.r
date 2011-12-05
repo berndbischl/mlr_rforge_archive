@@ -34,5 +34,13 @@ test.randomForest <- function() {
 	tt <- randomForest
 	
 	cv.test.parsets("classif.randomForest", multiclass.df, multiclass.target, tune.train=tt, parset.list=parset.list)
+  
+  # test RF with one constant feature
+  #data = multiclass.df
+  #data = data[, c(1,5)]
+  #data[, 1] = 1
+  #task = makeClassifTask(data=data, target=multiclass.target)
+  #m = train(makeLearner("classif.randomForest"), task)
+  #p = predict(m, task=task)
 }
 

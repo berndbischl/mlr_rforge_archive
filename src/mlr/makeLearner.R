@@ -7,6 +7,9 @@
 #' to \dQuote{prob} to predict probabilities and the maximum
 #' value selects the label. The threshold used to assign the label can later be changed using the
 #' \code{\link{setThreshold}} function.
+#'
+#' For a regression learner the \code{predict.type} can be set
+#' to \dQuote{se} to standard errors in addition to the mean response.
 #' 
 #' @param class [\code{character(1)}] \cr
 #'   Class of learner to create. By convention, all classification learners
@@ -16,10 +19,9 @@
 #' @param id [\code{character(1)}] \cr 
 #'   Id string for object. Used to select the object from a named list, etc.
 #' @param predict.type [\code{character(1)}] \cr
-#'   Classification: \dQuote{response} or \dQuote{prob},
-#'   specifying the type of prediction returned. The default is 
-#'   \dQuote{response}.
-#'   For regression, this argument is ignored and should not be set.
+#'   Classification: \dQuote{response} or \dQuote{prob}.
+#'   Regression: \dQuote{response} or \dQuote{se}.
+#'   Default is \dQuote{response}.
 #' @param ... [any] \cr
 #'   Optional named (hyper)parameters. Alternatively these can be given
 #'   using the \code{par.vals} argument.

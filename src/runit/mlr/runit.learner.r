@@ -1,7 +1,4 @@
-
-
-
-test.learner <- function() {
+test.learner = function() {
 	wl = makeLearner("classif.rpart", minsplit=3)
 	checkEquals(wl@properties[["type"]], "classif")
 	checkEquals(wl@id, "classif.rpart")
@@ -25,16 +22,8 @@ test.learner <- function() {
   checkEquals(getProperty(wl, "numerics"), T, checkNames=FALSE)
   checkEquals(getProperty(wl, "factors"), T, checkNames=FALSE)
 	
-  checkException(makeLearner("classif.lvq1", predict.type="prob"), silent=TRUE)
-  s = geterrmessage()
-  checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
-  
-  checkException(makeLearner("regr.lm", predict.type="prob"), silent=TRUE)
-  s = geterrmessage()
-  checkTrue(length(grep("Trying to predict prob, but", s)) >0 )
-  
+  checkError(makeLearner("classif.lvq1", predict.type="prob"), "Trying to predict probs, but")
+  checkError(makeLearner("regr.lm", predict.type="prob"), "Trying to predict probs, but")
   wl = makeLearner("classif.lvq1")
-  checkException(setPredictType(wl, "prob"), silent=TRUE)
-  s = geterrmessage()
-  checkTrue(length(grep("Trying to predict probs, but", s)) >0 )
+  checkError(setPredictType(wl, "prob"), "Trying to predict probs, but")
 }
