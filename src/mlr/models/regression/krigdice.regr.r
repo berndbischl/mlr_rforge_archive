@@ -39,7 +39,7 @@ setMethod(
         missings = FALSE,
         numerics = TRUE,
         factors = FALSE,
-        se.fit = TRUE,
+        se = TRUE,
         weights = FALSE
       )
     }
@@ -75,6 +75,6 @@ setMethod(
       if(.learner@predict.type == "response")
         return(p$mean)
       else
-        cbind(p$mean, p$se.fit)
+        cbind(p$mean, p$se)
     }
 ) 

@@ -24,7 +24,7 @@ setMethod(
         missings = FALSE,
         numerics = TRUE,
         factors = TRUE,
-        se.fit = FALSE,
+        se = FALSE,
         weights = FALSE
       )
     }
