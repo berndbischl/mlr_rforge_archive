@@ -27,7 +27,7 @@
 #'  \item{twoclass [\code{logical(1)}]}{Can twoclass problems be handled?}
 #'  \item{multiclass [\code{logical(1)}]}{Can multiclass problems be handled?}
 #'  \item{prob [\code{logical(1)}]}{Can probabilities be predicted?}
-#'  \item{predict.type [character]}{What should be predicted: \dQuote{response} or \dQuote{prob}}
+#'  \item{predict.type [character]}{What should be predicted: \dQuote{response}, \dQuote{prob} or \dQuote{se}}
 #' }
 #' 
 #' Setters: \code{\link{setId}}, \code{\link{setHyperPars}}, \code{\link{setPredictType}}  
@@ -70,6 +70,7 @@ setMethod(
     .Object@properties[["twoclass"]] = FALSE
     .Object@properties[["multiclass"]] = FALSE
     .Object@properties[["prob"]] = FALSE
+    .Object@properties[["se"]] = FALSE
     .Object@pack = pack
     requirePackages(pack, paste("learner", .Object@id))
     if(any(sapply(par.set$pars, function(x) !is(x, "LearnerParam"))))

@@ -39,7 +39,7 @@ makeMeasure = function(id, minimize, classif=FALSE, regr=FALSE,
   checkArg(classif, "logical", len=1, na.ok=FALSE)
   checkArg(regr, "logical", len=1, na.ok=FALSE)
   checkArg(only.binary, "logical", len=1, na.ok=FALSE)
-  checkArg(allowed.pred.types, subset=c("response", "prob"))
+  checkArg(allowed.pred.types, subset=c("response", "prob", "se"))
   checkArg(fun, "function")
   checkArg(extra.args, "list")
 

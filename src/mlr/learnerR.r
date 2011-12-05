@@ -57,6 +57,7 @@ setMethod("show", "rlearner.regr", function(object) {
     "Supported features Doubles:", getProperty(object, "numerics"), " Factors:", getProperty(object, "factors"), "\n",
     "Supports missings: ", getProperty(object, "missings"), "\n", 
     "Supports weights: ", getProperty(object, "weights"), "\n", 
+    "Supports standard errs: ", getProperty(object, "se"), "\n", 
     sep =""
   )
 })

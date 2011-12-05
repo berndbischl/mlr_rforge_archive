@@ -18,7 +18,8 @@ setMethod(
 					missings = FALSE,
 					numerics = TRUE,
 					factors = TRUE,
-					weights = FALSE
+          se.fit = FALSE,
+          weights = FALSE
 			)
 			
 			.Object = callNextMethod(.Object, pack="pls")

@@ -9,35 +9,30 @@
 #' \code{\link{setThreshold}} function.
 #' 
 #' @param class [\code{character(1)}] \cr
-#'        Class of learner to create. By convention, all classification learners
-#'        start with \dQuote{classif.} and all regression learners with
-#'        \dQuote{regr.}. A list of all learners is available on the
-#'        \code{\link{learners}} help page.
+#'   Class of learner to create. By convention, all classification learners
+#'   start with \dQuote{classif.} and all regression learners with
+#'   \dQuote{regr.}. A list of all learners is available on the
+#'   \code{\link{learners}} help page.
 #' @param id [\code{character(1)}] \cr 
-#'        Id string for object. Used to select the object from a named list, etc.
+#'   Id string for object. Used to select the object from a named list, etc.
 #' @param predict.type [\code{character(1)}] \cr
-#'        Classification: \dQuote{response} or \dQuote{prob},
-#'        specifying the type of prediction returned. The default is 
-#'        \dQuote{response}.
-#'        For regression, this argument is ignored and should not be set.
+#'   Classification: \dQuote{response} or \dQuote{prob},
+#'   specifying the type of prediction returned. The default is 
+#'   \dQuote{response}.
+#'   For regression, this argument is ignored and should not be set.
 #' @param ... [any] \cr
-#'        Optional named (hyper)parameters. Alternatively these can be given
-#'        using the \code{par.vals} argument.
+#'   Optional named (hyper)parameters. Alternatively these can be given
+#'   using the \code{par.vals} argument.
 #' @param par.vals [\code{list}] \cr
-#'        Optional list of named (hyper)parameters. The arguments in
-#'        \code{...} take precedence over values in this list. We strongly
-#'        encourage you to use one or the other to pass (hyper)parameters
-#'        to the learner but not both.
-#'
+#'   Optional list of named (hyper)parameters. The arguments in
+#'   \code{...} take precedence over values in this list. We strongly
+#'   encourage you to use one or the other to pass (hyper)parameters
+#'   to the learner but not both.
 #' @return \code{\linkS4class{Learner}}.
-#'
-#' @example
-#'
-#' cl <- makeLearner("classif.logreg")
-#' rl <- makeLearner("regr.lm")
-#'
 #' @export
-#'
+#' @example
+#'   cl <- makeLearner("classif.logreg")
+#'   rl <- makeLearner("regr.lm")
 makeLearner = function(class, id, predict.type="response", ..., par.vals=list()) {
   if (class == "")
     stop("Cannot create learner from empty string!")	

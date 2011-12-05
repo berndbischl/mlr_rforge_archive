@@ -35,7 +35,7 @@ setMethod(
   def = function(learner, prop) {
     if (!prop %in% 
       c("type", "numerics", "factors", "missings", "weights", "oneclass", "twoclass", 
-        "multiclass", "prob"))
+        "multiclass", "prob", "se"))
       stop("Requested unknown property ", prop, " for learner ", learner@id, "!")      
     learner@properties[[prop]]
   } 
@@ -68,7 +68,7 @@ setMethod(
   def = function(learner, prop, val) {
     if (!prop %in% 
       c("type", "numerics", "factors", "missings", "weights", "oneclass", "twoclass", 
-        "multiclass", "prob"))
+        "multiclass", "prob", "se"))
       stop("Tried to set unknown property ", prop, " for learner ", learner@id, "!")      
     learner@properties[[prop]] = val
     return(learner)

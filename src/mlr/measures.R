@@ -90,7 +90,7 @@ timeboth = makeMeasure(id="timeboth", minimize=TRUE, classif=TRUE, regr=TRUE, al
 
 #' @export sse
 #' @rdname measures
-sse = makeMeasure(id="sse", minimize=TRUE, regr=TRUE, allowed.pred.types="response",
+sse = makeMeasure(id="sse", minimize=TRUE, regr=TRUE, allowed.pred.types=c("response", "se"),
   fun=function(task, model, pred, extra.args) {
     sum((pred@df$response - pred@df$truth)^2)          
   }
@@ -98,7 +98,7 @@ sse = makeMeasure(id="sse", minimize=TRUE, regr=TRUE, allowed.pred.types="respon
 
 #' @export mse
 #' @rdname measures
-mse = makeMeasure(id="mse", minimize=TRUE, regr=TRUE, allowed.pred.types="response",  
+mse = makeMeasure(id="mse", minimize=TRUE, regr=TRUE, allowed.pred.types=c("response", "se"),  
   fun=function(task, model, pred, extra.args) {
     mean((pred@df$response - pred@df$truth)^2)          
   }
@@ -106,7 +106,7 @@ mse = makeMeasure(id="mse", minimize=TRUE, regr=TRUE, allowed.pred.types="respon
 
 #' @export medse
 #' @rdname measures
-medse = makeMeasure(id="medse", minimize=TRUE, regr=TRUE, allowed.pred.types="response", 
+medse = makeMeasure(id="medse", minimize=TRUE, regr=TRUE, allowed.pred.types=c("response", "se"), 
   fun=function(task, model, pred, extra.args) {
     median((pred@df$response - pred@df$truth)^2)          
   }
@@ -114,7 +114,7 @@ medse = makeMeasure(id="medse", minimize=TRUE, regr=TRUE, allowed.pred.types="re
 
 #' @export sae
 #' @rdname measures
-sae = makeMeasure(id="sae", minimize=TRUE, regr=TRUE, allowed.pred.types="response", 
+sae = makeMeasure(id="sae", minimize=TRUE, regr=TRUE, allowed.pred.types=c("response", "se"), 
   fun=function(task, model, pred, extra.args) {
     sum(abs(pred@df$response - pred@df$truth))          
   }
@@ -122,7 +122,7 @@ sae = makeMeasure(id="sae", minimize=TRUE, regr=TRUE, allowed.pred.types="respon
 
 #' @export mae
 #' @rdname measures
-mae = makeMeasure(id="mae", minimize=TRUE, regr=TRUE, allowed.pred.types="response",
+mae = makeMeasure(id="mae", minimize=TRUE, regr=TRUE, allowed.pred.types=c("response", "se"),
   fun=function(task, model, pred, extra.args) {
     mean(abs(pred@df$response - pred@df$truth))          
   }
@@ -130,7 +130,7 @@ mae = makeMeasure(id="mae", minimize=TRUE, regr=TRUE, allowed.pred.types="respon
 
 #' @export medae
 #' @rdname measures
-medae = makeMeasure(id="medae", minimize=TRUE, regr=TRUE, allowed.pred.types="response",
+medae = makeMeasure(id="medae", minimize=TRUE, regr=TRUE, allowed.pred.types=c("response", "se"),
   fun=function(task, model, pred, extra.args) {
     median(abs(pred@df$response - pred@df$truth))          
   }

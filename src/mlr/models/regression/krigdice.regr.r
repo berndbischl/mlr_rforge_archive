@@ -39,6 +39,7 @@ setMethod(
         missings = FALSE,
         numerics = TRUE,
         factors = FALSE,
+        se.fit = TRUE,
         weights = FALSE
       )
     }
@@ -71,6 +72,9 @@ setMethod(
     
     def = function(.learner, .model, .newdata, ...) {
       p = predict(.model@learner.model, newdata=.newdata, type="SK", se.compute=FALSE, ...)
-      return(p$mean) 
+      if(.learner@predict.type == "response")
+        return(p$mean)
+      else
+        cbind(p$mean, p$se.fit)
     }
 ) 

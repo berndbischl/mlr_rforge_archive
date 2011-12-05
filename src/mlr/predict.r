@@ -125,8 +125,13 @@ setMethod(
 							stop("predictLearner for ", class(wl), " has returned not the class levels as column names, but no column names at all!")
 						if (!setequal(cns, levs))
 							stop("predictLearner for ", class(wl), " has returned not the class levels as column names:", colnames(p))
-					} else {
-					}	
+            
+          } else if (wl@predict.type == "se") {
+            if (!is.matrix(p))
+              stop("predictLearner for ", class(wl), " has returned a class ", class(p), " instead of a matrix!")
+            if (ncol(p)!= 2)
+              stop("predictLearner for ", class(wl), " has not returned a numeric matrix with 2 columns!")
+          }
 				} else if (is(model, "WrappedModel.Regr")) {
 					if (class(p) != "numeric")
 						stop("predictLearner for ", class(wl), " has returned a class ", class(p), " instead of a numeric!")

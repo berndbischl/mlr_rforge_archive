@@ -4,7 +4,7 @@
 #' Getter.\cr
 #' 
 #' \describe{
-#'  \item{predict.type [\code{character(1)}]}{Type set in predict function: "response" or "prob".}
+#'  \item{predict.type [\code{character(1)}]}{Type set in \code{\link{setPredictType}}.}
 #'  \item{id [numeric]}{Vector of index numbers of predicted cases from the task.}
 #'  \item{response [numeric | factor]}{Predicted response values.}
 #'  \item{truth [numeric | factor]}{True target values.}
@@ -58,8 +58,11 @@ makePrediction = function(task.desc, id, truth, predict.type, y, time) {
     xs[["response"]] = y
   } else if (predict.type == "prob"){
 		xs[["prob"]] = y
+  } else if (predict.type == "se"){
+    xs[["response"]] = y[,1]
+    xs[["se"]] = y[,2]
   }
-	df = as.data.frame(xs)
+  df = as.data.frame(xs)
   
   # fix columnnames for prob if strage chars are in factor levels
 	# todo: review this!

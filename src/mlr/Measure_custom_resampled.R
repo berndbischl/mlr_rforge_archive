@@ -7,19 +7,22 @@
 #' @param id [\code{character(1)}]\cr
 #'   Name of aggregated measure. 
 #' @param minimize [\code{logical(1)}]\cr
-#'   Should the measure be minimized? Default is \code{TRUE}. 
+#'   Should the measure be minimized? 
+#'   Default is \code{TRUE}. 
 #' @param classif [\code{logical(1)}]\cr
-#'   Is the measure applicable for classification? Default is \code{TRUE}.   
+#'   Is the measure applicable for classification?
+#'   Default is \code{FALSE}.   
 #' @param regr [\code{logical(1)}]\cr
-#'   Is the measure applicable for regression? Default is \code{TRUE}.   
+#'   Is the measure applicable for regression?
+#'   Default is \code{FALSE}.   
 #' @param only.binary [\code{logical(1)}]\cr
 #'   Is the measure only applicable to binary classification? 
 #'   Only reasonable if \code{classif} is \code{TRUE}. 
 #'   Default is \code{FALSE}. 
 #' @param allowed.pred.types [\code{character}]
 #'   Which prediction types are allowed for this measure? 
-#'   Subset of \dQuote{response},\dQuote{prob}.
-#'   Default is both.   
+#'   Subset of \dQuote{response},\dQuote{prob},\dQuote{se}.
+#'   Default is none.   
 #' @param fun [\code{function(task, pred, group, pred, extra.args)}]\cr
 #'   Calculates performance value from \code{\link{ResamplePrediction}} object. 
 #'   For rare case you can also use the task, the grouping or the extra arguments \code{extra.args}. 
@@ -28,8 +31,8 @@
 #'   Default is empty list.
 #' @return \code{\linkS4class{Measure}} 
 #' @export
-makeCustomResampledMeasure = function(id, minimize=TRUE, classif=TRUE, regr=TRUE, 
-    only.binary=FALSE, allowed.pred.types=c("response", "prob"), fun, extra.args=list()) {
+makeCustomResampledMeasure = function(id, minimize=TRUE, classif=FALSE, regr=FALSE, 
+    only.binary=FALSE, allowed.pred.types=character(0), fun, extra.args=list()) {
     force(fun)
     fun1 = function(task, model, pred, extra.args) as.numeric(NA)
     # args are checked here
