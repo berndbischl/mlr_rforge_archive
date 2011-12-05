@@ -8,8 +8,7 @@ logger.print.stuff <- function(prefix, ...) {
     if (length(co) > 1) {
       cat(prefix, "\n")
       co = paste(prefix, co, collapse = "\n")
-      co = paste(co, collapse = "\n")
-      cat(co, "\n")
+      catf(collapse(co))
     } else {
       cat(prefix, ..., "\n")      
     }

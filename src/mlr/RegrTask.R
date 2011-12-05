@@ -38,7 +38,7 @@ setMethod(
 setMethod("show", "RegrTask", function(object) {
   td = object@desc
   data = getData(object)
-  feat = paste(capture.output(object@desc@n.feat), collapse="\n")
+  feat = printToChar(object@desc@n.feat)
   cat(
     "Regression problem ", td@id, "\n",
     "Features:\n", feat, "\n", 

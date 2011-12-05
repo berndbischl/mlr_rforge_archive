@@ -40,7 +40,7 @@ setMethod("show", "ClassifTask", function(object) {
   di = paste(capture.output(di)[-1], collapse="\n")
   m = length(td@class.levels)
   data = getData(object)
-  feat = paste(capture.output(td@n.feat), collapse="\n")
+  feat = printToChar(td@n.feat)
   cat(
     "Classification problem ", td@id, "\n",
     "Features:\n", feat, "\n", 

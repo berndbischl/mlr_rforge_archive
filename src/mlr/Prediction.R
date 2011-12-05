@@ -93,11 +93,7 @@ setMethod(
 
 
 setMethod("show", "Prediction", function(object) {
-  cat(
-    "Prediction\n",
-    paste(capture.output(str(as.data.frame(object))), collapse="\n"), 
-    "\n", sep=""
-  )
+  catf("Prediction\n%s", printToChar(str(as.data.frame(object)))) 
 })
 
 #' Get probabilities for some classes.
