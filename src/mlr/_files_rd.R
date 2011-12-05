@@ -69,6 +69,7 @@ allowed.rd.files <<- c(
   "makeResampleDesc.Rd",
   "ResampleDesc-class.Rd",
   "ResampleInstance-class.Rd",
+  "makeFixedResampleInstance.Rd",
 #  "resample.update.Rd",
   "resample.done.Rd",
   "resample.Rd",
