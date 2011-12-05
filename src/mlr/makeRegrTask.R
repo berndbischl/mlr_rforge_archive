@@ -19,7 +19,7 @@
 #' @param blocking [\code{factor}]\cr   
 #'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". 
 #'   Specifically, they are either put all in the training or the test set during a resampling iteration.
-#' @param check.data [\code{logical(1)}]\cr
+#' @param check.data [\code{logical(1)}]
 #'   Should sanity of data be checked initially at task creation? 
 #'   You should have good reasons to turn this off.
 #'   Default is \code{TRUE}

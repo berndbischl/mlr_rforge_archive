@@ -24,13 +24,15 @@
 #'   Calculates performance value from \code{\link{ResamplePrediction}} object. 
 #'   For rare case you can also use the task, the grouping or the extra arguments \code{extra.args}. 
 #' @param extra.args [\code{list}]\cr
-#'   List of extra arguments which will always be passed to \code{fun}.      
+#'   List of extra arguments which will always be passed to \code{fun}.     
+#'   Default is empty list.
 #' @return \code{\linkS4class{Measure}} 
 #' @export
 makeCustomResampledMeasure = function(id, minimize=TRUE, classif=TRUE, regr=TRUE, 
-    only.binary=FALSE, allowed.pred.types=c("response", "prob"), fun, extra.args) {
+    only.binary=FALSE, allowed.pred.types=c("response", "prob"), fun, extra.args=list()) {
     force(fun)
     fun1 = function(task, model, pred, extra.args) as.numeric(NA)
+    # args are checked here
     custom = makeMeasure(id="custom", minimize, classif, regr, only.binary, allowed.pred.types, fun1, extra.args)
     fun2 = function(task, perf.test, perf.train, measure, group, pred) 
       fun(task, group, pred, extra.args)
