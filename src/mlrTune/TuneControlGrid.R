@@ -12,35 +12,16 @@ setClass(
 
 #' Create control structure for grid search tuning. 
 #' 
+#' @title Control for grid search tuning. 
 #' @param path [\code{logical(1)}]\cr
 #'   Should optimization path be saved? Default is TRUE.
-#' @param same.resampling.instance [logical(1)] \cr
+#' @param same.resampling.instance [\code{logical(1)}] \cr
 #'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
-#' 		    
-#' @return Control structure for tuning.
-#' @exportMethod makeTuneControlGrid
-#' @rdname makeTuneControlGrid 
-#' @title Control for grid search tuning. 
+#' @return [\code{\linkS4class{makeTuneControlGrid}}].
+#' @export
+makeTuneControlGrid = function(path=TRUE, same.resampling.instance=TRUE) {
+  checkArg(path, "logical", len=1, na.ok=FALSE)
+  checkArg(same.resampling.instance, "logical", len=1, na.ok=FALSE)
+  new("TuneControlGrid", path=path, same.resampling.instance=same.resampling.instance, start=list())
+}
 
-
-setGeneric(
-		name = "makeTuneControlGrid",
-		def = function(path, same.resampling.instance) {
-			if (missing(path))
-				path=TRUE
-      if (missing(same.resampling.instance))
-        same.resampling.instance = TRUE
-      standardGeneric("makeTuneControlGrid")
-		}
-)
-
-
-#' @rdname makeTuneControlGrid 
-
-setMethod(
-		f = "makeTuneControlGrid",
-		signature = signature(path="logical", same.resampling.instance="logical"),
-		def = function(path, same.resampling.instance) {
-			new("TuneControlGrid", path=path, same.resampling.instance=same.resampling.instance, start=list())
-		}
-)

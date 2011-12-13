@@ -30,19 +30,23 @@
 #' @return \code{\linkS4class{OptResult}}.
 #' @export
 tune = function(learner, task, resampling, measures, par.set, control, log.fun) {
-  if (is.character(learner))
-    learner = makeLearner(learner)
+  checkArg(learner, "Learner")
+  checkArg(task, "LearnTask")
+  if (!is(resampling, "ResampleDesc") &&  !is(resampling, "ResampleInstance"))
+    stop("Argument resampling must be of class ResampleDesc or ResampleInstance!")
   if (is(resampling, "ResampleDesc") && control@same.resampling.instance)
     resampling = makeResampleInstance(resampling, task=task)
-	if (missing(measures))
-		measures = mlr:::default.measures(task)
+  if (missing(measures))
+    measures = mlr:::default.measures(task)
   if (is(measures, "Measure"))
     measures = list(measures)   
+  checkArg(measures, "list")
+  checkListElementClass(measures, "Measure")
+  checkArg(par.set, "ParamSet")
+  checkArg(control, "TuneControl")
   if (missing(log.fun))
     log.fun = log.fun.tune
-	if (missing(control)) {
-		stop("You have to pass a control object!")
-	}
+  checkArg(log.fun, formals=c("learner", "task", "resampling", "measure", "par.set", "control", "opt.path", "x", "y"))
   checkTunerParset(learner, par.set, control)  
   cl = as.character(class(control))[1]
 	sel.func = switch(cl,

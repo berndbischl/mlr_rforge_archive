@@ -1,7 +1,7 @@
 #' @include TuneControl.R
 roxygen()
 
-#' Control structure for mbo tuning. 
+#' Control structure for Mbo tuning. 
 #' @exportClass TuneControlMbo
 #' @seealso \code{\link{makeTuneControlMbo}}
 
@@ -25,8 +25,9 @@ setMethod(
   }
 )
 
-#' Create control structure for Mbo tuning. 
+#' Create control structure for model-based optimization tuning. 
 #' 
+#' @title Control for model-based optimization tuning. 
 #' @param path [\code{logical(1)}]\cr
 #'   Should optimization path be saved? Default is TRUE.
 #' @param same.resampling.instance [logical(1)] \cr
@@ -34,37 +35,16 @@ setMethod(
 #' @param learner [\code{\linkS4class{Learner}}] \cr
 #'   Regression learner to model performance landscape.  
 #' @param control [\code{\linkS4class{MboControl}}] \cr
-#'   Control object for Mbo.  
-#'        
-#' @return Control structure for tuning.
-#' @exportMethod makeTuneControlMbo
-#' @rdname makeTuneControlMbo 
-#' @title Control for Mbo tuning. 
-
-
-setGeneric(
-  name = "makeTuneControlMbo",
-  def = function(path, same.resampling.instance, learner, mbo.control) {
-    if (missing(path))
-      path = TRUE
-    if (missing(same.resampling.instance))
-      same.resampling.instance = TRUE
-    if (is.character(learner))
-      learner = makeLearner(learner)
-    standardGeneric("makeTuneControlMbo")
-  }
-)
-
-
-#' @rdname makeTuneControlMbo 
-
-setMethod(
-  f = "makeTuneControlMbo",
-  signature = signature(path="logical", same.resampling.instance="logical", 
-    learner="Learner", mbo.control="MboControl"),
-  def = function(path, same.resampling.instance, learner, mbo.control) {
-    new("TuneControlMbo", path=path, same.resampling.instance=same.resampling.instance,
-      learner=learner, mbo.control=mbo.control)
-  }
-)
+#'   Control object for model-based optimization tuning.  
+#' @return [\code{\linkS4class{TuneControlMbo}}].
+#' @export
+makeTuneControlMbo = function(path=TRUE, same.resampling.instance=TRUE, learner, mbo.control) {
+  checkArg(path, "logical", len=1, na.ok=FALSE)
+  checkArg(same.resampling.instance, "logical", len=1, na.ok=FALSE)
+  checkArg(start, "numeric")
+  checkArg(learner, "Learner")
+  checkArg(learner, "MBOControl")
+  new("TuneControlMbo", path=path, same.resampling.instance=same.resampling.instance,
+    learner=learner, mbo.control=mbo.control)
+}
 
