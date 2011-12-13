@@ -46,7 +46,7 @@ tune = function(learner, task, resampling, measures, par.set, control, log.fun) 
   checkArg(control, "TuneControl")
   if (missing(log.fun))
     log.fun = log.fun.tune
-  checkArg(log.fun, formals=c("learner", "task", "resampling", "measure", "par.set", "control", "opt.path", "x", "y"))
+  checkArg(log.fun, formals=c("learner", "task", "resampling", "measures", "par.set", "control", "opt.path", "x", "y"))
   checkTunerParset(learner, par.set, control)  
   cl = as.character(class(control))[1]
 	sel.func = switch(cl,

@@ -54,17 +54,17 @@ test.tune.optim = function() {
   lrn2 = makeLearner("classif.rpart")
   # nelder mead with optim
   ctrl = makeTuneControlOptim(method="Nelder-Mead", start=c(0, 0), maxit=10)
-  tr = tune(lrn, binaryclass.task, res, par.set=ps1, control=ctrl)
+  tr = tune(lrn1, binaryclass.task, res, par.set=ps1, control=ctrl)
   ctrl = makeTuneControlOptim(method="Nelder-Mead", start=c(0.05, 5), maxit=10)
   checkException(tune(lrn2, binaryclass.task, res, par.set=ps2, control=ctrl))
   
   ctrl = makeTuneControlOptim(method="SANN", start=c(0, 0), maxit=10)
-  tr = tune(lrn, binaryclass.task, res, par.set=ps1, control=ctrl)
+  tr = tune(lrn1, binaryclass.task, res, par.set=ps1, control=ctrl)
   ctrl = makeTuneControlOptim(method="SANN", start=c(0.05, 5), maxit=10)
   checkException(tune(lrn2, binaryclass.task, res, par.set=ps2, control=ctrl))
   
   ctrl = makeTuneControlOptim(method="L-BFGS-B", start=c(0, 0), maxit=10)
-  tr = tune(lrn, binaryclass.task, res, par.set=ps1, control=ctrl)
+  tr = tune(lrn1, binaryclass.task, res, par.set=ps1, control=ctrl)
   ctrl = makeTuneControlOptim(method="L-BFGS-B", start=c(0.05, 5), maxit=10)
   tr = tune(lrn2, binaryclass.task, res, par.set=ps2, control=ctrl)
   
