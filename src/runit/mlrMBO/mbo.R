@@ -144,7 +144,9 @@ test.mbo.km <- function() {
 
 testResample = function() {
   f = makeMboFunction(function(x) sum(x^2))
-  ps = makeMboParamSet("x", lower=c(0,0), upper=c(1,1)) 
+  ps = makeParamSet(
+    makeNumericVectorParam("x", length=2, lower=0, upper=1)
+  )
   learner = makeLearner("regr.randomForest")
   ctrl = makeMboControl(seq.loops=5, seq.design.points=10, resample.at=c(1,3))
   or = mbo(f, ps, des=NULL, learner, ctrl)

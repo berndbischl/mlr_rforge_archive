@@ -81,7 +81,7 @@ setClass(
 #' @param resample.measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to assess model with during resampling. 
 #'   Default is mse.   
-#' @return The control object.  
+#' @return [\code{\link{MboControl}}].  
 #' @export 
 makeMboControl = function(y.name="y", minimize=TRUE,
   init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
