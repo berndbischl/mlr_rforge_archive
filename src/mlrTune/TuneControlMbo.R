@@ -34,7 +34,7 @@ setMethod(
 #'    Should the same resampling instance be used for all evaluations to reduce variance? Default is \code{TRUE}.
 #' @param learner [\code{\linkS4class{Learner}}] \cr
 #'   Regression learner to model performance landscape.  
-#' @param control [\code{\linkS4class{MboControl}}] \cr
+#' @param mbo.control [\code{\linkS4class{MboControl}}] \cr
 #'   Control object for model-based optimization tuning.  
 #' @return [\code{\linkS4class{TuneControlMbo}}].
 #' @export
