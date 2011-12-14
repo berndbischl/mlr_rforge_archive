@@ -111,7 +111,7 @@ test.tune.mbo = function() {
   )
   
   mbo.ctrl = makeMboControl(init.design.points=3, seq.loops=2)
-  ctrl = makeTuneControlMbo(learner=makeLearner("regr.randomForest"), spo.control=spo.ctrl)
+  ctrl = makeTuneControlMbo(learner=makeLearner("regr.randomForest"), mbo.control=mbo.ctrl)
   tr1 = tune(makeLearner("classif.rpart"), multiclass.task, res, par.set=ps1, control=ctrl)
   checkEquals(getOptPathLength(tr1@path), 5)
   checkEquals(dim(as.data.frame(tr1@path)), c(5, 2+1+2))

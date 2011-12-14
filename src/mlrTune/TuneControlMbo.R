@@ -1,5 +1,7 @@
 #' @include TuneControl.R
 roxygen()
+#' @importClassesFrom mlrMBO MboControl
+roxygen()
 
 #' Control structure for Mbo tuning. 
 #' @exportClass TuneControlMbo
@@ -41,9 +43,8 @@ setMethod(
 makeTuneControlMbo = function(path=TRUE, same.resampling.instance=TRUE, learner, mbo.control) {
   checkArg(path, "logical", len=1, na.ok=FALSE)
   checkArg(same.resampling.instance, "logical", len=1, na.ok=FALSE)
-  checkArg(start, "numeric")
   checkArg(learner, "Learner")
-  checkArg(learner, "MBOControl")
+  checkArg(mbo.control, "MboControl")
   new("TuneControlMbo", path=path, same.resampling.instance=same.resampling.instance,
     learner=learner, mbo.control=mbo.control)
 }

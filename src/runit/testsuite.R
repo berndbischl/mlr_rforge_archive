@@ -9,8 +9,10 @@ if(!exists("use.package")) {
 }
 
 require("ParamHelpers")
-if (pack == "mlrTune")
+if (pack == "mlrTune") {
   require("mlr")
+  require("mlrMBO")
+}
 if (pack == "mlrVarsel")
   require("mlrTune")
 if (pack == "mlrChains") {
