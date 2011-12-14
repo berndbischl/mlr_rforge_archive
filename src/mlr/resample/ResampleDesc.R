@@ -39,13 +39,8 @@ setMethod(
 		}
 )
 
-
 setMethod("show", "ResampleDesc", function(object) {
-  cat(
-    object@id,  " with ", object@iters, " iterations.\n",
-    "Predict: ", object@predict, "\n",
-    sep = ""
-  )  
+  catf("%s with %i iterations.", object@id, object@iters)
+  catf("Predict: %s", object@predict)
 })
-
 

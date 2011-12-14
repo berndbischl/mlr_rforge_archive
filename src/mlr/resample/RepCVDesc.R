@@ -27,6 +27,7 @@ setMethod(
 )
 
 setMethod("show", "RepCVDesc", function(object) {
-  cat(object@id,  " with ", object@iters, " iterations: ", object@iters/object@reps ," folds and ", object@reps ," reps.\n")
+  catf("%s with %i iterations: %i folds and %i reps.", object@id, object@iters, object@iters/object@reps, object@reps)
+  catf("Predict: %s", object@predict)
 })
 

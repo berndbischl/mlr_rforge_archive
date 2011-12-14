@@ -68,7 +68,7 @@ setMethod(
 
 
 setMethod("show", "ResampleInstance", function(object) {
-  cat("Resample instance on ", object@size, " cases for:\n")
+  catf("Resample instance on %i cases for:", object@size)
   print(object@desc) 
 })
 

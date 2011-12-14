@@ -15,7 +15,8 @@
 #'   \dQuote{CV} for cross-validation, \dQuote{LOO} for leave-one-out, \dQuote{StratCV} for stratified cross-validation, \dQuote{RepCV} for repeated cross-validation,\cr
 #'   \dQuote{BS} for out-of-bag bootstrap, \dQuote{Subsample} for subsampling, \dQuote{Holdout} for holdout.	
 #' @param iters [\code{integer(1)}] \cr
-#'   Number of resampling iterations. Ignored for \dQuote{Holdout}. Default is 10.	 			
+#'   Number of resampling iterations. Ignored for \dQuote{Holdout} and \dQuote{LOO}. 
+#'   Default is 10.	 			
 #' @param predict [character] \cr
 #'   What to predict during resampling: \dQuote{train}, \dQuote{test} or \dQuote{both} sets. Default is \dQuote{test}.
 #' @param ... [any] \cr
