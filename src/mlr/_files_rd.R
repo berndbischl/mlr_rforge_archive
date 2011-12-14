@@ -74,7 +74,6 @@ allowed.rd.files <<- c(
   "resample.done.Rd",
   "resample.Rd",
   "ResamplePrediction-class.Rd",
-  "iters.Rd",
   
   "BaseWrapper-class.Rd"
 )   
