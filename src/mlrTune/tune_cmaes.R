@@ -1,7 +1,7 @@
 # set initial varaince to (upper-lower)/2 if both bounds are given
 #todo: fix parallel g2
 tune.cmaes = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
-  requirePackages("cmaes", "tune.cmaes")
+  requirePackages("cmaes", "tune_cmaes")
   
   low = getLower(par.set)
   upp = getUpper(par.set)

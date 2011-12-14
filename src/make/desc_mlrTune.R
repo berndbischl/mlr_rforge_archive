@@ -12,7 +12,7 @@ writeDesc <- function(desc.path, rev.nr) {
     "License: GPL (>= 2)\n",
     "LazyLoad: yes\n",
     "Depends: R (>= 2.11.0), methods, mlr\n",
-    "Suggests: multicore, snowfall, Rmpi, lhs, cmaes, SPOT, DiceOptim\n",
+    "Suggests: multicore, snowfall, Rmpi, lhs, cmaes, DiceOptim, mlrMBO\n",
     sep=""
   )
   sink(NULL)
