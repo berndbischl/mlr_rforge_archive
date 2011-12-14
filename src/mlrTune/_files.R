@@ -16,11 +16,11 @@ pack.files = c(
   "mlrTune/TuneControlOptim.R",
   "mlrTune/TuneControlCMAES.R",
   "mlrTune/TuneControlMbo.R",
-  "mlrTune/tune.r",
+  "mlrTune/tune.R",
 #   "mlrTune/tune.threshold.r",
-  "mlrTune/tune.grid.r",
-  "mlrTune/tune.optim.r",
-  "mlrTune/tune.cmaes.r",
-  "mlrTune/tune.mbo.R"
+  "mlrTune/tune_grid.R",
+  "mlrTune/tune_optim.R",
+  "mlrTune/tune_cmaes.R",
+  "mlrTune/tune_mbo.R"
 )
 
