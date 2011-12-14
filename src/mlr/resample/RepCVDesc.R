@@ -22,7 +22,7 @@ setMethod(
       if (iters != reps * folds)
         stop("Argument 'iters' must be 'reps' x 'folds'")
       .Object@reps=as.integer(reps)
-      callNextMethod(.Object, instance.class="repcv.instance", id="repeated cv", iters=iters)  
+      callNextMethod(.Object, instance.class="RepCVInstance", id="repeated cv", iters=iters)  
 		}
 )
 

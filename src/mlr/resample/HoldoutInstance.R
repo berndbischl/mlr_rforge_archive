@@ -5,15 +5,15 @@ roxygen()
 
 
 setClass(
-		"holdout.instance", 
-		contains = c("subsample.instance")
+		"HoldoutInstance", 
+		contains = c("SubsampleInstance")
 )                                                     
 
 
 
 setMethod(
 		f = "initialize",
-		signature = signature("holdout.instance"),
+		signature = signature("HoldoutInstance"),
 		def = function(.Object, desc, size, task) {
 			callNextMethod(.Object, desc=desc, size=size)
 		}

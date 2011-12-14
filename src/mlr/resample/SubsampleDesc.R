@@ -13,7 +13,7 @@ setMethod(
   signature = signature("SubsampleDesc"),
   def = function(.Object, iters=30L, split=2/3,  ...) {
     .Object@split = split
-    callNextMethod(.Object, "subsample.instance", "subsampling", iters)
+    callNextMethod(.Object, "SubsampleInstance", "subsampling", iters)
   }
 )
 

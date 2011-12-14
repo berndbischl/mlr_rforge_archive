@@ -5,13 +5,13 @@ roxygen()
 
 
 setClass(
-  "stratcv.instance", 
+  "StratCVInstance", 
   contains = c("ResampleInstance")
 )                                                     
 
 setMethod(
   f = "initialize",
-  signature = signature("stratcv.instance"),
+  signature = signature("StratCVInstance"),
   def = function(.Object, desc, size, task) {
     if (is.null(task))
       stop("stratcv always needs to be passed the task, otherwise stratification is impossible!")

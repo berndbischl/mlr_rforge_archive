@@ -12,7 +12,7 @@ setMethod(
 		f = "initialize",
 		signature = signature("CVDesc"),
 		def = function(.Object, iters, ...) {
-			callNextMethod(.Object, "cv.instance", "cross-validation", iters)
+			callNextMethod(.Object, "CVInstance", "cross-validation", iters)
 		}
 )
 

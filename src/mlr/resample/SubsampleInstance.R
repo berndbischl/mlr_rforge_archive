@@ -4,7 +4,7 @@ roxygen()
 
 
 setClass(
-		"subsample.instance", 
+		"SubsampleInstance", 
 		contains = c("ResampleInstance")
 )                                                     
 
@@ -12,7 +12,7 @@ setClass(
 
 setMethod(
 		f = "initialize",
-		signature = signature("subsample.instance"),
+		signature = signature("SubsampleInstance"),
 		def = function(.Object, desc, size, task) {
 			if (missing(desc))
 				return(.Object)

@@ -5,13 +5,13 @@ roxygen()
 
 
 setClass(
-		"bs.instance", 
+		"BSInstance", 
 		contains = c("ResampleInstance"))                                                     
 
 
 setMethod(
   f = "initialize",
-  signature = signature("bs.instance"),
+  signature = signature("BSInstance"),
   def = function(.Object, desc, size, task) {
 	inds = boot(1:size, R=desc@iters, function(data,inds) inds)$t
 	inds = as.list(as.data.frame(t(inds)))

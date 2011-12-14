@@ -9,7 +9,7 @@ setMethod(
   f = "initialize",
   signature = signature("LOODesc"),
   def = function(.Object, iters, ...) {
-    callNextMethod(.Object, "loo.instance", "LOO", iters=as.integer(NA))
+    callNextMethod(.Object, "LOOInstance", "LOO", iters=as.integer(NA))
   }
 )
 

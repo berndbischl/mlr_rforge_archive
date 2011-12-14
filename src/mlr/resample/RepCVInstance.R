@@ -5,13 +5,13 @@ roxygen()
 
 
 setClass(
-		"repcv.instance", 
+		"RepCVInstance", 
 		contains = c("ResampleInstance")
 )                                                     
 
 setMethod(
 		f = "initialize",
-		signature = signature("repcv.instance"),
+		signature = signature("RepCVInstance"),
 		def = function(.Object, desc, size, task) {
       folds = desc@iters/desc@reps
       d = makeResampleDesc("CV", iters=folds)

@@ -5,13 +5,13 @@ roxygen()
 
 
 setClass(
-		"cv.instance", 
+		"CVInstance", 
 		contains = c("ResampleInstance")
 )                                                     
 
 setMethod(
   f = "initialize",
-  signature = signature("cv.instance"),
+  signature = signature("CVInstance"),
   def = function(.Object, desc, size, task) {
     test.inds = sample(1:size)
     # don't warn when we can't split evenly
