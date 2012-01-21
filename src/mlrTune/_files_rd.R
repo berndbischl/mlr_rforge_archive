@@ -11,6 +11,8 @@ allowed.rd.files <<- c(
   "makeTuneControlOptim.Rd",
   "TuneControlCMAES-class.Rd",
   "makeTuneControlCMAES.Rd",
+  "TuneControlMies-class.Rd",
+  "makeTuneControlMies.Rd",
   "TuneControlMbo-class.Rd",
   "makeTuneControlMbo.Rd"
 )   
