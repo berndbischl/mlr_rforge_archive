@@ -22,7 +22,8 @@ setMethod(
     def = function(.Object) {
       par.set = makeParamSet(
         makeIntegerLearnerParam(id="size", default=3L, lower=0, pass.default=TRUE),
-        makeIntegerLearnerParam(id="maxit", default=100L, lower=1L)
+        makeIntegerLearnerParam(id="maxit", default=100L, lower=1L),
+        makeNumericLearnerParam(id="decay", default=0, lower=0)
       )
       
       .Object = callNextMethod(.Object, pack="nnet", par.set=par.set)
