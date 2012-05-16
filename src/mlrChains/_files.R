@@ -5,7 +5,7 @@ pack.files = c(
   "mlrChains/OptWrapper.R",
   "mlrChains/TuneWrapper.R",
   "mlrChains/VarselWrapper.R",
-  "mlrChains/FilterWrapper.R",
+#  "mlrChains/FilterWrapper.R",
   "mlrChains/PreprocWrapper.R",
   "mlrChains/ProbthWrapper.R"
 )

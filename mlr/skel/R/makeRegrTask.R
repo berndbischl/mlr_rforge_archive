@@ -24,6 +24,7 @@
 #'   You should have good reasons to turn this off.
 #'   Default is \code{TRUE}
 #' @return \code{\linkS4class{LearnTask}}.
+#' @rdname SupervisedTask
 #' @export
 makeRegrTask = function(id, data, target, exclude=character(0), weights=numeric(0), 
   blocking=factor(c()), check.data=TRUE) {
@@ -54,9 +55,29 @@ makeRegrTask = function(id, data, target, exclude=character(0), weights=numeric(
     data = data[, setdiff(colnames(data), exclude)]
   if (check.data)
     checkData(data, target)    
+  td = new("TaskDesc", data, target, "regr", id, 
+           length(weights) > 0, length(blocking) > 0, as.character(NA))      
   
   new("RegrTask", id=id, target=target, data=data, weights=weights, blocking=blocking)
 }
+
+
+setMethod("show", "RegrTask", function(object) {
+  td = object@desc
+  data = getData(object)
+  feat = printToChar(object@desc@n.feat)
+  cat(
+    "Regression problem ", td@id, "\n",
+    "Features:\n", feat, "\n", 
+    "Observations: ", td@size , "\n",
+    "Missings: ", td@has.missing, "\n", 
+    "Infinites: ", td@has.inf, "\n", 
+    "Target: ", td@target, "\n", 
+    "Has weights: ", td@has.weights, "\n", 
+    "Has blocking: ", td@has.blocking, "\n",
+    sep=""
+    )
+})
 
 
 
