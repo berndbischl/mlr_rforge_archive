@@ -1,0 +1,55 @@
+#' Checks the following things for a data.frame
+#' - error-proof column names
+#' - No missing values in target
+#' - accept integer, numeric and factor columns
+#' - No empty factor levels
+#' - No infinite values
+#' - No NANs
+checkData = function(data, target) {
+  cns = colnames(data)
+  y = data[, target]
+  
+  if (any(is.na(y)))
+    stop("Target contains missing values!")
+  if (is.factor(y) && any(table(y) == 0)) 
+    stop("Target contains empty class levels!")
+  
+  for (i in 1:ncol(data)) {
+    x = data[, i]
+    cn = cns[i]
+    if(!deparse(as.name(cn), backtick=TRUE) == cn)
+      stopf("Column name contains special characters: %s", cn)
+    if (is.numeric(x)) {
+      if (any(is.infinite(x)))
+        stopf("Data contains infinite values in: %s", cn)
+      if (any(is.nan(x)))
+        stopf("Data contains NaN values in: %s", cn)
+    } else if (is.factor(x)) {
+      if(any(table(x) == 0)) 
+        stopf("Data contains contains empty factor levels in: %s", cn)
+    } else {
+      stopf("Unsupported feature type in: %s, %s", cn, class(x)[1])
+    }
+  }
+}
+
+checkColumnNames = function(data, target, exclude) {
+  cns = colnames(data)
+  dup = duplicated(cns)
+  if(any(dup))
+    stopf("Duplicated column names in data are not allowed: %s", collapse(cns[dup]))
+  if (!(target %in% cns)) {
+    stopf("Column names of data don't contain target var: %s", target)
+  }
+  nex = setdiff(exclude, cns)
+  if (length(nex) > 0)
+    stopf("Trying to exclude non-existing variables: %s", collapse(nex))
+  if (target %in% exclude)
+    stopf("Trying to exclude target variable: %s", target)
+}
+
+checkBlocking = function(data, target, blocking) {
+  if(length(blocking) > 0 && length(blocking) != nrow(data))
+    stop("Blockings have to be of the same length as number of rows in data! Or pass none at all.")
+}
+

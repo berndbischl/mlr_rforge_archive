@@ -12,10 +12,6 @@
 #' @param exclude [\code{character}]
 #'   Names of inputs, which should be discarded, e.g. IDs, etc. 
 #'   Default is none. 
-#' @param weights [\code{numeric}]\cr   
-#'   An optional vector of case weights to be used in the fitting process.
-#'   If the learner cannot handle weights, they are ignored.
-#'   Default is not to use weights.
 #' @param blocking [\code{factor}]\cr   
 #'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". 
 #'   Specifically, they are either put all in the training or the test set during a resampling iteration.
@@ -38,13 +34,11 @@ makeRegrTask = function(id, data, target, exclude=character(0), blocking=factor(
   checkArg(data, "data.frame")
   checkArg(target, "character", len=1, na.ok=FALSE)
   checkArg(exclude, "character", na.ok=FALSE)
-  if (!identical(weights, numeric(0)))
-    checkArg(weights, "numeric", len=nrow(data), na.ok=FALSE)
   if (!identical(blocking, factor(c())))
     checkArg(blocking, "factor", len=nrow(data), na.ok=FALSE)
   checkArg(check.data, "logical", len=1, na.ok=FALSE)
   
-  checkWeightsAndBlocking(data, target, weights, blocking)    
+  checkBlocking(data, target, blocking)    
   checkColumnNames(data, target, exclude)
   if (!is.double(data[, target])) {
     warning("Converting target to numeric.")
@@ -54,30 +48,8 @@ makeRegrTask = function(id, data, target, exclude=character(0), blocking=factor(
     data = data[, setdiff(colnames(data), exclude)]
   if (check.data)
     checkData(data, target)    
-  td = new("TaskDesc", data, target, "regr", id, 
-           length(weights) > 0, length(blocking) > 0, as.character(NA))      
-  
-  new("RegrTask", id=id, target=target, data=data, weights=weights, blocking=blocking)
+  td = makeTaskDesc(data, target, "regr", id, length(blocking) > 0, as.character(NA))      
+  task = makeSupervisedTask(data, blocking, td)
+  class(task) = c("RegrTask", class(task))
+  return(task)
 }
-
-
-print.RegrTask = function(x, ...) {
-  td = object@desc
-  data = getData(object)
-  feat = printToChar(object@desc@n.feat)
-  cat(
-    "Regression problem ", td@id, "\n",
-    "Features:\n", feat, "\n", 
-    "Observations: ", td@size , "\n",
-    "Missings: ", td@has.missing, "\n", 
-    "Infinites: ", td@has.inf, "\n", 
-    "Target: ", td@target, "\n", 
-    "Has weights: ", td@has.weights, "\n", 
-    "Has blocking: ", td@has.blocking, "\n",
-    sep=""
-  )
-}
-
-
-
-

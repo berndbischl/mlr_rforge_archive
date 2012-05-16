@@ -1,0 +1,11 @@
+Package: mlr
+Title:  mlr: Machine Learning in R. 
+Description: 
+Author: Bernd Bischl <bernd_bischl@gmx.net>
+Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
+License: BSD
+Depends: ParamHelpers, reshape, abind, boot
+Suggests: testthat
+LazyData: yes
+ByteCompile: yes
+Version: 1.0

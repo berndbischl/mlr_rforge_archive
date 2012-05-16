@@ -15,6 +15,9 @@
 #' \item{env [\code{environment}]}{has.blocking Is blocking available in task for observations?}
 #' \item{positive [\code{environment}]}{Positive class label for binary classification, NA else.} 
 #' \item{negative [\code{environment}]}{Negative class label for binary classification, NA else.} 
+#' }
+#' @name TaskDesc
+#' @rdname TaskDesc
 #' @export
 NULL
 
@@ -28,10 +31,7 @@ makeTaskDesc = function(data, target, type, id, has.blocking, positive) {
   y = data[, target]
   td$n.feat = c(
     numerics = sum(sapply(data, is.double)) - is.double(y), 
-    integers  = sum(sapply(data, is.integer)) - is.integer(y),
-    factors = sum(sapply(data, is.factor)) - is.factor(y),
-    characters = sum(sapply(data, is.character)) - is.character(y),
-    logicals = sum(sapply(data, is.logical)) - is.logical(y)
+    factors = sum(sapply(data, is.factor)) - is.factor(y)
   )
   td$has.missing = any(sapply(data, function(x) any(is.na(x))))
   td$has.inf = any(sapply(data, function(x) any(is.infinite(x))))

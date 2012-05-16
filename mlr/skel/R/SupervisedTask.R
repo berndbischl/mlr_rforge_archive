@@ -6,13 +6,15 @@
 #' \describe{
 #' \item{env [\code{environment}]}{Environment where data for the task are stored. Use \code{\link{getTaskData}} in order to access it.}
 #' \item{blocking [\code{factor}]}{Observations with the same blocking level belong together. Specifically, they are either put all in the training or the test set during a resampling iteration. \code{factor(0)} if no blocking was set.}
-#' \item{desc [\code{\link{TaskDesc}}]} Encapsulates further information about the task.
+#' \item{desc [\code{\link{TaskDesc}}]}{Encapsulates further information about the task.}
 #' }
-#' @seealso \code{\link{makeClassifTask}}, \code{\link{makeRegrTask}}
-#' @export 
+#' $seealso \code{\link{makeClassifTask}}, \code{\link{makeRegrTask}}
+#' $name SupervisedTask
+#' $rdname SupervisedTask
+#' $export 
 NULL
 
-makeSupervisedTask = function(data, blocking, task.desc) {
+makeSupervisedTask = function(data, blocking, desc) {
   env = new.env()
   env$data = data
   structure(list(
@@ -21,3 +23,18 @@ makeSupervisedTask = function(data, blocking, task.desc) {
     desc = desc
   ), class="SupervisedTask")
 }
+
+print.SupervisedTask = function(x, ...) {
+  td = x$desc
+  feat = printToChar(td$n.feat)
+  cat(
+    "Supervised problem: ", td$type, "\n",
+    "Features:\n", feat, "\n", 
+    "Observations: ", td$size , "\n",
+    "Missings: ", td$has.missing, "\n", 
+    "Target: ", td$target, "\n", 
+    "Has blocking: ", td$has.blocking, "\n",
+    sep=""
+  )
+}
+
