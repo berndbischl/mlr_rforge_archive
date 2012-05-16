@@ -19,8 +19,7 @@
 #'   Should sanity of data be checked initially at task creation? 
 #'   You should have good reasons to turn this off.
 #'   Default is \code{TRUE}
-#' @return \code{\linkS4class{LearnTask}}.
-#' @rdname SupervisedTask
+#' @return \code{\link{SupervisedTask}}.
 #' @export
 makeRegrTask = function(id, data, target, exclude=character(0), blocking=factor(c()), check.data=TRUE) {
   

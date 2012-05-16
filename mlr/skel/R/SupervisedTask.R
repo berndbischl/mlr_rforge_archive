@@ -8,10 +8,8 @@
 #' \item{blocking [\code{factor}]}{Observations with the same blocking level belong together. Specifically, they are either put all in the training or the test set during a resampling iteration. \code{factor(0)} if no blocking was set.}
 #' \item{desc [\code{\link{TaskDesc}}]}{Encapsulates further information about the task.}
 #' }
-#' $seealso \code{\link{makeClassifTask}}, \code{\link{makeRegrTask}}
-#' $name SupervisedTask
-#' $rdname SupervisedTask
-#' $export 
+#' @seealso \code{\link{makeClassifTask}}, \code{\link{makeRegrTask}}
+#' @name SupervisedTask
 NULL
 
 makeSupervisedTask = function(data, blocking, desc) {

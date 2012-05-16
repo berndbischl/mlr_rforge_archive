@@ -2,28 +2,28 @@
 #' 
 #' The target variable is converted to a factor if it is a logical, integer or character vector. 
 #' 
-#' $param id [\code{character(1)}]\cr 
+#' @param id [\code{character(1)}]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. 
 #'   Default is the name of R variable passed to \code{data}.  
-#' $param data [\code{data.frame}]\cr   
+#' @param data [\code{data.frame}]\cr   
 #'   A data frame containing the input and target variables for modeling.
-#' $param target [\code{character(1)}]\cr
+#' @param target [\code{character(1)}]\cr
 #'   Name of the target variable.
-#' $param exclude [\code{character}]
+#' @param exclude [\code{character}]
 #'   Names of inputs, which should be discarded, e.g. IDs, etc. 
 #'   Default is none. 
-#' $param blocking [\code{factor}]\cr   
+#' @param blocking [\code{factor}]\cr   
 #'   An optional factor of the same length as the number of observations. Observations with the same blocking level "belong together". 
 #'   Specifically, they are either put all in the training or the test set during a resampling iteration.
-#' $param positive [\code{character(1)}]\cr   
+#' @param positive [\code{character(1)}]\cr   
 #'   Positive class for binary classification. 
 #'   Default is the first factor level of the target attribute. 
-#' $param check.data [\code{logical(1)}]
+#' @param check.data [\code{logical(1)}]
 #'   Should sanity of data be checked initially at task creation? 
 #'   You should have good reasons to turn this off.
 #'   Default is \code{TRUE}
-#' $return \code{\link{LearnTask}}.
-#' $export
+#' @return \code{\link{SupervisedTask}}.
+#' @export
 makeClassifTask = function(id, data, target, exclude=character(0), 
   blocking=factor(c()), positive=as.character(NA), check.data=TRUE) {
   

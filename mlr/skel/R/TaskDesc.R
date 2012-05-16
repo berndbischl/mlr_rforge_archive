@@ -18,7 +18,6 @@
 #' }
 #' @name TaskDesc
 #' @rdname TaskDesc
-#' @export
 NULL
 
 makeTaskDesc = function(data, target, type, id, has.blocking, positive) {

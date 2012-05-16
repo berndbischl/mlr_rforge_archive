@@ -10,9 +10,9 @@ changeData = function(task, data) {
 
 
 #' Get feature names of task. 
-#' $param task [\code{\linkS4class{LearnTask}}]\cr 
+#' @param task [\code{\link{SupervisedTask}}]\cr 
 #'   The task.   
-#' $return [\code{character}].
+#' @return [\code{character}].
 #' $export
 getFeatureNames = function(task) {
   checkArg(task, "SupervisedTask")
@@ -20,9 +20,9 @@ getFeatureNames = function(task) {
 }
 
 #' Get target column of task. 
-#' $param task [\code{\linkS4class{LearnTask}}]\cr 
+#' @param task [\code{\link{SupervisedTask}}]\cr 
 #'   The task.   
-#' $return A \code{factor} for classification or a \code{numeric} for regression.
+#' @return A \code{factor} for classification or a \code{numeric} for regression.
 #' $export
 getTargets = function(task) {
   checkArg(task, "SupervisedTask")
@@ -31,9 +31,9 @@ getTargets = function(task) {
 
 #' Get formula of a task. This is simply \code{target ~ .}. 
 #' Note that the environment that always gets attached to a formula is deleted. 
-#' $param x [\code{\linkS4class{LearnTask}} | \code{\linkS4class{TaskDesc}}]\cr 
+#' @param x [\code{\link{SupervisedTask}} | \code{\link{TaskDesc}}]\cr 
 #'   Task or its description object.   
-#' $return [\code{formula}]
+#' @return [\code{formula}]
 getFormula = function(x) {
   g = function(target) as.formula(paste(target, "~."))
   if (inherits(x, "TaskDesc"))
@@ -49,24 +49,24 @@ getFormula = function(x) {
 #' Useful in \code{\link{trainLearner}} when you add a learning 
 #' machine to the package.
 #' 
-#' $param task [\code{\linkS4class{LearnTask}}]\cr 
+#' @param task [\code{\link{SupervisedTask}}]\cr 
 #'   Learning task.   
-#' $param subset [\code{integer}] \cr 
+#' @param subset [\code{integer}] \cr 
 #'   Selected cases. Default is all cases. 
-#' $param vars [character] \cr 
+#' @param vars [character] \cr 
 #'   Selected inputs.  Default is all input variables.
-#' $param target.extra [\code{logical(1)}] \cr 
+#' @param target.extra [\code{logical(1)}] \cr 
 #'   Should target vector be returned separately? 
 #'   If not, a single data.frame including the target is returned, otherwise a list 
 #'   with the input data.frame and an extra vector for the targets.
 #'   Default is FALSE. 
-#' $param class.as [\code{character(1)}] \cr
+#' @param class.as [\code{character(1)}] \cr
 #'   Should target classes be recoded? Only for binary classification.
 #'   Possible are \dQuote{factor} (do nothing), \dQuote{01}, and \dQuote{-1+1}. 
 #'   In the two latter cases the target vector, which is usually a factor, is converted into a numeric vector. 
 #'   The positive class is coded as +1 and the negative class either as 0 or -1. 
 #'   Default is \dQuote{factor}.
-#' $return Either a data.frame or a list with data.frame \code{data} and vector \code{target}.
+#' @return Either a data.frame or a list with data.frame \code{data} and vector \code{target}.
 #' $export
 getTaskData = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
   checkArg(class.as, choices=c("factor", "01", "-1+1"))
@@ -120,14 +120,14 @@ getTaskData = function(task, subset, vars, target.extra=FALSE, class.as="factor"
 
 #' Subset data in task. 
 #' 
-#' $param task [\code{\linkS4class{LearnTask}}]\cr 
+#' @param task [\code{\link{SupervisedTask}}]\cr 
 #'   The task.   
-#' $param subset [\code{integer}]\cr 
+#' @param subset [\code{integer}]\cr 
 #'   Selected cases. Default is all cases. 
-#' $param features [\code{character}]\cr 
+#' @param features [\code{character}]\cr 
 #'   Selected inputs. Note that target feature is always included! 
 #'   Default is all input features. 
-#' $return \code{\linkS4class{LearnTask}} with changed data.
+#' @return \code{\link{SupervisedTask}} with changed data.
 #' $export
 subsetTask = function(task, subset, features) {
   if (missing(subset)) {
@@ -142,7 +142,7 @@ subsetTask = function(task, subset, features) {
     checkArg(features, "character", na.ok=FALSE)
   }
   
-  task = changeData(task, getData(task, subset, features))
+  task = changeData(task, getTaskData(task, subset, features))
   if (task$desc$has.blocking)
     task$blocking = task$blocking[subset]
   return(task)
