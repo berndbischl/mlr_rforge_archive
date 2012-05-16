@@ -26,8 +26,7 @@
 #' @return \code{\linkS4class{LearnTask}}.
 #' @rdname SupervisedTask
 #' @export
-makeRegrTask = function(id, data, target, exclude=character(0), weights=numeric(0), 
-  blocking=factor(c()), check.data=TRUE) {
+makeRegrTask = function(id, data, target, exclude=character(0), blocking=factor(c()), check.data=TRUE) {
   
   if(missing(id)) {
     id = deparse(substitute(data))
@@ -62,7 +61,7 @@ makeRegrTask = function(id, data, target, exclude=character(0), weights=numeric(
 }
 
 
-setMethod("show", "RegrTask", function(object) {
+print.RegrTask = function(x, ...) {
   td = object@desc
   data = getData(object)
   feat = printToChar(object@desc@n.feat)
@@ -76,8 +75,8 @@ setMethod("show", "RegrTask", function(object) {
     "Has weights: ", td@has.weights, "\n", 
     "Has blocking: ", td@has.blocking, "\n",
     sep=""
-    )
-})
+  )
+}
 
 
 

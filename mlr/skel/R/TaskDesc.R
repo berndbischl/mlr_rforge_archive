@@ -8,7 +8,6 @@
 #' @slot class.levels All possible classes. Character vector. NA if not classification.
 #' @slot has.missing Are missing values present?
 #' @slot has.inf Are infinite numerical values present?
-#' @slot has.weights Are weights available in task for covariates?
 #' @slot has.blocking Is blocking available in task for observations?
 #' @slot positive Positive class label for binary classification, NA else. 
 #' @slot negative Negative class label for binary classification, NA else. 
@@ -18,7 +17,7 @@
 #' @title Description object for task. 
 NULL
 
-makeTaskDesc = function(data, target, type, id, has.weights, has.blocking, positive) {
+makeTaskDesc = function(data, target, type, id, has.blocking, positive) {
   td = list()
   td$type = type
   td$id = id
@@ -39,7 +38,6 @@ makeTaskDesc = function(data, target, type, id, has.weights, has.blocking, posit
     td$class.levels = levels(y)
   else
     td$class.levels = as.character(NA)
-  td$has.weights = has.weights
   td$has.blocking = has.blocking
   if (type == "classif") {
     td$positive = positive
