@@ -1,7 +1,7 @@
 #' Defines a classification task for a given data set.
+#' 
 #' The target variable is converted to a factor if it is a logical, integer or character vector. 
 #' 
-#' @title Construct classification task.
 #' @param id [\code{character(1)}]\cr 
 #'   Id string for object. Used to select the object from a named list, etc. 
 #'   Default is the name of R variable passed to \code{data}.  

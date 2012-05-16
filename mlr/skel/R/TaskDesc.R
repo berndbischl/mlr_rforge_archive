@@ -1,20 +1,21 @@
-#' Description object for task, encapsulates basic statistics without having to store the complete data set.
+#' Description object for task.
+#'  
+#' Description object for task, encapsulates basic statistics 
+#' without having to store the complete data set.
 #' 
-#' @slot type Type of task, either \dQuote{classif} for classification or \dQuote{regr} for regression.
-#' @slot id Id string of task.
-#' @slot target Name of target variable.
-#' @slot size Number of cases.
-#' @slot n.feat Number of covariates, named vector with entries: \dQuote{numerics}, \dQuote{integers}, \dQuote{factors}, \dQuote{characters}, \dQuote{logicals}.
-#' @slot class.levels All possible classes. Character vector. NA if not classification.
-#' @slot has.missing Are missing values present?
-#' @slot has.inf Are infinite numerical values present?
-#' @slot has.blocking Is blocking available in task for observations?
-#' @slot positive Positive class label for binary classification, NA else. 
-#' @slot negative Negative class label for binary classification, NA else. 
-#'
-#' @exportClass TaskDesc
-#' @seealso \code{\linkS4class{LearnTask}}
-#' @title Description object for task. 
+#' \describe{
+#' \item{env [\code{environment}]}{type Type of task, either \dQuote{classif} for classification or \dQuote{regr} for regression.}
+#' \item{id [\code{environment}]}{Id string of task.}
+#' \item{target [\code{environment}]}{Name of target variable.}
+#' \item{size[\code{environment}]}{Number of cases.}
+#' \item{n.feat [\code{environment}]}{Number of covariates, named vector with entries: \dQuote{numerics}, \dQuote{integers}, \dQuote{factors}, \dQuote{characters}, \dQuote{logicals}.}
+#' \item{class.levels [\code{environment}]}{All possible classes. Character vector. NA if not classification.}
+#' \item{has.missing [\code{environment}]}{ Are missing values present?}
+#' \item{has.inf [\code{environment}]}{Are infinite numerical values present?}
+#' \item{env [\code{environment}]}{has.blocking Is blocking available in task for observations?}
+#' \item{positive [\code{environment}]}{Positive class label for binary classification, NA else.} 
+#' \item{negative [\code{environment}]}{Negative class label for binary classification, NA else.} 
+#' @export
 NULL
 
 makeTaskDesc = function(data, target, type, id, has.blocking, positive) {
