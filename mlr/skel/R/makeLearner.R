@@ -8,40 +8,40 @@
 #' For a regression learner the \code{predict.type} can be set
 #' to \dQuote{se} to standard errors in addition to the mean response.
 #' 
-#' @param class [\code{character(1)}] \cr
+#' $param cl [\code{character(1)}] \cr
 #'   Class of learner to create. By convention, all classification learners
 #'   start with \dQuote{classif.} and all regression learners with
 #'   \dQuote{regr.}. A list of all learners is available on the
 #'   \code{\link{learners}} help page.
-#' @param id [\code{character(1)}] \cr 
+#' $param id [\code{character(1)}] \cr 
 #'   Id string for object. Used to select the object from a named list, etc.
-#' @param predict.type [\code{character(1)}] \cr
+#' $param predict.type [\code{character(1)}] \cr
 #'   Classification: \dQuote{response} or \dQuote{prob}.
 #'   Regression: \dQuote{response} or \dQuote{se}.
 #'   Default is \dQuote{response}.
-#' @param ... [any] \cr
+#' $param ... [any] \cr
 #'   Optional named (hyper)parameters. Alternatively these can be given
 #'   using the \code{par.vals} argument.
-#' @param par.vals [\code{list}] \cr
+#' $param par.vals [\code{list}] \cr
 #'   Optional list of named (hyper)parameters. The arguments in
 #'   \code{...} take precedence over values in this list. We strongly
 #'   encourage you to use one or the other to pass (hyper)parameters
 #'   to the learner but not both.
-#' @return [\code{\linkS4class{Learner}}].
-#' @export
-#' @example
+#' $return [\code{\link{Learner}}].
+#' $export
+#' $example
 #' makeLearner("classif.logreg")
 #' makeLearner("regr.lm")
-makeLearner = function(class, id, predict.type="response", ..., par.vals=list()) {
-  if (class == "")
+makeLearner = function(cl, id, predict.type="response", ..., par.vals=list()) {
+  if (cl == "")
     stop("Cannot create learner from empty string!")	
-  wl = new(class)
-  if (!is(wl, "rlearner"))
-    stop("Learner must be a basic rlearner!")
+  wl = do.call(sprintf("makeRLearner.%s", cl), list())
+  if (!is(wl, "RLearner"))
+    stop("Learner must be a basic RLearner!")
   if (!missing(id))
-    wl@id = id
-  pds = wl@par.set$pars
-  ## pass defaults
+    wl$id = id
+  pds = wl$par.set$pars
+  # pass defaults
   pv = list()
   for (j in seq(length=length(pds))) {
     pd = pds[[j]]
@@ -89,36 +89,13 @@ makeLearner = function(class, id, predict.type="response", ..., par.vals=list())
 #' 
 #' Setters: \code{\link{setId}}, \code{\link{setHyperPars}}, \code{\link{setPredictType}}  
 #' 
-#' @exportClass Learner
-#' @title Base class for inducers. 
+#' $exportClass Learner
+#' $title Base class for inducers. 
 
 setMethod(
   f = "initialize",
   signature = signature("Learner"),
   def = function(.Object, pack, par.set=makeParamSet(), par.vals=list()) {      
-    checkArg(par.set, "ParamSet")  
-    cc = as.character(class(.Object))[1]
-    if (is(.Object, "rlearner.classif"))
-      .Object@properties["type"] = "classif"
-    else if(is(.Object, "rlearner.regr"))
-      .Object@properties["type"] = "regr"
-    .Object@id = cc 
-    .Object@properties["numerics"] = FALSE
-    .Object@properties["factors"] = FALSE
-    .Object@properties[["weights"]] = FALSE  
-    .Object@properties[["missings"]] = FALSE
-    .Object@properties[["oneclass"]] = FALSE
-    .Object@properties[["twoclass"]] = FALSE
-    .Object@properties[["multiclass"]] = FALSE
-    .Object@properties[["prob"]] = FALSE
-    .Object@properties[["se"]] = FALSE
-    .Object@pack = pack
-    requirePackages(pack, paste("learner", .Object@id))
-    if(any(sapply(par.set$pars, function(x) !is(x, "LearnerParam"))))
-      stop("All par.set parameters in learner of class ", class(.Object), " must be of class 'LearnerParam'!")
-    .Object@par.set = par.set
-    .Object@predict.type = "response"
-    setHyperPars(.Object, par.vals=par.vals)
   }
 )
 
