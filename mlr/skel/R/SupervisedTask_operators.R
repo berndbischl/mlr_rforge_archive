@@ -2,9 +2,8 @@
 changeData = function(task, data) {
   task$env = new.env()
   task$env$data = data
-  d = task$desc
-  task$desc = new("TaskDesc", data, d$target, d$type, d$id, 
-    d$has.weights, d$has.blocking, d$positive)
+  td = task$desc
+  task$desc = makeTaskDesc(data, td$target, td$type, td$id, td$has.blocking, td$positive)
   return(task)
 } 
 
@@ -130,6 +129,7 @@ getTaskData = function(task, subset, vars, target.extra=FALSE, class.as="factor"
 #' @return \code{\link{SupervisedTask}} with changed data.
 #' $export
 subsetTask = function(task, subset, features) {
+  checkArg(task, "SupervisedTask")  
   if (missing(subset)) {
     subset = 1:task$desc$size
   } else {
@@ -137,7 +137,7 @@ subsetTask = function(task, subset, features) {
     checkArg(subset, "integer", na.ok=FALSE)
   }
   if (missing(features)) {
-    features = getFeatureNames(features)
+    features = getFeatureNames(task)
   } else {
     checkArg(features, "character", na.ok=FALSE)
   }

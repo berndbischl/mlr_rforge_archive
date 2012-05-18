@@ -26,7 +26,8 @@ print.SupervisedTask = function(x, ...) {
   td = x$desc
   feat = printToChar(td$n.feat)
   cat(
-    "Supervised problem: ", td$type, "\n",
+    "Supervised task: ", td$id, "\n",
+    "Type: ", td$type, "\n",
     "Features:\n", feat, "\n", 
     "Observations: ", td$size , "\n",
     "Missings: ", td$has.missing, "\n", 

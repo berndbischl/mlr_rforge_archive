@@ -38,7 +38,7 @@ makePrediction = function(task.desc, id, truth, predict.type, y, time) {
   cns = colnames(data)
 	i = grep("prob.", cns)
 	if (length(i) > 0)
-		colnames(data)[i] = paste("prob.", colnames(xs[["prob"]]), sep="")
+		colnames(data)[i] = paste("prob.", colnames(data[["prob"]]), sep="")
   cns = colnames(data)
   
   p = structure(list(

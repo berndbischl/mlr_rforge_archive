@@ -1,21 +1,21 @@
 context("Learner")
 
 test_that("Learner", {
-	wl = makeLearner("classif.rpart", minsplit=3)
-	expect_equal(wl$properties[["type"]], "classif")
-	expect_equal(wl$id, "classif.rpart")
+  wl = makeLearner("classif.rpart", minsplit=3)
+  expect_equal(wl$type, "classif")
+  expect_equal(wl$id, "classif.rpart")
   expect_false(wl$oneclass)
   expect_true(wl$twoclass)
   expect_true(wl$multiclass)
-	expect_true(wl$prob)
-	expect_true(wl$missings)
-	expect_true(wl$weights)
-	expect_true(wl$numerics)
-	expect_equal(wl$factors)
-
-	wl = makeLearner("regr.lm")
-	expect_equal(wl$properties[["type"]], "regr")
-	expect_equal(wl$id, "regr.lm")
+  expect_true(wl$prob)
+  expect_true(wl$missings)
+  expect_true(wl$weights)
+  expect_true(wl$numerics)
+  expect_true(wl$factors)
+  
+  wl = makeLearner("regr.lm")
+  expect_equal(wl$type, "regr")
+  expect_equal(wl$id, "regr.lm")
   expect_false(wl$oneclass)
   expect_false(wl$twoclass)
   expect_false(wl$multiclass)
@@ -23,7 +23,7 @@ test_that("Learner", {
   expect_true(wl$weights)
   expect_true(wl$numerics)
   expect_true(wl$factors)
-	
+  
   expect_error(makeLearner("classif.lvq1", predict.type="prob"), "Trying to predict probs, but")
   expect_error(makeLearner("regr.lm", predict.type="prob"), "Trying to predict probs, but")
   wl = makeLearner("classif.lvq1")

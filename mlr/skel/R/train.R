@@ -13,13 +13,14 @@
 #' @export
 #' @seealso \code{\link{predict}}
 train = function(learner, task, subset) {
+  checkArg(learner, "Learner")
   if (missing(subset))
     subset = 1:task$desc$size
   if (is.numeric(subset))
     subset = as.integer(subset)
     
   # make sure that pack for learner ist loaded, probably needed when learner is exported        
-  requirePackages(learner$pack, paste("learner", learner$id))
+  requirePackages(learner$package, paste("learner", learner$id))
   
   checkTaskLearner(task, learner)
   
