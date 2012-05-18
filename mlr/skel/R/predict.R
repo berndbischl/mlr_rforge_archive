@@ -31,21 +31,24 @@ predict.WrappedModel = function(object, task, newdata, subset) {
   }
   if (missing(newdata)) {
     checkArg(task, "SupervisedTask")
-    if (missing(subset)) 
-      newdata = getTaskData(task)
-    else  
+    if (!missing(subset))  
       newdata = getTaskData(task, subset=subset)
+    else  {
+      newdata = getTaskData(task)
+      subset = 1:nrow(newdata)
+    }
   } else {
     checkArg(newdata, "data.frame")
     # FIXME check that data is of same structure?
     if (nrow(newdata) == 0)
       stop("newdata must be a data.frame with at least one row!")
-    if(!missing(subset))   
+    if (!missing(subset))  
       newdata = newdata[subset,,drop=FALSE]  
+    else  
+     subset = 1:nrow(newdata)
   }
   # if we saved a model and loaded it later just for prediction this is necessary
   requireLearnerPackages(learner)
-  
   cns = colnames(newdata)
   tn = td$target
   t.col = which(cns == tn)
@@ -57,11 +60,7 @@ predict.WrappedModel = function(object, task, newdata, subset) {
   } else {
     truth = NULL
   }
-  
-  if (learner$type == "classif") {
-    levs = td$class.levels
-  }
-  
+    
   response = NULL
   prob = NULL
   time.predict = as.numeric(NA)
@@ -94,7 +93,7 @@ predict.WrappedModel = function(object, task, newdata, subset) {
         fun2 = identity
       else
         fun2 = function(x) try(x, silent=TRUE)
-      st = system.time(or <- fun1(p <- fun2(do.call(predictLearner2, pars))), gcFirst = FALSE)
+      st = system.time(fun1(p <- fun2(do.call(predictLearner2, pars))), gcFirst = FALSE)
       time.predict = as.numeric(st[3])
       # was there an error during prediction?
       if(is.error(p)) {

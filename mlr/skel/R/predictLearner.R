@@ -27,10 +27,17 @@ predictLearner = function(.learner, .model, .newdata, ...) {
   UseMethod("predictLearner")
 }
 
+#FIXME: need this?
 predictLearner2 = function(.learner, .model, .newdata, ...) {
   p = predictLearner(.learner, .model, .newdata, ...)
+  checkPredictLearnerOutput(.learner, .model, p)
+  return(p)
+}
+
+checkPredictLearnerOutput = function(learner, model, p) {
   cl = class(p)[1]
   if (learner$type == "classif") {
+    levs = model$task.desc$class.levels
     if (learner$predict.type == "response") {
       # the levels of the predicted classes might not be complete....
       # be sure to add the levels at the end, otherwise data gets changed!!!
@@ -39,8 +46,7 @@ predictLearner2 = function(.learner, .model, .newdata, ...) {
       levs2 = levels(p)
       if (length(levs2) != length(levs) || any(levs != levs2))
         p = factor(p, levels=levs)
-      
-    } else if (wl$predict.type == "prob") {
+    } else if (learner$predict.type == "prob") {
       if (!is.matrix(p))
         stopf("predictLearner for %s has returned a class %s instead of a matrix!", learner$id, cl)
       cns = colnames(p)
@@ -50,15 +56,16 @@ predictLearner2 = function(.learner, .model, .newdata, ...) {
       if (!setequal(cns, levs))
         stopf("predictLearner for %s has returned not the class levels as column names: %s", 
           learner$id, collapse(colnames(p)))
-    } else if (wl$predict.type == "se") {
+    }
+  } else if (learner$type == "regr")  {
+    if (learner$predict.type == "response") {
+      if (cl != "numeric")
+        stopf("predictLearner for %s has returned a class %s instead of a numeric!", learner$id, cl)
+     } else if (learner$predict.type == "se") {
       if (!is.matrix(p))
         stopf("predictLearner for %s has returned a class %s instead of a matrix!", learner$id, cl)
       if (ncol(p)!= 2)
         stopf("predictLearner for %s has not returned a numeric matrix with 2 columns!", learner$id)
-    }
-  } else if (inherits(model, "WrappedModel.Regr")) {
-    if (class(p) != "numeric")
-      stopf("predictLearner for %s has returned a class %s instead of a numeric!", learner$id, cl)
+    }      
   }
 }
-

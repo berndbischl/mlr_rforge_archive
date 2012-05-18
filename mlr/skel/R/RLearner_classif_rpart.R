@@ -28,7 +28,7 @@ makeRLearner.classif.rpart = function() {
 trainLearner.classif.rpart = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   d = getTaskData(.task, .subset)
-  if (.task$desc$has.weights)
+  if (.task$task.desc$has.weights)
     rpart(f, data=d, weights=.task$weights[.subset], ...)
   else 
     rpart(f, data=d, ...)

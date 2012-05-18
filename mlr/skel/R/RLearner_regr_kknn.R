@@ -17,7 +17,7 @@ makeRLearner.regr.kknn = function() {
 }
 
 trainLearner.regr.kknn = function(.learner, .task, .subset,  ...) {
-  list(td=.task$desc, data=getTaskData(.task, .subset), parset=list(...))
+  list(td=.task$task.desc, data=getTaskData(.task, .subset), parset=list(...))
 }
 
 predictLearner.regr.kknn = function(.learner, .model, .newdata, ...) {

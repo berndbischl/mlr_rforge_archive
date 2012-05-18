@@ -3,8 +3,8 @@ makeRLearner.classif.lda = function() {
     cl = "classif.lda",
     package = "MASS",
     par.set = makeParamSet(
-  	   makeDiscreteLearnerParam(id="method", default="moment", values=c("moment", "mle", "mve", "t")),
-  		  makeNumericLearnerParam(id="nu", lower=2, requires=expression(method=="t")),
+  	  makeDiscreteLearnerParam(id="method", default="moment", values=c("moment", "mle", "mve", "t")),
+  		makeNumericLearnerParam(id="nu", lower=2, requires=expression(method=="t")),
       makeNumericLearnerParam(id="tol", default=1.0e-4, lower=0)
     ), 
     twoclass=TRUE, 

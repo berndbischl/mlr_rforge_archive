@@ -1,3 +1,4 @@
 .onLoad <- function(libname, pkgname) {
-  configureMlr()
+  #FIXME defaults
+  configureMlr(on.learner.error="stop")
 }

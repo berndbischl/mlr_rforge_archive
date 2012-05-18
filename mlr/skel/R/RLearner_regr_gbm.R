@@ -21,7 +21,7 @@ makeRLearner.regr.gbm = function() {
 
 trainLearner.regr.gbm = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
-  if (.task$desc$has.weights)
+  if (.task$task.desc$has.weights)
     gbm(f, data=getTaskData(.task, .subset), keep.data=FALSE, weights=.task$weights[.subset], ...)
   else  
     gbm(f, data=getTaskData(.task, .subset), keep.data=FALSE, ...)

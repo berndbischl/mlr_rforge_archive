@@ -22,10 +22,10 @@ test_that("predict", {
 	pred3 = predict(ext3,newdata=data[multiclass.test.inds,])$class
   prob3 = predict(ext3,newdata=data[multiclass.test.inds,])$post
 	expect_equal(cp3$data$response, pred3)
-  expect_equal(prob3, as.matrix(getProb(cp3, colnames(prob3))))
-  expect_true(is.numeric(getProb(cp3, "setosa")))
-  expect_equal(colnames(getProb(cp3, c("setosa", "versicolor"))), c("setosa", "versicolor"))
-  expect_equal(colnames(getProb(cp3, c("versicolor", "setosa"))), c("versicolor", "setosa"))
+  expect_equal(prob3, as.matrix(getProbabilities(cp3, colnames(prob3))))
+  expect_true(is.numeric(getProbabilities(cp3, "setosa")))
+  expect_equal(colnames(getProbabilities(cp3, c("setosa", "versicolor"))), c("setosa", "versicolor"))
+  expect_equal(colnames(getProbabilities(cp3, c("versicolor", "setosa"))), c("versicolor", "setosa"))
   
 	cp4 <- predict(cm3, task=multiclass.task, subset=multiclass.test.inds)
 	expect_equal(cp4$data$response, pred3)
@@ -43,9 +43,9 @@ test_that("predict", {
   cp5d = setThreshold(cp5b, 1)
 	cp5e = predict(cm5, task=binaryclass.task, subset=1)
 	expect_equal(cp5a$data$response, cp5b$data$response)
-	f1 = factor(rep(binaryclass.task$desc$positive, length(binaryclass.test.inds)), levels=binaryclass.task$desc$class.levels)
+	f1 = factor(rep(binaryclass.task$task.desc$positive, length(binaryclass.test.inds)), levels=binaryclass.task$task.desc$class.levels)
 	expect_equal(cp5c$data$response, f1)
-	f2 = factor(rep(binaryclass.task$desc$negative, length(binaryclass.test.inds)), levels=binaryclass.task$desc$class.levels)
+	f2 = factor(rep(binaryclass.task$task.desc$negative, length(binaryclass.test.inds)), levels=binaryclass.task$task.desc$class.levels)
 	expect_equal(cp5d$data$response, f2)
 	expect_true(setequal(levels(cp5e$data$response), c("M", "R")))
 		

@@ -19,21 +19,18 @@ makePrediction = function(task.desc, id, truth, predict.type, y, time) {
 	data[["truth"]] = truth
   if (predict.type == "response") {
     data[["response"]] = y
-  } else if (predict.type == "prob"){
+  } else if (predict.type == "prob") {
 		data[["prob"]] = y
   } else if (predict.type == "se"){
     data[["response"]] = y[,1]
     data[["se"]] = y[,2]
   }
   data = as.data.frame(data)
-  
   # fix columnnames for prob if strage chars are in factor levels
-	# todo: review this!
-  cns = colnames(data)
-	i = grep("prob.", cns)
+	# FIXME review this!
+	i = grep("prob.", colnames(data))
 	if (length(i) > 0)
-		colnames(data)[i] = paste("prob.", colnames(data[["prob"]]), sep="")
-  cns = colnames(data)
+		colnames(data)[i] = paste("prob.", colnames(y), sep="")
   
   p = structure(list(
     predict.type = predict.type,			
