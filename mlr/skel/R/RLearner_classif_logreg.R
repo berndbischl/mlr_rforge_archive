@@ -1,0 +1,33 @@
+makeRLearner.classif.logreg = function() {
+  makeRLearnerClassif(
+      cl = "classif.logreg",
+      package = "stats",
+      twoclass = TRUE,
+      numerics = TRUE,
+      factors = TRUE,
+      prob = TRUE,
+      weights = TRUE
+  )
+}
+
+trainLearner.classif.logreg = function(.learner, .task, .subset,  ...) {
+  f = getFormula(.task)
+  glm(f, data=getData(.task, .subset), model=FALSE, family="binomial", ...)
+}
+
+predictLearner.classif.logreg = function(.learner, .model, .newdata, ...) {
+  x = predict(.model$learner.model, newdata=.newdata, type="response", ...)
+  levs = .model$task.desc$class.levels    
+  if (.learner$predict.type == "prob") {
+    y <- matrix(0, ncol=2, nrow=nrow(.newdata))
+    colnames(y) = levs
+    y[,1] <- 1-x
+    y[,2] <- x
+    return(y)
+  } else {
+    levs <- .model$task.desc$class.levels
+    p <- as.factor(ifelse(x > 0.5, levs[2], levs[1]))
+    names(p) <- NULL
+    return(p)
+  }
+}
