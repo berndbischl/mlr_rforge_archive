@@ -9,12 +9,15 @@ changeData = function(task, data) {
 
 
 #' Get feature names of task. 
+#' 
+#' Target column name is not included.
+#'   
 #' @param task [\code{\link{SupervisedTask}}]\cr 
 #'   The task.   
 #' @return [\code{character}].
-#' $export
+#' @export
 getFeatureNames = function(task) {
-  checkArg(task, "SupervisedTask")
+  #FIXME argument checks currently not done for speed
   return(setdiff(colnames(task$env$data), task$desc$target)) 
 }
 
@@ -22,9 +25,9 @@ getFeatureNames = function(task) {
 #' @param task [\code{\link{SupervisedTask}}]\cr 
 #'   The task.   
 #' @return A \code{factor} for classification or a \code{numeric} for regression.
-#' $export
+#' @export
 getTargets = function(task) {
-  checkArg(task, "SupervisedTask")
+  #FIXME argument checks currently not done for speed
   return(task$env$data[, task$desc$target])
 }
 
@@ -49,27 +52,28 @@ getFormula = function(x) {
 #' machine to the package.
 #' 
 #' @param task [\code{\link{SupervisedTask}}]\cr 
-#'   Learning task.   
-#' @param subset [\code{integer}] \cr 
-#'   Selected cases. Default is all cases. 
-#' @param vars [character] \cr 
-#'   Selected inputs.  Default is all input variables.
-#' @param target.extra [\code{logical(1)}] \cr 
+#'   The task.   
+#' @param subset [\code{integer}]\cr 
+#'   Selected cases. 
+#'   Default is all cases. 
+#' @param features [\code{character}]\cr 
+#'   Selected features.  
+#'   Default is all features.
+#' @param target.extra [\code{logical(1)}]\cr 
 #'   Should target vector be returned separately? 
 #'   If not, a single data.frame including the target is returned, otherwise a list 
-#'   with the input data.frame and an extra vector for the targets.
+#'   with the feature data.frame and an extra vector for the target column.
 #'   Default is FALSE. 
-#' @param class.as [\code{character(1)}] \cr
-#'   Should target classes be recoded? Only for binary classification.
+#' @param class.as [\code{character(1)}]\cr
+#'   Should target classes be recoded? Useful only for binary classification.
 #'   Possible are \dQuote{factor} (do nothing), \dQuote{01}, and \dQuote{-1+1}. 
 #'   In the two latter cases the target vector, which is usually a factor, is converted into a numeric vector. 
 #'   The positive class is coded as +1 and the negative class either as 0 or -1. 
 #'   Default is \dQuote{factor}.
-#' @return Either a data.frame or a list with data.frame \code{data} and vector \code{target}.
-#' $export
-getTaskData = function(task, subset, vars, target.extra=FALSE, class.as="factor") {
-  checkArg(class.as, choices=c("factor", "01", "-1+1"))
-  
+#' @return Either a data.frame or a list with a data.frame \code{data} and a vector \code{target}.
+#' @export
+getTaskData = function(task, subset, features, target.extra=FALSE, class.as="factor") {
+  #FIXME argument checks currently not done for speed
   # maybe recode y
   rec.y = function(y) {
     if (class.as=="01")
@@ -82,19 +86,19 @@ getTaskData = function(task, subset, vars, target.extra=FALSE, class.as="factor"
   
   tn = task$desc$target
   ms = missing(subset) || identical(subset, 1:task$desc$size)
-  mv = missing(vars) || identical(vars, getFeatureNames(task))
+  mf = missing(features) || identical(features, getFeatureNames(task))
   
   if (target.extra) {
     list(
       data = 
-        if (ms && mv) 
+        if (ms && mf) 
         {d=task$env$data;d[,tn]=NULL;d} 
         else if (ms)
-          task$env$data[,vars,drop=FALSE]
-        else if (mv)
+          task$env$data[,features,drop=FALSE]
+        else if (mf)
         {d=task$env$data[subset,,drop=FALSE];d[,tn]=NULL;d} 
         else
-          task$env$data[subset,vars,drop=FALSE],
+          task$env$data[subset,features,drop=FALSE],
       target = 
         if (ms)
           rec.y(getTargets(task))
@@ -103,14 +107,14 @@ getTaskData = function(task, subset, vars, target.extra=FALSE, class.as="factor"
     )
   } else {
     d = 
-      if (ms && mv) 
+      if (ms && mf) 
         task$env$data 
       else if (ms)
-        task$env$data[,c(vars, tn),drop=FALSE]
-      else if (mv)
+        task$env$data[,c(features, tn),drop=FALSE]
+      else if (mf)
         task$env$data[subset,,drop=FALSE]
       else
-        task$env$data[subset,vars,drop=FALSE]
+        task$env$data[subset,features,drop=FALSE]
     if (class.as != "factor")
       d[,tn] = rec.y(d[, tn])
     return(d)
@@ -122,26 +126,19 @@ getTaskData = function(task, subset, vars, target.extra=FALSE, class.as="factor"
 #' @param task [\code{\link{SupervisedTask}}]\cr 
 #'   The task.   
 #' @param subset [\code{integer}]\cr 
-#'   Selected cases. Default is all cases. 
+#'   Selected cases
+#'   Default is all cases. 
 #' @param features [\code{character}]\cr 
-#'   Selected inputs. Note that target feature is always included! 
+#'   Selected features. Note that the target column is always included in the returned subset. 
 #'   Default is all input features. 
 #' @return \code{\link{SupervisedTask}} with changed data.
-#' $export
+#' @export
 subsetTask = function(task, subset, features) {
-  checkArg(task, "SupervisedTask")  
+  #FIXME argument checks currently not done for speed
   if (missing(subset)) {
     subset = 1:task$desc$size
-  } else {
-    subset = convertIntegers(subset)
-    checkArg(subset, "integer", na.ok=FALSE)
-  }
   if (missing(features)) {
     features = getFeatureNames(task)
-  } else {
-    checkArg(features, "character", na.ok=FALSE)
-  }
-  
   task = changeData(task, getTaskData(task, subset, features))
   if (task$desc$has.blocking)
     task$blocking = task$blocking[subset]

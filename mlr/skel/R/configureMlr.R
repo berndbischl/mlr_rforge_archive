@@ -1,29 +1,34 @@
-#' Sets up the error handling system of mlr.  
+#' Configures the behaviour of the package.  
 #' 
-#' @title Errorhandler setup.
+#' Configuration is done by setting custom \code{\link{options}}.
+#' 
 #' @param on.learner.error [\code{character(1)}]\cr
 #'   What should happen if an error in an underlying learning algorithm is caught:\cr 
 #'   \dQuote{stop}: R exception is generated.\cr
 #'   \dQuote{warn}: A 'failure model' will be created, which predicts only NAs and a warning will be generated.\cr 
 #'   \dQuote{quiet}: Same as 'warn' but without the warning.\cr
-#' Default is \dQuote{warn}. 
+#'   Default is \dQuote{warn}. 
 #' @param on.par.without.desc [\code{character(1)}]\cr
 #'   What should happen if a parameter of a learner is set to a value, but no parameter description object exists,
 #'   indicating a possibly wrong name:\cr
 #'   \dQuote{stop}: R exception is generated.\cr
 #'   \dQuote{warn}: Warning, but parameter is still passed along to learner.\cr 
 #'   \dQuote{quiet}: Same as \dQuote{warn} but without the warning.\cr
-#'   Default is \dQuote{warn}. 
+#'   Default is \dQuote{warn}.
+#' @param show.learner.output [\code{logical(1)}]\cr 
+#'   Should the output of the learning algorithm during training and prediction be shown or captured and
+#'   suppressed?
+#'   Default is \code{TRUE}.      
 #' @return Nothing.
 #' @export
-
-setupErrorHandler = function(on.learner.error="warn", on.par.without.desc="stop") {
+configureMlr = function(on.learner.error="warn", on.par.without.desc="stop", show.learner.output=TRUE) {
   checkArg(on.learner.error, choices=c("quiet", "warn", "stop"))
   checkArg(on.par.without.desc, choices= c("quiet", "warn", "stop"))
-    
-	.mlr.conf$errorhandler.setup = list(
-    on.par.without.desc = on.par.without.desc,
-    on.learner.error = on.learner.error
-  )  
-	invisible(NULL)
-}
+  checkArg(show.learner.output, "logical", len=1, na.ok=FALSE)
+  options(
+    mlr.on.learner.error = on.learner.error,
+    mlr.on.par.without.desc = on.par.without.desc,
+    mlr.show.learner.output = show.learner.output
+  )    
+  invisible(NULL)
+}  

@@ -1,7 +1,7 @@
+#' Prediction object.
+#' 
 #' Result from \code{\link{predict}}. 
 #' Use \code{as.data.frame} to access all information in a convenient format.   
-#' 
-#' Getter.\cr
 #' 
 #' \describe{
 #'  \item{predict.type [\code{character(1)}]}{Type set in \code{\link{setPredictType}}.}
@@ -11,12 +11,6 @@
 #'  \item{prob [numeric | matrix] Optional parameters: class}{Predicted probabilities. For binary class: Only the probabilities for the positive class are returned.}
 #'  \item{threshold [numeric]}{Threshold set in predict function.}
 #' }
-#' 
-#' @exportClass Prediction
-#' @title Prediction.
-#' @seealso \code{\link{performance}}
-
-#todo: roxygen does not like long lines?
 #Predicted probabilities. If it's a binary problem only the probabilities for the positive class are returned. With "class" you can specifically select which columns of the prob matrix should be returned. Columns names of the returned matrix are always the respective class labels.
 makePrediction = function(task.desc, id, truth, predict.type, y, time) {
 	data = list()

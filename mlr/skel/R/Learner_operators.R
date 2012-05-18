@@ -1,22 +1,26 @@
 #' Get a description of all possible parameter settings for a learner. 
+#' 
 #' @param learner [\code{\link{Learner}}]\cr 
-#'   Learner.   
-#' @return [\code{\link[ParamHelpers]{ParamSet}}]
+#'   The learner.   
+#' @return [\code{\link[ParamHelpers]{ParamSet}}].
 #' @export
 getParamSet = function(learner) {
+  # FIXME checkArgs
   UseMethod("getParamSet")
 } 
 
 #'@S3method getParamSet Learner
 getParamSet.Learner = function(learner) {
+  # FIXME checkArgs
   learner$par.set
 } 
 
 #' Get current parameter settings for a learner. 
+#' 
 #' @param learner [\code{\link{Learner}}]\cr 
-#'   Learner.   
+#'   The learner.   
 #' @param for.fun [\code{character(1)}]\cr 
-#'   The values corresponding to what aspect of the learner should be returned: 
+#'   Restrict the returned settings to hyperparameters corresponding to: 
 #'   \dQuote{train}, \dQuote{predict} or \dQuote{both}.
 #'   Default is \dQuote{both}.    
 #' @return [\code{list}]. A named list of values.
@@ -30,22 +34,22 @@ getHyperPars = function(learner, for.fun) {
   getHyperParsTop(learner, for.fun)
 }  
 
-#' Set the hyperparameters of learner objects.
+#' Set the hyperparameters of a learner object.
 #' 
-#' @param learner [\code{\link{Learner}}] \cr
-#'   Learner.
-#' @param ... [any] \cr
-#'   Optional named (hyper)parameters. Alternatively these can be given
+#' @param learner [\code{\link{Learner}}]\cr
+#'   The learner.
+#' @param ... [any]\cr
+#'   Named (hyper)parameters with new setting. Alternatively these can be passed
 #'   using the \code{par.vals} argument.
-#' @param par.vals [\code{list}] \cr
-#'    Optional list of named (hyper)parameters. The arguments in
+#' @param par.vals [\code{list}]\cr
+#'    Optional list of named (hyper)parameter settings. The arguments in
 #'    \code{...} take precedence over values in this list. We strongly
 #'    encourage you to use one or the other to pass (hyper)parameters
 #'    to the learner but not both.
-#' @return \code{\link{Learner}} with changed hyperparameters.
+#' @return [\code{\link{Learner}}] with changed hyperparameters.
 #' @export
 #' @seealso See \code{\link{getHyperPars}} for a function to retrieve
-#'   the currently set hyper parameters. To get a list of all (hyper)parameters of
+#'   the currently set hyperparameters. To get a list of all hyperparameters of
 #'   a learner, see the \code{par.set} slot of the \code{\link{Learner}}
 #'   object.
 #' @examples
@@ -55,6 +59,7 @@ getHyperPars = function(learner, for.fun) {
 #' # note the now set and altered hyperparameters:
 #' print(cl2)
 setHyperPars = function(learner, ..., par.vals) {
+  # FIXME checkArgs
   UseMethod("setHyperPars")
 } 
 
@@ -62,24 +67,26 @@ setHyperPars = function(learner, ..., par.vals) {
 setHyperPars.Learner = function(learner, ..., par.vals) {
   ns = names(par.vals)
   pars = learner$par.set$pars
-  for (i in seq(length=length(par.vals))) {
+  for (i in seq_along(par.vals)) {
     n = ns[i]
     p = par.vals[[i]]
     pd = pars[[n]]
     if (is.null(pd)) {
       # no description: stop warn or quiet
-      msg = paste(class(learner), ": Setting par ", n, " without description!", sep="")
-      if (.mlr.conf$errorhandler.setup$on.par.without.desc == "stop")
+      msg = sprintf("%s: Setting parameter %s without available description object!", learner$id, n)
+      opwd = getOption("mlr.on.par.without.desc")
+      if (opwd == "stop")
         stop(msg)
-      if (.mlr.conf$errorhandler.setup$on.par.without.desc == "warn")
+      if (opwd == "warn")
         warning(msg)
       learner$par.set$pars[[n]] = makeUntypedLearnerParam(id=n)
       learner$par.vals[[n]] = p
     } else {
-      isf = isFeasible(pd, p)
-      if (length(isf) != 1 || !isf)
-        stop("'", n, "' must be a feasible parameter setting.")
+      if (!isFeasible(pd, p))
+        # FIXME what if strange value class?
+        stopf("%s is not a feasible parameter setting!", p)
       # if valname of discrete par was used, transform it to real value
+      # FIXME: is type ordered still there? reason for this code?
       if ((pd$type == "discrete" || pd$type == "ordered") 
         && is.character(p) && length(p) == 1 && p %in% names(pd$values))
         p = pd$values[[p]]
@@ -102,6 +109,7 @@ getHyperParsTop = function(learner, for.fun) {
   pv[ns]
 }
 
+# FIXME what if hyper pars are of complx type?
 getHyperParsString = function(learner) {
   hps = getHyperPars(learner, "both")
   ns = names(hps)

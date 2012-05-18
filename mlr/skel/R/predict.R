@@ -2,15 +2,15 @@
 #' probabilities will be stored in the resulting object. The resulting class labels are 
 #' the classes with the maximum values. 
 #' 
-#' @param object [\code{\linkS4class{WrappedModel}}] \cr 
+#' @param object [\code{\link{WrappedModel}}]\cr 
 #'   Wrapped model, trained from a learn task.  
-#' @param task [\code{\linkS4class{LearnTask}}]\cr 
+#' @param task [\code{\link{SupervisedTask}}]\cr 
 #'   Specifies learning task. If this is passed, data from this task is predicted.   
-#' @param subset [\code{integer}] \cr 
+#' @param subset [\code{integer}]\cr 
 #'   Index vector to subset the data in the task to use for prediction. 
-#' @param newdata [\code{\link{data.frame}}] \cr 
+#' @param newdata [\code{\link{data.frame}}]\cr 
 #'   New observations which should be predicted. Alternatively pass this instead of task. 
-#' @return \code{\linkS4class{Prediction}}.
+#' @return \code{\link{Prediction}}.
 #'
 #' @export
 #' @rdname predict
