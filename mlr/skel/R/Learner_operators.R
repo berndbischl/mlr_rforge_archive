@@ -43,9 +43,7 @@ getHyperPars = function(learner, for.fun) {
 #'   using the \code{par.vals} argument.
 #' @param par.vals [\code{list}]\cr
 #'    Optional list of named (hyper)parameter settings. The arguments in
-#'    \code{...} take precedence over values in this list. We strongly
-#'    encourage you to use one or the other to pass (hyper)parameters
-#'    to the learner but not both.
+#'    \code{...} take precedence over values in this list.
 #' @return [\code{\link{Learner}}] with changed hyperparameters.
 #' @export
 #' @seealso See \code{\link{getHyperPars}} for a function to retrieve
@@ -59,12 +57,28 @@ getHyperPars = function(learner, for.fun) {
 #' # note the now set and altered hyperparameters:
 #' print(cl2)
 setHyperPars = function(learner, ..., par.vals) {
-  # FIXME checkArgs
-  UseMethod("setHyperPars")
+  checkArg(learner, "Learner")
+  args = list(...)      
+  if (missing(par.vals)) {
+    par.vals = list()
+  } else {
+    checkArg(par.vals, "list")
+    if(!isProperlyNamed(par.vals))
+      stop("All parameter settings have to be named arguments!")
+  }
+  if (length(args) > 0) {
+    if(!isProperlyNamed(args))
+      stop("All parameter settings have to be named arguments!")
+    par.vals = insert(par.vals, args)
+  }
+  setHyperPars2(learner, par.vals)
 } 
 
-#'@S3method setHyperPars Learner
-setHyperPars.Learner = function(learner, ..., par.vals) {
+setHyperPars2 = function(learner, par.vals) {
+  UseMethod("setHyperPars2")
+} 
+
+setHyperPars2.Learner = function(learner, par.vals) {
   ns = names(par.vals)
   pars = learner$par.set$pars
   for (i in seq_along(par.vals)) {
@@ -85,7 +99,7 @@ setHyperPars.Learner = function(learner, ..., par.vals) {
       if (!isFeasible(pd, p))
         # FIXME what if strange value class?
         stopf("%s is not a feasible parameter setting!", p)
-      # if valname of discrete par was used, transform it to real value
+      # if valname of discrete par was used, transform it to real value 
       # FIXME: is type ordered still there? reason for this code?
       if ((pd$type == "discrete" || pd$type == "ordered") 
         && is.character(p) && length(p) == 1 && p %in% names(pd$values))
@@ -95,6 +109,34 @@ setHyperPars.Learner = function(learner, ..., par.vals) {
   }
   return(learner)
 } 
+
+#' Set the type of predictions the learner should return.
+#'
+#' Possible prediction types are:
+#' Classification: Labels or class probabilities (including labels).
+#' Regression: Numeric or response or standard errors (including numeric response).
+#' @param learner [\code{\link{Learner}}]\cr 
+#'   The learner.   
+#' @param predict.type [\code{character(1)}]\cr
+#'   Classification: \dQuote{response} or \dQuote{prob}.
+#'   Regression: \dQuote{response} or \dQuote{se}.
+#'   Default is \dQuote{response}.
+#' @return [\code{\linkS4class{Learner}}] with changed prediction behaviour.
+#' @seealso \code{\link{setThreshold}} to alter the threshold used for prediction.
+#' @export
+setPredictType = function(learner, predict.type) {
+  checkArg(learner, "Learner")
+  checkArg(predict.type, choices=switch(learner$type,
+    classif = c("response", "prob"),
+    regr = c("response", "se")
+  ))
+  if (predict.type == "prob" && !learner$prob)
+    stopf("Trying to predict probs, but %s does not support that!", learner$id)
+  if (predict.type == "se" && !learner$se)
+    stopf("Trying to predict standard errors, but %s does not support that!", learner$id)
+  learner$predict.type = predict.type
+  return(learner)
+}
 
 
 getHyperParsTop = function(learner, for.fun) {

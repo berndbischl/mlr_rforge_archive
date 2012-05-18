@@ -45,6 +45,7 @@
 #'   The values can later be overwritten when the user sets hyperparameters.
 #'   Default is empty list.  
 #' @return [\code{\linkS4class{RLearnerClassif}} or \code{\linkS4class{RLearnerRegr}}].
+#' @name RLearner
 #' @rdname RLearner
 NULL
 
@@ -76,6 +77,7 @@ makeRLearner = function(id, type, package, par.set, numerics, factors, missings,
     type = type,
     package = package,
     par.set = par.set,
+    par.vals = list(),
     numerics = numerics,
     factors = factors,
     predict.type = "response",

@@ -31,9 +31,9 @@ makeRLearner.classif.nnet = function() {
 trainLearner.classif.nnet = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   if (.task$desc$has.weights)
-    nnet(f, data=getData(.task, .subset), weights=.task$weights[.subset], ...)
+    nnet(f, data=getTaskData(.task, .subset), weights=.task$weights[.subset], ...)
   else  
-    nnet(f, data=getData(.task, .subset), ...)      
+    nnet(f, data=getTaskData(.task, .subset), ...)      
 }
 
 predictLearner.classif.nnet = function(.learner, .model, .newdata, ...) {

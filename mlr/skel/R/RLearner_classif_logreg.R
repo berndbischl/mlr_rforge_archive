@@ -12,7 +12,7 @@ makeRLearner.classif.logreg = function() {
 
 trainLearner.classif.logreg = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
-  glm(f, data=getData(.task, .subset), model=FALSE, family="binomial", ...)
+  glm(f, data=getTaskData(.task, .subset), model=FALSE, family="binomial", ...)
 }
 
 predictLearner.classif.logreg = function(.learner, .model, .newdata, ...) {

@@ -12,8 +12,8 @@
 #}
 #
 #trainLearner.regr.kmforrester = function(.learner, .task, .subset,  ...) {
-#  d = getData(.task, .subset, target.extra=TRUE)
-#  d = getData(.task, .subset, target.extra=TRUE)
+#  d = getTaskData(.task, .subset, target.extra=TRUE)
+#  d = getTaskData(.task, .subset, target.extra=TRUE)
 #  m = km(design=d$data, response=d$target, nugget.estim=TRUE, ...)
 #  p = predict(m, d$data, type="SK")$mean
 #  m = km(design=d$data, response=p, nugget.estim=FALSE, 

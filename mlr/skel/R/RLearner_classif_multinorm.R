@@ -26,9 +26,9 @@ makeRLearner.classif.multinorm = function() {
 trainLearner.classif.multinorm = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   if (.task$desc$has.weights)
-    multinom(f, data=getData(.task, .subset), weights=.task$weights[.subset], ...)
+    multinom(f, data=getTaskData(.task, .subset), weights=.task$weights[.subset], ...)
   else  
-    multinom(f, data=getData(.task, .subset), ...)      
+    multinom(f, data=getTaskData(.task, .subset), ...)      
 }
 
 predictLearner.classif.multinorm = function(.learner, .model, .newdata, ...) {

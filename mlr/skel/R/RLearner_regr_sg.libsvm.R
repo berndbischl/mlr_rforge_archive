@@ -13,7 +13,7 @@
 #
 #trainLearner.regr.sg.libsvm = function(.learner, .task, .subset,  ...) {
 #  size_cache = 100
-#  d = getData(.task, .subset, target.extra=TRUE, class.as="-1+1")
+#  d = getTaskData(.task, .subset, target.extra=TRUE, class.as="-1+1")
 #  # shogun wants features in as column vectors
 #  train = t(d(as.matrix(d$data)))
 #  pars = list(...)

@@ -23,7 +23,7 @@ makeRLearner.regr.randomForest = function() {
 
 trainLearner.regr.randomForest = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
-  randomForest(f, data=getData(.task, .subset), ...)
+  randomForest(f, data=getTaskData(.task, .subset), ...)
 }
 
 predictLearner.regr.randomForest = function(.learner, .model, .newdata, ...) {

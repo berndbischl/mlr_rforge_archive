@@ -1,7 +1,7 @@
 makeRLearner.regr.gbm = function() {
   makeRLearnerRegr(
     cl = "regr.gbm",
-    package = "gmb",
+    package = "gbm",
     par.set = makeParamSet(
       makeDiscreteLearnerParam(id="distribution", default="gaussian", values=c("gaussian", "laplace")),
       makeIntegerLearnerParam(id="n.trees", default=100L, lower=1L),
@@ -22,9 +22,9 @@ makeRLearner.regr.gbm = function() {
 trainLearner.regr.gbm = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   if (.task$desc$has.weights)
-    gbm(f, data=getData(.task, .subset), keep.data=FALSE, weights=.task$weights[.subset], ...)
+    gbm(f, data=getTaskData(.task, .subset), keep.data=FALSE, weights=.task$weights[.subset], ...)
   else  
-    gbm(f, data=getData(.task, .subset), keep.data=FALSE, ...)
+    gbm(f, data=getTaskData(.task, .subset), keep.data=FALSE, ...)
 }
 
 predictLearner.regr.gbm = function(.learner, .model, .newdata, ...) {

@@ -1,15 +1,20 @@
 #' Induced model of learner.
 #'
 #' Result from \code{\link{train}}. It internally stores the underlying fitted model,
-#' the subset used for training, features used for training and the training time.
+#' the subset used for training, features used for training and computtation time for training.
 #' 
+#' Object slots: 
 #' \describe{
 #'	\item{learner [\code{\link{Learner}}]}{Learner that was used to fit the model.}
-#'	\item{learner.model [any]}{Underlying model from used R package.}
+#'	\item{learner.model [any]}{Underlying model from used R package. If model fitting failed.... FIXME}
+#'	\item{task.desc [\code{\link{TaskDesc}}]}{Description object of task.}
 #'	\item{subset [\code{integer}]}{Subset used for training.}
-#'	\item{fail [NULL | string]}{Generally NULL but if the training failed, the error message of the underlying train function.}
+#'	\item{time [\code{numeric}]}{Computation time for model fit in seconds.}
 #' }
+#' @name WrappedModel
+#' @rdname WrappedModel
 NULL
+#FIXME really store the features? what abou varsel?
 
 makeWrappedModel = function(learner, model, task.desc, subset, features, time) {
   UseMethod("makeWrappedModel")

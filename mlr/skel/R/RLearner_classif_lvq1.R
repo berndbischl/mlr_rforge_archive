@@ -17,7 +17,7 @@ makeRLearner.classif.lvq1 = function() {
 }
 		
 trainLearner.classif.lvq1 = function(.learner, .task, .subset,  ...) {
-  d = getData(.task, .subset, target.extra=TRUE)
+  d = getTaskData(.task, .subset, target.extra=TRUE)
   cdbk.args = insert(list(), list(...), c("size", "k", "prior"))
   cdbk.args$x = d$data
   cdbk.args$cl = d$target 

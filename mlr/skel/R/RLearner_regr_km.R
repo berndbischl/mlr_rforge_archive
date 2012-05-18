@@ -23,7 +23,7 @@ makeRLearner.regr.km = function() {
 }
 
 trainLearner.regr.km = function(.learner, .task, .subset,  ...) {
-  d = getData(.task, .subset, target.extra=TRUE)
+  d = getTaskData(.task, .subset, target.extra=TRUE)
   km(design=d$data, response=d$target, ...)
 }
 

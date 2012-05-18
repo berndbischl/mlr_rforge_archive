@@ -4,7 +4,7 @@ test_that("novars", {
   ct = subsetTask(multiclass.task, features=character(0))
 	wl = makeLearner("classif.lda", predict.type="prob")
 	m = train(wl, ct)
-  expect_is(m$learner.model, "novars")	
+  expect_is(m$learner.model, "NoFeaturesModel")	
   expect_is(m$learner, "classif.lda")	
 	expect_equal(m$learner$predict.type, "prob")	
 	p = predict(m, newdata=multiclass.df)

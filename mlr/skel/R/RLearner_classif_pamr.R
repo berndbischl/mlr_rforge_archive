@@ -24,7 +24,7 @@ makeRLearner.classif.pamr = function() {
 
 trainLearner.classif.pamr = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
-  data = getData(.task, .subset, target.extra=TRUE)
+  data = getTaskData(.task, .subset, target.extra=TRUE)
   names(data)[1] = "x"  
   names(data)[2] = "y"
   data$x = t(data$x)

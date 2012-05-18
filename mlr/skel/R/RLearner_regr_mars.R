@@ -11,7 +11,7 @@ makeRLearner.regr.mars = function() {
 }
 
 trainLearner.regr.mars = function(.learner, .task, .subset,  ...) {
-  d = getData(.task, .subset, target.extra=TRUE)
+  d = getTaskData(.task, .subset, target.extra=TRUE)
   mars(x = as.matrix(d$data), y = d$target, ...)
 }
 

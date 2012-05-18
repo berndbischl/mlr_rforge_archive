@@ -27,7 +27,7 @@ getHyperPars.BaseWrapper = function(learner, for.fun) {
   c(getHyperPars(learner@learner, for.fun), getHyperParsTop(learner, for.fun))
 }
 
-setHyperPars.BaseWrapper = function(learner, ..., par.vals=list()) {
+setHyperPars2.BaseWrapper = function(learner, par.vals) {
   ns = names(par.vals)
   pds.n = names(learner@par.set$pars)
   for (i in seq(length=length(par.vals))) {

@@ -48,9 +48,9 @@ trainLearner.classif.ksvm = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   pm = .learner$predict.type == "prob"
   if (length(xs$control) > 0)
-    args = c(list(f, data=getData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args, prob.model=pm)
+    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args, prob.model=pm)
   else
-    args = c(list(f, data=getData(.task, .subset), fit=FALSE), xs$args, prob.model=pm)
+    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE), xs$args, prob.model=pm)
   do.call(ksvm, args)
   
 }

@@ -2,8 +2,8 @@
 changeData = function(task, data) {
   task$env = new.env()
   task$env$data = data
-  td = task$desc
-  task$desc = makeTaskDesc(data, td$target, td$type, td$id, td$has.blocking, td$positive)
+  td = task$task.desc
+  task$task.desc = makeTaskDesc(td$type, td$id, data, td$target, td$has.blocking, td$positive)
   return(task)
 } 
 
@@ -18,7 +18,7 @@ changeData = function(task, data) {
 #' @export
 getFeatureNames = function(task) {
   #FIXME argument checks currently not done for speed
-  return(setdiff(colnames(task$env$data), task$desc$target)) 
+  return(setdiff(colnames(task$env$data), task$task.desc$target)) 
 }
 
 #' Get target column of task. 
@@ -28,7 +28,7 @@ getFeatureNames = function(task) {
 #' @export
 getTargets = function(task) {
   #FIXME argument checks currently not done for speed
-  return(task$env$data[, task$desc$target])
+  return(task$env$data[, task$task.desc$target])
 }
 
 #' Get formula of a task. This is simply \code{target ~ .}. 
@@ -41,7 +41,7 @@ getFormula = function(x) {
   if (inherits(x, "TaskDesc"))
     f = g(x$target) 
   else 
-    f = g(x$desc$target)
+    f = g(x$task.desc$target)
   attr(f, ".Environment") = NULL
   return(f)
 }
@@ -77,15 +77,15 @@ getTaskData = function(task, subset, features, target.extra=FALSE, class.as="fac
   # maybe recode y
   rec.y = function(y) {
     if (class.as=="01")
-      as.numeric(y == task$desc$positive)
+      as.numeric(y == task$task.desc$positive)
     else if (class.as=="-1+1")
-      2*as.numeric(y == task$desc$positive)-1
+      2*as.numeric(y == task$task.desc$positive)-1
     else
       y
   }
   
-  tn = task$desc$target
-  ms = missing(subset) || identical(subset, 1:task$desc$size)
+  tn = task$task.desc$target
+  ms = missing(subset) || identical(subset, 1:task$task.desc$size)
   mf = missing(features) || identical(features, getFeatureNames(task))
   
   if (target.extra) {
@@ -135,12 +135,12 @@ getTaskData = function(task, subset, features, target.extra=FALSE, class.as="fac
 #' @export
 subsetTask = function(task, subset, features) {
   #FIXME argument checks currently not done for speed
-  if (missing(subset)) {
-    subset = 1:task$desc$size
-  if (missing(features)) {
+  if (missing(subset))
+    subset = 1:task$task.desc$size
+  if (missing(features))
     features = getFeatureNames(task)
   task = changeData(task, getTaskData(task, subset, features))
-  if (task$desc$has.blocking)
+  if (task$task.desc$has.blocking)
     task$blocking = task$blocking[subset]
   return(task)
 }

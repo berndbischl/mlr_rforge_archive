@@ -21,7 +21,7 @@ makeRLearner.classif.kknn = function() {
 }
 
 trainLearner.classif.kknn = function(.learner, .task, .subset,  ...) {
-  list(td=.task$desc, data=getData(.task, .subset), parset=list(...))
+  list(td=.task$desc, data=getTaskData(.task, .subset), parset=list(...))
 }
 
 predictLearner.classif.kknn = function(.learner, .model, .newdata, ...) {

@@ -16,7 +16,7 @@ makeRLearner.classif.fnn = function() {
 }
 
 trainLearner.classif.fnn = function(.learner, .task, .subset,  ...) {
-  d = getData(.task, .subset, target.extra=TRUE)
+  d = getTaskData(.task, .subset, target.extra=TRUE)
   list(train=d, parset=list(...))
 }
 

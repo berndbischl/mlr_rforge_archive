@@ -28,7 +28,7 @@ makeRLearner.classif.adaboost.m1 = function() {
 trainLearner.classif.adaboost.m1 = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   xs = learnerArgsToControl(rpart.control, c("minsplit", "minbucket", "cp", "maxcompete", "maxsurrogate", "usesurrogate", "surrogatestyle", "maxdepth"), list(...))
-  do.call(adaboost.M1, c(list(f, data=getData(.task, .subset), control=xs$control), xs$args))
+  do.call(adaboost.M1, c(list(f, data=getTaskData(.task, .subset), control=xs$control), xs$args))
 }
 
 predictLearner.classif.adaboost.m1 = function(.learner, .model, .newdata, ...) {

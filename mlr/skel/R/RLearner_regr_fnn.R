@@ -17,8 +17,8 @@ makeRLearner.regr.fnn = function() {
 }
 
 trainLearner.regr.fnn = function(.learner, .task, .subset,  ...) {
-  d = getData(.task, .subset, target.extra=TRUE)
-  list(train=d, parset=list(...)
+  d = getTaskData(.task, .subset, target.extra=TRUE)
+  list(train=d, parset=list(...))
 }
 
 predictLearner.regr.fnn = function(.learner, .model, .newdata, ...) {

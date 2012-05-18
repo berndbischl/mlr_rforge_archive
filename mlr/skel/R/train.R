@@ -15,20 +15,20 @@
 #' @seealso \code{\link{predict}}
 train = function(learner, task, subset) {
   checkArg(learner, "Learner")
-  checkArg(learner, "SupervisedTask")
+  checkArg(task, "SupervisedTask")
   if (missing(subset)) {
-    subset = 1:task$desc$size
+    subset = 1:task$task.desc$size
   } else {
     subset = convertIntegers(subset)
     checkArg(subset, "integer", na.ok=FALSE)
   }  
     
   # make sure that pack for learner ist loaded, probably needed when learner is exported        
-  requirePackages(learner$package, paste("learner", learner$id))
+  requireLearnerPackages(learner)
   
   checkTaskLearner(task, learner)
   
-  tn = task$desc$target
+  tn = task$task.desc$target
   
   # make pars list for train call
   pars = list(.learner=learner, .task=task, .subset=subset)
@@ -38,29 +38,28 @@ train = function(learner, task, subset) {
   vars = getFeatureNames(task)
   # no vars? then use no vars model
   if (length(vars) == 0) {
-    learner.model = makeNoFeaturesModel(targets=task$env$data[subset, tn], desc=task$desc)
+    learner.model = makeNoFeaturesModel(targets=task$env$data[subset, tn], task.desc=task$task.desc)
     time.train = 0
   } else {
     # set the seed
-    debug.seed = getOptions(mlr.debug.seed, "NULL")
+    debug.seed = getOption("mlr.debug.seed", NULL)
     if(!is.null(debug.seed))
-      set.seed(.mlr.conf$debug.seed)
+      set.seed(debug.seed)
     # for optwrappers we want to see the tuning / varsel logging
     # FIXME is case really ok for optwrapper? can we supppress then too?
-    if (getOptions("mlr.show.learner.output") || is(learner, "OptWrapper"))
+    if (getOption("mlr.show.learner.output") || is(learner, "OptWrapper"))
       fun1 = identity
     else
       fun1 = capture.output
-    if (.mlr.conf$errorhandler.setup$on.learner.error == "stop")
+    if (getOption("mlr.on.learner.error") == "stop")
       fun2 = identity
     else
       fun2 = function(x) try(x, silent=TRUE)
     st = system.time(or <- fun1(learner.model <- fun2(do.call(trainLearner, pars))), gcFirst = FALSE)
     # was there an error during training? maybe warn then
-    if(is.error(learner.model) && getOptions("mlr.on.learner.error") == "warn") {
-      warning("Could not train the learner: ", as.character(learner.model))
-    }
+    if(is.error(learner.model) && getOption("mlr.on.learner.error") == "warn")
+      warningf("Could not train learner %s: %s", learner$id, as.character(learner.model))
     time.train = as.numeric(st[3])
   }
-  makeWrappedModel(learner, learner.model, task$desc, subset, vars, time.train)
+  makeWrappedModel(learner, learner.model, task$task.desc, subset, vars, time.train)
 }

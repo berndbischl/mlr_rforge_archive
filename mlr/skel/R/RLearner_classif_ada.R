@@ -34,7 +34,7 @@ makeRLearner.classif.ada = function() {
 
 trainLearner.classif.ada = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
-  d = data=getData(.task, .subset)
+  d = data=getTaskData(.task, .subset)
   ada(f, data=d, ...)
 }
 

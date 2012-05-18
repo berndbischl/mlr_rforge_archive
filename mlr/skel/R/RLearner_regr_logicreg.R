@@ -22,7 +22,7 @@ makeRLearner.regr.logicreg = function() {
 
 trainLearner.regr.logicreg = function(.learner, .task, .subset,  ...) {
   xs = learnerArgsToControl(logreg.tree.control, c("treesize", "opers", "minmass"), list(...))
-  d = getData(.task, .subset, target.extra=TRUE)
+  d = getTaskData(.task, .subset, target.extra=TRUE)
   logreg(bin=d$data, resp=d$target, type=2, tree.control=xs$control, 
     select=select, ntrees=ntrees, nleaves=nleaves, penalty=penalty, seed=seed)
 }

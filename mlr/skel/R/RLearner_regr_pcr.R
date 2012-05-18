@@ -12,7 +12,7 @@ makeRLearner.regr.pcr = function() {
 
 trainLearner.regr.pcr = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
-  pcr(f, data=getData(.task, .subset), ...)
+  pcr(f, data=getTaskData(.task, .subset), ...)
 }
 
 predictLearner.regr.pcr = function(.learner, .model, .newdata, ...) {

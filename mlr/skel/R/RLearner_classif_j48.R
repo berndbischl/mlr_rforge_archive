@@ -29,7 +29,7 @@ makeRLearner.classif.j48 = function() {
 trainLearner.classif.j48 = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   ctrl = Weka_control(..., Q=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
-  J48(f, data=getData(.task, .subset), control=ctrl)
+  J48(f, data=getTaskData(.task, .subset), control=ctrl)
 }
 
 predictLearner.classif.j48 = function(.learner, .model, .newdata, ...) {

@@ -34,7 +34,7 @@ trainLearner.classif.randomForest = function(.learner, .task, .subset,  ...) {
     names(classwt) = levs
   if (is.numeric(cutoff) && length(cutoff) == n && is.null(names(cutoff))) 
     names(cutoff) = levs
-  randomForest(f, data=getData(.task, .subset), classwt=classwt, cutoff=cutoff, ...)
+  randomForest(f, data=getTaskData(.task, .subset), classwt=classwt, cutoff=cutoff, ...)
 }
 
 predictLearner.classif.randomForest = function(.learner, .model, .newdata, ...) {

@@ -5,13 +5,13 @@
 #' 
 #' Classification: The target variable is converted to a factor if it is a 
 #' logical, integer or character vector.
-#' Regression: The target variable is converted to a numeric.
+#' Regression: The target variable is converted to a numeric if it is an integer.
 #' 
 #' Object slots:
 #' \describe{
 #' \item{env [\code{environment}]}{Environment where data for the task are stored. Use \code{\link{getTaskData}} in order to access it.}
 #' \item{blocking [\code{factor}]}{See argument above.}
-#' \item{desc [\code{\link{TaskDesc}}]}{Encapsulates further information about the task. See class documentation.}
+#' \item{task.desc [\code{\link{TaskDesc}}]}{Encapsulates further information about the task. See class documentation.}
 #' }
 #' 
 #' @param id [\code{character(1)}]\cr 
@@ -29,7 +29,7 @@
 #'   Observations with the same blocking level \dQuote{belong together}. 
 #'   Specifically, they are either put all in the training or the test set 
 #'   during a resampling iteration.
-#'   Default is \code{factor(c())} which means no blocking. 
+#'   Default is no blocking. 
 #' @param positive [\code{character(1)}]\cr   
 #'   Positive class for binary classification. 
 #'   Default is the first factor level of the target attribute. 
@@ -37,17 +37,12 @@
 #'   Should sanity of data be checked initially at task creation? 
 #'   You should have good reasons to turn this off.
 #'   Default is \code{TRUE}
-#' @return \code{\link{SupervisedTask}}.
-#' @export
-#' @rdname SupervisedTask
-#' 
-#'  
-#' @seealso \code{\link{makeClassifTask}}, \code{\link{makeRegrTask}}
+#' @return [\code{\link{SupervisedTask}}].
 #' @name SupervisedTask
+#' @rdname SupervisedTask
 NULL
 
-makeSupervisedTask = function(type, id, data, target, exclude, blocking) {
-  
+makeSupervisedTask = function(type, id, data, target, exclude, blocking, positive, check.data) {
   if(missing(id)) {
     id = deparse(substitute(data))
     if (!is.character(id) || length(id) != 1)
@@ -57,30 +52,48 @@ makeSupervisedTask = function(type, id, data, target, exclude, blocking) {
   }
   checkArg(data, "data.frame")
   checkArg(target, "character", len=1, na.ok=FALSE)
-  checkArg(exclude, "character", na.ok=FALSE)
-  if (!identical(blocking, factor(c())))
+  if (missing(exclude))
+    exclude = character(0)
+  else  
+    checkArg(exclude, "character", na.ok=FALSE)
+  if (missing(blocking))
+    blocking = factor(c()) 
+  else
     checkArg(blocking, "factor", len=nrow(data), na.ok=FALSE)
-  checkArg(positive, "character", len=1, na.ok=TRUE)
   checkArg(check.data, "logical", len=1, na.ok=FALSE)
   checkBlocking(data, target, blocking)    
   checkColumnNames(data, target, exclude)
   if (type == "classif") {
     if (!is.factor(data[, target]))
       data[, target] = as.factor(data[, target])
+    levs = levels(data[,target])
+    m = length(levs)
+    if (missing(positive)) {
+      if (m <= 2)
+        positive = levs[1]
+      else
+        positive = as.character(NA)    
+    } else {
+      if (m > 2)
+        stop("Cannot set a positive class for a multiclass problem!")
+      checkArg(positive, choices=levs)
+    }
   }
   if (type == "regr") {
     if (!is.double(data[, target]))
       data[, target] = as.numeric(data[, target])
+    positive = as.character(NA)  
   }
   if (length(exclude) > 0)
     data = data[, setdiff(colnames(data), exclude)]
   if (check.data)
     checkData(data, target)    
-  
+  desc = makeTaskDesc(type, id, data, target, length(blocking) > 0, positive)      
   env = new.env()
   env$data = data
   structure(list(
     env = env,
+    task.desc = desc,
     blocking = blocking
   ), class="SupervisedTask")
 }

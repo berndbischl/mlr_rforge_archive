@@ -19,7 +19,7 @@
 #' @rdname TaskDesc
 NULL
 
-makeTaskDesc = function(data, target, type, id, has.blocking, positive) {
+makeTaskDesc = function(type, id, data, target, has.blocking, positive) {
   td = list()
   td$id = id
   td$type = type

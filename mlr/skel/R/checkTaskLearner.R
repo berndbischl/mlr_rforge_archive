@@ -1,5 +1,5 @@
 checkTaskLearner = function(task, learner) {
-	td = task$desc
+	td = task$task.desc
   if (td$type != learner$type) 
     stopf("Task %s is %s, but learner %s is for %s!", td$id, td$type, learner$id, learner$type)
   if (td$has.missing && !learner$missings)

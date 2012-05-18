@@ -16,10 +16,10 @@ makeRLearner.regr.earth = function() {
 }
 
 trainLearner.regr.earth = function(.learner, .task, .subset,  ...) {
-  #x = getData(.task, .subset, target.extra=TRUE)
+  #x = getTaskData(.task, .subset, target.extra=TRUE)
   #earth(x$data, x$target, ...)
   f = getFormula(.task)
-  args = list(f, data=getData(.task, .subset))
+  args = list(f, data=getTaskData(.task, .subset))
   args = c(args, list(...))
   do.call("earth", args)
 }

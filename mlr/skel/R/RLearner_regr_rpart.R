@@ -24,9 +24,9 @@ makeRLearner.regr.rpart = function() {
 trainLearner.regr.rpart = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   if (.task@desc@has.weights)
-    rpart(f, data=getData(.task, .subset), weights=.task@weights[.subset], ...)
+    rpart(f, data=getTaskData(.task, .subset), weights=.task@weights[.subset], ...)
   else  
-    rpart(f, data=getData(.task, .subset), ...)
+    rpart(f, data=getTaskData(.task, .subset), ...)
 }
 
 predictLearner.regr.rpart = function(.learner, .model, .newdata, ...) {

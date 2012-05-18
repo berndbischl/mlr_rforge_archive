@@ -18,9 +18,9 @@ makeRLearner.regr.nnet = function() {
 trainLearner.regr.nnet = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   if (.task$desc$has.weights)
-    nnet(f, data=getData(.task, .subset), linout=T, weights=.task$weights[.subset], ...)
+    nnet(f, data=getTaskData(.task, .subset), linout=T, weights=.task$weights[.subset], ...)
   else  
-    nnet(f, data=getData(.task, .subset), linout=T, ...)
+    nnet(f, data=getTaskData(.task, .subset), linout=T, ...)
 }
 
 predictLearner.regr.nnet = function(.learner, .model, .newdata, ...) {

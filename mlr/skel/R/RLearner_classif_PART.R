@@ -23,7 +23,7 @@ makeRLearner.classif.PART = function() {
 trainLearner.classif.PART = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   ctrl = Weka_control(..., Q=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
-  PART(f, data=getData(.task, .subset), control=ctrl)
+  PART(f, data=getTaskData(.task, .subset), control=ctrl)
 }
 
 predictLearner.classif.PART = function(.learner, .model, .newdata, ...) {

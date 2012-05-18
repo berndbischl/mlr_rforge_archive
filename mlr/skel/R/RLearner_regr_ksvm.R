@@ -38,9 +38,9 @@ trainLearner.regr.ksvm = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   # difference in missing(kpar) and kpar=list()!
   if (length(xs$control) > 0)
-    args = c(list(f, data=getData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args)
+    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args)
   else
-    args = c(list(f, data=getData(.task, .subset), fit=FALSE), xs$args)
+    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE), xs$args)
   do.call(ksvm, args)
 }
 

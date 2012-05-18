@@ -30,7 +30,7 @@ trainLearner.classif.ctree = function(.learner, .task, .subset,  ...) {
       "nresample", "maxsurrogate", "mtry", "savesplitstats", "maxdepth")
   xs = learnerArgsToControl(ctree_control, ns, list(...))
   f = getFormula(.task)
-  args = c(list(f, data=getData(.task, .subset), control=xs$control), xs$args)
+  args = c(list(f, data=getTaskData(.task, .subset), control=xs$control), xs$args)
   do.call(ctree, args)
 }
 

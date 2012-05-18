@@ -23,7 +23,7 @@ makeRLearner.classif.JRip = function() {
 trainLearner.classif.JRip = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   ctrl = Weka_control(..., S=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
-  JRip(f, data=getData(.task, .subset), control=ctrl)
+  JRip(f, data=getTaskData(.task, .subset), control=ctrl)
 }
 
 predictLearner.classif.JRip = function(.learner, .model, .newdata, ...) {

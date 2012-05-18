@@ -25,7 +25,7 @@ test_that("Learner", {
   expect_true(wl$factors)
   
   expect_error(makeLearner("classif.lvq1", predict.type="prob"), "Trying to predict probs, but")
-  expect_error(makeLearner("regr.lm", predict.type="prob"), "Trying to predict probs, but")
+  expect_error(makeLearner("regr.lm", predict.type="prob"), " Argument predict.type must be")
   wl = makeLearner("classif.lvq1")
   expect_error(setPredictType(wl, "prob"), "Trying to predict probs, but")
 })

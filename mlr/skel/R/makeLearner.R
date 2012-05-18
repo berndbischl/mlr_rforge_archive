@@ -8,28 +8,28 @@
 #' For a regression learner the \code{predict.type} can be set
 #' to \dQuote{se} to standard errors in addition to the mean response.
 #' 
-#' $param cl [\code{character(1)}]\cr
+#' @param cl [\code{character(1)}]\cr
 #'   Class of learner to create. By convention, all classification learners
 #'   start with \dQuote{classif.} and all regression learners with
 #'   \dQuote{regr.}. A list of all learners is available on the
 #'   \code{\link{learners}} help page.
-#' $param id [\code{character(1)}]\cr 
+#' @param id [\code{character(1)}]\cr 
 #'   Id string for object. Used to select the object from a named list, etc.
-#' $param predict.type [\code{character(1)}]\cr
+#' @param predict.type [\code{character(1)}]\cr
 #'   Classification: \dQuote{response} or \dQuote{prob}.
 #'   Regression: \dQuote{response} or \dQuote{se}.
 #'   Default is \dQuote{response}.
-#' $param ... [any]\cr
+#' @param ... [any]\cr
 #'   Optional named (hyper)parameters. Alternatively these can be given
 #'   using the \code{par.vals} argument.
-#' $param par.vals [\code{list}]\cr
+#' @param par.vals [\code{list}]\cr
 #'   Optional list of named (hyper)parameters. The arguments in
 #'   \code{...} take precedence over values in this list. We strongly
 #'   encourage you to use one or the other to pass (hyper)parameters
 #'   to the learner but not both.
-#' $return [\code{\link{Learner}}].
+#' @return [\code{\link{Learner}}].
 #' @export
-#' $example
+#' @example
 #' makeLearner("classif.logreg")
 #' makeLearner("regr.lm")
 makeLearner = function(cl, id, predict.type="response", ..., par.vals=list()) {
@@ -56,46 +56,3 @@ makeLearner = function(cl, id, predict.type="response", ..., par.vals=list()) {
     wl = setPredictType(wl, predict.type)
   return(wl)
 }
-
-
-#' Abstract base class for learning algorithms.
-#'  
-#' How to change object later on: Look at setters.
-#' 
-#' Getter.\cr
-#' 
-#' \describe{
-#'  \item{is.classif [\code{logical(1)}]}{Is this learner for classification tasks?}
-#'  \item{is.regr [\code{logical(1)}]}{Is this learner for regression tasks?}
-#'  \item{id [\code{character(1)}]}{Id string of learner.}
-#'  \item{pack [char]}{Package(s) required for underlying learner.}
-#'  \item{doubles [\code{logical(1)}]}{Can real-valued inputs be processed?}
-#'  \item{factors [\code{logical(1)}]}{Can factor inputs be processed?}
-#'  \item{missings [\code{logical(1)}]}{Can missing values be processed?}
-#'  \item{weights [\code{logical(1)}]}{Can case weights be used?}
-#'  \item{par.vals [named list]}{List of set hyperparameters.}
-#'  \item{par.set [named list]}{Named list of \code{\link[ParamHelpers]{LearnerParam}} description objects for all possible hyperparameters.}
-#' }
-#' 
-#' Further getters for classifiers.\cr
-#' 
-#' \describe{
-#'  \item{oneclass [\code{logical(1)}]}{Can oneclass problems be handled?}
-#'  \item{twoclass [\code{logical(1)}]}{Can twoclass problems be handled?}
-#'  \item{multiclass [\code{logical(1)}]}{Can multiclass problems be handled?}
-#'  \item{prob [\code{logical(1)}]}{Can probabilities be predicted?}
-#'  \item{predict.type [character]}{What should be predicted: \dQuote{response}, \dQuote{prob} or \dQuote{se}}
-#' }
-#' 
-#' Setters: \code{\link{setId}}, \code{\link{setHyperPars}}, \code{\link{setPredictType}}  
-#' 
-#' @exportClass Learner
-#' $title Base class for inducers. 
-
-setMethod(
-  f = "initialize",
-  signature = signature("Learner"),
-  def = function(.Object, pack, par.set=makeParamSet(), par.vals=list()) {      
-  }
-)
-

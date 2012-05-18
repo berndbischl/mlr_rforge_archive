@@ -18,7 +18,7 @@ makeRLearner.regr.lm = function() {
 		
 trainLearner.regr.lm = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
-  d = getData(.task, .subset)
+  d = getTaskData(.task, .subset)
   if (.task@desc@has.weights) {
     # strange bug in lm concerning weights
     do.call(lm, list(f, data=d, weights=.task@weights[.subset]))

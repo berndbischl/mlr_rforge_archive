@@ -13,7 +13,7 @@ makeRLearner.classif.sda = function() {
 }
 
 trainLearner.classif.sda = function(.learner, .task, .subset,  ...) {
-  d = getData(.task, .subset, target.extra=TRUE)
+  d = getTaskData(.task, .subset, target.extra=TRUE)
   sda(Xtrain = as.matrix(d$data), L = d$target, ...)
 }
 

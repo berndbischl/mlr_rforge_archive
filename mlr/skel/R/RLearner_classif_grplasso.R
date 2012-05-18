@@ -16,7 +16,7 @@ makeRLearner.classif.grplasso = function() {
 
 trainLearner.classif.grplasso = function(.learner, .task, .subset,  ...) {
   # todo: bug in grplasso: index cant be passed with formula interface....
-  d = getData(.task, .subset, target.extra=TRUE, class.as="01")
+  d = getTaskData(.task, .subset, target.extra=TRUE, class.as="01")
   x = cbind(1, as.matrix(d$data))
   if (.task$desc$has.weights)
     grplasso(x, d$target, weights=.task$weights[.subset], ...)
