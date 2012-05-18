@@ -44,7 +44,7 @@
 #'   Useful when default values are missing in the underlying function.
 #'   The values can later be overwritten when the user sets hyperparameters.
 #'   Default is empty list.  
-#' @return [\code{\linkS4class{RLearnerClassif}} or \code{\linkS4class{RLearnerRegr}}].
+#' @return [\code{\link{RLearnerClassif}} or \code{\link{RLearnerRegr}}].
 #' @name RLearner
 #' @rdname RLearner
 NULL

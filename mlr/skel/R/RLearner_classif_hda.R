@@ -1,20 +1,5 @@
 # FIXME
 
-##' @include learnerR.r
-#roxygen()
-##' @include WrappedModel.R
-#roxygen()
-##' @include trainLearner.R
-#roxygen()
-##' @include predictLearner.R
-#roxygen()
-#
-#
-#setClass(
-#   "classif.hda", 
-#   contains = c("rlearner.classif")
-#)
-#
 #
 #setMethod(
 #   f = "initialize",

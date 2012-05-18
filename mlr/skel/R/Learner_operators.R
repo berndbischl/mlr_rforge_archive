@@ -121,7 +121,7 @@ setHyperPars2.Learner = function(learner, par.vals) {
 #'   Classification: \dQuote{response} or \dQuote{prob}.
 #'   Regression: \dQuote{response} or \dQuote{se}.
 #'   Default is \dQuote{response}.
-#' @return [\code{\linkS4class{Learner}}] with changed prediction behaviour.
+#' @return [\code{\link{Learner}}] with changed prediction behaviour.
 #' @seealso \code{\link{setThreshold}} to alter the threshold used for prediction.
 #' @export
 setPredictType = function(learner, predict.type) {

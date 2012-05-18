@@ -8,7 +8,7 @@
 #' must in \code{...} must be passed to the underlying training function. 
 #' Mainly for internal use. Predicts new data with WrappedModel. 
 #' You have to implement this method if you want to add another learner to this package. 
-#' @title Internal prediction method for learner. 
+#' 
 #' @param .learner [\code{\link{RLearner}}]\cr  
 #'   Wrapped learner. 
 #' @param .model [\code{\link{WrappedModel}}]\cr
