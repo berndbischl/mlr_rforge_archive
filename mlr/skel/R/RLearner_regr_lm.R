@@ -4,9 +4,9 @@ makeRLearner.regr.lm = function() {
     cl = "regr.lm",
     package = "stats",
     par.set = makeParamSet(
-  			makeDiscreteLearnerParam(id="method", default="moment", values=c("moment", "mle", "mve", "t")),
-  			makeNumericLearnerParam(id="nu", lower=2, requires=expression(method=="t")),
-        makeNumericLearnerParam(id="tol", default=1.0e-4, lower=0)
+  			 makeDiscreteLearnerParam(id="method", default="moment", values=c("moment", "mle", "mve", "t")),
+  			 makeNumericLearnerParam(id="nu", lower=2, requires=expression(method=="t")),
+      makeNumericLearnerParam(id="tol", default=1.0e-4, lower=0)
     ), 
     missings = FALSE,
     numerics = TRUE,

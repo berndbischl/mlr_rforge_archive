@@ -1,0 +1,25 @@
+makeRLearner.regr.bagEarth = function() {
+  makeRLearnerRegr(
+    cl = "regr.bagEarth",
+    package = "caret",
+    missings = FALSE,
+    numerics = TRUE,
+    factors = TRUE,
+    se = FALSE,
+    weights = FALSE
+  )
+}
+
+trainLearner.regr.bagEarth = function(.learner, .task, .subset,  ...) {
+  f = getFormula(.task)
+  d = getData(.task, .subset)
+  if (.task$desc$has.weights) {
+    f = getFormula(.task)
+    bagEarth(f, data=getData(.task, .subset), ...)
+  }else  
+    bagEarth(f, data=d, ...)
+}
+
+predictLearner.regr.bagEarth = function(.learner, .model, .newdata, ...) {
+  predict.bagEarth(.model$learner.model, newdata=.newdata)
+}
