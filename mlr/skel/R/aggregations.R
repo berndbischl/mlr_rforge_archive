@@ -1,65 +1,64 @@
 #' Aggregation methods.
-#' An aggregation method reduce the performance values of the test (and possibly the training sets) to a single
-#' value. 
 #' 
 #' \itemize{ 
-#'    \item{\bold{test.mean}}{\cr Mean of performance values on test sets.}
-#'    \item{\bold{test.sd}}{\cr Standard deviation of performance values on test sets.}
-#'    \item{\bold{test.median}}{\cr Median of performance values on test sets.}
-#'    \item{\bold{test.min}}{\cr Minimum of performance values on test sets.}
-#'    \item{\bold{test.max}}{\cr Maximum of performance values on test sets.}
-#'    \item{\bold{test.sum}}{\cr Sum of performance values on test sets.}
-#'    \item{\bold{train.mean}}{\cr Mean of performance values on training sets.}
-#'    \item{\bold{train.sd}}{\cr Standard deviation of performance values on training sets.}
-#'    \item{\bold{train.median}}{\cr Median of performance values on training sets.}
-#'    \item{\bold{train.min}}{\cr Minimum of performance values on training sets.}
-#'    \item{\bold{train.max}}{\cr Maximum of performance values on training sets.}
-#'    \item{\bold{train.sum}}{\cr Sum of performance values on training sets.}
-#'    \item{\bold{b632}}{\cr Aggregation for B632 bootstrap.}
-#'    \item{\bold{b632plus}}{\cr Aggregation for B632+ bootstrap.}
-#'    \item{\bold{testgroup.mean}}{\cr Performance values on test sets are grouped according to resampling method. The mean for very group is calculated, then the mean of those means. Mainly used for repeated CV.}
+#' \item{\bold{test.mean}}{\cr Mean of performance values on test sets.}
+#' \item{\bold{test.sd}}{\cr Standard deviation of performance values on test sets.}
+#' \item{\bold{test.median}}{\cr Median of performance values on test sets.}
+#' \item{\bold{test.min}}{\cr Minimum of performance values on test sets.}
+#' \item{\bold{test.max}}{\cr Maximum of performance values on test sets.}
+#' \item{\bold{test.sum}}{\cr Sum of performance values on test sets.}
+#' \item{\bold{train.mean}}{\cr Mean of performance values on training sets.}
+#' \item{\bold{train.sd}}{\cr Standard deviation of performance values on training sets.}
+#' \item{\bold{train.median}}{\cr Median of performance values on training sets.}
+#' \item{\bold{train.min}}{\cr Minimum of performance values on training sets.}
+#' \item{\bold{train.max}}{\cr Maximum of performance values on training sets.}
+#' \item{\bold{train.sum}}{\cr Sum of performance values on training sets.}
+#' \item{\bold{b632}}{\cr Aggregation for B632 bootstrap.}
+#' \item{\bold{b632plus}}{\cr Aggregation for B632+ bootstrap.}
+#' \item{\bold{testgroup.mean}}{\cr Performance values on test sets are grouped according to resampling method. The mean for very group is calculated, then the mean of those means. Mainly used for repeated CV.}
 #' }
+#' @export
 #' @seealso \code{\link{Aggregation}}
-
+NULL
 
 #' @export test.mean
 #' @rdname aggregations
-test.mean = new("Aggregation",
+test.mean = makeAggregation(
   id = "test.mean",
   fun = function(task, perf.test, perf.train, measure, group, pred) mean(perf.test)
 )
 
 #' @export test.sd
 #' @rdname aggregations
-test.sd = new("Aggregation",
+test.sd = makeAggregation(
   id = "test.sd",
   fun = function(task, perf.test, perf.train, measure, group, pred) sd(perf.test)
 )
 
 #' @export test.median
 #' @rdname aggregations
-test.median = new("Aggregation",
+test.median = makeAggregation(
   id = "test.median",
   fun = function(task, perf.test, perf.train, measure, group, pred) median(perf.test)
 )
 
 #' @export test.min
 #' @rdname aggregations
-test.min = new("Aggregation",
+test.min = makeAggregation(
   id = "test.min",
   fun = function(task, perf.test, perf.train, measure, group, pred) min(perf.test)
 )
 
 #' @export test.max
 #' @rdname aggregations
-test.max = new("Aggregation",
+test.max = makeAggregation(
   id = "test.max",
   fun = function(task, perf.test, perf.train, measure, group, pred) max(perf.test)
 )
 
 #' @export test.sum
 #' @rdname aggregations
-test.sum = new("Aggregation",
+test.sum = makeAggregation(
   id = "test.sum",
   fun = function(task, perf.test, perf.train, measure, group, pred) sum(perf.test)
 )
@@ -67,42 +66,42 @@ test.sum = new("Aggregation",
 
 #' @export train.mean
 #' @rdname aggregations
-train.mean = new("Aggregation",
+train.mean = makeAggregation(
   id = "train.mean",
   fun = function(task, perf.test, perf.train, measure, group, pred) mean(perf.train)
 )
 
 #' @export train.sd
 #' @rdname aggregations
-train.sd = new("Aggregation",
+train.sd = makeAggregation(
   id = "train.sd",
   fun = function(task, perf.test, perf.train, measure, group, pred) sd(perf.train)
 )
 
 #' @export train.median
 #' @rdname aggregations
-train.median = new("Aggregation",
+train.median = makeAggregation(
   id = "train.median",
   fun = function(task, perf.test, perf.train, measure, group, pred) median(perf.train)
 )
 
 #' @export train.min
 #' @rdname aggregations
-train.min = new("Aggregation",
+train.min = makeAggregation(
   id = "train.min",
   fun = function(task, perf.test, perf.train, measure, group, pred) min(perf.train)
 )
 
 #' @export train.max
 #' @rdname aggregations
-train.max = new("Aggregation",
+train.max = makeAggregation(
   id = "train.max",
   fun = function(task, perf.test, perf.train, measure, group, pred) max(perf.train)
 )
 
 #' @export train.sum
 #' @rdname aggregations
-train.sum = new("Aggregation",
+train.sum = makeAggregation(
   id = "train.sum",
   fun = function(task, perf.test, perf.train, measure, group, pred) sum(perf.train)
 )
@@ -112,7 +111,7 @@ train.sum = new("Aggregation",
 
 #' @export b632
 #' @rdname aggregations
-b632 = new("Aggregation",
+b632 = makeAggregation(
   id = "b632",
   fun = function(task, perf.test, perf.train, measure, group, pred) {
     0.632*perf.test + (1-0.632)*perf.train
@@ -121,7 +120,7 @@ b632 = new("Aggregation",
 
 #' @export b632plus
 #' @rdname aggregations
-b632plus = new("Aggregation",
+b632plus = makeAggregation(
   id = "b632plus",
   fun = function(task, perf.test, perf.train, measure, group, pred) {
     stop(123)
@@ -153,7 +152,7 @@ b632plus = new("Aggregation",
 
 #' @export testgroup.mean
 #' @rdname aggregations
-testgroup.mean = new("Aggregation",
+testgroup.mean = makeAggregation(
   id = "testgroup.mean",
   fun = function(task, perf.test, perf.train, measure, group, pred) {
     mean(sapply(split(perf.test, group), mean))  

@@ -4,18 +4,13 @@
 #' The aggregation can access all relevant information of the result after resampling and combine them into 
 #' a single value. Though usually something very simple like taking the mean of the test set performances is done.
 #' 
-#' @slot id Name of aggregation function.
-#' @slot fun Aggregation function: \code{function(perf.test, perf.train, measure, group, pred))}, where data types of arguments are: \code{numeric}, \code{numeric}, \code{\link{Measure}}, \code{factor}, \code{\link{ResamplePrediction}}. 
-#'  
-#' @exportClass Aggregation
-#' @seealso \code{\link{aggregations}}, \code{\link{Measure}}, \code{\link{measures}} 
+#' Object slots:
+#' \describe{
+#' \item{id [\code{character(1)}]}{Name of aggregation method.}
+#' \item{fun [\code{function(task, perf.test, perf.train, measure, group, pred)}]}{Aggregation function.}
+#' }
+NULL
 
-setClass(
-  "Aggregation",
-  representation = representation(
-    id = "character",
-    fun = "function"
-  )
-)
-
-
+makeAggregation = function(id, fun) {
+  structure(list(id=id, fun=fun), class="Aggregation")
+}
