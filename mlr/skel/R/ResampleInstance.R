@@ -50,14 +50,14 @@ makeResampleInstance = function(desc, task, size) {
     levs = levels(blocking)
 		size2 = length(levs)
 		# create instance for blocks
-		inst = makeResampleInstanceInternal2(i.class, desc=desc, size=size2)
+		inst = instantiate(i.class, desc=desc, size=size2)
 		# now exchange block indices with indices of elements of this block and shuffle
     inst$train.inds = lapply(inst$train.inds, function(i) sample(which(blocking %in% levs[i]))) 
     ti = sample(1:size)
     inst$test.inds = lapply(inst$train.inds, function(x)  setdiff(ti, x))
     inst$size = size
 	} else { 
-		inst = instantiate(, desc=desc, size=size, task=task)
+		inst = instantiate(size=size)
 	}
 }
 
