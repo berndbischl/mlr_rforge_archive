@@ -24,7 +24,7 @@ makeRLearner.classif.randomForest = function() {
   )
 }
 
-trainLearner.classif.randomForest = function(.learner, .task, .subset,  ...) {
+trainLearner.classif.randomForest = function(.learner, .task, .subset, classwt=NULL, cutoff, ...) {
   f = getFormula(.task)
   levs = .task$task.desc$class.levels
   n = length(levs)

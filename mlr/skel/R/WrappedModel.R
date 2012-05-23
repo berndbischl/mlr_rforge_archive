@@ -20,7 +20,7 @@ makeWrappedModel = function(learner, model, task.desc, subset, features, time) {
   UseMethod("makeWrappedModel")
 }
   
-makeWrappedModel.Learner = function(learner, model, task.desc, subset, features, time) {
+makeWrappedModel.Learner = function(learner, model, terms, task.desc, subset, features, time) {
   if(is.error(model)) {
     model = as.character(model)
     time = as.numeric(NA)
@@ -30,6 +30,7 @@ makeWrappedModel.Learner = function(learner, model, task.desc, subset, features,
     structure(list(
       learner = learner,
       learner.model = model,
+      terms = terms,
       task.desc = task.desc,
       subset = subset,
       features = features,

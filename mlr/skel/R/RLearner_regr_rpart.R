@@ -23,8 +23,8 @@ makeRLearner.regr.rpart = function() {
 
 trainLearner.regr.rpart = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
-  if (.task@desc@has.weights)
-    rpart(f, data=getTaskData(.task, .subset), weights=.task@weights[.subset], ...)
+  if (.task$task.desc$has.weights)
+    rpart(f, data=getTaskData(.task, .subset), weights=.task$weights[.subset], ...)
   else  
     rpart(f, data=getTaskData(.task, .subset), ...)
 }

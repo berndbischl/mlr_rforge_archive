@@ -31,10 +31,10 @@ predict.WrappedModel = function(object, task, newdata, subset) {
   }
   if (missing(newdata)) {
     checkArg(task, "SupervisedTask")
-    if (!missing(subset))  
-      newdata = getTaskData(task, subset=subset)
-    else  {
-      newdata = getTaskData(task)
+    if (!missing(subset)) {  
+      newdata = getTaskFeatures(task, subset=subset)
+    } else {
+      newdata = getTaskFeatures(task)
       subset = 1:nrow(newdata)
     }
   } else {
@@ -42,6 +42,13 @@ predict.WrappedModel = function(object, task, newdata, subset) {
     # FIXME check that data is of same structure?
     if (nrow(newdata) == 0)
       stop("newdata must be a data.frame with at least one row!")
+    if (is.null(model$terms))  {
+    } else{
+      terms = delete.response(model$terms)
+      mf = model.frame(terms, newdata, na.action=na.pass, xlev=model$xlevels)
+      # FIXME checkMFCClases
+      newdata = model.matrix(terms, mf, model$constrasts)
+    }
     if (!missing(subset))  
       newdata = newdata[subset,,drop=FALSE]  
     else  
@@ -60,7 +67,7 @@ predict.WrappedModel = function(object, task, newdata, subset) {
   } else {
     truth = NULL
   }
-    
+  newdata = model.matrix()  
   response = NULL
   prob = NULL
   time.predict = as.numeric(NA)

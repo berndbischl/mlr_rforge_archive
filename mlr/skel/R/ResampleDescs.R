@@ -1,21 +1,21 @@
 makeResampleDescHoldout = function(iters, split) {
-  makeResampleDescInternal( "holdout", "HoldoutInstance", iters=1L, split=split)
+  makeResampleDescInternal("holdout", iters=1L, split=split)
 }
 
 makeResampleDescCV = function(iters=10L) {
-  makeResampleDescInternal("cross-validation", "CVInstance", iters=iters)
+  makeResampleDescInternal("cross-validation", iters=iters)
 }
 
 makeResampleDescLOO = function(iters) {
-  makeResampleDescInternal("LOO", "LOOInstance", iters=as.integer(NA))
+  makeResampleDescInternal("LOO", iters=as.integer(NA))
 }  
 
 makeResampleDescSubsample = function(iters=50L, split=2/3) {
-  makeResampleDescInternal("subsampling", "SubsampleInstance", iters=iters, split=split)
+  makeResampleDescInternal("subsampling", iters=iters, split=split)
 }
 
 makeResampleDescBootstrap = function(iters=50L) {
-  makeResampleDescInternal("OOB bootstrapping", "BoostrapInstance", iters)
+  makeResampleDescInternal("OOB bootstrapping", iters=iters)
 }
 
 makeResampleDescRepCV = function(reps=10L, folds=10L) {
@@ -26,7 +26,7 @@ makeResampleDescRepCV = function(reps=10L, folds=10L) {
   if (iters != reps * folds)
     stop("Argument 'iters' must be 'reps' x 'folds'")
   .Object$reps=as.integer(reps)
-  makeResampleDescInternal("repeated cross-validation", "RepCVInstance", iters=folds*reps, folds=folds, reps=reps)
+  makeResampleDescInternal("repeated cross-validation", iters=folds*reps, folds=folds, reps=reps)
 }
 
 print.SubsampleDesc = function(x, ...) { 

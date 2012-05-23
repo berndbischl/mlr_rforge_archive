@@ -1,3 +1,5 @@
+#FIXME where does time exactly come from? only test preds?
+
 #' Prediction from resampling.
 #' 
 #' Contains predictions from resampling, returned (among other stuff) by function \code{\link{resample}}.
@@ -10,67 +12,31 @@
 #' @export
 #' 
 #' @seealso \code{\link{resample}}, \code{\link{predict}} 
+NULL
+
+makeResamplePrediction = function(instance, preds.test, preds.train) {
+  data = data.frame()
+  for (i in 1:instance$desc$iters) {
+    data = rbind(data, cbind(preds.test[[i]]$data, iter=i, set="test"))
+    if (!is.null(preds.train[[i]]))
+      data = rbind(data, cbind(preds.train[[i]]$data, iter=i, set="train"))                 
+  }
+  p1 = preds.test[[1]]
+  time = 
+  structure(list( 
+    instance = instance,
+    predict.type = p1$predict.type,			
+    data = data,
+    threshold = p1$threshold,
+    task.desc = p1$task.desc,	
+    time = extractSubList(preds.test, "time")
+  ), class=c("ResamplePrediction", "Prediction"))
+}
 
 
-setMethod(
-		f = "initialize",
-		signature = signature("ResamplePrediction"),
-		def = function(.Object, instance, preds.test, preds.train) {
-			p1 = preds.test[[1]]
-			.Object@instance = instance
-			predict.type = p1@predict.type
-      df = data.frame()
-      for (i in 1:instance@desc@iters) {
-        df = rbind(df, cbind(preds.test[[i]]@df, iter=i, set="test"))
-        if (!is.null(preds.train[[i]]))
-          df = rbind(df, cbind(preds.train[[i]]@df, iter=i, set="train"))                 
-      }
-      
-      threshold = p1@threshold
-
-      tp = sapply(preds.test, function(x) x@time)
-
-			.Object@predict.type = predict.type			
-			.Object@df = df			
-			.Object@threshold = threshold			
-			.Object@task.desc = p1@task.desc	
-			.Object@time = tp
-			return(.Object)
-		}
-)
-
-
-setMethod("show", "ResamplePrediction", function(object) {
+print.ResamplePrediction = function(x, ...) {
   cat("Resampled Prediction for:\n")
-  print(object@instance@desc)
-})
+  print(x$instance$desc)
+}
 
 
-#' Converts object to a list of a \code{\link{Prediction}} objects - one for each iteration.
-#' @rdname ResamplePrediction-class
-
-setMethod(
-		f = "as.list",
-		signature = signature("ResamplePrediction"),
-		def = function(x, all.names = FALSE, ...) {
-			df = x@df
-			iter = as.factor(df$iter)
-			df = subset(df, select=-iter)
-			dfs = split(df, iter) 
-			test = train = list()
-      has.train = "train" %in% levels(df$set)
-      has.test = "test" %in% levels(df$set)
-      for(i in 1:x@instance@desc@iters) {
-        if (has.test)
-          test[[i]] = new("Prediction", task.desc=x@task.desc, 
-            predict.type=x@predict.type, df=subset(dfs[[i]], subset=(set=="test")), threshold=x@threshold, x@time)						
-        if (has.train)
-          train[[i]] = new("Prediction", task.desc=x@task.desc, 
-            predict.type=x@predict.type, df=subset(dfs[[i]], subset=(set=="train")), threshold=x@threshold, x@time)						
-      }
-      list(
-        test = if (has.test) test else NULL,
-        train = if (has.train) train else NULL
-      )
-		}
-)

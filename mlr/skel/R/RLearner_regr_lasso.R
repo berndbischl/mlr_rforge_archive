@@ -19,7 +19,7 @@ trainLearner.regr.lasso = function(.learner, .task, .subset,  ...) {
 }
 
 predictLearner.regr.lasso = function(.learner, .model, .newdata, ...) {
-  m <- .model$learner.model
-  .newdata[, .model$task.desc$target] <- 0
+  m = .model$learner.model
+  .newdata[,.model$task.desc$target] = 0
   predict(m, data=.newdata,  ...)[,"mu"]
 }

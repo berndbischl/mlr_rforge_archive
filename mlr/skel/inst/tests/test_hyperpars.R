@@ -1,18 +1,19 @@
 context("hyperpars")
 
 test_that("hyperpars", {
-	wl1 = makeLearner("classif.rpart", minsplit=10)
-	expect_equal(getHyperPars(wl1), list(minsplit=10)) 
+	lrn = makeLearner("classif.rpart", minsplit=10)
+	expect_equal(getHyperPars(lrn), list(minsplit=10)) 
 	
-	m = train(wl1, task=multiclass.task)
+	m = train(lrn, task=multiclass.task)
   expect_true(!is(m, "FailureModel"))
 	expect_equal(getHyperPars(m$learner), list(minsplit=10)) 
 	
   # check warnings
-  setupErrorHandler(on.par.without.desc="warn")  
-  expect_warning(makeLearner("classif.rpart", foo=1), "Setting par foo without")  
-  setupErrorHandler(on.par.without.desc="quiet")
-  expect_warning(makeLearner("classif.rpart", foo=1), FALSE)  
-  setupErrorHandler()
+  configureMlr(on.par.without.desc="warn")  
+  expect_warning(makeLearner("classif.rpart", foo=1), "Setting parameter foo without")  
+  #FIXME can only check this when testthat is updated
+  #configureMlr(on.par.without.desc="quiet")
+  #expect_warning(makeLearner("classif.rpart", foo=1), FALSE)  
+  configureMlr()
 })
 

@@ -28,13 +28,15 @@ makeRLearner.classif.rpart = function() {
 trainLearner.classif.rpart = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   d = getTaskData(.task, .subset)
-  if (.task$task.desc$has.weights)
-    rpart(f, data=d, weights=.task$weights[.subset], ...)
-  else 
+  # FIXME strange bug with envit,. beacuse we delete in formula
+  if (.task$task.desc$has.weights) {
+    rpart(as.formula(sprintf("%s~.", .task$task.desc$target)), data=d, weights=.task$weights[.subset], ...)
+  } else {
     rpart(f, data=d, ...)
+  }
 }
 	
 predictLearner.classif.rpart = function(.learner, .model, .newdata, ...) {
   type = switch(.learner$predict.type, prob="prob", "class")
-  predict(.model@learner.model, newdata=.newdata, type=type, ...)
+  predict(.model$learner.model, newdata=.newdata, type=type, ...)
 }

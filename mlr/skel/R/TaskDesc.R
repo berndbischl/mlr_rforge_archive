@@ -11,6 +11,7 @@
 #' \item{n.feat [\code{integer}]}{Number of covariates, named vector with entries: \dQuote{numerics}, \dQuote{factors}.}
 #' \item{class.levels [\code{character}]}{All possible classes. Character vector. NA if not classification.}
 #' \item{has.missing [\code{logical(1)}]}{Are missing values present?}
+#' \item{has.weights [\code{logical(1)}]}{Are weights available in task for observations?}
 #' \item{has.blocking [\code{logical(1)}]}{Is blocking available in task for observations?}
 #' \item{positive [\code{character(1)}]}{Positive class label for binary classification, NA else.} 
 #' \item{negative [\code{character(1)}]}{Negative class label for binary classification, NA else.} 
@@ -19,7 +20,7 @@
 #' @rdname TaskDesc
 NULL
 
-makeTaskDesc = function(type, id, data, target, has.blocking, positive) {
+makeTaskDesc = function(type, id, data, target, weights, blocking, positive) {
   td = list()
   td$id = id
   td$type = type
@@ -36,7 +37,8 @@ makeTaskDesc = function(type, id, data, target, has.blocking, positive) {
     td$class.levels = levels(y)
   else
     td$class.levels = as.character(NA)
-  td$has.blocking = has.blocking
+  td$has.weights = is.null(weights)
+  td$has.blocking = is.null(blocking)
   if (type == "classif") {
     td$positive = positive
     if (length(td$class.levels) == 1)

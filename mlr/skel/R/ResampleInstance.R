@@ -15,9 +15,11 @@
 #' @param desc [\code{\link{ResampleDesc}}]\cr
 #'   Resampling description object.
 #' @param task [\code{\link{SupervisedTask}}]\cr
-#'   Data of task to resample from. Prefer to pass this instead of \code{size}.
+#'   Data of task to resample from. 
+#'   Prefer to pass this instead of \code{size}.
 #' @param size [\code{\link{integer}}]\cr
-#'   Size of the data set to resample. Can be used instead of \code{task}.
+#'   Size of the data set to resample. 
+#'   Can be used instead of \code{task}.
 #' @return [\code{\link{ResampleInstance}}].
 #' @export 
 #' @seealso \code{\link{makeResampleDesc}}, \code{\link{resample}} 
@@ -35,12 +37,6 @@ makeResampleInstance = function(desc, task, size) {
     size = convertInteger(size)
     checkArg(size, "integer", len=1L, na.ok=FALSE)
   }
-  
-  instantiate = function(size) {
-    method = paste("makeResampleInstance", desc, sep="")
-    args = c(iters=iters, list(...))
-    d = do.call(method, args)
-  }
 
   if (length(blocking) > 1) {
     if (is(desc, "StratCVDesc"))
@@ -50,18 +46,18 @@ makeResampleInstance = function(desc, task, size) {
     levs = levels(blocking)
 		size2 = length(levs)
 		# create instance for blocks
-		inst = instantiate(i.class, desc=desc, size=size2)
+		inst = instantiateResampleInstance(desc, size2)
 		# now exchange block indices with indices of elements of this block and shuffle
     inst$train.inds = lapply(inst$train.inds, function(i) sample(which(blocking %in% levs[i]))) 
     ti = sample(1:size)
     inst$test.inds = lapply(inst$train.inds, function(x)  setdiff(ti, x))
     inst$size = size
 	} else { 
-		inst = instantiate(size=size)
+		inst = instantiateResampleInstance(desc, size)
 	}
 }
 
-makeResampleInstanceInternal = function(desc, size, train.inds, test.inds, group) {
+makeResampleInstanceInternal = function(desc, size, train.inds, test.inds, group=factor(c())) {
   if (missing(test.inds) && !missing(train.inds)) {
     # shuffle data set and remove inds
     test.inds = sample(1:size)
@@ -84,6 +80,6 @@ makeResampleInstanceInternal = function(desc, size, train.inds, test.inds, group
 }
 
 print.ResampleInstance = function(x, ...) { 
-  catf("Resample instance on %i cases for:", object$size)
-  print(object$desc) 
+  catf("Resample instance for %i cases for:", x$size)
+  print(x$desc) 
 }

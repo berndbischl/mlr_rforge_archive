@@ -1,3 +1,4 @@
+#FIXME throw error if learner cannot handle weights
 #' Create a classification / regression task for a given data set.
 #' 
 #' The task encapsulates the data and specifies - through its subclasses - the type of the task (either classification or regression), 
@@ -10,7 +11,8 @@
 #' Object slots:
 #' \describe{
 #' \item{env [\code{environment}]}{Environment where data for the task are stored. Use \code{\link{getTaskData}} in order to access it.}
-#' \item{blocking [\code{factor}]}{See argument above.}
+#' \item{weights [\code{numeric}]}{See argument above. \code{NULL} if not present.}
+#' \item{blocking [\code{factor}]}{See argument above. \code{NULL} if not present.}
 #' \item{task.desc [\code{\link{TaskDesc}}]}{Encapsulates further information about the task. See class documentation.}
 #' }
 #' 
@@ -24,6 +26,10 @@
 #' @param exclude [\code{character}]
 #'   Names of features which should be discarded, e.g. IDs, etc. 
 #'   Default is none. 
+#' @param weights [\code{numeric}]\cr   
+#'   An optional vector of case weights to be used in the fitting process.
+#'   If the learner cannot handle weights, they are ignored.
+#'   Default is not to use weights.
 #' @param blocking [\code{factor}]\cr
 #'   An optional factor of the same length as the number of observations. 
 #'   Observations with the same blocking level \dQuote{belong together}. 
@@ -42,7 +48,7 @@
 #' @rdname SupervisedTask
 NULL
 
-makeSupervisedTask = function(type, id, data, target, exclude, blocking, positive, check.data) {
+makeSupervisedTask = function(type, id, data, target, exclude, weights, blocking, positive, check.data) {
   if(missing(id)) {
     id = deparse(substitute(data))
     if (!is.character(id) || length(id) != 1)
@@ -56,12 +62,16 @@ makeSupervisedTask = function(type, id, data, target, exclude, blocking, positiv
     exclude = character(0)
   else  
     checkArg(exclude, "character", na.ok=FALSE)
+  if (missing(weights))
+    weights = NULL 
+  else
+    checkArg(weights, "numeric", len=nrow(data), na.ok=FALSE)
   if (missing(blocking))
-    blocking = factor(c()) 
+    blocking = NULL
   else
     checkArg(blocking, "factor", len=nrow(data), na.ok=FALSE)
   checkArg(check.data, "logical", len=1, na.ok=FALSE)
-  checkBlocking(data, target, blocking)    
+  checkWeightsAndBlocking(data, target, weights, blocking)    
   checkColumnNames(data, target, exclude)
   if (type == "classif") {
     if (!is.factor(data[, target]))
@@ -88,18 +98,24 @@ makeSupervisedTask = function(type, id, data, target, exclude, blocking, positiv
     data = data[, setdiff(colnames(data), exclude)]
   if (check.data)
     checkData(data, target)    
-  desc = makeTaskDesc(type, id, data, target, length(blocking) > 0, positive)      
+  desc = makeTaskDesc(type, id, data, target, weights, blocking, positive)      
   env = new.env()
   env$data = data
+  mf = model.frame(as.formula(paste(target, "~.")), data)
+  attr(mf, ".Environment") = NULL
+  env$terms = attr(mf, "terms")
+  env$xlevels = .getXlevels(env$terms, mf)
+  env$model.matrix = model.matrix(as.formula(paste(target, "~.-1")), mf)
   structure(list(
     env = env,
     task.desc = desc,
     blocking = blocking
+    weights = weights
   ), class="SupervisedTask")
 }
 
 print.SupervisedTask = function(x, ...) {
-  td = x$desc
+  td = x$task.desc
   feat = printToChar(td$n.feat)
   cat(
     "Supervised task: ", td$id, "\n",
@@ -108,6 +124,7 @@ print.SupervisedTask = function(x, ...) {
     "Observations: ", td$size , "\n",
     "Missings: ", td$has.missing, "\n", 
     "Target: ", td$target, "\n", 
+    "Has weights: ", td$has.weights, "\n", 
     "Has blocking: ", td$has.blocking, "\n",
     sep=""
   )

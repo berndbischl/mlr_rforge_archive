@@ -1,8 +1,8 @@
 # checked props
 
-makeRLearner.classif.j48 = function() {
+makeRLearner.classif.J48 = function() {
   makeRLearnerClassif(
-    cl = "classif.j48",
+    cl = "classif.J48",
     package = "Rweka",
     par.set = makeParamSet(
       makeLogicalLearnerParam(id="U"),
@@ -26,13 +26,13 @@ makeRLearner.classif.j48 = function() {
   )
 }
 
-trainLearner.classif.j48 = function(.learner, .task, .subset,  ...) {
+trainLearner.classif.J48 = function(.learner, .task, .subset,  ...) {
   f = getFormula(.task)
   ctrl = Weka_control(..., Q=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
   J48(f, data=getTaskData(.task, .subset), control=ctrl)
 }
 
-predictLearner.classif.j48 = function(.learner, .model, .newdata, ...) {
+predictLearner.classif.J48 = function(.learner, .model, .newdata, ...) {
   type = switch(.learner$predict.type, prob="prob", "class")
   predict(.model$learner.model, newdata=.newdata, type=type, ...)
 }

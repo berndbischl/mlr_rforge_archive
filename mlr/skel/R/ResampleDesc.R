@@ -46,18 +46,19 @@ makeResampleDesc = function(method, iters=10L, predict="test", ...) {
   iters = convertInteger(iters)
   checkArg(iters, "integer", len=1, na.ok=FALSE)    
   checkArg(predict, "character", choices=c("train", "test", "both"))    
-  method = paste("makeResampleDesc", method, sep="")
+  constructor = paste("makeResampleDesc", method, sep="")
+  cl = paste(method, "Desc", sep="")
   args = c(iters=iters, list(...))
-  d = do.call(method, args)
+  d = do.call(constructor, args)
   d$predict = predict
+  class(d) = c(cl, class(d))
   return(d)
 }
 
 
-makeResampleDescInternal = function(id, instance.class, iters, predict="test") {
+makeResampleDescInternal = function(id, iters, predict="test") {
   structure(list(
     id = id,
-    instance.class = instance.class,
     iters = iters,
     predict = predict
   ), class = "ResampleDesc")

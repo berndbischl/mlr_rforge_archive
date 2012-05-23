@@ -40,9 +40,9 @@ predictLearner.classif.ctree = function(.learner, .model, .newdata, ...) {
     p = treeresponse(m, newdata=.newdata, ...)
     p = do.call(rbind, p)
     rownames(p) = NULL
-    colnames(p) = m$responses$levels[[.model$task.desc$target]]
+    colnames(p) = m@responses@levels[[.model$task.desc$target]]
     return(p)
-  } else 
+  } else {
     predict(.model$learner.model, newdata=.newdata, ...)
-  
+  }
 }

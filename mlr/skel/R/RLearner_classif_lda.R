@@ -16,8 +16,7 @@ makeRLearner.classif.lda = function() {
 }
 		
 trainLearner.classif.lda = function(.learner, .task, .subset,  ...) {
-	f = getFormula(.task)
-	lda(f, data=getTaskData(.task, .subset), ...)
+	lda(x=getTaskModelMatrix(.task, .subset), grouping=getTaskTargets(.task, .subset), ...)
 }
 	
 predictLearner.classif.lda = function(.learner, .model, .newdata, ...) {

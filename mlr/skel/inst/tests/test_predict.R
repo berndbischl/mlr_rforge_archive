@@ -61,8 +61,8 @@ test_that("predict", {
 	df = na.omit(BreastCancer[,-1]) 
 	ct = makeClassifTask(data=df, target="Class")
 	res = makeResampleDesc("CV", iters=10)
-	p = resample(makeLearner("classif.randomForest"), ct, res)
-	expect_true(all(is.na(p$measures.test$mmce)))
-	
-	#FIXME dec values!!!
+	expect_error(resample(makeLearner("classif.randomForest"), ct, res), 
+    "New factor levels not present in the training data")
+	#expect_error(all(is.na(p$measures.test$mmce)))
+
 })

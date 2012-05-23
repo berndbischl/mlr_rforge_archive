@@ -1,10 +1,14 @@
-makeResampleInstanceHoldout = function(desc, size, task) {
+instantiateResampleInstance = function(desc, size) {
+  UseMethod("instantiateResampleInstance")
+}
+
+instantiateResampleInstance.HoldoutDesc = function(desc, size) {
   inds = sample(1:size, size*desc$split)
   makeResampleInstanceInternal(desc, size, train.inds=inds)
 }
 
 
-makeResampleInstanceCV = function(desc, size, task) {
+instantiateResampleInstance.CVDesc = function(desc, size) {
   test.inds = sample(1:size)
   # don't warn when we can't split evenly
   test.inds = suppressWarnings(split(test.inds, 1:desc$iters))
@@ -12,24 +16,24 @@ makeResampleInstanceCV = function(desc, size, task) {
 }
 
 
-makeResampleInstanceLOO = function(desc, size, task) {
+instantiateResampleInstance.LOODesc = function(desc, size) {
   desc$iters = size
   makeResampleInstanceInternal(desc, size, test.inds=as.list(1:size))
 }
 
-makeResampleInstanceSubsample = function(desc, size, task) {
+instantiateResampleInstance.SubsamplingDesc = function(desc, size) {
   inds = lapply(1:desc$iters, function(x) sample(1:size, size*desc$split))
   makeResampleInstanceInternal(desc, size, train.inds=inds)
 }
 
-makeResampleInstanceBoostrap = function(desc, size, task) {
+instantiateResampleInstance.BootstrapDesc = function(desc, size) {
   inds = boot(1:size, R=desc$iters, function(data,inds) inds)$t
   inds = as.list(as.data.frame(t(inds)))
   names(inds) = NULL
   makeResampleInstanceInternal(desc, size, train.inds=inds)
 }
 
-makeResampleInstanceRepCV = function(desc, size, task) {
+instantiateResampleInstance.RepCVDesc = function(desc, size) {
   folds = desc$iters / desc$reps
   d = makeResampleDesc("CV", iters=folds)
   i = replicate(desc$reps, makeResampleInstance(d, size=size), simplify=FALSE)
