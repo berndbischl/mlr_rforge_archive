@@ -6,6 +6,7 @@
 #'   Result of a prediction.
 #' @param relative [\code{logical(1)}]\cr 
 #' 	If TRUE rows are normalized to show relative frequencies.
+#'  Default is \code{FALSE}.
 #' @return A confusion matrix.
 #' @export
 #' @seealso \code{\link[klaR]{errormatrix}}

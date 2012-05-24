@@ -3,6 +3,7 @@
 #' Result from \code{\link{predict}}. 
 #' Use \code{as.data.frame} to access all information in a convenient format.   
 #' 
+#' Object slots:
 #' \describe{
 #'  \item{predict.type [\code{character(1)}]}{Type set in \code{\link{setPredictType}}.}
 #'  \item{id [numeric]}{Vector of index numbers of predicted cases from the task.}

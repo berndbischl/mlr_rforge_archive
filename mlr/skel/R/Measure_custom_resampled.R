@@ -34,6 +34,15 @@
 #' @export
 makeCustomResampledMeasure = function(id, minimize=TRUE, classif=FALSE, regr=FALSE, 
     only.binary=FALSE, allowed.pred.types=character(0), fun, extra.args=list()) {
+    checkArg(id, "character", len=1, na.ok=FALSE)
+    checkArg(minimize, "logical", na.ok=FALSE)
+    checkArg(classif, "logical", na.ok=FALSE)
+    checkArg(regr, "logical", na.ok=FALSE)
+    checkArg(only.binary, "logical", na.ok=FALSE)
+    checkArg(allowed.pred.types, subset=c("response", "prob", "se"))
+    checkArg(fun, "function")
+    checkArg(extra.args, "list")
+    
     force(fun)
     fun1 = function(task, model, pred, extra.args) as.numeric(NA)
     # args are checked here

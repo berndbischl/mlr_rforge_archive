@@ -5,13 +5,13 @@
 #' @return [\code{\link[ParamHelpers]{ParamSet}}].
 #' @export
 getParamSet = function(learner) {
-  # FIXME checkArgs
+  checkArg(learner, "Learner")
   UseMethod("getParamSet")
 } 
 
 #'@S3method getParamSet Learner
 getParamSet.Learner = function(learner) {
-  # FIXME checkArgs
+  checkArg(learner, "Learner")
   learner$par.set
 } 
 

@@ -3,6 +3,7 @@
 #' Description object for task, encapsulates basic statistics 
 #' without having to store the complete data set.
 #' 
+#' Object slots: 
 #' \describe{
 #' \item{id [\code{environment}]}{Id string of task.}
 #' \item{type [\code{character(1)}]}{type Type of task, either \dQuote{classif} for classification or \dQuote{regr} for regression.}

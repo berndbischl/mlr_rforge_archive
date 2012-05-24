@@ -15,7 +15,8 @@
 #' \item{blocking [\code{factor}]}{See argument above. \code{NULL} if not present.}
 #' \item{task.desc [\code{\link{TaskDesc}}]}{Encapsulates further information about the task. See class documentation.}
 #' }
-#' 
+#' @param  type[\code{character(1)}]\cr
+#'   Type of task created. Can be either \dQuote{classif} for classifcation or \dQuote{regr} for a regression task.
 #' @param id [\code{character(1)}]\cr 
 #'   Id string for object. 
 #'   Default is the name of R variable passed to \code{data}.  
@@ -49,6 +50,7 @@
 NULL
 
 makeSupervisedTask = function(type, id, data, target, exclude, weights, blocking, positive, check.data) {
+  checkArg(type, choice=c("classif", "regr"))
   if(missing(id)) {
     id = deparse(substitute(data))
     if (!is.character(id) || length(id) != 1)
@@ -109,7 +111,7 @@ makeSupervisedTask = function(type, id, data, target, exclude, weights, blocking
   structure(list(
     env = env,
     task.desc = desc,
-    blocking = blocking
+    blocking = blocking,
     weights = weights
   ), class="SupervisedTask")
 }

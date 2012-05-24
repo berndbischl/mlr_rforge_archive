@@ -33,6 +33,10 @@
 #' makeLearner("classif.logreg")
 #' makeLearner("regr.lm")
 makeLearner = function(cl, id, predict.type="response", ..., par.vals=list()) {
+  checkArg(cl, "character", len=1, na.ok=FALSE)
+  checkArg(id, "character", len=1, na.ok=FALSE)
+  checkArg(predict.type, "character", choices=c("response", "prob"))
+  checkArg(par.vals, "list")
   if (cl == "")
     stop("Cannot create learner from empty string!")	
   wl = do.call(sprintf("makeRLearner.%s", cl), list())
