@@ -22,6 +22,7 @@
 predict.WrappedModel = function(object, task, newdata, subset) {
   if (!missing(task) && !missing(newdata)) 
     stop("Pass either a task object or a newdata data.frame to predict, but not both!")
+  checkArg(object, "WrappedModel")
   model = object
   learner = model$learner
   td = model$task.desc

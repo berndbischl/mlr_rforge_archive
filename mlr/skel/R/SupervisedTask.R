@@ -50,7 +50,6 @@
 NULL
 
 makeSupervisedTask = function(type, id, data, target, exclude, weights, blocking, positive, check.data) {
-  checkArg(type, choice=c("classif", "regr"))
   if(missing(id)) {
     id = deparse(substitute(data))
     if (!is.character(id) || length(id) != 1)

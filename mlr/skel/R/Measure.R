@@ -27,13 +27,13 @@
 #'   Name of measure.
 #' @param minimize [\code{logical(1)}]\cr
 #'   Should the measure be minimized?
-#'   Default is TRUE.
+#'   Default is in \code{TRUE}.
 #' @param classif [\code{logical(1)}]\cr
 #'   Is the measure applicable for classification?
-#'   Default is FALSE.
+#'   Default is \code{FALSE}.
 #' @param regr [\code{logical(1)}]\cr
 #'   Is the measure applicable for regression?
-#'   Default is FALSE.
+#'   Default is \code{FALSE}.
 #' @param only.binary [\code{logical(1)}]\cr
 #'   Is the measure only applicable to binary classification?
 #'   Only reasonable if \code{classif} is \code{TRUE}.

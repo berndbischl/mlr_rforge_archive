@@ -12,5 +12,6 @@
 NULL
 
 makeAggregation = function(id, fun) {
+  checkArg(id, "character", len=1, na.ok=FALSE)
   structure(list(id=id, fun=fun), class="Aggregation")
 }

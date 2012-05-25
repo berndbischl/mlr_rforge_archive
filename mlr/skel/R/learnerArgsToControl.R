@@ -15,6 +15,9 @@
 #' @return List with elements \code{control} and \code{args}.
 #' @export
 learnerArgsToControl = function(control, arg.names, args) {
+  checkArg(control, "function")
+  checkArg(arg.names,"character")
+  checkArg(args, "list")
   # put stuff into special list and remove it from args
   ctrl.args = insert(list(), args, arg.names)
   ctrl = do.call(control, ctrl.args)
