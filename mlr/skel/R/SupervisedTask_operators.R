@@ -9,7 +9,7 @@
 #' @export
 getTaskFeatureNames = function(task) {
   #FIXME argument checks currently not done for speed
-  return(setdiff(colnames(task$env$data), task$task.desc$target)) 
+  return(setdiff(colnames(task$data), task$task.desc$target)) 
 }
 
 #' Get formula of a task. This is simply \code{target ~ .}. 
@@ -35,11 +35,11 @@ getTaskFormula = function(x) {
 #' @export
 getTaskTargets = function(task, subset, recode.y="no") {
   #FIXME argument checks currently not done for speed
-  y = task$env$data[subset, task$task.desc$target]
+  y = task$data[subset, task$task.desc$target]
   recodeY(y, recode.y, task$task.desc$positive)
 }
 
 getTaskModelMatrix = function(task, subset) {
-  data = task$env$model.matrix[subset,,drop=FALSE]
+  data = task$model.matrix[subset,,drop=FALSE]
   return(data)
 }

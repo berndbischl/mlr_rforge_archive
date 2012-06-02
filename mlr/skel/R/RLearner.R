@@ -50,13 +50,14 @@
 NULL
 
 #' @rdname RLearner
-makeRLearner = function(id, type, package, par.set, numerics, factors, missings, weights, 
+makeRLearner = function(id, type, package, par.set, interface, numerics, factors, missings, weights, 
   oneclass, twoclass, multiclass, prob, se, par.vals) {
 
   checkArg(id, "character", len=1L, na.ok=FALSE)  
   checkArg(type, choices=c("classif", "regr"))  
   checkArg(par.set, "ParamSet")  
   checkListElementClass(par.set$pars, "LearnerParam")
+  checkArg(interface, choices=c("formula", "model.matrix"))  
   checkArg(numerics, "logical", len=1L, na.ok=FALSE)  
   checkArg(factors, "logical", len=1L, na.ok=FALSE)  
   checkArg(missings, "logical", len=1L, na.ok=FALSE)  

@@ -21,12 +21,13 @@
 #' @rdname TaskDesc
 NULL
 
-makeTaskDesc = function(type, id, data, target, weights, blocking, positive) {
+makeTaskDesc = function(type, id, data, target, model.frame.desc, weights, blocking, positive) {
   td = list()
   td$id = id
   td$type = type
   i = which(colnames(data) %in% c(target))
   td$target = target 
+  td$model.frame.desc = model.frame.desc
   td$size = nrow(data)
   y = data[, target]
   td$n.feat = c(
