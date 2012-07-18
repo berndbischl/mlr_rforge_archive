@@ -25,7 +25,7 @@ test_that("classif_JRip", {
 	}
 	
 	testSimpleParsets("classif.JRip", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
-	testProb.parsets  ("classif.JRip", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
+	testProbParsets  ("classif.JRip", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt = function (formula, data, subset, ...) {
 		JRip(formula, data=data[subset,], control=Weka_control(..., S = as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max))))

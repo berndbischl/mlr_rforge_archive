@@ -17,18 +17,18 @@ makeRLearner.regr.lm = function() {
 }
 		
 trainLearner.regr.lm = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   d = getTaskData(.task, .subset)
-  if (.task@desc@has.weights) {
+  if (.task$task.desc$has.weights) {
     # strange bug in lm concerning weights
-    do.call(lm, list(f, data=d, weights=.task@weights[.subset]))
+    do.call(lm, list(f, data=d, weights=.task$weights[.subset]))
   }else  
     lm(f, data=d, ...)
 }
 	
 predictLearner.regr.lm = function(.learner, .model, .newdata, ...) {
-  if(.learner@predict.type == "response") {
-    predict(.model@learner.model, newdata=.newdata, se.fit=FALSE, ...)
+  if(.learner$predict.type == "response") {
+    predict(.model$learner.model, newdata=.newdata, se.fit=FALSE, ...)
   } else {
     p = predict(.model@learner.model, newdata=.newdata, se.fit=FALSE, ...)
     cbind(p$fit, p$se.fit)

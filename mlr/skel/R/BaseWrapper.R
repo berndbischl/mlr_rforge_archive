@@ -1,3 +1,4 @@
+# FIXME: test this, @ etc
 makeBaseWrapper = function(learner, pack=character(0), par.set, par.vals=list()) {
   if (is(learner, "OptWrapper")) 
     stop("Cannot wrap an optimization wrapper with something else!")
@@ -42,16 +43,16 @@ setHyperPars2.BaseWrapper = function(learner, par.vals) {
  
 print.BaseWrapper = function(x, ...) {
   s = ""
-  y = object 
+  y = x
   while (is(y, "BaseWrapper")) {
     s = paste(s, class(y), "->", sep="")
-    y = y@learner
+    y = y$learner
   }
   s = paste(s, class(y))
   
   cat(
     s, "\n",
-    "Hyperparameters: ", getHyperParsString(object), "\n\n",
+    "Hyperparameters: ", getHyperParsString(x), "\n\n",
     sep = ""         
   )
 }

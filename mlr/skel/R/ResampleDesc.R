@@ -41,6 +41,7 @@
 #'			folds [integer(1)]: Folds in the repeated CV for \code{RepCV}. Here \code{iters = folds * reps}. Default is 5. 
 #' @return \code{\link{ResampleDesc}}.
 #' @export
+#' @aliases ResampleDesc
 makeResampleDesc = function(method, iters=10L, predict="test", ...) {
   checkArg(method, choices=c("Holdout", "CV", "LOO", "Subsample", "Boostrap", "StratCV", "RepCV"))    
   iters = convertInteger(iters)
@@ -56,16 +57,16 @@ makeResampleDesc = function(method, iters=10L, predict="test", ...) {
 }
 
 
-makeResampleDescInternal = function(id, iters, predict="test") {
-  structure(list(
-    id = id,
-    iters = iters,
-    predict = predict
-  ), class = "ResampleDesc")
+makeResampleDescInternal = function(id, iters, predict="test", ...) {
+  res = list(...)
+  res$id = id
+  res$iters = iters
+  res$predict = predict
+  structure(res, class = "ResampleDesc")
 }
 
 print.ResampleDesc = function(x, ...) { 
-  catf("%s with %i iterations.", x$id, x$iters)
+  catf("Resample description: %s with %i iterations.", x$id, x$iters)
   catf("Predict: %s", x$predict)
 }
 

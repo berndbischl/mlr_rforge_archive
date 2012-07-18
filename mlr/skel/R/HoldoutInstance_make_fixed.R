@@ -1,10 +1,10 @@
 #' Generate a fixed holdout instance for resampling. 
 #' 
-#' @param train.inds [\code{integer}}]\cr
+#' @param train.inds [\code{integer}]\cr
 #'   Indices for training set.
-#' @param test.inds [\code{integer}}]\cr
+#' @param test.inds [\code{integer}]\cr
 #'   Indices for test set.
-#' @param size [\code{integer(1)}}]\cr
+#' @param size [\code{integer(1)}]\cr
 #'   Size of the data set to resample.
 #' @return [\code{\link{ResampleInstance}}].
 #' @export 

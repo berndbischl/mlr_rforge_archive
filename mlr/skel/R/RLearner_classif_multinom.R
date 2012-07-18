@@ -1,6 +1,6 @@
-makeRLearner.classif.multinorm = function() {
+makeRLearner.classif.multinom = function() {
   makeRLearnerClassif(
-    cl = "classif.multinorm",
+    cl = "classif.multinom",
     package = "nnet",
     par.set = makeParamSet(
       makeLogicalLearnerParam(id="Hess", default=FALSE),
@@ -23,15 +23,15 @@ makeRLearner.classif.multinorm = function() {
   )
 }
 
-trainLearner.classif.multinorm = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+trainLearner.classif.multinom = function(.learner, .task, .subset,  ...) {
+  f = getTaskFormula(.task)
   if (.task$task.desc$has.weights)
     multinom(f, data=getTaskData(.task, .subset), weights=.task$weights[.subset], ...)
   else  
     multinom(f, data=getTaskData(.task, .subset), ...)      
 }
 
-predictLearner.classif.multinorm = function(.learner, .model, .newdata, ...) {
+predictLearner.classif.multinom = function(.learner, .model, .newdata, ...) {
   type = ifelse(.learner$predict.type=="response", "class", "probs")
   levs = .model$task.desc$class.levels
   p = predict(.model$learner.model, newdata=.newdata, type=type, ...)

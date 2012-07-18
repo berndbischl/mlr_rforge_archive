@@ -35,7 +35,7 @@ makeRLearner.regr.ksvm = function() {
 
 trainLearner.regr.ksvm = function(.learner, .task, .subset,  ...) {
   xs = learnerArgsToControl(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda"), list(...))
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   # difference in missing(kpar) and kpar=list()!
   if (length(xs$control) > 0)
     args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args)

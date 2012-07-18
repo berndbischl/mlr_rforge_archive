@@ -30,12 +30,12 @@ makeRLearner.classif.rda = function() {
 }
 
 trainLearner.classif.rda = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   rda(f, data=getTaskData(.task, .subset), ...)
 }
 
 predictLearner.classif.rda = function(.learner, .model, .newdata, ...) {
-  p <- predict(.model$learner.model, newdata=.newdata, ...)
+  p = predict(.model$learner.model, newdata=.newdata, ...)
   if (.learner$predict.type == "response")
     return(p$class)
   else

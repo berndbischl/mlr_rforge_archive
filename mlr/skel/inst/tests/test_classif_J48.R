@@ -25,7 +25,7 @@ test_that("classif_j48", {
 	}
 	
 	testSimpleParsets("classif.J48", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
-	testProb.parsets  ("classif.J48", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
+	testProbParsets  ("classif.J48", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt = function (formula, data, subset, ...) {
 		J48(formula, data=data[subset,], control=Weka_control(..., Q = as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max))))

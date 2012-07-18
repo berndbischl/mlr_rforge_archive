@@ -19,14 +19,14 @@ test_that("classif_adaboost_m1", {
 		pars = list(formula=multiclass.formula, data=multiclass.train)
 		pars = c(pars, parset)
 		set.seed(getOption("mlr.debug.seed"))
-		m = do.call(adaboost.M1, pars)
+		m = do.call(boosting, pars)
 		set.seed(getOption("mlr.debug.seed"))
 		p = predict(m, newdata=multiclass.test)
 		old.predicts.list[[i]] =as.factor(p$class)
 	}
 	
 	
-	testSimpleParsets("classif.adaboost.M1", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list2)
+	testSimpleParsets("classif.adaboost.m1", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list2)
 	
 	tt =function (formula, data, subset=1:nrow(data), ...) {
     args = list(...)
@@ -34,11 +34,11 @@ test_that("classif_adaboost_m1", {
       ctrl = rpart.control(cp=args$cp)
     else
       ctrl = rpart.control()
-		adaboost.M1(formula, data[subset,], mfinal=args$mfinal, control=ctrl)
+		boosting(formula, data[subset,], mfinal=args$mfinal, control=ctrl)
 	}
 	
 	tp =function(model, newdata) as.factor(predict(model, newdata)$class)
 	
-	testCVParsets("classif.adaboost.M1", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp, parset.list=parset.list2)
+	testCVParsets("classif.adaboost.m1", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp, parset.list=parset.list2)
 })
 

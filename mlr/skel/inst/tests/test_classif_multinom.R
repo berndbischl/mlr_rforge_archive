@@ -4,7 +4,7 @@ test_that("classif_multinom", {
   library(nnet)
 	set.seed(getOption("mlr.debug.seed"))
 	capture.output(
-    m = multinom(formula = multiclass.formula, data = multiclass.train)
+    m <- multinom(formula = multiclass.formula, data = multiclass.train)
 	)
 			
 	set.seed(getOption("mlr.debug.seed"))
@@ -25,9 +25,9 @@ test_that("classif_multinom", {
   wl = makeLearner("classif.multinom", predict.type="prob")
 	m = train(wl, binaryclass.task)
 	p = predict(m, newdata=binaryclass.df)
-	rr = p@df$response
+	rr = p$data$response
 	pp = getProbabilities(p)
 	i = as.integer(pp < 0.5) + 1
-	labs = as.factor(binaryclass.task@desc@class.levels[i]) 
-	checkEquals(rr, labs)	
+	labs = as.factor(binaryclass.task$task.desc$class.levels[i]) 
+	expect_equal(rr, labs)	
 })

@@ -26,7 +26,7 @@ test_that("classif_PART", {
 	}
 	
 	testSimpleParsets("classif.PART", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
-	testProb.parsets  ("classif.PART", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
+	testProbParsets  ("classif.PART", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt = function (formula, data, subset, ...) {
     set.seed(getOption("mlr.debug.seed"))

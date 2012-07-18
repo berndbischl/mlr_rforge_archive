@@ -1,4 +1,4 @@
-makeResampleDescHoldout = function(iters, split) {
+makeResampleDescHoldout = function(iters, split=2/3) {
   makeResampleDescInternal("holdout", iters=1L, split=split)
 }
 

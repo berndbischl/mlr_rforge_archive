@@ -1,32 +1,47 @@
 library("devtools")
 library("testthat")
 library(mlbench)
+data(BostonHousing)
 
 load_all("skel")
 source("skel/inst/tests/objects.R")
 
-df = binaryclass.df
-df[, 1] = as.factor(sample(1:3, nrow(df), replace=TRUE))
-df[, 2] = as.factor(sample(1:3, nrow(df), replace=TRUE))
-df = df[, c(1,2,3, ncol(df))]
-task = makeClassifTask(data=df, target=binaryclass.target)
+configureMlr(on.learner.error="stop", show.learner.output=FALSE)
 
-lrn = makeLearner("classif.lda")
-m = train(lrn, task)
-p = predict(m, task)
-p = predict(m, newdata=df)
+#df = binaryclass.df
+#df[, 1] = as.factor(sample(1:3, nrow(df), replace=TRUE))
+#df[, 2] = as.factor(sample(1:3, nrow(df), replace=TRUE))
+#df = df[, c(1,2,3, ncol(df))]
+#task = makeClassifTask(data=df, target=binaryclass.target)
 
 
-f = function(lrn) {
-  lrn2 = makeLearner(lrn)
-  m = train(lrn2, task)
-  p = predict(m, task)
-  p = predict(m, newdata=df)
-  #lrn2 = makeLearner(lrn, predict.type="prob")
-  #m = train(lrn2, task)
-  #p = predict(m, task)
-  #p = predict(m, newdata=df)
-}
+df1 = iris
+df2 = BostonHousing
+target1 = "Species"
+target2 = "medv"
+task1 = makeClassifTask(data=df1, target=target1)
+task2 = makeRegrTask(data=df2, target=target2)
+
+#lrn = makeLearner("regr.blackboost")
+#lrn = makeLearner("classif.OneR")
+#m = train(lrn, task)
+#p = predict(m, task)
+#p = predict(m, newdata=df)
+#rdesc = makeResampleDesc("CV", iters=5)
+#rin = makeResampleInstance(rdesc, task=task)
+#r = resample(lrn, task, rdesc)
+#print(r$aggr)
+
+#f = function(lrn) {
+#  lrn2 = makeLearner(lrn)
+#  m = train(lrn2, task)
+#  p = predict(m, task)
+#  p = predict(m, newdata=df)
+#  #lrn2 = makeLearner(lrn, predict.type="prob")
+#  #m = train(lrn2, task)
+#  #p = predict(m, task)
+#  #p = predict(m, newdata=df)
+#}
   
   
 #f("classif.ada")

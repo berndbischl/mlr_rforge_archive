@@ -16,7 +16,7 @@ makeRLearner.regr.nnet = function() {
 }
 
 trainLearner.regr.nnet = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   if (.task$task.desc$has.weights)
     nnet(f, data=getTaskData(.task, .subset), linout=T, weights=.task$weights[.subset], ...)
   else  

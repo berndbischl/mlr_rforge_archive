@@ -14,7 +14,7 @@ makeRLearner.classif.llr = function() {
 }
 
 trainLearner.classif.llr = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   llr(f, data=getTaskData(.task, .subset), ...)
 }
 

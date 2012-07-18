@@ -7,7 +7,6 @@ makeRLearner.classif.lda = function() {
   		makeNumericLearnerParam(id="nu", lower=2, requires=expression(method=="t")),
       makeNumericLearnerParam(id="tol", default=1.0e-4, lower=0)
     ), 
-    interface = "model.matrix",
     twoclass=TRUE, 
     multiclass = TRUE, 
     numerics = TRUE, 
@@ -17,7 +16,8 @@ makeRLearner.classif.lda = function() {
 }
 		
 trainLearner.classif.lda = function(.learner, .task, .subset,  ...) {
-	lda(x=getTaskModelMatrix(.task, .subset), grouping=getTaskTargets(.task, .subset), ...)
+	f = getTaskFormula(.task)
+	lda(f, data=getTaskData(.task, .subset), ...)
 }
 	
 predictLearner.classif.lda = function(.learner, .model, .newdata, ...) {

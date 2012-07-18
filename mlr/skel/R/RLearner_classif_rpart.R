@@ -26,7 +26,7 @@ makeRLearner.classif.rpart = function() {
 }
 		
 trainLearner.classif.rpart = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   d = getTaskData(.task, .subset)
   # FIXME strange bug with envit,. beacuse we delete in formula
   if (.task$task.desc$has.weights) {

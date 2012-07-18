@@ -4,7 +4,7 @@ instantiateResampleInstance = function(desc, size) {
 
 instantiateResampleInstance.HoldoutDesc = function(desc, size) {
   inds = sample(1:size, size*desc$split)
-  makeResampleInstanceInternal(desc, size, train.inds=inds)
+  makeResampleInstanceInternal(desc, size, train.inds=list(inds))
 }
 
 
@@ -43,6 +43,7 @@ instantiateResampleInstance.RepCVDesc = function(desc, size) {
   makeResampleInstanceInternal(desc, size, train.inds=train.inds, test.inds=test.inds, group=g)
 }
 
+# FIXME
 #setMethod(
 #  f = "initialize",
 #  signature = signature("StratCVInstance"),

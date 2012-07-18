@@ -49,6 +49,7 @@
 #'   Default is empty list.
 #' @return [\code{\link{Measure}}].
 #' @export
+#' @aliases Measure
 #' @examples
 #' f <- function(task, model, pred, extra.args) 
 #'   sum((pred$data$response - pred$data$truth)^2)
@@ -85,12 +86,6 @@ makeMeasure = function(id, minimize, classif=FALSE, regr=FALSE,
     extra.args=extra.args
   ), class="Measure")
   setAggregation(m, test.mean)
-}
-
-print.Measure = function(x, ...) {
-  catf("Performance measure: %s", object$id)
-  catf("Minimize: %s", object$minimize)
-  catf("Aggregated by: %s", object$aggr$id)
 }
 
 default.measures = function(x) {
@@ -130,5 +125,9 @@ setAggregation = function(measure, aggr) {
   return(measure)
 } 
 
-
+print.Measure = function(x, ...) {
+  catf("Performance measure: %s", x$id)
+  catf("Minimize: %s", x$minimize)
+  catf("Aggregated by: %s", x$aggr$id)
+}
 

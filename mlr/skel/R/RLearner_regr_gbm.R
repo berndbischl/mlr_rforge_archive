@@ -3,7 +3,7 @@ makeRLearner.regr.gbm = function() {
     cl = "regr.gbm",
     package = "gbm",
     par.set = makeParamSet(
-      makeDiscreteLearnerParam(id="distribution", default="gaussian", values=c("gaussian", "laplace")),
+      makeDiscreteLearnerParam(id="distribution", default="gaussian", values=c("gaussian", "laplace"), pass.default=TRUE),
       makeIntegerLearnerParam(id="n.trees", default=100L, lower=1L),
       makeIntegerLearnerParam(id="interaction.depth", default=1L, lower=1L),
       makeIntegerLearnerParam(id="n.minobsinnode", default=10L, lower=1L),
@@ -20,7 +20,7 @@ makeRLearner.regr.gbm = function() {
 }
 
 trainLearner.regr.gbm = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   if (.task$task.desc$has.weights)
     gbm(f, data=getTaskData(.task, .subset), keep.data=FALSE, weights=.task$weights[.subset], ...)
   else  

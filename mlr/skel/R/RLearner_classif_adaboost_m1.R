@@ -1,3 +1,4 @@
+# FIXME: interface was changed, read page, pars, mnaybe rename
 makeRLearner.classif.adaboost.m1 = function() {
   makeRLearnerClassif(
     cl = "classif.adaboost.m1",
@@ -26,9 +27,9 @@ makeRLearner.classif.adaboost.m1 = function() {
 }
 
 trainLearner.classif.adaboost.m1 = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   xs = learnerArgsToControl(rpart.control, c("minsplit", "minbucket", "cp", "maxcompete", "maxsurrogate", "usesurrogate", "surrogatestyle", "maxdepth"), list(...))
-  do.call(adaboost.M1, c(list(f, data=getTaskData(.task, .subset), control=xs$control), xs$args))
+  do.call(boosting, c(list(f, data=getTaskData(.task, .subset), control=xs$control), xs$args))
 }
 
 predictLearner.classif.adaboost.m1 = function(.learner, .model, .newdata, ...) {

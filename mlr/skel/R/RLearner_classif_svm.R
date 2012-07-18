@@ -23,7 +23,7 @@ makeRLearner.classif.svm = function() {
 }
 
 trainLearner.classif.svm = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   svm(f, data=getTaskData(.task, .subset), probability=.learner$predict.type == "prob", ...)
 }
 

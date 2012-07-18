@@ -1,6 +1,6 @@
-makeRLearner.regr.blackBoost = function() {
+makeRLearner.regr.blackboost = function() {
   makeRLearnerRegr(
-    cl = "regr.blackBoost",
+    cl = "regr.blackboost",
     package = c("mboost", "party"),
     par.set = makeParamSet(
       makeDiscreteLearnerParam(id="family", default=Gaussian(), values=list(Gaussian=Gaussian(), Huber=Huber(), Laplace=Laplace())),
@@ -26,10 +26,10 @@ makeRLearner.regr.blackBoost = function() {
   )
 }
 
-trainLearner.regr.blackBoost = function(.learner, .task, .subset,  ...) {
+trainLearner.regr.blackboost = function(.learner, .task, .subset,  ...) {
   xs = learnerArgsToControl(boost_control, c("mstop", "nu", "risk"), list(...))
   ys = learnerArgsToControl(ctree_control, c("teststat", "testtype", "mincriterion", "maxdepth"), xs$args)
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   args = c(list(f, data=getTaskData(.task, .subset), control=xs$control, tree_control=ys$control), ys$args)
   if (.task$task.desc$has.weights)
     args$weights = .task$weights[.subset] 
@@ -37,6 +37,6 @@ trainLearner.regr.blackBoost = function(.learner, .task, .subset,  ...) {
 }
 
 
-predictLearner.regr.blackBoost = function(.learner, .model, .newdata, ...) {
-  predict(.model$learner.model, newdata=.newdata, ...)
+predictLearner.regr.blackboost = function(.learner, .model, .newdata, ...) {
+  predict(.model$learner.model, newdata=.newdata, ...)[,1]
 }

@@ -33,7 +33,7 @@ test_that("classif_rda", {
 	}
 	
 	testSimpleParsets("classif.rda", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
-	testProb.parsets  ("classif.rda", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
+	testProbParsets  ("classif.rda", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt = "rda"
 	tp = function(model, newdata) predict(model, newdata)$class

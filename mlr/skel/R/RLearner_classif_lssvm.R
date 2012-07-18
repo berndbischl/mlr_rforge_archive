@@ -38,7 +38,7 @@ trainLearner.classif.lssvm = function(.learner, .task, .subset,  ...) {
 #     } 
   
   xs = learnerArgsToControl(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   if (length(xs$control) > 0)
     args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args)
   else

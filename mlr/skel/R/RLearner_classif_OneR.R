@@ -3,7 +3,7 @@ makeRLearner.classif.OneR = function() {
     cl = "classif.OneR",
     package = "RWeka",
     par.set = makeParamSet(
-      makeNumericLearnerParam(id="reltoll", default=1.0e-8)      
+      makeIntegerLearnerParam(id="B", default=6L, lower=1L)
     ), 
     twoclass = TRUE,
     multiclass = TRUE,
@@ -15,8 +15,9 @@ makeRLearner.classif.OneR = function() {
 }
 
 trainLearner.classif.OneR = function(.learner, .task, .subset,  ...) {
-  type = switch(.learner$predict.type, prob="prob", "class")
-  predict(.model$learner.model, newdata=.newdata, type=type, ...)
+  f = getTaskFormula(.task)
+	ctrl = Weka_control(...)
+	OneR(f, data=getTaskData(.task, .subset), control=ctrl)
 }
 
 predictLearner.classif.OneR = function(.learner, .model, .newdata, ...) {

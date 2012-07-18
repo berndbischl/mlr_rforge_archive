@@ -14,7 +14,7 @@ makeRLearner.regr.ridge = function() {
 }
 
 trainLearner.regr.ridge = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   penalized(f, data=getTaskData(.task, .subset), ...)
 }
 

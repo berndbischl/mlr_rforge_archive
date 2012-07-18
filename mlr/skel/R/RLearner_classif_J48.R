@@ -3,7 +3,7 @@
 makeRLearner.classif.J48 = function() {
   makeRLearnerClassif(
     cl = "classif.J48",
-    package = "Rweka",
+    package = "RWeka",
     par.set = makeParamSet(
       makeLogicalLearnerParam(id="U"),
       makeLogicalLearnerParam(id="O"),
@@ -27,7 +27,7 @@ makeRLearner.classif.J48 = function() {
 }
 
 trainLearner.classif.J48 = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   ctrl = Weka_control(..., Q=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
   J48(f, data=getTaskData(.task, .subset), control=ctrl)
 }

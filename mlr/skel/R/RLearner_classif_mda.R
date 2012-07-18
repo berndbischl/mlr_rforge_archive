@@ -23,6 +23,13 @@ makeRLearner.classif.mda = function() {
 }
 
 trainLearner.classif.mda = function(.learner, .task, .subset,  ...) {
+  f = getTaskFormula(.task)
+  mda(f, data=getTaskData(.task, .subset), ...)
+}
+
+predictLearner.classif.mda = function(.learner, .model, .newdata, ...) {
   type = ifelse(.learner$predict.type=="response", "class", "posterior")
   predict(.model$learner.model, newdata=.newdata, type=type, ...)
 }
+
+

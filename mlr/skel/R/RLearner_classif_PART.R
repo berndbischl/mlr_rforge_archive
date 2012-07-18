@@ -21,7 +21,7 @@ makeRLearner.classif.PART = function() {
 }
 
 trainLearner.classif.PART = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   ctrl = Weka_control(..., Q=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
   PART(f, data=getTaskData(.task, .subset), control=ctrl)
 }

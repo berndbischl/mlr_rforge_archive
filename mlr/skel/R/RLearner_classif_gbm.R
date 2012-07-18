@@ -23,7 +23,7 @@ makeRLearner.classif.gbm = function() {
 }
 
 trainLearner.classif.gbm = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   d = getTaskData(.task, .subset, class.as="01")
   if (.task$task.desc$has.weights)
     gbm(f, data=d, keep.data=FALSE, verbose=FALSE, weights=.task$weights[.subset], ...)

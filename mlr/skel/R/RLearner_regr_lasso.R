@@ -14,7 +14,7 @@ makeRLearner.regr.lasso = function() {
 }
 
 trainLearner.regr.lasso = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   penalized(f, data=getTaskData(.task, .subset), ...)
 }
 

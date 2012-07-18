@@ -8,10 +8,8 @@
 #' (a) The internal data.frame (slot \code{df}) contains an additional column \code{id}, specifying the iteration
 #' of the resampling strategy. (b) The object can be converted into a list of  \code{\link{Prediction}} objects by using \code{as.list} on it,
 #' one object for each resampling iteration.
-#' @slot instance Resampling instance that was used to generate the prediction. 
-#' @export
-#' 
-#' @seealso \code{\link{resample}}, \code{\link{predict}} 
+#' @name ResamplePrediction
+#' @rdname ResamplePrediction
 NULL
 
 makeResamplePrediction = function(instance, preds.test, preds.train) {

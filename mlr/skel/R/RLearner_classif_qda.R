@@ -15,7 +15,7 @@ makeRLearner.classif.qda = function() {
 }
 
 trainLearner.classif.qda = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   qda(f, data=getTaskData(.task, .subset), ...)
 }
 

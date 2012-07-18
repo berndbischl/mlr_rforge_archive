@@ -1,17 +1,18 @@
 makeRLearner.classif.logreg = function() {
   makeRLearnerClassif(
-      cl = "classif.logreg",
-      package = "stats",
-      twoclass = TRUE,
-      numerics = TRUE,
-      factors = TRUE,
-      prob = TRUE,
-      weights = TRUE
+    cl = "classif.logreg",
+    package = "stats",
+    par.set = makeParamSet(), 
+    twoclass = TRUE,
+    numerics = TRUE,
+    factors = TRUE,
+    prob = TRUE,
+    weights = TRUE
   )
 }
 
 trainLearner.classif.logreg = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   glm(f, data=getTaskData(.task, .subset), model=FALSE, family="binomial", ...)
 }
 

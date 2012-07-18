@@ -18,7 +18,7 @@ test_that("regr_ridge", {
 		pars = c(pars, parset)
 		set.seed(getOption("mlr.debug.seed"))
 		capture.output(
-			m = do.call(penalized, pars)
+			m <- do.call(penalized, pars)
 		)	
 		set.seed(getOption("mlr.debug.seed"))
 		p = predict(m, data=regr.test)
@@ -32,15 +32,15 @@ test_that("regr_ridge", {
 	cvl.res = cvl(regr.formula, data=regr.df, lambda2=0.3, fold=folds)
   res = makeResampleInstance(makeResampleDesc("CV", iters=folds), task=regr.task)
   for (i in 1:folds) {
-    res@train.inds[[i]] = setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
-    res@test.inds[[i]] = which(cvl.res$fold == i)
+    res$train.inds[[i]] = setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
+    res$test.inds[[i]] = which(cvl.res$fold == i)
   }
   wl = makeLearner("regr.ridge", lambda2=0.3)
   r = resample(wl, regr.task, res)
   p = as.data.frame(r$pred)
 	for (i in 1:folds) {
-    test.i = res@test.inds[[i]]
+    test.i = res$test.inds[[i]]
     rf.p = subset(p, subset=(iter==i), select="response", drop=TRUE)    
-		checkEquals(rf.p, cvl.res$predictions[test.i])		
+		expect_equal(rf.p, cvl.res$predictions[test.i])		
 	}
 })

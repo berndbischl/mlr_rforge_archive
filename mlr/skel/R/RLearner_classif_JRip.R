@@ -1,7 +1,7 @@
 makeRLearner.classif.JRip = function() {
   makeRLearnerClassif(
     cl = "classif.JRip",
-    package = "Rweka",
+    package = "RWeka",
     par.set = makeParamSet(
       makeIntegerLearnerParam(id="F", default=3L, lower=2L),
       makeNumericLearnerParam(id="N", default=2, lower=0),
@@ -21,7 +21,7 @@ makeRLearner.classif.JRip = function() {
 }
 
 trainLearner.classif.JRip = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   ctrl = Weka_control(..., S=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
   JRip(f, data=getTaskData(.task, .subset), control=ctrl)
 }

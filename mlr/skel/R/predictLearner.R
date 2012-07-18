@@ -21,8 +21,8 @@
 #'   type \dQuote{prob}. In the later case the columns must be named with the class labels.
 #'   For regressions: 
 #' @export
-#' FIXME return type for regression
-#' FIXME rereead and details
+# FIXME return type for regression
+# FIXME rereead and details
 predictLearner = function(.learner, .model, .newdata, ...) {
   UseMethod("predictLearner")
 }
@@ -30,7 +30,7 @@ predictLearner = function(.learner, .model, .newdata, ...) {
 #FIXME: need this?
 predictLearner2 = function(.learner, .model, .newdata, ...) {
   p = predictLearner(.learner, .model, .newdata, ...)
-  checkPredictLearnerOutput(.learner, .model, p)
+  p = checkPredictLearnerOutput(.learner, .model, p)
   return(p)
 }
 
@@ -68,4 +68,5 @@ checkPredictLearnerOutput = function(learner, model, p) {
         stopf("predictLearner for %s has not returned a numeric matrix with 2 columns!", learner$id)
     }      
   }
+  return(p)
 }

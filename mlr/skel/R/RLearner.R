@@ -47,18 +47,16 @@
 #' @return [\code{\link{RLearnerClassif}} or \code{\link{RLearnerRegr}}].
 #' @name RLearner
 #' @rdname RLearner
+#' @aliases RLearnerClassif, RLearnerRegr
 NULL
 
-#' @rdname RLearner
-makeRLearner = function(id, type, package, par.set, interface, numerics, factors, missings, weights, 
+makeRLearner = function(id, type, package, par.set, numerics, factors, missings, weights, 
   oneclass, twoclass, multiclass, prob, se, par.vals) {
 
   checkArg(id, "character", len=1L, na.ok=FALSE)  
   checkArg(type, choices=c("classif", "regr"))  
   checkArg(par.set, "ParamSet")  
   checkListElementClass(par.set$pars, "LearnerParam")
-  checkArg(interface, choices=c("formula", "model.matrix"))  
-  checkArg(numerics, "logical", len=1L, na.ok=FALSE)  
   checkArg(factors, "logical", len=1L, na.ok=FALSE)  
   checkArg(missings, "logical", len=1L, na.ok=FALSE)  
   checkArg(weights, "logical", len=1L, na.ok=FALSE)  
@@ -71,7 +69,7 @@ makeRLearner = function(id, type, package, par.set, interface, numerics, factors
   if(!isProperlyNamed(par.vals))
     stop("Argument par.vals must be a properly named list!")
   
-  requirePackages(package, paste("learner", .Object$id))
+  requirePackages(package, paste("learner", id))
 
   learner = structure(list(
     id = id,
@@ -93,6 +91,7 @@ makeRLearner = function(id, type, package, par.set, interface, numerics, factors
   setHyperPars(learner, par.vals=par.vals)
 }
 
+#' @export
 #' @rdname RLearner
 makeRLearnerClassif = function(cl, package, par.set, numerics=FALSE, factors=FALSE, 
   missings=FALSE, weights=FALSE, oneclass=FALSE, twoclass=FALSE, multiclass=FALSE, 
@@ -105,6 +104,7 @@ makeRLearnerClassif = function(cl, package, par.set, numerics=FALSE, factors=FAL
 }
 
 
+#' @export
 #' @rdname RLearner
 makeRLearnerRegr = function(cl, package, par.set, numerics, factors=FALSE,
   missings=FALSE, weights=FALSE, se=FALSE, par.vals=list()) {

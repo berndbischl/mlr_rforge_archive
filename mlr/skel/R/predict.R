@@ -27,43 +27,18 @@ predict.WrappedModel = function(object, task, newdata, subset) {
   learner = model$learner
   td = model$task.desc
   
-  size = function(x) {
-    if (i)
-  }
+  #size = function(x) {
+  #  if (i)
+  #}
  
   if (missing(newdata)) {
     checkArg(task, "SupervisedTask")
-    if (learner$interface == "formula")
-      newdata = getTaskFeatures(task, subset)
-    } else {
-      newdata = getTaskModelMatrix(task, subset)
-    }
+    newdata = getTaskData(task, subset)
   } else {
     checkArg(newdata, "data.frame")
     # FIXME check that data is of same structure?
     if (nrow(newdata) == 0)
       stop("newdata must be a data.frame with at least one row!")
-    if (learner$interface == "formula") {
-      t.col = which(cns == tn)
-      # get truth and drop target col, if target in newdata
-      if (length(t.col) == 1) {
-        #FIXME this copies data
-        truth = newdata[, t.col]
-        newdata = newdata[, -t.col, drop=FALSE]					
-      } else {
-        truth = NULL
-      }
-    } else {
-      newdata = getTaskModelMatrix(task, subset)
-    }
-      
-    if (is.null(model$terms))  {
-    } else{
-      terms = delete.response(model$terms)
-      mf = model.frame(terms, newdata, na.action=na.pass, xlev=model$xlevels)
-      # FIXME checkMFCClases
-      newdata = model.matrix(terms, mf, model$constrasts)
-    }
   }
   if (missing(subset)) {
     subset = 1:nrow(newdata)
@@ -85,7 +60,7 @@ predict.WrappedModel = function(object, task, newdata, subset) {
   } else {
     truth = NULL
   }
-  newdata = model.matrix()  
+
   response = NULL
   prob = NULL
   time.predict = as.numeric(NA)
@@ -119,6 +94,7 @@ predict.WrappedModel = function(object, task, newdata, subset) {
       else
         fun2 = function(x) try(x, silent=TRUE)
       st = system.time(fun1(p <- fun2(do.call(predictLearner2, pars))), gcFirst = FALSE)
+      # FIXME conversions and checks missing!!
       time.predict = as.numeric(st[3])
       # was there an error during prediction?
       if(is.error(p)) {

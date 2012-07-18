@@ -22,6 +22,7 @@
 #'   Can be used instead of \code{task}.
 #' @return [\code{\link{ResampleInstance}}].
 #' @export 
+#' @aliases ResampleInstance
 #' @seealso \code{\link{makeResampleDesc}}, \code{\link{resample}} 
 makeResampleInstance = function(desc, task, size) {
   checkArg(desc, "ResampleDesc")

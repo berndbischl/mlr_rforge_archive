@@ -26,7 +26,7 @@ test_that("classif_mda", {
 	}
 	
 	testSimpleParsets("classif.mda", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
-	testProb.parsets  ("classif.mda", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
+	testProbParsets  ("classif.mda", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt = "mda"
 	tp = function(model, newdata) predict(model, newdata)

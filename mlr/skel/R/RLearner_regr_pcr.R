@@ -11,7 +11,7 @@ makeRLearner.regr.pcr = function() {
 }
 
 trainLearner.regr.pcr = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   pcr(f, data=getTaskData(.task, .subset), ...)
 }
 

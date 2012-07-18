@@ -22,7 +22,7 @@ test_that("classif_OneR", {
 	}
 	
 	testSimpleParsets("classif.OneR", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list)
-	testProb.parsets  ("classif.OneR", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
+	testProbParsets  ("classif.OneR", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list)
 	
 	tt = function (formula, data, subset, ...) {
 		OneR(formula, data=data[subset,], control=Weka_control(...))

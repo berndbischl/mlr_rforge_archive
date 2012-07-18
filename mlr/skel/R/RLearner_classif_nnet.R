@@ -29,7 +29,7 @@ makeRLearner.classif.nnet = function() {
 }
 
 trainLearner.classif.nnet = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   if (.task$task.desc$has.weights)
     nnet(f, data=getTaskData(.task, .subset), weights=.task$weights[.subset], ...)
   else  

@@ -11,10 +11,10 @@ makeRLearner.regr.bagEarth = function() {
 }
 
 trainLearner.regr.bagEarth = function(.learner, .task, .subset,  ...) {
-  f = getFormula(.task)
+  f = getTaskFormula(.task)
   d = getTaskData(.task, .subset)
   if (.task$task.desc$has.weights) {
-    f = getFormula(.task)
+    f = getTaskFormula(.task)
     bagEarth(f, data=getTaskData(.task, .subset), ...)
   }else  
     bagEarth(f, data=d, ...)

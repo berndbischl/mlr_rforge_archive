@@ -33,7 +33,8 @@ makeRLearner.classif.ada = function() {
 }
 
 trainLearner.classif.ada = function(.learner, .task, .subset,  ...) {
-  ada(x=getTaskFeatures(.task, .subset), y=getTaskTargets(.task, .subset), ...)
+  f = getTaskFormula(.task)
+  ada(f, data=getTaskData(.task, .subset), ...)
 }
 
 predictLearner.classif.ada = function(.learner, .model, .newdata, ...) {

@@ -4,29 +4,26 @@
 #' The task encapsulates the data and specifies - through its subclasses - the type of the task (either classification or regression), 
 #' and contains a description object detailing further aspects of the data. 
 #' 
-#' Classification: The target variable is converted to a factor if it is a 
-#' logical, integer or character vector.
-#' Regression: The target variable is converted to a numeric if it is an integer.
-#' 
-#' Object slots:
+#' Useful operators are: \code{\link{getTaskFormula}}, \code{\link{getTaskFeatureNames}},
+#' \code{\link{getTaskData}}, \code{\link{getTaskTargets}}, \code{\link{subsetTask}}.
+#'
+#' Object members:
 #' \describe{
 #' \item{env [\code{environment}]}{Environment where data for the task are stored. Use \code{\link{getTaskData}} in order to access it.}
-#' \item{weights [\code{numeric}]}{See argument above. \code{NULL} if not present.}
-#' \item{blocking [\code{factor}]}{See argument above. \code{NULL} if not present.}
-#' \item{task.desc [\code{\link{TaskDesc}}]}{Encapsulates further information about the task. See class documentation.}
+#' \item{weights [\code{numeric}]}{See argument above. \code{numeric(0)} if not present.}
+#' \item{blocking [\code{factor}]}{See argument above. \code{factor(0)} if not present.}
+#' \item{task.desc [\code{\link{TaskDesc}}]}{Encapsulates further information about the task.}
 #' }
-#' @param  type[\code{character(1)}]\cr
-#'   Type of task created. Can be either \dQuote{classif} for classifcation or \dQuote{regr} for a regression task.
+#' @param type [\code{character(1)}]\cr
+#'   Type of task created. 
+#'   Can be either \dQuote{classif} for classifcation or \dQuote{regr} for a regression task.
 #' @param id [\code{character(1)}]\cr 
 #'   Id string for object. 
 #'   Default is the name of R variable passed to \code{data}.  
 #' @param data [\code{data.frame}]\cr   
-#'   A data frame containing the input and target variables.
+#'   A data frame containing the features and target variable.
 #' @param target [\code{character(1)}]\cr
 #'   Name of the target variable.
-#' @param exclude [\code{character}]
-#'   Names of features which should be discarded, e.g. IDs, etc. 
-#'   Default is none. 
 #' @param weights [\code{numeric}]\cr   
 #'   An optional vector of case weights to be used in the fitting process.
 #'   If the learner cannot handle weights, they are ignored.
@@ -47,9 +44,10 @@
 #' @return [\code{\link{SupervisedTask}}].
 #' @name SupervisedTask
 #' @rdname SupervisedTask
+#' @aliases ClassifTask, RegrTask
 NULL
 
-makeSupervisedTask = function(type, id, data, target, exclude, weights, blocking, positive, check.data) {
+makeSupervisedTask = function(type, id, data, target, weights, blocking, positive, check.data) {
   if(missing(id)) {
     id = deparse(substitute(data))
     if (!is.character(id) || length(id) != 1)
@@ -59,21 +57,17 @@ makeSupervisedTask = function(type, id, data, target, exclude, weights, blocking
   }
   checkArg(data, "data.frame")
   checkArg(target, "character", len=1, na.ok=FALSE)
-  if (missing(exclude))
-    exclude = character(0)
-  else  
-    checkArg(exclude, "character", na.ok=FALSE)
   if (missing(weights))
-    weights = NULL 
+    weights = numeric(0)
   else
     checkArg(weights, "numeric", len=nrow(data), na.ok=FALSE)
   if (missing(blocking))
-    blocking = NULL
+    blocking = factor(0)
   else
     checkArg(blocking, "factor", len=nrow(data), na.ok=FALSE)
   checkArg(check.data, "logical", len=1, na.ok=FALSE)
   checkWeightsAndBlocking(data, target, weights, blocking)    
-  checkColumnNames(data, target, exclude)
+  checkColumnNames(data, target)
   if (type == "classif") {
     if (!is.factor(data[, target]))
       data[, target] = as.factor(data[, target])
@@ -95,18 +89,11 @@ makeSupervisedTask = function(type, id, data, target, exclude, weights, blocking
       data[, target] = as.numeric(data[, target])
     positive = as.character(NA)  
   }
-  if (length(exclude) > 0)
-    data = data[, setdiff(colnames(data), exclude)]
   if (check.data)
     checkData(data, target)    
   desc = makeTaskDesc(type, id, data, target, weights, blocking, positive)      
   env = new.env()
   env$data = data
-  mf = model.frame(as.formula(paste(target, "~.")), data)
-  attr(mf, ".Environment") = NULL
-  env$terms = attr(mf, "terms")
-  env$xlevels = .getXlevels(env$terms, mf)
-  env$model.matrix = model.matrix(as.formula(paste(target, "~.-1")), mf)
   structure(list(
     env = env,
     task.desc = desc,
@@ -121,10 +108,10 @@ print.SupervisedTask = function(x, ...) {
   cat(
     "Supervised task: ", td$id, "\n",
     "Type: ", td$type, "\n",
-    "Features:\n", feat, "\n", 
-    "Observations: ", td$size , "\n",
-    "Missings: ", td$has.missing, "\n", 
     "Target: ", td$target, "\n", 
+    "Observations: ", td$size , "\n",
+    "Features:\n", feat, "\n", 
+    "Missings: ", td$has.missing, "\n", 
     "Has weights: ", td$has.weights, "\n", 
     "Has blocking: ", td$has.blocking, "\n",
     sep=""
