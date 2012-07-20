@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.ksvm
 makeRLearner.classif.ksvm = function() {
   makeRLearnerClassif(
     cl = "classif.ksvm",

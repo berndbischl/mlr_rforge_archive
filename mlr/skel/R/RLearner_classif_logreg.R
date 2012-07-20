@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.logreg
 makeRLearner.classif.logreg = function() {
   makeRLearnerClassif(
     cl = "classif.logreg",

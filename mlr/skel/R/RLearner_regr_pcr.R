@@ -1,3 +1,4 @@
+#' @S3method makeRLearner regr.pcr
 makeRLearner.regr.pcr = function() {
   makeRLearnerRegr(
     cl = "regr.pcr",

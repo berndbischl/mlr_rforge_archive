@@ -1,3 +1,4 @@
+#' @S3method makeRLearner regr.earth
 makeRLearner.regr.earth = function() {
   makeRLearnerRegr(
     cl = "regr.earth",

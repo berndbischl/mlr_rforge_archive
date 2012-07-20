@@ -1,5 +1,5 @@
 # checked props
-
+#' @S3method makeRLearner classif.J48
 makeRLearner.classif.J48 = function() {
   makeRLearnerClassif(
     cl = "classif.J48",

@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.blackboost
 makeRLearner.classif.blackboost = function() {
   makeRLearnerClassif(
     cl = "classif.blackboost",

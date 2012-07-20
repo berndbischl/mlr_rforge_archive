@@ -1,5 +1,4 @@
-#todo: probs can only be predicted for two class problems (winning class)
-
+#' @S3method makeRLearner classif.gbm
 makeRLearner.classif.gbm = function() {
   makeRLearnerClassif(
     cl = "classif.gbm",

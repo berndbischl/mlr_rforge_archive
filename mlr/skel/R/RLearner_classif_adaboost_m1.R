@@ -1,4 +1,5 @@
 # FIXME: interface was changed, read page, pars, mnaybe rename
+#' @S3method makeRLearner classif.adaboost.m1
 makeRLearner.classif.adaboost.m1 = function() {
   makeRLearnerClassif(
     cl = "classif.adaboost.m1",

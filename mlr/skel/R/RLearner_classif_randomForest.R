@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.randomForest
 makeRLearner.classif.randomForest = function() {
   makeRLearnerClassif(
     cl = "classif.randomForest",

@@ -1,3 +1,4 @@
+#' @S3method makeRLearner regr.lasso
 makeRLearner.regr.lasso = function() {
   makeRLearnerRegr(
     cl = "regr.lasso",

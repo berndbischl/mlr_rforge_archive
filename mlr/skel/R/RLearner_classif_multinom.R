@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.multinom
 makeRLearner.classif.multinom = function() {
   makeRLearnerClassif(
     cl = "classif.multinom",

@@ -1,4 +1,4 @@
-
+#' @S3method makeRLearner classif.glmboost
 makeRLearner.classif.glmboost = function() {
   makeRLearnerClassif(
     cl = "classif.glmboost",

@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.ctree
 makeRLearner.classif.ctree = function() {
   makeRLearnerClassif(
     cl = "classif.ctree",

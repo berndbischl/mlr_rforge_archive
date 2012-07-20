@@ -1,3 +1,4 @@
+#' @S3method makeRLearner regr.lm
 makeRLearner.regr.lm = function() {
   makeRLearnerRegr(
     cl = "regr.lm",

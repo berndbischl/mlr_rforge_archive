@@ -1,5 +1,5 @@
 #FIXME: probs can only be predicted for two class problems (winning class)
-
+#' @S3method makeRLearner classif.fnn
 makeRLearner.classif.fnn = function() {
   makeRLearnerClassif(
     cl = "classif.fnn",

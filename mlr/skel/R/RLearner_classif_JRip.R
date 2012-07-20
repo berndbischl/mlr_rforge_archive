@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.JRip
 makeRLearner.classif.JRip = function() {
   makeRLearnerClassif(
     cl = "classif.JRip",

@@ -1,3 +1,4 @@
+#' @S3method makeRLearner regr.randomForest
 makeRLearner.regr.randomForest = function() {
   makeRLearnerRegr(
     cl = "regr.randomForest",

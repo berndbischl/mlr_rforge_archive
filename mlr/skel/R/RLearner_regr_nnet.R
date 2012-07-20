@@ -1,3 +1,4 @@
+#' @S3method makeRLearner regr.nnet
 makeRLearner.regr.nnet = function() {
   makeRLearnerRegr(
     cl = "regr.nnet",

@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.OneR
 makeRLearner.classif.OneR = function() {
   makeRLearnerClassif(
     cl = "classif.OneR",

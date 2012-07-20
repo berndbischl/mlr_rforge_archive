@@ -1,3 +1,4 @@
+#' @S3method makeRLearner regr.kknn
 makeRLearner.regr.kknn = function() {
   makeRLearnerRegr(
     cl = "regr.kknn",

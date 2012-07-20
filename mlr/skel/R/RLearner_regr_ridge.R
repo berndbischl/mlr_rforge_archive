@@ -1,3 +1,4 @@
+#' @S3method makeRLearner regr.ridge
 makeRLearner.regr.ridge = function() {
   makeRLearnerRegr(
     cl = "regr.ridge",

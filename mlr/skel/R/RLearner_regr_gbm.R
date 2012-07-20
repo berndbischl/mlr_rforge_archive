@@ -1,3 +1,4 @@
+#' @S3method makeRLearner regr.gbm
 makeRLearner.regr.gbm = function() {
   makeRLearnerRegr(
     cl = "regr.gbm",

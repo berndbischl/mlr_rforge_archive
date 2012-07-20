@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.qda
 makeRLearner.classif.qda = function() {
   makeRLearnerClassif(
     cl = "classif.qda",

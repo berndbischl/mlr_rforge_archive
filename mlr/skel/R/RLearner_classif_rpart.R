@@ -1,5 +1,6 @@
 # FIXME: parms has to be in hyperparamter list
 
+#' @S3method makeRLearner classif.rpart
 makeRLearner.classif.rpart = function() {
   makeRLearnerClassif(
     cl = "classif.rpart",

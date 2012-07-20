@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.PART
 makeRLearner.classif.PART = function() {
   makeRLearnerClassif(
    cl = "classif.PART",

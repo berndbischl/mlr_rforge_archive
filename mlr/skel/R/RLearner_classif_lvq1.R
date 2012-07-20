@@ -1,4 +1,5 @@
 # FIXME parset
+#' @S3method makeRLearner classif.lvq1
 makeRLearner.classif.lvq1 = function() {
   makeRLearnerClassif(
     cl = "classif.lvq1",

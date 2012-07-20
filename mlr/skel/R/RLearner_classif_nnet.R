@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.nnet
 makeRLearner.classif.nnet = function() {
   makeRLearnerClassif(
     cl = "classif.nnet",

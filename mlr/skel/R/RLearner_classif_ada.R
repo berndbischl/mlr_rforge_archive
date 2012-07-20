@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.ada
 makeRLearner.classif.ada = function() {
   makeRLearnerClassif(
     cl = "classif.ada",

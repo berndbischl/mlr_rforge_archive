@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.naiveBayes
 makeRLearner.classif.naiveBayes = function() {
   makeRLearnerClassif(
     cl = "classif.naiveBayes",

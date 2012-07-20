@@ -1,3 +1,4 @@
+#' @S3method makeRLearner classif.kknn
 makeRLearner.classif.kknn = function() {
   makeRLearnerClassif(
     cl = "classif.kknn",

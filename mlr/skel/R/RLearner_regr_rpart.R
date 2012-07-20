@@ -1,3 +1,4 @@
+#' @S3method makeRLearner regr.rpart
 makeRLearner.regr.rpart = function() {
   makeRLearnerRegr(
     cl = "regr.rpart",
