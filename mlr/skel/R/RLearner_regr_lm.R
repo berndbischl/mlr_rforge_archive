@@ -19,11 +19,14 @@ makeRLearner.regr.lm = function() {
 trainLearner.regr.lm = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   d = getTaskData(.task, .subset)
-  if (.task$task.desc$has.weights)
-    # strange bug in lm concerning weights
-    lm(data=d, weights=.task$weights[.subset], ...)
-  else  
+  if (.task$task.desc$has.weights) {
+    # FIXME: strange bug in lm concerning weights
+    .weights = force(.task$weights[.subset])
+    xx <<- .weights
+    lm(data=d, weights=.weights, ...)
+  } else { 
     lm(f, data=d, ...)
+  }
 }
 	
 predictLearner.regr.lm = function(.learner, .model, .newdata, ...) {

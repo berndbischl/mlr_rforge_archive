@@ -49,6 +49,6 @@ makeCustomResampledMeasure = function(id, minimize=TRUE, classif=FALSE, regr=FAL
     custom = makeMeasure(id="custom", minimize, classif, regr, only.binary, allowed.pred.types, fun1, extra.args)
     fun2 = function(task, perf.test, perf.train, measure, group, pred) 
       fun(task, group, pred, extra.args)
-    aggr = new("Aggregation", id=id, fun=fun2)
+    aggr = makeAggregation(id=id, fun=fun2)
     setAggregation(custom, aggr)
 }

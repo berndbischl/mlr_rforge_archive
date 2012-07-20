@@ -23,7 +23,7 @@ makeCostMeasure = function(id="costs", minimize=TRUE, costs, task, aggregate=mea
   checkArg(aggregate, "function")
   
   #check costs
-  levs = task@desc@class.levels
+  levs = task$task.desc$class.levels
   if (!all(dim(costs) == 0)) {
     if (any(dim(costs) != length(levs)))
       stop("Dimensions of costs have to be the same as number of class levels!")
@@ -39,13 +39,13 @@ makeCostMeasure = function(id="costs", minimize=TRUE, costs, task, aggregate=mea
       costs = extra.args[[1]]
       mean.costs = extra.args[[2]]
       # cannot index with NA
-      r = pred@df$response    
+      r = pred$data$response    
       if (any(is.na(r)))
         return(as.numeric(NA))
       cc = function(truth, pred) {
         costs[truth, pred]
       }
-      y = mapply(cc, as.character(pred@df$truth), as.character(r))
+      y = mapply(cc, as.character(pred$data$truth), as.character(r))
       aggregate(y)
     }
   )

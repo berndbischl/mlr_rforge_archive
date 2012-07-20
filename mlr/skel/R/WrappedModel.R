@@ -24,18 +24,18 @@ makeWrappedModel.Learner = function(learner, model, task.desc, subset, features,
   if(is.error(model)) {
     model = as.character(model)
     time = as.numeric(NA)
-    cl = "FailureModel"
+    cl = c("FailureModel", "WrappedModel")
   } else {
     cl = "WrappedModel"
-    structure(list(
-      learner = learner,
-      learner.model = model,
-      task.desc = task.desc,
-      subset = subset,
-      features = features,
-      time = time
-    ), class=cl)
   }
+  structure(list(
+    learner = learner,
+    learner.model = model,
+    task.desc = task.desc,
+    subset = subset,
+    features = features,
+    time = time
+  ), class=cl)
 }
 
 #' @S3method print WrappedModel

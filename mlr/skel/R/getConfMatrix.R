@@ -13,5 +13,5 @@
 getConfMatrix = function(pred, relative=FALSE) {
   checkArg(pred, "Prediction")
   checkArg(relative, "logical", len=1L, na.ok=FALSE)
-  errormatrix(pred@df$truth, pred@df$response, relative=relative)
+  errormatrix(pred$data$truth, pred$data$response, relative=relative)
 }
