@@ -3,7 +3,7 @@ makeRLearner.classif.mda = function() {
   makeRLearnerClassif(
     cl = "classif.mda",
     package = "mda",
-    # TODO: stringdot pars and check order, scale and offset limits
+    # FIXME: stringdot pars and check order, scale and offset limits
     par.set = makeParamSet(
       makeUntypedLearnerParam(id="subclasses", default=2L),
       makeIntegerLearnerParam(id="iter", default=5L, lower=1L),

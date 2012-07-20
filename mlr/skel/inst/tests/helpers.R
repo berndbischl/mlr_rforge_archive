@@ -128,7 +128,7 @@ testCV = function(t.name, df, target, folds=2, parset=list(), tune.train, tune.p
 	}
 	
 	tp = function(model, newdata) {
-		# todo insert precit.fct.pars
+		# FIXME insert precit.fct.pars
 		set.seed(getOption("mlr.debug.seed"))
 		p = tune.predict(model, newdata)
 		return(p)
@@ -136,7 +136,7 @@ testCV = function(t.name, df, target, folds=2, parset=list(), tune.train, tune.p
 	
 	tr = e1071::tune(method=tt, predict.func=tp, train.x=formula, data=data, tunecontrol = tune.control(cross = folds, best.model=FALSE))
 	
-	# todo bad code!!!!!
+	# FIXME bad code!!!!!
 	if(class(tr)=="try-error"){
 		warning("tune produced error!")
 	} else {

@@ -32,8 +32,8 @@ makeRLearner.classif.lssvm = function() {
 }
 
 trainLearner.classif.lssvm = function(.learner, .task, .subset, degree, offset, scale, sigma, order, length, lambda, normalized, ...) {
-# TODO custom kernel. freezes? check mailing list
-# TODO unify cla + regr, test all sigma stuff  
+# FIXME custom kernel. freezes? check mailing list
+# FIXME unify cla + regr, test all sigma stuff  
   
   kpar = learnerArgsToControl(list, degree, offset, scale, sigma, order, length, lambda, normalized)
   f = getTaskFormula(.task)

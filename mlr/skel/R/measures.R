@@ -51,7 +51,7 @@
 measures = function() {}
 
 #general
-#todo: in percent is better 
+#FIXME: in percent is better 
 #' @export nvars
 #' @rdname measures
 nvars = makeMeasure(id="nvars", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob"),  

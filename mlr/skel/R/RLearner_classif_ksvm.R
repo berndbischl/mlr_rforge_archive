@@ -3,7 +3,7 @@ makeRLearner.classif.ksvm = function() {
   makeRLearnerClassif(
     cl = "classif.ksvm",
     package = "kernlab",
-    # TODO: stringdot pars and check order, scale and offset limits
+    # FIXME: stringdot pars and check order, scale and offset limits
     par.set = makeParamSet(
       makeLogicalLearnerParam(id="scaled", default=TRUE),
       makeDiscreteLearnerParam(id="type", default="C-svc", values=c("C-svc", "nu-svc", "C-bsvc", "spoc-svc", "kbb-svc")),
