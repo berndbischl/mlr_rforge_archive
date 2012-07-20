@@ -14,7 +14,7 @@
 #'   \dQuote{stop}: R exception is generated.\cr
 #'   \dQuote{warn}: Warning, but parameter is still passed along to learner.\cr 
 #'   \dQuote{quiet}: Same as \dQuote{warn} but without the warning.\cr
-#'   Default is \dQuote{warn}.
+#'   Default is \dQuote{stop}.
 #' @param show.learner.output [\code{logical(1)}]\cr 
 #'   Should the output of the learning algorithm during training and prediction be shown or captured and
 #'   suppressed?

@@ -5,6 +5,5 @@
 #' @importFrom codetools findGlobals
 
 .onAttach <- function(libname, pkgname) {
-  #FIXME defaults
-  configureMlr(on.learner.error="stop")
+  configureMlr()
 }

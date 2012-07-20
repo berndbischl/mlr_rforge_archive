@@ -5,9 +5,7 @@
 #' 
 #' You implementation must adhere to the following:
 #' The model must be fitted on the subset of \code{.task} given by \code{.subset}. All parameters
-#' must in \code{...} must be passed to the underlying training function. 
-#' Mainly for internal use. Predicts new data with WrappedModel. 
-#' You have to implement this method if you want to add another learner to this package. 
+#' in \code{...} must be passed to the underlying training function. 
 #' 
 #' @param .learner [\code{\link{RLearner}}]\cr  
 #'   Wrapped learner. 
@@ -18,10 +16,11 @@
 #' @param ... [any]\cr
 #'   Additional parameters, which need to be passed to the underlying predict function.
 #' @return For classification: Either a factor for type \dQuote{response} or a matrix for
-#'   type \dQuote{prob}. In the later case the columns must be named with the class labels.
-#'   For regressions: 
+#'   type \dQuote{prob}. In the latter case the columns must be named with the class labels.
+#'   For regressions: Either a numeric for type \dQuote{response} or a matrix with two columns
+#'   for type \dQuote{se}. In the latter case first column is the estimated response (mean value)
+#'   and the second column the estimated standard errors.
 #' @export
-# FIXME rereead and details
 predictLearner = function(.learner, .model, .newdata, ...) {
   UseMethod("predictLearner")
 }

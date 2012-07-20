@@ -1,4 +1,3 @@
-#FIXME throw error if learner cannot handle weights
 #' Create a classification / regression task for a given data set.
 #' 
 #' The task encapsulates the data and specifies - through its subclasses - the type of the task (either classification or regression), 

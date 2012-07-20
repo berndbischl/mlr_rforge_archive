@@ -1,5 +1,3 @@
-#FIXME: do we really need the task.desc here
-
 #' Prediction object.
 #' 
 #' Result from \code{\link{predict}}. 
@@ -61,7 +59,6 @@ makePrediction = function(task.desc, id, truth, predict.type, y, time) {
   return(p)  
 }
 
-# FIXME
 #' @S3method print Prediction
 print.Prediction = function(x, ...) {
   d = printToChar(str(as.data.frame(x)))
