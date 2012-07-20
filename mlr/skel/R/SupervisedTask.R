@@ -103,6 +103,7 @@ makeSupervisedTask = function(type, id, data, target, weights, blocking, positiv
 print.SupervisedTask = function(x, ...) {
   td = x$task.desc
   feat = printToChar(td$n.feat)
+  feat = paste("  ", feat, sep="")
   cat(
     "Supervised task: ", td$id, "\n",
     "  Type: ", td$type, "\n",

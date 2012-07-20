@@ -87,7 +87,7 @@ setHyperPars2.Learner = function(learner, par.vals) {
     pd = pars[[n]]
     if (is.null(pd)) {
       # no description: stop warn or quiet
-      msg = sprintf("%s: Setting parameter %s without available description object!\You can switch off this check by using configureMlr!", learner$id, n)
+      msg = sprintf("%s: Setting parameter %s without available description object!\nYou can switch off this check by using configureMlr!", learner$id, n)
       opwd = getOption("mlr.on.par.without.desc")
       if (opwd == "stop")
         stop(msg)

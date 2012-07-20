@@ -17,3 +17,9 @@ makeAggregation = function(id, fun) {
   checkArg(id, "character", len=1, na.ok=FALSE)
   structure(list(id=id, fun=fun), class="Aggregation")
 }
+
+#' @S3method print Aggregaton
+print.Aggregation = function(x, ...) { 
+  catf("Aggregaton function: %s", x$id)
+}
+

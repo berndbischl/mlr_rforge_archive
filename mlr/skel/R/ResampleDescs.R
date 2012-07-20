@@ -34,17 +34,20 @@ makeResampleDescRepCV = function(reps=10L, folds=10L) {
   makeResampleDescInternal("repeated cross-validation", iters=folds*reps, folds=folds, reps=reps)
 }
 
-# FIXME: test
 #' @S3method print SubsampleDesc
 print.SubsampleDesc = function(x, ...) { 
-  catf("  %s with %i iterations and %.2f split rate.", x$id, x$iters, x$split)
+  catf("Resample description: %s with %i iterations and %.2f split rate.", 
+    x$id, x$iters, x$split)
   catf("  Predict: %s", x$predict)
+  catf("  Stratification: %s", x$stratify)
 }
 
 #' @S3method print RepCVDesc
 print.RepCVDesc = function(x, ...) { 
-  catf("%s with %i iterations: %i folds and %i reps.", x$id, x$iters, x$iters/x$reps, x$reps)
+  catf("Resample description: %s with %i iterations: %i folds and %i reps.", 
+    x$id, x$iters, x$iters/x$reps, x$reps)
   catf("  Predict: %s", x$predict)
+  catf("  Stratification: %s", x$stratify)
 }
 
 
