@@ -1,5 +1,5 @@
 # set initial varaince to (upper-lower)/2 if both bounds are given
-#todo: fix parallel g2
+#FIXME: fix parallel g2
 tuneCMAES = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   requirePackages("cmaes", "tune_cmaes")
   

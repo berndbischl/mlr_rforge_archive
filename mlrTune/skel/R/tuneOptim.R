@@ -1,4 +1,4 @@
-# todo: add optimize if only 1 par
+# FIXME: add optimize if only 1 par
 tuneOptim = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
   low = getLower(par.set)
   upp = getUpper(par.set)
@@ -16,7 +16,7 @@ tuneOptim = function(learner, task, resampling, measures, par.set, control, opt.
   if (method == "L-BFGS-B") {
     or = optim(par=start, f=g, method=method, lower=low, upper=upp, control=args)
   } else {
-    # todo: fix machine bound
+    # FIXME: fix machine bound
     if (any((is.double(low) & low != -Inf) | (is.integer(low) & low != -.Machine$integer.max)) ||
         any((is.double(upp) & upp !=  Inf) | (is.integer(upp) & upp !=  .Machine$integer.max))) 
       stop("Box constraints can only be used for 'L-BFGS-B' in 'optim'!")  

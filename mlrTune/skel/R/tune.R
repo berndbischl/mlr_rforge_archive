@@ -1,4 +1,4 @@
-#todo: check whether optimization can be paralleized if req. by user
+#FIXME: check whether optimization can be paralleized if req. by user
 
 #' Optimizes the hyperparameters of a learner for a classification or regression problem.
 #' Allows for different optimization methods, such as grid search, evolutionary strategies 

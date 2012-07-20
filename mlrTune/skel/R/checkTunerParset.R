@@ -1,4 +1,4 @@
-# todo: SPO check?
+# FIXME: SPO check?
 checkTunerParset = function(learner, par.set, control) {
   if (length(par.set$pars) == 0)
     stop("No parameters were passed!")
