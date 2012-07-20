@@ -128,7 +128,6 @@ b632plus = makeAggregation(
     df = as.data.frame(pred)
     a = numeric(length(perf.test))
     for (i in 1:length(perf.test)) {
-      print(i)
       df2 = df[df$iter == i, ]
       y1 = df2$truth
       y2 = df2$response
@@ -136,17 +135,11 @@ b632plus = makeAggregation(
       pred2 = makePrediction(task.desc=pred$task.desc, 
         id=NULL, truth=grid[,1], predict.type="response", y=grid[,2],  
         time=as.numeric(NA))
-      print(nrow(df2))
-      print(nrow(grid))
       gamma = performance(pred2, measure=measure)
-      print(gamma)
       R = (perf.test[i] - perf.train[i]) / (gamma - perf.train[i])
-      print(R)
       w = 0.632 / (1 - 0.368*R)
-      print(w)
       a[i] = (1-w) * perf.train[i] + w*perf.test[i]
     }
-    print(a)
     return(mean(a))
   }
 )

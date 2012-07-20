@@ -14,7 +14,6 @@ makeRLearner.classif.sda = function() {
 
 trainLearner.classif.sda = function(.learner, .task, .subset,  ...) {
   d = getTaskData(.task, .subset, target.extra=TRUE)
-  xx <<- d
   sda(Xtrain = as.matrix(d$data), L = d$target, ...)
 }
 
