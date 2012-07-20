@@ -45,3 +45,25 @@ test_that("resample", {
   fit = resample(lrn1, ct, makeResampleDesc("CV", iters=2))
   
 })
+
+test_that("resampling, predicting train set works", {
+  rdesc = makeResampleDesc("CV", iters=2, predict="train")
+  lrn = makeLearner("classif.rpart")
+  r = resample(lrn, multiclass.task, rdesc)
+  expect_true(as.logical(is.na(r$aggr["mmce.test.mean"])))
+
+  rdesc = makeResampleDesc("CV", iters=2, predict="train")
+  lrn = makeLearner("classif.rpart")
+  m = setAggregation(mmce, train.mean)
+  r = resample(lrn, multiclass.task, rdesc, measures=m)
+  expect_true(!as.logical(is.na(r$aggr["mmce.train.mean"])))
+  
+  rdesc = makeResampleDesc("CV", iters=2, predict="both")
+  lrn = makeLearner("classif.rpart")
+  m1 = setAggregation(mmce, train.mean)
+  m2 = setAggregation(mmce, test.mean)
+  r = resample(lrn, multiclass.task, rdesc, measures=list(m1, m2))
+  expect_true(!as.logical(is.na(r$aggr["mmce.train.mean"])))
+  expect_true(!as.logical(is.na(r$aggr["mmce.test.mean"])))
+  
+})

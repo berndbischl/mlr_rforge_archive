@@ -67,7 +67,7 @@ resample = function(learner, task, resampling, measures, models=FALSE,
   more.args = list(learner=learner, task=task, rin=rin, 
     measures=measures, model=models, extract=extract, show.info=show.info)
   iter.results = parallelMap(doResampleIteration, 1:iters, level="resample", more.args=more.args)
-  mergeResampleResult(iter.results, measures, rin, models, extract, show.info)
+  mergeResampleResult(task, iter.results, measures, rin, models, extract, show.info)
 }
 
 doResampleIteration = function(learner, task, rin, i, measures, model, extract, show.info) {
@@ -98,7 +98,6 @@ doResampleIteration = function(learner, task, rin, i, measures, model, extract, 
     pred.test = predict(m, task, subset=test.i)
     ms.test = sapply(measures, function(pm) performance(task=task, model=m, pred=pred.test, measure=pm))    
   }
-  
   ex = extract(m)
   list(
     measures.test = ms.test,
@@ -110,7 +109,7 @@ doResampleIteration = function(learner, task, rin, i, measures, model, extract, 
   )
 }
 
-mergeResampleResult = function(iter.results, measures, rin, models, extract, show.info) {
+mergeResampleResult = function(task, iter.results, measures, rin, models, extract, show.info) {
   iters = length(iter.results)
   mids = sapply(measures, function(m) m$id)
   
@@ -130,7 +129,6 @@ mergeResampleResult = function(iter.results, measures, rin, models, extract, sho
   preds.train = extractSubList(iter.results, "pred.train", simplify=FALSE)
   pred = makeResamplePrediction(instance=rin, preds.test=preds.test, preds.train=preds.train)
   
-  #FIXME: task?
   aggr = sapply(measures, function(m)  m$aggr$fun(task, ms.test[, m$id], ms.train[, m$id], m, rin$group, pred))
   names(aggr) = sapply(measures, measureAggrName)
   if (show.info) {
