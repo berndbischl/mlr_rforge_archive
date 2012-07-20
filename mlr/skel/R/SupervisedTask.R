@@ -105,13 +105,13 @@ print.SupervisedTask = function(x, ...) {
   feat = printToChar(td$n.feat)
   cat(
     "Supervised task: ", td$id, "\n",
-    "Type: ", td$type, "\n",
-    "Target: ", td$target, "\n", 
-    "Observations: ", td$size , "\n",
-    "Features:\n", feat, "\n", 
-    "Missings: ", td$has.missing, "\n", 
-    "Has weights: ", td$has.weights, "\n", 
-    "Has blocking: ", td$has.blocking, "\n",
+    "  Type: ", td$type, "\n",
+    "  Target: ", td$target, "\n", 
+    "  Observations: ", td$size , "\n",
+    "  Features:\n", feat, "\n", 
+    "  Missings: ", td$has.missings, "\n", 
+    "  Has weights: ", td$has.weights, "\n", 
+    "  Has blocking: ", td$has.blocking, "\n",
     sep=""
   )
 }

@@ -27,5 +27,5 @@ test_that("SupervisedTask", {
 	df[1,1:3] = NA
 	df[2,1:3] = NA
 	ct = makeClassifTask(data=df, target=multiclass.target)	
-	expect_true(ct$task.desc$has.missing)
+	expect_true(ct$task.desc$has.missings)
 })

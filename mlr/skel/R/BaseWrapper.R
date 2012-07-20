@@ -40,7 +40,7 @@ setHyperPars2.BaseWrapper = function(learner, par.vals) {
   }
   return(learner)
 } 
- 
+# FIXME: test
 #' @S3method print ResampleDesc
 print.BaseWrapper = function(x, ...) {
   s = ""
@@ -53,7 +53,7 @@ print.BaseWrapper = function(x, ...) {
   
   cat(
     s, "\n",
-    "Hyperparameters: ", getHyperParsString(x), "\n\n",
+    "  Hyperparameters: ", getHyperParsString(x), "\n\n",
     sep = ""         
   )
 }

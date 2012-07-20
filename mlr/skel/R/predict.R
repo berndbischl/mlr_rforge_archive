@@ -94,7 +94,6 @@ predict.WrappedModel = function(object, task, newdata, subset, ...) {
       else
         fun2 = function(x) try(x, silent=TRUE)
       st = system.time(fun1(p <- fun2(do.call(predictLearner2, pars))), gcFirst = FALSE)
-      # FIXME conversions and checks missing!!
       time.predict = as.numeric(st[3])
       # was there an error during prediction?
       if(is.error(p)) {

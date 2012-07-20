@@ -42,9 +42,9 @@ makeWrappedModel.Learner = function(learner, model, task.desc, subset, features,
 print.WrappedModel = function(x, ...) {
   cat(
     "Learner model for id=", x$learner$id, " class=", class(x$learner)[1], "\n",  
-    "Trained on obs: ", length(x$subset), "\n",
-    "Used features: ", length(x$features), "\n",
-    "Hyperparameters: ", getHyperParsString(x$learner), "\n",
+    "  Trained on obs: ", length(x$subset), "\n",
+    "  Used features: ", length(x$features), "\n",
+    "  Hyperparameters: ", getHyperParsString(x$learner), "\n",
     sep=""
   )
 }

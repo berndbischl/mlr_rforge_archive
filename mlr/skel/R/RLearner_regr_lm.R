@@ -1,4 +1,3 @@
-#FIXME can do se
 makeRLearner.regr.lm = function() {
   makeRLearnerRegr(
     cl = "regr.lm",

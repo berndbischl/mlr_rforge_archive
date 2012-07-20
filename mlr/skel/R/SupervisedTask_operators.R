@@ -29,8 +29,6 @@ getTaskFormula = function(x) {
   return(f)
 }
 
-#FIXME either recodey or class.ass
-
 #' Get target column of task. 
 #'
 #' @param task [\code{\link{SupervisedTask}}]\cr 

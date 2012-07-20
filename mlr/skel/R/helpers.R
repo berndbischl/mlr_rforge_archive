@@ -14,7 +14,6 @@ measureAggrName = function(measure) {
   paste(measure$id, measure$aggr$id, sep=".")
 }
 
-#FIXME do we need this? BBmisc?
 perfsToString = function(y) {
   paste(paste(names(y), "=", formatC(y, digits=3), sep=""), collapse=",")
 }

@@ -41,7 +41,6 @@ makePrediction = function(task.desc, id, truth, predict.type, y, time) {
   }
   data = as.data.frame(data)
   # fix columnnames for prob if strage chars are in factor levels
-	# FIXME review this!
 	i = grep("prob.", colnames(data))
 	if (length(i) > 0)
 		colnames(data)[i] = paste("prob.", colnames(y), sep="")
@@ -65,6 +64,11 @@ makePrediction = function(task.desc, id, truth, predict.type, y, time) {
 # FIXME
 #' @S3method print Prediction
 print.Prediction = function(x, ...) {
-  catf("Prediction %s", printToChar(str(as.data.frame(x)))) 
+  d = printToChar(str(as.data.frame(x)))
+  catf("Prediction:")
+  catf("  predict.type: %s", x$predict.type)
+  catf("  threshold: %s", x$threshold)
+  catf("  time: %f.1", x$time)
+  catf(paste("  ", d, sep="")) 
 }
 

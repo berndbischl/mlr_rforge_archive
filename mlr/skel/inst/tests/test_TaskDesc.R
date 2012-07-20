@@ -20,7 +20,7 @@ test_that("TaskDesc", {
   expect_equal(sum(multiclass.task$task.desc$n.feat), 4)  
   expect_equal(multiclass.task$task.desc$n.feat[["numerics"]], 4)  
   expect_equal(multiclass.task$task.desc$n.feat[["factors"]], 0)  
-  expect_equal(multiclass.task$task.desc$has.missing, F)  
+  expect_equal(multiclass.task$task.desc$has.missings, F)  
   expect_equal(multiclass.task$task.desc$type, "classif") 
   expect_equal(multiclass.task$task.desc$class.levels, c("setosa", "versicolor", "virginica"))  
   
@@ -28,14 +28,14 @@ test_that("TaskDesc", {
   df = multiclass.df
   df[1,1] = as.numeric(NA)
   ct = makeClassifTask(target="Species", data=df)
-  expect_equal(ct$task.desc$has.missing, T) 
+  expect_equal(ct$task.desc$has.missings, T) 
   
   ct = makeClassifTask(target=binaryclass.target, data=binaryclass.df)
   expect_equal(ct$task.desc$size, 208)  
   expect_equal(sum(ct$task.desc$n.feat), 60)  
   expect_equal(ct$task.desc$n.feat[["numerics"]], 60)  
   expect_equal(ct$task.desc$n.feat[["factors"]], 0)  
-  expect_equal(ct$task.desc$has.missing, F) 
+  expect_equal(ct$task.desc$has.missings, F) 
   expect_equal(ct$task.desc$type, "classif")  
   expect_equal(ct$task.desc$class.levels, c("M", "R"))  
   
@@ -43,7 +43,7 @@ test_that("TaskDesc", {
   expect_equal(sum(regr.task$task.desc$n.feat), 13) 
   expect_equal(regr.task$task.desc$n.feat[["numerics"]], 12)  
   expect_equal(regr.task$task.desc$n.feat[["factors"]], 1)  
-  expect_equal(regr.task$task.desc$has.missing, F)  
+  expect_equal(regr.task$task.desc$has.missings, F)  
   expect_equal(regr.task$task.desc$type, "regr")  
   expect_true(is.na(regr.task$task.desc$class.levels)) 
 })
