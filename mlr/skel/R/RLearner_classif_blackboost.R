@@ -18,6 +18,7 @@ makeRLearner.classif.blackboost = function() {
       makeLogicalLearnerParam(id="savesplitstats", default=TRUE),
       makeIntegerLearnerParam(id="maxdepth", default=0L, lower=0L)
     ), 
+    par.vals = list(family=Binomial()),
     twoclass = TRUE,
     missings = TRUE,
     numerics = TRUE,

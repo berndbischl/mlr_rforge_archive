@@ -35,7 +35,12 @@ trainLearner.classif.lssvm = function(.learner, .task, .subset, degree, offset, 
 # TODO unify cla + regr, test all sigma stuff  
   
   kpar = learnerArgsToControl(list, degree, offset, scale, sigma, order, length, lambda, normalized)
+  xx <<- kpar
   f = getTaskFormula(.task)
+  yy <<- f
+  zz1 <<- .task
+  zz2 <<- .subset
+  
   if (base::length(kpar) > 0)
     lssvm(f, data=getTaskData(.task, .subset), kpar=kpar, ...)
   else

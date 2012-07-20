@@ -6,7 +6,7 @@ makeRLearner.classif.grplasso = function() {
     par.set = makeParamSet(
       makeNumericLearnerParam(id="lambda", default=1, lower=0),
       makeUntypedLearnerParam(id="index")
-      ), 
+    ), 
     twoclass = TRUE,
     numerics = TRUE,
     prob = TRUE,
@@ -15,7 +15,7 @@ makeRLearner.classif.grplasso = function() {
 }
 
 trainLearner.classif.grplasso = function(.learner, .task, .subset,  ...) {
-  # todo: bug in grplasso: index cant be passed with formula interface....
+  # FIXME: bug in grplasso: index cant be passed with formula interface....
   d = getTaskData(.task, .subset, target.extra=TRUE, recode.target="01")
   x = cbind(1, as.matrix(d$data))
   if (.task$task.desc$has.weights)

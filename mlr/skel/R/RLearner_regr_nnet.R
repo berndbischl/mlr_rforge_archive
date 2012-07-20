@@ -3,10 +3,11 @@ makeRLearner.regr.nnet = function() {
     cl = "regr.nnet",
     package = "nnet",
     par.set = makeParamSet(
-      makeIntegerLearnerParam(id="size", default=3L, lower=0, pass.default=TRUE),
+      makeIntegerLearnerParam(id="size", default=3L, lower=0),
       makeIntegerLearnerParam(id="maxit", default=100L, lower=1L),
       makeNumericLearnerParam(id="decay", default=0, lower=0)
     ), 
+    par.vals = list(size=3L),
     missings = FALSE,
     numerics = TRUE,
     factors = TRUE,

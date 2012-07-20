@@ -24,5 +24,5 @@ trainLearner.regr.mars = function(.learner, .task, .subset,  ...) {
 }
 
 predictLearner.regr.mars = function(.learner, .model, .newdata, ...) {
-  predict(.model$learner.model, newdata=.newdata)
+  predict(.model$learner.model, newdata=.newdata)[,1]
 }

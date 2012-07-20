@@ -44,18 +44,7 @@ makeLearner = function(cl, id=cl, predict.type="response", ..., par.vals=list())
     stop("Cannot create learner from empty string!")	
   if (!is(wl, "RLearner"))
     stop("Learner must be a basic RLearner!")
-  pds = wl$par.set$pars
-  # pass defaults
-  pv = list()
-  for (j in seq(length=length(pds))) {
-    pd = pds[[j]]
-    if (pd$pass.default) {
-      pv[[length(pv)+1]] = pd$default
-      names(pv)[length(pv)] = pd$id
-    }
-  }
-  pv = insert(pv, par.vals)
-  wl = setHyperPars(wl, ..., par.vals=pv)
+  wl = setHyperPars(wl, ..., par.vals=par.vals)
   if (predict.type != "response")
     wl = setPredictType(wl, predict.type)
   return(wl)

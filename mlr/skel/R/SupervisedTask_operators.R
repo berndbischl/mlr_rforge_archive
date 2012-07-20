@@ -92,7 +92,7 @@ getTaskData = function(task, subset, features, target.extra=FALSE, recode.target
         else if (mv)
           {d=task$env$data[subset,,drop=FALSE];d[,tn]=NULL;d} 
         else
-          task$env$data[subset,features,drop=FALSE],
+          task$env$data[subset,c(features, tn),drop=FALSE],
       target = 
         if (ms)
           recodeY(getTaskTargets(task), type=recode.target, positive=task$task.desc$positive)
@@ -108,7 +108,7 @@ getTaskData = function(task, subset, features, target.extra=FALSE, recode.target
       else if (mv)
         task$env$data[subset,,drop=FALSE]
       else
-        task$env$data[subset,features,drop=FALSE]
+        task$env$data[subset,c(features, tn),drop=FALSE]
     if (recode.target != "no")
       d[,tn] = recodeY(d[, tn], type=recode.target, positive=task$task.desc$positive)
     return(d)

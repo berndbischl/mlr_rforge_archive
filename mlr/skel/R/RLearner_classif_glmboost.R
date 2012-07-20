@@ -9,6 +9,7 @@ makeRLearner.classif.glmboost = function() {
       makeNumericLearnerParam(id="nu", default=0.1, lower=0, upper=1),        
       makeLogicalLearnerParam(id="center", default=FALSE)
     ), 
+    par.vals = list(family=Binomial()),
     oneclass = FALSE,
     twoclass = TRUE,
     multiclass = FALSE,

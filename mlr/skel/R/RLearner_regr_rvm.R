@@ -44,5 +44,5 @@ trainLearner.regr.rvm = function(.learner, .task, .subset, degree, offset, scale
 }  
 
 predictLearner.regr.rvm = function(.learner, .model, .newdata, ...) {
-  kernlab::predict(.model$learner.model, newdata=.newdata, ...)
+  kernlab::predict(.model$learner.model, newdata=.newdata, ...)[,1]
 }

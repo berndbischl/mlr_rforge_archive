@@ -18,9 +18,9 @@ makeRLearner.classif.rda = function() {
         values=list("rectangular", "triangular", "epanechnikov", "biweight", "triweight", "cos", "inv", "gaussian")),
       makeLogicalLearnerParam(id="trafo", default=TRUE),
       makeLogicalLearnerParam(id="SimAnn", default=FALSE),
-      # change default, so error is only estimated at request of user
-      makeLogicalLearnerParam(id="estimate.error", default=FALSE, pass.default=TRUE)
+      makeLogicalLearnerParam(id="estimate.error", default=TRUE)
     ), 
+    par.vals = list(estimate.error=FALSE),
     twoclass = TRUE,
     multiclass = TRUE,
     numerics = TRUE,

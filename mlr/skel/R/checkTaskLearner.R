@@ -2,7 +2,7 @@ checkTaskLearner = function(task, learner) {
 	td = task$task.desc
   if (td$type != learner$type) 
     stopf("Task %s is %s, but learner %s is for %s!", td$id, td$type, learner$id, learner$type)
-  if (td$has.missing && !learner$missings)
+  if (td$has.missings && !learner$missings)
 		stopf("Task %s has missing values, but learner %s does not support that!", td$id, learner$id)
 	if (td$n.feat["numerics"] > 0 && !learner$numerics) 
     stopf("Task %s has numeric inputs, but learner %s does not support that!", td$id, learner$id)

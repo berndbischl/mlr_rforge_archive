@@ -2,7 +2,7 @@
 context("resample")
 
 test_that("resample", {
-  rin1 = makeResampleInstance(makeResampleDesc("BS", iters=4), task=multiclass.task)  
+  rin1 = makeResampleInstance(makeResampleDesc("Bootstrap", iters=4), task=multiclass.task)  
   rin2 = makeResampleInstance(makeResampleDesc("CV", iters=7), task=multiclass.task)  
   rin3 = makeResampleInstance(makeResampleDesc("Subsample", iters=2), task=multiclass.task)  
   
@@ -12,17 +12,17 @@ test_that("resample", {
   p3 = resample(lrn, multiclass.task, rin3)$pred       
   
   inds = Reduce(c, rin1$test.inds)
-  y = getTargets(multiclass.task)[inds]
-  expect_equal(p1$df$id, inds)
-  expect_equal(p1$df$truth, y)
+  y = getTaskTargets(multiclass.task)[inds]
+  expect_equal(p1$data$id, inds)
+  expect_equal(p1$data$truth, y)
   inds = Reduce(c, rin2$test.inds)
-  y = getTargets(multiclass.task)[inds]
-  expect_equal(p2$df$id, inds)
-  expect_equal(p2$df$truth, y)
+  y = getTaskTargets(multiclass.task)[inds]
+  expect_equal(p2$data$id, inds)
+  expect_equal(p2$data$truth, y)
   inds = Reduce(c, rin3$test.inds)
-  y = getTargets(multiclass.task)[inds]
-  expect_equal(p3$df$id, inds)
-  expect_equal(p3$df$truth, y)
+  y = getTaskTargets(multiclass.task)[inds]
+  expect_equal(p3$data$id, inds)
+  expect_equal(p3$data$truth, y)
 
   cv.i = makeResampleInstance(makeResampleDesc("CV", iters=3), binaryclass.task)
   
@@ -35,11 +35,11 @@ test_that("resample", {
   rf4 = resample(lrn2, binaryclass.task, cv.i)$pred
   rf4 = setThreshold(rf4, 1)
   
-  expect_equal(rf1$df$response, rf2$df$response)
-  f1 = factor(rep(binaryclass.task$desc$positive, cv.i$size), levels=binaryclass.task$desc$class.levels)
-  expect_equal(rf3$df$response, f1)
-  f2 = factor(rep(binaryclass.task$desc$negative, cv.i$size), levels=binaryclass.task$desc$class.levels)
-  expect_equal(rf4$df$response, f2)
+  expect_equal(rf1$data$response, rf2$data$response)
+  f1 = factor(rep(binaryclass.task$task.desc$positive, cv.i$size), levels=binaryclass.task$task.desc$class.levels)
+  expect_equal(rf3$data$response, f1)
+  f2 = factor(rep(binaryclass.task$task.desc$negative, cv.i$size), levels=binaryclass.task$task.desc$class.levels)
+  expect_equal(rf4$data$response, f2)
   
   ct = makeClassifTask(data=iris[,c("Species", "Petal.Width")], target="Species")
   fit = resample(lrn1, ct, makeResampleDesc("CV", iters=2))

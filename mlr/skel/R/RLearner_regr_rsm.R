@@ -3,8 +3,9 @@ makeRLearner.regr.rsm = function() {
     cl = "regr.rsm",
     package = "rsm",
     par.set = makeParamSet(
-      makeDiscreteLearnerParam(id="modelfun", default="FO", values=c("FO", "TWI", "SO"), pass.default=TRUE)
+      makeDiscreteLearnerParam(id="modelfun", default="FO", values=c("FO", "TWI", "SO"))
     ), 
+    par.vals = list(modelfun="FO"),
     missings = FALSE,
     numerics = TRUE,
     factors = FALSE,

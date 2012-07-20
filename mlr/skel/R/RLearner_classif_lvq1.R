@@ -31,5 +31,5 @@ trainLearner.classif.lvq1 = function(.learner, .task, .subset,  ...) {
 }
 	
 predictLearner.classif.lvq1 = function(.learner, .model, .newdata, ...) {
-  lvqtest(.model@learner.model, test=.newdata, ...)
+  lvqtest(.model$learner.model, test=.newdata, ...)
 }

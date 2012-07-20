@@ -3,7 +3,7 @@ makeRLearner.classif.nnet = function() {
     cl = "classif.nnet",
     package = "nnet",
     par.set = makeParamSet(
-      makeIntegerLearnerParam(id="size", default=3L, lower=0L, pass.default=TRUE),
+      makeIntegerLearnerParam(id="size", default=3L, lower=0L),
       makeIntegerLearnerParam(id="maxit", default=100L, lower=1L),
       # nnet seems to set these manually and hard for classification.....
 #     makeLogicalLearnerParam(id="linout", default=FALSE, requires=expression(entropy==FALSE && softmax==FALSE && censored==FALSE)),
@@ -19,6 +19,7 @@ makeRLearner.classif.nnet = function() {
       makeNumericLearnerParam(id="abstoll", default=1.0e-4),
       makeNumericLearnerParam(id="reltoll", default=1.0e-8)      
     ), 
+    par.vals = list(size=3L),
     twoclass = TRUE,
     multiclass = TRUE,
     numerics = TRUE,

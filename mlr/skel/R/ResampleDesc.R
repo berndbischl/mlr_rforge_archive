@@ -37,6 +37,11 @@
 #'			split [\code{numeric(1)}]: Proportion of training cases for \dQuote{Holdout} and \dQuote{Subsample} from between 0 and 1. Default is 2/3.\cr
 #'			reps [integer(1)]: Repeats for \dQuote{RepCV}. Here \code{iters = folds * reps}. Default is 2. \cr
 #'			folds [integer(1)]: Folds in the repeated CV for \code{RepCV}. Here \code{iters = folds * reps}. Default is 5. 
+#' @param stratify [\code{logical(1)}]\cr
+#'   Should stratificatiob be done for the classes in classification tasks?
+#'   This means that the resampling strategy is applied to all classes individually and the resulting 
+#'   index sets are joined, to make sure that the proportion of observations in each training set 
+#'   is as in the original data set. Useful for imbalanced class sizes. 
 #' @return \code{\link{ResampleDesc}}.
 #' @export
 #' @aliases ResampleDesc

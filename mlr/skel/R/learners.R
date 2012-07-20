@@ -64,61 +64,29 @@ NULL
 #' Returns the class names of learning algorithms which have specific characteristics, e.g.
 #' whether they supports missing values, case weights, etc. 
 #' 
-#' The default of all boolean parameters is NA, meaning: property is not required, don't care.
+#' The default of all parameters is \code{NA}, meaning: property is not required, do not care.
 #' 
-#' @param x [string | \code{\linkS4class{LearnTask}}] \cr
-#'   Type of the learning algorithm, either "classif" or "regr" or task to solve
-#' @param doubles [\code{logical(1)}] \cr
-#'   Supports real-valued inputs? Pass only when x is a string.
-#' @param factors [\code{logical(1)}] \cr
-#'   Supports factor inputs? Pass only when x is a string.
-#' @param missings [\code{logical(1)}] \cr
-#'   Supports missing values? Pass only when x is a string.
-#' @param multiclass [\code{logical(1)}] \cr
-#'   Supports multiclass problems? Pass only when x is a string.
-#' @param weights [\code{logical(1)}] \cr
-#'   Supports case weights? Pass only when x is a string.
-#' @param probs [\code{logical(1)}] \cr
-#'   Can predict probabilities?
+#' @param type [\code{character(1)}]\cr
+#'   Type of the learning algorithm, either \dQuote{classif} or \dQuote{regr}.
+#' @param numerics [\code{logical(1)}]\cr
+#'   Supports real-valued features?
+#' @param factors [\code{logical(1)}]\cr
+#'   Supports factor features?
+#' @param missings [\code{logical(1)}]\cr
+#'   Supports missing values in features?
+#' @param weights [\code{logical(1)}]\cr
+#'   Supports case weights?
+#' @param oneclass [\code{logical(1)}]\cr
+#'   Supports oneclass problems?
+#' @param twoclass [\code{logical(1)}]\cr
+#'   Supports twoclass problems?
+#' @param multiclass [\code{logical(1)}]\cr
+#'   Supports multiclass problems?
+#' @param prob [\code{logical(1)}]\cr
+#'   Can predict probabilities (classification)?
+#' @param se [\code{logical(1)}]\cr
+#'   Can predict standard errors (regression)?
 #' @export 
-getLearners = function(x = NA, doubles = NA, factors = NA, missings = NA, weights = NA, 
-  multiclass = NA, probs = NA) {
-  
-  type = x
-  meths = methods("makeRLearner")
-  str_
-  top.cl = switch(type, classif="rlearner.classif", regr="rlearner.regr", na="rlearner")
-  ls = Filter(function(x) extends(x, top.cl) && x != top.cl , mlr.classes)
-  
-  f = function(x) {
-    wl = try(makeLearner(x))
-    if(is (wl, "try-error")) 
-      return(NULL)
-    else
-      return(wl)
-  }
-  
-  ls = lapply(ls, f)
-  ls = Filter(function(x) !is.null(x), ls)
-  
-  
-  f = function(x) {
-    ( is.na(doubles) || doubles == x["numerics"] ) &&
-      ( is.na(factors) || factors == x["factors"] ) &&
-      ( is.na(characters) || characters == x["characters"] ) &&
-      ( is.na(missings) || missings == x["missings"] ) &&
-      ( is.na(multiclass) || multiclass == x["multiclass"] ) &&
-      ( is.na(weights) || weights == x["weights"]  ) &&
-      ( is.na(probs) || probs == x["prob"] )
-  }
-  
-  ls = Filter(f, ls)
-  ls = sapply(ls, function(x) as.character(class(x)))
-  
-  return(ls)
-}
-		
- 
 listLearners = function(type=as.logical(NA), numerics=as.logical(NA), factors=as.logical(NA),
                         missings=as.logical(NA), weights=as.logical(NA), 
                         oneclass=as.logical(NA), twoclass=as.logical(NA), multiclass=as.logical(NA), 
@@ -140,17 +108,17 @@ listLearners = function(type=as.logical(NA), numerics=as.logical(NA), factors=as
   res = list()
   for (m in meths) {
     lrn = do.call(m, list())
-     if (
-          ( is.na(type) || type == lrn$type ) &&
-          ( is.na(numerics) || doubles == lrn$numerics ) &&
-          ( is.na(factors) || factors == lrn$factors ) &&
-          ( is.na(missings) || missings == lrn$missings ) &&
-          ( is.na(weights) || weights == lrn$weights  ) &&
-          ( is.na(oneclass) || oneclass == lrn$oneclass ) &&
-          ( is.na(twoclass) || twoclass == lrn$twoclass ) &&
-          ( is.na(multiclass) || multiclass == lrn$multiclass ) &&
-          ( is.na(prob) || prob == lrn$prob ) &&
-          ( is.na(se) || se == lrn$se ) 
+    if (
+      ( is.na(type) || type == lrn$type ) &&
+      ( is.na(numerics) || numerics == lrn$numerics ) &&
+      ( is.na(factors) || factors == lrn$factors ) &&
+      ( is.na(missings) || missings == lrn$missings ) &&
+      ( is.na(weights) || weights == lrn$weights  ) &&
+      ( is.na(oneclass) || oneclass == lrn$oneclass ) &&
+      ( is.na(twoclass) || twoclass == lrn$twoclass ) &&
+      ( is.na(multiclass) || multiclass == lrn$multiclass ) &&
+      ( is.na(prob) || prob == lrn$prob ) &&
+      ( is.na(se) || se == lrn$se ) 
     ) {
         res[[length(res)+1]] = lrn
       }
@@ -158,11 +126,24 @@ listLearners = function(type=as.logical(NA), numerics=as.logical(NA), factors=as
   sapply(res, function(lrn) class(lrn)[1])
 }
 
-listLearnersForTask = function(task) {
+#' @param task [\code{\link{SupervisedTask}}]\cr 
+#'   The task. If this is passed, data from this task is predicted.   
+#' @export
+#' @rdname listLearners
+listLearnersForTask = function(task, prob=as.logical(NA), se=as.logical(NA), warn.missing.packages=TRUE) {
   checkArg(task, "SupervisedTask")
   td = task$task.desc
-  listLearners(type=td$type, numerics=td$n.feat["numeric"] > 0, factors=td$n.feat["numeric"] > 0,
-    missings=td$has.misisngs, weights=td$has.weights
-    multiclass=length(td$class.levels) > 2, warn.missing.packages=TRUE)
-  )
+
+  numerics = ifelse(td$n.feat["numerics"] > 0, TRUE, NA)
+  factors = ifelse(td$n.feat["factors"] > 0, TRUE, NA)
+  missings = ifelse(td$has.missings, TRUE, NA)
+  weights = ifelse(td$has.weights, TRUE, NA)
+  oneclass = ifelse(td$type=="classif" && length(td$class.levels) == 1L, TRUE, NA)
+  twoclass = ifelse(td$type=="classif" && length(td$class.levels) == 2L, TRUE, NA)
+  multiclass = ifelse(td$type=="classif" && length(td$class.levels) > 2L, TRUE, NA)
+  
+  listLearners(type=td$type, numerics=numerics, factors=factors,
+    missings=missings, weights=weights,
+    oneclass=oneclass, twoclass=twoclass, multiclass=multiclass,
+    prob=prob, se=se, warn.missing.packages=warn.missing.packages)
 }

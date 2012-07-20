@@ -10,10 +10,10 @@ makeRLearner.classif.mda = function() {
       makeDiscreteLearnerParam(id="method", default=polyreg, 
         values=list(polyreg=polyreg, mars=mars, bruto=bruto, gen.ridge=gen.ridge)),
       makeLogicalLearnerParam(id="trace", default=FALSE),
-      # change default and pass it to reduce mem
-      makeLogicalLearnerParam(id="keep.fitted", default=FALSE, pass.default=TRUE),
+      makeLogicalLearnerParam(id="keep.fitted", default=TRUE),
       makeIntegerLearnerParam(id="tries", default=5L, lower=1L)
     ), 
+    par.vals = list(keep.fitted=FALSE),
     twoclass = TRUE,
     multiclass = TRUE,
     numerics = TRUE,

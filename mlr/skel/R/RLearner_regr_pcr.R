@@ -26,5 +26,6 @@ trainLearner.regr.pcr = function(.learner, .task, .subset,  ...) {
 }
 
 predictLearner.regr.pcr = function(.learner, .model, .newdata, ...) {
-  predict(.model$learner.model, newdata=.newdata)
+  p = predict(.model$learner.model, newdata=.newdata)
+  p[,1,dim(p)[3]]
 }
