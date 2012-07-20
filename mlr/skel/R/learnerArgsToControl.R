@@ -1,26 +1,32 @@
-#' Split arguments into 'control' and 'other' arguments.
+#' Convert arguments to control structure.
 #'
-#' Find all elements in list \code{args} whose name is contained in
-#' \code{arg.names} and call function \code{control} on these. The
-#' result of this is returned as the \code{control} element of the
-#' list returned. All remaining elements in \code{args} are returned
-#' as the \code{args} element of the return list.
+#' Find all elements in \code{...} which are not missing and 
+#' call \code{control} on them.
 #'
-#' @param control [function] \cr Function to apply to the elements of
-#'   \code{args} named in \code{arg.names}.
-#' @param arg.names [character] \cr List of argument names to extract
-#'   from \code{args}.
-#' @param args [list] \cr List of named arguments to be split into
-#'   control and other arguments.
-#' @return List with elements \code{control} and \code{args}.
+#' @param control [\code{function}] \cr 
+#'   Function that creates control structure.
+#' @param ... \cr
+#'   Arguments for control structure function.
+#' @return Control structure for learner.
 #' @export
-learnerArgsToControl = function(control, arg.names, args) {
-  checkArg(control, "function")
-  checkArg(arg.names,"character")
-  checkArg(args, "list")
-  # put stuff into special list and remove it from args
-  ctrl.args = insert(list(), args, arg.names)
-  ctrl = do.call(control, ctrl.args)
-  args[arg.names] = NULL
-  return(list(control=ctrl, args=args))
+learnerArgsToControl = function(control, ...) {
+  args = list()
+  dots = match.call(expand.dots = FALSE)$...
+  for (arg in dots) {
+    is_missing = if (is.symbol(arg)) {
+      eval(substitute(missing(symbol), list(symbol = arg)), 
+           envir = parent.frame())
+    }
+    else {
+      FALSE
+    }
+    if (!is_missing) {
+      value = tryCatch(eval(arg, envir = parent.frame()), 
+                       error = function(...) NULL)
+      if (!is.null(value)) {
+        args[[as.character(arg)]] = value
+      }
+    }
+  }
+  do.call(control, args)
 }

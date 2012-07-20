@@ -133,8 +133,8 @@ b632plus = makeAggregation(
       y1 = df2$truth
       y2 = df2$response
       grid = expand.grid(y1, y2, KEEP.OUT.ATTRS=FALSE)
-      pred2 = makePrediction(task.desc=pred@task.desc, 
-        id=NULL, truth=grid[,1], type="response", y=grid[,2],  
+      pred2 = makePrediction(task.desc=pred$task.desc, 
+        id=NULL, truth=grid[,1], predict.type="response", y=grid[,2],  
         time=as.numeric(NA))
       print(nrow(df2))
       print(nrow(grid))

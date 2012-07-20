@@ -24,8 +24,10 @@ makeRLearner.classif.ksvm = function() {
         requires=expression(kernel == "besseldot")),
       makeNumericLearnerParam(id="tol", default=0.001, lower=0),
       makeLogicalLearnerParam(id="shrinking", default=TRUE),
-      makeNumericLearnerParam(id="class.weights", default=1, lower=0)
+      makeNumericLearnerParam(id="class.weights", default=1, lower=0),
+      makeLogicalLearnerParam(id="fit", default=TRUE)
     ), 
+    par.vals = list(fit=FALSE),
     twoclass = TRUE,
     multiclass = TRUE,
     numerics = TRUE,
@@ -34,28 +36,25 @@ makeRLearner.classif.ksvm = function() {
   )
 }
 
-trainLearner.classif.ksvm = function(.learner, .task, .subset,  ...) {
+trainLearner.classif.ksvm = function(.learner, .task, .subset, degree, offset, scale, sigma, order, length, lambda, normalized,  ...) {
 
-  # TODO custom kernel. freezes? check mailing list
-  # TODO unify cla + regr, test all sigma stuff
+  # FIXME custom kernel. freezes? check mailing list
+  # FIXME unify cla + regr, test all sigma stuff
   
 #     # there's a strange behaviour in r semantics here wgich forces this, see do.call and the comment about substitute
 #     if (!is.null(args$kernel) && is.function(args$kernel) && !is(args$kernel,"kernel")) {
 #       args$kernel = do.call(args$kernel, kpar)  
 #     } 
-  
-  xs = learnerArgsToControl(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
+  kpar = learnerArgsToControl(list, degree, offset, scale, sigma, order, length, lambda, normalized)
   f = getTaskFormula(.task)
   pm = .learner$predict.type == "prob"
-  if (length(xs$control) > 0)
-    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args, prob.model=pm)
+  if (base::length(kpar) > 0)
+    ksvm(f, data=getTaskData(.task, .subset), kpar=kpar, prob.model=pm, ...)
   else
-    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE), xs$args, prob.model=pm)
-  do.call(ksvm, args)
-  
+    ksvm(f, data=getTaskData(.task, .subset), prob.model=pm, ...)
 }
 
 predictLearner.classif.ksvm = function(.learner, .model, .newdata, ...) {
   type = switch(.learner$predict.type, prob="probabilities", "response")
-  predict(.model$learner.model, newdata=.newdata, type=type, ...)
+  kernlab::predict(.model$learner.model, newdata=.newdata, type=type, ...)
 }

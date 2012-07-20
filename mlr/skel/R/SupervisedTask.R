@@ -14,9 +14,6 @@
 #' \item{blocking [\code{factor}]}{See argument above. \code{factor(0)} if not present.}
 #' \item{task.desc [\code{\link{TaskDesc}}]}{Encapsulates further information about the task.}
 #' }
-#' @param type [\code{character(1)}]\cr
-#'   Type of task created. 
-#'   Can be either \dQuote{classif} for classifcation or \dQuote{regr} for a regression task.
 #' @param id [\code{character(1)}]\cr 
 #'   Id string for object. 
 #'   Default is the name of R variable passed to \code{data}.  
@@ -44,7 +41,7 @@
 #' @return [\code{\link{SupervisedTask}}].
 #' @name SupervisedTask
 #' @rdname SupervisedTask
-#' @aliases ClassifTask, RegrTask
+#' @aliases ClassifTask RegrTask
 NULL
 
 makeSupervisedTask = function(type, id, data, target, weights, blocking, positive, check.data) {
@@ -62,7 +59,7 @@ makeSupervisedTask = function(type, id, data, target, weights, blocking, positiv
   else
     checkArg(weights, "numeric", len=nrow(data), na.ok=FALSE)
   if (missing(blocking))
-    blocking = factor(0)
+    blocking = factor(c())
   else
     checkArg(blocking, "factor", len=nrow(data), na.ok=FALSE)
   checkArg(check.data, "logical", len=1, na.ok=FALSE)
@@ -102,6 +99,7 @@ makeSupervisedTask = function(type, id, data, target, weights, blocking, positiv
   ), class="SupervisedTask")
 }
 
+#' @S3method print SupervisedTask
 print.SupervisedTask = function(x, ...) {
   td = x$task.desc
   feat = printToChar(td$n.feat)

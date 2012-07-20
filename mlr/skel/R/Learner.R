@@ -11,7 +11,8 @@
 #'   \dQuote{regr.}. A list of all learners is available on the
 #'   \code{\link{learners}} help page.
 #' @param id [\code{character(1)}]\cr 
-#'   Id string for object. Used to select the object from a named list, etc.
+#'   Id string for object. Used to display object.
+#'   Default is \code{cl}.
 #' @param predict.type [\code{character(1)}]\cr
 #'   Classification: \dQuote{response} (= labels) or \dQuote{prob} (= probabilities and labels by selecting the ones with maximal probability).
 #'   Regression: \dQuote{response} (= mean response) or \dQuote{se} (= standard errors and mean response).
@@ -30,7 +31,7 @@
 #' @examples
 #' makeLearner("classif.logreg")
 #' makeLearner("regr.lm")
-makeLearner = function(cl, id, predict.type="response", ..., par.vals=list()) {
+makeLearner = function(cl, id=cl, predict.type="response", ..., par.vals=list()) {
   checkArg(cl, "character", len=1, na.ok=FALSE)
   wl = do.call(sprintf("makeRLearner.%s", cl), list())
   if (!missing(id)) {

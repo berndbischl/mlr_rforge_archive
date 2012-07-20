@@ -41,6 +41,7 @@ setHyperPars2.BaseWrapper = function(learner, par.vals) {
   return(learner)
 } 
  
+#' @S3method print ResampleDesc
 print.BaseWrapper = function(x, ...) {
   s = ""
   y = x

@@ -23,9 +23,9 @@ e1071BootstrapToMlrBootstrap = function(e1071.tune.result) {
   size = length(inds[[1]])
   iters = length(inds)
   
-  d = makeResampleDesc("BS", iters=iters)
+  d = makeResampleDesc("Bootstrap", iters=iters)
   bs.instance = makeResampleInstance(d, size=size)
-
+  
   for (i in 1:iters) {
 	  bs.instance$train.inds[[i]] = inds[[i]]
     bs.instance$test.inds[[i]] = setdiff(1:size, inds[[i]])
@@ -146,8 +146,6 @@ testCV = function(t.name, df, target, folds=2, parset=list(), tune.train, tune.p
       task = makeRegrTask(data=df, target=target)
     else if (is.factor(df[, target]))
       task = makeClassifTask(data=df, target=target)
-    else 
-      stop("Should not happen!")    
 		ms = resample(lrn, task, cv.instance)$measures.test
     if (is(task, "ClassifTask")) { 
       expect_equal(mean(ms[,"mmce"]), tr$performances[1,2], check.names=FALSE)
@@ -179,18 +177,15 @@ testBootstrap = function(t.name, df, target, iters=3, parset=list(), tune.train,
   lrn = do.call("makeLearner", c(t.name, parset))
 	
   if (is.numeric(df[, target]))
-      task = makeRegrTask(data=df, target=target)
-    else if (is.factor(df[, target]))
-      task = makeClassifTask(data=df, target=target)
-    else 
-      stop("Should not happen!")
-   ms = resample(lrn, task, bs.instance)$measures.test
-  
+    task = makeRegrTask(data=df, target=target)
+  else if (is.factor(df[, target]))
+    task = makeClassifTask(data=df, target=target)
+  ms = resample(lrn, task, bs.instance)$measures.test
 	if (is(task, "ClassifTask")) { 
-		expect_equal(mean(ms["mmce"]), tr$performances[1,2], check.names=FALSE)
-		expect_equal(sd  (ms["mmce"]), tr$performances[1,3], check.names=FALSE)
+		expect_equal(mean(ms[,"mmce"]), tr$performances[1,2], check.names=FALSE)
+		expect_equal(sd  (ms[,"mmce"]), tr$performances[1,3], check.names=FALSE)
 	} else {
-    expect_equal(mean(ms["mse"]), tr$performances[1,2], check.names=FALSE)
-    expect_equal(sd  (ms["mse"]), tr$performances[1,3], check.names=FALSE)
+    expect_equal(mean(ms[,"mse"]), tr$performances[1,2], check.names=FALSE)
+    expect_equal(sd  (ms[,"mse"]), tr$performances[1,3], check.names=FALSE)
   }
 }

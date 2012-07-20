@@ -1,4 +1,3 @@
-
 #' Get feature names of task. 
 #' 
 #' Target column name is not included.
@@ -12,11 +11,14 @@ getTaskFeatureNames = function(task) {
   return(setdiff(colnames(task$env$data), task$task.desc$target)) 
 }
 
-#' Get formula of a task. This is simply \code{target ~ .}. 
+#' Get formula of a task. 
+#' 
+#' This is simply \code{target ~ .}. 
 #' Note that the environment that always gets attached to a formula is deleted. 
+#' 
 #' @param x [\code{\link{SupervisedTask}} | \code{\link{TaskDesc}}]\cr 
 #'   Task or its description object.   
-#' @return [\code{formula}]
+#' @return [\code{formula}].
 getTaskFormula = function(x) {
   g = function(target) as.formula(paste(target, "~."))
   if (inherits(x, "TaskDesc"))
@@ -36,15 +38,18 @@ getTaskFormula = function(x) {
 #' @param subset [\code{integer}]\cr 
 #'   Selected cases. 
 #'   Default is all cases. 
-#' @param subset [\code{character()}]\cr 
-#'   Selected cases. 
-#'   Default is all cases. 
+#' @param recode.target [\code{character(1)}] \cr
+#'   Should target classes be recoded? Only for binary classification.
+#'   Possible are \dQuote{no} (do nothing), \dQuote{01}, and \dQuote{-1+1}. 
+#'   In the two latter cases the target vector is converted into a numeric vector. 
+#'   The positive class is coded as +1 and the negative class either as 0 or -1. 
+#'   Default is \dQuote{no}.
 #' @return A \code{factor} for classification or a \code{numeric} for regression.
 #' @export
-getTaskTargets = function(task, subset, recode.y="no") {
+getTaskTargets = function(task, subset, recode.target="no") {
   #FIXME argument checks currently not done for speed
   y = task$env$data[subset, task$task.desc$target]
-  recodeY(y, recode.y, task$task.desc$positive)
+  recodeY(y, recode.target, task$task.desc$positive)
 }
 
 
@@ -63,27 +68,16 @@ getTaskTargets = function(task, subset, recode.y="no") {
 #'   If not, a single data.frame including the target is returned, otherwise a list 
 #'   with the input data.frame and an extra vector for the targets.
 #'   Default is FALSE. 
-#' @param class.as [\code{character(1)}] \cr
+#' @param recode.target [\code{character(1)}] \cr
 #'   Should target classes be recoded? Only for binary classification.
-#'   Possible are \dQuote{factor} (do nothing), \dQuote{01}, and \dQuote{-1+1}. 
-#'   In the two latter cases the target vector, which is usually a factor, is converted into a numeric vector. 
+#'   Possible are \dQuote{no} (do nothing), \dQuote{01}, and \dQuote{-1+1}. 
+#'   In the two latter cases the target vector is converted into a numeric vector. 
 #'   The positive class is coded as +1 and the negative class either as 0 or -1. 
-#'   Default is \dQuote{factor}.
-#'    
+#'   Default is \dQuote{no}.
 #' @return Either a data.frame or a list with data.frame \code{data} and vector \code{target}.
 #'
 #' @export
-getTaskData = function(task, subset, features, target.extra=FALSE, class.as="factor") {
-  # maybe recode y
-  rec.y = function(y) {
-    if (class.as=="01")
-      as.numeric(y == task$task.desc$positive)
-    else if (class.as=="-1+1")
-      2*as.numeric(y == task$task.desc$positive)-1
-    else
-      y
-  }
-  
+getTaskData = function(task, subset, features, target.extra=FALSE, recode.target="no") {
   tn = task$task.desc$target
   ms = missing(subset) || identical(subset, 1:task$task.desc$size)
   mv = missing(features) || identical(features, getTaskFeatureNames(task))
@@ -101,9 +95,9 @@ getTaskData = function(task, subset, features, target.extra=FALSE, class.as="fac
           task$env$data[subset,features,drop=FALSE],
       target = 
         if (ms)
-          rec.y(getTaskTargets(task))
+          recodeY(getTaskTargets(task), type=recode.target, positive=task$task.desc$positive)
         else
-          rec.y(getTaskTargets(task)[subset])
+          recodeY(getTaskTargets(task)[subset], type=recode.target, positive=task$task.desc$positive)
     )
   } else {
     d = 
@@ -115,8 +109,8 @@ getTaskData = function(task, subset, features, target.extra=FALSE, class.as="fac
         task$env$data[subset,,drop=FALSE]
       else
         task$env$data[subset,features,drop=FALSE]
-    if (class.as != "factor")
-      d[,tn] = rec.y(d[, tn])
+    if (recode.target != "no")
+      d[,tn] = recodeY(d[, tn], type=recode.target, positive=task$task.desc$positive)
     return(d)
   }
 }

@@ -20,13 +20,13 @@ makeRLearner.classif.glmboost = function() {
   )
 }
 
-trainLearner.classif.glmboost = function(.learner, .task, .subset,  ...) {
-  xs = learnerArgsToControl(boost_control, c("mstop", "nu", "risk"), list(...))
+trainLearner.classif.glmboost = function(.learner, .task, .subset, mstop, nu, risk, ...) {
+  ctrl = learnerArgsToControl(boost_control, mstop, nu, risk)
   f = getTaskFormula(.task)
-  args = c(list(f, data=getTaskData(.task, .subset), control=xs$control), xs$args)
   if (.task$task.desc$has.weights)
-    args$weights = .task$weights[.subset] 
-  do.call(glmboost, args)
+    glmboost(f, data=getTaskData(.task, .subset), control=ctrl, weights=.task$weights[.subset], ...)
+  else
+    glmboost(f, data=getTaskData(.task, .subset), control=ctrl, , ...)
 }
 
 predictLearner.classif.glmboost = function(.learner, .model, .newdata, ...) {

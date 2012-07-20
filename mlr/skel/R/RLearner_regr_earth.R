@@ -16,12 +16,8 @@ makeRLearner.regr.earth = function() {
 }
 
 trainLearner.regr.earth = function(.learner, .task, .subset,  ...) {
-  #x = getTaskData(.task, .subset, target.extra=TRUE)
-  #earth(x$data, x$target, ...)
   f = getTaskFormula(.task)
-  args = list(f, data=getTaskData(.task, .subset))
-  args = c(args, list(...))
-  do.call("earth", args)
+  earth(f, data=getTaskData(.task, .subset), ...)
 }
 
 predictLearner.regr.earth = function(.learner, .model, .newdata, ...) {

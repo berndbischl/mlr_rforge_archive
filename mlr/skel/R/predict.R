@@ -1,8 +1,8 @@
 #' Predict new data.
 #' 
-#' Predict the target variable of new data using a fitted model. If the type is set to "prob"
-#' probabilities will be stored in the resulting object. The resulting class labels are 
-#' the classes with the maximum values. 
+#' Predict the target variable of new data using a fitted model. 
+#' What is stored exactly in the [\code{\link{Prediction}}] object depends
+#' on the \code{predict.type} setting of the \code{\link{Learner}}.
 #' 
 #' @param object [\code{\link{WrappedModel}}]\cr 
 #'   Wrapped model, result of \code{\link{train}}.
@@ -14,12 +14,12 @@
 #' @param subset [\code{integer}]\cr 
 #'   Index vector to subset \code{task} or \code{newdata}.
 #'   Default is all data.
+#' @param ... \cr 
+#'   Currently ignored.
 #' @return [\code{\link{Prediction}}].
-#' @export
-#' @rdname predict
-#' @importFrom stats predict
-#' @seealso \code{\link{train}}, \code{\link{setThreshold}}
-predict.WrappedModel = function(object, task, newdata, subset) {
+#' @method predict WrappedModel
+#' @S3method predict WrappedModel
+predict.WrappedModel = function(object, task, newdata, subset, ...) {
   if (!missing(task) && !missing(newdata)) 
     stop("Pass either a task object or a newdata data.frame to predict, but not both!")
   checkArg(object, "WrappedModel")

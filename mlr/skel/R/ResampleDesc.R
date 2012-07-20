@@ -29,29 +29,28 @@
 #' @param method [\code{character(1)}]\cr
 #'   \dQuote{CV} for cross-validation, \dQuote{LOO} for leave-one-out, \dQuote{StratCV} for stratified cross-validation, \dQuote{RepCV} for repeated cross-validation,\cr
 #'   \dQuote{BS} for out-of-bag bootstrap, \dQuote{Subsample} for subsampling, \dQuote{Holdout} for holdout.	
-#' @param iters [\code{integer(1)}]\cr
-#'   Number of resampling iterations. Ignored for \dQuote{Holdout} and \dQuote{LOO}. 
-#'   Default is 10.	 			
 #' @param predict [\code{character(1)}]\cr
 #'   What to predict during resampling: \dQuote{train}, \dQuote{test} or \dQuote{both} sets. Default is \dQuote{test}.
 #' @param ... [any] \cr
 #'		Further parameters for strategies.\cr 
+#'  		iters [\code{numeric(1)}]: Number of iterations, for \dQuote{CV}, \dQuote{Subsample} and \dQuote{Boostrap}\cr
 #'			split [\code{numeric(1)}]: Proportion of training cases for \dQuote{Holdout} and \dQuote{Subsample} from between 0 and 1. Default is 2/3.\cr
 #'			reps [integer(1)]: Repeats for \dQuote{RepCV}. Here \code{iters = folds * reps}. Default is 2. \cr
 #'			folds [integer(1)]: Folds in the repeated CV for \code{RepCV}. Here \code{iters = folds * reps}. Default is 5. 
 #' @return \code{\link{ResampleDesc}}.
 #' @export
 #' @aliases ResampleDesc
-makeResampleDesc = function(method, iters=10L, predict="test", ...) {
-  checkArg(method, choices=c("Holdout", "CV", "LOO", "Subsample", "Boostrap", "StratCV", "RepCV"))    
-  iters = convertInteger(iters)
-  checkArg(iters, "integer", len=1, na.ok=FALSE)    
+makeResampleDesc = function(method, predict="test", ..., stratify=FALSE) {
+  checkArg(method, choices=c("Holdout", "CV", "LOO",  "RepCV", "Subsample", "Bootstrap"))    
   checkArg(predict, "character", choices=c("train", "test", "both"))    
+  checkArg(stratify, "logical", len=1L, na.ok=FALSE)
+  if (stratify && method == "LOO")         
+    stop("Stratification cannot be done for LOO!")
   constructor = paste("makeResampleDesc", method, sep="")
   cl = paste(method, "Desc", sep="")
-  args = c(iters=iters, list(...))
-  d = do.call(constructor, args)
+  d = do.call(constructor, list(...))
   d$predict = predict
+  d$stratify = stratify
   class(d) = c(cl, class(d))
   return(d)
 }
@@ -65,8 +64,10 @@ makeResampleDescInternal = function(id, iters, predict="test", ...) {
   structure(res, class = "ResampleDesc")
 }
 
+#' @S3method print ResampleDesc
 print.ResampleDesc = function(x, ...) { 
   catf("Resample description: %s with %i iterations.", x$id, x$iters)
   catf("Predict: %s", x$predict)
+  catf("Stratification: %s", x$stratify)
 }
 

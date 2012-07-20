@@ -5,7 +5,8 @@ makeClassifTask = function(id, data, target, weights, blocking, positive, check.
   class(task) = c("ClassifTask", class(task))
   return(task)
 }
-   
+
+#' @S3method print ClassifTask
 print.ClassifTask = function(x, ...) {
   di = printToChar(table(getTaskTargets(x)))
   # remove 1st newline

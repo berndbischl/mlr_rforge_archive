@@ -38,6 +38,7 @@ makeWrappedModel.Learner = function(learner, model, task.desc, subset, features,
   }
 }
 
+#' @S3method print WrappedModel
 print.WrappedModel = function(x, ...) {
   cat(
     "Learner model for id=", x$learner$id, " class=", class(x$learner)[1], "\n",  

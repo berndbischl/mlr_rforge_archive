@@ -125,6 +125,7 @@ setAggregation = function(measure, aggr) {
   return(measure)
 } 
 
+#' @S3method print Measure
 print.Measure = function(x, ...) {
   catf("Performance measure: %s", x$id)
   catf("Minimize: %s", x$minimize)

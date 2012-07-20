@@ -38,8 +38,8 @@ makeTaskDesc = function(type, id, data, target, weights, blocking, positive) {
   else
     td$class.levels = as.character(NA)
   td$has.missing = any(sapply(data, function(x) any(is.na(x))))
-  td$has.weights = !is.null(weights)
-  td$has.blocking = !is.null(blocking)
+  td$has.weights = length(weights) > 0
+  td$has.blocking = length(blocking) > 0
   if (type == "classif") {
     td$positive = positive
     if (length(td$class.levels) == 1)

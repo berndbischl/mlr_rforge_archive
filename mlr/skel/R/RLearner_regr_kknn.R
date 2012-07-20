@@ -21,12 +21,12 @@ trainLearner.regr.kknn = function(.learner, .task, .subset,  ...) {
 }
 
 predictLearner.regr.kknn = function(.learner, .model, .newdata, ...) {
-  m <- .model$learner.model
+  m = .model$learner.model
   f = getTaskFormula(.model$task.desc)
   # this is stupid but kknn forces it....
-  .newdata[, m$td$target] <- 0
-  pars <- list(formula=f, train=m$data, test=.newdata)  
-  pars <- c(pars, m$parset, list(...))
-  m <- do.call(kknn, pars)
+  .newdata[, m$td$target] = 0
+  pars = list(formula=f, train=m$data, test=.newdata)  
+  pars = c(pars, m$parset, list(...))
+  m = do.call(kknn, pars)
   return(m$fitted.values)
 }

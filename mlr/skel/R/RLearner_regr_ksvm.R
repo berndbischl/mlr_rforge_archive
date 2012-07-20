@@ -23,8 +23,10 @@ makeRLearner.regr.ksvm = function() {
       makeIntegerLearnerParam(id="order", default=1L, 
         requires=expression(kernel == "besseldot")),
       makeNumericLearnerParam(id="tol", default=0.001, lower=0),
-      makeLogicalLearnerParam(id="shrinking", default=TRUE)
+      makeLogicalLearnerParam(id="shrinking", default=TRUE),
+      makeLogicalLearnerParam(id="fit", default=TRUE)
     ), 
+    par.vals = list(fit=FALSE),
     missings = FALSE,
     numerics = TRUE,
     factors = TRUE,
@@ -33,17 +35,16 @@ makeRLearner.regr.ksvm = function() {
   )
 }
 
-trainLearner.regr.ksvm = function(.learner, .task, .subset,  ...) {
-  xs = learnerArgsToControl(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda"), list(...))
+trainLearner.regr.ksvm = function(.learner, .task, .subset, degree, offset, scale, sigma, order, length, lambda, ...) {
+  kpar = learnerArgsToControl(list, degree, offset, scale, sigma, order, length, lambda)
   f = getTaskFormula(.task)
   # difference in missing(kpar) and kpar=list()!
-  if (length(xs$control) > 0)
-    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args)
+  if (base::length(kpar) > 0)
+    ksvm(f, data=getTaskData(.task, .subset), kpar=kpar, ...)
   else
-    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE), xs$args)
-  do.call(ksvm, args)
+    ksvm(f, data=getTaskData(.task, .subset), ...)
 }
 
 predictLearner.regr.ksvm = function(.learner, .model, .newdata, ...) {
-  predict(.model$learner.model, newdata=.newdata, ...)[,1]
+  kernlab::predict(.model$learner.model, newdata=.newdata, ...)[,1]
 }

@@ -63,6 +63,7 @@ makePrediction = function(task.desc, id, truth, predict.type, y, time) {
 }
 
 # FIXME
+#' @S3method print Prediction
 print.Prediction = function(x, ...) {
   catf("Prediction %s", printToChar(str(as.data.frame(x)))) 
 }

@@ -26,10 +26,10 @@ makeRLearner.classif.adaboost.m1 = function() {
   )
 }
 
-trainLearner.classif.adaboost.m1 = function(.learner, .task, .subset,  ...) {
+trainLearner.classif.adaboost.m1 = function(.learner, .task, .subset, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth, ...) {
   f = getTaskFormula(.task)
-  xs = learnerArgsToControl(rpart.control, c("minsplit", "minbucket", "cp", "maxcompete", "maxsurrogate", "usesurrogate", "surrogatestyle", "maxdepth"), list(...))
-  do.call(boosting, c(list(f, data=getTaskData(.task, .subset), control=xs$control), xs$args))
+  ctrl = learnerArgsToControl(rpart.control, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth)
+  boosting(f, data=getTaskData(.task, .subset), control=ctrl, ...)
 }
 
 predictLearner.classif.adaboost.m1 = function(.learner, .model, .newdata, ...) {

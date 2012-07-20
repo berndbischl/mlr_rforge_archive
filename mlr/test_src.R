@@ -21,11 +21,12 @@ target1 = "Species"
 target2 = "medv"
 task1 = makeClassifTask(data=df1, target=target1)
 task2 = makeRegrTask(data=df2, target=target2)
+task = task1
 
-#lrn = makeLearner("regr.blackboost")
-#lrn = makeLearner("classif.OneR")
-#m = train(lrn, task)
-#p = predict(m, task)
+#lrn = makeLearner("regr.blackboos")
+lrn = makeLearner("classif.ksvm", sigma=2)
+m = train(lrn, task)
+p = predict(m, task)
 #p = predict(m, newdata=df)
 #rdesc = makeResampleDesc("CV", iters=5)
 #rin = makeResampleInstance(rdesc, task=task)

@@ -26,14 +26,14 @@ makeRLearner.regr.blackboost = function() {
   )
 }
 
-trainLearner.regr.blackboost = function(.learner, .task, .subset,  ...) {
-  xs = learnerArgsToControl(boost_control, c("mstop", "nu", "risk"), list(...))
-  ys = learnerArgsToControl(ctree_control, c("teststat", "testtype", "mincriterion", "maxdepth"), xs$args)
+trainLearner.regr.blackboost = function(.learner, .task, .subset, mstop, nu, risk, teststat, testtype, mincriterion, maxdepth, ...) {
+  ctrl = learnerArgsToControl(boost_control, mstop, nu, risk)
+  tc = learnerArgsToControl(ctree_control, teststat, testtype, mincriterion, maxdepth)
   f = getTaskFormula(.task)
-  args = c(list(f, data=getTaskData(.task, .subset), control=xs$control, tree_control=ys$control), ys$args)
   if (.task$task.desc$has.weights)
-    args$weights = .task$weights[.subset] 
-  do.call(blackboost, args)
+    blackboost(f, data=getTaskData(.task, .subset), control=ctrl, tree_controls=tc, weights=.task$weights[.subset])
+  else
+    blackboost(f, data=getTaskData(.task, .subset), control=ctrl, tree_controls=tc)
 }
 
 

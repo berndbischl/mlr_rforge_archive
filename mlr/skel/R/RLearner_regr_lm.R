@@ -19,10 +19,10 @@ makeRLearner.regr.lm = function() {
 trainLearner.regr.lm = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   d = getTaskData(.task, .subset)
-  if (.task$task.desc$has.weights) {
+  if (.task$task.desc$has.weights)
     # strange bug in lm concerning weights
-    do.call(lm, list(f, data=d, weights=.task$weights[.subset]))
-  }else  
+    lm(data=d, weights=.task$weights[.subset], ...)
+  else  
     lm(f, data=d, ...)
 }
 	

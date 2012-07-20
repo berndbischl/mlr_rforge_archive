@@ -9,16 +9,17 @@
 #'   Class name for learner to create. 
 #'   By convention, all classification learners start with \dQuote{classif.} 
 #'   and all regression learners with \dQuote{regr.}
-#' @param id [\code{character(1)}] \cr 
-#'   Id string for object. 
-#'   Used to display the object.
+#' @param package [\code{character}]\cr
+#'   Package(s) to load for the implementation of the learner.
+#' @param par.set [\code{\link[ParamHelpers]{ParamSet}}] \cr
+#'   Parameter set of (hyper)parameters and their constraints.
 #' @param numerics [\code{logical(1)}]\cr
 #'   Can numeric features be handled?
 #'   Default is \code{FALSE}.
 #' @param factors [\code{logical(1)}]\cr
 #'   Can factor features be handled?
 #'   Default is \code{FALSE}.
-#' @param missing [\code{logical(1)}]\cr
+#' @param missings [\code{logical(1)}]\cr
 #'   Can missing values be handled?
 #'   Default is \code{FALSE}.
 #' @param weights [\code{logical(1)}]\cr
@@ -47,14 +48,19 @@
 #' @return [\code{\link{RLearnerClassif}} or \code{\link{RLearnerRegr}}].
 #' @name RLearner
 #' @rdname RLearner
-#' @aliases RLearnerClassif, RLearnerRegr
+#' @aliases RLearnerClassif RLearnerRegr
 NULL
 
-makeRLearner = function(id, type, package, par.set, numerics, factors, missings, weights, 
+makeRLearner = function() {
+  UseMethod("makeRLearner")
+}
+
+makeRLearnerInternal = function(id, type, package, par.set, numerics, factors, missings, weights, 
   oneclass, twoclass, multiclass, prob, se, par.vals) {
 
   checkArg(id, "character", len=1L, na.ok=FALSE)  
   checkArg(type, choices=c("classif", "regr"))  
+  checkArg(package, "character", na.ok=FALSE)  
   checkArg(par.set, "ParamSet")  
   checkListElementClass(par.set$pars, "LearnerParam")
   checkArg(factors, "logical", len=1L, na.ok=FALSE)  
@@ -97,7 +103,7 @@ makeRLearnerClassif = function(cl, package, par.set, numerics=FALSE, factors=FAL
   missings=FALSE, weights=FALSE, oneclass=FALSE, twoclass=FALSE, multiclass=FALSE, 
   prob=FALSE, par.vals=list()) {
   
-  x = makeRLearner(cl, "classif", package, par.set, numerics, factors, missings, weights, 
+  x = makeRLearnerInternal(cl, "classif", package, par.set, numerics, factors, missings, weights, 
     oneclass, twoclass, multiclass, prob, FALSE, par.vals)
   class(x) = c(cl, "RLearnerClassif", class(x))  
   return(x)
@@ -109,12 +115,13 @@ makeRLearnerClassif = function(cl, package, par.set, numerics=FALSE, factors=FAL
 makeRLearnerRegr = function(cl, package, par.set, numerics, factors=FALSE,
   missings=FALSE, weights=FALSE, se=FALSE, par.vals=list()) {
   
-  x = makeRLearner(cl, "regr", package, par.set, numerics, factors, missings, weights,
+  x = makeRLearnerInternal(cl, "regr", package, par.set, numerics, factors, missings, weights,
     FALSE, FALSE, FALSE, FALSE, se, par.vals)
   class(x) = c(cl, "RLearnerRegr", class(x))  
   return(x)
 }
 
+#' @S3method print ResampleDesc
 print.RLearner = function(x, ...) {
   cat(
     "Learner ", x$id, " from package ", collapse(x$package), "\n",
@@ -129,6 +136,7 @@ print.RLearner = function(x, ...) {
   )
 }
 
+#' @S3method print RLearnerClassif
 print.RLearnerClassif = function(x, ...) {
   print.RLearner(x)
   catf("Supports classes: %s", 
@@ -136,6 +144,7 @@ print.RLearnerClassif = function(x, ...) {
   catf("Supports probabilities: %s", x$prob) 
 }
 
+#' @S3method print RLearnerRegr
 print.RLearnerRegr = function(x, ...) {
   print.RLearner(x)
   catf("Supports standard errs: %s", x$se) 

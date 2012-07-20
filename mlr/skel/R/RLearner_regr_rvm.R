@@ -22,8 +22,10 @@ makeRLearner.regr.rvm = function() {
       makeLogicalLearnerParam(id="var.fix", default=FALSE),
       makeNumericLearnerParam(id="iterations", default=100L, lower=0L),
       makeNumericLearnerParam(id="tol", default=.Machine$double.eps, lower=0),
-      makeNumericLearnerParam(id="minmaxdiff", default=0.001, lower=0)
+      makeNumericLearnerParam(id="minmaxdiff", default=0.001, lower=0),
+      makeLogicalLearnerParam(id="fit", default=TRUE)
     ),
+    par.vals = list(fit=FALSE),
     missings = FALSE,
     numerics = TRUE,
     factors = TRUE,
@@ -32,16 +34,15 @@ makeRLearner.regr.rvm = function() {
   )
 }
 
-trainLearner.regr.rvm = function(.learner, .task, .subset,  ...) {
-  xs = learnerArgsToControl(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
+trainLearner.regr.rvm = function(.learner, .task, .subset, degree, offset, scale, sigma, order, length, lambda, normalized, ...) {
+  kpar = learnerArgsToControl(list, degree, offset, scale, sigma, order, length, lambda, normalized)
   f = getTaskFormula(.task)
-  if (length(xs$control) > 0)
-    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args)
+  if (base::length(kpar) > 0)
+    rvm(f, data=getTaskData(.task, .subset), kpar=kpar, ...)
   else
-    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE), xs$args)
-  do.call(rvm, args)
-}
+    rvm(f, data=getTaskData(.task, .subset), ...)
+}  
 
 predictLearner.regr.rvm = function(.learner, .model, .newdata, ...) {
-  predict(.model$learner.model, newdata=.newdata, ...)
+  kernlab::predict(.model$learner.model, newdata=.newdata, ...)
 }

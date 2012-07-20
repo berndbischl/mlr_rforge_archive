@@ -1,7 +1,7 @@
 checkWeightsAndBlocking = function(data, target, weights, blocking) {
-  if(!is.null(weights) && length(weights) != nrow(data))
+  if(length(weights) > 0 && length(weights) != nrow(data))
     stop("Weights have to be of the same length as number of rows in data! Or pass none at all.")
-  if(!is.null(blocking) && length(blocking) != nrow(data))
+  if(length(blocking) > 0 && length(blocking) != nrow(data))
     stop("Blocking has to be of the same length as number of rows in data! Or pass none at all.")
 }
 

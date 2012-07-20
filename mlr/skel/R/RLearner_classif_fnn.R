@@ -1,4 +1,4 @@
-#todo: probs can only be predicted for two class problems (winning class)
+#FIXME: probs can only be predicted for two class problems (winning class)
 
 makeRLearner.classif.fnn = function() {
   makeRLearnerClassif(

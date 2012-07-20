@@ -11,6 +11,7 @@ predict_nas = function(model, newdata) {
 	return(p)
 }
 
+#' @S3method print FailureModel
 print.FailureModel = function(x, ...) {
   print.WrappedModel(x)
   catf("Training failed: ", x$learner.model)

@@ -15,7 +15,7 @@ makeRLearner.classif.penalizedSVM = function() {
 }
 
 trainLearner.classif.penalizedSVM = function(.learner, .task, .subset,  ...) {
-  d = getTaskData(.task, .subset, target.extra=TRUE, class.as="-1+1")
+  d = getTaskData(.task, .subset, target.extra=TRUE, recode.target="-1+1")
   svm.fs(x=as.matrix(d$data), y=d$target, verbose=FALSE, grid.search="discrete", parms.coding="none",
     lambda1.set=2, lambda2.set=2, inner.val.method="cv", cross.inner=2,
     set.seed=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))

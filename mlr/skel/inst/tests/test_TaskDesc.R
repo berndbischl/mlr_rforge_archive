@@ -1,7 +1,7 @@
 context("TaskDesc")
 
 test_that("TaskDesc", {
-	ct = makeClassifTask(target="Class", binaryclass.df, id="mytask", positive="M", exclude="V1")
+	ct = makeClassifTask(target="Class", binaryclass.df, id="mytask", positive="M")
 	expect_equal(ct$task.desc$id, "mytask")	
 	expect_equal(ct$task.desc$positive, "M")	
 	expect_equal(ct$task.desc$negative, "R")
@@ -30,10 +30,10 @@ test_that("TaskDesc", {
   ct = makeClassifTask(target="Species", data=df)
   expect_equal(ct$task.desc$has.missing, T) 
   
-  ct = makeClassifTask(target=binaryclass.target, data=binaryclass.df, exclude="V1")
+  ct = makeClassifTask(target=binaryclass.target, data=binaryclass.df)
   expect_equal(ct$task.desc$size, 208)  
-  expect_equal(sum(ct$task.desc$n.feat), 59)  
-  expect_equal(ct$task.desc$n.feat[["numerics"]], 59)  
+  expect_equal(sum(ct$task.desc$n.feat), 60)  
+  expect_equal(ct$task.desc$n.feat[["numerics"]], 60)  
   expect_equal(ct$task.desc$n.feat[["factors"]], 0)  
   expect_equal(ct$task.desc$has.missing, F) 
   expect_equal(ct$task.desc$type, "classif")  

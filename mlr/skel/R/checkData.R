@@ -33,7 +33,7 @@ checkData = function(data, target) {
   }
 }
 
-checkColumnNames = function(data, target, exclude) {
+checkColumnNames = function(data, target) {
   cns = colnames(data)
   dup = duplicated(cns)
   if(any(dup))
@@ -41,10 +41,5 @@ checkColumnNames = function(data, target, exclude) {
   if (!(target %in% cns)) {
     stopf("Column names of data don't contain target var: %s", target)
   }
-  nex = setdiff(exclude, cns)
-  if (length(nex) > 0)
-    stopf("Trying to exclude non-existing variables: %s", collapse(nex))
-  if (target %in% exclude)
-    stopf("Trying to exclude target variable: %s", target)
 }
 

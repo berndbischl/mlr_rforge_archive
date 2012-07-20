@@ -130,7 +130,7 @@ mergeResampleResult = function(iter.results, measures, rin, models, extract, sho
   preds.train = extractSubList(iter.results, "pred.train", simplify=FALSE)
   pred = makeResamplePrediction(instance=rin, preds.test=preds.test, preds.train=preds.train)
   
-  FIXME: task?
+  #FIXME: task?
   aggr = sapply(measures, function(m)  m$aggr$fun(task, ms.test[, m$id], ms.train[, m$id], m, rin$group, pred))
   names(aggr) = sapply(measures, measureAggrName)
   if (show.info) {

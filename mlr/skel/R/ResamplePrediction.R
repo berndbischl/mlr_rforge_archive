@@ -31,7 +31,7 @@ makeResamplePrediction = function(instance, preds.test, preds.train) {
   ), class=c("ResamplePrediction", "Prediction"))
 }
 
-
+#' @S3method print ResamplePrediction
 print.ResamplePrediction = function(x, ...) {
   cat("Resampled Prediction for:\n")
   print(x$instance$desc)

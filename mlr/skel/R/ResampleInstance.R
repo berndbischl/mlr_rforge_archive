@@ -30,7 +30,7 @@ makeResampleInstance = function(desc, task, size) {
     checkArg(task, "SupervisedTask")
     size = task$task.desc$size
     blocking = task$blocking
-  } else{
+  } else {
     task = NULL
     blocking = factor(c())
   }
@@ -38,24 +38,51 @@ makeResampleInstance = function(desc, task, size) {
     size = convertInteger(size)
     checkArg(size, "integer", len=1L, na.ok=FALSE)
   }
-
-  if (length(blocking) > 1) {
-    if (is(desc, "StratCVDesc"))
-      stop("Blocking can currently not be mixed with stratification in resampling!")
-    if (is(desc, "RepCVDesc"))
-      stop("Blocking can currently not be mixed with RepCV!")
+  
+  #FIXME: 
+  if (length(blocking) > 0 && desc$stratify)
+    stop("Blocking can currently not be mixed with stratification in resampling!")
+       
+  if (length(blocking) > 0) {
+    if (is.null(task))
+      stop("Blocking always needs the task!")
     levs = levels(blocking)
-		size2 = length(levs)
-		# create instance for blocks
-		inst = instantiateResampleInstance(desc, size2)
-		# now exchange block indices with indices of elements of this block and shuffle
+    size2 = length(levs)
+    levs = levels(blocking)
+    size2 = length(levs)
+    # create instance for blocks
+    inst = instantiateResampleInstance(desc, size2)
+    # now exchange block indices with indices of elements of this block and shuffle
     inst$train.inds = lapply(inst$train.inds, function(i) sample(which(blocking %in% levs[i]))) 
     ti = sample(1:size)
     inst$test.inds = lapply(inst$train.inds, function(x)  setdiff(ti, x))
     inst$size = size
-	} else { 
-		inst = instantiateResampleInstance(desc, size)
-	}
+  } else if (desc$stratify) {
+    if (is.null(task))
+      stop("Stratification always needs the task!")
+    if (task$task.desc$type != "classif")
+      stop("Stratification is currently only supported for classification!")
+    y = getTaskTargets(task)
+    # resample on every class
+    class.inds = lapply(task$task.desc$class.levels, function(x) which(x==y))
+    train.inds = vector("list", length(class.inds))
+    test.inds = vector("list", length(class.inds))
+    for (i in 1:length(class.inds)) {
+      ci = class.inds[[i]]
+      inst = instantiateResampleInstance(desc, length(ci))
+      train.inds[[i]] = lapply(inst$train.inds, function(j) ci[j])
+      test.inds[[i]] = lapply(inst$test.inds, function(j) ci[j])
+    }
+    inst = instantiateResampleInstance(desc, size)
+    inst$train.inds = Reduce(function(i1, i2) Map(c, i1, i2), train.inds)
+    inst$test.inds = Reduce(function(i1, i2) Map(c, i1, i2), test.inds)
+  } else {
+    inst = instantiateResampleInstance(desc, size)
+  }
+  # FIXME:
+#    if (is(desc, "RepCVDesc"))
+#      stop("Blocking can currently not be mixed with RepCV!")
+  return(inst)
 }
 
 makeResampleInstanceInternal = function(desc, size, train.inds, test.inds, group=factor(c())) {
@@ -80,6 +107,7 @@ makeResampleInstanceInternal = function(desc, size, train.inds, test.inds, group
   ), class="ResampleInstance")
 }
 
+#' @S3method print ResampleInstance
 print.ResampleInstance = function(x, ...) { 
   catf("Resample instance for %i cases for:", x$size)
   print(x$desc) 

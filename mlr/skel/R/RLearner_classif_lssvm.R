@@ -19,8 +19,10 @@ makeRLearner.classif.lssvm = function() {
         requires=expression(kernel %in% c("polydot", "tanhdot"))),
       makeIntegerLearnerParam(id="order", default=1L, 
         requires=expression(kernel == "besseldot")),
-      makeNumericLearnerParam(id="tol", default=0.0001, lower=0)
+      makeNumericLearnerParam(id="tol", default=0.0001, lower=0),
+      makeLogicalLearnerParam(id="fitted", default=TRUE)
     ),
+    par.vals = list(fitted=FALSE),
     twoclass = TRUE,
     multiclass = TRUE,
     numerics = TRUE,
@@ -28,26 +30,19 @@ makeRLearner.classif.lssvm = function() {
   )
 }
 
-trainLearner.classif.lssvm = function(.learner, .task, .subset,  ...) {
+trainLearner.classif.lssvm = function(.learner, .task, .subset, degree, offset, scale, sigma, order, length, lambda, normalized, ...) {
 # TODO custom kernel. freezes? check mailing list
 # TODO unify cla + regr, test all sigma stuff  
-
-#     # there's a strange behaviour in r semantics here wgich forces this, see do.call and the comment about substitute
-#     if (!is.null(args$kernel) && is.function(args$kernel) && !is(args$kernel,"kernel")) {
-#       args$kernel = do.call(args$kernel, kpar)  
-#     } 
   
-  xs = learnerArgsToControl(list, c("degree", "offset", "scale", "sigma", "order", "length", "lambda", "normalized"), list(...))
+  kpar = learnerArgsToControl(list, degree, offset, scale, sigma, order, length, lambda, normalized)
   f = getTaskFormula(.task)
-  if (length(xs$control) > 0)
-    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE, kpar=xs$control), xs$args)
+  if (base::length(kpar) > 0)
+    lssvm(f, data=getTaskData(.task, .subset), kpar=kpar, ...)
   else
-    args = c(list(f, data=getTaskData(.task, .subset), fit=FALSE), xs$args)
-  do.call(lssvm, args)
-  
+    lssvm(f, data=getTaskData(.task, .subset), ...)
 }
 
 predictLearner.classif.lssvm = function(.learner, .model, .newdata, ...) {
   type = switch(.learner$predict.type, "response")
-  predict(.model$learner.model, newdata=.newdata, type=type, ...)
+  kernlab::predict(.model$learner.model, newdata=.newdata, type=type, ...)
 }
