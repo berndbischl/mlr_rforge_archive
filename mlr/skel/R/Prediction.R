@@ -64,8 +64,8 @@ print.Prediction = function(x, ...) {
   d = printToChar(str(as.data.frame(x)))
   catf("Prediction:")
   catf("  predict.type: %s", x$predict.type)
-  catf("  threshold: %s", x$threshold)
-  catf("  time: %f.1", x$time)
+  catf("  threshold: %s", collapse(sprintf("%s=%.2f", names(x$threshold), x$threshold)))
+  catf("  time: %.2f", x$time)
   catf(paste("  ", d, sep="")) 
 }
 

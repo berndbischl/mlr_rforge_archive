@@ -4,6 +4,7 @@ library(testthat)
 library(adabag)
 library(e1071)
 library(MASS)
+library(reshape)
 
 if (interactive()) {
   load_all("skel")

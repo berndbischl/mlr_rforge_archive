@@ -173,8 +173,8 @@ auc = makeMeasure(id="auc", minimize=FALSE, classif=TRUE, only.binary=TRUE, allo
     if (any(is.na(pred$data$response)) || length(unique(pred$data$truth)) == 1)
       return(as.numeric(NA))
     
-    rpreds = as.ROCR.prediction(pred)
-    ROCR.performance(rpreds, "auc")@y.values[[1]]
+    rpreds = asROCRPrediction(pred)
+    ROCR::performance(rpreds, "auc")@y.values[[1]]
   }  
 )
 

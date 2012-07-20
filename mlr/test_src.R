@@ -1,6 +1,7 @@
 library("devtools")
 library("testthat")
 library(mlbench)
+library(ROCR)
 data(BostonHousing)
 
 load_all("skel")
@@ -19,14 +20,22 @@ df1 = iris
 df2 = BostonHousing
 target1 = "Species"
 target2 = "medv"
+target3 = "Class"
 task1 = makeClassifTask(data=df1, target=target1)
 task2 = makeRegrTask(data=df2, target=target2)
-task = task1
+task = binaryclass.task
 
-#lrn = makeLearner("regr.blackboos")
-lrn = makeLearner("classif.ksvm", sigma=2)
+lrn = makeLearner("classif.rpart", predict.type="prob")
 m = train(lrn, task)
 p = predict(m, task)
+pp = asROCRPrediction(p)
+
+
+
+#lrn = makeLearner("regr.blackboos")
+#lrn = makeLearner("classif.ksvm", sigma=2)
+#m = train(lrn, task)
+#p = predict(m, task)
 #p = predict(m, newdata=df)
 #rdesc = makeResampleDesc("CV", iters=5)
 #rin = makeResampleInstance(rdesc, task=task)

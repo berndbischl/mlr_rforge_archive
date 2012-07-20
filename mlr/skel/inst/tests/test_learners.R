@@ -31,9 +31,8 @@ test_that("learners work", {
   lrns = listLearnersForTask(task=task) 
   lrns = lapply(lrns, makeLearner)
   lapply(lrns, function(lrn) {
-  #  print(lrn$id)
-  #  m = train(lrn, task)
-  #  p = predict(m, task)
+    m = train(lrn, task)
+    p = predict(m, task)
   })
   task = subsetTask(regr.task, subset=c(1:70),
     features=getTaskFeatureNames(regr.task)[1:2])

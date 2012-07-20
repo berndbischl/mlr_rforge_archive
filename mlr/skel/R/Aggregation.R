@@ -18,8 +18,8 @@ makeAggregation = function(id, fun) {
   structure(list(id=id, fun=fun), class="Aggregation")
 }
 
-#' @S3method print Aggregaton
+#' @S3method print Aggregation
 print.Aggregation = function(x, ...) { 
-  catf("Aggregaton function: %s", x$id)
+  catf("Aggregation function: %s", x$id)
 }
 

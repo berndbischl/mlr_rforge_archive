@@ -1,5 +1,3 @@
-# Kosten bei allen gecheckt.
-
 makeRLearner.classif.ada = function() {
   makeRLearnerClassif(
     cl = "classif.ada",

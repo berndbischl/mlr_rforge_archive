@@ -118,6 +118,7 @@ default.measures = function(x) {
 #' @param aggr [\code{\link{Aggregation}}]\cr
 #'   Aggregation function.
 #' @return [\code{\link{Measure}}] with changed aggregation behaviour.
+#' @export
 setAggregation = function(measure, aggr) {
   checkArg(measure, "Measure")
   checkArg(aggr, "Aggregation")
