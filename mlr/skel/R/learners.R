@@ -64,7 +64,7 @@ NULL
 #' Returns the class names of learning algorithms which have specific characteristics, e.g.
 #' whether they supports missing values, case weights, etc. 
 #' 
-#' The default of all parameters is \code{NA}, meaning: property is not required, do not care.
+#' The default for all search parameters is \code{NA}, meaning: property is not required, do not care.
 #' 
 #' @param type [\code{character(1)}]\cr
 #'   Type of the learning algorithm, either \dQuote{classif} or \dQuote{regr}.
@@ -86,6 +86,11 @@ NULL
 #'   Can predict probabilities (classification)?
 #' @param se [\code{logical(1)}]\cr
 #'   Can predict standard errors (regression)?
+#' @param warn.missing.packages [\code{logical(1)}]\cr
+#'   If some learner cannot be constructed because its package is missing, 
+#'   should a warning be shown?
+#'   Default is code{TRUE}.
+#' @return [\code{character}]. Class names of matching learners.
 #' @export 
 listLearners = function(type=as.logical(NA), numerics=as.logical(NA), factors=as.logical(NA),
                         missings=as.logical(NA), weights=as.logical(NA), 
@@ -127,7 +132,7 @@ listLearners = function(type=as.logical(NA), numerics=as.logical(NA), factors=as
 }
 
 #' @param task [\code{\link{SupervisedTask}}]\cr 
-#'   The task. If this is passed, data from this task is predicted.   
+#'   The task. Learners are retured that are applicable.
 #' @export
 #' @rdname listLearners
 listLearnersForTask = function(task, prob=as.logical(NA), se=as.logical(NA), warn.missing.packages=TRUE) {

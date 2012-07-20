@@ -7,8 +7,7 @@
 #' If you want a measure for a misclassification cost matrix, look at \code{\link{makeCostMeasure}}.
 #' If you want to implement your own measure, look at \code{\link{makeMeasure}}. 
 #' 
-#' \cr
-#' Classification. Only \code{mmce}, \code{acc} and \code{ber} can be used for multiclass problems: 
+#' Classification: 
 #' \itemize{ 
 #' 		\item{\bold{mmce}}{\cr Mean misclassification error.}
 #' 		\item{\bold{acc}}{\cr Accuracy.}
@@ -30,7 +29,8 @@
 #' 		\item{\bold{gpr}}{\cr Geometric mean of precision and recall.}
 #' 		\item{\bold{auc}}{\cr Area under the curve.}
 #' }
-#' 
+#' Only \code{mmce}, \code{acc} and \code{ber} can be used for multiclass problems.
+#'
 #' Regression:
 #' \itemize{ 
 #' 		\item{\bold{sse}}{\cr Sum of squared errors}

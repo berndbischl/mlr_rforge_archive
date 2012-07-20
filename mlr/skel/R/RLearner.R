@@ -58,6 +58,11 @@ makeRLearner = function() {
 makeRLearnerInternal = function(id, type, package, par.set, numerics, factors, missings, weights, 
   oneclass, twoclass, multiclass, prob, se, par.vals) {
 
+  # must do that before accessing par.set
+  # one case where lazy eval is actually helpful...
+  checkArg(package, "character", na.ok=FALSE)  
+  requirePackages(package, paste("learner", id))
+
   checkArg(id, "character", len=1L, na.ok=FALSE)  
   checkArg(type, choices=c("classif", "regr"))  
   checkArg(package, "character", na.ok=FALSE)  
@@ -74,8 +79,6 @@ makeRLearnerInternal = function(id, type, package, par.set, numerics, factors, m
   checkArg(par.vals, "list")  
   if(!isProperlyNamed(par.vals))
     stop("Argument par.vals must be a properly named list!")
-  
-  requirePackages(package, paste("learner", id))
 
   learner = structure(list(
     id = id,

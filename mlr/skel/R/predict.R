@@ -14,7 +14,7 @@
 #' @param subset [\code{integer}]\cr 
 #'   Index vector to subset \code{task} or \code{newdata}.
 #'   Default is all data.
-#' @param ... \cr 
+#' @param ... [any]\cr 
 #'   Currently ignored.
 #' @return [\code{\link{Prediction}}].
 #' @method predict WrappedModel

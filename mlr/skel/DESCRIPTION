@@ -6,7 +6,7 @@ Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
 License: BSD
 Imports: BBmisc, reshape, abind, boot, codetools, ROCR
 Depends: methods, ParamHelpers, ROCR
-Suggests: ada, adabag, DiceKriging, earth, FNN, gbm, kernlab, kknn, klaR, mboost, mda, nnet, party, penalized, pls, randomForest, rpart, rsm, RWeka, testthat
+Suggests: ada, adabag, DiceKriging, e1071, earth, FNN, gbm, kernlab, kknn, klaR, mboost, mda, nnet, party, penalized, pls, randomForest, rpart, rsm, RWeka, testthat
 LazyData: yes
 ByteCompile: yes
 Version: 1.0

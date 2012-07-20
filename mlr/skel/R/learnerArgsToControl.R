@@ -3,9 +3,9 @@
 #' Find all elements in \code{...} which are not missing and 
 #' call \code{control} on them.
 #'
-#' @param control [\code{function}] \cr 
+#' @param control [\code{function}]\cr 
 #'   Function that creates control structure.
-#' @param ... \cr
+#' @param ... [any]\cr
 #'   Arguments for control structure function.
 #' @return Control structure for learner.
 #' @export
