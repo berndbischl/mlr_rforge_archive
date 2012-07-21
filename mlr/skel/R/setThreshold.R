@@ -14,6 +14,7 @@
 #'   it can be a single numerical threshold for the positive class. 
 #' @return [\code{\link{Prediction}}] with changed threshold and corresponding response.  
 #' @export
+#FIXME: potentially write this in C?
 setThreshold = function(pred, threshold) {
   checkArg(pred, "Prediction")
   checkArg(threshold, "numeric", na.ok=FALSE)
