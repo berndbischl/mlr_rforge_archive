@@ -12,7 +12,7 @@ tuneCMAES = function(learner, task, resampling, measures, par.set, control, opt.
   ctrl.cmaes$vectorized = TRUE
   cx = function(x) convertXMatrixCols(x, par.set)
   
-  or = cma_es(par=start, fn=tunerFitnFun, lower=low, upper=upp, control=ctrl.cmaes,
+  or = cma_es(par=start, fn=tunerFitnFunVectorized, lower=low, upper=upp, control=ctrl.cmaes,
     learner=learner, task=task, resampling=resampling, measures=measures, 
     par.set=par.set, ctrl=control, opt.path=opt.path, show.info=show.info, 
     log.fun=log.fun, trafo=TRUE, convertx=cx)

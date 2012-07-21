@@ -1,27 +1,30 @@
 tuneOptim = function(learner, task, resampling, measures, par.set, control, 
   opt.path, show.info, log.fun) {
-
+  
   low = getLower(par.set)
   upp = getUpper(par.set)
-  
-  start = unlist(control$start)
-  g = makeTunerTargetFun(learner, task, resampling, measures, par.set, control,
-    opt.path, show.info, log.fun, arg.as.list=FALSE, trafo=TRUE)
-		
-	args = control$extra.args
-	method = args$method
+  start = convertStartToNumeric(control$start, par.set)
+	ctrl.optim = control$extra.args
+	method = ctrl.optim$method
 	if(is.null(method)) 
 		method = "Nelder-Mead"
-	args$method = NULL
+	ctrl.optim$method = NULL
+  cx = function(x) convertXNumeric(x, par.set)
   
   if (method == "L-BFGS-B") {
-    or = optim(par=start, f=g, method=method, lower=low, upper=upp, control=args)
+    or = optim(par=start, fn=tunerFitnFun, method=method, lower=low, upper=upp, control=ctrl.optim,
+      learner=learner, task=task, resampling=resampling, measures=measures, 
+      par.set=par.set, ctrl=control, opt.path=opt.path, show.info=show.info, 
+      log.fun=log.fun, trafo=TRUE, convertx=cx)    
   } else {
     # FIXME: fix machine bound
     if (any((is.double(low) & low != -Inf) | (is.integer(low) & low != -.Machine$integer.max)) ||
         any((is.double(upp) & upp !=  Inf) | (is.integer(upp) & upp !=  .Machine$integer.max))) 
       stop("Box constraints can only be used for 'L-BFGS-B' in 'optim'!")  
-    or = optim(par=start, f=g, method=method, control=args)
+    or = optim(par=start, fn=tunerFitnFun, method=method, control=ctrl.optim,
+      learner=learner, task=task, resampling=resampling, measures=measures, 
+      par.set=par.set, ctrl=control, opt.path=opt.path, show.info=show.info, 
+      log.fun=log.fun, trafo=TRUE, convertx=cx)    
   }
   i = getOptPathBestIndex(opt.path, mlr:::measureAggrName(measures[[1]]), ties="random")
   e = getOptPathEl(opt.path, i)

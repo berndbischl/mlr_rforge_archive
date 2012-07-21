@@ -37,6 +37,7 @@ evalOptimizationStates = function(learner, task, resampling, measures, par.set, 
       control=control, opt.path=opt.path, show.info=show.info, log.fun=log.fun))
   # add stuff to opt.path
   for (i in seq_len(n)) 
-    addOptPathEl(opt.path, x=as.list(states[[i]]), y=ys[[i]], dob=dobs[i], eol=eols[i])
+    addOptPathEl(opt.path, x=as.list(states[[i]]), y=ys[[i]], 
+      dob=dobs[i], eol=eols[i], check.feasible=FALSE)
   return(ys)  
 }

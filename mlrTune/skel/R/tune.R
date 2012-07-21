@@ -10,8 +10,7 @@
 #' \code{\link{TuneControl}}.
 #'
 #' Note that if tranformations are associated with the parameters, the returned result will contain
-#' a transformed optimal value, but an untransformed optimization path. 
-#' See also \code{\link[ParamHelpers]{trafoValue}} and \code{\link[ParamHelpers]{trafoOptPath}}.
+#' transformed values in the optimal result and the path.
 #' 
 #' @param learner [\code{\link[mlr]{Learner}}]\cr 
 #'   The learner.
@@ -67,8 +66,6 @@ tune = function(learner, task, resampling, measures, par.set, control, show.info
     show.info, logFunTune)
   if (show.info)
     messagef("[Tune] Result: %s : %s", paramValueToString(par.set, or$x), mlr:::perfsToString(or$y))
-  # trafo the x value now
-  or$x = trafoValue(par.set, or$x)
 	return(or)			
 }
 

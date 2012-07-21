@@ -1,13 +1,15 @@
+library(methods)
 library(testthat)
+library(e1071)
+library(reshape)
 
 if (interactive()) {
   library(devtools)
   load_all("skel")
 } else {
-  library(mlr)  
+  library(mlrTune)  
 }
 
-#source("skel/inst/tests/helpers.R")
-#source("skel/inst/tests/objects.R")
-options(mlr.debug.seed=123L)
+source("skel/inst/tests/helpers.R")
+source("skel/inst/tests/objects.R")
 test_dir("skel/inst/tests")
