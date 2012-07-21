@@ -34,6 +34,18 @@ test_that("learners work", {
     m = train(lrn, task)
     p = predict(m, task)
   })
+
+  task = subsetTask(binaryclass.task, subset=c(1:50, 150:208), 
+    features=getTaskFeatureNames(binaryclass.task)[1:2])
+  lrns = listLearnersForTask(task=task, prob=TRUE) 
+  lrns = lapply(lrns, makeLearner, predict.type="prob")
+  lapply(lrns, function(lrn) {
+    print(lrn$id)
+    m = train(lrn, task)
+    p = predict(m, task)
+    getProbabilities(p)
+  })
+  
   task = subsetTask(regr.task, subset=c(1:70),
     features=getTaskFeatureNames(regr.task)[1:2])
   lrns = listLearnersForTask(task=task) 

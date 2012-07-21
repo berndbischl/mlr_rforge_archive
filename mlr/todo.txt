@@ -1,13 +1,12 @@
-
-- listLearners pred prob and se and weights
+- listLearners pred se and weights
 - se
 - test parallel
 
 - bbmisc function to print vector with names
 
 - drop factor levels in makeTask
-
-- read learners
+  schwierig. das ist beim subsetten des tasks?
+  dann haben wir andere class levels? trat im allpairs exp auf.
 
 - b632+ test
 

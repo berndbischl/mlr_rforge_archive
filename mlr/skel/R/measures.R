@@ -46,17 +46,17 @@
 #' 		\item{\bold{timetrain}}{\cr Time of fitting the model}
 #' 		\item{\bold{timepredict}}{\cr Time of predicting test set}
 #' 		\item{\bold{timeboth}}{\cr timetrain + trainpredict}
+#'   	\item{\bold{featperc}}{\cr Percentage of original features used for model, useful for feature selection.}
 #' }
 #' @export 
 measures = function() {}
 
 #general
-#FIXME: in percent is better 
-#' @export nvars
+#' @export featperc
 #' @rdname measures
-nvars = makeMeasure(id="nvars", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob"),  
+featperc = makeMeasure(id="featperc", minimize=TRUE, classif=TRUE, regr=TRUE, allowed.pred.types=c("response", "prob"),  
   fun=function(task, model, pred, extra.args) {
-    length(model$vars)          
+    length(model$features) / sum(pred$task.desc$n.feat)
   }
 )
 

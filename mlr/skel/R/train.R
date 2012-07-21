@@ -22,7 +22,7 @@ train = function(learner, task, subset) {
     subset = convertIntegers(subset)
     checkArg(subset, "integer", na.ok=FALSE)
   }  
-    
+  
   # make sure that pack for learner ist loaded, probably needed when learner is exported        
   requireLearnerPackages(learner)
   

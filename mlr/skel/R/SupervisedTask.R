@@ -87,7 +87,7 @@ makeSupervisedTask = function(type, id, data, target, weights, blocking, positiv
   if (type == "regr") {
     if (is.integer(data[, target]))
       data[, target] = as.numeric(data[, target])
-    else
+    else if(!is.numeric(data[, target]))
       stopf("Taget column %s has an unsupported type for regression. Either you made a mistake or you have to convert it. Type: %s", 
         target, class(data[,target])[1])
     positive = as.character(NA)  
