@@ -1,12 +1,13 @@
+#' Tune prediction threshold.
+#' 
 #' Optimizes the threshold of prediction based on probabilities.
 #' Currently only implemented for probabilities and binary classification. 
 #' 
-#' 
-#' @param pred [\code{\linkS4class{Prediction}}] \cr
+#' @param pred [\code{\link{Prediction}}] \cr
 #'   Prediction object to use for tuning the treshold.
-#' @param measure [\code{\linkS4class{Measure}}]\cr
+#' @param measure [\code{\link{Measure}}]\cr
 #'   Performance measure to optimize. 
-#' @param task [\code{\linkS4class{LearnTask}}] \cr
+#' @param task [\code{\link{SupervisedTask}}] \cr
 #'   Learning task. Rarely neeeded, only when required for the performance measure. 
 #' @param thresholds [\code{integer}] \cr
 #'   Number of thresholds to try in tuning.  	
@@ -16,7 +17,6 @@
 #'
 #' @export
 #' @seealso \code{\link{tune}}
-#' @title Tune prediction threshold.
 
 tuneThreshold = function(pred, measure, task, model, thresholds=100) {
   td = pred@task.desc

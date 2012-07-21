@@ -1,5 +1,7 @@
 #FIXME: check whether optimization can be paralleized if req. by user
 
+#' Hyperparameter tuning.
+#' 
 #' Optimizes the hyperparameters of a learner for a classification or regression problem.
 #' Allows for different optimization methods, such as grid search, evolutionary strategies 
 #' or sequential parameter optimization. You can select such an algorithm (and its settings)
@@ -10,31 +12,31 @@
 #' a transformed optimal value, but an untransformed optimization path. 
 #' See also \code{\link[ParamHelpers]{trafoValue}} and \code{\link[ParamHelpers]{trafoOptPath}}.
 #' 
-#' @title Hyperparameter tuning.
-#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
+#' @param learner [\code{\link{Learner}} or string]\cr 
 #'   Learning algorithm. See \code{\link{learners}}.  
-#' @param task [\code{\linkS4class{LearnTask}}]\cr
+#' @param task [\code{\link{SupervisedTask}}]\cr
 #'   Learning task.   
-#' @param resampling [\code{\linkS4class{ResampleInstance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
+#' @param resampling [\code{\link{ResampleInstance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
 #'   Resampling strategy to evaluate points in hyperparameter space. If you pass a description, 
 #'   it is instantiated once at the beginning by default, so all points are evaluated on the same training/test sets.
 #'   If you want to change that behaviour, look at the control object. 	
 #' @param par.set [\code{\link[ParamHelpers]{ParamSet}}]\cr
 #'   Collection of parameters and their constraints for optimization.   
-#' @param control [\code{\linkS4class{TuneControl}}]\cr
+#' @param control [\code{\link{TuneControl}}]\cr
 #'   Control object for search method. Also selects the optimization algorithm for tuning.   
-#' @param measures [list of \code{\linkS4class{Measure}}]\cr
+#' @param measures [list of \code{\link{Measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during tuning, others are simply evaluated.  
-#' @param log.fun [function(learner, task, resampling, measure, par.set, control, opt.path, x, y)]\cr
-#'   Called after every hyperparameter evaluation. Default is to print performance via mlr logger. 
-#' @return \code{\linkS4class{OptResult}}.
+#' @param show.info [\code{logical(1)]\cr
+#'   Show info message after each hyperparameter evaluation?
+#'   Default is \code{TRUE}.
+#' @return [\code{\link{OptResult}}].
 #' @export
-tune = function(learner, task, resampling, measures, par.set, control, log.fun) {
+tune = function(learner, task, resampling, measures, par.set, control, show.info=TRUE) {
   checkArg(learner, "Learner")
-  checkArg(task, "LearnTask")
-  if (!is(resampling, "ResampleDesc") &&  !is(resampling, "ResampleInstance"))
+  checkArg(task, "SupervisedTask")
+  if (!inherits(resampling, "ResampleDesc") &&  !inherits(resampling, "ResampleInstance"))
     stop("Argument resampling must be of class ResampleDesc or ResampleInstance!")
-  if (is(resampling, "ResampleDesc") && control@same.resampling.instance)
+  if (inherits(resampling, "ResampleDesc") && control$same.resampling.instance)
     resampling = makeResampleInstance(resampling, task=task)
   if (missing(measures))
     measures = mlr:::default.measures(task)
@@ -43,27 +45,27 @@ tune = function(learner, task, resampling, measures, par.set, control, log.fun) 
   checkListElementClass(measures, "Measure")
   checkArg(par.set, "ParamSet")
   checkArg(control, "TuneControl")
-  if (missing(log.fun))
-    log.fun = log.fun.tune
-  checkArg(log.fun, formals=c("learner", "task", "resampling", "measures", "par.set", "control", "opt.path", "x", "y"))
+  checkArg(show.info, "logical", len=1L, na.ok=FALSE)
   checkTunerParset(learner, par.set, control)  
   cl = as.character(class(control))[1]
 	sel.func = switch(cl,
-      TuneControlGrid = tune.grid,
-#			pattern = tune.ps,
-      TuneControlCMAES = tune.cmaes,
-      TuneControlOptim = tune.optim,
-      TuneControlMbo = tune.mbo,
-      TuneControlMies = tune.mies
+    TuneControlGrid = tuneGrid,
+    TuneControlOptim = tuneOptim,
+    TuneControlCMAES = tuneCMAES
+#   TuneControlMbo = tuneMBO,
+#   TuneControlMies = tuneMIES
 	)		
   opt.path = makeOptPathDFFromMeasures(par.set, measures)
-  logger.info("[Tune] Started tuning learner", learner@id, "for parameter set:")
-  sapply(capture.output(print(par.set)), logger.info)
-  logger.info("with control class:",  cl)
-  or = sel.func(learner, task, resampling, measures, par.set, control, opt.path, log.fun)
-  logger.info("[Tune] Result:", paramValueToString(par.set, or@x), ":", perfsToString(or@y))
+  if (show.info) {
+    messagef("[Tune] Started tuning learner %s for parameter set:", learner$id)
+    messagef(printToChar(par.set))
+    messagef("With control class: %s",  cl)
+  }
+  or = sel.func(learner, task, resampling, measures, par.set, control, opt.path, show.info)
+  if (show.info)
+    messagef("[Tune] Result: %s : %s", paramValueToString(par.set, or$x), mlr:::perfsToString(or$y))
   # trafo the x value now
-  or@x = trafoValue(par.set, or@x)
+  or$x = trafoValue(par.set, or$x)
 	return(or)			
 }
 

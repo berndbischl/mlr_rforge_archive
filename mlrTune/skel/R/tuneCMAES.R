@@ -24,14 +24,14 @@ tuneCMAES = function(learner, task, resampling, measures, par.set, control, opt.
 #    return(perf)
 #  }
   
-	args = control@extra.args
+	args = control$extra.args
 	
 #  if (.mlr.conf$parallel.setup$mode != "local" && .mlr.conf$parallel.setup$level == "tune") {
 #    g=g2
 #    args$vectorized=TRUE    
 #  }  
   or = cma_es(par=start, fn=g, lower=low, upper=upp, control=args)
-  i = getOptPathBestIndex(opt.path, measureAggrName(measures[[1]]), ties="random")
+  i = getOptPathBestIndex(opt.path, mlr:::measureAggrName(measures[[1]]), ties="random")
   e = getOptPathEl(opt.path, i)
-	new("OptResult", learner, control, e$x, e$y, opt.path)
+	makeOptResult(learner, control, e$x, e$y, opt.path)
 }

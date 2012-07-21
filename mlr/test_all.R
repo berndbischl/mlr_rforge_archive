@@ -1,8 +1,7 @@
-library(methods)
-library(devtools)
 library(testthat)
 
 if (interactive()) {
+  library(devtools)
   library(adabag)
   library(e1071)
   library(MASS)

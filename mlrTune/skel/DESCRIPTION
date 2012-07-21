@@ -1,0 +1,12 @@
+Package: mlrTune
+Title: mlr: Hyperparameter tuning.
+Description: 
+Author: Bernd Bischl <bernd_bischl@gmx.net>
+Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
+License: BSD
+Imports: BBmisc, mlr
+Depends: mlr
+Suggests: cmaes, DiceOptim
+LazyData: yes
+ByteCompile: yes
+Version: 1.0
