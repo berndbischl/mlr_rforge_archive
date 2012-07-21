@@ -108,17 +108,14 @@ makeSupervisedTask = function(type, id, data, target, weights, blocking, positiv
 #' @S3method print SupervisedTask
 print.SupervisedTask = function(x, ...) {
   td = x$task.desc
-  feat = printToChar(td$n.feat)
-  feat = paste("  ", feat, sep="")
-  cat(
-    "Supervised task: ", td$id, "\n",
-    "  Type: ", td$type, "\n",
-    "  Target: ", td$target, "\n", 
-    "  Observations: ", td$size , "\n",
-    "  Features:\n", feat, "\n", 
-    "  Missings: ", td$has.missings, "\n", 
-    "  Has weights: ", td$has.weights, "\n", 
-    "  Has blocking: ", td$has.blocking, "\n",
-    sep=""
-  )
+  feat = printToChar(td$n.feat, collapse=NULL)
+  catf("Supervised task: %s", td$id)
+  catf("  Type: %s", td$type)
+  catf("  Target: %s", td$target) 
+  catf("  Observations: %i", td$size)
+  catf("  Features:")
+  cat(paste("  ", feat, "\n"))
+  catf("  Missings: %s", td$has.missings) 
+  catf("  Has weights: %s", td$has.weights)
+  catf("  Has blocking: %s", td$has.blocking)
 }

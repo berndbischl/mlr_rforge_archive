@@ -13,3 +13,5 @@
 - test_all anmachen
 - rd name of supervisedtask, report roxygen2 bug
 - examples
+
+ test prints again

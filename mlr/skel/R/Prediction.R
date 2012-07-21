@@ -61,11 +61,11 @@ makePrediction = function(task.desc, id, truth, predict.type, y, time) {
 
 #' @S3method print Prediction
 print.Prediction = function(x, ...) {
-  d = printToChar(str(as.data.frame(x)))
+  d = printToChar(str(as.data.frame(x)), collapse=NULL)
   catf("Prediction:")
   catf("  predict.type: %s", x$predict.type)
   catf("  threshold: %s", collapse(sprintf("%s=%.2f", names(x$threshold), x$threshold)))
   catf("  time: %.2f", x$time)
-  catf(paste("  ", d, sep="")) 
+  cat(paste("  ", d, "\n")) 
 }
 

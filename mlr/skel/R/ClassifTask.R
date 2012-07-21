@@ -8,15 +8,11 @@ makeClassifTask = function(id, data, target, weights, blocking, positive, check.
 
 #' @S3method print ClassifTask
 print.ClassifTask = function(x, ...) {
-  di = printToChar(table(getTaskTargets(x)))
   # remove 1st newline
-  di = substr(di, 2, nchar(di))
+  di = printToChar(table(getTaskTargets(x)), collapse=NULL)[-1]
   m = length(x$task.desc$class.levels)
   print.SupervisedTask(x)
-  cat(
-    "  Classes: ", m, "\n",
-    paste("  ", di, sep=""), "\n",
-    "  Positive class: ", x$task.desc$positive, "\n",
-    sep = ""
-  )
+  catf("  Classes: %i", m)
+  cat(paste("  ", di, "\n"))
+  catf("  Positive class: %s", x$task.desc$positive)
 }
