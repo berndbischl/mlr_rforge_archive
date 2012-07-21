@@ -128,7 +128,6 @@ testCV = function(t.name, df, target, folds=2, parset=list(), tune.train, tune.p
 	}
 	
 	tp = function(model, newdata) {
-		# FIXME insert precit.fct.pars
 		set.seed(getOption("mlr.debug.seed"))
 		p = tune.predict(model, newdata)
 		return(p)
@@ -136,24 +135,19 @@ testCV = function(t.name, df, target, folds=2, parset=list(), tune.train, tune.p
 	
 	tr = e1071::tune(method=tt, predict.func=tp, train.x=formula, data=data, tunecontrol = tune.control(cross = folds, best.model=FALSE))
 	
-	# FIXME bad code!!!!!
-	if(class(tr)=="try-error"){
-		warning("tune produced error!")
-	} else {
-		cv.instance = e1071CVToMlrCV(tr)
-		lrn = do.call("makeLearner", c(t.name, parset))
-    if (is.numeric(df[, target]))
-      task = makeRegrTask(data=df, target=target)
-    else if (is.factor(df[, target]))
-      task = makeClassifTask(data=df, target=target)
-		ms = resample(lrn, task, cv.instance)$measures.test
-    if (is(task, "ClassifTask")) { 
-      expect_equal(mean(ms[,"mmce"]), tr$performances[1,2], check.names=FALSE)
-      expect_equal(sd  (ms[,"mmce"]), tr$performances[1,3], check.names=FALSE)
-    } else {
-      expect_equal(mean(ms[,"mse"]), tr$performances[1,2], check.names=FALSE)
-      expect_equal(sd  (ms[,"mse"]), tr$performances[1,3], check.names=FALSE)
-    }
+	cv.instance = e1071CVToMlrCV(tr)
+	lrn = do.call("makeLearner", c(t.name, parset))
+  if (is.numeric(df[, target]))
+    task = makeRegrTask(data=df, target=target)
+  else if (is.factor(df[, target]))
+    task = makeClassifTask(data=df, target=target)
+	ms = resample(lrn, task, cv.instance)$measures.test
+  if (is(task, "ClassifTask")) { 
+    expect_equal(mean(ms[,"mmce"]), tr$performances[1,2], check.names=FALSE)
+    expect_equal(sd  (ms[,"mmce"]), tr$performances[1,3], check.names=FALSE)
+  } else {
+    expect_equal(mean(ms[,"mse"]), tr$performances[1,2], check.names=FALSE)
+    expect_equal(sd  (ms[,"mse"]), tr$performances[1,3], check.names=FALSE)
   }
 }
 

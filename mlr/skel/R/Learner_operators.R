@@ -97,13 +97,10 @@ setHyperPars2.Learner = function(learner, par.vals) {
       learner$par.vals[[n]] = p
     } else {
       if (!isFeasible(pd, p))
-        # FIXME what if strange value class?
         stopf("%s is not a feasible parameter setting!", p)
-      # if valname of discrete par was used, transform it to real value 
-      # FIXME: is type ordered still there? reason for this code?
-      if ((pd$type == "discrete" || pd$type == "ordered") 
-        && is.character(p) && length(p) == 1 && p %in% names(pd$values))
-        p = pd$values[[p]]
+      ## if valname of discrete par was used, transform it to real value 
+      #if (pd$type == "discrete" && is.character(p) && length(p) == 1 && p %in% names(pd$values))
+      #  p = pd$values[[p]]
       learner$par.vals[[n]] = p
     }
   }
