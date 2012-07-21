@@ -3,12 +3,19 @@
 # must be already in correct format, either a named list of values or a named integer vector for features
 # logs point and results
 evalOptimizationState = function(learner, task, resampling, measures, par.set, bits.to.features, control, opt.path, show.info, log.fun, state) {
-  if (inherits(control, "TuneControl")) 
-    learner = setHyperPars(learner, par.vals=state)
-  if (inherits(control, "VarselControl"))
-    task = subsetData(task, features=bits.to.features(state, task))
-  r = resample(learner, task, resampling, measures=measures, show.info=FALSE)
-  y = r$aggr
+  learner = try(setHyperPars(learner, par.vals=state), silent=TRUE)
+  # FIXME: reflect? just returning +- inf is not good!
+  # params became infeasible when we could not model constraints
+  # also error msg is annoying
+  if (is.error(learner)) { 
+    if (grep("not a feasible parameter setting", learner) > 0)
+      y = ifelse(measures[[1]]$minimize, 1 , -1) * Inf
+    else
+      stop(learner)
+  } else {
+    r = resample(learner, task, resampling, measures=measures, show.info=FALSE)
+    y = r$aggr
+  }
   if (show.info)
     log.fun(learner, task, resampling, measures, par.set, control, opt.path, state, y)
   return(y)
@@ -23,7 +30,6 @@ evalOptimizationStates = function(learner, task, resampling, measures, par.set, 
     dobs = rep(dobs, n)
   if (length(eols) == 1)
     eols = rep(eols, n)
-  print(states)
   # FIXME better export
   ys = parallelMap(evalOptimizationState, states, level="mlrTune", 
     more.args=list(learner=learner, task=task, resampling=resampling,
@@ -32,4 +38,5 @@ evalOptimizationStates = function(learner, task, resampling, measures, par.set, 
   # add stuff to opt.path
   for (i in seq_len(n)) 
     addOptPathEl(opt.path, x=as.list(states[[i]]), y=ys[[i]], dob=dobs[i], eol=eols[i])
+  return(ys)  
 }

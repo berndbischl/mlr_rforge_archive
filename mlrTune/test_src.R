@@ -5,11 +5,22 @@ load_all("skel")
 
 task = makeClassifTask(data=iris, target="Species")
 lrn = makeLearner("classif.ksvm")
-rdesc = makeResampleDesc("Holdout")
+rdesc = makeResampleDesc("Subsample", iters=10)
+
+#ps = makeParamSet(
+#  makeDiscreteParam("C", values=c(1,2)),
+#  makeDiscreteParam("sigma", values=c(1,2))
+#)
 ps = makeParamSet(
-  makeDiscreteParam("C", values=c(1,2)),
-  makeDiscreteParam("sigma", values=c(1,2))
+  makeNumericParam("C"),
+  makeNumericParam("sigma")
 )
-ctrl = makeTuneControlGrid()
+
+#ctrl = makeTuneControlGrid()
+#ctrl = makeTuneControlCMAES(start=list(sigma=20, C=10), maxit=2)
+ctrl = makeTuneControlOptim(start=list(sigma=20, C=10), maxit=2)
 print(ctrl)
+
 tr = tune(lrn, task, rdesc, par.set=ps, control=ctrl)
+print(tr)
+print(as.data.frame(tr$opt.path))

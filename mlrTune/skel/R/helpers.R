@@ -12,7 +12,8 @@ makeOptPathDFFromMeasures = function(par.set, measures) {
 
 # evals a set of var-lists and return the corresponding states
 logFunTune = function(learner, task, resampling, measures, par.set, control, opt.path, x, y) {
-  par.str = paramValueToString(par.set, x)
-  messagef("[Tune] %i: %s : %s", getOptPathLength(opt.path), par.str, mlr:::perfsToString(y))
+  i = ifelse(getOptPathLength(opt.path) == 0, 1, max(opt.path$env$dob) + 1)
+  messagef("[Tune] %i: %s : %s", i, 
+    paramValueToString(par.set, x), mlr:::perfsToString(y))
 }
 

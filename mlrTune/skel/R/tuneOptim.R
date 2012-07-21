@@ -1,12 +1,14 @@
-tuneOptim = function(learner, task, resampling, measures, par.set, control, opt.path, log.fun) {
+tuneOptim = function(learner, task, resampling, measures, par.set, control, 
+  opt.path, show.info, log.fun) {
+
   low = getLower(par.set)
   upp = getUpper(par.set)
   
-  start = unlist(control@start)
-  g = makeTunerTargetFun(learner, task, resampling, measures, par.set, control, opt.path, log.fun, 
-    arg.as.list=FALSE, trafo=TRUE)
+  start = unlist(control$start)
+  g = makeTunerTargetFun(learner, task, resampling, measures, par.set, control,
+    opt.path, show.info, log.fun, arg.as.list=FALSE, trafo=TRUE)
 		
-	args = control@extra.args
+	args = control$extra.args
 	method = args$method
 	if(is.null(method)) 
 		method = "Nelder-Mead"

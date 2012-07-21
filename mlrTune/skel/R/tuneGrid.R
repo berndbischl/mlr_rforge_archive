@@ -1,4 +1,4 @@
-tuneGrid = function(learner, task, resampling, measures, par.set, control, opt.path, show.info) {
+tuneGrid = function(learner, task, resampling, measures, par.set, control, opt.path, show.info, log.fun) {
   # drop names from par.set
   vals = getValues(par.set) 
   inds = lapply(vals, seq_along)

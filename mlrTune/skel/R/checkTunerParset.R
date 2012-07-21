@@ -6,13 +6,17 @@ checkTunerParset = function(learner, par.set, control) {
   if (length(x) > 0)
     stop("Can only tune parameters for which learner parameters exist: ", paste(x, collapse=","))
   
+  
   checkParsOk = function(algo, ok) {
     if(length(filterParams(par.set, type=ok)$pars) < length(par.set$pars))
       stop(sprintf("%s can only be applied to: %s!", algo, paste(ok, collapse=",")))
   }
   checkStart = function() {
-    if (length(control@start) != sum(getParamLengths(par.set)))
-      stop(" Length of 'start' has to match number of parameters in 'par.set'!")
+    if (length(control$start) != length(par.set$pars))
+      stop("Length of 'start' has to match number of parameters in 'par.set'!")
+    x = setdiff(names(control$start), names(getParamSet(learner)$pars))
+    if (length(x) > 0)
+      stop("'start' contains parameters for which no learner parameters exist: ", paste(x, collapse=","))
   }
   
   if (is(control, "TuneControlGrid")) {
