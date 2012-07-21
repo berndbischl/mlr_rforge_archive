@@ -7,11 +7,11 @@ test_that("predict", {
 	
 	wl.lda = makeLearner("classif.lda", predict.type="prob")
   
-	cm2 <- train(makeLearner("classif.lda"), multiclass.task, subset=inds)
-	cp2 <- predict(cm2, newdata=data[inds,])
-	cp2b <- predict(cm2, newdata=data[inds,-5])
-	ext2 <- lda(formula, data=data[inds,])
-	pred2 <- predict(ext2,newdata=data[inds,])$class
+	cm2 = train(makeLearner("classif.lda"), multiclass.task, subset=inds)
+	cp2 = predict(cm2, newdata=data[inds,])
+	cp2b = predict(cm2, newdata=data[inds,-5])
+	ext2 = lda(formula, data=data[inds,])
+	pred2 = predict(ext2,newdata=data[inds,])$class
 	
 	expect_equal(cp2$data$response, pred2)
 	expect_equal(cp2b$data$response, pred2)
@@ -27,7 +27,7 @@ test_that("predict", {
   expect_equal(colnames(getProbabilities(cp3, c("setosa", "versicolor"))), c("setosa", "versicolor"))
   expect_equal(colnames(getProbabilities(cp3, c("versicolor", "setosa"))), c("versicolor", "setosa"))
   
-	cp4 <- predict(cm3, task=multiclass.task, subset=multiclass.test.inds)
+	cp4 = predict(cm3, task=multiclass.task, subset=multiclass.test.inds)
 	expect_equal(cp4$data$response, pred3)
 	expect_equal(cp4$data$truth, data[multiclass.test.inds, multiclass.target])
 	expect_equal(cp4$data$id, multiclass.test.inds)
@@ -64,5 +64,9 @@ test_that("predict", {
 	expect_error(resample(makeLearner("classif.randomForest"), ct, res), 
     "New factor levels not present in the training data")
 	#expect_error(all(is.na(p$measures.test$mmce)))
-
+  
+  # check subset with newdata
+	m = train(makeLearner("classif.lda"), multiclass.task)
+	p = predict(cm2, newdata=multiclass.df, subset=1:10)
+	expect_equal(nrow(p$data), 10)
 })

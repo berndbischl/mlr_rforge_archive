@@ -19,6 +19,12 @@ test_that("SupervisedTask", {
   expect_equal(ct2$task.desc$size, 150)
   expect_equal(sum(ct2$task.desc$n.feat), 2)
   
+  # wrong target type
+  expect_error(makeClassifTask(data=regr.df, target=regr.target),
+    "unsupported type")
+	expect_error(makeRegrTask(data=multiclass.df, target=multiclass.target),
+    "unsupported type")
+	
 	# wrong vars
 	expect_error(subsetTask(multiclass.task, vars=c("Sepal.Length", "x", "y")))
 	

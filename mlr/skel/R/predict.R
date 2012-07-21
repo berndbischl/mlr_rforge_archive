@@ -26,27 +26,29 @@ predict.WrappedModel = function(object, task, newdata, subset, ...) {
   model = object
   learner = model$learner
   td = model$task.desc
-  
-  #size = function(x) {
-  #  if (i)
-  #}
- 
+
   if (missing(newdata)) {
     checkArg(task, "SupervisedTask")
-    newdata = getTaskData(task, subset)
+    size = task$task.desc$size
   } else {
     checkArg(newdata, "data.frame")
-    # FIXME check that data is of same structure?
-    if (nrow(newdata) == 0)
+    size = nrow(newdata)
+    if (size == 0)
       stop("newdata must be a data.frame with at least one row!")
+    # FIXME check that data is of same structure?
   }
   if (missing(subset)) {
-    subset = 1:nrow(newdata)
+    subset = 1:size
   } else {
     subset = convertIntegers(subset)
     checkArg(subset, "integer", na.ok=FALSE)
   }
-
+  if (missing(newdata)) {
+    newdata = getTaskData(task, subset)
+  } else {
+    newdata = newdata[subset,,drop=FALSE]
+  }
+  
   # if we saved a model and loaded it later just for prediction this is necessary
   requireLearnerPackages(learner)
   cns = colnames(newdata)

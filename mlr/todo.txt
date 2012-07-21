@@ -1,0 +1,16 @@
+
+- listLearners pred prob and se and weights
+- se
+- test parallel
+
+- bbmisc function to print vector with names
+
+- drop factor levels in makeTask
+
+- read learners
+
+- b632+ test
+
+- test_all anmachen
+- rd name of supervisedtask, report roxygen2 bug
+- examples

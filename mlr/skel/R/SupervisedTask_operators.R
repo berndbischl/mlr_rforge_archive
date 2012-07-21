@@ -13,7 +13,7 @@ getTaskFeatureNames = function(task) {
 
 #' Get formula of a task. 
 #' 
-#' This is simply \code{target ~ .}. 
+#' This is simply the \code{target ~ .} formula. 
 #' Note that the environment that always gets attached to a formula is deleted. 
 #' 
 #' @param x [\code{\link{SupervisedTask}} | \code{\link{TaskDesc}}]\cr 
@@ -122,7 +122,8 @@ getTaskData = function(task, subset, features, target.extra=FALSE, recode.target
 #'   Selected cases. 
 #'   Default is all cases. 
 #' @param features [character]\cr 
-#'   Selected inputs. Note that target feature is always included! 
+#'   Selected inputs. Note that target feature is always included in the 
+#'   resulting task, you should not pass it here.
 #'   Default is all features. 
 #' @return [\code{\link{SupervisedTask}}]. Task with subsetted data.
 #' @export

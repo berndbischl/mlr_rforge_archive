@@ -22,7 +22,6 @@
 #'   Name of the target variable.
 #' @param weights [\code{numeric}]\cr   
 #'   An optional vector of case weights to be used in the fitting process.
-#'   If the learner cannot handle weights, they are ignored.
 #'   Default is not to use weights.
 #' @param blocking [\code{factor}]\cr
 #'   An optional factor of the same length as the number of observations. 
@@ -33,7 +32,7 @@
 #' @param positive [\code{character(1)}]\cr   
 #'   Positive class for binary classification. 
 #'   Default is the first factor level of the target attribute. 
-#' @param check.data [\code{logical(1)}]
+#' @param check.data [\code{logical(1)}]\cr
 #'   Should sanity of data be checked initially at task creation? 
 #'   You should have good reasons to turn this off.
 #'   Default is \code{TRUE}
@@ -65,8 +64,13 @@ makeSupervisedTask = function(type, id, data, target, weights, blocking, positiv
   checkWeightsAndBlocking(data, target, weights, blocking)    
   checkColumnNames(data, target)
   if (type == "classif") {
-    if (!is.factor(data[, target]))
-      data[, target] = as.factor(data[, target])
+    if (!is.factor(data[, target])) {
+      if (is.character(data[, target]) || is.logical(data[, target]))
+        data[, target] = as.factor(data[, target])
+      else
+        stopf("Taget column %s has an unsupported type for classification. Either you made a mistake or you have to convert it. Type: %s",
+          target, class(data[,target])[1])
+    }
     levs = levels(data[,target])
     m = length(levs)
     if (missing(positive)) {
@@ -81,8 +85,11 @@ makeSupervisedTask = function(type, id, data, target, weights, blocking, positiv
     }
   }
   if (type == "regr") {
-    if (!is.double(data[, target]))
+    if (is.integer(data[, target]))
       data[, target] = as.numeric(data[, target])
+    else
+      stopf("Taget column %s has an unsupported type for regression. Either you made a mistake or you have to convert it. Type: %s", 
+        target, class(data[,target])[1])
     positive = as.character(NA)  
   }
   if (check.data)

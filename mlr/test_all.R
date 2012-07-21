@@ -1,12 +1,13 @@
 library(methods)
 library(devtools)
 library(testthat)
-library(adabag)
-library(e1071)
-library(MASS)
-library(reshape)
 
 if (interactive()) {
+  library(adabag)
+  library(e1071)
+  library(MASS)
+  library(reshape)
+  library(ROCR)
   load_all("skel")
 } else {
   library(mlr)  
