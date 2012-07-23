@@ -1,6 +1,4 @@
 #FIXME for which tasks do the filters work?
-# fixme scale to 0,1 or select percentage?
-# return scaled and unscaled vale?
 
 #' Filter features by using a numerical importance criterion.
 #' 
@@ -22,19 +20,19 @@
 #'   \item{vars [\code{character}]}{Selected features.}
 #'   \item{vals [\code{numeric}]}{Importance values for all features used in filter.}
 #' }
-#' 
-filterFeatures = function(task, method, threshold, ...) {
+#' @export
+filterFeatures = function(task, method="random.forest.importance", threshold=1) {
   requirePackages("FSelector", "filterFeatures")
   checkArg(task, "SupervisedTask") 
   checkArg(task, "SupervisedTask") 
-  checkArg(method, choice=c("linear.correlation", "rank.correlation", "information.gain", 
+  checkArg(method, choices=c("linear.correlation", "rank.correlation", "information.gain", 
     "gain.ratio", "symmetrical.uncertainty", "chi.squared", "random.forest.importance", 
     "relief", "oneR"))
   tn = task$task.desc$target
   f = getTaskFormula(task)
   data = getTaskData(task)
   fun = get(method, envir=getNamespace("FSelector"))
-  val = fun(f, data)  
+  x = fun(f, data)  
   val = x[,1]
   names(val) = rownames(x)
   vars = names(which(val > threshold))
