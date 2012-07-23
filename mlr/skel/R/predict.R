@@ -19,6 +19,27 @@
 #' @return [\code{\link{Prediction}}].
 #' @method predict WrappedModel
 #' @S3method predict WrappedModel
+#' @examples
+#' ## split iris data in training and test set
+#' n <- nrow(iris)
+#' mixed.set <- sample(1:n)
+#' training.set <- mixed.set[1:(n/2)]
+#' test.set <- mixed.set[(n/2 + 1):n]
+#'
+#' ## use linear discriminant analysis as learner for classification task
+#' task <- makeClassifTask(data = iris, target = "Species")
+#' learner <- makeLearner("classif.lda", method = "mle")
+#' mod <- train(learner, task, subset = training.set)
+#' 
+#' ## predict class labels for test data
+#' pred <- predict(mod, newdata = iris[test.set,])
+#' head(pred$data)
+#'
+#' ## predict now probabiliies instead of class labels
+#' learner <- makeLearner("classif.lda", method = "mle", predict.type = "prob")
+#' mod <- train(learner, task, subset = training.set)
+#' pred <- predict(mod, newdata = iris[test.set, ])
+#' head(pred$data)
 predict.WrappedModel = function(object, task, newdata, subset, ...) {
   if (!missing(task) && !missing(newdata)) 
     stop("Pass either a task object or a newdata data.frame to predict, but not both!")

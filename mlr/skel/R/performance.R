@@ -12,6 +12,35 @@
 #'   Model built on training data, might be requested by performance measure, usually not needed.
 #' @return A single numerical performance value. 
 #' @export
+#' @seealso \code{\link{makeMeasure}}, \code{\link{measures}}
+#' @examples
+#' training.set <- seq(1, nrow(iris), by = 2) 
+#' test.set <- seq(2, nrow(iris), by = 2)
+#' 
+#' task <- makeClassifTask(data = iris, target = "Species")
+#' learner <- makeLearner("classif.lda")
+#' mod <- train(learner, task, subset = training.set)
+#' pred <- predict(mod, newdata = iris[test.set, ])
+#'
+#' ## Here we define the mean misclassification error (MMCE) as our performance measure
+#' my.mmce <- function(task, model, pred, extra.args) {
+#'   length(which(pred$data$response != pred$data$truth)) / nrow(pred$data)
+#' }
+#' ms <- makeMeasure(id = "misclassification.rate", 
+#'                   minimize = TRUE, 
+#'                   classif = TRUE, 
+#'                   allowed.pred.types = "response", 
+#'                   fun = my.mmce)
+#' performance(pred, ms, task, mod)
+#' 
+#' ## Indeed the MMCE is already implemented in mlr beside other common performance measures
+#' performance(pred, measure = mmce)
+#'
+#' ## Compute multiple performance measures at once
+#' ms <- list("mmce" = mmce, "acc" = acc, "timetrain" = timetrain)
+#' sapply(ms, function(the.ms) {
+#'   performance(pred, measure = the.ms, task, mod)
+#' })
 performance = function(pred, measure, task, model) {
   m = measure
   td = NULL

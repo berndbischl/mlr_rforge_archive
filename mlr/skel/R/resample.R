@@ -39,6 +39,13 @@
 #'   \item{models [list of \code{\link{WrappedModel}}]}{List of fitted models or \code{NULL}.}
 #'   \item{extract [list]}{List of extracted parts from fitted models or \code{NULL}.}
 #' @export
+#' @seealso \code{\link{makeResampleDesc}}, \code{\link{makeResampleInstance}}
+#' @examples
+#' task <- makeClassifTask(data = iris, target = "Species")
+#' rdesc <- makeResampleDesc("Bootstrap", iters = 10)
+#' rin <- makeResampleInstance(rdesc, task = task)
+#' r1 <- resample(makeLearner("classif.qda"), task, rin)
+#' r2 <- resample(makeLearner("classif.rpart"), task, rin)
 resample = function(learner, task, resampling, measures, models=FALSE, 
   extract=function(m){}, show.info=TRUE) {
 

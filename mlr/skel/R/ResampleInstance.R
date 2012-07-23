@@ -23,7 +23,16 @@
 #' @return [\code{\link{ResampleInstance}}].
 #' @export 
 #' @aliases ResampleInstance
-#' @seealso \code{\link{makeResampleDesc}}, \code{\link{resample}} 
+#' @seealso \code{\link{makeResampleDesc}}, \code{\link{resample}}
+#' @examples
+#' task <- makeClassifTask(data = iris, target = "Species")
+#' rdesc <- makeResampleDesc("Bootstrap", iters = 10)
+#' rin <- makeResampleInstance(rdesc, task = task)
+#' rin
+#'
+#' ## Alternativly provide the size argument instead of a task object
+#' rdesc <- makeResampleDesc("CV", iters = 50)
+#' rin <- makeResampleInstance(rdesc, size = nrow(iris))
 makeResampleInstance = function(desc, task, size) {
   checkArg(desc, "ResampleDesc")
   if (!missing(task)) {

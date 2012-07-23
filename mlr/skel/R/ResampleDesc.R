@@ -39,6 +39,17 @@
 #' @return \code{\link{ResampleDesc}}.
 #' @export
 #' @aliases ResampleDesc
+#' @examples
+#' ## Bootstraping 
+#' makeResampleDesc("Bootstrap", iters = 10)
+#' makeResampleDesc("Bootstrap", iters = 10, predict = "both")
+#'
+#' ## Subsampling 
+#' makeResampleDesc("Subsample", iters = 10, split = 3/4)
+#' makeResampleDesc("Subsample", iters = 10)
+#' 
+#' ## Holdout respectively test sample estimation
+#' makeResampleDesc("Holdout")
 makeResampleDesc = function(method, predict="test", ..., stratify=FALSE) {
   checkArg(method, choices=c("Holdout", "CV", "LOO",  "RepCV", "Subsample", "Bootstrap"))    
   checkArg(predict, "character", choices=c("train", "test", "both"))    
