@@ -27,12 +27,14 @@ makeRLearner.classif.adaboost.m1 = function() {
   )
 }
 
+#' @S3method trainLearner classif.adaboost.m1
 trainLearner.classif.adaboost.m1 = function(.learner, .task, .subset, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth, ...) {
   f = getTaskFormula(.task)
   ctrl = learnerArgsToControl(rpart.control, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth)
   boosting(f, data=getTaskData(.task, .subset), control=ctrl, ...)
 }
 
+#' @S3method predictLearner classif.adaboost.m1
 predictLearner.classif.adaboost.m1 = function(.learner, .model, .newdata, ...) {
   # stupid adaboost
   .newdata[, .model$task.desc$target] <- factor(rep(1, nrow(.newdata)), levels=.model$task.desc$class.levels)

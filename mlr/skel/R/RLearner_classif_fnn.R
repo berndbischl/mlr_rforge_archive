@@ -15,11 +15,13 @@ makeRLearner.classif.fnn = function() {
   )
 }
 
+#' @S3method trainLearner classif.fnn
 trainLearner.classif.fnn = function(.learner, .task, .subset,  ...) {
   d = getTaskData(.task, .subset, target.extra=TRUE)
   list(train=d, parset=list(...))
 }
 
+#' @S3method predictLearner classif.fnn
 predictLearner.classif.fnn = function(.learner, .model, .newdata, ...) {
   m = .model$learner.model
   pars = list(train=m$train$data, test=.newdata, cl=m$train$target)  

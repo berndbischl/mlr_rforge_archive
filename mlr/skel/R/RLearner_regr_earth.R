@@ -16,11 +16,13 @@ makeRLearner.regr.earth = function() {
   )
 }
 
+#' @S3method trainLearner regr.earth
 trainLearner.regr.earth = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   earth(f, data=getTaskData(.task, .subset), ...)
 }
 
+#' @S3method predictLearner regr.earth
 predictLearner.regr.earth = function(.learner, .model, .newdata, ...) {
   predict(.model$learner.model, newdata=.newdata)[,1]
 }

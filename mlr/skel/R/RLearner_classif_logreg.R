@@ -12,11 +12,13 @@ makeRLearner.classif.logreg = function() {
   )
 }
 
+#' @S3method trainLearner classif.logreg
 trainLearner.classif.logreg = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   glm(f, data=getTaskData(.task, .subset), model=FALSE, family="binomial", ...)
 }
 
+#' @S3method predictLearner classif.logreg
 predictLearner.classif.logreg = function(.learner, .model, .newdata, ...) {
   x = predict(.model$learner.model, newdata=.newdata, type="response", ...)
   levs = .model$task.desc$class.levels    

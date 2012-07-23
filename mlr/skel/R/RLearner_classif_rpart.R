@@ -25,7 +25,8 @@ makeRLearner.classif.rpart = function() {
     weights = TRUE
   )
 }
-		
+
+#' @S3method trainLearner classif.rpart		
 trainLearner.classif.rpart = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   d = getTaskData(.task, .subset)
@@ -35,7 +36,8 @@ trainLearner.classif.rpart = function(.learner, .task, .subset,  ...) {
     rpart(f, data=d, ...)
   }
 }
-	
+
+#' @S3method predictLearner classif.rpart	
 predictLearner.classif.rpart = function(.learner, .model, .newdata, ...) {
   type = switch(.learner$predict.type, prob="prob", "class")
   predict(.model$learner.model, newdata=.newdata, type=type, ...)

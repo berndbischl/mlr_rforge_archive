@@ -17,10 +17,12 @@ makeRLearner.regr.kknn = function() {
   )
 }
 
+#' @S3method trainLearner regr.kknn
 trainLearner.regr.kknn = function(.learner, .task, .subset,  ...) {
   list(td=.task$task.desc, data=getTaskData(.task, .subset), parset=list(...))
 }
 
+#' @S3method predictLearner regr.kknn
 predictLearner.regr.kknn = function(.learner, .model, .newdata, ...) {
   m = .model$learner.model
   f = getTaskFormula(.model$task.desc)

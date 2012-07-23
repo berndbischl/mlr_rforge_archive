@@ -15,11 +15,13 @@ makeRLearner.classif.qda = function() {
   )
 }
 
+#' @S3method trainLearner classif.qda
 trainLearner.classif.qda = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   qda(f, data=getTaskData(.task, .subset), ...)
 }
 
+#' @S3method predictLearner classif.qda
 predictLearner.classif.qda = function(.learner, .model, .newdata, ...) {
   p = predict(.model$learner.model, newdata=.newdata, ...)
   if(.learner$predict.type == "response")

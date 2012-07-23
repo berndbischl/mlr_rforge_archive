@@ -21,6 +21,7 @@ makeRLearner.classif.glmboost = function() {
   )
 }
 
+#' @S3method trainLearner classif.glmboost
 trainLearner.classif.glmboost = function(.learner, .task, .subset, mstop, nu, risk, ...) {
   ctrl = learnerArgsToControl(boost_control, mstop, nu, risk)
   f = getTaskFormula(.task)
@@ -30,6 +31,7 @@ trainLearner.classif.glmboost = function(.learner, .task, .subset, mstop, nu, ri
     glmboost(f, data=getTaskData(.task, .subset), control=ctrl, , ...)
 }
 
+#' @S3method predictLearner classif.glmboost
 predictLearner.classif.glmboost = function(.learner, .model, .newdata, ...) {
   type = ifelse(.learner$predict.type == "response", "class", "response")
   p = predict(.model$learner.model, newdata=.newdata, type=type, ...)

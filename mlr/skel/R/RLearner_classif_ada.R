@@ -31,11 +31,13 @@ makeRLearner.classif.ada = function() {
   )
 }
 
+#' @S3method trainLearner classif.ada
 trainLearner.classif.ada = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   ada(f, data=getTaskData(.task, .subset), ...)
 }
 
+#' @S3method predictLearner classif.ada
 predictLearner.classif.ada = function(.learner, .model, .newdata, ...) {
   type = ifelse(.learner$predict.type=="response", "vector", "prob")
   p = predict(.model$learner.model, newdata=.newdata, type=type, ...)

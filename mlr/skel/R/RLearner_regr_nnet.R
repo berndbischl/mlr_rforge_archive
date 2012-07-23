@@ -17,6 +17,7 @@ makeRLearner.regr.nnet = function() {
   )
 }
 
+#' @S3method trainLearner regr.nnet
 trainLearner.regr.nnet = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   if (.task$task.desc$has.weights)
@@ -25,6 +26,7 @@ trainLearner.regr.nnet = function(.learner, .task, .subset,  ...) {
     nnet(f, data=getTaskData(.task, .subset), linout=T, ...)
 }
 
+#' @S3method predictLearner regr.nnet
 predictLearner.regr.nnet = function(.learner, .model, .newdata, ...) {
   predict(.model$learner.model, newdata=.newdata, ...)[,1]
 }

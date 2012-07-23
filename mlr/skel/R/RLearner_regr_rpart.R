@@ -22,6 +22,7 @@ makeRLearner.regr.rpart = function() {
   )
 }
 
+#' @S3method trainLearner regr.rpart
 trainLearner.regr.rpart = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   if (.task$task.desc$has.weights)
@@ -30,6 +31,7 @@ trainLearner.regr.rpart = function(.learner, .task, .subset,  ...) {
     rpart(f, data=getTaskData(.task, .subset), ...)
 }
 
+#' @S3method predictLearner regr.rpart
 predictLearner.regr.rpart = function(.learner, .model, .newdata, ...) {
   predict(.model$learner.model, newdata=.newdata, ...)
 }

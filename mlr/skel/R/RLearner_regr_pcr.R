@@ -21,11 +21,13 @@ makeRLearner.regr.pcr = function() {
   )
 }
 
+#' @S3method trainLearner regr.pcr
 trainLearner.regr.pcr = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   pcr(f, data=getTaskData(.task, .subset), ...)
 }
 
+#' @S3method predictLearner regr.pcr
 predictLearner.regr.pcr = function(.learner, .model, .newdata, ...) {
   p = predict(.model$learner.model, newdata=.newdata)
   p[,1,dim(p)[3]]

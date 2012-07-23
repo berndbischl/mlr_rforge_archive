@@ -26,6 +26,7 @@ makeRLearner.classif.ctree = function() {
   )
 }
 
+#' @S3method trainLearner classif.ctree
 trainLearner.classif.ctree = function(.learner, .task, .subset, teststat, testtype, 
   mincriterion, minsplit, minbucket, stump, nresample, maxsurrogate, mtry, 
   savesplitstats, maxdepth, ...) {
@@ -36,6 +37,7 @@ trainLearner.classif.ctree = function(.learner, .task, .subset, teststat, testty
   ctree(f, data=getTaskData(.task, .subset), controls=ctrl, ...)
 }
 
+#' @S3method predictLearner classif.ctree
 predictLearner.classif.ctree = function(.learner, .model, .newdata, ...) {
   if (.learner$predict.type == "prob") {
     m = .model$learner.model

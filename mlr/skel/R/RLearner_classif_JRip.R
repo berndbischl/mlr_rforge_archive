@@ -21,12 +21,14 @@ makeRLearner.classif.JRip = function() {
   )
 }
 
+#' @S3method trainLearner classif.JRip
 trainLearner.classif.JRip = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   ctrl = Weka_control(..., S=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
   JRip(f, data=getTaskData(.task, .subset), control=ctrl)
 }
 
+#' @S3method predictLearner classif.JRip
 predictLearner.classif.JRip = function(.learner, .model, .newdata, ...) {
   type = switch(.learner$predict.type, prob="prob", "class")
   predict(.model$learner.model, newdata=.newdata, type=type, ...)

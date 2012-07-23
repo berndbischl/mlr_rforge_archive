@@ -21,10 +21,12 @@ makeRLearner.classif.kknn = function() {
   )
 }
 
+#' @S3method trainLearner classif.kknn
 trainLearner.classif.kknn = function(.learner, .task, .subset,  ...) {
   list(td=.task$task.desc, data=getTaskData(.task, .subset), parset=list(...))
 }
 
+#' @S3method predictLearner classif.kknn
 predictLearner.classif.kknn = function(.learner, .model, .newdata, ...) {
   m = .model$learner.model
   f = getTaskFormula(.model$task.desc)

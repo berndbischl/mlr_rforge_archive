@@ -15,6 +15,7 @@ makeRLearner.regr.rsm = function() {
   )
 }
 
+#' @S3method trainLearner regr.rsm
 trainLearner.regr.rsm = function(.learner, .task, .subset,  ...) {
   mf = list(...)$modelfun
   vs = paste(getTaskFeatureNames(.task), collapse=",")
@@ -31,6 +32,7 @@ trainLearner.regr.rsm = function(.learner, .task, .subset,  ...) {
   do.call(rsm, myargs)
 }
 
+#' @S3method predictLearner regr.rsm
 predictLearner.regr.rsm = function(.learner, .model, .newdata, ...) {
   as.numeric(predict(.model$learner.model, newdata=.newdata, ...))
 }

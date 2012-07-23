@@ -99,8 +99,7 @@ predict.WrappedModel = function(object, task, newdata, subset, ...) {
       .model = model, 
       .newdata = newdata
     )
-    # only pass train hyper pars as basic rlearner in ...
-    pars = c(pars, getHyperPars(getLeafLearner(learner), "predict"))
+    pars = c(pars, getHyperPars(learner, "predict"))
     debug.seed = getOption("mlr.debug.seed", NULL)
     if(!is.null(debug.seed))
       set.seed(debug.seed)

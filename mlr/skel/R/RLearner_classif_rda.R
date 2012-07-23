@@ -30,11 +30,13 @@ makeRLearner.classif.rda = function() {
   )
 }
 
+#' @S3method trainLearner classif.rda
 trainLearner.classif.rda = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   rda(f, data=getTaskData(.task, .subset), ...)
 }
 
+#' @S3method predictLearner classif.rda
 predictLearner.classif.rda = function(.learner, .model, .newdata, ...) {
   p = predict(.model$learner.model, newdata=.newdata, ...)
   if (.learner$predict.type == "response")

@@ -51,7 +51,7 @@ train = function(learner, task, subset) {
   # make pars list for train call
   pars = list(.learner=learner, .task=task, .subset=subset)
   # only pass train hyper pars as basic rlearner in ...
-  pars = c(pars, getHyperPars(getLeafLearner(learner), "train"))
+  pars = c(pars, getHyperPars(learner, "train"))
   
   vars = getTaskFeatureNames(task)
   # no vars? then use no vars model

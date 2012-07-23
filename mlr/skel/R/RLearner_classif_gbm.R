@@ -21,6 +21,7 @@ makeRLearner.classif.gbm = function() {
   )
 }
 
+#' @S3method trainLearner classif.gbm
 trainLearner.classif.gbm = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   d = getTaskData(.task, .subset, recode.target="01")
@@ -30,6 +31,7 @@ trainLearner.classif.gbm = function(.learner, .task, .subset,  ...) {
     gbm(f, data=d, keep.data=FALSE, verbose=FALSE, ...)
 }
 
+#' @S3method predictLearner classif.gbm
 predictLearner.classif.gbm = function(.learner, .model, .newdata, ...) {
   m = .model$learner.model
   p = predict(m, newdata=.newdata, type="response", n.trees=length(m$trees), single.tree=FALSE, ...)

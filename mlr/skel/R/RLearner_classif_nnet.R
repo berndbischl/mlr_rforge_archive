@@ -30,6 +30,7 @@ makeRLearner.classif.nnet = function() {
   )
 }
 
+#' @S3method trainLearner classif.nnet
 trainLearner.classif.nnet = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   if (.task$task.desc$has.weights)
@@ -38,6 +39,7 @@ trainLearner.classif.nnet = function(.learner, .task, .subset,  ...) {
     nnet(f, data=getTaskData(.task, .subset), ...)      
 }
 
+#' @S3method predictLearner classif.nnet
 predictLearner.classif.nnet = function(.learner, .model, .newdata, ...) {
   type = switch(.learner$predict.type, response="class", prob="raw")
   p = predict(.model$learner.model, newdata=.newdata, type=type, ...)

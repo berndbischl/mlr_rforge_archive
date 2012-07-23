@@ -23,11 +23,13 @@ makeRLearner.classif.mda = function() {
   )
 }
 
+#' @S3method trainLearner classif.mda
 trainLearner.classif.mda = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   mda(f, data=getTaskData(.task, .subset), ...)
 }
 
+#' @S3method predictLearner classif.mda
 predictLearner.classif.mda = function(.learner, .model, .newdata, ...) {
   type = ifelse(.learner$predict.type=="response", "class", "posterior")
   predict(.model$learner.model, newdata=.newdata, type=type, ...)

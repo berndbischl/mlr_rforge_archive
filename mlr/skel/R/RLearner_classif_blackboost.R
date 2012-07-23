@@ -29,6 +29,7 @@ makeRLearner.classif.blackboost = function() {
   )
 }
 
+#' @S3method trainLearner classif.blackboost
 trainLearner.classif.blackboost = function(.learner, .task, .subset, mstop, nu, risk, teststat, testtype, mincriterion, maxdepth, ...) {
   ctrl = learnerArgsToControl(boost_control, mstop, nu, risk)
   tc = learnerArgsToControl(ctree_control, teststat, testtype, mincriterion, maxdepth)
@@ -39,6 +40,7 @@ trainLearner.classif.blackboost = function(.learner, .task, .subset, mstop, nu, 
     blackboost(f, data=getTaskData(.task, .subset), control=ctrl, tree_controls=tc, ...)
 }
 
+#' @S3method predictLearner classif.blackboost
 predictLearner.classif.blackboost = function(.learner, .model, .newdata, ...) {
   type = ifelse(.learner$predict.type == "response", "class", "response")
   p = predict(.model$learner.model, newdata=.newdata, type=type, ...)

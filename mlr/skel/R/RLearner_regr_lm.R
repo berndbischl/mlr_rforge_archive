@@ -16,6 +16,7 @@ makeRLearner.regr.lm = function() {
   )
 }
 		
+#' @S3method trainLearner regr.lm
 trainLearner.regr.lm = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   d = getTaskData(.task, .subset)
@@ -29,6 +30,7 @@ trainLearner.regr.lm = function(.learner, .task, .subset,  ...) {
   }
 }
 	
+#' @S3method predictLearner regr.lm
 predictLearner.regr.lm = function(.learner, .model, .newdata, ...) {
   if(.learner$predict.type == "response") {
     predict(.model$learner.model, newdata=.newdata, se.fit=FALSE, ...)

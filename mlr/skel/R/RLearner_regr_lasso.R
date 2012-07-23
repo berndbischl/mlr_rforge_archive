@@ -14,11 +14,13 @@ makeRLearner.regr.lasso = function() {
   )
 }
 
+#' @S3method trainLearner regr.lasso
 trainLearner.regr.lasso = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   penalized(f, data=getTaskData(.task, .subset), ...)
 }
 
+#' @S3method predictLearner regr.lasso
 predictLearner.regr.lasso = function(.learner, .model, .newdata, ...) {
   m = .model$learner.model
   .newdata[,.model$task.desc$target] = 0

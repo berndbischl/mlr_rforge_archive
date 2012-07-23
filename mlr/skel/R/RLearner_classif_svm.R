@@ -23,11 +23,13 @@ makeRLearner.classif.svm = function() {
   )
 }
 
+#' @S3method trainLearner classif.svm
 trainLearner.classif.svm = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   svm(f, data=getTaskData(.task, .subset), probability=.learner$predict.type == "prob", ...)
 }
 
+#' @S3method predictLearner classif.svm
 predictLearner.classif.svm = function(.learner, .model, .newdata, ...) {
   if(.learner$predict.type == "response") {
     p = predict(.model$learner.model, newdata=.newdata, ...)

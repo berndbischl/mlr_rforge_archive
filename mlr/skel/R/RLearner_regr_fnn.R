@@ -17,11 +17,13 @@ makeRLearner.regr.fnn = function() {
   )
 }
 
+#' @S3method trainLearner regr.fnn
 trainLearner.regr.fnn = function(.learner, .task, .subset,  ...) {
   d = getTaskData(.task, .subset, target.extra=TRUE)
   list(train=d, parset=list(...))
 }
 
+#' @S3method predictLearner regr.fnn
 predictLearner.regr.fnn = function(.learner, .model, .newdata, ...) {
   m = .model$learner.model
   pars = list(train=m$train$data, test=.newdata, y=m$train$target)  

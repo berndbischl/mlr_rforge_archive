@@ -20,18 +20,25 @@ getParamSet.Learner = function(learner) {
 #' @param learner [\code{\link{Learner}}]\cr 
 #'   The learner.   
 #' @param for.fun [\code{character(1)}]\cr 
-#'   Restrict the returned settings to hyperparameters corresponding to: 
-#'   \dQuote{train}, \dQuote{predict} or \dQuote{both}.
-#'   Default is \dQuote{both}.    
+#'   Restrict the returned settings to hyperparameters corresponding to \code{when}
+#'   the are used (see \code{\link[ParamHelpers]{LearnerParameter}}).
+#'   Must be a subset of: \dQuote{train}, \dQuote{predict} or \dQuote{both}.
+#'   Default is \code{c("train", "predict", "both")}.
 #' @return [\code{list}]. A named list of values.
 #' @export
-getHyperPars = function(learner, for.fun) {
+getHyperPars = function(learner,  for.fun=c("train", "predict", "both")) {
   checkArg(learner, "Learner")
-  if (missing(for.fun))
-    for.fun = "both"
-  else
-    checkArg(for.fun, choices=c("train", "predict", "both"))
-  getHyperParsTop(learner, for.fun)
+  checkArg(for.fun, subset=c("train", "predict", "both"))
+  UseMethod("getHyperPars")
+} 
+
+#' @S3method getHyperPars Learner
+getHyperPars.Learner = function(learner, for.fun=c("train", "predict", "both")) {
+  checkArg(learner, "Learner")
+  pars = learner$par.set$pars
+  pv = learner$par.vals
+  ns = Filter(function(x) pars[[x]]$when %in% for.fun, names(pv))
+  pv[ns]  
 }  
 
 #' Set the hyperparameters of a learner object.
@@ -74,10 +81,12 @@ setHyperPars = function(learner, ..., par.vals) {
   setHyperPars2(learner, par.vals)
 } 
 
+#' @export
 setHyperPars2 = function(learner, par.vals) {
   UseMethod("setHyperPars2")
 } 
 
+#' @S3method setHyperPars2 Learner
 setHyperPars2.Learner = function(learner, par.vals) {
   ns = names(par.vals)
   pars = learner$par.set$pars
@@ -136,32 +145,11 @@ setPredictType = function(learner, predict.type) {
 }
 
 
-getHyperParsTop = function(learner, for.fun) {
-  wh = switch(for.fun, 
-    train=c("train", "both"), 
-    predict=c("predict", "both"),
-    both=c("train", "predict", "both")
-  )
-  pv = learner$par.vals
-  ns = names(Filter(function(y) y$when %in% wh, learner$par.set$pars))
-  ns = intersect(ns, names(learner$par.vals))
-  pv[ns]
-}
-
 # FIXME what if hyper pars are of complx type?
 getHyperParsString = function(learner) {
-  hps = getHyperPars(learner, "both")
+  hps = getHyperPars(learner)
   ns = names(hps)
-  # only use pars ones where we have hyper par values for
   pars = getParamSet(learner)$pars[ns]
   s = Map(paramValueToString, pars, hps)
   paste(ns, s, sep = "=", collapse = ",")
 }
-
-getLeafLearner = function(learner) {
-  if (is(learner, "BaseWrapper"))
-    return(getLeafLearner(learner$learner))
-  else 
-    return(learner)
-}
-

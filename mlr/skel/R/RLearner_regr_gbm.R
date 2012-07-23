@@ -21,6 +21,7 @@ makeRLearner.regr.gbm = function() {
   )
 }
 
+#' @S3method trainLearner regr.gbm
 trainLearner.regr.gbm = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   if (.task$task.desc$has.weights)
@@ -29,7 +30,8 @@ trainLearner.regr.gbm = function(.learner, .task, .subset,  ...) {
     gbm(f, data=getTaskData(.task, .subset), keep.data=FALSE, ...)
 }
 
+#' @S3method predictLearner regr.gbm
 predictLearner.regr.gbm = function(.learner, .model, .newdata, ...) {
-  m <- .model$learner.model
+  m = .model$learner.model
   predict(m, newdata=.newdata, n.trees=length(m$trees), ...)
 }

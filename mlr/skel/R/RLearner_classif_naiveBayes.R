@@ -16,11 +16,13 @@ makeRLearner.classif.naiveBayes = function() {
   )
 }
 
+#' @S3method trainLearner classif.naiveBayes
 trainLearner.classif.naiveBayes = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   naiveBayes(f, data=getTaskData(.task, .subset), ...)
 }
 
+#' @S3method predictLearner classif.naiveBayes
 predictLearner.classif.naiveBayes = function(.learner, .model, .newdata, ...) {
   type = ifelse(.learner$predict.type=="response", "class", "raw")
   predict(.model$learner.model, newdata=.newdata, type=type, ...)

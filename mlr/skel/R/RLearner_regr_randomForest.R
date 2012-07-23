@@ -22,11 +22,13 @@ makeRLearner.regr.randomForest = function() {
   )
 }
 
+#' @S3method trainLearner regr.randomForest
 trainLearner.regr.randomForest = function(.learner, .task, .subset,  ...) {
   f = getTaskFormula(.task)
   randomForest(f, data=getTaskData(.task, .subset), ...)
 }
 
+#' @S3method predictLearner regr.randomForest
 predictLearner.regr.randomForest = function(.learner, .model, .newdata, ...) {
   predict(.model$learner.model, newdata=.newdata, ...)
 }

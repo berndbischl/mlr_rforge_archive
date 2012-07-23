@@ -23,11 +23,13 @@ makeRLearner.regr.km = function() {
   )
 }
 
+#' @S3method trainLearner regr.km
 trainLearner.regr.km = function(.learner, .task, .subset,  ...) {
   d = getTaskData(.task, .subset, target.extra=TRUE)
   km(design=d$data, response=d$target, ...)
 }
 
+#' @S3method predictLearner regr.km
 predictLearner.regr.km = function(.learner, .model, .newdata, ...) {
   p = predict(.model$learner.model, newdata=.newdata, type="SK", se.compute=FALSE, ...)
   if(.learner$predict.type == "response")

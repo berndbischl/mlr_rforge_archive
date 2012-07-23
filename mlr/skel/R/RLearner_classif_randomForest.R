@@ -25,6 +25,7 @@ makeRLearner.classif.randomForest = function() {
   )
 }
 
+#' @S3method trainLearner classif.randomForest
 trainLearner.classif.randomForest = function(.learner, .task, .subset, classwt=NULL, cutoff, ...) {
   f = getTaskFormula(.task)
   levs = .task$task.desc$class.levels
@@ -38,6 +39,7 @@ trainLearner.classif.randomForest = function(.learner, .task, .subset, classwt=N
   randomForest(f, data=getTaskData(.task, .subset), classwt=classwt, cutoff=cutoff, ...)
 }
 
+#' @S3method trainLearner classif.randomForest
 predictLearner.classif.randomForest = function(.learner, .model, .newdata, ...) {
   type = ifelse(.learner$predict.type=="response", "response", "prob")
   predict(.model$learner.model, newdata=.newdata, type=type, ...)

@@ -19,6 +19,7 @@ getTaskFeatureNames = function(task) {
 #' @param x [\code{\link{SupervisedTask}} | \code{\link{TaskDesc}}]\cr 
 #'   Task or its description object.   
 #' @return [\code{formula}].
+#' @export
 getTaskFormula = function(x) {
   g = function(target) as.formula(paste(target, "~."))
   if (inherits(x, "TaskDesc"))
