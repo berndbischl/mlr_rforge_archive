@@ -13,12 +13,13 @@ Quick start
 Classification example
 ......................
 
-We train a Linear Dicriminant Analysis on the iris data set.
+We start with a basic example and train a Linear Dicriminant Analysis on the iris data set.
 
 <<>>=
 library("mlr")
 task <- makeClassifTask(data = iris, target = "Species")
-mod <- train("classif.lda", task)
+lrn <- makeLearner("classif.lda")
+mod <- train(lrn, task)
 mod
 @
 
@@ -33,7 +34,8 @@ library("mlbench")
 data(BostonHousing)
 
 task <- makeRegrTask(data = BostonHousing, target = "medv")
-mod <- train("regr.lm", task)
+lrn <- makeLearner("regr.lm")
+mod <- train(lrn, task)
 mod
 @
 
@@ -41,12 +43,9 @@ Further information
 -------------------
 
 As already mentioned, we can train a learner simply by
-calling the function train_, passing it a learner and a LearnTask_. 
+calling the function train_, passing it a Learner_ and a LearnTask_. 
 In the examples above the classification or regression method was specified 
-by its name as a string. Alternatively, we can pass a Learner_ object. 
-While the former is maybe more convenient, the latter
-allows for more flexibility, for example it permits setting the
-hyperparameters of the learner before training. 
+by special Learner_ objects. This allows for a maximum of flexibility, for example it permits setting the hyperparameters of the learner before training. 
 
 Optionally, only a subset of the data, specified by an index set, can be used to 
 train the learner. This set is passed using the ``subset`` argument of train_.
@@ -60,35 +59,26 @@ observations.
 Classification example
 ......................
 
-Let's train a decision tree on the iris data set. We directly pass the name of 
-the classifier as a string.
+Let's train a decision tree on the iris data set.
 
 <<>>=
-#First, create the classification task.
 library("mlr")
+
+#First, create the classification task and the learner object
 task <- makeClassifTask(data = iris, target = "Species")
+lrn <- makeLearner("classif.rpart")
 
-
+# Now train the model with all the instances provided by the iris data.
 mod <- train("classif.rpart", task)
 
 #You can print some basic information of the model to the console.
-
-mod
-@
-
-Alternativly we can create a Learner_ object and then pass this into the train_ 
-method. In order to use non-default hyperparameter values this is mandatory.
-
-<<>>=
-lrn <- makeLearner("classif.rpart", minsplit = 7, cp = 0.03)
-mod <- train(lrn, task)
 mod
 @
 
 Now a subset of the data (every second observation) is used for training.
 
 <<>>=
-mod <- train(lrn, task, subset = seq(from = 1, to = 150, by = 2))
+mod <- train(lrn, task, subset = seq(from = 1, to = nrow(iris), by = 2))
 mod
 @
 	
@@ -102,32 +92,27 @@ mod@learner.model
 Regression example
 ..................
 
-As regression example we use the BostonHousing data set.
-Let's train some Gradient Boosting Machine, first on the whole data set.
+As regression example we use the BostonHousing data set. Let's train some Gradient Boosting Machine, first on the whole data set.
 
 <<>>=
 #Create the regression task. 
 library("mlbench")
 data(BostonHousing)
+
 task <- makeRegrTask(data = BostonHousing, target = "medv")
-mod <- train("regr.gbm", task) 
-mod
-@
-
-Then on a subset (every second observation).
-
-<<>>=
-mod <- train("regr.gbm", task, subset = seq(1, 506, 2))
-mod
-@
-
-Analogous to the classification case a Learner_ object has to be created before training in order to use non-default values of hyperparameters.
-
-<<>>=
 lrn <- makeLearner("regr.gbm", n.trees = 500, distribution = "laplace", interaction.depth = 3)
-mod <- train(lrn, task, subset = seq(1, 506, 2))	
+
+mod <- train(lrn, task, subset = seq(1, nrow(BostonHousing), 2))  
 mod
 @
+
+Now we use a subset of the data for training (every second observation).
+
+<<>>=
+mod <- train(lrn, task, subset = seq(1, nrow(BostonHousing), 2))
+mod
+@
+
 
 .. _train: ../_static/rdocs/mlr/train.html
 .. _IntegratedLearners: ../integrated_learners.html
