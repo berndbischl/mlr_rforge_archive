@@ -1,12 +1,12 @@
-Package: mlr
+Package: mlrChains
 Title:  mlr: Machine Learning in R. 
 Description: 
 Author: Bernd Bischl <bernd_bischl@gmx.net>
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
 License: BSD
-Imports: BBmisc, reshape, abind, boot, codetools, ROCR
-Depends: ParamHelpers, ROCR
-Suggests: ada, adabag, DiceKriging, e1071, earth, FNN, gbm, kernlab, kknn, klaR, mboost, mda, nnet, party, penalized, pls, randomForest, rpart, rsm, RWeka, testthat
+Imports: BBmisc, ParamHelpers, mlr, mlrTune
+Depends: ParamHelpers, mlr, mlrTune
+Suggests: testthat
 LazyData: yes
 ByteCompile: yes
 Version: 1.0

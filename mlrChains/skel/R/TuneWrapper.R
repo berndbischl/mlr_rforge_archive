@@ -24,15 +24,14 @@
 #' @return \code{\linkS4class{Learner}}. 
 #' @export
 makeTuneWrapper = function(learner, resampling, measures, par.set, control, show.info) {
-  if (is.character(learner))
-    learner = makeLearner(learner)
   if (missing(measures))
     measures = mlr:::default.measures(learner)
   if (is(measures, "Measure"))
     measures = list(measures)   
-  mlrTune:::checkTunerParset(learner, par.set, control) 
-	makeOptWrapper(learner, resampling, measures, par.set, character(0),
+	x = makeOptWrapper(learner, resampling, measures, par.set, character(0),
     function(){}, control, show.info)
+  mlrTune:::checkTunerParset(learner, par.set, control) 
+  return(x)
 }
 
 #' @S3method trainLearner TuneWrapper
