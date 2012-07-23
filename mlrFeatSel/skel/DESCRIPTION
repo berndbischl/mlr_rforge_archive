@@ -1,0 +1,12 @@
+Package: mlrFeatSel
+Title: mlr: Feature selection.
+Description: 
+Author: Bernd Bischl <bernd_bischl@gmx.net>
+Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
+License: BSD
+Imports: BBmisc, ParamHelpers, mlr
+Depends: mlr
+Suggests: FSelector
+LazyData: yes
+ByteCompile: yes
+Version: 1.0
