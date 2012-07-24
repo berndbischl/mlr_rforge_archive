@@ -15,7 +15,7 @@ test_that("PreprocWrapper", {
   )
   w1 = makeLearner("classif.rpart", minsplit=10)
   w2 = makePreprocWrapper(w1, train=f1, predict=f2, par.set=ps, par.vals=list(x=1,y=2))
-  print(w2)
+  capture.output(print(w2))
   
   expect_true(setequal(getHyperPars(w2), list(minsplit=10, x=1, y=2))) 
   expect_true(setequal(getHyperPars(w2, "train"), list(minsplit=10, x=1, y=2))) 

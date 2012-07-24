@@ -1,17 +1,14 @@
 library(methods)
 library(testthat)
-library(reshape)
-library(e1071)
 
 if (interactive()) {
   library(devtools)
-  library(adabag)
-  library(MASS)
-  library(ROCR)
   load_all("skel")
 } else {
-  library(mlr)  
+  library(mlrChains)  
 }
-#source("skel/inst/tests/helpers.R")
+
+configureMlr(show.learner.output=FALSE)
+
 source("skel/inst/tests/objects.R")
 test_dir("skel/inst/tests")

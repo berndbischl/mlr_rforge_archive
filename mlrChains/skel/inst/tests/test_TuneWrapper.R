@@ -5,7 +5,7 @@ test_that("TuneWrapper", {
   outer = makeResampleDesc("Holdout")
   inner = makeResampleDesc("CV", iters=2)
 
-  ps1 = makeParamSet(makeDiscreteParam(id="C", values=c(1,100)))
+  ps1 = makeParamSet(makeDiscreteParam(id="C", values=c(1, 0.000001)))
   lrn1a = makeLearner("classif.ksvm")
   lrn2 = makeTuneWrapper(lrn1a, resampling=inner, par.set=ps1, control=makeTuneControlGrid())
 
@@ -37,5 +37,5 @@ test_that("TuneWrapper", {
   lrn2 = makeTuneWrapper(lrn1, resampling=makeResampleDesc("Holdout"), par.set=ps1, control=makeTuneControlGrid())
   expect_equal(lrn2$predict.type, "prob")
   r = resample(lrn2, binaryclass.task, makeResampleDesc("Holdout"), measures=auc)
-  expect_true(!is.na(r$aggr["auc.test.mean"]))
+  expect_true(!is.na(r$aggr[["auc.test.mean"]]))
 })
