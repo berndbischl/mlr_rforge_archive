@@ -21,7 +21,7 @@ getParamSet.Learner = function(learner) {
 #'   The learner.   
 #' @param for.fun [\code{character(1)}]\cr 
 #'   Restrict the returned settings to hyperparameters corresponding to \code{when}
-#'   the are used (see \code{\link[ParamHelpers]{LearnerParameter}}).
+#'   the are used (see \code{\link[ParamHelpers]{LearnerParam}}).
 #'   Must be a subset of: \dQuote{train}, \dQuote{predict} or \dQuote{both}.
 #'   Default is \code{c("train", "predict", "both")}.
 #' @return [\code{list}]. A named list of values.
@@ -81,6 +81,11 @@ setHyperPars = function(learner, ..., par.vals) {
   setHyperPars2(learner, par.vals)
 } 
 
+#' Only exported for internal use.
+#' @param learner [\code{\link{Learner}}]\cr
+#'   The learner.
+#' @param par.vals [\code{list}]\cr
+#'   List of named (hyper)parameter settings.
 #' @export
 setHyperPars2 = function(learner, par.vals) {
   UseMethod("setHyperPars2")

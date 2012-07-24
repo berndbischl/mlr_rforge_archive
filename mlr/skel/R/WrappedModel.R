@@ -1,25 +1,34 @@
+#FIXME really store the features? what abou varsel?
+
 #' Induced model of learner.
 #'
 #' Result from \code{\link{train}}. It internally stores the underlying fitted model,
 #' the subset used for training, features used for training and computtation time for training.
 #' 
-#' Object slots: 
-#' \describe{
-#'	\item{learner [\code{\link{Learner}}]}{Learner that was used to fit the model.}
-#'	\item{learner.model [any]}{Underlying model from used R package. If model fitting failed.... FIXME}
-#'	\item{task.desc [\code{\link{TaskDesc}}]}{Description object of task.}
-#'	\item{subset [\code{integer}]}{Subset used for training.}
-#'	\item{time [\code{numeric}]}{Computation time for model fit in seconds.}
-#' }
-#' @name WrappedModel
-#' @rdname WrappedModel
-NULL
-#FIXME really store the features? what abou varsel?
-
+#' The constructer \code{makeWrappedModel} is only for internal use.
+#'
+#' Object members: See arguments.
+#'
+#' @param learner [\code{\link{Learner}}]\cr 
+#'   The learner.  
+#' @param model [any]\cr 
+#'   Underlying model.   
+#' @param task.desc [\code{\link{TaskDesc}}]\cr 
+#'   Task description object.
+#' @param subset [\code{integer}]\cr 
+#'   Subset used for training.
+#' @param features [\code{character}]\cr 
+#'   Features used for training.
+#' @param time [\code{numeric(1)}]\cr 
+#'   Computation time for model fit in seconds.
+#' @return [\code{\link{WrappedModel}}]. 
+#' @export
+#' @aliases WrappedModel
 makeWrappedModel = function(learner, model, task.desc, subset, features, time) {
   UseMethod("makeWrappedModel")
 }
   
+#' @S3method makeWrappedModel Learner
 makeWrappedModel.Learner = function(learner, model, task.desc, subset, features, time) {
   if(is.error(model)) {
     model = as.character(model)
