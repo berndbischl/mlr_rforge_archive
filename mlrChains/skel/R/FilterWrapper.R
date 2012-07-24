@@ -2,64 +2,72 @@
 #' 
 #' Fuses a base learner with a filter method. Creates a learner object, which can be
 #' used like any other learner object. 
-#' Internally Uses \code{\link{varfilter}} before every model fit. 
+#' Internally Uses \code{\link[mlrFeatSel]{filterFeatures}} before every model fit. 
 #' 
 #' Look at package FSelector for details on the filter algorithms. 
 #' 
-#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
-#'   Learning algorithm. See \code{\link{learners}}.  
-#' @param fw.method [\code{character(1)}] \cr
+#' @param learner [\code{\link[mlr]{Learner}}]\cr 
+#'   The learner.  
+#' @param fw.method [\code{character(1)}]\cr
 #'   Filter method. Available are:
 #'   linear.correlation, rank.correlation, information.gain, gain.ratio, symmetrical.uncertainty, chi.squared, random.forest.importance, relief, oneR
-#' @param fw.threshold [single double] \cr
-#'   Only features whose importance value exceed this are selected.  
-#' @return \code{\link{Learner}}.
+#'   Default is random.forest.importance.
+#' @param fw.perc [\code{numeric(1)}]\cr
+#'   Percentage of highest ranking features to select after filtering.  
+#'   Default is 1 (=100 percent).
+#' @return [\code{\link{Learner}}].
 #' @export
-makeFilterWrapper = function(learner, fw.method="information.gain", fw.threshold=1) {
-  if (is.character(learner))
-    learner = makeLearner(learner)
-  # fixme: check that for some the inputs have to be all num. or accept error in train and NA in predict?
+makeFilterWrapper = function(learner, fw.method="random.forest.importance", fw.perc=1) {
+  
+  meths = c("linear.correlation", "rank.correlation", "information.gain", "gain.ratio", 
+    "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")
+  checkArg(fw.method, choices=meths)
+  checkArg(fw.perc, "numeric", len=1L, na.ok=FALSE, lower=0, upper=1)
   ps = makeParamSet(
-    makeDiscreteLearnerParam(id="fw.method",
-      values=c("linear.correlation", "rank.correlation", "information.gain", "gain.ratio", 
-        "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")),
-    makeNumericLearnerParam(id="fw.threshold")
+    makeDiscreteLearnerParam(id="fw.method", values=meths),
+    makeNumericLearnerParam(id="fw.perc")
   )
-	w = new("FilterWrapper", learner=learner, pack="FSelector", par.set=ps, 
-    par.vals=list(fw.method=fw.method, fw.threshold=fw.threshold))
-  setPredictType(w, learner$predict.type)
+  pv = list(fw.method=fw.method, fw.perc=fw.perc)
+  # fixme scale to 0,1
+  makeBaseWrapper(learner, package="FSelector", par.set=ps, par.vals=pv, 
+    cl="FilterWrapper")
+  # fixme: check that for some the inputs have to be all num. or accept error in train and NA in predict?
 }
 
 #' @S3method trainLearner FilterWrapper
-trainLearner = function(.learner, .task, .subset,  ...) {
-  pvs = .learner$par.vals 
+trainLearner.FilterWrapper = function(.learner, .task, .subset, fw.method, fw.perc, ...) {
   .task = subsetTask(.task, subset=.subset)  
-  tn = .task$desc$target
-  vars = varfilter(.task, pvs$fw.method, pvs$fw.threshold)$vars
-  if (length(vars) > 0) {
-    .task = subsetData(.task, vars=vars)  
+  tn = .task$task.desc$target
+  vals = filterFeatures(.task)
+  #vals = sort(vals, decreasing=TRUE)
+  inds = seq_len(round(fw.perc*length(vals)))
+  features = names(vals)[inds]
+  if (length(features) > 0) {
+    .task = subsetTask(.task, features=features)  
     # !we have already subsetted!
-    m = trainLearner(.learner$learner, .task, 1:.task$task.desc$size, ...)
+    m = mlr:::trainLearner(.learner$learner, .task, 1:.task$task.desc$size, ...)
   } else {
     # !we have already subsetted!
-    m = new("novars", targets=getTargets(.task), desc=.task$desc)
+    m = mlr:::makeNoFeaturesModel(targets=getTaskTargets(.task), task.desc=.task$task.desc)
   }
-  # set the vars as attribute, so we can extract it later 
-  attr(m, "filter.result") = vars
+  # set the features as attribute, so we can extract it later 
+  attr(m, "filter.result") = features
   return(m)
 }
 
 #' @S3method predictLearner FilterWrapper
-predictLearner = function(.learner, .model, .newdata, .type, ...) {
-  .newdata = .newdata[, .model$vars, drop=FALSE]  
-  predictLearner(.learner$learner, .model, .newdata, .type, ...)
+predictLearner.FilterWrapper = function(.learner, .model, .newdata, ...) {
+  .newdata = .newdata[, .model$features, drop=FALSE]  
+  predictLearner(.learner$learner, .model, .newdata, ...)
 }
 
 #' @S3method makeWrappedModel FilterWrapper
-makeWrappedModel.FilterWrapper = function(learner, model, task.desc, subset, vars, time) {
-  x = makeWrappedModel(learner, model, task.desc, subset, vars, time)  
-  vars = attr(model, "filter.result")
-  attr(model, "filter.result") = NULL
+makeWrappedModel.FilterWrapper = function(learner, model, task.desc, subset, features, time) {
+  x = NextMethod()
+  class(x) = c("FilterModel", class(x))
+  x$features = attr(model, "filter.result")
+  attr(x$model, "filter.result") = NULL
+  return(x)
 }
 
 

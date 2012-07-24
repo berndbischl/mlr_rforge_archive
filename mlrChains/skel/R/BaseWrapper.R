@@ -1,5 +1,7 @@
 # FIXME: test this
-makeBaseWrapper = function(learner, package=character(0), par.set=makeParamSet(), par.vals=list()) {
+makeBaseWrapper = function(learner, package=character(0), par.set=makeParamSet(), 
+  par.vals=list(), cl) {
+  
   checkArg(learner, "Learner")
   checkArg(package, "character", na.ok=FALSE)
   checkArg(par.set, "ParamSet")
@@ -18,10 +20,10 @@ makeBaseWrapper = function(learner, package=character(0), par.set=makeParamSet()
     type = learner$type,
     package = c(package, learner$package),
     par.set = par.set,
-    par.vals = list(),
+    par.vals = par.vals,
     numerics = learner$numerics,
     factors = learner$factors,
-    predict.type = "response",
+    predict.type = learner$predict.type,
     missings = learner$missings,
     weights = learner$weights,
     oneclass = learner$oneclass,
@@ -30,7 +32,7 @@ makeBaseWrapper = function(learner, package=character(0), par.set=makeParamSet()
     prob = learner$prob,
     se = learner$se,
     learner = learner    
-  ), class = c("BaseWrapper", "Learner"))
+  ), class = c(cl, "BaseWrapper", "Learner"))
 }
 
   
@@ -55,7 +57,7 @@ print.BaseWrapper = function(x, ...) {
   
   cat(
     s, "\n",
-    "  Hyperparameters: ", getHyperParsString(x), "\n\n",
+    "  Hyperparameters: ", mlr:::getHyperParsString(x), "\n\n",
     sep = ""         
   )
 }

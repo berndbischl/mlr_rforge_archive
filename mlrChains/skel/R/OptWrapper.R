@@ -1,13 +1,23 @@
 makeOptWrapper = function(learner, resampling, measures, par.set, bit.names, bits.to.features,
-  control, show.info) {
+  control, show.info, cl) {
   
-  checkArg(resampling)
-  checkArg(measures, "list")
-  checkListElementClass(measures, "Measure")
-  checkArg(measures, "lsit")
+  if (!(inherits(resampling, "ResampleDesc") || inherits(resampling, "ResampleInstance")))
+    stopf("'resampling' must be a 'ResampleDesc' or ResampleInstance, not: %s", 
+      class(resampling)[1])
+  if (missing(measures)) {
+    measures = mlr:::default.measures(learner)
+  } else {
+    if (is(measures, "Measure"))
+      measures = list(measures)   
+    else
+      checkListElementClass(measures, "Measure")
+  }
+  # fixme checks for featsel
+  checkArg(par.set, "ParamSet")
+  checkArg(control, "OptControl")
   checkArg(show.info, "logical", len=1L, na.ok=FALSE)
 
-  x = makeBaseWrapper(learner)
+  x = makeBaseWrapper(learner, cl=c(cl, "OptWrapper"))
   x$resampling = resampling
   x$measures = measures
   x$opt.pars = par.set
@@ -16,6 +26,21 @@ makeOptWrapper = function(learner, resampling, measures, par.set, bit.names, bit
   x$opt.pars = par.set
   x$control = control
   x$show.info = show.info
-  # set predict type of base learner
-  setPredictType(x, learner$predict.type)
+  return(x)
+}
+
+#' @S3method makeWrappedModel OptWrapper
+makeWrappedModel.OptWrapper = function(learner, model, task.desc, subset, features, time) {
+  x = NextMethod()
+  x$opt.result = attr(model, "opt.result")
+  attr(x$model, "opt.result") = NULL
+  class(x) = c("TuneModel", "OptModel", class(x))
+  return(x)
+}
+
+#' @S3method print OptModel
+print.OptModel = function(x, ...) {
+  mlr:::print.Wrappedmodel(x)
+  cat("\nOptimization result:\n")
+  print(x$opt.result)
 }

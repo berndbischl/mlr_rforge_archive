@@ -13,5 +13,5 @@ if (interactive()) {
   library(mlr)  
 }
 #source("skel/inst/tests/helpers.R")
-#source("skel/inst/tests/objects.R")
+source("skel/inst/tests/objects.R")
 test_dir("skel/inst/tests")
