@@ -42,7 +42,7 @@
 #'   performance(pred, measure = the.ms, task, mod)
 #' })
 performance = function(pred, measure, task, model) {
-  checkArg(measure, "measure")
+  checkArg(measure, "Measure")
   m = measure
   td = NULL
   if (m$req.pred) {
