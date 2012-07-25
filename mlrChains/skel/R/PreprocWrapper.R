@@ -39,31 +39,25 @@ makePreprocWrapper = function(learner, train, predict, par.set=makeParamSet(), p
   return(x)
 }
 
-#' @S3method trainLearner PreprocWrapper
-trainLearner.PreprocWrapper = function(.learner, .task, .subset,  ...) {
+train.PreprocWrapper = function(learner, task, subset) {
   pvs = .learner$par.vals
-  d = getTaskData(.task, .subset)
-  tn = .task$task.desc$target
-  p = .learner$train(data=d, target=tn, args=pvs)
-  if (!(is.list(p) && length(p)==2 && all(names(p) == c("data", "control")) 
-        && is.data.frame(p$data) && is.list(p$control)))
+  pp = learner$train(data=getTaskData(.task, .subset),
+    target=task$task.desc$target, args=pvs)
+  if (!(is.list(pp) && length(pp)==2 && all(names(pp)) == c("data", "control")) && 
+    is.data.frame(pp$data) && is.list(pp$control)))
     stop("Preprocessing train must result in list wil elements data[data.frame] and control[list]!")
-  .task = mlr:::changeData(.task, p$data)
+  task = mlr:::changeData(task, pp$data)
   # we have already subsetted!
-  # fixme: do.call
-  args = list(.learner$learner, .task, 1:.task$task.desc$size)
-  args2 = list(...)
-  # remove preproc pars
-  args2 = args2[setdiff(names(args2), names(pvs))]
-  m = do.call(trainLearner, c(args, args2))
+  m = train(learner$learner, task)
   structure(list(
     prev.model = m,
     control = p$control
-  ), class = "mlrChains.PreprocModel")
+  ), class = c("PreprocModel", "Chainmodel"))
 }
 
+
 #' @S3method predictLearner PreprocWrapper
-predictLearner.PreprocWrapper = function(.learner, .model, .newdata, ...) {
+predict.PreprocWrapper = function(.learner, .model, .newdata, ...) {
   print("predict: preproc")
   print(class(.model))
   print(class(.model$learner.model))
