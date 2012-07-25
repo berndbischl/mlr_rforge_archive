@@ -1,7 +1,7 @@
 context("TuneWrapper")
 
 test_that("TuneWrapper", {
-  # todo check opt. parameter is same with tune and tune.wrapper
+  # FIXME check opt. parameter is same with tune and tune.wrapper
   outer = makeResampleDesc("Holdout")
   inner = makeResampleDesc("CV", iters=2)
 

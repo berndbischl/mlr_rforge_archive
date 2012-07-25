@@ -1,11 +1,11 @@
 context("PreprocWrapper")
 
 test_that("PreprocWrapper", {
-  f1 = function(data, targetvar, args) {
+  f1 = function(data, target, args) {
     data[,2] = args$x * data[,2]
     return(list(data=data, control=list()))
   }
-  f2 = function(data, targetvar, args, control) {
+  f2 = function(data, target, args, control) {
     data[,2] = args$x * data[,2]
     return(data)
   }  
@@ -13,19 +13,19 @@ test_that("PreprocWrapper", {
     makeNumericLearnerParam(id="x"),
     makeNumericLearnerParam(id="y")
   )
-  w1 = makeLearner("classif.rpart", minsplit=10)
-  w2 = makePreprocWrapper(w1, train=f1, predict=f2, par.set=ps, par.vals=list(x=1,y=2))
-  capture.output(print(w2))
+  lrn1 = makeLearner("classif.rpart", minsplit=10)
+  lrn2 = makePreprocWrapper(lrn1, train=f1, predict=f2, par.set=ps, par.vals=list(x=1,y=2))
+  capture.output(print(lrn2))
   
-  expect_true(setequal(getHyperPars(w2), list(minsplit=10, x=1, y=2))) 
-  expect_true(setequal(getHyperPars(w2, "train"), list(minsplit=10, x=1, y=2))) 
-  expect_true(setequal(w2$par.vals, list(x=1, y=2))) 
+  expect_true(setequal(getHyperPars(lrn2), list(minsplit=10, x=1, y=2))) 
+  expect_true(setequal(getHyperPars(lrn2, "train"), list(minsplit=10, x=1, y=2))) 
+  expect_true(setequal(lrn2$par.vals, list(x=1, y=2))) 
   
-  wl3 = setHyperPars(w2, minsplit=77, x=88)
-  expect_true(setequal(getHyperPars(wl3), list(minsplit=77, x=88, y=2))) 
-  expect_true(setequal(wl3$par.vals, list(x=88, y=2))) 
+  lrn3 = setHyperPars(lrn2, minsplit=77, x=88)
+  expect_true(setequal(getHyperPars(lrn3), list(minsplit=77, x=88, y=2))) 
+  expect_true(setequal(lrn3$par.vals, list(x=88, y=2))) 
   
-  m = train(w2, task=multiclass.task)
+  m = train(lrn2, task=multiclass.task)
   capture.output(print(m))
   expect_true(setequal(getHyperPars(m$learner), list(minsplit=10, x=1, y=2))) 
 })

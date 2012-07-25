@@ -4,18 +4,32 @@ library(mlbench)
 data(BostonHousing)
 
 load_all("skel")
+source("skel/inst/tests/objects.R")
 
-configureMlr(show.learner.output=FALSE)
+
+configureMlr(show.learner.output=TRUE)
   
- outer = makeResampleDesc("Holdout")
-  inner = makeResampleDesc("CV", iters=2)
+lrn1 = makeLearner("classif.rpart", minsplit=10)
+lrn2 = makePreprocWrapperPCA(lrn1)
+#lrn3 = makePreprocWrapperRemoveOutliers(lrn3, ro.alpha=1)
+  
+m = train(lrn2, multiclass.task)
 
-  ps1 = makeParamSet(makeDiscreteParam(id="C", values=c(1, 0.000001)))
+p = predict(m, multiclass.task)
+print(66)
 
 
-  # check that predict.type is taken from base learner
-  lrn1 = makeLearner("classif.ksvm", predict.type="prob")
-  lrn2 = makeTuneWrapper(lrn1, resampling=makeResampleDesc("Holdout"), par.set=ps1, control=makeTuneControlGrid())
-  expect_equal(lrn2$predict.type, "prob")
-  r = resample(lrn2, binaryclass.task, makeResampleDesc("Holdout"), measures=auc)
-  expect_true(!is.na(r$aggr["auc.test.mean"]))
+  
+#  lrn1 = makeLearner("classif.rpart", minsplit=10)
+ # lrn2 = makeFilterWrapper(lrn1)
+#  lrn3 = makePreprocWrapperPCA(lrn2)
+#  lrn4 = makePreprocWrapperRemoveOutliers(lrn3, ro.alpha=1)
+#  m = train(lrn4, multiclass.task)
+#  
+#  expect_true(inherits(m, "PreprocModel"))
+#  expect_true(inherits(m$learner.model, "PreprocModel"))
+#  expect_true(inherits(m$learner.model$learner.model, "PreprocModel"))
+#  
+#  #p = predict(m, multiclass.task)
+#  #perf = performance(p, mmce)
+#  #expect_true(perf < 0.1)

@@ -1,0 +1,36 @@
+#FIXME: read this, better way to require package
+#only export if proved useful
+# simul study?
+
+#' @export
+makePreprocWrapperRemoveOutliers = function(learner, ro.alpha=0.5) {
+  checkArg(learner, "Learner")
+
+  trainfun = function(data, target, args) {
+    print("train: RO")
+    require(robustbase)
+    cns = colnames(data)
+    nums = cns[sapply(data, is.numeric)]
+    x = data[, nums]
+    # split x in classes
+    x.splitted = split(x, data[,target])
+    idx = lapply(x.splitted, function(d) as.logical(covMcd(x = d, alpha = args$ro.alpha)$mcd.wt))
+    idx = unsplit(idx, data[,target])
+    data = data[idx,]
+    list(data=data, control=list())
+  }
+
+  predictfun = function(data, target, args, control) {
+    print("predict: RO")
+    data
+  }
+  ps = makeParamSet(makeNumericLearnerParam("ro.alpha", lower=0, upper=1))
+  pv = list(ro.alpha=ro.alpha)
+  makePreprocWrapper(learner, trainfun, predictfun, par.set=ps, par.vals=pv)
+}  
+
+
+
+
+
+
