@@ -15,3 +15,9 @@
 - examples
 
  test prints again
+ 
+ - remove featperc measure? what to do?
+   with chains it is diffuclt to see where feature number is
+   
+display split bei holdout / subsample print
+   
