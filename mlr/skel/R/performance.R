@@ -42,11 +42,13 @@
 #'   performance(pred, measure = the.ms, task, mod)
 #' })
 performance = function(pred, measure, task, model) {
+  checkArg(measure, "measure")
   m = measure
   td = NULL
   if (m$req.pred) {
     if (missing(pred))
       stopf("You need to pass pred for measure %s!", m$id)
+    checkArg(pred, "Prediction")
     pred2 = pred
     td = pred$task.desc
   } else {
@@ -55,6 +57,7 @@ performance = function(pred, measure, task, model) {
   if (m$req.model) {
     if (missing(model))
       stopf("You need to pass model for measure %s!", m$id)
+    checkArg(model, "WrappedModel")
     model2 = model  
     td = model$task.desc
   } else {
@@ -63,6 +66,7 @@ performance = function(pred, measure, task, model) {
   if (m$req.task) {
     if (missing(task))
       stopf("You need to pass task for measure %s!", m$id)
+    checkArg(task, "SupervisedTask")    
     task2 = task 
     td = task$desc
   } else {
