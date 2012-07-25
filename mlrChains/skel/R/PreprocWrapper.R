@@ -33,44 +33,38 @@
 makePreprocWrapper = function(learner, train, predict, par.set=makeParamSet(), par.vals=list()) {
   checkArg(train, formals=c("data", "target", "args"))
   checkArg(predict, formals=c("data", "target", "args", "control"))
-  x = makeBaseWrapper(learner=learner, par.set=par.set, par.vals=par.vals, cl="PreprocWrapper")
+  x = makeBaseWrapper(next.learner=learner, par.set=par.set, par.vals=par.vals, cl="PreprocWrapper")
   x$train = train
   x$predict = predict
   return(x)
 }
 
-train.PreprocWrapper = function(learner, task, subset) {
+#' @S3method trainLearner PreprocWrapper
+trainLearner.PreprocWrapper = function(.learner, .task, .subset, ...) {
   pvs = .learner$par.vals
-  pp = learner$train(data=getTaskData(.task, .subset),
-    target=task$task.desc$target, args=pvs)
-  if (!(is.list(pp) && length(pp)==2 && all(names(pp)) == c("data", "control")) && 
+  pp = .learner$train(data=getTaskData(.task, .subset),
+    target=.task$task.desc$target, args=pvs)
+  if (!(is.list(pp) && length(pp)==2 && all(names(pp) == c("data", "control")) && 
     is.data.frame(pp$data) && is.list(pp$control)))
     stop("Preprocessing train must result in list wil elements data[data.frame] and control[list]!")
-  task = mlr:::changeData(task, pp$data)
+  .task = mlr:::changeData(.task, pp$data)
   # we have already subsetted!
-  m = train(learner$learner, task)
-  structure(list(
-    prev.model = m,
-    control = p$control
-  ), class = c("PreprocModel", "Chainmodel"))
+  m = train(.learner$next.learner, .task)
+  #fixme: time and can we do this better?
+  # we dont really kow which subset was used after preprocessing and features will have changed
+  x = makeChainModel(next.model=m, cl = "PreprocModel")
+  x$control = pp$control
+  return(x)  
 }
 
 
 #' @S3method predictLearner PreprocWrapper
-predict.PreprocWrapper = function(.learner, .model, .newdata, ...) {
-  print("predict: preproc")
-  print(class(.model))
-  print(class(.model$learner.model))
-  pvs = .model$learner$par.vals
-  m = .model$learner.model
-  .newdata = .learner$predict(.newdata, .model$task.desc$target, pvs, m$control)
-  print(str(.newdata))
-  xx <<- m
+predictLearner.PreprocWrapper = function(.learner, .model, .newdata, ...) {
+  .newdata = .learner$predict(.newdata, .model$task.desc$target, 
+    .learner$par.vals, .model$learner.model$control)
   if (!is.data.frame(.newdata))
     stop("Preprocessing must result in a data.frame!")
-  print(names(m))
-  print(str(m$prev.model))
-  predictLearner(.learner$learner, m$prev.model, .newdata, ...)
-  stop(89)
+  NextMethod(.newdata=.newdata)
 }
+
 

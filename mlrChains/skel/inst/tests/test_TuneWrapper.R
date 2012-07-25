@@ -11,7 +11,7 @@ test_that("TuneWrapper", {
 
   m = train(lrn2, task=multiclass.task)
 
-  or = m$opt.result
+  or = m$learner.model$opt.result
   expect_equal(or$x, list(C=1))
 
   p = predict(m, task=multiclass.task)
@@ -27,7 +27,7 @@ test_that("TuneWrapper", {
     control=makeTuneControlOptim(start=list(C=0, epsilon=0, sigma=0), maxit=5))
 
   m = train(lrn2, task=regr.task)
-  or = m$opt.result
+  or = m$learner.model$opt.result
   expect_equal(getOptPathLength(or$opt.path), 5+1)
   expect_true(!any(is.na(as.data.frame(or$opt.path)$mse.test.mean)))
 

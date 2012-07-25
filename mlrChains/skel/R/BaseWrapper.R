@@ -1,47 +1,46 @@
 # FIXME: test this
-makeBaseWrapper = function(learner, package=character(0), par.set=makeParamSet(), 
+makeBaseWrapper = function(next.learner, package=character(0), par.set=makeParamSet(), 
   par.vals=list(), cl) {
   
-  checkArg(learner, "Learner")
+  checkArg(next.learner, "Learner")
   checkArg(package, "character", na.ok=FALSE)
   checkArg(par.set, "ParamSet")
   checkArg(par.vals, "list")
   if (!isProperlyNamed(par.vals))
     stop("'par.vals' must be a properly named list!")
   
-  if (inherits(learner, "OptWrapper")) 
+  if (inherits(next.learner, "OptWrapper")) 
     stop("Cannot wrap an optimization wrapper with something else!")
-  ns = intersect(names(par.set$pars), names(learner$par.set$pars))
+  ns = intersect(names(par.set$pars), names(next.learner$par.set$pars))
   if (length(ns) > 0)
     stopf("Hyperparameter names in wrapper clash with base learner names: %s", collapse(ns))
   
   structure(list(
-    id = learner$id,
-    type = learner$type,
-    package = c(package, learner$package),
+    id = next.learner$id,
+    type = next.learner$type,
+    package = c(package, next.learner$package),
     par.set = par.set,
     par.vals = par.vals,
-    numerics = learner$numerics,
-    factors = learner$factors,
-    predict.type = learner$predict.type,
-    missings = learner$missings,
-    weights = learner$weights,
-    oneclass = learner$oneclass,
-    twoclass = learner$twoclass,
-    multiclass = learner$multiclass,
-    prob = learner$prob,
-    se = learner$se,
-    learner = learner    
+    numerics = next.learner$numerics,
+    factors = next.learner$factors,
+    predict.type = next.learner$predict.type,
+    missings = next.learner$missings,
+    weights = next.learner$weights,
+    oneclass = next.learner$oneclass,
+    twoclass = next.learner$twoclass,
+    multiclass = next.learner$multiclass,
+    prob = next.learner$prob,
+    se = next.learner$se,
+    next.learner = next.learner    
   ), class = c(cl, "BaseWrapper", "Learner"))
 }
 
-  
-trainLearner.BaseWrapper = function(.learner, .task, .subset,  ...) {
-  trainLearner(.learner$learner, .task, .subset, ...)
-}
-
+#' @S3method predictLearner BaseWrapper
 predictLearner.BaseWrapper = function(.learner, .model, .newdata, ...) {
-  predictLearner(.learner$learner, .model, .newdata, ...)
+  args = removeFromDots(names(.learner$par.vals), ...)  
+  do.call(predictLearner, c(
+    list(.learner$next.learner, .model$learner.model$next.model, .newdata), 
+    args))   
 }
 
 # FIXME: test
@@ -61,3 +60,4 @@ print.BaseWrapper = function(x, ...) {
     sep = ""         
   )
 }
+

@@ -9,27 +9,32 @@ source("skel/inst/tests/objects.R")
 
 configureMlr(show.learner.output=TRUE)
   
-lrn1 = makeLearner("classif.rpart", minsplit=10)
-lrn2 = makePreprocWrapperPCA(lrn1)
-#lrn3 = makePreprocWrapperRemoveOutliers(lrn3, ro.alpha=1)
+  lrn1 = makeLearner("classif.rpart", minsplit=10)
+  lrn2 = makePreprocWrapperRemoveOutliers(lrn1, ro.alpha=1)
+  lrn3 = makePreprocWrapperPCA(lrn2)
+  lrn4 = makeFilterWrapper(lrn3)
+  m = train(lrn4, multiclass.task)
   
-m = train(lrn2, multiclass.task)
+  p = predict(m, multiclass.task)
+  perf = performance(p, mmce)
+  expect_true(perf < 0.1)
 
-p = predict(m, multiclass.task)
-print(66)
+  outer = makeResampleDesc("Holdout")
+  inner = makeResampleDesc("CV", iters=2)
 
-
+  ps = makeParamSet(
+    makeDiscreteParam(id="minsplit", values=c(5,10)),
+    makeDiscreteParam(id="ro.alpha", values=c(0.9, 1)),
+    makeDiscreteParam(id="fw.perc", values=c(0.8, 1))
+  )
   
-#  lrn1 = makeLearner("classif.rpart", minsplit=10)
- # lrn2 = makeFilterWrapper(lrn1)
-#  lrn3 = makePreprocWrapperPCA(lrn2)
-#  lrn4 = makePreprocWrapperRemoveOutliers(lrn3, ro.alpha=1)
-#  m = train(lrn4, multiclass.task)
-#  
-#  expect_true(inherits(m, "PreprocModel"))
-#  expect_true(inherits(m$learner.model, "PreprocModel"))
-#  expect_true(inherits(m$learner.model$learner.model, "PreprocModel"))
-#  
-#  #p = predict(m, multiclass.task)
-#  #perf = performance(p, mmce)
-#  #expect_true(perf < 0.1)
+  lrn5 = makeTuneWrapper(lrn4, resampling=inner, par.set=ps, 
+    control=makeTuneControlGrid())
+  m = train(lrn5, task=multiclass.task)
+  p = predict(m, task=multiclass.task)
+  or = m$learner.model$opt.result
+  expect_equal(length(or$x), 3)
+  expect_equal(getOptPathLength(or$opt.path), 2*2*2)
+  perf = performance(p, mmce)
+  expect_true(perf < 0.1)
+   

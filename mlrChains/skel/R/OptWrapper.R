@@ -32,8 +32,6 @@ makeOptWrapper = function(learner, resampling, measures, par.set, bit.names, bit
 #' @S3method makeWrappedModel OptWrapper
 makeWrappedModel.OptWrapper = function(learner, model, task.desc, subset, features, time) {
   x = NextMethod()
-  x$opt.result = attr(model, "opt.result")
-  attr(x$model, "opt.result") = NULL
   class(x) = c("TuneModel", "OptModel", class(x))
   return(x)
 }

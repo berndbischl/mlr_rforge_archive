@@ -32,26 +32,22 @@ makeTuneWrapper = function(learner, resampling, measures, par.set, control, show
 
 #' @S3method trainLearner TuneWrapper
 trainLearner.TuneWrapper = function(.learner, .task, .subset,  ...) {
-  task = subsetTask(.task, .subset)
-  or = tune(.learner$learner, task, .learner$resampling, .learner$measures, 
+  .task = subsetTask(.task, .subset)
+  or = tune(.learner$next.learner, .task, .learner$resampling, .learner$measures, 
             .learner$opt.pars, .learner$control)
-  lrn = setHyperPars(.learner$learner, par.vals=or$x)
-  m = train(lrn, task)
-  attr(m, "opt.result") = or
-  return(m)
+  lrn = setHyperPars(.learner$next.learner, par.vals=or$x)
+  m = train(lrn, .task)
+  x = makeChainModel(next.model=m, cl = "TuneModel")
+  x$opt.result = or
+  return(x)
 }
 
 #' @S3method predictLearner TuneWrapper
 predictLearner.TuneWrapper = function(.learner, .model, .newdata, ...) {
-  lrn = setHyperPars(.learner$learner, par.vals=.model$opt.result$x)
-  # fixme: type se
-  if (.learner$predict.type == "prob")  {
-    p = predictLearner(lrn, .model, .newdata, ...)
-    p = getProbabilities(p, p$task.desc$class.levels)
-    as.matrix(p)
-  } else {
-    predictLearner(lrn, .model, .newdata, ...)$data$response
-  }
+  print("predict: tune")
+  lrn = setHyperPars(.learner$next.learner, 
+    par.vals=.model$learner.model$opt.result$x)
+  predictLearner(lrn, .model$learner.model$next.model, .newdata)
 }
 
 
