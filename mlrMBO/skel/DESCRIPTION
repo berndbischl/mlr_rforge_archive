@@ -1,12 +1,11 @@
-Package: mlrChains
-Title:  mlr: Machine Learning in R. 
+Package: mlrMBO
+Title:  mlr: Model-based optimization  
 Description: 
 Author: Bernd Bischl <bernd_bischl@gmx.net>
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
 License: BSD
-Imports: BBmisc, ParamHelpers, mlr, mlrTune
-Depends: ParamHelpers, mlr, mlrTune, mlrFeatSel
-Suggests: robustbase, testthat
+Imports: BBmisc, ParamHelpers, mlr
+Suggests: testthat
 LazyData: yes
 ByteCompile: yes
 Version: 1.0
