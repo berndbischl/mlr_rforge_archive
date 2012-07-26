@@ -3,6 +3,7 @@
 #FIXME: finalize cmaes + vectorized CMAES!!!
 #FIXME: round ints for cmaes + EI
 # FIXME: use CL when more than 1 point in EI 
+# FIXME: use other fillin fromn DiceOptim 
 proposePoints = function(model, par.set, control, opt.path) {
   lm = model$learner.model 
   low = getLower(par.set)
