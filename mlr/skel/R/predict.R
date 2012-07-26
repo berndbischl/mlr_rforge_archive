@@ -89,7 +89,7 @@ predict.WrappedModel = function(object, task, newdata, subset, ...) {
   time.predict = as.numeric(NA)
   
   # was there an error in building the model? --> return NAs
-  if(is(model$learner.model, "FailureModel")) {
+  if(inherits(model, "FailureModel")) {
     p = predict_nas(model, newdata)
     time.predict = as.numeric(NA)
   } else {

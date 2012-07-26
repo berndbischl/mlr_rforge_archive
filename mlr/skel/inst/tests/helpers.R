@@ -47,7 +47,7 @@ testSimple = function(t.name, df, target, train.inds, old.predicts, parset=list(
   else 
     stop("Should not happen!")
   m = try(train(lrn, task, subset=inds))
-	if(class(m)[1] == "FailureModel"){
+	if(inherits(m, "FailureModel")){
 		expect_is(old.predicts, "try-error")
 	}else{
 		cp = predict(m, newdata=test)
@@ -79,7 +79,7 @@ testProb = function(t.name, df, target, train.inds, old.probs, parset=list()) {
 	lrn = do.call("makeLearner", c(t.name, parset, predict.type="prob"))
 	m = try(train(lrn, task, subset=inds))
 	
-	if(class(m$learner.model)[1] == "FailureModel"){
+	if(inherits(m, "FailureModel")) {
 		expect_is(old.predicts, "try-error")
 	}else{
 		cp = predict(m, newdata=test)
@@ -142,7 +142,7 @@ testCV = function(t.name, df, target, folds=2, parset=list(), tune.train, tune.p
   else if (is.factor(df[, target]))
     task = makeClassifTask(data=df, target=target)
 	ms = resample(lrn, task, cv.instance)$measures.test
-  if (is(task, "ClassifTask")) { 
+  if (inherits(task, "ClassifTask")) { 
     expect_equal(mean(ms[,"mmce"]), tr$performances[1,2], check.names=FALSE)
     expect_equal(sd  (ms[,"mmce"]), tr$performances[1,3], check.names=FALSE)
   } else {
@@ -175,7 +175,7 @@ testBootstrap = function(t.name, df, target, iters=3, parset=list(), tune.train,
   else if (is.factor(df[, target]))
     task = makeClassifTask(data=df, target=target)
   ms = resample(lrn, task, bs.instance)$measures.test
-	if (is(task, "ClassifTask")) { 
+	if (inherits(task, "ClassifTask")) { 
 		expect_equal(mean(ms[,"mmce"]), tr$performances[1,2], check.names=FALSE)
 		expect_equal(sd  (ms[,"mmce"]), tr$performances[1,3], check.names=FALSE)
 	} else {

@@ -5,7 +5,7 @@ test_that("hyperpars", {
 	expect_equal(getHyperPars(lrn), list(minsplit=10)) 
 	
 	m = train(lrn, task=multiclass.task)
-  expect_true(!is(m, "FailureModel"))
+  expect_true(!inherits(m, "FailureModel"))
 	expect_equal(getHyperPars(m$learner), list(minsplit=10)) 
 	
   # check warnings

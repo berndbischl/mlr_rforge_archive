@@ -89,7 +89,7 @@ makeResampleInstance = function(desc, task, size) {
     inst = instantiateResampleInstance(desc, size)
   }
   # FIXME:
-#    if (is(desc, "RepCVDesc"))
+#    if (inherits(desc, "RepCVDesc"))
 #      stop("Blocking can currently not be mixed with RepCV!")
   return(inst)
 }

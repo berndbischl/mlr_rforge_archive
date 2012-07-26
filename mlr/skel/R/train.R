@@ -66,7 +66,7 @@ train = function(learner, task, subset) {
       set.seed(debug.seed)
     # for optwrappers we want to see the tuning / varsel logging
     # FIXME is case really ok for optwrapper? can we supppress then too?
-    if (getOption("mlr.show.learner.output") || is(learner, "OptWrapper"))
+    if (getOption("mlr.show.learner.output") || inherits(learner, "OptWrapper"))
       fun1 = identity
     else
       fun1 = capture.output
