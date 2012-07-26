@@ -10,13 +10,16 @@ makePreprocWrapperRemoveOutliers = function(learner, ro.alpha=0.5) {
     print("train: RO")
     require(robustbase)
     cns = colnames(data)
-    nums = cns[sapply(data, is.numeric)]
-    x = data[, nums]
-    # split x in classes
-    x.splitted = split(x, data[,target])
-    idx = lapply(x.splitted, function(d) as.logical(covMcd(x = d, alpha = args$ro.alpha)$mcd.wt))
-    idx = unsplit(idx, data[,target])
-    data = data[idx,]
+    nums = setdiff(cns[sapply(data, is.numeric)], target)
+    if (length(nums) > 0) {
+      x = data[, nums]
+      # split x in classes
+      x.splitted = split(x, data[,target])
+      idx = lapply(x.splitted, function(d) as.logical(covMcd(x = d, alpha = args$ro.alpha)$mcd.wt))
+      idx = unsplit(idx, data[,target])
+      data = data[idx,]
+      list(data=data, control=list())
+    }
     list(data=data, control=list())
   }
 
