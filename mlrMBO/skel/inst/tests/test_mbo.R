@@ -1,5 +1,8 @@
-test.mbo.rf <- function() {
-  f = makeMboFunction(function(x) sum(x^2))
+context("mbo")
+
+
+test_that("mbo works with rf", {
+  f = makeMBOFunction(function(x) sum(x^2))
   
   ps = makeParamSet(
     makeNumericParam("x1", lower=-2, upper=1), 
@@ -9,30 +12,26 @@ test.mbo.rf <- function() {
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.randomForest")
-  ctrl = makeMboControl(seq.loops=5, seq.design.points=100, save.model.at=c(0,5))
+  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, save.model.at=c(0,5))
   or = mbo(f, ps, des, learner, ctrl)
-  checkTrue(!is.na(or$y))
-  checkEquals(or$y, f(or$x))
-  checkEquals(getOptPathLength(or$path), 15)
-  checkTrue(is.list(or$x))
-  checkEquals(names(or$x), names(ps$pars))
-  checkTrue(is(or$models[[1]]@learner, "regr.randomForest"))
-  checkEquals(length(or$models[[1]]@subset), 10)
-  checkTrue(is(or$models[[2]]@learner, "regr.randomForest"))
-  checkEquals(length(or$models[[2]]@subset), 15)
+  expect_true(!is.na(or$y))
+  expect_equal(or$y, f(or$x))
+  expect_equal(getOptPathLength(or$path), 15)
+  expect_true(is.list(or$x))
+  expect_equal(names(or$x), names(ps$pars))
+  expect_true(is(or$models[[1]]$learner, "regr.randomForest"))
+  expect_equal(length(or$models[[1]]$subset), 10)
+  expect_true(is(or$models[[2]]$learner, "regr.randomForest"))
+  expect_equal(length(or$models[[2]]$subset), 15)
   
   # check errors
   des$y = NULL
-  checkException(mbo(f, ps, des, learner, ctrl), silent=TRUE)
-  s = geterrmessage()
-  checkTrue(length(grep("must contain y column", s)) >0 )
+  expect_error(mbo(f, ps, des, learner, ctrl), "must contain y column")
   des$y = y
   
-  ctrl = makeMboControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
-  checkException(mbo(f, ps, des, learner, ctrl), silent=TRUE)
-  s = geterrmessage()
-  checkTrue(length(grep("Expected improvement can currently", s)) >0 )
-  ctrl = makeMboControl(seq.loops=5, seq.design.points=100)
+  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
+  expect_error(mbo(f, ps, des, learner, ctrl), "Expected improvement can currently")
+  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100)
   
   # check trafo
   ps = makeParamSet(
@@ -41,10 +40,10 @@ test.mbo.rf <- function() {
   des = generateDesign(10, par.set=ps)
   des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   or = mbo(f, ps, des, learner, ctrl)
-  checkTrue(!is.na(or$y))
-  checkEquals(getOptPathLength(or$path), 15)
+  expect_true(!is.na(or$y))
+  expect_equal(getOptPathLength(or$path), 15)
   df = as.data.frame(or$path)
-  checkTrue(is.numeric(df$x1))
+  expect_true(is.numeric(df$x1))
   
   # discrete par
   f = function(x) if(x[[3]]=="a") x[[1]]^2+x[[2]]^2 else x[[1]]^2+x[[2]]^2 + 20 
@@ -58,23 +57,23 @@ test.mbo.rf <- function() {
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.randomForest")
-  ctrl = makeMboControl(seq.loops=5, seq.design.points=100)
+  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100)
   or = mbo(f, ps, des, learner, ctrl)
-  checkTrue(!is.na(or$y))
-  checkEquals(getOptPathLength(or$path), 15)
+  expect_true(!is.na(or$y))
+  expect_equal(getOptPathLength(or$path), 15)
   df = as.data.frame(or$path)
-  checkTrue(is.numeric(df$x1))
-  checkTrue(is.integer(df$x2))
-  checkTrue(is.character(df$x3))
-  checkTrue(is.numeric(df$y))
-  checkTrue(is.list(or$x))
-  checkEquals(names(or$x), names(ps$pars))
+  expect_true(is.numeric(df$x1))
+  expect_true(is.integer(df$x2))
+  expect_true(is.character(df$x3))
+  expect_true(is.numeric(df$y))
+  expect_true(is.list(or$x))
+  expect_equal(names(or$x), names(ps$pars))
   
-  ctrl = makeMboControl(init.design.points=3, seq.loops=5, seq.design.points=100)
+  ctrl = makeMBOControl(init.design.points=10, seq.loops=5, seq.design.points=100)
   or = mbo(f, ps, des=NULL, learner, ctrl)
-  checkTrue(!is.na(or$y))
-  checkEquals(getOptPathLength(or$path), 8)
-  checkEquals(names(or$x), names(ps$pars))
+  expect_true(!is.na(or$y))
+  expect_equal(getOptPathLength(or$path), 15)
+  expect_equal(names(or$x), names(ps$pars))
   
   f = function(x) sum(x[[1]]^2) + (2 - x[[2]])^2
   
@@ -83,17 +82,17 @@ test.mbo.rf <- function() {
     makeNumericParam("w", lower=-5, upper=5) 
   )
   learner = makeLearner("regr.randomForest")
-  ctrl = makeMboControl(init.design.points=5, seq.loops=10, propose.points.method="CMAES")
+  ctrl = makeMBOControl(init.design.points=10, seq.loops=10, propose.points.method="CMAES")
   or = mbo(f, ps, des=NULL, learner, ctrl)
-  checkTrue(!is.na(or$y))
-  checkEquals(getOptPathLength(or$path), 15)
-  ctrl = makeMboControl(init.design.points=5, seq.loops=10, final.point="best.predicted")
+  expect_true(!is.na(or$y))
+  expect_equal(getOptPathLength(or$path), 20)
+  ctrl = makeMBOControl(init.design.points=10, seq.loops=10, final.point="best.predicted")
   or = mbo(f, ps, des=NULL, learner, ctrl)
-  checkEquals(getOptPathLength(or$path), 15)
-} 
+  expect_equal(getOptPathLength(or$path), 20)
+})
 
-test.mbo.km <- function() {
-  f = makeMboFunction(function(x) sum(x^2))
+test_that("mbo works with km", {
+  f = makeMBOFunction(function(x) sum(x^2))
   
   ps = makeParamSet(
     makeNumericParam("x1", lower=-2, upper=1), 
@@ -103,17 +102,17 @@ test.mbo.km <- function() {
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.km", nugget.estim=TRUE)
-  ctrl = makeMboControl(seq.loops=5, seq.design.points=100)
+  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100)
   or = mbo(f, ps, des, learner, ctrl)
-  checkTrue(!is.na(or$y))
-  checkEquals(getOptPathLength(or$path), 15)
+  expect_true(!is.na(or$y))
+  expect_equal(getOptPathLength(or$path), 15)
   df = as.data.frame(or$path)
-  checkTrue(is.numeric(df$x1))
-  checkTrue(is.numeric(df$x2))
-  checkTrue(is.list(or$x))
-  checkEquals(names(or$x), names(ps$pars))
-  checkTrue(is(or$models[[1]]@learner, "regr.km"))
-  checkEquals(length(or$models[[1]]@subset), 15)
+  expect_true(is.numeric(df$x1))
+  expect_true(is.numeric(df$x2))
+  expect_true(is.list(or$x))
+  expect_equal(names(or$x), names(ps$pars))
+  expect_true(is(or$models[[1]]$learner, "regr.km"))
+  expect_equal(length(or$models[[1]]$subset), 15)
   
   ps = makeParamSet(
     makeNumericParam("x1", lower=-2, upper=1), 
@@ -122,38 +121,39 @@ test.mbo.km <- function() {
   des = generateDesign(10, par.set=ps)
   des$y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   or = mbo(f, ps, des, learner, ctrl)
-  checkTrue(!is.na(or$y))
-  checkEquals(getOptPathLength(or$path), 15)
+  expect_true(!is.na(or$y))
+  expect_equal(getOptPathLength(or$path), 15)
   df = as.data.frame(or$path)
-  checkTrue(is.numeric(df$x1))
-  checkTrue(is.integer(df$x2))
-  checkTrue(is.list(or$x))
-  checkEquals(names(or$x), names(ps$pars))
+  expect_true(is.numeric(df$x1))
+  expect_true(is.integer(df$x2))
+  expect_true(is.list(or$x))
+  expect_equal(names(or$x), names(ps$pars))
 
   
-  ctrl = makeMboControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
+  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, propose.points.method="EI")
   or = mbo(f, ps, des, learner, ctrl)
-  checkTrue(!is.na(or$y))
-  checkEquals(getOptPathLength(or$path), 15)
+  expect_true(!is.na(or$y))
+  expect_equal(getOptPathLength(or$path), 15)
   df = as.data.frame(or$path)
-  checkTrue(is.numeric(df$x1))
-  checkTrue(is.integer(df$x2))
-  checkTrue(is.list(or$x))
-  checkEquals(names(or$x), names(ps$pars))
-} 
+  expect_true(is.numeric(df$x1))
+  expect_true(is.integer(df$x2))
+  expect_true(is.list(or$x))
+  expect_equal(names(or$x), names(ps$pars))
+})
 
-testResample = function() {
-  f = makeMboFunction(function(x) sum(x^2))
+
+test_that("mbo works with resampling", {
+  f = makeMBOFunction(function(x) sum(x^2))
   ps = makeParamSet(
     makeNumericVectorParam("x", length=2, lower=0, upper=1)
   )
   learner = makeLearner("regr.randomForest")
-  ctrl = makeMboControl(seq.loops=5, seq.design.points=10, resample.at=c(1,3))
+  ctrl = makeMBOControl(seq.loops=5, seq.design.points=10, resample.at=c(1,3))
   or = mbo(f, ps, des=NULL, learner, ctrl)
   x = or$resample
-  checkTrue(is.list(x) && length(x) == 2)
-  checkTrue(is.numeric(x[[1]]) && is.numeric(x[[2]]))
-  checkEquals(names(x), c("1", "3"))
-}
+  expect_true(is.list(x) && length(x) == 2)
+  expect_true(is.numeric(x[[1]]) && is.numeric(x[[2]]))
+  expect_equal(names(x), c("1", "3"))
+})
 
 

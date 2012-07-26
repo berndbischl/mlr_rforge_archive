@@ -1,57 +1,72 @@
 #' Creates a control object for MBO optimization.
 #'
 #' @param y.name [\code{character(1)}]\cr 
-#'   Name of y-column for target values in optimization path. Default is 'y'.   
+#'   Name of y-column for target values in optimization path. 
+#'   Default is \dQuote{y}.   
 #' @param minimize [logical(1)]\cr 
-#'   Should target function be minimized? Default is \code{TRUE}.   
+#'   Should target function be minimized? 
+#'   Default is \code{TRUE}.   
 #' @param init.design.points [integer(1)]\cr 
 #'   Number of points in inital design. 
-#'   Only used if no design is given in \code{mbo} function. Default is 20.   
-#' @param init.design.fun [function] \cr
-#'   Function from package lhs for the sequentail design. Possible are: maximinLHS, randomLHS, geneticLHS, improvedLHS, , optAugmentLHS, optimumLHS.
-#'   Only used if no design is given in \code{mbo} function. Default is 'randomLHS'. 
-#' @param init.design.args [list] \cr
+#'   Only used if no design is given in \code{mbo} function.
+#'   Default is 20.   
+#' @param init.design.fun [\code{function}]\cr
+#'   Function from package lhs for the sequentail design. 
+#'   Possible are: \code{maximinLHS}, \code{randomLHS}, \code{geneticLHS}, 
+#'   \code{improvedLHS}, \code{optAugmentLHS}, \code{optimumLHS}.
+#'   Only used if no design is given in \code{mbo} function. 
+#'   Default is \code{randomLHS}. 
+#' @param init.design.args [\code{list}]\cr
 #'   List of further arguments passed to \code{init.design.fun}.  
-#'   Only used if no design is given in \code{mbo} function. Default is empty list.
-#' @param seq.loops [integer(1)]\cr 
-#'   Number of sequential optimization steps. Default is 100.   
-#' @param propose.points [integer(1)]\cr 
+#'   Only used if no design is given in \code{mbo} function. 
+#'   Default is empty list.
+#' @param seq.loops [\code{integer(1)}]\cr 
+#'   Number of sequential optimization steps. 
+#'   Default is 100.   
+#' @param propose.points [\code{integer(1)}]\cr 
 #'   Number of proposed points after optimizing the surrogate model with \code{propose.points.methods}.   
 #' @param propose.points.method [\code{character(1)}]\cr 
 #'   How should points be proposed by using the surrogate model. Possible are: 
-#'   'seq.design': Use a large design of points and evaluate the surrogate model at each. The best \code{propose.points} are selected.    
-#'   'CMAES': Use CMAES to optimize mean prediction value.    
-#'   'EI': Use expected improvement.    
-#' @param seq.design.points [integer(1)]\cr 
-#'   Number of points in sequential design. Only used if \code{propose.points.method} is 'seq.design.' Default is 10000.   
-#' @param seq.design.fun [function] \cr
-#'   Function from package lhs for the sequentail design. Possible are: maximinLHS, randomLHS, geneticLHS, improvedLHS, , optAugmentLHS, optimumLHS.
-#'   Only used if \code{propose.points.method} is 'seq.design.' Default is 'randomLHS'. 
-#' @param seq.design.args [list] \cr
+#'   \dQuote{seq.design}: Use a large design of points and evaluate the surrogate model at each. 
+#'    The best \code{propose.points} are selected.    
+#'   \dQuote{CMAES}: Use CMAES to optimize mean prediction value.    
+#'   \dQuote{EI}: Use expected improvement.    
+#' @param seq.design.points [\code{integer(1)}]\cr 
+#'   Number of points in sequential design. Only used if \code{propose.points.method} is 'seq.design.' 
+#'   Default is 10000.   
+#' @param seq.design.fun [\code{function}]\cr
+#'   Function from package lhs for the sequentail design. 
+#'   Possible are: \code{maximinLHS}, \code{randomLHS}, \code{geneticLHS}, 
+#'   \code{improvedLHS}, \code{optAugmentLHS}, \code{optimumLHS}.
+#'   Only used if \code{propose.points.method} is \dQuote{seq.design}.
+#'   Default is \code{randomLHS}. 
+#' @param seq.design.args [list]\cr
 #'   List of further arguments passed to \code{seq.design.fun}.  
-#'   Only used if \code{propose.points.method} is 'seq.design.' Default is empty list.
+#'   Only used if \code{propose.points.method} is 'seq.design.' 
+#'   Default is empty list.
 #' @param rank.trafo [logical(1)]\cr 
 #'   Should target values be rank-transformed before they are passed to the regresson model? 
 #'   Default is \code{FALSE}.   
 #' @param final.point [\code{character(1)}]\cr 
 #'   How should the final point be proposed. Possible are: 
-#'   'last.proposed': Return the last point proposed by the model.    
-#'   'best.true.y': Return best point ever visited according to true value of target function. Can be bad if target function is noisy.    
-#'   'best.predicted': Use the final model to predict all points ever visited and use the best one. This might average-out noisy function values.
-#'   Default is: 'last.proposed'.     
+#'   \dQuote{last.proposed}: Return the last point proposed by the model.    
+#'   \dQuote{best.true.y}: Return best point ever visited according to true value of target function. Can be bad if target function is noisy.    
+#'   \dQuote{best.predicted}: Use the final model to predict all points ever visited and use the best one. This might average-out noisy function values.
+#'   Default is: \dQuote{last.proposed}.     
 #' @param final.evals [integer(1)]\cr 
 #'   How many target function evals should be done at final point to reduce noise? 
 #'   Default is 20.      
-#' @param save.model.at [\code{integer}] \cr
-#'   Sequential optimzation iterations when the model should be saved. Iteration 0 is the model fit for the initial design.
+#' @param save.model.at [\code{integer}]\cr
+#'   Sequential optimzation iterations when the model should be saved. 
+#'   Iteration 0 is the model fit for the initial design.
 #'   Default is \code{seq.loops}.
-#' @param resample.at [\code{integer}] \cr
+#' @param resample.at [\code{integer}]\cr
 #'   At which iterations should the model be resampled and assessed?
 #'   Default is none.
-#' @param resample.desc [\code{\linkS4class{ResampleDesc}}] \cr
+#' @param resample.desc [\code{\link[mlr]{ResampleDesc}}]\cr
 #'   How should be model be resampled? 
 #'   Default is 10-fold CV.
-#' @param resample.measures [list of \code{\linkS4class{Measure}}]\cr
+#' @param resample.measures [list of \code{\link[mlr]{Measure}}]\cr
 #'   Performance measures to assess model with during resampling. 
 #'   Default is mse.   
 #' @return [\code{\link{MBOControl}}].
