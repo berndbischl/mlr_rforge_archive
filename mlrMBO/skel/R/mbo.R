@@ -121,7 +121,7 @@ evalTargetFun = function(fun, par.set, xs) {
   sapply(xs, fun)  
 }
 
-makeMboTask = function(des, y.name, exclude=character(0), control) {
+makeMBOTask = function(des, y.name, exclude=character(0), control) {
   if (any(sapply(des, is.integer)))
     des = as.data.frame(lapply(des, function(x) if(is.integer(x)) as.numeric(x) else x))
   if (control$rank.trafo)

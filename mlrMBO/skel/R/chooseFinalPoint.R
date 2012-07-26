@@ -3,12 +3,12 @@
 chooseFinalPoint = function(fun, par.set, model, opt.path, y.name, control) {
   df = as.data.frame(opt.path)
   input.names = setdiff(colnames(df), c(y.name, "dob", "eol"))
-  if (control@final.point == "last.proposed") {
+  if (control$final.point == "last.proposed") {
     i = nrow(df)
-  } else if (control@final.point == "best.true.y") {
+  } else if (control$final.point == "best.true.y") {
     i = getOptPathBestIndex(opt.path, ties="random")
-  } else if(control@final.point == "best.predicted") {
-    y = predict(model, newdata=df[, input.names])@df$response
+  } else if(control$final.point == "best.predicted") {
+    y = predict(model, newdata=df[, input.names])$data$response
     i = sample(which(min(y) == y), 1)
   }
   return(i)

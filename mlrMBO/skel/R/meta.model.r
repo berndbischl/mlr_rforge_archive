@@ -16,11 +16,11 @@ train.meta.model = function(meta.learner, constr.learner, des, y, control) {
 } 
 
 pred.meta.model = function(meta.model, des) {
-  predict(meta.model, newdata=des)@df$response
+  predict(meta.model, newdata=des)$data$response
 } 
 
 sigma.meta.model = function(meta.model, des) {
-  m = meta.model@learner.model
+  m = meta.model$learner.model
   p = predict(m, newdata=des, predict.all=TRUE)
   pmean = p$aggregate
   pind = p$individual

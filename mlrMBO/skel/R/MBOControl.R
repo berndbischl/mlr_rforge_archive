@@ -54,7 +54,7 @@
 #' @param resample.measures [list of \code{\linkS4class{Measure}}]\cr
 #'   Performance measures to assess model with during resampling. 
 #'   Default is mse.   
-#' @return [\code{\link{MboControl}}].
+#' @return [\code{\link{MBOControl}}].
 #' @aliases MBOControl 
 #' @export 
 makeMBOControl = function(y.name="y", minimize=TRUE,
@@ -66,7 +66,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   save.model.at = seq.loops,
   resample.at = integer(0), resample.desc = makeResampleDesc("CV", iter=10), resample.measures=list(mse) 
 ) {
-  requirePackages("lhs", "makeMboControl")
+  requirePackages("lhs", "makeMBOControl")
   checkArg(y.name, "character", 1)
   checkArg(propose.points.method, choices=c("seq.design", "CMAES", "EI"))
   

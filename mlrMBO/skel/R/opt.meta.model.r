@@ -23,7 +23,7 @@ opt.meta.model.bfgs = function(n, meta.model, constr.model, curdes, cury, contro
     disc.vals = lapply(seq(length=length(disc.vals)), function(k) factor(disc.vals[[k]], levels=disc.ranges[[k]]))
     names(disc.vals) = names.rest
     nd = c(nd, disc.vals)
-    predict(meta.model, newdata=as.data.frame(nd))@df$response
+    predict(meta.model, newdata=as.data.frame(nd))$data$response
   }
  
   bfgs = function(disc.vals) {
@@ -61,9 +61,9 @@ opt.meta.model.CL = function(n, meta.model, constr.model, curdes, cury, control)
   upper = unlist(get.bounds(par.set, "upper"))
   disc.ranges = get.ranges(par.set)
   disc.grid = grid=expand.grid(disc.ranges, KEEP.OUT.ATTRS=FALSE)
-  model = meta.model@learner.model
+  model = meta.model$learner.model
   
-  L = min(model@y)
+  L = min(model$y)
   capture.output({res = max_qEI.CL(model, npoints = n, L = L, lower = lower, upper = upper)})
   as.data.frame(res$par)
 }
