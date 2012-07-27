@@ -12,6 +12,25 @@
 #'  Default is \code{FALSE}.
 #' @return [\code{matrix}]. A confusion matrix.
 #' @export
+#' @seealso \code{\link{predict}}
+#' @examples
+## create classification task and use linear discriminant analysis for classification
+#' task <- makeClassifTask(data = iris, target = "Species")
+#' lrn <- makeLearner("classif.lda")
+#'
+#' ## set up training and test data
+#' n <- nrow(iris)
+#' mixed.set <- sample(1:n)
+#' training.set <- mixed.set[1:(n/2)]
+#' test.set <- mixed.set[(n/2 + 1):n]
+#'
+#' ## train model
+#' mod <- train(lrn, task, subset = training.set)
+#'
+#' ## get predictions and show calculate confusion matrix
+#' pred <- predict(mod, newdata = iris[test.set, ])
+#' print(getConfMatrix(pred))
+#' print(getConfMatrix(pred, relative = TRUE))
 getConfMatrix = function(pred, relative=FALSE) {
   checkArg(pred, "Prediction")
   checkArg(relative, "logical", len=1L, na.ok=FALSE)

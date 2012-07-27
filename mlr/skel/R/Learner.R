@@ -33,11 +33,11 @@
 #' makeLearner("classif.lda", predict.type = "prob")
 #'
 #' lrn <- makeLearner("classif.rpart", minsplit = 5)
-#' lrn$par.vals
+#' print(lrn$par.vals)
 #' lrn <- makeLearner("classif.lda", method = "mle")
-#' lrn$par.vals
+#' print(lrn$par.vals)
 #' lrn <- makeLearner("classif.lda", method = "t", nu = 10)
-#' lrn$par.vals
+#' print(lrn$par.vals)
 makeLearner = function(cl, id=cl, predict.type="response", ..., par.vals=list()) {
   checkArg(cl, "character", len=1, na.ok=FALSE)
   wl = do.call(sprintf("makeRLearner.%s", cl), list())

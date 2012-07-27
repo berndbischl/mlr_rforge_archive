@@ -14,6 +14,21 @@
 #'   it can be a single numerical threshold for the positive class. 
 #' @return [\code{\link{Prediction}}] with changed threshold and corresponding response.  
 #' @export
+#' @seealso \code{\link{predict}}
+#' @examples
+#' ## create task and train learner (LDA)
+#' task <- makeClassifTask(data = iris, target = "Species")
+#' lrn <- makeLearner("classif.lda", predict.type = "prob")
+#' mod <- train(lrn, task)
+#'
+#' ## predict probabilities 
+#' pred <- predict(mod, newdata = iris)
+#' head(pred$data)
+
+#' ## adjust threshold and predict probabilities again
+#' threshold <- c(setosa = 0.4, versicolor = 0.3, virginica = 0.3)
+#' pred <- setThreshold(pred, threshold = threshold)
+#' head(pred$data)
 #FIXME: potentially write this in C?
 setThreshold = function(pred, threshold) {
   checkArg(pred, "Prediction")

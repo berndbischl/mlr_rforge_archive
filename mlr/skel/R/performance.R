@@ -18,8 +18,8 @@
 #' test.set <- seq(2, nrow(iris), by = 2)
 #' 
 #' task <- makeClassifTask(data = iris, target = "Species")
-#' learner <- makeLearner("classif.lda")
-#' mod <- train(learner, task, subset = training.set)
+#' lrn <- makeLearner("classif.lda")
+#' mod <- train(lrn, task, subset = training.set)
 #' pred <- predict(mod, newdata = iris[test.set, ])
 #'
 #' ## Here we define the mean misclassification error (MMCE) as our performance measure

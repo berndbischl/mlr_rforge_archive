@@ -20,17 +20,13 @@
 #' task <- makeClassifTask(data = iris, target = "Species")
 #' learner <- makeLearner("classif.lda", method = "mle")
 #' mod <- train(learner, task, subset = training.set)
-#' mod
-#' # Learner model for id=classif.lda class=classif.lda
-#' #   Trained on obs: 75
-#' #   Used features: 4
-#' #   Hyperparameters: method=mle
+#' print(mod)
 #'
 #' ## use random forest to classify iris data
 #' task <- makeClassifTask(data = iris, target = "Species")
 #' learner <- makeLearner("classif.rpart", minsplit = 7, predict.type = "prob")
 #' mod <- train(learner, task, subset = training.set)
-#' mod
+#' print(mod)
 train = function(learner, task, subset) {
   checkArg(learner, "Learner")
   checkArg(task, "SupervisedTask")
