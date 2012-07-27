@@ -4,6 +4,7 @@
 #FIXME: handle error in meta learner
 #FIXME: i think resample at and save.model at count differently
 #FIXME: check learner is regression
+# FIXME: allow .... and pass it on to fun
 
 #'  Optimizes a function with sequential parameter optimization.
 #'
