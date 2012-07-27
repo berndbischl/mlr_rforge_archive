@@ -95,10 +95,9 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   checkArg(y.name, "character", len=1L, na.ok=FALSE)
   checkArg(propose.points.method, choices=c("seq.design", "CMAES", "EI"))
   
-  # FIXME: test this
   if (missing(impute)) 
     impute = function(x, y, opt.path) 
-      stop("Infeasible y=%s value encountered at x=(%s)", as.character(y), listToShortString(x))
+      stopf("Infeasible y=%s value encountered at %s", as.character(y), listToShortString(x))
   else 
     checkArg(impute, formals=c("x", "y", "opt.path"))
   checkArg(impute.errors, "logical", len=1L, na.ok=FALSE)

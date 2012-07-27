@@ -56,7 +56,7 @@ mbo = function(fun, par.set, des=NULL, learner, control) {
     des.x = generateDesign(control$init.design.points, par.set, 
       control$init.design.fun, control$init.design.args, trafo=FALSE)
     xs = lapply(1:nrow(des.x), function(i) ParamHelpers:::dfRowToList(des.x, par.set, i))
-    ys = evalTargetFun(fun, par.set, xs)
+    ys = evalTargetFun(fun, par.set, xs, opt.path, control)
     des = des.x
     des[, y.name] = ys
   } else {
@@ -89,7 +89,7 @@ mbo = function(fun, par.set, des=NULL, learner, control) {
     }
     prop.des = proposePoints(model, par.set, control, opt.path)
     xs = lapply(1:nrow(prop.des), function(i) ParamHelpers:::dfRowToList(prop.des, par.set, i))
-    ys = evalTargetFun(fun, par.set, xs)
+    ys = evalTargetFun(fun, par.set, xs, opt.path, control)
     Map(function(x,y) addOptPathEl(opt.path, x=x, y=y), xs, ys)
     df = as.data.frame(opt.path)
     rt = makeMBOTask(df, y.name, control=control)
@@ -107,7 +107,7 @@ mbo = function(fun, par.set, des=NULL, learner, control) {
   if (control$final.evals > 0) {
     prop.des = des[rep(final.index, control$final.evals),,drop=FALSE]
     xs = lapply(1:nrow(prop.des), function(i) ParamHelpers:::dfRowToList(prop.des, par.set, i))
-    ys = evalTargetFun(fun, par.set, xs)
+    ys = evalTargetFun(fun, par.set, xs, opt.path, control)
     y = mean(ys)
     x = xs[[1]]
   } else {
@@ -119,9 +119,26 @@ mbo = function(fun, par.set, des=NULL, learner, control) {
 }
 
 
-evalTargetFun = function(fun, par.set, xs) {
+evalTargetFun = function(fun, par.set, xs, opt.path, control) {
   xs = lapply(xs, trafoValue, par=par.set)
-  sapply(xs, fun)  
+  fun2 = function(x) {
+    # FIXME: option for silent in control
+    y = try(fun(x), silent=TRUE)
+    if (is.error(y))
+      as.numeric(NA)
+    else
+      y
+  }
+  if (control$impute.errors)
+    ys = sapply(xs, fun2)  
+  else
+    ys = sapply(xs, fun)  
+  j = which(is.na(ys) | is.nan(ys) | is.infinite(ys))
+  if (length(j) > 0) {
+    ys[j] = mapply(control$impute, xs[j], ys[j], 
+      MoreArgs=list(opt.path=opt.path), USE.NAMES=FALSE)
+  }
+  return(ys)
 }
 
 makeMBOTask = function(des, y.name, control) {

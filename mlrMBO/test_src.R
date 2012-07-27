@@ -7,17 +7,28 @@ library(testthat)
 configureMlr(show.learner.output=FALSE)
 
   
-  f = function(x) sum(x[[1]]^2) + (2 - x[[2]])^2
-  
-  ps = makeParamSet(
-    makeNumericVectorParam("v", lower=-5, upper=5, length=2), 
-    makeNumericParam("w", lower=-5, upper=5) 
-  )
-  learner = makeLearner("regr.randomForest")
-  ctrl = makeMBOControl(init.design.points=10, seq.loops=10, propose.points.method="CMAES")
-  or = mbo(f, ps, des=NULL, learner, ctrl)
-  expect_true(!is.na(or$y))
-  expect_equal(getOptPathLength(or$path), 15)
-  ctrl = makeMBOControl(init.design.points=5, seq.loops=10, final.point="best.predicted")
-  or = mbo(f, ps, des=NULL, learner, ctrl)
-  expect_equal(getOptPathLength(or$path), 15)
+f1 = makeMBOFunction(function(x) {
+  y = sum(x^2)
+  if (y < 5)
+    return(NA)
+  return(y)
+})
+f2 = makeMBOFunction(function(x) {
+  y = sum(x^2)
+  if (y < 5)
+    stop("foo")
+  return(y)
+})
+ps = makeParamSet(
+  makeNumericVectorParam("x", length=2, lower=0, upper=3)
+)
+learner = makeLearner("regr.randomForest")
+
+ctrl = makeMBOControl(seq.loops=20, seq.design.points=500)
+expect_error(mbo(f1, ps, des=NULL, learner, ctrl), "Infeasible y")
+ctrl = makeMBOControl(seq.loops=20, seq.design.points=500, impute=function(x, y, opt.path) 0)
+mbo(f1, ps, des=NULL, learner, ctrl)
+ctrl = makeMBOControl(seq.loops=50, seq.design.points=500)
+expect_error(mbo(f2, ps, des=NULL, learner, ctrl), "foo")
+ctrl = makeMBOControl(seq.loops=50, seq.design.points=500, impute=function(x, y, opt.path) 0, impute.errors=TRUE)
+mbo(f2, ps, des=NULL, learner, ctrl)
