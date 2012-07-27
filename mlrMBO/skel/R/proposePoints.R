@@ -6,9 +6,14 @@
 # FIXME: use other fillin fromn DiceOptim 
 proposePoints = function(model, par.set, control, opt.path) {
   lm = model$learner.model 
+  # FIXME: returning a dataframe seens stupid (maybe not?), do interface
   low = getLower(par.set)
   upp = getUpper(par.set)
-  if (control$propose.points.method == "seq.design") {
+  # FIXME: doc and think about it
+  # if we could not train the model, sample points
+  if (inherits(model, "FailureModel")) {
+    generateDesign(control$propose.points, par.set, randomLHS, ints.as.num=TRUE)    
+  } else if (control$propose.points.method == "seq.design") {
     des = generateDesign(control$seq.design.points, par.set, 
       control$seq.design.fun, control$seq.design.args, ints.as.num=TRUE)
     y = predict(model, newdata=des)$data$response

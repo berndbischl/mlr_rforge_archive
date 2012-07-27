@@ -6,6 +6,7 @@
 #FIXME: check learner is regression
 # FIXME: allow .... and pass it on to fun
 # FIXME: add show.info
+# FIXME: configure so we dont see learner output on default
 
 #'  Optimizes a function with sequential parameter optimization.
 #'
@@ -23,6 +24,9 @@
 #'   Regression learner to model \code{fun}.  
 #' @param control [\code{\link{MBOControl}}]\cr
 #'   Control object for mbo.  
+#' @param show.info [\code{logical(1)}]\cr
+#'   Show info message after each function evaluation?
+#'   Default is \code{TRUE}.
 #' @return [\code{list}]:
 #'   \item{x [\code{list}]}{Named list of proposed optimal parameters.}
 #'   \item{y [\code{numeric(1)}]}{Value of fitness function at \code{x}, either form evals during optimization or from requested final evaluations, if they were gretater than 0.}
@@ -30,8 +34,8 @@
 #'   \item{models [List of \code{\link[mlr]{WrappedModel}}]}{List of saved regression models.}
 #' @export 
 
-mbo = function(fun, par.set, des=NULL, learner, control) {
-  if(any(sapply(par.set$pars, function(x) is(x, "LearnerParam"))))
+mbo = function(fun, par.set, des=NULL, learner, control, show.info=TRUE) {
+  if(any(sapply(par.set$pars, function(x) inherits(x, "LearnerParam"))))
     stop("No par.set parameter in 'mbo' can be of class 'LearnerParam'! Use basic parameters instead to describe you region of interest!")
   if (any(is.infinite(c(getLower(par.set), getUpper(par.set)))))
     stop("mbo requires finite box constraints!")
@@ -48,6 +52,13 @@ mbo = function(fun, par.set, des=NULL, learner, control) {
   if (control$propose.points.method == "EI")
     requirePackages("DiceOptim")
   
+  # FIXME: doc and better control
+  oldopts = list(
+    ole = getOption("mlr.on.learner.error"),
+    slo = getOption("mlr.show.learner.output")
+  )
+  configureMlr(on.learner.error="warn", show.learner.output=FALSE)
+  
   rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
   y.name = control$y.name
   opt.path = makeOptPathDF(par.set, y.name, control$minimize)
@@ -56,7 +67,7 @@ mbo = function(fun, par.set, des=NULL, learner, control) {
     des.x = generateDesign(control$init.design.points, par.set, 
       control$init.design.fun, control$init.design.args, trafo=FALSE)
     xs = lapply(1:nrow(des.x), function(i) ParamHelpers:::dfRowToList(des.x, par.set, i))
-    ys = evalTargetFun(fun, par.set, xs, opt.path, control)
+    ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts)
     des = des.x
     des[, y.name] = ys
   } else {
@@ -74,7 +85,7 @@ mbo = function(fun, par.set, des=NULL, learner, control) {
     des.x = des.x[, rep.pids, drop=FALSE]
     xs = lapply(1:nrow(des.x), function(i) ParamHelpers:::dfRowToList(des.x, par.set, i))
   }
-  Map(function(x,y) addOptPathEl(opt.path, x=x, y=y), xs, ys)
+  Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=0), xs, ys)
   rt = makeMBOTask(des, y.name, control=control)
   model = train(learner, rt)
   models = list()
@@ -89,10 +100,9 @@ mbo = function(fun, par.set, des=NULL, learner, control) {
     }
     prop.des = proposePoints(model, par.set, control, opt.path)
     xs = lapply(1:nrow(prop.des), function(i) ParamHelpers:::dfRowToList(prop.des, par.set, i))
-    ys = evalTargetFun(fun, par.set, xs, opt.path, control)
-    Map(function(x,y) addOptPathEl(opt.path, x=x, y=y), xs, ys)
-    df = as.data.frame(opt.path)
-    rt = makeMBOTask(df, y.name, control=control)
+    ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts)
+    Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=loop), xs, ys)
+    rt = makeMBOTask(as.data.frame(opt.path), y.name, control=control)
     model = train(learner, rt)
     if (loop %in% control$save.model.at)
       models[[length(models)+1]] = model
@@ -107,32 +117,39 @@ mbo = function(fun, par.set, des=NULL, learner, control) {
   if (control$final.evals > 0) {
     prop.des = des[rep(final.index, control$final.evals),,drop=FALSE]
     xs = lapply(1:nrow(prop.des), function(i) ParamHelpers:::dfRowToList(prop.des, par.set, i))
-    ys = evalTargetFun(fun, par.set, xs, opt.path, control)
+    ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts)
     y = mean(ys)
     x = xs[[1]]
   } else {
     y = getOptPathEl(opt.path, final.index)$y
     x = ParamHelpers:::dfRowToList(des, par.set, final.index)
   }
-  
+  configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
   list(x=x, y=y, path=opt.path, resample=res.vals, models=models)
 }
 
-
-evalTargetFun = function(fun, par.set, xs, opt.path, control) {
+evalTargetFun = function(fun, par.set, xs, opt.path, control, show.info, oldopts) {
   xs = lapply(xs, trafoValue, par=par.set)
   fun2 = function(x) {
     # FIXME: option for silent in control
-    y = try(fun(x), silent=TRUE)
-    if (is.error(y))
-      as.numeric(NA)
-    else
-      y
+    if (control$impute.errors) {
+      y = try(fun(x), silent=TRUE)
+      if (is.error(y))
+        y = as.numeric(NA)
+    } else {
+      y = fun(x)
+    }
+    if (show.info) {
+      dob = opt.path$env$dob
+      dob = if (length(dob) == 0) 0 else max(dob)+1
+      messagef("[mbo] %i: %s : %s=%.3f", dob, 
+       paramValueToString(par.set, x), control$y.name, y)
+    }
+    return(y)
   }
-  if (control$impute.errors)
-    ys = sapply(xs, fun2)  
-  else
-    ys = sapply(xs, fun)  
+  configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
+  ys = sapply(xs, fun2)  
+  configureMlr(on.learner.error="warn", show.learner.output=FALSE)
   j = which(is.na(ys) | is.nan(ys) | is.infinite(ys))
   if (length(j) > 0) {
     ys[j] = mapply(control$impute, xs[j], ys[j], 

@@ -7,28 +7,11 @@ library(testthat)
 configureMlr(show.learner.output=FALSE)
 
   
-f1 = makeMBOFunction(function(x) {
-  y = sum(x^2)
-  if (y < 5)
-    return(NA)
-  return(y)
-})
-f2 = makeMBOFunction(function(x) {
-  y = sum(x^2)
-  if (y < 5)
-    stop("foo")
-  return(y)
-})
+f1 = makeMBOFunction(function(x) 1)
 ps = makeParamSet(
-  makeNumericVectorParam("x", length=2, lower=0, upper=3)
+  makeNumericVectorParam("zz", length=2, lower=0, upper=3)
 )
-learner = makeLearner("regr.randomForest")
+learner = makeLearner("regr.km", nugget.estim=TRUE)
 
-ctrl = makeMBOControl(seq.loops=20, seq.design.points=500)
-expect_error(mbo(f1, ps, des=NULL, learner, ctrl), "Infeasible y")
-ctrl = makeMBOControl(seq.loops=20, seq.design.points=500, impute=function(x, y, opt.path) 0)
+ctrl = makeMBOControl(seq.loops=5, propose.points.method="EI", init.design.points=10)
 mbo(f1, ps, des=NULL, learner, ctrl)
-ctrl = makeMBOControl(seq.loops=50, seq.design.points=500)
-expect_error(mbo(f2, ps, des=NULL, learner, ctrl), "foo")
-ctrl = makeMBOControl(seq.loops=50, seq.design.points=500, impute=function(x, y, opt.path) 0, impute.errors=TRUE)
-mbo(f2, ps, des=NULL, learner, ctrl)
