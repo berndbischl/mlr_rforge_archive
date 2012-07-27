@@ -1,5 +1,6 @@
 
-scale parameters before they go into the model?
+- scale parameters [0,1] before they go into the model?
+
 
 Tuning:
 Diskutieren:
