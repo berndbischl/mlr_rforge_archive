@@ -3,10 +3,20 @@
 #' @param y.name [\code{character(1)}]\cr 
 #'   Name of y-column for target values in optimization path. 
 #'   Default is \dQuote{y}.   
-#' @param minimize [logical(1)]\cr 
+#' @param minimize [\code{logical(1)}]\cr 
 #'   Should target function be minimized? 
-#'   Default is \code{TRUE}.   
-#' @param init.design.points [integer(1)]\cr 
+#'   Default is \code{TRUE}.
+#' @param impute [\code{function(x, y, opt.path)}]\cr
+#'   Function that determines the return value in case the original fitness functions fails
+#'   (for whatever reason) and because of this failure returns a NA, NaN, Inf.
+#'   \code{x} is the current x-value, \code{y} the current (infeasible) y-value and 
+#'   \code{opt.path} the current optimization path. 
+#'   Default is to stop with an error.     
+#' @param impute.errors [\code{logical(1)}]\cr
+#'   Should fitness function call be wrapped in a \code{try} and the same imputation
+#'   be used as in \code{impute}?
+#'   Default is \code{FALSE}.
+#' @param init.design.points [\code{integer(1)}]\cr 
 #'   Number of points in inital design. 
 #'   Only used if no design is given in \code{mbo} function.
 #'   Default is 20.   
@@ -40,20 +50,17 @@
 #'   \code{improvedLHS}, \code{optAugmentLHS}, \code{optimumLHS}.
 #'   Only used if \code{propose.points.method} is \dQuote{seq.design}.
 #'   Default is \code{randomLHS}. 
-#' @param seq.design.args [list]\cr
+#' @param seq.design.args [\code{list}]\cr
 #'   List of further arguments passed to \code{seq.design.fun}.  
 #'   Only used if \code{propose.points.method} is 'seq.design.' 
 #'   Default is empty list.
-#' @param rank.trafo [logical(1)]\cr 
-#'   Should target values be rank-transformed before they are passed to the regresson model? 
-#'   Default is \code{FALSE}.   
 #' @param final.point [\code{character(1)}]\cr 
 #'   How should the final point be proposed. Possible are: 
 #'   \dQuote{last.proposed}: Return the last point proposed by the model.    
 #'   \dQuote{best.true.y}: Return best point ever visited according to true value of target function. Can be bad if target function is noisy.    
 #'   \dQuote{best.predicted}: Use the final model to predict all points ever visited and use the best one. This might average-out noisy function values.
 #'   Default is: \dQuote{last.proposed}.     
-#' @param final.evals [integer(1)]\cr 
+#' @param final.evals [\code{integer(1)}]\cr 
 #'   How many target function evals should be done at final point to reduce noise? 
 #'   Default is 20.      
 #' @param save.model.at [\code{integer}]\cr
@@ -73,49 +80,52 @@
 #' @aliases MBOControl 
 #' @export 
 makeMBOControl = function(y.name="y", minimize=TRUE,
+  impute, impute.errors=FALSE, 
   init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
   seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
-  rank.trafo=FALSE, final.point = "last.proposed",
+  final.point = "last.proposed",
   final.evals = 20,
   save.model.at = seq.loops,
   resample.at = integer(0), resample.desc = makeResampleDesc("CV", iter=10), resample.measures=list(mse) 
 ) {
+  
   requirePackages("lhs", "makeMBOControl")
-  checkArg(y.name, "character", 1)
+  
+  checkArg(y.name, "character", len=1L, na.ok=FALSE)
   checkArg(propose.points.method, choices=c("seq.design", "CMAES", "EI"))
   
-  if (is.numeric(init.design.points) && length(init.design.points) == 1 && as.integer(init.design.points) == init.design.points)
-    init.design.points = as.integer(init.design.points)
-  if (is.numeric(seq.loops) && length(seq.loops) == 1 && as.integer(seq.loops) == seq.loops)
-    seq.loops = as.integer(seq.loops)
-  if (is.numeric(propose.points) && length(propose.points) == 1 && as.integer(propose.points) == propose.points)
-    propose.points = as.integer(propose.points)
-  if (is.numeric(seq.design.points) && length(seq.design.points) == 1 && as.integer(seq.design.points) == seq.design.points)
-    seq.design.points = as.integer(seq.design.points)
-  checkArg(rank.trafo, "logical", 1)
-  if (is.numeric(final.evals) && as.integer(final.evals) == final.evals)
-    final.evals = as.integer(final.evals)
-  if (length(save.model.at) == 0 || 
-    (is.numeric(save.model.at) && as.integer(save.model.at) == save.model.at))
-    save.model.at = as.integer(save.model.at)
-  checkArg(save.model.at, "integer")
-  checkArg(final.point, choices=c("last.proposed", "best.true.y", "best.predicted"))
-  checkArg(final.evals, "integer", 1)
-  if (length(resample.at) == 0 || 
-    (is.numeric(resample.at) && as.integer(resample.at) == resample.at))
-    resample.at = as.integer(resample.at)
-  checkArg(resample.at, "integer")
-  checkArg(resample.desc, "ResampleDesc")
+  # FIXME: test this
+  checkArg(impute, formals=c("x", "y", "opt.path"))
+  checkArg(impute.errors, "logical", len=1L, na.ok=FALSE)
   
-  if (is.numeric(resample.at) && (length(resample.at) == 0 || as.integer(resample.at) == resample.at))
-    resample.at = as.integer(resample.at)
-  checkArg(resample.at, "integer")
+  # FIXME: check other args
+  init.design.points = convertInteger(init.design.points)
+  checkArg(init.design.points, "integer", len=1L, na.ok=FALSE, lower=4L)
+  
+  seq.loops = convertInteger(seq.loops)
+  checkArg(seq.loops, "integer", len=1L, na.ok=FALSE, lower=1L)
+  propose.points = convertInteger(propose.points)
+  checkArg(propose.points, "integer", len=1L, na.ok=FALSE, lower=1L)
+  seq.design.points = convertInteger(seq.design.points)
+  checkArg(seq.design.points, "integer", len=1L, na.ok=FALSE, lower=1L)
+  # FIXME: remove this for now
+  #checkArg(rank.trafo, "logical", len=1L, na.ok=FALSE)
+  final.evals = convertInteger(final.evals)
+  checkArg(final.evals, "integer", len=1L, na.ok=FALSE, lower=0L)
+  save.model.at = convertIntegers(save.model.at)
+  checkArg(save.model.at, "integer", max.len=1, na.ok=FALSE, lower=1L, upper=seq.loops)
+  checkArg(final.point, choices=c("last.proposed", "best.true.y", "best.predicted"))
+  checkArg(final.evals, "integer", len=1L, na.ok=FALSE)
+  resample.at = convertIntegers(resample.at)
+  checkArg(resample.at, "integer", max.len=1L, na.ok=FALSE, lower=1L, upper=seq.loops)
   checkArg(resample.desc, "ResampleDesc")
   
   structure(list( 
     y.name = y.name,
     minimize = minimize,
+    impute = impute,
+    impute.errors = impute.errors,
     init.design.points = init.design.points, 
     init.design.fun = init.design.fun, 
     init.design.args = init.design.args,
@@ -125,7 +135,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
     seq.design.points = seq.design.points, 
     seq.design.fun = seq.design.fun, 
     seq.design.args = seq.design.args,
-    rank.trafo = rank.trafo,
+    #rank.trafo = rank.trafo,
     final.point = final.point,
     final.evals = final.evals,
     save.model.at = save.model.at,

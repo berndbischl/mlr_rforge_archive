@@ -127,7 +127,7 @@ makeMBOTask = function(des, y.name, control) {
   des$dob = NULL; des$eol = NULL
   if (any(sapply(des, is.integer)))
     des = as.data.frame(lapply(des, function(x) if(is.integer(x)) as.numeric(x) else x))
-  if (control$rank.trafo)
-    des[,y.name] = rank(des[,y.name])
+  #if (control$rank.trafo)
+  #  des[,y.name] = rank(des[,y.name])
   makeRegrTask(target=y.name, data=des)
 }

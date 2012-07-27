@@ -1,6 +1,8 @@
 
 - scale parameters [0,1] before they go into the model?
 
+- better think about imputing in case of errors and NA. test and doc this.
+
 
 Tuning:
 Diskutieren:
