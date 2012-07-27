@@ -11,7 +11,8 @@ makePreprocWrapperRemoveOutliers = function(learner, ro.alpha=0.5) {
     require(robustbase)
     cns = colnames(data)
     nums = setdiff(cns[sapply(data, is.numeric)], target)
-    if (length(nums) > 0) {
+    # we must have at least n = 2*p obs
+    if (length(nums) > 0 && nrow(data) >= 2*length(nums)) {
       x = data[, nums]
       # split x in classes
       x.splitted = split(x, data[,target])
