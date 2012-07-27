@@ -13,7 +13,7 @@ tuneMBO = function(learner, task, resampling, measures, par.set, control,
     par.set=par.set, ctrl=control, opt.path=opt.path, show.info=show.info, 
     log.fun=log.fun, trafo=FALSE, convertx=cx)    
   
-  or = mbo(tff, par.set, des=NULL, learner=control$learner, control=mbo.control)
+  or = mbo(tff, par.set, des=NULL, learner=control$learner, control=mbo.control, show.info=FALSE)
   
   # FIXME: check this this is really ok, that we dont trafo in mlrMBO
   x = trafoValue(par.set, or$x)
