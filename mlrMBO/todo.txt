@@ -1,7 +1,9 @@
 
+scale parameters before they go into the model?
+
 Tuning:
 Diskutieren:
-- welche Parameter sollen pro modell getunt werden, wenn der anwender nicht angibt (gerade bei ensembles müsste sollte man einen default-parametersatz für jedes modell mitgeben)
+- welche Parameter sollen pro modell getunt werden, wenn der anwender nicht angibt (gerade bei ensembles mï¿½sste sollte man einen default-parametersatz fï¿½r jedes modell mitgeben)
 - allgemein tuning durch CMAES? (wenn ja, was machen bei kategorialen hyperparametern (z.b. covtype bei kriging) und wieviele iterationen)
 - resampling-methode? 
 
@@ -24,8 +26,8 @@ methoden
 ensembles:
  - random selection
  -- train: ganz normal,
- -- man muss nur einen index haben für das aktuelle model
- -- propose: normal für das trainierte model
+ -- man muss nur einen index haben fï¿½r das aktuelle model
+ -- propose: normal fï¿½r das trainierte model
 
  - (weighted) average,
  -- alles ist genauso wie bei einem model, baue nur
@@ -35,12 +37,12 @@ ensembles:
 
  - best-n-models (modelle werden in jedem schritt / nur nach initdes bewertet)
  -- train: trainiere die n besten modelle nach krit.
- -- propose: die n besten modelle, die gewählt wurden, schlagen was vor
+ -- propose: die n besten modelle, die gewï¿½hlt wurden, schlagen was vor
 
  - RL
- -- seq.iter.start: wähle modell
- -- trainiere das stochatisch gewählte
- -- propose: normal für das trainierte model
+ -- seq.iter.start: wï¿½hle modell
+ -- trainiere das stochatisch gewï¿½hlte
+ -- propose: normal fï¿½r das trainierte model
  -- seq.iter.end: update der preferences, wir brauchen archiv, proposed.design
 
 
