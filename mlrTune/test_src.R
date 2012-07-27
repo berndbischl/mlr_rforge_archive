@@ -4,43 +4,26 @@ library("testthat")
 load_all("skel")
 
 library(mlbench)
-task = makeClassifTask(data=iris, target="Species")
-#lrn = makeLearner("classif.ksvm")
-lrn = makeLearner("classif.lda", predict.type="prob")
-rdesc = makeResampleDesc("Subsample", iters=30, split=4/5)
-r = resample(lrn, task, rdesc)
+  library(mlrMBO)
 
-m = train(lrn, task)
-p = predict(m, task)
-
-tr = tuneThreshold(r$pred, mmce)
-print(tr)
-#ps = makeParamSet(
-#  makeDiscreteParam("C", values=c(1,2)),
-#  makeDiscreteParam("sigma", values=c(1,2))
-#)
-#ps = makeParamSet(
-#  makeNumericParam("C"),
-#  makeNumericParam("sigma")
-#)
-
-#ctrl = makeTuneControlGrid()
-#ctrl = makeTuneControlCMAES(start=list(sigma=20, C=10), maxit=2)
-#ctrl = makeTuneControlOptim(start=list(sigma=20, C=10), maxit=2)
-#print(ctrl)
-
-#tr = tune(lrn, task, rdesc, par.set=ps, control=ctrl)
-#print(tr)
-#print(as.data.frame(tr$opt.path))
-
-
-#ps = makeParamSet(
-#  makeNumericVectorParam("cutoff", lower=0.0001, upper=1, length=3, 
-#    trafo=function(x) x / (1.1*sum(x))), 
-#  makeIntegerParam("ntree", lower=100, upper=500) 
-#)
-
-#ctrl = makeTuneControlCMAES(start=list(cutoff=c(1/3, 1/3, 1/3), ntree=200L), 
-#  maxit=5, sigma=2)
-#tr = tune(makeLearner("classif.randomForest"), task, rdesc, 
-#  par.set=ps, control=ctrl)
+ source("skel/inst/tests/objects.R")
+ 
+  res = makeResampleDesc("Subsample", iters=4)
+  ps1 = makeParamSet(
+    makeNumericParam("cp", lower=0.001, upper=1), 
+    makeIntegerParam("minsplit", lower=1, upper=10)
+  )
+  
+  n1 = 20; n2=2;
+  mbo.ctrl = makeMBOControl(init.design.points=n1, seq.loops=n2)
+  ctrl = makeTuneControlMBO(learner=makeLearner("regr.randomForest"), mbo.control=mbo.ctrl)
+  tr1 = tune(makeLearner("classif.rpart"), multiclass.task, res, par.set=ps1, control=ctrl)
+  expect_equal(getOptPathLength(tr1$opt.path), n1+n2)
+  expect_equal(dim(as.data.frame(tr1$opt.path)), c(n1+n2, 2+1+2))
+  
+  ps2 = makeParamSet(
+    makeIntegerParam("ntree", lower=100, upper=500),
+    makeNumericVectorParam("cutoff", length=3, lower=0.001, upper=1, trafo=function(x) 0.9*x/sum(x)) 
+  )
+  tr2 = tune(makeLearner("classif.randomForest"), multiclass.task, res, par.set=ps2, control=ctrl)
+  expect_equal(getOptPathLength(tr2$opt.path), n1+n2)

@@ -2,11 +2,11 @@
 
 #' @param learner [\code{\link[mlr]{Learner}}] \cr
 #'   Regression learner to model performance landscape.  
-#' @param mbo.control [\code{\link[mlr]{MBOControl}}] \cr
+#' @param mbo.control [\code{\link[mlrMBO]{MBOControl}}] \cr
 #'   Control object for model-based optimization tuning.  
 #' @export
 #' @rdname TuneControl
-makeTuneControlMbo = function(path=TRUE, same.resampling.instance=TRUE, learner, mbo.control) {
+makeTuneControlMBO = function(same.resampling.instance=TRUE, learner, mbo.control) {
   checkArg(learner, "Learner")
   checkArg(mbo.control, "MBOControl")
   x = makeTuneControl(same.resampling.instance=same.resampling.instance, start=list(), cl="TuneControlMBO")
