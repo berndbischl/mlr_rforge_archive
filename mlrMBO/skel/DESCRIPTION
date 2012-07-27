@@ -4,7 +4,8 @@ Description:
 Author: Bernd Bischl <bernd_bischl@gmx.net>
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
 License: BSD
-Imports: BBmisc, ParamHelpers, mlr
+Depends: ParamHelpers, mlr
+Imports: BBmisc, 
 Suggests: cmaes, DiceOptim, testthat
 LazyData: yes
 ByteCompile: yes

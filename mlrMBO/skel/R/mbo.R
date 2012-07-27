@@ -5,6 +5,7 @@
 #FIXME: i think resample at and save.model at count differently
 #FIXME: check learner is regression
 # FIXME: allow .... and pass it on to fun
+# FIXME: add show.info
 
 #'  Optimizes a function with sequential parameter optimization.
 #'
@@ -13,7 +14,7 @@
 #'   The function has to return a single numerical value.
 #' @param par.set [\code{\link[ParamHelpers]{ParamSet}}]\cr
 #'   Collection of parameters and their constraints for optimization.   
-#' @param des [data.frame | NULL]\cr
+#' @param des [\code{data.frame} | NULL]\cr
 #'   Initial design. Must have been created by \code{\link[ParamHelpers]{generateDesign}}. 
 #'   If the parameters have corresponding trafo functions, 
 #'   the design must not be transformed before it is passed! 

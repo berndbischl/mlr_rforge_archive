@@ -96,7 +96,11 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   checkArg(propose.points.method, choices=c("seq.design", "CMAES", "EI"))
   
   # FIXME: test this
-  checkArg(impute, formals=c("x", "y", "opt.path"))
+  if (missing(impute)) 
+    impute = function(x, y, opt.path) 
+      stop("Infeasible y=%s value encountered at x=(%s)", as.character(y), listToShortString(x))
+  else 
+    checkArg(impute, formals=c("x", "y", "opt.path"))
   checkArg(impute.errors, "logical", len=1L, na.ok=FALSE)
   
   # FIXME: check other args
@@ -113,12 +117,21 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   #checkArg(rank.trafo, "logical", len=1L, na.ok=FALSE)
   final.evals = convertInteger(final.evals)
   checkArg(final.evals, "integer", len=1L, na.ok=FALSE, lower=0L)
-  save.model.at = convertIntegers(save.model.at)
-  checkArg(save.model.at, "integer", max.len=1, na.ok=FALSE, lower=1L, upper=seq.loops)
+  # FIXME: do better
+  if (length(save.model.at) > 0) {
+    save.model.at = convertIntegers(save.model.at)
+    checkArg(save.model.at, "integer", na.ok=FALSE, lower=0L, upper=seq.loops)
+  } else {
+    save.model.at = integer(0)
+  }
   checkArg(final.point, choices=c("last.proposed", "best.true.y", "best.predicted"))
   checkArg(final.evals, "integer", len=1L, na.ok=FALSE)
-  resample.at = convertIntegers(resample.at)
-  checkArg(resample.at, "integer", max.len=1L, na.ok=FALSE, lower=1L, upper=seq.loops)
+  if (length(resample.at) > 0) {
+    resample.at = convertIntegers(resample.at)
+    checkArg(resample.at, "integer", na.ok=FALSE, lower=0L, upper=seq.loops)
+  } else {
+    resample.at = integer(0)
+  }
   checkArg(resample.desc, "ResampleDesc")
   
   structure(list( 

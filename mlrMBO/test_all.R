@@ -1,5 +1,6 @@
 library(methods)
 library(testthat)
+library(mlr)
 
 if (interactive()) {
   library(devtools)
