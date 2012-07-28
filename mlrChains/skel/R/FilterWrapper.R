@@ -36,8 +36,6 @@ makeFilterWrapper = function(learner, fw.method="random.forest.importance", fw.p
 
 #' @S3method trainLearner FilterWrapper
 trainLearner.FilterWrapper = function(.learner, .task, .subset, fw.method, fw.perc, ...) {
-  print("train: filter")
-
   .task = subsetTask(.task, subset=.subset)  
   tn = .task$task.desc$target
   vals = filterFeatures(.task)
@@ -55,7 +53,6 @@ trainLearner.FilterWrapper = function(.learner, .task, .subset, fw.method, fw.pe
 
 #' @S3method predictLearner FilterWrapper
 predictLearner.FilterWrapper = function(.learner, .model, .newdata, ...) {
-  print("predict: filter")
   .newdata = .newdata[, .model$learner.model$next.model$features, drop=FALSE]  
   NextMethod(.newdata=.newdata)
 }

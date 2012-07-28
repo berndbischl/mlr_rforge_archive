@@ -5,7 +5,6 @@ makePreprocWrapperPCA = function(learner) {
   checkArg(learner, "Learner")
 
   trainfun = function(data, target, args) {
-    print("train: PCA")
     cns = colnames(data)
     nums = setdiff(cns[sapply(data, is.numeric)], target)
     if (length(nums) > 0) {
@@ -22,7 +21,6 @@ makePreprocWrapperPCA = function(learner) {
   }
 
   predictfun = function(data, target, args, control) {
-    print("predict: PCA")
     # no numeric features ?
     if (length(control) == 0) {
       return(data)      

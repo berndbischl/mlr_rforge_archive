@@ -7,7 +7,6 @@ makePreprocWrapperRemoveOutliers = function(learner, ro.alpha=0.5) {
   checkArg(learner, "Learner")
 
   trainfun = function(data, target, args) {
-    print("train: RO")
     require(robustbase)
     cns = colnames(data)
     nums = setdiff(cns[sapply(data, is.numeric)], target)
@@ -25,7 +24,6 @@ makePreprocWrapperRemoveOutliers = function(learner, ro.alpha=0.5) {
   }
 
   predictfun = function(data, target, args, control) {
-    print("predict: RO")
     data
   }
   ps = makeParamSet(makeNumericLearnerParam("ro.alpha", lower=0, upper=1))
