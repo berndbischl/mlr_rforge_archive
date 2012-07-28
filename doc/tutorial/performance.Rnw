@@ -110,23 +110,21 @@ data(BostonHousing)
 task <- makeRegrTask(data = BostonHousing, target = "medv")
 
 ## Training and test set indices 
-train.set <- seq(from = 1, to = nrow(BostonHousing), by = 2)
+training.set <- seq(from = 1, to = nrow(BostonHousing), by = 2)
 test.set <- seq(from = 2, to = nrow(BostonHousing), by = 2)
 
 ## Gradient Boosting Machine on training set 
 lrn <- makeLearner("regr.gbm", n.trees = 1000)
-mod <- train(lrn, task, subset = train.set) 
+mod <- train(lrn, task, subset = training.set) 
 
 ## Prediction on test set data 
-pred <- predict(mod, newdata = BostonHousing[test.set,])
+pred <- predict(mod, newdata = BostonHousing[test.set, ])
 
 ## Compare predicted and true label with measure MSE 
 performance(pred, measure = mse)
-
-performance(pred, measure = mae)
 @
 
-Construction additional performance measures
+Construction of additional performance measures
 ............................................
 
 Maybe you want to evaluate a measure, which ist not yet implemented in **mlr**. The makeMeasure_ function is a simple way to construct your own performance measure. Let's implement our own version of the already mentioned MMCE. For this purpose we write a simple function, that computes the measure on the basis of the predictions and subsequently wrap it in a Measure object. Then we work with it as usual with the performance_ function. See the R documentation of the makeLearner_ function for details on the various parameters.

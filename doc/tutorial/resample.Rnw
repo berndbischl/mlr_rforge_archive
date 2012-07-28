@@ -27,13 +27,15 @@ Classification example
 
 
 <<>>=
-#LearnTask_, a learner (either a string or a Learner_ object) and 
-#a resampling strategy, in this case 3-fold cross-validation
 library("mlr")
 
-task <- makeClassifTask(data=iris, target="Species")
-rdesc <- makeResampleDesc("CV", iters=3)
-r <- resample("classif.lda", task, rdesc)
+## Define a learning task and a appropriate learner
+task <- makeClassifTask(data = iris, target = "Species")
+lrn <- makeLearner("classif.lda")
+
+## Perform a 3-fold cross-validation 
+rdesc <- makeResampleDesc("CV", iters = 3)
+r <- resample(lrn, task, rdesc)
 r
 @
 
@@ -53,15 +55,17 @@ library("mlr")
 library("mlbench")
 data(BostonHousing)
 
+## Define a learning task and a appropriate learner
 task <- makeRegrTask(data = BostonHousing, target = "medv")
+lrn <- makeLearner("regr.lm")
+
+## Perform a 3-fold cross-validation
 rdesc <- makeResampleDesc("CV", iters=3)
-r <- resample("regr.lm", task, rdesc)
+r <- resample(lrn, task, rdesc)
 r
 @
 
 For regression the default performance measure is mse (mean squared error).
-
-
 
 
 Further information
@@ -110,7 +114,8 @@ process as easy as possible.
 
 <<eval=FALSE>>=
 ## get the cv.instance directly 
-rinst  <- makeResampleInstance("CV", iters=10, size=nrow(iris))
+rdesc <- makeResampleDesc("CV", iters = 10)
+rinst  <- makeResampleInstance(rdesc, size = nrow(iris))
 @ 
 
 Asking the ResampleDesc_ or ResampleInstance_ objects for further
@@ -119,18 +124,14 @@ information is easy, just inspect their slots: operator:
 <<eval=FALSE>>=
 ## description object
 ## number of iterations
-rdesc@iters
+rdesc$iters
 	
 ## resample.instance object
 ## number of iterations
-rinst@iters
+rinst$desc$iters
 
-rinst["train.inds", 3]
-rinst["test.inds", 3]
-
-## train/test indices for first and third iteration
-rinst["train.inds", c(1,3)]
-rinst["test.inds", c(1,3)]
+rinst$train.inds[[3]]
+rinst$test.inds[[3]]
 @ 
 
 Please refer to the help pages of the specific classes for a complete
@@ -142,13 +143,14 @@ Included resampling strategies
 
 The package comes with a couple of predefined strategies.
 
+* 'Subsample' for subsampling,
+* 'Holdout' for holdout,
 * 'CV' for cross-validation, 
 * 'LOO' for leave-one-out, 
 * 'StratCV' for stratified cross-validation, 
 * 'RepCV' for repeated cross-validation,
-* 'BS' for out-of-bag bootstrap, 
-* 'Subsample' for subsampling,
-* 'Holdout' for holdout.
+* 'Bootstrap' for out-of-bag bootstrap.
+
 
 
 Subsampling
@@ -172,7 +174,7 @@ In the :math:`i`-th step of the :math:`k` iterations the :math:`i`-th subset is
 used as a test set, while the remaining parts form the training set.
 
 <<eval=FALSE>>=
-rdesc <- makeResampleDesc("CV", iters=10)
+rdesc <- makeResampleDesc("CV", iters = 10)
 @ 
 
 Bootstrapping
@@ -185,7 +187,7 @@ while the remaining elements from :math:`D` not occuring in the training set
 form the test set.
 
 <<eval=FALSE>>=
-rdesc <- makeResampleDesc("BS", iters=10)
+rdesc <- makeResampleDesc("Bootstrap", iters = 10)
 @ 
 
 
@@ -210,7 +212,7 @@ and compare predicted and true label w.r.t. some performance
 measure. This is proceeded for every iteration so that you have
 e.g. ten performance values in the case of 10-fold cross-validation.
 The question arises, how to aggregate those values. You can specify
-that explicitly, the default is the mean.  Let's have a look at an
+that explicitly, the default is the mean. Let's have a look at an
 example 
 
 object of class ResamplePrediction_ ...
@@ -220,19 +222,16 @@ Classification example
 ......................
 
 For the example code, we use the standard iris data set and compare
-with cross-validation a Decision Tree and the Linear Discriminant
+with 10-fold cross-validation a Decision Tree and the Linear Discriminant
 Analysis:
-
-Again, we create a classification task for the Iris data set and use
-10-fold cross-validation to evaluate the learner:
 
 <<>>=
 ## Classification task
-task <- makeClassifTask(data=iris, target="Species")
+task <- makeClassifTask(data = iris, target = "Species")
 
 ## Resample instance for Cross-validation
-rdesc <- makeResampleDesc("CV", iters=3)
-rinst <- makeResampleInstance(rdesc, task=task)
+rdesc <- makeResampleDesc("CV", iters = 3)
+rinst <- makeResampleInstance(rdesc, task = task)
 @
 
 Now we fit a decision tree for each fold and measure both the mean misclassification 
@@ -240,18 +239,20 @@ error (`mmce`) and the accuracy (`acc`):
 
 <<>>=
 ## Merge learner, i.e. Decision Tree, classification task ct and resample instance rin
-r1 <- resample("classif.rpart", task, rinst)
+lrn <- makeLearner("classif.rpart")
+r1 <- resample(lrn, task, rinst)
 @
 
 Let's set a couple of hyperparameters for rpart
 
 <<>>=
-lrn <- makeLearner("classif.rpart", minsplit=10, cp=0.03)
-r1 <- resample(lrn, task, rinst, list(mmce, acc))	
+lrn1 <- makeLearner("classif.rpart", minsplit = 10, cp = 0.03)
+r1 <- resample(lrn1, task, rinst, list(mmce, acc))	
 
 
-## Second resample for LDA as learner 
-r2 <- resample("classif.lda", task, rinst, list(mmce, acc))	
+## Second resample for LDA as learner
+lrn2 <- makeLearner("classif.lda")
+r2 <- resample(lrn2, task, rinst, list(mmce, acc))	
 
 ## Let's see how well both classifiers did w.r.t mean misclassification error and accuracy
 r1
@@ -273,11 +274,39 @@ r1$aggr
 
 As you can see above, in every fold of the 3-fold cross-validation you
 get one mean misclassification error (0.06, 0.08, 0.10) and after all
-three runs you aggregate them by mean to one value (0.08).  Having a
-look at the single losses is of course possible as well.???
+three runs you aggregate them by mean to one value (0.08). Having a
+look at the single losses is of course possible as well.
 
 Regression example
 ......................
+
+Now we use the BostonHousing data and compare the results of a Neural Net and a k-Nearest-Neighbor regression with out-of-bag bootstraping.
+
+<<>>=
+library("mlr")
+library("mlrbench")
+data(BostonHousing)
+
+## Regression task
+task <- makeRegrTask(data = BostonHousing, target = "medv")
+
+## Resample instance for bootstraping
+rdesc <- makeResampleDesc("Bootstrap", iters = 3)
+rinst <- makeResampleInstance(rdesc, task = task)
+
+ms <- list(mse, medae)
+
+lrn1 <- makeLearner("regr.nnet")
+r1 <- resample(lrn1, task, rinst, measures = ms)
+
+## Another resampling for the k-Nearest Neighbor regression
+lrn2 <- makeLearner("regr.kknn")
+r2 <- resample(lrn2, task, rinst, measures = ms)
+
+# Now let's compare both methods regarding the mse (mean squared error) and the medae (median of absolute errors)
+r1$measures.test
+r2$measures.test
+@
 
 ...
 
