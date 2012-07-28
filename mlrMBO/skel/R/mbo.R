@@ -100,6 +100,7 @@ mbo = function(fun, par.set, des=NULL, learner, control, show.info=TRUE) {
     }
     prop.des = proposePoints(model, par.set, control, opt.path)
     xs = lapply(1:nrow(prop.des), function(i) ParamHelpers:::dfRowToList(prop.des, par.set, i))
+    xs = lapply(xs, repairPoint, par.set=par.set)
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts)
     Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=loop), xs, ys)
     rt = makeMBOTask(as.data.frame(opt.path), y.name, control=control)
@@ -165,4 +166,16 @@ makeMBOTask = function(des, y.name, control) {
   #if (control$rank.trafo)
   #  des[,y.name] = rank(des[,y.name])
   makeRegrTask(target=y.name, data=des)
+}
+
+# sometimes we get one eps below bounds at least after EI
+repairPoint = function(par.set, x) {
+  Map(function(p, v) {
+    if (p$type %in% ("numeric", "numericvector", "integer", "integervector")) {
+      warningf("Repairing value for %s: %s", p$id, as.character(v))
+      v = pmax(getLower(p), v)
+      v = pmin(getUpper(p), v)
+    }
+    return(v)
+  }, par.set$pars, x)
 }
