@@ -3,6 +3,7 @@ Tutorial
 
 .. toctree::
    :maxdepth: 1
+   :numbered:
    
    start
    task
