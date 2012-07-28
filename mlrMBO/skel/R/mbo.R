@@ -171,10 +171,12 @@ makeMBOTask = function(des, y.name, control) {
 # sometimes we get one eps below bounds at least after EI
 repairPoint = function(par.set, x) {
   Map(function(p, v) {
-    if (p$type %in% ("numeric", "numericvector", "integer", "integervector")) {
-      warningf("Repairing value for %s: %s", p$id, as.character(v))
-      v = pmax(getLower(p), v)
-      v = pmin(getUpper(p), v)
+    if (p$type %in% c("numeric", "numericvector", "integer", "integervector")) {
+      if (any(v < p$lower) | any(v > p$upper)) {
+        warningf("Repairing value for %s: %s", p$id, as.character(v))
+        v = pmax(p$lower, v)
+        v = pmin(p$upper, v)
+      }
     }
     return(v)
   }, par.set$pars, x)
