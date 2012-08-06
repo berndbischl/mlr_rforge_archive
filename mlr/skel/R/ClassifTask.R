@@ -12,7 +12,7 @@ print.ClassifTask = function(x, ...) {
   di = printToChar(table(getTaskTargets(x)), collapse=NULL)[-1]
   m = length(x$task.desc$class.levels)
   print.SupervisedTask(x)
-  catf("  Classes: %i", m)
-  cat(paste("  ", di, "\n"))
-  catf("  Positive class: %s", x$task.desc$positive)
+  catf("Classes: %i", m)
+  cat(paste(di, "\n"))
+  catf("Positive class: %s", x$task.desc$positive)
 }

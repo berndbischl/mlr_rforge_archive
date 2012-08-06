@@ -142,13 +142,13 @@ print.RLearner = function(x, ...) {
 #' @S3method print RLearnerClassif
 print.RLearnerClassif = function(x, ...) {
   print.RLearner(x)
-  catf("  Supports classes: %s", 
+  catf("Supports classes: %s", 
     collapse(c("one", "two", "multi")[c(x$oneclass, x$twoclass, x$multiclass)]))
-  catf("  Supports probabilities: %s", x$prob) 
+  catf("Supports probabilities: %s", x$prob) 
 }
 
 #' @S3method print RLearnerRegr
 print.RLearnerRegr = function(x, ...) {
   print.RLearner(x)
-  catf("  Supports standard errs: %s", x$se) 
+  catf("Supports standard errs: %s", x$se) 
 }
