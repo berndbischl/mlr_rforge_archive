@@ -29,6 +29,6 @@ makeOptResult = function(learner, control, x, y, opt.path) {
 #S3method print OptResult
 print.OptResult = function(x, ...) {
   catf("Tune result:")
-  catf("  Op. pars: %s", paramValueToString(x$opt.path$par.set, x$x))
-  catf("  %s", mlr:::perfsToString(x$y))
+  catf("Op. pars: %s", paramValueToString(x$opt.path$par.set, x$x))
+  catf("%s", mlr:::perfsToString(x$y))
 }

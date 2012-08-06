@@ -36,7 +36,7 @@ makeTuneControl = function(same.resampling.instance, start, ..., cl) {
 #S3method print TuneControl
 print.OptControl = function(x, ...) {
   catf("Tune control: %s", class(x)[1])
-  catf("  Same resampling instance: %s", x$same.resampling.instance)
-  catf("  Start: %s", listToShortString(x$start))
-  catf("  Further arguments: %s", listToShortString(x$extra.args))
+  catf("Same resampling instance: %s", x$same.resampling.instance)
+  catf("Start: %s", listToShortString(x$start))
+  catf("Further arguments: %s", listToShortString(x$extra.args))
 }
