@@ -1,5 +1,7 @@
-tune thresh in the end
+- tune thresh in the end
 
-it is inconsistent to sometimes use controlobjects, sometimes ... in our control objects
+- it is inconsistent to sometimes use controlobjects, sometimes ... in our control objects
 
-test mbo with trafo
+- test mbo with trafo
+
+- mlr tuneMBO minimize autom. setzen   
