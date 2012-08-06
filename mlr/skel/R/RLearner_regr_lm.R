@@ -35,7 +35,7 @@ predictLearner.regr.lm = function(.learner, .model, .newdata, ...) {
   if(.learner$predict.type == "response") {
     predict(.model$learner.model, newdata=.newdata, se.fit=FALSE, ...)
   } else {
-    p = predict(.model@learner.model, newdata=.newdata, se.fit=FALSE, ...)
+    p = predict(.model$learner.model, newdata=.newdata, se.fit=TRUE, ...)
     cbind(p$fit, p$se.fit)
   }
 }

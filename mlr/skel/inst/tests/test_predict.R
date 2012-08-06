@@ -48,25 +48,38 @@ test_that("predict", {
 	f2 = factor(rep(binaryclass.task$task.desc$negative, length(binaryclass.test.inds)), levels=binaryclass.task$task.desc$class.levels)
 	expect_equal(cp5d$data$response, f2)
 	expect_true(setequal(levels(cp5e$data$response), c("M", "R")))
-		
-	# check strange chars in labels
+	
+})
+
+
+test_that("predict works with type=se", {
+	lrn = makeLearner("regr.lm", predict.type="se")
+	mod = train(lrn, regr.task)
+	p = predict(mod, regr.task)
+	expect_equal(colnames(p$data), c("id", "truth", "response", "se"))
+})
+
+
+test_that("predict works with strange class labels", {
 	df = binaryclass.df
 	levels(df[,binaryclass.target]) = c(-1,1)
-	ct = makeClassifTask(data=df, target=binaryclass.target)
-	cm7 = train(wl.lda, task=ct)
-	cp7 = predict(cm7, task=ct)
-	expect_equal(colnames(cp7$data), c("id", "truth", "prob.-1", "prob.1", "response"))
-	
-	# check error in predict
+	task = makeClassifTask(data=df, target=binaryclass.target)
+	mod = train(makeLearner("classif.lda", predict.type="prob"), task=task)
+	p = predict(mod, task=task)
+	expect_equal(colnames(p$data), c("id", "truth", "prob.-1", "prob.1", "response"))
+})
+
+
+test_that("predict works when error are thrown in predict", {
 	df = na.omit(BreastCancer[,-1]) 
-	ct = makeClassifTask(data=df, target="Class")
-	res = makeResampleDesc("CV", iters=10)
-	expect_error(resample(makeLearner("classif.randomForest"), ct, res), 
+	task = makeClassifTask(data=df, target="Class")
+	rdesc = makeResampleDesc("CV", iters=10)
+	expect_error(resample(makeLearner("classif.randomForest"), task, rdesc), 
     "New factor levels not present in the training data")
-	#expect_error(all(is.na(p$measures.test$mmce)))
-  
-  # check subset with newdata
-	m = train(makeLearner("classif.lda"), multiclass.task)
-	p = predict(cm2, newdata=multiclass.df, subset=1:10)
+})
+
+test_that("predict works with newdata / subset", {
+	mod = train(makeLearner("classif.lda"), multiclass.task)
+	p = predict(mod, newdata=multiclass.df, subset=1:10)
 	expect_equal(nrow(p$data), 10)
 })

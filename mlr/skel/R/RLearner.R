@@ -128,13 +128,13 @@ makeRLearnerRegr = function(cl, package, par.set, numerics, factors=FALSE,
 print.RLearner = function(x, ...) {
   cat(
     "Learner ", x$id, " from package ", collapse(x$package), "\n",
-    "  Type: ", x$type, "\n",
-    "  Class: ", class(x)[1], "\n",
-    "  Predict-Type: ", x$predict.type, "\n",
-    "  Hyperparameters: ", getHyperParsString(x), "\n\n",
-    "  Supported features Numerics:", x$numerics, " Factors:", x$factors, "\n",
-    "  Supports missings: ", x$missings, "\n", 
-    "  Supports weights: ", x$weights, "\n", 
+    "Type: ", x$type, "\n",
+    "Class: ", class(x)[1], "\n",
+    "Predict-Type: ", x$predict.type, "\n",
+    "Hyperparameters: ", getHyperParsString(x), "\n\n",
+    "Supported features Numerics:", x$numerics, " Factors:", x$factors, "\n",
+    "Supports missings: ", x$missings, "\n", 
+    "Supports weights: ", x$weights, "\n", 
     sep =""
   )
 }

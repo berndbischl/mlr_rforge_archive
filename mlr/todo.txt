@@ -1,6 +1,11 @@
-- listLearners pred se and weights
-- se
+
 - test parallel
+
+- b632+ test
+
+- test_all anmachen
+
+- listLearners with weights
 
 - bbmisc function to print vector with names
 
@@ -8,16 +13,29 @@
   schwierig. das ist beim subsetten des tasks?
   dann haben wir andere class levels? trat im allpairs exp auf.
 
-- b632+ test
-
-- test_all anmachen
 - rd name of supervisedtask, report roxygen2 bug
 - examples
-
- test prints again
  
  - remove featperc measure? what to do?
    with chains it is diffuclt to see where feature number is
-   
-display split bei holdout / subsample print
-   
+
+- desc object in task
+
+es ist unklar wie wir die veränderten beschreibungen der daten abspeichern, wenn wir z.b.
+per preproc alles potentiell verändern.
+a) ausgabe des modell mit print
+b) wenn der task durchgereicht wird durch die trainingsfuns 
+  
+##### later ######  
+  
+- listMeasures 
+
+- checkFeature names for predict
+
+- bug in describe /staticdocs
+
+- na.omit in mlrDataTask 
+ 
+- allow task which only becomes true supervised task after preprocessing / feature
+  extraction   
+

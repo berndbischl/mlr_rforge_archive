@@ -45,14 +45,12 @@ makeLearner = function(cl, id=cl, predict.type="response", ..., par.vals=list())
     checkArg(id, "character", len=1, na.ok=FALSE)
     wl$id = id
   }
-  checkArg(predict.type, "character", choices=c("response", "prob"))
   checkArg(par.vals, "list")
   if (cl == "")
     stop("Cannot create learner from empty string!")	
   if (!inherits(wl, "RLearner"))
     stop("Learner must be a basic RLearner!")
   wl = setHyperPars(wl, ..., par.vals=par.vals)
-  if (predict.type != "response")
-    wl = setPredictType(wl, predict.type)
+  wl = setPredictType(wl, predict.type)
   return(wl)
 }

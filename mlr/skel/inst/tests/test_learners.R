@@ -40,7 +40,6 @@ test_that("learners work", {
   lrns = listLearnersForTask(task=task, prob=TRUE) 
   lrns = lapply(lrns, makeLearner, predict.type="prob")
   lapply(lrns, function(lrn) {
-    print(lrn$id)
     m = train(lrn, task)
     p = predict(m, task)
     getProbabilities(p)
@@ -51,7 +50,17 @@ test_that("learners work", {
   lrns = listLearnersForTask(task=task) 
   lrns = lapply(lrns, makeLearner)
   lapply(lrns, function(lrn) {
-    print(lrn$id)
+    if (lrn$id == "regr.km")
+      lrn = setHyperPars(lrn, nugget.estim=TRUE)
+    m = train(lrn, task)
+    p = predict(m, task)
+  })
+  
+  task = subsetTask(regr.task, subset=c(1:70),
+  features=getTaskFeatureNames(regr.task)[1:2])
+  lrns = listLearnersForTask(task=task, se=TRUE) 
+  lrns = lapply(lrns, makeLearner)
+  lapply(lrns, function(lrn) {
     if (lrn$id == "regr.km")
       lrn = setHyperPars(lrn, nugget.estim=TRUE)
     m = train(lrn, task)
