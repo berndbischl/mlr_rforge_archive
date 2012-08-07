@@ -71,7 +71,9 @@ library("mlr")
 library("mlbench")
 data(BreastCancer)
 
-task <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id")
+df <- BreastCancer
+BreastCancer$Id <- NULL
+task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class")
 task
 @ 
 
@@ -81,8 +83,7 @@ levels of the target. You probably want to select this manually for
 your applications.
 
 <<>>=
-task <- makeClassifTask(data = BreastCancer, target = "Class", 
-                      exclude = "Id", positive = "malignant")
+task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class", positive = "malignant")
 @ 
 
 The makeClassifTask_ help page list several other arguments that can be 

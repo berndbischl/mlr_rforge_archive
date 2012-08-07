@@ -35,7 +35,7 @@ Classification example
 
 <<>>=
 library("mlr")
-lrn <- makeLearner(class = "classif.rpart")
+lrn <- makeLearner("classif.rpart")
 lrn
 @                 
 
@@ -54,14 +54,14 @@ Now let's create a Learner_ and additionally specify hyperparameter values and
 an id.
 
 <<>>=
-lrn <- makeLearner(class = "classif.rpart", minsplit = 7, cp = 0.03, id = "myrpart")
+lrn <- makeLearner("classif.rpart", minsplit = 7, cp = 0.03, id = "myrpart")
 lrn
 @
 
 This is how to get posterior probabilities when making a prediction_.
 
 <<>>=
-lrn <- makeLearner(class = "classif.rpart", predict.type = "prob")
+lrn <- makeLearner("classif.rpart", predict.type = "prob")
 lrn
 @
 
@@ -72,7 +72,7 @@ Regression example
 Create an rpart Learner_ for regression. 
 
 <<>>=
-lrn <- makeLearner(class = "regr.rpart")
+lrn <- makeLearner("regr.rpart")
 lrn
 @                 
 

@@ -13,17 +13,21 @@ show_learners <- function(learners) {
   
   for (learner in learners) {
     l <- makeLearner(learner)
-    package_link <- if (all(l@pack != "stats")) {
+    package_link <- if (all(l$package != "stats")) {
       sprintf("`%s <http://cran.r-project.org/web/packages/%s/index.html>`_",
-              l@pack,l@pack)
+              l$package,l$package)
     } else {
-      l@pack
+      l$package
     }
     package_link <- paste(package_link, collapse=", ")
 
     description <- as.data.frame(c(name=learner, 
-                                   package=package_link, 
-                                   l@properties))
+                                   package=package_link
+                                   ))
+    learner_descriptions <- rbind(learner_descriptions, description)
+    #description <- as.data.frame(c(name=learner, 
+    #                               package=package_link, 
+    #                               l@properties))
     learner_descriptions <- rbind(learner_descriptions, description)
   }
   
@@ -44,7 +48,7 @@ List of currently integrated classifiers
 
 <<echo=FALSE,results=ascii>>=
 library("mlr")
-show_learners(getLearners("classif"))
+show_learners(listLearners(type="classif"))
 @ 
 
 List of currently integrated regression methods
@@ -52,5 +56,5 @@ List of currently integrated regression methods
 
 <<echo=FALSE,results=ascii>>=
 library("mlr")
-show_learners(getLearners("regr"))
+show_learners(listLearners(type="regr"))
 @ 

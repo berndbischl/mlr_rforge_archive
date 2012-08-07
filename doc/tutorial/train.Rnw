@@ -69,7 +69,7 @@ task <- makeClassifTask(data = iris, target = "Species")
 lrn <- makeLearner("classif.rpart")
 
 # Now train the model with all the instances provided by the iris data.
-mod <- train("classif.rpart", task)
+mod <- train(lrn, task)
 
 #You can print some basic information of the model to the console.
 mod

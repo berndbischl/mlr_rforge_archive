@@ -38,8 +38,8 @@ Since we will use a grid search strategy, we add a discrete parameter for the
 More details concerning parameter sets are explained in Section :doc:`params`.
 
 <<>>=
-ps <- makeParameterSet(makeDiscreteParameter("C", 2^(-1:1)),
-                         makeDiscreteParameter("sigma", 2^(-1:1)))
+ps <- makeParamSet(makeDiscreteParam("C", values=2^(-1:1)),
+                   makeDiscreteParam("sigma", values=2^(-1:1)))
 @ 
 
 We will use cross-validation to assess the quality of a parameter
