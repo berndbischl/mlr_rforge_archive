@@ -77,14 +77,13 @@ getTaskTargets = function(task, subset, recode.target="no") {
 #'   If not, a single data.frame including the target is returned, otherwise a list 
 #'   with the input data.frame and an extra vector for the targets.
 #'   Default is FALSE. 
-#' @param recode.target [\code{character(1)}] \cr
+#' @param recode.target [\code{character(1)}]\cr
 #'   Should target classes be recoded? Only for binary classification.
 #'   Possible are \dQuote{no} (do nothing), \dQuote{01}, and \dQuote{-1+1}. 
 #'   In the two latter cases the target vector is converted into a numeric vector. 
 #'   The positive class is coded as +1 and the negative class either as 0 or -1. 
 #'   Default is \dQuote{no}.
 #' @return Either a data.frame or a list with data.frame \code{data} and vector \code{target}.
-#'
 #' @export
 #' @examples
 #' library("mlbench")
