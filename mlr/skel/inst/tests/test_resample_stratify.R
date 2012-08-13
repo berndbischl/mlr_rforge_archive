@@ -34,4 +34,15 @@ test_that("stratification instances work", {
 })
 
 
+test_that("stratification with empty classes works", {
+  task = subsetTask(multiclass.task, subset=1:100)
+  rdesc = makeResampleDesc("Holdout", split=0.3, stratify=TRUE)
+  rin = makeResampleInstance(rdesc, task=task)
+  expect_equal(length(rin$train.inds[[1]]), 30)
+  expect_equal(length(rin$test.inds[[1]]), 70)
+  expect_true(all(rin$train.inds[[1]] %in% 1:100))
+  expect_true(all(rin$test.inds[[1]] %in% 1:100))
+})
+
+
 

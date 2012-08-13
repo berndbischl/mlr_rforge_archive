@@ -78,9 +78,14 @@ makeResampleInstance = function(desc, task, size) {
     test.inds = vector("list", length(class.inds))
     for (i in 1:length(class.inds)) {
       ci = class.inds[[i]]
-      inst = instantiateResampleInstance(desc, length(ci))
-      train.inds[[i]] = lapply(inst$train.inds, function(j) ci[j])
-      test.inds[[i]] = lapply(inst$test.inds, function(j) ci[j])
+      if (length(ci) > 0) {
+        inst = instantiateResampleInstance(desc, length(ci))
+        train.inds[[i]] = lapply(inst$train.inds, function(j) ci[j])
+        test.inds[[i]] = lapply(inst$test.inds, function(j) ci[j])
+      } else {
+        train.inds[[i]] = test.inds[[i]] = 
+          replicate(desc$iters, integer(0), simplify=FALSE)
+      }
     }
     inst = instantiateResampleInstance(desc, size)
     inst$train.inds = Reduce(function(i1, i2) Map(c, i1, i2), train.inds)

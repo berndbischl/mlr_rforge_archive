@@ -24,6 +24,13 @@ target3 = "Class"
 task1 = makeClassifTask(data=df1, target=target1)
 task2 = makeRegrTask(data=df2, target=target2)
 task = binaryclass.task
+task = task1
+
+task = subsetTask(task, subset=1:100)
+rdesc = makeResampleDesc("Holdout", split=0.3, stratify=TRUE)
+rin = makeResampleInstance(rdesc, task=task)
+print(rin$train.inds)
+print(rin$test.inds)
 
 #lrn = makeLearner("classif.rpart", minsplit=55, predict.type="prob")
 #m = train(lrn, task)
@@ -32,9 +39,9 @@ task = binaryclass.task
 #print(lrn)
 
 
-lrn = makeLearner("regr.lm", predict.type="se")
-m = train(lrn, task2)
-p = predict(m, task2)
+#lrn = makeLearner("regr.lm", predict.type="se")
+#m = train(lrn, task2)
+#p = predict(m, task2)
 
 #lrn = makeLearner("classif.ksvm", sigma=2)
 #m = train(lrn, task)
