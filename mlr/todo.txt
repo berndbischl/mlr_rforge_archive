@@ -12,7 +12,11 @@
 - drop factor levels in makeTask
   schwierig. das ist beim subsetten des tasks?
   dann haben wir andere class levels? trat im allpairs exp auf.
-
+auch doof:
+task = makeClassifTask(data=iris, target="Species")
+rin = makeFixedHoldoutInstance(train.inds=1:100, test.inds=101:150, size=150)
+resample(makeLearner("classif.randomForest"), task, rin)
+  
 - rd name of supervisedtask, report roxygen2 bug
 - examples
  
