@@ -23,5 +23,17 @@ test_that("classif_nnet", {
 	tp = function(model, newdata) as.factor(predict(model, newdata, type="class"))
 	
 	testCV("classif.nnet", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp, parset=list(size=3, maxit=50))
+
+	## make sure that nnet yields the same results independent of predict.type
+	task = makeClassifTask(data = binaryclass.df, target = binaryclass.target)
+	lrn = makeLearner("classif.nnet", trace = FALSE, size = 1, predict.type = "prob")
+	set.seed(getOption("mlr.debug.seed"))
+	mod = train(lrn, task = task)
+	pred1 = predict(mod, task = task)
+	lrn = makeLearner("classif.nnet", trace = FALSE, size = 1)
+	set.seed(getOption("mlr.debug.seed"))
+	mod = train(lrn, task = task)
+	pred2 = predict(mod, task = task)
+	expect_equal(pred1$data$response, pred2$data$response)
 	
 })
