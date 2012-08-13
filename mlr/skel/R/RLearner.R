@@ -51,6 +51,7 @@
 #' @aliases RLearnerClassif RLearnerRegr
 NULL
 
+#' @export
 makeRLearner = function() {
   UseMethod("makeRLearner")
 }

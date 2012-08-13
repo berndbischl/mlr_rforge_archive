@@ -34,7 +34,7 @@ makeResampleDescRepCV = function(reps=10L, folds=10L) {
   makeResampleDescInternal("repeated cross-validation", iters=folds*reps, folds=folds, reps=reps)
 }
 
-#' @S3method print Holdout
+#' @S3method print HoldoutDesc
 print.HoldoutDesc = function(x, ...) { 
   catf("Resample description: %s with %.2f split rate.", 
     x$id, x$split)

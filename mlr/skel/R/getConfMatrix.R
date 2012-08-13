@@ -14,7 +14,7 @@
 #' @export
 #' @seealso \code{\link{predict}}
 #' @examples
-#' create classification task and use linear discriminant analysis for classification
+#' ## create classification task and use linear discriminant analysis for classification
 #' task <- makeClassifTask(data = iris, target = "Species")
 #' lrn <- makeLearner("classif.lda")
 #'
