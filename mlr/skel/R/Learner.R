@@ -40,7 +40,9 @@
 #' print(lrn$par.vals)
 makeLearner = function(cl, id=cl, predict.type="response", ..., par.vals=list()) {
   checkArg(cl, "character", len=1, na.ok=FALSE)
-  wl = do.call(sprintf("makeRLearner.%s", cl), list())
+  constructor = getS3method("makeRLearner", class=cl)
+  wl = do.call(constructor, list())
+  
   if (!missing(id)) {
     checkArg(id, "character", len=1, na.ok=FALSE)
     wl$id = id
