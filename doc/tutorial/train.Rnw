@@ -85,7 +85,7 @@ mod
 Access the wrapped rpart model - in most cases you won't need to...
 
 <<>>=
-mod@learner.model
+mod$learner.model
 @ 
 
 

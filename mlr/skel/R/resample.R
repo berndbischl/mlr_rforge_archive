@@ -45,7 +45,11 @@
 #' rdesc <- makeResampleDesc("Bootstrap", iters = 10)
 #' rin <- makeResampleInstance(rdesc, task = task)
 #' r1 <- resample(makeLearner("classif.qda"), task, rin)
+#' print(r1$measures.test)
+#' print(r1$aggr)
 #' r2 <- resample(makeLearner("classif.rpart"), task, rin)
+#' print(r2$measures.test)
+#' print(r2$aggr)
 resample = function(learner, task, resampling, measures, models=FALSE, 
   extract=function(m){}, show.info=TRUE) {
 

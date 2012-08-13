@@ -21,14 +21,16 @@
 #' lrn <- makeLearner("classif.lda", predict.type = "prob")
 #' mod <- train(lrn, task)
 #'
-#' ## predict probabilities 
+#' ## predict probabilities and compute performance
 #' pred <- predict(mod, newdata = iris)
-#' head(pred$data)
+#' performance(pred, measure = mmce)
+#' head(as.data.frame(pred))
 
 #' ## adjust threshold and predict probabilities again
 #' threshold <- c(setosa = 0.4, versicolor = 0.3, virginica = 0.3)
 #' pred <- setThreshold(pred, threshold = threshold)
-#' head(pred$data)
+#' performance(pred, measure = mmce)
+#' head(as.data.frame(pred))
 #FIXME: potentially write this in C?
 setThreshold = function(pred, threshold) {
   checkArg(pred, "Prediction")

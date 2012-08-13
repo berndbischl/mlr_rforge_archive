@@ -136,7 +136,7 @@ my.mmce <- function(task, model, pred, extra.args) {
   1 - sum(diag(tb)) / sum(tb)
 }
 
-# encapsulate the function with a Measure object.
+# Encapsulate the function with a Measure object.
 my.mmce <- makeMeasure(id = "my.mmce", minimize = TRUE, classif = TRUE, allowed.pred.types = "response", fun = my.mmce)
 
 # Create classification task and learner

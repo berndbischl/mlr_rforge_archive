@@ -29,7 +29,9 @@ library("mlr")
 library("mlbench")
 data(BreastCancer)
 
-task <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id")
+df <- BreastCancer
+df$Id <- NULL
+task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class")
 @ 
 
 Now let us examine the created task:
@@ -53,7 +55,8 @@ We will generally take the BostonHousing data set as regression example.
 library("mlr")
 library("mlbench")
 data(BostonHousing)
-task <- makeRegrTask(data = BostonHousing, target = "medv")
+df <- BostonHousing
+task <- makeRegrTask(id = "BostonHousing", data = df, target = "medv")
 task
 @
 
@@ -72,7 +75,7 @@ library("mlbench")
 data(BreastCancer)
 
 df <- BreastCancer
-BreastCancer$Id <- NULL
+df$Id <- NULL
 task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class")
 task
 @ 
@@ -98,13 +101,13 @@ available. Here are some examples:
 Get the names of the input variables.
 
 <<>>=
-getFeatureNames(task)
+getTaskFeatureNames(task)
 @
 
 Get values of the target variable for all observations.
 
 <<>>=
-head(getTargets(task))
+head(getTaskTargets(task))
 @
 
 All information can be obtained from the slots of the LearnTask_
@@ -114,8 +117,8 @@ The main part of the information is stored in the slot called ``desc``,
 which stands for description. (``task@desc`` is an object of class TaskDesc_.)
 
 <<>>=
-task@desc
-str(task@desc)
+task$task.desc
+str(task$task.desc)
 @ 
 
 Optionally we can include further information like observation weights
@@ -131,19 +134,21 @@ with factor 3:
 
 <<>>=
 w <- c(1,3)[BreastCancer$Class]
-task <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id", 
+df <- BreastCancer
+df$Id <- NULL
+task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class", 
                       positive = "malignant", weights = w)
-head(task@weights)
+head(task$weights)
 @ 
 
 Now let's include a (nonsensical) blocking structure:
 
 <<>>=
 blocking <- factor(rep(1:3, nrow(BreastCancer)/3))
-task <- makeClassifTask(data = BreastCancer, target = "Class", exclude = "Id", 
+task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class", 
                       blocking = blocking)
-head(task@blocking)
-table(task@blocking)
+head(task$blocking)
+table(task$blocking)
 @ 
 
 From this classification task we can now train various models, which
@@ -165,16 +170,16 @@ task
 The "getter" functions work analogous to the classification example.
 
 <<>>=
-getFeatureNames(task)
+getTaskFeatureNames(task)
 
-head(getTargets(task))
+head(getTaskTargets(task))
 @
 
 Inspect TaskDesc_.
 
 <<>>=
-task@desc
-str(task@desc)
+task$task.desc
+str(task$task.desc)
 @ 
 
 .. _LearnTask: ../_static/rdocs/mlr/LearnTask-class.html

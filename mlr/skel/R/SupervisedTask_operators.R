@@ -6,6 +6,9 @@
 #'   The task.   
 #' @return [\code{character}].
 #' @export
+#' @examples
+#' task <- makeClassifTask(data = iris, target = "Species")
+#' getTaskFeatureNames(task)
 getTaskFeatureNames = function(task) {
   #FIXME argument checks currently not done for speed
   return(setdiff(colnames(task$env$data), task$task.desc$target)) 
@@ -20,6 +23,9 @@ getTaskFeatureNames = function(task) {
 #'   Task or its description object.   
 #' @return [\code{formula}].
 #' @export
+#' @examples
+#' task <- makeClassifTask(data = iris, target = "Species")
+#' getTaskFormula(task)
 getTaskFormula = function(x) {
   g = function(target) as.formula(paste(target, "~."))
   if (inherits(x, "TaskDesc"))
@@ -45,6 +51,10 @@ getTaskFormula = function(x) {
 #'   Default is \dQuote{no}.
 #' @return A \code{factor} for classification or a \code{numeric} for regression.
 #' @export
+#' @examples
+#' task <- makeClassifTask(data = iris, target = "Species")
+#' getTaskTargets(task)
+#' getTaskTargets(task, subset = 1:50)
 getTaskTargets = function(task, subset, recode.target="no") {
   #FIXME argument checks currently not done for speed
   y = task$env$data[subset, task$task.desc$target]
@@ -76,6 +86,16 @@ getTaskTargets = function(task, subset, recode.target="no") {
 #' @return Either a data.frame or a list with data.frame \code{data} and vector \code{target}.
 #'
 #' @export
+#' @examples
+#' library("mlbench")
+#' data(BreastCancer)
+#'
+#' df <- BreastCancer
+#' df$Id <- NULL
+#' task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class", positive = "malignant")
+#' head(getTaskData)
+#' head(getTaskData(task, features = c("Cell.size", "Cell.shape"), recode.target = "-1+1"))
+#' head(getTaskData(task, subset = 1:100, recode.target = "01"))
 getTaskData = function(task, subset, features, target.extra=FALSE, recode.target="no") {
   tn = task$task.desc$target
   ms = missing(subset) || identical(subset, 1:task$task.desc$size)
@@ -128,6 +148,9 @@ getTaskData = function(task, subset, features, target.extra=FALSE, recode.target
 #'   Default is all features. 
 #' @return [\code{\link{SupervisedTask}}]. Task with subsetted data.
 #' @export
+#' @examples
+#' task <- makeClassifTask(data = iris, target = "Species")
+#' subsetTask(task, 1:100)
 subsetTask = function(task, subset, features) {
   task = changeData(task, getTaskData(task, subset, features))
   if (!missing(subset)) {
