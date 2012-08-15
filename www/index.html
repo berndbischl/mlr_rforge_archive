@@ -3,13 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Machine Learning in R (mlr) &mdash; mlr - Machine Learning in R</title>
+    
     <link rel="stylesheet" href="_static/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
@@ -51,67 +54,84 @@
 <h1>Machine Learning in R (mlr)<a class="headerlink" href="#machine-learning-in-r-mlr" title="Permalink to this headline">¶</a></h1>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">Both the package <strong>mlr</strong> as well as its documentation are Very much
+<p class="last">Both the package <strong>mlr</strong> as well as its documentation are very much
 work in progress. Please check back often for updates until we release
 a version to CRAN. We plan to do this real soon now.</p>
 </div>
 <div class="toctree-wrapper compound">
 </div>
 </div>
-<div class="section" id="motivation">
-<h1>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h1>
-<p>There is no standardized interface for all the classification and
-regression techniques available for R. Therefore, for any non-trivial
-machine learning experiments, you need to write lengthy, tedious and
-error-prone wrappers to call the different algorithms and unify their
-respective output. Additionally you need to implement infrastructure
-to cope with pre- and post-processing of the results, parallelizing
-your experiment. This often forces useRs to make crummy trade-offs in
-their experiments due to time constraints. <strong>mlr</strong> provides this
-infrastrukture so that you can focus on your experiments!</p>
+<div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>R does not define a a standardized interface for all its machine learning
+algorithms. Therefore, for any non-trivial experiments,
+you need to write lengthy, tedious and error-prone wrappers to call the different
+algorithms and unify their respective output. Additionally you need to implement infrastructure
+to resample your models, optimize hyperparameters, select features,
+cope with pre- and post-processing of data and compare models in a statistically meaningful way.
+As this becomes computationally expensive, you might want to parallelize your experiments
+as well. This often forces useRs to make crummy trade-offs in their experiments due to
+time constraints or lacking expert programming skills.
+<strong>mlr</strong> provides this infrastructure so that you can focus on your experiments!
+The framework currently focusses on supervised methods like classification
+and regression and their corresponding evaluation and optimization, but further extensions are
+planned. It is written in a way that you can extend it yourself or deviate from the implemented
+convenience methods and construct your own complex experiments or algorithms.</p>
 <div class="section" id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Clear S4 interface to R classification methods</li>
+<li>Clear S4 interface to R classification and regression methods</li>
 <li>Easy extension mechanism through S4 inheritance</li>
-<li>Abstract description of learners and data by properties</li>
-<li>Description of data generating process</li>
+<li>Abstract description of learners and tasks by properties</li>
+<li>Parameter system for learners to encode data types and constraints</li>
 <li>Many convenience methods and generic building blocks for your
 machine learning experiments</li>
 <li>Resampling like bootstrapping, cross-validation and subsampling</li>
 <li>Easy hyperparameter tuning using different optimization strategies</li>
-<li>Variable selection</li>
+<li>Variable selection with filters and wrappers</li>
 <li>Benchmark experiments with two levels of resampling</li>
 <li>Interface to benchmark package for exploration and inference</li>
-<li>Easy extension mechanism through S4 inheritance for new methods</li>
-<li>Parallelization built in</li>
-<li>Growing collection of <a class="reference internal" href="tutorial/index.html"><em>tutorials</em></a> and examples</li>
+<li>Parallelization is built-in</li>
+<li>Extension points to integrate your own stuff</li>
 <li>Unit-tested using <a class="reference external" href="https://sourceforge.net/projects/runit/">RUnit</a></li>
 </ul>
-</div>
-<div class="section" id="outlook">
-<h2>Outlook<a class="headerlink" href="#outlook" title="Permalink to this headline">¶</a></h2>
+<p>As the framework has become rather extensive, it is currently divided into the following R packages:</p>
 <ul class="simple">
-<li>Meta-optimization of hyperparamters and features by sequential methods</li>
-<li>Different approaches for model selection, maybe also Races</li>
-<li>Clustering</li>
+<li><strong>mlr</strong>: The basic package. Fitting, predicting, evaluating, resampling.</li>
+<li><strong>mlrTune</strong>: Tune hyper-parameters of a learner with different optimization algorithms.
+Multi-criteria optimization is possible, too. The package also contains a model-based sequential
+parameter optimization method, which can be used for general purpose optimization of
+expensive black-box functions.</li>
+<li><strong>mlrVarsel</strong>: Feature selection with filters and wrappers.
+Multi-criteria optimization is possible, too.</li>
+<li><strong>mlrChains</strong>: Combine different processing steps to a complex data mining chain.
+Enables nested resampling of optimized models.</li>
+<li><strong>mlrBenchmark</strong>: Compare learning systems with extensive benchmark experiments.
+Enables nested resampling of optimized models.</li>
 </ul>
+</div>
+<div class="section" id="get-in-touch">
+<h2>Get in touch<a class="headerlink" href="#get-in-touch" title="Permalink to this headline">¶</a></h2>
+<p>If you are interested in the package, have a question regarding the usage or a feature request,
+or maybe want to help improving <strong>mlr</strong>, please send a mail to the list at
+<a class="reference external" href="mailto:mlr-general&#37;&#52;&#48;lists&#46;r-forge&#46;r-project&#46;org">mlr-general<span>&#64;</span>lists<span>&#46;</span>r-forge<span>&#46;</span>r-project<span>&#46;</span>org</a> or to the maintainer Bernd Bischl
+at <a class="reference external" href="mailto:bischl&#37;&#52;&#48;statistik&#46;uni-dortmund&#46;de">bischl<span>&#64;</span>statistik<span>&#46;</span>uni-dortmund<span>&#46;</span>de</a>.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Currently the package is available from <a class="reference external" href="http://r-forge.r-project.org/projects/mlr/">R-Forge</a>. You can install the
 current developer snapshot from within R by running:</p>
-<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> install.packages<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">,</span> repos <span class="o">=</span> <span class="s">&quot;http://R-Forge.R-project.org&quot;</span><span class="p">)</span>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> install.packages<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">,</span>repos<span class="o">=</span><span class="s">&quot;http://R-Forge.R-project.org&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="project-link-list">
 <h2>Project Link-List<a class="headerlink" href="#project-link-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
+<li><tt class="xref doc docutils literal"><span class="pre">tutorial/start</span></tt></li>
 <li><a class="reference internal" href="tutorial/index.html"><em>Tutorial</em></a></li>
 <li>List of the <a class="reference internal" href="integrated_learners.html"><em>Integrated Learners</em></a></li>
-<li>List of <a class="reference internal" href="howto/index.html"><em>How-Tos</em></a></li>
-<li>List of <a class="reference internal" href="concept/index.html"><em>Concepts</em></a></li>
+<li>List of <a class="reference internal" href="extension_points/index.html"><em>Extension Points</em></a></li>
 <li><a class="reference external" href="http://r-forge.r-project.org/projects/mlr/">R-Forge</a> project page</li>
 <li><a class="reference external" href="https://r-forge.r-project.org/tracker/?atid=2012&amp;group_id=494&amp;func=browse">Bugtracker</a></li>
 </ul>
@@ -123,7 +143,7 @@ current developer snapshot from within R by running:</p>
         </div>
       </div>
         </div>
-        <div class="sidebar"><h3>Quick start</h3>
+        <div class="sidebar"><h3>Installation</h3>
 <p>Current version: <b>1.0.0</b></p>
 
 <p>Install <b>mlr</b> from within R by running</p>
@@ -187,7 +207,7 @@ on <a href="http://r-forge.r-project.org/mlr/">R-Forge</a>
           
     <div class="footer">
         &copy; Copyright 2010-2011, Bernd Bischl et.al..
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
         </div>
         <div class="clearer"></div>

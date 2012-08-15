@@ -63,7 +63,7 @@ using our TuneControl_ instance using the resampling strategy
 described by the ``rdesc`` variable.
 
 <<>>=
-tune("classif.ksvm", task=task, resampling=rdesc, par.set=ps, control=ctrl)
+tune(makeLearner("classif.ksvm"), task=task, resampling=rdesc, par.set=ps, control=ctrl)
 @ 
 
 Let's take another closer look example above. The parameter grid has

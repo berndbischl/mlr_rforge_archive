@@ -3,13 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Training a learner &mdash; mlr - Machine Learning in R</title>
+    <title>3. Training a Learner &mdash; mlr - Machine Learning in R</title>
+    
     <link rel="stylesheet" href="../_static/theme.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -24,8 +27,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="mlr - Machine Learning in R" href="../index.html" />
     <link rel="up" title="Tutorial" href="index.html" />
-    <link rel="next" title="Predicting Outcomes for New Data" href="predict.html" />
-    <link rel="prev" title="Tutorial" href="index.html" /> 
+    <link rel="next" title="4. Predicting Outcomes for New Data" href="predict.html" />
+    <link rel="prev" title="2. Learners" href="learner.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -35,9 +38,9 @@
         </a></p>
         <h1><a href="../index.html">mlr - Machine Learning in R</a></h1>
         <div class="rel">
-          <a href="index.html" title="Tutorial"
+          <a href="learner.html" title="2. Learners"
              accesskey="P">previous</a> |
-          <a href="predict.html" title="Predicting Outcomes for New Data"
+          <a href="predict.html" title="4. Predicting Outcomes for New Data"
              accesskey="N">next</a>
         </div>
        </div>
@@ -52,60 +55,86 @@
           <div class="body">
             
   <div class="section" id="training-a-learner">
-<h1>Training a learner<a class="headerlink" href="#training-a-learner" title="Permalink to this headline">¶</a></h1>
-<p>&#8220;Training&#8221; a learner just means fitting a model to a given data set.
-We are not concerned with the specifics of the fitting process as such
-here &#8211; this will be taken care of by the underlying R methods that
-this package integrates.  Rather more important is that training and
-all subsequent operations can be performed by using a unified
-interface.</p>
-<p>This is in this case achieved by calling the function <a class="reference external" href="_static/rdocs/mlr/train.html">train</a>, passing
-it a <a class="reference external" href="_static/rdocs/mlr/Learner-class.html">learner</a> and a machine learning task. The classification or
-regression method is specified by its name as a string or by a
-<a class="reference external" href="_static/rdocs/mlr/Learner-class.html">Learner</a> object. While the former is maybe more covenient, the latter
-allows for more flexibility, for example it permits setting the
-hyperparameters of the learner before training. Optionally, only a
-subset of the data, specified by an index set, is used to train the
-learner. This set is passed using the <tt class="docutils literal"><span class="pre">subset</span></tt> argument of <a class="reference external" href="_static/rdocs/mlr/train.html">train</a>.</p>
-<p>The return value is always an object of class <a class="reference external" href="_static/rdocs/mlr/Model-class.html">Model</a> which wraps the
-concrete model of the used R classification or regression method. It
-can subsequently be used to perform a <a class="reference external" href="_static/rdocs/mlr/train.html">prediction</a> for new
-observations.</p>
-<blockquote>
-<div><img alt="Flow chart of the mlr processing pipeline" class="align-middle" src="../_images/train-basic_processing4.png" style="width: 700px;" /></div></blockquote>
+<h1>3. Training a Learner<a class="headerlink" href="#training-a-learner" title="Permalink to this headline">¶</a></h1>
+<p>Training a learner just means fitting a model to a given data set.
+In the <strong>mlr</strong> package this can be done by calling the function <a class="reference external" href="../_static/rdocs/mlr/train.html">train</a> that
+provides a unified interface to all <a class="reference external" href="../integrated_learners.html">IntegratedLearners</a> passing a learner
+and a <a class="reference external" href="../_static/rdocs/mlr/LearnTask-class.html">LearnTask</a>.</p>
+<div class="section" id="quick-start">
+<h2>3.1. Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="classification-example">
-<h2>Classification example<a class="headerlink" href="#classification-example" title="Permalink to this headline">¶</a></h2>
-<p>Let&#8217;s have a look at the iris data set.</p>
+<h3>3.1.1. Classification example<a class="headerlink" href="#classification-example" title="Permalink to this headline">¶</a></h3>
+<p>We start with a basic example and train a Linear Dicriminant Analysis on the iris data set.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">)</span>
-<span class="o">&gt;</span> ct <span class="o">&lt;-</span> makeClassifTask<span class="p">(</span>data <span class="o">=</span> iris<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Species&quot;</span><span class="p">)</span>
-<span class="o">&gt;</span> m <span class="o">&lt;-</span> train<span class="p">(</span><span class="s">&quot;classif.rpart&quot;</span><span class="p">,</span> ct<span class="p">)</span>
-<span class="o">&gt;</span> m <span class="o">&lt;-</span> train<span class="p">(</span><span class="s">&quot;classif.rpart&quot;</span><span class="p">,</span> ct<span class="p">,</span> subset <span class="o">=</span> seq<span class="p">(</span>from <span class="o">=</span> <span class="m">1</span><span class="p">,</span> to <span class="o">=</span> <span class="m">150</span><span class="p">,</span>
-<span class="o">+</span>     by <span class="o">=</span> <span class="m">2</span><span class="p">))</span>
-<span class="o">&gt;</span> l <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;classif.rpart&quot;</span><span class="p">,</span> minsplit <span class="o">=</span> <span class="m">7</span><span class="p">,</span> cp <span class="o">=</span> <span class="m">0.03</span><span class="p">)</span>
-<span class="o">&gt;</span> m <span class="o">&lt;-</span> train<span class="p">(</span>l<span class="p">,</span> ct<span class="p">,</span> subset <span class="o">=</span> seq<span class="p">(</span>from <span class="o">=</span> <span class="m">1</span><span class="p">,</span> to <span class="o">=</span> <span class="m">150</span><span class="p">,</span> by <span class="o">=</span> <span class="m">2</span><span class="p">))</span>
-<span class="o">&gt;</span> m
+<span class="o">&gt;</span> task <span class="o">&lt;-</span> makeClassifTask<span class="p">(</span>data <span class="o">=</span> iris<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Species&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> lrn <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;classif.lda&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> mod <span class="o">&lt;-</span> train<span class="p">(</span>lrn<span class="p">,</span> task<span class="p">)</span>
+<span class="o">&gt;</span> mod
+Learner model for id<span class="o">=</span>classif.lda class<span class="o">=</span>classif.lda
+Trained on obs: <span class="m">150</span>
+Used features: <span class="m">4</span>
+Hyperparameters:
+</pre></div>
+</div>
+</div>
+<div class="section" id="regression-example">
+<h3>3.1.2. Regression example<a class="headerlink" href="#regression-example" title="Permalink to this headline">¶</a></h3>
+<p>We fit a simple linear regression model to the BostonHousing data set.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlbench&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> data<span class="p">(</span>BostonHousing<span class="p">)</span>
+<span class="o">&gt;</span> task <span class="o">&lt;-</span> makeRegrTask<span class="p">(</span>data <span class="o">=</span> BostonHousing<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;medv&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> lrn <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;regr.lm&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> mod <span class="o">&lt;-</span> train<span class="p">(</span>lrn<span class="p">,</span> task<span class="p">)</span>
+<span class="o">&gt;</span> mod
+Learner model for id<span class="o">=</span>regr.lm class<span class="o">=</span>regr.lm
+Trained on obs: <span class="m">506</span>
+Used features: <span class="m">13</span>
+Hyperparameters:
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="further-information">
+<h2>3.2. Further information<a class="headerlink" href="#further-information" title="Permalink to this headline">¶</a></h2>
+<p>As already mentioned, we can train a learner simply by
+calling the function <a class="reference external" href="../_static/rdocs/mlr/train.html">train</a>, passing it a <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> and a <a class="reference external" href="../_static/rdocs/mlr/LearnTask-class.html">LearnTask</a>.
+In the examples above the classification or regression method was specified
+by special <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> objects. This allows for a maximum of flexibility, for example it permits setting the hyperparameters of the learner before training.</p>
+<p>Optionally, only a subset of the data, specified by an index set, can be used to
+train the learner. This set is passed using the <tt class="docutils literal"><span class="pre">subset</span></tt> argument of <a class="reference external" href="../_static/rdocs/mlr/train.html">train</a>.</p>
+<p>The return value is always an object of class <a class="reference external" href="../_static/rdocs/mlr/WrappedModel-class.html">WrappedModel</a> which wraps the
+particular model of the used R classification or regression method. It
+can subsequently be used to perform a <a class="reference external" href="../_static/rdocs/mlr/predict.html">prediction</a> for new
+observations.</p>
+<div class="section" id="id1">
+<h3>3.2.1. Classification example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s train a decision tree on the iris data set.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="c1">#First, create the classification task and the learner object</span>
+<span class="o">&gt;</span> task <span class="o">&lt;-</span> makeClassifTask<span class="p">(</span>data <span class="o">=</span> iris<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Species&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> lrn <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;classif.rpart&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="c1"># Now train the model with all the instances provided by the iris data.</span>
+<span class="o">&gt;</span> mod <span class="o">&lt;-</span> train<span class="p">(</span>lrn<span class="p">,</span> task<span class="p">)</span>
+<span class="o">&gt;</span> <span class="c1">#You can print some basic information of the model to the console.</span>
+<span class="o">&gt;</span> mod
+Learner model for id<span class="o">=</span>classif.rpart class<span class="o">=</span>classif.rpart
+Trained on obs: <span class="m">150</span>
+Used features: <span class="m">4</span>
+Hyperparameters:
+</pre></div>
+</div>
+<p>Now a subset of the data (every second observation) is used for training.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> mod <span class="o">&lt;-</span> train<span class="p">(</span>lrn<span class="p">,</span> task<span class="p">,</span> subset <span class="o">=</span> seq<span class="p">(</span>from <span class="o">=</span> <span class="m">1</span><span class="p">,</span> to <span class="o">=</span> nrow<span class="p">(</span>iris<span class="p">),</span> by <span class="o">=</span> <span class="m">2</span><span class="p">))</span>
+<span class="o">&gt;</span> mod
 Learner model for id<span class="o">=</span>classif.rpart class<span class="o">=</span>classif.rpart
 Trained on obs: <span class="m">75</span>
 Used features: <span class="m">4</span>
-Hyperparameters: minsplit<span class="o">=</span><span class="m">7</span><span class="p">,</span>cp<span class="o">=</span><span class="m">0.03</span>
-<span class="o">&gt;</span> l<span class="p">@</span>par.vals
-<span class="p">$</span>minsplit
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">7</span>
-
-<span class="p">$</span>cp
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.03</span>
-<span class="o">&gt;</span> m<span class="p">@</span>learner<span class="p">@</span>par.vals
-<span class="p">$</span>minsplit
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">7</span>
-
-<span class="p">$</span>cp
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.03</span>
-<span class="o">&gt;</span> m<span class="p">@</span>subset
- <span class="p">[</span><span class="m">1</span><span class="p">]</span>   <span class="m">1</span>   <span class="m">3</span>   <span class="m">5</span>   <span class="m">7</span>   <span class="m">9</span>  <span class="m">11</span>  <span class="m">13</span>  <span class="m">15</span>  <span class="m">17</span>  <span class="m">19</span>  <span class="m">21</span>  <span class="m">23</span>  <span class="m">25</span>  <span class="m">27</span>  <span class="m">29</span>  <span class="m">31</span>  <span class="m">33</span>  <span class="m">35</span>  <span class="m">37</span>
-<span class="p">[</span><span class="m">20</span><span class="p">]</span>  <span class="m">39</span>  <span class="m">41</span>  <span class="m">43</span>  <span class="m">45</span>  <span class="m">47</span>  <span class="m">49</span>  <span class="m">51</span>  <span class="m">53</span>  <span class="m">55</span>  <span class="m">57</span>  <span class="m">59</span>  <span class="m">61</span>  <span class="m">63</span>  <span class="m">65</span>  <span class="m">67</span>  <span class="m">69</span>  <span class="m">71</span>  <span class="m">73</span>  <span class="m">75</span>
-<span class="p">[</span><span class="m">39</span><span class="p">]</span>  <span class="m">77</span>  <span class="m">79</span>  <span class="m">81</span>  <span class="m">83</span>  <span class="m">85</span>  <span class="m">87</span>  <span class="m">89</span>  <span class="m">91</span>  <span class="m">93</span>  <span class="m">95</span>  <span class="m">97</span>  <span class="m">99</span> <span class="m">101</span> <span class="m">103</span> <span class="m">105</span> <span class="m">107</span> <span class="m">109</span> <span class="m">111</span> <span class="m">113</span>
-<span class="p">[</span><span class="m">58</span><span class="p">]</span> <span class="m">115</span> <span class="m">117</span> <span class="m">119</span> <span class="m">121</span> <span class="m">123</span> <span class="m">125</span> <span class="m">127</span> <span class="m">129</span> <span class="m">131</span> <span class="m">133</span> <span class="m">135</span> <span class="m">137</span> <span class="m">139</span> <span class="m">141</span> <span class="m">143</span> <span class="m">145</span> <span class="m">147</span> <span class="m">149</span>
-<span class="o">&gt;</span> m<span class="p">@</span>learner.model
+Hyperparameters:
+</pre></div>
+</div>
+<p>Access the wrapped rpart model - in most cases you won&#8217;t need to...</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> mod<span class="p">$</span>learner.model
 n<span class="o">=</span> <span class="m">75</span>
 
 node<span class="p">),</span> split<span class="p">,</span> n<span class="p">,</span> loss<span class="p">,</span> yval<span class="p">,</span> <span class="p">(</span>yprob<span class="p">)</span>
@@ -118,19 +147,58 @@ node<span class="p">),</span> split<span class="p">,</span> n<span class="p">,</
     <span class="m">7</span><span class="p">)</span> Petal.Width<span class="o">&gt;=</span><span class="m">1.65</span> <span class="m">25</span>  <span class="m">1</span> virginica <span class="p">(</span><span class="m">0.0000000</span> <span class="m">0.0400000</span> <span class="m">0.9600000</span><span class="p">)</span> <span class="o">*</span>
 </pre></div>
 </div>
-<div class="section" id="regression-example">
-<h3>Regression example<a class="headerlink" href="#regression-example" title="Permalink to this headline">¶</a></h3>
-<p>As regression example we use the BostonHousing data set.</p>
-<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlbench&quot;</span><span class="p">)</span>
+</div>
+<div class="section" id="id2">
+<h3>3.2.2. Regression example<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>As regression example we use the BostonHousing data set. Let&#8217;s train some Gradient Boosting Machine, first on the whole data set.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> <span class="c1">#Create the regression task.</span>
+<span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlbench&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> data<span class="p">(</span>BostonHousing<span class="p">)</span>
-<span class="o">&gt;</span> rt <span class="o">&lt;-</span> makeRegrTask<span class="p">(</span>data <span class="o">=</span> BostonHousing<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;medv&quot;</span><span class="p">)</span>
-<span class="o">&gt;</span> m <span class="o">&lt;-</span> train<span class="p">(</span><span class="s">&quot;regr.gbm&quot;</span><span class="p">,</span> rt<span class="p">)</span>
-Loaded gbm <span class="m">1.6</span><span class="o">-</span><span class="m">3.1</span>
-<span class="o">&gt;</span> m <span class="o">&lt;-</span> train<span class="p">(</span><span class="s">&quot;regr.gbm&quot;</span><span class="p">,</span> rt<span class="p">,</span> subset <span class="o">=</span> seq<span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">506</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
-<span class="o">&gt;</span> l <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;regr.gbm&quot;</span><span class="p">,</span> n.trees <span class="o">=</span> <span class="m">500</span><span class="p">,</span> distribution <span class="o">=</span> <span class="s">&quot;laplace&quot;</span><span class="p">,</span>
-<span class="o">+</span>     interaction.depth <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
-<span class="o">&gt;</span> m <span class="o">&lt;-</span> train<span class="p">(</span>l<span class="p">,</span> rt<span class="p">,</span> subset <span class="o">=</span> seq<span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">506</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
-<span class="o">&gt;</span> m
+<span class="o">&gt;</span> task <span class="o">&lt;-</span> makeRegrTask<span class="p">(</span>data <span class="o">=</span> BostonHousing<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;medv&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> lrn <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;regr.gbm&quot;</span><span class="p">,</span> n.trees <span class="o">=</span> <span class="m">500</span><span class="p">,</span> distribution <span class="o">=</span> <span class="s">&quot;laplace&quot;</span><span class="p">,</span> interaction.depth <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+<span class="o">&gt;</span> mod <span class="o">&lt;-</span> train<span class="p">(</span>lrn<span class="p">,</span> task<span class="p">,</span> subset <span class="o">=</span> seq<span class="p">(</span><span class="m">1</span><span class="p">,</span> nrow<span class="p">(</span>BostonHousing<span class="p">),</span> <span class="m">2</span><span class="p">))</span>
+Iter   TrainDeviance   ValidDeviance   StepSize   Improve
+     <span class="m">1</span>        <span class="m">6.5649</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0040</span>
+     <span class="m">2</span>        <span class="m">6.5621</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0025</span>
+     <span class="m">3</span>        <span class="m">6.5590</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0031</span>
+     <span class="m">4</span>        <span class="m">6.5560</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0027</span>
+     <span class="m">5</span>        <span class="m">6.5516</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0039</span>
+     <span class="m">6</span>        <span class="m">6.5473</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0036</span>
+     <span class="m">7</span>        <span class="m">6.5423</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0043</span>
+     <span class="m">8</span>        <span class="m">6.5384</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0034</span>
+     <span class="m">9</span>        <span class="m">6.5339</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0044</span>
+    <span class="m">10</span>        <span class="m">6.5299</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0039</span>
+   <span class="m">100</span>        <span class="m">6.1998</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0026</span>
+   <span class="m">200</span>        <span class="m">5.8589</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0028</span>
+   <span class="m">300</span>        <span class="m">5.5543</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0036</span>
+   <span class="m">400</span>        <span class="m">5.2828</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0033</span>
+   <span class="m">500</span>        <span class="m">5.0426</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0011</span>
+<span class="o">&gt;</span> mod
+Learner model for id<span class="o">=</span>regr.gbm class<span class="o">=</span>regr.gbm
+Trained on obs: <span class="m">253</span>
+Used features: <span class="m">13</span>
+Hyperparameters: distribution<span class="o">=</span>laplace<span class="p">,</span>n.trees<span class="o">=</span><span class="m">500</span><span class="p">,</span>interaction.depth<span class="o">=</span><span class="m">3</span>
+</pre></div>
+</div>
+<p>Now we use a subset of the data for training (every second observation).</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> mod <span class="o">&lt;-</span> train<span class="p">(</span>lrn<span class="p">,</span> task<span class="p">,</span> subset <span class="o">=</span> seq<span class="p">(</span><span class="m">1</span><span class="p">,</span> nrow<span class="p">(</span>BostonHousing<span class="p">),</span> <span class="m">2</span><span class="p">))</span>
+Iter   TrainDeviance   ValidDeviance   StepSize   Improve
+     <span class="m">1</span>        <span class="m">6.5636</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0058</span>
+     <span class="m">2</span>        <span class="m">6.5587</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0046</span>
+     <span class="m">3</span>        <span class="m">6.5542</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0042</span>
+     <span class="m">4</span>        <span class="m">6.5500</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0036</span>
+     <span class="m">5</span>        <span class="m">6.5462</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0035</span>
+     <span class="m">6</span>        <span class="m">6.5422</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0038</span>
+     <span class="m">7</span>        <span class="m">6.5371</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0047</span>
+     <span class="m">8</span>        <span class="m">6.5327</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0043</span>
+     <span class="m">9</span>        <span class="m">6.5296</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0031</span>
+    <span class="m">10</span>        <span class="m">6.5261</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0033</span>
+   <span class="m">100</span>        <span class="m">6.1851</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0022</span>
+   <span class="m">200</span>        <span class="m">5.8532</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0022</span>
+   <span class="m">300</span>        <span class="m">5.5482</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0034</span>
+   <span class="m">400</span>        <span class="m">5.2745</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0025</span>
+   <span class="m">500</span>        <span class="m">5.0312</span>             nan     <span class="m">0.0010</span>    <span class="m">0.0025</span>
+<span class="o">&gt;</span> mod
 Learner model for id<span class="o">=</span>regr.gbm class<span class="o">=</span>regr.gbm
 Trained on obs: <span class="m">253</span>
 Used features: <span class="m">13</span>
@@ -150,27 +218,33 @@ Hyperparameters: distribution<span class="o">=</span>laplace<span class="p">,</s
 <h3>Table Of Contents</h3>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="">Training a learner</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#classification-example">Classification example</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#regression-example">Regression example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task.html">1. Learning Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="learner.html">2. Learners</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">3. Training a Learner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start">3.1. Quick start</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#classification-example">3.1.1. Classification example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#regression-example">3.1.2. Regression example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#further-information">3.2. Further information</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">3.2.1. Classification example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">3.2.2. Regression example</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="predict.html">Predicting Outcomes for New Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="resample.html">Resampling Learners</a></li>
-<li class="toctree-l2"><a class="reference internal" href="performance.html">Evaluateing Learner Performance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tune.html">Tuning hyperparamaters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="learner.html">Integrated learners</a></li>
-<li class="toctree-l2"><a class="reference internal" href="variable_selection.html">Variable Selection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="benchmark_experiments.html">Benchmark Experiments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="benchmark_analysis.html">Benchmark Analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="roc_analysis.html">ROC Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="predict.html">4. Predicting Outcomes for New Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html">5. Evaluating Learner Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resample.html">6. Resampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tune.html">7. Tuning Hyperparameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variable_selection.html">8. Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_experiments.html">9. Benchmark Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_analysis.html">10. Benchmark Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roc_analysis.html">11. ROC Analysis</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../concept/index.html">Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">How-Tos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../integrated_learners.html">Integrated Learners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extension_points/index.html">Extension Points</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changes.html">Changelog</a></li>
@@ -198,9 +272,9 @@ Hyperparameters: distribution<span class="o">=</span>laplace<span class="p">,</s
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="index.html" title="Tutorial"
+          <a href="learner.html" title="2. Learners"
              >previous</a> |
-          <a href="predict.html" title="Predicting Outcomes for New Data"
+          <a href="predict.html" title="4. Predicting Outcomes for New Data"
              >next</a>
         </div>
 
@@ -208,7 +282,7 @@ Hyperparameters: distribution<span class="o">=</span>laplace<span class="p">,</s
           
     <div class="footer">
         &copy; Copyright 2010-2011, Bernd Bischl et.al..
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
         </div>
         <div class="clearer"></div>

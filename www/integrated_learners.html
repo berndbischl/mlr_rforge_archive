@@ -3,13 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Integrated Learners &mdash; mlr - Machine Learning in R</title>
+    
     <link rel="stylesheet" href="_static/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
@@ -23,8 +26,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="mlr - Machine Learning in R" href="index.html" />
-    <link rel="next" title="Frequently asked Questions" href="faq.html" />
-    <link rel="prev" title="Creating a new Learner" href="howto/create_learner.html" /> 
+    <link rel="next" title="Extension Points" href="extension_points/index.html" />
+    <link rel="prev" title="11. ROC Analysis" href="tutorial/roc_analysis.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -34,9 +37,9 @@
         </a></p>
         <h1><a href="index.html">mlr - Machine Learning in R</a></h1>
         <div class="rel">
-          <a href="howto/create_learner.html" title="Creating a new Learner"
+          <a href="tutorial/roc_analysis.html" title="11. ROC Analysis"
              accesskey="P">previous</a> |
-          <a href="faq.html" title="Frequently asked Questions"
+          <a href="extension_points/index.html" title="Extension Points"
              accesskey="N">next</a>
         </div>
        </div>
@@ -56,233 +59,220 @@
 <h2>List of currently integrated classifiers<a class="headerlink" href="#list-of-currently-integrated-classifiers" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
-<col width="14%" />
-<col width="52%" />
-<col width="6%" />
-<col width="6%" />
-<col width="8%" />
-<col width="4%" />
-<col width="6%" />
-<col width="4%" />
+<col width="100%" />
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">name</th>
-<th class="head">package</th>
-<th class="head">weights</th>
-<th class="head">missings</th>
-<th class="head">multiclass</th>
-<th class="head">prob</th>
-<th class="head">decision</th>
-<th class="head">costs</th>
+<tr class="row-odd"><th class="head">c(name = learner, package = package_link)</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>classif.ada</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/ada/index.html">ada</a></td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>TRUE</td>
+<tr class="row-even"><td>classif.ada</td>
 </tr>
-<tr><td>classif.adaboost.M1</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/adabag/index.html">adabag</a></td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/ada/index.html">ada</a></td>
 </tr>
-<tr><td>classif.gbm</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/gbm/index.html">gbm</a></td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>classif.ada</td>
 </tr>
-<tr><td>classif.J48</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/ada/index.html">ada</a></td>
 </tr>
-<tr><td>classif.JRip</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>classif.adaboost.m1</td>
 </tr>
-<tr><td>classif.kknn</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/kknn/index.html">kknn</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/adabag/index.html">adabag</a></td>
 </tr>
-<tr><td>classif.ksvm</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>classif.adaboost.m1</td>
 </tr>
-<tr><td>classif.lda</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/MASS/index.html">MASS</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/adabag/index.html">adabag</a></td>
 </tr>
-<tr><td>classif.loclda</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/klaR/index.html">klaR</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>classif.blackboost</td>
 </tr>
-<tr><td>classif.logreg</td>
-<td>stats</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/mboost/index.html">mboost</a>, <a class="reference external" href="http://cran.r-project.org/web/packages/party/index.html">party</a></td>
 </tr>
-<tr><td>classif.lssvm</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>classif.blackboost</td>
 </tr>
-<tr><td>classif.lvq1</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/class/index.html">class</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/mboost/index.html">mboost</a>, <a class="reference external" href="http://cran.r-project.org/web/packages/party/index.html">party</a></td>
 </tr>
-<tr><td>classif.mda</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/mda/index.html">mda</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>classif.ctree</td>
 </tr>
-<tr><td>classif.multinom</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/nnet/index.html">nnet</a></td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/party/index.html">party</a></td>
 </tr>
-<tr><td>classif.naiveBayes</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/e1071/index.html">e1071</a></td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>classif.ctree</td>
 </tr>
-<tr><td>classif.nnet</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/nnet/index.html">nnet</a></td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/party/index.html">party</a></td>
 </tr>
-<tr><td>classif.OneR</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>classif.fnn</td>
 </tr>
-<tr><td>classif.PART</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/FNN/index.html">FNN</a></td>
 </tr>
-<tr><td>classif.qda</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/MASS/index.html">MASS</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>classif.fnn</td>
 </tr>
-<tr><td>classif.randomForest</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/randomForest/index.html">randomForest</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/FNN/index.html">FNN</a></td>
 </tr>
-<tr><td>classif.rda</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/klaR/index.html">klaR</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>classif.gbm</td>
 </tr>
-<tr><td>classif.rpart</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/rpart/index.html">rpart</a></td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>TRUE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/gbm/index.html">gbm</a></td>
 </tr>
-<tr><td>classif.svm</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/e1071/index.html">e1071</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>classif.gbm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/gbm/index.html">gbm</a></td>
+</tr>
+<tr class="row-even"><td>classif.glmboost</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/mboost/index.html">mboost</a></td>
+</tr>
+<tr class="row-even"><td>classif.glmboost</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/mboost/index.html">mboost</a></td>
+</tr>
+<tr class="row-even"><td>classif.J48</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
+</tr>
+<tr class="row-even"><td>classif.J48</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
+</tr>
+<tr class="row-even"><td>classif.JRip</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
+</tr>
+<tr class="row-even"><td>classif.JRip</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
+</tr>
+<tr class="row-even"><td>classif.kknn</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kknn/index.html">kknn</a></td>
+</tr>
+<tr class="row-even"><td>classif.kknn</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kknn/index.html">kknn</a></td>
+</tr>
+<tr class="row-even"><td>classif.ksvm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
+</tr>
+<tr class="row-even"><td>classif.ksvm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
+</tr>
+<tr class="row-even"><td>classif.lda</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/MASS/index.html">MASS</a></td>
+</tr>
+<tr class="row-even"><td>classif.lda</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/MASS/index.html">MASS</a></td>
+</tr>
+<tr class="row-even"><td>classif.logreg</td>
+</tr>
+<tr class="row-odd"><td>stats</td>
+</tr>
+<tr class="row-even"><td>classif.logreg</td>
+</tr>
+<tr class="row-odd"><td>stats</td>
+</tr>
+<tr class="row-even"><td>classif.lssvm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
+</tr>
+<tr class="row-even"><td>classif.lssvm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
+</tr>
+<tr class="row-even"><td>classif.lvq1</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/class/index.html">class</a></td>
+</tr>
+<tr class="row-even"><td>classif.lvq1</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/class/index.html">class</a></td>
+</tr>
+<tr class="row-even"><td>classif.mda</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/mda/index.html">mda</a></td>
+</tr>
+<tr class="row-even"><td>classif.mda</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/mda/index.html">mda</a></td>
+</tr>
+<tr class="row-even"><td>classif.multinom</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/nnet/index.html">nnet</a></td>
+</tr>
+<tr class="row-even"><td>classif.multinom</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/nnet/index.html">nnet</a></td>
+</tr>
+<tr class="row-even"><td>classif.naiveBayes</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/e1071/index.html">e1071</a></td>
+</tr>
+<tr class="row-even"><td>classif.naiveBayes</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/e1071/index.html">e1071</a></td>
+</tr>
+<tr class="row-even"><td>classif.nnet</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/nnet/index.html">nnet</a></td>
+</tr>
+<tr class="row-even"><td>classif.nnet</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/nnet/index.html">nnet</a></td>
+</tr>
+<tr class="row-even"><td>classif.OneR</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
+</tr>
+<tr class="row-even"><td>classif.OneR</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
+</tr>
+<tr class="row-even"><td>classif.PART</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
+</tr>
+<tr class="row-even"><td>classif.PART</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/RWeka/index.html">RWeka</a></td>
+</tr>
+<tr class="row-even"><td>classif.qda</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/MASS/index.html">MASS</a></td>
+</tr>
+<tr class="row-even"><td>classif.qda</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/MASS/index.html">MASS</a></td>
+</tr>
+<tr class="row-even"><td>classif.randomForest</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/randomForest/index.html">randomForest</a></td>
+</tr>
+<tr class="row-even"><td>classif.randomForest</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/randomForest/index.html">randomForest</a></td>
+</tr>
+<tr class="row-even"><td>classif.rda</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/klaR/index.html">klaR</a></td>
+</tr>
+<tr class="row-even"><td>classif.rda</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/klaR/index.html">klaR</a></td>
+</tr>
+<tr class="row-even"><td>classif.rpart</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/rpart/index.html">rpart</a></td>
+</tr>
+<tr class="row-even"><td>classif.rpart</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/rpart/index.html">rpart</a></td>
+</tr>
+<tr class="row-even"><td>classif.svm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/e1071/index.html">e1071</a></td>
+</tr>
+<tr class="row-even"><td>classif.svm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/e1071/index.html">e1071</a></td>
 </tr>
 </tbody>
 </table>
@@ -291,99 +281,148 @@
 <h2>List of currently integrated regression methods<a class="headerlink" href="#list-of-currently-integrated-regression-methods" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
-<col width="14%" />
-<col width="59%" />
-<col width="7%" />
-<col width="6%" />
-<col width="6%" />
-<col width="7%" />
+<col width="100%" />
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">name</th>
-<th class="head">package</th>
-<th class="head">numerics</th>
-<th class="head">factors</th>
-<th class="head">weights</th>
-<th class="head">missings</th>
+<tr class="row-odd"><th class="head">c(name = learner, package = package_link)</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>regr.earth</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/earth/index.html">earth</a></td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>regr.blackboost</td>
 </tr>
-<tr><td>regr.gbm</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/gbm/index.html">gbm</a></td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>TRUE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/mboost/index.html">mboost</a>, <a class="reference external" href="http://cran.r-project.org/web/packages/party/index.html">party</a></td>
 </tr>
-<tr><td>regr.kknn</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/kknn/index.html">kknn</a></td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>regr.blackboost</td>
 </tr>
-<tr><td>regr.ksvm</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/mboost/index.html">mboost</a>, <a class="reference external" href="http://cran.r-project.org/web/packages/party/index.html">party</a></td>
 </tr>
-<tr><td>regr.lasso</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/penalized/index.html">penalized</a></td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>TRUE</td>
+<tr class="row-even"><td>regr.earth</td>
 </tr>
-<tr><td>regr.lm</td>
-<td>stats</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/earth/index.html">earth</a></td>
 </tr>
-<tr><td>regr.mars</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/mda/index.html">mda</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>regr.earth</td>
 </tr>
-<tr><td>regr.nnet</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/nnet/index.html">nnet</a></td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/earth/index.html">earth</a></td>
 </tr>
-<tr><td>regr.randomForest</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/randomForest/index.html">randomForest</a></td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>regr.fnn</td>
 </tr>
-<tr><td>regr.ridge</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/penalized/index.html">penalized</a></td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>TRUE</td>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/FNN/index.html">FNN</a></td>
 </tr>
-<tr><td>regr.rvm</td>
-<td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
-<td>TRUE</td>
-<td>TRUE</td>
-<td>FALSE</td>
-<td>FALSE</td>
+<tr class="row-even"><td>regr.fnn</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/FNN/index.html">FNN</a></td>
+</tr>
+<tr class="row-even"><td>regr.gbm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/gbm/index.html">gbm</a></td>
+</tr>
+<tr class="row-even"><td>regr.gbm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/gbm/index.html">gbm</a></td>
+</tr>
+<tr class="row-even"><td>regr.kknn</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kknn/index.html">kknn</a></td>
+</tr>
+<tr class="row-even"><td>regr.kknn</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kknn/index.html">kknn</a></td>
+</tr>
+<tr class="row-even"><td>regr.km</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/DiceKriging/index.html">DiceKriging</a></td>
+</tr>
+<tr class="row-even"><td>regr.km</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/DiceKriging/index.html">DiceKriging</a></td>
+</tr>
+<tr class="row-even"><td>regr.ksvm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
+</tr>
+<tr class="row-even"><td>regr.ksvm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
+</tr>
+<tr class="row-even"><td>regr.lasso</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/penalized/index.html">penalized</a></td>
+</tr>
+<tr class="row-even"><td>regr.lasso</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/penalized/index.html">penalized</a></td>
+</tr>
+<tr class="row-even"><td>regr.lm</td>
+</tr>
+<tr class="row-odd"><td>stats</td>
+</tr>
+<tr class="row-even"><td>regr.lm</td>
+</tr>
+<tr class="row-odd"><td>stats</td>
+</tr>
+<tr class="row-even"><td>regr.mars</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/mda/index.html">mda</a></td>
+</tr>
+<tr class="row-even"><td>regr.mars</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/mda/index.html">mda</a></td>
+</tr>
+<tr class="row-even"><td>regr.nnet</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/nnet/index.html">nnet</a></td>
+</tr>
+<tr class="row-even"><td>regr.nnet</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/nnet/index.html">nnet</a></td>
+</tr>
+<tr class="row-even"><td>regr.pcr</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/pls/index.html">pls</a></td>
+</tr>
+<tr class="row-even"><td>regr.pcr</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/pls/index.html">pls</a></td>
+</tr>
+<tr class="row-even"><td>regr.randomForest</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/randomForest/index.html">randomForest</a></td>
+</tr>
+<tr class="row-even"><td>regr.randomForest</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/randomForest/index.html">randomForest</a></td>
+</tr>
+<tr class="row-even"><td>regr.ridge</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/penalized/index.html">penalized</a></td>
+</tr>
+<tr class="row-even"><td>regr.ridge</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/penalized/index.html">penalized</a></td>
+</tr>
+<tr class="row-even"><td>regr.rpart</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/rpart/index.html">rpart</a></td>
+</tr>
+<tr class="row-even"><td>regr.rpart</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/rpart/index.html">rpart</a></td>
+</tr>
+<tr class="row-even"><td>regr.rsm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/rsm/index.html">rsm</a></td>
+</tr>
+<tr class="row-even"><td>regr.rsm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/rsm/index.html">rsm</a></td>
+</tr>
+<tr class="row-even"><td>regr.rvm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
+</tr>
+<tr class="row-even"><td>regr.rvm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://cran.r-project.org/web/packages/kernlab/index.html">kernlab</a></td>
 </tr>
 </tbody>
 </table>
@@ -399,13 +438,12 @@
 <h3>Table Of Contents</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="concept/index.html">Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="howto/index.html">How-Tos</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Integrated Learners</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#list-of-currently-integrated-classifiers">List of currently integrated classifiers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#list-of-currently-integrated-regression-methods">List of currently integrated regression methods</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="extension_points/index.html">Extension Points</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changes.html">Changelog</a></li>
@@ -433,9 +471,9 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="howto/create_learner.html" title="Creating a new Learner"
+          <a href="tutorial/roc_analysis.html" title="11. ROC Analysis"
              >previous</a> |
-          <a href="faq.html" title="Frequently asked Questions"
+          <a href="extension_points/index.html" title="Extension Points"
              >next</a>
         </div>
 
@@ -443,7 +481,7 @@
           
     <div class="footer">
         &copy; Copyright 2010-2011, Bernd Bischl et.al..
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
         </div>
         <div class="clearer"></div>

@@ -149,7 +149,7 @@ getTaskData = function(task, subset, features, target.extra=FALSE, recode.target
 #' @export
 #' @examples
 #' task <- makeClassifTask(data = iris, target = "Species")
-#' subsetTask(task, 1:100)
+#' subsetTask(task, subset = 1:100)
 subsetTask = function(task, subset, features) {
   task = changeData(task, getTaskData(task, subset, features))
   if (!missing(subset)) {
