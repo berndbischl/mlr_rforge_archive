@@ -32,6 +32,9 @@ test_that("mbo works with rf", {
   expect_error(mbo(f, ps, des, learner, ctrl), "Expected improvement can currently")
   ctrl = makeMBOControl(seq.loops=5, seq.design.points=100)
   
+  f2=makeMBOFunction(function(x) x^2)
+  expect_error(mbo(f2, ps, des, learner, ctrl), "univariate")
+  
   # check trafo
   ps = makeParamSet(
     makeNumericParam("x1", lower=-10, upper=10, trafo=function(x) abs(x)) 

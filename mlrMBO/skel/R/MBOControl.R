@@ -62,7 +62,7 @@
 #'   Default is: \dQuote{last.proposed}.     
 #' @param final.evals [\code{integer(1)}]\cr 
 #'   How many target function evals should be done at final point to reduce noise? 
-#'   Default is 20.      
+#'   Default is 1.      
 #' @param save.model.at [\code{integer}]\cr
 #'   Sequential optimzation iterations when the model should be saved. 
 #'   Iteration 0 is the model fit for the initial design.
@@ -85,7 +85,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
   final.point = "last.proposed",
-  final.evals = 20,
+  final.evals = 1,
   save.model.at = seq.loops,
   resample.at = integer(0), resample.desc = makeResampleDesc("CV", iter=10), resample.measures=list(mse) 
 ) {

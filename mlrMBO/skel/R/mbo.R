@@ -7,6 +7,9 @@
 # FIXME: allow .... and pass it on to fun
 # FIXME: add show.info
 # FIXME: configure so we dont see learner output on default
+#FIXME: no more target function evals of the final point on default
+#FIXME: name final evals in output (not last step number)
+#FIXME: cmaes doesn't work when optimum in constraints
 
 #'  Optimizes a function with sequential parameter optimization.
 #'
@@ -140,6 +143,9 @@ evalTargetFun = function(fun, par.set, xs, opt.path, control, show.info, oldopts
     } else {
       y = fun(x)
     }
+    if(length(y)>1) {
+      stop("function output is not univariate")
+    }  
     if (show.info) {
       dob = opt.path$env$dob
       dob = if (length(dob) == 0) 0 else max(dob)+1
