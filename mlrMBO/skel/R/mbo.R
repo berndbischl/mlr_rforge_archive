@@ -8,7 +8,8 @@
 # FIXME: add show.info
 # FIXME: configure so we dont see learner output on default
 #FIXME: no more target function evals of the final point on default
-#FIXME: name final evals in output (not last step number)
+#FIXME: different name for final evals in output (not last step number)
+#FIXME default for final point should be best point, not last step (especially when final evals are made)
 #FIXME: cmaes doesn't work when optimum in constraints
 
 #'  Optimizes a function with sequential parameter optimization.
@@ -54,6 +55,8 @@ mbo = function(fun, par.set, des=NULL, learner, control, show.info=TRUE) {
     stop("Expected improvement can currently only be used with learner 'regr.km' and 'regr.kmforrester'!")        
   if (control$propose.points.method == "EI")
     requirePackages("DiceOptim")
+  if (max(control$save.model.at) > control$seq.loops)
+    stopf("cannot save model at loop %i when just %i sequential.loops", max(control$save.model.at), control$seq.loops)  
   
   # FIXME: doc and better control
   oldopts = list(

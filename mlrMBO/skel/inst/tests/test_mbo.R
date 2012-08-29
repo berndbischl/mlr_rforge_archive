@@ -35,6 +35,10 @@ test_that("mbo works with rf", {
   f2=makeMBOFunction(function(x) x^2)
   expect_error(mbo(f2, ps, des, learner, ctrl), "univariate")
   
+  ctrl = makeMBOControl(seq.loops=5, save.model.at=1:10)
+  expect_error(mbo(f, ps, des, learner, ctrl), "cannot save model")
+  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100)
+  
   # check trafo
   ps = makeParamSet(
     makeNumericParam("x1", lower=-10, upper=10, trafo=function(x) abs(x)) 
