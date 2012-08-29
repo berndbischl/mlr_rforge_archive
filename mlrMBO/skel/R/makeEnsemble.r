@@ -1,5 +1,8 @@
 makeEnsemble <- function(...){
-  list(...)
+  learners = list(...)
+  learner.names = sapply(learners, function(d) d$id)
+  names(learners) = learner.names
+  learners
   }
   
 #l1 = makeLearner("regr.km")

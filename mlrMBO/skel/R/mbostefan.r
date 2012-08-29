@@ -66,7 +66,7 @@ mbo = function(fun, par.set, des=NULL, learner, control, show.info=TRUE) {
   rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
   y.name = control$y.name
   opt.path = makeOptPathDF(par.set, y.name, control$minimize)
-  sel.learners = numeric()
+  sel.learners = character()
   
   if (is.null(des)) {
     des.x = generateDesign(control$init.design.points, par.set, 
@@ -93,13 +93,14 @@ mbo = function(fun, par.set, des=NULL, learner, control, show.info=TRUE) {
   Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=0), xs, ys)
   rt = makeMBOTask(des, y.name, control=control)
   # choose learner if ensemble
-  print(class(learner)[1]=="list")
   if(class(learners)[1]=="list"){
-    sel.learner=ensembleSelector(learners, ctrl$ensemble.select)
-    learner=learners[[sel.learner]]
-    sel.learners =c(sel.learners, sel.learner)
-  }  
-  model = train(learner, rt)
+    ens.selection=ensembleSelector(learners, ctrl$ensemble.select, rt=rt, par.set=par.set, control=control, opt.path=opt.path)
+    model = ens.selection$model    
+    learner = ens.selection$learner
+    sel.learners =c(sel.learners, ens.selection$sel.learner)
+  } else { 
+    model = train(learner, rt)
+  }
   models = list()
   if (0 %in% control$save.model.at)
     models[[length(models)+1]] = model
@@ -110,18 +111,21 @@ mbo = function(fun, par.set, des=NULL, learner, control, show.info=TRUE) {
       r = resample(learner, rt, control$resample.desc, measures=control$resample.measures)
       res.vals[[length(res.vals)+1]] = r$aggr
     }
-    prop.des = proposePoints(model, par.set, control, opt.path)
+    prop.des = proposePoints(model, par.set, control, opt.path)$des
     xs = lapply(1:nrow(prop.des), function(i) ParamHelpers:::dfRowToList(prop.des, par.set, i))
     xs = lapply(xs, repairPoint, par.set=par.set)
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts)
     Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=loop), xs, ys)
     rt = makeMBOTask(as.data.frame(opt.path), y.name, control=control)
+    # choose learner if ensemble
     if(class(learners)[1]=="list"){
-      sel.learner=ensembleSelector(learners, ctrl$ensemble.select)
-      learner=learners[[sel.learner]]
-      sel.learners =c(sel.learners, sel.learner)
+      ens.selection=ensembleSelector(learners, ctrl$ensemble.select, rt=rt, par.set=par.set, control=control, opt.path=opt.path)
+      model = ens.selection$model
+      learner = ens.selection$learner
+      sel.learners =c(sel.learners, ens.selection$sel.learner)
+    } else { 
+      model = train(learner, rt)
     }
-    model = train(learner, rt)
     if (loop %in% control$save.model.at)
       models[[length(models)+1]] = model
     loop = loop + 1
