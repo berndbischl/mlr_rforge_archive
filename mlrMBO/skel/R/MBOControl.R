@@ -55,14 +55,14 @@
 #'   Only used if \code{propose.points.method} is 'seq.design.' 
 #'   Default is empty list.
 #' @param final.point [\code{character(1)}]\cr 
-#'   How should the final point be proposed. Possible are: 
-#'   \dQuote{last.proposed}: Return the last point proposed by the model.    
+#'   How should the final point be proposed. Possible are:    
 #'   \dQuote{best.true.y}: Return best point ever visited according to true value of target function. Can be bad if target function is noisy.    
+#'   \dQuote{last.proposed}: Return the last point proposed by the model.
 #'   \dQuote{best.predicted}: Use the final model to predict all points ever visited and use the best one. This might average-out noisy function values.
-#'   Default is: \dQuote{last.proposed}.     
+#'   Default is: \dQuote{best.true.y}.     
 #' @param final.evals [\code{integer(1)}]\cr 
 #'   How many target function evals should be done at final point to reduce noise? 
-#'   Default is 1.      
+#'   Default is 0.      
 #' @param save.model.at [\code{integer}]\cr
 #'   Sequential optimzation iterations when the model should be saved. 
 #'   Iteration 0 is the model fit for the initial design.
@@ -84,8 +84,8 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
   seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
-  final.point = "last.proposed",
-  final.evals = 1,
+  final.point = "best.true.y",
+  final.evals = 0,
   save.model.at = seq.loops,
   resample.at = integer(0), resample.desc = makeResampleDesc("CV", iter=10), resample.measures=list(mse) 
 ) {
