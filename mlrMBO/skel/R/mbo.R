@@ -3,7 +3,6 @@
 #FIXME: retrain kriging faster
 #FIXME: handle error in meta learner
 #FIXME: i think resample at and save.model at count differently
-#FIXME: check learner is regression
 # FIXME: allow .... and pass it on to fun
 # FIXME: add show.info
 # FIXME: configure so we dont see learner output on default
@@ -52,7 +51,9 @@ mbo = function(fun, par.set, des=NULL, learner, control, show.info=TRUE) {
     stop("Proposal method CMAES can only be applied to numeric, integer, numericvector, integervector parameters!")
   if (control$propose.points.method == "EI" && 
     !(class(learner) %in% c("regr.km", "regr.kmforrester"))) 
-    stop("Expected improvement can currently only be used with learner 'regr.km' and 'regr.kmforrester'!")        
+    stop("Expected improvement can currently only be used with learner 'regr.km' and 'regr.kmforrester'!")
+  if (learner$type!="regr")
+    stop("mbo requires regression learner")          
   if (control$propose.points.method == "EI")
     requirePackages("DiceOptim")
   if (max(control$save.model.at) > control$seq.loops)

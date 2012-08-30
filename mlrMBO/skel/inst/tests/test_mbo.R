@@ -39,6 +39,9 @@ test_that("mbo works with rf", {
   expect_error(mbo(f, ps, des, learner, ctrl), "cannot save model")
   ctrl = makeMBOControl(seq.loops=5, seq.design.points=100)
   
+  learner = makeLearner("classif.randomForest")
+  expect_error(mbo(f, ps, des, learner, ctrl), "mbo requires regression learner")
+  learner = makeLearner("regr.randomForest")
   # check trafo
   ps = makeParamSet(
     makeNumericParam("x1", lower=-10, upper=10, trafo=function(x) abs(x)) 
