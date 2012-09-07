@@ -38,7 +38,7 @@ makeWrappedModel.OptWrapper = function(learner, model, task.desc, subset, featur
 
 #' @S3method print OptModel
 print.OptModel = function(x, ...) {
-  mlr:::print.Wrappedmodel(x)
+  mlr:::print.WrappedModel(x)
   cat("\nOptimization result:\n")
   print(x$opt.result)
 }
