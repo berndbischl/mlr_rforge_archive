@@ -3,7 +3,7 @@ RSCRIPT	:= Rscript
 DELETE	:= rm -fR
 
 .SILENT:
-.PHONEY: clean roxygenize package windows dependencies install test html check
+.PHONEY: clean roxygenize package dependencies install test html check check-rds
 
 usage:
 	echo "Available targets:"
@@ -11,7 +11,6 @@ usage:
 	echo " clean         - Clean everything up"
 	echo " roxygenize    - roxygenize skel/ into pkg/"
 	echo " package       - build source package"
-	echo " windows       - build windows binary via win-builder/devtools"
 	echo " dependencies  - install required packages"
 	echo " install       - install the package"
 	echo " test          - run tests"
@@ -36,10 +35,6 @@ package: roxygenize
 	echo "Building package file ..."
 	${R} CMD build pkg/
 
-windows: roxygenize
-	echo "Building windows binary ..."
-	${RSCRIPT} ../tools/win_build
-
 dependencies:
 	echo "Installing depencies"
 	${RSCRIPT} install_dependencies.R 
@@ -59,3 +54,9 @@ html: install
 check: roxygenize
 	echo "Running R CMD check ..."
 	${R} CMD check --as-cran pkg
+
+check-rds: roxygenize
+	echo "Checking each RD file individually ..."
+	${RSCRIPT} ../tools/check-rds
+  
+  
