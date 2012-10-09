@@ -1,5 +1,6 @@
 #FIXME: check whether optimization can be paralleized if req. by user
 # FIXME check trafo
+# FIXME: example missing
 
 #' Hyperparameter tuning.
 #' 

@@ -1,3 +1,5 @@
+#FIXME: name seems wrong, is makeTuneResult? what happen in mlrFeatSel?
+
 #' Optimization result.
 #' 
 #' Container for results of hyperparameter tuning and feature selection.
@@ -26,7 +28,7 @@ makeOptResult = function(learner, control, x, y, opt.path) {
   ), class=c("TuneResult", "OptResult"))
 }
 
-#S3method print OptResult
+#@S3method print OptResult
 print.OptResult = function(x, ...) {
   catf("Tune result:")
   catf("Op. pars: %s", paramValueToString(x$opt.path$par.set, x$x))
