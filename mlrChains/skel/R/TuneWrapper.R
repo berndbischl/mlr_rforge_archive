@@ -21,7 +21,7 @@
 #' @param show.info [\code{logical(1)}]\cr
 #'   Show info message after each hyperparameter evaluation?
 #'   Default is \code{TRUE}.
-#' @return \code{\link{Learner}}. 
+#' @return [\code{\link{Learner}}]. 
 #' @export
 makeTuneWrapper = function(learner, resampling, measures, par.set, control, show.info=TRUE) {
 	x = makeOptWrapper(learner, resampling, measures, par.set, character(0),
@@ -44,7 +44,6 @@ trainLearner.TuneWrapper = function(.learner, .task, .subset,  ...) {
 
 #' @S3method predictLearner TuneWrapper
 predictLearner.TuneWrapper = function(.learner, .model, .newdata, ...) {
-  print("predict: tune")
   lrn = setHyperPars(.learner$next.learner, 
     par.vals=.model$learner.model$opt.result$x)
   predictLearner(lrn, .model$learner.model$next.model, .newdata)

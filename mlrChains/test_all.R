@@ -3,6 +3,8 @@ library(testthat)
 
 if (interactive()) {
   library(devtools)
+  library(mlrTune)
+  library(mlrFeatSel)
   load_all("skel")
 } else {
   library(mlrChains)  
