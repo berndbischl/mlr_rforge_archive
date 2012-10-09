@@ -2,6 +2,7 @@ library(methods)
 library(testthat)
 library(reshape)
 library(e1071)
+library(adabag)
 
 if (interactive()) {
   library(devtools)
