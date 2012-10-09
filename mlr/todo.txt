@@ -30,6 +30,8 @@ per preproc alles potentiell verändern.
 a) ausgabe des modell mit print
 b) wenn der task durchgereicht wird durch die trainingsfuns 
   
+- add getLearnerModel, that we later can also add for BaseWrapper / ChainModel  
+  
 ##### later ######  
   
 - listMeasures 
