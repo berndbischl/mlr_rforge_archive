@@ -1,15 +1,21 @@
 library("devtools")
 library("testthat")
 library(mlbench)
+library(mlr)
 data(BostonHousing)
 
 load_all("skel")
 
 task = makeClassifTask(data=iris, target="Species")
+lrn = makeLearner("classif.rpart", minsplit=3)
+rdesc = makeResampleDesc("Holdout")
 
-#lrn1 = makeLearner("classif.rpart", minsplit=3)
-z = filterFeatures(task)
-print(z)
+ctrl = makeFeatSelControlRandom(max.features=2)
+
+or = selectFeatures(lrn, task, resampling=rdesc, control=ctrl)
+print(or)
+#z = filterFeatures(task)
+#print(z)
 
 #mod = train(lrn2, task)
 
