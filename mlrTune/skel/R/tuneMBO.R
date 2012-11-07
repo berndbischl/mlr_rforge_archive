@@ -17,5 +17,5 @@ tuneMBO = function(learner, task, resampling, measures, par.set, control,
   
   # FIXME: check this this is really ok, that we dont trafo in mlrMBO
   x = trafoValue(par.set, or$x)
-  makeOptResult(learner, control, x, or$y, opt.path)
+  makeTuneResult(learner, control, x, or$y, opt.path)
 }

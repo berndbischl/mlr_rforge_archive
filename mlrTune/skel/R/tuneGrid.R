@@ -12,7 +12,7 @@ tuneGrid = function(learner, task, resampling, measures, par.set, control, opt.p
 
   i = getOptPathBestIndex(opt.path, mlr:::measureAggrName(measures[[1]]), ties="random")
   e = getOptPathEl(opt.path, i)
-  makeOptResult(learner, control, e$x, e$y, opt.path)
+  makeTuneResult(learner, control, e$x, e$y, opt.path)
 }
 
 
