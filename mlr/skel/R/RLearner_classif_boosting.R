@@ -17,8 +17,10 @@ makeRLearner.classif.boosting = function() {
       makeDiscreteLearnerParam(id="usesurrogate", default=2L, values=0:2),
       makeDiscreteLearnerParam(id="surrogatestyle", default=0L, values=0:1),
       # we use 30 as upper limit, see docs of rpart.control
-      makeIntegerLearnerParam(id="maxdepth", default=30L, lower=1L, upper=30L)
+      makeIntegerLearnerParam(id="maxdepth", default=30L, lower=1L, upper=30L),
+      makeIntegerLearnerParam(id="xval", default=0L, lower=0L)
     ), 
+    par.vals = list(xval=0L),
     twoclass = TRUE,
     multiclass = TRUE,
     missings = TRUE,
@@ -29,9 +31,9 @@ makeRLearner.classif.boosting = function() {
 }
 
 #' @S3method trainLearner classif.boosting
-trainLearner.classif.boosting= function(.learner, .task, .subset, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth, ...) {
+trainLearner.classif.boosting= function(.learner, .task, .subset, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth, xval, ...) {
   f = getTaskFormula(.task)
-  ctrl = learnerArgsToControl(rpart.control, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth)
+  ctrl = learnerArgsToControl(rpart.control, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth, xval)
   boosting(f, data=getTaskData(.task, .subset), control=ctrl, ...)
 }
 
