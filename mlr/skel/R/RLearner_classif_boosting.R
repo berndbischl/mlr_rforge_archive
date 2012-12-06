@@ -1,8 +1,8 @@
 # FIXME: interface was changed, read page, pars, mnaybe rename
-#' @S3method makeRLearner classif.adaboost.m1
-makeRLearner.classif.adaboost.m1 = function() {
+#' @S3method makeRLearner classif.boosting
+makeRLearner.classif.boosting = function() {
   makeRLearnerClassif(
-    cl = "classif.adaboost.m1",
+    cl = "classif.boosting",
     package = "adabag",
     par.set = makeParamSet( 
       makeLogicalLearnerParam(id="boos", default=TRUE),
@@ -23,21 +23,27 @@ makeRLearner.classif.adaboost.m1 = function() {
     multiclass = TRUE,
     missings = TRUE,
     numerics = TRUE,
-    factors = TRUE
+    factors = TRUE,
+    prob = TRUE
   )
 }
 
-#' @S3method trainLearner classif.adaboost.m1
-trainLearner.classif.adaboost.m1 = function(.learner, .task, .subset, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth, ...) {
+#' @S3method trainLearner classif.boosting
+trainLearner.classif.boosting= function(.learner, .task, .subset, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth, ...) {
   f = getTaskFormula(.task)
   ctrl = learnerArgsToControl(rpart.control, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth)
   boosting(f, data=getTaskData(.task, .subset), control=ctrl, ...)
 }
 
-#' @S3method predictLearner classif.adaboost.m1
-predictLearner.classif.adaboost.m1 = function(.learner, .model, .newdata, ...) {
+#' @S3method predictLearner classif.boosting
+predictLearner.classif.boosting = function(.learner, .model, .newdata, ...) {
+  levs = levels=.model$task.desc$class.levels
   # stupid adaboost
-  .newdata[, .model$task.desc$target] <- factor(rep(1, nrow(.newdata)), levels=.model$task.desc$class.levels)
+  .newdata[, .model$task.desc$target] <- factor(rep(1, nrow(.newdata)), levels=levs)
   p = predict(.model$learner.model, newdata=.newdata, ...)
-  return(as.factor(p$class))
+  if (.learner$predict.type == "prob") {
+    return(setColNames(p$prob, levs))
+  } else {
+    return(as.factor(p$class))
+  }
 }

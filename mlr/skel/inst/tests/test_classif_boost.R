@@ -1,6 +1,6 @@
-context("classif_adaboost_m1")
+context("classif_boosting")
 
-test_that("classif_adaboost_m1", {
+test_that("classif_boosting", {
 	library(adabag)
 	parset.list1 = list(
 			list(mfinal=3),
@@ -11,8 +11,8 @@ test_that("classif_adaboost_m1", {
     list(mfinal=6, cp=0.2)
   )
   
-	# does not support probs
 	old.predicts.list = list()
+	old.probs.list = list()
 	
 	for (i in 1:length(parset.list1)) {
 		parset = parset.list1[[i]]
@@ -22,12 +22,13 @@ test_that("classif_adaboost_m1", {
 		m = do.call(boosting, pars)
 		set.seed(getOption("mlr.debug.seed"))
 		p = predict(m, newdata=multiclass.test)
-		old.predicts.list[[i]] =as.factor(p$class)
+		old.predicts.list[[i]] = as.factor(p$class)
+		old.probs.list[[i]] = setColNames(p$prob, levels(multiclass.df[, multiclass.target]))
 	}
 	
-	
-	testSimpleParsets("classif.adaboost.m1", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list2)
-	
+	testSimpleParsets("classif.boosting", multiclass.df, multiclass.target, multiclass.train.inds, old.predicts.list, parset.list2)
+	testProbParsets("classif.boosting", multiclass.df, multiclass.target, multiclass.train.inds, old.probs.list, parset.list2)
+
 	tt =function (formula, data, subset=1:nrow(data), ...) {
     args = list(...)
     if (!is.null(args$cp))
@@ -39,6 +40,6 @@ test_that("classif_adaboost_m1", {
 	
 	tp =function(model, newdata) as.factor(predict(model, newdata)$class)
 	
-	testCVParsets("classif.adaboost.m1", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp, parset.list=parset.list2)
+	testCVParsets("classif.boosting", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp, parset.list=parset.list2)
 })
 

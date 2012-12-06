@@ -7,8 +7,10 @@ library(adabag)
 if (interactive()) {
   library(devtools)
   library(adabag)
+  library(boot)
   library(MASS)
   library(ROCR)
+  library(ParamHelpers)
   load_all("skel")
 } else {
   library(mlr)  
