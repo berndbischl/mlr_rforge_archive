@@ -4,7 +4,7 @@
 #' Creates corresponding discrete class response for the newly set threshold. 
 #' For binary classification: The positive class is predicted if the probability value exceeds the threshold. 
 #' For multiclass: Probabilities are divided by corresponding thresholds and the class with maximum resulting value is selected.
-#' The result of both are equivalent if in the multi-threshold case the labels are greater than 0 and sum to 1.  
+#' The result of both are equivalent if in the multi-threshold case the values are greater than 0 and sum to 1.  
 #'
 #' @param pred [\code{\link{Prediction}}]\cr
 #'   The prediction.
