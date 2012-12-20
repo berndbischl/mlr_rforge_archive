@@ -33,7 +33,7 @@ makeTuneControl = function(same.resampling.instance, start, ..., cl) {
   return(x)
 }
 
-#S3method print TuneControl
+#' @S3method print TuneControl
 print.OptControl = function(x, ...) {
   catf("Tune control: %s", class(x)[1])
   catf("Same resampling instance: %s", x$same.resampling.instance)
