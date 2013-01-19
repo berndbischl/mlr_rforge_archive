@@ -25,7 +25,7 @@ use the **mlr** framework for machine learning experiments and
 optimization in R.
 
 Our focus is on your comprehension of the basic functions and
-applications. For detailed technical information and manual pages please refer to
+applications. For detailed technical information and manual pages, please refer to
 the package's `manual pages`_. They are regularly updated and reflect the documentation
 of the current packages on CRAN.
 

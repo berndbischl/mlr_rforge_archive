@@ -6,7 +6,7 @@ benchmark experiments and drawing inferences in a proper way. Common
 questions under examination are (after selecting a performance measure)
 
 * Is classifier A significantly better than classifier B?
-* Given a group of classifiers, can we identify relations where 
+* Given a group of classifiers, can we identify relations where ...
 
 We won't go into the theoretical details here, but we will try to link
 to some papers which are helpful:
@@ -28,4 +28,3 @@ to some papers which are helpful:
 
 .. _benchmark: http://r-forge.r-project.org/projects/benchmark/
 .. _`benchmarking group`: http://www.stat.uni-muenchen.de/institut/ag/leisch/work/benchmarking.html
-

@@ -63,8 +63,8 @@ accessors.
 Classification example
 ......................
 
-In case of a classification task the result of predict_ depends on 
-the predict type which was set when generating the Learner_. Per default 
+In case of a classification task, the result of predict_ depends on 
+the predict type, which was set when generating the Learner_. Per default, 
 class labels are predicted.
 
 We start again by loading **mlr** and creating a classification task for the 
@@ -80,14 +80,14 @@ task <- makeClassifTask(data = iris, target = "Species")
 # Define the learning algorithm
 lrn <- makeLearner("classif.rpart")
 
-# Split the iris data into a trainig set for learning and a test set.
+# Split the iris data into a training set for learning and a test set.
 training.set <- seq(from = 1, to = nrow(iris), by = 2)
 test.set <- seq(from = 2, to = nrow(iris), by = 2)
 
-# Now we can train a decision tree using only the observations in ``train.set``:
+# Now, we can train a decision tree using only the observations in ``train.set``:
 mod <- train(lrn, task, subset = training.set)
 
-# Finally, to predict the outcome on new values, we use the predict_ method:
+# Finally, to predict the outcome on new values, we use the predict method:
 pred <- predict(mod, newdata = iris[test.set,])
 @ 
 
@@ -97,19 +97,19 @@ A data frame that contains the true and predicted class labels can be accessed v
 head(pred$data)
 @
 
-Alternatively we can also predict directly from a task:
+Alternatively, we can also predict directly from a task:
 
 <<>>=
 pred <- predict(mod, task = task, subset = test.set)
 head(as.data.frame(pred))
 @ 
 
-When predicting from a task the resulting data frame contains an additional column 
-called id which tells us for which element in the original data set the prediction 
+When predicting from a task, the resulting data frame contains an additional column, 
+called ID, which tells us for which element in the original data set the prediction 
 is done. 
-(In the iris example the ids and the rownames coincide.)
+(In the iris example the IDs and the rownames coincide.)
 
-In order to get predicted posterior probabilities we have to change the ``predict.type``
+In order to get predicted posterior probabilities, we have to change the ``predict.type``
 of the learner.
 
 <<>>=
@@ -133,13 +133,13 @@ head(getProbabilities(pred))
 Binary classification
 .....................
 
-In case of binary classification two things are noteworthy. As you might recall 
+In case of binary classification, two things are noteworthy. As you might recall, 
 we can specify a positive class when generating the task. Moreover, we can set the
 threshold value that is used to assign class labels based on the predicted 
 posteriors.
 
 To illustrate binary classification we use the Sonar dataset from the
-mlbench_ package. Again we create a classification task and a learner which 
+mlbench_ package. Again, we create a classification task and a learner, which 
 predicts probabilities, train the learner and then predict the class labels.
 
 
@@ -154,8 +154,8 @@ pred <- predict(mod, task = task)
 head(pred$data)
 @ 
 
-In a binary classification setting, we can adjust the threshold used
-to map probabilities to class labels using setThreshold_. Here we set
+In a binary classification setting, we can adjust the threshold, used
+to map probabilities, to class labels using setThreshold_. Here, we set
 the threshold for the *positive* class to 0.8:
 
 <<>>=

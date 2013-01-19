@@ -1,15 +1,15 @@
 Learning Tasks
 ==============
 
-Learning tasks are the basic element of the package to encapsulate the
+Learning tasks are the basic elements of the package to encapsulate the
 data set and all relevant information regarding the purpose of the
 task. This will be at least the target variable, but might also be
 information about excluded (ID) variables or case weights.
 
-Currently two subclasses of a LearnTask_ exist, ClassifTask_ for
+Currently two subclasses of a LearnTask_ exist: ClassifTask_ for
 classification and RegrTask_ for regression problems.  A
 classification task is created by using the makeClassifTask_ factory
-method. The target variable is converted to a ``factor`` if it is a
+method. The target variable is converted to a ``factor``, if it is a
 ``logical``, ``integer`` or ``character`` vector. Accordingly use makeRegrTask_
 in order to define a regression task. The target variable is converted 
 to a ``numeric``.
@@ -34,14 +34,14 @@ df$Id <- NULL
 task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class")
 @ 
 
-Now let us examine the created task:
+Now, let us examine the created task:
 
 <<>>=
 task
 @ 
 
 The now defined task contains basic information about the data,
-e.g. the types of features, the number of observations and the number
+e.g. the types of the features, the number of observations and the number
 of missing values, as well as the classification problem, e.g. the
 name of the target variable and the number of observations per class.
 
@@ -86,16 +86,17 @@ levels of the target. You probably want to select this manually for
 your applications.
 
 <<>>=
-task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class", positive = "malignant")
+task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class", 
+                        positive = "malignant")
 @ 
 
-The makeClassifTask_ help page list several other arguments that can be 
+The makeClassifTask_ help page lists several other arguments that can be 
 passed to describe further details of the classification problem.
 
-There are some convenience methods to access properties of the data
+There are some convenient methods to access properties of the data
 set and the classification problem. Look at the documentation of the
 LearnTask_ class and its subclasses ClassifTask_ and RegrTask_, if
-you are interested in what kind of those "getter"-functions are
+you are interested in the kind of "getter"-functions, which are
 available. Here are some examples:
 
 Get the names of the input variables.
@@ -121,12 +122,12 @@ task$task.desc
 str(task$task.desc)
 @ 
 
-Optionally we can include further information like observation weights
+Optionally, we can include further information like observation weights
 or a blocking factor into the task. Via the blocking argument you can
 specify if some observations "belong together". Specifically, they
 are either put all in the training or the test set during a resampling
 iteration. The blocking argument is a factor of the same length as
-the number of observations in the data set where observations with the
+the number of observations in the data set, where observations with the
 same factor level belong to the same block.
 
 Include observation weights in order to upweight class "malignant"
@@ -141,7 +142,7 @@ task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class",
 head(task$weights)
 @ 
 
-Now let's include a (nonsensical) blocking structure:
+Now, let's include a (nonsensical) blocking structure:
 
 <<>>=
 blocking <- factor(rep(1:3, nrow(BreastCancer)/3))

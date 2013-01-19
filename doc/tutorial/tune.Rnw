@@ -13,13 +13,10 @@ quite simple to implement a grid search, which is one of the standard
 given range of values.
 
 
-Section :doc:`nested_resampling`
-
-
 Classification example
 ----------------------
 
-We again use the iris data set included in R, but now we want to
+We again use the iris data set, included in R, but now, we want to
 tune a SVM with a polynomial kernel.
 
 We start by loading the **mlr** package and creating a classification
@@ -30,12 +27,12 @@ library("mlrTune")
 task <- makeClassifTask(data=iris, target="Species")
 @ 
 
-Next we need to create a ParameterSet_ object which describes the
+Next, we need to create a ParameterSet_ object, which describes the
 parameter space we wish to search in. This is done via the function
 makeParameterSet_.
 Since we will use a grid search strategy, we add a discrete parameter for the 
 ``C`` and ``sigma`` parameter of the SVM to the parameter set.
-More details concerning parameter sets are explained in Section :doc:`params`.
+More details concerning parameter sets are explained in section :doc:`params`.
 
 <<>>=
 ps <- makeParamSet(makeDiscreteParam("C", values=2^(-1:1)),
@@ -58,15 +55,15 @@ used. Here we use a grid search:
 ctrl <- makeTuneControlGrid()
 @ 
 
-Finally, by combining all the previous pieces we can tune the SVM
-using our TuneControl_ instance using the resampling strategy
+Finally, by combining all the previous pieces, we can tune the SVM
+using our TuneControl_ instance and the resampling strategy,
 described by the ``rdesc`` variable.
 
 <<>>=
 tune(makeLearner("classif.ksvm"), task=task, resampling=rdesc, par.set=ps, control=ctrl)
 @ 
 
-Let's take another closer look example above. The parameter grid has
+Let's take another closer look at the example above. The parameter grid has
 to be a named list, where every entry has to be named according to the
 corresponding parameter of the underlying R function (in this case
 "ksvm" from the kernlab package, see its respective help page).  Its
@@ -96,16 +93,19 @@ data(BostonHousing)
 task <- makeRegrTask(data = BostonHousing, target = "medv")
 
 ## Range of the value k
-ps <- makeParameterSet(makeDiscreteParameter("k", 1:7))
+ps <- makeParamSet(makeDiscreteParam("k", 1:7))
 
 ## Evaluate with 5-fold cross-validation
-rdesc <- makeResampleDesc("cv", iters = 5)
+rdesc <- makeResampleDesc("CV", iters = 5)
 
 ## Create a grid tuner:
 ctrl <- makeTuneControlGrid()
 
+## Create a learner:
+lrn <- makeLearner("regr.kknn")
+
 ## Tune k-nearest-neighbor-regression with mean squared error as default measure
-tune("regr.kknn", task=task, resampling=rdesc, par.set=ps, control=ctrl, measures=mse)
+tune(learner=lrn, task=task, resampling=rdesc, par.set=ps, control=ctrl, measures=mse)
 @ 
 
 

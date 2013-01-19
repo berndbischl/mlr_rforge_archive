@@ -3,7 +3,7 @@ Training a Learner
 
 Training a learner just means fitting a model to a given data set.
 In the **mlr** package this can be done by calling the function train_ that 
-provides a unified interface to all IntegratedLearners_ passing a learner 
+provides a unified interface to all integrated learners_ passing a learner 
 and a LearnTask_.
 
 
@@ -44,13 +44,13 @@ Further information
 
 As already mentioned, we can train a learner simply by
 calling the function train_, passing it a Learner_ and a LearnTask_. 
-In the examples above the classification or regression method was specified 
+In the examples above, the classification or regression method was specified 
 by special Learner_ objects. This allows for a maximum of flexibility, for example it permits setting the hyperparameters of the learner before training. 
 
 Optionally, only a subset of the data, specified by an index set, can be used to 
 train the learner. This set is passed using the ``subset`` argument of train_.
 
-The return value is always an object of class WrappedModel_ which wraps the
+The return value is always an object of class WrappedModel_, which wraps the
 particular model of the used R classification or regression method. It
 can subsequently be used to perform a prediction_ for new
 observations.
@@ -68,21 +68,21 @@ library("mlr")
 task <- makeClassifTask(data = iris, target = "Species")
 lrn <- makeLearner("classif.rpart")
 
-# Now train the model with all the instances provided by the iris data.
+# Now, train the model with all the instances provided by the iris data.
 mod <- train(lrn, task)
 
-#You can print some basic information of the model to the console.
+# You can print some basic information of the model to the console.
 mod
 @
 
-Now a subset of the data (every second observation) is used for training.
+Now, a subset of the data (every second observation) is used for training.
 
 <<>>=
 mod <- train(lrn, task, subset = seq(from = 1, to = nrow(iris), by = 2))
 mod
 @
-	
-Access the wrapped rpart model - in most cases you won't need to...
+  
+It's still simple to access the wrapped rpart model, but in most cases there won't be a need to so.
 
 <<>>=
 mod$learner.model
@@ -92,7 +92,7 @@ mod$learner.model
 Regression example
 ..................
 
-As regression example we use the BostonHousing data set. Let's train some Gradient Boosting Machine, first on the whole data set.
+As a regression example we use the BostonHousing data set. Let's train a Gradient Boosting Machine and we begin with the whole data set.
 
 <<>>=
 #Create the regression task. 
@@ -102,11 +102,11 @@ data(BostonHousing)
 task <- makeRegrTask(data = BostonHousing, target = "medv")
 lrn <- makeLearner("regr.gbm", n.trees = 500, distribution = "laplace", interaction.depth = 3)
 
-mod <- train(lrn, task, subset = seq(1, nrow(BostonHousing), 2))  
+mod <- train(lrn, task)  
 mod
 @
 
-Now we use a subset of the data for training (every second observation).
+Now, we use a subset of the data for training (every second observation).
 
 <<>>=
 mod <- train(lrn, task, subset = seq(1, nrow(BostonHousing), 2))
