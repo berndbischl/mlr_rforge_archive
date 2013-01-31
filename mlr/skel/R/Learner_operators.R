@@ -158,3 +158,22 @@ getHyperParsString = function(learner) {
   s = Map(paramValueToString, pars, hps)
   paste(ns, s, sep = "=", collapse = ",")
 }
+
+
+#' Get underlying R model of learner integrated into mlr.
+#' 
+#' @param learner [\code{\link{Learner}}]\cr 
+#'   The learner.   
+#' @return [any]. A fitted model, depending the learner / wrapped package. E.g., a
+#'   model of class \code{\link[rpart]{rpart}} for learner \dQuote{classif.rpart}.
+#' @export
+getLearnerModel = function(learner) {
+  checkArg(learner, "Learner")
+  UseMethod("getLearnerModel")
+} 
+
+#'@S3method getLearnerModel Learner
+getLearnerModel = function(learner) {
+  checkArg(learner, "Learner")
+  learner$learner.model
+} 
