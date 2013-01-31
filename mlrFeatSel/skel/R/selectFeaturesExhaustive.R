@@ -13,5 +13,5 @@ selectFeaturesExhaustive = function(learner, task, resampling, measures, bit.nam
   evalOptimizationStates(learner, task, resampling, measures, bits.to.features, control, opt.path, show.info, states, 1L, as.integer(NA))
   i = getOptPathBestIndex(opt.path, mlr:::measureAggrName(measures[[1]]), ties="random")
   e = getOptPathEl(opt.path, i)
-  makeFeatSelResult(learner, control, e$x, e$y, opt.path)
+	makeFeatSelResult(learner, control, names(e$x)[e$x == 1], e$y, opt.path)
 } 

@@ -18,11 +18,14 @@
 #' @aliases FeatSelControlExhaustive FeatSelControlRandom FeatSelControlSequential
 NULL
 
-makeFeatSelControl = function(same.resampling.instance, max.features, ..., cl) {
+makeFeatSelControl = function(same.resampling.instance, maxit, max.features, ..., cl) {
   checkArg(same.resampling.instance, "logical", len=1, na.ok=FALSE)
+  maxit = convertInteger(maxit)
+  checkArg(maxit, "integer", len=1, min=1, na.ok=FALSE)
   max.features = convertInteger(max.features)
   checkArg(max.features, "integer", len=1, min=1, na.ok=FALSE)
 	x = mlrTune:::makeOptControl(same.resampling.instance=same.resampling.instance)
+  x$maxit = maxit
   x$max.features = max.features
   class(x) = c(cl, "FeatSelControl", class(x))
   return(x)

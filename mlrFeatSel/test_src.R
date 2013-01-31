@@ -7,12 +7,12 @@ data(BostonHousing)
 load_all("skel")
 
 task = makeClassifTask(data=iris, target="Species")
-lrn = makeLearner("classif.rpart", minsplit=3)
+lrn = makeLearner("classif.rpart")
 rdesc = makeResampleDesc("Holdout")
 
-ctrl = makeFeatSelControlRandom(max.features=2)
+ctrl = makeFeatSelControlRandom(max.features=2, maxit=10)
 
-or = selectFeatures(lrn, task, resampling=rdesc, control=ctrl)
+or = selectFeatures(lrn, task, rdesc, control=ctrl)
 print(or)
 #z = filterFeatures(task)
 #print(z)

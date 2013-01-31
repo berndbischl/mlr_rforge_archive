@@ -111,7 +111,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     last = last-1
   i = getOptPathBestIndex(opt.path, mlr:::measureAggrName(measures[[1]]), ties="first")
   e = getOptPathEl(opt.path, i)
-  makeFeatSelResult(learner, control, e$x, e$y, opt.path)
+	makeFeatSelResult(learner, control, names(e$x)[e$x == 1], e$y, opt.path)
 }
 
 
