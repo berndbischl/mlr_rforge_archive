@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Induced model of learner.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for wrapped.model-class"><tr><td>wrapped.model-class</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Induced model of learner.</h2>
+
+<h3>Description</h3>
+
+<p>Result from <code>train</code>. It internally stores the underlying fitted model,
+the IDs of the subset used for training, variables used for training and    
+information about second-level optimization like tuned hyperparameters or selected variables.</p>
+
+
+<h3>Details</h3>
+
+<p><code>wrapped.model-class</code>: Getter.<br>
+Note that all getters of <code>task.desc</code> and <code>data.desc</code> can also be used. 
+</p>
+
+<dl>
+<dt>learner [learner]</dt><dd><p>Learner that was used to fit the model.</p>
+</dd>
+<dt>learner model [any]</dt><dd><p>Underlying model from used R package.</p>
+</dd>
+<dt>subset [integer]</dt><dd><p>Subset used for training.</p>
+</dd>
+<dt>fail [NULL | string]</dt><dd><p>Generally NULL but if the training failed, the error message of the underlying train function.</p>
+</dd>
+</dl>
+
+
+
+<h3>Extends</h3>
+
+<p><code>object</code></p>
+
+
+<h3>Methods</h3>
+
+<dl>
+<dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>resample.update</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>predict</code></dt><dd><p><code>signature(object = "wrapped.model")</code>: Predict the target variable of new data using a fitted model. If the type is set to &quot;prob&quot; or &quot;decision&quot;
+probabilities or decision values will be stored in the resulting object. The resulting class labels are 
+the classes with the maximum values or thresholding can also be used.</p>
+</dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>pred.learner</code></dt><dd></dd><dt><code>to.string</code></dt><dd></dd><dt><code>[</code></dt><dd><p><code>signature( = "wrapped.model")</code>: Getter.</p>
+</dd></dl>
+
+
+</body></html>

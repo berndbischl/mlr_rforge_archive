@@ -3,16 +3,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>2. Learners &mdash; mlr - Machine Learning in R</title>
-    
     <link rel="stylesheet" href="../_static/theme.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -63,7 +60,7 @@ extensions simple. If one of your favorite methods is missing, either
 send the <strong>mlr</strong> maintainers an email or see the part of the tutorial
 on how to extend the package yourself.</p>
 <p>To see which learners are already implemented, have a look at the
-<a class="reference external" href="../_static/rdocs/mlr/learners.html">learners</a> documentation page or go to <a class="reference external" href="../integrated_learners.html">IntegratedLearners</a>.</p>
+<a class="reference external" href="../_static/rdocs/mlr/learners.html">learners</a> documentation page.</p>
 <p>Generally, you have two options to access the learning algorithms in <strong>mlr</strong>.
 Either by passing the name as a string to the appropriate method, e.g. <a class="reference external" href="../_static/rdocs/mlr/train.html">train</a>,
 or by constructing a <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> object explicitly by means of the
@@ -71,15 +68,14 @@ or by constructing a <a class="reference external" href="../_static/rdocs/mlr/Le
 <p>Why construct a <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> object?</p>
 <ul class="simple">
 <li>You have to create a <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> object if you want to pass hyperparameter values other than the default values.</li>
-<li>You have the opportunity to set an id which is quite useful if you conduct larger experiments and need to access results of a certain learning method.</li>
-<li>For classification tasks you have to create a <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> object if you want to control the type of <a class="reference external" href="../_static/rdocs/mlr/predict.html">prediction</a> which is returned. Per default you get the class labels when making a <a class="reference external" href="../_static/rdocs/mlr/predict.html">prediction</a>. In order to get posterior probabilities you have to specifiy this when creating the learner.</li>
-<li>In order to use a nested resampling strategy where in the inner loop tuning or variable selection is done you need to construct <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> objects, too. Details are explained in Section <tt class="xref doc docutils literal"><span class="pre">nested_resampling</span></tt>.</li>
+<li>You have the opportunity to set an ID, which is quite useful if you conduct larger experiments and need to access results of a certain learning method.</li>
+<li>For classification tasks you have to create a <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> object if you want to control the type of <a class="reference external" href="../_static/rdocs/mlr/predict.html">prediction</a> which is returned. Per default you get the class labels when making a <a class="reference external" href="../_static/rdocs/mlr/predict.html">prediction</a>. In order to get posterior probabilities you have to specify this when creating the learner.</li>
+<li>In order to use a nested resampling strategy, where in the inner loop tuning or variable selection is done, you need to construct <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> objects, too. Details are explained in section <tt class="xref doc docutils literal"><span class="pre">nested_resampling</span></tt>.</li>
 </ul>
 <p>The <a class="reference external" href="../_static/rdocs/mlr/makeLearner.html">makeLearner</a> factory method takes the names of the learning method as
 its first argument. The naming conventions are <tt class="docutils literal"><span class="pre">classif.&lt;R_method_name&gt;</span></tt> for
 classification methods and <tt class="docutils literal"><span class="pre">regr.&lt;R_method_name&gt;</span></tt> for regression methods.
-The names of all learning methods are listed on the <a class="reference external" href="../_static/rdocs/mlr/learners.html">learners</a> documentation page
-and under <a class="reference external" href="../integrated_learners.html">IntegratedLearners</a>.</p>
+The names of all learning methods are listed on the <a class="reference external" href="../_static/rdocs/mlr/learners.html">learners</a> documentation page.</p>
 <div class="section" id="classification-example">
 <h2>2.1. Classification example<a class="headerlink" href="#classification-example" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">)</span>
@@ -102,13 +98,13 @@ Supports probabilities: <span class="kc">TRUE</span>
 information about the learning method like the chosen hyperparameter values
 (if specified) and the type of <a class="reference external" href="../_static/rdocs/mlr/predict.html">prediction</a> that will be made by this learner.
 Moreover, it provides information about the types of classification problems
-and properties of the data the learning method can deal with, for example if
-only two- or multi-class problems are supported and if it can cope with case
-weights or missing values.</p>
+and properties of the data the learning method can deal with. For example,
+it states, if two- or multi-class problems are supported and if it can cope
+with case weights or missing values.</p>
 <p>The tables in <a class="reference external" href="../integrated_learners.html">IntegratedLearners</a> provide a survey about these properties for
 all integrated learning methods.</p>
 <p>Now let&#8217;s create a <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> and additionally specify hyperparameter values and
-an id.</p>
+an ID.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> lrn <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;classif.rpart&quot;</span><span class="p">,</span> minsplit <span class="o">=</span> <span class="m">7</span><span class="p">,</span> cp <span class="o">=</span> <span class="m">0.03</span><span class="p">,</span> id <span class="o">=</span> <span class="s">&quot;myrpart&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> lrn
 Learner myrpart from package rpart
@@ -143,7 +139,7 @@ Supports probabilities: <span class="kc">TRUE</span>
 </div>
 <div class="section" id="regression-example">
 <h2>2.2. Regression example<a class="headerlink" href="#regression-example" title="Permalink to this headline">¶</a></h2>
-<p>Create an rpart <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> for regression.</p>
+<p>Create a rpart <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> for regression.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> lrn <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;regr.rpart&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> lrn
 Learner regr.rpart from package rpart
@@ -159,8 +155,9 @@ Supports standard errs: <span class="kc">FALSE</span>
 </pre></div>
 </div>
 <p>Finally, let&#8217;s create a Gradient Boosting Machine <a class="reference external" href="../_static/rdocs/mlr/Learner-class.html">Learner</a> and pass hyperparameters
-and an id.</p>
-<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> lrn <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;regr.gbm&quot;</span><span class="p">,</span> n.trees <span class="o">=</span> <span class="m">500</span><span class="p">,</span> distribution <span class="o">=</span> <span class="s">&quot;laplace&quot;</span><span class="p">,</span> interaction.depth <span class="o">=</span> <span class="m">3</span><span class="p">,</span> id <span class="o">=</span> <span class="s">&quot;mygbm&quot;</span><span class="p">)</span>
+and an ID.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> lrn <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;regr.gbm&quot;</span><span class="p">,</span> n.trees <span class="o">=</span> <span class="m">500</span><span class="p">,</span> distribution <span class="o">=</span> <span class="s">&quot;laplace&quot;</span><span class="p">,</span> interaction.depth <span class="o">=</span> <span class="m">3</span><span class="p">,</span>
+<span class="o">+</span>                    id <span class="o">=</span> <span class="s">&quot;mygbm&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> lrn
 Learner mygbm from package gbm
 Type: regr
@@ -242,7 +239,7 @@ Supports standard errs: <span class="kc">FALSE</span>
           
     <div class="footer">
         &copy; Copyright 2010-2011, Bernd Bischl et.al..
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
     </div>
         </div>
         <div class="clearer"></div>

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Compare ROC curves of learners in a benchmark experiment.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for ROCR.plot.task"><tr><td>ROCR.plot.task</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Compare ROC curves of learners in a benchmark experiment.</h2>
+
+<h3>Description</h3>
+
+<p>Compare ROC curves of learners in a benchmark experiment.</p>
+
+
+<h3>Usage</h3>
+
+<pre>ROCR.plot.task(x, task.id, learner.ids=x["learners"], perf1="tpr", perf2="fpr",
+    legend.x="bottomright", legend.y, col, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>[<code>bench.result</code>] <br>
+Benchmark result. Must contain predictions.</p>
+</td></tr>
+<tr valign="top"><td><code>task.id</code></td>
+<td>
+<p>[string] <br>
+Id of a task from <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>learner.ids</code></td>
+<td>
+<p>[character] <br>
+Ids of learners to plot. Default are all learners in <code>x</code> for selected task.</p>
+</td></tr>
+<tr valign="top"><td><code>perf1</code></td>
+<td>
+<p>[string] <br>
+First ROC measure for y-axis. Note that this must be a ROCR measure, see <code>ROCR.performance</code>. 
+Default is &quot;tpr&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>perf2</code></td>
+<td>
+<p>[string] <br>
+Second ROC measure for x-axis. Note that this must be a ROCR measure, see <code>ROCR.performance</code>. 
+Default is &quot;fpr&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>legend.x</code></td>
+<td>
+<p>[any] <br> 
+Where should legend be placed. Any placement accepted by <code>legend</code> is ok.
+&quot;none&quot; does not plot a legend.</p>
+</td></tr>
+<tr valign="top"><td><code>legend.y</code></td>
+<td>
+<p>[any] <br> 
+Where should legend be placed. Any placement accepted by <code>legend</code> is ok.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>[character] <br> 
+Colors for ROC curves. Default are rainbow colors.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>[any] <br> 
+Further arguments that are passed to <code>ROCR.plot.performance</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code>ROCR.plot.performance</code></p>
+
+
+</body></html>

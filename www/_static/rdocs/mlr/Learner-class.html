@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Base class for inducers.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for Learner-class"><tr><td>Learner-class</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Base class for inducers.</h2>
+
+<h3>Description</h3>
+
+<p>Abstract base class for learning algorithms.</p>
+
+
+<h3>Details</h3>
+
+<p>How to change object later on: Look at setters.
+</p>
+<p>Tresholds for class labels: If you set <code>predict.type</code> to &quot;prob&quot;, the label with the maximum value is selected.
+You can change labels of a <code>Prediction</code> object later by using the function <code>setThreshold</code>.
+</p>
+<p>Getter.<br>
+</p>
+
+<dl>
+<dt>is.classif [<code>logical(1)</code>]</dt><dd><p>Is this learner for classification tasks?</p>
+</dd>
+<dt>is.regr [<code>logical(1)</code>]</dt><dd><p>Is this learner for regression tasks?</p>
+</dd>
+<dt>id [<code>character(1)</code>]</dt><dd><p>Id string of learner.</p>
+</dd>
+<dt>pack [char]</dt><dd><p>Package(s) required for underlying learner.</p>
+</dd>
+<dt>doubles [<code>logical(1)</code>]</dt><dd><p>Can real-valued inputs be processed?</p>
+</dd>
+<dt>factors [<code>logical(1)</code>]</dt><dd><p>Can factor inputs be processed?</p>
+</dd>
+<dt>missings [<code>logical(1)</code>]</dt><dd><p>Can missing values be processed?</p>
+</dd>
+<dt>weights [<code>logical(1)</code>]</dt><dd><p>Can case weights be used?</p>
+</dd>
+<dt>par.vals [named list]</dt><dd><p>List of set hyperparameters.</p>
+</dd>
+<dt>par.set [named list]</dt><dd><p>Named list of <code>Parameter</code> description objects for all possible hyperparameters.</p>
+</dd>
+</dl>
+
+<p>Further getters for classifiers.<br>
+</p>
+
+<dl>
+<dt>oneclass [<code>logical(1)</code>]</dt><dd><p>Can oneclass problems be handled?</p>
+</dd>
+<dt>twoclass [<code>logical(1)</code>]</dt><dd><p>Can twoclass problems be handled?</p>
+</dd>
+<dt>multiclass [<code>logical(1)</code>]</dt><dd><p>Can multiclass problems be handled?</p>
+</dd>
+<dt>prob [<code>logical(1)</code>]</dt><dd><p>Can probabilities be predicted?</p>
+</dd>
+<dt>predict.type [character]</dt><dd><p>What should be predicted: &ldquo;response&rdquo; or &ldquo;prob&rdquo;</p>
+</dd>
+</dl>
+
+<p>Setters: <code>setId</code>, <code>setHyperPars</code>, <code>setPredictType</code></p>
+
+
+<h3>Methods</h3>
+
+<dl>
+<dt><code>getParameterSet</code></dt><dd></dd><dt><code>getHyperPars</code></dt><dd></dd><dt><code>getProperty</code></dt><dd></dd><dt><code>setProperty</code></dt><dd></dd><dt><code>setProperties</code></dt><dd></dd><dt><code>makeWrappedModel</code></dt><dd></dd><dt><code>resample</code></dt><dd></dd><dt><code>setHyperPars</code></dt><dd></dd><dt><code>setId</code></dt><dd></dd><dt><code>setPredictType</code></dt><dd></dd><dt><code>train</code></dt><dd></dd></dl>
+
+
+</body></html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Set aggregation function of measure.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for setAggregation"><tr><td>setAggregation</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Set aggregation function of measure.</h2>
+
+<h3>Description</h3>
+
+<p>Set how this measure will be aggregated after resampling.</p>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>measure</code></td>
+<td>
+<p>[<code>Measure</code>]<br> 
+Performance measure.</p>
+</td></tr>
+<tr valign="top"><td><code>aggr</code></td>
+<td>
+<p>[<code>Aggregation</code>] <br>
+Aggregation function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>setAggregation-methods</code>: Possible are: test.mean, test.sd, test.median, test.min, test.max
+They all calculate the respective statistic of the test set performances.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>setAggregation-methods</code>: <code>Measure</code> with changed aggregation behaviour.
+</p>
+
+
+</body></html>

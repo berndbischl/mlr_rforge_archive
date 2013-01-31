@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Create learner object.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for make.learner"><tr><td>make.learner</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Create learner object.</h2>
+
+<h3>Description</h3>
+
+<p>Create learner object.</p>
+
+
+<h3>Usage</h3>
+
+<pre>make.learner(class, id, label, predict.type="response",
+    predict.threshold=numeric(0), ..., par.vals=list())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>class</code></td>
+<td>
+<p>[string] <br>
+Class of learner to create.</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>[string]<br> 
+Id string for object. Used to select the object from a named list, etc.</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>[string]<br> 
+Label string for object. Used in plots, etc.</p>
+</td></tr>
+<tr valign="top"><td><code>predict.type</code></td>
+<td>
+<p>[string] <br>
+Classification: &quot;response&quot; | &quot;prob&quot; | &quot;decision&quot;, specifying the type to
+predict. Default is &quot;response&quot;. &quot;decision&quot; is experimental. Ignored for
+regression.</p>
+</td></tr>
+<tr valign="top"><td><code>predict.threshold</code></td>
+<td>
+<p>[numeric] <br>
+Threshold to produce class labels if type is not &quot;response&quot;. 
+Currently only supported for binary classification and type=&quot;prob&quot;, where it
+represents the required predicted probability for the positive class, so that
+a positive class is predicted as &quot;response&quot;. Default is 0.5 for type=&quot;prob&quot;.
+Ignored for regression.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>[any] <br>
+Optional named (hyper)parameters. Alternatively, you can pass via the &quot;par.vals&quot; argument.</p>
+</td></tr>
+<tr valign="top"><td><code>par.vals</code></td>
+<td>
+<p>[list] <br>
+Optional list of named (hyper)parameters. Alternatively, you can pass via the ... argument.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>learner</code>.</p>
+
+
+</body></html>

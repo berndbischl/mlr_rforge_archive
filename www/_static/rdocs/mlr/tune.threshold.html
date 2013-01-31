@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Tune prediction threshold.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for tune.threshold"><tr><td>tune.threshold</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Tune prediction threshold.</h2>
+
+<h3>Description</h3>
+
+<p>Optimizes the threshold of prediction based on probabilities or decision values.
+Currently only implemented for probabilities and binary classification.</p>
+
+
+<h3>Usage</h3>
+
+<pre>tune.threshold(pred, measures, aggr, task, minimize=TRUE, thresholds=10)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pred</code></td>
+<td>
+<p>[<code>prediction</code>] <br>
+Prediction object to use for tuning the treshold.</p>
+</td></tr>
+<tr valign="top"><td><code>measures</code></td>
+<td>
+<p>[see <code>measures</code>]
+Performance measures.</p>
+</td></tr>
+<tr valign="top"><td><code>aggr</code></td>
+<td>
+<p>[see <code>aggregations</code>]
+Aggregation functions. 
+Ignored if not a <code>resample.prediction</code></p>
+</td></tr>
+<tr valign="top"><td><code>task</code></td>
+<td>
+<p>[<code>learn.task</code>] <br>
+Learning task. Rarely neeeded, only when required for the performance measure.</p>
+</td></tr>
+<tr valign="top"><td><code>minimize</code></td>
+<td>
+<p>[logical] <br> 
+Minimize performance measure? Default is TRUE.</p>
+</td></tr>
+<tr valign="top"><td><code>thresholds</code></td>
+<td>
+<p>[integer] <br>
+Number of thresholds to try in tuning.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list with with the following components: &quot;th&quot; is the optimal threshold, pred a prediction object based on &quot;th&quot;, 
+&quot;th.seq&quot; a numerical vector of threhold values which were tried and &quot;perf&quot; their respective performance values.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>tune</code></p>
+
+
+</body></html>

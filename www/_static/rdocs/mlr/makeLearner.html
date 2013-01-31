@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Create learner object.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for makeLearner"><tr><td>makeLearner</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Create learner object.</h2>
+
+<h3>Description</h3>
+
+<p>Create learner object.</p>
+
+
+<h3>Usage</h3>
+
+<pre>makeLearner(class, id, predict.type="response", ..., par.vals=list())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>class</code></td>
+<td>
+<p>[<code>character(1)</code>] <br>
+Class of learner to create. By convention, all classification learners
+start with &ldquo;classif.&rdquo; and all regression learners with
+&ldquo;regr.&rdquo;. A list of all learners is available on the
+<code>learners</code> help page.</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>[<code>character(1)</code>] <br> 
+Id string for object. Used to select the object from a named list, etc.</p>
+</td></tr>
+<tr valign="top"><td><code>predict.type</code></td>
+<td>
+<p>[<code>character(1)</code>] <br>
+Classification: &ldquo;response&rdquo; or &ldquo;prob&rdquo;,
+specifying the type of prediction returned. The default is 
+&ldquo;response&rdquo;.
+For regression, this argument is ignored and should not be set.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>[any] <br>
+Optional named (hyper)parameters. Alternatively these can be given
+using the <code>par.vals</code> argument.</p>
+</td></tr>
+<tr valign="top"><td><code>par.vals</code></td>
+<td>
+<p>[<code>list</code>] <br>
+Optional list of named (hyper)parameters. The arguments in
+<code>...</code> take precedence over values in this list. We strongly
+encourage you to use one or the other to pass (hyper)parameters
+to the learner but not both.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>To change an object later on look at the setters of the
+<code>Learner</code> class.
+</p>
+<p>For a classification learner the <code>predict.type</code> can be set
+to &ldquo;prob&rdquo; to predict probabilities and the maximum
+value selects the label. The threshold used to assign the label can later be changed using the
+<code>setThreshold</code> function.</p>
+
+
+<h3>Value</h3>
+
+<p><code>Learner</code>.</p>
+
+
+</body></html>

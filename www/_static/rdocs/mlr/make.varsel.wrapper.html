@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Fuse learner with variable selection.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for make.varsel.wrapper"><tr><td>make.varsel.wrapper</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Fuse learner with variable selection.</h2>
+
+<h3>Description</h3>
+
+<p>Fuses a base learner with a search strategy to select variables. Creates a learner object, which can be
+used like any other learner object, but which internally uses varsel. If the train function is called on it, the search strategy and resampling are invoked
+to select an optimal set variables. Finally, a model is fitted on the complete training data with these variables and returned.</p>
+
+
+<h3>Usage</h3>
+
+<pre>make.varsel.wrapper(learner, id=as.character(NA), label=as.character(NA), resampling,
+    measures, aggr, control)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>learner</code></td>
+<td>
+<p>[<code>learner</code> or string]<br> 
+Learning algorithm. See <code>learners</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>[string] <br>
+Id for resulting learner object. If missing, id of &quot;learner&quot; argument is used.</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>[string] <br>
+Label for resulting learner object. If missing, label of &quot;learner&quot; argument is used.</p>
+</td></tr>
+<tr valign="top"><td><code>resampling</code></td>
+<td>
+<p>[<code>resample.instance</code>] or [<code>resample.desc</code>]<br>
+Resampling strategy to evaluate points in hyperparameter space.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>Control object for search method. Also selects the optimization algorithm for feature selection.</p>
+</td></tr>
+<tr valign="top"><td><code>measures</code></td>
+<td>
+<p>[see <code>measures</code>]
+Performance measures.</p>
+</td></tr>
+<tr valign="top"><td><code>aggr</code></td>
+<td>
+<p>[see <code>aggregations</code>]
+Aggregation functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>learner</code>.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>varsel</code>, <code>varsel.control</code></p>
+
+
+</body></html>

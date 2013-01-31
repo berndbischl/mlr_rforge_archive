@@ -3,16 +3,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>7. Tuning Hyperparameters &mdash; mlr - Machine Learning in R</title>
-    
     <link rel="stylesheet" href="../_static/theme.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -65,10 +62,9 @@ section about <a class="reference external" href=":doc:`tutorial/train`">trainin
 quite simple to implement a grid search, which is one of the standard
 &#8211; albeit slow &#8211; ways to choose an appropriate set of parameters from a
 given range of values.</p>
-<p>Section <tt class="xref doc docutils literal"><span class="pre">nested_resampling</span></tt></p>
 <div class="section" id="classification-example">
 <h2>7.1. Classification example<a class="headerlink" href="#classification-example" title="Permalink to this headline">¶</a></h2>
-<p>We again use the iris data set included in R, but now we want to
+<p>We again use the iris data set, included in R, but now, we want to
 tune a SVM with a polynomial kernel.</p>
 <p>We start by loading the <strong>mlr</strong> package and creating a classification
 task, just like in the tutorial on <a class="reference external" href=":doc:`tutorial/train`">training</a>:</p>
@@ -76,12 +72,12 @@ task, just like in the tutorial on <a class="reference external" href=":doc:`tut
 <span class="o">&gt;</span> task <span class="o">&lt;-</span> makeClassifTask<span class="p">(</span>data<span class="o">=</span>iris<span class="p">,</span> target<span class="o">=</span><span class="s">&quot;Species&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Next we need to create a <a class="reference external" href="../_static/rdocs/mlrTune/ParameterSet-class.html">ParameterSet</a> object which describes the
+<p>Next, we need to create a <a class="reference external" href="../_static/rdocs/mlrTune/ParameterSet-class.html">ParameterSet</a> object, which describes the
 parameter space we wish to search in. This is done via the function
 <a class="reference external" href="../_static/rdocs/mlr/makeParameterSet.html">makeParameterSet</a>.
 Since we will use a grid search strategy, we add a discrete parameter for the
 <tt class="docutils literal"><span class="pre">C</span></tt> and <tt class="docutils literal"><span class="pre">sigma</span></tt> parameter of the SVM to the parameter set.
-More details concerning parameter sets are explained in Section <tt class="xref doc docutils literal"><span class="pre">params</span></tt>.</p>
+More details concerning parameter sets are explained in section <tt class="xref doc docutils literal"><span class="pre">params</span></tt>.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> ps <span class="o">&lt;-</span> makeParamSet<span class="p">(</span>makeDiscreteParam<span class="p">(</span><span class="s">&quot;C&quot;</span><span class="p">,</span> values<span class="o">=</span><span class="m">2</span><span class="o">^</span><span class="p">(</span><span class="m">-1</span>:<span class="m">1</span><span class="p">)),</span>
 <span class="o">+</span>                    makeDiscreteParam<span class="p">(</span><span class="s">&quot;sigma&quot;</span><span class="p">,</span> values<span class="o">=</span><span class="m">2</span><span class="o">^</span><span class="p">(</span><span class="m">-1</span>:<span class="m">1</span><span class="p">)))</span>
 </pre></div>
@@ -98,59 +94,16 @@ used. Here we use a grid search:</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> ctrl <span class="o">&lt;-</span> makeTuneControlGrid<span class="p">()</span>
 </pre></div>
 </div>
-<p>Finally, by combining all the previous pieces we can tune the SVM
-using our <a class="reference external" href="../_static/rdocs/mlrTune/TuneControl-class.html">TuneControl</a> instance using the resampling strategy
+<p>Finally, by combining all the previous pieces, we can tune the SVM
+using our <a class="reference external" href="../_static/rdocs/mlrTune/TuneControl-class.html">TuneControl</a> instance and the resampling strategy,
 described by the <tt class="docutils literal"><span class="pre">rdesc</span></tt> variable.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> tune<span class="p">(</span>makeLearner<span class="p">(</span><span class="s">&quot;classif.ksvm&quot;</span><span class="p">),</span> task<span class="o">=</span>task<span class="p">,</span> resampling<span class="o">=</span>rdesc<span class="p">,</span> par.set<span class="o">=</span>ps<span class="p">,</span> control<span class="o">=</span>ctrl<span class="p">)</span>
-<span class="p">$</span>learner
-Learner classif.ksvm from package kernlab
-Type: classif
-Class: classif.ksvm
-Predict<span class="o">-</span>Type: response
-Hyperparameters: fit<span class="o">=</span><span class="kc">FALSE</span>
-
-Supported features Numerics:<span class="kc">TRUE</span> Factors:<span class="kc">TRUE</span>
-Supports missings: <span class="kc">FALSE</span>
-Supports weights: <span class="kc">FALSE</span>
-Supports classes: two<span class="p">,</span>multi
-Supports probabilities: <span class="kc">TRUE</span>
-
-<span class="p">$</span>control
-<span class="p">$</span>same.resampling.instance
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="kc">TRUE</span>
-
-<span class="p">$</span>extra.args
-list<span class="p">()</span>
-
-<span class="p">$</span>start
-list<span class="p">()</span>
-
-attr<span class="p">(,</span><span class="s">&quot;class&quot;</span><span class="p">)</span>
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="s">&quot;TuneControlGrid&quot;</span> <span class="s">&quot;TuneControl&quot;</span>     <span class="s">&quot;OptControl&quot;</span>
-
-<span class="p">$</span>x
-<span class="p">$</span>x<span class="p">$</span>C
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">1</span>
-
-<span class="p">$</span>x<span class="p">$</span>sigma
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.5</span>
-
-
-<span class="p">$</span>y
-mmce.test.mean
-          <span class="m">0.04</span>
-
-<span class="p">$</span>opt.path
-Optimization path
-  Dimensions: x<span class="o">=</span><span class="m">2</span><span class="o">/</span><span class="m">2</span><span class="p">,</span> y<span class="o">=</span><span class="m">1</span>
-  Length: <span class="m">9</span>
-  Add x values transformed: <span class="kc">TRUE</span>
-
-attr<span class="p">(,</span><span class="s">&quot;class&quot;</span><span class="p">)</span>
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="s">&quot;TuneResult&quot;</span> <span class="s">&quot;OptResult&quot;</span>
+Tune result:
+Op. pars: C<span class="o">=</span><span class="m">1</span><span class="p">,</span>sigma<span class="o">=</span><span class="m">1</span>
+mmce.test.mean<span class="o">=</span><span class="m">0.0333</span>
 </pre></div>
 </div>
-<p>Let&#8217;s take another closer look example above. The parameter grid has
+<p>Let&#8217;s take another closer look at the example above. The parameter grid has
 to be a named list, where every entry has to be named according to the
 corresponding parameter of the underlying R function (in this case
 &#8220;ksvm&#8221; from the kernlab package, see its respective help page).  Its
@@ -172,13 +125,15 @@ in package <tt class="docutils literal"><span class="pre">kknn</span></tt>) on t
 <span class="o">&gt;</span> data<span class="p">(</span>BostonHousing<span class="p">)</span>
 <span class="o">&gt;</span> task <span class="o">&lt;-</span> makeRegrTask<span class="p">(</span>data <span class="o">=</span> BostonHousing<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;medv&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> <span class="c1">## Range of the value k</span>
-<span class="o">&gt;</span> ps <span class="o">&lt;-</span> makeParameterSet<span class="p">(</span>makeDiscreteParameter<span class="p">(</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="m">1</span>:<span class="m">7</span><span class="p">))</span>
+<span class="o">&gt;</span> ps <span class="o">&lt;-</span> makeParamSet<span class="p">(</span>makeDiscreteParam<span class="p">(</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="m">1</span>:<span class="m">7</span><span class="p">))</span>
 <span class="o">&gt;</span> <span class="c1">## Evaluate with 5-fold cross-validation</span>
-<span class="o">&gt;</span> rdesc <span class="o">&lt;-</span> makeResampleDesc<span class="p">(</span><span class="s">&quot;cv&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+<span class="o">&gt;</span> rdesc <span class="o">&lt;-</span> makeResampleDesc<span class="p">(</span><span class="s">&quot;CV&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
 <span class="o">&gt;</span> <span class="c1">## Create a grid tuner:</span>
 <span class="o">&gt;</span> ctrl <span class="o">&lt;-</span> makeTuneControlGrid<span class="p">()</span>
+<span class="o">&gt;</span> <span class="c1">## Create a learner:</span>
+<span class="o">&gt;</span> lrn <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;regr.kknn&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> <span class="c1">## Tune k-nearest-neighbor-regression with mean squared error as default measure</span>
-<span class="o">&gt;</span> tune<span class="p">(</span><span class="s">&quot;regr.kknn&quot;</span><span class="p">,</span> task<span class="o">=</span>task<span class="p">,</span> resampling<span class="o">=</span>rdesc<span class="p">,</span> par.set<span class="o">=</span>ps<span class="p">,</span> control<span class="o">=</span>ctrl<span class="p">,</span> measures<span class="o">=</span>mse<span class="p">)</span>
+<span class="o">&gt;</span> tune<span class="p">(</span>learner<span class="o">=</span>lrn<span class="p">,</span> task<span class="o">=</span>task<span class="p">,</span> resampling<span class="o">=</span>rdesc<span class="p">,</span> par.set<span class="o">=</span>ps<span class="p">,</span> control<span class="o">=</span>ctrl<span class="p">,</span> measures<span class="o">=</span>mse<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -249,7 +204,7 @@ in package <tt class="docutils literal"><span class="pre">kknn</span></tt>) on t
           
     <div class="footer">
         &copy; Copyright 2010-2011, Bernd Bischl et.al..
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
     </div>
         </div>
         <div class="clearer"></div>

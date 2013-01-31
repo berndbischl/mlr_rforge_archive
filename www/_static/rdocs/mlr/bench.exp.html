@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Benchmark experiment for multiple learners and tasks.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for bench.exp"><tr><td>bench.exp</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Benchmark experiment for multiple learners and tasks.</h2>
+
+<h3>Description</h3>
+
+<p>Complete benchmark experiment to compare different learning algorithms 
+across one or more tasks w.r.t. a given resampling strategy.  
+Experiments are paired, meaning always the same training / test sets are used for the different learners.</p>
+
+
+<h3>Usage</h3>
+
+<pre>bench.exp(learners, tasks, resampling, measures, conf.mats=TRUE, predictions=FALSE, models=FALSE, paths=FALSE)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>learners</code></td>
+<td>
+<p>[string | <code>learner</code> | list of the previous two] <br>
+Defines the learning algorithms which should be compared.</p>
+</td></tr>
+<tr valign="top"><td><code>tasks</code></td>
+<td>
+<p>[<code>learn.task</code> | list of the previous] <br>
+Defines the tasks.</p>
+</td></tr>
+<tr valign="top"><td><code>resampling</code></td>
+<td>
+<p>[resampling desc | resampling instance | list of the previous two] <br>
+Defines the resampling strategies for the tasks.</p>
+</td></tr>
+<tr valign="top"><td><code>measures</code></td>
+<td>
+<p>[see <code>measures</code>]
+Performance measures.</p>
+</td></tr>
+<tr valign="top"><td><code>conf.mats</code></td>
+<td>
+<p>[logical] <br>
+Should confusion matrices be stored?
+Default is TRUE.
+Ignored for regression.</p>
+</td></tr>
+<tr valign="top"><td><code>predictions</code></td>
+<td>
+<p>[logical] <br>
+Should all predictions be stored?
+Default is FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>models</code></td>
+<td>
+<p>[logical] <br>
+Should all fitted models be stored?
+Default is FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>paths</code></td>
+<td>
+<p>[logical] <br>
+Should the optimization paths be stored?
+Default is FALSE.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>bench.result</code>.</p>
+
+
+<h3>Note</h3>
+
+<p>You can also get automatic, internal tuning by using <code>make.tune.wrapper</code> with your learner.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>make.tune.wrapper</code></p>
+
+
+</body></html>

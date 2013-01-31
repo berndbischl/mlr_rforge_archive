@@ -3,16 +3,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>6. Resampling &mdash; mlr - Machine Learning in R</title>
-    
     <link rel="stylesheet" href="../_static/theme.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -56,10 +53,10 @@
             
   <div class="section" id="resampling">
 <h1>6. Resampling<a class="headerlink" href="#resampling" title="Permalink to this headline">¶</a></h1>
-<p>In order to assess the performance of a learning algorithm usually resampling
+<p>In order to assess the performance of a learning algorithm, usually resampling
 strategies are used. There are various methods how this can be done, e.g.
 cross-validation and bootstrap just to mention two popular approaches.
-In <strong>mlr</strong> the <a class="reference external" href="../_static/rdocs/mlr/resample.html">resample</a>-function, depending on the chosen resampling strategy,
+In <strong>mlr</strong>, the <a class="reference external" href="../_static/rdocs/mlr/resample.html">resample</a>-function, depending on the chosen resampling strategy,
 fits the selected learner using the corresponding training sets and performs
 predictions for the corresponding training/test sets and calculates the chosen
 performance measures.</p>
@@ -83,9 +80,9 @@ performance measures.</p>
 
 <span class="p">$</span>measures.test
   iter mmce
-<span class="m">1</span>    <span class="m">1</span> <span class="m">0.02</span>
-<span class="m">2</span>    <span class="m">2</span> <span class="m">0.04</span>
-<span class="m">3</span>    <span class="m">3</span> <span class="m">0.00</span>
+<span class="m">1</span>    <span class="m">1</span> <span class="m">0.00</span>
+<span class="m">2</span>    <span class="m">2</span> <span class="m">0.02</span>
+<span class="m">3</span>    <span class="m">3</span> <span class="m">0.04</span>
 
 <span class="p">$</span>aggr
 mmce.test.mean
@@ -111,14 +108,14 @@ Stratification: <span class="kc">FALSE</span>
 <span class="kc">NULL</span>
 </pre></div>
 </div>
-<p>In this example the peformance measure is mmce (mean misclassification error),
+<p>In this example, the peformance measure is mmce (mean misclassification error),
 the default for classification. See the documentation for <a class="reference external" href="../_static/mlr/measures.html">measures</a> for a
-complete list of performance measure available in <strong>mlr</strong>. More explanations
-concerning the evaluation of learning methods is given in Section <a class="reference internal" href="performance.html"><em>Evaluating Learner Performance</em></a>.</p>
+complete list of performance measure available in <strong>mlr</strong>. More explanations,
+concerning the evaluation of learning methods, are given in section <a class="reference internal" href="performance.html"><em>Evaluating Learner Performance</em></a>.</p>
 </div>
 <div class="section" id="regression-example">
 <h3>6.1.2. Regression example<a class="headerlink" href="#regression-example" title="Permalink to this headline">¶</a></h3>
-<p>For the regression example the BostonHousing data set is used again.</p>
+<p>As a regression example, the BostonHousing data set is used again.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlbench&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> data<span class="p">(</span>BostonHousing<span class="p">)</span>
@@ -137,13 +134,13 @@ concerning the evaluation of learning methods is given in Section <a class="refe
 
 <span class="p">$</span>measures.test
   iter      mse
-<span class="m">1</span>    <span class="m">1</span> <span class="m">22.57254</span>
-<span class="m">2</span>    <span class="m">2</span> <span class="m">21.88898</span>
-<span class="m">3</span>    <span class="m">3</span> <span class="m">28.88265</span>
+<span class="m">1</span>    <span class="m">1</span> <span class="m">21.62674</span>
+<span class="m">2</span>    <span class="m">2</span> <span class="m">23.99960</span>
+<span class="m">3</span>    <span class="m">3</span> <span class="m">26.39308</span>
 
 <span class="p">$</span>aggr
 mse.test.mean
-     <span class="m">24.44806</span>
+     <span class="m">24.00647</span>
 
 <span class="p">$</span>pred
 Resampled Prediction for:
@@ -165,17 +162,17 @@ Stratification: <span class="kc">FALSE</span>
 <span class="kc">NULL</span>
 </pre></div>
 </div>
-<p>For regression the default performance measure is mse (mean squared error).</p>
+<p>For regression, the default performance measure is mse (mean squared error).</p>
 </div>
 </div>
 <div class="section" id="further-information">
 <h2>6.2. Further information<a class="headerlink" href="#further-information" title="Permalink to this headline">¶</a></h2>
 <p>Resampling strategies concern the process of sampling new data sets
-from your data set <span class="math">D</span> under examination. One wants to generate
+from your data set <img class="math" src="../_images/math/9ffb448918db29f2a72f8f87f421b3b3cad18f95.png" alt="D" style="vertical-align: 0px"/> under examination. One wants to generate
 various training and test sets, which the learning method can be
 fitted and validated on. Here it is assumed that every resampling
 strategy consists of a couple of iterations, where for each one there
-are indices into <span class="math">D</span>, defining the respective training and test
+are indices into <img class="math" src="../_images/math/9ffb448918db29f2a72f8f87f421b3b3cad18f95.png" alt="D" style="vertical-align: 0px"/>, defining the respective training and test
 sets.
 These iterations are implemented by storing the index set in a
 so called <a class="reference external" href="../_static/rdocs/mlr/ResampleInstance-class.html">ResampleInstance</a> object. The reasons for having the user
@@ -187,7 +184,7 @@ different methods on exactly the same sets, especially when you want
 to add another method to a comparison experiment you already did.</p>
 </li>
 <li><p class="first">It is easy to add other resampling methods later on. You can
-simply use S4 inheritance, derive from the <a class="reference external" href="../_static/rdocs/mlr/ResampleInstance-class.html">ResampleInstance</a>
+simply use S4 inheritance, derived from the <a class="reference external" href="../_static/rdocs/mlr/ResampleInstance-class.html">ResampleInstance</a>
 class, but you do not have to touch any methods that use the
 resampling strategy.</p>
 <blockquote>
@@ -198,18 +195,19 @@ resampling strategy.</p>
 </div>
 <div class="section" id="resample-descriptions-and-resample-instances">
 <h2>6.3. Resample descriptions and resample instances<a class="headerlink" href="#resample-descriptions-and-resample-instances" title="Permalink to this headline">¶</a></h2>
-<p>two types of objects
-a <a class="reference external" href="../_static/rdocs/mlr/ResampleDesc-class.html">ResampleDesc</a> object which stands for resample description and a <a class="reference external" href="../_static/rdocs/mlr/ResampleInstance-class.html">ResampleInstance</a>
-object. These can be generated by means of the factory methods <a class="reference external" href="../_static/rdocs/mlr/makeResampleDesc.html">makeResampleDesc</a>
+<p>There are two types of objects: a <a class="reference external" href="../_static/rdocs/mlr/ResampleDesc-class.html">ResampleDesc</a> object, which stands for
+a resample description, e.g. a 10-fold cross-validation and a <a class="reference external" href="../_static/rdocs/mlr/ResampleInstance-class.html">ResampleInstance</a>
+object, which creates a resample instance for a specific task and based on a resample
+description. These can be generated by means of the factory methods <a class="reference external" href="../_static/rdocs/mlr/makeResampleDesc.html">makeResampleDesc</a>
 and <a class="reference external" href="../_static/rdocs/mlr/makeResampleInstance.html">makeResampleInstance</a>.</p>
-<p>For every resampling strategy there is a description class inheriting
+<p>For every resampling strategy, there is a description class, inheriting
 from <a class="reference external" href="../_static/rdocs/mlr/ResampleDesc-class.html">ResampleDesc</a> (which completely characterizes the necessary
-parameters) and a class inheriting from <a class="reference external" href="../_static/rdocs/mlr/ResampleInstance-class.html">ResampleInstance</a>. This latter
+parameters), as well as a class inheriting from <a class="reference external" href="../_static/rdocs/mlr/ResampleInstance-class.html">ResampleInstance</a>. This latter
 class takes the description object and takes care of the random
 drawing of indices. While this seems overly complicated, it is
 necessary as sometimes one only wants to describe the drawing process,
 while in other instances one wants to create the concrete index
-sets. Also, there are convenience methods to make the construction
+sets. Also, there are convenient methods to make the construction
 process as easy as possible.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> <span class="c1">## get the cv.instance directly</span>
 <span class="o">&gt;</span> rdesc <span class="o">&lt;-</span> makeResampleDesc<span class="p">(</span><span class="s">&quot;CV&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">10</span><span class="p">)</span>
@@ -217,7 +215,7 @@ process as easy as possible.</p>
 </pre></div>
 </div>
 <p>Asking the <a class="reference external" href="../_static/rdocs/mlr/ResampleDesc-class.html">ResampleDesc</a> or <a class="reference external" href="../_static/rdocs/mlr/ResampleInstance-class.html">ResampleInstance</a> objects for further
-information is easy, just inspect their slots: operator:</p>
+information is easy, just inspect the list elements by using the $-operator.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> <span class="c1">## description object</span>
 <span class="o">&gt;</span> <span class="c1">## number of iterations</span>
 <span class="o">&gt;</span> rdesc<span class="p">$</span>iters
@@ -245,9 +243,9 @@ list of getters.</p>
 </ul>
 <div class="section" id="subsampling">
 <h3>6.4.1. Subsampling<a class="headerlink" href="#subsampling" title="Permalink to this headline">¶</a></h3>
-<p>In each iteration <span class="math">i</span> the data set <span class="math">D</span> is randomly partitioned into a
-training and a test set according to a given percentage (maybe 2/3
-training, 1/3 test set). If there is just one iteration, the strategy
+<p>In each iteration <img class="math" src="../_images/math/34857b3ba74ce5cd8607f3ebd23e9015908ada71.png" alt="i" style="vertical-align: 0px"/> the data set <img class="math" src="../_images/math/9ffb448918db29f2a72f8f87f421b3b3cad18f95.png" alt="D" style="vertical-align: 0px"/> is randomly partitioned into a
+training and a test set according to a given percentage, e.g. 2/3
+training and 1/3 test set. If there is just one iteration, the strategy
 is commonly called <cite>holdout</cite> or <cite>test sample estimation</cite>.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> rdesc <span class="o">&lt;-</span> makeResampleDesc<span class="p">(</span><span class="s">&quot;Subsample&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">10</span><span class="p">,</span> split <span class="o">=</span> <span class="m">2</span><span class="o">/</span><span class="m">3</span><span class="p">)</span>
 <span class="o">&gt;</span> rdesc <span class="o">&lt;-</span> makeResampleDesc<span class="p">(</span><span class="s">&quot;Subsample&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">1</span><span class="p">,</span> split <span class="o">=</span> <span class="m">2</span><span class="o">/</span><span class="m">3</span><span class="p">)</span>
@@ -256,8 +254,8 @@ is commonly called <cite>holdout</cite> or <cite>test sample estimation</cite>.<
 </div>
 <div class="section" id="k-fold-cross-validation">
 <h3>6.4.2. <cite>k</cite>-fold cross-validation<a class="headerlink" href="#k-fold-cross-validation" title="Permalink to this headline">¶</a></h3>
-<p>The data set is partitioned into <span class="math">k</span> subsets of (nearly) equal size.
-In the <span class="math">i</span>-th step of the <span class="math">k</span> iterations the <span class="math">i</span>-th subset is
+<p>The data set is partitioned into <img class="math" src="../_images/math/8c325612684d41304b9751c175df7bcc0f61f64f.png" alt="k" style="vertical-align: 0px"/> subsets of (nearly) equal size.
+In the <img class="math" src="../_images/math/34857b3ba74ce5cd8607f3ebd23e9015908ada71.png" alt="i" style="vertical-align: 0px"/>-th step of the <img class="math" src="../_images/math/8c325612684d41304b9751c175df7bcc0f61f64f.png" alt="k" style="vertical-align: 0px"/> iterations the <img class="math" src="../_images/math/34857b3ba74ce5cd8607f3ebd23e9015908ada71.png" alt="i" style="vertical-align: 0px"/>-th subset is
 used as a test set, while the remaining parts form the training set.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> rdesc <span class="o">&lt;-</span> makeResampleDesc<span class="p">(</span><span class="s">&quot;CV&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">10</span><span class="p">)</span>
 </pre></div>
@@ -265,11 +263,11 @@ used as a test set, while the remaining parts form the training set.</p>
 </div>
 <div class="section" id="bootstrapping">
 <h3>6.4.3. Bootstrapping<a class="headerlink" href="#bootstrapping" title="Permalink to this headline">¶</a></h3>
-<p><span class="math">B</span> new data sets <span class="math">D_1</span> to <span class="math">D_B</span> are drawn from
-<span class="math">D</span> with replacement, each of the same size as <span class="math">D</span>.
-In the <span class="math">i</span>-th iteration <span class="math">D_i</span> forms the training set,
-while the remaining elements from <span class="math">D</span> not occuring in the training set
-form the test set.</p>
+<p><img class="math" src="../_images/math/ff5fb3d775862e2123b007eb4373ff6cc1a34d4e.png" alt="B" style="vertical-align: 0px"/> new data sets <img class="math" src="../_images/math/88c7f79185a0b48d33454e85f44b4bfdf81d2420.png" alt="D_1" style="vertical-align: -4px"/> to <img class="math" src="../_images/math/bc590e817d26474b1c4435cab1e9b4883d6ad4ee.png" alt="D_B" style="vertical-align: -3px"/> are drawn from
+<img class="math" src="../_images/math/9ffb448918db29f2a72f8f87f421b3b3cad18f95.png" alt="D" style="vertical-align: 0px"/> with replacement, each of the same size as <img class="math" src="../_images/math/9ffb448918db29f2a72f8f87f421b3b3cad18f95.png" alt="D" style="vertical-align: 0px"/>.
+In the <img class="math" src="../_images/math/34857b3ba74ce5cd8607f3ebd23e9015908ada71.png" alt="i" style="vertical-align: 0px"/>-th iteration <img class="math" src="../_images/math/8dfcbccbc64a91b700ee90d800d2d0a0c2cda992.png" alt="D_i" style="vertical-align: -3px"/> forms the training set,
+while the remaining elements from <img class="math" src="../_images/math/9ffb448918db29f2a72f8f87f421b3b3cad18f95.png" alt="D" style="vertical-align: 0px"/>, i.e. elements not
+occuring in the training set, form the test set.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> rdesc <span class="o">&lt;-</span> makeResampleDesc<span class="p">(</span><span class="s">&quot;Bootstrap&quot;</span><span class="p">,</span> iters <span class="o">=</span> <span class="m">10</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -281,7 +279,7 @@ form the test set.</p>
 <h2>6.5. Evaluation of Predictions after Resampling<a class="headerlink" href="#evaluation-of-predictions-after-resampling" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference external" href="../_static/rdocs/mlr/resample.html">resample</a> function evaluates the performance of your learner using
 a certain resampling strategy for a given machine learning task.</p>
-<p>When you use some resampling strategy, <strong>mlr</strong> offers the following
+<p>When you use a resampling strategy, <strong>mlr</strong> offers the following
 possibilities to evaluate your predictions: Every single resampling
 iteration is handled as described in the explanation above, i.e. you
 train a model on a training part of the data set, predict on test set
@@ -290,12 +288,11 @@ measure. This is proceeded for every iteration so that you have
 e.g. ten performance values in the case of 10-fold cross-validation.
 The question arises, how to aggregate those values. You can specify
 that explicitly, the default is the mean. Let&#8217;s have a look at an
-example</p>
-<p>object of class <a class="reference external" href="../_static/rdocs/mlr/ResamplePrediction-class.html">ResamplePrediction</a> ...</p>
+example...</p>
 <div class="section" id="id1">
 <h3>6.5.1. Classification example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<p>For the example code, we use the standard iris data set and compare
-with 10-fold cross-validation a Decision Tree and the Linear Discriminant
+<p>For the example code, we use the standard iris data set and compare a
+Decision Tree and the Linear Discriminant based on a 10-fold cross-validation
 Analysis:</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> <span class="c1">## Classification task</span>
 <span class="o">&gt;</span> task <span class="o">&lt;-</span> makeClassifTask<span class="p">(</span>data <span class="o">=</span> iris<span class="p">,</span> target <span class="o">=</span> <span class="s">&quot;Species&quot;</span><span class="p">)</span>
@@ -304,9 +301,10 @@ Analysis:</p>
 <span class="o">&gt;</span> rinst <span class="o">&lt;-</span> makeResampleInstance<span class="p">(</span>rdesc<span class="p">,</span> task <span class="o">=</span> task<span class="p">)</span>
 </pre></div>
 </div>
-<p>Now we fit a decision tree for each fold and measure both the mean misclassification
+<p>Now, we fit a decision tree for each fold and measure both the mean misclassification
 error (<cite>mmce</cite>) and the accuracy (<cite>acc</cite>):</p>
-<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> <span class="c1">## Merge learner, i.e. Decision Tree, classification task ct and resample instance rin</span>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> <span class="c1">## Merge learner (lrn), i.e. Decision Tree, classification task (task) and</span>
+<span class="o">&gt;</span> <span class="c1">## resample instance (rinst)</span>
 <span class="o">&gt;</span> lrn <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;classif.rpart&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> r1 <span class="o">&lt;-</span> resample<span class="p">(</span>lrn<span class="p">,</span> task<span class="p">,</span> rinst<span class="p">)</span>
 </pre></div>
@@ -329,11 +327,11 @@ error (<cite>mmce</cite>) and the accuracy (<cite>acc</cite>):</p>
   iter mmce  acc
 <span class="m">1</span>    <span class="m">1</span> <span class="m">0.08</span> <span class="m">0.92</span>
 <span class="m">2</span>    <span class="m">2</span> <span class="m">0.02</span> <span class="m">0.98</span>
-<span class="m">3</span>    <span class="m">3</span> <span class="m">0.06</span> <span class="m">0.94</span>
+<span class="m">3</span>    <span class="m">3</span> <span class="m">0.08</span> <span class="m">0.92</span>
 
 <span class="p">$</span>aggr
 mmce.test.mean  acc.test.mean
-    <span class="m">0.05333333</span>     <span class="m">0.94666667</span>
+          <span class="m">0.06</span>           <span class="m">0.94</span>
 
 <span class="p">$</span>pred
 Resampled Prediction for:
@@ -396,13 +394,13 @@ the <cite>measures.test</cite> element of the result list:</p>
   iter mmce  acc
 <span class="m">1</span>    <span class="m">1</span> <span class="m">0.08</span> <span class="m">0.92</span>
 <span class="m">2</span>    <span class="m">2</span> <span class="m">0.02</span> <span class="m">0.98</span>
-<span class="m">3</span>    <span class="m">3</span> <span class="m">0.06</span> <span class="m">0.94</span>
+<span class="m">3</span>    <span class="m">3</span> <span class="m">0.08</span> <span class="m">0.92</span>
 </pre></div>
 </div>
 <p>The aggregated performance values are stored in the <cite>aggr</cite> list element:</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> r1<span class="p">$</span>aggr
 mmce.test.mean  acc.test.mean
-    <span class="m">0.05333333</span>     <span class="m">0.94666667</span>
+          <span class="m">0.06</span>           <span class="m">0.94</span>
 </pre></div>
 </div>
 <p>As you can see above, in every fold of the 3-fold cross-validation you
@@ -412,7 +410,7 @@ look at the single losses is of course possible as well.</p>
 </div>
 <div class="section" id="id2">
 <h3>6.5.2. Regression example<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p>Now we use the BostonHousing data and compare the results of a Neural Net and a k-Nearest-Neighbor regression with out-of-bag bootstraping.</p>
+<p>Now, we use the BostonHousing data and compare the results of a Neural Net and a k-Nearest-Neighbor regression with out-of-bag bootstraping.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlr&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> library<span class="p">(</span><span class="s">&quot;mlbench&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> data<span class="p">(</span>BostonHousing<span class="p">)</span>
@@ -425,32 +423,32 @@ look at the single losses is of course possible as well.</p>
 <span class="o">&gt;</span> lrn1 <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;regr.nnet&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> r1 <span class="o">&lt;-</span> resample<span class="p">(</span>lrn1<span class="p">,</span> task<span class="p">,</span> rinst<span class="p">,</span> measures <span class="o">=</span> ms<span class="p">)</span>
 <span class="c1"># weights:  46</span>
-initial  value <span class="m">309745.015990</span>
-final  value <span class="m">41916.962549</span>
+initial  value <span class="m">315726.521954</span>
+final  value <span class="m">38819.702945</span>
 converged
 <span class="c1"># weights:  46</span>
-initial  value <span class="m">291875.930515</span>
-iter  <span class="m">10</span> value <span class="m">42481.226829</span>
-final  value <span class="m">41954.967409</span>
+initial  value <span class="m">307797.761138</span>
+final  value <span class="m">45613.771779</span>
 converged
 <span class="c1"># weights:  46</span>
-initial  value <span class="m">307019.121595</span>
-final  value <span class="m">50052.862549</span>
+initial  value <span class="m">308740.602220</span>
+final  value <span class="m">46907.563735</span>
 converged
 <span class="o">&gt;</span> <span class="c1">## Another resampling for the k-Nearest Neighbor regression</span>
 <span class="o">&gt;</span> lrn2 <span class="o">&lt;-</span> makeLearner<span class="p">(</span><span class="s">&quot;regr.kknn&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> r2 <span class="o">&lt;-</span> resample<span class="p">(</span>lrn2<span class="p">,</span> task<span class="p">,</span> rinst<span class="p">,</span> measures <span class="o">=</span> ms<span class="p">)</span>
-<span class="o">&gt;</span> <span class="c1"># Now let&#39;s compare both methods regarding the mse (mean squared error) and the medae (median of absolute errors)</span>
+<span class="o">&gt;</span> <span class="c1">## Now let&#39;s compare both methods regarding the mse (mean squared error) and the</span>
+<span class="o">&gt;</span> <span class="c1">## medae (median of absolute errors)</span>
 <span class="o">&gt;</span> r1<span class="p">$</span>measures.test
   iter      mse    medae
-<span class="m">1</span>    <span class="m">1</span> <span class="m">82.03778</span> <span class="m">4.290316</span>
-<span class="m">2</span>    <span class="m">2</span> <span class="m">74.50829</span> <span class="m">4.387217</span>
-<span class="m">3</span>    <span class="m">3</span> <span class="m">71.95376</span> <span class="m">5.064229</span>
+<span class="m">1</span>    <span class="m">1</span> <span class="m">91.90899</span> <span class="m">5.407312</span>
+<span class="m">2</span>    <span class="m">2</span> <span class="m">92.66351</span> <span class="m">5.185375</span>
+<span class="m">3</span>    <span class="m">3</span> <span class="m">75.96345</span> <span class="m">4.778854</span>
 <span class="o">&gt;</span> r2<span class="p">$</span>measures.test
   iter      mse    medae
-<span class="m">1</span>    <span class="m">1</span> <span class="m">25.93059</span> <span class="m">1.479387</span>
-<span class="m">2</span>    <span class="m">2</span> <span class="m">13.58193</span> <span class="m">1.658982</span>
-<span class="m">3</span>    <span class="m">3</span> <span class="m">20.58491</span> <span class="m">1.503642</span>
+<span class="m">1</span>    <span class="m">1</span> <span class="m">23.47813</span> <span class="m">1.697108</span>
+<span class="m">2</span>    <span class="m">2</span> <span class="m">14.10123</span> <span class="m">1.603044</span>
+<span class="m">3</span>    <span class="m">3</span> <span class="m">20.23809</span> <span class="m">1.741128</span>
 </pre></div>
 </div>
 <p>...</p>
@@ -539,7 +537,7 @@ converged
           
     <div class="footer">
         &copy; Copyright 2010-2011, Bernd Bischl et.al..
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
     </div>
         </div>
         <div class="clearer"></div>

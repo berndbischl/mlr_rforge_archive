@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Hyperparameter tuning</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for tune"><tr><td>tune</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Hyperparameter tuning</h2>
+
+<h3>Description</h3>
+
+<p>Optimizes the hyperparameters of a learner for a classification or regression problem.
+Allows for different optimization methods, commonly grid search is used but other search techniques
+are available as well.
+The specific details of the search algorithm are set by passing a control object.</p>
+
+
+<h3>Usage</h3>
+
+<pre>tune(learner, task, resampling, control, measures, aggr, model=FALSE,
+    path=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>learner</code></td>
+<td>
+<p>[<code>learner</code> or string]<br> 
+Learning algorithm. See <code>learners</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>task</code></td>
+<td>
+<p>[<code>learn.task</code>] <br>
+Learning task.</p>
+</td></tr>
+<tr valign="top"><td><code>resampling</code></td>
+<td>
+<p>[<code>resample.instance</code>] or [<code>resample.desc</code>]<br>
+Resampling strategy to evaluate points in hyperparameter space. At least for grid search, if you pass a description, 
+it is instantiated at one, so all points are evaluated on the same training/test sets.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>[<code>tune.control</code>] <br>
+Control object for search method. Also selects the optimization algorithm for tuning.</p>
+</td></tr>
+<tr valign="top"><td><code>measures</code></td>
+<td>
+<p>[see <code>measures</code>]<br>
+Performance measures.</p>
+</td></tr>
+<tr valign="top"><td><code>aggr</code></td>
+<td>
+<p>[see <code>aggregations</code>]<br>
+Aggregation functions.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>[boolean]<br>
+Should a final model be fitted on the complete data with the best found hyperparameters? Default is FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>[boolean]<br>
+Should optimization path be saved? Default is FALSE.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The first measure, aggregated by the first aggregation function is optimized, to find a set of optimal hyperparameters.</p>
+
+
+<h3>Value</h3>
+
+<p><code>opt.result</code>.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>grid.control</code>, <code>optim.control</code>, <code>cmaes.control</code></p>
+
+
+</body></html>

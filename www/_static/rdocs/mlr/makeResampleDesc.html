@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Construct resampling description.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for makeResampleDesc"><tr><td>makeResampleDesc</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Construct resampling description.</h2>
+
+<h3>Description</h3>
+
+<p>Generates a description object for a resampling strategy.</p>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>[<code>character(1)</code>] <br>
+'CV' for cross-validation, 'LOO' for leave-one-out, 'StratCV' for stratified cross-validation, 'RepCV' for repeated cross-validation,<br>
+'BS' for out-of-bag bootstrap, 'Subsample' for subsampling, 'Holdout' for holdout.</p>
+</td></tr>
+<tr valign="top"><td><code>iters</code></td>
+<td>
+<p>[<code>integer</code>] <br>
+Number of resampling iterations. Ignored for 'Holdout'. Default is 10.</p>
+</td></tr>
+<tr valign="top"><td><code>predict</code></td>
+<td>
+<p>[character] <br>
+What to predict during resampling: 'train', 'test' or 'both' sets. Default is 'test'.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>[any] <br>
+Further parameters for strategies.<br> 
+split [<code>numeric(1)</code>]: Proportion of training cases for 'Holdout' and 'Subsample' from between 0 and 1. Default is 2/3.<br>
+reps [integer(1)]: Repeats for 'RepCV'. Here 'iters' = 'folds' x 'reps'. Default is 2. <br>
+folds [integer(1)]: Folds in the repeated CV for 'RepCV'. Here 'iters' = 'folds' x 'reps'. Default is 5.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>makeResampleDesc-methods</code>: Repeated cross-validation: Use 'RepCV'. Then you have to set the aggregation function for your preferred performance measure to 
+'testgroup.mean' via <code>setAggregation</code>.
+B632 bootstrap: Use 'BS' for bootstrap and set predict to 'both'. 
+Then you have to set the aggregation function for your preferred performance measure to 
+'b632' via <code>setAggregation</code>.
+B632+ bootstrap: Use 'BS' for bootstrap and set predict to 'both'. 
+Then you have to set the aggregation function for your preferred performance measure to 
+'b632plus' via <code>setAggregation</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>makeResampleDesc-methods</code>: <code>ResampleDesc</code>.
+</p>
+
+
+</body></html>
