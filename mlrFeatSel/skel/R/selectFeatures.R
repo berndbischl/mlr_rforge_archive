@@ -1,26 +1,26 @@
 #' Feature selection by wrapper approach.
 #'
-#' Optimizes the variables for a classification or regression problem by choosing a variable selection wrapper approach.
+#' Optimizes the features for a classification or regression problem by choosing a variable selection wrapper approach.
 #' Allows for different optimization methods, such as forward search or a genetic algorithm.
 #' You can select such an algorithm (and its settings)
 #' by passing a corresponding control object. For a complete list of implemented algorithms look at the 
-#' subclasses of [\code{\linkS4class{VarselControl}}].
+#' subclasses of [\code{\link{FeatSelControl}}].
 #'
 #' All algorithms operate on a 0-1-bit encoding of candidate solutions. Per default a single bit corresponds
 #' to a single feature, but you are able to change this by using the arguments \code{bit.names} 
 #' and \code{bits.to.features}. Thus allowing you to switch on whole groups of features with a single bit.  
 #' 
-#' @param learner [\code{\linkS4class{Learner}} or string]\cr 
-#'   Learning algorithm. See \code{\link{learners}}.  
-#' @param task [\code{\linkS4class{LearnTask}}] \cr
-#'   Learning task.   
-#' @param resampling [\code{\linkS4class{ResampleInstance}}] or [\code{\linkS4class{ResampleDesc}}]\cr
-#'   Resampling strategy to evaluate feature sets. If you pass a description, 
-#'   it is instantiated once at the beginning by default, so all feature sets are evaluated on the same training/test sets.
-#'   If you want to change that behaviour, look at the control object.  
-#' @param control [see \code{\link{VarselControl}}]
+#' @param learner [\code{\link[mlr]{Learner}}]\cr 
+#'   The learner.
+#' @param task [\code{\link[mlr]{SupervisedTask}}]\cr
+#'   The task.
+#' @param resampling [\code{\link[mlr]{ResampleInstance}} | \code{\link{ResampleDesc}}]\cr
+#'   Resampling strategy to feature sets. If you pass a description, 
+#'   it is instantiated once at the beginning by default, so all points are evaluated on the same training/test sets.
+#'   If you want to change that behaviour, look at \code{\link{FeatSelControl}}.   
+#' @param control [see \code{\link{FeatSelControl}}]
 #'   Control object for search method. Also selects the optimization algorithm for feature selection. 
-#' @param measures [list of \code{\linkS4class{Measure}}]\cr
+#' @param measures [list of \code{\link{Measure}}]\cr
 #'   Performance measures to evaluate. The first measure, aggregated by the first aggregation function is optimized during selection, others are simply evaluated.  
 #' @param bit.names [character]\cr
 #'   Names of bits encoding the solutions. Also defines the total number of bits in the encoding.
