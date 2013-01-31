@@ -1,7 +1,7 @@
 selectFeaturesExhaustive = function(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, show.info) {
   p = length(bit.names)
   states = list(rep(0, p))
-  for (i in 1:min(control$max.vars, p)) {
+  for (i in 1:min(control$max.features, p)) {
     x = combn(1:p, i)
     s = lapply(1:ncol(x), function(j) { 
         b = rep(0, p)

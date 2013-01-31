@@ -1,11 +1,13 @@
+#FIXME carefulle doc. arg meanings
+
 #' Create control structures for feature selection.
 #' 
 #' The following methods are available:
 #'
 #' \describe{
-#'   \item{VarselControlExhaustive}{Exhaustive search. All feature sets (up to a certain size) are searched.}
-#'   \item{VarselControlRandom}{Random search. Features vectors are randomly drawn.}
-#'   \item{VarselControlSequential}{Deterministic forward or backward search.}
+#'   \item{FeatSelControlExhaustive}{Exhaustive search. All feature sets (up to a certain size) are searched.}
+#'   \item{FeatSelControlRandom}{Random search. Features vectors are randomly drawn.}
+#'   \item{FeatSelControlSequential}{Deterministic forward or backward search.}
 #' }
 #' 
 #' @param same.resampling.instance [\code{logical(1)}]\cr
@@ -21,7 +23,7 @@ NULL
 makeFeatSelControl = function(same.resampling.instance, maxit, max.features, ..., cl) {
   checkArg(same.resampling.instance, "logical", len=1, na.ok=FALSE)
   maxit = convertInteger(maxit)
-  checkArg(maxit, "integer", len=1, min=1, na.ok=FALSE)
+  checkArg(maxit, "integer", len=1, min=1, na.ok=TRUE)
   max.features = convertInteger(max.features)
   checkArg(max.features, "integer", len=1, min=1, na.ok=FALSE)
 	x = mlrTune:::makeOptControl(same.resampling.instance=same.resampling.instance)
