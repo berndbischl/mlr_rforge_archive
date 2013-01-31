@@ -2,6 +2,7 @@ library(methods)
 library(testthat)
 library(e1071)
 library(reshape)
+library(mlrTune)
 
 if (interactive()) {
   library(devtools)

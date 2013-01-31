@@ -25,7 +25,7 @@ makeFeatSelControl = function(same.resampling.instance, maxit, max.features, ...
   maxit = convertInteger(maxit)
   checkArg(maxit, "integer", len=1, min=1, na.ok=TRUE)
   max.features = convertInteger(max.features)
-  checkArg(max.features, "integer", len=1, min=1, na.ok=FALSE)
+  checkArg(max.features, "integer", len=1, min=1, na.ok=TRUE)
 	x = mlrTune:::makeOptControl(same.resampling.instance=same.resampling.instance)
   x$maxit = maxit
   x$max.features = max.features

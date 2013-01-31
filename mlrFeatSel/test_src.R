@@ -10,7 +10,7 @@ task = makeClassifTask(data=iris, target="Species")
 lrn = makeLearner("classif.rpart")
 rdesc = makeResampleDesc("Holdout")
 
-ctrl = makeFeatSelControlRandom(max.features=2, maxit=10)
+ctrl = makeFeatSelControlRandom(maxit=NA)
 
 or = selectFeatures(lrn, task, rdesc, control=ctrl)
 print(or)

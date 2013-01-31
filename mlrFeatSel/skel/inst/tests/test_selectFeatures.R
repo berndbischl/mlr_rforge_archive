@@ -14,35 +14,35 @@ test_that("selectFeatures", {
   print(fr)
   
   # check maxit
-  ctrl = makeFeatSelControlRandom(maxit=4, path=TRUE)
+  ctrl = makeFeatSelControlRandom(maxit=4)
   fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, control=ctrl)
   expect_equal(getOptPathLength(fr$opt.path), 4) 
   
-  ctrl = makeFeatSelControlSequential(method="sfs", alpha=0.01, path=TRUE)
+  ctrl = makeFeatSelControlSequential(method="sfs", alpha=0.01)
   fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, control=ctrl)
   checkTrue(getOptPathLength(fr$opt.path) > 1) 
   
-  ctrl = makeFeatSelControlSequential(method="sbs", beta=0.01, path=TRUE)
+  ctrl = makeFeatSelControlSequential(method="sbs", beta=0.01)
   fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, control=ctrl)
   checkTrue(getOptPathLength(fr$opt.path) > 1) 
   
-  ctrl = makeFeatSelControlSequential(method="sffs", alpha=0.01, path=TRUE)
+  ctrl = makeFeatSelControlSequential(method="sffs", alpha=0.01)
   fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, control=ctrl)
   # we must at least try to select a 2nd feature
   checkTrue(getOptPathLength(fr$opt.path) >= 1 + 4 + 1 + 3) 
   
-  ctrl = makeFeatSelControlSequential(method="sfbs", beta=0.01, path=TRUE)
+  ctrl = makeFeatSelControlSequential(method="sfbs", beta=0.01)
   fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, control=ctrl)
   checkTrue(getOptPathLength(fr$opt.path) > 1) 
   
   
   
   # check max.features
-  ctrl = makeFeatSelControlSequential(alpha=0, max.features=1, method="sfs", path=TRUE)
+  ctrl = makeFeatSelControlSequential(alpha=0, max.features=1, method="sfs")
   fr = selectFeatures(lrn, task=binaryclass.task, resampling=inner, control=ctrl)
   expect_equal(length(fr$x), 1) 
   
-  ctrl = makeFeatSelControlSequential(beta=1, max.features=58, method="sbs", path=TRUE)
+  ctrl = makeFeatSelControlSequential(beta=1, max.features=58, method="sbs")
   fr = selectFeatures(lrn, task=binaryclass.task, resampling=inner, control=ctrl)
   expect_equal(length(fr$x), 58) 
   
