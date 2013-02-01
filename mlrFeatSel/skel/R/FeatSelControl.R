@@ -1,4 +1,5 @@
 #FIXME carefulle doc. arg meanings
+#FIXME what about ...? check gaian in all files!
 
 #' Create control structures for feature selection.
 #' 

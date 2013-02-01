@@ -67,7 +67,8 @@ selectFeatures = function(learner, task, resampling, control, measures,
   sel.func = switch(cl,
     FeatSelControlRandom = selectFeaturesRandom,
     FeatSelControlExhaustive = selectFeaturesExhaustive,
-    FeatSelControlSequential = selectFeaturesSequential
+    FeatSelControlSequential = selectFeaturesSequential,
+    FeatSelControlGA = selectFeaturesGA
   )
   
   sel.func(learner, task, resampling, measures, bit.names, 
