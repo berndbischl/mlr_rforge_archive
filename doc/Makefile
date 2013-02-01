@@ -16,7 +16,8 @@ help:
 
 clean:
 	@echo "Cleaning up ..." 
-	@-rm -fR $(WWWDIR)/* 
+	@-rm -f $(WWWDIR)/*.html 
+	@-rm -f $(WWWDIR)/tutorial/*.html
 	@-rm -f $(RSTFILES) $(RNWFILES:.Rnw=.log) 
 	@-rm -f _linkcheck/
 
