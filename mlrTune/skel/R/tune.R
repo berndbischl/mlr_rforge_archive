@@ -54,7 +54,8 @@ tune = function(learner, task, resampling, measures, par.set, control, show.info
     TuneControlGrid = tuneGrid,
     TuneControlOptim = tuneOptim,
     TuneControlCMAES = tuneCMAES,
-    TuneControlMBO = tuneMBO
+    TuneControlMBO = tuneMBO,
+	  TuneControlIrace = tuneIrace
 #   TuneControlMies = tuneMIES
 	)		
   opt.path = makeOptPathDFFromMeasures(par.set, measures)

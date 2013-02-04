@@ -29,6 +29,7 @@ checkTunerParset = function(learner, par.set, control) {
     checkStart()
   } else if (is(control, "TuneControlMBO")) {
   } else if (is(control, "TuneControlMies")) {
+  } else if (is(control, "TuneControlIrace")) {
   } else {
     stop("Tuning algorithm for ", class(control)[1], " does not exist!")
   }
