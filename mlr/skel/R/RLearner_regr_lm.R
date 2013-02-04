@@ -23,7 +23,6 @@ trainLearner.regr.lm = function(.learner, .task, .subset,  ...) {
   if (.task$task.desc$has.weights) {
     # FIXME: strange bug in lm concerning weights
     .weights = force(.task$weights[.subset])
-    xx <<- .weights
     lm(data=d, weights=.weights, ...)
   } else { 
     lm(f, data=d, ...)

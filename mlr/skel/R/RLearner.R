@@ -52,6 +52,7 @@
 NULL
 
 #' @export
+#' @rdname RLearner
 makeRLearner = function() {
   UseMethod("makeRLearner")
 }

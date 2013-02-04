@@ -173,7 +173,7 @@ getLearnerModel = function(learner) {
 } 
 
 #'@S3method getLearnerModel Learner
-getLearnerModel = function(learner) {
+getLearnerModel.Learner = function(learner) {
   checkArg(learner, "Learner")
   learner$learner.model
 } 
