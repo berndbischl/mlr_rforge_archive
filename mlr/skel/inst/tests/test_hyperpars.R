@@ -2,11 +2,11 @@ context("hyperpars")
 
 test_that("hyperpars", {
 	lrn = makeLearner("classif.rpart", minsplit=10)
-	expect_equal(getHyperPars(lrn), list(minsplit=10)) 
+	expect_equal(getHyperPars(lrn), list(xval=0, minsplit=10)) 
 	
 	m = train(lrn, task=multiclass.task)
   expect_true(!inherits(m, "FailureModel"))
-	expect_equal(getHyperPars(m$learner), list(minsplit=10)) 
+	expect_equal(getHyperPars(m$learner), list(xval=0, minsplit=10)) 
 	
   # check warnings
   configureMlr(on.par.without.desc="warn")  

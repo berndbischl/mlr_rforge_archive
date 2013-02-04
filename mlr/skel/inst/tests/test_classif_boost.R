@@ -3,8 +3,8 @@ context("classif_boosting")
 test_that("classif_boosting", {
 	library(adabag)
 	parset.list1 = list(
-			list(mfinal=3),
-			list(mfinal=6, control=list(cp=0.2))
+		list(mfinal=3, control=list(xval=0)),
+		list(mfinal=6, control=list(cp=0.2, xval=0))
 	)
   parset.list2 = list(
     list(mfinal=3),
@@ -32,13 +32,13 @@ test_that("classif_boosting", {
 	tt =function (formula, data, subset=1:nrow(data), ...) {
     args = list(...)
     if (!is.null(args$cp))
-      ctrl = rpart.control(cp=args$cp)
+      ctrl = rpart.control(cp=args$cp, xval=0)
     else
       ctrl = rpart.control()
 		boosting(formula, data[subset,], mfinal=args$mfinal, control=ctrl)
 	}
 	
-	tp =function(model, newdata) as.factor(predict(model, newdata)$class)
+	tp = function(model, newdata) as.factor(predict(model, newdata)$class)
 	
 	testCVParsets("classif.boosting", multiclass.df, multiclass.target, tune.train=tt, tune.predict=tp, parset.list=parset.list2)
 })
