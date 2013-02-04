@@ -31,7 +31,7 @@
 #' @param show.info [\code{logical(1)}]\cr
 #'   Show info message after each hyperparameter evaluation?
 #'   Default is \code{TRUE}.
-#' @return [\code{\link{OptResult}}].
+#' @return [\code{\link{TuneResult}}].
 #' @export
 tune = function(learner, task, resampling, measures, par.set, control, show.info=TRUE) {
   checkArg(learner, "Learner")
