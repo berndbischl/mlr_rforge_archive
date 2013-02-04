@@ -7,7 +7,12 @@ data(BostonHousing)
 load_all("skel")
 source("skel/inst/tests/objects.R")
 
-configureMlr(on.learner.error="stop", show.learner.output=FALSE)
+#configureMlr(on.learner.error="stop", show.learner.output=FALSE)
+
+task = makeClassifTask(data=iris, target="Species")
+lrn = makeLearner("classif.rpart", parms=list(prior=c(1,0,0)))
+m = train(lrn, task)
+p = predict(m, task)
 
 #df = binaryclass.df
 #df[, 1] = as.factor(sample(1:3, nrow(df), replace=TRUE))
@@ -16,21 +21,6 @@ configureMlr(on.learner.error="stop", show.learner.output=FALSE)
 #task = makeClassifTask(data=df, target=binaryclass.target)
 
 
-df1 = iris
-df2 = BostonHousing
-target1 = "Species"
-target2 = "medv"
-target3 = "Class"
-task1 = makeClassifTask(data=df1, target=target1)
-task2 = makeRegrTask(data=df2, target=target2)
-task = binaryclass.task
-task = task1
-
-task = subsetTask(task, subset=1:100)
-rdesc = makeResampleDesc("Holdout", split=0.3, stratify=TRUE)
-rin = makeResampleInstance(rdesc, task=task)
-print(rin$train.inds)
-print(rin$test.inds)
 
 #lrn = makeLearner("classif.rpart", minsplit=55, predict.type="prob")
 #m = train(lrn, task)

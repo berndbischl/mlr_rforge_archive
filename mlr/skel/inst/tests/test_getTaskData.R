@@ -21,8 +21,6 @@ test_that("getTaskData", {
     sum(binaryclass.df[, binaryclass.target] == binaryclass.task$task.desc$positive))
   expect_equal(sum(df[, binaryclass.target] == -1), 
     sum(binaryclass.df[, binaryclass.target] == binaryclass.task$task.desc$negative))
-  #FIXME:  
-  #expect_error(getTaskData(binaryclass.task, recode.target="foo"), "Argument recode.target must be any of")
 
   df = getTaskData(binaryclass.task, subset=1:150, features=colnames(binaryclass.df)[1:2])
   expect_equal(nrow(df), 150)
