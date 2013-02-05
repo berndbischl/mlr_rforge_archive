@@ -51,7 +51,12 @@ train = function(learner, task, subset) {
   
   vars = getTaskFeatureNames(task)
   # no vars? then use no vars model
-
+  
+  #FIXME do this check somewhere in train 
+  #if (td$has.weights && !learner$weights)
+  #  stopf("Task %s has weights, but learner %s does not support that!", td$id, learner$id)
+  
+  
   if (length(vars) == 0) {
     learner.model = makeNoFeaturesModel(targets=task$env$data[subset, tn], task.desc=task$task.desc)
     time.train = 0

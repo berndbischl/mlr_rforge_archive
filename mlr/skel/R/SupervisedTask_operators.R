@@ -163,10 +163,11 @@ subsetTask = function(task, subset, features) {
 
 
 # we create a new env, so the reference is not changed
+# FIXME really check what goes on here!
 changeData = function(task, data) {
   task$env = new.env()
-  task$env$data = data
+  task$env$data = data  
   d = task$task.desc
-  task$task.desc = makeTaskDesc(d$type, d$id, data, d$target, d$weights, d$blocking, d$positive)      
+  task$task.desc = makeTaskDesc(d$type, d$id, data, d$target, d$has.weights, d$has.blocking, d$positive)      
   return(task)
 } 

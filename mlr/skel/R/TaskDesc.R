@@ -12,7 +12,6 @@
 #' \item{n.feat [\code{integer}]}{Number of features, named vector with entries: \dQuote{numerics}, \dQuote{factors}.}
 #' \item{class.levels [\code{character}]}{All possible classes. \code{NA} if not classification.}
 #' \item{has.missings [\code{logical(1)}]}{Are missing values present?}
-#' \item{has.weights [\code{logical(1)}]}{Are weights available in task for observations?}
 #' \item{has.blocking [\code{logical(1)}]}{Is blocking available in task for observations?}
 #' \item{positive [\code{character(1)}]}{Positive class label for binary classification, \code{NA} else.} 
 #' \item{negative [\code{character(1)}]}{Negative class label for binary classification, \code{NA} else.} 
@@ -21,7 +20,7 @@
 #' @rdname TaskDesc
 NULL
 
-makeTaskDesc = function(type, id, data, target, weights, blocking, positive) {
+makeTaskDesc = function(type, id, data, target, blocking, positive) {
   td = list()
   td$id = id
   td$type = type
@@ -38,7 +37,6 @@ makeTaskDesc = function(type, id, data, target, weights, blocking, positive) {
   else
     td$class.levels = as.character(NA)
   td$has.missings = any(sapply(data, function(x) any(is.na(x))))
-  td$has.weights = length(weights) > 0
   td$has.blocking = length(blocking) > 0
   if (type == "classif") {
     td$positive = positive
@@ -54,3 +52,4 @@ makeTaskDesc = function(type, id, data, target, weights, blocking, positive) {
   }
   return(structure(td, class="TaskDesc"))
 }
+

@@ -9,7 +9,6 @@
 #' Object members:
 #' \describe{
 #' \item{env [\code{environment}]}{Environment where data for the task are stored. Use \code{\link{getTaskData}} in order to access it.}
-#' \item{weights [\code{numeric}]}{See argument above. \code{numeric(0)} if not present.}
 #' \item{blocking [\code{factor}]}{See argument above. \code{factor(0)} if not present.}
 #' \item{task.desc [\code{\link{TaskDesc}}]}{Encapsulates further information about the task.}
 #' }
@@ -20,9 +19,6 @@
 #'   A data frame containing the features and target variable.
 #' @param target [\code{character(1)}]\cr
 #'   Name of the target variable.
-#' @param weights [\code{numeric}]\cr   
-#'   An optional vector of case weights to be used in the fitting process.
-#'   Default is not to use weights.
 #' @param blocking [\code{factor}]\cr
 #'   An optional factor of the same length as the number of observations. 
 #'   Observations with the same blocking level \dQuote{belong together}. 
@@ -42,7 +38,7 @@
 #' @aliases ClassifTask RegrTask
 NULL
 
-makeSupervisedTask = function(type, id, data, target, weights, blocking, positive, check.data) {
+makeSupervisedTask = function(type, id, data, target, blocking, positive, check.data) {
   if(missing(id)) {
     id = deparse(substitute(data))
     if (!is.character(id) || length(id) != 1)
@@ -52,16 +48,12 @@ makeSupervisedTask = function(type, id, data, target, weights, blocking, positiv
   }
   checkArg(data, "data.frame")
   checkArg(target, "character", len=1, na.ok=FALSE)
-  if (missing(weights))
-    weights = numeric(0)
-  else
-    checkArg(weights, "numeric", len=nrow(data), na.ok=FALSE)
   if (missing(blocking))
     blocking = factor(c())
   else
     checkArg(blocking, "factor", len=nrow(data), na.ok=FALSE)
   checkArg(check.data, "logical", len=1, na.ok=FALSE)
-  checkWeightsAndBlocking(data, target, weights, blocking)    
+  checkBlocking(data, target, blocking)    
   checkColumnNames(data, target)
   if (type == "classif") {
     if (!is.factor(data[, target])) {
@@ -94,14 +86,13 @@ makeSupervisedTask = function(type, id, data, target, weights, blocking, positiv
   }
   if (check.data)
     checkData(data, target)    
-  desc = makeTaskDesc(type, id, data, target, weights, blocking, positive)      
+  desc = makeTaskDesc(type, id, data, target, blocking, positive)      
   env = new.env()
   env$data = data
   structure(list(
     env = env,
     task.desc = desc,
-    blocking = blocking,
-    weights = weights
+    blocking = blocking
   ), class="SupervisedTask")
 }
 
@@ -116,6 +107,5 @@ print.SupervisedTask = function(x, ...) {
   catf("Features:")
   cat(paste(feat, "\n"))
   catf("Missings: %s", td$has.missings) 
-  catf("Has weights: %s", td$has.weights)
   catf("Has blocking: %s", td$has.blocking)
 }
