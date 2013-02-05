@@ -49,8 +49,7 @@ test_that("learners work", {
 
   # binary classif with weights
   task = makeClassifTask(data=binaryclass.df, target=binaryclass.target, weights=1:nrow(binaryclass.df))
-  task = subsetTask(task, subset=c(1:50, 150:208), 
-                    features=getTaskFeatureNames(task)[1:2])
+  task = subsetTask(task, subset=c(1:50, 150:208), features=getTaskFeatureNames(task)[1:2])
   lrns = listLearnersForTask(task=task) 
   lrns = lapply(lrns, makeLearner)
   lapply(lrns, function(lrn) {
@@ -72,20 +71,21 @@ test_that("learners work", {
   
   # regr with se
   task = subsetTask(regr.task, subset=c(1:70),
-  features=getTaskFeatureNames(regr.task)[1:2])
+  features = getTaskFeatureNames(regr.task)[1:2])
   lrns = listLearnersForTask(task=task, se=TRUE) 
-  lrns = lapply(lrns, makeLearner)
+  lrns = lapply(lrns, makeLearner, predict.type="se")
   lapply(lrns, function(lrn) {
     if (lrn$id == "regr.km")
       lrn = setHyperPars(lrn, nugget.estim=TRUE)
     m = train(lrn, task)
     p = predict(m, task)
+    expect_equal(length(p$data$se), 70)
   })
   
   # regr with weights
   # FIXME
   task = subsetTask(regr.task, subset=c(1:70), features=getTaskFeatureNames(regr.task)[1:2])
-  lrns = listLearnersForTask(task=task, se=TRUE) 
+  lrns = listLearnersForTask(task=task) 
   lrns = lapply(lrns, makeLearner)
   lapply(lrns, function(lrn) {
     if (lrn$id == "regr.km")

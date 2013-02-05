@@ -31,9 +31,10 @@ trainLearner.regr.km = function(.learner, .task, .subset,  ...) {
 
 #' @S3method predictLearner regr.km
 predictLearner.regr.km = function(.learner, .model, .newdata, ...) {
-  p = predict(.model$learner.model, newdata=.newdata, type="SK", se.compute=FALSE, ...)
-  if(.learner$predict.type == "response")
+  se = (.learner$predict.type != "response")
+  p = predict(.model$learner.model, newdata=.newdata, type="SK", se.compute=se)
+  if(!se)
     return(p$mean)
   else
-    cbind(p$mean, p$se)
+    cbind(p$mean, p$sd)
 }
