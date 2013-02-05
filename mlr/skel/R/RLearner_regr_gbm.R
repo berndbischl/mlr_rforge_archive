@@ -22,10 +22,10 @@ makeRLearner.regr.gbm = function() {
 }
 
 #' @S3method trainLearner regr.gbm
-trainLearner.regr.gbm = function(.learner, .task, .subset,  ...) {
+trainLearner.regr.gbm = function(.learner, .task, .subset, .weights,  ...) {
   f = getTaskFormula(.task)
-  if (.task$task.desc$has.weights)
-    gbm(f, data=getTaskData(.task, .subset), keep.data=FALSE, weights=.task$weights[.subset], ...)
+  if (!missing(.weights))
+    gbm(f, data=getTaskData(.task, .subset), keep.data=FALSE, weights=.weights, ...)
   else  
     gbm(f, data=getTaskData(.task, .subset), keep.data=FALSE, ...)
 }

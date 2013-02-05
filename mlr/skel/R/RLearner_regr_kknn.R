@@ -18,7 +18,7 @@ makeRLearner.regr.kknn = function() {
 }
 
 #' @S3method trainLearner regr.kknn
-trainLearner.regr.kknn = function(.learner, .task, .subset,  ...) {
+trainLearner.regr.kknn = function(.learner, .task, .subset, .weights,  ...) {
   list(td=.task$task.desc, data=getTaskData(.task, .subset), parset=list(...))
 }
 

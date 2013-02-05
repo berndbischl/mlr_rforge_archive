@@ -15,7 +15,7 @@ makeRLearner.regr.ridge = function() {
 }
 
 #' @S3method trainLearner regr.ridge
-trainLearner.regr.ridge = function(.learner, .task, .subset,  ...) {
+trainLearner.regr.ridge = function(.learner, .task, .subset, .weights,  ...) {
   f = getTaskFormula(.task)
   penalized(f, data=getTaskData(.task, .subset), ...)
 }

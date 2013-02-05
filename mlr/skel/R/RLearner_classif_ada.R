@@ -32,7 +32,7 @@ makeRLearner.classif.ada = function() {
 }
 
 #' @S3method trainLearner classif.ada
-trainLearner.classif.ada = function(.learner, .task, .subset,  ...) {
+trainLearner.classif.ada = function(.learner, .task, .subset, .weights,  ...) {
   f = getTaskFormula(.task)
   ada(f, data=getTaskData(.task, .subset), ...)
 }

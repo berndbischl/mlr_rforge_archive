@@ -18,7 +18,7 @@ makeRLearner.classif.lvq1 = function() {
 }
 
 #' @S3method trainLearner classif.lvq1		
-trainLearner.classif.lvq1 = function(.learner, .task, .subset,  ...) {
+trainLearner.classif.lvq1 = function(.learner, .task, .subset, .weights,  ...) {
   d = getTaskData(.task, .subset, target.extra=TRUE)
   cdbk.args = insert(list(), list(...), c("size", "k", "prior"))
   cdbk.args$x = d$data

@@ -22,11 +22,11 @@ makeRLearner.classif.gbm = function() {
 }
 
 #' @S3method trainLearner classif.gbm
-trainLearner.classif.gbm = function(.learner, .task, .subset,  ...) {
+trainLearner.classif.gbm = function(.learner, .task, .subset, .weights,  ...) {
   f = getTaskFormula(.task)
   d = getTaskData(.task, .subset, recode.target="01")
-  if (.task$task.desc$has.weights)
-    gbm(f, data=d, keep.data=FALSE, verbose=FALSE, weights=.task$weights[.subset], ...)
+  if (!missing(.weights)) 
+    gbm(f, data=d, keep.data=FALSE, verbose=FALSE, weights=.weights, ...)
   else  
     gbm(f, data=d, keep.data=FALSE, verbose=FALSE, ...)
 }

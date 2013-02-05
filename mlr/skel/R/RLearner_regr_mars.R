@@ -20,7 +20,7 @@ makeRLearner.regr.mars = function() {
 }
 
 #' @S3method trainLearner regr.mars
-trainLearner.regr.mars = function(.learner, .task, .subset,  ...) {
+trainLearner.regr.mars = function(.learner, .task, .subset, .weights,  ...) {
   d = getTaskData(.task, .subset, target.extra=TRUE)
   mars(x = as.matrix(d$data), y = d$target, ...)
 }

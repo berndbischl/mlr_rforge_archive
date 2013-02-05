@@ -25,10 +25,10 @@ makeRLearner.classif.multinom = function() {
 }
 
 #' @S3method trainLearner classif.multinom
-trainLearner.classif.multinom = function(.learner, .task, .subset,  ...) {
+trainLearner.classif.multinom = function(.learner, .task, .subset, .weights,  ...) {
   f = getTaskFormula(.task)
-  if (.task$task.desc$has.weights)
-    multinom(f, data=getTaskData(.task, .subset), weights=.task$weights[.subset], ...)
+  if (!missing(.weights))
+    multinom(f, data=getTaskData(.task, .subset), weights=.weights, ...)
   else  
     multinom(f, data=getTaskData(.task, .subset), ...)      
 }

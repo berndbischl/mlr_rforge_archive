@@ -154,9 +154,7 @@ subsetTask = function(task, subset, features) {
   task = changeData(task, getTaskData(task, subset, features))
   if (!missing(subset)) {
     if (task$task.desc$has.blocking)
-      task$blocking = task@blocking[subset]
-    if (task$task.desc$has.weights)
-      task$weights = task$weights[subset]
+      task$blocking = task$blocking[subset]
   }  
   return(task)
 }
@@ -168,6 +166,6 @@ changeData = function(task, data) {
   task$env = new.env()
   task$env$data = data  
   d = task$task.desc
-  task$task.desc = makeTaskDesc(d$type, d$id, data, d$target, d$has.weights, d$has.blocking, d$positive)      
+  task$task.desc = makeTaskDesc(d$type, d$id, data, d$target, d$has.blocking, d$positive)      
   return(task)
 } 

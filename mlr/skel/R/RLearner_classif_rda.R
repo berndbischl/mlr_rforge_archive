@@ -31,7 +31,7 @@ makeRLearner.classif.rda = function() {
 }
 
 #' @S3method trainLearner classif.rda
-trainLearner.classif.rda = function(.learner, .task, .subset,  ...) {
+trainLearner.classif.rda = function(.learner, .task, .subset, .weights,  ...) {
   f = getTaskFormula(.task)
   rda(f, data=getTaskData(.task, .subset), ...)
 }

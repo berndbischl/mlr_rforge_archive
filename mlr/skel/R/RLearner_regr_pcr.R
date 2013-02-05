@@ -22,7 +22,7 @@ makeRLearner.regr.pcr = function() {
 }
 
 #' @S3method trainLearner regr.pcr
-trainLearner.regr.pcr = function(.learner, .task, .subset,  ...) {
+trainLearner.regr.pcr = function(.learner, .task, .subset, .weights,  ...) {
   f = getTaskFormula(.task)
   pcr(f, data=getTaskData(.task, .subset), ...)
 }

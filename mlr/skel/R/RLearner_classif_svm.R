@@ -24,7 +24,7 @@ makeRLearner.classif.svm = function() {
 }
 
 #' @S3method trainLearner classif.svm
-trainLearner.classif.svm = function(.learner, .task, .subset,  ...) {
+trainLearner.classif.svm = function(.learner, .task, .subset, .weights,  ...) {
   f = getTaskFormula(.task)
   svm(f, data=getTaskData(.task, .subset), probability=.learner$predict.type == "prob", ...)
 }

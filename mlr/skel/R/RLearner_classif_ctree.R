@@ -27,7 +27,7 @@ makeRLearner.classif.ctree = function() {
 }
 
 #' @S3method trainLearner classif.ctree
-trainLearner.classif.ctree = function(.learner, .task, .subset, teststat, testtype, 
+trainLearner.classif.ctree = function(.learner, .task, .subset, .weights, teststat, testtype, 
   mincriterion, minsplit, minbucket, stump, nresample, maxsurrogate, mtry, 
   savesplitstats, maxdepth, ...) {
   

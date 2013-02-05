@@ -26,7 +26,7 @@ makeRLearner.classif.randomForest = function() {
 }
 
 #' @S3method trainLearner classif.randomForest
-trainLearner.classif.randomForest = function(.learner, .task, .subset, classwt=NULL, cutoff, ...) {
+trainLearner.classif.randomForest = function(.learner, .task, .subset, .weights, classwt=NULL, cutoff, ...) {
   f = getTaskFormula(.task)
   levs = .task$task.desc$class.levels
   n = length(levs)

@@ -27,7 +27,7 @@
 #' learner <- makeLearner("classif.rpart", minsplit = 7, predict.type = "prob")
 #' mod <- train(learner, task, subset = training.set)
 #' print(mod)
-train = function(learner, task, subset) {
+train = function(learner, task, subset, weights) {
   checkArg(learner, "Learner")
   checkArg(task, "SupervisedTask")
   if (missing(subset)) {
@@ -46,6 +46,10 @@ train = function(learner, task, subset) {
   
   # make pars list for train call
   pars = list(.learner=learner, .task=task, .subset=subset)
+  if(!missing(weights)) {
+    checkArg(weights, "numeric", len=length(subset), na.ok=FALSE, lower=0)
+    pars$.weights = weights
+  }
   # only pass train hyper pars as basic rlearner in ...
   pars = c(pars, getHyperPars(learner, "train"))
   
