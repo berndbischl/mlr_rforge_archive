@@ -1,3 +1,4 @@
+- remove stuff lines from *.randomForest, but test with mlrTune
 
 - test parallel
 
