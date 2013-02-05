@@ -26,6 +26,7 @@ test_that("listLearnersForTask", {
 })
 
 test_that("learners work", {
+  # binary classif
   task = subsetTask(binaryclass.task, subset=c(1:50, 150:208), 
     features=getTaskFeatureNames(binaryclass.task)[1:2])
   lrns = listLearnersForTask(task=task) 
@@ -35,6 +36,7 @@ test_that("learners work", {
     p = predict(m, task)
   })
 
+  # binary classif with prob
   task = subsetTask(binaryclass.task, subset=c(1:50, 150:208), 
     features=getTaskFeatureNames(binaryclass.task)[1:2])
   lrns = listLearnersForTask(task=task, prob=TRUE) 
@@ -44,7 +46,21 @@ test_that("learners work", {
     p = predict(m, task)
     getProbabilities(p)
   })
+
+  # binary classif with weights
+  task = makeClassifTask(data=binaryclass.df, target=binaryclass.target, weights=1:nrow(binaryclass.df))
+  task = subsetTask(task, subset=c(1:50, 150:208), 
+                    features=getTaskFeatureNames(task)[1:2])
+  lrns = listLearnersForTask(task=task) 
+  print(lrns)
+  lrns = lapply(lrns, makeLearner)
+  lapply(lrns, function(lrn) {
+    print(lrn)
+    m = train(lrn, task)
+    p = predict(m, task)
+  })
   
+  # normal regr
   task = subsetTask(regr.task, subset=c(1:70),
     features=getTaskFeatureNames(regr.task)[1:2])
   lrns = listLearnersForTask(task=task) 
@@ -56,6 +72,7 @@ test_that("learners work", {
     p = predict(m, task)
   })
   
+  # regr with se
   task = subsetTask(regr.task, subset=c(1:70),
   features=getTaskFeatureNames(regr.task)[1:2])
   lrns = listLearnersForTask(task=task, se=TRUE) 
@@ -66,4 +83,18 @@ test_that("learners work", {
     m = train(lrn, task)
     p = predict(m, task)
   })
+  
+  # regr with weights
+  # FIXME
+  task = subsetTask(regr.task, subset=c(1:70),
+                    features=getTaskFeatureNames(regr.task)[1:2])
+  lrns = listLearnersForTask(task=task, se=TRUE) 
+  print(lrns)
+  lrns = lapply(lrns, makeLearner)
+  lapply(lrns, function(lrn) {
+    print(lrn)
+    m = train(lrn, task)
+    p = predict(m, task)
+  })
+  
 })
