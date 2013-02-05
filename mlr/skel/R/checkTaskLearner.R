@@ -1,4 +1,4 @@
-checkTaskLearner = function(task, learner) {
+checkTaskLearner = function(task, learner, weights) {
 	td = task$task.desc
   if (td$type != learner$type) 
     stopf("Task %s is %s, but learner %s is for %s!", td$id, td$type, learner$id, learner$type)
@@ -10,5 +10,7 @@ checkTaskLearner = function(task, learner) {
     stopf("Data set has factor inputs, but learner %s does not support that!", td$id, learner$id)
   if (td$type == "classif" && length(td$class.levels)> 2 && !learner$multiclass)
     stopf("Task %s is a multiclass-problem, but learner %s does not support that!", td$id, learner$id)
+	if (!missing(weights) && !learner$weights)
+  	stopf("Weights vector passed to train, but learner %s does not support that!", learner$id)  
 }
 

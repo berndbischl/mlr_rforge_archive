@@ -166,6 +166,6 @@ changeData = function(task, data) {
   task$env = new.env()
   task$env$data = data  
   d = task$task.desc
-  task$task.desc = makeTaskDesc(d$type, d$id, data, d$target, d$has.blocking, d$positive)      
+  task$task.desc = makeTaskDesc(d$type, d$id, data, d$target, task$blocking, d$positive)      
   return(task)
 } 

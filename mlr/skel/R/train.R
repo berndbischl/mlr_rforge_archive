@@ -10,6 +10,10 @@
 #' @param subset [\code{integer}]\cr 
 #'   An index vector specifying the training cases to be used for fitting. 
 #'   By default the complete data set is used. 
+#' @param weights [\code{numeric}]\cr 
+#'   Optional, non-negative case weight vector to be used during fitting.
+#'   If given, must be of same length as \code{subset} and in corresponding order.
+#'   By default missing which means no weights are used.
 #' @return [\code{\link{WrappedModel}}]. 
 #' @export
 #' @seealso \code{\link{predict}}
@@ -40,7 +44,6 @@ train = function(learner, task, subset, weights) {
   # make sure that pack for learner ist loaded, probably needed when learner is exported        
   requireLearnerPackages(learner)
   
-  checkTaskLearner(task, learner)
   
   tn = task$task.desc$target
   
@@ -50,17 +53,15 @@ train = function(learner, task, subset, weights) {
     checkArg(weights, "numeric", len=length(subset), na.ok=FALSE, lower=0)
     pars$.weights = weights
   }
+
+  checkTaskLearner(task, learner, weights)
+  
   # only pass train hyper pars as basic rlearner in ...
   pars = c(pars, getHyperPars(learner, "train"))
   
   vars = getTaskFeatureNames(task)
   # no vars? then use no vars model
-  
-  #FIXME do this check somewhere in train 
-  #if (td$has.weights && !learner$weights)
-  #  stopf("Task %s has weights, but learner %s does not support that!", td$id, learner$id)
-  
-  
+    
   if (length(vars) == 0) {
     learner.model = makeNoFeaturesModel(targets=task$env$data[subset, tn], task.desc=task$task.desc)
     time.train = 0
