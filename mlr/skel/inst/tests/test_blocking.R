@@ -16,14 +16,21 @@ test_that("blocking", {
 		expect_true(setequal(c(0,5), unique(as.numeric(tab))))
 	}
 	# test blocking in resample
-	res = makeResampleDesc("CV", iters=3)
-	p = resample(makeLearner("classif.lda"), ct, res)$pred
-	for (j in 1:res$iters) {
-		test.j = p$data[p$data$iter == j, "id"]
-		tab = table(b[test.j])
-		expect_true(setequal(c(0,5), unique(as.numeric(tab))))
+	lrn = makeLearner("classif.lda")  
+	mycheck = function(rdesc, p, b) {
+	  for (j in 1:rdesc$iters) {
+	    test.j = p$data[p$data$iter == j, "id"]
+      tab = table(b[test.j])
+	    expect_true(setequal(c(0,5), unique(as.numeric(tab))))
+	  }
 	}
-})
 
+  rdesc = makeResampleDesc("CV", iters=3)
+	p = resample(lrn, ct, rdesc)$pred
+  mycheck(rdesc, p, b)
+  rdesc = makeResampleDesc("RepCV", folds=3, reps=2)
+	p = resample(lrn, ct, rdesc)$pred
+	mycheck(rdesc, p, b)
+})
 
 

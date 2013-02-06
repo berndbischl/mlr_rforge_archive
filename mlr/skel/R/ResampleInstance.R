@@ -110,8 +110,6 @@ makeResampleInstanceInternal = function(desc, size, train.inds, test.inds, group
     train.inds = sample(1:size)
     train.inds = lapply(test.inds, function(x) setdiff(train.inds, x))
   }
-  if (length(train.inds) != length(test.inds))
-    error("Lengths of 'train.inds' and 'test.inds' must be equal!")
   inst = structure(list(
     desc=desc, 
     size=size,
