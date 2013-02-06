@@ -23,7 +23,7 @@ makeRLearner.classif.gbm = function() {
 
 #' @S3method trainLearner classif.gbm
 trainLearner.classif.gbm = function(.learner, .task, .subset, .weights,  ...) {
-  f = getTaskFormula(.task)
+  f = as.formula(getTaskFormulaAsString(.task))
   d = getTaskData(.task, .subset, recode.target="01")
   if (!missing(.weights)) 
     gbm(f, data=d, keep.data=FALSE, verbose=FALSE, weights=.weights, ...)

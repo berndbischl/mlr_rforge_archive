@@ -26,7 +26,7 @@ makeRLearner.classif.multinom = function() {
 
 #' @S3method trainLearner classif.multinom
 trainLearner.classif.multinom = function(.learner, .task, .subset, .weights,  ...) {
-  f = getTaskFormula(.task)
+  f = as.formula(getTaskFormulaAsString(.task))
   if (!missing(.weights))
     multinom(f, data=getTaskData(.task, .subset), weights=.weights, ...)
   else  

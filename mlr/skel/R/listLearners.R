@@ -91,14 +91,13 @@ listLearners = function(type=as.logical(NA), numerics=as.logical(NA), factors=as
 #'   The task. Learners are returned that are applicable.
 #' @export
 #' @rdname listLearners
-listLearnersForTask = function(task, prob=as.logical(NA), se=as.logical(NA), warn.missing.packages=TRUE) {
+listLearnersForTask = function(task, weights=as.logical(NA), prob=as.logical(NA), se=as.logical(NA), warn.missing.packages=TRUE) {
   checkArg(task, "SupervisedTask")
   td = task$task.desc
   
   numerics = ifelse(td$n.feat["numerics"] > 0, TRUE, NA)
   factors = ifelse(td$n.feat["factors"] > 0, TRUE, NA)
   missings = ifelse(td$has.missings, TRUE, NA)
-  weights = ifelse(td$has.weights, TRUE, NA)
   oneclass = ifelse(td$type=="classif" && length(td$class.levels) == 1L, TRUE, NA)
   twoclass = ifelse(td$type=="classif" && length(td$class.levels) == 2L, TRUE, NA)
   multiclass = ifelse(td$type=="classif" && length(td$class.levels) > 2L, TRUE, NA)

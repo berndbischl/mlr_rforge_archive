@@ -14,7 +14,7 @@ makeRLearner.classif.logreg = function() {
 
 #' @S3method trainLearner classif.logreg
 trainLearner.classif.logreg = function(.learner, .task, .subset, .weights,  ...) {
-  f = getTaskFormula(.task)
+  f = as.formula(getTaskFormulaAsString(.task))
   glm(f, data=getTaskData(.task, .subset), model=FALSE, family="binomial", ...)
 }
 

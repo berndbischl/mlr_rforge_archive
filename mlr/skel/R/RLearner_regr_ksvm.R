@@ -39,7 +39,7 @@ makeRLearner.regr.ksvm = function() {
 #' @S3method trainLearner regr.ksvm
 trainLearner.regr.ksvm = function(.learner, .task, .subset, .weights, degree, offset, scale, sigma, order, length, lambda, ...) {
   kpar = learnerArgsToControl(list, degree, offset, scale, sigma, order, length, lambda)
-  f = getTaskFormula(.task)
+  f = as.formula(getTaskFormulaAsString(.task))
   # difference in missing(kpar) and kpar=list()!
   if (base::length(kpar) > 0)
     ksvm(f, data=getTaskData(.task, .subset), kpar=kpar, ...)

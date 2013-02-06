@@ -32,7 +32,7 @@ makeRLearner.classif.boosting = function() {
 
 #' @S3method trainLearner classif.boosting
 trainLearner.classif.boosting= function(.learner, .task, .subset, .weights, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth, xval, ...) {
-  f = getTaskFormula(.task)
+  f = as.formula(getTaskFormulaAsString(.task))
   ctrl = learnerArgsToControl(rpart.control, minsplit, minbucket, cp, maxcompete, maxsurrogate, usesurrogate, surrogatestyle, maxdepth, xval)
   boosting(f, data=getTaskData(.task, .subset), control=ctrl, ...)
 }

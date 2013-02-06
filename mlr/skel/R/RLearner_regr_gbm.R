@@ -23,7 +23,7 @@ makeRLearner.regr.gbm = function() {
 
 #' @S3method trainLearner regr.gbm
 trainLearner.regr.gbm = function(.learner, .task, .subset, .weights,  ...) {
-  f = getTaskFormula(.task)
+  f = as.formula(getTaskFormulaAsString(.task))
   if (!missing(.weights))
     gbm(f, data=getTaskData(.task, .subset), keep.data=FALSE, weights=.weights, ...)
   else  

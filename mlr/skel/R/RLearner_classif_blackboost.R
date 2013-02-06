@@ -33,7 +33,7 @@ makeRLearner.classif.blackboost = function() {
 trainLearner.classif.blackboost = function(.learner, .task, .subset, .weights, mstop, nu, risk, teststat, testtype, mincriterion, maxdepth, ...) {
   ctrl = learnerArgsToControl(boost_control, mstop, nu, risk)
   tc = learnerArgsToControl(ctree_control, teststat, testtype, mincriterion, maxdepth)
-  f = getTaskFormula(.task)
+  f = as.formula(getTaskFormulaAsString(.task))
   if (!missing(.weights))
     blackboost(f, data=getTaskData(.task, .subset), control=ctrl, tree_controls=tc, weights=.weights, ...)
   else

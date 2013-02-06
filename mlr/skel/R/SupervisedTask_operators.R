@@ -25,16 +25,16 @@ getTaskFeatureNames = function(task) {
 #' @export
 #' @examples
 #' task <- makeClassifTask(data = iris, target = "Species")
-#' getTaskFormula(task)
-getTaskFormula = function(x) {
-  g = function(target) as.formula(paste(target, "~."))
+#' getTaskFormulaAsString(task)
+#' @export
+getTaskFormulaAsString = function(x) {
+  g = function(target) paste(target, "~.")
   if (inherits(x, "TaskDesc"))
     f = g(x$target) 
   else 
     f = g(x$task.desc$target)
-  attr(f, ".Environment") = NULL
-  return(f)
 }
+
 
 #' Get target column of task. 
 #'

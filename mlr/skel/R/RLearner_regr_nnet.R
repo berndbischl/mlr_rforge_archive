@@ -19,9 +19,9 @@ makeRLearner.regr.nnet = function() {
 
 #' @S3method trainLearner regr.nnet
 trainLearner.regr.nnet = function(.learner, .task, .subset, .weights,  ...) {
-  f = getTaskFormula(.task)
+  f = as.formula(getTaskFormulaAsString(.task))
   if (!missing(.weights))
-    do.call(nnet, list(f, data=getTaskData(.task, .subset), linout=TRUE, weights=.weights, ...))
+    nnet(f, data=getTaskData(.task, .subset), linout=TRUE, weights=.weights, ...)
   else  
     nnet(f, data=getTaskData(.task, .subset), linout=TRUE, ...)
 }

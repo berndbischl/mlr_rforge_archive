@@ -16,7 +16,7 @@ makeRLearner.regr.lasso = function() {
 
 #' @S3method trainLearner regr.lasso
 trainLearner.regr.lasso = function(.learner, .task, .subset, .weights,  ...) {
-  f = getTaskFormula(.task)
+  f = as.formula(getTaskFormulaAsString(.task))
   penalized(f, data=getTaskData(.task, .subset), ...)
 }
 

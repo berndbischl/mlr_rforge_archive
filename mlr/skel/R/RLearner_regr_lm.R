@@ -18,12 +18,10 @@ makeRLearner.regr.lm = function() {
 		
 #' @S3method trainLearner regr.lm
 trainLearner.regr.lm = function(.learner, .task, .subset, .weights,  ...) {
-  f = getTaskFormula(.task)
+  f = as.formula(getTaskFormulaAsString(.task))
   d = getTaskData(.task, .subset)
   if (!missing(.weights)) {
-    # FIXME: strange bug in lm concerning weights
-    .weights = force(.weights)
-    lm(data=d, weights=.weights, ...)
+    lm(f, data=d, weights=.weights, ...)
   } else { 
     lm(f, data=d, ...)
   }

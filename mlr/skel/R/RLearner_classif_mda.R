@@ -25,7 +25,7 @@ makeRLearner.classif.mda = function() {
 
 #' @S3method trainLearner classif.mda
 trainLearner.classif.mda = function(.learner, .task, .subset, .weights,  ...) {
-  f = getTaskFormula(.task)
+  f = as.formula(getTaskFormulaAsString(.task))
   mda(f, data=getTaskData(.task, .subset), ...)
 }
 

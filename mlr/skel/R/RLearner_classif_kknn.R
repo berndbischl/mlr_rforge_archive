@@ -29,9 +29,7 @@ trainLearner.classif.kknn = function(.learner, .task, .subset, .weights,  ...) {
 #' @S3method predictLearner classif.kknn
 predictLearner.classif.kknn = function(.learner, .model, .newdata, ...) {
   m = .model$learner.model
-  f = getTaskFormula(.model$task.desc)
-  # this is stupid but kknn forces it....
-  .newdata[, m$td$target] <- 0
+  f = getTaskFormulaAsString(.model$task.desc)
   pars <- list(formula=f, train=m$data, test=.newdata)  
   pars <- c(pars, m$parset, list(...))
   m <- do.call(kknn, pars)
