@@ -119,12 +119,13 @@ b632 = makeAggregation(
   }
 )
 
+
+#FIXME read this again properly and double check it
 #' @export 
 #' @rdname aggregations
 b632plus = makeAggregation(
   id = "b632plus",
   fun = function(task, perf.test, perf.train, measure, group, pred) {
-    stop(123)
     df = as.data.frame(pred)
     a = numeric(length(perf.test))
     for (i in 1:length(perf.test)) {
