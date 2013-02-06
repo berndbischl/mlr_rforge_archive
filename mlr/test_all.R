@@ -3,6 +3,8 @@ library(testthat)
 library(reshape)
 library(e1071)
 library(adabag)
+library(BBmisc)
+
 
 if (interactive()) {
   library(devtools)
@@ -15,6 +17,7 @@ if (interactive()) {
 } else {
   library(mlr)  
 }
+
 source("skel/inst/tests/helpers.R")
 source("skel/inst/tests/objects.R")
 options(mlr.debug.seed=123L)
