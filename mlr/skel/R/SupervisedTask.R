@@ -3,7 +3,7 @@
 #' The task encapsulates the data and specifies - through its subclasses - the type of the task (either classification or regression), 
 #' and contains a description object detailing further aspects of the data. 
 #' 
-#' Useful operators are: \code{\link{getTaskFormula}}, \code{\link{getTaskFeatureNames}},
+#' Useful operators are: \code{\link{getTaskFormulaAsString}}, \code{\link{getTaskFeatureNames}},
 #' \code{\link{getTaskData}}, \code{\link{getTaskTargets}}, \code{\link{subsetTask}}.
 #'
 #' Object members:

@@ -1,20 +1,8 @@
-- remove stuff lines from *.randomForest, but test with mlrTune
-
 - test parallel
 
 - b632+ test
 
 - test_all anmachen
-
-- listLearners with weights
-
-- drop factor levels in makeTask
-  schwierig. das ist beim subsetten des tasks?
-  dann haben wir andere class levels? trat im allpairs exp auf.
-auch doof:
-task = makeClassifTask(data=iris, target="Species")
-rin = makeFixedHoldoutInstance(train.inds=1:100, test.inds=101:150, size=150)
-resample(makeLearner("classif.randomForest"), task, rin)
   
 - rd name of supervisedtask, report roxygen2 bug
 - examples
@@ -46,3 +34,10 @@ b) wenn der task durchgereicht wird durch die trainingsfuns
 - allow task which only becomes true supervised task after preprocessing / feature
   extraction   
 
+- drop factor levels in makeTask
+  schwierig. das ist beim subsetten des tasks?
+  dann haben wir andere class levels? trat im allpairs exp auf.
+auch doof:
+task = makeClassifTask(data=iris, target="Species")
+rin = makeFixedHoldoutInstance(train.inds=1:100, test.inds=101:150, size=150)
+resample(makeLearner("classif.randomForest"), task, rin)
