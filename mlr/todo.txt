@@ -1,11 +1,5 @@
-- test parallel
 
 - b632+ test
-
-- test_all anmachen
-  
-- rd name of supervisedtask, report roxygen2 bug
-- examples
  
  - remove featperc measure? what to do?
    with chains it is diffuclt to see where feature number is
@@ -16,11 +10,16 @@ es ist unklar wie wir die ver�nderten beschreibungen der daten abspeichern, we
 per preproc alles potentiell ver�ndern.
 a) ausgabe des modell mit print
 b) wenn der task durchgereicht wird durch die trainingsfuns 
-  
-- add getLearnerModel, that we later can also add for BaseWrapper / ChainModel  
+
+- test parallel
+
+- test_all anmachen
   
 ##### later ######  
   
+- rd name of supervisedtask, report roxygen2 bug
+- examples
+
 - bbmisc function to print vector with names
 
 - listMeasures 

@@ -47,6 +47,22 @@ makeWrappedModel.Learner = function(learner, model, task.desc, subset, features,
   ), class=cl)
 }
 
+#' Get underlying R model of learner integrated into mlr.
+#' 
+#' @param model [\code{\link{WrappedModel}}]\cr 
+#'   The model, returned by e.g., \code{\link{train}}.
+#' @return [any]. A fitted model, depending the learner / wrapped package. E.g., a
+#'   model of class \code{\link[rpart]{rpart}} for learner \dQuote{classif.rpart}.
+#' @export
+getLearnerModel = function(model) {
+  UseMethod("getLearnerModel")
+} 
+
+#'@S3method getLearnerModel WrappedModel
+getLearnerModel.WrappedModel = function(model) {
+  model$learner.model
+} 
+
 #' @S3method print WrappedModel
 print.WrappedModel = function(x, ...) {
   cat(

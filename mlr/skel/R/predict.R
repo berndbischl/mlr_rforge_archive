@@ -103,7 +103,7 @@ predict.WrappedModel = function(object, task, newdata, subset, ...) {
     debug.seed = getOption("mlr.debug.seed", NULL)
     if(!is.null(debug.seed))
       set.seed(debug.seed)
-    if(inherits(model$learner.model, "NoFeaturesModel")) {
+    if(inherits(getLearnerModel(model), "NoFeaturesModel")) {
       p = predict_nofeatures(model, newdata)
       time.predict = 0
     } else {
