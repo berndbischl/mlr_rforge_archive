@@ -4,9 +4,9 @@ Description:
 Author: Bernd Bischl <bernd_bischl@gmx.net>
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
 License: BSD
-Imports: BBmisc, ParamHelpers, mlr
-Depends: mlr
-Suggests: FSelector
+Imports: BBmisc, ParamHelpers
+Depends: mlr, mlrTune
+Suggests: FSelector, rpart
 LazyData: yes
 ByteCompile: yes
 Version: 1.0

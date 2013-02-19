@@ -28,10 +28,32 @@
 #' @param bits.to.features [function(x, task)]\cr
 #'   Function which transforms an integer-0-1 vector into a character vector of selected features. 
 #'   Per default a value of 1 in the ith bit selects the ith feature to be in the candidate solution.      
-#' 
-#' @return \code{\link[mlrTune:OptResult-class]{OptResult}}.
-#' 
+#' @param show.info [logical]\cr
+#'   A logical value, indicating whether information should be printed. 
+#'   The default is TRUE.
+#' @return [\code{\link{FeatSelResult}}].
 #' @export
+#' @examples
+#' task <- makeClassifTask(data=iris, target="Species")
+#' lrn <- makeLearner("classif.rpart")
+#' rdesc <- makeResampleDesc("Holdout")
+#' 
+#' ## Now create control-objects for each of the possible feature selection algorithms:
+#' ctrlSeq <- makeFeatSelControlSequential(method="sfs", maxit=NA)
+#' ctrlGA <- makeFeatSelControlGA(maxit=5, max.features=NA, crossoverRate=0.5, mutationRate=0.1, mu=10, lambda=5)
+#' ctrlRand <- makeFeatSelControlRandom(maxit=10, max.features=NA, prob=0.5)
+#' ctrlExh <- makeFeatSelControlExhaustive(maxit=NA, max.features=NA)
+#' 
+#' ## Let's run the feature selction algorithm:
+#' 
+#' sfSeq <- selectFeatures(lrn, task, rdesc, control=ctrlSeq)
+#' sfSeq
+#' sfGA <- selectFeatures(lrn, task, rdesc, control=ctrlGA)
+#' sfGA
+#' sfRand <- selectFeatures(lrn, task, rdesc, control=ctrlRand)
+#' sfRand
+#' sfExh <- selectFeatures(lrn, task, rdesc, control=ctrlExh)
+#' sfExh
 selectFeatures = function(learner, task, resampling, control, measures, 
   bit.names, bits.to.features, show.info=TRUE) {
   
