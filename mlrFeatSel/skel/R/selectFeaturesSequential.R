@@ -75,11 +75,7 @@ selectFeaturesSequential = function(learner, task, resampling, measures, bit.nam
   forward = (method %in% c("sfs", "sffs"))
   fail = 0
   while ((method %in% c("sfs", "sbs")  && fail == 0) || (method %in% c("sffs", "sfbs") && fail < 2)) {
-    #logger.debug("current:")
-    #logger.debug(state$x)
-    #cat("forward:", forward, "\n")
     state2 = seq.step(forward, state, gen.new.states, compare)
-    #print(s$rp$measures["mean", "mmce"])
     # we could not move to state2 in normal step, stay where we are
     if (!is.null(state2)) {
       state = state2
@@ -107,9 +103,10 @@ selectFeaturesSequential = function(learner, task, resampling, measures, bit.nam
   # if last generation contains no better element, go to second to last
   last = max(opt.path$env$dob) 
   j = which(opt.path$env$dob == last)
+  
   if (all(opt.path$env$eol[opt.path$env$dob == last] == last))
     last = last-1
-  i = getOptPathBestIndex(opt.path, mlr:::measureAggrName(measures[[1]]), ties="first")
+  i = getOptPathBestIndex(opt.path, mlr:::measureAggrName(measures[[1]]), dob=last, ties="first")
   e = getOptPathEl(opt.path, i)
 	makeFeatSelResult(learner, control, names(e$x)[e$x == 1], e$y, opt.path)
 }
