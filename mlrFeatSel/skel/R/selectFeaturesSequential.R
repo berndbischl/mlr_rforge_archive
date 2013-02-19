@@ -1,9 +1,9 @@
-# FIXME: maxit, max.vars, max.features
+# FIXME: maxit, max.features
 # FIXME: compare relative
 selectFeaturesSequential = function(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, show.info) {
   seq.step = function(forward, state, gen.new.states, compare) {
     # we have too many vars already and cannot move forward
-    if (forward && !(is.null(control$max.vars)) && control$max.vars <= sum(unlist(state$x)))
+    if (forward && !is.na(control$max.features) && control$max.features <= sum(unlist(state$x)))
       return(NULL)
     xs = gen.new.states(state$x)
     if (length(xs) == 0)
@@ -18,7 +18,7 @@ selectFeaturesSequential = function(learner, task, resampling, measures, bit.nam
     thresh = ifelse(forward, control$alpha, control$beta) 
     better = compare(state, best, control, measures[[1]], thresh) 
     # if backward step and we have too many vars we do always go to the next best state with one less var.
-    if ((forward && better) || (!forward && (better || sum(unlist(state$x)) > control$max.vars))) {
+    if ((forward && better) || (!forward && (better || (!is.na(control$max.features) && sum(unlist(state$x)) > control$max.features)))) {
       setOptPathElEOL(opt.path, best.i, dob+1)
       return(best)
     } else {

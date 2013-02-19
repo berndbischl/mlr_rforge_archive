@@ -23,10 +23,10 @@ filterFeatures = function(task, method="random.forest.importance") {
     "gain.ratio", "symmetrical.uncertainty", "chi.squared", "random.forest.importance", 
     "relief", "oneR"))
   tn = task$task.desc$target
-  f = getTaskFormula(task)
+  f = getTaskFormulaAsString(task)
   data = getTaskData(task)
   fun = get(method, envir=getNamespace("FSelector"))
-  y = fun(f, data)  
+  y = fun(as.formula(f), data)  
   vals = y[,1]
   names(vals) = rownames(y)
   return(vals)

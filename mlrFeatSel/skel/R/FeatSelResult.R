@@ -24,6 +24,7 @@ makeFeatSelResult = function(learner, control, x, y, opt.path) {
 #'@S3method print FeatSelResult
 print.FeatSelResult = function(x, ...) {
   catf("FeatSel result:")
+  # FIXME remove printed NULL
   catf("Features: %s", printToChar(str(x$x)))
   catf("%s", mlr:::perfsToString(x$y))
 }

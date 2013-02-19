@@ -20,20 +20,20 @@ test_that("selectFeatures", {
   
   ctrl = makeFeatSelControlSequential(method="sfs", alpha=0.01)
   fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, control=ctrl)
-  checkTrue(getOptPathLength(fr$opt.path) > 1) 
+  expect_true(getOptPathLength(fr$opt.path) > 1) 
   
   ctrl = makeFeatSelControlSequential(method="sbs", beta=0.01)
   fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, control=ctrl)
-  checkTrue(getOptPathLength(fr$opt.path) > 1) 
+  expect_true(getOptPathLength(fr$opt.path) > 1) 
   
   ctrl = makeFeatSelControlSequential(method="sffs", alpha=0.01)
   fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, control=ctrl)
   # we must at least try to select a 2nd feature
-  checkTrue(getOptPathLength(fr$opt.path) >= 1 + 4 + 1 + 3) 
+  expect_true(getOptPathLength(fr$opt.path) >= 1 + 4 + 1 + 3) 
   
   ctrl = makeFeatSelControlSequential(method="sfbs", beta=0.01)
   fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, control=ctrl)
-  checkTrue(getOptPathLength(fr$opt.path) > 1) 
+  expect_true(getOptPathLength(fr$opt.path) > 1) 
   
   
   
