@@ -24,15 +24,6 @@ rdesc = makeResampleDesc("CV", iters=5)
 resample(lrn, task, rdesc)
 parallelStop()
 
-# this starts 5 processes!
-parallelStart(mode="multicore", cpus=3, level="resample")
-#parallelStart(mode="local")
-lrn = makeLearner("classif.gbm", n.trees=10000, interaction.depth=5)
-task = makeClassifTask(data=Sonar, target="Class")
-rdesc = makeResampleDesc("CV", iters=5)
-resample(lrn, task, rdesc)
-parallelStop()	
-
 - describe parallel in tutorial
 	
 ##### later ######  

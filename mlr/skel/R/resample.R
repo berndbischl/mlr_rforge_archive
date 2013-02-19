@@ -20,6 +20,10 @@
 #' @param measures [\code{\link{Measure}} | list of \code{\link{Measure}}]\cr
 #'   Performance measures to evaluate. 
 #'   See \code{\link{measures}}.
+#' @param weights [\code{numeric}]\cr 
+#'   Optional, non-negative case weight vector to be used during fitting.
+#'   If given, must be of same length as observations in task and in corresponding order.
+#'   By default missing which means no weights are used.
 #' @param models [logical(1)]\cr 
 #'   Should all fitted models be returned? 
 #'   Default is \code{FALSE}. 
@@ -50,7 +54,7 @@
 #' r2 <- resample(makeLearner("classif.rpart"), task, rin)
 #' print(r2$measures.test)
 #' print(r2$aggr)
-resample = function(learner, task, resampling, measures, models=FALSE, 
+resample = function(learner, task, resampling, measures, weights, models=FALSE, 
   extract=function(m){}, show.info=TRUE) {
 
   checkArg(learner, "Learner")
@@ -64,6 +68,9 @@ resample = function(learner, task, resampling, measures, models=FALSE,
   if (inherits(measures, "Measure"))
     measures = list(measures)
   checkListElementClass(measures, "Measure")  
+  if(!missing(weights)) {
+    checkArg(weights, "numeric", len=task$task.desc$size, na.ok=FALSE, lower=0)
+  }  
   checkArg(models, "logical", len=1L, na.ok=FALSE)
   checkArg(extract, "function")
   checkArg(show.info, "logical", len=1L, na.ok=FALSE)
@@ -73,21 +80,26 @@ resample = function(learner, task, resampling, measures, models=FALSE,
   if (n != r)
     stop(paste("Size of data set:", n, "and resampling instance:", r, "differ!"))
   
+  checkTaskLearner(task, learner, weights)
+  
   rin = resampling
   iters = rin$desc$iters
   more.args = list(learner=learner, task=task, rin=rin, 
-    measures=measures, model=models, extract=extract, show.info=show.info)
+    measures=measures, weights=weights, model=models, extract=extract, show.info=show.info)
   iter.results = parallelMap(doResampleIteration, 1:iters, level="resample", more.args=more.args)
   mergeResampleResult(task, iter.results, measures, rin, models, extract, show.info)
 }
 
-doResampleIteration = function(learner, task, rin, i, measures, model, extract, show.info) {
+doResampleIteration = function(learner, task, rin, i, measures, weights, model, extract, show.info) {
   if (show.info)
     messagef("[Resample] %s iter: %i", rin$desc$id, i)
   train.i = rin$train.inds[[i]]
   test.i = rin$test.inds[[i]]
   
-  m = train(learner, task, subset=train.i)
+  if (missing(weights))
+    m = train(learner, task, subset=train.i)
+  else
+    m = train(learner, task, subset=train.i, weights=weights[train.i])
   p = predict(m, task=task, subset=test.i)
   
   # does a measure require to calculate pred.train?
