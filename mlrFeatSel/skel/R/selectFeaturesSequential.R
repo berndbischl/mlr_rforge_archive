@@ -1,17 +1,16 @@
-# todo: maxit, max.vars
-# todo: compare relative
-varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, log.fun) {
-  
+# FIXME: maxit, max.vars, max.features
+# FIXME: compare relative
+selectFeaturesSequential = function(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, show.info) {
   seq.step = function(forward, state, gen.new.states, compare) {
     # we have too many vars already and cannot move forward
-    if (forward && control$max.vars <= sum(unlist(state$x)))
+    if (forward && !(is.null(control$max.vars)) && control$max.vars <= sum(unlist(state$x)))
       return(NULL)
     xs = gen.new.states(state$x)
     if (length(xs) == 0)
       return(NULL)
     dob = max(opt.path$env$dob) + 1L
     # die at once
-    evalOptimizationStates(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, log.fun, xs, dob, dob)
+    evalOptimizationStates(learner, task, resampling, measures, bits.to.features, control, opt.path, show.info, xs, dob, dob)
     
     best.i = getOptPathBestIndex(opt.path, dob=dob, ties="random")
     best = getOptPathEl(opt.path, best.i)
@@ -69,26 +68,26 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
     stop(paste("Unknown method:", method))
   ) 
   
-  y = evalOptimizationState(learner, task, resampling, measures, NULL, bits.to.features, control, opt.path, log.fun, x)
+  y = evalOptimizationState(learner, task, resampling, measures, bits.to.features, control, opt.path, show.info, x)
   state = list(x=x, y=y)
   path = addOptPathEl(opt.path, x=as.list(x), y=y, dob=1L, eol=2L)   
   
   forward = (method %in% c("sfs", "sffs"))
   fail = 0
   while ((method %in% c("sfs", "sbs")  && fail == 0) || (method %in% c("sffs", "sfbs") && fail < 2)) {
-    logger.debug("current:")
-    logger.debug(state$x)
+    #logger.debug("current:")
+    #logger.debug(state$x)
     #cat("forward:", forward, "\n")
     state2 = seq.step(forward, state, gen.new.states, compare)
     #print(s$rp$measures["mean", "mmce"])
     # we could not move to state2 in normal step, stay where we are
     if (!is.null(state2)) {
       state = state2
+      state$x = unlist(state$x)
       fail = 0
     } else {
       fail = fail + 1
     }
-    
     if (method %in% c("sffs", "sfbs")) {
       #cat("forward:", !forward, "\n")
       gns = switch(method,
@@ -104,6 +103,7 @@ varsel.seq = function(learner, task, resampling, measures, bit.names, bits.to.fe
       }
     }
   }
+  
   # if last generation contains no better element, go to second to last
   last = max(opt.path$env$dob) 
   j = which(opt.path$env$dob == last)

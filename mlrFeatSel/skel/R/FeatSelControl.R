@@ -1,5 +1,5 @@
 #FIXME carefulle doc. arg meanings
-#FIXME what about ...? check gaian in all files!
+#FIXME what about ...? check again in all files!
 
 #' Create control structures for feature selection.
 #' 
@@ -38,12 +38,11 @@ makeFeatSelControl = function(same.resampling.instance, maxit, max.features, ...
 print.FeatSelControl = function(x, ...) {
   catf("FeatSel control: %s", class(x)[1])
   catf("Same resampling instance: %s", x$same.resampling.instance)
-  if (x$max.features == .Machine$integer.max)
-    catf("Max. features: %i", x$max.features)
-  else  
+  if (is.na(x$max.features))
     catf("Max. features: <not used>")
+  else  
+    catf("Max. features: %i", x$max.features)
   catf("Max. iterations: %i", x$maxit)
   #catf("Further arguments: %s", listToShortString(x$extra.args))
 }
-
 
