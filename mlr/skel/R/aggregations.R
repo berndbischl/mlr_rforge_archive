@@ -115,7 +115,7 @@ train.sum = makeAggregation(
 b632 = makeAggregation(
   id = "b632",
   fun = function(task, perf.test, perf.train, measure, group, pred) {
-    0.632*perf.test + (1-0.632)*perf.train
+    mean(0.632*perf.test + (1-0.632)*perf.train)
   }
 )
 

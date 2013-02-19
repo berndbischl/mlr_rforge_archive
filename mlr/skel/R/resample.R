@@ -85,7 +85,9 @@ resample = function(learner, task, resampling, measures, weights, models=FALSE,
   rin = resampling
   iters = rin$desc$iters
   more.args = list(learner=learner, task=task, rin=rin, 
-    measures=measures, weights=weights, model=models, extract=extract, show.info=show.info)
+    measures=measures, model=models, extract=extract, show.info=show.info)
+  if (!missing(weights))
+    more.args$weights = weights
   iter.results = parallelMap(doResampleIteration, 1:iters, level="resample", more.args=more.args)
   mergeResampleResult(task, iter.results, measures, rin, models, extract, show.info)
 }

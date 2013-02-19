@@ -1,9 +1,9 @@
 context("b632")
 
 test_that("b632", {
-  res = makeResampleDesc("Bootstrap", iters=2)
+  res = makeResampleDesc("Bootstrap", iters=2, predict="both")
   m = setAggregation(mmce, b632)
-  r = resample(makeLearner("classif.rpart"), task=binaryclass.task, resampling=res)
+  r = resample(makeLearner("classif.rpart"), task=binaryclass.task, resampling=res, measure=m)
   m1 = r$measures.train
   m2 = r$measures.test
   p = as.data.frame(r$pred)
@@ -13,13 +13,6 @@ test_that("b632", {
   ls21 = p[p$set == "train" & p$iter==2, c("truth", "response")]
   ls22 = p[p$set == "test" & p$iter==2, c("truth", "response")]
   ls2 = 0.368*mean(ls21[,1] != ls21[,2]) + 0.632*mean(ls22[,1] != ls22[,2])
-  # FIXME: 
-  # ag = perf1$aggr.group
-  # checkEquals(ls1, ag[1, "mmce"])
-  # checkEquals(ls2, ag[2, "mmce"])
-  # checkEquals(mean(c(ls1, ls2)), perf1$aggr[1, "mmce"])
-  #  # check that combine works at least
-  #  p2 = as(p, "grouped.Prediction")
-  #  expect_true(setequal(colnames(p2@df), c("truth", "response", "id", "group")))
-  # perf2 = performance(p, measures=c("mmce"), aggr="combine")
+  ag = r$aggr
+  expect_equal(mean(c(ls1, ls2)), ag[["mmce.b632"]])
 })

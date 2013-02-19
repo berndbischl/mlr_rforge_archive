@@ -1,6 +1,7 @@
 
 - b632+ test
- 
+ test b632 too  
+
  - remove featperc measure? what to do?
    with chains it is diffuclt to see where feature number is
 
