@@ -37,7 +37,6 @@ test_that("selectFeatures", {
   expect_true(getOptPathLength(fr$opt.path) > 1) 
   
   
-  
   # check max.features
   ctrl = makeFeatSelControlSequential(alpha=0, max.features=1, method="sfs")
   fr = selectFeatures(lrn, task=binaryclass.task, resampling=inner, control=ctrl, show.info=FALSE)
@@ -46,6 +45,10 @@ test_that("selectFeatures", {
   ctrl = makeFeatSelControlSequential(beta=1, max.features=58, method="sbs")
   fr = selectFeatures(lrn, task=binaryclass.task, resampling=inner, control=ctrl, show.info=FALSE)
   expect_equal(length(fr$x), 58) 
+  
+  ctrl = makeFeatSelControlGA(maxit=5, max.features=30)
+  fr = selectFeatures(lrn, task=binaryclass.task, resampling=inner, control=ctrl, show.info=FALSE)
+  expect_true(length(fr$x) <= 30)
   
   # check empty model
   ctrl = makeFeatSelControlSequential(method="sfs", alpha=10)
@@ -76,5 +79,11 @@ test_that("selectFeatures", {
   df = as.data.frame(fr$opt.path) 
   expect_equal(colnames(df), c("b1", "b2", "mmce.test.mean", "dob", "eol"))
   expect_equal(nrow(df), 4)
+  
+  #ctrl = makeFeatSelControlGA(maxit=5)
+  #fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, bit.names=bns, bits.to.features=btf, control=ctrl, show.info=FALSE)
+  #df = as.data.frame(fr$opt.path) 
+  #expect_equal(colnames(df), c("b1", "b2", "mmce.test.mean", "dob", "eol"))
+  #expect_equal(nrow(df), 4)
 })
 
