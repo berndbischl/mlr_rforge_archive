@@ -68,14 +68,16 @@ selectFeatures = function(learner, task, resampling, control, measures,
   if (inherits(measures, "Measure"))
     measures = list(measures)   
   checkListElementClass(measures, "Measure")
-  if (missing(bit.names))
+  if (missing(bit.names)) {
     bit.names = getTaskFeatureNames(task)
-  else 
+  } else {
     checkArg(bit.names, "character", na.ok=FALSE)
-  if (missing(bits.to.features))
+  }
+  if (missing(bits.to.features)) {
     bits.to.features = function(x, task) binaryToFeatures(x, getTaskFeatureNames(task)) 
-  else 
+  } else {
     checkArg(bits.to.features, "function", formals=c("x", "task"))
+  }
   checkArg(control, "FeatSelControl")
   checkArg(show.info, "logical", len=1L, na.ok=FALSE)
 

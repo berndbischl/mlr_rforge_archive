@@ -1,3 +1,4 @@
+## FIXME: selectFeaturesGA does not work for bits
 context("selectFeatures")
 
 test_that("selectFeatures", {
@@ -12,7 +13,7 @@ test_that("selectFeatures", {
   expect_equal(ncol(as.data.frame(fr$opt.path)), 7) 
   # test printing
   print(fr)
-  
+
   # check maxit
   ctrl = makeFeatSelControlRandom(maxit=4)
   fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, control=ctrl, show.info=FALSE)

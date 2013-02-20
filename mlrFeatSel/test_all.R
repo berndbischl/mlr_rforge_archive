@@ -3,6 +3,7 @@ library(testthat)
 library(e1071)
 library(reshape)
 library(mlrTune)
+library(BBmisc)
 
 if (interactive()) {
   library(devtools)

@@ -18,6 +18,16 @@ selectFeaturesGA = function(learner, task, resampling, measures, bit.names, bits
   fit = mlr:::measureAggrName(measures[[1]])
   states = lapply(1:control$mu, 
 	  function(i) rbinom(length(getTaskFeatureNames(task)), 1, 0.5))
+  if(!is.na(control$max.features)){
+    foo = function(i){
+      while(sum(i) > control$max.features) {
+        i = rbinom(length(getTaskFeatureNames(task)), 1, 0.5)
+      }
+      return(i)
+    }
+    states = lapply(states, function(z) foo(z))
+  }
+
   evalOptimizationStates(learner, task, resampling, measures, 
 	  bits.to.features, control, opt.path, show.info, states, 0L, as.integer(NA))  
   
@@ -32,8 +42,9 @@ selectFeaturesGA = function(learner, task, resampling, measures, bit.names, bits
   for(i in 1:control$maxit) {
     parents = as.data.frame(getOptPathEl(opt.path, which(is.na(as.data.frame(opt.path)[,"eol"])))$x)
     kids = lapply(1:control$lambda, function(z) 
-          generateKids(parents = parents[sample(1:nrow(parents), 2),], 
-                       crossoverRate = control$crossoverRate, mutationRate = control$mutationRate))
+          newStates(parents = parents[sample(1:nrow(parents), 2),], 
+                       crossoverRate = control$crossoverRate, mutationRate = control$mutationRate, 
+                       max.features = control$max.features))
     evalOptimizationStates(learner, task, resampling, measures, 
                            bits.to.features, control, opt.path, show.info, states = kids, i, as.integer(NA))
     index = order(as.data.frame(opt.path)[[fit]])[1:control$mu]
@@ -45,7 +56,16 @@ selectFeaturesGA = function(learner, task, resampling, measures, bit.names, bits
 }
 
 
-generateKids = function(parents, crossoverRate, mutationRate){
-  kid = crossover(as.integer(parents[1,]), as.integer(parents[2,]), crossoverRate)
-  return(mutateBits(kid, mutationRate))
+newStates = function(parents, crossoverRate, mutationRate, max.features){
+  if(is.na(max.features)) {
+    kid = crossover(as.integer(parents[1,]), as.integer(parents[2,]), crossoverRate)
+    return(mutateBits(kid, mutationRate))    
+  }
+  runLoop = TRUE
+  while(runLoop) {
+    kid = crossover(as.integer(parents[1,]), as.integer(parents[2,]), crossoverRate)
+    kid = mutateBits(kid, mutationRate)
+    runLoop = sum(kid) > max.features
+  }
+  return(kid)
 }
