@@ -17,20 +17,18 @@ NULL
 selectFeaturesGA = function(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, show.info) {
   fit = mlr:::measureAggrName(measures[[1]])
   states = lapply(1:control$mu, 
-	  function(i) rbinom(length(getTaskFeatureNames(task)), 1, 0.5))
+	  function(i) rbinom(length(bit.names), 1, 0.5))
   if(!is.na(control$max.features)){
     foo = function(i){
       while(sum(i) > control$max.features) {
-        i = rbinom(length(getTaskFeatureNames(task)), 1, 0.5)
+        i = rbinom(length(bit.names), 1, 0.5)
       }
       return(i)
     }
     states = lapply(states, function(z) foo(z))
   }
-
   evalOptimizationStates(learner, task, resampling, measures, 
 	  bits.to.features, control, opt.path, show.info, states, 0L, as.integer(NA))  
-  
   if("mutationRate" %in% names(control)) {
     if(!("crossoverRate" %in% names(control))) {
       control$crossoverRate = 1
@@ -38,7 +36,6 @@ selectFeaturesGA = function(learner, task, resampling, measures, bit.names, bits
   } else {
     control$mutationRate = 0
   }
-  
   for(i in 1:control$maxit) {
     parents = as.data.frame(getOptPathEl(opt.path, which(is.na(as.data.frame(opt.path)[,"eol"])))$x)
     kids = lapply(1:control$lambda, function(z) 
@@ -52,7 +49,7 @@ selectFeaturesGA = function(learner, task, resampling, measures, bit.names, bits
   }
   i = getOptPathBestIndex(opt.path, mlr:::measureAggrName(measures[[1]]), ties="random")
   e = getOptPathEl(opt.path, i)
-	makeFeatSelResult(learner, control, names(e$x)[e$x == 1], e$y, opt.path)
+  makeFeatSelResult(learner, control, names(e$x)[e$x == 1], e$y, opt.path)
 }
 
 

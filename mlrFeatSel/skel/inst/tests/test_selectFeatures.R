@@ -80,10 +80,10 @@ test_that("selectFeatures", {
   expect_equal(colnames(df), c("b1", "b2", "mmce.test.mean", "dob", "eol"))
   expect_equal(nrow(df), 4)
   
-  #ctrl = makeFeatSelControlGA(maxit=5)
-  #fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, bit.names=bns, bits.to.features=btf, control=ctrl, show.info=FALSE)
-  #df = as.data.frame(fr$opt.path) 
-  #expect_equal(colnames(df), c("b1", "b2", "mmce.test.mean", "dob", "eol"))
-  #expect_equal(nrow(df), 4)
+  ctrl = makeFeatSelControlGA(maxit=5, lambda = 6, mu = 15)
+  fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, bit.names=bns, bits.to.features=btf, control=ctrl, show.info=FALSE)
+  df = as.data.frame(fr$opt.path) 
+  expect_equal(colnames(df), c("b1", "b2", "mmce.test.mean", "dob", "eol"))
+  expect_equal(nrow(df), 15 + 5 * 6)
 })
 

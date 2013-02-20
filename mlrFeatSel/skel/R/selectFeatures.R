@@ -84,7 +84,6 @@ selectFeatures = function(learner, task, resampling, control, measures,
   par.set = lapply(bit.names, function(bn) makeIntegerParam(bn))
   par.set = do.call(makeParamSet, par.set)
   #checkVarselParset(learner, par.set, bit.names, control)
-  
   opt.path = mlrTune:::makeOptPathDFFromMeasures(par.set, measures)
 
   cl = as.character(class(control))[1]
