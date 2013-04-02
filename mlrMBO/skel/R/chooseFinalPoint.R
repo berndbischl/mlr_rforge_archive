@@ -9,7 +9,7 @@ chooseFinalPoint = function(fun, par.set, model, opt.path, y.name, control) {
     i = getOptPathBestIndex(opt.path, ties="random")
   } else if(control$final.point == "best.predicted") {
     y = predict(model, newdata=df[, input.names])$data$response
-    i = sample(which(min(y) == y), 1)
+    i = which(rank(y, ties.method = "random") == 1)
   }
   return(i)
 }
