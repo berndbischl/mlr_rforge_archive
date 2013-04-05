@@ -25,7 +25,7 @@ makeRLearner.classif.PART = function() {
 trainLearner.classif.PART = function(.learner, .task, .subset, .weights,  ...) {
   f = as.formula(getTaskFormulaAsString(.task))
   ctrl = Weka_control(..., Q=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
-  PART(f, data=getTaskData(.task, .subset), control=ctrl)
+  PART(f, data=getTaskData(.task, .subset), control=ctrl, na.action=na.pass)
 }
 
 #' @S3method predictLearner classif.PART

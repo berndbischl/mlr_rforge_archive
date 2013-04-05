@@ -25,7 +25,7 @@ makeRLearner.classif.JRip = function() {
 trainLearner.classif.JRip = function(.learner, .task, .subset, .weights,  ...) {
   f = as.formula(getTaskFormulaAsString(.task))
   ctrl = Weka_control(..., S=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
-  JRip(f, data=getTaskData(.task, .subset), control=ctrl)
+  JRip(f, data=getTaskData(.task, .subset), control=ctrl, na.action=na.pass)
 }
 
 #' @S3method predictLearner classif.JRip

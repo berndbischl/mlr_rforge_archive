@@ -30,7 +30,7 @@ makeRLearner.classif.J48 = function() {
 trainLearner.classif.J48 = function(.learner, .task, .subset, .weights,  ...) {
   f = as.formula(getTaskFormulaAsString(.task))
   ctrl = Weka_control(..., Q=as.integer(runif(1, min=-.Machine$integer.max, max=.Machine$integer.max)))
-  J48(f, data=getTaskData(.task, .subset), control=ctrl)
+  J48(f, data=getTaskData(.task, .subset), control=ctrl, na.action=na.pass)
 }
 
 #' @S3method predictLearner classif.J48

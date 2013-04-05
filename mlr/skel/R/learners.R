@@ -11,7 +11,9 @@
 #' 		\item{\bold{classif.glmboost}}{\cr Boosting for GLMs from mbboost package: \code{\link[mboost]{glmboost}}\cr
 #'      Note that \code{family} has been set to \code{Binomial()} by default.}  
 #' 		\item{\bold{classif.J48}}{\cr J48 Decision Trees from RWeka package: \code{\link[RWeka]{J48}}}
+#'      Note that NAs are directly passed to WEKA with \code{na.action = na.pass}.
 #' 		\item{\bold{classif.JRip}}{\cr Propositional Rule Learner from RWeka package: \code{\link[RWeka]{JRip}}}
+#'      Note that NAs are directly passed to WEKA with \code{na.action = na.pass}.
 #' 		\item{\bold{classif.kknn}}{\cr k-Nearest Neighbor from kknn package: \code{\link[kknn]{kknn}}}
 #' 		\item{\bold{classif.ksvm}}{\cr Support Vector Machines from kernlab package: \code{\link[kernlab]{ksvm}}\cr
 #'      Note that kernel parameters have to be passed directly and not by using the kpar list in ksvm.\cr
@@ -28,7 +30,9 @@
 #' 		\item{\bold{classif.nnet}}{\cr Neural Network from nnet package: \code{\link[nnet]{nnet}}\cr
 #'      Note that \code{size} has been set to 3 by default.}  
 #' 		\item{\bold{classif.OneR}}{\cr 1-R classifier from RWeka package: \code{\link[RWeka]{OneR}}}
+#'      Note that NAs are directly passed to WEKA with \code{na.action = na.pass}.
 #' 		\item{\bold{classif.PART}}{\cr PART decision lists from RWeka package: \code{\link[RWeka]{PART}}}
+#'      Note that NAs are directly passed to WEKA with \code{na.action = na.pass}.
 #' 		\item{\bold{classif.qda}}{\cr Quadratic Discriminant Analysis from MASS package: \code{\link[MASS]{qda}}}
 #' 		\item{\bold{classif.randomForest}}{\cr Random Forest from randomForest package: \code{\link[randomForest]{randomForest}}}
 #' 		\item{\bold{classif.rda}}{\cr Regularized Discriminant Analysis from klaR package: \code{\link[klaR]{rda}}\cr
