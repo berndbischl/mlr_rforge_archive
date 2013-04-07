@@ -23,13 +23,14 @@ makeFilterWrapper = function(learner, fw.method="random.forest.importance", fw.p
     "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")
   checkArg(fw.method, choices=meths)
   checkArg(fw.perc, "numeric", len=1L, na.ok=FALSE, lower=0, upper=1)
+  id = paste(learner$id, "filtered", sep=".")
   ps = makeParamSet(
     makeDiscreteLearnerParam(id="fw.method", values=meths),
     makeNumericLearnerParam(id="fw.perc")
   )
   pv = list(fw.method=fw.method, fw.perc=fw.perc)
   # fixme scale to 0,1
-  makeBaseWrapper(learner, package="FSelector", par.set=ps, par.vals=pv, 
+  makeBaseWrapper(id, learner, package="FSelector", par.set=ps, par.vals=pv, 
     cl="FilterWrapper")
   # fixme: check that for some the inputs have to be all num. or accept error in train and NA in predict?
 }

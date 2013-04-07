@@ -33,7 +33,8 @@
 makePreprocWrapper = function(learner, train, predict, par.set=makeParamSet(), par.vals=list()) {
   checkArg(train, formals=c("data", "target", "args"))
   checkArg(predict, formals=c("data", "target", "args", "control"))
-  x = makeBaseWrapper(next.learner=learner, par.set=par.set, par.vals=par.vals, cl="PreprocWrapper")
+  id = paste(learner$id, "preproc", sep=".")
+  x = makeBaseWrapper(id, next.learner=learner, par.set=par.set, par.vals=par.vals, cl="PreprocWrapper")
   x$train = train
   x$predict = predict
   return(x)

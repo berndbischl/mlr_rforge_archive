@@ -1,5 +1,8 @@
 context("PreprocWrapperRemoveOutliers")
 
+#FIXME enable if export
+if (interactive()) {
+  
 test_that("PreprocWrapperRemoveOutliers", {
   lrn1 = makeLearner("classif.rpart", minsplit=10)
   lrn2 = makePreprocWrapperRemoveOutliers(lrn1, ro.alpha=1)
@@ -50,3 +53,5 @@ test_that("PreprocWrapperPCA works with factors", {
   perf = performance(p, mmce)
   expect_true(!is.na(perf))
 })
+
+}

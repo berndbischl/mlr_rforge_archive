@@ -1,4 +1,4 @@
-makeOptWrapper = function(learner, resampling, measures, par.set, bit.names, bits.to.features,
+makeOptWrapper = function(id, learner, resampling, measures, par.set, bit.names, bits.to.features,
   control, show.info, cl) {
   
   if (!(inherits(resampling, "ResampleDesc") || inherits(resampling, "ResampleInstance")))
@@ -17,7 +17,7 @@ makeOptWrapper = function(learner, resampling, measures, par.set, bit.names, bit
   checkArg(control, "OptControl")
   checkArg(show.info, "logical", len=1L, na.ok=FALSE)
 
-  x = makeBaseWrapper(learner, cl=c(cl, "OptWrapper"))
+  x = makeBaseWrapper(id, learner, cl=c(cl, "OptWrapper"))
   x$resampling = resampling
   x$measures = measures
   x$opt.pars = par.set

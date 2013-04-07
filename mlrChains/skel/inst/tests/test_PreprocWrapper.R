@@ -17,16 +17,16 @@ test_that("PreprocWrapper", {
   lrn2 = makePreprocWrapper(lrn1, train=f1, predict=f2, par.set=ps, par.vals=list(x=1,y=2))
   capture.output(print(lrn2))
   
-  expect_true(setequal(getHyperPars(lrn2), list(minsplit=10, x=1, y=2))) 
-  expect_true(setequal(getHyperPars(lrn2, "train"), list(minsplit=10, x=1, y=2))) 
+  expect_true(setequal(getHyperPars(lrn2), list(xval=0, minsplit=10, x=1, y=2))) 
+  expect_true(setequal(getHyperPars(lrn2, "train"), list(xval=0, minsplit=10, x=1, y=2))) 
   expect_true(setequal(lrn2$par.vals, list(x=1, y=2))) 
   
   lrn3 = setHyperPars(lrn2, minsplit=77, x=88)
-  expect_true(setequal(getHyperPars(lrn3), list(minsplit=77, x=88, y=2))) 
+  expect_true(setequal(getHyperPars(lrn3), list(xval=0, minsplit=77, x=88, y=2))) 
   expect_true(setequal(lrn3$par.vals, list(x=88, y=2))) 
   
   m = train(lrn2, task=multiclass.task)
   capture.output(print(m))
-  expect_true(setequal(getHyperPars(m$learner), list(minsplit=10, x=1, y=2))) 
+  expect_true(setequal(getHyperPars(m$learner), list(xval=0, minsplit=10, x=1, y=2))) 
 })
 

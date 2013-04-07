@@ -24,7 +24,8 @@
 #' @return [\code{\link{Learner}}]. 
 #' @export
 makeTuneWrapper = function(learner, resampling, measures, par.set, control, show.info=TRUE) {
-	x = makeOptWrapper(learner, resampling, measures, par.set, character(0),
+  id = paste(learner$id, "tuned", sep=".")
+	x = makeOptWrapper(id, learner, resampling, measures, par.set, character(0),
     function(){}, control, show.info, "TuneWrapper")
   mlrTune:::checkTunerParset(learner, par.set, control) 
   return(x)

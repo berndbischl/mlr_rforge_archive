@@ -1,5 +1,8 @@
 context("PreprocWrapperPCA")
 
+#FIXME enable if export
+if (interactive()) {
+  
 test_that("PreprocWrapperPCA", {
   lrn1 = makeLearner("classif.rpart", minsplit=10)
   lrn2 = makePreprocWrapperPCA(lrn1)
@@ -48,3 +51,4 @@ test_that("PreprocWrapperPCA works with factors", {
   expect_true(!is.na(perf))
 })
 
+}

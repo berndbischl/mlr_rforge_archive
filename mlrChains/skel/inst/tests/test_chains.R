@@ -1,5 +1,8 @@
 context("chains")
 
+#FIXME enable if export
+if (interactive()) {
+
 test_that("chains", {
   lrn1 = makeLearner("classif.rpart", minsplit=10)
   lrn2 = makePreprocWrapperRemoveOutliers(lrn1, ro.alpha=1)
@@ -31,3 +34,4 @@ test_that("chains", {
   expect_true(perf < 0.1)
 })
 
+}

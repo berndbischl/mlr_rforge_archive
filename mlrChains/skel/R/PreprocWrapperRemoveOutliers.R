@@ -2,7 +2,6 @@
 #only export if proved useful
 # simul study?
 
-#' @export
 makePreprocWrapperRemoveOutliers = function(learner, ro.alpha=0.5) {
   checkArg(learner, "Learner")
 

@@ -1,7 +1,10 @@
 # FIXME: test this
-makeBaseWrapper = function(next.learner, package=character(0), par.set=makeParamSet(), 
+makeBaseWrapper = function(id, next.learner, package=character(0), par.set=makeParamSet(), 
   par.vals=list(), cl) {
-  
+  if (missing(id)) 
+    id = next.learner$id
+  else 
+    checkArg(id, "character", len=1L, na.ok=FALSE)
   checkArg(next.learner, "Learner")
   checkArg(package, "character", na.ok=FALSE)
   checkArg(par.set, "ParamSet")
@@ -16,7 +19,7 @@ makeBaseWrapper = function(next.learner, package=character(0), par.set=makeParam
     stopf("Hyperparameter names in wrapper clash with base learner names: %s", collapse(ns))
   
   structure(list(
-    id = next.learner$id,
+    id = id,
     type = next.learner$type,
     package = c(package, next.learner$package),
     par.set = par.set,
@@ -49,15 +52,10 @@ print.BaseWrapper = function(x, ...) {
   s = ""
   y = x
   while (inherits(y, "BaseWrapper")) {
-    s = paste(s, class(y), "->", sep="")
-    y = y$learner
+    s = paste(s, class(y)[1], "->", sep="")
+    y = y$next.learner
   }
   s = paste(s, class(y)[1])
-  
-  cat(
-    s, "\n",
-    "  Hyperparameters: ", mlr:::getHyperParsString(x), "\n\n",
-    sep = ""         
-  )
+  mlr:::print.Learner(x)
 }
 

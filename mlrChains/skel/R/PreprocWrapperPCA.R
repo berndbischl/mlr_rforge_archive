@@ -1,6 +1,5 @@
 #FIXME: read this
 
-#' @export
 makePreprocWrapperPCA = function(learner) {
   checkArg(learner, "Learner")
 
