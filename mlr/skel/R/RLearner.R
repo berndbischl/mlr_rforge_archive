@@ -126,31 +126,3 @@ makeRLearnerRegr = function(cl, package, par.set, numerics, factors=FALSE,
   return(x)
 }
 
-#' @S3method print ResampleDesc
-print.RLearner = function(x, ...) {
-  cat(
-    "Learner ", x$id, " from package ", collapse(x$package), "\n",
-    "Type: ", x$type, "\n",
-    "Class: ", class(x)[1], "\n",
-    "Predict-Type: ", x$predict.type, "\n",
-    "Hyperparameters: ", getHyperParsString(x), "\n\n",
-    "Supported features Numerics:", x$numerics, " Factors:", x$factors, "\n",
-    "Supports missings: ", x$missings, "\n", 
-    "Supports weights: ", x$weights, "\n", 
-    sep =""
-  )
-}
-
-#' @S3method print RLearnerClassif
-print.RLearnerClassif = function(x, ...) {
-  print.RLearner(x)
-  catf("Supports classes: %s", 
-    collapse(c("one", "two", "multi")[c(x$oneclass, x$twoclass, x$multiclass)]))
-  catf("Supports probabilities: %s", x$prob) 
-}
-
-#' @S3method print RLearnerRegr
-print.RLearnerRegr = function(x, ...) {
-  print.RLearner(x)
-  catf("Supports standard errs: %s", x$se) 
-}
