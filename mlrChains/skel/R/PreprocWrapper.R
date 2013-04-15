@@ -31,8 +31,14 @@
 #' @return [\code{\link[mlr]{Learner}}].
 #' @export
 makePreprocWrapper = function(learner, train, predict, par.set=makeParamSet(), par.vals=list()) {
+  checkArg(learner, "Learner")
   checkArg(train, formals=c("data", "target", "args"))
   checkArg(predict, formals=c("data", "target", "args", "control"))
+  checkArg(par.set, "ParamSet")
+  checkArg(par.vals, "list")
+  if (!isProperlyNamed(par.vals))
+    stop("'par.vals' must be a properly named list!")
+  
   id = paste(learner$id, "preproc", sep=".")
   x = makeBaseWrapper(id, next.learner=learner, par.set=par.set, par.vals=par.vals, cl="PreprocWrapper")
   x$train = train

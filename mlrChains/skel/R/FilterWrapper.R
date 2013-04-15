@@ -18,7 +18,7 @@
 #' @return [\code{\link{Learner}}].
 #' @export
 makeFilterWrapper = function(learner, fw.method="random.forest.importance", fw.perc=1) {
-  
+  checkArg(learner, "Learner")
   meths = c("linear.correlation", "rank.correlation", "information.gain", "gain.ratio", 
     "symmetrical.uncertainty", "chi.squared", "random.forest.importance", "relief", "oneR")
   checkArg(fw.method, choices=meths)

@@ -24,6 +24,19 @@
 #' @return [\code{\link{Learner}}]. 
 #' @export
 makeTuneWrapper = function(learner, resampling, measures, par.set, control, show.info=TRUE) {
+  checkArg(learner, "Learner")
+  checkArg(resampling, c("ResampleDesc", "ResampleInstance"))
+  if (missing(measures)) {
+    measures = mlr:::default.measures(learner)
+  } else {
+    if (is(measures, "Measure"))
+      measures = list(measures)   
+    else
+      checkListElementClass(measures, "Measure")
+  }
+  checkArg(par.set, "ParamSet")
+  checkArg(control, "TuneControl")
+  checkArg(show.info, "logical", len=1L, na.ok=FALSE)
   id = paste(learner$id, "tuned", sep=".")
 	x = makeOptWrapper(id, learner, resampling, measures, par.set, character(0),
     function(){}, control, show.info, "TuneWrapper")

@@ -56,7 +56,7 @@ makeBaggingWrapper = function(learner, bag.iters = 10L, bag.replace = TRUE, bag.
     makeNumericLearnerParam(id="bag.feats", lower=0, upper=1, default=2/3)
   )
   pv = list(bag.iters=bag.iters, bag.replace=bag.replace, 
-            bag.size=bag.size, bag.feats=bag.feats)
+    bag.size=bag.size, bag.feats=bag.feats)
   x = makeBaseWrapper(id, learner, packs, par.set=ps, par.vals=pv, cl="BaggingWrapper")
   x$se = FALSE
   x

@@ -1,17 +1,7 @@
 # FIXME: test this
 makeBaseWrapper = function(id, next.learner, package=character(0), par.set=makeParamSet(), 
   par.vals=list(), cl) {
-  if (missing(id)) 
-    id = next.learner$id
-  else 
-    checkArg(id, "character", len=1L, na.ok=FALSE)
-  checkArg(next.learner, "Learner")
-  checkArg(package, "character", na.ok=FALSE)
-  checkArg(par.set, "ParamSet")
-  checkArg(par.vals, "list")
-  if (!isProperlyNamed(par.vals))
-    stop("'par.vals' must be a properly named list!")
-  
+
   if (inherits(next.learner, "OptWrapper")) 
     stop("Cannot wrap an optimization wrapper with something else!")
   ns = intersect(names(par.set$pars), names(next.learner$par.set$pars))

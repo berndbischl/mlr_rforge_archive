@@ -1,21 +1,5 @@
 makeOptWrapper = function(id, learner, resampling, measures, par.set, bit.names, bits.to.features,
   control, show.info, cl) {
-  
-  if (!(inherits(resampling, "ResampleDesc") || inherits(resampling, "ResampleInstance")))
-    stopf("'resampling' must be a 'ResampleDesc' or ResampleInstance, not: %s", 
-      class(resampling)[1])
-  if (missing(measures)) {
-    measures = mlr:::default.measures(learner)
-  } else {
-    if (is(measures, "Measure"))
-      measures = list(measures)   
-    else
-      checkListElementClass(measures, "Measure")
-  }
-  # fixme checks for featsel
-  checkArg(par.set, "ParamSet")
-  checkArg(control, "OptControl")
-  checkArg(show.info, "logical", len=1L, na.ok=FALSE)
 
   x = makeBaseWrapper(id, learner, cl=c(cl, "OptWrapper"))
   x$resampling = resampling
