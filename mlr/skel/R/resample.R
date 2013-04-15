@@ -72,7 +72,7 @@ resample = function(learner, task, resampling, measures, weights, models=FALSE,
     checkArg(weights, "numeric", len=task$task.desc$size, na.ok=FALSE, lower=0)
   }  
   checkArg(models, "logical", len=1L, na.ok=FALSE)
-  checkArg(extract, "function")
+  checkArg(extract, formals="model")
   checkArg(show.info, "logical", len=1L, na.ok=FALSE)
 
   n = task$task.desc$size
@@ -165,7 +165,7 @@ mergeResampleResult = function(task, iter.results, measures, rin, models, extrac
     aggr = aggr,
     pred = pred,
     models = if(models) lapply(iter.results, function(x) x$model) else NULL, 
-    extract = if(is.function(extract)) extractSubList(iter.results, "extract") else NULL
+    extract = if(is.function(extract)) extractSubList(iter.results, "extract", simplify=FALSE) else NULL
   )
 }  
 
