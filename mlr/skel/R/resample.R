@@ -55,7 +55,7 @@
 #' print(r2$measures.test)
 #' print(r2$aggr)
 resample = function(learner, task, resampling, measures, weights, models=FALSE, 
-  extract=function(m){}, show.info=TRUE) {
+  extract=function(model){}, show.info=TRUE) {
 
   checkArg(learner, "Learner")
   checkArg(task, "SupervisedTask")
