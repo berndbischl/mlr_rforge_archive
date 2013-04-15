@@ -4,21 +4,21 @@
 #'
 #' Fuses a base learner with a preprocessing method. Creates a learner object, which can be
 #' used like any other learner object, but which internally preprocesses the data as requested. 
-#' If the train or predict function is called on it, the preprocessing is always invoked before.
+#' If the train or predict function is called on data / a task, the preprocessing is always performed automatically.
 #'
 #' @param learner [\code{\link[mlr]{Learner}}]\cr 
 #'   The learner.
-#' @param train [\code{function(data, target, args}]\cr
+#' @param train [\code{function(data, target, args)}]\cr
 #'   Function to preprocess the data before training. 
-#'   \code{target} is a string and denotest the target variable in \code{data}.
+#'   \code{target} is a string and denotes the target variable in \code{data}.
 #'   \code{args} is a list of further arguments and parameters to influence the 
 #'   preprocessing.
 #'   Must return a \code{list(data, control)}, where \code{data} is the preprocessed 
 #'   data and \code{control} stores all information necessary to do the preprocessing
 #'   before predictions.
-#' @param predict [\code{function(data, target, args, control}]\cr
+#' @param predict [\code{function(data, target, args, control)}]\cr
 #'   Function to preprocess the data before prediction. 
-#'   \code{target} is a string and denotest the target variable in \code{data}.
+#'   \code{target} is a string and denotes the target variable in \code{data}.
 #'   \code{args} are the args that were passed to \code{train}.
 #'   \code{control} is the object you returned in \code{train}.
 #' @param par.set [\code{\link[ParamHelpers]{ParamSet}}]\cr
