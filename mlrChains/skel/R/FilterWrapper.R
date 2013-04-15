@@ -6,6 +6,9 @@
 #' 
 #' Look at package FSelector for details on the filter algorithms. 
 #' 
+#' After training, the selected features can be retrieved with 
+#' \code{\link{getTuneResult}}.
+#' 
 #' @param learner [\code{\link[mlr]{Learner}}]\cr 
 #'   The learner.  
 #' @param fw.method [\code{character(1)}]\cr
@@ -17,6 +20,18 @@
 #'   Default is 1 (=100 percent).
 #' @return [\code{\link{Learner}}].
 #' @export
+#' @examples
+#' task = makeClassifTask(data=iris, target="Species")
+#' lrn = makeLearner("classif.lda")
+#' inner = makeResampleDesc("Holdout")
+#' outer = makeResampleDesc("CV", iters = 2)
+#' lrn = makeFilterWrapper(lrn, fw.perc=0.5)
+#' mod = train(lrn, task)
+#' print(getFilteredFeatures(mod))
+#' r = resample(lrn, task, outer, extract = function(model) {
+#' getFilteredFeatures(model)
+#' })
+#' print(r$extract)
 makeFilterWrapper = function(learner, fw.method="random.forest.importance", fw.perc=1) {
   checkArg(learner, "Learner")
   meths = c("linear.correlation", "rank.correlation", "information.gain", "gain.ratio", 
@@ -58,5 +73,14 @@ predictLearner.FilterWrapper = function(.learner, .model, .newdata, ...) {
   NextMethod(.newdata=.newdata)
 }
 
+#' Returns the filtered features.
+#' 
+#' @param model [\code{\link[mlr]{WrappedModel}}]\cr 
+#'   Trained Model created with \code{\link{makeFilterWrapper}}.
+#' @return [\code{character}].
+#' @export
+getFilteredFeatures = function(model) {
+  model$learner.model$next.model$features
+}
 
 

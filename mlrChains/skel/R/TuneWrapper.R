@@ -8,6 +8,9 @@
 #' hyperparameters and returned.    
 #' See \code{\link[mlrTune]{tune}} for more details.
 #' 
+#' After training, the optimal hyperparameters (and other related information) can be retrieved with 
+#' \code{\link{getTuneResult}}.
+#' 
 #' @param learner [\code{\link[mlr]{Learner}} or string]\cr 
 #'   Learning algorithm.   
 #' @param resampling [\code{\link[mlr]{ResampleDesc}} | \code{\link[mlr]{ResampleInstance}}]\cr
@@ -23,6 +26,26 @@
 #'   Default is \code{TRUE}.
 #' @return [\code{\link{Learner}}]. 
 #' @export
+#' @examples
+#' task = makeClassifTask(data=iris, target="Species")
+#' lrn = makeLearner("classif.ksvm")
+#' # stupid mini grid
+#' ps = makeParamSet(
+#'   makeDiscreteParam("C", values = 1:2),
+#'   makeDiscreteParam("sigma", values = 1:2)
+#' )   
+#' ctrl = makeTuneControlGrid()
+#' inner = makeResampleDesc("Holdout")
+#' outer = makeResampleDesc("CV", iters = 2)
+#' lrn = makeTuneWrapper(lrn, resampling = inner, par.set = ps, control = ctrl)
+#' mod = train(lrn, task)
+#' print(getTuneResult(mod))
+#' # nested resampling for evaluation
+#' # we also extract tuned hyper pars in each iteration
+#' r = resample(lrn, task, outer, extract = function(model) {
+#'   getTuneResult(model)$x
+#' })
+#' print(r$extract)
 makeTuneWrapper = function(learner, resampling, measures, par.set, control, show.info=TRUE) {
   checkArg(learner, "Learner")
   checkArg(resampling, c("ResampleDesc", "ResampleInstance"))
@@ -61,6 +84,16 @@ predictLearner.TuneWrapper = function(.learner, .model, .newdata, ...) {
   lrn = setHyperPars(.learner$next.learner, 
     par.vals=.model$learner.model$opt.result$x)
   predictLearner(lrn, .model$learner.model$next.model, .newdata)
+}
+
+#' Returns the optimal hyperparameters and optimization path.
+#' 
+#' @param model [\code{\link[mlr]{WrappedModel}}]\cr 
+#'   Trained Model created with \code{\link{makeTuneWrapper}}.
+#' @return [\code{\link[mlrTune]{TuneResult}}].
+#' @export
+getTuneResult = function(model) {
+  model$learner.model$opt.result
 }
 
 
