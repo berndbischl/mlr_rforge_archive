@@ -6,7 +6,7 @@ Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
 License: BSD
 Imports: BBmisc, ParamHelpers, mlr
 Depends: mlr
-Suggests: cmaes, DiceOptim, mlrMBO
+Suggests: cmaes, DiceOptim, mlrMBO, irace
 LazyData: yes
 ByteCompile: yes
 Version: 1.0

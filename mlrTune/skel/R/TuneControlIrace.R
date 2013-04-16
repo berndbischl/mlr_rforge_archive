@@ -1,6 +1,6 @@
 #' @export
 #' @rdname TuneControl
-makeTuneControlIrace = function(same.resampling.instance=TRUE, start, ...) {
-  makeTuneControl(same.resampling.instance=same.resampling.instance, 
+makeTuneControlIrace = function(n.instances = 100L, ...) {
+  makeTuneControl(same.resampling.instance=FALSE, n.instances = n.instances, 
                   start=list(), ..., cl="TuneControlIrace")
 }

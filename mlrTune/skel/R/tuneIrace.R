@@ -1,18 +1,36 @@
-#FIXME: should we really define validation error like this?
 tuneIrace = function(learner, task, resampling, measures, par.set, control,
                    opt.path, show.info, log.fun) {
   
   requirePackages(c("irace"), "tuneIrace")
-  #mbo.control = control$mbo.control
-  # set final evals to 0 to save time. we dont really need final evals in this context.
-  #mbo.control$final.evals = 0L
-  #cx = identity
+
   
-  tff = function(x) tunerFitnFun(x, learner=learner, task=task, resampling=resampling, measures=measures, 
-    par.set=par.set, ctrl=control, opt.path=opt.path, show.info=show.info, 
-    log.fun=log.fun, trafo=TRUE, convertx=cx)    
+  hookRun = function(instance, candidate, extra.params = NULL, config = list()) {
+    rin = instance
+    tunerFitnFun(candidate$values, learner=learner, task=task, resampling=rin, measures=measures, 
+      par.set=par.set, ctrl=control, opt.path=opt.path, show.info=show.info, 
+      log.fun=log.fun, trafo=TRUE, convertx=identity) 
+  }
+  n.instances = control$extra.args$n.instances
+  control$extra.args$n.instances = NULL
+  instances = lapply(1:n.instances, function(i) makeResampleInstance(resampling, task = task))
+
+  parameters = convertParamSetToIrace(par.set)
+  tuner.config = c(list(hookRun = hookRun, instances = instances), control$extra.args)
   
-  or = irace(tff, par.set, des=NULL, learner=control$learner, control=mbo.control, show.info=FALSE)
+  capture.output({
+  or = irace(
+    tunerConfig = tuner.config,
+    parameters = parameters
+  )
+  })
   
-  makeTuneResult(learner, control, x, or$y, opt.path)
+  id = or[1,1]
+  # get best candidate
+  x = as.list(removeCandidatesMetaData(or[1,]))
+  d = as.data.frame(opt.path)
+  par.names = names(x)
+  # get all lines in opt.path which correspond to x and average their perf values
+  j = sapply(1:nrow(d), function(j) isTRUE(all.equal(as.list(d[j, par.names]), x)))
+  y = colMeans(d[j, opt.path$y.names, drop=FALSE])
+  makeTuneResult(learner, control, x, y, opt.path)
 }
