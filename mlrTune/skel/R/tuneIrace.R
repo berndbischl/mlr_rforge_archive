@@ -27,6 +27,7 @@ tuneIrace = function(learner, task, resampling, measures, par.set, control,
   id = or[1,1]
   # get best candidate
   x = as.list(removeCandidatesMetaData(or[1,]))
+  x = trafoValue(par.set, x)
   d = as.data.frame(opt.path)
   par.names = names(x)
   # get all lines in opt.path which correspond to x and average their perf values
