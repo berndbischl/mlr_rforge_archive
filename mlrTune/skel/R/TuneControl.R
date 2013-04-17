@@ -3,6 +3,7 @@
 #' The following tuners are available:
 #' \describe{
 #'   \item{makeTuneControlGrid}{Grid search. All kinds of parameter types can be handled, but you have discretize them yourself by always using \code{\link[ParamHelpers]{makeDiscreteParam}} in the \code{par.set} passed to \code{\link{tune}}.}
+#'   \item{makeTuneControlRandom}{Random search. All kinds of parameter types can be handled.}
 #'   \item{makeTuneControlOptim}{Tuning with \code{\link[stats]{optim}}. Can handle numeric(vector) and integer(vector) hyperparameters. For integers the internally proposed numeric values are automatically rounded.}
 #'   \item{makeTuneControlCMAES}{CMA Evolution Strategy with method \code{\link[cmaes]{cma_es}}. Can handle numeric(vector) and integer(vector) hyperparameters. For integers the internally proposed numeric values are automatically rounded.}
 #'   \item{makeTuneControlIrace}{Tuning with iterated F-Racing with method \code{\link[irace]{irace}}. All kinds of parameter types can be handled.}
@@ -21,14 +22,17 @@
 #' @param n.instances [\code{integer(1)}]\cr
 #'   Number of random resampling instances for irace, see details.
 #'   Default is 100.
+#' @param maxit [\code{integer(1)}]\cr
+#'   Number of iterations for random search.
+#'   Default is 100.
 #' @param ... [any]\cr
 #'   Further control parameters passed to the \code{control} argument of \code{\link[stats]{optim}},
 #'   the \code{control} argument of \code{\link[cmaes]{cma_es}}, \code{tunerConfig} argument of \code{\link[irace]{irace}}. 
 #' @return [\code{\link{TuneControl}}]. The specific subclass is one of
-#'   \code{\link{TuneControlGrid}}, \code{\link{TuneControlGrid}}, \code{\link{TuneControlCMAES}}, \code{\link{TuneControlIrace}}.
+#'   \code{\link{TuneControlGrid}}, \code{\link{TuneControlRandom}}, \code{\link{TuneControlOptim}}, \code{\link{TuneControlCMAES}}, \code{\link{TuneControlIrace}}.
 #' @name TuneControl
 #' @rdname TuneControl
-#' @aliases TuneControlGrid TuneControlGrid TuneControlCMAES TuneControlIrace
+#' @aliases TuneControlGrid TuneControlRandom TuneControlOptim TuneControlCMAES TuneControlIrace
 NULL
 
 makeTuneControl = function(same.resampling.instance, start, ..., cl) {

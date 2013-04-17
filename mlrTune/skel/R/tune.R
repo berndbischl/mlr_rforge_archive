@@ -55,8 +55,8 @@ tune = function(learner, task, resampling, measures, par.set, control, show.info
     TuneControlOptim = tuneOptim,
     TuneControlCMAES = tuneCMAES,
     TuneControlMBO = tuneMBO,
-	  TuneControlIrace = tuneIrace
-#   TuneControlMies = tuneMIES
+	  TuneControlIrace = tuneIrace,
+	  TuneControlRandom = tuneRandom
 	)		
   opt.path = makeOptPathDFFromMeasures(par.set, measures)
   if (show.info) {
