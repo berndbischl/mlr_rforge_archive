@@ -48,15 +48,13 @@ convertParamSetToIrace = function(par.set, digits=4, as.chars = FALSE) {
         v = paste("\"", names(p$values), "\"", sep="")
         lines[count] = sprintf('%s "" %s (%s)', id, type, collapse(v))
       }
-      #txt = paste(txt, s, sep="")
       count = count + 1
     }
   }
   if (as.chars) {
-    #lines = paste(lines, "\n", sep="")
+    return(lines)
+  } else {
     lines = collapse(lines, "\n")
     return(readParameters(text=lines))
-  } else {
-    return(lines)
   }
 }

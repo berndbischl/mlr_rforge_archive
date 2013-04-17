@@ -2,6 +2,9 @@ library(methods)
 library(testthat)
 library(e1071)
 library(reshape)
+library(mlr)
+
+configureMlr(show.learner.output=FALSE)
 
 if (interactive()) {
   library(devtools)

@@ -16,7 +16,7 @@ tuneIrace = function(learner, task, resampling, measures, par.set, control,
 
   parameters = convertParamSetToIrace(par.set)
   tuner.config = c(list(hookRun = hookRun, instances = instances), control$extra.args)
-  
+
   capture.output({
   or = irace(
     tunerConfig = tuner.config,
