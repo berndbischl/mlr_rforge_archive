@@ -25,6 +25,9 @@
 #' @param maxit [\code{integer(1)}]\cr
 #'   Number of iterations for random search.
 #'   Default is 100.
+#' @param show.irace.output [\code{logical(1)}]\cr
+#'   Show console output of irace while tuning?
+#'   Default is \code{FALSE}.
 #' @param ... [any]\cr
 #'   Further control parameters passed to the \code{control} argument of \code{\link[stats]{optim}},
 #'   the \code{control} argument of \code{\link[cmaes]{cma_es}}, \code{tunerConfig} argument of \code{\link[irace]{irace}}. 

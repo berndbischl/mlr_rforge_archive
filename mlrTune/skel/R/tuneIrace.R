@@ -12,18 +12,22 @@ tuneIrace = function(learner, task, resampling, measures, par.set, control,
   }
   n.instances = control$extra.args$n.instances
   control$extra.args$n.instances = NULL
+  show.irace.output = control$extra.args$show.irace.output
+  control$extra.args$show.irace.output = NULL
   instances = lapply(1:n.instances, function(i) makeResampleInstance(resampling, task = task))
 
   parameters = convertParamSetToIrace(par.set)
   tuner.config = c(list(hookRun = hookRun, instances = instances), control$extra.args)
 
-  capture.output({
+  g = if (show.irace.output) identity else capture.output
+  g({
   or = irace(
     tunerConfig = tuner.config,
     parameters = parameters
   )
   })
-  
+  if (nrow(or) == 0)
+    stop("irace produced no result, possibly the budget was set too low?")
   id = or[1,1]
   # get best candidate
   x = as.list(removeCandidatesMetaData(or[1,]))
