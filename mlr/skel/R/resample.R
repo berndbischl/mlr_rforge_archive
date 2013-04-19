@@ -88,6 +88,14 @@ resample = function(learner, task, resampling, measures, weights, models=FALSE,
     measures=measures, model=models, extract=extract, show.info=show.info)
   if (!missing(weights))
     more.args$weights = weights
+  # FIXME this is not so nice, we should fix this in BBmisc
+  if (getOption("BBmisc.parallel.mode") == "snowfall" && 
+        (is.na(getOption("BBmisc.parallel.level")) || 
+         getOption("BBmisc.parallel.level") == "resample")) {
+    # sfLibrary chatters to much...
+    sfClusterEval(library(BBmisc))
+    sfClusterEval(library(mlr))
+  }
   iter.results = parallelMap(doResampleIteration, 1:iters, level="resample", more.args=more.args)
   mergeResampleResult(task, iter.results, measures, rin, models, extract, show.info)
 }
