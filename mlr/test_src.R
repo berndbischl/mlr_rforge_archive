@@ -5,14 +5,19 @@ library(ROCR)
 data(BostonHousing)
 
 load_all("skel")
-source("skel/inst/tests/objects.R")
+#source("skel/inst/tests/objects.R")
 
-#configureMlr(on.learner.error="stop", show.learner.output=FALSE)
+configureMlr(on.learner.error="stop", show.learner.output=FALSE)
 
-task = makeClassifTask(data=iris, target="Species")
-lrn = makeLearner("classif.rpart", parms=list(prior=c(1,0,0)))
+d = iris
+d[,1] = as.factor(d[,5])
+task = makeClassifTask(data=d, target="Species")
+lrn = makeLearner("classif.randomForest")
 m = train(lrn, task)
-p = predict(m, task)
+nd = d
+nd[,1] = as.character(nd[,1])
+p = predict(m, newdata=nd)
+print(p)
 
 #df = binaryclass.df
 #df[, 1] = as.factor(sample(1:3, nrow(df), replace=TRUE))

@@ -12,7 +12,7 @@
 #FIXME default for final point should be best point, not last step (especially when final evals are made)
 #FIXME: cmaes doesn't work when optimum in constraints
 
-#'  Optimizes a function with sequential parameter optimization.
+#'  Optimizes a function with sequential model based optimization.
 #'
 #' @param fun [\code{function(x, ...)}]\cr 
 #'   Fitness function to minimize. The first argument has to be a list of values. 
@@ -33,7 +33,7 @@
 #'   Default is \code{TRUE}.
 #' @return [\code{list}]:
 #'   \item{x [\code{list}]}{Named list of proposed optimal parameters.}
-#'   \item{y [\code{numeric(1)}]}{Value of fitness function at \code{x}, either form evals during optimization or from requested final evaluations, if they were gretater than 0.}
+#'   \item{y [\code{numeric(1)}]}{Value of fitness function at \code{x}, either from evals during optimization or from requested final evaluations, if those were greater than 0.}
 #'   \item{path [\code{\link[ParamHelpers]{OptPath}}]}{Optimization path.}
 #'   \item{models [List of \code{\link[mlr]{WrappedModel}}]}{List of saved regression models.}
 #' @export 
