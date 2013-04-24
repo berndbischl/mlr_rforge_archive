@@ -77,7 +77,13 @@ test_that("mbo works with rf", {
   expect_true(is.numeric(df$y))
   expect_true(is.list(or$x))
   expect_equal(names(or$x), names(ps$pars))
-  
+
+  # check best.predicted
+  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, final.point="best.predicted")
+  or = mbo(f, ps, des, learner, ctrl)
+  expect_true(!is.na(or$y))
+  expect_equal(getOptPathLength(or$path), 15)
+
   ctrl = makeMBOControl(init.design.points=10, seq.loops=5, seq.design.points=100)
   or = mbo(f, ps, des=NULL, learner, ctrl)
   expect_true(!is.na(or$y))

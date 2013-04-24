@@ -6,6 +6,7 @@
 # FIXME: allow .... and pass it on to fun
 # FIXME: add show.info
 # FIXME: configure so we dont see learner output on default
+#  maybe we do need a better way to configure mlr learners, possibyl by control?  
 #FIXME: no more target function evals of the final point on default
 #FIXME: different name for final evals in output (not last step number)
 #FIXME default for final point should be best point, not last step (especially when final evals are made)
@@ -110,7 +111,7 @@ mbo = function(fun, par.set, des=NULL, learner, control, show.info=TRUE) {
     xs = lapply(xs, repairPoint, par.set=par.set)
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts)
     Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=loop), xs, ys)
-    rt = makeMBOTask(as.data.frame(opt.path), y.name, control=control)
+    rt = makeMBOTask(as.data.frame(opt.path, strings.as.factors=TRUE), y.name, control=control)
     model = train(learner, rt)
     if (loop %in% control$save.model.at)
       models[[length(models)+1]] = model
@@ -133,7 +134,8 @@ mbo = function(fun, par.set, des=NULL, learner, control, show.info=TRUE) {
     x = ParamHelpers:::dfRowToList(des, par.set, final.index)
   }
   configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
-  list(x=x, y=y, path=opt.path, resample=res.vals, models=models)
+  # make sure to strip name of y
+  list(x=x, y=as.numeric(y), path=opt.path, resample=res.vals, models=models)
 }
 
 evalTargetFun = function(fun, par.set, xs, opt.path, control, show.info, oldopts) {
