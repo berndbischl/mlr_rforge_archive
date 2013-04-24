@@ -29,7 +29,7 @@ roxygenize: clean
 	${RSCRIPT} ../tools/roxygenize
 	echo "Setting version ..."
 	${RSCRIPT} ../tools/set-version
-	find pkg -type d -name .svn  | xargs rm -fR
+	find pkg -depth -type d -name .svn -exec rm -rf {} \;
 
 package: roxygenize
 	echo "Building package file ..."
