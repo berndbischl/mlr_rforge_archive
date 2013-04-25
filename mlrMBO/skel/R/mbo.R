@@ -111,7 +111,7 @@ mbo = function(fun, par.set, des=NULL, learner, control, show.info=TRUE) {
     xs = lapply(xs, repairPoint, par.set=par.set)
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts)
     Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=loop), xs, ys)
-    rt = makeMBOTask(as.data.frame(opt.path, strings.as.factors=TRUE), y.name, control=control)
+    rt = makeMBOTask(as.data.frame(opt.path, discretes.as.factor=TRUE), y.name, control=control)
     model = train(learner, rt)
     if (loop %in% control$save.model.at)
       models[[length(models)+1]] = model

@@ -93,7 +93,7 @@ test_that("mbo works with rf", {
   f = function(x) sum(x[[1]]^2) + (2 - x[[2]])^2
   
   ps = makeParamSet(
-    makeNumericVectorParam("v", lower=-5, upper=5, length=2), 
+    makeNumericVectorParam("v", lower=-5, upper=5, len=2), 
     makeNumericParam("w", lower=-5, upper=5) 
   )
   learner = makeLearner("regr.randomForest")

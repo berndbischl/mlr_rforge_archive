@@ -3,7 +3,7 @@ context("mbo resample")
 test_that("mbo works with resampling", {
   f = makeMBOFunction(function(x) sum(x^2))
   ps = makeParamSet(
-    makeNumericVectorParam("x", length=2, lower=0, upper=1)
+    makeNumericVectorParam("x", len=2, lower=0, upper=1)
   )
   learner = makeLearner("regr.randomForest")
   ctrl = makeMBOControl(seq.loops=5, seq.design.points=10, resample.at=c(1,3))

@@ -33,7 +33,8 @@ proposePoints = function(model, par.set, control, opt.path) {
   } else if (control$propose.points.method == "EI") {
     i = getOptPathBestIndex(opt.path, ties="random")
     start = unlist(getOptPathEl(opt.path, i)$x)
-    capture.output(des <- max_EI(model$learner.model, low, upp, parinit=start)$par)
+    capture.output(des <- max_EI(model$learner.model, 
+      lower=low, upper=upp, parinit=start)$par)
     as.data.frame(des)
   }
 }

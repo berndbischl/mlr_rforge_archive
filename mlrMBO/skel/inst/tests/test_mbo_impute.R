@@ -14,7 +14,7 @@ test_that("mbo works with failures", {
     return(y)
   })
   ps = makeParamSet(
-    makeNumericVectorParam("x", length=2, lower=0, upper=3)
+    makeNumericVectorParam("x", len=2, lower=0, upper=3)
   )
   learner = makeLearner("regr.randomForest")
   
