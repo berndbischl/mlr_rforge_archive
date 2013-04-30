@@ -11,6 +11,8 @@
 #FIXME: different name for final evals in output (not last step number)
 #FIXME default for final point should be best point, not last step (especially when final evals are made)
 #FIXME: cmaes doesn't work when optimum in constraints
+#FIXME: result object with print mezthod
+#FIXME separate infill criterion from optimzer
 
 #'  Optimizes a function with sequential model based optimization.
 #'

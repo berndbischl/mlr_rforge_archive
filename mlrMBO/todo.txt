@@ -1,53 +1,34 @@
 
-- scale parameters [0,1] before they go into the model?
+jakob: 
+- technische verbesserung 
+- s(x) von RF
+- parallel die fitness evaluieren
 
+bernd:
+- dependent params
+- wie geht konfigurieren von algo auf instanzen?
+
+stefan:
+- EI varianten implementieren, siehe tobias comparison paper, 
+  besonders für noisy optimization
+- wir wollen vermutlich erstmal ohne repetitions
+  an den selben punkten auskommen, sollten aber auch ein paar einfache
+  verleichsprinzipien mit repetitions haben  
+- nachdenken, was sonst noch für den noisy fall wichtig ist 
+  und implementieren
+
+klaus
+- multipoint EI implementieren
+
+nadja 
+- tutorial 
+- multipoint
+
+noch keiner:
+- wie optimiert man gut das infill crit, vielleicht auch mit diskreten par. 
+- possibly scale parameters [0,1] before they go into the model?
 - better think about imputing in case of errors and NA. test and doc this.
 
-
-Tuning:
-Diskutieren:
-- welche Parameter sollen pro modell getunt werden, wenn der anwender nicht angibt (gerade bei ensembles m�sste sollte man einen default-parametersatz f�r jedes modell mitgeben)
-- allgemein tuning durch CMAES? (wenn ja, was machen bei kategorialen hyperparametern (z.b. covtype bei kriging) und wieviele iterationen)
-- resampling-methode? 
-
-
-Stefan:
-sehr einfaches Ensemble implementieren und testen (am besten random selection oder best predicted minimum)
-
-
-
-Besprechung vom 07.03.2012
-
-
-methoden
-- seq.iter.start:
-- train
-- propose
-- seq.iter.end
-- funktion "bewerte modelle"
-
-ensembles:
- - random selection
- -- train: ganz normal,
- -- man muss nur einen index haben f�r das aktuelle model
- -- propose: normal f�r das trainierte model
-
- - (weighted) average,
- -- alles ist genauso wie bei einem model, baue nur
- a) train: was alle modelle trainiert
- b) predict = mean(w_i p_i(x))
- c) set weights
-
- - best-n-models (modelle werden in jedem schritt / nur nach initdes bewertet)
- -- train: trainiere die n besten modelle nach krit.
- -- propose: die n besten modelle, die gew�hlt wurden, schlagen was vor
-
- - RL
- -- seq.iter.start: w�hle modell
- -- trainiere das stochatisch gew�hlte
- -- propose: normal f�r das trainierte model
- -- seq.iter.end: update der preferences, wir brauchen archiv, proposed.design
-
-
-l1 = makeLearner("reg.rf", nrees=3)
-learner = makeRLEnsemble(l1, l2) 
+später:
+- tuning von surrogat modellen, wie machen wir es effizient?
+- wie nimmt man modelle die kein s(x) bieten?
