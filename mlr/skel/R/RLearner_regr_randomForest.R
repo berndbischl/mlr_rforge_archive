@@ -24,7 +24,7 @@ makeRLearner.regr.randomForest = function() {
 
 #' @S3method trainLearner regr.randomForest
 trainLearner.regr.randomForest = function(.learner, .task, .subset, .weights,  ...) {
-  f = as.formula(getTaskFormulaAsString(.task))
+  f = getTaskFormula(.task)
   randomForest(f, data=getTaskData(.task, .subset), ...)
 }
 

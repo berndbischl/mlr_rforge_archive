@@ -1,3 +1,5 @@
+- we should not depend on bbmisc, need this for parallel dirty fix in resample
+
 
 - b632+ test
  test b632 too  

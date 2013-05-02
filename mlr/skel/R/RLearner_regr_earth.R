@@ -18,7 +18,7 @@ makeRLearner.regr.earth = function() {
 
 #' @S3method trainLearner regr.earth
 trainLearner.regr.earth = function(.learner, .task, .subset, .weights,  ...) {
-  f = as.formula(getTaskFormulaAsString(.task))
+  f = getTaskFormula(.task)
   earth(f, data=getTaskData(.task, .subset), ...)
 }
 

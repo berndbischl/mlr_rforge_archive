@@ -18,7 +18,7 @@ makeRLearner.classif.naiveBayes = function() {
 
 #' @S3method trainLearner classif.naiveBayes
 trainLearner.classif.naiveBayes = function(.learner, .task, .subset, .weights,  ...) {
-  f = as.formula(getTaskFormulaAsString(.task))
+  f = getTaskFormula(.task)
   naiveBayes(f, data=getTaskData(.task, .subset), ...)
 }
 

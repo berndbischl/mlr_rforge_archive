@@ -23,7 +23,7 @@ makeRLearner.regr.pcr = function() {
 
 #' @S3method trainLearner regr.pcr
 trainLearner.regr.pcr = function(.learner, .task, .subset, .weights,  ...) {
-  f = as.formula(getTaskFormulaAsString(.task))
+  f = getTaskFormula(.task)
   pcr(f, data=getTaskData(.task, .subset), ...)
 }
 

@@ -30,7 +30,7 @@ makeRLearner.regr.blackboost = function() {
 trainLearner.regr.blackboost = function(.learner, .task, .subset, .weights, mstop, nu, risk, teststat, testtype, mincriterion, maxdepth, ...) {
   ctrl = learnerArgsToControl(boost_control, mstop, nu, risk)
   tc = learnerArgsToControl(ctree_control, teststat, testtype, mincriterion, maxdepth)
-  f = as.formula(getTaskFormulaAsString(.task))
+  f = getTaskFormula(.task)
   if (!missing(.weights))
     blackboost(f, data=getTaskData(.task, .subset), control=ctrl, tree_controls=tc, weights=.weights)
   else

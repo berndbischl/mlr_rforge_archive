@@ -48,7 +48,7 @@ trainLearner.classif.ksvm = function(.learner, .task, .subset, .weights, degree,
 #       args$kernel = do.call(args$kernel, kpar)  
 #     } 
   kpar = learnerArgsToControl(list, degree, offset, scale, sigma, order, length, lambda, normalized)
-  f = as.formula(getTaskFormulaAsString(.task))
+  f = getTaskFormula(.task)
   pm = .learner$predict.type == "prob"
   if (base::length(kpar) > 0)
     ksvm(f, data=getTaskData(.task, .subset), kpar=kpar, prob.model=pm, ...)

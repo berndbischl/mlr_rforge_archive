@@ -38,7 +38,7 @@ makeRLearner.regr.rvm = function() {
 #' @S3method trainLearner regr.rvm
 trainLearner.regr.rvm = function(.learner, .task, .subset, .weights, degree, offset, scale, sigma, order, length, lambda, normalized, ...) {
   kpar = learnerArgsToControl(list, degree, offset, scale, sigma, order, length, lambda, normalized)
-  f = as.formula(getTaskFormulaAsString(.task))
+  f = getTaskFormula(.task)
   if (base::length(kpar) > 0)
     rvm(f, data=getTaskData(.task, .subset), kpar=kpar, ...)
   else

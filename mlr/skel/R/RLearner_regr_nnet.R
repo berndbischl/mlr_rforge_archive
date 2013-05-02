@@ -19,11 +19,13 @@ makeRLearner.regr.nnet = function() {
 
 #' @S3method trainLearner regr.nnet
 trainLearner.regr.nnet = function(.learner, .task, .subset, .weights,  ...) {
-  f = as.formula(getTaskFormulaAsString(.task))
-  if (!missing(.weights))
-    nnet(f, data=getTaskData(.task, .subset), linout=TRUE, weights=.weights, ...)
-  else  
+  if (missing(.weights)) {
+    f = getTaskFormula(.task)
     nnet(f, data=getTaskData(.task, .subset), linout=TRUE, ...)
+  } else  {
+    f = as.formula(getTaskFormulaAsString(.task))
+    nnet(f, data=getTaskData(.task, .subset), linout=TRUE, weights=.weights, ...)
+  }
 }
 
 #' @S3method predictLearner regr.nnet

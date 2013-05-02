@@ -33,7 +33,7 @@ trainLearner.classif.ctree = function(.learner, .task, .subset, .weights, testst
   
   ctrl = learnerArgsToControl(ctree_control, teststat, testtype, mincriterion, minsplit, 
     minbucket, stump, nresample, maxsurrogate, mtry, savesplitstats, maxdepth)
-  f = as.formula(getTaskFormulaAsString(.task))
+  f = getTaskFormula(.task)
   ctree(f, data=getTaskData(.task, .subset), controls=ctrl, ...)
 }
 

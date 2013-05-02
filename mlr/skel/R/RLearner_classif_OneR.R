@@ -17,8 +17,8 @@ makeRLearner.classif.OneR = function() {
 
 #' @S3method trainLearner classif.OneR
 trainLearner.classif.OneR = function(.learner, .task, .subset, .weights,  ...) {
-  f = as.formula(getTaskFormulaAsString(.task))
-	ctrl = Weka_control(...)
+  f = getTaskFormula(.task)
+  ctrl = Weka_control(...)
 	OneR(f, data=getTaskData(.task, .subset), control=ctrl, na.action=na.pass)
 }
 

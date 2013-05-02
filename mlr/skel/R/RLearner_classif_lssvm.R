@@ -37,7 +37,7 @@ trainLearner.classif.lssvm = function(.learner, .task, .subset, .weights, degree
 # FIXME unify cla + regr, test all sigma stuff  
   
   kpar = learnerArgsToControl(list, degree, offset, scale, sigma, order, length, lambda, normalized)
-  f = as.formula(getTaskFormulaAsString(.task))
+  f = getTaskFormula(.task)
   
   if (base::length(kpar) > 0)
     lssvm(f, data=getTaskData(.task, .subset), kpar=kpar, ...)

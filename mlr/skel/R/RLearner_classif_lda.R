@@ -18,8 +18,8 @@ makeRLearner.classif.lda = function() {
 
 #' @S3method trainLearner classif.lda
 trainLearner.classif.lda = function(.learner, .task, .subset, .weights,  ...) {
-	f = as.formula(getTaskFormulaAsString(.task))
-	lda(f, data=getTaskData(.task, .subset), ...)
+  f = getTaskFormula(.task)
+  lda(f, data=getTaskData(.task, .subset), ...)
 }
 
 #' @S3method predictLearner classif.lda

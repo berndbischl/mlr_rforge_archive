@@ -27,7 +27,7 @@ makeRLearner.classif.randomForest = function() {
 
 #' @S3method trainLearner classif.randomForest
 trainLearner.classif.randomForest = function(.learner, .task, .subset, .weights, classwt=NULL, cutoff, ...) {
-  f = as.formula(getTaskFormulaAsString(.task))
+  f = getTaskFormula(.task)
   levs = .task$task.desc$class.levels
   n = length(levs)
   if (missing(cutoff))

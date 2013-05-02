@@ -4,9 +4,9 @@ Description:
 Author: Bernd Bischl <bernd_bischl@gmx.net>
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
 License: BSD
-Imports: BBmisc, abind, boot, codetools
-Depends: ParamHelpers, ROCR, e1071
-Suggests: ada, adabag, DiceKriging, earth, FNN, gbm, kernlab, kknn, klaR, mboost, mda, mlbench, nnet, party, penalized, pls, randomForest, reshape, rpart, rsm, RWeka, testthat
+Imports: abind, boot, codetools
+Depends: BBmisc, ParamHelpers, ROCR, e1071
+Suggests: testthat, snowfall, ada, adabag, DiceKriging, earth, FNN, gbm, kernlab, kknn, klaR, mboost, mda, mlbench, nnet, party, penalized, pls, randomForest, reshape, rpart, rsm, RWeka
 LazyData: yes
 ByteCompile: yes
 Version: 1.0

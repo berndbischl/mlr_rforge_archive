@@ -26,11 +26,14 @@ makeRLearner.regr.rpart = function() {
 
 #' @S3method trainLearner regr.rpart
 trainLearner.regr.rpart = function(.learner, .task, .subset, .weights,  ...) {
-  f = as.formula(getTaskFormulaAsString(.task))
-  if (!missing(.weights))
-    rpart(f, data=getTaskData(.task, .subset), weights=.weights, ...)
-  else  
-    rpart(f, data=getTaskData(.task, .subset), ...)
+  d = getTaskData(.task, .subset)
+  if (missing(.weights)) {
+    f = getTaskFormula(.task)
+    rpart(f, data=d, ...)
+  } else  {
+    f = as.formula(getTaskFormulaAsString(.task))
+    rpart(f, data=d, weights=.weights, ...)
+  }
 }
 
 #' @S3method predictLearner regr.rpart

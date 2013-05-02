@@ -30,12 +30,13 @@ makeRLearner.classif.rpart = function() {
 
 #' @S3method trainLearner classif.rpart		
 trainLearner.classif.rpart = function(.learner, .task, .subset, .weights,  ...) {
-  f = as.formula(getTaskFormulaAsString(.task))
   d = getTaskData(.task, .subset)
-  if (!missing(.weights)) {
-    rpart(f, data=d, weights=.weights, ...)
-  } else {
+  if (missing(.weights)) {
+    f = getTaskFormula(.task)
     rpart(f, data=d, ...)
+  } else  {
+    f = as.formula(getTaskFormulaAsString(.task))
+    rpart(f, data=d, weights=.weights, ...)
   }
 }
 

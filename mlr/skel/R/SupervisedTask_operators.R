@@ -14,14 +14,13 @@ getTaskFeatureNames = function(task) {
   return(setdiff(colnames(task$env$data), task$task.desc$target)) 
 }
 
-#' Get formula of a task. 
+#' Get formula of a task as a string. 
 #' 
-#' This is simply the \code{target ~ .} formula. 
-#' Note that the environment that always gets attached to a formula is deleted. 
+#' This is simply \dQuote{<target> ~ .}.
 #' 
 #' @param x [\code{\link{SupervisedTask}} | \code{\link{TaskDesc}}]\cr 
 #'   Task or its description object.   
-#' @return [\code{formula}].
+#' @return [\code{character(1)}].
 #' @export
 #' @examples
 #' task <- makeClassifTask(data = iris, target = "Species")
@@ -34,6 +33,32 @@ getTaskFormulaAsString = function(x) {
   else 
     f = g(x$task.desc$target)
 }
+
+
+#' Get formula of a task. 
+#' 
+#' This is simply the \code{target ~ .} formula. 
+#' 
+#' @param x [\code{\link{SupervisedTask}} | \code{\link{TaskDesc}}]\cr 
+#'   Task or its description object.   
+#' @param delete.env [\code{delete.env}]\cr 
+#'   Delete enviroment attached to returned formula?
+#'   Don't ask why this option exists, R sucks.
+#'   Default is \code{TRUE}.
+#' @return [\code{formula}].
+#' @export
+#' @examples
+#' task <- makeClassifTask(data = iris, target = "Species")
+#' getTaskFormula(task)
+#' @export
+getTaskFormula = function(x, delete.env = TRUE) {
+  target = if (inherits(x, "TaskDesc")) x$target  else x$task.desc$target
+  form = reformulate(".", target)
+  if (delete.env)
+    environment(form) = NULL
+  return(form)
+}
+
 
 
 #' Get target column of task. 

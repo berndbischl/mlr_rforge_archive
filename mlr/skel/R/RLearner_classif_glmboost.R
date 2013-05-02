@@ -24,11 +24,13 @@ makeRLearner.classif.glmboost = function() {
 #' @S3method trainLearner classif.glmboost
 trainLearner.classif.glmboost = function(.learner, .task, .subset, .weights, mstop, nu, risk, ...) {
   ctrl = learnerArgsToControl(boost_control, mstop, nu, risk)
-  f = as.formula(getTaskFormulaAsString(.task))
-  if (!missing(.weights))
-    glmboost(f, data=getTaskData(.task, .subset), control=ctrl, weights=.weights, ...)
-  else
+  if (missing(.weights)) {
+    f = getTaskFormula(.task)
     glmboost(f, data=getTaskData(.task, .subset), control=ctrl, , ...)
+  } else  {
+    f = as.formula(getTaskFormulaAsString(.task))
+    glmboost(f, data=getTaskData(.task, .subset), control=ctrl, weights=.weights, ...)
+  }
 }
 
 #' @S3method predictLearner classif.glmboost
