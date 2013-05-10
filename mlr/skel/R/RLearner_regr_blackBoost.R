@@ -7,6 +7,7 @@ makeRLearner.regr.blackboost = function() {
       makeDiscreteLearnerParam(id="family", default=Gaussian(), values=list(Gaussian=Gaussian(), Huber=Huber(), Laplace=Laplace())),
       makeIntegerLearnerParam(id="mstop", default=100L, lower=1L),
       makeNumericLearnerParam(id="nu", default=0.1, lower=0, upper=1),
+      makeDiscreteLearnerParam(id="risk", default="inbag", values=c("inbag", "oobag", "none")),
       makeDiscreteLearnerParam(id="teststat", default="quad", values=c("quad", "max")),
       makeDiscreteLearnerParam(id="testtype", default="Bonferroni", values=c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic")),
       makeNumericLearnerParam(id="mincriterion", default=0.95, lower=0, upper=1),
