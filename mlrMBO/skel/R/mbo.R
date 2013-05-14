@@ -4,14 +4,14 @@
 #FIXME: handle error in meta learner
 #FIXME: i think resample at and save.model at count differently
 #FIXME: allow .... and pass it on to fun (DONE)
-#FIXME: add show.info
+#FIXME: add show.info (DONE)
 #FIXME: configure so we dont see learner output on default
 #       maybe we do need a better way to configure mlr learners, possibyl by control?  
 #FIXME: no more target function evals of the final point on default
 #FIXME: different name for final evals in output (not last step number)
 #FIXME: default for final point should be best point, not last step (especially when final evals are made)
 #FIXME: cmaes doesn't work when optimum in constraints
-#FIXME: result object with print method
+#FIXME: result object with print method (DONE)
 #FIXME: separate infill criterion from optimzer
 
 #'  Optimizes a function with sequential model based optimization.
@@ -144,7 +144,31 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   # restore mlr configuration
   configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
   # make sure to strip name of y
-  list(x=x, y=as.numeric(y), path=opt.path, resample=res.vals, models=models)
+  structure(list(
+    x=x,
+    y=as.numeric(y),
+    path=opt.path,
+    resample=res.vals,
+    models=models
+  ), class="MBOResult")
+}
+
+#' Print mbo result object.
+#' 
+#' @param x [\code{\link{MBOResult}}]\cr
+#'   mbo result object instance.
+#' @param ... [any]\cr
+#'   Not used.
+print.MBOResult = function(x) {
+  n = length(x$x)
+  nm = names(x$x)
+  for (i in 1:n) {
+     catf("Parameter '%s':", nm[i])
+     print(x$x[[i]])
+  }
+  catf("\nValue of fitness function: %.7f\n", x$y)
+  catf("Optimiztation path:")
+  print(as.data.frame(x$path))
 }
 
 #' Evaluates target fitness function on given set of points.
