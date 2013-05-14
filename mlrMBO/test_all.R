@@ -4,7 +4,7 @@ library(mlr)
 
 if (interactive()) {
   library(devtools)
-  load_all("skel")
+  load_all("skel", reset=TRUE)
 } else {
   library(mlrMBO)  
 }

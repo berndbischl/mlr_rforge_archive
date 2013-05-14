@@ -1,17 +1,16 @@
 #FIXME: minimize
-#FIXME: how to choose best element. with noise? without?
 #FIXME: retrain kriging faster
 #FIXME: handle error in meta learner
 #FIXME: i think resample at and save.model at count differently
-#FIXME: allow .... and pass it on to fun (DONE)
-#FIXME: add show.info (DONE)
 #FIXME: configure so we dont see learner output on default
 #       maybe we do need a better way to configure mlr learners, possibyl by control?  
+
+#FIXME: how to choose best element. with noise? without?
 #FIXME: no more target function evals of the final point on default
 #FIXME: different name for final evals in output (not last step number)
 #FIXME: default for final point should be best point, not last step (especially when final evals are made)
+
 #FIXME: cmaes doesn't work when optimum in constraints
-#FIXME: result object with print method (DONE)
 #FIXME: separate infill criterion from optimzer
 
 #'  Optimizes a function with sequential model based optimization.
@@ -33,12 +32,12 @@
 #' @param show.info [\code{logical(1)}]\cr
 #'   Show info message after each function evaluation?
 #'   Default is \code{TRUE}.
-#' @param ... [\coed{list}]\cr
+#' @param ... [any]\cr
 #'   Further arguments passed to fitness function.
 #' @return [\code{list}]:
 #'   \item{x [\code{list}]}{Named list of proposed optimal parameters.}
 #'   \item{y [\code{numeric(1)}]}{Value of fitness function at \code{x}, either from evals during optimization or from requested final evaluations, if those were greater than 0.}
-#'   \item{path [\code{\link[ParamHelpers]{OptPath}}]}{Optimization path.}
+#'   \item{opt.path [\code{\link[ParamHelpers]{OptPath}}]}{Optimization path.}
 #'   \item{models [List of \code{\link[mlr]{WrappedModel}}]}{List of saved regression models.}
 #' @export 
 
@@ -145,127 +144,29 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
   # make sure to strip name of y
   structure(list(
-    x=x,
-    y=as.numeric(y),
-    path=opt.path,
-    resample=res.vals,
-    models=models
+    x = x,
+    y = as.numeric(y),
+    opt.path = opt.path,
+    resample = res.vals,
+    models = models
   ), class="MBOResult")
 }
 
-#' Print mbo result object.
-#' 
-#' @param x [\code{\link{MBOResult}}]\cr
-#'   mbo result object instance.
-#' @param ... [any]\cr
-#'   Not used.
-print.MBOResult = function(x) {
-  n = length(x$x)
-  nm = names(x$x)
-  for (i in 1:n) {
-     catf("Parameter '%s':", nm[i])
-     print(x$x[[i]])
-  }
-  catf("\nValue of fitness function: %.7f\n", x$y)
-  catf("Optimiztation path:")
-  print(as.data.frame(x$path))
-}
-
-#' Evaluates target fitness function on given set of points.
-#'
-#' @param fun [\code{function(x, ...)}]\cr 
-#'   Fitness function to minimize. The first argument has to be a list of values. 
-#'   The function has to return a single numerical value.
-#' @param par.set [\code{\link[ParamHelpers]{ParamSet}}]\cr
-#'   Collection of parameters and their constraints for optimization.
-#' @param xs [\code{list}]\cr
-#'   Set of points on which fun shall be evaluated.
-#' @param opt.path [\code{\link[ParamHelpers]{OptPath}}]\cr
-#'   Optimazation path to save of type \code{\link[ParamHelpers]{OptPath}}.
-#' @param control [\code{\link{MBOControl}}]\cr
-#'   Control object for mbo.  
-#' @param show.info [\code{logical(1)}]\cr
-#'   Show info message after each function evaluation?
-#'   Default is \code{TRUE}.
-#' @param oldopts [\code{list}]\cr
-#'   Old mlr configuration.
-#' @param ... [\code{list}]\cr
-#'   Further arguments passed to fitness function.
-#' @return [\code{list}]:
-#'   \item{x [\code{list}]}{Named list of proposed optimal parameters.}
-#'   \item{y [\code{numeric(1)}]}{Value of fitness function at \code{x}, either from evals during optimization or from requested final evaluations, if those were greater than 0.}
-#'   \item{path [\code{\link[ParamHelpers]{OptPath}}]}{Optimization path.}
-#'   \item{models [List of \code{\link[mlr]{WrappedModel}}]}{List of saved regression models.}
-evalTargetFun = function(fun, par.set, xs, opt.path, control, show.info, oldopts, ...) {
-  xs = lapply(xs, trafoValue, par=par.set)
-  fun2 = function(x) {
-    if (control$impute.errors) {
-      y = try(fun(x, ...), silent=control$silent)
-      if (is.error(y))
-        y = as.numeric(NA)
-    } else {
-      y = fun(x, ...)
-    }
-    if(length(y) > 1) {
-      stop("function output is not univariate!")
-    }  
-    if (show.info) {
-      dob = opt.path$env$dob
-      dob = if (length(dob) == 0) 0 else max(dob) + 1
-      messagef("[mbo] %i: %s : %s=%.3f", dob, 
-       paramValueToString(par.set, x), control$y.name, y)
-    }
-    return(y)
-  }
-  # restore mlr configuration
-  configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
-  ys = sapply(xs, fun2)  
-  configureMlr(on.learner.error="warn", show.learner.output=FALSE)
-  j = which(is.na(ys) | is.nan(ys) | is.infinite(ys))
-  if (length(j) > 0) {
-    ys[j] = mapply(control$impute, xs[j], ys[j], 
-      MoreArgs=list(opt.path=opt.path), USE.NAMES=FALSE)
-  }
-  return(ys)
-}
-
-#' Generates MBO task.
-#'
-#' @param design [\code{\link[ParamHelpers]{ParamSet}}]\cr
-#'   Initial design.
-#' @param y.name [\code{character(1)}]\cr
-#'   Name of y-column for target values in optimization path. 
-#' @return [\code{\link[mlr]{SupervisedTask}]:
-#'   List of repaired points.
-makeMBOTask = function(design, y.name, control) {
-  design$dob = NULL
-  design$eol = NULL
-  if (any(sapply(design, is.integer)))
-    design = as.data.frame(lapply(design, function(x) if(is.integer(x)) as.numeric(x) else x))
-  #if (control$rank.trafo)
-  #  design[,y.name] = rank(design[,y.name])
-  makeRegrTask(target=y.name, data=design)
-}
-
-#' Repairs points below bound.
-#'
-#' (Sometimes we get one eps below bounds at least after EI)
-#' 
-#' @param par.set [\code{\link[ParamHelpers]{ParamSet}}]\cr
-#'   Collection of parameters and their constraints for optimization.
-#' @param x [\code{list}]\cr
-#'   List of values which evantually are located below bounds.
-#' @return [\code{list}]:
-#'   List of repaired points.
-repairPoint = function(par.set, x) {
-  Map(function(p, v) {
-    if (p$type %in% c("numeric", "numericvector", "integer", "integervector")) {
-      if (any(v < p$lower) | any(v > p$upper)) {
-        warningf("Repairing value for %s: %s", p$id, as.character(v))
-        v = pmax(p$lower, v)
-        v = pmin(p$upper, v)
-      }
-    }
-    return(v)
-  }, par.set$pars, x)
+# Print mbo result object.
+# 
+# @param x [\code{\link{MBOResult}}]\cr
+#   mbo result object instance.
+# @param ... [any]\cr
+#   Not used.
+#' @S3method print MBOResult
+print.MBOResult = function(x, ...) {
+  op = x$opt.path
+  catf("Recommended parameters:")
+  catf(paramValueToString(op$par.set, x$x))
+  catf("Objective: %s = %.3f\n", op$y.names[1], x$y)
+  catf("Optimiztation path")
+  catf("%i + %i entries in total, displaying last 10:",
+    sum(op$env$dob == 0), length(op$env$dob))
+  print(tail(as.data.frame(x$op), 10))
+  
 }

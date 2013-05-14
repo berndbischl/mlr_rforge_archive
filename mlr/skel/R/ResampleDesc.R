@@ -25,7 +25,7 @@
 #'   \dQuote{Bootstrap} for out-of-bag bootstrap, \dQuote{Subsample} for subsampling, \dQuote{Holdout} for holdout.	
 #' @param predict [\code{character(1)}]\cr
 #'   What to predict during resampling: \dQuote{train}, \dQuote{test} or \dQuote{both} sets. Default is \dQuote{test}.
-#' @param ... [any] \cr
+#' @param ... [any]\cr
 #'		Further parameters for strategies.\cr 
 #'  		iters [\code{numeric(1)}]: Number of iterations, for \dQuote{CV}, \dQuote{Subsample} and \dQuote{Boostrap}\cr
 #'			split [\code{numeric(1)}]: Proportion of training cases for \dQuote{Holdout} and \dQuote{Subsample} between 0 and 1. Default is 2/3.\cr

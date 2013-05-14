@@ -16,9 +16,9 @@
 #'   Should fitness function call be wrapped in a \code{try} and the same imputation
 #'   be used as in \code{impute}?
 #'   Default is \code{FALSE}.
-#' @param silent [\code{logicla(1)}]\cr
-#'   Should the report of error messages be suppressed? Only relevant if \code{impute.errors} 
-#'   is \code{TRUE}.
+#' @param silent [\code{logical(1)}]\cr
+#'   Should reporting of error messages during target function evaluations be suppressed? 
+#'   Only used if \code{impute.errors} is \code{TRUE}.
 #'   Default is \code{TRUE}.
 #' @param init.design.points [\code{integer(1)}]\cr 
 #'   Number of points in inital design. 
@@ -39,12 +39,14 @@
 #'   Default is 100.   
 #' @param propose.points [\code{integer(1)}]\cr 
 #'   Number of proposed points after optimizing the surrogate model with \code{propose.points.methods}.   
+#'   Default is 1.
 #' @param propose.points.method [\code{character(1)}]\cr 
 #'   How should points be proposed by using the surrogate model. Possible are: 
 #'   \dQuote{seq.design}: Use a large design of points and evaluate the surrogate model at each. 
 #'    The best \code{propose.points} are selected.    
 #'   \dQuote{CMAES}: Use CMAES to optimize mean prediction value.    
 #'   \dQuote{EI}: Use expected improvement.    
+#'   Default is \dQuote{seq.design}.
 #' @param seq.design.points [\code{integer(1)}]\cr 
 #'   Number of points in sequential design. Only used if \code{propose.points.method} is 'seq.design.' 
 #'   Default is 10000.   
@@ -56,7 +58,7 @@
 #'   Default is \code{randomLHS}. 
 #' @param seq.design.args [\code{list}]\cr
 #'   List of further arguments passed to \code{seq.design.fun}.  
-#'   Only used if \code{propose.points.method} is 'seq.design.' 
+#'   Only used if \code{propose.points.method} is \dQuote{seq.design}. 
 #'   Default is empty list.
 #' @param final.point [\code{character(1)}]\cr 
 #'   How should the final point be proposed. Possible are:    
@@ -79,7 +81,7 @@
 #'   Default is 10-fold CV.
 #' @param resample.measures [list of \code{\link[mlr]{Measure}}]\cr
 #'   Performance measures to assess model with during resampling. 
-#'   Default is mse.   
+#'   Default is \code{\link[mlr]{mse}}.   
 #' @return [\code{\link{MBOControl}}].
 #' @aliases MBOControl 
 #' @export 
@@ -149,6 +151,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
     minimize = minimize,
     impute = impute,
     impute.errors = impute.errors,
+    silent = silent,
     init.design.points = init.design.points, 
     init.design.fun = init.design.fun, 
     init.design.args = init.design.args,
@@ -166,5 +169,21 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
     resample.at = resample.at,
     resample.measures = resample.measures
   ), class= "MBOControl")
+}
+
+# Print mbo control object.
+# 
+# @param x [\code{\link{MBOControl}}]\cr
+#   Control object.
+# @param ... [any]\cr
+#   Not used.
+#' @S3method print MBOControl
+print.MBOControl = function(x, ...) {
+  minmax = ifelse(x$minimize, "min", "max")
+  catf("Objective       : %s = %s!", x$y.name, minmax)
+  catf("Init. design    : %i points", x$init.design.points)
+  catf("Iterations      : %i", x$seq.loops)
+  catf("Propose by:     : %s", x$propose.points.method)
+  catf("Final point by  : %s", x$final.point)
 }
 
