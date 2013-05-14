@@ -16,6 +16,10 @@
 #'   Should fitness function call be wrapped in a \code{try} and the same imputation
 #'   be used as in \code{impute}?
 #'   Default is \code{FALSE}.
+#' @param silent [\code{logicla(1)}]\cr
+#'   Should the report of error messages be suppressed? Only relevant if \code{impute.errors} 
+#'   is \code{TRUE}.
+#'   Default is \code{TRUE}.
 #' @param init.design.points [\code{integer(1)}]\cr 
 #'   Number of points in inital design. 
 #'   Only used if no design is given in \code{mbo} function.
@@ -80,7 +84,7 @@
 #' @aliases MBOControl 
 #' @export 
 makeMBOControl = function(y.name="y", minimize=TRUE,
-  impute, impute.errors=FALSE, 
+  impute, impute.errors=FALSE, silent=TRUE,
   init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
   seq.loops=100, propose.points=1, propose.points.method="seq.design", 
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
@@ -93,6 +97,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   requirePackages("lhs", "makeMBOControl")
   
   checkArg(y.name, "character", len=1L, na.ok=FALSE)
+  checkArg(minimize, "logical", len=1L, na.ok=FALSE)
   checkArg(propose.points.method, choices=c("seq.design", "CMAES", "EI"))
   
   if (missing(impute)) 
@@ -101,17 +106,22 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   else 
     checkArg(impute, formals=c("x", "y", "opt.path"))
   checkArg(impute.errors, "logical", len=1L, na.ok=FALSE)
+  checkArg(silent, "logical", len=1L, na.ok=FALSE)
   
   # FIXME: check other args
   init.design.points = convertInteger(init.design.points)
   checkArg(init.design.points, "integer", len=1L, na.ok=FALSE, lower=4L)
+  checkArg(init.design.fun, "function")
+  checkArg(init.design.args, "list")
   
   seq.loops = convertInteger(seq.loops)
   checkArg(seq.loops, "integer", len=1L, na.ok=FALSE, lower=1L)
   propose.points = convertInteger(propose.points)
   checkArg(propose.points, "integer", len=1L, na.ok=FALSE, lower=1L)
   seq.design.points = convertInteger(seq.design.points)
-  checkArg(seq.design.points, "integer", len=1L, na.ok=FALSE, lower=1L)
+  checkArg(seq.design.points, "integer", len=1L, na.ok=FALSE, lower=1L) 
+  checkArg(seq.design.fun, "function")
+  checkArg(seq.design.args, "list")
   # FIXME: remove this for now
   #checkArg(rank.trafo, "logical", len=1L, na.ok=FALSE)
   final.evals = convertInteger(final.evals)
@@ -132,6 +142,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
     resample.at = integer(0)
   }
   checkArg(resample.desc, "ResampleDesc")
+  checkArg(resample.measures, "list")
   
   structure(list( 
     y.name = y.name,
