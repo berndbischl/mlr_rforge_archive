@@ -11,7 +11,7 @@ test_that("tuneCMAES", {
     par.set=ps1, control=ctrl1)
   
   ps2 = makeParamSet(
-    makeNumericVectorParam("cutoff", lower=0.0001, upper=1, length=3, 
+    makeNumericVectorParam("cutoff", lower=0.0001, upper=1, len=3, 
       trafo=function(x) x / (1.1*sum(x))), 
     makeIntegerParam("ntree", lower=100, upper=500) 
   )
