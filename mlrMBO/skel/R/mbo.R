@@ -149,7 +149,6 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
     x=x,
     y=as.numeric(y),
     opt.path=opt.path,
-    opt.found.at.loop=opt.found.at.loop,
     resample=res.vals,
     models=models
   ), class="MBOResult")
