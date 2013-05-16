@@ -38,27 +38,30 @@
 #'   Number of sequential optimization steps. 
 #'   Default is 100.   
 #' @param propose.points [\code{integer(1)}]\cr 
-#'   Number of proposed points after optimizing the surrogate model with \code{propose.points.methods}.   
+#'   Number of proposed points after optimizing the surrogate model with \code{infill.opt}.   
 #'   Default is 1.
-#' @param propose.points.method [\code{character(1)}]\cr 
+#' @param infill.crit [\code{character(1)}]\cr
+#'   How should infill points be rated. Possible parameter values are:
+#'   \dQuote{mean}: Mean response.
+#' @param infill.opt [\code{character(1)}]\cr 
 #'   How should points be proposed by using the surrogate model. Possible are: 
-#'   \dQuote{seq.design}: Use a large design of points and evaluate the surrogate model at each. 
+#'   \dQuote{design}: Use a large design of points and evaluate the surrogate model at each. 
 #'    The best \code{propose.points} are selected.    
 #'   \dQuote{CMAES}: Use CMAES to optimize mean prediction value.    
 #'   \dQuote{EI}: Use expected improvement.    
-#'   Default is \dQuote{seq.design}.
+#'   Default is \dQuote{design}.
 #' @param seq.design.points [\code{integer(1)}]\cr 
-#'   Number of points in sequential design. Only used if \code{propose.points.method} is 'seq.design.' 
+#'   Number of points in sequential design. Only used if \code{infill.opt} is 'design.' 
 #'   Default is 10000.   
 #' @param seq.design.fun [\code{function}]\cr
 #'   Function from package lhs for the sequentail design. 
 #'   Possible are: \code{maximinLHS}, \code{randomLHS}, \code{geneticLHS}, 
 #'   \code{improvedLHS}, \code{optAugmentLHS}, \code{optimumLHS}.
-#'   Only used if \code{propose.points.method} is \dQuote{seq.design}.
+#'   Only used if \code{infill.opt} is \dQuote{design}.
 #'   Default is \code{randomLHS}. 
 #' @param seq.design.args [\code{list}]\cr
 #'   List of further arguments passed to \code{seq.design.fun}.  
-#'   Only used if \code{propose.points.method} is \dQuote{seq.design}. 
+#'   Only used if \code{infill.opt} is \dQuote{design}. 
 #'   Default is empty list.
 #' @param final.point [\code{character(1)}]\cr 
 #'   How should the final point be proposed. Possible are:    
@@ -70,7 +73,7 @@
 #'   How many target function evals should be done at final point to reduce noise? 
 #'   Default is 0.      
 #' @param save.model.at [\code{integer}]\cr
-#'   Sequential optimzation iterations when the model should be saved. 
+#'   Sequential optimization iterations when the model should be saved. 
 #'   Iteration 0 is the model fit for the initial design.
 #'   Default is \code{seq.loops}.
 #' @param resample.at [\code{integer}]\cr
@@ -88,7 +91,8 @@
 makeMBOControl = function(y.name="y", minimize=TRUE,
   impute, impute.errors=FALSE, silent=TRUE,
   init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
-  seq.loops=100, propose.points=1, propose.points.method="seq.design", 
+  seq.loops=100, propose.points=1,
+  infill.crit="mean", infill.opt="design",
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
   final.point = "best.true.y",
   final.evals = 0,
@@ -100,7 +104,9 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   
   checkArg(y.name, "character", len=1L, na.ok=FALSE)
   checkArg(minimize, "logical", len=1L, na.ok=FALSE)
-  checkArg(propose.points.method, choices=c("seq.design", "CMAES", "EI"))
+  
+  checkArg(infill.crit, choices=c("mean", "naive.EI"))
+  checkArg(infill.opt, choices=c("design", "CMAES", "EI"))
   
   if (missing(impute)) 
     impute = function(x, y, opt.path) 
@@ -110,7 +116,6 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   checkArg(impute.errors, "logical", len=1L, na.ok=FALSE)
   checkArg(silent, "logical", len=1L, na.ok=FALSE)
   
-  # FIXME: check other args
   init.design.points = convertInteger(init.design.points)
   checkArg(init.design.points, "integer", len=1L, na.ok=FALSE, lower=4L)
   checkArg(init.design.fun, "function")
@@ -155,9 +160,11 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
     init.design.points = init.design.points, 
     init.design.fun = init.design.fun, 
     init.design.args = init.design.args,
+    infill.crit = infill.crit,
+    infill.opt = infill.opt,
     seq.loops = seq.loops, 
     propose.points = propose.points,
-    propose.points.method = propose.points.method,
+    infill.opt = infill.opt,
     seq.design.points = seq.design.points, 
     seq.design.fun = seq.design.fun, 
     seq.design.args = seq.design.args,
@@ -180,10 +187,11 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
 #' @S3method print MBOControl
 print.MBOControl = function(x, ...) {
   minmax = ifelse(x$minimize, "min", "max")
-  catf("Objective       : %s = %s!", x$y.name, minmax)
-  catf("Init. design    : %i points", x$init.design.points)
-  catf("Iterations      : %i", x$seq.loops)
-  catf("Propose by:     : %s", x$propose.points.method)
-  catf("Final point by  : %s", x$final.point)
+  catf("Objective         : %s = %s!", x$y.name, minmax)
+  catf("Init. design      : %i points", x$init.design.points)
+  catf("Iterations        : %i", x$seq.loops)
+  catf("Infill criterion  : %s", x$infill.crit)
+  catf("Infill optimzer   : %s", x$infill.opt)
+  catf("Final point by    : %s", x$final.point)
 }
 

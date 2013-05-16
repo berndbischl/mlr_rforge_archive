@@ -2,7 +2,7 @@
   
 mbo.fun <- makeMBOFunction(function(x) sum(x^2))
 par.set <-  makeParamSet(
-  makeNumericVectorParam("param.vec", length=3, lower=0, upper=3)
+  makeNumericVectorParam("param.vec", len=3, lower=0, upper=3)
 )
 learner <-  makeLearner("regr.rsm", modelfun="SO")
 
@@ -13,7 +13,7 @@ res=mbo(fun=mbo.fun, par.set=par.set, learner=learner, control=ctrl)
   
 noise.fun <- makeMBOFunction(function(x) sum(x^2) + rnorm(1,0,2))
 par.set <-  makeParamSet(
-  makeNumericVectorParam("param.vec", length=3, lower=0, upper=3)
+  makeNumericVectorParam("param.vec", len=3, lower=0, upper=3)
 )
 learner <-  makeLearner("regr.km", nugget.estim=T, covtype="powexp")
 
@@ -27,7 +27,7 @@ require("soobench")
 fun <- branin_function()
 mbo.fun <- makeMBOFunction(fun)
 par.set <-  makeParamSet(
-  makeNumericVectorParam("param.vec", length=2, lower=lower_bounds(fun), upper=upper_bounds(fun))
+  makeNumericVectorParam("param.vec", len=2, lower=lower_bounds(fun), upper=upper_bounds(fun))
 )
 learner <-  makeLearner("regr.randomForest")
 

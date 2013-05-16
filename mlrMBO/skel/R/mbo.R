@@ -46,19 +46,19 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
     stop("No par.set parameter in 'mbo' can be of class 'LearnerParam'! Use basic parameters instead to describe you region of interest!")
   if (any(is.infinite(c(getLower(par.set), getUpper(par.set)))))
     stop("mbo requires finite box constraints!")
-  if (control$propose.points.method == "CMAES") 
+  if (control$infill.opt == "CMAES") 
     requirePackages("cmaes", "proposePoints")
-  if (control$propose.points.method == "CMAES" && control$propose.points != 1)
+  if (control$infill.opt == "CMAES" && control$propose.points != 1)
     stop("CMAES can only propose 1 point!")        
-  if (control$propose.points.method == "CMAES" &&
+  if (control$infill.opt == "CMAES" &&
     !all(sapply(par.set$pars, function(p) p$type) %in% c("numeric", "integer", "numericvector", "integervector")))
     stop("Proposal method CMAES can only be applied to numeric, integer, numericvector, integervector parameters!")
-  if (control$propose.points.method == "EI" && 
+  if (control$infill.opt == "EI" && 
     !(class(learner) %in% c("regr.km", "regr.kmforrester"))) 
     stop("Expected improvement can currently only be used with learner 'regr.km' and 'regr.kmforrester'!")
   if (learner$type != "regr")
     stop("mbo requires regression learner!")          
-  if (control$propose.points.method == "EI")
+  if (control$infill.opt == "EI")
     requirePackages("DiceOptim")
   if (max(control$save.model.at) > control$seq.loops)
     stopf("Cannot save model at loop %i when just %i sequential.loops!", max(control$save.model.at), control$seq.loops)  
@@ -113,10 +113,12 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
       r = resample(learner, rt, control$resample.desc, measures=control$resample.measures)
       res.vals[[length(res.vals)+1]] = r$aggr
     }
+    
     prop.design = proposePoints(model, par.set, control, opt.path)
     xs = lapply(1:nrow(prop.design), function(i) ParamHelpers:::dfRowToList(prop.design, par.set, i))
     xs = lapply(xs, repairPoint, par.set=par.set)
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts, ...)
+    
     Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=loop), xs, ys)
     rt = makeMBOTask(as.data.frame(opt.path, discretes.as.factor=TRUE), y.name, control=control)
     model = train(learner, rt)
@@ -126,6 +128,10 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   }
   names(models) = control$save.model.at
   names(res.vals) = control$resample.at
+  
+  # determine loop in which optimum was found
+  #opt.path.df = as.data.frame(opt.path)
+  #opt.found.at.loop = opt.path.df[which.min(opt.path.df[,y.name]), "dob"]
   
   design = getTaskData(rt, target.extra=TRUE)$data
   final.index = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
@@ -144,11 +150,12 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
   # make sure to strip name of y
   structure(list(
-    x = x,
-    y = as.numeric(y),
-    opt.path = opt.path,
-    resample = res.vals,
-    models = models
+    x=x,
+    y=as.numeric(y),
+    opt.path=opt.path,
+    #opt.found.at.loop=opt.found.at.loop,
+    resample=res.vals,
+    models=models
   ), class="MBOResult")
 }
 
@@ -164,7 +171,7 @@ print.MBOResult = function(x, ...) {
   catf("Recommended parameters:")
   catf(paramValueToString(op$par.set, x$x))
   catf("Objective: %s = %.3f\n", op$y.names[1], x$y)
-  catf("Optimiztation path")
+  catf("Optimization path")
   catf("%i + %i entries in total, displaying last 10:",
     sum(op$env$dob == 0), length(op$env$dob))
   print(tail(as.data.frame(x$op), 10))

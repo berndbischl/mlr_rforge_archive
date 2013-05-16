@@ -8,7 +8,7 @@
 # @param xs [\code{list}]\cr
 #   Set of points on which fun shall be evaluated.
 # @param opt.path [\code{\link[ParamHelpers]{OptPath}}]\cr
-#   Optimazation path to save of type \code{\link[ParamHelpers]{OptPath}}.
+#   Optimization path to save of type \code{\link[ParamHelpers]{OptPath}}.
 # @param control [\code{\link{MBOControl}}]\cr
 #   Control object for mbo.  
 # @param show.info [\code{logical(1)}]\cr
