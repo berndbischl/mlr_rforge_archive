@@ -33,7 +33,8 @@ infillCritEI = function(points, model){
 }
 
 infillCritAEI = function(points, design, model, ctrl=NULL) {
-  new
+  #FIXME: generalize new.noise.var for all models
+  new.noise.var=model$learner.model@covariance@nugget
   pred = predict(model, newdata = design)$data
   qk <- pred$response + qnorm(0.75) * pred$se
   y.min <- pred$response[which.min(qk)]
@@ -45,6 +46,7 @@ infillCritAEI = function(points, design, model, ctrl=NULL) {
   xcr.dens <- dnorm(xcr)
   #if (sk < sqrt(model@covariance@sd2)/1e+06) {
   #FIXME: What actually happens here. Find out in DiceOptim
+  #FIXME: calculate aei.val as vector
   if (sk < 1e-06) {
     aei.val <- 0
   } else {
