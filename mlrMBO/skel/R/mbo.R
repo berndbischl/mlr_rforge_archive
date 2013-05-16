@@ -128,11 +128,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   }
   names(models) = control$save.model.at
   names(res.vals) = control$resample.at
-  
-  # determine loop in which optimum was found
-  #opt.path.df = as.data.frame(opt.path)
-  #opt.found.at.loop = opt.path.df[which.min(opt.path.df[,y.name]), "dob"]
-  
+    
   design = getTaskData(rt, target.extra=TRUE)$data
   final.index = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
   
@@ -153,7 +149,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
     x=x,
     y=as.numeric(y),
     opt.path=opt.path,
-    #opt.found.at.loop=opt.found.at.loop,
+    opt.found.at.loop=opt.found.at.loop,
     resample=res.vals,
     models=models
   ), class="MBOResult")
