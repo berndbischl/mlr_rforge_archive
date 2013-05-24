@@ -1,23 +1,27 @@
-# Determine infill points with sequential design.
-# 
+# Optimizers for infill criteria
+
+# General interface
+#
 # @param infill.crit [\code{function}]\cr 
 #   Infill criterion function.
+# @param design [\code{data.frame}]\cr 
+#   Design of already visited points.
 # @param model [\code{\link{WrappedModel}}]\cr
-#   Model used for prediction.
+#   Model fitted on design.
 # @param control [\code{\link{MBOControl}}]\cr
-#   Control object for mbo.
+#   Control object.
 # @param par.set [\code{\link[ParamHelpers]{ParamSet}}]\cr
-#   Collection of parameters and their constraints for optimization.
-# @param opt.path [\code{\link[ParamHelpers]{OptPath}}]\cr
-#   Optimization path to save of type \code{\link[ParamHelpers]{OptPath}}.
-# @return New infill points.
+#   Parameter set.
+# @param opt.path [\code{\link[ParamHelpers{OptPath}}]\cr
+#   Optimization path / archive.
+# @return [\code{data.frame}]. One proposed point that should be evaluated.
+
+# mean response of model
 infillOptDesign = function(infill.crit, model, control, par.set, opt.path) {
-  design = generateDesign(control$seq.design.points, par.set, 
+  newdesign = generateDesign(control$seq.design.points, par.set, 
     control$seq.design.fun, control$seq.design.args, ints.as.num=TRUE)
-  y = infill.crit(design, model)
-  o = order(y)
-  # best 'propose.points' are selected.    
-  design[o[1:control$propose.points],,drop=FALSE]
+  y = infill.crit(newdesign, model, control, par.set, opt.path)
+  newdesign[rank(y, ties.method="random") == 1, , drop=FALSE]
 }
 
 infillOptCMAES = function(infill.crit, model, control, par.set, opt.path) {
@@ -31,21 +35,26 @@ infillOptCMAES = function(infill.crit, model, control, par.set, opt.path) {
     colnames(newdata) = rep.pids
     infill.crit(newdata, model)
   }
-  
-  i = getOptPathBestIndex(opt.path, ties="random")
-  start = unlist(getOptPathEl(opt.path, i)$x)
-  des = cma_es(par=start, fn=f, lower=low, upper=upp, control=list(maxit=2))$par
-  des = as.data.frame(t(des))
+  # FIXME: handle restarts
+  results = list()
+  for (i in 1:2) {
+    start = unlist(sampleValue(par.set))
+    results[[i]] = cma_es(par=start, fn=f, lower=low, upper=upp, control=control$cmaes.control)
+  }
+  ys = extractSubList(results, "value")
+  j = which(rank(ys, ties.method="random") == 1)
+  as.data.frame(t(results[[j]]$par))
 }
 
-infillOptEI = function(infill.crit, model, control, par.set, opt.path) {
-  # extract lower and upper bound for params
-  low = getLower(par.set)
-  upp = getUpper(par.set)
-  
-  i = getOptPathBestIndex(opt.path, ties="random")
-  start = unlist(getOptPathEl(opt.path, i)$x)
-  capture.output(design <- max_EI(model$learner.model, 
-    lower=low, upper=upp, parinit=start)$par)
-  as.data.frame(design)
-}
+# FIXME: allow DiceOptim optimizer later...
+# infillOptEI = function(infill.crit, model, control, par.set, opt.path) {
+#   # extract lower and upper bound for params
+#   low = getLower(par.set)
+#   upp = getUpper(par.set)
+#   
+#   i = getOptPathBestIndex(opt.path, ties="random")
+#   start = unlist(getOptPathEl(opt.path, i)$x)
+#   capture.output(design <- max_EI(model$learner.model, 
+#     lower=low, upper=upp, parinit=start)$par)
+#   as.data.frame(design)
+# }

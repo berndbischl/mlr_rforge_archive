@@ -11,24 +11,25 @@
 # @return [\code{data.frame}] 
 #   New infill points.
 proposePoints = function(model, par.set, control, opt.path) {
-  # generate new design if model fails.
+  # generate a few random points if model failed
   if (inherits(model, "FailureModel"))
     return(generateDesign(control$propose.points, par.set, randomLHS, ints.as.num=TRUE))
   
   # determine infill criterion
   infill.crit.fun = switch(control$infill.crit,
-    mean     = infillCritMeanResponse,
-    naive.EI = infillCritNaiveEI
+    mean = infillCritMeanResponse,
+    ei = infillCritEI,
+    aei = infillCritAEI
   )
   
   # determine infill optimization strategy
   infill.opt = switch(control$infill.opt,
-    design   = infillOptDesign,
-    CMAES    = infillOptCMAES,
-    EI       = infillOptEI
+    design = infillOptDesign,
+    cmaes = infillOptCMAES
+    #EI       = infillOptEI
   )
-  
-  infill.opt(infill.crit.fun, model, control, par.set, opt.path)
+  design = as.data.frame(opt.path)
+  infill.opt(infill.crit.fun, model, control, par.set, design)
 }
 
 # # returns list of points

@@ -42,27 +42,8 @@
 #' @export 
 
 mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...) {
-  if(any(sapply(par.set$pars, function(x) inherits(x, "LearnerParam"))))
-    stop("No par.set parameter in 'mbo' can be of class 'LearnerParam'! Use basic parameters instead to describe you region of interest!")
-  if (any(is.infinite(c(getLower(par.set), getUpper(par.set)))))
-    stop("mbo requires finite box constraints!")
-  if (control$infill.opt == "CMAES") 
-    requirePackages("cmaes", "proposePoints")
-  if (control$infill.opt == "CMAES" && control$propose.points != 1)
-    stop("CMAES can only propose 1 point!")        
-  if (control$infill.opt == "CMAES" &&
-    !all(sapply(par.set$pars, function(p) p$type) %in% c("numeric", "integer", "numericvector", "integervector")))
-    stop("Proposal method CMAES can only be applied to numeric, integer, numericvector, integervector parameters!")
-  if (control$infill.opt == "EI" && 
-    !(class(learner) %in% c("regr.km", "regr.kmforrester"))) 
-    stop("Expected improvement can currently only be used with learner 'regr.km' and 'regr.kmforrester'!")
-  if (learner$type != "regr")
-    stop("mbo requires regression learner!")          
-  if (control$infill.opt == "EI")
-    requirePackages("DiceOptim")
-  if (max(control$save.model.at) > control$seq.loops)
-    stopf("Cannot save model at loop %i when just %i sequential.loops!", max(control$save.model.at), control$seq.loops)  
-  
+  checkStuff(par.set, design, learner, control)
+  loadPackages(control)
   # FIXME: doc and better control
   # save currently set options
   oldopts = list(

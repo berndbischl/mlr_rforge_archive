@@ -94,6 +94,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   seq.loops=100, propose.points=1,
   infill.crit="mean", infill.opt="design",
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
+  cmaes.control = list(),                          
   final.point = "best.true.y",
   final.evals = 0,
   save.model.at = seq.loops,
@@ -105,8 +106,8 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   checkArg(y.name, "character", len=1L, na.ok=FALSE)
   checkArg(minimize, "logical", len=1L, na.ok=FALSE)
   
-  checkArg(infill.crit, choices=c("mean", "naive.EI"))
-  checkArg(infill.opt, choices=c("design", "CMAES", "EI"))
+  checkArg(infill.crit, choices=c("mean", "ei", "aei"))
+  checkArg(infill.opt, choices=c("design", "cmaes"))
   
   if (missing(impute)) 
     impute = function(x, y, opt.path) 
@@ -162,6 +163,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
     init.design.args = init.design.args,
     infill.crit = infill.crit,
     infill.opt = infill.opt,
+    cmaes.control = cmaes.control,
     seq.loops = seq.loops, 
     propose.points = propose.points,
     infill.opt = infill.opt,

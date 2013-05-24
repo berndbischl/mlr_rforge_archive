@@ -98,11 +98,11 @@ test_that("mbo works with rf", {
     makeNumericParam("w", lower=-5, upper=5) 
   )
   learner = makeLearner("regr.randomForest")
-  ctrl = makeMBOControl(init.design.points=10, seq.loops=3, infill.opt="CMAES")
+  ctrl = makeMBOControl(init.design.points=10, seq.loops=3, infill.opt="cmaes")
   or = mbo(f, ps, des=NULL, learner, ctrl, show.info = FALSE)
   expect_true(!is.na(or$y))
   expect_equal(getOptPathLength(or$opt.path), 10 + 3)
-  ctrl = makeMBOControl(init.design.points=10, seq.loops=3, infill.opt="CMAES", 
+  ctrl = makeMBOControl(init.design.points=10, seq.loops=3, infill.opt="cmaes", 
     final.point="best.predicted")
   or = mbo(f, ps, des=NULL, learner, ctrl, show.info=FALSE)
   expect_equal(getOptPathLength(or$opt.path), 10 + 3)
