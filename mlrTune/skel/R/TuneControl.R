@@ -9,6 +9,8 @@
 #'   \item{makeTuneControlIrace}{Tuning with iterated F-Racing with method \code{\link[irace]{irace}}. All kinds of parameter types can be handled.}
 #' }
 #' 
+#' Dependent parameters can currently only be handled by random search and irace.
+#' 
 #' Some notes on irace: For resampling you have to pass a \code{\link[mlr]{ResampleDesc}}, not a \code{\link[mlr]{ResampleInstance}}. 
 #' The resampling strategy is randomly instantiated \code{n.instances} times and these are the instances in the sense of irace
 #' (\code{instances} element of \code{tunerConfig} in \code{\link[irace]{irace}}). Also note that irace will always 

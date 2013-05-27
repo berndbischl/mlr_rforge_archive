@@ -2,13 +2,12 @@ tuneIrace = function(learner, task, resampling, measures, par.set, control,
                    opt.path, show.info, log.fun) {
   
   requirePackages(c("irace"), "tuneIrace")
-
   
   hookRun = function(instance, candidate, extra.params = NULL, config = list()) {
     rin = instance
     tunerFitnFun(candidate$values, learner=learner, task=task, resampling=rin, measures=measures, 
       par.set=par.set, ctrl=control, opt.path=opt.path, show.info=show.info, 
-      log.fun=log.fun, trafo=TRUE, convertx=identity) 
+      log.fun=log.fun, trafo=TRUE, convertx=identity, remove.nas=TRUE) 
   }
   n.instances = control$extra.args$n.instances
   control$extra.args$n.instances = NULL
@@ -17,7 +16,8 @@ tuneIrace = function(learner, task, resampling, measures, par.set, control,
   instances = lapply(1:n.instances, function(i) makeResampleInstance(resampling, task = task))
 
   parameters = convertParamSetToIrace(par.set)
-  tuner.config = c(list(hookRun = hookRun, instances = instances), control$extra.args)
+  log.file = tempfile()
+  tuner.config = c(list(hookRun = hookRun, instances = instances, logFile=log.file), control$extra.args)
 
   g = if (show.irace.output) identity else capture.output
   g({
@@ -26,6 +26,7 @@ tuneIrace = function(learner, task, resampling, measures, par.set, control,
     parameters = parameters
   )
   })
+  unlink(log.file)
   if (nrow(or) == 0)
     stop("irace produced no result, possibly the budget was set too low?")
   id = or[1,1]
@@ -37,5 +38,5 @@ tuneIrace = function(learner, task, resampling, measures, par.set, control,
   # get all lines in opt.path which correspond to x and average their perf values
   j = sapply(1:nrow(d), function(j) isTRUE(all.equal(as.list(d[j, par.names]), x)))
   y = colMeans(d[j, opt.path$y.names, drop=FALSE])
-  makeTuneResult(learner, control, x, y, opt.path)
+  makeTuneResult(learner, control, removeNAs(x), y, opt.path)
 }

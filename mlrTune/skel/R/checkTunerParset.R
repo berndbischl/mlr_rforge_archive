@@ -34,4 +34,9 @@ checkTunerParset = function(learner, par.set, control) {
   } else {
     stop("Tuning algorithm for ", class(control)[1], " does not exist!")
   }
+  if(any(sapply(par.set$pars, function(p) !is.null(p$requires)))) {
+    if (!(is(control, "TuneControlRandom") || is(control, "TuneControlIrace"))) 
+      stop("Tuning algorithm for ", class(control)[1], " cannot handle dependent paramters!")
+  }
+  
 }

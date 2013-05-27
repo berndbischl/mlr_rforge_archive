@@ -9,7 +9,7 @@ mytrafo = function(par.set, x, trafo) {
     
 # one x
 tunerFitnFun = function(x, learner, task, resampling, measures, par.set, ctrl, 
-  opt.path, show.info, log.fun, trafo, convertx) {
+  opt.path, show.info, log.fun, trafo, convertx, remove.nas) {
 
   x = convertx(x)
   x = mytrafo(par.set, x, trafo)
@@ -17,7 +17,7 @@ tunerFitnFun = function(x, learner, task, resampling, measures, par.set, ctrl,
   # transform parameters
   dob = ifelse(getOptPathLength(opt.path) == 0, 1, max(opt.path$env$dob) + 1)
   y = evalOptimizationState(learner, task, resampling, measures, par.set, NULL, ctrl, 
-    opt.path, show.info, log.fun, x) 
+    opt.path, show.info, log.fun, x, remove.nas) 
   addOptPathEl(opt.path, x=x, y=y, dob=dob, eol=NA, check.feasible=FALSE)
   #returnsresample$aggr vector, take 1st  
   #FIXME: what should happen if we get an infeasible y here? docu this!
@@ -26,7 +26,7 @@ tunerFitnFun = function(x, learner, task, resampling, measures, par.set, ctrl,
 
 # multiple xs in parallel
 tunerFitnFunVectorized = function(xs, learner, task, resampling, measures, par.set, ctrl, 
-  opt.path, show.info, log.fun, trafo, convertx) {
+  opt.path, show.info, log.fun, trafo, convertx, remove.nas) {
   
   xs = convertx(xs)
   #FIXME: what happens if we leave constraints? svm with nelder mead e.g.
@@ -34,7 +34,7 @@ tunerFitnFunVectorized = function(xs, learner, task, resampling, measures, par.s
   xs = lapply(xs, mytrafo, par.set=par.set, trafo=trafo)
   dob = ifelse(getOptPathLength(opt.path) == 0, 1, max(opt.path$env$dob) + 1)
   ys = evalOptimizationStates(learner, task, resampling, measures, par.set, NULL, ctrl, 
-    opt.path, show.info, log.fun, xs, dobs=dob, eols=NA) 
+    opt.path, show.info, log.fun, xs, dobs=dob, eols=NA, remove.nas=remove.nas) 
   #returns list of resample$aggr vectors, take 1st  
   ys = sapply(ys, function(a) a[[1]])
   ifelse(measures[[1]]$minimize, 1 , -1) * ys

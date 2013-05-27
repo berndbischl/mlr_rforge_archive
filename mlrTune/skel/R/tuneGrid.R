@@ -8,7 +8,7 @@ tuneGrid = function(learner, task, resampling, measures, par.set, control, opt.p
     Map(function(v, j) v[[j]], vals, val.inds)
   })  
   evalOptimizationStates(learner, task, resampling, measures, par.set, NULL, control, opt.path, 
-    show.info, logFunTune, vals, dobs=1L, eols=1L)
+    show.info, logFunTune, vals, dobs=1L, eols=1L, remove.nas=FALSE)
 
   i = getOptPathBestIndex(opt.path, mlr:::measureAggrName(measures[[1]]), ties="random")
   e = getOptPathEl(opt.path, i)

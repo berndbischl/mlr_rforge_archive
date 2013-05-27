@@ -11,9 +11,9 @@ tuneMBO = function(learner, task, resampling, measures, par.set, control,
   # FIXME: use ... in mbo
   tff = function(x) tunerFitnFun(x, learner=learner, task=task, resampling=resampling, measures=measures, 
     par.set=par.set, ctrl=control, opt.path=opt.path, show.info=show.info, 
-    log.fun=log.fun, trafo=FALSE, convertx=cx)    
+    log.fun=log.fun, trafo=FALSE, convertx=cx, remove.nas=FALSE)    
   
-  or = mbo(tff, par.set, des=NULL, learner=control$learner, control=mbo.control, show.info=FALSE)
+  or = mbo(tff, par.set, design=NULL, learner=control$learner, control=mbo.control, show.info=FALSE)
   
   # FIXME: check this this is really ok, that we dont trafo in mlrMBO
   x = trafoValue(par.set, or$x)

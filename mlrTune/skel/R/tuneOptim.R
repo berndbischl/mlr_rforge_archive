@@ -10,12 +10,11 @@ tuneOptim = function(learner, task, resampling, measures, par.set, control,
 		method = "Nelder-Mead"
 	ctrl.optim$method = NULL
   cx = function(x) convertXNumeric(x, par.set)
-  
   if (method == "L-BFGS-B") {
     or = optim(par=start, fn=tunerFitnFun, method=method, lower=low, upper=upp, control=ctrl.optim,
       learner=learner, task=task, resampling=resampling, measures=measures, 
       par.set=par.set, ctrl=control, opt.path=opt.path, show.info=show.info, 
-      log.fun=log.fun, trafo=TRUE, convertx=cx)    
+      log.fun=log.fun, trafo=TRUE, convertx=cx, remove.nas=FALSE)    
   } else {
     # FIXME: fix machine bound
     if (any((is.double(low) & low != -Inf) | (is.integer(low) & low != -.Machine$integer.max)) ||
@@ -24,7 +23,7 @@ tuneOptim = function(learner, task, resampling, measures, par.set, control,
     or = optim(par=start, fn=tunerFitnFun, method=method, control=ctrl.optim,
       learner=learner, task=task, resampling=resampling, measures=measures, 
       par.set=par.set, ctrl=control, opt.path=opt.path, show.info=show.info, 
-      log.fun=log.fun, trafo=TRUE, convertx=cx)    
+      log.fun=log.fun, trafo=TRUE, convertx=cx, remove.nas=FALSE)    
   }
   i = getOptPathBestIndex(opt.path, mlr:::measureAggrName(measures[[1]]), ties="random")
   e = getOptPathEl(opt.path, i)

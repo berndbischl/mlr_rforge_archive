@@ -8,7 +8,7 @@ configureMlr(show.learner.output=FALSE)
 
 if (interactive()) {
   library(devtools)
-  load_all("skel")
+  load_all("skel", reset=TRUE)
 } else {
   library(mlrTune)  
 }

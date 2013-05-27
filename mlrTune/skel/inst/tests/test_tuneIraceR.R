@@ -28,5 +28,18 @@ test_that("tuneIrace", {
   expect_true(!is.na(tr2$y))
 })
 
+test_that("tuneIrace works with dependent params", {
+  ps = makeParamSet(
+    makeDiscreteParam("kernel", values=c("vanilladot", "rbfdot")), 
+    makeNumericParam("C", lower=1, upper=2),
+    makeNumericParam("sigma", lower=1, upper=2, requires=quote(kernel == "rbfdot"))
+  )
+  lrn = makeLearner("classif.ksvm")
+  rdesc = makeResampleDesc("Holdout")
+  ctrl = makeTuneControlIrace(maxExperiments=100)
+  tr = tune(lrn, multiclass.task, rdesc, par.set=ps, control=ctrl)
+  expect_true(getOptPathLength(tr$opt.path) >= 80 && getOptPathLength(tr$opt.path) <= 100)
+  expect_true(!is.na(tr$y))
+})
 
 
