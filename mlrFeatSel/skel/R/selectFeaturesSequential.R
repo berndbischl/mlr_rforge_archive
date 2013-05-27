@@ -1,4 +1,3 @@
-# FIXME: maxit, max.features
 # FIXME: compare relative
 selectFeaturesSequential = function(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, show.info) {
   seq.step = function(forward, state, gen.new.states, compare) {
@@ -15,7 +14,7 @@ selectFeaturesSequential = function(learner, task, resampling, measures, bit.nam
     best.i = getOptPathBestIndex(opt.path, dob=dob, ties="random")
     best = getOptPathEl(opt.path, best.i)
     # best element lives one iteration longer
-    thresh = ifelse(forward, control$alpha, control$beta) 
+    thresh = ifelse(forward, control$extra.args$alpha, control$extra.args$beta) 
     better = compare(state, best, control, measures[[1]], thresh) 
     # if backward step and we have too many vars we do always go to the next best state with one less var.
     if ((forward && better) || (!forward && (better || (!is.na(control$max.features) && sum(unlist(state$x)) > control$max.features)))) {
@@ -50,7 +49,7 @@ selectFeaturesSequential = function(learner, task, resampling, measures, bit.nam
   
   dim = length(bit.names)
   compare = compare.diff
-  method = control$method
+  method = control$extra.args$method
   
   x = switch(method,
     sfs = rep(0, dim),

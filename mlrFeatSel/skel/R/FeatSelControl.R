@@ -1,6 +1,3 @@
-#FIXME carefulle doc. arg meanings
-#FIXME what about ...? check again in all files!
-
 #' Create control structures for feature selection.
 #' 
 #' The following methods are available:
@@ -9,33 +6,47 @@
 #'   \item{FeatSelControlExhaustive}{Exhaustive search. All feature sets (up to a certain size) are searched.}
 #'   \item{FeatSelControlRandom}{Random search. Features vectors are randomly drawn.}
 #'   \item{FeatSelControlSequential}{Deterministic forward or backward search.}
+#'   \item{FeatSelControlGA}{Search via genetic algorithm.}
 #' }
+#' 
+#' The GA is a simple (\code{mu}, \code{lambda})-algorithm, which selects the \code{lambda}
+#' \dQuote{fittest} (i.e. best) features out of a \dQuote{population} of \code{mu} (parent)
+#' features. 
+#' Out of those \code{mu} features, the new \code{lambda} features are generated, by choosing 
+#' features of pairs of parents. That choice can be influenced by the \code{crossover.rate}, 
+#' which represents the probability of choosing a feature from the first parent instead of
+#' the second parent.
+#' Also, one might change the \code{mutation.rate}, representing the probability of 
+#' selecting or deselecting a feature.
 #' 
 #' @param same.resampling.instance [\code{logical(1)}]\cr
 #'   Should the same resampling instance be used for all evaluations to reduce variance?
 #'   Default is \code{TRUE}.
-#' @param maxit [integer]\cr
-#'   Maximal number of iterations. 
-#' @param max.features [integer]\cr
+#' @param maxit [\code{integer(1)}]\cr
+#'   Maximal number of iterations. Note, that this is usually not equal to the number
+#'   of function evaluations.
+#' @param max.features [\code{integer(1)}]\cr
 #'   Maximal number of features. 
-#' @param crossoverRate [numeric]\cr
-#'   Parameter of the GA feature selection. Probability of choosing a bit from the first parent within the
-#'   crossover mutation.
-#' @param mutationRate [numeric]\cr
-#'   Parameter of the GA feature selection. Probability of flipping a feature bit, i.e. switch from selecting a 
-#'   feature to not selecting the feature and vice versa.
-#' @param mu [integer]\cr
+#' @param crossover.rate [\code{numeric(1)}]\cr
+#'   Parameter of the GA feature selection. Probability of choosing a bit from the first parent 
+#'   within the crossover mutation.
+#' @param mutation.rate [\code{numeric(1)}]\cr
+#'   Parameter of the GA feature selection. Probability of flipping a feature bit, i.e. switch 
+#'   between selecting / deselecting a feature.
+#' @param mu [\code{integer(1)}]\cr
 #'   Parameter of the GA feature selection. Size of the parent population.
-#' @param lambda [integer]\cr
-#'   Parameter of the GA feature selection. Size of the children population (should be smaller or equal to mu).
-#' @param prob [numeric]\cr
+#' @param lambda [\code{integer(1)}]\cr
+#'   Parameter of the GA feature selection. Size of the children population (should be smaller 
+#'   or equal to \code{mu}).
+#' @param prob [\code{numeric(1)}]\cr
 #'   Parameter of the random feature selection. Probability of choosing a feature.
-#' @param method [character]\cr
-#'   Parameter of the sequential feature selection. A character representing the method. Possible values are 
-#'   sfs (forward search), sbs (backward search), sffs (floating forward search), sfbs (floating backward search).
-#' @param alpha [numeric]\cr
+#' @param method [\code{character(1)}]\cr
+#'   Parameter of the sequential feature selection. A character representing the method. Possible 
+#'   values are \code{sfs} (forward search), \code{sbs} (backward search), \code{sffs}
+#'   (floating forward search) and \code{sfbs} (floating backward search).
+#' @param alpha [\code{numeric(1)}]\cr
 #'   Parameter of the sequential feature selection. Minimal value of improvement. 
-#' @param beta [numeric]\cr
+#' @param beta [\code{numeric(1)}]\cr
 #'   Parameter of the sequential feature selection. Maximal value of setback. 
 #'  
 #' @return [\code{\link{FeatSelControl}}]. The specific subclass is one of
@@ -51,14 +62,14 @@ makeFeatSelControl = function(same.resampling.instance, maxit, max.features, ...
   checkArg(maxit, "integer", len=1L, lower=1L, na.ok=TRUE)
   max.features = convertInteger(max.features)
   checkArg(max.features, "integer", len=1L, lower=1L, na.ok=TRUE)
-	x = mlrTune:::makeOptControl(same.resampling.instance=same.resampling.instance)
+	x = mlrTune:::makeOptControl(same.resampling.instance=same.resampling.instance, ...)
   x$maxit = maxit
   x$max.features = max.features
   class(x) = c(cl, "FeatSelControl", class(x))
   return(x)
 }
 
-#S3method print FeatSelControl
+#' @S3method print FeatSelControl
 print.FeatSelControl = function(x, ...) {
   catf("FeatSel control: %s", class(x)[1])
   catf("Same resampling instance: %s", x$same.resampling.instance)
@@ -67,6 +78,9 @@ print.FeatSelControl = function(x, ...) {
   else  
     catf("Max. features: %i", x$max.features)
   catf("Max. iterations: %i", x$maxit)
-  #catf("Further arguments: %s", listToShortString(x$extra.args))
+  if (length(x$extra.args) > 0)
+    catf("Further arguments: %s", listToShortString(x$extra.args))
+  else
+    catf("Further arguments: <not used>")
 }
 

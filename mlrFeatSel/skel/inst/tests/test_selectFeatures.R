@@ -1,4 +1,4 @@
-## FIXME: selectFeaturesGA does not work for bits
+library(testthat)
 context("selectFeatures")
 
 test_that("selectFeatures", {
@@ -49,6 +49,10 @@ test_that("selectFeatures", {
   ctrl = makeFeatSelControlGA(maxit=5, max.features=30)
   fr = selectFeatures(lrn, task=binaryclass.task, resampling=inner, control=ctrl, show.info=FALSE)
   expect_true(length(fr$x) <= 30)
+  
+  ctrl = makeFeatSelControlRandom(maxit=6, max.features=14)
+  fr = selectFeatures(lrn, task=multiclass.task, resampling=inner, control=ctrl, show.info=FALSE)
+  expect_true(length(fr$x) <= 14)
   
   # check empty model
   ctrl = makeFeatSelControlSequential(method="sfs", alpha=10)
