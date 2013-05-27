@@ -1,14 +1,14 @@
 #' Feature selection by wrapper approach.
 #'
-#' Optimizes the features for a classification or regression problem by choosing a variable selection 
-#' wrapper approach. There are different optimization methods available, such as forward search or a 
-#' genetic algorithm.
-#' You can select such an algorithm (and its settings) by passing a corresponding control object.
-#' For a complete list of implemented algorithms look at the subclasses of [\code{\link{FeatSelControl}}].
+#' Optimizes the features for a classification or regression problem by choosing a variable selection wrapper approach.
+#' Allows for different optimization methods, such as forward search or a genetic algorithm.
+#' You can select such an algorithm (and its settings)
+#' by passing a corresponding control object. For a complete list of implemented algorithms look at the 
+#' subclasses of [\code{\link{FeatSelControl}}].
 #'
 #' All algorithms operate on a 0-1-bit encoding of candidate solutions. Per default a single bit corresponds
-#' to a single feature, but you are able to change this by using the arguments \code{bit.names} and
-#' \code{bits.to.features}. Thus, it is possible to switch on whole groups of features with a single bit.  
+#' to a single feature, but you are able to change this by using the arguments \code{bit.names} 
+#' and \code{bits.to.features}. Thus allowing you to switch on whole groups of features with a single bit.  
 #' 
 #' @param learner [\code{\link[mlr]{Learner}}]\cr 
 #'   The learner.
@@ -34,40 +34,25 @@
 #' @return [\code{\link{FeatSelResult}}].
 #' @export
 #' @examples
-#' ## Classification example:
-#' classif.task <- makeClassifTask(data=iris, target="Species")
+#' task <- makeClassifTask(data=iris, target="Species")
 #' lrn <- makeLearner("classif.rpart")
 #' rdesc <- makeResampleDesc("Holdout")
 #' 
-#' ## Sequential forward feature selection:
-#' ctrlSeq <- makeFeatSelControl(method="sfs", cl="Sequential")
-#' sfSeq <- selectFeatures(lrn, classif.task, rdesc, control=ctrlSeq)
+#' ## Now create control-objects for each of the possible feature selection algorithms:
+#' ctrlSeq <- makeFeatSelControlSequential(method="sfs", maxit=NA)
+#' ctrlGA <- makeFeatSelControlGA(maxit=5, max.features=NA, crossoverRate=0.5, mutationRate=0.1, mu=10, lambda=5)
+#' ctrlRand <- makeFeatSelControlRandom(maxit=10, max.features=NA, prob=0.5)
+#' ctrlExh <- makeFeatSelControlExhaustive(maxit=NA, max.features=NA)
+#' 
+#' ## Let's run the feature selction algorithm:
+#' 
+#' sfSeq <- selectFeatures(lrn, task, rdesc, control=ctrlSeq)
 #' sfSeq
-#' 
-#' ## Genetic algorithm:
-#' ctrlGA <- makeFeatSelControl(maxit=10, crossoverRate=0.5, mutationRate=0.25, mu=12, lambda=6, cl="GA")
-#' sfGA <- selectFeatures(lrn, classif.task, rdesc, control=ctrlGA)
+#' sfGA <- selectFeatures(lrn, task, rdesc, control=ctrlGA)
 #' sfGA
-#' 
-#' 
-#' ## Regression example:
-#' library("mlr")
-#' library("mlbench")
-#' data(BostonHousing)
-#' 
-#' reg.task <- makeRegrTask(data = BostonHousing, target = "medv")
-#' lrn <- makeLearner("regr.lm")
-#' rdesc <- makeResampleDesc("Holdout") 
-#' 
-#' ## Random selection of features:
-#' ctrlRand <- makeFeatSelControl(maxit=10, max.features=3, prob=0.5, cl="Random")
-#' sfRand <- selectFeatures(lrn, reg.task, rdesc, control=ctrlRand)
+#' sfRand <- selectFeatures(lrn, task, rdesc, control=ctrlRand)
 #' sfRand
-#' 
-#' ## Exhaustive feature selection, i.e. a complete search within the given feature
-#' ## space. Here, we look for the best combination of up to 3 features:
-#' ctrlExh <- makeFeatSelControl(max.features=3, cl="Exhaustive")
-#' sfExh <- selectFeatures(lrn, reg.task, rdesc, control=ctrlExh)
+#' sfExh <- selectFeatures(lrn, task, rdesc, control=ctrlExh)
 #' sfExh
 selectFeatures = function(learner, task, resampling, control, measures, 
   bit.names, bits.to.features, show.info=TRUE) {

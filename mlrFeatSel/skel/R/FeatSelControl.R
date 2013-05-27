@@ -1,3 +1,6 @@
+#FIXME carefulle doc. arg meanings
+#FIXME what about ...? check again in all files!
+
 #' Create control structures for feature selection.
 #' 
 #' The following methods are available:
@@ -6,7 +9,6 @@
 #'   \item{FeatSelControlExhaustive}{Exhaustive search. All feature sets (up to a certain size) are searched.}
 #'   \item{FeatSelControlRandom}{Random search. Features vectors are randomly drawn.}
 #'   \item{FeatSelControlSequential}{Deterministic forward or backward search.}
-#'   \item{FeatSelControlGA}{Search via genetic algorithm.}
 #' }
 #' 
 #' @param same.resampling.instance [\code{logical(1)}]\cr
@@ -37,22 +39,23 @@
 #'   Parameter of the sequential feature selection. Maximal value of setback. 
 #'  
 #' @return [\code{\link{FeatSelControl}}]. The specific subclass is one of
-#'   \code{\link{FeatSelControlExhaustive}}, \code{\link{FeatSelControlRandom}}, \code{\link{FeatSelControlSequential}}, \code{\link{FeatSelControlGA}}.
+#'   \code{\link{FeatSelControlExhaustive}}, \code{\link{FeatSelControlRandom}}, \code{\link{FeatSelControlSequential}}.
 #' @name FeatSelControl
 #' @rdname FeatSelControl
-#' @aliases FeatSelControlExhaustive FeatSelControlRandom FeatSelControlSequential FeatSelControlGA
+#' @aliases FeatSelControlExhaustive FeatSelControlRandom FeatSelControlSequential
 NULL
 
-makeFeatSelControl = function(cl, ...) {
-
-  sel.func = switch(cl,
-                    Random = makeFeatSelControlRandom,
-                    Exhaustive = makeFeatSelControlExhaustive,
-                    Sequential = makeFeatSelControlSequential,
-                    GA = makeFeatSelControlGA
-  )
-  
-  sel.func(...)
+makeFeatSelControl = function(same.resampling.instance, maxit, max.features, ..., cl) {
+  checkArg(same.resampling.instance, "logical", len=1, na.ok=FALSE)
+  maxit = convertInteger(maxit)
+  checkArg(maxit, "integer", len=1L, lower=1L, na.ok=TRUE)
+  max.features = convertInteger(max.features)
+  checkArg(max.features, "integer", len=1L, lower=1L, na.ok=TRUE)
+	x = mlrTune:::makeOptControl(same.resampling.instance=same.resampling.instance)
+  x$maxit = maxit
+  x$max.features = max.features
+  class(x) = c(cl, "FeatSelControl", class(x))
+  return(x)
 }
 
 #S3method print FeatSelControl
