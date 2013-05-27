@@ -5,7 +5,7 @@ jakob:
 - parallel die fitness evaluieren
 - [Nadja] Mbo-Ausgabe: Info, in welchem Schritt Optimum gefunden wurde
 - [Nadja] Immer das letzte funktionsfähige Modell speichern und falls aktuelles nicht läuft, auf das letzte zugreifen. Auch bei MBO-Ausgabe soll immer ein funktionsfähige Modell ausgegeben werden
-- [Nadja] wenn man ein eigenes Startdesign übergibt, soll keine Überprüfung auf attr des Designs stattfinden
+- [Nadja] wenn man ein eigenes Startdesign übergibt, soll keine Überprüfung auf attr des Designs stattfinden 
 
 
 

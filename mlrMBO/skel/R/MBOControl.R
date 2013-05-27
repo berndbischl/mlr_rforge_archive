@@ -76,6 +76,12 @@
 #'   Sequential optimization iterations when the model should be saved. 
 #'   Iteration 0 is the model fit for the initial design.
 #'   Default is \code{seq.loops}.
+#' @param on.learner.error [\code{character(1)}]\cr
+#'   See [\code{\link[mlr]{configureMlr}}].
+#'   Default is \dQuote{stop}. 
+#' @param show.learner.output [\code{logical(1)}]\cr 
+#'   See [\code{\link[mlr]{configureMlr}}].
+#'   Default is \code{FALSE}.
 #' @param resample.at [\code{integer}]\cr
 #'   At which iterations should the model be resampled and assessed?
 #'   Default is none.
@@ -94,10 +100,11 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   seq.loops=100, propose.points=1,
   infill.crit="mean", infill.opt="design",
   seq.design.points=10000, seq.design.fun=randomLHS, seq.design.args=list(),
-  cmaes.control = list(),                          
-  final.point = "best.true.y",
-  final.evals = 0,
-  save.model.at = seq.loops,
+  cmaes.control=list(),                          
+  final.point="best.true.y",
+  final.evals=0,
+  save.model.at=seq.loops,
+	on.learner.error="warn", show.learner.output=FALSE,
   resample.at = integer(0), resample.desc = makeResampleDesc("CV", iter=10), resample.measures=list(mse) 
 ) {
   
@@ -143,6 +150,10 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   }
   checkArg(final.point, choices=c("last.proposed", "best.true.y", "best.predicted"))
   checkArg(final.evals, "integer", len=1L, na.ok=FALSE)
+	
+	checkArg(on.learner.error, choices=c("warn", "quiet", "stop"))
+	checkArg(show.learner.output, "logical", len=1L, na.ok=FALSE)
+	
   if (length(resample.at) > 0) {
     resample.at = convertIntegers(resample.at)
     checkArg(resample.at, "integer", na.ok=FALSE, lower=0L, upper=seq.loops)
@@ -174,6 +185,8 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
     final.point = final.point,
     final.evals = final.evals,
     save.model.at = save.model.at,
+		on.learner.error = on.learner.error,
+		show.learner.output = show.learner.output,
     resample.desc = resample.desc,
     resample.at = resample.at,
     resample.measures = resample.measures
@@ -195,5 +208,6 @@ print.MBOControl = function(x, ...) {
   catf("Infill criterion  : %s", x$infill.crit)
   catf("Infill optimzer   : %s", x$infill.opt)
   catf("Final point by    : %s", x$final.point)
+	catf("learner errror    : %i", x$show.learner.output)
 }
 

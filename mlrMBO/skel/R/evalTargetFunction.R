@@ -47,7 +47,7 @@ evalTargetFun = function(fun, par.set, xs, opt.path, control, show.info, oldopts
   # restore mlr configuration
   configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
   ys = sapply(xs, fun2)  
-  configureMlr(on.learner.error="warn", show.learner.output=FALSE)
+  configureMlr(on.learner.error=control$on.learner.error, show.learner.output=control$show.learner.output)
   j = which(is.na(ys) | is.nan(ys) | is.infinite(ys))
   if (length(j) > 0) {
     ys[j] = mapply(control$impute, xs[j], ys[j], 

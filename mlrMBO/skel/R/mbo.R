@@ -2,16 +2,11 @@
 #FIXME: retrain kriging faster
 #FIXME: handle error in meta learner
 #FIXME: i think resample at and save.model at count differently
-#FIXME: configure so we dont see learner output on default
-#       maybe we do need a better way to configure mlr learners, possibyl by control?  
 
 #FIXME: how to choose best element. with noise? without?
-#FIXME: no more target function evals of the final point on default
 #FIXME: different name for final evals in output (not last step number)
-#FIXME: default for final point should be best point, not last step (especially when final evals are made)
 
 #FIXME: cmaes doesn't work when optimum in constraints
-#FIXME: separate infill criterion from optimzer
 
 #'  Optimizes a function with sequential model based optimization.
 #'
@@ -52,7 +47,8 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   )
   
   # configure mlr in an appropriate way
-  configureMlr(on.learner.error="warn", show.learner.output=FALSE)
+  configureMlr(on.learner.error=control$on.learner.error,
+		show.learner.output=control$show.learner.output)
   
   # get parameter ids repeated length-times and appended number
   rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
@@ -69,6 +65,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   } else {
     if (attr(design, "trafo"))
       stop("Design must not be tranformed before call to 'mbo'. Set 'trafo' to FALSE in generateDesign.")
+    #FIXME: why not just compute the fitness values?  
     if (!(y.name %in% colnames(design)))
       stop("Design 'design' must contain y column of fitness values: ", y.name)
     ys = design[, y.name]
