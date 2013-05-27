@@ -1,51 +1,46 @@
-#' selectFeaturesGA
-#' 
-#' A genetic algorithm for feature selection. Note that this is a (mu, lambda)-algorithm, i.e. it iteratively selects
-#' the lambda fittest elements out of a population consisting of mu parents.
-#' 
-#' @param control [\code{control}]\cr 
-#'   A control object, which includes the maximal number of iterations (\dQuote{maxit}), the rates for mutation
-#'   (\dQuote{mutation.rate}) and crossover combinations (\dQuote{crossover.rate}, i.e. the probability of choosing an element
-#'   from the first parent), the size of the parent population (\dQuote{mu}) and the number of childrens to be selected
-#'   (\dQuote{lambda}).
-#' @return [\code{\link{selectFeaturesGA}}].
-#' @name selectFeaturesGA
-#' @rdname selectFeaturesGA
-#' @aliases selectFeaturesGA
-NULL
-
 selectFeaturesGA = function(learner, task, resampling, measures, bit.names, bits.to.features, control, opt.path, show.info) {
   fit = mlr:::measureAggrName(measures[[1]])
-  states = lapply(1:control$extra.args$mu, 
-	  function(i) rbinom(length(bit.names), 1, 0.5))
-  if(!is.na(control$max.features)){
-    foo = function(i){
-      while(sum(i) > control$max.features) {
-        i = rbinom(length(bit.names), 1, 0.5)
-      }
-      return(i)
+  # generate mu feature sets (of correct size)
+  states = list()
+  mu = control$extra.args$mu
+  lambda = control$extra.args$lambda
+  yname = opt.path$y.names[1]
+  minimize = opt.path$minimize[1]
+  for (i in 1:mu) {
+    while(TRUE) {
+      states[[i]] = rbinom(length(bit.names), 1, 0.5)
+      if(is.na(control$max.features) || sum(states[[i]] <= control$max.features))
+        break
     }
-    states = lapply(states, function(z) foo(z))
   }
   evalOptimizationStates(learner, task, resampling, measures, 
-	  bits.to.features, control, opt.path, show.info, states, 0L, as.integer(NA))  
-  if("mutation.rate" %in% names(control)) {
-    if(!("crossover.rate" %in% names(control))) {
-      control$extra.args$crossover.rate = 1
-    }
-  } else {
-    control$extra.args$mutation.rate = 0
-  }
+    bits.to.features, control, opt.path, show.info, states, 0L, as.integer(NA))  
+  pop.inds = 1:mu
   for(i in 1:control$maxit) {
-    parents = as.data.frame(getOptPathEl(opt.path, which(is.na(as.data.frame(opt.path)[,"eol"])))$x)
-    kids = lapply(1:control$extra.args$lambda, function(z) 
-          newStates(parents = parents[sample(1:nrow(parents), 2),], 
-                       crossover.rate = control$extra.args$crossover.rate, mutation.rate = control$extra.args$mutation.rate, 
-                       max.features = control$max.features))
-    evalOptimizationStates(learner, task, resampling, measures, 
-                           bits.to.features, control, opt.path, show.info, states = kids, i, as.integer(NA))
-    index = order(as.data.frame(opt.path)[[fit]])[1:control$extra.args$mu]
-    setOptPathElEOL(opt.path, setdiff(which(is.na(as.data.frame(opt.path)[,"eol"])), index), i)
+    # get all mu elements which are alive, ie the current pop and their bit vecs as matrix
+    pop.df = as.data.frame(opt.path)[pop.inds, ]
+    pop.featmat = as.matrix(pop.df[, bit.names]); mode(pop.featmat) = "integer"
+    pop.y = pop.df[, yname]
+    # create lambda offspring and eval
+    kids.list = replicate(lambda, generateKid(pop.featmat, control), simplify=FALSE)
+    kids.y = evalOptimizationStates(learner, task, resampling, measures, 
+      bits.to.features, control, opt.path, show.info, states = kids.list, i, as.integer(NA))
+    kids.y = extractSubList(kids.y, yname)
+    oplen = getOptPathLength(opt.path)
+    kids.inds = seq(oplen - lambda + 1, oplen)
+    if (control$extra.args$comma) {
+      # if comma, kill current pop and keep only mu best of offspring
+      setOptPathElEOL(opt.path, pop.inds, i-1)
+      pool.inds = kids.inds
+      pool.y = kids.y
+    } else {
+      # if plus, keep best of pop + offspring
+      pool.inds = c(pop.inds, kids.inds)
+      pool.y = c(pop.y, kids.y)
+    }
+    # get next pop of best mu from pool
+    pop.inds = pool.inds[order(pool.y, decreasing=!minimize)[1:mu]]
+    setOptPathElEOL(opt.path, setdiff(pool.inds, pop.inds), i)
   }
   i = getOptPathBestIndex(opt.path, mlr:::measureAggrName(measures[[1]]), ties="random")
   e = getOptPathEl(opt.path, i)
@@ -53,16 +48,15 @@ selectFeaturesGA = function(learner, task, resampling, measures, bit.names, bits
 }
 
 
-newStates = function(parents, crossover.rate, mutation.rate, max.features){
-  if(is.na(max.features)) {
-    kid = crossover(as.integer(parents[1,]), as.integer(parents[2,]), crossover.rate)
-    return(mutateBits(kid, mutation.rate))    
-  }
-  run.loop = TRUE
-  while(run.loop) {
-    kid = crossover(as.integer(parents[1,]), as.integer(parents[2,]), crossover.rate)
-    kid = mutateBits(kid, mutation.rate)
-    run.loop = (sum(kid) > max.features)
+# sample 2 random parents, CX, mutate --> 1 kid 
+# (repeat in a loop if max.features not satisfied)
+generateKid = function(featmat, control) {
+  parents = sample(1:nrow(featmat), 2, replace=TRUE)
+  while(TRUE) {
+    kid = crossover(featmat[parents[1],], featmat[parents[2],], control$extra.args$crossover.rate)
+    kid = mutateBits(kid, control$extra.args$mutation.rate)
+    if(is.na(control$max.features) || sum(kid) <= control$max.features)
+      break
   }
   return(kid)
 }

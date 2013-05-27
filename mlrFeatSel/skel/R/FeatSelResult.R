@@ -21,15 +21,15 @@ makeFeatSelResult = function(learner, control, x, y, opt.path) {
 }
 
 
-#'@S3method print FeatSelResult
+#' @S3method print FeatSelResult
 print.FeatSelResult = function(x, ...) {
   catf("FeatSel result:")
-  n.feats = length(fr$x)
+  n.feats = length(x$x)
   printed.features = 10
-  if(length(fr$x) > printed.features) {
-    catf("Features (%i): %s", n.feats, paste(c(fr$x[1:printed.features], "..."), collapse = ", "))
+  if(length(x$x) > printed.features) {
+    catf("Features (%i): %s", n.feats, paste(c(x$x[1:printed.features], "..."), collapse = ", "))
   } else {
-    catf("Features (%i): %s", n.feats, paste(fr$x[1:n.feats], collapse = ", "))
+    catf("Features (%i): %s", n.feats, paste(x$x[1:n.feats], collapse = ", "))
   }
   catf("%s", mlr:::perfsToString(x$y))
 }
