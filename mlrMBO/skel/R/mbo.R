@@ -1,6 +1,4 @@
 #FIXME: retrain kriging faster
-#FIXME: handle error in meta learner
-#FIXME: i think resample at and save.model at count differently
 
 #FIXME: how to choose best element. with noise? without?
 #FIXME: different name for final evals in output (not last step number)
@@ -134,6 +132,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   final.index = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
   
   if (control$final.evals > 0) {
+		# do some final evaluations and compute mean of target fun values
     prop.design = design[rep(final.index, control$final.evals),,drop=FALSE]
     xs = lapply(1:nrow(prop.design), function(i) ParamHelpers:::dfRowToList(prop.design, par.set, i))
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts, ...)

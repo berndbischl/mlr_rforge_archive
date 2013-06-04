@@ -142,13 +142,10 @@ makeMBOControl = function(y.name="y", minimize=TRUE,
   #checkArg(rank.trafo, "logical", len=1L, na.ok=FALSE)
   final.evals = convertInteger(final.evals)
   checkArg(final.evals, "integer", len=1L, na.ok=FALSE, lower=0L)
-  # FIXME: do better
-  if (length(save.model.at) > 0) {
-    save.model.at = convertIntegers(save.model.at)
-    checkArg(save.model.at, "integer", na.ok=FALSE, lower=0L, upper=seq.loops)
-  } else {
-    save.model.at = integer(0)
-  }
+
+  save.model.at = convertIntegers(save.model.at)
+	checkArg(save.model.at, "integer", na.ok=FALSE, lower=0L, upper=seq.loops)
+
   checkArg(final.point, choices=c("last.proposed", "best.true.y", "best.predicted"))
   checkArg(final.evals, "integer", len=1L, na.ok=FALSE)
 	
