@@ -1,4 +1,3 @@
-#FIXME: minimize
 #FIXME: retrain kriging faster
 #FIXME: handle error in meta learner
 #FIXME: i think resample at and save.model at count differently

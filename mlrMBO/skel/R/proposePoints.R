@@ -28,19 +28,17 @@ proposePoints = function(model, par.set, control, opt.path) {
     cmaes = infillOptCMAES
     #EI       = infillOptEI
   )
+
   design = as.data.frame(opt.path)
   infill.opt(infill.crit.fun, model, control, par.set, design)
 }
 
 # # returns list of points
-# #FIXME: minimize
 # #FIXME: finalize cmaes + vectorized CMAES!!!
 # #FIXME: round ints for cmaes + EI
-# # FIXME: use CL when more than 1 point in EI 
 # # FIXME: use other fillin fromn DiceOptim 
 # proposePoints = function(model, par.set, control, opt.path) {
 #   lm = model$learner.model 
-#   # FIXME: returning a dataframe seens stupid (maybe not?), do interface
 #   low = getLower(par.set)
 #   upp = getUpper(par.set)
 #   # FIXME: doc and think about it

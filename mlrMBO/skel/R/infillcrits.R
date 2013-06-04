@@ -32,7 +32,7 @@ infillCritEI = function(points, model, control, par.set, design) {
   p.mu = maximize.mult * p$response 
   p.se = p$se
   y.min = min(y)
-  d = (y.min - p.mu)
+  d = y.min - p.mu
   xcr = d / p.se
   #FIXME: what is done in DiceOption::EI here for numerical reasons?
   #if (kriging.sd/sqrt(model@covariance@sd2) < 1e-06) {
@@ -55,25 +55,22 @@ infillCritAEI = function(points, model, control, par.set, design) {
   p = predict(model, newdata = points)$data
   p.mu = maximize.mult * p$response 
   p.se = p$se
+  # FIXME: add this a constant in control 
   qk = p.mu + qnorm(0.75) * p.se
-  y.min = pred$response[which.min(qk)]
+  y.min = p.mu[rank(qk, ties.method="random") == 1]
   d = y.min - p.mu
   xcr = d / p.se
   xcr.prob = pnorm(xcr)
   xcr.dens = dnorm(xcr)
-  
+
   new.noise.var = model$learner.model@covariance@nugget
 
   #if (sk < sqrt(model@covariance@sd2)/1e+06) {
   #FIXME: What actually happens here. Find out in DiceOptim
   #FIXME: calculate aei.val as vector
-  if (p.se < 1e-06) {
-    aei.val = 0
-  } else {
-    aei.val = (d * xcr.prob + p.se * xcr.dens) * 
-      (1 - sqrt(new.noise.var) / sqrt(new.noise.var + sk^2))
-  }
-  return(aei.val)
+  aei = ifelse(p.se < 1e-06, 0, 
+    (d * xcr.prob + p.se * xcr.dens) * (1 - sqrt(new.noise.var) / sqrt(new.noise.var + p.se^2)))
+  return(-aei)
 }
 
 # infillCritAKG = function(points, model, ctrl=NULL) {
