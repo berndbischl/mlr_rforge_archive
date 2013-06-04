@@ -30,10 +30,11 @@ infillOptCMAES = function(infill.crit, model, control, par.set, opt.path) {
   upp = getUpper(par.set)
   
   rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
+  #FIXME: eval all point for one 1 gen at once?
   f = function(x) {
     newdata = as.data.frame(t(x))
     colnames(newdata) = rep.pids
-    infill.crit(newdata, model)
+    infill.crit(newdata, model, control, par.set, design)
   }
   # FIXME: handle restarts
   results = list()

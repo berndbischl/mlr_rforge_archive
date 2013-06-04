@@ -20,15 +20,20 @@
 # mean response of model
 # useful for deterministic and noisy
 infillCritMeanResponse = function(points, model, control, par.set, design) {
-  predict(model, newdata=points)$data$response
+  ifelse(control$minimize, 1, -1) * predict(model, newdata=points)$data$response
 }
 
 # expected improvement
 # useful for deterministic
 infillCritEI = function(points, model, control, par.set, design) {
-  y.min = min(design[, control$y.name])
+  maximize.mult = ifelse(control$minimize, 1, -1) 
+  y = maximize.mult * design[, control$y.name]
   p = predict(model, newdata = points)$data
-  xcr = (y.min - p$response) / p$se
+  p.mu = maximize.mult * p$response 
+  p.se = p$se
+  y.min = min(y)
+  d = (y.min - p.mu)
+  xcr = d / p.se
   #FIXME: what is done in DiceOption::EI here for numerical reasons?
   #if (kriging.sd/sqrt(model@covariance@sd2) < 1e-06) {
   #  res = 0
@@ -36,7 +41,7 @@ infillCritEI = function(points, model, control, par.set, design) {
   #
   xcr.prob = pnorm(xcr)
   xcr.dens = dnorm(xcr)
-  ei = (y.min -  p$response) * xcr.prob + p$se * xcr.dens
+  ei = d * xcr.prob + p.se * xcr.dens
   return(-ei)
 }
 
@@ -44,24 +49,29 @@ infillCritEI = function(points, model, control, par.set, design) {
 # useful for noisy
 infillCritAEI = function(points, model, control, par.set, design) {
   #FIXME: generalize new.noise.var for all models
-  new.noise.var=model$learner.model@covariance@nugget
-  pred = predict(model, newdata = design)$data
-  qk = pred$response + qnorm(0.75) * pred$se
+  
+  maximize.mult = ifelse(control$minimize, 1, -1) 
+  y = maximize.mult * design[, control$y.name]
+  p = predict(model, newdata = points)$data
+  p.mu = maximize.mult * p$response 
+  p.se = p$se
+  qk = p.mu + qnorm(0.75) * p.se
   y.min = pred$response[which.min(qk)]
-  pred = predict(model, newdata = points)$data
-  mk = pred$response
-  sk = pred$se
-  xcr = (y.min - mk)/sk
+  d = y.min - p.mu
+  xcr = d / p.se
   xcr.prob = pnorm(xcr)
   xcr.dens = dnorm(xcr)
+  
+  new.noise.var = model$learner.model@covariance@nugget
+
   #if (sk < sqrt(model@covariance@sd2)/1e+06) {
   #FIXME: What actually happens here. Find out in DiceOptim
   #FIXME: calculate aei.val as vector
-  if (sk < 1e-06) {
+  if (p.se < 1e-06) {
     aei.val = 0
   } else {
-    aei.val = ((y.min - mk) * xcr.prob + sk * xcr.dens) * 
-      (1 - sqrt(new.noise.var)/sqrt(new.noise.var + sk^2))
+    aei.val = (d * xcr.prob + p.se * xcr.dens) * 
+      (1 - sqrt(new.noise.var) / sqrt(new.noise.var + sk^2))
   }
   return(aei.val)
 }
