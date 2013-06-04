@@ -24,10 +24,6 @@ test_that("mbo works with rf", {
   expect_equal(length(or$models[[2]]$subset), 15)
   
   # check errors
-  des$y = NULL
-  expect_error(mbo(f, ps, des, learner, ctrl), "must contain y column")
-  des$y = y
-  
   ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, infill.opt="EI")
   expect_error(mbo(f, ps, des, learner, ctrl), "Expected improvement can currently")
   ctrl = makeMBOControl(seq.loops=5, seq.design.points=100)

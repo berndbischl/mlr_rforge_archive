@@ -39,7 +39,7 @@
 mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...) {
   checkStuff(par.set, design, learner, control)
   loadPackages(control)
-  # FIXME: doc and better control
+
   # save currently set options
   oldopts = list(
     ole = getOption("mlr.on.learner.error"),
@@ -55,8 +55,8 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   y.name = control$y.name
   opt.path = makeOptPathDF(par.set, y.name, control$minimize)
   	
-	design.x = design
 	# generate initial design if none provided
+	design.x = design
   if (is.null(design)) {
     design.x = generateDesign(control$init.design.points, par.set, 
       control$init.design.fun, control$init.design.args, trafo=FALSE) 
@@ -64,6 +64,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
     if (attr(design, "trafo"))
       stop("Design must not be tranformed before call to 'mbo'. Set 'trafo' to FALSE in generateDesign.")
 	}
+	
 	# compute y-values if missing or initial design generated above
   if (!(y.name %in% colnames(design.x))) {
 		#catf("Computing y column for design 'design'. None provided.\n")
@@ -73,41 +74,58 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
     design[, y.name] = ys
 	} 
 	ys = design[, y.name]
-  # remove y
+  
+	# remove y
   design.x = design[, -which(colnames(design) == y.name), drop=FALSE]
+	
 	# sanity check: are paramter values and colnames of design consistent?
   cns = colnames(design.x)
   if(!setequal(cns, rep.pids))
   	stop("Column names of design 'design' must match names of parameters in 'par.set'!")
+	
   # reorder
   design.x = design.x[, rep.pids, drop=FALSE]
   xs = lapply(1:nrow(design.x), function(i) ParamHelpers:::dfRowToList(design.x, par.set, i))
 	
 	# add initial values to optimization path
   Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=0), xs, ys)
+	
+	# set up initial mbo task
   rt = makeMBOTask(design, y.name, control=control)
   model = train(learner, rt)
+	
+	loop = 1
   models = list()
-  if (0 %in% control$save.model.at)
-    models[[length(models)+1]] = model
-  loop = 1
   res.vals = list()
+	
+  if (0 %in% control$save.model.at) {
+    models[[length(models)+1]] = model
+	}
+	
+	if (0 %in% control$resample.model.at) {
+    r = resample(learner, rt, control$resample.desc, measures=control$resample.measures)
+    res.vals[[length(res.vals)+1]] = r$aggr
+	}
+	
+	# do the mbo magic
   while(loop <= control$seq.loops) {
-    if (loop %in% control$resample.at) {
-      r = resample(learner, rt, control$resample.desc, measures=control$resample.measures)
-      res.vals[[length(res.vals)+1]] = r$aggr
-    }
-    
+		
+		# impute new points and evaluete target function
     prop.design = proposePoints(model, par.set, control, opt.path)
     xs = lapply(1:nrow(prop.design), function(i) ParamHelpers:::dfRowToList(prop.design, par.set, i))
     xs = lapply(xs, repairPoint, par.set=par.set)
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts, ...)
     
+		# update optim trace and model
     Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=loop), xs, ys)
     rt = makeMBOTask(as.data.frame(opt.path, discretes.as.factor=TRUE), y.name, control=control)
     model = train(learner, rt)
     if (loop %in% control$save.model.at)
       models[[length(models)+1]] = model
+    if (loop %in% control$resample.at) {
+      r = resample(learner, rt, control$resample.desc, measures=control$resample.measures)
+      res.vals[[length(res.vals)+1]] = r$aggr
+    }
     loop = loop + 1
   }
   names(models) = control$save.model.at
@@ -126,8 +144,10 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
     y = getOptPathEl(opt.path, final.index)$y
     x = ParamHelpers:::dfRowToList(design, par.set, final.index)
   }
+	
   # restore mlr configuration
   configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
+	
   # make sure to strip name of y
   structure(list(
     x=x,
@@ -154,5 +174,4 @@ print.MBOResult = function(x, ...) {
   catf("%i + %i entries in total, displaying last 10:",
     sum(op$env$dob == 0), length(op$env$dob))
   print(tail(as.data.frame(x$op), 10))
-  
 }

@@ -84,6 +84,7 @@
 #'   Default is \code{FALSE}.
 #' @param resample.at [\code{integer}]\cr
 #'   At which iterations should the model be resampled and assessed?
+#'   Iteration 0 does some resampling on the initial design.
 #'   Default is none.
 #' @param resample.desc [\code{\link[mlr]{ResampleDesc}}]\cr
 #'   How should be model be resampled? 
