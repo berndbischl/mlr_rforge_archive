@@ -16,7 +16,7 @@
 #' @param par.set [\code{\link[ParamHelpers]{ParamSet}}]\cr
 #'   Collection of parameters and their constraints for optimization.   
 #' @param design [\code{data.frame} | NULL]\cr
-#'   Initial design. Must have been created by \code{\link[ParamHelpers]{generateDesign}}. 
+#'   Initial design as data frame. 
 #'   If the parameters have corresponding trafo functions, 
 #'   the design must not be transformed before it is passed! 
 #'   If \code{NULL}, one is constructed from the settings in \code{control}.
@@ -54,30 +54,36 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
   y.name = control$y.name
   opt.path = makeOptPathDF(par.set, y.name, control$minimize)
-  
+  	
+	design.x = design
+	# generate initial design if none provided
   if (is.null(design)) {
     design.x = generateDesign(control$init.design.points, par.set, 
-      control$init.design.fun, control$init.design.args, trafo=FALSE)
+      control$init.design.fun, control$init.design.args, trafo=FALSE) 
+  } else {
+    if (attr(design, "trafo"))
+      stop("Design must not be tranformed before call to 'mbo'. Set 'trafo' to FALSE in generateDesign.")
+	}
+	# compute y-values if missing or initial design generated above
+  if (!(y.name %in% colnames(design.x))) {
+		#catf("Computing y column for design 'design'. None provided.\n")
     xs = lapply(1:nrow(design.x), function(i) ParamHelpers:::dfRowToList(design.x, par.set, i))
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts, ...)
     design = design.x
     design[, y.name] = ys
-  } else {
-    if (attr(design, "trafo"))
-      stop("Design must not be tranformed before call to 'mbo'. Set 'trafo' to FALSE in generateDesign.")
-    #FIXME: why not just compute the fitness values?  
-    if (!(y.name %in% colnames(design)))
-      stop("Design 'design' must contain y column of fitness values: ", y.name)
-    ys = design[, y.name]
-    # remove y 
-    design.x = design[, -which(colnames(design) == y.name), drop=FALSE]
-    cns = colnames(design.x)
-    if(!setequal(cns, rep.pids))
-      stop("Column names of design 'design' must match names of parameters in 'par.set'!")
-    # reorder
-    design.x = design.x[, rep.pids, drop=FALSE]
-    xs = lapply(1:nrow(design.x), function(i) ParamHelpers:::dfRowToList(design.x, par.set, i))
-  }
+	} 
+	ys = design[, y.name]
+  # remove y
+  design.x = design[, -which(colnames(design) == y.name), drop=FALSE]
+	# sanity check: are paramter values and colnames of design consistent?
+  cns = colnames(design.x)
+  if(!setequal(cns, rep.pids))
+  	stop("Column names of design 'design' must match names of parameters in 'par.set'!")
+  # reorder
+  design.x = design.x[, rep.pids, drop=FALSE]
+  xs = lapply(1:nrow(design.x), function(i) ParamHelpers:::dfRowToList(design.x, par.set, i))
+	
+	# add initial values to optimization path
   Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=0), xs, ys)
   rt = makeMBOTask(design, y.name, control=control)
   model = train(learner, rt)
