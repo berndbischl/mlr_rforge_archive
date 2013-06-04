@@ -30,5 +30,5 @@ proposePoints = function(model, par.set, control, opt.path) {
   )
 
   design = as.data.frame(opt.path)
-  infill.opt(infill.crit.fun, model, control, par.set, design)
+  infill.opt(infill.crit.fun, model, control, par.set, opt.path, design)
 }

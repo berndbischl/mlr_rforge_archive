@@ -17,20 +17,22 @@
 # @return [\code{data.frame}]. One proposed point that should be evaluated.
 
 # mean response of model
-infillOptDesign = function(infill.crit, model, control, par.set, opt.path) {
+infillOptDesign = function(infill.crit, model, control, par.set, opt.path, design) {
   newdesign = generateDesign(control$seq.design.points, par.set, 
     randomLHS, ints.as.num=TRUE)
-  y = infill.crit(newdesign, model, control, par.set, opt.path)
+  y = infill.crit(newdesign, model, control, par.set, design)
   newdesign[rank(y, ties.method="random") == 1, , drop=FALSE]
 }
 
-infillOptCMAES = function(infill.crit, model, control, par.set, opt.path) {
+infillOptCMAES = function(infill.crit, model, control, par.set, opt.path, design) {
   # extract lower and upper bound for params
   low = getLower(par.set)
   upp = getUpper(par.set)
   
   rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
-  #FIXME: eval all point for one 1 gen at once?
+  #eval all points of 1 generation at once
+  cmaes.control = control$cmaes.control
+  cmaes.control$vectorized = TRUE
   f = function(x) {
     newdata = as.data.frame(t(x))
     colnames(newdata) = rep.pids
@@ -38,9 +40,14 @@ infillOptCMAES = function(infill.crit, model, control, par.set, opt.path) {
   }
   # FIXME: handle restarts
   results = list()
-  for (i in 1:2) {
-    start = unlist(sampleValue(par.set))
-    results[[i]] = cma_es(par=start, fn=f, lower=low, upper=upp, control=control$cmaes.control)
+  for (i in 1:control$infill.opt.restarts) {
+    if (i == 1) {
+      start = getOptPathEl(opt.path, getOptPathBestIndex(opt.path))$x
+    } else {
+      start = sampleValue(par.set)
+    }
+    start = unlist(start)
+    results[[i]] = cma_es(par=start, fn=f, lower=low, upper=upp, control=cmaes.control)
   }
   ys = extractSubList(results, "value")
   j = which(rank(ys, ties.method="random") == 1)
