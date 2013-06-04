@@ -38,8 +38,8 @@ test_that("mbo works with km", {
   expect_true(is.list(or$x))
   expect_equal(names(or$x), names(ps$pars))
 
-  
-  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, infill.opt="EI")
+  learner = setPredictType(learner, "se")
+  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, infill.crit="ei")
   or = mbo(f, ps, des, learner, ctrl)
   expect_true(!is.na(or$y))
   expect_equal(getOptPathLength(or$opt.path), 15)

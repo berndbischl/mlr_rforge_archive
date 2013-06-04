@@ -67,7 +67,6 @@ infillCritAEI = function(points, model, control, par.set, design) {
 
   #if (sk < sqrt(model@covariance@sd2)/1e+06) {
   #FIXME: What actually happens here. Find out in DiceOptim
-  #FIXME: calculate aei.val as vector
   aei = ifelse(p.se < 1e-06, 0, 
     (d * xcr.prob + p.se * xcr.dens) * (1 - sqrt(new.noise.var) / sqrt(new.noise.var + p.se^2)))
   return(-aei)

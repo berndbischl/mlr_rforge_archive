@@ -24,8 +24,8 @@ test_that("mbo works with rf", {
   expect_equal(length(or$models[[2]]$subset), 15)
   
   # check errors
-  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, infill.opt="EI")
-  expect_error(mbo(f, ps, des, learner, ctrl), "Expected improvement can currently")
+  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, infill.crit="ei")
+  expect_error(mbo(f, ps, des, learner, ctrl), "But this learner does not seem to support prediction of standard errors!")
   ctrl = makeMBOControl(seq.loops=5, seq.design.points=100)
   
   f2=makeMBOFunction(function(x) x^2)

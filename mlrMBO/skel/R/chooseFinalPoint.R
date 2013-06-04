@@ -1,5 +1,3 @@
-#FIXME: do something smart if factors are there. maybe the same when propose.points?
-#FIXME: dont use fix nr for design!
 chooseFinalPoint = function(fun, par.set, model, opt.path, y.name, control) {
   df = as.data.frame(opt.path, discretes.as.factor=TRUE)
   input.names = setdiff(colnames(df), c(y.name, "dob", "eol"))

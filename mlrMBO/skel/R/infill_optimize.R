@@ -38,8 +38,8 @@ infillOptCMAES = function(infill.crit, model, control, par.set, opt.path, design
     colnames(newdata) = rep.pids
     infill.crit(newdata, model, control, par.set, design)
   }
-  # FIXME: handle restarts
   results = list()
+  # restart optimizer, first start point is currently best
   for (i in 1:control$infill.opt.restarts) {
     if (i == 1) {
       start = getOptPathEl(opt.path, getOptPathBestIndex(opt.path))$x
