@@ -56,7 +56,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
 	design.x = design
   if (is.null(design)) {
     design.x = generateDesign(control$init.design.points, par.set, 
-      control$init.design.fun, control$init.design.args, trafo=FALSE) 
+      randomLHS, trafo=FALSE)
   } else {
     if (attr(design, "trafo"))
       stop("Design must not be tranformed before call to 'mbo'. Set 'trafo' to FALSE in generateDesign.")

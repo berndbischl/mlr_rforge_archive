@@ -19,7 +19,7 @@
 # mean response of model
 infillOptDesign = function(infill.crit, model, control, par.set, opt.path) {
   newdesign = generateDesign(control$seq.design.points, par.set, 
-    control$seq.design.fun, control$seq.design.args, ints.as.num=TRUE)
+    randomLHS, ints.as.num=TRUE)
   y = infill.crit(newdesign, model, control, par.set, opt.path)
   newdesign[rank(y, ties.method="random") == 1, , drop=FALSE]
 }
