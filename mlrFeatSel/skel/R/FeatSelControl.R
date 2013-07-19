@@ -52,7 +52,8 @@
 #'   Parameter of the sequential feature selection. Maximal value of setback. 
 #'  
 #' @return [\code{\link{FeatSelControl}}]. The specific subclass is one of
-#'   \code{\link{FeatSelControlExhaustive}}, \code{\link{FeatSelControlRandom}}, \code{\link{FeatSelControlSequential}}.
+#'   \code{\link{FeatSelControlExhaustive}}, \code{\link{FeatSelControlRandom}}, 
+#'   \code{\link{FeatSelControlSequential}}, \code{\link{FeatSelControlGA}}.
 #' @name FeatSelControl
 #' @rdname FeatSelControl
 #' @aliases FeatSelControlExhaustive FeatSelControlRandom FeatSelControlSequential

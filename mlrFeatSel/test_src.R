@@ -1,13 +1,24 @@
+## FIXME: sbs and sfbs prefer higher number of features, when performance stays the same
+
 #library("devtools")
 #library("testthat")
-#library(mlbench)
+#library("mlbench")
 #data(BostonHousing)
-
+#data(Ionosphere)
 #load_all("skel")
 
 #task = makeClassifTask(data=iris, target="Species")
+#task = makeClassifTask(data = Ionosphere, target = "Class")
 #lrn = makeLearner("classif.rpart")
 #rdesc = makeResampleDesc("Holdout")
+
+#ctrl = makeFeatSelControlGA(max.features = 20, maxit = 10)
+#ctrl = makeFeatSelControlSequential(max.features = 32, method = "sbs")
+#ctrl = makeFeatSelControlSequential(max.features = 15, method = "sfs")
+#or = selectFeatures(lrn, task, rdesc, control=ctrl)
+#res = analyzeFeatSelResult(or)
+#res
+
 
 #ctrl = makeTuneControlIrace()
 # 
