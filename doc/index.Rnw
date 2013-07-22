@@ -31,7 +31,7 @@ As this becomes computationally expensive, you might want to parallelize your ex
 as well. This often forces useRs to make crummy trade-offs in their experiments due to 
 time constraints or lacking expert programming skills.
 **mlr** provides this infrastructure so that you can focus on your experiments!
-The framework currently focusses on supervised methods like classification 
+The framework currently focuses on supervised methods like classification 
 and regression and their corresponding evaluation and optimization, but further extensions are
 planned. It is written in a way that you can extend it yourself or deviate from the implemented
 convenience methods and construct your own complex experiments or algorithms.
@@ -39,17 +39,15 @@ convenience methods and construct your own complex experiments or algorithms.
 Features
 """"""""
 
-* Clear S4 interface to R classification and regression methods
-* Easy extension mechanism through S4 inheritance
+* Clear S3 interface to R classification and regression methods
+* Easy extension mechanism through S3 inheritance
 * Abstract description of learners and tasks by properties 
 * Parameter system for learners to encode data types and constraints
 * Many convenience methods and generic building blocks for your
   machine learning experiments
 * Resampling like bootstrapping, cross-validation and subsampling 
 * Easy hyperparameter tuning using different optimization strategies
-* Variable selection with filters and wrappers
-* Benchmark experiments with two levels of resampling 
-* Interface to benchmark package for exploration and inference
+* Variable selection with filters and wrappers 
 * Parallelization is built-in
 * Extension points to integrate your own stuff
 * Unit-tested using RUnit_
@@ -58,15 +56,13 @@ As the framework has become rather extensive, it is currently divided into the f
 
 * **mlr**: The basic package. Fitting, predicting, evaluating, resampling.
 * **mlrTune**: Tune hyper-parameters of a learner with different optimization algorithms. 
-  Multi-criteria optimization is possible, too. The package also contains a model-based sequential 
-  parameter optimization method, which can be used for general purpose optimization of 
-  expensive black-box functions.
-* **mlrVarsel**: Feature selection with filters and wrappers. 
+  Multi-criteria optimization is possible, too. 
+* **mlrFeatSel**: Feature selection with filters and wrappers. 
   Multi-criteria optimization is possible, too.
 * **mlrChains**: Combine different processing steps to a complex data mining chain. 
   Enables nested resampling of optimized models.
-* **mlrBenchmark**: Compare learning systems with extensive benchmark experiments. 
-  Enables nested resampling of optimized models.
+* **mlrMBO**: Optimize functions with a model-based sequential 
+  parameter optimization method. Useful e.g. for expensive black-box functions.
 
 Get in touch
 """"""""""""
@@ -79,12 +75,24 @@ at bischl@statistik.uni-dortmund.de.
 Installation
 """"""""""""
 
-Currently the package is available from R-Forge_. You can install the
-current developer snapshot from within R by running:
+You can currently install the package by performing the following steps:
 
-<<eval=FALSE>>=
-install.packages("mlr",repos="http://R-Forge.R-project.org")
-@ 
+* Check out the SVN repository containing all packages. Linux users can check 
+  out the packages by creating a new directory and then downloading the entire 
+  tree into this directory in the terminal with the command 
+  ``svn co svn://svn.r-forge.r-project.org/svnroot/mlr/``. Windows users may use 
+  their chosen Subversion client (e.g. TortoiseSVN) and perform a SVN Checkout
+  with the URL ``svn://svn.r-forge.r-project.org/svnroot/mlr/`` on a newly
+  created folder.
+* Make sure that your SVN bin directory is added to your system path. Linux users
+  can do this by using the command ``export PATH=$PATH:/<your SVN bin dir>``.
+  Windows users can do the same by starting command prompt (cmd.exe) and entering
+  the command ``SET PATH=\%PATH\%;<your SVN bin dir>``. For instance, users at 
+  the TU Dortmund Statistics Department can enter ``SET PATH=\%PATH\%;t:\svn\bin``.
+* Install the packages using ``make install``. Use the terminal in Linux or the 
+  command prompt in Windows, move to the respective subdirectories of the 
+  desired packages (e.g. mlr, mlrTune, ...) and enter ``make install``. It is 
+  recommended to do this with all of the five mlr packages. 
 
 Project Link-List
 """""""""""""""""
