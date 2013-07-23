@@ -22,8 +22,8 @@ lrn <- makeLearner("classif.rpart")
 rdesc <- makeResampleDesc("Holdout") 
 
 ctrlSeq <- makeFeatSelControlSequential(method="sfs")
-#sfSeq <- selectFeatures(learner=lrn, task=task, resampling=rdesc, control=ctrlSeq)
-#sfSeq
+sfSeq <- selectFeatures(learner=lrn, task=task, resampling=rdesc, control=ctrlSeq)
+sfSeq
 @ 
 
 
@@ -42,7 +42,7 @@ lrn <- makeLearner("regr.lm")
 rdesc <- makeResampleDesc("Holdout") 
 
 ctrlGA <- makeFeatSelControlGA(maxit=10)
-#sfGA <- selectFeatures(learner=lrn, task=task, resampling=rdesc, control=ctrlGA)
-#sfGA
+sfGA <- selectFeatures(learner=lrn, task=task, resampling=rdesc, control=ctrlGA)
+sfGA
 @
 

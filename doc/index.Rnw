@@ -90,13 +90,14 @@ You can currently install the package by performing the following steps:
   Windows users can do the same by starting command prompt (cmd.exe) and entering
   the command ``SET PATH=\%PATH\%;<your SVN bin dir>``. For instance, users at 
   the TU Dortmund Statistics Department can enter ``SET PATH=\%PATH\%;t:\svn\bin``.
+* mlr depends on a set of other R packages. Be sure to install these packages using
+  the provided ``install_dependencies.R``. This file automatically identifies missing
+  packages and installs them. Additionally the packages `roxygen2 <http://cran.r-project.org/web/packages/roxygen2/index.html>`_ and `devtools <http://cran.r-project.org/web/packages/devtools/index.html>`_ should be installed.
 * Install the packages using ``make install``. Use the terminal in Linux or the 
   command prompt in Windows, move to the respective subdirectories of the 
   desired packages (e.g. mlr, mlrTune, ...) and enter ``make install``. It is 
   recommended to do this with all of the five mlr packages.
-* mlr depends on a set of other R packages. Be sure to install these packages using
-  the provided ``install_dependencies.R``. This file automatically identifies missing
-  packages and installs them. Additionally the packages `roxygen2 <http://cran.r-project.org/web/packages/roxygen2/index.html>`_ and `devtools <http://cran.r-project.org/web/packages/devtools/index.html>`_ should be installed.
+
 
 Project Link-List
 """""""""""""""""
