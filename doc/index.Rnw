@@ -76,7 +76,11 @@ at bischl@statistik.uni-dortmund.de.
 Installation
 """"""""""""
 
-You can currently install the package by performing the following steps:
+You can currently install the package by performing the following steps. There are slight differences in the installation process between the different operating systems. Basically the steps described for UNIX systems should work fine an all UNIX-based systems such as Linux and Apples MAC OS X. Howewer, Windows users have to do some additional steps to get things work.
+
+.. note::
+
+  If you are not familiar with the concepts of *software versioning and revisioning systems* and specifically with `SVN <http://en.wikipedia.org/wiki/Apache_Subversion>`_ you should dive into the basics by asking your favourite search engine for these keywords.
 
 * Check out the SVN repository containing all packages. Linux users can check 
   out the packages by creating a new directory and then downloading the entire 
