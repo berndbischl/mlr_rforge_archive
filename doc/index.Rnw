@@ -101,16 +101,18 @@ Windows users have to do some additional steps to get things work.
   SVN bin directory to your system path. You can do this by starting command 
   prompt (cmd.exe) and entering the command ``SET PATH=\%PATH\%;<your SVN bin dir>``. 
   For instance, users at the TU Dortmund Statistics Department can enter 
-  ``SET PATH=\%PATH\%;t:\svn\bin``. Now you can use the command prompt and move 
-  to the respective subdirectories of the desired packages (e.g. mlr, mlrMBO, ...) and 
-  enter ``make install``.
+  ``SET PATH=\%PATH\%;t:\svn\bin``. Futhermore, the program
+  `Rtools <http://cran.r-project.org/bin/windows/Rtools/index.html>`_ must also
+  be installed. Now you can use the command prompt and move to the respective 
+  subdirectories of the desired packages (e.g. mlr, mlrMBO, ...) and enter 
+  ``make install``.
 
 Note that it is recommended to do install all of the five mlr packages. Be also
 sure that all dependent packages for mlr are installed. The provided file
 ``install_dependencies.R`` automatically identifies missing packages and 
-installs them. Additionally the packages 
+installs them. Additionally, the packages 
 `roxygen2 <http://cran.r-project.org/web/packages/roxygen2/index.html>`_ and 
-`devtools <http://cran.r-project.org/web/packages/devtools/index.html>`_ should 
+`devtools <http://cran.r-project.org/web/packages/devtools/index.html>`_ must 
 be installed.
 
 Project Link-List
