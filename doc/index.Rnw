@@ -76,32 +76,42 @@ at bischl@statistik.uni-dortmund.de.
 Installation
 """"""""""""
 
-You can currently install the package by performing the following steps. There are slight differences in the installation process between the different operating systems. Basically the steps described for UNIX systems should work fine an all UNIX-based systems such as Linux and Apples MAC OS X. Howewer, Windows users have to do some additional steps to get things work.
+You can currently install the package by performing the following steps. There 
+are slight differences in the installation process between the different 
+operating systems. Basically the steps described for UNIX systems should work 
+fine an all UNIX-based systems such as Linux and Apples MAC OS X. Howewer, 
+Windows users have to do some additional steps to get things work.
 
 .. note::
 
-  If you are not familiar with the concepts of *software versioning and revisioning systems* and specifically with `SVN <http://en.wikipedia.org/wiki/Apache_Subversion>`_ you should dive into the basics by asking your favourite search engine for these keywords.
+  If you are not familiar with the concepts of *software versioning and 
+  revisioning systems* and specifically with `SVN <http://en.wikipedia.org/wiki/Apache_Subversion>`_ 
+  you should dive into the basics by asking your favourite search engine for 
+  these keywords.
 
-* Check out the SVN repository containing all packages. Linux users can check 
-  out the packages by creating a new directory and then downloading the entire 
-  tree into this directory in the terminal with the command 
-  ``svn co svn://svn.r-forge.r-project.org/svnroot/mlr/``. Windows users may use 
-  their chosen Subversion client (e.g. TortoiseSVN) and perform a SVN Checkout
-  with the URL ``svn://svn.r-forge.r-project.org/svnroot/mlr/`` on a newly
-  created folder.
-* Make sure that your SVN bin directory is added to your system path. Linux users
-  can do this by using the command ``export PATH=$PATH:/<your SVN bin dir>``.
-  Windows users can do the same by starting command prompt (cmd.exe) and entering
-  the command ``SET PATH=\%PATH\%;<your SVN bin dir>``. For instance, users at 
-  the TU Dortmund Statistics Department can enter ``SET PATH=\%PATH\%;t:\svn\bin``.
-* mlr depends on a set of other R packages. Be sure to install these packages using
-  the provided ``install_dependencies.R``. This file automatically identifies missing
-  packages and installs them. Additionally the packages `roxygen2 <http://cran.r-project.org/web/packages/roxygen2/index.html>`_ and `devtools <http://cran.r-project.org/web/packages/devtools/index.html>`_ should be installed.
-* Install the packages using ``make install``. Use the terminal in Linux or the 
-  command prompt in Windows, move to the respective subdirectories of the 
-  desired packages (e.g. mlr, mlrTune, ...) and enter ``make install``. It is 
-  recommended to do this with all of the five mlr packages.
+* **UNIX users**: Open the terminal and checkout the SVN repository by downloading
+  the entire tree into a new directory with the command 
+  ``svn co svn://svn.r-forge.r-project.org/svnroot/mlr/``. Now move to the
+  respective subdirectories of the desired packages (e.g. mlr, mlrTune, ...) and 
+  enter ``make install``.
+* **Windows users**: Open the Subversion client of your choice (e.g. TortoiseSVN,
+  VisualSVN, SmartSVN, etc.) or the SVN integration within RStudio and perform a
+  SVN Checkout with the URL ``svn://svn.r-forge.r-project.org/svnroot/mlr/`` on 
+  a newly created folder. When using a SVN client, it may be advisable to add your
+  SVN bin directory to your system path. You can do this by starting command 
+  prompt (cmd.exe) and entering the command ``SET PATH=\%PATH\%;<your SVN bin dir>``. 
+  For instance, users at the TU Dortmund Statistics Department can enter 
+  ``SET PATH=\%PATH\%;t:\svn\bin``. Now you can use the command prompt and move 
+  to the respective subdirectories of the desired packages (e.g. mlr, mlrMBO, ...) and 
+  enter ``make install``.
 
+Note that it is recommended to do install all of the five mlr packages. Be also
+sure that all dependent packages for mlr are installed. The provided file
+``install_dependencies.R`` automatically identifies missing packages and 
+installs them. Additionally the packages 
+`roxygen2 <http://cran.r-project.org/web/packages/roxygen2/index.html>`_ and 
+`devtools <http://cran.r-project.org/web/packages/devtools/index.html>`_ should 
+be installed.
 
 Project Link-List
 """""""""""""""""
