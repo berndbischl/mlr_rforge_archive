@@ -130,6 +130,8 @@ iteration. The blocking argument is a factor of the same length as
 the number of observations in the data set, where observations with the
 same factor level belong to the same block.
 
+**FIXME:** weights are no longer a parameter of makeClassifTask
+
 Include observation weights in order to upweight class "malignant"
 with factor 3:
 
@@ -138,7 +140,7 @@ w <- c(1,3)[BreastCancer$Class]
 df <- BreastCancer
 df$Id <- NULL
 task <- makeClassifTask(id = "BreastCancer", data = df, target = "Class", 
-                      positive = "malignant", weights = w)
+                      positive = "malignant")
 head(task$weights)
 @ 
 

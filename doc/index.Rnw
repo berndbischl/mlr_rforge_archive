@@ -21,7 +21,7 @@ Machine Learning in R (mlr)
 Introduction
 ============
 
-R does not define a a standardized interface for all its machine learning
+R does not define a standardized interface for all its machine learning
 algorithms. Therefore, for any non-trivial experiments, 
 you need to write lengthy, tedious and error-prone wrappers to call the different 
 algorithms and unify their respective output. Additionally you need to implement infrastructure
@@ -50,7 +50,7 @@ Features
 * Variable selection with filters and wrappers 
 * Parallelization is built-in
 * Extension points to integrate your own stuff
-* Unit-tested using RUnit_
+* Unit-tested using `testthat <http://cran.r-project.org/web/packages/testthat/index.html>`_
 
 As the framework has become rather extensive, it is currently divided into the following R packages:
 
@@ -62,7 +62,8 @@ As the framework has become rather extensive, it is currently divided into the f
 * **mlrChains**: Combine different processing steps to a complex data mining chain. 
   Enables nested resampling of optimized models.
 * **mlrMBO**: Optimize functions with a model-based sequential 
-  parameter optimization method. Useful e.g. for expensive black-box functions.
+  parameter optimization method. Useful e.g. for the optimaization of expensive black-box
+  functions.
 
 Get in touch
 """"""""""""
@@ -92,7 +93,10 @@ You can currently install the package by performing the following steps:
 * Install the packages using ``make install``. Use the terminal in Linux or the 
   command prompt in Windows, move to the respective subdirectories of the 
   desired packages (e.g. mlr, mlrTune, ...) and enter ``make install``. It is 
-  recommended to do this with all of the five mlr packages. 
+  recommended to do this with all of the five mlr packages.
+* mlr depends on a set of other R packages. Be sure to install these packages using
+  the provided ``install_dependencies.R``. This file automatically identifies missing
+  packages and installs them. Additionally the packages `roxygen2 <http://cran.r-project.org/web/packages/roxygen2/index.html>`_ and `devtools <http://cran.r-project.org/web/packages/devtools/index.html>`_ should be installed.
 
 Project Link-List
 """""""""""""""""
