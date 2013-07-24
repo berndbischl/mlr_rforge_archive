@@ -1,5 +1,6 @@
 - we should not depend on bbmisc, need this for parallel dirty fix in resample
 
+- make test still produces output of learners even when configureMlr(show.learner.output=FALSE)
 
 - b632+ test
  test b632 too  
@@ -9,10 +10,9 @@
 
 - desc object in task
 
-es ist unklar wie wir die ver�nderten beschreibungen der daten abspeichern, wenn wir z.b.
-per preproc alles potentiell ver�ndern.
-a) ausgabe des modell mit print
-b) wenn der task durchgereicht wird durch die trainingsfuns 
+- it's not clear how the changed descriptions of the files should be saved, e.g. when we change everything potentially during preproc 
+a) output of the model via print
+b) when the task is forwarded via the training funs
 
 - test parallel
 

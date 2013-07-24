@@ -35,6 +35,9 @@
 #' @param mutation.rate [\code{numeric(1)}]\cr
 #'   Parameter of the GA feature selection. Probability of flipping a feature bit, i.e. switch 
 #'   between selecting / deselecting a feature.
+#' @param comma [\code{logical(1)}]\cr
+#'   Parameter of the GA feature selection, indicating whether to use a (\code{mu}, \code{lambda})
+#'   or (\code{mu} + \code{lambda}) GA. The default is \code{FALSE}.
 #' @param mu [\code{integer(1)}]\cr
 #'   Parameter of the GA feature selection. Size of the parent population.
 #' @param lambda [\code{integer(1)}]\cr
@@ -56,7 +59,7 @@
 #'   \code{\link{FeatSelControlSequential}}, \code{\link{FeatSelControlGA}}.
 #' @name FeatSelControl
 #' @rdname FeatSelControl
-#' @aliases FeatSelControlExhaustive FeatSelControlRandom FeatSelControlSequential
+#' @aliases FeatSelControlExhaustive FeatSelControlRandom FeatSelControlSequential FeatSelControlGA
 NULL
 
 makeFeatSelControl = function(same.resampling.instance, maxit, max.features, ..., cl) {

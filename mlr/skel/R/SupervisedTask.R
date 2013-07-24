@@ -36,6 +36,19 @@
 #' @name SupervisedTask
 #' @rdname SupervisedTask
 #' @aliases ClassifTask RegrTask
+#' @examples
+#' library(mlbench)
+#' data(BostonHousing)
+#' RegrTask <- makeRegrTask(data = BostonHousing, target = "medv")
+#' 
+#' ClassifTask <- makeClassifTask(data = iris, target = "Species")
+#' 
+#' ## an example of a classification task with more than those standard arguments:
+#' library(mlbench)
+#' data(Ionosphere)
+#' blocks <- factor(c(rep(1, 51), rep(2, 300)))
+#' ClassifTask <- makeClassifTask(id = "myIonosphere", data = Ionosphere, target = "Class", 
+#'                                positive = "good", blocking = blocks)
 NULL
 
 makeSupervisedTask = function(type, id, data, target, blocking, positive, check.data) {
