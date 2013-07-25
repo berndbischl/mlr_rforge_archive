@@ -20,7 +20,7 @@ makeRLearner.regr.randomForest = function() {
     par.vals = list(
       se.method = "bootstrap",
       nr.of.bootstrap.samples = 5L
-    )
+    ),
     missings = FALSE,
     numerics = TRUE,
     factors = TRUE,
@@ -38,13 +38,11 @@ trainLearner.regr.randomForest = function(.learner, .task, .subset, .weights, ..
 
   # we have to do some preprocessing here if we need the standard error
   if (.learner$predict.type == "se") {
-    
     train = getTaskData(.task, .subset)
     models = list()
 
     if (par.vals$se.method %in% c("bootstrap", "noisy.bootstrap")) {
       # set some params for bootstraping
-      # FIXME: make parameters out of this 
       numberOfBootstraps = par.vals[["nr.of.bootstrap.samples"]]
       bootstrapSize = nrow(train)
 
@@ -54,15 +52,17 @@ trainLearner.regr.randomForest = function(.learner, .task, .subset, .weights, ..
       # determine whether we work with reduced ensemble size (noisy bootstrap) or not
       ntree = if (par.vals$se.method == "bootstrap") par.vals$ntree else par.vals$ntree.for.se
 
-      print("Fitting bootstrap models.")
       # fit models on the bootstrap samples
       models = apply(samplesIdx, 2, function(bootstrapIdx) {
-        randomForest(f, data=train[bootstrapIdx,], keep.forest=TRUE, ...)
+        randomForest(f, data=train[bootstrapIdx,],...)
       })
+
+      # save models in attrribute
+      attr(m, "mlr.se.bootstrap.models") = models
+    } else if (par.vals$se.method == "jackknife") {
+      return (randomForest(f, data=getTaskData(.task, .subset), keep.inbag=TRUE, ...))
     }
-    # save models in attrribute
-    attr(m, "mlr.se.bootstrap.models") = models
-  }
+  } 
   return(m)
 }
 
@@ -70,7 +70,6 @@ trainLearner.regr.randomForest = function(.learner, .task, .subset, .weights, ..
 predictLearner.regr.randomForest = function(.learner, .model, .newdata, ...) {
   if (.learner$predict.type == "se") {
     par.vals = .learner$par.vals
-    print("Computing standard error...")
     model = .model$learner.model
     seFun = getSEFun(par.vals$se.method)
     seFun(.learner, .model, .newdata, ...)
@@ -97,8 +96,6 @@ getSupportedSEEstimators = function() {
 #' bootstrap estimator of the standard error
 bootstrapStandardError = function(.learner, .model, .newdata, ...) {
     # copy learner and change response type
-    print("Entering bootstrap SE method")
-
     par.vals = .learner$par.vals
     learner = .learner
     learner = setPredictType(learner, "response")
@@ -106,7 +103,7 @@ bootstrapStandardError = function(.learner, .model, .newdata, ...) {
     models = attr(model$learner.model, "mlr.se.bootstrap.models")
     B = length(models)
     R = par.vals$ntree
-    M = par.vals$ntree.for.se
+    M = if(is.null(par.vals$ntree.for.se)) par.vals$ntree else par.vals$ntree.for.se
 
     # make predictions for newdata based on each "bootstrap model"
     preds = lapply(models, function(model) {
@@ -129,7 +126,6 @@ bootstrapStandardError = function(.learner, .model, .newdata, ...) {
     }
 
     if (par.vals$se.method == "noisy.bootstrap") {
-      print("CORRECTING BIAS...")
       # Bias contributed significantly to the error of the biased bootstrap estimator
       # Thus, compute a corrected version
       # FIXME: check if this works properly
@@ -154,8 +150,6 @@ bootstrapStandardError = function(.learner, .model, .newdata, ...) {
 #' Computes the (potentially bias-corrected respcetively noisy)
 #' jackknife estimator of the standard error
 jackknifeStandardError = function(.learner, .model, .newdata, ...) {
-    print("Entering jackknife SE method")
-
     # extract relevant data from
     model = .model$learner.model
 

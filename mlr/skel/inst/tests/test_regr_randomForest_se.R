@@ -10,18 +10,15 @@ test_that("standard error should always be positive", {
 	test.set = BostonHousing[test.set.idx,]
 
 	method.list = names(getSupportedSEEstimators())
-
-	ntree.list = c(50)	
+	
 	for (method in method.list) {
-		cat("method:", method, "\n")
-		cat("ntree:", ntree, "\n")
 		task = makeRegrTask(data=train.set, target="medv")
 		learner = makeLearner("regr.randomForest", 
 			predict.type="se", 
-			ntree=50, 
-			ntree.for.se=20, 
+			ntree=30, 
+			ntree.for.se=20,
+			se.method=method,
 			nr.of.bootstrap.samples=5,
-			se.method="jackknife",
 			keep.inbag=TRUE)
 		model = train(learner, task)
 		preds = predict(model, newdata=test.set)
