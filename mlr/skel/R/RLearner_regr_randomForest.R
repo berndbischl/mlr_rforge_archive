@@ -5,9 +5,9 @@ makeRLearner.regr.randomForest = function() {
     package = "randomForest",
     par.set = makeParamSet(
       makeIntegerLearnerParam(id="ntree", default=500L, lower=1L),
-      # FIXME: think about the following two params
-      makeIntegerLearnerParam(id="ntree_for_sd", default=100L, lower=1L),
-      makeDiscreteLearnerParam(id="se_method", default="bootstrap", values=c("bootstrap", "jackknife", "noisy.bootstrap")),
+      makeIntegerLearnerParam(id="ntree.for.se", default=100L, lower=1L),
+      makeDiscreteLearnerParam(id="se.method", default="bootstrap", values=c("bootstrap", "jackknife", "noisy.bootstrap")),
+      makeIntegerLearnerParam(id="nr.of.bootstrap.samples", default=5L, lower=1L),
       makeIntegerLearnerParam(id="mtry", lower=1L),
       makeLogicalLearnerParam(id="replace", default=TRUE),
       makeIntegerLearnerParam(id="sampsize", lower=1L),
@@ -16,7 +16,11 @@ makeRLearner.regr.randomForest = function() {
       makeLogicalLearnerParam(id="importance", default=FALSE),
       makeLogicalLearnerParam(id="localImp", default=FALSE),
       makeLogicalLearnerParam(id="keep.inbag", default=FALSE)
-    ), 
+    ),
+    par.vals = list(
+      se.method = "bootstrap",
+      nr.of.bootstrap.samples = 5L
+    )
     missings = FALSE,
     numerics = TRUE,
     factors = TRUE,
@@ -28,38 +32,33 @@ makeRLearner.regr.randomForest = function() {
 #' @S3method trainLearner regr.randomForest
 trainLearner.regr.randomForest = function(.learner, .task, .subset, .weights, ...) {
   f = getTaskFormula(.task)
+  par.vals = .learner$par.vals
 
   m = randomForest(f, data=getTaskData(.task, .subset), ...)
 
   # we have to do some preprocessing here if we need the standard error
   if (.learner$predict.type == "se") {
-    par.vals = list(...)
+    
     train = getTaskData(.task, .subset)
     models = list()
 
-    if (par.vals$se_method %in% c("bootstrap", "noisy.bootstrap")) {
+    if (par.vals$se.method %in% c("bootstrap", "noisy.bootstrap")) {
       # set some params for bootstraping
       # FIXME: make parameters out of this 
-      numberOfBootstraps = 5
+      numberOfBootstraps = par.vals[["nr.of.bootstrap.samples"]]
       bootstrapSize = nrow(train)
 
       # generate bootstrap samples
       samplesIdx = replicate(numberOfBootstraps, sample(1:bootstrapSize, replace=TRUE))
 
       # determine whether we work with reduced ensemble size (noisy bootstrap) or not
-      ntree = if (par.vals$se_method == "bootstrap") par.vals$ntree else par.vals$ntree_for_sd
+      ntree = if (par.vals$se.method == "bootstrap") par.vals$ntree else par.vals$ntree.for.se
 
       print("Fitting bootstrap models.")
       # fit models on the bootstrap samples
       models = apply(samplesIdx, 2, function(bootstrapIdx) {
         randomForest(f, data=train[bootstrapIdx,], keep.forest=TRUE, ...)
       })
-    } else {
-      # prepare models for jackknife method
-      for (i in 1:nrow(train)) {
-        # necessarily keep forest and keep track which samples are in-bag
-        models = randomForest(f, data=train[-i,], keep.forest=TRUE, keep.inbag=TRUE, ...)
-      }
     }
     # save models in attrribute
     attr(m, "mlr.se.bootstrap.models") = models
@@ -73,26 +72,29 @@ predictLearner.regr.randomForest = function(.learner, .model, .newdata, ...) {
     par.vals = .learner$par.vals
     print("Computing standard error...")
     model = .model$learner.model
-    print(model)
-    seFun = getSEFun(par.vals$se_method)
+    seFun = getSEFun(par.vals$se.method)
     seFun(.learner, .model, .newdata, ...)
   } else {
     predict(.model$learner.model, newdata=.newdata, ...)
   }
 }
 
+#' helper method. Returns SE-estimator function
 getSEFun = function(method) {
   supportedSEEstimators = getSupportedSEEstimators()
   checkArg(method, "character", len=1L, choices=names(supportedSEEstimators))
   return (supportedSEEstimators[[method]])
 }
 
+#' helper function. Returns list of supported SE-estimators
 getSupportedSEEstimators = function() {
   list("bootstrap" = bootstrapStandardError,
        "noisy.bootstrap" = bootstrapStandardError,
        "jackknife" = jackknifeStandardError)
 }
 
+#' Computes the (potentially bias-corrected respcetively noisy)
+#' bootstrap estimator of the standard error
 bootstrapStandardError = function(.learner, .model, .newdata, ...) {
     # copy learner and change response type
     print("Entering bootstrap SE method")
@@ -101,14 +103,10 @@ bootstrapStandardError = function(.learner, .model, .newdata, ...) {
     learner = .learner
     learner = setPredictType(learner, "response")
 
-    #stop("implementing...")
     models = attr(model$learner.model, "mlr.se.bootstrap.models")
     B = length(models)
     R = par.vals$ntree
-    M = par.vals$ntree_for_sd
-    catf("Number of bootstrap samples: %i", B)
-    catf("Reduced number of ensembles: %i", R)
-    catf("Number of ensembles        : %i", M)
+    M = par.vals$ntree.for.se
 
     # make predictions for newdata based on each "bootstrap model"
     preds = lapply(models, function(model) {
@@ -119,14 +117,10 @@ bootstrapStandardError = function(.learner, .model, .newdata, ...) {
     aggr_responses = as.data.frame(lapply(preds, function(p) p$aggregate))
     names(aggr_responses) = 1:B
 
-    print(aggr_responses)
     mean_responses = rowMeans(aggr_responses)
-    cat("MEAN responses:")
-    print(mean_responses)
 
     ind_responses = lapply(preds, function(p) p$individual)
     names(ind_responses) = NULL
-    #print(ind_responses)
 
     # compute (brute-force) bootstrap standard error
     res = matrix(NA, ncol=2, nrow=nrow(.newdata))
@@ -134,7 +128,7 @@ bootstrapStandardError = function(.learner, .model, .newdata, ...) {
       res[i,] = c(mean_responses[i], sum((aggr_responses[i,] - mean_responses[i])^2)/(B-1))
     }
 
-    if (par.vals$se_method == "noisy.bootstrap") {
+    if (par.vals$se.method == "noisy.bootstrap") {
       print("CORRECTING BIAS...")
       # Bias contributed significantly to the error of the biased bootstrap estimator
       # Thus, compute a corrected version
@@ -146,19 +140,50 @@ bootstrapStandardError = function(.learner, .model, .newdata, ...) {
             bias = bias + (ind_responses[[b]][i,r] - aggr_responses[i,b])^2
           }
         }
-        # FIXME: factor missing
+
         bias = bias * ((1/R) - (1/M))/(B*R*(R-1))
-        # catf("BIAS is %f", bias)
         res[i,2] = res[i,2] - bias
       }
     }
 
     res[,2] = sqrt(res[,2])
 
-    print(res)
+    return(res)
 }
 
-jackknifeStandardError = function(.learner, .model, .newdata) {
+#' Computes the (potentially bias-corrected respcetively noisy)
+#' jackknife estimator of the standard error
+jackknifeStandardError = function(.learner, .model, .newdata, ...) {
     print("Entering jackknife SE method")
-    stop("NOT IMPLEMENTED YET")
+
+    # extract relevant data from
+    model = .model$learner.model
+
+    # inbag needed to determine which observation was included in the training
+    # of each ensemble member
+    inbag = model$inbag
+    n = nrow(inbag)
+
+    # keep predictions of all ensemble members
+    rf.preds = predict(model, .newdata, predict.all=TRUE)
+
+    # determine number of participating ensembles
+    M = lapply(1:n, function(i) sum(abs(inbag[i,]-1)))
+
+    # determine ensemlbe members, where observation i is not included 
+    idx = lapply(1:n, function(i) which(inbag[i,] == 0))
+
+    # estimate 
+    res = matrix(NA, ncol=n, nrow=nrow(.newdata))
+    for (j in 1:nrow(.newdata)) {
+      for (i in 1:n) {
+        res[j,i] = sum(rf.preds$individual[j,idx[[i]]]) / M[[i]]
+      }
+    }
+
+    mean.responses = rf.preds$aggregate
+    se.preds = apply(res, 1, function(row) {
+      sum((row - mean(row))^2)  / n
+    })
+    return(cbind(mean.responses, se.preds))
 }
