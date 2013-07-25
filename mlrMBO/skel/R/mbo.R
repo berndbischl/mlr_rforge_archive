@@ -34,7 +34,7 @@
 #' @export 
 
 mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...) {
-  checkStuff(par.set, design, learner, control)
+  checkStuff(fun, par.set, design, learner, control)
   loadPackages(control)
 
   # save currently set options

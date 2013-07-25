@@ -1,7 +1,8 @@
 #FIXME check whether model (and settings), ctriteria, optimizer, noisy 
 # work together
 # check whether the user selected valid options / combinations
-checkStuff = function(par.set, design, learner, control) {
+checkStuff = function(fun, par.set, design, learner, control) {
+  checkArg(fun, "function")
   # FIXME: we wil probably remove learnerparams anyeway
   if(any(sapply(par.set$pars, function(x) inherits(x, "LearnerParam"))))
     stop("No par.set parameter in 'mbo' can be of class 'LearnerParam'! Use basic parameters instead to describe you region of interest!")
