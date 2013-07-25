@@ -1,5 +1,7 @@
 context("factor variables")
 
+# FIXME: add a text with discrete and factor vecs
+
 test_that("mbo works with factor variables", {
   f = function(x) {
     if (x$foo == "a")
