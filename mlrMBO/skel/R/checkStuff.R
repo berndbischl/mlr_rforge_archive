@@ -8,9 +8,7 @@ checkStuff = function(fun, par.set, design, learner, control) {
   if(any(sapply(par.set$pars, function(x) inherits(x, "LearnerParam"))))
     stop("No par.set parameter in 'mbo' can be of class 'LearnerParam'! Use basic parameters instead to describe you region of interest!")
   if (any(is.infinite(c(getLower(par.set), getUpper(par.set)))))
-    stop("mbo requires finite box constraints!")
-  if (control$propose.points > 1L) 
-    stop("Currently only 1 point can be proposed per iteration!")        
+    stop("mbo requires finite box constraints!")       
   if (control$infill.opt == "cmaes" &&
       !all(sapply(par.set$pars, function(p) p$type) %in% c("numeric", "integer", "numericvector", "integervector")))
     stop("Optimizer CMAES can only be applied to numeric, integer, numericvector, integervector parameters!")

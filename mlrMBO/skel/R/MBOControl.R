@@ -43,6 +43,17 @@
 #' @param propose.points [\code{integer(1)}]\cr 
 #'   Number of proposed points after optimizing the surrogate model with \code{infill.opt}.   
 #'   Default is 1.
+#' @param multipoint.infill.opt [\code{character(1)}]\cr
+#'   Method used for proposal of multiple infill points. Possible values are:
+#'   \dQuote{random}: Use a large design of points and evaluate the surrogate model at each. 
+#'   The best \code{propose.points} are selected.
+#'   Default is \code{random}.
+#' @param multipoint.infill.crit [\code{character(1)}]\cr
+#'   How should the infill points be rated. Possible values are:
+#'   \dQuote{mean}: Mean response.
+#' @param multipoint.control [\code{list}]\cr
+#'   Control object for multipoint proposal method. Contains additional parameters for
+#'   the multipoint method.
 #' @param infill.crit [\code{character(1)}]\cr
 #'   How should infill points be rated. Possible parameter values are:
 #'   \dQuote{mean}: Mean response.
@@ -98,6 +109,9 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
   impute, impute.errors=FALSE, silent=TRUE,
   init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
   seq.loops=100, propose.points=1,
+  multipoint.infill.crit="mean",
+  multipoint.infill.opt="random",
+  multipoint.control=list(),
   infill.crit="mean", infill.opt="design", infill.opt.restarts=1L,
   seq.design.points=10000,
   cmaes.control=list(),                          
@@ -119,6 +133,10 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
   infill.opt.restarts = convertInteger(infill.opt.restarts)
   checkArg(infill.opt.restarts, "integer", len=1L, na.ok=FALSE)
   
+  checkArg(multipoint.infill.opt, choices=c("random"))
+  checkArg(multipoint.infill.crit, choices=c("mean"))
+  checkArg(multipoint.control, "list")
+
   if (missing(impute)) 
     impute = function(x, y, opt.path) 
       stopf("Infeasible y=%s value encountered at %s", as.character(y), listToShortString(x))
@@ -137,6 +155,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
   checkArg(seq.loops, "integer", len=1L, na.ok=FALSE, lower=1L)
   propose.points = convertInteger(propose.points)
   checkArg(propose.points, "integer", len=1L, na.ok=FALSE, lower=1L)
+
   seq.design.points = convertInteger(seq.design.points)
   checkArg(seq.design.points, "integer", len=1L, na.ok=FALSE, lower=1L) 
   # FIXME: remove this for now
@@ -174,6 +193,9 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
     init.design.args = init.design.args,
     infill.crit = infill.crit,
     infill.opt = infill.opt,
+    multipoint.infill.crit = multipoint.infill.crit,
+    multipoint.infill.opt = multipoint.infill.opt,
+    multipoint.control = multipoint.control,
     cmaes.control = cmaes.control,
     seq.loops = seq.loops, 
     propose.points = propose.points,
@@ -206,8 +228,13 @@ print.MBOControl = function(x, ...) {
   catf("Function type               : %s", noisy)
   catf("Init. design                : %i points", x$init.design.points)
   catf("Iterations                  : %i", x$seq.loops)
-  catf("Infill criterion            : %s", x$infill.crit)
-  catf("Infill optimizer            : %s", x$infill.opt)
+  if (x$propose.points == 1) {
+    catf("Infill criterion            : %s", x$infill.crit)
+    catf("Infill optimizer            : %s", x$infill.opt)
+  } else {
+    catf("Multipoint infill criterion : %s", x$multipoint.infill.crit)
+    catf("Multipoint infill optimizer : %s", x$multipoint.infill.opt)
+  }
   catf("Infill optimizer restarts   : %i", x$infill.opt.restarts)
   catf("Final point by              : %s", x$final.point)
 }

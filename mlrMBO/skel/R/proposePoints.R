@@ -15,20 +15,35 @@ proposePoints = function(model, par.set, control, opt.path) {
   if (inherits(model, "FailureModel"))
     return(generateDesign(control$propose.points, par.set, randomLHS, ints.as.num=TRUE))
   
-  # determine infill criterion
-  infill.crit.fun = switch(control$infill.crit,
-    mean = infillCritMeanResponse,
-    ei = infillCritEI,
-    aei = infillCritAEI
-  )
-  
-  # determine infill optimization strategy
-  infill.opt = switch(control$infill.opt,
-    design = infillOptDesign,
-    cmaes = infillOptCMAES
-    #EI       = infillOptEI
-  )
+  if (control$propose.points == 1L) {
+    # determine infill criterion
+    infill.crit.fun = switch(control$infill.crit,
+      mean = infillCritMeanResponse,
+      ei = infillCritEI,
+      aei = infillCritAEI
+    )
+    
+    # determine infill optimization strategy
+    infill.opt.fun = switch(control$infill.opt,
+      design = infillOptDesign,
+      cmaes = infillOptCMAES
+      #EI       = infillOptEI
+    )
 
-  design = as.data.frame(opt.path)
-  infill.opt(infill.crit.fun, model, control, par.set, opt.path, design)
+    design = as.data.frame(opt.path)
+    return(infill.opt.fun(infill.crit.fun, model, control, par.set, opt.path, design))
+  } else {
+    # otherwise propose multiple points
+    multipoint.infill.crit.fun = switch(control$multipoint.infill.crit,
+      mean = infillCritMeanResponse
+    )
+
+    multipoint.infill.opt.fun = switch(control$multipoint.infill.opt,
+      random = multipointInfillOptRandom
+    )
+
+    multipoint.infill.opt.fun(multipoint.infill.crit.fun, model, control, par.set, opt.path, design)
+  }
+
+
 }
