@@ -1,4 +1,4 @@
-﻿jakob: 
+jakob: 
 - s(x) von RF
 - parallel die fitness evaluieren
 - [Nadja] Immer das letzte funktionsfähige Modell speichern und falls aktuelles nicht läuft, auf das letzte zugreifen. Auch bei MBO-Ausgabe soll immer ein funktionsfähige Modell ausgegeben werden
@@ -32,3 +32,22 @@ noch keiner:
 später:
 - tuning von surrogat modellen, wie machen wir es effizient?
 - wie nimmt man modelle die kein s(x) bieten?
+
+
+1) multipoint proposal: nur das interface schaffen und eine dämliche methode rein
+2) factor variablen müssen gehen (betrrift modelund model optimizer)
+3) noisy optimization muss gehen (betrifft model, criterium, optimizer und punkte am ende)
+4) dependent params müssen gehen: betrifft model, optimierer 
+
+cases wo man mbo benutzen kann. was ist dann drin?
+- deterministisch / noisy
+- infill criteria
+- reellwertige X / gemischt (integer, real, factor) / dependent paramaters
+- single opoinmt / multi point
+- error handling
+
+
+
+
+
+
