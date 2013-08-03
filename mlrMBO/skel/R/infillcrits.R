@@ -23,6 +23,13 @@ infillCritMeanResponse = function(points, model, control, par.set, design) {
   ifelse(control$minimize, 1, -1) * predict(model, newdata=points)$data$response
 }
 
+# model uncertainty 
+# on its own not really useful for anything I suppose...
+infillCritStandardError = function(points, model, control, par.set, design) {
+  predict(model, newdata=points)$data$se
+}
+
+
 # expected improvement
 # useful for deterministic
 infillCritEI = function(points, model, control, par.set, design) {
