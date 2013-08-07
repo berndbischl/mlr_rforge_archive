@@ -169,7 +169,8 @@ print.MBOResult = function(x, ...) {
   catf(paramValueToString(op$par.set, x$x))
   catf("Objective: %s = %.3f\n", op$y.names[1], x$y)
   catf("Optimization path")
-  catf("%i + %i entries in total, displaying last 10:",
-    sum(op$env$dob == 0), length(op$env$dob))
+  n1 = sum(op$env$dob == 0)
+  n2 = length(op$env$dob) - n1
+  catf("%i + %i entries in total, displaying last 10 (or less):", n1, n2)
   print(tail(as.data.frame(x$op), 10))
 }
