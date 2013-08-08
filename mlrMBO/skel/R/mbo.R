@@ -55,7 +55,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
 	# generate initial design if none provided
 	design.x = design
   if (is.null(design)) {
-    design.x = generateDesign(control$init.design.points, par.set,
+    design.x = generateDesign(control$n.init.design.points, par.set,
       control$init.design.fun, control$init.design.args, trafo=FALSE)
   } else {
     if (attr(design, "trafo"))
@@ -104,7 +104,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
 	}
 
 	# do the mbo magic
-  for (loop in seq_len(control$seq.loops)) {
+  for (loop in seq_len(control$iters)) {
 
 		# impute new points and evaluete target function
     prop.design = proposePoints(model, par.set, control, opt.path)
@@ -127,10 +127,10 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   design = getTaskData(rt, target.extra=TRUE)$data
   final.index = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
 
-  if (control$final.evals > 0L) {
+  if (control$n.final.evals > 0L) {
 		# do some final evaluations and compute mean of target fun values
-    prop.design = design[rep(final.index, control$final.evals),,drop=FALSE]
-    xs = lapply(seq_len(prop.design), function(i) ParamHelpers:::dfRowToList(prop.design, par.set, i))
+    prop.design = design[rep(final.index, control$n.final.evals),,drop=FALSE]
+    xs = lapply(seq_len(nrow(prop.design)), function(i) ParamHelpers:::dfRowToList(prop.design, par.set, i))
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts, ...)
     y = mean(ys)
     x = xs[[1L]]

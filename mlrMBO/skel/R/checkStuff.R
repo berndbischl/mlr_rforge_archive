@@ -22,10 +22,4 @@ checkStuff = function(fun, par.set, design, learner, control) {
   #  if (control$infill.opt == "EI" &&
   #          !(class(learner) %in% c("regr.km", "regr.kmforrester")))
   #      stop("Expected improvement can currently only be used with learner 'regr.km' and 'regr.kmforrester'!")
-  if (max(control$save.model.at) > control$seq.loops)
-    stopf("Cannot save model at loop %i when just %i sequential.loops!",
-      max(control$save.model.at), control$seq.loops)
-  if (max(control$resample.at) > control$seq.loops)
-    stopf("Cannot resample model at loop %i when just %i sequential.loops!",
-      max(control$resample.at), control$seq.loops)
 }

@@ -17,7 +17,7 @@
 # @return [\code{data.frame}]. One proposed point that should be evaluated.
 
 # mean response of model
-multipointInfillOptRandom = function(infill.crit, model, control, par.set, opt.path, design) {
+multipointInfillOptRandom = function(infill.crit.funs, model, control, par.set, opt.path, design) {
 	opt.control = control$multipoint.control
   	newdesign = generateDesign(control$seq.design.points, par.set, randomLHS, ints.as.num=TRUE)
   	y = infill.crit(newdesign, model, control, par.set, design)

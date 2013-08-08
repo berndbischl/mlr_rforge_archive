@@ -39,7 +39,7 @@ infillOptCMAES = function(infill.crit, model, control, par.set, opt.path, design
     infill.crit(newdata, model, control, par.set, design)
   }
 
-  results = vector("list", control$Infill.opt.restarts)
+  results = vector("list", control$infill.opt.restarts)
   # restart optimizer, first start point is currently best
   for (i in 1:control$infill.opt.restarts) {
     if (i == 1) {

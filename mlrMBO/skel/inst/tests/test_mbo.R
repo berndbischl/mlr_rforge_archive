@@ -11,7 +11,7 @@ test_that("mbo works with rf", {
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.randomForest")
-  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, save.model.at=c(0,5))
+  ctrl = makeMBOControl(iters=5, seq.design.points=100, save.model.at=c(0,5))
   or = mbo(f, ps, des, learner, ctrl, show.info=FALSE)
   expect_true(!is.na(or$y))
   expect_equal(or$y, f(or$x))
@@ -24,17 +24,14 @@ test_that("mbo works with rf", {
   expect_equal(length(or$models[[2]]$subset), 15)
   
   # check errors
-  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, infill.crit="ei")
-  expect_error(mbo(f, ps, des, learner, ctrl), "But this learner does not seem to support prediction of standard errors!")
-  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100)
+  ctrl = makeMBOControl(iters=5, seq.design.points=100, infill.crit="ei")
+  expect_error(mbo(f, ps, des, learner, ctrl), "must be set to 'se'")
+  ctrl = makeMBOControl(iters=5, seq.design.points=100)
   
   f2=makeMBOFunction(function(x) x^2)
   expect_error(mbo(f2, ps, des, learner, ctrl), "univariate")
   
-  ctrl = makeMBOControl(seq.loops=5, save.model.at=1:10)
-  expect_error(mbo(f, ps, des, learner, ctrl), "Cannot save model")
-  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100)
-  
+  ctrl = makeMBOControl(iters=5, seq.design.points=100)
   learner = makeLearner("classif.randomForest")
   expect_error(mbo(f, ps, des, learner, ctrl), "mbo requires regression learner")
   learner = makeLearner("regr.randomForest")
@@ -62,7 +59,7 @@ test_that("mbo works with rf", {
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.randomForest")
-  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100)
+  ctrl = makeMBOControl(iters=5, seq.design.points=100)
   or = mbo(f, ps, des, learner, ctrl, show.info=FALSE)
   expect_true(!is.na(or$y))
   expect_equal(getOptPathLength(or$opt.path), 15)
@@ -75,12 +72,12 @@ test_that("mbo works with rf", {
   expect_equal(names(or$x), names(ps$pars))
 
   # check best.predicted
-  ctrl = makeMBOControl(seq.loops=5, seq.design.points=100, final.point="best.predicted")
+  ctrl = makeMBOControl(iters=5, seq.design.points=100, final.method="best.predicted")
   or = mbo(f, ps, des, learner, ctrl, show.info=FALSE)
   expect_true(!is.na(or$y))
   expect_equal(getOptPathLength(or$opt.path), 15)
 
-  ctrl = makeMBOControl(init.design.points=10, seq.loops=5, seq.design.points=100)
+  ctrl = makeMBOControl(n.init.design.points=10, iters=5, seq.design.points=100)
   or = mbo(f, ps, des=NULL, learner, ctrl, show.info=FALSE)
   expect_true(!is.na(or$y))
   expect_equal(getOptPathLength(or$opt.path), 15)
@@ -94,12 +91,12 @@ test_that("mbo works with rf", {
     makeNumericParam("w", lower=-5, upper=5) 
   )
   learner = makeLearner("regr.randomForest")
-  ctrl = makeMBOControl(init.design.points=10, seq.loops=3, infill.opt="cmaes")
+  ctrl = makeMBOControl(n.init.design.points=10, iters=3, infill.opt="cmaes")
   or = mbo(f, ps, des=NULL, learner, ctrl, show.info = FALSE)
   expect_true(!is.na(or$y))
   expect_equal(getOptPathLength(or$opt.path), 10 + 3)
-  ctrl = makeMBOControl(init.design.points=10, seq.loops=3, infill.opt="cmaes", 
-    final.point="best.predicted")
+  ctrl = makeMBOControl(n.init.design.points=10, iters=3, infill.opt="cmaes", 
+    final.method="best.predicted")
   or = mbo(f, ps, des=NULL, learner, ctrl, show.info=FALSE)
   expect_equal(getOptPathLength(or$opt.path), 10 + 3)
 })

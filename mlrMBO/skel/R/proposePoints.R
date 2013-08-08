@@ -13,9 +13,9 @@
 proposePoints = function(model, par.set, control, opt.path) {
   # generate a few random points if model failed
   if (inherits(model, "FailureModel"))
-    return(generateDesign(control$propose.points, par.set, randomLHS, ints.as.num=TRUE))
+    return(generateDesign(control$n.propose.points, par.set, randomLHS, ints.as.num=TRUE))
 
-  if (control$propose.points == 1L) {
+  if (control$n.propose.points == 1L) {
     # determine infill criterion
     infill.crit.fun = switch(control$infill.crit,
       mean = infillCritMeanResponse,
@@ -33,16 +33,12 @@ proposePoints = function(model, par.set, control, opt.path) {
     design = as.data.frame(opt.path)
     return(infill.opt.fun(infill.crit.fun, model, control, par.set, opt.path, design))
   } else {
-    # otherwise propose multiple points
-    multipoint.infill.crit.fun = switch(control$multipoint.infill.crit,
-      mean = infillCritMeanResponse
-    )
 
     multipoint.infill.opt.fun = switch(control$multipoint.infill.opt,
       random = multipointInfillOptRandom
     )
 
-    multipoint.infill.opt.fun(multipoint.infill.crit.fun, model, control, par.set, opt.path, design)
+    multipoint.infill.opt.fun(model, control, par.set, opt.path, design)
   }
 
   # FIXME ??
