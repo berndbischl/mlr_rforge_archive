@@ -53,35 +53,35 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
   opt.path = makeOptPathDF(par.set, y.name, control$minimize)
 
 	# generate initial design if none provided
-	design.x = design
   if (is.null(design)) {
     design.x = generateDesign(control$n.init.design.points, par.set,
       control$init.design.fun, control$init.design.args, trafo=FALSE)
   } else {
+    design.x = design
     if (attr(design, "trafo"))
       stop("Design must not be transformed before call to 'mbo'. Set 'trafo' to FALSE in generateDesign.")
 	}
 
 	# compute y-values if missing or initial design generated above
-  if (y.name %nin% colnames(design.x)) {
-		#catf("Computing y column for design 'design'. None provided.\n")
+  if (y.name %in% colnames(design.x)) {
+    ys = design[, y.name]
+    design.x = design[, colnames(design) != y.name, drop=FALSE]
+	} else {
+    #catf("Computing y column for design 'design'. None provided.\n")
     xs = lapply(seq_len(nrow(design.x)), function(i) ParamHelpers:::dfRowToList(design.x, par.set, i))
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts, ...)
-    design = design.x
-    design[, y.name] = ys
-	}
-	ys = design[, y.name]
-
-	# remove y
-  design.x = design[, colnames(design) != y.name, drop=FALSE]
+    design = cbind(design.x, setColNames(data.frame(ys), y.name))
+  }
 
 	# sanity check: are paramter values and colnames of design consistent?
+  # FIXME this check is only required for user provided designs
   cns = colnames(design.x)
   if(!setequal(cns, rep.pids))
   	stop("Column names of design 'design' must match names of parameters in 'par.set'!")
 
   # reorder
   design.x = design.x[, rep.pids, drop=FALSE]
+  # FIXME this is the second time we do this ... maybe reorder code?
   xs = lapply(seq_len(nrow(design.x)), function(i) ParamHelpers:::dfRowToList(design.x, par.set, i))
 
 	# add initial values to optimization path

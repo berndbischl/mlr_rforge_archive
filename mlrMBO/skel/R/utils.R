@@ -8,8 +8,7 @@
 #   List of repaired points.
 makeMBOTask = function(design, y.name, control) {
   design$dob = design$eol = NULL
-  if (any(sapply(design, is.integer)))
-    design = as.data.frame(lapply(design, function(x) if(is.integer(x)) as.numeric(x) else x))
+  design = convertDfCols(design, ints.as.num = TRUE)
   #if (control$rank.trafo)
   #  design[,y.name] = rank(design[,y.name])
   makeRegrTask(target=y.name, data=design)
@@ -26,13 +25,12 @@ makeMBOTask = function(design, y.name, control) {
 # @return [\code{list}]:
 #   List of repaired points.
 repairPoint = function(par.set, x) {
+  # FIXME do we need special NA handling here?
+  # FIXME removed warning, do we need it?
   Map(function(p, v) {
     if (p$type %in% c("numeric", "numericvector", "integer", "integervector")) {
-      if (any(v < p$lower | v > p$upper)) {
-        warningf("Repairing value for %s: %s", p$id, as.character(v))
-        v = pmax(p$lower, v)
-        v = pmin(p$upper, v)
-      }
+      #warningf("Repairing value for %s: %s", p$id, as.character(v))
+      return(pmax(pmin(v, p$upper), p$lower))
     }
     return(v)
   }, par.set$pars, x)
