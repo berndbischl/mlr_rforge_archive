@@ -1,3 +1,5 @@
+#FIXME: add lcb lambda param? where to store all this?
+
 #' Creates a control object for MBO optimization.
 #'
 #' @param y.name [\code{character(1)}]\cr 
@@ -110,8 +112,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
   impute, impute.errors=FALSE, silent=TRUE,
   n.init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
   iters=100, n.propose.points=1,
-  multipoint.infill.crit="mean",
-  multipoint.infill.opt="random",
+  multipoint.method="random",
   multipoint.control=list(),
   infill.crit="mean", infill.opt="design", infill.opt.restarts=1L,
   seq.design.points=10000,
@@ -129,13 +130,12 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
   checkArg(minimize, "logical", len=1L, na.ok=FALSE)
 	checkArg(noisy, "logical", len=1L, na.ok=FALSE)
   
-  checkArg(infill.crit, choices=c("mean", "ei", "aei"))
+  checkArg(infill.crit, choices=c("mean", "ei", "aei", "lcb"))
   checkArg(infill.opt, choices=c("design", "cmaes"))
   infill.opt.restarts = convertInteger(infill.opt.restarts)
   checkArg(infill.opt.restarts, "integer", len=1L, na.ok=FALSE)
   
-  checkArg(multipoint.infill.opt, choices=c("random"))
-  checkArg(multipoint.infill.crit, choices=c("mean"))
+  checkArg(multipoint.method, choices=c("random"))
   checkArg(multipoint.control, "list")
 
   if (missing(impute)) 
@@ -193,8 +193,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
     init.design.args = init.design.args,
     infill.crit = infill.crit,
     infill.opt = infill.opt,
-    multipoint.infill.crit = multipoint.infill.crit,
-    multipoint.infill.opt = multipoint.infill.opt,
+    multipoint.method = multipoint.method,
     multipoint.control = multipoint.control,
     cmaes.control = cmaes.control,
     iters = iters, 
@@ -228,13 +227,13 @@ print.MBOControl = function(x, ...) {
   catf("Function type               : %s", noisy)
   catf("Init. design                : %i points", x$n.init.design.points)
   catf("Iterations                  : %i", x$iters)
+  catf("Points proposed per iter:   : %i", x$n.propose.points)
   if (x$n.propose.points == 1) {
-    catf("Infill criterion            : %s", x$infill.crit)
-    catf("Infill optimizer            : %s", x$infill.opt)
-  } else {
-    catf("Multipoint infill criterion : %s", x$multipoint.infill.crit)
-    catf("Multipoint infill optimizer : %s", x$multipoint.infill.opt)
-  }
+  catf("Infill criterion            : %s", x$infill.crit)
+  catf("Infill optimizer            : %s", x$infill.opt)
   catf("Infill optimizer restarts   : %i", x$infill.opt.restarts)
+  } else {
+  catf("Multipoint method           : %s", x$multipoint.method)
+  }
   catf("Final point by              : %s", x$final.method)
 }

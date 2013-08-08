@@ -52,6 +52,18 @@ infillCritEI = function(points, model, control, par.set, design) {
   return(-ei)
 }
 
+
+# lower confidence bound
+# useful for deterministic
+infillCritLCB = function(points, model, control, par.set, design) {
+  maximize.mult = ifelse(control$minimize, 1, -1) 
+  p = predict(model, newdata = points)$data
+  lcb = maximize.mult * (p$response - control$lcb.lambda * p$se)
+  return(lcb)
+}
+
+
+
 # augmented expected improvement, as designed by huang
 # useful for noisy
 infillCritAEI = function(points, model, control, par.set, design) {

@@ -14,7 +14,7 @@ checkStuff = function(fun, par.set, design, learner, control) {
     stop("Optimizer CMAES can only be applied to numeric, integer, numericvector, integervector parameters!")
   if (learner$type != "regr")
     stop("mbo requires regression learner!")
-  if (control$infill.crit %in% c("ei", "aei") && learner$predict.type != "se")
+  if (control$infill.crit %in% c("ei", "aei", "lcb") && learner$predict.type != "se")
     stopf("For infill criterion '%s' predict.type of learner %s must be set to 'se'!%s",
       control$infill.crit, learner$id,
       ifelse(learner$se, "", "\nBut this learner does not seem to support prediction of standard errors!"))

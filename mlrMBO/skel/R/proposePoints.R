@@ -20,7 +20,8 @@ proposePoints = function(model, par.set, control, opt.path) {
     infill.crit.fun = switch(control$infill.crit,
       mean = infillCritMeanResponse,
       ei = infillCritEI,
-      aei = infillCritAEI
+      aei = infillCritAEI,
+      lcb = infillCritLCB
     )
 
     # determine infill optimization strategy
@@ -34,7 +35,7 @@ proposePoints = function(model, par.set, control, opt.path) {
     return(infill.opt.fun(infill.crit.fun, model, control, par.set, opt.path, design))
   } else {
 
-    multipoint.infill.opt.fun = switch(control$multipoint.infill.opt,
+    multipoint.infill.opt.fun = switch(control$multipoint.method,
       random = multipointInfillOptRandom
     )
 
