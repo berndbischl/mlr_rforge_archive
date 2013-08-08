@@ -1,7 +1,7 @@
 # Evaluates target fitness function on given set of points.
 #
-# @param fun [\code{function(x, ...)}]\cr 
-#   Fitness function to minimize. The first argument has to be a list of values. 
+# @param fun [\code{function(x, ...)}]\cr
+#   Fitness function to minimize. The first argument has to be a list of values.
 #   The function has to return a single numerical value.
 # @param par.set [\code{\link[ParamHelpers]{ParamSet}}]\cr
 #   Collection of parameters and their constraints for optimization.
@@ -10,7 +10,7 @@
 # @param opt.path [\code{\link[ParamHelpers]{OptPath}}]\cr
 #   Optimization path to save of type \code{\link[ParamHelpers]{OptPath}}.
 # @param control [\code{\link{MBOControl}}]\cr
-#   Control object for mbo.  
+#   Control object for mbo.
 # @param show.info [\code{logical(1)}]\cr
 #   Show info message after each function evaluation?
 #   Default is \code{TRUE}.
@@ -29,28 +29,28 @@ evalTargetFun = function(fun, par.set, xs, opt.path, control, show.info, oldopts
     if (control$impute.errors) {
       y = try(fun(x, ...), silent=control$silent)
       if (is.error(y))
-        y = as.numeric(NA)
+        y = NA_real_
     } else {
       y = fun(x, ...)
     }
-    if(length(y) > 1) {
+    if(length(y) > 1L) {
       stop("function output is not univariate!")
-    }  
+    }
     if (show.info) {
       dob = opt.path$env$dob
-      dob = if (length(dob) == 0) 0 else max(dob) + 1
-      messagef("[mbo] %i: %s : %s=% .3f", dob, 
+      dob = if (length(dob) == 0L) 0 else max(dob) + 1
+      messagef("[mbo] %i: %s : %s=% .3f", dob,
                paramValueToString(par.set, x), control$y.name, y)
     }
     return(y)
   }
   # restore mlr configuration
   configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
-  ys = sapply(xs, fun2)  
+  ys = sapply(xs, fun2)
   configureMlr(on.learner.error=control$on.learner.error, show.learner.output=control$show.learner.output)
   j = which(is.na(ys) | is.nan(ys) | is.infinite(ys))
-  if (length(j) > 0) {
-    ys[j] = mapply(control$impute, xs[j], ys[j], 
+  if (length(j) > 0L) {
+    ys[j] = mapply(control$impute, xs[j], ys[j],
                    MoreArgs=list(opt.path=opt.path), USE.NAMES=FALSE)
   }
   return(ys)

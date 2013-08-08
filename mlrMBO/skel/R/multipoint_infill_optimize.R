@@ -2,9 +2,9 @@
 
 # General interface
 #
-# @param infill.crit [\code{function}]\cr 
+# @param infill.crit [\code{function}]\cr
 #   Infill criterion function.
-# @param design [\code{data.frame}]\cr 
+# @param design [\code{data.frame}]\cr
 #   Design of already visited points.
 # @param model [\code{\link{WrappedModel}}]\cr
 #   Model fitted on design.
@@ -19,8 +19,7 @@
 # mean response of model
 multipointInfillOptRandom = function(infill.crit, model, control, par.set, opt.path, design) {
 	opt.control = control$multipoint.control
-  	newdesign = generateDesign(control$seq.design.points, par.set, 
-    	randomLHS, ints.as.num=TRUE)
+  	newdesign = generateDesign(control$seq.design.points, par.set, randomLHS, ints.as.num=TRUE)
   	y = infill.crit(newdesign, model, control, par.set, design)
-  	newdesign[sample(1:nrow(newdesign), control$propose.points), , drop=FALSE]
+  	newdesign[sample(nrow(newdesign), control$propose.points), , drop=FALSE]
 }

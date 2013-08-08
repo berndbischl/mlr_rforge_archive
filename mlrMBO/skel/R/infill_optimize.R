@@ -2,9 +2,9 @@
 
 # General interface
 #
-# @param infill.crit [\code{function}]\cr 
+# @param infill.crit [\code{function}]\cr
 #   Infill criterion function.
-# @param design [\code{data.frame}]\cr 
+# @param design [\code{data.frame}]\cr
 #   Design of already visited points.
 # @param model [\code{\link{WrappedModel}}]\cr
 #   Model fitted on design.
@@ -18,17 +18,17 @@
 
 # mean response of model
 infillOptDesign = function(infill.crit, model, control, par.set, opt.path, design) {
-  newdesign = generateDesign(control$seq.design.points, par.set, 
+  newdesign = generateDesign(control$seq.design.points, par.set,
     randomLHS, ints.as.num=TRUE)
   y = infill.crit(newdesign, model, control, par.set, design)
-  newdesign[rank(y, ties.method="random") == 1, , drop=FALSE]
+  newdesign[rank(y, ties.method="random") == 1L, , drop=FALSE]
 }
 
 infillOptCMAES = function(infill.crit, model, control, par.set, opt.path, design) {
   # extract lower and upper bound for params
   low = getLower(par.set)
   upp = getUpper(par.set)
-  
+
   rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
   #eval all points of 1 generation at once
   cmaes.control = control$cmaes.control
@@ -38,7 +38,8 @@ infillOptCMAES = function(infill.crit, model, control, par.set, opt.path, design
     colnames(newdata) = rep.pids
     infill.crit(newdata, model, control, par.set, design)
   }
-  results = list()
+
+  results = vector("list", control$Infill.opt.restarts)
   # restart optimizer, first start point is currently best
   for (i in 1:control$infill.opt.restarts) {
     if (i == 1) {
@@ -50,7 +51,7 @@ infillOptCMAES = function(infill.crit, model, control, par.set, opt.path, design
     results[[i]] = cma_es(par=start, fn=f, lower=low, upper=upp, control=cmaes.control)
   }
   ys = extractSubList(results, "value")
-  j = which(rank(ys, ties.method="random") == 1)
+  j = which(rank(ys, ties.method="random") == 1L)
   as.data.frame(t(results[[j]]$par))
 }
 
@@ -59,10 +60,10 @@ infillOptCMAES = function(infill.crit, model, control, par.set, opt.path, design
 #   # extract lower and upper bound for params
 #   low = getLower(par.set)
 #   upp = getUpper(par.set)
-#   
+#
 #   i = getOptPathBestIndex(opt.path, ties="random")
 #   start = unlist(getOptPathEl(opt.path, i)$x)
-#   capture.output(design <- max_EI(model$learner.model, 
+#   capture.output(design <- max_EI(model$learner.model,
 #     lower=low, upper=upp, parinit=start)$par)
 #   as.data.frame(design)
 # }

@@ -7,20 +7,20 @@
 
 #'  Optimizes a function with sequential model based optimization.
 #'
-#' @param fun [\code{function(x, ...)}]\cr 
-#'   Fitness function to minimize. The first argument has to be a list of values. 
+#' @param fun [\code{function(x, ...)}]\cr
+#'   Fitness function to minimize. The first argument has to be a list of values.
 #'   The function has to return a single numerical value.
 #' @param par.set [\code{\link[ParamHelpers]{ParamSet}}]\cr
-#'   Collection of parameters and their constraints for optimization.   
+#'   Collection of parameters and their constraints for optimization.
 #' @param design [\code{data.frame} | NULL]\cr
-#'   Initial design as data frame. 
-#'   If the parameters have corresponding trafo functions, 
-#'   the design must not be transformed before it is passed! 
+#'   Initial design as data frame.
+#'   If the parameters have corresponding trafo functions,
+#'   the design must not be transformed before it is passed!
 #'   If \code{NULL}, one is constructed from the settings in \code{control}.
 #' @param learner [\code{\link[mlr]{Learner}}]\cr
-#'   Regression learner to model \code{fun}.  
+#'   Regression learner to model \code{fun}.
 #' @param control [\code{\link{MBOControl}}]\cr
-#'   Control object for mbo.  
+#'   Control object for mbo.
 #' @param show.info [\code{logical(1)}]\cr
 #'   Show info message after each function evaluation?
 #'   Default is \code{TRUE}.
@@ -31,7 +31,7 @@
 #'   \item{y [\code{numeric(1)}]}{Value of fitness function at \code{x}, either from evals during optimization or from requested final evaluations, if those were greater than 0.}
 #'   \item{opt.path [\code{\link[ParamHelpers]{OptPath}}]}{Optimization path.}
 #'   \item{models [List of \code{\link[mlr]{WrappedModel}}]}{List of saved regression models.}
-#' @export 
+#' @export
 
 mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...) {
   checkStuff(fun, par.set, design, learner, control)
@@ -42,110 +42,106 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
     ole = getOption("mlr.on.learner.error"),
     slo = getOption("mlr.show.learner.output")
   )
-  
+
   # configure mlr in an appropriate way
   configureMlr(on.learner.error=control$on.learner.error,
 		show.learner.output=control$show.learner.output)
-  
+
   # get parameter ids repeated length-times and appended number
   rep.pids = getParamIds(par.set, repeated=TRUE, with.nr=TRUE)
   y.name = control$y.name
   opt.path = makeOptPathDF(par.set, y.name, control$minimize)
-  	
+
 	# generate initial design if none provided
 	design.x = design
   if (is.null(design)) {
-    design.x = generateDesign(control$init.design.points, par.set, 
-      control$init.design.fun, control$init.design.args, trafo=FALSE) 
+    design.x = generateDesign(control$init.design.points, par.set,
+      control$init.design.fun, control$init.design.args, trafo=FALSE)
   } else {
     if (attr(design, "trafo"))
-      stop("Design must not be tranformed before call to 'mbo'. Set 'trafo' to FALSE in generateDesign.")
+      stop("Design must not be transformed before call to 'mbo'. Set 'trafo' to FALSE in generateDesign.")
 	}
-	
+
 	# compute y-values if missing or initial design generated above
-  if (!(y.name %in% colnames(design.x))) {
+  if (y.name %nin% colnames(design.x)) {
 		#catf("Computing y column for design 'design'. None provided.\n")
-    xs = lapply(1:nrow(design.x), function(i) ParamHelpers:::dfRowToList(design.x, par.set, i))
+    xs = lapply(seq_len(nrow(design.x)), function(i) ParamHelpers:::dfRowToList(design.x, par.set, i))
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts, ...)
     design = design.x
     design[, y.name] = ys
-	} 
+	}
 	ys = design[, y.name]
-  
+
 	# remove y
-  design.x = design[, -which(colnames(design) == y.name), drop=FALSE]
-	
+  design.x = design[, colnames(design) != y.name, drop=FALSE]
+
 	# sanity check: are paramter values and colnames of design consistent?
   cns = colnames(design.x)
   if(!setequal(cns, rep.pids))
   	stop("Column names of design 'design' must match names of parameters in 'par.set'!")
-	
+
   # reorder
   design.x = design.x[, rep.pids, drop=FALSE]
-  xs = lapply(1:nrow(design.x), function(i) ParamHelpers:::dfRowToList(design.x, par.set, i))
-	
+  xs = lapply(seq_len(nrow(design.x)), function(i) ParamHelpers:::dfRowToList(design.x, par.set, i))
+
 	# add initial values to optimization path
   Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=0), xs, ys)
-	
+
 	# set up initial mbo task
   rt = makeMBOTask(design, y.name, control=control)
   model = train(learner, rt)
-	
-	loop = 1
-  models = list()
-  res.vals = list()
-	
-  if (0 %in% control$save.model.at) {
-    models[[length(models)+1]] = model
+
+  models = namedList(control$save.model.at)
+  res.vals = namedList(control$resample.at)
+
+  if (0L %in% control$save.model.at) {
+    models[["0"]] = model
 	}
-	
-	if (0 %in% control$resample.model.at) {
+
+	if (0L %in% control$resample.model.at) {
     r = resample(learner, rt, control$resample.desc, measures=control$resample.measures)
-    res.vals[[length(res.vals)+1]] = r$aggr
+    res.vals[["0"]] = r$aggr
 	}
-	
+
 	# do the mbo magic
-  while(loop <= control$seq.loops) {
-		
+  for (loop in seq_len(control$seq.loops)) {
+
 		# impute new points and evaluete target function
     prop.design = proposePoints(model, par.set, control, opt.path)
-    xs = lapply(1:nrow(prop.design), function(i) ParamHelpers:::dfRowToList(prop.design, par.set, i))
+    xs = lapply(seq_len(nrow(prop.design)), function(i) ParamHelpers:::dfRowToList(prop.design, par.set, i))
     xs = lapply(xs, repairPoint, par.set=par.set)
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts, ...)
-    
+
 		# update optim trace and model
     Map(function(x,y) addOptPathEl(opt.path, x=x, y=y, dob=loop), xs, ys)
     rt = makeMBOTask(as.data.frame(opt.path, discretes.as.factor=TRUE), y.name, control=control)
     model = train(learner, rt)
     if (loop %in% control$save.model.at)
-      models[[length(models)+1]] = model
+      models[[as.character(loop)]] = model
     if (loop %in% control$resample.at) {
       r = resample(learner, rt, control$resample.desc, measures=control$resample.measures)
-      res.vals[[length(res.vals)+1]] = r$aggr
+      res.vals[[as.character(loop)]] = r$aggr
     }
-    loop = loop + 1
   }
-  names(models) = control$save.model.at
-  names(res.vals) = control$resample.at
-    
+
   design = getTaskData(rt, target.extra=TRUE)$data
   final.index = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
-  
-  if (control$final.evals > 0) {
+
+  if (control$final.evals > 0L) {
 		# do some final evaluations and compute mean of target fun values
     prop.design = design[rep(final.index, control$final.evals),,drop=FALSE]
-    xs = lapply(1:nrow(prop.design), function(i) ParamHelpers:::dfRowToList(prop.design, par.set, i))
+    xs = lapply(seq_len(prop.design), function(i) ParamHelpers:::dfRowToList(prop.design, par.set, i))
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts, ...)
     y = mean(ys)
-    x = xs[[1]]
+    x = xs[[1L]]
   } else {
     y = getOptPathEl(opt.path, final.index)$y
     x = ParamHelpers:::dfRowToList(design, par.set, final.index)
   }
-	
+
   # restore mlr configuration
   configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
-	
+
   # make sure to strip name of y
   structure(list(
     x=x,
@@ -157,7 +153,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
 }
 
 # Print mbo result object.
-# 
+#
 # @param x [\code{\link{MBOResult}}]\cr
 #   mbo result object instance.
 # @param ... [any]\cr
