@@ -101,3 +101,25 @@ test_that("mbo works with rf", {
   expect_equal(getOptPathLength(or$opt.path), 10 + 3)
 })
 
+test_that("mbo works with logicals", {
+  f = function(x) {
+    if (x$a)
+      sum(x$b^2)
+    else
+      sum(x$b^2 + 10)
+  }
+          
+  ps = makeParamSet(
+    makeLogicalParam("a"), 
+    makeNumericVectorParam("b", len=2, lower=-5, upper=5) 
+  )
+  learner = makeLearner("regr.randomForest", ntree=50)
+  ctrl = makeMBOControl(n.init.design.points=10, iters=10, seq.design.points=500)
+  or = mbo(f, ps, learner=learner, control=ctrl, show.info=FALSE)
+  expect_true(!is.na(or$y))
+  expect_equal(getOptPathLength(or$opt.path), 20)
+  expect_equal(or$x$a, TRUE)
+  expect_true(sum(or$x$b) < 0.1)
+}  
+
+
