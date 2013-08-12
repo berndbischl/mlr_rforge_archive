@@ -90,5 +90,5 @@ predictLearner.classif.lda = function(.learner, .model, .newdata, ...) {
 
 .. _makeNumericLearnerParam: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeNumericLearnerParam.html
 .. _makeDiscreteLearnerParam: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeDiscreteLearnerParam.html
-.. _Learner: ../www/tutorial/learner.html
+.. _Learner: learner.html
 .. _getTaskData: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/getTaskData.html

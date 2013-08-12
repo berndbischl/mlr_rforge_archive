@@ -114,9 +114,9 @@ mod
 @
 
 
-.. _train: ../_static/rdocs/mlr/train.html
-.. _IntegratedLearners: ../integrated_learners.html
-.. _prediction: ../_static/rdocs/mlr/predict.html
-.. _Learner: ../_static/rdocs/mlr/Learner-class.html
-.. _WrappedModel: ../_static/rdocs/mlr/WrappedModel-class.html
-.. _LearnTask: ../_static/rdocs/mlr/LearnTask-class.html
+.. _train: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/train.html
+.. _IntegratedLearners: create_learner.html
+.. _prediction: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/predict.html
+.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/Learner-class.html
+.. _WrappedModel: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/WrappedModel-class.html
+.. _LearnTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/LearnTask-class.html

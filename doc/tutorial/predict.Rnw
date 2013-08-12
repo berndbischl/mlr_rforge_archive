@@ -189,11 +189,11 @@ pred <- predict(mod, newdata = BostonHousing[test.set,])
 head(pred$data)
 @
 
-.. _train: ../_static/rdocs/mlr/train.html
-.. _Learner: ../_static/mlr/Learner-class.html
-.. _Prediction: ../_static/mlr/Prediction-class.html
-.. _predict: ../_static/mlr/predict.html
-.. _getProb: ../_static/mlr/getProb.html
-.. _setThreshold: ../_static/mlr/setThreshold.html
+.. _train: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/train.html
+.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/Learner-class.html
+.. _Prediction: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/Prediction-class.html
+.. _predict: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/predict.html
+.. _getProb: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/getProb.html
+.. _setThreshold: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/setThreshold.html
 .. _mlbench: http://cran.r-project.org/web/packages/mlbench/index.html
-.. _LearnTask: ../_static/rdocs/mlr/LearnTask-class.html
+.. _LearnTask: .http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/LearnTask-class.html

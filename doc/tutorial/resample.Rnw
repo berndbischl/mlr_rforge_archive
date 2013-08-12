@@ -311,15 +311,15 @@ r2$measures.test
 
 ...
 
-.. _resample: ../_static/rdocs/mlr/resample.html
-.. _ResamplePrediction: ../_static/rdocs/mlr/ResamplePrediction-class.html
-.. _LearnTask: ../_static/rdocs/mlr/LearnTask-class.html
-.. _Learner: ../_static/mlr/Learner-class.html
-.. _measures: ../_static/mlr/measures.html
-.. _ResampleDesc: ../_static/rdocs/mlr/ResampleDesc-class.html
-.. _ResampleInstance: ../_static/rdocs/mlr/ResampleInstance-class.html
-.. _makeResampleDesc: ../_static/rdocs/mlr/makeResampleDesc.html
-.. _makeResampleInstance: ../_static/rdocs/mlr/makeResampleInstance.html
+.. _resample: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/resample.html
+.. _ResamplePrediction: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/ResamplePrediction-class.html
+.. _LearnTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/LearnTask-class.html
+.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/mlr/Learner-class.html
+.. _measures: http://www.statistik.tu-dortmund.de/~bischl/mlr/measures.html
+.. _ResampleDesc: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/ResampleDesc-class.html
+.. _ResampleInstance: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/ResampleInstance-class.html
+.. _makeResampleDesc: http://www.statistik.tu-dortmund.de/~bischl/mlr/makeResampleDesc.html
+.. _makeResampleInstance: http://www.statistik.tu-dortmund.de/~bischl/mlr/makeResampleInstance.html
 
 
 .. |resampling_figure| image:: /_images/resampling.png

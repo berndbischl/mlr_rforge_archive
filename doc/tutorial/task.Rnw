@@ -185,10 +185,10 @@ task$task.desc
 str(task$task.desc)
 @ 
 
-.. _LearnTask: ../_static/rdocs/mlr/LearnTask-class.html
-.. _TaskDesc: ../_static/rdocs/mlr/TaskDesc-class.html
-.. _ClassifTask: ../_static/rdocs/mlr/ClassifTask-class.html
-.. _RegrTask: ../_static/rdocs/mlr/RegrTask-class.html
-.. _makeClassifTask: ../_static/rdocs/mlr/makeClassifTask.html
-.. _makeRegrTask: ../_static/rdocs/mlr/makeRegrTask.html
+.. _LearnTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/LearnTask-class.html
+.. _TaskDesc: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/TaskDesc-class.html
+.. _ClassifTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/ClassifTask-class.html
+.. _RegrTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/RegrTask-class.html
+.. _makeClassifTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeClassifTask.html
+.. _makeRegrTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeRegrTask.html
 .. _Training: train.html

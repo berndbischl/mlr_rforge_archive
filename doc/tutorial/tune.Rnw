@@ -110,12 +110,12 @@ tune(learner=lrn, task=task, resampling=rdesc, par.set=ps, control=ctrl, measure
 
 
 
-.. _makeParameterSet: ../_static/rdocs/mlr/makeParameterSet.html
-.. _makeLearner: ../_static/rdocs/mlr/makeLearner.html
-.. _train: ../_static/rdocs/mlr/train.html
-.. _resample: ../_static/rdocs/mlr/resample.html
-.. _ParameterSet: ../_static/rdocs/mlrTune/ParameterSet-class.html
-.. _TuneControl: ../_static/rdocs/mlrTune/TuneControl-class.html
+.. _makeParameterSet: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeParameterSet.html
+.. _makeLearner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeLearner.html
+.. _train: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/train.html
+.. _resample: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/resample.html
+.. _ParameterSet: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlrTune/ParameterSet-class.html
+.. _TuneControl: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlrTune/TuneControl-class.html
 
 .. _training: :doc:`tutorial/train`
 .. _resampling: :doc:`tutorial/resample`
