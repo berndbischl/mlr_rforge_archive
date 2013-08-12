@@ -47,10 +47,6 @@ test: install
 	echo "Testing package ..."
 	${RSCRIPT} ./test_all.R
 
-html: install
-	echo "Building HTML documentation"
-	${RSCRIPT} ../tools/staticdocs
-
 check: roxygenize
 	echo "Running R CMD check ..."
 	${R} CMD check --as-cran pkg
@@ -58,5 +54,12 @@ check: roxygenize
 check-rds: roxygenize
 	echo "Checking each RD file individually ..."
 	${RSCRIPT} ../tools/check-rds
+  
+html: clean
+	echo "Generating html docs..."
+	${DELETE} html
+	mkdir html
+	${RSCRIPT} ../tools/generate-html-docs
+   
   
   
