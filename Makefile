@@ -14,8 +14,8 @@ usage:
 	echo " dependencies  - install required packages"
 	echo " install       - install the package"
 	echo " test          - run tests"
-	echo " html          - build static html documentation"
 	echo " check         - run R CMD check on the package"
+	echo " html          - build static html documentation"
 
 clean:
 	echo "Cleaning up ..."
@@ -55,7 +55,7 @@ check-rds: roxygenize
 	echo "Checking each RD file individually ..."
 	${RSCRIPT} ../tools/check-rds
   
-html: clean
+html: install
 	echo "Generating html docs..."
 	${DELETE} html
 	mkdir html
