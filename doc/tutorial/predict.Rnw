@@ -52,7 +52,7 @@ predictions are required.
 The first possibility, via the ``newdata``-argument, was already shown in the 
 examples above.
 If the data for which predictions are required are already contained in 
-the LearnTask_, it is also possible to pass the task and optionally specify 
+the Learner_, it is also possible to pass the task and optionally specify 
 the subset argument that contains the indices of the test observations.
 
 Predictions are encapsulated in a special Prediction_ object. Read the
@@ -190,10 +190,9 @@ head(pred$data)
 @
 
 .. _train: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/train.html
-.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/Learner-class.html
-.. _Prediction: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/Prediction-class.html
-.. _predict: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/predict.html
-.. _getProb: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/getProb.html
+.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeLearner.html
+.. _Prediction: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/Prediction.html
+.. _predict: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/predict.WrappedModel.html
+.. _getProb: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/getProbabilities.html
 .. _setThreshold: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/setThreshold.html
 .. _mlbench: http://cran.r-project.org/web/packages/mlbench/index.html
-.. _LearnTask: .http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/LearnTask-class.html

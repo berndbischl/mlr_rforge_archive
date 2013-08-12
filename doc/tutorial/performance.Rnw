@@ -127,7 +127,13 @@ performance(pred, measure = mse)
 Construction of additional performance measures
 -----------------------------------------------
 
-Maybe you want to evaluate a measure, which ist not yet implemented in **mlr**. The makeMeasure_ function is a simple way to construct your own performance measure. Let's implement our own version of the already mentioned mmce. For this purpose we write a simple function, that computes the measure on the basis of the predictions and subsequently wrap it in a Measure object. Then, we work with it as usual with the performance_ function. See the R documentation of the makeLearner_ function for details on the various parameters.
+Maybe you want to evaluate a measure, which ist not yet implemented in **mlr**. The 
+makeMeasure_ function is a simple way to construct your own performance measure. Let's 
+implement our own version of the already mentioned mmce. For this purpose we write a 
+simple function, that computes the measure on the basis of the predictions and 
+subsequently wrap it in a Measure object. Then, we work with it as usual with the 
+performance_ function. See the R documentation of the makeLearner_ function for details 
+on the various parameters.
 
 <<>>=
 # Define the measure.
@@ -153,6 +159,7 @@ performance(pred, measure = my.mmce)
 performance(pred, measure = mmce)
 @
 
-.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/Learner-class.html
+.. _makeLearner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeLearner.html
 .. _performance: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/performance.html
+.. _makeMeasure: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeMeasure.html
 .. _measures: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/measures.html

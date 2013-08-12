@@ -43,7 +43,7 @@ Further information
 -------------------
 
 As already mentioned, we can train a learner simply by
-calling the function train_, passing it a Learner_ and a LearnTask_. 
+calling the function train_, passing it a Learner_ and a task_. 
 In the examples above, the classification or regression method was specified 
 by special Learner_ objects. This allows for a maximum of flexibility, for example it permits setting the hyperparameters of the learner before training. 
 
@@ -115,8 +115,8 @@ mod
 
 
 .. _train: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/train.html
-.. _IntegratedLearners: create_learner.html
-.. _prediction: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/predict.html
-.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/Learner-class.html
-.. _WrappedModel: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/WrappedModel-class.html
-.. _LearnTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/LearnTask-class.html
+.. _learners: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/learners.html
+.. _prediction: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/predict.WrappedModel.html
+.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeLearner.html
+.. _WrappedModel: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeWrappedModel.html
+.. _task: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/SupervisedTask.html

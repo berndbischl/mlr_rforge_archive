@@ -84,9 +84,9 @@ lrn <- makeLearner("regr.gbm", n.trees = 500, distribution = "laplace", interact
 lrn
 @
 
-.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/Learner-class.html
+.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeLearner.html
 .. _learners: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/learners.html
 .. _makeLearner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeLearner.html
 .. _IntegratedLearners: ../integrated_learners.html
-.. _prediction: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/predict.html
+.. _prediction: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/predict.WrappedModel.html
 .. _train: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/train.html

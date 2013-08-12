@@ -19,7 +19,7 @@ Classification example
 We again use the iris data set, included in R, but now, we want to
 tune a SVM with a polynomial kernel.
 
-We start by loading the **mlr** package and creating a classification
+We start by loading the **mlrTune** package and creating a classification
 task, just like in the tutorial on training_:
 
 <<>>=
@@ -27,9 +27,8 @@ library("mlrTune")
 task <- makeClassifTask(data=iris, target="Species")
 @ 
 
-Next, we need to create a ParameterSet_ object, which describes the
-parameter space we wish to search in. This is done via the function
-makeParameterSet_.
+Next, we need to create a ParamSet_ object, which describes the parameter space 
+we wish to search in. This is done via the function makeParamSet_.
 Since we will use a grid search strategy, we add a discrete parameter for the 
 ``C`` and ``sigma`` parameter of the SVM to the parameter set.
 More details concerning parameter sets are explained in section :doc:`params`.
@@ -110,12 +109,12 @@ tune(learner=lrn, task=task, resampling=rdesc, par.set=ps, control=ctrl, measure
 
 
 
-.. _makeParameterSet: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeParameterSet.html
+.. _makeParamSet: http://www.statistik.tu-dortmund.de/~bischl/rdocs/ParamHelpers/makeParamSet.html
 .. _makeLearner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeLearner.html
 .. _train: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/train.html
 .. _resample: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/resample.html
-.. _ParameterSet: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlrTune/ParameterSet-class.html
-.. _TuneControl: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlrTune/TuneControl-class.html
+.. _ParamSet: http://www.statistik.tu-dortmund.de/~bischl/rdocs/ParamHelpers/makeParamSet.html
+.. _TuneControl: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlrTune/TuneControl.html
 
 .. _training: :doc:`tutorial/train`
 .. _resampling: :doc:`tutorial/resample`
