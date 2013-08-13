@@ -3,7 +3,7 @@ makeRLearner.classif.logreg = function() {
   makeRLearnerClassif(
     cl = "classif.logreg",
     package = "stats",
-    par.set = makeParamSet(), 
+    par.set = makeParamSet(),
     twoclass = TRUE,
     numerics = TRUE,
     factors = TRUE,
@@ -21,16 +21,17 @@ trainLearner.classif.logreg = function(.learner, .task, .subset, .weights,  ...)
 #' @S3method predictLearner classif.logreg
 predictLearner.classif.logreg = function(.learner, .model, .newdata, ...) {
   x = predict(.model$learner.model, newdata=.newdata, type="response", ...)
-  levs = .model$task.desc$class.levels    
+  levs = .model$task.desc$class.levels
   if (.learner$predict.type == "prob") {
-    y <- matrix(0, ncol=2, nrow=nrow(.newdata))
+    # FIXME this should be a helper function
+    y <- matrix(0, ncol=2L, nrow=nrow(.newdata))
     colnames(y) = levs
-    y[,1] <- 1-x
-    y[,2] <- x
+    y[,1L] <- 1-x
+    y[,2L] <- x
     return(y)
   } else {
     levs <- .model$task.desc$class.levels
-    p <- as.factor(ifelse(x > 0.5, levs[2], levs[1]))
+    p <- as.factor(ifelse(x > 0.5, levs[2L], levs[1L]))
     names(p) <- NULL
     return(p)
   }

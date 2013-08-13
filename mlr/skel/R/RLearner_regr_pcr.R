@@ -11,7 +11,7 @@ makeRLearner.regr.pcr = function() {
       makeLogicalLearnerParam(id="model", default=TRUE),
       makeLogicalLearnerParam(id="x", default=FALSE),
       makeLogicalLearnerParam(id="y", default=FALSE)
-    ),    
+    ),
     par.vals = list(model=FALSE),
     missings = FALSE,
     numerics = TRUE,
@@ -30,5 +30,5 @@ trainLearner.regr.pcr = function(.learner, .task, .subset, .weights,  ...) {
 #' @S3method predictLearner regr.pcr
 predictLearner.regr.pcr = function(.learner, .model, .newdata, ...) {
   p = predict(.model$learner.model, newdata=.newdata)
-  p[,1,dim(p)[3]]
+  p[,1L,dim(p)[3L]]
 }

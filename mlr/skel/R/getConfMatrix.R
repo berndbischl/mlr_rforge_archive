@@ -1,13 +1,13 @@
 #' Confusion matrix.
-#' 
-#' Calculates confusion matrix for (possibly resampled) prediction. 
+#'
+#' Calculates confusion matrix for (possibly resampled) prediction.
 #' Rows indicate true classes, columns predicted classes.
 #'
 #' Code inspired by \code{\link[klaR]{errormatrix}}.
-#' 
+#'
 #' @param pred [\code{\link{Prediction}}]\cr
 #'   Result of a prediction.
-#' @param relative [\code{logical(1)}]\cr 
+#' @param relative [\code{logical(1)}]\cr
 #' 	If \code{TRUE} rows are normalized to show relative frequencies.
 #'  Default is \code{FALSE}.
 #' @return [\code{matrix}]. A confusion matrix.
@@ -34,9 +34,9 @@
 getConfMatrix = function(pred, relative=FALSE) {
   checkArg(pred, "Prediction")
   checkArg(relative, "logical", len=1L, na.ok=FALSE)
-  
+
   if (pred$task.desc$type != "classif")
-    stop("Can only calculate confusion matrix for classification predictions, not: %s", 
+    stop("Can only calculate confusion matrix for classification predictions, not: %s",
       pred$task.desc$type)
   truth = pred$data$truth
   resp = pred$data$response
@@ -47,16 +47,15 @@ getConfMatrix = function(pred, relative=FALSE) {
   rowsum = rowSums(mt)
   colsum = colSums(mt)
   result = rbind(cbind(tab, rowsum), c(colsum, sum(colsum)))
-  dimnames(result) = list(true = c(cls, "-SUM-"), 
+  dimnames(result) = list(true = c(cls, "-SUM-"),
                           predicted = c(cls, "-SUM-"))
   if (relative) {
+    # FIXME this is quite inefficient
     total = sum(result[1:n, 1:n])
     n1 = n + 1
-    result[n1, 1:n] = if (result[n1, n1] != 0) 
-      result[n1, 1:n]/result[n1, n1]
-    else 0
+    result[n1, 1:n] = if (result[n1, n1] != 0) result[n1, 1:n]/result[n1, n1] else 0
     rownorm = function(Row, Length) {
-      return(if (any(Row[1:Length] > 0)) Row/sum(Row[1:Length]) 
+      return(if (any(Row[1:Length] > 0)) Row/sum(Row[1:Length])
              else rep(0, Length + 1))
     }
     result[1:n, ] = t(apply(result[1:n, ], 1, rownorm, Length = n))

@@ -3,7 +3,7 @@ makeRLearner.classif.blackboost = function() {
   makeRLearnerClassif(
     cl = "classif.blackboost",
     package = c("mboost", "party"),
-    par.set = makeParamSet( 
+    par.set = makeParamSet(
       makeDiscreteLearnerParam(id="family", default=Binomial(), values=list(AdaExp=AdaExp(), Binomial=Binomial())),
       makeIntegerLearnerParam(id="mstop", default=100L, lower=1L),
       makeNumericLearnerParam(id="nu", default=0.1, lower=0, upper=1),
@@ -19,7 +19,7 @@ makeRLearner.classif.blackboost = function() {
       makeIntegerLearnerParam(id="mtry", default=0L, lower=0L),
       makeLogicalLearnerParam(id="savesplitstats", default=TRUE),
       makeIntegerLearnerParam(id="maxdepth", default=0L, lower=0L)
-    ), 
+    ),
     par.vals = list(family=Binomial()),
     twoclass = TRUE,
     missings = TRUE,
@@ -46,10 +46,10 @@ predictLearner.classif.blackboost = function(.learner, .model, .newdata, ...) {
   type = ifelse(.learner$predict.type == "response", "class", "response")
   p = predict(.model$learner.model, newdata=.newdata, type=type, ...)
   if (.learner$predict.type == "prob") {
-    y = matrix(0, ncol=2, nrow=nrow(.newdata))
+    y = matrix(0, ncol=2L, nrow=nrow(.newdata))
     colnames(y) = .model$task.desc$class.levels
-    y[,1] = p
-    y[,2] = 1-p
+    y[,1L] = p
+    y[,2L] = 1-p
     return(y)
   } else {
     return(p)

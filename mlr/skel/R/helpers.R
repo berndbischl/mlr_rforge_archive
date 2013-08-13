@@ -1,5 +1,5 @@
 checkBlocking = function(data, target, blocking) {
-  if(length(blocking) > 0 && length(blocking) != nrow(data))
+  if(length(blocking) && length(blocking) != nrow(data))
     stop("Blocking has to be of the same length as number of rows in data! Or pass none at all.")
 }
 
@@ -13,14 +13,14 @@ measureAggrName = function(measure) {
 }
 
 perfsToString = function(y) {
-  paste(paste(names(y), "=", formatC(y, digits=3), sep=""), collapse=",")
+  paste(paste(names(y), "=", formatC(y, digits=3L), sep=""), collapse=",")
 }
 
 recodeY = function(y, type, positive) {
   if (type == "01")
     as.numeric(y == positive)
   else if (type == "-1+1")
-    2*as.numeric(y == positive)-1
+    as.numeric(2L*(y == positive)-1L)
   else
     y
 }

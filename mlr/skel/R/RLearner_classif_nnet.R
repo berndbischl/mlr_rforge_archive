@@ -18,8 +18,8 @@ makeRLearner.classif.nnet = function() {
       makeLogicalLearnerParam(id="trace", default=TRUE),
       makeIntegerLearnerParam(id="MaxNWts", default=1000L),
       makeNumericLearnerParam(id="abstoll", default=1.0e-4),
-      makeNumericLearnerParam(id="reltoll", default=1.0e-8)      
-    ), 
+      makeNumericLearnerParam(id="reltoll", default=1.0e-8)
+    ),
     par.vals = list(size=3L),
     twoclass = TRUE,
     multiclass = TRUE,
@@ -48,11 +48,11 @@ predictLearner.classif.nnet = function(.learner, .model, .newdata, ...) {
   if (type == "class")
     return(as.factor(p))
   else {
-    if (length(.model$task.desc$class.levels) == 2) {
-      y <- cbind(1-p, p) 
+    if (length(.model$task.desc$class.levels) == 2L) {
+      y <- cbind(1-p, p)
       colnames(y) = .model$learner.model$lev
       return(y)
     } else
-      return(p) 
+      return(p)
   }
 }

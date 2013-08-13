@@ -1,20 +1,20 @@
 #' Train a learning algorithm.
 #'
-#' Given a \code{\link{SupervisedTask}}, creates a model for the learning machine 
-#' which can be used for predictions on new data. 
+#' Given a \code{\link{SupervisedTask}}, creates a model for the learning machine
+#' which can be used for predictions on new data.
 #'
-#' @param learner [\code{\link{Learner}}]\cr 
-#'   The learner.  
-#' @param task [\code{\link{SupervisedTask}}]\cr 
-#'   The task.   
-#' @param subset [\code{integer}]\cr 
-#'   An index vector specifying the training cases to be used for fitting. 
-#'   By default the complete data set is used. 
-#' @param weights [\code{numeric}]\cr 
+#' @param learner [\code{\link{Learner}}]\cr
+#'   The learner.
+#' @param task [\code{\link{SupervisedTask}}]\cr
+#'   The task.
+#' @param subset [\code{integer}]\cr
+#'   An index vector specifying the training cases to be used for fitting.
+#'   By default the complete data set is used.
+#' @param weights [\code{numeric}]\cr
 #'   Optional, non-negative case weight vector to be used during fitting.
 #'   If given, must be of same length as \code{subset} and in corresponding order.
 #'   By default missing which means no weights are used.
-#' @return [\code{\link{WrappedModel}}]. 
+#' @return [\code{\link{WrappedModel}}].
 #' @export
 #' @seealso \code{\link{predict}}
 #' @examples
@@ -35,18 +35,18 @@ train = function(learner, task, subset, weights) {
   checkArg(learner, "Learner")
   checkArg(task, "SupervisedTask")
   if (missing(subset)) {
-    subset = 1:task$task.desc$size
+    subset = seq_len(task$task.desc$size)
   } else {
     subset = convertIntegers(subset)
     checkArg(subset, "integer", na.ok=FALSE)
-  }  
-  
-  # make sure that pack for learner ist loaded, probably needed when learner is exported        
+  }
+
+  # make sure that pack for learner ist loaded, probably needed when learner is exported
   requireLearnerPackages(learner)
-  
-  
+
+
   tn = task$task.desc$target
-  
+
   # make pars list for train call
   pars = list(.learner=learner, .task=task, .subset=subset)
   if(!missing(weights)) {
@@ -55,14 +55,14 @@ train = function(learner, task, subset, weights) {
   }
 
   checkTaskLearner(task, learner, weights)
-  
+
   # only pass train hyper pars as basic rlearner in ...
   pars = c(pars, getHyperPars(learner, "train"))
-  
+
   vars = getTaskFeatureNames(task)
   # no vars? then use no vars model
-    
-  if (length(vars) == 0) {
+
+  if (length(vars) == 0L) {
     learner.model = makeNoFeaturesModel(targets=task$env$data[subset, tn], task.desc=task$task.desc)
     time.train = 0
   } else {
@@ -84,7 +84,7 @@ train = function(learner, task, subset, weights) {
     # was there an error during training? maybe warn then
     if(is.error(learner.model) && getOption("mlr.on.learner.error") == "warn")
       warningf("Could not train learner %s: %s", learner$id, as.character(learner.model))
-    time.train = as.numeric(st[3])
+    time.train = as.numeric(st[3L])
   }
   makeWrappedModel(learner, learner.model, task$task.desc, subset, vars, time.train)
 }

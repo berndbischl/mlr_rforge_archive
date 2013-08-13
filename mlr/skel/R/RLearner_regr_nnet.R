@@ -7,7 +7,7 @@ makeRLearner.regr.nnet = function() {
       makeIntegerLearnerParam(id="size", default=3L, lower=0),
       makeIntegerLearnerParam(id="maxit", default=100L, lower=1L),
       makeNumericLearnerParam(id="decay", default=0, lower=0)
-    ), 
+    ),
     par.vals = list(size=3L),
     missings = FALSE,
     numerics = TRUE,
@@ -30,5 +30,5 @@ trainLearner.regr.nnet = function(.learner, .task, .subset, .weights,  ...) {
 
 #' @S3method predictLearner regr.nnet
 predictLearner.regr.nnet = function(.learner, .model, .newdata, ...) {
-  predict(.model$learner.model, newdata=.newdata, ...)[,1]
+  predict(.model$learner.model, newdata=.newdata, ...)[,1L]
 }

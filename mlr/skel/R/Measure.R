@@ -2,11 +2,11 @@
 #'
 #' A measure object encapsulates a function to evaluate the performance of a prediction.
 #' Information about already implemented measures can be obtained here: \code{\link{measures}}.
-#' 
+#'
 #' A learner is trained on a a training set d1, results in a model m, predicts another set d2 (which may be a different one
 #' or the training set), resulting in the prediction. The performance measure can now be defined using all of the information of
-#' the original task, the fitted model and the prediction.   
-#' 
+#' the original task, the fitted model and the prediction.
+#'
 #' Object slots:
 #' \describe{
 #' \item{id [\code{character(1)}]}{See argument.}
@@ -45,23 +45,23 @@
 #' @param fun [\code{function(task, model, pred, extra.args)}]\cr
 #'   Calculates performance value.
 #' @param extra.args [\code{list}]\cr
-#'   List of extra arguments which will always be passed to \code{fun}.      
+#'   List of extra arguments which will always be passed to \code{fun}.
 #'   Default is empty list.
 #' @return [\code{\link{Measure}}].
 #' @export
 #' @aliases Measure
 #' @examples
-#' f <- function(task, model, pred, extra.args) 
+#' f <- function(task, model, pred, extra.args)
 #'   sum((pred$data$response - pred$data$truth)^2)
 #' makeMeasure(id="my.sse", minimize=TRUE, regr=TRUE, allowed.pred.types="response", fun=f)
 makeMeasure = function(id, minimize, classif=FALSE, regr=FALSE,
-  only.binary=FALSE, allowed.pred.types=character(0), fun, extra.args=list()) {
+  only.binary=FALSE, allowed.pred.types=character(0L), fun, extra.args=list()) {
 
-  checkArg(id, "character", len=1, na.ok=FALSE)
-  checkArg(minimize, "logical", len=1, na.ok=FALSE)
-  checkArg(classif, "logical", len=1, na.ok=FALSE)
-  checkArg(regr, "logical", len=1, na.ok=FALSE)
-  checkArg(only.binary, "logical", len=1, na.ok=FALSE)
+  checkArg(id, "character", len=1L, na.ok=FALSE)
+  checkArg(minimize, "logical", len=1L, na.ok=FALSE)
+  checkArg(classif, "logical", len=1L, na.ok=FALSE)
+  checkArg(regr, "logical", len=1L, na.ok=FALSE)
+  checkArg(only.binary, "logical", len=1L, na.ok=FALSE)
   checkArg(allowed.pred.types, subset=c("response", "prob", "se"))
   checkArg(fun, "function")
   checkArg(extra.args, "list")
@@ -73,16 +73,16 @@ makeMeasure = function(id, minimize, classif=FALSE, regr=FALSE,
     stop("only.binary can only be set to TRUE, if 'classif' is set to TRUE!")
 
   m = structure(list(
-    id=id, 
-    minimize=minimize, 
-    classif=classif, 
-    regr=regr, 
+    id=id,
+    minimize=minimize,
+    classif=classif,
+    regr=regr,
     only.binary=only.binary,
-    allowed.pred.types=allowed.pred.types, 
-    req.pred="pred" %in% v, 
-    req.model="model" %in% v, 
+    allowed.pred.types=allowed.pred.types,
+    req.pred="pred" %in% v,
+    req.model="model" %in% v,
     req.task="task" %in% v,
-    fun=fun, 
+    fun=fun,
     extra.args=extra.args
   ), class="Measure")
   setAggregation(m, test.mean)
@@ -92,29 +92,27 @@ default.measures = function(x) {
   if (inherits(x, "SupervisedTask")) {
     if (x$task.desc$type == "classif")
       return(list(mmce))
-    else if (x$task.desc$type == "regr")
+    if (x$task.desc$type == "regr")
       return(list(mse))
-    else
-      stop("Should not happen!")
+    stop("Should not happen!")
   }
   if (inherits(x, "Learner")) {
     if (x$type == "classif")
       return(list(mmce))
-    else if (x$type == "regr")
+    if (x$type == "regr")
       return(list(mse))
-    else
-      stop("Should not happen!")
+    stop("Should not happen!")
   }
-} 
+}
 
 
-#' Set aggregation function of measure. 
+#' Set aggregation function of measure.
 #'
-#' Set how this measure will be aggregated after resampling. 
+#' Set how this measure will be aggregated after resampling.
 #' To see possible aggregation functions: \code{\link{aggregations}}.
-#' 
-#' @param measure [\code{\link{Measure}}]\cr 
-#'   Performance measure.   
+#'
+#' @param measure [\code{\link{Measure}}]\cr
+#'   Performance measure.
 #' @param aggr [\code{\link{Aggregation}}]\cr
 #'   Aggregation function.
 #' @return [\code{\link{Measure}}] with changed aggregation behaviour.
@@ -124,7 +122,7 @@ setAggregation = function(measure, aggr) {
   checkArg(aggr, "Aggregation")
   measure$aggr = aggr
   return(measure)
-} 
+}
 
 #' @S3method print Measure
 print.Measure = function(x, ...) {

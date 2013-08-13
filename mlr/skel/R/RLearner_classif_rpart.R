@@ -28,7 +28,7 @@ makeRLearner.classif.rpart = function() {
   )
 }
 
-#' @S3method trainLearner classif.rpart		
+#' @S3method trainLearner classif.rpart
 trainLearner.classif.rpart = function(.learner, .task, .subset, .weights,  ...) {
   d = getTaskData(.task, .subset)
   if (missing(.weights)) {
@@ -40,7 +40,7 @@ trainLearner.classif.rpart = function(.learner, .task, .subset, .weights,  ...) 
   }
 }
 
-#' @S3method predictLearner classif.rpart	
+#' @S3method predictLearner classif.rpart
 predictLearner.classif.rpart = function(.learner, .model, .newdata, ...) {
   type = switch(.learner$predict.type, prob="prob", "class")
   predict(.model$learner.model, newdata=.newdata, type=type, ...)

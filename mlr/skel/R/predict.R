@@ -1,20 +1,20 @@
 #' Predict new data.
-#' 
-#' Predict the target variable of new data using a fitted model. 
+#'
+#' Predict the target variable of new data using a fitted model.
 #' What is stored exactly in the [\code{\link{Prediction}}] object depends
 #' on the \code{predict.type} setting of the \code{\link{Learner}}.
-#' 
-#' @param object [\code{\link{WrappedModel}}]\cr 
+#'
+#' @param object [\code{\link{WrappedModel}}]\cr
 #'   Wrapped model, result of \code{\link{train}}.
-#' @param task [\code{\link{SupervisedTask}}]\cr 
-#'   The task. If this is passed, data from this task is predicted.   
-#' @param newdata [\code{data.frame}]\cr 
-#'   New observations which should be predicted. 
-#'   Pass this alternatively instead of \code{task}. 
-#' @param subset [\code{integer}]\cr 
+#' @param task [\code{\link{SupervisedTask}}]\cr
+#'   The task. If this is passed, data from this task is predicted.
+#' @param newdata [\code{data.frame}]\cr
+#'   New observations which should be predicted.
+#'   Pass this alternatively instead of \code{task}.
+#' @param subset [\code{integer}]\cr
 #'   Index vector to subset \code{task} or \code{newdata}.
 #'   Default is all data.
-#' @param ... [any]\cr 
+#' @param ... [any]\cr
 #'   Currently ignored.
 #' @return [\code{\link{Prediction}}].
 #' @method predict WrappedModel
@@ -30,7 +30,7 @@
 #' task <- makeClassifTask(data = iris, target = "Species")
 #' learner <- makeLearner("classif.lda", method = "mle")
 #' mod <- train(learner, task, subset = training.set)
-#' 
+#'
 #' ## predict class labels for test data
 #' pred <- predict(mod, newdata = iris[test.set,])
 #' head(pred$data)
@@ -41,7 +41,7 @@
 #' pred <- predict(mod, newdata = iris[test.set, ])
 #' head(pred$data)
 predict.WrappedModel = function(object, task, newdata, subset, ...) {
-  if (!missing(task) && !missing(newdata)) 
+  if (!missing(task) && !missing(newdata))
     stop("Pass either a task object or a newdata data.frame to predict, but not both!")
   checkArg(object, "WrappedModel")
   model = object
@@ -54,12 +54,12 @@ predict.WrappedModel = function(object, task, newdata, subset, ...) {
   } else {
     checkArg(newdata, "data.frame")
     size = nrow(newdata)
-    if (size == 0)
+    if (size == 0L)
       stop("newdata must be a data.frame with at least one row!")
     # FIXME check that data is of same structure?
   }
   if (missing(subset)) {
-    subset = 1:size
+    subset = seq_len(size)
   } else {
     subset = convertIntegers(subset)
     checkArg(subset, "integer", na.ok=FALSE)
@@ -69,17 +69,17 @@ predict.WrappedModel = function(object, task, newdata, subset, ...) {
   } else {
     newdata = newdata[subset,,drop=FALSE]
   }
-  
+
   # if we saved a model and loaded it later just for prediction this is necessary
   requireLearnerPackages(learner)
   cns = colnames(newdata)
   tn = td$target
   t.col = which(cns == tn)
   # get truth and drop target col, if target in newdata
-  if (length(t.col) == 1) {
+  if (length(t.col) == 1L) {
     #FIXME this copies data
     truth = newdata[, t.col]
-    newdata = newdata[, -t.col, drop=FALSE]					
+    newdata = newdata[, -t.col, drop=FALSE]
   } else {
     truth = NULL
   }
@@ -87,16 +87,16 @@ predict.WrappedModel = function(object, task, newdata, subset, ...) {
   response = NULL
   prob = NULL
   time.predict = as.numeric(NA)
-  
+
   # was there an error in building the model? --> return NAs
   if(inherits(model, "FailureModel")) {
     p = predict_nas(model, newdata)
-    time.predict = as.numeric(NA)
+    time.predict = NA_real_
   } else {
     #FIXME this copies newdata
     pars = list(
       .learner = learner,
-      .model = model, 
+      .model = model,
       .newdata = newdata
     )
     pars = c(pars, getHyperPars(learner, "predict"))
@@ -116,21 +116,21 @@ predict.WrappedModel = function(object, task, newdata, subset, ...) {
       else
         fun2 = function(x) try(x, silent=TRUE)
       st = system.time(fun1(p <- fun2(do.call(predictLearner2, pars))), gcFirst = FALSE)
-      time.predict = as.numeric(st[3])
+      time.predict = as.numeric(st[3L])
       # was there an error during prediction?
       if(is.error(p)) {
         if (getOption("mlr.on.learner.error") == "warn")
           warningf("Could not predict with learner %s: %s", learner$id, as.character(p))
         p = predict_nas(model, newdata)
-        time.predict = as.numeric(NA)
+        time.predict = NA_real_
       }
     }
   }
   if (missing(task))
-    ids = NULL			
+    ids = NULL
   else
     ids = subset
-  makePrediction(task.desc=td, id=ids, truth=truth, 
+  makePrediction(task.desc=td, id=ids, truth=truth,
     predict.type=learner$predict.type, y=p, time=time.predict)
 }
 

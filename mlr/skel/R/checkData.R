@@ -8,13 +8,13 @@
 checkData = function(data, target) {
   cns = colnames(data)
   y = data[, target]
-  
+
   if (any(is.na(y)))
     stop("Target contains missing values!")
-  if (is.factor(y) && any(table(y) == 0)) 
+  if (is.factor(y) && any(table(y) == 0L))
     stop("Target contains empty class levels!")
-  
-  for (i in 1:ncol(data)) {
+
+  for (i in seq_len(ncol(data))) {
     x = data[, i]
     cn = cns[i]
     if(!deparse(as.name(cn), backtick=TRUE) == cn)
@@ -25,10 +25,10 @@ checkData = function(data, target) {
       if (any(is.nan(x)))
         stopf("Data contains NaN values in: %s", cn)
     } else if (is.factor(x)) {
-      if(any(table(x) == 0)) 
+      if(any(table(x) == 0L))
         stopf("Data contains contains empty factor levels in: %s", cn)
     } else {
-      stopf("Unsupported feature type in: %s, %s", cn, class(x)[1])
+      stopf("Unsupported feature type in: %s, %s", cn, class(x)[1L])
     }
   }
 }

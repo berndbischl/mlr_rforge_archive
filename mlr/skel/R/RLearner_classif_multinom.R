@@ -14,7 +14,7 @@ makeRLearner.classif.multinom = function() {
       makeLogicalLearnerParam(id="trace", default=TRUE),
       makeNumericLearnerParam(id="abstoll", default=1.0e-4),
       makeNumericLearnerParam(id="reltoll", default=1.0e-8)
-    ), 
+    ),
     twoclass = TRUE,
     multiclass = TRUE,
     numerics = TRUE,
@@ -40,9 +40,9 @@ predictLearner.classif.multinom = function(.learner, .model, .newdata, ...) {
   type = ifelse(.learner$predict.type=="response", "class", "probs")
   levs = .model$task.desc$class.levels
   p = predict(.model$learner.model, newdata=.newdata, type=type, ...)
-  if (type == "probs" && length(levs)==2) {
-    p = matrix(c(1-p, p), ncol=2, byrow=FALSE)
+  if (type == "probs" && length(levs)==2L) {
+    p = matrix(c(1-p, p), ncol=2L, byrow=FALSE)
     colnames(p) = levs
-  } 
+  }
   return(p)
 }

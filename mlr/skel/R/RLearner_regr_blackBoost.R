@@ -19,7 +19,7 @@ makeRLearner.regr.blackboost = function() {
       makeIntegerLearnerParam(id="mtry", default=0L, lower=0L),
       makeLogicalLearnerParam(id="savesplitstats", default=TRUE),
       makeIntegerLearnerParam(id="maxdepth", default=0L, lower=0L)
-    ), 
+    ),
     missings = FALSE,
     numerics = TRUE,
     factors = TRUE,
@@ -40,5 +40,5 @@ trainLearner.regr.blackboost = function(.learner, .task, .subset, .weights, msto
 
 
 predictLearner.regr.blackboost = function(.learner, .model, .newdata, ...) {
-  predict(.model$learner.model, newdata=.newdata, ...)[,1]
+  predict(.model$learner.model, newdata=.newdata, ...)[,1L]
 }

@@ -6,12 +6,12 @@ makeRLearner.classif.lda = function() {
     par.set = makeParamSet(
   	  makeDiscreteLearnerParam(id="method", default="moment", values=c("moment", "mle", "mve", "t")),
   		makeNumericLearnerParam(id="nu", lower=2, requires=expression(method=="t")),
-      makeNumericLearnerParam(id="tol", default=1.0e-4, lower=0)
-    ), 
-    twoclass=TRUE, 
-    multiclass = TRUE, 
-    numerics = TRUE, 
-    factors = TRUE, 
+      makeNumericLearnerParam(id="tol", default=1e-4, lower=0)
+    ),
+    twoclass=TRUE,
+    multiclass = TRUE,
+    numerics = TRUE,
+    factors = TRUE,
     prob = TRUE
   )
 }

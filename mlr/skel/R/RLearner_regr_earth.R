@@ -4,10 +4,10 @@ makeRLearner.regr.earth = function() {
     cl = "regr.earth",
     package = "earth",
     par.set = makeParamSet(
-      makeIntegerLearnerParam(id="degree", default=1, lower=1),
+      makeIntegerLearnerParam(id="degree", default=1L, lower=1L),
       makeNumericLearnerParam(id="penalty"),
       makeIntegerLearnerParam(id="nprune")
-      ), 
+      ),
     missings = FALSE,
     numerics = TRUE,
     factors = TRUE,
@@ -24,5 +24,5 @@ trainLearner.regr.earth = function(.learner, .task, .subset, .weights,  ...) {
 
 #' @S3method predictLearner regr.earth
 predictLearner.regr.earth = function(.learner, .model, .newdata, ...) {
-  predict(.model$learner.model, newdata=.newdata)[,1]
+  predict(.model$learner.model, newdata=.newdata)[,1L]
 }

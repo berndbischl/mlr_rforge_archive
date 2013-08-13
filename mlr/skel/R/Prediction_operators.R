@@ -1,4 +1,4 @@
-#' @S3method as.data.frame Prediction 
+#' @S3method as.data.frame Prediction
 as.data.frame.Prediction = function(x, row.names = NULL, optional = FALSE,...) {
   return(x$data)
 }
@@ -7,10 +7,10 @@ as.data.frame.Prediction = function(x, row.names = NULL, optional = FALSE,...) {
 #'
 #' @param pred [\code{\link{Prediction}}]\cr
 #'   Prediction object.
-#' @param cl [\code{character}]\cr 
-#'   Names of classes. 
+#' @param cl [\code{character}]\cr
+#'   Names of classes.
 #'   Default is either all classes for multi-class problems or the positive class for binary classification.
-#' @return [\code{data.frame}] with numerical columns or a numerical vector if length of \code{cl} is 1. 
+#' @return [\code{data.frame}] with numerical columns or a numerical vector if length of \code{cl} is 1.
 #'   Order of columns is defined by \code{cl}.
 #' @export
 #' @seealso \code{\link{predict}}
@@ -18,7 +18,7 @@ as.data.frame.Prediction = function(x, row.names = NULL, optional = FALSE,...) {
 #' task <- makeClassifTask(data = iris, target = "Species")
 #' lrn <- makeLearner("classif.lda", predict.type = "prob")
 #' mod <- train(lrn, task)
-#' # predict probabilities 
+#' # predict probabilities
 #' pred <- predict(mod, newdata = iris)
 
 #' # Get probabilities for all classes
@@ -33,7 +33,7 @@ getProbabilities = function(pred, cl) {
   if (pred$task.desc$type != "classif")
     stop("Prediction was not generated from a ClassifTask!")
   if (missing(cl)) {
-    if (length(pred$task.desc$class.levels) == 2)
+    if (length(pred$task.desc$class.levels) == 2L)
       cl = pred$task.desc$positive
     else
       cl = pred$task.desc$class.levels
@@ -47,7 +47,7 @@ getProbabilities = function(pred, cl) {
   if (!all(cl2 %in% cns))
     stopf("Trying to get probabilities for nonexistant classes: %s", collapse(cl))
   y = pred$data[, cl2]
-  if (length(cl) > 1)
+  if (length(cl) > 1L)
     colnames(y) = cl
   return(y)
 }

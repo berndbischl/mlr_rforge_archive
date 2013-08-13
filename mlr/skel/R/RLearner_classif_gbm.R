@@ -11,7 +11,7 @@ makeRLearner.classif.gbm = function() {
       makeNumericLearnerParam(id="shrinkage", default=0.001, lower=0),
       makeNumericLearnerParam(id="bag.fraction", default=0.5, lower=0, upper=1),
       makeNumericLearnerParam(id="train.fraction", default=1, lower=0, upper=1)
-    ), 
+    ),
     twoclass = TRUE,
     missings = TRUE,
     numerics = TRUE,
@@ -41,11 +41,11 @@ predictLearner.classif.gbm = function(.learner, .model, .newdata, ...) {
   if (.learner$predict.type == "prob") {
     y = matrix(0, ncol=2, nrow=nrow(.newdata))
     colnames(y) = levs
-    y[,1] = 1-p
-    y[,2] = p
+    y[,1L] = 1-p
+    y[,2L] = p
     return(y)
   } else {
-    p = as.factor(ifelse(p > 0.5, levs[2], levs[1]))
+    p = as.factor(ifelse(p > 0.5, levs[2L], levs[1L]))
     names(p) = NULL
     return(p)
   }

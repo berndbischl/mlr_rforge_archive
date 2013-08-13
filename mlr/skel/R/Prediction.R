@@ -1,8 +1,8 @@
 #' Prediction object.
-#' 
-#' Result from \code{\link{predict}}. 
-#' Use \code{as.data.frame} to access all information in a convenient format.   
-#' The function \code{\link{getProbabilities}} is useful to access predicted probabilities.. 
+#'
+#' Result from \code{\link{predict}}.
+#' Use \code{as.data.frame} to access all information in a convenient format.
+#' The function \code{\link{getProbabilities}} is useful to access predicted probabilities..
 #'
 #' The \code{data} member of the object contains always the following columns:
 #' \code{id}, index numbers of predicted cases from the task, \code{response}
@@ -11,7 +11,7 @@
 #' If probabilities were predicted, as many numeric columns as there were classes named
 #' \code{prob.classname}. If standard errors were predicted, a numeric column named \code{se}.
 #'
-#' 
+#'
 #' Object members:
 #' \describe{
 #' \item{predict.type [\code{character(1)}]}{Type set in \code{\link{setPredictType}}.}
@@ -34,29 +34,29 @@ makePrediction = function(task.desc, id, truth, predict.type, y, time) {
   } else if (predict.type == "prob") {
 		data[["prob"]] = y
   } else if (predict.type == "se"){
-    data[["response"]] = y[,1]
-    data[["se"]] = y[,2]
+    data[["response"]] = y[,1L]
+    data[["se"]] = y[,2L]
   }
   data = as.data.frame(data)
   # fix columnnames for prob if strage chars are in factor levels
 	i = grep("prob.", colnames(data))
-	if (length(i) > 0)
+	if (length(i))
 		colnames(data)[i] = paste("prob.", colnames(y), sep="")
-  
+
   p = structure(list(
-    predict.type = predict.type,			
-    data = data,			
-    threshold = as.numeric(NA),			
+    predict.type = predict.type,
+    data = data,
+    threshold = NA_real_,
     task.desc = task.desc,
-    time = time			
+    time = time
   ), class="Prediction")
-	
+
   if (predict.type == "prob") {
     th = rep(1/length(task.desc$class.levels), length(task.desc$class.levels))
     names(th) = task.desc$class.levels
     p = setThreshold(p, th)
-  } 
-  return(p)  
+  }
+  return(p)
 }
 
 #' @S3method print Prediction
@@ -66,6 +66,6 @@ print.Prediction = function(x, ...) {
   catf("predict.type: %s", x$predict.type)
   catf("threshold: %s", collapse(sprintf("%s=%.2f", names(x$threshold), x$threshold)))
   catf("time: %.2f", x$time)
-  cat(paste(d, "\n")) 
+  cat(d, "\n")
 }
 

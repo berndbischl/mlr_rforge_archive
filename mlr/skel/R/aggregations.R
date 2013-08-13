@@ -1,6 +1,6 @@
 #' Aggregation methods.
-#' 
-#' \itemize{ 
+#'
+#' \itemize{
 #' \item{\bold{test.mean}}{\cr Mean of performance values on test sets.}
 #' \item{\bold{test.sd}}{\cr Standard deviation of performance values on test sets.}
 #' \item{\bold{test.median}}{\cr Median of performance values on test sets.}
@@ -121,20 +121,20 @@ b632 = makeAggregation(
 
 
 #FIXME read this again properly and double check it
-#' @export 
+#' @export
 #' @rdname aggregations
 b632plus = makeAggregation(
   id = "b632plus",
   fun = function(task, perf.test, perf.train, measure, group, pred) {
     df = as.data.frame(pred)
     a = numeric(length(perf.test))
-    for (i in 1:length(perf.test)) {
+    for (i in seq_along(a)) {
       df2 = df[df$iter == i, ]
       y1 = df2$truth
       y2 = df2$response
       grid = expand.grid(y1, y2, KEEP.OUT.ATTRS=FALSE)
-      pred2 = makePrediction(task.desc=pred$task.desc, 
-        id=NULL, truth=grid[,1], predict.type="response", y=grid[,2],  
+      pred2 = makePrediction(task.desc=pred$task.desc,
+        id=NULL, truth=grid[,1], predict.type="response", y=grid[,2],
         time=as.numeric(NA))
       gamma = performance(pred2, measure=measure)
       R = (perf.test[i] - perf.train[i]) / (gamma - perf.train[i])
@@ -150,6 +150,6 @@ b632plus = makeAggregation(
 testgroup.mean = makeAggregation(
   id = "testgroup.mean",
   fun = function(task, perf.test, perf.train, measure, group, pred) {
-    mean(sapply(split(perf.test, group), mean))  
+    mean(sapply(split(perf.test, group), mean))
   }
 )

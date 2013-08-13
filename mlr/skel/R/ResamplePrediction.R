@@ -1,12 +1,12 @@
 #FIXME where does time exactly come from? only test preds?
 
 #' Prediction from resampling.
-#' 
+#'
 #' Contains predictions from resampling, returned (among other stuff) by function \code{\link{resample}}.
 #' Can basically be used in the same way as \code{\link{Prediction}}, its super class.
 #' The main differences are:
 #' (a) The internal data.frame (member \code{data}) contains an additional column \code{id}, specifying the iteration
-#' of the resampling strategy, and and additional columns \code{set}, specifying whether the prediction 
+#' of the resampling strategy, and and additional columns \code{set}, specifying whether the prediction
 #' was from an observation in the \dQuote{train} or \dQuote{test} set. (b) The prediction \code{time} is
 #' a numeric vector, its length equals the number of iterations.
 #' @name ResamplePrediction
@@ -15,20 +15,20 @@ NULL
 
 makeResamplePrediction = function(instance, preds.test, preds.train) {
   data = data.frame()
-  for (i in 1:instance$desc$iters) {
+  for (i in seq_len(instance$desc$iters)) {
     if (!is.null(preds.test[[i]]))
       data = rbind(data, cbind(preds.test[[i]]$data, iter=i, set="test"))
     if (!is.null(preds.train[[i]]))
-      data = rbind(data, cbind(preds.train[[i]]$data, iter=i, set="train"))                 
+      data = rbind(data, cbind(preds.train[[i]]$data, iter=i, set="train"))
   }
-  p1 = preds.test[[1]]
-  time = 
-  structure(list( 
+  p1 = preds.test[[1L]]
+  time =
+  structure(list(
     instance = instance,
-    predict.type = p1$predict.type,			
+    predict.type = p1$predict.type,
     data = data,
     threshold = p1$threshold,
-    task.desc = p1$task.desc,	
+    task.desc = p1$task.desc,
     time = extractSubList(preds.test, "time")
   ), class=c("ResamplePrediction", "Prediction"))
 }

@@ -1,25 +1,25 @@
-#' Get a description of all possible parameter settings for a learner. 
-#' 
-#' @param learner [\code{\link{Learner}}]\cr 
-#'   The learner.   
+#' Get a description of all possible parameter settings for a learner.
+#'
+#' @param learner [\code{\link{Learner}}]\cr
+#'   The learner.
 #' @return [\code{\link[ParamHelpers]{ParamSet}}].
 #' @export
 getParamSet = function(learner) {
   checkArg(learner, "Learner")
   UseMethod("getParamSet")
-} 
+}
 
 #'@S3method getParamSet Learner
 getParamSet.Learner = function(learner) {
   checkArg(learner, "Learner")
   learner$par.set
-} 
+}
 
-#' Get current parameter settings for a learner. 
-#' 
-#' @param learner [\code{\link{Learner}}]\cr 
-#'   The learner.   
-#' @param for.fun [\code{character(1)}]\cr 
+#' Get current parameter settings for a learner.
+#'
+#' @param learner [\code{\link{Learner}}]\cr
+#'   The learner.
+#' @param for.fun [\code{character(1)}]\cr
 #'   Restrict the returned settings to hyperparameters corresponding to \code{when}
 #'   the are used (see \code{\link[ParamHelpers]{LearnerParam}}).
 #'   Must be a subset of: \dQuote{train}, \dQuote{predict} or \dQuote{both}.
@@ -30,7 +30,7 @@ getHyperPars = function(learner,  for.fun=c("train", "predict", "both")) {
   checkArg(learner, "Learner")
   checkArg(for.fun, subset=c("train", "predict", "both"))
   UseMethod("getHyperPars")
-} 
+}
 
 #' @S3method getHyperPars Learner
 getHyperPars.Learner = function(learner, for.fun=c("train", "predict", "both")) {
@@ -38,11 +38,11 @@ getHyperPars.Learner = function(learner, for.fun=c("train", "predict", "both")) 
   pars = learner$par.set$pars
   pv = learner$par.vals
   ns = Filter(function(x) pars[[x]]$when %in% for.fun, names(pv))
-  pv[ns]  
-}  
+  pv[ns]
+}
 
 #' Set the hyperparameters of a learner object.
-#' 
+#'
 #' @param learner [\code{\link{Learner}}]\cr
 #'   The learner.
 #' @param ... [any]\cr
@@ -65,7 +65,7 @@ getHyperPars.Learner = function(learner, for.fun=c("train", "predict", "both")) 
 #' print(cl2)
 setHyperPars = function(learner, ..., par.vals) {
   checkArg(learner, "Learner")
-  args = list(...)      
+  args = list(...)
   if (missing(par.vals)) {
     par.vals = list()
   } else {
@@ -73,13 +73,13 @@ setHyperPars = function(learner, ..., par.vals) {
     if(!isProperlyNamed(par.vals))
       stop("All parameter settings have to be named arguments!")
   }
-  if (length(args) > 0) {
+  if (length(args) > 0L) {
     if(!isProperlyNamed(args))
       stop("All parameter settings have to be named arguments!")
     par.vals = insert(par.vals, args)
   }
   setHyperPars2(learner, par.vals)
-} 
+}
 
 #' Only exported for internal use.
 #' @param learner [\code{\link{Learner}}]\cr
@@ -89,7 +89,7 @@ setHyperPars = function(learner, ..., par.vals) {
 #' @export
 setHyperPars2 = function(learner, par.vals) {
   UseMethod("setHyperPars2")
-} 
+}
 
 #' @S3method setHyperPars2 Learner
 setHyperPars2.Learner = function(learner, par.vals) {
@@ -112,22 +112,22 @@ setHyperPars2.Learner = function(learner, par.vals) {
     } else {
       if (!isFeasible(pd, p))
         stopf("%s is not a feasible parameter setting!", p)
-      ## if valname of discrete par was used, transform it to real value 
+      ## if valname of discrete par was used, transform it to real value
       #if (pd$type == "discrete" && is.character(p) && length(p) == 1 && p %in% names(pd$values))
       #  p = pd$values[[p]]
       learner$par.vals[[n]] = p
     }
   }
   return(learner)
-} 
+}
 
 #' Set the type of predictions the learner should return.
 #'
 #' Possible prediction types are:
 #' Classification: Labels or class probabilities (including labels).
 #' Regression: Numeric or response or standard errors (including numeric response).
-#' @param learner [\code{\link{Learner}}]\cr 
-#'   The learner.   
+#' @param learner [\code{\link{Learner}}]\cr
+#'   The learner.
 #' @param predict.type [\code{character(1)}]\cr
 #'   Classification: \dQuote{response} or \dQuote{prob}.
 #'   Regression: \dQuote{response} or \dQuote{se}.

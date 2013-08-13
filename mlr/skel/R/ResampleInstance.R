@@ -1,27 +1,27 @@
-#' Instantiates a resampling strategy object. 
-#' 
-#' This class encapsulates training and test sets generated from the data set for a number of iterations. 
+#' Instantiates a resampling strategy object.
+#'
+#' This class encapsulates training and test sets generated from the data set for a number of iterations.
 #' It mainly stores a set of integer vectors indicating the training and test examples for each iteration.
 #'
 #' Object slots:
 #' \describe{
-#' \item{desc [\code{\link{ResampleDesc}}]}{See argument.} 
-#' \item{size [integer(1)]}{See argument.} 
-#' \item{train.inds [list of \code{integer}]}{List of of training indices for all iterations.} 
-#' \item{test.inds [list of \code{integer}]}{List of of test indices for all iterations.} 
+#' \item{desc [\code{\link{ResampleDesc}}]}{See argument.}
+#' \item{size [integer(1)]}{See argument.}
+#' \item{train.inds [list of \code{integer}]}{List of of training indices for all iterations.}
+#' \item{test.inds [list of \code{integer}]}{List of of test indices for all iterations.}
 #' \item{group [\code{factor}]}{Optional grouping of resampling iterations. This encodes whether specfic iterations 'belong together' (e.g. repeated CV), and it can later be used to aggregate performance values accordingly. Default is 'factor()'. }
 #' }
 #'
 #' @param desc [\code{\link{ResampleDesc}}]\cr
 #'   Resampling description object.
 #' @param task [\code{\link{SupervisedTask}}]\cr
-#'   Data of task to resample from. 
+#'   Data of task to resample from.
 #'   Prefer to pass this instead of \code{size}.
 #' @param size [\code{\link{integer}}]\cr
-#'   Size of the data set to resample. 
+#'   Size of the data set to resample.
 #'   Can be used instead of \code{task}.
 #' @return [\code{\link{ResampleInstance}}].
-#' @export 
+#' @export
 #' @aliases ResampleInstance
 #' @seealso \code{\link{makeResampleDesc}}, \code{\link{resample}}
 #' @examples
@@ -47,12 +47,12 @@ makeResampleInstance = function(desc, task, size) {
     size = convertInteger(size)
     checkArg(size, "integer", len=1L, na.ok=FALSE)
   }
-  
-  #FIXME: 
-  if (length(blocking) > 0 && desc$stratify)
+
+  #FIXME:
+  if (length(blocking) && desc$stratify)
     stop("Blocking can currently not be mixed with stratification in resampling!")
-       
-  if (length(blocking) > 0) {
+
+  if (length(blocking)) {
     if (is.null(task))
       stop("Blocking always needs the task!")
     levs = levels(blocking)
@@ -62,8 +62,8 @@ makeResampleInstance = function(desc, task, size) {
     # create instance for blocks
     inst = instantiateResampleInstance(desc, size2)
     # now exchange block indices with indices of elements of this block and shuffle
-    inst$train.inds = lapply(inst$train.inds, function(i) sample(which(blocking %in% levs[i]))) 
-    ti = sample(1:size)
+    inst$train.inds = lapply(inst$train.inds, function(i) sample(which(blocking %in% levs[i])))
+    ti = sample(size)
     inst$test.inds = lapply(inst$train.inds, function(x)  setdiff(ti, x))
     inst$size = size
   } else if (desc$stratify) {
@@ -76,15 +76,14 @@ makeResampleInstance = function(desc, task, size) {
     class.inds = lapply(task$task.desc$class.levels, function(x) which(x==y))
     train.inds = vector("list", length(class.inds))
     test.inds = vector("list", length(class.inds))
-    for (i in 1:length(class.inds)) {
+    for (i in seq_along(class.inds)) {
       ci = class.inds[[i]]
-      if (length(ci) > 0) {
+      if (length(ci)) {
         inst = instantiateResampleInstance(desc, length(ci))
         train.inds[[i]] = lapply(inst$train.inds, function(j) ci[j])
         test.inds[[i]] = lapply(inst$test.inds, function(j) ci[j])
       } else {
-        train.inds[[i]] = test.inds[[i]] = 
-          replicate(desc$iters, integer(0), simplify=FALSE)
+        train.inds[[i]] = test.inds[[i]] = replicate(desc$iters, integer(0L), simplify=FALSE)
       }
     }
     inst = instantiateResampleInstance(desc, size)
@@ -99,16 +98,16 @@ makeResampleInstance = function(desc, task, size) {
 makeResampleInstanceInternal = function(desc, size, train.inds, test.inds, group=factor(c())) {
   if (missing(test.inds) && !missing(train.inds)) {
     # shuffle data set and remove inds
-    test.inds = sample(1:size)
-    test.inds = lapply(train.inds, function(x)  setdiff(test.inds, x))
+    test.inds = sample(size)
+    test.inds = lapply(train.inds, function(x) setdiff(test.inds, x))
   }
   if (!missing(test.inds) && missing(train.inds)) {
     # shuffle data set and remove inds
-    train.inds = sample(1:size)
+    train.inds = sample(size)
     train.inds = lapply(test.inds, function(x) setdiff(train.inds, x))
   }
   inst = structure(list(
-    desc=desc, 
+    desc=desc,
     size=size,
     train.inds = train.inds,
     test.inds = test.inds,
@@ -117,7 +116,7 @@ makeResampleInstanceInternal = function(desc, size, train.inds, test.inds, group
 }
 
 #' @S3method print ResampleInstance
-print.ResampleInstance = function(x, ...) { 
+print.ResampleInstance = function(x, ...) {
   catf("Resample instance for %i cases for:", x$size)
-  print(x$desc) 
+  print(x$desc)
 }
