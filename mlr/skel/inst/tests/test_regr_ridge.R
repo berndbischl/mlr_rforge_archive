@@ -21,7 +21,7 @@ test_that("regr_ridge", {
 			m <- do.call(penalized, pars)
 		)	
 		set.seed(getOption("mlr.debug.seed"))
-		p = predict(m, data=regr.test)
+		p = penalized::predict(m, data=regr.test)
 		old.predicts.list[[i]] = p[,"mu"]
 	}
 	

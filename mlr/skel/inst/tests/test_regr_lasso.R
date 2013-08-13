@@ -20,7 +20,7 @@ test_that("regr_lasso", {
 		capture.output(
 			m <- do.call(penalized, pars)
 		)
-		p = predict(m, data=regr.test)
+		p = penalized::predict(m, data=regr.test)
 		old.predicts.list[[i]] = p[,"mu"]
 	}
 	testSimpleParsets("regr.lasso", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list)
