@@ -26,7 +26,7 @@ proposePoints = function(model, par.set, control, opt.path) {
 
     # determine infill optimization strategy
     infill.opt.fun = switch(control$infill.opt,
-      design = infillOptDesign,
+      random = infillOptRandom,
       cmaes = infillOptCMAES
       #EI       = infillOptEI
     )

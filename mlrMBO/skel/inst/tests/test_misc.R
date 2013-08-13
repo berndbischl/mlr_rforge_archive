@@ -12,7 +12,7 @@ test_that("simple optims", {
       makeDiscreteParam("x3", values = c("a", "blasdfkjaslkdjaslkdjflkjsdafj")))
 
     surrogate = makeLearner("regr.rpart")
-    opt = mbo(fit, easy, learner = surrogate, control = makeMBOControl(seq.design.points=10))
+    opt = mbo(fit, easy, learner = surrogate, control = makeMBOControl(random.n.points=10))
     expect_true(opt$x$x1 > 85 && opt$x$x2 < 50 && opt$x$x3 == "a")
   }
 })

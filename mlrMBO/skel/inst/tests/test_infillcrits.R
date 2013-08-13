@@ -7,8 +7,8 @@ test_that("infill crits", {
     makeNumericVectorParam("x", len=2, lower=-10, upper=10) 
   )
   mycontrol = function(minimize, crit) {
-    makeMBOControl(minimize=minimize, n.init.design.points=20, n.iters=10, seq.design.points=500, 
-      infill.crit=crit, infill.opt="design", n.final.evals = 100)
+    makeMBOControl(minimize=minimize, n.init.design.points=20, n.iters=10, random.n.points=500, 
+      infill.crit=crit, infill.opt="random", n.final.evals = 100)
   }
   mycheck = function(or, minimize) {
     expect_equal(getOptPathLength(or$opt.path), 30)

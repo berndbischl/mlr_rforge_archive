@@ -17,8 +17,8 @@
 # @return [\code{data.frame}]. One proposed point that should be evaluated.
 
 # mean response of model
-infillOptDesign = function(infill.crit, model, control, par.set, opt.path, design) {
-  newdesign = generateDesign(control$seq.design.points, par.set,
+infillOptRandom = function(infill.crit, model, control, par.set, opt.path, design) {
+  newdesign = generateDesign(control$random.n.points, par.set,
     randomLHS, ints.as.num=TRUE, logicals.as.factor=TRUE)
   y = infill.crit(newdesign, model, control, par.set, design)
   newdesign[rank(y, ties.method="random") == 1L, , drop=FALSE]
