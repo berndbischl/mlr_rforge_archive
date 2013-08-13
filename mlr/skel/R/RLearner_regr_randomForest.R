@@ -78,22 +78,22 @@ predictLearner.regr.randomForest = function(.learner, .model, .newdata, ...) {
   }
 }
 
-#' helper method. Returns SE-estimator function
+# helper method. Returns SE-estimator function
 getSEFun = function(method) {
   supportedSEEstimators = getSupportedSEEstimators()
   checkArg(method, "character", len=1L, choices=names(supportedSEEstimators))
   return (supportedSEEstimators[[method]])
 }
 
-#' helper function. Returns list of supported SE-estimators
+# helper function. Returns list of supported SE-estimators
 getSupportedSEEstimators = function() {
   list("bootstrap" = bootstrapStandardError,
        "noisy.bootstrap" = bootstrapStandardError,
        "jackknife" = jackknifeStandardError)
 }
 
-#' Computes the (potentially bias-corrected respcetively noisy)
-#' bootstrap estimator of the standard error
+# Computes the (potentially bias-corrected respcetively noisy)
+# bootstrap estimator of the standard error
 bootstrapStandardError = function(.learner, .model, .newdata, ...) {
     # copy learner and change response type
     par.vals = .learner$par.vals
@@ -147,8 +147,8 @@ bootstrapStandardError = function(.learner, .model, .newdata, ...) {
     return(res)
 }
 
-#' Computes the (potentially bias-corrected respcetively noisy)
-#' jackknife estimator of the standard error
+# Computes the (potentially bias-corrected respcetively noisy)
+# jackknife estimator of the standard error
 jackknifeStandardError = function(.learner, .model, .newdata, ...) {
     # extract relevant data from
     model = .model$learner.model
