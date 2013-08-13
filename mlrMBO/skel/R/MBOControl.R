@@ -39,9 +39,9 @@
 #'   List of further arguments passed to \code{init.design.fun}.  
 #'   Only used if no design is given in \code{mbo} function. 
 #'   Default is empty list.
-#' @param iters [\code{integer(1)}]\cr 
+#' @param n.iters [\code{integer(1)}]\cr 
 #'   Number of sequential optimization steps. 
-#'   Default is 100.   
+#'   Default is 10   
 #' @param n.propose.points [\code{integer(1)}]\cr 
 #'   Number of proposed points after optimizing the surrogate model with \code{infill.opt}.   
 #'   Default is 1.
@@ -88,7 +88,7 @@
 #' @param save.model.at [\code{integer}]\cr
 #'   Sequential optimization iterations when the model should be saved. 
 #'   Iteration 0 is the model fit for the initial design.
-#'   Default is \code{iters}.
+#'   Default is \code{n.iters}.
 #' @param resample.at [\code{integer}]\cr
 #'   At which iterations should the model be resampled and assessed?
 #'   Iteration 0 does some resampling on the initial design.
@@ -111,7 +111,7 @@
 makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
   impute, impute.errors=FALSE, silent=TRUE,
   n.init.design.points=20, init.design.fun=maximinLHS, init.design.args=list(),
-  iters=100, n.propose.points=1,
+  n.iters=10, n.propose.points=1,
   multipoint.method="random",
   multipoint.control=list(),
   infill.crit="mean", infill.opt="design", infill.opt.restarts=1L,
@@ -119,7 +119,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
   cmaes.control=list(),                          
   final.method="best.true.y",
   n.final.evals=0,
-  save.model.at=iters,
+  save.model.at=n.iters,
 	on.learner.error="warn", show.learner.output=FALSE,
   resample.at = integer(0), resample.desc = makeResampleDesc("CV", iter=10), resample.measures=list(mse) 
 ) {
@@ -152,8 +152,8 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
   checkArg(init.design.fun, "function")
   checkArg(init.design.args, "list")
   
-  iters = convertInteger(iters)
-  checkArg(iters, "integer", len=1L, na.ok=FALSE, lower=1L)
+  n.iters = convertInteger(n.iters)
+  checkArg(n.iters, "integer", len=1L, na.ok=FALSE, lower=1L)
   n.propose.points = convertInteger(n.propose.points)
   checkArg(n.propose.points, "integer", len=1L, na.ok=FALSE, lower=1L)
 
@@ -163,7 +163,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
   #checkArg(rank.trafo, "logical", len=1L, na.ok=FALSE)
 
   save.model.at = convertIntegers(save.model.at)
-	checkArg(save.model.at, "integer", na.ok=FALSE, lower=0L, upper=iters)
+	checkArg(save.model.at, "integer", na.ok=FALSE, lower=0L, upper=n.iters)
 
   checkArg(final.method, choices=c("last.proposed", "best.true.y", "best.predicted"))
   n.final.evals = convertInteger(n.final.evals)
@@ -174,7 +174,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
 	
   if (length(resample.at) > 0) {
     resample.at = convertIntegers(resample.at)
-    checkArg(resample.at, "integer", na.ok=FALSE, lower=0L, upper=iters)
+    checkArg(resample.at, "integer", na.ok=FALSE, lower=0L, upper=n.iters)
   } else {
     resample.at = integer(0)
   }
@@ -196,7 +196,7 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
     multipoint.method = multipoint.method,
     multipoint.control = multipoint.control,
     cmaes.control = cmaes.control,
-    iters = iters, 
+    n.iters = n.iters, 
     n.propose.points = n.propose.points,
     infill.opt = infill.opt,
     infill.opt.restarts = infill.opt.restarts,
@@ -225,8 +225,8 @@ print.MBOControl = function(x, ...) {
 	noisy = ifelse(x$noisy, "noisy", "not noisy")
   catf("Objective                   : %s = %s!", x$y.name, minmax)
   catf("Function type               : %s", noisy)
-  catf("Init. design                : %i points", x$n.init.design.points)
-  catf("Iterations                  : %i", x$iters)
+  catf("Initial design              : %i points", x$n.init.design.points)
+  catf("Iterations                  : %i", x$n.iters)
   catf("Points proposed per iter:   : %i", x$n.propose.points)
   if (x$n.propose.points == 1) {
   catf("Infill criterion            : %s", x$infill.crit)

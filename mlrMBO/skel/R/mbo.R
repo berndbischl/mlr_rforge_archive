@@ -104,7 +104,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
 	}
 
 	# do the mbo magic
-  for (loop in seq_len(control$iters)) {
+  for (loop in seq_len(control$n.iters)) {
 
 		# impute new points and evaluete target function
     prop.design = proposePoints(model, par.set, control, opt.path)
