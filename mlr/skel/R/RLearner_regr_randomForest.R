@@ -60,7 +60,7 @@ trainLearner.regr.randomForest = function(.learner, .task, .subset, .weights, ..
       # save models in attrribute
       attr(m, "mlr.se.bootstrap.models") = models
     } else if (par.vals$se.method == "jackknife") {
-      return (randomForest(f, data=getTaskData(.task, .subset), keep.inbag=TRUE, ...))
+      return (randomForest(f, data=getTaskData(.task, .subset), ...))
     }
   } 
   return(m)
@@ -71,25 +71,15 @@ predictLearner.regr.randomForest = function(.learner, .model, .newdata, ...) {
   if (.learner$predict.type == "se") {
     par.vals = .learner$par.vals
     model = .model$learner.model
-    seFun = getSEFun(par.vals$se.method)
-    seFun(.learner, .model, .newdata, ...)
+    se.fun = switch(par.vals$se.method,
+      bootstrap = bootstrapStandardError,
+      noisy.bootstrap = bootstrapStandardError,
+      jackknife = jackknifeStandardError
+    )
+    se.fun(.learner, .model, .newdata, ...)
   } else {
     predict(.model$learner.model, newdata=.newdata, ...)
   }
-}
-
-# helper method. Returns SE-estimator function
-getSEFun = function(method) {
-  supportedSEEstimators = getSupportedSEEstimators()
-  checkArg(method, "character", len=1L, choices=names(supportedSEEstimators))
-  return (supportedSEEstimators[[method]])
-}
-
-# helper function. Returns list of supported SE-estimators
-getSupportedSEEstimators = function() {
-  list("bootstrap" = bootstrapStandardError,
-       "noisy.bootstrap" = bootstrapStandardError,
-       "jackknife" = jackknifeStandardError)
 }
 
 # Computes the (potentially bias-corrected respcetively noisy)
@@ -100,7 +90,7 @@ bootstrapStandardError = function(.learner, .model, .newdata, ...) {
     learner = .learner
     learner = setPredictType(learner, "response")
 
-    models = attr(model$learner.model, "mlr.se.bootstrap.models")
+    models = attr(.model$learner.model, "mlr.se.bootstrap.models")
     B = length(models)
     R = par.vals$ntree
     M = if(is.null(par.vals$ntree.for.se)) par.vals$ntree else par.vals$ntree.for.se
