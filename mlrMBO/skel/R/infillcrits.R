@@ -26,7 +26,7 @@ infillCritMeanResponse = function(points, model, control, par.set, design) {
 # model uncertainty 
 # on its own not really useful for anything I suppose...
 infillCritStandardError = function(points, model, control, par.set, design) {
-  predict(model, newdata=points)$data$se
+  -predict(model, newdata=points)$data$se
 }
 
 
