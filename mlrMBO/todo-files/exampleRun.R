@@ -137,7 +137,7 @@ plot.MBOExampleRun = function(obj, ...) {
   }
 }
 
-n.iters = 4
+n.iters = 8
 ctrl = makeMBOControl(noisy = FALSE, n.init.design.points = 4, n.iters = n.iters, 
    infill.crit = "ei", infill.opt = "random", random.n.points = 1000, 
    save.model.at = 0:n.iters)
