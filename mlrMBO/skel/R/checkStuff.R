@@ -22,4 +22,6 @@ checkStuff = function(fun, par.set, design, learner, control) {
   #  if (control$infill.opt == "EI" &&
   #          !(class(learner) %in% c("regr.km", "regr.kmforrester")))
   #      stop("Expected improvement can currently only be used with learner 'regr.km' and 'regr.kmforrester'!")
+  if (!inherits(learner, "regr.randomForest") && any(hasRequires(par.set)))
+    stop("Parameter sets with dependend parameters currently require the learner to be a randomForest")
 }
