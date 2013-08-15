@@ -12,8 +12,12 @@ refactorNAs <- function(data, impute.multiplicator=2, na.string="NA") {
     }
     if (is.factor(x)) {
       i = is.na(x)
-      levels(x) = c(levels(x), na.string)
-      return(replace(x, i, na.string))
+      if (any(i)) {
+        levels(x) = c(levels(x), na.string)
+        return(replace(x, i, na.string))
+      }
+      return(x)
     }
+    stopf("Type unsupported: %s", typeof(x))
   }), stringsAsFactors=FALSE)
 }

@@ -9,9 +9,9 @@ test_that("mbo works with factor variables", {
     else
       sum(x$x^2) + 10
   }
-  
+
   ps = makeParamSet(
-    makeDiscreteParam("foo", values = c("a", "b")), 
+    makeDiscreteParam("foo", values = c("a", "b")),
     makeNumericVectorParam("x", len=2, lower=-2, upper=2)
   )
   learner = makeLearner("regr.randomForest")

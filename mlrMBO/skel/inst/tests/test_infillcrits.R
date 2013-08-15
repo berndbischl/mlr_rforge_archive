@@ -4,16 +4,16 @@ test_that("infill crits", {
   f1 = makeMBOFunction(function(x) sum(x^2))
   f2 = makeMBOFunction(function(x) sum(x^2) + rnorm(1, 0, 0.1))
   ps = makeParamSet(
-    makeNumericVectorParam("x", len=2, lower=-10, upper=10) 
+    makeNumericVectorParam("x", len=2, lower=-10, upper=10)
   )
   mycontrol = function(minimize, crit) {
-    makeMBOControl(minimize=minimize, n.init.design.points=20, n.iters=10, random.n.points=500, 
+    makeMBOControl(minimize=minimize, n.init.design.points=20, n.iters=10, random.n.points=500,
       infill.crit=crit, infill.opt="random", n.final.evals = 100)
   }
   mycheck = function(or, minimize) {
     expect_equal(getOptPathLength(or$opt.path), 30)
     expect_true(!is.na(or$y))
-    if (minimize)    
+    if (minimize)
       expect_true(or$y < 1)
     else
       expect_true(or$y > 100)

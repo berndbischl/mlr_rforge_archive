@@ -63,6 +63,7 @@ test_that("complex paramset" , {
       sum(sapply(x, nchar))
     }
 
-    surrogate = makeLearner("regr.rpart")
+    surrogate = makeLearner("regr.randomForest")
     opt = mbo(fit, ps, learner = surrogate, control = makeMBOControl(random.n.points=10))
+  }
 })
