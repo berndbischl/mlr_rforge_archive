@@ -1,5 +1,4 @@
 library(denstrip)
-library(DAAG)
 library(soobench)
 library(testthat)
 library(devtools)
@@ -7,25 +6,28 @@ library(devtools)
 load_all("skel", reset=TRUE)
 configureMlr(show.learner.output=FALSE, on.learner.error="stop")
 
-#' Perform a model based optimization on 1D and and visualize what happens.
+#' Perform a model based optimization on a 1D function and and visualize what happens.
 #'
 #' Run \code{plot} on the resulting object.
 #' Useful for figuring out how stuff works and for teaching purposes.
+#'
+#' The plot will show the following elements per iteration:
+#' (a) Above plot
+#' - The true objective function (solid line).
+#' - The surrogate approximation, represented by its mean response (dotted line).
+#' - Surrogate mean +- 1 standard deviation, from local uncertainty (dotted line).
+#' (b) Lower plot
+#' - Infill criterion.
+#' 
+#' In both plots the following elements are present
+#' - Initial design points (black)
+#' - Points from previous sequentail iteraions (green)
+#' - Proposed point in current iteration. 
 #'
 #' @param fun [\code{function}]\cr
 #'   Objective function. 
 #'   First argument must be a numeric decision variable.
 #'   The function has to return a single numerical value.
-#' @param lower [\code{numeric(1)}]\cr
-#'   Lower bound for decision variable.
-#' @param upper [\code{numeric(1)}]\cr
-#'   Upper bound for decision variable.
-#' @param name.x [\code{character(1)}]\cr
-#'   Name of decision variable.
-#'   Default is \dQuote{x}.
-#' @param name.y [\code{character(1)}]\cr
-#'   Name of objective variable.
-#'   Default is \dQuote{y}.
 #' @param surrogate [\code{\link[mlr]{Learner}}]\cr
 #'   Surrogate model used for the optimization of \code{fun}.
 #FIXME regr.km might be renamed
@@ -34,43 +36,43 @@ configureMlr(show.learner.output=FALSE, on.learner.error="stop")
 #'   noisy observations or not.
 #' @param control [\code{\link{MBOControl}}]\cr
 #'   MBO control object.
-#' @param noisy.evals [\code{integer(1)}]\cr
+#' @param evals [\code{integer(1)}]\cr
 #'   Number of evaluations if \code{fun} is noisy.
+#'   Default is 10 for noisy functions
 #' @param n [\code{integer(1)}]\nr
 #'   Number of locations at which to sample the \code{fun} function.
-#'
 #' @return [\code{list}]:
 #'   \item{xseq [\code{numeric}]}{Sequence of x values from the domain of \code{fun}.}
 #'   \item{yseq [\code{numeric}]}{Sequence of evaluated points.}
-#'   \item{name.x [\code{character}]}{Identifier for domain space.}
-#'   \item{name.y [\code{character}]}{Identifier for evaluated points.}
-#'   \item{learner [\code{\link[mlr]{Learner}}]}{Surrogate model used for optimization of \code{fun}.}
-#'   \item{control [\code{\link{MBOControl}}]}{MBO control object.}
+#'   \item{ymat [\code{numeric}]}{Sequence of evaluated points.}
 #'   \item{mbo.res [\code{\link{MBOResult}}]}{MBO result object.}
-exampleRun = function(fun, lower, upper,learner, name.x = "x", name.y = "y",
-  control, noisy.evals = 5, n = 50) {
-  
+#'   \item{par.set [\code{\link[ParamHelpers]{ParamSet}}]}{See argument.}
+#'   \item{learner [\code{\link[mlr]{Learner}}]}{See argument.}
+#'   \item{control [\code{\link{MBOControl}}]}{See argument.}
+exampleRun = function(fun, par.set, learner, control, noisy.evals = 5, n = 50) {
   checkArg(fun, "function")
-  checkArg(lower, "numeric", len = 1L, na.ok = FALSE)
-  checkArg(upper, "numeric", len = 1L, na.ok = FALSE)
   if (missing(learner)) {
     learner = makeLearner("regr.km", predict.type = "se", nugget.estim = control$noisy)
   } else {
     checkArg(learner, "Learner")
   }
-  checkArg(name.x, "character", len = 1L, na.ok = FALSE)
-  checkArg(name.y, "character", len = 1L, na.ok = FALSE)
   noisy.evals = convertInteger(noisy.evals)
   checkArg(noisy.evals, "integer", len = 1L, na.ok = FALSE)
   n = convertInteger(n)
   checkArg(n, "integer", len = 1L, na.ok = FALSE)
 
+  control$save.model.at=0:n.iters
+  name.x = getParamIds(par.set)
+  name.y = control$y.name
   
   #show some info on console
   messagef("Peforming MBO on function.")
   messagef("Initial design: %i. Sequential iterations: %i.", control$n.init.design.points, control$n.iters)
   messagef("Learner: %s. Settings:\n%s", learner$id, mlr:::getHyperParsString(learner))
-
+  
+  lower = getLower(par.set)
+  upper = getUpper(par.set)
+  
   #FIXME maybe allow 1 discrete or int param as well!
   par.set = makeParamSet(makeNumericParam(name.x, lower = lower, upper = upper))
   
@@ -80,88 +82,102 @@ exampleRun = function(fun, lower, upper,learner, name.x = "x", name.y = "y",
 
   # check if noisy
   yseq = sapply(xseq, function(x) {
-      if(control$noisy) {
-        mean(replicate(noisy.evals, fun(list(x=x))))
-      } else {
-        fun(list(x=x))
-      }
+    if(control$noisy) {
+      mean(replicate(noisy.evals, fun(list(x=x))))
+    } else {
+      fun(list(x=x))
+    }
   })
 
   structure(list(xseq = xseq, yseq=yseq, name.x=name.x, name.y=name.y, 
     learner=learner, control=control, mbo.res=res), class="MBOExampleRun")
 }
 
+#FIXME x and y labels are not shown
 plot.MBOExampleRun = function(obj, ...) {
   par(mfrow=c(2, 1))
-  # extract optimization path
-  df = as.data.frame(obj$mbo.res$opt.path)
 
   # extract information from example run object
   name.x = obj$name.x
   name.y = obj$name.y
   xseq = obj$xseq
   yseq = obj$yseq
-  n.iters = obj$control$n.iters
-
-  xpoints = data.frame(x = xseq)
-
-  # determine initial design
-  initdes = subset(df, dob == 0)
-
-  for (i in 1:obj$control$n.iters) {
-    seqdes = subset(df, dob > 0 & dob < i)
-    propdes = subset(df, dob == i)
+  iters = obj$control$n.iters
+  name.crit = obj$control$infill.crit
+  
+  finegrid = data.frame(x=xseq, y=yseq)
+  critfun = getInfillCritFunction(name.crit)
+  
+  op = as.data.frame(obj$mbo.res$opt.path)
+  # ind.* are index sets into the opt.path (initial design and so on)
+  ind.inides = which(op$dob == 0)
+  
+  plotDesignPoints = function(op, ind.inides, ind.seqdes, ind.prodes, y) {
+    points(op[ind.inides, name.x], op[ind.inides, y], pch = 19, col = "black")
+    points(op[ind.seqdes, name.x], op[ind.seqdes, y], pch = 19, col = "darkseagreen")
+    points(op[ind.prodes, name.x], op[ind.prodes, y], pch = 19, col = "tomato")
+  }
+  
+  for (i in seq_len(iters)) {
     mod = obj$mbo.res$models[[i]]
-
-    yhat = mlrMBO:::infillCritMeanResponse(xpoints, mod, ctrl, par.set, rbind(initdes, seqdes))
-    se = -mlrMBO:::infillCritStandardError(xpoints, mod, ctrl, par.set, rbind(initdes, seqdes))
-    ei = -mlrMBO:::infillCritEI(xpoints, mod, ctrl, par.set, rbind(initdes, seqdes))
-    proposed.x = xseq[which.max(ei)]
-    yhat.low1 = yhat - 1 * se 
-    yhat.upp1 = yhat + 1 * se 
     
+    ind.seqdes = which(op$dob > 0 & op$dob < i)
+    ind.prodes = which(op$dob == i)
+    ind.pasdes = c(ind.inides, ind.seqdes)
+    
+    # compute model prediction for current iter
+    finegrid$yhat = mlrMBO:::infillCritMeanResponse(finegrid[, "x", drop =FALSE], 
+      mod, ctrl, par.set, op[ind.pasdes, ])
+    finegrid$se = -mlrMBO:::infillCritStandardError(finegrid[, "x", drop =FALSE], 
+      mod, ctrl, par.set, op[ind.pasdes, ])
+    finegrid$crit = critfun(finegrid[, "x", drop =FALSE], 
+      mod, ctrl, par.set, op[ind.pasdes, ])
+    finegrid$yhat.low = finegrid$yhat - 1 * finegrid$se 
+    finegrid$yhat.upp = finegrid$yhat + 1 * finegrid$se 
+  
+    # infill crit y vals for lower plot
+    op[[name.crit]] = critfun(op[, name.x, drop =FALSE], 
+      mod, ctrl, par.set, op[ind.pasdes, ])
+    
+    #FIXME what is this for?
     layout(matrix(c(1,2,3), ncol=1, byrow=TRUE), heights=c(2.25, 2.25, 0.5))
 
-    par(mai=c(0.15,0.4,0.3,0.2))
+    #par(mai=c(0.15,0.4,0.3,0.2))
     plot(c(), xlim = range(xseq), ylim = range(yseq), 
-         xlab = obj$name.x, ylab = name.y, main = sprintf("Iter = %i", i))
-    #grid(lty=3, col="lightgray")
+      xlab = obj$name.x, ylab = name.y, main = sprintf("Iter = %i", i))
 
-    dr1 = seq(min(yhat - 1.5 * se), max(yhat + 1.5 * se), length = 200)
+    dr1 = seq(length = 200, 
+      min(finegrid$yhat - 1.5 * finegrid$se), 
+      max(finegrid$yhat + 1.5 * finegrid$se)
+    )
     dr2 = matrix(nrow = length(xseq), ncol = length(dr1))
-    for(i in seq_along(xseq)) dr2[i,] <- dnorm(dr1, yhat[i], se[i])
+    for(i in seq_along(xseq)) 
+      dr2[i,] = dnorm(dr1, finegrid$yhat[i], finegrid$se[i])
     densregion(xseq, dr1, dr2, pointwise = TRUE, colmax = "pink", )
-    lines(xseq, yhat.low1, lty = "dotted", lwd = 1, col = rgb(0, 0, 0, alpha = 0.5))
-    lines(xseq, yhat.upp1, lty = "dotted", lwd = 1, col = rgb(0, 0, 0, alpha = 0.5))
-    #col1 = rgb(0.7, 0, 0.3, alpha=0.2)
-    #col2 = rgb(0.7, 0, 0.3, alpha=0.1)
-    #polygon(c(xseq, rev(xseq)), c(yhat.low1, rev(yhat.upp1)), col = col, border = FALSE)  
-    #polygon(c(xseq, rev(xseq)), c(yhat.low2, rev(yhat.upp2)), col = col, border = FALSE)  
+    lines(xseq, finegrid$yhat.low, lty = "dotted", lwd = 1, col = rgb(0, 0, 0, alpha = 0.5))
+    lines(xseq, finegrid$yhat.upp, lty = "dotted", lwd = 1, col = rgb(0, 0, 0, alpha = 0.5))
     lines(xseq, yseq, lwd = 1)
-    abline(v = proposed.x)
-    lines(xseq, yhat, lty = "dotted", lwd = 1)
-    points(initdes[, name.x], initdes[, name.y], pch = 19, col = "black")
-    points(seqdes[, name.x], seqdes[, name.y], pch = 19, col = "darkseagreen")
-    points(propdes[, name.x], propdes[, name.y], pch = 19, col = "tomato")
-        
-    par(mai=c(0.15,0.4,0.15,0.2))
-    plot(xseq, ei, type = "l", lty = "dashed", xlab = name.x, ylab = "EI", lwd = 1)
+    lines(finegrid$x, finegrid$yhat, lty = "dotted", lwd = 1)
+    #FIXME what about noise on real evals during mbo? show this how? plot real evals??
+    plotDesignPoints(op, ind.inides, ind.seqdes, ind.prodes, name.y)
+    
+    #par(mai=c(0.15,0.4,0.15,0.2))
+    plot(xseq, finegrid$crit, type = "l", lty = "dashed", 
+      xlab = name.x, ylab=name.crit, lwd=1)
+    plotDesignPoints(op, ind.inides, ind.seqdes, ind.prodes, name.crit)
+    
     #FIXME show design points
-    abline(v = proposed.x)
 
     # add legend in seperate layout row
-    par(mai=c(0,0,0.2,0))
+    #par(mai=c(0,0,0.2,0))
     plot.new()
-    legend(x = "center", ncol = 3, legend = c("y", "y_hat", "EI"), lty = c("solid", "dotted", "dashed"))
+    legend(x = "center", ncol = 3, legend = c("y", "y_hat", name.crit), lty = c("solid", "dotted", "dashed"))
     pause()
   }
 }
 
 set.seed(1)
-n.iters = 8
-ctrl = makeMBOControl(noisy = FALSE, n.init.design.points = 4, n.iters = n.iters, 
-   infill.crit = "ei", infill.opt = "random", random.n.points = 1000, 
-   save.model.at = 0:n.iters)
+
 
 # Some 
 objfun = function(x) {
@@ -173,7 +189,13 @@ objfun2 = function(x) {
   (6*x - 2)^2 * sin(12 * x - 4)
 }
 
-z = exampleRun(objfun2, lower=0, upper=1, control=ctrl)
+par.set = makeNumericParamSet(id="x", len=1, lower=0, upper=1)
+
+ctrl = makeMBOControl(noisy=FALSE, n.init.design.points=4, n.iters=2, 
+   infill.crit="ei", infill.opt="random", random.n.points=1000
+)
+
+z = exampleRun(objfun2, par.set, control=ctrl, n = 500)
 plot(z)
 
 #braninfun = generate_branin_function()

@@ -17,12 +17,7 @@ proposePoints = function(model, par.set, control, opt.path) {
 
   if (control$n.propose.points == 1L) {
     # determine infill criterion
-    infill.crit.fun = switch(control$infill.crit,
-      mean = infillCritMeanResponse,
-      ei = infillCritEI,
-      aei = infillCritAEI,
-      lcb = infillCritLCB
-    )
+    infill.crit.fun = getInfillCritFunction(control$infill.crit)
 
     # determine infill optimization strategy
     infill.opt.fun = switch(control$infill.opt,

@@ -222,12 +222,10 @@ makeMBOControl = function(y.name="y", minimize=TRUE, noisy=FALSE,
 #   Not used.
 #' @S3method print MBOControl
 print.MBOControl = function(x, ...) {
-  minmax = ifelse(x$minimize, "min", "max")
-	noisy = ifelse(x$noisy, "noisy", "not noisy")
-  catf("Objective                   : %s = %s!", x$y.name, minmax)
-  catf("Function type               : %s", noisy)
-  catf("Initial design              : %i points", x$n.init.design.points)
-  catf("Iterations                  : %i", x$n.iters)
+  catf("Objective                   : %s = %s!", x$y.name, ifelse(x$minimize, "min", "max"))
+  catf("Function type               : %s",  ifelse(x$noisy, "noisy", "deterministic"))
+  catf("Init. design                : %i points", x$n.init.design.points)
+  catf("Iterations                  : %i", x$iters)
   catf("Points proposed per iter:   : %i", x$n.propose.points)
   if (x$n.propose.points == 1) {
   catf("Infill criterion            : %s", x$infill.crit)
