@@ -62,6 +62,8 @@ makePrediction = function(task.desc, id, truth, predict.type, y, time) {
 #' @S3method print Prediction
 print.Prediction = function(x, ...) {
   d = printToChar(str(as.data.frame(x)), collapse=NULL)
+  # FIXME: remove NULL from str, maybe add helper to bbmisc?
+  d = collapse(d[-length(d)], "\n")
   catf("Prediction:")
   catf("predict.type: %s", x$predict.type)
   catf("threshold: %s", collapse(sprintf("%s=%.2f", names(x$threshold), x$threshold)))
