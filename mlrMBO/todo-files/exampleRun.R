@@ -1,27 +1,40 @@
-library(mlrMBO)
 library(denstrip)
 library(DAAG)
 library(soobench)
+library(testthat)
+library(devtools)
 
-#' Performs a model based optimization.
-#' Useful for teaching purposes in combination with the plot function.
+load_all("skel", reset=TRUE)
+configureMlr(show.learner.output=FALSE, on.learner.error="stop")
+
+#' Perform a model based optimization on 1D and and visualize what happens.
+#'
+#' Run \code{plot} on the resulting object.
+#' Useful for figuring out how stuff works and for teaching purposes.
 #'
 #' @param fun [\code{function}]\cr
-#'   Fitness function to minimize. The first argument has to be a list of values.
+#'   Objective function. 
+#'   First argument must be a numeric decision variable.
 #'   The function has to return a single numerical value.
-#' @param lower [\code{numeric}]\cr
-#'   Lower bound for function values.
-#' @param upper [\code{numeric}]\cr
-#'   Upper bound for function values.
+#' @param lower [\code{numeric(1)}]\cr
+#'   Lower bound for decision variable.
+#' @param upper [\code{numeric(1)}]\cr
+#'   Upper bound for decision variable.
 #' @param name.x [\code{character(1)}]\cr
-#'   Identifier of the x-values.
+#'   Name of decision variable.
+#'   Default is \dQuote{x}.
 #' @param name.y [\code{character(1)}]\cr
-#'   Identifier for function values.
+#'   Name of objective variable.
+#'   Default is \dQuote{y}.
 #' @param surrogate [\code{\link[mlr]{Learner}}]\cr
 #'   Surrogate model used for the optimization of \code{fun}.
+#FIXME regr.km might be renamed
+#'   Default is mlr learner \dQuote{regr.km}, which is kriging from package
+#'   DiceKriging. \code{nugget.estim} is set to \code{TRUE} depending on whether we have 
+#'   noisy observations or not.
 #' @param control [\code{\link{MBOControl}}]\cr
 #'   MBO control object.
-#' @param noisy.evals [\code{numeric(1)}]\cr
+#' @param noisy.evals [\code{integer(1)}]\cr
 #'   Number of evaluations if \code{fun} is noisy.
 #' @param n [\code{integer(1)}]\nr
 #'   Number of locations at which to sample the \code{fun} function.
@@ -31,30 +44,37 @@ library(soobench)
 #'   \item{yseq [\code{numeric}]}{Sequence of evaluated points.}
 #'   \item{name.x [\code{character}]}{Identifier for domain space.}
 #'   \item{name.y [\code{character}]}{Identifier for evaluated points.}
-#'   \item{surrogate [\code{\link[mlr]{Learner}}]}{Surrogate model used for optimization of \code{fun}.}
+#'   \item{learner [\code{\link[mlr]{Learner}}]}{Surrogate model used for optimization of \code{fun}.}
 #'   \item{control [\code{\link{MBOControl}}]}{MBO control object.}
 #'   \item{mbo.res [\code{\link{MBOResult}}]}{MBO result object.}
-exampleRun = function(fun, lower, upper, name.x = "x", name.y = "y",
-  surrogate, control, noisy.evals = 5, n = 50) {
+exampleRun = function(fun, lower, upper,learner, name.x = "x", name.y = "y",
+  control, noisy.evals = 5, n = 50) {
   
   checkArg(fun, "function")
-  checkArg(name.x, "character", len = 1L, na.ok = FALSE)
-  checkArg(name.y, "character", len = 1L, na.ok = FALSE)
   checkArg(lower, "numeric", len = 1L, na.ok = FALSE)
   checkArg(upper, "numeric", len = 1L, na.ok = FALSE)
-  checkArg(noisy.evals, "numeric", len = 1L, na.ok = FALSE)
-  checkArg(n, "numeric", len = 1L, na.ok = FALSE)
-  
-  if (missing(surrogate)) {
-    surrogate = makeLearner("regr.km", predict.type = "se", nugget.estim = TRUE)
+  if (missing(learner)) {
+    learner = makeLearner("regr.km", predict.type = "se", nugget.estim = control$noisy)
   } else {
-    checkArg(surrogate, "Learner")
+    checkArg(learner, "Learner")
   }
+  checkArg(name.x, "character", len = 1L, na.ok = FALSE)
+  checkArg(name.y, "character", len = 1L, na.ok = FALSE)
+  noisy.evals = convertInteger(noisy.evals)
+  checkArg(noisy.evals, "integer", len = 1L, na.ok = FALSE)
+  n = convertInteger(n)
+  checkArg(n, "integer", len = 1L, na.ok = FALSE)
+
+  
+  #show some info on console
+  messagef("Peforming MBO on function.")
+  messagef("Initial design: %i. Sequential iterations: %i.", control$n.init.design.points, control$n.iters)
+  messagef("Learner: %s. Settings:\n%s", learner$id, mlr:::getHyperParsString(learner))
 
   #FIXME maybe allow 1 discrete or int param as well!
   par.set = makeParamSet(makeNumericParam(name.x, lower = lower, upper = upper))
   
-  res = mbo(fun, par.set, learner = surrogate, control = control)
+  res = mbo(fun, par.set, learner = learner, control = control)
   
   xseq = seq(lower, upper, length.out = n)
 
@@ -68,7 +88,7 @@ exampleRun = function(fun, lower, upper, name.x = "x", name.y = "y",
   })
 
   structure(list(xseq = xseq, yseq=yseq, name.x=name.x, name.y=name.y, 
-    surrogate=surrogate, control=control, mbo.res=res), class="MBOExampleRun")
+    learner=learner, control=control, mbo.res=res), class="MBOExampleRun")
 }
 
 plot.MBOExampleRun = function(obj, ...) {
@@ -137,6 +157,7 @@ plot.MBOExampleRun = function(obj, ...) {
   }
 }
 
+set.seed(1)
 n.iters = 8
 ctrl = makeMBOControl(noisy = FALSE, n.init.design.points = 4, n.iters = n.iters, 
    infill.crit = "ei", infill.opt = "random", random.n.points = 1000, 
