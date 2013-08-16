@@ -2,6 +2,8 @@ library(denstrip)
 library(soobench)
 library(testthat)
 library(devtools)
+library(DAAG)
+library(mlr)
 
 load_all("skel", reset=TRUE)
 configureMlr(show.learner.output=FALSE, on.learner.error="stop")
@@ -57,6 +59,7 @@ exampleRun = function(fun, par.set, learner, control, noisy.evals = 5, n = 50) {
     checkArg(learner, "Learner")
   }
   noisy.evals = convertInteger(noisy.evals)
+  n.iters = control$n.iters
   checkArg(noisy.evals, "integer", len = 1L, na.ok = FALSE)
   n = convertInteger(n)
   checkArg(n, "integer", len = 1L, na.ok = FALSE)
@@ -70,6 +73,7 @@ exampleRun = function(fun, par.set, learner, control, noisy.evals = 5, n = 50) {
   messagef("Initial design: %i. Sequential iterations: %i.", control$n.init.design.points, control$n.iters)
   messagef("Learner: %s. Settings:\n%s", learner$id, mlr:::getHyperParsString(learner))
   
+  # extract bounds for fun
   lower = getLower(par.set)
   upper = getUpper(par.set)
   
@@ -107,6 +111,10 @@ plot.MBOExampleRun = function(obj, ...) {
   
   finegrid = data.frame(x=xseq, y=yseq)
   critfun = getInfillCritFunction(name.crit)
+  opt.direction = 1
+  if (name.crit %in% c("ei")) {
+    opt.direction = -1
+  }
   
   op = as.data.frame(obj$mbo.res$opt.path)
   # ind.* are index sets into the opt.path (initial design and so on)
@@ -130,19 +138,37 @@ plot.MBOExampleRun = function(obj, ...) {
       mod, ctrl, par.set, op[ind.pasdes, ])
     finegrid$se = -mlrMBO:::infillCritStandardError(finegrid[, "x", drop =FALSE], 
       mod, ctrl, par.set, op[ind.pasdes, ])
-    finegrid$crit = critfun(finegrid[, "x", drop =FALSE], 
+    finegrid$crit = opt.direction * critfun(finegrid[, "x", drop =FALSE], 
       mod, ctrl, par.set, op[ind.pasdes, ])
     finegrid$yhat.low = finegrid$yhat - 1 * finegrid$se 
-    finegrid$yhat.upp = finegrid$yhat + 1 * finegrid$se 
-  
+    finegrid$yhat.upp = finegrid$yhat + 1 * finegrid$se
+
+    # ggplot playground 
+    # library(ggplot2)
+    # library(gridExtra)
+    # finegrid2 = data.frame(x=rep(finegrid$x, 2))
+    # finegrid2$y = c(finegrid$y, finegrid$yhat)
+    # finegrid2$f = rep(c("y", "yhat"), each=nrow(finegrid))
+    # finegrid2$yhat.low = rep(finegrid$yhat.low, 2)
+    # finegrid2$yhat.upp = rep(finegrid$yhat.upp, 2)
+    # #print(head(finegrid2))
+    # # FIXME: insert infill crit in legend, place legend
+    # pl1 = ggplot(data=finegrid2, aes(x=x, y=y, linetype=f)) + geom_line()
+    # pl1 = pl1 + ggtitle(paste("Iteration", i))
+    # pl1 = pl1 + theme(legend.position="none")
+    # pl1 = pl1 + geom_ribbon(aes(ymin=yhat.low, ymax=yhat.upp), alpha=0.1, colour ="gray", linetype="dashed", fill="red")
+    # pl2 = ggplot(data=finegrid, aes(x=x, y=crit)) + geom_line(linetype="dashed")
+    # grid.arrange(pl1, pl2, nrow=2)
+    # stop()
+    
     # infill crit y vals for lower plot
-    op[[name.crit]] = critfun(op[, name.x, drop =FALSE], 
+    op[[name.crit]] = opt.direction * critfun(op[, name.x, drop =FALSE], 
       mod, ctrl, par.set, op[ind.pasdes, ])
     
-    #FIXME what is this for?
+    # define layout, i.e., the space available and the order of the plots 
     layout(matrix(c(1,2,3), ncol=1, byrow=TRUE), heights=c(2.25, 2.25, 0.5))
 
-    #par(mai=c(0.15,0.4,0.3,0.2))
+    par(mai=c(0.15,0.8,0.3,0.2))
     plot(c(), xlim = range(xseq), ylim = range(yseq), 
       xlab = obj$name.x, ylab = name.y, main = sprintf("Iter = %i", i))
 
@@ -161,7 +187,7 @@ plot.MBOExampleRun = function(obj, ...) {
     #FIXME what about noise on real evals during mbo? show this how? plot real evals??
     plotDesignPoints(op, ind.inides, ind.seqdes, ind.prodes, name.y)
     
-    #par(mai=c(0.15,0.4,0.15,0.2))
+    par(mai=c(0.15,0.8,0.15,0.2))
     plot(xseq, finegrid$crit, type = "l", lty = "dashed", 
       xlab = name.x, ylab=name.crit, lwd=1)
     plotDesignPoints(op, ind.inides, ind.seqdes, ind.prodes, name.crit)
@@ -169,9 +195,9 @@ plot.MBOExampleRun = function(obj, ...) {
     #FIXME show design points
 
     # add legend in seperate layout row
-    #par(mai=c(0,0,0.2,0))
+    par(mai=c(0,0,0.2,0))
     plot.new()
-    legend(x = "center", ncol = 3, legend = c("y", "y_hat", name.crit), lty = c("solid", "dotted", "dashed"))
+    legend(x="center", ncol = 3, border="white", legend=c("y", expression(hat(y)), name.crit), lty=c("solid", "dotted", "dashed"))
     pause()
   }
 }
