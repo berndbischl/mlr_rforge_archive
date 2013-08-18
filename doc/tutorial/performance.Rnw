@@ -120,8 +120,9 @@ mod <- train(lrn, task, subset = training.set)
 ## Prediction on test set data 
 pred <- predict(mod, newdata = BostonHousing[test.set, ])
 
-## Compare predicted and true label with measure MSE 
-performance(pred, measure = mse)
+## Compare predicted and true labels using measures MSE and MAE
+ms <- list("mse" = mse, "mae" = mae)
+sapply(ms, function(meas) performance(pred, measure = meas))
 @
 
 Construction of additional performance measures

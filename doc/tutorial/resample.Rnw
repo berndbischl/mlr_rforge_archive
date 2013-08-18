@@ -29,7 +29,7 @@ Classification example
 <<>>=
 library("mlr")
 
-## Define a learning task and a appropriate learner
+## Define a learning task and an appropriate learner
 task <- makeClassifTask(data = iris, target = "Species")
 lrn <- makeLearner("classif.lda")
 
@@ -55,7 +55,7 @@ library("mlr")
 library("mlbench")
 data(BostonHousing)
 
-## Define a learning task and a appropriate learner
+## Define a learning task and an appropriate learner
 task <- makeRegrTask(data = BostonHousing, target = "medv")
 lrn <- makeLearner("regr.lm")
 
@@ -80,7 +80,7 @@ are indices into :math:`D`, defining the respective training and test
 sets. 
 These iterations are implemented by storing the index set in a
 so called ResampleInstance_ object. The reasons for having the user
-create this data explicitly and not just set an option in a R function
+create this data explicitly and not just set an option in an R function
 to choose the resampling method are:
 
 * It is easier to create paired experiments, where you train and test
@@ -191,12 +191,9 @@ occuring in the training set, form the test set.
 rdesc <- makeResampleDesc("Bootstrap", iters = 10)
 @ 
 
+                     |resampling_desc_figure|
 
-<p><img src="pics/resampling.[desc, instance].png" width="40%"  border="1" alt=""></p>
-
-
-<p><img src="pics/Nested_Resampling.png" width="60%"  border="1" alt=""></p>
-
+                     |resampling_nested_resampling_figure|
 
 
 Evaluation of Predictions after Resampling
@@ -220,9 +217,9 @@ example...
 Classification example
 ......................
 
-For the example code, we use the standard iris data set and compare a
-Decision Tree and the Linear Discriminant based on a 10-fold cross-validation
-Analysis:
+For the example code, we use the standard iris data set and compare a 
+Decision Tree and the Linear Discriminant Analysis based on a 10-fold
+cross-validation:
 
 <<>>=
 ## Classification task
@@ -240,7 +237,7 @@ error (`mmce`) and the accuracy (`acc`):
 ## Merge learner (lrn), i.e. Decision Tree, classification task (task) and 
 ## resample instance (rinst)
 lrn <- makeLearner("classif.rpart")
-r1 <- resample(lrn, task, rinst)
+r1 <- resample(lrn, task, rinst, list(mmce, acc))
 @
 
 Let's set a couple of hyperparameters for rpart
@@ -266,21 +263,23 @@ the `measures.test` element of the result list:
 r1$measures.test
 @ 
 
+As you can see above, in every fold of the 3-fold cross-validation you
+get one mean misclassification error (cf. the second column).
+
 The aggregated performance values are stored in the `aggr` list element:
 
 <<>>=
 r1$aggr
 @ 
 
-As you can see above, in every fold of the 3-fold cross-validation you
-get one mean misclassification error (0.06, 0.08, 0.10) and after all
-three runs you aggregate them by mean to one value (0.08). Having a
-look at the single losses is of course possible as well.
+The latter value is the aggregation, i.e. by default the mean, of the three 
+misclassification errors from the table above.
+Having a look at the single losses is of course possible as well.
 
 Regression example
 ......................
 
-Now, we use the BostonHousing data and compare the results of a Neural Net and a k-Nearest-Neighbor regression with out-of-bag bootstraping.
+Now, we use the BostonHousing data and compare the results of a Neural Net and a k-Nearest-Neighbor regression using out-of-bag bootstraping.
 
 <<>>=
 library("mlr")
@@ -302,14 +301,16 @@ r1 <- resample(lrn1, task, rinst, measures = ms)
 ## Another resampling for the k-Nearest Neighbor regression
 lrn2 <- makeLearner("regr.kknn")
 r2 <- resample(lrn2, task, rinst, measures = ms)
+@
 
-## Now let's compare both methods regarding the mse (mean squared error) and the
-## medae (median of absolute errors)
+Now, we can compare both methods regarding the **mse** (mean squared error) and the
+**medae** (median of absolute errors):
+
+<<>>=
 r1$measures.test
 r2$measures.test
 @
 
-...
 
 .. _resample: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/resample.html
 .. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeLearner.html
@@ -324,3 +325,13 @@ r2$measures.test
      :align: middle
      :width: 40em
      :alt: Resampling illustration
+     
+.. |resampling_desc_figure| image:: /_images/resampling_desc_and_instance.png
+     :align: middle
+     :width: 40em
+     :alt: Resampling description and instance
+     
+.. |nested_resampling_figure| image:: /_images/nested_resampling.png
+     :align: middle
+     :width: 60em
+     :alt: Nested resampling illustration

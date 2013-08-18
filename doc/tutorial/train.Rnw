@@ -82,7 +82,7 @@ mod <- train(lrn, task, subset = seq(from = 1, to = nrow(iris), by = 2))
 mod
 @
   
-It's still simple to access the wrapped rpart model, but in most cases there won't be a need to so.
+It's still simple to access the wrapped rpart model, but in most cases there won't be a need to do so.
 
 <<>>=
 mod$learner.model

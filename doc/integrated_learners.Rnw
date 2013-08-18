@@ -21,14 +21,13 @@ show_learners <- function(learners) {
     }
     package_link <- paste(package_link, collapse=", ")
 
-    description <- as.data.frame(c(name=learner, 
-                                   package=package_link
-                                   ))
+    description <- as.data.frame(cbind(name=learner, 
+                                       package=package_link))
     learner_descriptions <- rbind(learner_descriptions, description)
     #description <- as.data.frame(c(name=learner, 
     #                               package=package_link, 
     #                               l@properties))
-    learner_descriptions <- rbind(learner_descriptions, description)
+    #learner_descriptions <- rbind(learner_descriptions, description)
   }
   
   ## Remove all constant columns:
