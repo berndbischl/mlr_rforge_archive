@@ -54,7 +54,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
 
 	# generate initial design if none provided
   if (is.null(design)) {
-    design.x = generateDesign(control$n.init.design.points, par.set,
+    design.x = generateDesign(control$init.design.points, par.set,
       control$init.design.fun, control$init.design.args, trafo=FALSE)
   } else {
     design.x = design
@@ -104,7 +104,7 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
 	}
 
 	# do the mbo magic
-  for (loop in seq_len(control$n.iters)) {
+  for (loop in seq_len(control$iters)) {
 
 		# impute new points and evaluete target function
     prop.design = proposePoints(model, par.set, control, opt.path)
@@ -126,26 +126,24 @@ mbo = function(fun, par.set, design=NULL, learner, control, show.info=TRUE, ...)
 
   design = getTaskData(rt, target.extra=TRUE)$data
   final.index = chooseFinalPoint(fun, par.set, model, opt.path, y.name, control)
-
-  if (control$n.final.evals > 0L) {
+  best = getOptPathEl(opt.path, final.index)
+  x = best$x
+  y = best$y
+  
+  if (control$final.evals > 0L) {
 		# do some final evaluations and compute mean of target fun values
-    prop.design = design[rep(final.index, control$n.final.evals),,drop=FALSE]
-    xs = lapply(seq_len(nrow(prop.design)), function(i) ParamHelpers:::dfRowToList(prop.design, par.set, i))
+    xs = replicate(control$final.evals, best$x)
     ys = evalTargetFun(fun, par.set, xs, opt.path, control, show.info, oldopts, ...)
-    y = mean(ys)
-    x = xs[[1L]]
-  } else {
-    y = getOptPathEl(opt.path, final.index)$y
-    x = ParamHelpers:::dfRowToList(design, par.set, final.index)
+    best$y = mean(ys)
   }
-
   # restore mlr configuration
   configureMlr(on.learner.error=oldopts[["ole"]], show.learner.output=oldopts[["slo"]])
 
   # make sure to strip name of y
   structure(list(
-    x=x,
-    y=as.numeric(y),
+    x=best$x,
+    # strip name
+    y=as.numeric(best$y),
     opt.path=opt.path,
     resample=res.vals,
     models=models

@@ -9,7 +9,7 @@ test_that("mbo works correctly with and without initial design", {
   )
 	
   learner = makeLearner("regr.km", nugget.estim=TRUE)
-  ctrl = makeMBOControl(n.iters=5, random.n.points=10)
+  ctrl = makeMBOControl(iters=5, infill.opt.random.points=10)
 	
 	# PROVIDE INITIAL DESIGN WITHOUT TRAFO
   des = generateDesign(10, par.set=ps)

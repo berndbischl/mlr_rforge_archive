@@ -13,9 +13,9 @@
 proposePoints = function(model, par.set, control, opt.path) {
   # generate a few random points if model failed
   if (inherits(model, "FailureModel"))
-    return(generateDesign(control$n.propose.points, par.set, randomLHS, ints.as.num=TRUE))
+    return(generateDesign(control$propose.points, par.set, randomLHS, ints.as.num=TRUE))
 
-  if (control$n.propose.points == 1L) {
+  if (control$propose.points == 1L) {
     # determine infill criterion
     infill.crit.fun = getInfillCritFunction(control$infill.crit)
 

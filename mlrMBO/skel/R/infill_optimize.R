@@ -18,7 +18,7 @@
 
 # mean response of model
 infillOptRandom = function(infill.crit, model, control, par.set, opt.path, design) {
-  newdesign = generateDesign(control$random.n.points, par.set,
+  newdesign = generateDesign(control$infill.opt.random.points, par.set,
     randomLHS, ints.as.num=TRUE, logicals.as.factor=TRUE)
   y = infill.crit(newdesign, model, control, par.set, design)
   newdesign[rank(y, ties.method="random") == 1L, , drop=FALSE]
@@ -48,7 +48,7 @@ infillOptCMAES = function(infill.crit, model, control, par.set, opt.path, design
       start = sampleValue(par.set)
     }
     start = unlist(start)
-    results[[i]] = cma_es(par=start, fn=f, lower=low, upper=upp, control=cmaes.control)
+    results[[i]] = cma_es(par=start, fn=f, lower=low, upper=upp, control=control$infill.opt.cmaes.control)
   }
   ys = extractSubList(results, "value")
   j = which(rank(ys, ties.method="random") == 1L)

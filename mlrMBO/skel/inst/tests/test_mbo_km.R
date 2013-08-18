@@ -11,7 +11,7 @@ test_that("mbo works with km", {
   y  = sapply(1:nrow(des), function(i) f(as.list(des[i,])))
   des$y = y
   learner = makeLearner("regr.km", nugget.estim=TRUE)
-  ctrl = makeMBOControl(n.iters=5, random.n.points=100)
+  ctrl = makeMBOControl(iters=5, infill.opt.random.points=100)
   or = mbo(f, ps, des, learner, ctrl)
   expect_true(!is.na(or$y))
   expect_equal(getOptPathLength(or$opt.path), 15)
@@ -39,7 +39,7 @@ test_that("mbo works with km", {
   expect_equal(names(or$x), names(ps$pars))
 
   learner = setPredictType(learner, "se")
-  ctrl = makeMBOControl(n.iters=5, random.n.points=100, infill.crit="ei")
+  ctrl = makeMBOControl(iters=5, infill.opt.random.points=100, infill.crit="ei")
   or = mbo(f, ps, des, learner, ctrl)
   expect_true(!is.na(or$y))
   expect_equal(getOptPathLength(or$opt.path), 15)

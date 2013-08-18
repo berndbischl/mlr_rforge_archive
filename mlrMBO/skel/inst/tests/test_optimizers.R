@@ -6,8 +6,8 @@ test_that("infill optimizers", {
     makeNumericVectorParam("x", len=2, lower=-10, upper=10) 
   )
   mycontrol = function(opt, restarts) {
-    makeMBOControl(n.init.design.points=20, n.iters=5, infill.crit="mean", infill.opt=opt,
-      cmaes.control = list(maxit=10))
+    makeMBOControl(init.design.points=20, iters=5, infill.crit="mean", infill.opt=opt,
+      infill.opt.cmaes.control = list(maxit=10))
   }
   mycheck = function(or) {
     expect_equal(getOptPathLength(or$opt.path), 25)
