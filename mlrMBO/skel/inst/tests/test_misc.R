@@ -1,23 +1,25 @@
+#FIXME reread and fix!
+
 #context("simple optims")
 
-#FIXME what do actually test in both? why noisy?
-# why expensive?
+#test_that("simple optims", {
+  # maximum is x1 = 50, x2 = any, x3=a, y=70
+#   fit = function(x) {
+#     #print(x)
+#     x$x1 - is.null(x$x2) * 100 + 20 * (x$x3 == "a")
+#   }
+#   
+#   easy = makeParamSet(
+#     makeNumericParam("x1", lower = 0, upper = 100),
+#     makeNumericParam("x2", lower = 50, upper = 100, requires = quote(x1 <= 50)),
+#     makeDiscreteParam("x3", values = c("a", "blasdfkjaslkdjaslkdjflkjsdafj")))
+#   
+#   surrogate = makeLearner("regr.randomForest")
+#   ctrl = makeMBOControl(minimize=FALSE, infill.crit="mean", iters=30, infill.opt.random.points=100)  
+#   opt = mbo(fit, easy, learner = surrogate, control= ctrl)
+#   expect_true(opt$x$x1 > 45 && opt$x$x1 <= 50 && is.na(opt$x$x2) && opt$x$x3 == "a" && opt$y > 68 && opt$y <= 70)
+#})
 
-# test_that("simple optims", {
-#     fit = function(x) {
-#       -(x$x1 - is.null(x$x2) * 30 + 5 * (x$x3 == "a") + runif(1, 1, 5))
-#     }
-# 
-#     easy = makeParamSet(
-#       makeNumericParam("x1", lower = 0, upper = 100),
-#       makeNumericParam("x2", lower = 0, upper = 100, requires = quote(x1 > 50)),
-#       makeDiscreteParam("x3", values = c("a", "blasdfkjaslkdjaslkdjflkjsdafj")))
-# 
-#     surrogate = makeLearner("regr.randomForest")
-#     opt = mbo(fit, easy, learner = surrogate, control = makeMBOControl(infill.crit="mean", n.iters=20, random.n.points=100))
-#     expect_true(opt$x$x1 > 85 && opt$x$x2 < 50 && opt$x$x3 == "a")
-# })
-# 
 #  test_that("complex paramset" , {
 #   if(isExpensiveExampleOk()) {
 #     ps = makeParamSet(
@@ -65,6 +67,6 @@
 #     }
 # 
 #     surrogate = makeLearner("regr.randomForest")
-#     opt = mbo(fit, ps, learner = surrogate, control = makeMBOControl(random.n.points=10))
+#     opt = mbo(fit, ps, learner = surrogate, control = makeMBOControl(infill.opt.random.points=10))
 #   }
 # })
