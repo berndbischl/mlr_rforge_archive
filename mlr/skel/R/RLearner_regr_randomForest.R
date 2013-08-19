@@ -59,9 +59,7 @@ trainLearner.regr.randomForest = function(.learner, .task, .subset, .weights, ..
 
       # save models in attrribute
       attr(m, "mlr.se.bootstrap.models") = models
-    } else if (par.vals$se.method == "jackknife") {
-      return (randomForest(f, data=getTaskData(.task, .subset), ...))
-    }
+    } 
   } 
   return(m)
 }
@@ -87,8 +85,6 @@ predictLearner.regr.randomForest = function(.learner, .model, .newdata, ...) {
 bootstrapStandardError = function(.learner, .model, .newdata, ...) {
     # copy learner and change response type
     par.vals = .learner$par.vals
-    learner = .learner
-    learner = setPredictType(learner, "response")
 
     models = attr(.model$learner.model, "mlr.se.bootstrap.models")
     B = length(models)
@@ -101,37 +97,35 @@ bootstrapStandardError = function(.learner, .model, .newdata, ...) {
       predict(model, .newdata, predict.all=TRUE)
     })
     
-    aggr_responses = as.data.frame(lapply(preds, function(p) p$aggregate))
-    names(aggr_responses) = 1:B
+    # n x B matrix of reponses of B forests
+    aggr.responses = extractSubList(preds, "aggregate",  simplify=TRUE)
+    names(aggr.responses) = 1:B
+    mean.responses = rowMeans(aggr.responses)
+    # list of n x M matrices of ensemble responses
+    ind.responses = extractSubList(preds, "individual", simplify=FALSE, use.names=FALSE)
 
-    mean_responses = rowMeans(aggr_responses)
-
-    ind_responses = lapply(preds, function(p) p$individual)
-    names(ind_responses) = NULL
-
-    # compute (brute-force) bootstrap standard error
-    res = matrix(NA, ncol=2, nrow=nrow(.newdata))
-    for (i in 1:nrow(.newdata)) {
-      res[i,] = c(mean_responses[i], sum((aggr_responses[i,] - mean_responses[i])^2)/(B-1))
-    }
+    # R substracts columnswise matrix - vector, 2nd is actually apply(aggr.responses, 1, var)
+    res = cbind(mean.responses, rowSums((aggr.responses - mean.responses)^2) / (B-1))
 
     if (par.vals$se.method == "noisy.bootstrap") {
       # Bias contributed significantly to the error of the biased bootstrap estimator
       # Thus, compute a corrected version
       # FIXME: check if this works properly
+      const = ((1/R) - (1/M))/(B*R*(R-1))
       for (i in 1:nrow(.newdata)) {
         bias = 0
         for (b in 1:B) {
           for (r in 1:R) {
-            bias = bias + (ind_responses[[b]][i,r] - aggr_responses[i,b])^2
+            bias = bias + (ind.responses[[b]][i,r] - aggr.responses[i,b])^2
           }
         }
 
-        bias = bias * ((1/R) - (1/M))/(B*R*(R-1))
+        bias = bias * const
         res[i,2] = res[i,2] - bias
       }
     }
-
+    
+    # var --> sd
     res[,2] = sqrt(res[,2])
 
     return(res)
