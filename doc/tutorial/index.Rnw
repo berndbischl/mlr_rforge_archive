@@ -20,6 +20,7 @@ Tutorial
    benchmark_analysis
    roc_analysis
    create_learner
+   create_measure
    
 This web page will provide you with an in-depth introduction on how to
 use the **mlr** framework for machine learning experiments and
