@@ -189,10 +189,10 @@ pred <- predict(mod, newdata = BostonHousing[test.set,])
 head(pred$data)
 @
 
-.. _train: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/train.html
-.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeLearner.html
-.. _Prediction: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/Prediction.html
-.. _predict: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/predict.WrappedModel.html
-.. _getProb: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/getProbabilities.html
-.. _setThreshold: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/setThreshold.html
+.. _train: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/train.html
+.. _Learner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/makeLearner.html
+.. _Prediction: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/Prediction.html
+.. _predict: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/predict.WrappedModel.html
+.. _getProb: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/getProbabilities.html
+.. _setThreshold: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/setThreshold.html
 .. _mlbench: http://cran.r-project.org/web/packages/mlbench/index.html

@@ -171,10 +171,10 @@ task$task.desc
 str(task$task.desc)
 @ 
 
-.. _LearnTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/SupervisedTask.html
-.. _TaskDesc: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/TaskDesc.html
-.. _ClassifTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/SupervisedTask.html
-.. _RegrTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/SupervisedTask.html
-.. _makeClassifTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/SupervisedTask.html
-.. _makeRegrTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/SupervisedTask.html
+.. _LearnTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/SupervisedTask.html
+.. _TaskDesc: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/TaskDesc.html
+.. _ClassifTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/SupervisedTask.html
+.. _RegrTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/SupervisedTask.html
+.. _makeClassifTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/SupervisedTask.html
+.. _makeRegrTask: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/SupervisedTask.html
 .. _Training: train.html

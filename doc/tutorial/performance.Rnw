@@ -160,7 +160,7 @@ performance(pred, measure = my.mmce)
 performance(pred, measure = mmce)
 @
 
-.. _makeLearner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeLearner.html
-.. _performance: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/performance.html
-.. _makeMeasure: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeMeasure.html
-.. _measures: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/measures.html
+.. _makeLearner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/makeLearner.html
+.. _performance: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/performance.html
+.. _makeMeasure: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/makeMeasure.html
+.. _measures: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/measures.html

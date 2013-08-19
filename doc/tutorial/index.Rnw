@@ -46,4 +46,4 @@ packages.
 
 Enjoy reading!
 
-.. _manual pages: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/00Index.html
+.. _manual pages: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/00Index.html

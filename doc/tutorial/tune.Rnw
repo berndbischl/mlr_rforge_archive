@@ -164,12 +164,12 @@ tune(learner=lrn, task=task, resampling=rdesc, par.set=ps, control=ctrl, measure
 
 
 
-.. _makeParamSet: http://www.statistik.tu-dortmund.de/~bischl/rdocs/ParamHelpers/makeParamSet.html
-.. _makeLearner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/makeLearner.html
-.. _train: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/train.html
-.. _resample: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/resample.html
-.. _ParamSet: http://www.statistik.tu-dortmund.de/~bischl/rdocs/ParamHelpers/makeParamSet.html
-.. _TuneControl: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlrTune/TuneControl.html
+.. _makeParamSet: http://www.statistik.tu-dortmund.de/~bischl/rdocs/ParamHelpers/html/makeParamSet.html
+.. _makeLearner: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/makeLearner.html
+.. _train: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/train.html
+.. _resample: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/resample.html
+.. _ParamSet: http://www.statistik.tu-dortmund.de/~bischl/rdocs/ParamHelpers/html/makeParamSet.html
+.. _TuneControl: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlrTune/html/TuneControl.html
 
 .. _training: :doc:`tutorial/train`
 .. _resampling: :doc:`tutorial/resample`
