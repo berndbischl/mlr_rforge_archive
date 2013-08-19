@@ -29,7 +29,9 @@ plotMBOExampleRun2DNumeric = function(obj, ..., pch, col.initdes, col.seqdes, co
   }
   
   par(mfrow=c(2, 2))
-
+  # do we plot stuff relatated to model uncertainty?
+  se = obj$learner$predict.type == "se"
+  
   # extract information from example run object
   par.set = obj$par.set
   names.x = obj$names.x
@@ -60,14 +62,18 @@ plotMBOExampleRun2DNumeric = function(obj, ..., pch, col.initdes, col.seqdes, co
     
     evals[["yhat"]] = mlrMBO:::infillCritMeanResponse(evals[, names.x, drop=FALSE], 
       mod, ctrl, par.set, op[ind.pasdes, ])
-    evals[["se"]] = -mlrMBO:::infillCritStandardError(evals[, names.x, drop=FALSE], 
-      mod, ctrl, par.set, op[ind.pasdes, ])
+    if (se) 
+      evals[["se"]] = -mlrMBO:::infillCritStandardError(evals[, names.x, drop=FALSE], 
+        mod, ctrl, par.set, op[ind.pasdes, ])
     evals[[name.crit]] = opt.direction * critfun(evals[, names.x, drop=FALSE], 
       mod, ctrl, par.set, op[ind.pasdes, ])
     
     plotfun1(name.y, ind.inides, ind.seqdes, ind.prodes, log=TRUE) 
     plotfun1("yhat", ind.inides, ind.seqdes, ind.prodes, log=TRUE) 
-    plotfun1("se", ind.inides, ind.seqdes, ind.prodes, log=FALSE) 
+    if (se)
+      plotfun1("se", ind.inides, ind.seqdes, ind.prodes, log=FALSE) 
+    else # FIXME do what here?
+      plot(1,1)
     plotfun1(name.crit, ind.inides, ind.seqdes, ind.prodes, log=FALSE) 
     pause()
   }
