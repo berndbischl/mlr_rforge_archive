@@ -13,7 +13,7 @@ measures.
 
 To see which performance measures are implemented, have a look at measures_. If you want 
 to implement an additional measure or include a measure with non-standard 
-misclassification costs, go to the chapter on measure-creation_. In order to calculate 
+misclassification costs, go to the section :doc:`create_measure`. In order to calculate 
 the performance measures, the function performance_ is used.
 
 
@@ -130,4 +130,3 @@ sapply(ms, function(meas) performance(pred, measure = meas))
 .. _performance: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/performance.html
 .. _measures: http://www.statistik.tu-dortmund.de/~bischl/rdocs/mlr/html/measures.html
 .. _Learners: learner.html
-.. _measure-creation: create_measure.html
