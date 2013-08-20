@@ -64,6 +64,12 @@ test.sum = makeAggregation(
   fun = function(task, perf.test, perf.train, measure, group, pred) sum(perf.test)
 )
 
+#' @export
+#' @rdname aggregations
+test.sqrt.of.mean = makeAggregation(
+  id = "test.sqrt.of.mean",
+  fun = function(task, perf.test, perf.train, measure, group, pred) sqrt(mean(perf.test))
+)
 
 #' @export
 #' @rdname aggregations

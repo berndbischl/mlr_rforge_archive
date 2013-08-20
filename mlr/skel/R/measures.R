@@ -39,6 +39,7 @@
 #' 		\item{\bold{sae}}{\cr Sum of absolute errors}
 #' 		\item{\bold{mae}}{\cr Mean of absolute errors}
 #' 		\item{\bold{medae}}{\cr Median of absolute errors}
+#'    \item{\bold{rmse}}{\cr Root mean square error}
 #' }
 #'
 #' General:
@@ -100,6 +101,15 @@ mse = makeMeasure(id="mse", minimize=TRUE, regr=TRUE, allowed.pred.types=c("resp
   fun=function(task, model, pred, extra.args) {
     mean((pred$data$response - pred$data$truth)^2)
   }
+)
+
+#' @export rmse
+#' @rdname measures
+rmse = makeMeasure(id="rmse", minimize=TRUE, regr=TRUE, allowed.pred.types=c("response", "se"),
+  fun=function(task, model, pred, extra.args) {
+    mean((pred$data$response - pred$data$truth)^2)
+  },
+  aggr = test.sqrt.of.mean 
 )
 
 #' @export medse

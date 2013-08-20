@@ -20,7 +20,7 @@
 #' \item{req.model [\code{logical(1)}]}{Is model object required in calculation?}
 #' \item{fun [\code{function}]}{See argument.}
 #' \item{extra.args [\code{list}]}{See argument.}
-#' \item{aggr [\code{\link{Aggregation}}]}{Associated aggregation function}.
+#' \item{aggr [\code{\link{Aggregation}}]}{{See argument.}.
 #' }
 #'
 #' @param id [\code{character(1)}]\cr
@@ -47,6 +47,10 @@
 #' @param extra.args [\code{list}]\cr
 #'   List of extra arguments which will always be passed to \code{fun}.
 #'   Default is empty list.
+#' @param aggr [\code{\link{Aggregation}}]\cr
+#'   Aggregation funtion, which is used to aggregate the values measured
+#'   on test / training sets of the measure to a single value.
+#'   Default is \code{\link{test.mean}}.
 #' @return [\code{\link{Measure}}].
 #' @export
 #' @aliases Measure
@@ -55,7 +59,7 @@
 #'   sum((pred$data$response - pred$data$truth)^2)
 #' makeMeasure(id="my.sse", minimize=TRUE, regr=TRUE, allowed.pred.types="response", fun=f)
 makeMeasure = function(id, minimize, classif=FALSE, regr=FALSE,
-  only.binary=FALSE, allowed.pred.types=character(0L), fun, extra.args=list()) {
+  only.binary=FALSE, allowed.pred.types=character(0L), fun, extra.args=list(), aggr=test.mean) {
 
   checkArg(id, "character", len=1L, na.ok=FALSE)
   checkArg(minimize, "logical", len=1L, na.ok=FALSE)
