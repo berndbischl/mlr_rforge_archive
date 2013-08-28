@@ -5,7 +5,7 @@
 #' @param pred [\code{\link{Prediction}}] \cr
 #'   Prediction object to evaluate.
 #' @param measure [\code{\link{Measure}}]
-#'   Performance measure.
+#'   Performance measure to evaluate.
 #' @param task [\code{\link{SupervisedTask}}]\cr
 #'   Learning task, might be requested by performance measure, usually not needed.
 #' @param model [\code{\link{WrappedModel}}]\cr
@@ -42,7 +42,10 @@
 #'   performance(pred, measure = the.ms, task, mod)
 #' })
 performance = function(pred, measure, task, model) {
-  checkArg(measure, "Measure")
+  if (missing(measure))
+    measure = default.measures(task)[[1]]
+  else
+    checkArg(measure, "Measure")
   m = measure
   td = NULL
   if (m$req.pred) {

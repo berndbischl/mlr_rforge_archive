@@ -18,8 +18,7 @@
 #'   Resampling strategy.
 #'   If a description is passed, it is instantiated automatically.
 #' @param measures [\code{\link{Measure}} | list of \code{\link{Measure}}]\cr
-#'   Performance measures to evaluate.
-#'   See \code{\link{measures}}.
+#'   Performance measure(s) to evaluate.
 #' @param weights [\code{numeric}]\cr
 #'   Optional, non-negative case weight vector to be used during fitting.
 #'   If given, must be of same length as observations in task and in corresponding order.
