@@ -53,7 +53,7 @@
 #' 		\item{\bold{regr.ksvm}}{\cr Support Vector Machines from kernlab package: \code{\link[kernlab]{ksvm}}\cr
 #'      Note that kernel parameters have to be passed directly and not by using the kpar list in ksvm.\cr
 #'      Note that \code{fit} has been set to \code{FALSE} by default for speed.}  
-#' 		\item{\bold{regr.lasso}}{\cr Lasso regression from penalized package: \code{\link[penalized]{penalized}}}
+#' 		\item{\bold{regr.penalized.lasso}}{\cr Lasso regression from penalized package: \code{\link[penalized]{penalized}}}
 #' 		\item{\bold{regr.lm}}{\cr Simple linear regression from stats package: \code{\link[stats]{lm}}}
 #'    \item{\bold{regr.mars}}{\cr Multivariate Adaptive Regression Splines from mda package: \code{\link[mda]{mars}}}
 #'    \item{\bold{regr.nnet}}{\cr Neural Network from nnet package: \code{\link[nnet]{nnet}}\cr
@@ -61,7 +61,7 @@
 #'   	\item{\bold{regr.pcr}}{\cr Principal component regression from pls package: \code{\link[pls]{pcr}}\cr
 #'      Note that \code{model} has been set to \code{FALSE} by default for speed.}  
 #' 		\item{\bold{regr.randomForest}}{\cr Random Forest from randomForest package: \code{\link[randomForest]{randomForest}}}
-#' 		\item{\bold{regr.ridge}}{\cr Ridge regression from penalized package: \code{\link[penalized]{penalized}}}
+#' 		\item{\bold{regr.penalized.ridge}}{\cr Ridge regression from penalized package: \code{\link[penalized]{penalized}}}
 #' 		\item{\bold{regr.rpart}}{\cr Decision Tree from rpart package: \code{\link[rpart]{rpart}}\cr
 #'      Note that \code{xval} has been set to 0 by default for speed.}  
 #' 		\item{\bold{regr.rsm}}{\cr Response surface regression from rsm package: \code{\link[rsm]{rsm}}\cr

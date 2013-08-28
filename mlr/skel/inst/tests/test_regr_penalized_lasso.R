@@ -1,12 +1,12 @@
-context("regr_ridge")
+context("regr_penalized_lasso")
 
-test_that("regr_ridge", {
-  library(penalized)
+test_that("regr_penalized_lasso", {
+	library(penalized)
 	parset.list = list(
 			list(),
-			list(lambda2 = 0.3),
-			list(lambda2 = 1),
-			list(lambda2 = 2)
+			list(lambda1 = 0.3),
+			list(lambda1 = 1),
+			list(lambda1 = 2)
 	)
 	
 	old.predicts.list = list()
@@ -19,25 +19,24 @@ test_that("regr_ridge", {
 		set.seed(getOption("mlr.debug.seed"))
 		capture.output(
 			m <- do.call(penalized, pars)
-		)	
-		set.seed(getOption("mlr.debug.seed"))
+		)
 		p = penalized::predict(m, data=regr.test)
 		old.predicts.list[[i]] = p[,"mu"]
 	}
-	
-	testSimpleParsets("regr.ridge", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list)
+	testSimpleParsets("regr.penalized.lasso", regr.df, regr.target, regr.train.inds, old.predicts.list, parset.list)
 	
 	#extra cv test	
 	folds=5
-	cvl.res = cvl(regr.formula, data=regr.df, lambda2=0.3, fold=folds)
+	cvl.res = cvl(regr.formula, data=regr.df, lambda1=0.3, fold=folds)
   res = makeResampleInstance(makeResampleDesc("CV", iters=folds), task=regr.task)
-  for (i in 1:folds) {
+	for (i in 1:folds) {
     res$train.inds[[i]] = setdiff(1:nrow(regr.df), which(cvl.res$fold == i))
     res$test.inds[[i]] = which(cvl.res$fold == i)
   }
-  wl = makeLearner("regr.ridge", lambda2=0.3)
-  r = resample(wl, regr.task, res)
+	wl = makeLearner("regr.penalized.lasso", lambda1=0.3)
+	r = resample(wl, regr.task, res)
   p = as.data.frame(r$pred)
+#	print(rf$preds[[1]])
 	for (i in 1:folds) {
     test.i = res$test.inds[[i]]
     rf.p = subset(p, subset=(iter==i), select="response", drop=TRUE)    

@@ -1,7 +1,7 @@
-#' @S3method makeRLearner regr.ridge
-makeRLearner.regr.ridge = function() {
+#' @S3method makeRLearner regr.penalized.ridge
+makeRLearner.regr.penalized.ridge = function() {
   makeRLearnerRegr(
-    cl = "regr.ridge",
+    cl = "regr.penalized.ridge",
     package = "penalized",
     par.set = makeParamSet(
       makeNumericLearnerParam(id="lambda2", default=0, lower=0)
@@ -14,14 +14,14 @@ makeRLearner.regr.ridge = function() {
   )
 }
 
-#' @S3method trainLearner regr.ridge
-trainLearner.regr.ridge = function(.learner, .task, .subset, .weights,  ...) {
+#' @S3method trainLearner regr.penalized.ridge
+trainLearner.regr.penalized.ridge = function(.learner, .task, .subset, .weights,  ...) {
   f = getTaskFormula(.task)
   penalized(f, data=getTaskData(.task, .subset), ...)
 }
 
-#' @S3method predictLearner regr.ridge
-predictLearner.regr.ridge = function(.learner, .model, .newdata, ...) {
+#' @S3method predictLearner regr.penalized.ridge
+predictLearner.regr.penalized.ridge = function(.learner, .model, .newdata, ...) {
   m = .model$learner.model
   .newdata[,.model$task.desc$target] = 0
   penalized::predict(m, data=.newdata,  ...)[,"mu"]
