@@ -1,31 +1,15 @@
-- we should not depend on bbmisc, need this for parallel dirty fix in resample
+- checkTaskLEarner at beginning of resample, but then not each train call
+
+- document default perf measures
 
 - make test still produces output of learners even when configureMlr(show.learner.output=FALSE)
 
 - b632+ test
  test b632 too  
 
- - remove featperc measure? what to do?
-   with chains it is diffuclt to see where feature number is
-
-- desc object in task
-
 - it's not clear how the changed descriptions of the files should be saved, e.g. when we change everything potentially during preproc 
 a) output of the model via print
 b) when the task is forwarded via the training funs
-
-- test parallel
-
-- checkTaskLEarner at beginning of resample, but then not each train call
-
-# errorhandling is wrong here  
-parallelStart(mode="multicore", cpus=3, level="resample")
-#parallelStart(mode="local")
-lrn = makeLearner("classif.gbm", n.trees=100)
-task = makeClassifTask(data=iris, target="Species")
-rdesc = makeResampleDesc("CV", iters=5)
-resample(lrn, task, rdesc)
-parallelStop()
 
 - describe parallel in tutorial
 	

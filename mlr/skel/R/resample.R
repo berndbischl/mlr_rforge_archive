@@ -83,23 +83,21 @@ resample = function(learner, task, resampling, measures, weights, models=FALSE,
 
   rin = resampling
   iters = rin$desc$iters
+  #FIXME this is bad, remove this soon
+  mlr.options = options("mlr.on.learner.error", "mlr.on.par.without.desc", "mlr.show.learner.output")
   more.args = list(learner=learner, task=task, rin=rin,
-    measures=measures, model=models, extract=extract, show.info=show.info)
+    measures=measures, model=models, extract=extract, show.info=show.info, mlr.options=mlr.options)
   if (!missing(weights))
     more.args$weights = weights
-  # FIXME this is not so nice, we should fix this in BBmisc
-  #if (getOption("BBmisc.parallel.mode") == "snowfall" &&
-  #      (is.na(getOption("BBmisc.parallel.level")) ||
-  #       getOption("BBmisc.parallel.level") == "resample")) {
-  #  # sfLibrary chatters to much...
-  #  sfClusterEval(library(BBmisc))
-  #  sfClusterEval(library(mlr))
-  #}
   iter.results = parallelMap(doResampleIteration, seq_len(iters), level="resample", more.args=more.args)
   mergeResampleResult(task, iter.results, measures, rin, models, extract, show.info)
 }
 
-doResampleIteration = function(learner, task, rin, i, measures, weights, model, extract, show.info) {
+doResampleIteration = function(learner, task, rin, i, measures, weights, model, extract, show.info, mlr.options) {
+  if (isTRUE(getOption("parallelMap.on.slave"))) {
+    do.call(options, mlr.options)
+  }
+          
   if (show.info)
     messagef("[Resample] %s iter: %i", rin$desc$id, i)
   train.i = rin$train.inds[[i]]

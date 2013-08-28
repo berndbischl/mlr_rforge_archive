@@ -1,5 +1,7 @@
 context("learners")
 
+if (isExpensiveExampleOk()) {
+
 test_that("listLearners", {
   x1 = listLearners()
   x2 = listLearners(type="classif") 
@@ -93,3 +95,5 @@ test_that("learners work", {
     p = predict(m, task)
   })
 })
+
+}

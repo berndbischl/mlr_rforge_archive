@@ -1,10 +1,13 @@
 #FIXME x and y labels are not shown
 plotMBOExampleRun1DNumeric = function(obj, ...,  pch, col.initdes, col.seqdes, col.propdes) {
-
+  
+  points.cex = 2
+  lines.lwd = 2.5
+  axis.cex = 1.5
   plotDesignPoints = function(op, ind.inides, ind.seqdes, ind.prodes, y) {
-    points(op[ind.inides, name.x], op[ind.inides, y], pch=pch, col=col.initdes)
-    points(op[ind.seqdes, name.x], op[ind.seqdes, y], pch=pch, col=col.seqdes)
-    points(op[ind.prodes, name.x], op[ind.prodes, y], pch=pch, col=col.propdes)
+    points(op[ind.inides, name.x], op[ind.inides, y], pch=pch, col=col.initdes, cex=points.cex)
+    points(op[ind.seqdes, name.x], op[ind.seqdes, y], pch=pch, col=col.seqdes, cex=points.cex)
+    points(op[ind.prodes, name.x], op[ind.prodes, y], pch=pch, col=col.propdes, cex=points.cex)
   }
   
   requirePackages(c("denstrip"))
@@ -61,38 +64,46 @@ plotMBOExampleRun1DNumeric = function(obj, ...,  pch, col.initdes, col.seqdes, c
     par(mai=c(0.15, 0.8, 0.3, 0.2))
     #FIXME check range
     plot(c(), xlim = range(xseq), ylim = range(evals[, name.y]), 
-      xlab=name.x, ylab=name.y, main=sprintf("Iter = %i", i))
+      xlab=name.x, ylab="", main=sprintf("Iter = %i", i), cex.axis=axis.cex)
 
     if (se) {
       dr1 = seq(length = 200, 
-        min(evals$yhat - 1.5 * evals$se), 
-        max(evals$yhat + 1.5 * evals$se)
+        min(evals$yhat - 2.5 * evals$se), 
+        max(evals$yhat + 2.5 * evals$se)
       )
       dr2 = matrix(nrow = length(xseq), ncol = length(dr1))
       for(i in seq_along(xseq)) 
         dr2[i,] = dnorm(dr1, evals$yhat[i], evals$se[i])
+      rowmaxs = apply(dr2, 1, max)
+      # FIXME really dirty fix if uncertainty becomes really low
+      for (j in seq_row(dr2)) {
+        if (rowmaxs[j] < 1e-12) {
+          dr2[j, ] = dnorm(dr1, evals$yhat[j], 0.001)
+        }
+      }
       # plot model uncertainty colour gradient
       densregion(xseq, dr1, dr2, pointwise=TRUE, colmax="pink")
       # plot yhat +- 1 se
-      lines(xseq, evals$yhat.low, lty="dotted", lwd=1, col=rgb(0, 0, 0, alpha=0.5))
-      lines(xseq, evals$yhat.upp, lty="dotted", lwd=1, col=rgb(0, 0, 0, alpha=0.5))
+      lines(xseq, evals$yhat.low, lty="dotted", lwd=lines.lwd, col=rgb(0, 0, 0, alpha=0.5))
+      lines(xseq, evals$yhat.upp, lty="dotted", lwd=lines.lwd, col=rgb(0, 0, 0, alpha=0.5))
     }    
     # plot real objfun
-    lines(xseq, evals[, name.y], lwd = 1)
+    lines(xseq, evals[, name.y], lwd = lines.lwd)
     # plot yhat
-    lines(xseq, evals$yhat, lty="dotted", lwd=1)
+    lines(xseq, evals$yhat, lty="dotted", lwd=lines.lwd)
     #FIXME what about noise on real evals during mbo? show this how? plot real evals??
     # plot design points    
     plotDesignPoints(op, ind.inides, ind.seqdes, ind.prodes, name.y)
     
-    par(mai=c(0.15, 0.8, 0.15, 0.2))
+    #par(mai=c(0.15, 0.8, 0.15, 0.2))
     plot(xseq, evals[, name.crit], type="l", lty="dashed", 
-      xlab=name.x, ylab=name.crit, lwd=1)
+      xlab=name.x, ylab="", lwd=lines.lwd, cex.axis=axis.cex)
     plotDesignPoints(op, ind.inides, ind.seqdes, ind.prodes, name.crit)
     # add legend in seperate layout row
     par(mai=c(0, 0, 0.2, 0))
     plot.new()
-    legend(x="center", ncol=3, border="white", legend=c("y", expression(hat(y)), name.crit), lty=c("solid", "dotted", "dashed"))
+    legend(x="center", ncol=3, border="white", legend=c("y", expression(hat(y)), name.crit), 
+      lty=c("solid", "dotted", "dashed"), cex=1.5, lwd=lines.lwd)
     pause()
   }
 }
