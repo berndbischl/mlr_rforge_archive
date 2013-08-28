@@ -27,9 +27,7 @@ instantiateResampleInstance.SubsampleDesc = function(desc, size) {
 }
 
 instantiateResampleInstance.BootstrapDesc = function(desc, size) {
-  inds = boot(1:size, R=desc$iters, function(data,inds) inds)$t
-  inds = as.list(as.data.frame(t(inds)))
-  names(inds) = NULL
+  inds = lapply(1:desc$iters, function(x) sample(size, size, replace=TRUE))
   makeResampleInstanceInternal(desc, size, train.inds=inds)
 }
 

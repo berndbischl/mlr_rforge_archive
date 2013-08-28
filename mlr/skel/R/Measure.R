@@ -20,7 +20,7 @@
 #' \item{req.model [\code{logical(1)}]}{Is model object required in calculation?}
 #' \item{fun [\code{function}]}{See argument.}
 #' \item{extra.args [\code{list}]}{See argument.}
-#' \item{aggr [\code{\link{Aggregation}}]}{{See argument.}.
+#' \item{aggr [\code{\link{Aggregation}}]}{See argument.}.
 #' }
 #'
 #' @param id [\code{character(1)}]\cr
