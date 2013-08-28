@@ -6,4 +6,5 @@
 
 .onAttach <- function(libname, pkgname) {
   configureMlr()
+  parallelRegisterLevels(package="mlr", levels="mlr.resample")
 }

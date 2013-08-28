@@ -36,10 +36,6 @@
 tune = function(learner, task, resampling, measures, par.set, control, show.info=TRUE) {
   checkArg(learner, "Learner")
   checkArg(task, "SupervisedTask")
-  if (!inherits(resampling, "ResampleDesc") &&  !inherits(resampling, "ResampleInstance"))
-    stop("Argument resampling must be of class ResampleDesc or ResampleInstance!")
-  if (inherits(resampling, "ResampleDesc") && control$same.resampling.instance)
-    resampling = makeResampleInstance(resampling, task=task)
   if (missing(measures))
     measures = mlr:::default.measures(task)
   if (is(measures, "Measure"))
@@ -47,6 +43,10 @@ tune = function(learner, task, resampling, measures, par.set, control, show.info
   checkListElementClass(measures, "Measure")
   checkArg(par.set, "ParamSet")
   checkArg(control, "TuneControl")
+  if (!inherits(resampling, "ResampleDesc") &&  !inherits(resampling, "ResampleInstance"))
+    stop("Argument resampling must be of class ResampleDesc or ResampleInstance!")
+  if (inherits(resampling, "ResampleDesc") && control$same.resampling.instance)
+    resampling = makeResampleInstance(resampling, task=task)
   checkArg(show.info, "logical", len=1L, na.ok=FALSE)
   checkTunerParset(learner, par.set, control)  
   cl = as.character(class(control))[1]

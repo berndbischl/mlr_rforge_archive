@@ -3,7 +3,11 @@
 # must be already in correct format, either a named list of values or a named integer vector for features
 # logs point and results
 evalOptimizationState = function(learner, task, resampling, measures, par.set, bits.to.features, control,
-  opt.path, show.info, log.fun, state, remove.nas) {
+  opt.path, show.info, log.fun, state, remove.nas, mlr.options) {
+  
+  if (isTRUE(getOption("parallelMap.on.slave"))) {
+    do.call(options, mlr.options)
+  }
   
   state2 = if (remove.nas) removeNAs(state) else state
   learner = try(setHyperPars(learner, par.vals=state2), silent=TRUE)
@@ -35,11 +39,15 @@ evalOptimizationStates = function(learner, task, resampling, measures, par.set, 
     dobs = rep(dobs, n)
   if (length(eols) == 1)
     eols = rep(eols, n)
+  #FIXME this is bad, remove this soon
+  mlr.options = options("mlr.on.learner.error", "mlr.on.par.without.desc", "mlr.show.learner.output")
+  parallelLibrary("mlr", level="mlrTune.tune")
   # FIXME better export
-  ys = parallelMap(evalOptimizationState, states, level="mlrTune", 
+  ys = parallelMap(evalOptimizationState, states, level="mlrTune.tune", 
     more.args=list(learner=learner, task=task, resampling=resampling,
       measures=measures, par.set=par.set, bits.to.features=bits.to.features, 
-      control=control, opt.path=opt.path, show.info=show.info, log.fun=log.fun, remove.nas=remove.nas))
+      control=control, opt.path=opt.path, show.info=show.info, log.fun=log.fun, remove.nas=remove.nas,
+      mlr.options=mlr.options))
   # add stuff to opt.path
   for (i in seq_len(n)) 
     addOptPathEl(opt.path, x=as.list(states[[i]]), y=ys[[i]], 

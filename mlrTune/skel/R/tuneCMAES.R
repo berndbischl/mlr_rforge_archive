@@ -1,5 +1,4 @@
 # set initial varaince to (upper-lower)/2 if both bounds are given
-#FIXME: fix parallel g2
 tuneCMAES = function(learner, task, resampling, measures, par.set, control, opt.path, 
   show.info, log.fun) {
 

@@ -9,7 +9,6 @@
 #' For construction of the resampling strategies use the factory methods \code{\link{makeResampleDesc}} and
 #' \code{\link{makeResampleInstance}}.
 #'
-#'
 #' @param learner [\code{\link{Learner}}]\cr
 #'   The learner.
 #' @param task [\code{\link{SupervisedTask}}]\cr
@@ -89,7 +88,7 @@ resample = function(learner, task, resampling, measures, weights, models=FALSE,
     measures=measures, model=models, extract=extract, show.info=show.info, mlr.options=mlr.options)
   if (!missing(weights))
     more.args$weights = weights
-  iter.results = parallelMap(doResampleIteration, seq_len(iters), level="resample", more.args=more.args)
+  iter.results = parallelMap(doResampleIteration, seq_len(iters), level="mlr.resample", more.args=more.args)
   mergeResampleResult(task, iter.results, measures, rin, models, extract, show.info)
 }
 
