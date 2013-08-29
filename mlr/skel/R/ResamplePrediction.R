@@ -40,10 +40,7 @@ print.ResamplePrediction = function(x, ...) {
   catf("predict.type: %s", x$predict.type)
   catf("threshold: %s", collapse(sprintf("%s=%.2f", names(x$threshold), x$threshold)))
   catf("time (mean): %.2f", mean(x$time))
-  d = printToChar(str(as.data.frame(x)), collapse=NULL)
-  # FIXME: remove NULL from str, maybe add helper to bbmisc?
-  d = collapse(d[-length(d)], "\n")
-  cat(d, "\n")
+  catf(printStrToChar(as.data.frame(x)))
 }
 
 
