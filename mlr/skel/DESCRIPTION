@@ -1,6 +1,6 @@
 Package: mlr
 Title:  mlr: Machine Learning in R. 
-Description: Interface to varoius classification and regression techniques with a unified interface, including machine-readable parameter descriptions. Generic resampling, including cross-validation, bootstrappping and subsampling.
+Description: Interface to various classification and regression techniques with a unified interface, including machine-readable parameter descriptions. Generic resampling, including cross-validation, bootstrapping and subsampling.
 Author: Bernd Bischl <bernd_bischl@gmx.net>
 Maintainer: Bernd Bischl <bernd_bischl@gmx.net>
 License: BSD_3_clause + file LICENSE
