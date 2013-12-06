@@ -1,9 +1,0 @@
-- tune thresh in the end
-
-- it is inconsistent to sometimes use controlobjects, sometimes ... in our control objects
-
-- test mbo with trafo
-
-- mlr tuneMBO minimize autom. setzen
-
-- check that control and tune results are printed properly.   

@@ -1,5 +1,0 @@
-
-
-- document all code
-- which experiments are still missing / how many?
-- construct data.frame of results cols=(ds, learner, split, measure, val, time.train, time.predict)

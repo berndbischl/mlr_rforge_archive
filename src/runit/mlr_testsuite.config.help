@@ -1,2 +1,0 @@
-ts.dirs = "path to runit tests dir"  
-ts.file.regexp ="regular expressiion for tests"

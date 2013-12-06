@@ -1,3 +1,0 @@
-project.dir <- "my absolute path to dir"
-svn.path <-  "my absolute path to SubWCRev.exe"
-

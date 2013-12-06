@@ -1,4 +1,0 @@
-allowed.rd.files <<- c( 		
-)		
-
-	
